@@ -302,7 +302,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     display:block !important;
     width:calc(100% - 0px) !important;
     margin:0 !important;
-    font-size:15px;font-weight:700;
+    font-size:17px;font-weight:800;letter-spacing:0.3px;
     padding:8px 10px;
     border:1px solid #d0d8e8;border-radius:0;
     background:#f0f4fb;color:#1b3f6e;
@@ -366,6 +366,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     white-space:nowrap;
   }
 
+  /* Nascondi tasti zoom su mobile (si usa pinch) */
+  .leaflet-control-zoom { display: none; }
   /* Pulsanti più grandi su mobile */
   .tp-btn{padding:11px 2px;font-size:15px;font-weight:700;}
   .tp-grid5,.tp-grid4{gap:5px;margin-bottom:6px;}
@@ -826,7 +828,7 @@ var REGIONS = {
 
   toscana: {
     name: 'Toscana',
-    center: [43.5, 11.0], zoom: 8,
+    center: [43.0, 11.2], zoom: 8,
     fonte: 'CFR Toscana',
     geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
     geojsonFilter: 'toscan',
@@ -2630,6 +2632,7 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
+  else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
   setRegionBorder(rk, function(){
     clearMarkers();
     addDefaultMarkersForRegion(rk);
