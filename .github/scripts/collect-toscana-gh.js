@@ -9,7 +9,7 @@ const https  = require('https');
 const fs     = require('fs');
 const path   = require('path');
 
-const DATA_DIR  = path.join(__dirname, '..', 'data', 'toscana');
+const DATA_DIR  = path.join(__dirname, '../..', 'data', 'toscana');
 const BASE_URL  = 'https://www.cfr.toscana.it/monitoraggio/actions.php';
 
 function fmtDate(d) {
