@@ -1,35 +1,35 @@
-name: Collect Toscana
-
+name: Toscana
 on:
-  schedule:
-    # Ogni giorno alle 13:30 UTC (15:30 ora italiana)
-    - cron: '30 13 * * *'
   workflow_dispatch:
-
+    inputs:
+      date_override:
+        description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per oggi)'
+        required: false
+        default: ''
+  schedule:
+    - cron: '30 0 * * *'
+    - cron: '30 4 * * *'
+    - cron: '30 8 * * *'
+    - cron: '30 12 * * *'
+    - cron: '30 16 * * *'
+    - cron: '30 20 * * *'
 jobs:
-  collect:
+  run:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Scarica dati CFR Toscana
+      - name: Raccoglie dati Toscana
+        run: node .github/scripts/collect-toscana-gh.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+      - name: Commit e push
         run: |
-          node .github/scripts/collect-toscana-gh.js
-
-      - name: Commit e push dati
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
           git add data/toscana/
-          git diff --staged --quiet || git commit -m "data(toscana): $(date +'%Y-%m-%d') [bot]"
+          git diff --staged --quiet || git commit -m "toscana $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
           git push
