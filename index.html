@@ -2420,16 +2420,9 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        var cfrOnly=Object.keys(rainTot).filter(function(id){
-          return !String(id).startsWith('om_');
-        }).map(function(id){
-          var s=stMeta[id];if(!s)return null;
-          var mm=rainTot[id]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                  mm:mm<0.5?0:Math.round(mm*10)/10};
-        }).filter(Boolean);
-
-        var full=cfrOnly.length>=20?cfrOnly:Object.keys(rainTot).map(function(id){
+        // Usa tutte le stazioni disponibili (CFR reali o Open-Meteo Archive)
+        // Preferisce stazioni CFR (ID TOS...) ma accetta anche OM per giorni senza dati reali
+        var full=Object.keys(rainTot).map(function(id){
           var s=stMeta[id];if(!s)return null;
           var mm=rainTot[id]||0;
           return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
