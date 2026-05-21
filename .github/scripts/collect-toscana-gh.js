@@ -1,33 +1,29 @@
 /**
  * collect-toscana-gh.js  —  GitHub Actions
  * Raccoglie precipitazioni giornaliere Toscana da CFR Toscana
- * Usa lo stesso URL stazioni.php?type=pluvio_men ma con Accept:text/plain
- * che restituisce TSV con cumulato giornaliero ("dalle 00.00")
- *
- * Colonne TSV (0-based):
- *  0: Codice  1: Stazione  2: Comune  3: Provincia  4: Zona allerta
- *  5: Quota   6: dalle 00.00 (mm oggi)  7: Ultimi dati
- *  8: 1g  9: 2g  10: 5g  11: 7g  12: 10g  13: 15g  14: 30g  15: gg s.
+ * Strategia: somma tutti i valori mm/15min del giorno corrente
+ * usando action=PLUVIO con ogni timestamp della lista giornaliera
  */
 
 const https  = require('https');
 const fs     = require('fs');
 const path   = require('path');
 
-const DATA_DIR   = path.join(__dirname, '..', 'data', 'toscana');
-const LIST_URL   = 'https://www.cfr.toscana.it/monitoraggio/actions.php?action=list&rt=0&type_gauge=pluvio&speed=km/h';
-const TSV_URL    = 'https://www.cfr.toscana.it/monitoraggio/stazioni.php?type=pluvio_men';
+const DATA_DIR  = path.join(__dirname, '..', 'data', 'toscana');
+const BASE_URL  = 'https://www.cfr.toscana.it/monitoraggio/actions.php';
 
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
 }
 
-function fetchText(url, acceptHeader) {
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function fetchJSON(url) {
   return new Promise((resolve, reject) => {
     https.get(url, {
       headers: {
-        'Accept': acceptHeader || 'text/plain,text/tab-separated-values,*/*',
+        'Accept': 'application/json,*/*',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       }
     }, res => {
@@ -35,82 +31,13 @@ function fetchText(url, acceptHeader) {
       res.on('data', c => data += c);
       res.on('end', () => {
         if (res.statusCode !== 200) reject(new Error(`HTTP ${res.statusCode}`));
-        else resolve(data);
+        else {
+          try { resolve(JSON.parse(data)); }
+          catch(e) { reject(new Error('JSON parse error: ' + e.message)); }
+        }
       });
     }).on('error', reject);
   });
-}
-
-// Fetch lista stazioni per lat/lon
-async function fetchStationList() {
-  const text = await fetchText(LIST_URL, 'application/json,*/*');
-  const data = JSON.parse(text);
-  const stazioni = {};
-  const items = Array.isArray(data) ? data
-              : (data.features || data.data || data.stazioni || data.result || []);
-  items.forEach(s => {
-    const id  = String(s.IDStazione || s.id || '').trim();
-    const lat = parseFloat(s.Lat || s.lat || 0);
-    const lon = parseFloat(s.Lon || s.lon || 0);
-    if (!id || !lat || !lon) return;
-    stazioni[id] = {
-      n:   (s.Nome || s.nome || id).trim(),
-      lat: Math.round(lat * 10000) / 10000,
-      lon: Math.round(lon * 10000) / 10000,
-      q:   parseInt(s.Quota || s.quota || 0, 10) || 0,
-      p:   (s.Provincia || s.provincia || '—').trim()
-    };
-  });
-  console.log(`  Lista stazioni: ${Object.keys(stazioni).length}`);
-  return stazioni;
-}
-
-// Fetch TSV con cumulati giornalieri
-async function fetchTSV() {
-  const text = await fetchText(TSV_URL, 'text/plain,text/tab-separated-values,*/*');
-  const rows = [];
-  const lines = text.split('\n');
-
-  for (const line of lines) {
-    const cells = line.split('\t');
-    if (cells.length < 8) continue;
-    const codice = cells[0].trim();
-    if (!codice.match(/^TOS\d+/i)) continue; // salta header e righe vuote
-
-    const mm = parseFloat(cells[6]);
-    if (isNaN(mm) || mm < 0) continue;
-
-    rows.push({
-      codice,
-      stazione: cells[1].trim(),
-      provincia: cells[3].trim(),
-      quota: parseInt(cells[5], 10) || 0,
-      mm: Math.round(mm * 10) / 10
-    });
-  }
-
-  console.log(`  Righe TSV: ${rows.length}`);
-  return rows;
-}
-
-function buildStations(rows, stationList) {
-  return rows.map(row => {
-    let info = stationList[row.codice];
-    if (!info) {
-      const n = row.codice.replace(/^TOS0*/i, '');
-      info = stationList[n] || stationList['TOS' + n.padStart(8, '0')];
-    }
-    if (!info) return null;
-    return {
-      id:  row.codice,
-      n:   info.n || row.stazione,
-      lat: info.lat,
-      lon: info.lon,
-      q:   info.q || row.quota,
-      p:   info.p || row.provincia,
-      mm:  row.mm
-    };
-  }).filter(Boolean);
 }
 
 async function main() {
@@ -120,13 +47,104 @@ async function main() {
   const today   = new Date();
   const dateStr = fmtDate(today);
 
-  const [stationList, tsvRows] = await Promise.all([
-    fetchStationList(),
-    fetchTSV()
-  ]);
+  // Step 1: fetch base — ottieni stazioni + lista timestamp del giorno
+  console.log('  Fetch lista stazioni e timestamps...');
+  const base = await fetchJSON(`${BASE_URL}?action=PLUVIO`);
 
-  const stations = buildStations(tsvRows, stationList);
-  console.log(`  Stazioni con coordinate: ${stations.length}`);
+  if (!base.data || !Array.isArray(base.data)) {
+    throw new Error('Risposta inattesa da action=PLUVIO');
+  }
+
+  // Costruisci mappa stazioni con metadati
+  const stMeta = {};
+  base.data.forEach(s => {
+    const id  = s.IDStazione;
+    const lat = parseFloat(s.Lat);
+    const lon = parseFloat(s.Lon);
+    if (!id || isNaN(lat) || isNaN(lon)) return;
+
+    // Estrai nome pulito dal campo Nome (formato: "NomeStazione - Comune\r\n...")
+    const nomeParts = (s.Nome || id).split('\r\n')[0].split(' - ');
+    const nome = nomeParts[0].trim();
+
+    stMeta[id] = { n: nome, lat, lon, q: 0, p: '—' };
+  });
+
+  console.log(`  Stazioni trovate: ${Object.keys(stMeta).length}`);
+
+  // Ottieni lista timestamp disponibili oggi
+  const timestamps = base.list || [];
+  console.log(`  Timestamps disponibili: ${timestamps.length}`);
+
+  if (timestamps.length === 0) {
+    throw new Error('Nessun timestamp disponibile');
+  }
+
+  // Step 2: per ogni timestamp, somma i Valore (mm/15min) per stazione
+  const rainTot = {}; // IDStazione -> mm totali
+
+  for (let i = 0; i < timestamps.length; i++) {
+    const ts = timestamps[i];
+    try {
+      const data = await fetchJSON(`${BASE_URL}?action=PLUVIO&last=${ts}`);
+      if (data.data && Array.isArray(data.data)) {
+        data.data.forEach(s => {
+          const id  = s.IDStazione;
+          const val = parseFloat(s.Valore);
+          if (!id || isNaN(val) || val < 0 || val > 200) return;
+          rainTot[id] = (rainTot[id] || 0) + val;
+        });
+      }
+      process.stdout.write(`  Processati ${i+1}/${timestamps.length} timestamps\r`);
+      await sleep(200); // piccola pausa per non sovraccaricare il server
+    } catch(e) {
+      console.warn(`\n  Warn: timestamp ${ts} fallito: ${e.message}`);
+    }
+  }
+
+  console.log(`\n  Somma completata per ${Object.keys(rainTot).length} stazioni`);
+
+  // Step 3: costruisci array stazioni con mm totali
+  // Per le coordinate usiamo stMeta dalla chiamata base
+  // Per provincia dobbiamo aggiungerla dalla lista stazioni CFR
+  const LIST_URL = `${BASE_URL}?action=list&rt=0&type_gauge=pluvio&speed=km/h`;
+  let stList = {};
+  try {
+    const listData = await fetchJSON(LIST_URL);
+    const items = Array.isArray(listData) ? listData
+                : (listData.features || listData.data || listData.result || []);
+    items.forEach(s => {
+      const id = String(s.IDStazione || '').trim();
+      if (!id) return;
+      stList[id] = {
+        p: (s.Provincia || '—').trim(),
+        q: parseInt(s.Quota || 0, 10) || 0
+      };
+    });
+    console.log(`  Lista stazioni (provincia/quota): ${Object.keys(stList).length}`);
+  } catch(e) {
+    console.warn('  Warn: lista stazioni fallita, provincia non disponibile');
+  }
+
+  // Assembla output
+  const stations = Object.keys(rainTot).map(id => {
+    const meta = stMeta[id];
+    if (!meta) return null;
+    const extra = stList[id] || {};
+    const mm = Math.round(rainTot[id] * 10) / 10;
+    if (mm < 0 || mm > 500) return null;
+    return {
+      id,
+      n:   meta.n,
+      lat: meta.lat,
+      lon: meta.lon,
+      q:   extra.q || meta.q || 0,
+      p:   extra.p || meta.p || '—',
+      mm
+    };
+  }).filter(Boolean);
+
+  console.log(`  Stazioni con dati: ${stations.length}`);
 
   if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
 
