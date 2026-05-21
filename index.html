@@ -2410,9 +2410,10 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       .then(function(data){
         if(data.stations){
           data.stations.forEach(function(s){
-            var id=String(s.id).startsWith('om_')?s.n:(s.id||s.n);
-            if(!stMeta[id]) stMeta[id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-            rainTot[id]=(rainTot[id]||0)+(s.mm||0);
+            // Usa SEMPRE il nome come chiave per evitare duplicati CFR/OM
+            var key=s.n||s.id;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
           });
         }
       })
@@ -2420,11 +2421,9 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        // Usa tutte le stazioni disponibili (CFR reali o Open-Meteo Archive)
-        // Preferisce stazioni CFR (ID TOS...) ma accetta anche OM per giorni senza dati reali
-        var full=Object.keys(rainTot).map(function(id){
-          var s=stMeta[id];if(!s)return null;
-          var mm=rainTot[id]||0;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
           return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
                   mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
