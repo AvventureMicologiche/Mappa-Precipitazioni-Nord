@@ -956,8 +956,12 @@ function selectUniform(stazioni, maxTotal){
   var grid={};
   var selected=[];
   
-  // Mescola prima per non favorire sempre le stesse
-  var shuffled=stazioni.slice().sort(function(){return Math.random()-0.5;});
+  // Ordina per lat+lon per garantire selezione deterministica e uniforme
+  var shuffled=stazioni.slice().sort(function(a,b){
+    var ka=Math.round(a.lat*10)+','+Math.round(a.lon*10);
+    var kb=Math.round(b.lat*10)+','+Math.round(b.lon*10);
+    return ka<kb?-1:ka>kb?1:0;
+  });
   
   shuffled.forEach(function(s){
     var cx=Math.floor((s.lon-LON_MIN)/(LON_MAX-LON_MIN)*GRID_W);
@@ -2429,8 +2433,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
         }).filter(Boolean);
 
         if(full.length<5){cb([]);return;}
-        // Toscana ha ~170-370 stazioni — usa tutte senza campionamento casuale
-        cb(full);
+        cb(selectUniform(full,200));
       });
   });
 }
