@@ -2429,7 +2429,8 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
         }).filter(Boolean);
 
         if(full.length<5){cb([]);return;}
-        cb(selectUniform(full,150));
+        // Toscana ha ~170-370 stazioni — usa tutte senza campionamento casuale
+        cb(full);
       });
   });
 }
