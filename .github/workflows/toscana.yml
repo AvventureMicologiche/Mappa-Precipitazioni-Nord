@@ -24,7 +24,7 @@ jobs:
 
       - name: Scarica dati CFR Toscana
         run: |
-          node scripts/collect-toscana-gh.js
+          node .github/scripts/collect-toscana-gh.js
 
       - name: Commit e push dati
         run: |
