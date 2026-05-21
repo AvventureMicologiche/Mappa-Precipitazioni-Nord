@@ -1422,7 +1422,7 @@ function loadARPALombardia(pastDate,nowDate,labelPeriodo){
   function loadAllDays(sm){
     var rainMap={};
     var doneDays=0;
-    var WINDOW=10;
+    var WINDOW=30;
     document.getElementById('badge').textContent='\u23f3 0/'+totalDays+' giorni...';
 
     function loadWindow(idx){
@@ -1882,7 +1882,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
   days=days.filter(function(d){
     return d.toISOString().substring(0,10)!==todayStr;
   });
-  var rainMap={};var WINDOW=10;
+  var rainMap={};var WINDOW=30;
   function loadWindow(idx){
     if(idx>=days.length){
       var arpaList=Object.keys(stMap).map(function(id){
