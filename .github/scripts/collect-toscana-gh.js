@@ -1,9 +1,13 @@
 /**
- * collect-toscana-gh.js
- * Versione GitHub Actions di collect-toscana.js
- * Scrive in data/toscana/ (committata nel repo) invece di /tmp
+ * collect-toscana-gh.js  —  GitHub Actions
+ * Raccoglie precipitazioni giornaliere Toscana da CFR Toscana
+ * Usa lo stesso URL stazioni.php?type=pluvio_men ma con Accept:text/plain
+ * che restituisce TSV con cumulato giornaliero ("dalle 00.00")
  *
- * Uso: node scripts/collect-toscana-gh.js
+ * Colonne TSV (0-based):
+ *  0: Codice  1: Stazione  2: Comune  3: Provincia  4: Zona allerta
+ *  5: Quota   6: dalle 00.00 (mm oggi)  7: Ultimi dati
+ *  8: 1g  9: 2g  10: 5g  11: 7g  12: 10g  13: 15g  14: 30g  15: gg s.
  */
 
 const https  = require('https');
@@ -12,19 +16,19 @@ const path   = require('path');
 
 const DATA_DIR   = path.join(__dirname, '..', 'data', 'toscana');
 const LIST_URL   = 'https://www.cfr.toscana.it/monitoraggio/actions.php?action=list&rt=0&type_gauge=pluvio&speed=km/h';
-const SCRAPE_URL = 'https://www.cfr.toscana.it/monitoraggio/stazioni.php?type=pluvio_men';
+const TSV_URL    = 'https://www.cfr.toscana.it/monitoraggio/stazioni.php?type=pluvio_men';
 
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
 }
 
-function fetchText(url) {
+function fetchText(url, acceptHeader) {
   return new Promise((resolve, reject) => {
     https.get(url, {
       headers: {
-        'Accept': 'text/html,application/json,*/*',
-        'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)'
+        'Accept': acceptHeader || 'text/plain,text/tab-separated-values,*/*',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       }
     }, res => {
       let data = '';
@@ -37,10 +41,11 @@ function fetchText(url) {
   });
 }
 
+// Fetch lista stazioni per lat/lon
 async function fetchStationList() {
-  const data = await fetchText(LIST_URL).then(t => JSON.parse(t));
+  const text = await fetchText(LIST_URL, 'application/json,*/*');
+  const data = JSON.parse(text);
   const stazioni = {};
-  // Response è GeoJSON: { type:"featureCollection", features:[{IDStazione, Nome, Lat, Lon, ...}] }
   const items = Array.isArray(data) ? data
               : (data.features || data.data || data.stazioni || data.result || []);
   items.forEach(s => {
@@ -56,27 +61,35 @@ async function fetchStationList() {
       p:   (s.Provincia || s.provincia || '—').trim()
     };
   });
+  console.log(`  Lista stazioni: ${Object.keys(stazioni).length}`);
   return stazioni;
 }
 
-async function fetchPrecipData() {
-  const html = await fetchText(SCRAPE_URL);
+// Fetch TSV con cumulati giornalieri
+async function fetchTSV() {
+  const text = await fetchText(TSV_URL, 'text/plain,text/tab-separated-values,*/*');
   const rows = [];
-  const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
-  const stripTags = s => s.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
-  let trMatch;
-  while ((trMatch = trRegex.exec(html)) !== null) {
-    const cells = [];
-    const tdRe = /<td[^>]*>([\s\S]*?)<\/td>/gi;
-    let tdMatch;
-    while ((tdMatch = tdRe.exec(trMatch[1])) !== null) cells.push(stripTags(tdMatch[1]));
+  const lines = text.split('\n');
+
+  for (const line of lines) {
+    const cells = line.split('\t');
     if (cells.length < 8) continue;
-    const codice = cells[0].replace(/\s+/g, '');
-    if (!codice.match(/^TOS\d+$/i) && !codice.match(/^\d+$/)) continue;
-    const mmOggi = parseFloat(cells[6]);
-    if (isNaN(mmOggi) || mmOggi < 0) continue;
-    rows.push({ codice, stazione: cells[1], provincia: cells[3], quota: parseInt(cells[5], 10) || 0, mm: Math.round(mmOggi * 10) / 10 });
+    const codice = cells[0].trim();
+    if (!codice.match(/^TOS\d+/i)) continue; // salta header e righe vuote
+
+    const mm = parseFloat(cells[6]);
+    if (isNaN(mm) || mm < 0) continue;
+
+    rows.push({
+      codice,
+      stazione: cells[1].trim(),
+      provincia: cells[3].trim(),
+      quota: parseInt(cells[5], 10) || 0,
+      mm: Math.round(mm * 10) / 10
+    });
   }
+
+  console.log(`  Righe TSV: ${rows.length}`);
   return rows;
 }
 
@@ -88,7 +101,15 @@ function buildStations(rows, stationList) {
       info = stationList[n] || stationList['TOS' + n.padStart(8, '0')];
     }
     if (!info) return null;
-    return { id: row.codice, n: info.n || row.stazione, lat: info.lat, lon: info.lon, q: info.q || row.quota, p: info.p || row.provincia, mm: row.mm };
+    return {
+      id:  row.codice,
+      n:   info.n || row.stazione,
+      lat: info.lat,
+      lon: info.lon,
+      q:   info.q || row.quota,
+      p:   info.p || row.provincia,
+      mm:  row.mm
+    };
   }).filter(Boolean);
 }
 
@@ -99,13 +120,13 @@ async function main() {
   const today   = new Date();
   const dateStr = fmtDate(today);
 
-  const [stationList, precipRows] = await Promise.all([
+  const [stationList, tsvRows] = await Promise.all([
     fetchStationList(),
-    fetchPrecipData()
+    fetchTSV()
   ]);
 
-  const stations = buildStations(precipRows, stationList);
-  console.log(`  Stazioni: ${stations.length}`);
+  const stations = buildStations(tsvRows, stationList);
+  console.log(`  Stazioni con coordinate: ${stations.length}`);
 
   if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
 
@@ -117,7 +138,7 @@ async function main() {
     count:     stations.length,
     stations
   }));
-  console.log(`✅ Scritto ${outFile}`);
+  console.log(`✅ Scritto ${outFile} (${stations.length} stazioni)`);
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });
