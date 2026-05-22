@@ -500,6 +500,11 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
             <span class="rcheck-box"></span>
             <span class="rcheck-name">Trentino</span>
           </label>
+          <label class="rcheck-wrap">
+            <input type="checkbox" id="chk-altoadige" value="altoadige">
+            <span class="rcheck-box"></span>
+            <span class="rcheck-name">Alto Adige</span>
+          </label>
         </div>
         <!-- Mobile: select dropdown -->
         <select id="region-select" class="region-select-mobile">
@@ -509,6 +514,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <option value="lombardia">Lombardia</option>
           <option value="veneto">Veneto</option>
           <option value="emilia">Emilia Romagna</option>
+          <option value="altoadige">Alto Adige</option>
           <option value="trentino">Trentino</option>
           <option value="toscana">Toscana</option>
         </select>
@@ -834,9 +840,51 @@ var REGIONS = {
     ]
   },
 
+  altoadige: {
+    name: 'Alto Adige',
+    center: [46.65, 11.2], zoom: 8.5,
+    fonte: 'Meteo Alto Adige',
+    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_provinces.geojson',
+    geojsonFilter: 'Bolzano',
+    geojsonFilterField: 'prov_name',
+    dataSource: 'meteo_altoadige',
+    stations: [
+      {n:"Bolzano",           lat:46.498, lon:11.313, q:262},
+      {n:"Merano",            lat:46.671, lon:11.159, q:323},
+      {n:"Bressanone",        lat:46.715, lon:11.657, q:559},
+      {n:"Brunico",           lat:46.797, lon:11.936, q:838},
+      {n:"Silandro",          lat:46.627, lon:10.777, q:720},
+      {n:"Vipiteno",          lat:46.895, lon:11.433, q:948},
+      {n:"Corvara",           lat:46.550, lon:11.874, q:1568},
+      {n:"Dobbiaco",          lat:46.731, lon:12.219, q:1256},
+      {n:"Glorenza",          lat:46.671, lon:10.555, q:920},
+      {n:"Passo Resia",       lat:46.838, lon:10.524, q:1504},
+      {n:"Solda",             lat:46.529, lon:10.587, q:1906},
+      {n:"Malles Venosta",    lat:46.691, lon:10.543, q:1050},
+      {n:"Naturno",           lat:46.648, lon:10.991, q:554},
+      {n:"Appiano",           lat:46.448, lon:11.259, q:418},
+      {n:"Egna",              lat:46.319, lon:11.278, q:222},
+      {n:"Nova Ponente",      lat:46.428, lon:11.427, q:1388},
+      {n:"Castelrotto",       lat:46.567, lon:11.568, q:1060},
+      {n:"Sarentino",         lat:46.633, lon:11.357, q:970},
+      {n:"Chiusa",            lat:46.641, lon:11.563, q:525},
+      {n:"Campo Tures",       lat:46.918, lon:11.960, q:860},
+      {n:"Selva Val Gardena", lat:46.556, lon:11.762, q:1563},
+      {n:"Monguelfo",         lat:46.751, lon:12.124, q:1087},
+      {n:"Rasun Anterselva",  lat:46.873, lon:12.083, q:1054},
+      {n:"Salorno",           lat:46.236, lon:11.186, q:212},
+      {n:"Laives",            lat:46.426, lon:11.335, q:250},
+      {n:"Lana",              lat:46.614, lon:11.148, q:350},
+      {n:"Passo Brennero",    lat:47.004, lon:11.508, q:1374},
+      {n:"Sexten",            lat:46.692, lon:12.358, q:1322},
+      {n:"Monguelfo",         lat:46.751, lon:12.124, q:1087},
+      {n:"Ortisei",           lat:46.575, lon:11.672, q:1236}
+    ]
+  },
+
   trentino: {
     name: 'Trentino',
-    center: [46.05, 11.1], zoom: 8.5,
+    center: [45.9, 11.1], zoom: 8.5,
     fonte: 'Meteotrentino',
     geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_provinces.geojson',
     geojsonFilter: 'Trento',
@@ -1885,6 +1933,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 ARPA live');
       });
+    } else if(source==='meteo_altoadige'){
+      loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 Meteo Alto Adige');
+      });
     } else if(source==='meteotrentino'){
       loadMeteotrentino(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 Meteotrentino');
@@ -2476,6 +2528,63 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ═══════════════════════════════════════════════════════════════
 // METEOTRENTINO — carica dati giornalieri da GitHub
 // ═══════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// METEO ALTO ADIGE — carica dati giornalieri da GitHub
+// ═══════════════════════════════════════════════════════════════
+function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
+  var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/altoadige';
+  var TWO_DAYS=2*24*3600*1000;
+  var msRange=nowDate-pastDate;
+
+  // Periodi brevi: usa Open-Meteo
+  if(msRange<=TWO_DAYS){
+    loadOpenMeteoRegion(REGIONS.altoadige.stations,pastDate,nowDate,labelPeriodo,cb);
+    return;
+  }
+
+  // Periodi storici: legge JSON giornalieri da GitHub
+  var rainTot={}, stMeta={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+
+  var pending=dates.length;
+  if(pending===0){cb([]);return;}
+
+  dates.forEach(function(dateStr){
+    fetch(GITHUB_RAW+'/'+dateStr+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(data){
+        if(data.stations){
+          data.stations.forEach(function(s){
+            var key=s.n||s.id;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BZ'};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function(){
+        pending--;
+        if(pending>0) return;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BZ',
+                  mm:mm<0.5?0:Math.round(mm*10)/10};
+        }).filter(Boolean);
+        if(full.length<5){cb([]);return;}
+        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+        cb(selectUniform(full,150));
+      });
+  });
+}
+
 function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/trentino';
   var TWO_DAYS=2*24*3600*1000;
@@ -2781,7 +2890,8 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
-  else if(rk==='trentino') map.setView([46.1, 11.1], 7.5);
+  else if(rk==='altoadige') map.setView([46.5, 11.2], 8.5);
+  else if(rk==='trentino') map.setView([45.9, 11.1], 8.5);
   else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
   setRegionBorder(rk, function(){
     clearMarkers();
