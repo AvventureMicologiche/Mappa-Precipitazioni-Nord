@@ -10,7 +10,7 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const DATA_DIR = path.join(__dirname, '..', 'data', 'altoadige');
+const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'altoadige');
 const API_URL  = 'https://static-meteo.provincia.bz.it/stations-data/website/valley.json';
 
 function fmtDate(d) {
