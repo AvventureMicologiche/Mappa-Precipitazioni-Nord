@@ -836,21 +836,26 @@ var REGIONS = {
 
   trentino: {
     name: 'Trentino',
-    center: [46.1, 11.1], zoom: 8,
+    center: [46.05, 11.1], zoom: 8,
     fonte: 'Meteotrentino',
-    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
-    geojsonFilter: 'trentino',
+    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_provinces.geojson',
+    geojsonFilter: 'Trento',
+    geojsonFilterField: 'prov_name',
     dataSource: 'meteotrentino',
     stations: [
       {n:"Trento",              lat:46.067, lon:11.121, q:194},
       {n:"Rovereto",            lat:45.890, lon:11.043, q:203},
       {n:"Riva del Garda",      lat:45.886, lon:10.843, q:70},
+      {n:"Arco",                lat:45.917, lon:10.880, q:91},
       {n:"Canazei",             lat:46.478, lon:11.767, q:1465},
       {n:"Cavalese",            lat:46.284, lon:11.451, q:958},
+      {n:"Predazzo",            lat:46.298, lon:11.598, q:1000},
+      {n:"Moena",               lat:46.376, lon:11.662, q:1175},
       {n:"Passo Tonale",        lat:46.263, lon:10.597, q:1875},
       {n:"Madonna di Campiglio",lat:46.230, lon:10.827, q:1510},
       {n:"Malè",                lat:46.352, lon:10.918, q:720},
       {n:"Cles",                lat:46.361, lon:11.040, q:655},
+      {n:"Fondo",               lat:46.438, lon:11.130, q:910},
       {n:"Mezzolombardo",       lat:46.187, lon:11.104, q:204},
       {n:"Pinzolo",             lat:46.157, lon:10.757, q:760},
       {n:"Tione",               lat:46.041, lon:10.731, q:533},
@@ -861,7 +866,33 @@ var REGIONS = {
       {n:"Folgaria",            lat:45.915, lon:11.164, q:1121},
       {n:"Storo",               lat:45.847, lon:10.562, q:385},
       {n:"Passo Mendola",       lat:46.419, lon:11.189, q:1315},
-      {n:"Passo Rolle",         lat:46.298, lon:11.787, q:2012}
+      {n:"Passo Rolle",         lat:46.298, lon:11.787, q:2012},
+      {n:"Careser Diga",        lat:46.423, lon:10.699, q:2600},
+      {n:"Peio",                lat:46.364, lon:10.678, q:1585},
+      {n:"Rabbi S. Bernardo",   lat:46.401, lon:10.850, q:1132},
+      {n:"Mezzana",             lat:46.313, lon:10.796, q:905},
+      {n:"Passo Costalunga",    lat:46.405, lon:11.614, q:1750},
+      {n:"Canal San Bovo",      lat:46.150, lon:11.735, q:750},
+      {n:"Passo Cereda",        lat:46.196, lon:11.916, q:1322},
+      {n:"Castello Tesino",     lat:46.057, lon:11.630, q:801},
+      {n:"Levico Terme",        lat:46.010, lon:11.305, q:502},
+      {n:"Molveno",             lat:46.142, lon:10.958, q:835},
+      {n:"Rifugio Graffer",     lat:46.218, lon:10.890, q:2258},
+      {n:"Tremalzo",            lat:45.842, lon:10.684, q:1560},
+      {n:"Passo Brocon",        lat:46.117, lon:11.663, q:1610},
+      {n:"Sant Orsola Terme",   lat:46.107, lon:11.302, q:925},
+      {n:"Tenno",               lat:45.919, lon:10.831, q:415},
+      {n:"Centa San Nicolo",    lat:45.970, lon:11.234, q:805},
+      {n:"Spormaggiore",        lat:46.220, lon:11.047, q:561},
+      {n:"Tres",                lat:46.321, lon:11.101, q:838},
+      {n:"Romeno",              lat:46.391, lon:11.119, q:958},
+      {n:"Aldeno",              lat:45.968, lon:11.091, q:182},
+      {n:"Monte Bondone",       lat:46.014, lon:11.054, q:1490},
+      {n:"Passo Valles",        lat:46.338, lon:11.800, q:2032},
+      {n:"Val di Breguzzo",     lat:46.032, lon:10.641, q:1148},
+      {n:"Montagne",            lat:46.059, lon:10.752, q:955},
+      {n:"Torbole Belvedere",   lat:45.870, lon:10.877, q:90},
+      {n:"Passo Pian Fugazze",  lat:45.759, lon:11.175, q:1170}
     ]
   },
 
@@ -2542,7 +2573,17 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
 
 // ═══════════════════════════════════════════════════════════════
 var GEOJSON_URL='https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson';
+var GEOJSON_PROVINCE_URL='https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_provinces.geojson';
 var geojsonCache=null;
+var geojsonProvinceCache=null;
+
+function loadGeoJSONProvince(cb){
+  if(geojsonProvinceCache){cb(geojsonProvinceCache);return;}
+  fetch(GEOJSON_PROVINCE_URL)
+    .then(function(r){return r.json();})
+    .then(function(data){geojsonProvinceCache=data;cb(data);})
+    .catch(function(){geojsonProvinceCache={features:[]};cb(geojsonProvinceCache);});
+}
 
 function loadGeoJSONOnce(cb){
   if(geojsonCache){cb(geojsonCache);return;}
@@ -2556,13 +2597,21 @@ function loadGeoJSONOnce(cb){
 var regionBorders={}; // cache layer bordi per regione
 
 function setRegionBorder(regionKey,cb){
-  loadGeoJSONOnce(function(data){
-    var cfg=REGIONS[regionKey]||REGIONS.lombardia;
+  var cfg=REGIONS[regionKey]||REGIONS.lombardia;
+  var filterField=cfg.geojsonFilterField||null;
+  var loader=filterField?loadGeoJSONProvince:loadGeoJSONOnce;
+
+  loader(function(data){
     var filter=cfg.geojsonFilter||'lombar';
     var feat=null;
     data.features.forEach(function(f){
-      var n=(f.properties.reg_name||f.properties.NOME_REG||'').toLowerCase();
-      if(n.indexOf(filter)>=0) feat=f;
+      var fieldVal='';
+      if(filterField){
+        fieldVal=(f.properties[filterField]||'').toLowerCase();
+      } else {
+        fieldVal=(f.properties.reg_name||f.properties.NOME_REG||'').toLowerCase();
+      }
+      if(fieldVal.indexOf(filter.toLowerCase())>=0) feat=f;
     });
 
     // Rimuovi SOLO il bordo di questa specifica regione se già esiste
@@ -2732,7 +2781,7 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
-  else if(rk==='trentino') map.setView([46.0, 11.1], 8.0);
+  else if(rk==='trentino') map.setView([46.1, 11.1], 7.5);
   else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
   setRegionBorder(rk, function(){
     clearMarkers();
