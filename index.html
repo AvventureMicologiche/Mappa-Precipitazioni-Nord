@@ -494,6 +494,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
             <span class="rcheck-name">Toscana</span>
           </label>
         </div>
+        <div class="tp-grid3 region-btns-desktop">
+          <label class="rcheck-wrap">
+            <input type="checkbox" id="chk-trentino" value="trentino">
+            <span class="rcheck-box"></span>
+            <span class="rcheck-name">Trentino</span>
+          </label>
+        </div>
         <!-- Mobile: select dropdown -->
         <select id="region-select" class="region-select-mobile">
           <option value="">Tocca per scegliere la regione ▼</option>
@@ -502,6 +509,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <option value="lombardia">Lombardia</option>
           <option value="veneto">Veneto</option>
           <option value="emilia">Emilia Romagna</option>
+          <option value="trentino">Trentino</option>
           <option value="toscana">Toscana</option>
         </select>
       </div>
@@ -823,6 +831,37 @@ var REGIONS = {
       {n:"Cattolica",       lat:43.966,lon:12.730,q:4,   p:"RN"},
       {n:"Sasso Marconi",   lat:44.399,lon:11.253,q:124, p:"BO"},
       {n:"Vergato",         lat:44.281,lon:11.108,q:280, p:"BO"}
+    ]
+  },
+
+  trentino: {
+    name: 'Trentino',
+    center: [46.1, 11.1], zoom: 8,
+    fonte: 'Meteotrentino',
+    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
+    geojsonFilter: 'trentino',
+    dataSource: 'meteotrentino',
+    stations: [
+      {n:"Trento",              lat:46.067, lon:11.121, q:194},
+      {n:"Rovereto",            lat:45.890, lon:11.043, q:203},
+      {n:"Riva del Garda",      lat:45.886, lon:10.843, q:70},
+      {n:"Canazei",             lat:46.478, lon:11.767, q:1465},
+      {n:"Cavalese",            lat:46.284, lon:11.451, q:958},
+      {n:"Passo Tonale",        lat:46.263, lon:10.597, q:1875},
+      {n:"Madonna di Campiglio",lat:46.230, lon:10.827, q:1510},
+      {n:"Malè",                lat:46.352, lon:10.918, q:720},
+      {n:"Cles",                lat:46.361, lon:11.040, q:655},
+      {n:"Mezzolombardo",       lat:46.187, lon:11.104, q:204},
+      {n:"Pinzolo",             lat:46.157, lon:10.757, q:760},
+      {n:"Tione",               lat:46.041, lon:10.731, q:533},
+      {n:"Pergine Valsugana",   lat:46.063, lon:11.236, q:498},
+      {n:"Borgo Valsugana",     lat:46.053, lon:11.454, q:385},
+      {n:"San Martino di Castrozza", lat:46.261, lon:11.796, q:1450},
+      {n:"Lavarone",            lat:45.940, lon:11.253, q:1155},
+      {n:"Folgaria",            lat:45.915, lon:11.164, q:1121},
+      {n:"Storo",               lat:45.847, lon:10.562, q:385},
+      {n:"Passo Mendola",       lat:46.419, lon:11.189, q:1315},
+      {n:"Passo Rolle",         lat:46.298, lon:11.787, q:2012}
     ]
   },
 
@@ -1815,6 +1854,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 ARPA live');
       });
+    } else if(source==='meteotrentino'){
+      loadMeteotrentino(pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 Meteotrentino');
+      });
     } else if(source==='cfr_toscana'){
       loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 CFR Toscana');
@@ -2398,6 +2441,63 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
   });
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// METEOTRENTINO — carica dati giornalieri da GitHub
+// ═══════════════════════════════════════════════════════════════
+function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
+  var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/trentino';
+  var TWO_DAYS=2*24*3600*1000;
+  var msRange=nowDate-pastDate;
+
+  // Periodi brevi: usa Open-Meteo con stazioni hardcoded
+  if(msRange<=TWO_DAYS){
+    loadOpenMeteoRegion(REGIONS.trentino.stations,pastDate,nowDate,labelPeriodo,cb);
+    return;
+  }
+
+  // Periodi storici: legge JSON giornalieri da GitHub
+  var rainTot={}, stMeta={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+
+  var pending=dates.length;
+  if(pending===0){cb([]);return;}
+
+  dates.forEach(function(dateStr){
+    fetch(GITHUB_RAW+'/'+dateStr+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(data){
+        if(data.stations){
+          data.stations.forEach(function(s){
+            var key=s.n||s.id;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'TN'};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function(){
+        pending--;
+        if(pending>0) return;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'TN',
+                  mm:mm<0.5?0:Math.round(mm*10)/10};
+        }).filter(Boolean);
+        if(full.length<5){cb([]);return;}
+        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+        cb(selectUniform(full,150));
+      });
+  });
+}
+
 function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/toscana';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
@@ -2632,6 +2732,7 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
+  else if(rk==='trentino') map.setView([46.0, 11.1], 8.0);
   else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
   setRegionBorder(rk, function(){
     clearMarkers();
