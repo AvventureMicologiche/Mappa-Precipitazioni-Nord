@@ -842,7 +842,7 @@ var REGIONS = {
 
   altoadige: {
     name: 'Alto Adige',
-    center: [46.65, 11.2], zoom: 8.5,
+    center: [46.65, 11.4], zoom: 8,
     fonte: 'Meteo Alto Adige',
     geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_provinces.geojson',
     geojsonFilter: 'Bolzano',
@@ -2890,7 +2890,7 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
-  else if(rk==='altoadige') map.setView([46.5, 11.2], 8.5);
+  else if(rk==='altoadige') map.setView([46.4, 11.4], 8);
   else if(rk==='trentino') map.setView([45.9, 11.1], 8.5);
   else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
   setRegionBorder(rk, function(){
