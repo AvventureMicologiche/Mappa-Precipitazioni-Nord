@@ -460,7 +460,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       </div>
       <div class="tp-content">
         <!-- Desktop: bottoni (nascosti su mobile) -->
-        <div class="tp-grid3 region-btns-desktop" style="margin-bottom:4px">
+        <div class="tp-grid2 region-btns-desktop">
           <label class="rcheck-wrap">
             <input type="checkbox" id="chk-liguria" value="liguria">
             <span class="rcheck-box"></span>
@@ -472,29 +472,35 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
             <span class="rcheck-name">Piemonte</span>
           </label>
           <label class="rcheck-wrap">
+            <input type="checkbox" id="chk-valledaosta" value="valledaosta">
+            <span class="rcheck-box"></span>
+            <span class="rcheck-name">Valle d'Aosta</span>
+          </label>
+          <label class="rcheck-wrap">
             <input type="checkbox" id="chk-lombardia" value="lombardia">
             <span class="rcheck-box"></span>
             <span class="rcheck-name">Lombardia</span>
           </label>
-        </div>
-        <div class="tp-grid3 region-btns-desktop">
-          <label class="rcheck-wrap">
-            <input type="checkbox" id="chk-veneto" value="veneto">
-            <span class="rcheck-box"></span>
-            <span class="rcheck-name">Veneto</span>
-          </label>
           <label class="rcheck-wrap">
             <input type="checkbox" id="chk-emilia" value="emilia">
             <span class="rcheck-box"></span>
-            <span class="rcheck-name">Emilia</span>
+            <span class="rcheck-name">Emilia Romagna</span>
           </label>
           <label class="rcheck-wrap">
             <input type="checkbox" id="chk-toscana" value="toscana">
             <span class="rcheck-box"></span>
             <span class="rcheck-name">Toscana</span>
           </label>
-        </div>
-        <div class="tp-grid3 region-btns-desktop">
+          <label class="rcheck-wrap">
+            <input type="checkbox" id="chk-veneto" value="veneto">
+            <span class="rcheck-box"></span>
+            <span class="rcheck-name">Veneto</span>
+          </label>
+          <label class="rcheck-wrap">
+            <input type="checkbox" id="chk-friuli" value="friuli">
+            <span class="rcheck-box"></span>
+            <span class="rcheck-name">Friuli V.G.</span>
+          </label>
           <label class="rcheck-wrap">
             <input type="checkbox" id="chk-trentino" value="trentino">
             <span class="rcheck-box"></span>
@@ -511,12 +517,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <option value="">Tocca per scegliere la regione ▼</option>
           <option value="liguria">Liguria</option>
           <option value="piemonte">Piemonte</option>
+          <option value="valledaosta">Valle d'Aosta</option>
           <option value="lombardia">Lombardia</option>
-          <option value="veneto">Veneto</option>
           <option value="emilia">Emilia Romagna</option>
-          <option value="altoadige">Alto Adige</option>
-          <option value="trentino">Trentino</option>
           <option value="toscana">Toscana</option>
+          <option value="veneto">Veneto</option>
+          <option value="friuli">Friuli V.G.</option>
+          <option value="trentino">Trentino</option>
+          <option value="altoadige">Alto Adige</option>
         </select>
       </div>
     </div>
@@ -837,6 +845,58 @@ var REGIONS = {
       {n:"Cattolica",       lat:43.966,lon:12.730,q:4,   p:"RN"},
       {n:"Sasso Marconi",   lat:44.399,lon:11.253,q:124, p:"BO"},
       {n:"Vergato",         lat:44.281,lon:11.108,q:280, p:"BO"}
+    ]
+  },
+
+  valledaosta: {
+    name: "Valle d'Aosta",
+    center: [45.73, 7.4], zoom: 8.5,
+    fonte: 'Open-Meteo',
+    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
+    geojsonFilter: 'aosta',
+    dataSource: 'open_meteo_vda',
+    stations: [
+      {n:"Aosta",             lat:45.737, lon:7.315,  q:583},
+      {n:"Courmayeur",        lat:45.796, lon:6.970,  q:1224},
+      {n:"Saint-Vincent",     lat:45.751, lon:7.640,  q:575},
+      {n:"Pont-Saint-Martin", lat:45.597, lon:7.796,  q:345},
+      {n:"Gressoney",         lat:45.787, lon:7.829,  q:1385},
+      {n:"Champoluc",         lat:45.828, lon:7.726,  q:1568},
+      {n:"Cogne",             lat:45.608, lon:7.358,  q:1534},
+      {n:"La Thuile",         lat:45.714, lon:6.952,  q:1441},
+      {n:"Rhêmes-Notre-Dame", lat:45.598, lon:7.132,  q:1731},
+      {n:"Brusson",           lat:45.762, lon:7.742,  q:1338},
+      {n:"Morgex",            lat:45.754, lon:7.043,  q:923},
+      {n:"Valpelline",        lat:45.831, lon:7.330,  q:960},
+      {n:"Sarre",             lat:45.716, lon:7.269,  q:631},
+      {n:"Verrès",            lat:45.665, lon:7.688,  q:391},
+      {n:"Donnas",            lat:45.603, lon:7.764,  q:322}
+    ]
+  },
+
+  friuli: {
+    name: 'Friuli V.G.',
+    center: [46.05, 13.2], zoom: 8.5,
+    fonte: 'Open-Meteo',
+    geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
+    geojsonFilter: 'friuli',
+    dataSource: 'open_meteo_fvg',
+    stations: [
+      {n:"Trieste",           lat:45.649, lon:13.764, q:30,  p:"TS"},
+      {n:"Udine",             lat:46.063, lon:13.235, q:113, p:"UD"},
+      {n:"Pordenone",         lat:45.954, lon:12.661, q:24,  p:"PN"},
+      {n:"Gorizia",           lat:45.940, lon:13.622, q:84,  p:"GO"},
+      {n:"Monfalcone",        lat:45.800, lon:13.537, q:5,   p:"GO"},
+      {n:"Tolmezzo",          lat:46.399, lon:13.006, q:324, p:"UD"},
+      {n:"Tarvisio",          lat:46.506, lon:13.573, q:754, p:"UD"},
+      {n:"Piancavallo",       lat:46.115, lon:12.524, q:1275,p:"PN"},
+      {n:"Sappada",           lat:46.570, lon:12.708, q:1265,p:"UD"},
+      {n:"Forni di Sopra",    lat:46.425, lon:12.579, q:907, p:"UD"},
+      {n:"Gemona del Friuli", lat:46.275, lon:13.137, q:272, p:"UD"},
+      {n:"Cividale del Friuli",lat:46.094,lon:13.432, q:135, p:"UD"},
+      {n:"Lignano",           lat:45.690, lon:13.133, q:2,   p:"UD"},
+      {n:"Muggia",            lat:45.604, lon:13.762, q:2,   p:"TS"},
+      {n:"Codroipo",          lat:45.960, lon:13.001, q:36,  p:"UD"}
     ]
   },
 
@@ -1933,6 +1993,14 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 ARPA live');
       });
+    } else if(source==='open_meteo_vda'){
+      loadOpenMeteoStorico('valledaosta',pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 Open-Meteo');
+      });
+    } else if(source==='open_meteo_fvg'){
+      loadOpenMeteoStorico('friuli',pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 Open-Meteo');
+      });
     } else if(source==='meteo_altoadige'){
       loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 Meteo Alto Adige');
@@ -2532,6 +2600,63 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ═══════════════════════════════════════════════════════════════
 // METEO ALTO ADIGE — carica dati giornalieri da GitHub
 // ═══════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// OPEN-METEO STORICO — carica dati giornalieri da GitHub
+// Usato per Valle d'Aosta e Friuli
+// ═══════════════════════════════════════════════════════════════
+function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
+  var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/'+regionKey;
+  var TWO_DAYS=2*24*3600*1000;
+  var msRange=nowDate-pastDate;
+
+  // Periodi brevi: usa Open-Meteo forecast
+  if(msRange<=TWO_DAYS){
+    loadOpenMeteoRegion(REGIONS[regionKey].stations,pastDate,nowDate,labelPeriodo,cb);
+    return;
+  }
+
+  var rainTot={}, stMeta={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+
+  var pending=dates.length;
+  if(pending===0){cb([]);return;}
+
+  dates.forEach(function(dateStr){
+    fetch(GITHUB_RAW+'/'+dateStr+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(data){
+        if(data.stations){
+          data.stations.forEach(function(s){
+            var key=s.n||s.id;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function(){
+        pending--;
+        if(pending>0) return;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
+                  mm:mm<0.5?0:Math.round(mm*10)/10};
+        }).filter(Boolean);
+        if(full.length<5){cb([]);return;}
+        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+        cb(selectUniform(full,150));
+      });
+  });
+}
+
 function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/altoadige';
   var TWO_DAYS=2*24*3600*1000;
@@ -2890,6 +3015,8 @@ document.getElementById('region-select').addEventListener('change', function(){
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
   else if(rk==='liguria') map.setView([43.9, 8.8], 7.75);
   else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
+  else if(rk==='valledaosta') map.setView([45.6, 7.4], 8.5);
+  else if(rk==='friuli') map.setView([45.9, 13.2], 8.5);
   else if(rk==='altoadige') map.setView([46.4, 11.4], 8);
   else if(rk==='trentino') map.setView([45.9, 11.1], 8.5);
   else if(rk==='toscana') map.setView([42.85, 11.0], 7.5);
