@@ -220,11 +220,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    TABLET (601-900px)
    ══════════════════════════════════════ */
 @media(min-width:601px) and (max-width:900px){
-  #region-panel{width:240px;top:58px;}
-  #time-panel{width:240px;top:160px;}
-  #legend-panel{width:240px;}
-  .tp-btn{font-size:11px;padding:5px 2px;}
-  .sv{font-size:15px;}
+  /* Tablet: stesso layout mobile */
+  .region-btns-desktop{display:none !important;}
+  .region-select-mobile{display:block !important;width:100% !important;margin:0 !important;font-size:16px;font-weight:700;padding:9px 10px;border:1px solid #d0d8e8;border-radius:0;background:#f0f4fb;color:#1b3f6e;}
+  #region-panel{border-radius:0 !important;width:100% !important;left:0 !important;top:52px !important;position:absolute;}
+  #time-panel{display:none !important;}
+  #legend-panel{display:none !important;}
+  .tp-handle{display:flex !important;}
+  #tp-overlay{display:none;}
 }
 
 /* ══════════════════════════════════════
@@ -1203,7 +1206,7 @@ if(screenW<=480){
   initZoom = 7.5;
 }
 // Centro sul Nord Italia (Piemonte + Lombardia + Liguria + ER visibili)
-var initCenter=(screenW<=600)?[44.8,9.5]:[45.0,9.5];
+var initCenter=(screenW<=900)?[44.8,9.5]:[45.0,9.5];
 var map=L.map('map',{zoomSnap:0.5,zoomDelta:0.5}).setView(initCenter, initZoom);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,subdomains:'abc',
@@ -1452,7 +1455,7 @@ function render(dati,fonte,labelPeriodo){
 }
 
 function positionPanels(){
-  if(window.innerWidth<=600) return;
+  if(window.innerWidth<=900) return;
   var GAP=10;
   var rp=document.getElementById('region-panel');
   var tp=document.getElementById('time-panel');
@@ -1488,7 +1491,7 @@ function positionLegend(){
 }
 
 function showLegendMobile(){
-  if(window.innerWidth>600) return;
+  if(window.innerWidth>900) return;
   // Nascondi tutto il contenuto del time-panel incluso il titolo
   var tp=document.getElementById('time-panel');
   if(tp) tp.style.visibility='hidden';
@@ -1500,7 +1503,7 @@ function showLegendMobile(){
 }
 
 function hideLegendMobile(){
-  if(window.innerWidth>600) return;
+  if(window.innerWidth>900) return;
   var leg=document.getElementById('legend-panel');
   leg.classList.remove('leg-visible');
   var tp=document.getElementById('time-panel');
@@ -2905,7 +2908,7 @@ function switchRegion(regionKey){
   // Centra mappa sulla nuova regione
   var cfg=REGIONS[regionKey];
   if(cfg){
-    if(window.innerWidth<=600){
+    if(window.innerWidth<=900){
       if(regionKey==='lombardia') map.setView([45.5, 9.85], 8, {animate:true});
       else if(regionKey==='piemonte') map.setView([44.9, 7.9], 8, {animate:true});
       else if(regionKey==='veneto') map.setView([45.6, 11.8], 8, {animate:true});
@@ -2939,7 +2942,7 @@ function fitMapToRegions(regionKeys){
   if(regionKeys.length===1){
     var cfg=REGIONS[regionKeys[0]];
     if(cfg) {
-      if(window.innerWidth<=600){
+      if(window.innerWidth<=900){
         var rk0=regionKeys[0];
         if(rk0==='lombardia') { map.setView([45.5, 9.85], 8, {animate:true,duration:0.6}); }
         else if(rk0==='piemonte') { map.setView([44.9, 7.9], 8, {animate:true,duration:0.6}); }
@@ -2963,7 +2966,7 @@ function fitMapToRegions(regionKeys){
     if(b[0][1]<lonMin) lonMin=b[0][1];
     if(b[1][1]>lonMax) lonMax=b[1][1];
   });
-  var pad=window.innerWidth<=600?[20,10]:[30,30];
+  var pad=window.innerWidth<=900?[20,10]:[30,30];
   var opts={animate:true,duration:0.6,padding:pad};
   map.fitBounds([[latMin,lonMin],[latMax,lonMax]],opts);
 }
@@ -3052,7 +3055,7 @@ document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(
     var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
     var rk=this.value;
     // Centra mappa su mobile
-    if(window.innerWidth<=600){
+    if(window.innerWidth<=900){
       if(rk==='lombardia') map.setView([45.3, 9.85], 7.5);
       else if(rk==='piemonte') map.setView([44.8, 7.9], 7.5);
       else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
@@ -3171,7 +3174,7 @@ setTimeout(positionPanels, 100);
 
 // ── Toggle pannello mobile ───────────────────────────────────────────────
 (function(){
-  function isMobile(){return window.innerWidth<=600;}
+  function isMobile(){return window.innerWidth<=900;}
   var tp=document.getElementById('time-panel');
   var handle=document.getElementById('tp-handle');
   if(!handle||!tp) return;
