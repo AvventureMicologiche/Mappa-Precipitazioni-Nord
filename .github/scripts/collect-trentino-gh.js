@@ -10,7 +10,7 @@ const https  = require('https');
 const fs     = require('fs');
 const path   = require('path');
 
-const DATA_DIR      = path.join(__dirname, '..', 'data', 'trentino');
+const DATA_DIR      = path.join(__dirname, '..', '..', 'data', 'trentino');
 const LIST_URL      = 'https://dati.meteotrentino.it/service.asmx/listaStazioniJson';
 const DATI_URL      = 'https://dati.meteotrentino.it/service.asmx/getValoriAggregatiGiornoJson';
 
@@ -45,7 +45,7 @@ async function main() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
   const today   = new Date();
-  const dateStr = fmtDate(today);
+  const dateStr = process.env.DATE_OVERRIDE || fmtDate(today);
 
   // Step 1: lista stazioni con coordinate
   console.log('  Fetch lista stazioni...');
@@ -78,12 +78,18 @@ async function main() {
     throw new Error('Nessun dato ricevuto da getValoriAggregatiGiornoJson');
   }
 
-  // Filtra solo i record del giorno odierno
-  const todayRecords = records.filter(r => r.giorno && r.giorno.startsWith(dateStr));
-  console.log(`  Record per oggi (${dateStr}): ${todayRecords.length}`);
+  // Prova prima con la data richiesta, poi con la più recente disponibile
+  let todayRecords = records.filter(r => r.giorno && r.giorno.startsWith(dateStr));
+  console.log(`  Record per ${dateStr}: ${todayRecords.length}`);
 
   if (todayRecords.length < 5) {
-    throw new Error(`Troppo pochi record per oggi: ${todayRecords.length}`);
+    // Usa il giorno più recente disponibile nell'API
+    const dates = [...new Set(records.map(r => r.giorno ? r.giorno.substring(0,10) : null).filter(Boolean))].sort();
+    const latestDate = dates[dates.length - 1];
+    console.log(`  Provo con data più recente disponibile: ${latestDate}`);
+    todayRecords = records.filter(r => r.giorno && r.giorno.startsWith(latestDate));
+    console.log(`  Record per ${latestDate}: ${todayRecords.length}`);
+    if (todayRecords.length < 5) throw new Error(`Troppo pochi record: ${todayRecords.length}`);
   }
 
   // Assembla stazioni
