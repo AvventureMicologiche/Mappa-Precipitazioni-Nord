@@ -1,0 +1,36 @@
+name: Valle d'Aosta
+on:
+  workflow_dispatch:
+    inputs:
+      date_override:
+        description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per oggi)'
+        required: false
+        default: ''
+  schedule:
+    - cron: '15 1 * * *'
+    - cron: '15 5 * * *'
+    - cron: '15 9 * * *'
+    - cron: '15 13 * * *'
+    - cron: '15 17 * * *'
+    - cron: '15 21 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Raccoglie dati Valle d'Aosta
+        run: node .github/scripts/collect-valledaosta-gh.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+      - name: Commit e push
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          mkdir -p data/valledaosta
+          git add data/valledaosta/
+          git diff --staged --quiet || git commit -m "valledaosta $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push
