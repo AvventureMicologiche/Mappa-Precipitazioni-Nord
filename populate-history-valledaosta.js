@@ -61,7 +61,12 @@ async function fetchJSON(url, retries = 4) {
       }).on('error', reject);
     });
     if (result.status === 200) return JSON.parse(result.data);
-    if (result.status === 429) { await sleep(60000 * (attempt+1)); continue; }
+    if (result.status === 429) {
+      const wait = 5 * 60 * 1000;
+      console.warn(`\n  ⏳ Rate limit 429, attendo 5 minuti... (tentativo ${attempt + 1}/${retries})`);
+      await sleep(wait);
+      continue;
+    }
     throw new Error(`HTTP ${result.status}`);
   }
   throw new Error('Troppi tentativi falliti');
