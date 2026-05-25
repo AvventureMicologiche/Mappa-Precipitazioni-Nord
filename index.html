@@ -3227,8 +3227,28 @@ document.getElementById('btn-custom').addEventListener('click',function(){
   this.classList.toggle('active',!open);
   if(!open){
     var now=new Date(),past=new Date();past.setDate(now.getDate()-30);
-    var minDate='2021-01-01';
     var maxDate=fmtISOLocal(now);
+
+    // Regioni con storico misto OM+ARPA: minDate dinamica
+    // Data base = 15 maggio 2026, si sblocca 1 giorno al giorno
+    var MIXED_REGIONS=['liguria','piemonte','veneto','emilia','toscana'];
+    var activeRegs=getActiveRegions();
+    var hasMixed=activeRegs.some(function(r){return MIXED_REGIONS.indexOf(r)>=0;});
+    var minDate;
+    if(hasMixed){
+      var baseDate=new Date('2026-05-15T00:00:00');
+      var today=new Date(); today.setHours(0,0,0,0);
+      var daysSinceBase=Math.floor((today-baseDate)/(24*3600*1000));
+      var minMs=baseDate.getTime()-daysSinceBase*24*3600*1000;
+      var minDt=new Date(Math.max(minMs, new Date('2026-05-15').getTime()));
+      minDate=fmtISOLocal(minDt);
+    } else {
+      minDate='2021-01-01';
+    }
+
+    // Assicura che il valore iniziale non sia prima del minDate
+    if(fmtISOLocal(past)<minDate) past=new Date(minDate+'T00:00:00');
+
     document.getElementById('cd-from').value=fmtISOLocal(past);
     document.getElementById('cd-from').min=minDate;
     document.getElementById('cd-from').max=maxDate;
@@ -3252,8 +3272,24 @@ document.getElementById('cd-apply').addEventListener('click',function(){
   // Limite massimo 12 mesi
   var diffMs=new Date(to+'T23:59:59').getTime()-new Date(from+'T00:00:00').getTime();
   if(diffMs>365*24*3600000){alert('Il periodo massimo selezionabile è 12 mesi');return;}
-  // Limite storico: dal 1 gennaio 2021
-  if(from<'2021-01-01'){alert('I dati ARPA sono disponibili dal 1 gennaio 2021');return;}
+  // Limite storico dinamico per regioni con dati misti
+  var MIXED_REGIONS2=['liguria','piemonte','veneto','emilia','toscana'];
+  var activeRegs2=getActiveRegions();
+  var hasMixed2=activeRegs2.some(function(r){return MIXED_REGIONS2.indexOf(r)>=0;});
+  if(hasMixed2){
+    var baseDate2=new Date('2026-05-15T00:00:00');
+    var today2=new Date(); today2.setHours(0,0,0,0);
+    var daysSinceBase2=Math.floor((today2-baseDate2)/(24*3600*1000));
+    var minMs2=baseDate2.getTime()-daysSinceBase2*24*3600*1000;
+    var minDt2=new Date(Math.max(minMs2, new Date('2026-05-15').getTime()));
+    var minDate2=fmtISOLocal(minDt2);
+    if(from<minDate2){
+      alert('Per questa regione i dati affidabili partono dal '+minDate2+'. La finestra si amplia di 1 giorno al giorno.');
+      return;
+    }
+  } else {
+    if(from<'2021-01-01'){alert('I dati ARPA sono disponibili dal 1 gennaio 2021');return;}
+  }
   document.getElementById('custom-box').style.display='none';
   var pastDate=new Date(from+'T00:00:00');
   var nowDate=new Date(to+'T23:59:59');
