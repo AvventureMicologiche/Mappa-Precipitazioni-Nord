@@ -2050,8 +2050,9 @@ function loadData(pastDate,nowDate,labelPeriodo){
     var sixHoursAgo=new Date(new Date().getTime()-SIX_HOURS);
     var useOpenMeteo=(msRange<TWO_DAYS)||(nowDate>sixHoursAgo&&msRange<TWO_DAYS);
 
-    if(useOpenMeteo){
-      // Periodi brevi → Open-Meteo per tutte le regioni
+    if(useOpenMeteo && regionKey!=='toscana'){
+      // Periodi brevi → Open-Meteo per tutte le regioni (eccetto Toscana)
+      // Toscana gestisce internamente sia GitHub che Open-Meteo in loadCFRToscanaRegion
       // Per Lombardia usa le stazioni ARPA già caricate (hanno lat/lon)
       var stations;
       if(regionKey==='lombardia'){
@@ -2934,6 +2935,13 @@ var TOSCANA_67=[
 function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/toscana';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+
+  // Periodi orari (1h-12h) → Open-Meteo con 67 stazioni
+  var msRange=nowDate.getTime()-pastDate.getTime();
+  if(msRange<=12*3600000){
+    loadOpenMeteoRegion(TOSCANA_67,pastDate,nowDate,labelPeriodo,cb);
+    return;
+  }
 
   // Oggi da ignorare nei file GitHub — verrà coperto da Open-Meteo
   var todayStr=_fmt(new Date());
