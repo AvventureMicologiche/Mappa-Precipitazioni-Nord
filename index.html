@@ -2984,18 +2984,23 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
         .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
+          console.log('[aggiungiOggi] risposta OM, stazioni:', arr.length);
+          var totPioggia=0;
           arr.forEach(function(loc,i){
             var st=batch[i];if(!st)return;
             var mm=0;
             if(loc.daily&&loc.daily.precipitation_sum&&loc.daily.precipitation_sum[0]!=null){
               mm=parseFloat(loc.daily.precipitation_sum[0])||0;
             }
+            if(mm>0) console.log('[aggiungiOggi]',st.n,'mm=',mm);
+            totPioggia+=mm;
             if(mm>=0.5){
               var key=st.n;
               if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
               rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
             }
           });
+          console.log('[aggiungiOggi] totale mm batch:', totPioggia);
         })
         .catch(function(){})
         .finally(function(){
