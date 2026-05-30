@@ -1093,7 +1093,7 @@ var REGIONS = {
 
   toscana: {
     name: 'Toscana',
-    center: [43.0, 11.2], zoom: 8,
+    center: [43.3, 11.2], zoom: 8,
     fonte: 'CFR Toscana',
     geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
     geojsonFilter: 'toscan',
@@ -2975,22 +2975,20 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     var pending=batches.length;
     if(pending===0){callback();return;}
     function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
-    var mezzanotte=new Date(); mezzanotte.setHours(0,0,0,0);
-    var adesso=new Date();
-    var mezzonotteStr=toLocalISO(mezzanotte);
-    var adessoStr=toLocalISO(adesso);
+    var pastStr=toLocalISO(pastDate);
+    var nowStr=toLocalISO(nowDate);
     batches.forEach(function(batch){
       var lats=batch.map(function(s){return s.lat;}).join(',');
       var lons=batch.map(function(s){return s.lon;}).join(',');
       var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
-        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=1&forecast_days=1';
+        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=2&forecast_days=1';
       fetch(url)
         .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
           // Debug: stampa primo time e range
           if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){
-            console.log('[debug] mezzonotteStr=',mezzonotteStr,'adessoStr=',adessoStr);
+            console.log('[debug] pastStr=',pastStr,'nowStr=',nowStr);
             console.log('[debug] primo time OM=',arr[0].hourly.time[0]);
             console.log('[debug] tot ore=',arr[0].hourly.time.length);
           }
@@ -3000,7 +2998,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(loc.hourly&&loc.hourly.time){
               for(var j=0;j<loc.hourly.time.length;j++){
                 var t=loc.hourly.time[j].substring(0,16);
-                if(t>=mezzonotteStr&&t<=adessoStr){
+                if(t>=pastStr&&t<=nowStr){
                   var v=parseFloat(loc.hourly.precipitation[j]);
                   if(!isNaN(v)&&v>0) mm+=v;
                 }
