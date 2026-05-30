@@ -2979,21 +2979,24 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     if(pending===0){callback();return;}
     function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
     var adesso=new Date();
-    // Mezzanotte di oggi in ora locale
-    var mezzanotte=new Date(adesso.getFullYear(),adesso.getMonth(),adesso.getDate(),0,0,0);
-    var pastStr=toLocalISO(mezzanotte);
+    var ieri=new Date(adesso.getTime()-24*3600000);
+    var pastStr=toLocalISO(ieri);
     var nowStr=toLocalISO(adesso);
-    // Lista stazioni GitHub già in stMeta per matching geografico
-    var ghStations=Object.keys(stMeta).map(function(k){return stMeta[k];});
     batches.forEach(function(batch){
       var lats=batch.map(function(s){return s.lat;}).join(',');
       var lons=batch.map(function(s){return s.lon;}).join(',');
       var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
-        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=1&forecast_days=1';
+        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=2&forecast_days=1';
       fetch(url)
         .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
+          // Debug: stampa primo time e range
+          if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){
+            console.log('[debug] pastStr=',pastStr,'nowStr=',nowStr);
+            console.log('[debug] primo time OM=',arr[0].hourly.time[0]);
+            console.log('[debug] tot ore=',arr[0].hourly.time.length);
+          }
           arr.forEach(function(loc,i){
             var st=batch[i];if(!st)return;
             var mm=0;
@@ -3006,17 +3009,11 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
                 }
               }
             }
-            mm=Math.round(mm*10)/10;
-            if(mm<0.5) return;
-            // Trova la stazione GitHub più vicina (entro ~5km) e sommaci i mm
-            var bestKey=null, bestDist=Infinity;
-            ghStations.forEach(function(gs){
-              var dlat=gs.lat-st.lat, dlon=gs.lon-st.lon;
-              var dist=dlat*dlat+dlon*dlon;
-              if(dist<bestDist){bestDist=dist;bestKey=gs.n;}
-            });
-            if(bestKey!==null && bestDist<0.002025){ // ~0.045°² ≈ 5km
-              rainTot[bestKey]=(rainTot[bestKey]||0)+mm;
+            console.log('[aggiungiOggi hourly]',st.n,'mm=',Math.round(mm*10)/10);
+            if(mm>=0.5){
+              var key=st.n;
+              if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
+              rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
             }
           });
         })
