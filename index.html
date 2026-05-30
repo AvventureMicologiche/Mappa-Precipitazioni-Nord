@@ -1367,6 +1367,9 @@ function inRegion(lon,lat,rings){
 }
 
 function buildGrid(data,rings){
+  // Usa solo stazioni con pioggia per il calcolo IDW — le stazioni a 0 diluirebbero la media
+  var dataWithRain=data.filter(function(s){return s.mm>0;});
+  var dataForIDW=dataWithRain.length>=3?dataWithRain:data;
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
@@ -1376,14 +1379,14 @@ function buildGrid(data,rings){
     for(var lon=LON_MIN;lon<=LON_MAX;lon+=GRID_RES){
       if(!inRegion(lon,lat,rings)) continue;
       var num=0,den=0,found=false;
-      for(var i=0;i<data.length;i++){
-        var dlat=lat-data[i].lat;
-        var dlon=(lon-data[i].lon)*Math.cos(lat*Math.PI/180);
+      for(var i=0;i<dataForIDW.length;i++){
+        var dlat=lat-dataForIDW[i].lat;
+        var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
         var d2=dlat*dlat+dlon*dlon;
         if(d2>IDW_RAD*IDW_RAD) continue;
         found=true;
-        if(d2<0.000001){num=data[i].mm;den=1;break;}
-        var w=1/d2; num+=w*data[i].mm; den+=w;
+        if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
+        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
       }
       if(!found) continue;
       pts.push({lat:lat,lon:lon,mm:num/den});
