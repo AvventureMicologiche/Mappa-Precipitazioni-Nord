@@ -2965,7 +2965,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
-    cb(selectUniform(full,200));
+    cb(selectUniform(full,300));
   }
 
   // Carica Open-Meteo per oggi con le 67 stazioni distribuite
