@@ -2335,6 +2335,7 @@ function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
           function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
           var pastStr=toLocalISO(new Date(pastDate.getTime()-3600000));
           var nowStr=toLocalISO(new Date(nowDate.getTime()+3600000));
+          console.log('[OM hourly] pastStr=',pastStr,'nowStr=',nowStr);
           for(var j=0;j<hourly.time.length;j++){
             var tStr=hourly.time[j].substring(0,16);
             if(tStr>=pastStr&&tStr<=nowStr){var v=parseFloat(hourly.precipitation[j]);if(!isNaN(v)&&v>0)total+=v;}
