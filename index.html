@@ -2936,9 +2936,9 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/toscana';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-  // Periodi orari (1h-12h) → Open-Meteo con 67 stazioni
+  // Periodi brevi (1h-24h) → Open-Meteo con 67 stazioni
   var msRange=nowDate.getTime()-pastDate.getTime();
-  if(msRange<=12*3600000){
+  if(msRange<=24*3600000){
     loadOpenMeteoRegion(TOSCANA_67,pastDate,nowDate,labelPeriodo,cb);
     return;
   }
