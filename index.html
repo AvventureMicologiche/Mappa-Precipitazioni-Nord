@@ -2860,25 +2860,136 @@ function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
   });
 }
 
+// 67 stazioni CFR Toscana distribuite uniformemente — usate per Open-Meteo oggi
+var TOSCANA_67=[
+  {n:"Vara",lat:44.084,lon:10.13,q:0,p:"MS"},
+  {n:"Pisa (Fac. Agraria)",lat:43.711,lon:10.412,q:0,p:"PI"},
+  {n:"Vallucciole",lat:43.842,lon:11.657,q:0,p:"AR"},
+  {n:"Stia",lat:43.802,lon:11.718,q:0,p:"AR"},
+  {n:"Camaldoli",lat:43.81,lon:11.817,q:0,p:"AR"},
+  {n:"Capezzine",lat:43.183,lon:11.932,q:0,p:"AR"},
+  {n:"Bettolle",lat:43.203,lon:11.804,q:0,p:"SI"},
+  {n:"Monte S. Savino",lat:43.339,lon:11.742,q:0,p:"AR"},
+  {n:"Arezzo",lat:43.477,lon:11.904,q:0,p:"AR"},
+  {n:"Badia Agnano",lat:43.436,lon:11.649,q:0,p:"AR"},
+  {n:"Il Palagio",lat:43.613,lon:11.427,q:0,p:"FI"},
+  {n:"Cavallina",lat:43.984,lon:11.237,q:0,p:"FI"},
+  {n:"Monte di Fò",lat:44.08,lon:11.281,q:0,p:"FI"},
+  {n:"Mangona",lat:44.05,lon:11.196,q:0,p:"FI"},
+  {n:"Le Croci (Barberino)",lat:44.007,lon:11.271,q:0,p:"FI"},
+  {n:"Firenze Università",lat:43.799,lon:11.251,q:0,p:"FI"},
+  {n:"Montagnana",lat:43.954,lon:10.823,q:0,p:"PT"},
+  {n:"Radda in Chianti",lat:43.486,lon:11.379,q:0,p:"SI"},
+  {n:"Vinci",lat:43.786,lon:10.96,q:0,p:"FI"},
+  {n:"Simignano",lat:43.292,lon:11.167,q:0,p:"SI"},
+  {n:"S. Gimignano",lat:43.471,lon:11.041,q:0,p:"SI"},
+  {n:"Serra Pistoiese",lat:43.972,lon:10.756,q:0,p:"PT"},
+  {n:"La Madonnina",lat:43.442,lon:10.953,q:0,p:"PI"},
+  {n:"Orciatico",lat:43.434,lon:10.725,q:0,p:"PI"},
+  {n:"Orentano",lat:43.774,lon:10.657,q:0,p:"PI"},
+  {n:"Valle Benedetta",lat:43.521,lon:10.404,q:0,p:"LI"},
+  {n:"Gerfalco",lat:43.143,lon:10.974,q:0,p:"GR"},
+  {n:"Anqua",lat:43.215,lon:10.987,q:0,p:"SI"},
+  {n:"Montecatini V. Cecina",lat:43.387,lon:10.743,q:0,p:"PI"},
+  {n:"Sassetta",lat:43.124,lon:10.64,q:0,p:"LI"},
+  {n:"Siena Poggio al Vento",lat:43.32,lon:11.313,q:0,p:"SI"},
+  {n:"Campiano",lat:43.102,lon:11.039,q:0,p:"GR"},
+  {n:"Terrinca",lat:44.029,lon:10.276,q:0,p:"LU"},
+  {n:"Gallena",lat:43.992,lon:10.252,q:0,p:"LU"},
+  {n:"Passo Pradarena",lat:44.285,lon:10.301,q:0,p:"LU"},
+  {n:"Monte Castellino",lat:44.235,lon:10.333,q:0,p:"LU"},
+  {n:"Monte Romecchio",lat:44.164,lon:10.521,q:0,p:"LU"},
+  {n:"Croce Arcana",lat:44.13,lon:10.782,q:0,p:"PT"},
+  {n:"Monte Ginezzo",lat:43.275,lon:12.088,q:0,p:"AR"},
+  {n:"Populonia",lat:42.989,lon:10.49,q:0,p:"LI"},
+  {n:"Follonica",lat:42.933,lon:10.765,q:0,p:"GR"},
+  {n:"Caldana",lat:42.893,lon:10.927,q:0,p:"GR"},
+  {n:"Batignano",lat:42.868,lon:11.166,q:0,p:"GR"},
+  {n:"Monte Oliveto",lat:43.175,lon:11.545,q:0,p:"SI"},
+  {n:"Montalcino",lat:43.05,lon:11.491,q:0,p:"SI"},
+  {n:"Spineta",lat:42.951,lon:11.853,q:0,p:"SI"},
+  {n:"Castel del Piano",lat:42.894,lon:11.527,q:0,p:"GR"},
+  {n:"Paganico",lat:42.94,lon:11.285,q:0,p:"GR"},
+  {n:"Poggio Perotto",lat:42.614,lon:11.255,q:0,p:"GR"},
+  {n:"Capanne",lat:42.691,lon:11.547,q:0,p:"GR"},
+  {n:"Usi",lat:42.718,lon:11.491,q:0,p:"GR"},
+  {n:"Capraia Isola",lat:43.063,lon:9.821,q:0,p:"LI"},
+  {n:"S. Martino",lat:42.782,lon:10.269,q:0,p:"LI"},
+  {n:"Patresi Mortigliano",lat:42.785,lon:10.111,q:0,p:"LI"},
+  {n:"Montecristo",lat:42.333,lon:10.291,q:0,p:"LI"},
+  {n:"Giglio Castello",lat:42.358,lon:10.907,q:0,p:"GR"},
+  {n:"Rosignano Solvay Pluvio",lat:43.382,lon:10.433,q:0,p:"LI"},
+  {n:"Marsiliana",lat:42.544,lon:11.336,q:0,p:"GR"},
+  {n:"Montedoglio",lat:43.591,lon:12.053,q:0,p:"AR"},
+  {n:"Bagnone",lat:44.31,lon:9.984,q:0,p:"MS"},
+  {n:"Licciana Nardi",lat:44.242,lon:10.003,q:0,p:"MS"},
+  {n:"Iera",lat:44.333,lon:10.034,q:0,p:"MS"},
+  {n:"Sestino",lat:43.75,lon:12.275,q:0,p:"AR"},
+  {n:"Argentario",lat:42.387,lon:11.17,q:0,p:"GR"},
+  {n:"Alberese",lat:42.661,lon:11.017,q:0,p:"GR"},
+  {n:"Gorgona",lat:43.428,lon:9.895,q:0,p:"LI"},
+  {n:"Marradi",lat:44.074,lon:11.609,q:0,p:"FI"}
+];
+
 function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/toscana';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+
+  // Oggi da ignorare nei file GitHub — verrà coperto da Open-Meteo
+  var todayStr=_fmt(new Date());
+
   var days=[];
   var d=new Date(pastDate);
-  while(d<=nowDate){days.push(_fmt(new Date(d)));d.setDate(d.getDate()+1);}
+  while(d<=nowDate){
+    var ds=_fmt(new Date(d));
+    if(ds!==todayStr) days.push(ds); // escludi oggi
+    d.setDate(d.getDate()+1);
+  }
 
   var rainTot={};
   var stMeta={};
-  var pending=days.length;
-  if(pending===0){cb([]);return;}
 
+  function finalizza(){
+    var full=Object.keys(rainTot).map(function(key){
+      var s=stMeta[key];if(!s)return null;
+      var mm=rainTot[key]||0;
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
+              mm:mm<0.5?0:Math.round(mm*10)/10};
+    }).filter(Boolean);
+    if(full.length<5){cb([]);return;}
+    cb(selectUniform(full,200));
+  }
+
+  // Carica Open-Meteo per oggi con le 67 stazioni distribuite
+  function aggiungiOggi(callback){
+    var oggiPast=new Date(); oggiPast.setHours(0,0,0,0);
+    var oggiNow=new Date();
+    loadOpenMeteoRegion(TOSCANA_67,oggiPast,oggiNow,labelPeriodo,function(dati){
+      dati.forEach(function(s){
+        var key=s.n;
+        if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+        rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+      });
+      callback();
+    });
+  }
+
+  // Se il range include oggi, aggiungi Open-Meteo per oggi
+  var includeOggi=(_fmt(nowDate)===todayStr);
+
+  if(days.length===0){
+    // Solo oggi nel range
+    if(includeOggi){ aggiungiOggi(finalizza); } else { cb([]); }
+    return;
+  }
+
+  var pending=days.length;
   days.forEach(function(day){
     fetch(GITHUB_RAW+'/'+day+'.json')
       .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(data){
         if(data.stations){
           data.stations.forEach(function(s){
-            // Usa SEMPRE il nome come chiave per evitare duplicati CFR/OM
             var key=s.n||s.id;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
             rainTot[key]=(rainTot[key]||0)+(s.mm||0);
@@ -2889,15 +3000,8 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        var full=Object.keys(rainTot).map(function(key){
-          var s=stMeta[key];if(!s)return null;
-          var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                  mm:mm<0.5?0:Math.round(mm*10)/10};
-        }).filter(Boolean);
-
-        if(full.length<5){cb([]);return;}
-        cb(selectUniform(full,200));
+        // Tutti i giorni GitHub caricati — aggiungi oggi da Open-Meteo se necessario
+        if(includeOggi){ aggiungiOggi(finalizza); } else { finalizza(); }
       });
   });
 }
