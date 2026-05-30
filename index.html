@@ -2968,39 +2968,45 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     cb(selectUniform(full,300));
   }
 
-  // Carica Open-Meteo per oggi con le 67 stazioni distribuite — API daily diretta
+  // Carica Open-Meteo per oggi con le 67 stazioni — API hourly filtrata da mezzanotte ad adesso
   function aggiungiOggi(callback){
-    var oggi=todayStr;
     var batches=[];
     for(var i=0;i<TOSCANA_67.length;i+=100) batches.push(TOSCANA_67.slice(i,i+100));
     var pending=batches.length;
     if(pending===0){callback();return;}
+    function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
+    var mezzanotte=new Date(); mezzanotte.setHours(0,0,0,0);
+    var adesso=new Date();
+    var mezzonotteStr=toLocalISO(mezzanotte);
+    var adessoStr=toLocalISO(adesso);
     batches.forEach(function(batch){
       var lats=batch.map(function(s){return s.lat;}).join(',');
       var lons=batch.map(function(s){return s.lon;}).join(',');
       var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
-        +'&daily=precipitation_sum&timezone=Europe%2FRome&start_date='+oggi+'&end_date='+oggi;
+        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=1&forecast_days=1';
       fetch(url)
         .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
-          console.log('[aggiungiOggi] risposta OM, stazioni:', arr.length);
-          var totPioggia=0;
           arr.forEach(function(loc,i){
             var st=batch[i];if(!st)return;
             var mm=0;
-            if(loc.daily&&loc.daily.precipitation_sum&&loc.daily.precipitation_sum[0]!=null){
-              mm=parseFloat(loc.daily.precipitation_sum[0])||0;
+            if(loc.hourly&&loc.hourly.time){
+              for(var j=0;j<loc.hourly.time.length;j++){
+                var t=loc.hourly.time[j].substring(0,16);
+                if(t>=mezzonotteStr&&t<=adessoStr){
+                  var v=parseFloat(loc.hourly.precipitation[j]);
+                  if(!isNaN(v)&&v>0) mm+=v;
+                }
+              }
             }
-            if(mm>0) console.log('[aggiungiOggi]',st.n,'mm=',mm);
-            totPioggia+=mm;
+            console.log('[aggiungiOggi hourly]',st.n,'mm=',Math.round(mm*10)/10);
             if(mm>=0.5){
               var key=st.n;
               if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
               rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
             }
           });
-          console.log('[aggiungiOggi] totale mm batch:', totPioggia);
         })
         .catch(function(){})
         .finally(function(){
