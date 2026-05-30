@@ -2975,8 +2975,10 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     var pending=batches.length;
     if(pending===0){callback();return;}
     function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
-    var pastStr=toLocalISO(pastDate);
-    var nowStr=toLocalISO(nowDate);
+    var mezzanotte=new Date(); mezzanotte.setHours(0,0,0,0);
+    var adesso=new Date();
+    var pastStr=toLocalISO(mezzanotte);
+    var nowStr=toLocalISO(adesso);
     batches.forEach(function(batch){
       var lats=batch.map(function(s){return s.lat;}).join(',');
       var lons=batch.map(function(s){return s.lon;}).join(',');
