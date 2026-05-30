@@ -2988,6 +2988,12 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
         .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
+          // Debug: stampa primo time e range
+          if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){
+            console.log('[debug] mezzonotteStr=',mezzonotteStr,'adessoStr=',adessoStr);
+            console.log('[debug] primo time OM=',arr[0].hourly.time[0]);
+            console.log('[debug] tot ore=',arr[0].hourly.time.length);
+          }
           arr.forEach(function(loc,i){
             var st=batch[i];if(!st)return;
             var mm=0;
