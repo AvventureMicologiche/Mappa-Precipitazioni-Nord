@@ -2968,17 +2968,40 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     cb(selectUniform(full,300));
   }
 
-  // Carica Open-Meteo per oggi con le 67 stazioni distribuite
+  // Carica Open-Meteo per oggi con le 67 stazioni distribuite — API daily diretta
   function aggiungiOggi(callback){
-    var oggiPast=new Date(); oggiPast.setHours(0,0,0,0);
-    var oggiNow=new Date();
-    loadOpenMeteoRegion(TOSCANA_67,oggiPast,oggiNow,labelPeriodo,function(dati){
-      dati.forEach(function(s){
-        var key=s.n;
-        if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-        rainTot[key]=(rainTot[key]||0)+(s.mm||0);
-      });
-      callback();
+    var oggi=todayStr;
+    var batches=[];
+    for(var i=0;i<TOSCANA_67.length;i+=100) batches.push(TOSCANA_67.slice(i,i+100));
+    var pending=batches.length;
+    if(pending===0){callback();return;}
+    batches.forEach(function(batch){
+      var lats=batch.map(function(s){return s.lat;}).join(',');
+      var lons=batch.map(function(s){return s.lon;}).join(',');
+      var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
+        +'&daily=precipitation_sum&timezone=Europe%2FRome&start_date='+oggi+'&end_date='+oggi;
+      fetch(url)
+        .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+        .then(function(data){
+          var arr=Array.isArray(data)?data:[data];
+          arr.forEach(function(loc,i){
+            var st=batch[i];if(!st)return;
+            var mm=0;
+            if(loc.daily&&loc.daily.precipitation_sum&&loc.daily.precipitation_sum[0]!=null){
+              mm=parseFloat(loc.daily.precipitation_sum[0])||0;
+            }
+            if(mm>=0.5){
+              var key=st.n;
+              if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
+              rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
+            }
+          });
+        })
+        .catch(function(){})
+        .finally(function(){
+          pending--;
+          if(pending===0) callback();
+        });
     });
   }
 
