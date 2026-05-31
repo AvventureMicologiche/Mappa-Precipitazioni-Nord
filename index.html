@@ -2314,7 +2314,7 @@ function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
     var cutoff=new Date(new Date().getTime()-6*24*3600000);
     var urls=[];
     if(isHourly){
-      urls.push('https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&hourly=precipitation&timezone=Europe%2FRome&past_days=3&forecast_days=0');
+      urls.push('https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&hourly=precipitation&timezone=Europe%2FRome&past_days=2&forecast_days=0');
     } else if(days<=92){
       urls.push('https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&daily=precipitation_sum&timezone=Europe%2FRome&past_days='+days+'&forecast_days=0');
     } else if(nowDate<=cutoff){
@@ -2334,7 +2334,6 @@ function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
           function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
           var pastStr=toLocalISO(new Date(pastDate.getTime()-3600000));
           var nowStr=toLocalISO(nowDate);
-          console.log('[OM hourly] pastStr=',pastStr,'nowStr=',nowStr);
           for(var j=0;j<hourly.time.length;j++){
             var tStr=hourly.time[j].substring(0,16);
             if(tStr>=pastStr&&tStr<=nowStr){var v=parseFloat(hourly.precipitation[j]);if(!isNaN(v)&&v>0)total+=v;}
