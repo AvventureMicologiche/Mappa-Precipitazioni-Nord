@@ -2680,8 +2680,10 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
             }
             if(mm>=0.5){
               var key=st.n;
-              if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
+              // Somma solo su stazioni già nei file GitHub
+              if(stMeta[key]){
               rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
+              }
             }
           });
         })
@@ -3097,8 +3099,10 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
             }
             if(mm>=0.5){
               var key=st.n;
-              if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
+              // Somma solo su stazioni già presenti nei file GitHub — non aggiunge nuove
+              if(stMeta[key]){
               rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
+              }
             }
           });
         })
