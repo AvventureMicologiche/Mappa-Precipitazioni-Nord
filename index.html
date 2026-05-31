@@ -1344,7 +1344,7 @@ function clearHeatmap(){
   gridPoints=[];
 }
 
-var GRID_RES=0.018, IDW_RAD=0.45;
+var GRID_RES=0.018, IDW_RAD=0.20;
 
 function pipGeo(lon,lat,ring){
   var inside=false,n=ring.length;
@@ -1367,7 +1367,7 @@ function inRegion(lon,lat,rings){
 }
 
 function buildGrid(data,rings){
-  // Usa solo stazioni con pioggia per il calcolo IDW — le stazioni a 0 diluirebbero la media
+  // Usa solo stazioni con pioggia per il calcolo IDW
   var dataWithRain=data.filter(function(s){return s.mm>0;});
   var dataForIDW=dataWithRain.length>=3?dataWithRain:data;
   // Bounding box per regione
