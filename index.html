@@ -1366,9 +1366,10 @@ function inRegion(lon,lat,rings){
   return false;
 }
 
-function buildGrid(data,rings){
-  // Usa solo stazioni con pioggia per il calcolo IDW
-  var dataForIDW=data; // usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+function buildGrid(data,rings,idwRad){
+  var rad=idwRad||IDW_RAD;
+  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+  var dataForIDW=data;
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
@@ -1382,7 +1383,7 @@ function buildGrid(data,rings){
         var dlat=lat-dataForIDW[i].lat;
         var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
         var d2=dlat*dlat+dlon*dlon;
-        if(d2>IDW_RAD*IDW_RAD) continue;
+        if(d2>rad*rad) continue;
         found=true;
         if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
         var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
@@ -1542,7 +1543,9 @@ function render(dati,fonte,labelPeriodo){
     clearHeatmap();
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
-      gridPoints=buildGrid(dati,rings);
+      // Raggio IDW: piccolo per periodi brevi (evita espansione), grande per periodi lunghi (evita macchia leopardo)
+      var idwR=(/[1-9]h/i.test(labelPeriodo)||labelPeriodo==='Ultime 24 ore'||labelPeriodo==='24h')?0.15:0.35;
+      gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
     }
@@ -1919,7 +1922,6 @@ function loadOpenMeteo(stations,pastDate,nowDate,labelPeriodo,badgePrefix){
           var nowWithMargin=new Date(nowDate.getTime()+3600000);
           var pastStr=toLocalISO(pastWithMargin);
           var nowStr=toLocalISO(nowWithMargin);
-          console.log('[OM hourly] range:',pastStr,'->',nowStr);
           for(var j=0;j<hourly.time.length;j++){
             var tStr=hourly.time[j].substring(0,16); // "2026-04-29T06:00"
             if(tStr>=pastStr&&tStr<=nowStr){
@@ -1927,7 +1929,6 @@ function loadOpenMeteo(stations,pastDate,nowDate,labelPeriodo,badgePrefix){
               if(!isNaN(v)&&v>0) total+=v;
             }
           }
-          console.log('[OM]',batch[i]&&batch[i].n,'total:',total,'mm');
           acc[st.n]=(acc[st.n]||0)+total;
         } else {
           // Dati giornalieri: filtra per data stringa
@@ -2166,7 +2167,8 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      gridPoints=buildGrid(dati,rings);
+      var idwR=(/[1-9]h/i.test(labelPeriodo)||labelPeriodo==='Ultime 24 ore'||labelPeriodo==='24h')?0.15:0.35;
+      gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
     }
@@ -3080,11 +3082,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
         .then(function(data){
           var arr=Array.isArray(data)?data:[data];
           // Debug: stampa primo time e range
-          if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){
-            console.log('[debug] pastStr=',pastStr,'nowStr=',nowStr);
-            console.log('[debug] primo time OM=',arr[0].hourly.time[0]);
-            console.log('[debug] tot ore=',arr[0].hourly.time.length);
-          }
+          if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){}
           arr.forEach(function(loc,i){
             var st=batch[i];if(!st)return;
             var mm=0;
@@ -3097,7 +3095,6 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
                 }
               }
             }
-            console.log('[aggiungiOggi hourly]',st.n,'mm=',Math.round(mm*10)/10);
             if(mm>=0.5){
               var key=st.n;
               if(!stMeta[key]) stMeta[key]={n:st.n,lat:st.lat,lon:st.lon,q:st.q||0,p:st.p||''};
@@ -3115,7 +3112,6 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
 
   // Se il range include oggi, aggiungi Open-Meteo per oggi
   var includeOggi=(_fmt(nowDate)===todayStr);
-  console.log('[CFRToscana] todayStr=',todayStr,'nowDate=',_fmt(nowDate),'includeOggi=',includeOggi,'days=',days.length);
 
   if(days.length===0){
     // Solo oggi nel range
