@@ -1344,7 +1344,7 @@ function clearHeatmap(){
   gridPoints=[];
 }
 
-var GRID_RES=0.018, IDW_RAD=0.20;
+var GRID_RES=0.018, IDW_RAD=0.45;
 
 function pipGeo(lon,lat,ring){
   var inside=false,n=ring.length;
@@ -1369,7 +1369,7 @@ function inRegion(lon,lat,rings){
 function buildGrid(data,rings){
   // Usa solo stazioni con pioggia per il calcolo IDW
   var dataWithRain=data.filter(function(s){return s.mm>0;});
-  var dataForIDW=dataWithRain.length>=3?dataWithRain:data;
+  var dataForIDW=dataWithRain; // usa SOLO stazioni con pioggia, mai quelle a 0mm
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
