@@ -14,12 +14,24 @@ const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'liguria');
 const MAX_DAYS = 365;
 const OMIRL_URL = 'https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio';
 
+function getItalyDate(offsetHours) {
+  const now = new Date();
+  const italy = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000) + ((offsetHours||0) * 3600000));
+  return italy.toISOString().substring(0, 10);
+}
+
 function getTargetDate() {
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return process.env.DATE_OVERRIDE.trim();
-  // Ora italiana (UTC+1 o UTC+2)
+  return getItalyDate(0);
+}
+
+// Nelle prime ore italiane (00:00-05:59) aggiorna anche il giorno precedente
+// perché la pioggia notturna cade a cavallo della mezzanotte
+function shouldAlsoUpdateYesterday() {
+  if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return false;
   const now = new Date();
-  const italy = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000));
-  return italy.toISOString().substring(0, 10);
+  const italyHour = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000)).getHours();
+  return italyHour >= 0 && italyHour < 6;
 }
 
 function fetchJSON(url) {
@@ -93,14 +105,12 @@ async function main() {
     }
   }
 
-  // Merge: prendi il valore massimo (accumulo nel corso del giorno)
+  // Merge: SOMMA i mm (ogni run porta l'incremento dell'ultima ora)
   const merged = {};
-  // Prima aggiungi tutti quelli esistenti
   Object.assign(merged, existingStations);
-  // Poi aggiorna con i nuovi (prende il max dei mm)
   Object.values(newData).forEach(s => {
     if (merged[s.id]) {
-      merged[s.id].mm = Math.max(merged[s.id].mm, s.mm);
+      merged[s.id].mm = Math.round((merged[s.id].mm + s.mm) * 10) / 10;
     } else {
       merged[s.id] = s;
     }
@@ -114,7 +124,7 @@ async function main() {
     process.exit(1);
   }
 
-  // ── Step 4: salva ─────────────────────────────────────────────
+  // ── Step 4: salva file del giorno corrente ────────────────────
   fs.writeFileSync(outFile, JSON.stringify({
     date:      targetDate,
     collected: new Date().toISOString(),
@@ -123,6 +133,44 @@ async function main() {
     stations:  output
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${output.length} stazioni)`);
+
+  // ── Step 4b: nelle prime ore aggiorna anche ieri ──────────────
+  // La pioggia caduta tra le 23:00 e le 05:59 appartiene visivamente a ieri
+  if (shouldAlsoUpdateYesterday()) {
+    const yesterdayDate = getItalyDate(-24);
+    const yesterdayFile = path.join(DATA_DIR, `${yesterdayDate}.json`);
+    console.log(`Aggiorno anche ieri: ${yesterdayDate}`);
+    let yesterdayStations = {};
+    if (fs.existsSync(yesterdayFile)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(yesterdayFile, 'utf8'));
+        if (existing.stations) {
+          existing.stations.forEach(s => { yesterdayStations[s.id] = s; });
+        }
+      } catch(e) { console.log('File ieri corrotto, creo nuovo.'); }
+    }
+    // Somma i mm dell'ultima ora anche al file di ieri
+    Object.values(newData).forEach(s => {
+      if (s.mm > 0) {
+        if (yesterdayStations[s.id]) {
+          yesterdayStations[s.id].mm = Math.round((yesterdayStations[s.id].mm + s.mm) * 10) / 10;
+        } else {
+          yesterdayStations[s.id] = {...s};
+        }
+      }
+    });
+    const yesterdayOutput = Object.values(yesterdayStations);
+    if (yesterdayOutput.length >= 10) {
+      fs.writeFileSync(yesterdayFile, JSON.stringify({
+        date:      yesterdayDate,
+        collected: new Date().toISOString(),
+        source:    'arpa-liguria-omirl',
+        count:     yesterdayOutput.length,
+        stations:  yesterdayOutput
+      }), 'utf8');
+      console.log(`Aggiornato ieri: ${yesterdayFile}`);
+    }
+  }
 
   // ── Step 5: pulizia ───────────────────────────────────────────
   const cutoff = new Date();
