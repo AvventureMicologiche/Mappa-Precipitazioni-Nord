@@ -1375,19 +1375,18 @@ function inRegion(lon,lat,rings){
   return false;
 }
 
-function buildGrid(data,rings,idwRad){
+function buildGrid(data,rings,idwRad,gridRes){
   var rad=idwRad||IDW_RAD;
-  // IDW usa solo stazioni con pioggia — le stazioni a 0mm non annullano l'interpolazione
-  // (i buchi bianchi dove non piove emergono naturalmente dall'assenza di stazioni con mm>0 nel raggio)
-  var dataForIDW=data.filter(function(s){return s.mm>0;});
-  if(dataForIDW.length===0) return [];
+  var GR=gridRes||GRID_RES;
+  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+  var dataForIDW=data;
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
   var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
   var pts=[];
-  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GRID_RES){
-    for(var lon=LON_MIN;lon<=LON_MAX;lon+=GRID_RES){
+  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR){
+    for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
       if(!inRegion(lon,lat,rings)) continue;
       var num=0,den=0,found=false;
       for(var i=0;i<dataForIDW.length;i++){
@@ -1407,8 +1406,9 @@ function buildGrid(data,rings,idwRad){
 }
 
 function gridPxSize(){
+  var gr=(currentRegion==='liguria')?0.009:GRID_RES;
   var mpp=156543.03392*Math.cos(45.0*Math.PI/180)/Math.pow(2,map.getZoom());
-  return Math.ceil(GRID_RES*111000/mpp)+1;
+  return Math.ceil(gr*111000/mpp)+1;
 }
 
 function drawGrid(){
@@ -1555,8 +1555,9 @@ function render(dati,fonte,labelPeriodo){
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
       // Liguria è stretta e lunga: raggio maggiore per connettere stazioni lungo la costa
-      var idwR=(currentRegion==='liguria')?0.55:0.35;
-      gridPoints=buildGrid(dati,rings,idwR);
+      var idwR=0.35;
+      var grR=(currentRegion==='liguria')?0.009:GRID_RES;
+      gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
     }
@@ -2150,8 +2151,9 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=(activeR.length===1&&activeR[0]==='liguria')?0.55:0.35;
-      gridPoints=buildGrid(dati,rings,idwR);
+      var idwR=0.35;
+      var grR=(activeR.length===1&&activeR[0]==='liguria')?0.009:GRID_RES;
+      gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
     }
