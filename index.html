@@ -1682,7 +1682,7 @@ function loadARPALombardia(pastDate,nowDate,labelPeriodo){
   }
   var needFetch=Object.keys(stMap).length<5;
 
-  function queryDay(sm,day){
+  function queryDay(sm,day,isShortPeriod){
     var ids=Object.keys(sm);
     var yyyy=day.getFullYear();
     var mo=String(day.getMonth()+1).padStart(2,'0');
@@ -2198,7 +2198,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     loadOpenMeteoRegion(LOMBARDIA_STATIONS,pastDate,nowDate,labelPeriodo,cb);
     return;
   }
-  function queryDay(sm,day){
+  function queryDay(sm,day,isShortPeriod){
     var ids=Object.keys(sm);
     var yyyy=day.getFullYear();
     var mo=String(day.getMonth()+1).padStart(2,'0');
@@ -2213,7 +2213,15 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
       toFetch.push(id);
     });
     if(toFetch.length===0) return Promise.resolve(cached);
-    var startISO=dateStr+'T00:00:00';var endISO=dateStr+'T23:59:59';
+    // Per intraday oggi: usa pastDate come start (non mezzanotte) e nowDate come end
+    var p2=function(n){return String(n).padStart(2,'0');};
+    var startISO, endISO;
+    if(isToday && isShortPeriod){
+      startISO=pastDate.getFullYear()+'-'+p2(pastDate.getMonth()+1)+'-'+p2(pastDate.getDate())+'T'+p2(pastDate.getHours())+':'+p2(pastDate.getMinutes())+':00';
+      endISO=new Date().getFullYear()+'-'+p2(new Date().getMonth()+1)+'-'+p2(new Date().getDate())+'T'+p2(new Date().getHours())+':'+p2(new Date().getMinutes())+':59';
+    } else {
+      startISO=dateStr+'T00:00:00'; endISO=dateStr+'T23:59:59';
+    }
     var mid=Math.ceil(toFetch.length/2);
     var batches=[toFetch.slice(0,mid),toFetch.slice(mid)];
     var fetches=batches.filter(function(b){return b.length>0;}).map(function(batchIds){
@@ -2234,10 +2242,15 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     });
   }
   var todayStr=new Date().toISOString().substring(0,10);
-  // Escludi oggi dai giorni ARPA — verrà aggiunto da Open-Meteo
-  days=days.filter(function(d){
-    return d.toISOString().substring(0,10)!==todayStr;
-  });
+  var msRangeTotal=nowDate.getTime()-pastDate.getTime();
+  var isShortPeriod=(msRangeTotal<2*24*3600000);
+  // Periodi brevi (intraday): includi oggi in ARPA con range orario reale
+  // Periodi lunghi: escludi oggi da ARPA (verrà aggiunto da Open-Meteo)
+  if(!isShortPeriod){
+    days=days.filter(function(d){
+      return d.toISOString().substring(0,10)!==todayStr;
+    });
+  }
   var rainMap={};var WINDOW=30;
   function loadWindow(idx){
     if(idx>=days.length){
@@ -2267,13 +2280,12 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
            out.filter(function(s){return s.lat&&s.lon;}):[]); 
       }
 
-      // Aggiunge oggi da Open-Meteo — usa pastDate/nowDate reali per rispettare il periodo scelto
+      // Per periodi brevi: ARPA ha già i dati intraday — non serve Open-Meteo
+      // Per periodi lunghi: aggiungi oggi da Open-Meteo (da mezzanotte)
       var lastDay=nowDate.toISOString?nowDate.toISOString().substring(0,10):todayStr;
-      if(lastDay===todayStr){
+      if(lastDay===todayStr && !isShortPeriod){
         var lombSt=(ARPA_STATIONS&&ARPA_STATIONS.length>10)?selectUniform(ARPA_STATIONS,150):LOMBARDIA_STATIONS;
-        // Per periodi brevi (1h-12h) usa pastDate reale; per storico usa da mezzanotte
-        var msRangeLomb=nowDate.getTime()-pastDate.getTime();
-        var omStart=(msRangeLomb<2*24*3600000)?pastDate:(function(){var d=new Date();d.setHours(0,0,0,0);return d;})();
+        var omStart=new Date(); omStart.setHours(0,0,0,0);
         loadOpenMeteoRegion(lombSt,omStart,nowDate,'oggi',function(omDati){
           buildOutput(omDati);
         });
@@ -2283,7 +2295,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
       return;
     }
     var win=days.slice(idx,idx+WINDOW);
-    Promise.all(win.map(function(day){return queryDay(stMap,day);}))
+    Promise.all(win.map(function(day){return queryDay(stMap,day,isShortPeriod);}))
       .then(function(results){
         results.forEach(function(dayMap){Object.keys(dayMap).forEach(function(id){rainMap[id]=(rainMap[id]||0)+(dayMap[id]||0);});});
         loadWindow(idx+WINDOW);
