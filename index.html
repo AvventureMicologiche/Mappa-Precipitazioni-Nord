@@ -107,7 +107,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tp-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;}
 .tp-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px;}
 .tp-title-row{display:flex;align-items:center;justify-content:flex-start;width:100%;gap:8px;}
-.tp-info-nota-inline{font-size:12px;color:#aaa;white-space:nowrap;}
+.tp-info-nota-inline{font-size:12px;color:#aaa;white-space:nowrap;display:none;}
+.tp-info-nota-desktop{font-size:11px;color:#888;padding:4px 0 2px 0;text-align:center;display:block;}
+@media(max-width:600px){
+  .tp-info-nota-inline{display:inline;}
+  .tp-info-nota-desktop{display:none;}
+}
 .tp-btn{background:#f0f4fb;border:1px solid #d0d8e8;border-radius:5px;
   font-size:14px;font-weight:600;color:#1b3f6e;
   padding:7px 2px;text-align:center;cursor:pointer;
@@ -640,6 +645,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <div class="tp-btn" data-type="d" data-val="20">20 giorni</div>
           <div class="tp-btn" data-type="d" data-val="30">30 giorni</div>
         </div>
+        <div class="tp-info-nota-desktop">ℹ️ I dati escludono la giornata odierna</div>
         <div class="tp-custom-btn" id="btn-custom">📅 Date personalizzate</div>
         <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 18-25 gg fa)</span></div>
         <div id="custom-box">
@@ -1546,8 +1552,8 @@ function render(dati,fonte,labelPeriodo){
     clearHeatmap();
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
-      // Raggio IDW: piccolo per periodi brevi (evita espansione), grande per periodi lunghi (evita macchia leopardo)
-      var idwR=0.35; // tutti i periodi sono giornalieri
+      // Liguria è stretta e lunga: raggio maggiore per connettere stazioni lungo la costa
+      var idwR=(currentRegion==='liguria')?0.55:0.35;
       gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
@@ -2142,7 +2148,7 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=0.35; // tutti i periodi sono giornalieri
+      var idwR=(activeR.length===1&&activeR[0]==='liguria')?0.55:0.35;
       gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
