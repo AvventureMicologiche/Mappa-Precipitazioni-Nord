@@ -105,6 +105,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tp-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:4px}
 .tp-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
 .tp-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;}
+.tp-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px;}
+.tp-info-nota{font-size:11px;color:#888;text-align:center;padding:4px 0 2px 0;letter-spacing:.01em;}
 .tp-btn{background:#f0f4fb;border:1px solid #d0d8e8;border-radius:5px;
   font-size:14px;font-weight:600;color:#1b3f6e;
   padding:7px 2px;text-align:center;cursor:pointer;
@@ -624,19 +626,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       </div>
       <!-- Contenuto: nascosto quando collassato -->
       <div class="tp-content">
-        <div class="tp-grid5">
-          <div class="tp-btn" data-type="h" data-val="1">1h</div>
-          <div class="tp-btn" data-type="h" data-val="3">3h</div>
-          <div class="tp-btn" data-type="h" data-val="6">6h</div>
-          <div class="tp-btn" data-type="h" data-val="12">12h</div>
-          <div class="tp-btn" data-type="h" data-val="24">24h</div>
+        <div class="tp-grid3">
+          <div class="tp-btn" data-type="ieri" data-val="1">Ieri</div>
+          <div class="tp-btn" data-type="d" data-val="7">7 giorni</div>
+          <div class="tp-btn" data-type="d" data-val="10">10 giorni</div>
         </div>
-        <div class="tp-grid4">
-          <div class="tp-btn" data-type="d" data-val="7">7d</div>
-          <div class="tp-btn" data-type="d" data-val="15">15d</div>
-          <div class="tp-btn" data-type="d" data-val="20">20d</div>
-          <div class="tp-btn" data-type="d" data-val="30">30d</div>
+        <div class="tp-grid3">
+          <div class="tp-btn" data-type="d" data-val="15">15 giorni</div>
+          <div class="tp-btn" data-type="d" data-val="20">20 giorni</div>
+          <div class="tp-btn" data-type="d" data-val="30">30 giorni</div>
         </div>
+        <div class="tp-info-nota">ℹ️ I dati escludono la giornata odierna</div>
         <div class="tp-custom-btn" id="btn-custom">📅 Date personalizzate</div>
         <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 18-25 gg fa)</span></div>
         <div id="custom-box">
@@ -1544,7 +1544,7 @@ function render(dati,fonte,labelPeriodo){
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
       // Raggio IDW: piccolo per periodi brevi (evita espansione), grande per periodi lunghi (evita macchia leopardo)
-      var idwR=(/[1-9]h/i.test(labelPeriodo)||labelPeriodo==='Ultime 24 ore'||labelPeriodo==='24h')?0.15:0.35;
+      var idwR=0.35; // tutti i periodi sono giornalieri
       gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
@@ -1682,7 +1682,7 @@ function loadARPALombardia(pastDate,nowDate,labelPeriodo){
   }
   var needFetch=Object.keys(stMap).length<5;
 
-  function queryDay(sm,day,isShortPeriod){
+  function queryDay(sm,day){
     var ids=Object.keys(sm);
     var yyyy=day.getFullYear();
     var mo=String(day.getMonth()+1).padStart(2,'0');
@@ -2043,39 +2043,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
       setRegionBorder(regionKey,function(){});
     }
 
-    // ── Logica sorgente automatica ──────────────────────────────
-    // 1h-24h → Open-Meteo (nessun ritardo)
-    // 7d+    → ARPA (preciso, cache giornaliera)
-    // Date personalizzate → se include ultime 6h → Open-Meteo
+    // ── Logica sorgente: sempre dati storici giornalieri (oggi escluso) ──
     var msRange=nowDate.getTime()-pastDate.getTime();
-    var SIX_HOURS=6*3600000;
-    var TWO_DAYS=2*24*3600000;
-    var sixHoursAgo=new Date(new Date().getTime()-SIX_HOURS);
-    var useOpenMeteo=(msRange<TWO_DAYS)||(nowDate>sixHoursAgo&&msRange<TWO_DAYS);
 
-    if(useOpenMeteo && regionKey!=='toscana' && regionKey!=='liguria' && regionKey!=='lombardia'){
-      // Periodi brevi → Open-Meteo per tutte le regioni (eccetto Toscana, Liguria, Lombardia)
-      // Toscana e Liguria gestiscono internamente sia GitHub che Open-Meteo
-      // Lombardia usa sempre loadARPALombardiaRegion (ARPA live + Open-Meteo oggi) per dati in tempo reale
-      // Per Lombardia usa le stazioni ARPA già caricate (hanno lat/lon)
-      var stations;
-      if(regionKey==='lombardia'){
-        stations=(ARPA_STATIONS||LOMBARDIA_STATIONS).map(function(s){
-          return {n:s.n||s.nomestazione,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'—'};
-        });
-      } else if(regionKey==='piemonte'){
-        // Per Open-Meteo usa sempre le stazioni hardcoded ottimizzate
-        // (distribuzione uniforme su tutto il territorio)
-        stations=REGIONS.piemonte.stations;
-      } else if(regionKey==='liguria'){
-        stations=REGIONS.liguria.stations;
-      } else {
-        stations=cfg.stations||[];
-      }
-      loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🌍 Open-Meteo');
-      });
-    } else if(source==='arpa_lombardia'){
+    if(source==='arpa_lombardia'){
       loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 ARPA live');
       });
@@ -2168,7 +2139,7 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=(/[1-9]h/i.test(labelPeriodo)||labelPeriodo==='Ultime 24 ore'||labelPeriodo==='24h')?0.15:0.35;
+      var idwR=0.35; // tutti i periodi sono giornalieri
       gridPoints=buildGrid(dati,rings,idwR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
@@ -2198,7 +2169,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     loadOpenMeteoRegion(LOMBARDIA_STATIONS,pastDate,nowDate,labelPeriodo,cb);
     return;
   }
-  function queryDay(sm,day,isShortPeriod){
+  function queryDay(sm,day){
     var ids=Object.keys(sm);
     var yyyy=day.getFullYear();
     var mo=String(day.getMonth()+1).padStart(2,'0');
@@ -2213,15 +2184,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
       toFetch.push(id);
     });
     if(toFetch.length===0) return Promise.resolve(cached);
-    // Per intraday oggi: usa pastDate come start (non mezzanotte) e nowDate come end
-    var p2=function(n){return String(n).padStart(2,'0');};
-    var startISO, endISO;
-    if(isToday && isShortPeriod){
-      startISO=pastDate.getFullYear()+'-'+p2(pastDate.getMonth()+1)+'-'+p2(pastDate.getDate())+'T'+p2(pastDate.getHours())+':'+p2(pastDate.getMinutes())+':00';
-      endISO=new Date().getFullYear()+'-'+p2(new Date().getMonth()+1)+'-'+p2(new Date().getDate())+'T'+p2(new Date().getHours())+':'+p2(new Date().getMinutes())+':59';
-    } else {
-      startISO=dateStr+'T00:00:00'; endISO=dateStr+'T23:59:59';
-    }
+    var startISO=dateStr+'T00:00:00';var endISO=dateStr+'T23:59:59';
     var mid=Math.ceil(toFetch.length/2);
     var batches=[toFetch.slice(0,mid),toFetch.slice(mid)];
     var fetches=batches.filter(function(b){return b.length>0;}).map(function(batchIds){
@@ -2242,15 +2205,10 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     });
   }
   var todayStr=new Date().toISOString().substring(0,10);
-  var msRangeTotal=nowDate.getTime()-pastDate.getTime();
-  var isShortPeriod=(msRangeTotal<2*24*3600000);
-  // Periodi brevi (intraday): includi oggi in ARPA con range orario reale
-  // Periodi lunghi: escludi oggi da ARPA (verrà aggiunto da Open-Meteo)
-  if(!isShortPeriod){
-    days=days.filter(function(d){
-      return d.toISOString().substring(0,10)!==todayStr;
-    });
-  }
+  // Escludi sempre oggi — i dati di oggi non sono mostrati
+  days=days.filter(function(d){
+    return d.toISOString().substring(0,10)!==todayStr;
+  });
   var rainMap={};var WINDOW=30;
   function loadWindow(idx){
     if(idx>=days.length){
@@ -2280,22 +2238,12 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
            out.filter(function(s){return s.lat&&s.lon;}):[]); 
       }
 
-      // Per periodi brevi: ARPA ha già i dati intraday — non serve Open-Meteo
-      // Per periodi lunghi: aggiungi oggi da Open-Meteo (da mezzanotte)
-      var lastDay=nowDate.toISOString?nowDate.toISOString().substring(0,10):todayStr;
-      if(lastDay===todayStr && !isShortPeriod){
-        var lombSt=(ARPA_STATIONS&&ARPA_STATIONS.length>10)?selectUniform(ARPA_STATIONS,150):LOMBARDIA_STATIONS;
-        var omStart=new Date(); omStart.setHours(0,0,0,0);
-        loadOpenMeteoRegion(lombSt,omStart,nowDate,'oggi',function(omDati){
-          buildOutput(omDati);
-        });
-      } else {
-        buildOutput(null);
-      }
+      // Oggi escluso — mostra solo giorni completi
+      buildOutput(null);
       return;
     }
     var win=days.slice(idx,idx+WINDOW);
-    Promise.all(win.map(function(day){return queryDay(stMap,day,isShortPeriod);}))
+    Promise.all(win.map(function(day){return queryDay(stMap,day);}))
       .then(function(results){
         results.forEach(function(dayMap){Object.keys(dayMap).forEach(function(id){rainMap[id]=(rainMap[id]||0)+(dayMap[id]||0);});});
         loadWindow(idx+WINDOW);
@@ -2390,11 +2338,7 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
     return days;
   }
 
-  // Periodi brevi → Open-Meteo
-  if(msRange < 2*ONE_DAY){
-    loadOpenMeteoRegion(REGIONS.piemonte.stations,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
+
 
   // Storico: legge file JSON direttamente da GitHub raw
   var days=getDays(pastDate,nowDate);
@@ -2483,7 +2427,6 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
 // Per storico >2 giorni: file JSON giornalieri dal repo (stesso schema Piemonte)
 function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
   var msRange=nowDate.getTime()-pastDate.getTime();
-  var TWO_DAYS=2*24*3600000;
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/veneto';
 
   function fmtDate(d){
@@ -2499,11 +2442,6 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
     return days;
   }
 
-  // Periodi brevi → Open-Meteo (realtime proxy troppo lento)
-  if(msRange<=TWO_DAYS){
-    loadOpenMeteoRegion(REGIONS.veneto.stations,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
 
   // Storico: legge file JSON direttamente da GitHub raw
   var days=getDays(pastDate,nowDate);
@@ -2627,7 +2565,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/liguria';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-  // Periodi brevi (1h-24h) → Open-Meteo con 37 stazioni
+  // Storico da file GitHub
   var msRange=nowDate.getTime()-pastDate.getTime();
   if(msRange<=24*3600000){
     loadOpenMeteoRegion(LIGURIA_37,pastDate,nowDate,labelPeriodo,cb);
@@ -2661,60 +2599,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
     cb(withRain.concat(selectedNoRain));
   }
 
-  function aggiungiOggi(callback){
-    var batches=[];
-    for(var i=0;i<LIGURIA_37.length;i+=100) batches.push(LIGURIA_37.slice(i,i+100));
-    var pending=batches.length;
-    if(pending===0){callback();return;}
-    function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
-    var adesso=new Date();
-    var ieri=new Date(adesso.getTime()-24*3600000);
-    var pastStr=toLocalISO(ieri);
-    var nowStr=toLocalISO(adesso);
-    batches.forEach(function(batch){
-      var lats=batch.map(function(s){return s.lat;}).join(',');
-      var lons=batch.map(function(s){return s.lon;}).join(',');
-      var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
-        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=2&forecast_days=0';
-      fetch(url)
-        .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-        .then(function(data){
-          var arr=Array.isArray(data)?data:[data];
-          arr.forEach(function(loc,i){
-            var st=batch[i];if(!st)return;
-            var mm=0;
-            if(loc.hourly&&loc.hourly.time){
-              for(var j=0;j<loc.hourly.time.length;j++){
-                var t=loc.hourly.time[j].substring(0,16);
-                if(t>=pastStr&&t<=nowStr){
-                  var v=parseFloat(loc.hourly.precipitation[j]);
-                  if(!isNaN(v)&&v>0) mm+=v;
-                }
-              }
-            }
-            if(mm>=0.5){
-              var key=st.n;
-              // Somma solo su stazioni già nei file GitHub
-              if(stMeta[key]){
-              rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
-              }
-            }
-          });
-        })
-        .catch(function(){})
-        .finally(function(){
-          pending--;
-          if(pending===0) callback();
-        });
-    });
-  }
-
-  var includeOggi=(_fmt(nowDate)===todayStr);
-
-  if(days.length===0){
-    if(includeOggi){aggiungiOggi(finalizza);}else{cb([]);}
-    return;
-  }
+  if(days.length===0){cb([]);return;}
 
   var pending=days.length;
   days.forEach(function(day){
@@ -2733,7 +2618,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        if(includeOggi){aggiungiOggi(finalizza);}else{finalizza();}
+        finalizza();
       });
   });
 }
@@ -2809,15 +2694,6 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ═══════════════════════════════════════════════════════════════
 function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/'+regionKey;
-  var TWO_DAYS=2*24*3600*1000;
-  var msRange=nowDate-pastDate;
-
-  // Periodi brevi: usa Open-Meteo forecast
-  if(msRange<=TWO_DAYS){
-    loadOpenMeteoRegion(REGIONS[regionKey].stations,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
-
   var rainTot={}, stMeta={};
   var dates=[];
   var d=new Date(pastDate.getTime());
@@ -2861,16 +2737,7 @@ function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
 
 function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/altoadige';
-  var TWO_DAYS=2*24*3600*1000;
-  var msRange=nowDate-pastDate;
-
-  // Periodi brevi: usa Open-Meteo
-  if(msRange<=TWO_DAYS){
-    loadOpenMeteoRegion(REGIONS.altoadige.stations,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
-
-  // Periodi storici: legge JSON giornalieri da GitHub
+  // Storico da GitHub: legge JSON giornalieri da GitHub
   var rainTot={}, stMeta={};
   var dates=[];
   var d=new Date(pastDate.getTime());
@@ -2914,16 +2781,7 @@ function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
 
 function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/trentino';
-  var TWO_DAYS=2*24*3600*1000;
-  var msRange=nowDate-pastDate;
-
-  // Periodi brevi: usa Open-Meteo con stazioni hardcoded
-  if(msRange<=TWO_DAYS){
-    loadOpenMeteoRegion(REGIONS.trentino.stations,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
-
-  // Periodi storici: legge JSON giornalieri da GitHub
+  // Storico da GitHub: legge JSON giornalieri da GitHub
   var rainTot={}, stMeta={};
   var dates=[];
   var d=new Date(pastDate.getTime());
@@ -3040,7 +2898,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/toscana';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-  // Periodi brevi (1h-24h) → Open-Meteo con 67 stazioni
+  // Storico da file GitHub
   var msRange=nowDate.getTime()-pastDate.getTime();
   if(msRange<=24*3600000){
     loadOpenMeteoRegion(TOSCANA_67,pastDate,nowDate,labelPeriodo,cb);
@@ -3078,64 +2936,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
   }
 
   // Carica Open-Meteo per oggi con le 67 stazioni — API hourly filtrata da mezzanotte ad adesso
-  function aggiungiOggi(callback){
-    var batches=[];
-    for(var i=0;i<TOSCANA_67.length;i+=100) batches.push(TOSCANA_67.slice(i,i+100));
-    var pending=batches.length;
-    if(pending===0){callback();return;}
-    function toLocalISO(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':00';}
-    var adesso=new Date();
-    var ieri=new Date(adesso.getTime()-24*3600000);
-    var pastStr=toLocalISO(ieri);
-    var nowStr=toLocalISO(adesso);
-    batches.forEach(function(batch){
-      var lats=batch.map(function(s){return s.lat;}).join(',');
-      var lons=batch.map(function(s){return s.lon;}).join(',');
-      var url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons
-        +'&hourly=precipitation&timezone=Europe%2FRome&past_days=2&forecast_days=0';
-      fetch(url)
-        .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-        .then(function(data){
-          var arr=Array.isArray(data)?data:[data];
-          // Debug: stampa primo time e range
-          if(arr[0]&&arr[0].hourly&&arr[0].hourly.time){}
-          arr.forEach(function(loc,i){
-            var st=batch[i];if(!st)return;
-            var mm=0;
-            if(loc.hourly&&loc.hourly.time){
-              for(var j=0;j<loc.hourly.time.length;j++){
-                var t=loc.hourly.time[j].substring(0,16);
-                if(t>=pastStr&&t<=nowStr){
-                  var v=parseFloat(loc.hourly.precipitation[j]);
-                  if(!isNaN(v)&&v>0) mm+=v;
-                }
-              }
-            }
-            if(mm>=0.5){
-              var key=st.n;
-              // Somma solo su stazioni già presenti nei file GitHub — non aggiunge nuove
-              if(stMeta[key]){
-              rainTot[key]=(rainTot[key]||0)+Math.round(mm*10)/10;
-              }
-            }
-          });
-        })
-        .catch(function(){})
-        .finally(function(){
-          pending--;
-          if(pending===0) callback();
-        });
-    });
-  }
-
-  // Se il range include oggi, aggiungi Open-Meteo per oggi
-  var includeOggi=(_fmt(nowDate)===todayStr);
-
-  if(days.length===0){
-    // Solo oggi nel range
-    if(includeOggi){ aggiungiOggi(finalizza); } else { cb([]); }
-    return;
-  }
+  if(days.length===0){cb([]);return;}
 
   var pending=days.length;
   days.forEach(function(day){
@@ -3154,8 +2955,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        // Tutti i giorni GitHub caricati — aggiungi oggi da Open-Meteo se necessario
-        if(includeOggi){ aggiungiOggi(finalizza); } else { finalizza(); }
+        finalizza();
       });
   });
 }
@@ -3454,20 +3254,29 @@ document.querySelectorAll('.tp-btn').forEach(function(btn){
     setActiveBtn(this);
     document.getElementById('custom-box').style.display='none';
     document.getElementById('btn-custom').classList.remove('active');
-    var now=new Date(),past=new Date();
+    var now=new Date();
     var type=this.dataset.type,val=parseInt(this.dataset.val);
-    var label='';
-    if(type==='h'){
-      past=new Date(now.getTime()-val*3600000);
-      var hL={1:'Ultima ora',3:'Ultime 3 ore',6:'Ultime 6 ore',12:'Ultime 12 ore',24:'Ultime 24 ore'};
-      label=hL[val]||'Ultime '+val+' ore';
+    var label='',past,pastDate,nowDate;
+    if(type==='ieri'){
+      // Ieri: 00:00 → 23:59 del giorno precedente
+      var ieri=new Date(); ieri.setDate(ieri.getDate()-1);
+      past=new Date(ieri.getFullYear(),ieri.getMonth(),ieri.getDate(),0,0,0,0);
+      var nowD=new Date(ieri.getFullYear(),ieri.getMonth(),ieri.getDate(),23,59,59,999);
+      label='Ieri';
+      loadData(past,nowD,label);
+      return;
     } else if(type==='m'){
       past=new Date(now);
       past.setMonth(past.getMonth()-val);
       label='Ultimi '+val+(val===1?' mese':' mesi');
     } else {
-      past.setDate(now.getDate()-val);
+      // type==='d': N giorni fino a ieri (escluso oggi)
+      var toD=new Date(); toD.setDate(toD.getDate()-1);
+      var endOfYest=new Date(toD.getFullYear(),toD.getMonth(),toD.getDate(),23,59,59,999);
+      past=new Date(toD.getFullYear(),toD.getMonth(),toD.getDate()-val+1,0,0,0,0);
       label=val+' giorni';
+      loadData(past,endOfYest,label);
+      return;
     }
     loadData(past,now,label);
   });
@@ -3485,7 +3294,9 @@ document.getElementById('btn-custom').addEventListener('click',function(){
   this.classList.toggle('active',!open);
   if(!open){
     var now=new Date(),past=new Date();past.setDate(now.getDate()-30);
-    var maxDate=fmtISOLocal(now);
+    // maxDate = ieri (i dati di oggi non sono disponibili)
+    var ieri=new Date(); ieri.setDate(ieri.getDate()-1);
+    var maxDate=fmtISOLocal(ieri);
 
     // Regioni con storico misto OM+ARPA: minDate dinamica
     // Data base = 15 maggio 2026, si sblocca 1 giorno al giorno
@@ -3549,6 +3360,9 @@ document.getElementById('cd-apply').addEventListener('click',function(){
     if(from<'2021-01-01'){alert('I dati ARPA sono disponibili dal 1 gennaio 2021');return;}
   }
   document.getElementById('custom-box').style.display='none';
+  // Blocca se la data fine è oggi o futura
+  var ieriStr=fmtISOLocal(new Date(new Date().setDate(new Date().getDate()-1)));
+  if(to>ieriStr){alert('I dati di oggi non sono ancora disponibili. La data massima è ieri ('+ieriStr+').');return;}
   var pastDate=new Date(from+'T00:00:00');
   var nowDate=new Date(to+'T23:59:59');
   var d=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};
