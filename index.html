@@ -2053,9 +2053,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
     var sixHoursAgo=new Date(new Date().getTime()-SIX_HOURS);
     var useOpenMeteo=(msRange<TWO_DAYS)||(nowDate>sixHoursAgo&&msRange<TWO_DAYS);
 
-    if(useOpenMeteo && regionKey!=='toscana' && regionKey!=='liguria'){
-      // Periodi brevi → Open-Meteo per tutte le regioni (eccetto Toscana)
-      // Toscana gestisce internamente sia GitHub che Open-Meteo in loadCFRToscanaRegion
+    if(useOpenMeteo && regionKey!=='toscana' && regionKey!=='liguria' && regionKey!=='lombardia'){
+      // Periodi brevi → Open-Meteo per tutte le regioni (eccetto Toscana, Liguria, Lombardia)
+      // Toscana e Liguria gestiscono internamente sia GitHub che Open-Meteo
+      // Lombardia usa sempre loadARPALombardiaRegion (ARPA live + Open-Meteo oggi) per dati in tempo reale
       // Per Lombardia usa le stazioni ARPA già caricate (hanno lat/lon)
       var stations;
       if(regionKey==='lombardia'){
@@ -2266,13 +2267,14 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
            out.filter(function(s){return s.lat&&s.lon;}):[]); 
       }
 
-      // Aggiunge oggi da Open-Meteo
+      // Aggiunge oggi da Open-Meteo — usa pastDate/nowDate reali per rispettare il periodo scelto
       var lastDay=nowDate.toISOString?nowDate.toISOString().substring(0,10):todayStr;
       if(lastDay===todayStr){
-        var todayStart=new Date(); todayStart.setHours(0,0,0,0);
-        var todayEnd=new Date(); todayEnd.setHours(23,59,59,999);
         var lombSt=(ARPA_STATIONS&&ARPA_STATIONS.length>10)?selectUniform(ARPA_STATIONS,150):LOMBARDIA_STATIONS;
-        loadOpenMeteoRegion(lombSt,todayStart,todayEnd,'oggi',function(omDati){
+        // Per periodi brevi (1h-12h) usa pastDate reale; per storico usa da mezzanotte
+        var msRangeLomb=nowDate.getTime()-pastDate.getTime();
+        var omStart=(msRangeLomb<2*24*3600000)?pastDate:(function(){var d=new Date();d.setHours(0,0,0,0);return d;})();
+        loadOpenMeteoRegion(lombSt,omStart,nowDate,'oggi',function(omDati){
           buildOutput(omDati);
         });
       } else {
