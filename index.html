@@ -106,7 +106,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tp-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
 .tp-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;}
 .tp-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px;}
-.tp-info-nota{font-size:11px;color:#888;text-align:center;padding:4px 0 2px 0;letter-spacing:.01em;}
+.tp-title-row{display:flex;align-items:center;justify-content:flex-start;width:100%;gap:8px;}
+.tp-info-nota-inline{font-size:12px;color:#aaa;white-space:nowrap;}
 .tp-btn{background:#f0f4fb;border:1px solid #d0d8e8;border-radius:5px;
   font-size:14px;font-weight:600;color:#1b3f6e;
   padding:7px 2px;text-align:center;cursor:pointer;
@@ -622,7 +623,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       <!-- Handle: sempre visibile, tap per aprire/chiudere -->
       <div class="tp-handle" id="tp-handle">
         <div class="tp-handle-bar"></div>
-        <div class="tp-title">🕒 Seleziona periodo</div>
+        <div class="tp-title-row">
+          <div class="tp-title">🕒 Seleziona periodo</div>
+          <div class="tp-info-nota-inline">ℹ️ I dati escludono la giornata odierna</div>
+        </div>
       </div>
       <!-- Contenuto: nascosto quando collassato -->
       <div class="tp-content">
@@ -636,7 +640,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <div class="tp-btn" data-type="d" data-val="20">20 giorni</div>
           <div class="tp-btn" data-type="d" data-val="30">30 giorni</div>
         </div>
-        <div class="tp-info-nota">ℹ️ I dati escludono la giornata odierna</div>
         <div class="tp-custom-btn" id="btn-custom">📅 Date personalizzate</div>
         <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 18-25 gg fa)</span></div>
         <div id="custom-box">
@@ -2380,98 +2383,60 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
 // Contiene dati ultime 48h. TYPE=PRECCUM → cumulata → max-min per giorno
 // Per storico >2 giorni: file JSON giornalieri dal repo (stesso schema Piemonte)
 function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
-  var msRange=nowDate.getTime()-pastDate.getTime();
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/veneto';
+  function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-  function fmtDate(d){
-    var p=function(n){return String(n).padStart(2,'0');};
-    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  var todayStr=_fmt(new Date());
+  var days=[];
+  var d=new Date(pastDate);
+  while(d<=nowDate){
+    var ds=_fmt(new Date(d));
+    if(ds!==todayStr) days.push(ds);
+    d.setDate(d.getDate()+1);
   }
 
-  function getDays(from,to){
-    var days=[];
-    var d=new Date(from.getFullYear(),from.getMonth(),from.getDate());
-    var e=new Date(to.getFullYear(),to.getMonth(),to.getDate());
-    while(d<=e){days.push(fmtDate(new Date(d)));d.setDate(d.getDate()+1);}
-    return days;
-  }
+  if(days.length===0){cb([]);return;}
 
-
-  // Storico: legge file JSON direttamente da GitHub raw
-  var days=getDays(pastDate,nowDate);
   var rainTot={};
   var stMeta={};
-  var doneDays=0;
-  var foundAny=false;
-  var pending=days.length;
-  if(pending===0){cb([]);return;}
 
-  days.forEach(function(dateStr){
-    fetch(GITHUB_RAW+'/'+dateStr+'.json')
-      .then(function(r){
-        if(r.status===404) return null;
-        if(!r.ok) throw new Error('HTTP '+r.status);
-        return r.json();
-      })
+  function finalizza(){
+    var full=Object.keys(rainTot).map(function(key){
+      var s=stMeta[key];if(!s)return null;
+      var mm=rainTot[key]||0;
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
+              mm:mm<0.5?0:Math.round(mm*10)/10};
+    }).filter(Boolean);
+    if(full.length<5){cb([]);return;}
+    var withRain=full.filter(function(s){return s.mm>0;});
+    var noRain=full.filter(function(s){return s.mm===0;});
+    var maxNoRain=Math.max(0,300-withRain.length);
+    var noRainSel=noRain.length>maxNoRain?selectUniform(noRain,maxNoRain):noRain;
+    cb(withRain.concat(noRainSel));
+  }
+
+  var pending=days.length;
+  days.forEach(function(day){
+    fetch(GITHUB_RAW+'/'+day+'.json')
+      .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(data){
         if(data&&data.stations){
-          foundAny=true;
           data.stations.forEach(function(s){
-            var id=s.id||s.n;
-            if(!stMeta[id]) stMeta[id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p};
-            rainTot[id]=(rainTot[id]||0)+s.mm;
+            var key=s.n;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
           });
         }
       })
-      .catch(function(e){console.warn('[VEN storico] '+dateStr+':',e.message);})
+      .catch(function(){})
       .finally(function(){
-        doneDays++;
-        if(doneDays>=pending){
-          if(!foundAny){
-            var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='⚠️ Storico Veneto in costruzione — dati disponibili dal 5 mag 2026';
-            cb([]);
-            return;
-          }
-          // Stazioni ARPA reali (ID non om_X), fallback su tutto se poche
-          var arpaOnly=Object.keys(rainTot).filter(function(id){
-            return !String(id).startsWith('om_');
-          }).map(function(id){
-            var s=stMeta[id];if(!s)return null;
-            var mm=rainTot[id]||0;
-            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                    mm:mm<0.5?0:Math.round(mm*10)/10};
-          }).filter(Boolean);
-
-          var arpaFull=arpaOnly.length>=30?arpaOnly:Object.keys(rainTot).map(function(id){
-            var s=stMeta[id];if(!s)return null;
-            var mm=rainTot[id]||0;
-            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                    mm:mm<0.5?0:Math.round(mm*10)/10};
-          }).filter(Boolean);
-
-          var gridOutput=selectUniform(arpaFull,150);
-
-          var todayStr=fmtDate(new Date());
-          var lastDay=days[days.length-1];
-          if(lastDay===todayStr && !rainTot[todayStr+'_checked']){
-            var todayStart=new Date(); todayStart.setHours(0,0,0,0);
-            var todayEnd=new Date(); todayEnd.setHours(23,59,59,999);
-            loadOpenMeteoRegion(gridOutput,todayStart,todayEnd,'oggi',function(omDati){
-              var omMap={};
-              omDati.forEach(function(s){omMap[s.n]=s.mm||0;});
-              gridOutput.forEach(function(s){
-                var todayMM=omMap[s.n]||0;
-                s.mm=Math.round((s.mm+todayMM)*10)/10;
-              });
-              cb(gridOutput);
-            });
-          } else {
-            cb(gridOutput);
-          }
-        }
+        pending--;
+        if(pending>0) return;
+        finalizza();
       });
   });
 }
+
 // ═══════════════════════════════════════════════════════════════
 // ─── ARPA Liguria (file storici da GitHub) ──────────────────────
 
@@ -2578,25 +2543,46 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
 function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/emilia';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+
+  var todayStr=_fmt(new Date());
   var days=[];
   var d=new Date(pastDate);
-  while(d<=nowDate){days.push(_fmt(new Date(d)));d.setDate(d.getDate()+1);}
+  while(d<=nowDate){
+    var ds=_fmt(new Date(d));
+    if(ds!==todayStr) days.push(ds);
+    d.setDate(d.getDate()+1);
+  }
+
+  if(days.length===0){cb([]);return;}
 
   var rainTot={};
   var stMeta={};
-  var pending=days.length;
-  if(pending===0){cb([]);return;}
 
+  function finalizza(){
+    var full=Object.keys(rainTot).map(function(key){
+      var s=stMeta[key];if(!s)return null;
+      var mm=rainTot[key]||0;
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
+              mm:mm<0.5?0:Math.round(mm*10)/10};
+    }).filter(Boolean);
+    if(full.length<5){cb([]);return;}
+    var withRain=full.filter(function(s){return s.mm>0;});
+    var noRain=full.filter(function(s){return s.mm===0;});
+    var maxNoRain=Math.max(0,300-withRain.length);
+    var noRainSel=noRain.length>maxNoRain?selectUniform(noRain,maxNoRain):noRain;
+    cb(withRain.concat(noRainSel));
+  }
+
+  var pending=days.length;
   days.forEach(function(day){
     fetch(GITHUB_RAW+'/'+day+'.json')
       .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(data){
-        if(data.stations){
+        if(data&&data.stations){
           data.stations.forEach(function(s){
-            // Per om_X usa nome stazione come ID per evitare sovrascrizioni tra giorni diversi
-            var id=String(s.id).startsWith('om_')?s.n:(s.id||s.n);
-            if(!stMeta[id]) stMeta[id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-            rainTot[id]=(rainTot[id]||0)+(s.mm||0);
+            var key=s.n;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
           });
         }
       })
@@ -2604,27 +2590,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
       .finally(function(){
         pending--;
         if(pending>0) return;
-        // Per Emilia: ID numerici per ARPA reali, om_X per Open-Meteo Archive
-        var arpaOnly=Object.keys(rainTot).filter(function(id){
-          return !String(id).startsWith('om_');
-        }).map(function(id){
-          var s=stMeta[id];if(!s)return null;
-          var mm=rainTot[id]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                  mm:mm<0.5?0:Math.round(mm*10)/10};
-        }).filter(Boolean);
-
-        // Se ci sono abbastanza stazioni ARPA reali usale, altrimenti usa tutto
-        var arpaFull=arpaOnly.length>=20?arpaOnly:Object.keys(rainTot).map(function(id){
-          var s=stMeta[id];if(!s)return null;
-          var mm=rainTot[id]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                  mm:mm<0.5?0:Math.round(mm*10)/10};
-        }).filter(Boolean);
-
-        if(arpaFull.length<5){cb([]);return;}
-        var gridOutput=selectUniform(arpaFull,150);
-        cb(gridOutput);
+        finalizza();
       });
   });
 }
