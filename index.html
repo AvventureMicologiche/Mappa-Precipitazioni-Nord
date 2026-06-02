@@ -2566,12 +2566,6 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
   // Storico da file GitHub
-  var msRange=nowDate.getTime()-pastDate.getTime();
-  if(msRange<=24*3600000){
-    loadOpenMeteoRegion(LIGURIA_37,pastDate,nowDate,labelPeriodo,cb);
-    return;
-  }
-
   var todayStr=_fmt(new Date());
   var days=[];
   var d=new Date(pastDate);
@@ -2592,11 +2586,13 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
+    // Usa tutte le stazioni reali — non tagliare con selectUniform per Liguria
+    // (regione stretta: più stazioni = heatmap più smooth)
     var withRain=full.filter(function(s){return s.mm>0;});
     var noRain=full.filter(function(s){return s.mm===0;});
     var maxNoRain=Math.max(0,300-withRain.length);
-    var selectedNoRain=selectUniform(noRain,maxNoRain);
-    cb(withRain.concat(selectedNoRain));
+    var noRainSel=noRain.length>maxNoRain?selectUniform(noRain,maxNoRain):noRain;
+    cb(withRain.concat(noRainSel));
   }
 
   if(days.length===0){cb([]);return;}
