@@ -1377,8 +1377,10 @@ function inRegion(lon,lat,rings){
 
 function buildGrid(data,rings,idwRad){
   var rad=idwRad||IDW_RAD;
-  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
-  var dataForIDW=data;
+  // IDW usa solo stazioni con pioggia — le stazioni a 0mm non annullano l'interpolazione
+  // (i buchi bianchi dove non piove emergono naturalmente dall'assenza di stazioni con mm>0 nel raggio)
+  var dataForIDW=data.filter(function(s){return s.mm>0;});
+  if(dataForIDW.length===0) return [];
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
