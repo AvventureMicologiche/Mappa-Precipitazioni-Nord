@@ -2321,102 +2321,56 @@ function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
 
 // ─── ARPA Piemonte → callback ─────────────────────────────────
 function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
-  var msRange=nowDate.getTime()-pastDate.getTime();
-  var ONE_DAY=24*3600000;
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/piemonte';
+  function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-  function fmtDate(d){
-    var p=function(n){return String(n).padStart(2,'0');};
-    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  var todayStr=_fmt(new Date());
+  var days=[];
+  var d=new Date(pastDate);
+  while(d<=nowDate){
+    var ds=_fmt(new Date(d));
+    if(ds!==todayStr) days.push(ds); // escludi oggi
+    d.setDate(d.getDate()+1);
   }
 
-  function getDays(from,to){
-    var days=[];
-    var d=new Date(from.getFullYear(),from.getMonth(),from.getDate());
-    var e=new Date(to.getFullYear(),to.getMonth(),to.getDate());
-    while(d<=e){days.push(fmtDate(new Date(d)));d.setDate(d.getDate()+1);}
-    return days;
-  }
+  if(days.length===0){cb([]);return;}
 
-
-
-  // Storico: legge file JSON direttamente da GitHub raw
-  var days=getDays(pastDate,nowDate);
   var rainTot={};
   var stMeta={};
-  var doneDays=0;
-  var foundAny=false;
-  var pending=days.length;
-  if(pending===0){cb([]);return;}
 
-  days.forEach(function(dateStr){
-    fetch(GITHUB_RAW+'/'+dateStr+'.json')
-      .then(function(r){
-        if(r.status===404) return null;
-        if(!r.ok) throw new Error('HTTP '+r.status);
-        return r.json();
-      })
+  function finalizza(){
+    var full=Object.keys(rainTot).map(function(key){
+      var s=stMeta[key];if(!s)return null;
+      var mm=rainTot[key]||0;
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
+              mm:mm<0.5?0:Math.round(mm*10)/10};
+    }).filter(Boolean);
+    if(full.length<5){cb([]);return;}
+    var withRain=full.filter(function(s){return s.mm>0;});
+    var noRain=full.filter(function(s){return s.mm===0;});
+    var maxNoRain=Math.max(0,300-withRain.length);
+    var noRainSel=noRain.length>maxNoRain?selectUniform(noRain,maxNoRain):noRain;
+    cb(withRain.concat(noRainSel));
+  }
+
+  var pending=days.length;
+  days.forEach(function(day){
+    fetch(GITHUB_RAW+'/'+day+'.json')
+      .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(data){
         if(data&&data.stations){
-          foundAny=true;
           data.stations.forEach(function(s){
-            var id=s.id||s.n;
-            if(!stMeta[id]) stMeta[id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p};
-            rainTot[id]=(rainTot[id]||0)+s.mm;
+            var key=s.n; // usa sempre il nome come chiave
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
           });
         }
       })
-      .catch(function(e){console.warn('[PIE storico] '+dateStr+':',e.message);})
+      .catch(function(){})
       .finally(function(){
-        doneDays++;
-        if(doneDays>=pending){
-          if(!foundAny){
-            var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='⚠️ Storico Piemonte in costruzione — dati disponibili dal 3 mag 2026';
-            cb([]);
-            return;
-          }
-          // Stazioni ARPA reali (ID non om_X), fallback su tutto se poche
-          var arpaList=Object.keys(rainTot).map(function(id){
-            var s=stMeta[id];if(!s)return null;
-            return {lat:s.lat,lon:s.lon,mm:rainTot[id]||0};
-          }).filter(Boolean);
-
-          var arpaOnly=Object.keys(rainTot).filter(function(id){
-            return !String(id).startsWith('om_');
-          }).map(function(id){
-            var s=stMeta[id];if(!s)return null;
-            var mm=rainTot[id]||0;
-            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                    mm:mm<0.5?0:Math.round(mm*10)/10};
-          }).filter(Boolean);
-
-          var arpaFull=arpaOnly.length>=30?arpaOnly:Object.keys(rainTot).map(function(id){
-            var s=stMeta[id];if(!s)return null;
-            var mm=rainTot[id]||0;
-            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'',
-                    mm:mm<0.5?0:Math.round(mm*10)/10};
-          }).filter(Boolean);
-
-          var gridOutput=selectUniform(arpaFull,150);
-
-          var todayStr=fmtDate(new Date());
-          var lastDay=days[days.length-1];
-          if(lastDay===todayStr && !rainTot[todayStr+'_checked']){
-            var todayStart=new Date(); todayStart.setHours(0,0,0,0);
-            var todayEnd=new Date(); todayEnd.setHours(23,59,59,999);
-            loadOpenMeteoRegion(gridOutput,todayStart,todayEnd,'oggi',function(omDati){
-              var omMap={};
-              omDati.forEach(function(s){omMap[s.n]=s.mm||0;});
-              gridOutput.forEach(function(s){
-                var todayMM=omMap[s.n]||0;
-                s.mm=Math.round((s.mm+todayMM)*10)/10;
-              });
-              cb(gridOutput);
-            });
-          } else {
-            cb(gridOutput);
-          }
-        }
+        pending--;
+        if(pending>0) return;
+        finalizza();
       });
   });
 }
