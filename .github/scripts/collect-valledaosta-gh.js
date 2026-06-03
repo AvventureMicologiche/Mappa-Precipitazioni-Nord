@@ -40,7 +40,20 @@ const STATIONS = [
   {n:"Introd",               lat:45.654, lon:7.199,  q:850},
   {n:"Arvier",               lat:45.693, lon:7.160,  q:775},
   {n:"Avise",                lat:45.724, lon:7.108,  q:905},
-  {n:"Valpelline",           lat:45.831, lon:7.330,  q:960}
+  {n:"Valpelline",           lat:45.831, lon:7.330,  q:960},
+  {n:"Cervinia",             lat:45.937, lon:7.626,  q:2050},
+  {n:"Antey-Saint-Andre",    lat:45.814, lon:7.619,  q:1080},
+  {n:"Torgnon",              lat:45.839, lon:7.570,  q:1489},
+  {n:"Etroubles",            lat:45.822, lon:7.233,  q:1280},
+  {n:"Saint-Oyen",           lat:45.835, lon:7.194,  q:1370},
+  {n:"Gran-San-Bernardo",    lat:45.869, lon:7.171,  q:2469},
+  {n:"Entrevès",             lat:45.834, lon:6.990,  q:1306},
+  {n:"La-Palud",             lat:45.820, lon:6.970,  q:1370},
+  {n:"Nus",                  lat:45.737, lon:7.471,  q:549},
+  {n:"Quart",                lat:45.737, lon:7.415,  q:623},
+  {n:"Saint-Christophe",     lat:45.737, lon:7.370,  q:631},
+  {n:"Jovençan",             lat:45.680, lon:7.290,  q:870},
+  {n:"Roisan",               lat:45.800, lon:7.280,  q:1080}
 ];
 
 function fmtDate(d) {
