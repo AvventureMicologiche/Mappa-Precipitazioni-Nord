@@ -1378,8 +1378,10 @@ function inRegion(lon,lat,rings){
 function buildGrid(data,rings,idwRad,gridRes){
   var rad=idwRad||IDW_RAD;
   var GR=gridRes||GRID_RES;
-  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
-  var dataForIDW=data;
+  // IDW usa solo stazioni con mm>0 — le 0mm non annullano il segnale
+  // Raggio ridotto a 0.20 per evitare espansione eccessiva
+  var dataForIDW=data.filter(function(s){return s.mm>0;});
+  if(dataForIDW.length===0) return [];
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
@@ -1396,7 +1398,7 @@ function buildGrid(data,rings,idwRad,gridRes){
         if(d2>rad*rad) continue;
         found=true;
         if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
-        var w=1/(d2*Math.sqrt(d2)); num+=w*dataForIDW[i].mm; den+=w; // p=3
+        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
       }
       if(!found) continue;
       pts.push({lat:lat,lon:lon,mm:num/den});
