@@ -1281,8 +1281,12 @@ var STOPS=[
 ];
 // Soglia minima per mostrare colore — sotto 0.3mm = trasparente
 var MIN_MM_DISPLAY=0.3;
+// Scala dinamica: si adatta al MAX reale dei dati
+var dynamicMaxMM=300;
 function mmToRGB(mm){
-  var v=Math.max(0,Math.min(mm,400));
+  // Normalizza mm sulla scala dinamica → mappa su STOPS fissi 0-300
+  var scaledMM=(dynamicMaxMM>0)?(mm/dynamicMaxMM*300):mm;
+  var v=Math.max(0,Math.min(scaledMM,400));
   for(var i=1;i<STOPS.length;i++){
     if(v<=STOPS[i].v){
       var t=(v-STOPS[i-1].v)/(STOPS[i].v-STOPS[i-1].v);
@@ -1556,8 +1560,9 @@ function render(dati,fonte,labelPeriodo){
     clearHeatmap();
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
-      // Liguria è stretta e lunga: raggio maggiore per connettere stazioni lungo la costa
-      var idwR=0.35;
+      var maxMM=0; dati.forEach(function(s){if(s.mm>maxMM)maxMM=s.mm;});
+      dynamicMaxMM=Math.max(maxMM*1.1,10);
+      var idwR=0.20;
       var grR=(currentRegion==='liguria')?0.009:GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
@@ -2153,7 +2158,9 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=0.35;
+      var maxMM2=0; dati.forEach(function(s){if(s.mm>maxMM2)maxMM2=s.mm;});
+      dynamicMaxMM=Math.max(maxMM2*1.1,10);
+      var idwR=0.20;
       var grR=(activeR.length===1&&activeR[0]==='liguria')?0.009:GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
