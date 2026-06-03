@@ -44,8 +44,18 @@ async function main() {
   console.log('=== collect-toscana-gh avviato ===');
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-  const today   = new Date();
-  const dateStr = fmtDate(today);
+  // Calcola data italiana con DST (UTC+1 inverno, UTC+2 estate)
+  function getTargetDate() {
+    if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return process.env.DATE_OVERRIDE.trim();
+    const now = new Date();
+    const jan = new Date(now.getFullYear(), 0, 1);
+    const jul = new Date(now.getFullYear(), 6, 1);
+    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    const isDST = now.getTimezoneOffset() < stdOffset;
+    const italy = new Date(now.getTime() + (isDST ? 2 : 1) * 3600000);
+    return fmtDate(italy);
+  }
+  const dateStr = getTargetDate();
 
   // Step 1: fetch base — ottieni stazioni + lista timestamp del giorno
   console.log('  Fetch lista stazioni e timestamps...');
