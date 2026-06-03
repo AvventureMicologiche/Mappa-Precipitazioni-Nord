@@ -16,7 +16,12 @@ const OMIRL_URL = 'https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio';
 
 function getItalyDate(offsetHours) {
   const now = new Date();
-  const italy = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000) + ((offsetHours||0) * 3600000));
+  const jan = new Date(now.getFullYear(), 0, 1);
+  const jul = new Date(now.getFullYear(), 6, 1);
+  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+  const isDST = now.getTimezoneOffset() < stdOffset;
+  const italyOffset = isDST ? 2 : 1;
+  const italy = new Date(now.getTime() + (italyOffset + (offsetHours||0)) * 3600000);
   return italy.toISOString().substring(0, 10);
 }
 
@@ -30,7 +35,11 @@ function getTargetDate() {
 function shouldAlsoUpdateYesterday() {
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return false;
   const now = new Date();
-  const italyHour = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3600000)).getHours();
+  const jan = new Date(now.getFullYear(), 0, 1);
+  const jul = new Date(now.getFullYear(), 6, 1);
+  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+  const isDST = now.getTimezoneOffset() < stdOffset;
+  const italyHour = new Date(now.getTime() + (isDST ? 2 : 1) * 3600000).getHours();
   return italyHour >= 0 && italyHour < 6;
 }
 
