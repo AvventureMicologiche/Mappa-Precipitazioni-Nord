@@ -15,7 +15,14 @@ const API_URL  = 'https://apps.arpae.it/REST/meteo_giornalieri?max_results=1000'
 function getTargetDate() {
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return process.env.DATE_OVERRIDE.trim();
   const now = new Date();
-  const italy = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + 3600000);
+  // GitHub Actions gira in UTC — calcola ora italiana con DST
+  // Italia: UTC+1 (inverno CET), UTC+2 (estate CEST, ultima dom marzo → ultima dom ottobre)
+  const jan = new Date(now.getFullYear(), 0, 1);
+  const jul = new Date(now.getFullYear(), 6, 1);
+  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+  const isDST = now.getTimezoneOffset() < stdOffset;
+  const italyOffset = isDST ? 2 : 1;
+  const italy = new Date(now.getTime() + italyOffset * 3600000);
   return italy.toISOString().substring(0, 10);
 }
 
