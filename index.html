@@ -1655,7 +1655,7 @@ function tryARPAUpgrade(pastDate,nowDate,labelPeriodo){
 // ═══════════════════════════════════════════════════════════════
 // CACHE localStorage v3 — chiave per giorno: arpa3_YYYY-MM-DD_idsensore
 // ═══════════════════════════════════════════════════════════════
-var CACHE_VER='arpa5v5_'; // incrementa questo numero ad ogni modifica della logica cache // incrementa questo numero ad ogni modifica della logica cache
+var CACHE_VER='arpa5v6_'; // incrementa questo numero ad ogni modifica della logica cache // incrementa questo numero ad ogni modifica della logica cache
 function cacheInit(){
   try{
     var toClear=[];
@@ -2204,14 +2204,14 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     var fetches=batches.filter(function(b){return b.length>0;}).map(function(batchIds){
       var orClause=batchIds.map(function(id){return "idsensore='"+id+"'";}).join(' OR ');
       var whereStr="data between '"+startISO+"' and '"+endISO+"' AND valore >= '0' AND ("+orClause+')';
-      var url=BASE+'?endpoint=647i-nhxk.json&$select=idsensore,max(valore)%20as%20mx,min(valore)%20as%20mn&$where='+encodeURIComponent(whereStr)+'&$group=idsensore&$limit=5000';
+      var url=BASE+'?endpoint=647i-nhxk.json&$select=idsensore,sum(valore)%20as%20s&$where='+encodeURIComponent(whereStr)+'&$group=idsensore&$limit=5000';
       return fetch(url).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
     });
     return Promise.all(fetches).then(function(results){
       var dayMap=Object.assign({},cached);
       results.reduce(function(a,b){return a.concat(b);},[]).forEach(function(pr){
-        var mx=parseFloat(pr.mx)||0;var mn=parseFloat(pr.mn)||0;
-        var tot=Math.max(0,mx-mn);if(tot>300)tot=0;
+        var tot=Math.round((parseFloat(pr.s)||0)*10)/10;
+        if(tot>500)tot=0; // sanity check per sensori anomali
         dayMap[pr.idsensore]=tot;
         try{localStorage.setItem(CACHE_VER+dateStr+'_'+pr.idsensore,JSON.stringify({tot:tot,ts:Date.now()}));}catch(ex){}
       });
