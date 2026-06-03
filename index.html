@@ -1396,7 +1396,7 @@ function buildGrid(data,rings,idwRad,gridRes){
         if(d2>rad*rad) continue;
         found=true;
         if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
-        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
+        var w=1/(d2*Math.sqrt(d2)); num+=w*dataForIDW[i].mm; den+=w; // p=3
       }
       if(!found) continue;
       pts.push({lat:lat,lon:lon,mm:num/den});
