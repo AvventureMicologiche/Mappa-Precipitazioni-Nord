@@ -1355,7 +1355,7 @@ function clearHeatmap(){
   gridPoints=[];
 }
 
-var GRID_RES=0.018, IDW_RAD=0.15;
+var GRID_RES=0.009, IDW_RAD=0.15;
 
 function pipGeo(lon,lat,ring){
   var inside=false,n=ring.length;
@@ -1380,10 +1380,8 @@ function inRegion(lon,lat,rings){
 function buildGrid(data,rings,idwRad,gridRes){
   var rad=idwRad||IDW_RAD;
   var GR=gridRes||GRID_RES;
-  // IDW usa solo stazioni con mm>0 — le 0mm non annullano il segnale
-  // Raggio ridotto a 0.20 per evitare espansione eccessiva
-  var dataForIDW=data.filter(function(s){return s.mm>0;});
-  if(dataForIDW.length===0) return [];
+  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+  var dataForIDW=data;
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
@@ -1410,7 +1408,7 @@ function buildGrid(data,rings,idwRad,gridRes){
 }
 
 function gridPxSize(){
-  var gr=(currentRegion==='liguria')?0.009:GRID_RES;
+  var gr=GRID_RES;
   var mpp=156543.03392*Math.cos(45.0*Math.PI/180)/Math.pow(2,map.getZoom());
   return Math.ceil(gr*111000/mpp)+1;
 }
@@ -1558,8 +1556,8 @@ function render(dati,fonte,labelPeriodo){
     clearHeatmap();
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
-      var idwR=(currentRegion==='liguria')?0.20:0.35;
-      var grR=(currentRegion==='liguria')?0.009:GRID_RES;
+      var idwR=0.35;
+      var grR=GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
@@ -2154,8 +2152,8 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=(activeR.length===1&&activeR[0]==='liguria')?0.20:0.35;
-      var grR=(activeR.length===1&&activeR[0]==='liguria')?0.009:GRID_RES;
+      var idwR=0.35;
+      var grR=GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
