@@ -1558,7 +1558,7 @@ function render(dati,fonte,labelPeriodo){
     clearHeatmap();
     if(hasRain){
       var rings=regionRings[currentRegion]||[];
-      var idwR=0.20;
+      var idwR=(currentRegion==='liguria')?0.20:0.35;
       var grR=(currentRegion==='liguria')?0.009:GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
@@ -2154,7 +2154,7 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     if(hasRain){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
-      var idwR=0.20;
+      var idwR=(activeR.length===1&&activeR[0]==='liguria')?0.20:0.35;
       var grR=(activeR.length===1&&activeR[0]==='liguria')?0.009:GRID_RES;
       gridPoints=buildGrid(dati,rings,idwR,grR);
       drawGrid();
