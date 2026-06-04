@@ -56,6 +56,18 @@ const STATIONS = [
   {n:"Roisan",               lat:45.800, lon:7.280,  q:1080}
 ];
 
+function getItalyOffset(date) {
+  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
+  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
+  // CET  (UTC+1): resto dell'anno
+  const year = date.getUTCFullYear();
+  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
+  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
+  const lastSunOct = new Date(Date.UTC(year, 9, 31));
+  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
+  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
+}
+
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
@@ -79,12 +91,7 @@ async function main() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
   const now = new Date();
-  const jan = new Date(now.getFullYear(), 0, 1);
-  const jul = new Date(now.getFullYear(), 6, 1);
-  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  const isDST = now.getTimezoneOffset() < stdOffset;
-  const italy = new Date(now.getTime() + (isDST ? 2 : 1) * 3600000);
-  const dateStr = process.env.DATE_OVERRIDE || fmtDate(italy);
+  const dateStr = process.env.DATE_OVERRIDE || fmtDate(new Date(now.getTime() + getItalyOffset(now) * 3600000));
   console.log(`  Data: ${dateStr}`);
 
   const lats = STATIONS.map(s => s.lat).join(',');
