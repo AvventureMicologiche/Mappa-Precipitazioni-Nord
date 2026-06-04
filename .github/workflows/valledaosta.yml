@@ -7,12 +7,12 @@ on:
         required: false
         default: ''
   schedule:
-    - cron: '15 1 * * *'
-    - cron: '15 5 * * *'
-    - cron: '15 9 * * *'
-    - cron: '15 13 * * *'
-    - cron: '15 17 * * *'
-    - cron: '15 21 * * *'
+    - cron: '30 0 * * *'
+    - cron: '30 4 * * *'
+    - cron: '30 8 * * *'
+    - cron: '30 12 * * *'
+    - cron: '30 16 * * *'
+    - cron: '30 20 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -22,15 +22,28 @@ jobs:
         with:
           node-version: '20'
       - name: Raccoglie dati Valle d'Aosta
+        id: collect
         run: node .github/scripts/collect-valledaosta-gh.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+        continue-on-error: true
+      - name: Retry 1
+        if: steps.collect.outcome == 'failure'
+        run: sleep 30 && node .github/scripts/collect-valledaosta-gh.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+        continue-on-error: true
+      - name: Retry 2
+        if: steps.collect.outcome == 'failure'
+        run: sleep 60 && node .github/scripts/collect-valledaosta-gh.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
       - name: Commit e push
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          mkdir -p data/valledaosta
-          git add data/valledaosta/
+                    mkdir -p data/valledaosta
+git add data/valledaosta/
           git diff --staged --quiet || git commit -m "valledaosta $(date -u +%Y-%m-%d)"
           git pull --rebase origin main
           git push

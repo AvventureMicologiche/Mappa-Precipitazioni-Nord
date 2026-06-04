@@ -7,12 +7,12 @@ on:
         required: false
         default: ''
   schedule:
-    - cron: '15 0 * * *'
-    - cron: '15 4 * * *'
-    - cron: '15 8 * * *'
-    - cron: '15 12 * * *'
-    - cron: '15 16 * * *'
-    - cron: '15 20 * * *'
+    - cron: '5 0 * * *'
+    - cron: '5 4 * * *'
+    - cron: '5 8 * * *'
+    - cron: '5 12 * * *'
+    - cron: '5 16 * * *'
+    - cron: '5 20 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -21,8 +21,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Raccoglie dati Emilia Romagna
+      - name: Raccoglie dati Emilia
+        id: collect
         run: node .github/scripts/collect-emilia.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+        continue-on-error: true
+      - name: Retry 1
+        if: steps.collect.outcome == 'failure'
+        run: sleep 30 && node .github/scripts/collect-emilia.js
+        env:
+          DATE_OVERRIDE: ${{ inputs.date_override }}
+        continue-on-error: true
+      - name: Retry 2
+        if: steps.collect.outcome == 'failure'
+        run: sleep 60 && node .github/scripts/collect-emilia.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
       - name: Commit e push
