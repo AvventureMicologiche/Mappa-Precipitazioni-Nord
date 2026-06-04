@@ -14,6 +14,18 @@ const DATA_DIR      = path.join(__dirname, '..', '..', 'data', 'trentino');
 const LIST_URL      = 'https://dati.meteotrentino.it/service.asmx/listaStazioniJson';
 const DATI_URL      = 'https://dati.meteotrentino.it/service.asmx/getValoriAggregatiGiornoJson';
 
+function getItalyOffset(date) {
+  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
+  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
+  // CET  (UTC+1): resto dell'anno
+  const year = date.getUTCFullYear();
+  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
+  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
+  const lastSunOct = new Date(Date.UTC(year, 9, 31));
+  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
+  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
+}
+
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
@@ -44,8 +56,8 @@ async function main() {
   console.log('=== collect-trentino-gh avviato ===');
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-  const today   = new Date();
-  const dateStr = process.env.DATE_OVERRIDE || fmtDate(today);
+  const now = new Date();
+  const dateStr = process.env.DATE_OVERRIDE || fmtDate(new Date(now.getTime() + getItalyOffset(now) * 3600000));
 
   // Step 1: lista stazioni con coordinate
   console.log('  Fetch lista stazioni...');

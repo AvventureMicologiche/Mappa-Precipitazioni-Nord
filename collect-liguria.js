@@ -16,13 +16,20 @@ const OMIRL_URL = 'https://omirl.regione.liguria.it/Omirl/rest/stations/Pluvio';
 
 function getItalyDate(offsetHours) {
   const now = new Date();
-  const jan = new Date(now.getFullYear(), 0, 1);
-  const jul = new Date(now.getFullYear(), 6, 1);
-  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  const isDST = now.getTimezoneOffset() < stdOffset;
-  const italyOffset = isDST ? 2 : 1;
-  const italy = new Date(now.getTime() + (italyOffset + (offsetHours||0)) * 3600000);
+  const italy = new Date(now.getTime() + (getItalyOffset(now) + (offsetHours||0)) * 3600000);
   return italy.toISOString().substring(0, 10);
+}
+
+function getItalyOffset(date) {
+  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
+  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
+  // CET  (UTC+1): resto dell'anno
+  const year = date.getUTCFullYear();
+  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
+  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
+  const lastSunOct = new Date(Date.UTC(year, 9, 31));
+  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
+  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
 }
 
 function getTargetDate() {
@@ -35,11 +42,7 @@ function getTargetDate() {
 function shouldAlsoUpdateYesterday() {
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return false;
   const now = new Date();
-  const jan = new Date(now.getFullYear(), 0, 1);
-  const jul = new Date(now.getFullYear(), 6, 1);
-  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  const isDST = now.getTimezoneOffset() < stdOffset;
-  const italyHour = new Date(now.getTime() + (isDST ? 2 : 1) * 3600000).getHours();
+  const italyHour = new Date(now.getTime() + getItalyOffset(now) * 3600000).getHours();
   return italyHour >= 0 && italyHour < 6;
 }
 

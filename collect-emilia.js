@@ -12,17 +12,24 @@ const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'emilia');
 const MAX_DAYS = 365;
 const API_URL  = 'https://apps.arpae.it/REST/meteo_giornalieri?max_results=1000';
 
+function getItalyOffset(date) {
+  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
+  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
+  // CET  (UTC+1): resto dell'anno
+  const year = date.getUTCFullYear();
+  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
+  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
+  const lastSunOct = new Date(Date.UTC(year, 9, 31));
+  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
+  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
+}
+
 function getTargetDate() {
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return process.env.DATE_OVERRIDE.trim();
   const now = new Date();
   // GitHub Actions gira in UTC — calcola ora italiana con DST
   // Italia: UTC+1 (inverno CET), UTC+2 (estate CEST, ultima dom marzo → ultima dom ottobre)
-  const jan = new Date(now.getFullYear(), 0, 1);
-  const jul = new Date(now.getFullYear(), 6, 1);
-  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  const isDST = now.getTimezoneOffset() < stdOffset;
-  const italyOffset = isDST ? 2 : 1;
-  const italy = new Date(now.getTime() + italyOffset * 3600000);
+  const italy = new Date(now.getTime() + getItalyOffset(now) * 3600000);
   return italy.toISOString().substring(0, 10);
 }
 
