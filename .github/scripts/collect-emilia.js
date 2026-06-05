@@ -156,6 +156,39 @@ async function main() {
     stations:  finalOutput
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${finalOutput.length} stazioni)`);
+  // ── Step 5b: aggiorna anche ieri nelle prime ore ─────────────
+  const _nowItaly = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000);
+  if (!process.env.DATE_OVERRIDE && _nowItaly.getUTCHours() < 8) {
+    const _yd = new Date(_nowItaly.getTime() - 24 * 3600000);
+    const _p = n => String(n).padStart(2, '0');
+    const _yesterdayDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
+    const _yesterdayKey = _yesterdayDate.replace(/-/g, '');
+    console.log('Aggiorno anche ieri: ' + _yesterdayDate);
+    try {
+      const _outY = [];
+      items.forEach(s => {
+        try {
+          const ana = s.anagrafica;
+          if (!ana || !ana.geometry || !ana.geometry.coordinates) return;
+          const lon = ana.geometry.coordinates[0]; const lat = ana.geometry.coordinates[1];
+          if (lat < 43.7 || lat > 45.2 || lon < 9.1 || lon > 12.8) return;
+          if (!ana.variabili || !ana.variabili.includes('precipitazione_cumulata_giornaliera')) return;
+          const dayData = (s.dati || {})[_yesterdayKey];
+          let mm = 0;
+          if (dayData && dayData['0000'] && dayData['0000'].precipitazione_cumulata_giornaliera !== undefined) {
+            const val = parseFloat(dayData['0000'].precipitazione_cumulata_giornaliera);
+            if (!isNaN(val) && val >= 0 && val < 500) mm = Math.round(val * 10) / 10;
+          }
+          _outY.push({ id: s._id, n: ana.nome||'—', lat: Math.round(lat*10000)/10000, lon: Math.round(lon*10000)/10000, q: ana.altitudine||0, p: ana.provincia||'—', mm });
+        } catch(e) {}
+      });
+      if (_outY.length >= 10) {
+        fs.writeFileSync(path.join(DATA_DIR, _yesterdayDate + '.json'), JSON.stringify({ date: _yesterdayDate, collected: new Date().toISOString(), source: 'arpa-emilia-arpae', count: _outY.length, stations: _outY }), 'utf8');
+        console.log('Aggiornato ieri: ' + _yesterdayDate + ' (' + _outY.length + ' stazioni)');
+      }
+    } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
+  }
+
 
   // ── Step 6: pulizia ──────────────────────────────────────────
   const cutoff = new Date();
