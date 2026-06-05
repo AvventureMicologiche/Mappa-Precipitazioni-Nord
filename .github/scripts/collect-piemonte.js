@@ -145,44 +145,37 @@ async function main() {
   };
   fs.writeFileSync(outFile, JSON.stringify(fileData), 'utf8');
   console.log('\nSalvato: ' + outFile + ' (' + output.length + ' stazioni)');
-  // ── Step 5b: aggiorna anche ieri nelle prime ore ─────────────
-  // Nei run 00:00-08:00 CEST sovrascrive ieri con dati completi notturni
-  const _nowItaly = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000);
-  if (!process.env.DATE_OVERRIDE && _nowItaly.getUTCHours() < 8) {
-    const _yd = new Date(_nowItaly.getTime() - 24 * 3600000);
+  // ── Step 5b: aggiorna sempre anche ieri ──────────────────────
+  // Ad ogni run sovrascrive ieri con i dati più aggiornati disponibili nell'API
+  if (!process.env.DATE_OVERRIDE) {
+    const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
     const _p = n => String(n).padStart(2, '0');
-    const _yesterdayDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
-    console.log('Aggiorno anche ieri: ' + _yesterdayDate);
+    const _yDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
+    console.log('Aggiorno anche ieri: ' + _yDate);
     try {
-      const _dfY = _yesterdayDate + 'T00:00';
-      const _dtY = _yesterdayDate + 'T23:59';
-      let _misureY = []; let _pY = 1;
+      let _mY = []; let _pg = 1;
       while (true) {
-        const _uY = API_BASE + '/data_pie?date_from=' + encodeURIComponent(_dfY) + '&date_to=' + encodeURIComponent(_dtY) + '&page=' + _pY + '&page_size=10000';
-        const _rY = await fetchJSON(_uY);
-        const _recY = Array.isArray(_rY) ? _rY : (_rY.data || _rY.results || []);
-        _misureY = _misureY.concat(_recY);
-        if (_recY.length < 10000) break;
-        _pY++;
+        const _u = API_BASE + '/data_pie?date_from=' + encodeURIComponent(_yDate+'T00:00') + '&date_to=' + encodeURIComponent(_yDate+'T23:59') + '&page=' + _pg + '&page_size=10000';
+        const _r = await fetchJSON(_u);
+        const _rec = Array.isArray(_r) ? _r : (_r.data || _r.results || []);
+        _mY = _mY.concat(_rec);
+        if (_rec.length < 10000) break;
+        _pg++;
       }
-      const _rmY = {};
-      _misureY.forEach(function(m) {
-        const id = m.station_code; if (!id) return;
-        const v = parseFloat(m.cum_rain_24h); if (isNaN(v) || v < 0) return;
-        if (_rmY[id] === undefined || v > _rmY[id]) _rmY[id] = v;
+      const _rm = {};
+      _mY.forEach(m => { const id=m.station_code; if(!id) return; const v=parseFloat(m.cum_rain_24h); if(isNaN(v)||v<0) return; if(_rm[id]===undefined||v>_rm[id]) _rm[id]=v; });
+      const _out = [];
+      Object.keys(_rm).forEach(id => {
+        const s=stIndex[id]; if(!s) return;
+        const lat=parseFloat(s.lat); const lon=parseFloat(s.lng||s.lon);
+        if(isNaN(lat)||isNaN(lon)) return;
+        if(lat<43.8||lat>46.5||lon<6.6||lon>9.3) return;
+        let mm=_rm[id]; if(mm>300) mm=0;
+        _out.push({id,n:s.name||id,lat:Math.round(lat*10000)/10000,lon:Math.round(lon*10000)/10000,q:parseInt(s.altitude||0)||0,p:s.province||'—',mm:Math.round(mm*10)/10});
       });
-      const _outY = [];
-      Object.keys(_rmY).forEach(function(id) {
-        const s = stIndex[id]; if (!s) return;
-        const lat = parseFloat(s.lat); const lon = parseFloat(s.lng || s.lon);
-        if (isNaN(lat) || isNaN(lon)) return;
-        if (lat < 43.8 || lat > 46.5 || lon < 6.6 || lon > 9.3) return;
-        let mm = _rmY[id]; if (mm > 300) mm = 0;
-        _outY.push({ id, n: s.name||id, lat: Math.round(lat*10000)/10000, lon: Math.round(lon*10000)/10000, q: parseInt(s.altitude||0)||0, p: s.province||'—', mm: Math.round(mm*10)/10 });
-      });
-      if (_outY.length >= 5) {
-        fs.writeFileSync(path.join(DATA_DIR, _yesterdayDate + '.json'), JSON.stringify({ date: _yesterdayDate, collected: new Date().toISOString(), count: _outY.length, stations: _outY }), 'utf8');
-        console.log('Aggiornato ieri: ' + _yesterdayDate + ' (' + _outY.length + ' stazioni)');
+      if (_out.length >= 5) {
+        fs.writeFileSync(path.join(DATA_DIR,_yDate+'.json'), JSON.stringify({date:_yDate,collected:new Date().toISOString(),count:_out.length,stations:_out}),'utf8');
+        console.log('Aggiornato ieri: ' + _yDate + ' (' + _out.length + ' stazioni)');
       }
     } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
   }

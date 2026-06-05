@@ -164,46 +164,39 @@ async function main() {
     stations: output
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${output.length} stazioni)`);
-  // ── Step 3b: aggiorna anche ieri nelle prime ore ─────────────
-  const _nowItaly = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000);
-  if (!process.env.DATE_OVERRIDE && _nowItaly.getUTCHours() < 8) {
-    const _yd = new Date(_nowItaly.getTime() - 24 * 3600000);
+  // ── Step 3b: aggiorna sempre anche ieri ──────────────────────
+  if (!process.env.DATE_OVERRIDE) {
+    const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
     const _p = n => String(n).padStart(2, '0');
-    const _yesterdayDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
-    const _yesterdayPrefix = _yesterdayDate.replace(/-/g, '');
-    console.log('Aggiorno anche ieri: ' + _yesterdayDate);
+    const _yDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
+    const _yPrefix = _yDate.replace(/-/g,'');
+    console.log('Aggiorno anche ieri: ' + _yDate);
     try {
-      const _outY = []; let _okY = 0;
+      const _out = [];
       for (let i = 0; i < stazioni.length; i += BATCH) {
         const batch = stazioni.slice(i, i + BATCH);
         await Promise.all(batch.map(async (s) => {
           try {
             const xml = await fetchURL(`${BASE_URL}/${s.link}`);
-            const sensoreRegex = /<SENSORE>([\s\S]*?)<\/SENSORE>/g;
-            let sm;
-            while ((sm = sensoreRegex.exec(xml)) !== null) {
-              const sens = sm[1];
-              if (getTag(sens, 'TYPE') !== 'PREC') continue;
-              const datiRegex = /<DATI ISTANTE="(\d{12})"><VM>([\d.]+)<\/VM><\/DATI>/g;
-              let dm; const vals = [];
-              while ((dm = datiRegex.exec(sens)) !== null) {
-                if (!dm[1].startsWith(_yesterdayPrefix)) continue;
-                const v = parseFloat(dm[2]); if (!isNaN(v) && v >= 0) vals.push(v);
-              }
-              let mm = 0;
-              if (vals.length >= 2) mm = Math.max(0, Math.max(...vals) - Math.min(...vals));
-              else if (vals.length === 1) mm = vals[0];
-              if (mm > 300) mm = 0;
-              _outY.push({ id: s.id, n: s.nome, lat: Math.round(s.lat*10000)/10000, lon: Math.round(s.lon*10000)/10000, q: s.quota, p: s.prov, mm: Math.round(mm*10)/10 });
-              _okY++; break;
+            const sReg = /<SENSORE>([\s\S]*?)<\/SENSORE>/g; let sm;
+            while ((sm = sReg.exec(xml)) !== null) {
+              const sens=sm[1]; if(getTag(sens,'TYPE')!=='PREC') continue;
+              const dReg=/<DATI ISTANTE="(\d{12})"><VM>([\d.]+)<\/VM><\/DATI>/g; let dm; const vals=[];
+              while((dm=dReg.exec(sens))!==null){ if(!dm[1].startsWith(_yPrefix)) continue; const v=parseFloat(dm[2]); if(!isNaN(v)&&v>=0) vals.push(v); }
+              let mm=0;
+              if(vals.length>=2) mm=Math.max(0,Math.max(...vals)-Math.min(...vals));
+              else if(vals.length===1) mm=vals[0];
+              if(mm>300) mm=0;
+              _out.push({id:s.id,n:s.nome,lat:Math.round(s.lat*10000)/10000,lon:Math.round(s.lon*10000)/10000,q:s.quota,p:s.prov,mm:Math.round(mm*10)/10});
+              break;
             }
           } catch(e) {}
         }));
         await new Promise(r => setTimeout(r, 200));
       }
-      if (_outY.length >= 5) {
-        fs.writeFileSync(path.join(DATA_DIR, _yesterdayDate + '.json'), JSON.stringify({ date: _yesterdayDate, collected: new Date().toISOString(), count: _outY.length, stations: _outY }), 'utf8');
-        console.log('Aggiornato ieri: ' + _yesterdayDate + ' (' + _outY.length + ' stazioni)');
+      if (_out.length >= 5) {
+        fs.writeFileSync(path.join(DATA_DIR,_yDate+'.json'), JSON.stringify({date:_yDate,collected:new Date().toISOString(),count:_out.length,stations:_out}),'utf8');
+        console.log('Aggiornato ieri: ' + _yDate + ' (' + _out.length + ' stazioni)');
       }
     } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
   }
