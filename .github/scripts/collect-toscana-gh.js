@@ -167,14 +167,40 @@ async function main() {
   if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
+
+  // Merge MAX con file esistente dello stesso giorno
+  // Protegge da glitch API che restituiscono 0mm — preserva il valore migliore
+  let finalStations = stations;
+  if (fs.existsSync(outFile)) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      if (existing.date === dateStr && existing.stations) {
+        const existMap = {};
+        existing.stations.forEach(s => { existMap[s.id] = s.mm || 0; });
+        finalStations = stations.map(s => {
+          const prevMM = existMap[s.id] || 0;
+          return { ...s, mm: Math.max(s.mm, prevMM) };
+        });
+        // Aggiungi stazioni che c'erano prima ma non in questo run
+        const newIds = new Set(stations.map(s => s.id));
+        existing.stations.forEach(s => {
+          if (!newIds.has(s.id) && s.mm > 0) finalStations.push(s);
+        });
+        console.log('  Merge MAX con file esistente applicato');
+      }
+    } catch(e) {
+      console.warn('  Warn: merge fallito, uso dati nuovi');
+    }
+  }
+
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),
     source:    'cfr-toscana',
-    count:     stations.length,
-    stations
+    count:     finalStations.length,
+    stations:  finalStations
   }));
-  console.log(`✅ Scritto ${outFile} (${stations.length} stazioni)`);
+  console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });

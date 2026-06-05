@@ -14,18 +14,6 @@ const DATA_DIR      = path.join(__dirname, '..', '..', 'data', 'trentino');
 const LIST_URL      = 'https://dati.meteotrentino.it/service.asmx/listaStazioniJson';
 const DATI_URL      = 'https://dati.meteotrentino.it/service.asmx/getValoriAggregatiGiornoJson';
 
-function getItalyOffset(date) {
-  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
-  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
-  // CET  (UTC+1): resto dell'anno
-  const year = date.getUTCFullYear();
-  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
-  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
-  const lastSunOct = new Date(Date.UTC(year, 9, 31));
-  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
-  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
-}
-
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
@@ -134,6 +122,33 @@ async function main() {
     stations
   }));
   console.log(`✅ Scritto ${outFile} (${stations.length} stazioni)`);
+
+  // ── Aggiorna sempre anche ieri ──────────────────────────────
+  // L'API restituisce 6 giorni di storico — aggiorna ieri ad ogni run
+  if (!process.env.DATE_OVERRIDE) {
+    const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
+    const _p = n => String(n).padStart(2, '0');
+    const _yDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
+    console.log('Aggiorno anche ieri: ' + _yDate);
+    try {
+      let _yRecords = records.filter(r => r.giorno && r.giorno.startsWith(_yDate));
+      if (_yRecords.length >= 5) {
+        const _yStations = _yRecords.map(r => {
+          const id = r.idstaz;
+          const mm = r.PrecTotale;
+          if (mm === null || mm === undefined || isNaN(parseFloat(mm))) return null;
+          const meta = stMeta[id];
+          if (!meta || !meta.lat || !meta.lon) return null;
+          return { id, n: meta.n, lat: meta.lat, lon: meta.lon, q: meta.q, p: meta.p, mm: Math.round(parseFloat(mm) * 10) / 10 };
+        }).filter(Boolean);
+        if (_yStations.length >= 10) {
+          const _yFile = path.join(DATA_DIR, `${_yDate}.json`);
+          fs.writeFileSync(_yFile, JSON.stringify({ date: _yDate, collected: new Date().toISOString(), source: 'meteotrentino', count: _yStations.length, stations: _yStations }));
+          console.log(`Aggiornato ieri: ${_yFile} (${_yStations.length} stazioni)`);
+        }
+      }
+    } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
+  }
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });
