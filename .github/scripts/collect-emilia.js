@@ -129,14 +129,11 @@ async function main() {
     }
   }
 
-  // Merge: prendi il valore massimo
+  // Sovrascrittura diretta — i nuovi dati sostituiscono sempre i vecchi
+  // (evita di preservare valori anomali da run precedenti)
   const merged = Object.assign({}, existingMap);
   output.forEach(s => {
-    if (merged[s.id]) {
-      merged[s.id].mm = Math.max(merged[s.id].mm, s.mm);
-    } else {
-      merged[s.id] = s;
-    }
+    merged[s.id] = s;
   });
 
   const finalOutput = Object.values(merged);

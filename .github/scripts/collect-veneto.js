@@ -125,8 +125,8 @@ async function main() {
             if (!isNaN(v) && v >= 0) vals.push(v);
           }
           let mm = 0;
-          if (vals.length >= 2) mm = Math.max(0, Math.max(...vals) - Math.min(...vals));
-          else if (vals.length === 1) mm = vals[0];
+          // Usa max dei valori cumulativi (più robusto al reset del sensore)
+          if (vals.length >= 1) mm = Math.max(...vals);
           if (mm > 300) mm = 0;
           output.push({
             id:  s.id,
@@ -184,8 +184,7 @@ async function main() {
               const dReg=/<DATI ISTANTE="(\d{12})"><VM>([\d.]+)<\/VM><\/DATI>/g; let dm; const vals=[];
               while((dm=dReg.exec(sens))!==null){ if(!dm[1].startsWith(_yPrefix)) continue; const v=parseFloat(dm[2]); if(!isNaN(v)&&v>=0) vals.push(v); }
               let mm=0;
-              if(vals.length>=2) mm=Math.max(0,Math.max(...vals)-Math.min(...vals));
-              else if(vals.length===1) mm=vals[0];
+              if(vals.length>=1) mm=Math.max(...vals);
               if(mm>300) mm=0;
               _out.push({id:s.id,n:s.nome,lat:Math.round(s.lat*10000)/10000,lon:Math.round(s.lon*10000)/10000,q:s.quota,p:s.prov,mm:Math.round(mm*10)/10});
               break;
