@@ -14,9 +14,6 @@ const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'altoadige');
 const API_URL  = 'https://static-meteo.provincia.bz.it/stations-data/website/valley.json';
 
 function getItalyOffset(date) {
-  // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
-  // CEST (UTC+2): ultima domenica marzo → ultima domenica ottobre
-  // CET  (UTC+1): resto dell'anno
   const year = date.getUTCFullYear();
   const lastSunMarch = new Date(Date.UTC(year, 2, 31));
   lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
@@ -92,14 +89,39 @@ async function main() {
   if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
+
+  // Merge MAX con file esistente dello stesso giorno
+  // Protegge da glitch API che restituiscono 0mm
+  let finalStations = stations;
+  if (fs.existsSync(outFile)) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      if (existing.date === dateStr && existing.stations) {
+        const existMap = {};
+        existing.stations.forEach(s => { existMap[s.id] = s.mm || 0; });
+        finalStations = stations.map(s => {
+          const prevMM = existMap[s.id] || 0;
+          return { ...s, mm: Math.max(s.mm, prevMM) };
+        });
+        const newIds = new Set(stations.map(s => s.id));
+        existing.stations.forEach(s => {
+          if (!newIds.has(s.id) && s.mm > 0) finalStations.push(s);
+        });
+        console.log('  Merge MAX con file esistente applicato');
+      }
+    } catch(e) {
+      console.warn('  Warn: merge fallito, uso dati nuovi');
+    }
+  }
+
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),
     source:    'meteo-altoadige',
-    count:     stations.length,
-    stations
+    count:     finalStations.length,
+    stations:  finalStations
   }));
-  console.log(`✅ Scritto ${outFile} (${stations.length} stazioni)`);
+  console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });
