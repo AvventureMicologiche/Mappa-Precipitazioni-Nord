@@ -132,9 +132,8 @@ async function main() {
   console.log('  Stazioni con dati: ' + output.length);
 
   if (output.length < 5) {
-    console.error('Troppo poche stazioni (' + output.length + '), uscita senza salvare.');
-    process.exit(1);
-  }
+    console.warn('Poche stazioni oggi (' + output.length + '), salto salvataggio oggi ma aggiorno ieri.');
+  } else {
 
   // ── Step 5: salva ─────────────────────────────────────────────
   const fileData = {
@@ -145,6 +144,7 @@ async function main() {
   };
   fs.writeFileSync(outFile, JSON.stringify(fileData), 'utf8');
   console.log('\nSalvato: ' + outFile + ' (' + output.length + ' stazioni)');
+  } // fine if output.length >= 5
   // ── Step 5b: aggiorna sempre anche ieri ──────────────────────
   // Ad ogni run sovrascrive ieri con i dati più aggiornati disponibili nell'API
   if (!process.env.DATE_OVERRIDE) {
