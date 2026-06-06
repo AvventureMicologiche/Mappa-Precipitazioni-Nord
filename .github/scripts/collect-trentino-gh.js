@@ -14,6 +14,15 @@ const DATA_DIR      = path.join(__dirname, '..', '..', 'data', 'trentino');
 const LIST_URL      = 'https://dati.meteotrentino.it/service.asmx/listaStazioniJson';
 const DATI_URL      = 'https://dati.meteotrentino.it/service.asmx/getValoriAggregatiGiornoJson';
 
+function getItalyOffset(date) {
+  const year = date.getUTCFullYear();
+  const lastSunMarch = new Date(Date.UTC(year, 2, 31));
+  lastSunMarch.setUTCDate(31 - lastSunMarch.getUTCDay());
+  const lastSunOct = new Date(Date.UTC(year, 9, 31));
+  lastSunOct.setUTCDate(31 - lastSunOct.getUTCDay());
+  return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
+}
+
 function fmtDate(d) {
   const p = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
