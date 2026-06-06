@@ -140,9 +140,8 @@ async function main() {
   console.log(`  Stazioni finali: ${finalOutput.length}`);
 
   if (finalOutput.length < 10) {
-    console.error('Troppo poche stazioni, uscita senza salvare.');
-    process.exit(1);
-  }
+    console.warn('Poche stazioni oggi (' + finalOutput.length + '), salto salvataggio oggi ma aggiorno ieri.');
+  } else {
 
   // ── Step 5: salva ────────────────────────────────────────────
   fs.writeFileSync(outFile, JSON.stringify({
@@ -153,6 +152,7 @@ async function main() {
     stations:  finalOutput
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${finalOutput.length} stazioni)`);
+  } // fine if finalOutput.length >= 10
   // ── Step 5b: aggiorna sempre anche ieri ──────────────────────
   if (!process.env.DATE_OVERRIDE) {
     const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);

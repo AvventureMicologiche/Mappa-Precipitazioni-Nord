@@ -132,9 +132,8 @@ async function main() {
   console.log(`  Stazioni finali: ${output.length}`);
 
   if (output.length < 10) {
-    console.error('Troppo poche stazioni, uscita senza salvare.');
-    process.exit(1);
-  }
+    console.warn('Poche stazioni oggi (' + output.length + '), salto salvataggio oggi ma aggiorno ieri.');
+  } else {
 
   // ── Step 4: salva file del giorno corrente ────────────────────
   fs.writeFileSync(outFile, JSON.stringify({
@@ -145,6 +144,7 @@ async function main() {
     stations:  output
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${output.length} stazioni)`);
+  } // fine if output.length >= 10
 
   // ── Step 4b: nelle prime ore aggiorna anche ieri ──────────────
   // La pioggia caduta tra le 23:00 e le 05:59 appartiene visivamente a ieri

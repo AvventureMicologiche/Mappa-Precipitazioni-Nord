@@ -111,7 +111,9 @@ async function main() {
   }).filter(Boolean);
 
   console.log(`  Stazioni con dati: ${stations.length}`);
-  if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
+  if (stations.length < 10) {
+    console.warn('Poche stazioni oggi (' + stations.length + '), salto salvataggio oggi ma aggiorno ieri.');
+  } else {
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
   fs.writeFileSync(outFile, JSON.stringify({
@@ -122,6 +124,7 @@ async function main() {
     stations
   }));
   console.log(`✅ Scritto ${outFile} (${stations.length} stazioni)`);
+  } // fine if stations.length >= 10
 
   // ── Aggiorna sempre anche ieri ──────────────────────────────
   // L'API restituisce 6 giorni di storico — aggiorna ieri ad ogni run
