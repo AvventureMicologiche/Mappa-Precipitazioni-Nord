@@ -129,23 +129,19 @@ async function main() {
     }
   }
 
-  // Merge: prendi il valore massimo
+  // Sovrascrittura diretta — i nuovi dati sostituiscono sempre i vecchi
+  // (evita di preservare valori anomali da run precedenti)
   const merged = Object.assign({}, existingMap);
   output.forEach(s => {
-    if (merged[s.id]) {
-      merged[s.id].mm = Math.max(merged[s.id].mm, s.mm);
-    } else {
-      merged[s.id] = s;
-    }
+    merged[s.id] = s;
   });
 
   const finalOutput = Object.values(merged);
   console.log(`  Stazioni finali: ${finalOutput.length}`);
 
   if (finalOutput.length < 10) {
-    console.error('Troppo poche stazioni, uscita senza salvare.');
-    process.exit(1);
-  }
+    console.warn('Poche stazioni oggi (' + finalOutput.length + '), salto salvataggio oggi ma aggiorno ieri.');
+  } else {
 
   // ── Step 5: salva ────────────────────────────────────────────
   fs.writeFileSync(outFile, JSON.stringify({
@@ -156,6 +152,37 @@ async function main() {
     stations:  finalOutput
   }), 'utf8');
   console.log(`Salvato: ${outFile} (${finalOutput.length} stazioni)`);
+  } // fine if finalOutput.length >= 10
+  // ── Step 5b: aggiorna sempre anche ieri ──────────────────────
+  if (!process.env.DATE_OVERRIDE) {
+    const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
+    const _p = n => String(n).padStart(2, '0');
+    const _yDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
+    const _yKey = _yDate.replace(/-/g,'');
+    console.log('Aggiorno anche ieri: ' + _yDate);
+    try {
+      const _out = [];
+      items.forEach(s => {
+        try {
+          const ana=s.anagrafica; if(!ana||!ana.geometry||!ana.geometry.coordinates) return;
+          const lon=ana.geometry.coordinates[0]; const lat=ana.geometry.coordinates[1];
+          if(lat<43.7||lat>45.2||lon<9.1||lon>12.8) return;
+          if(!ana.variabili||!ana.variabili.includes('precipitazione_cumulata_giornaliera')) return;
+          const dd=(s.dati||{})[_yKey]; let mm=0;
+          if(dd&&dd['0000']&&dd['0000'].precipitazione_cumulata_giornaliera!==undefined){
+            const v=parseFloat(dd['0000'].precipitazione_cumulata_giornaliera);
+            if(!isNaN(v)&&v>=0&&v<500) mm=Math.round(v*10)/10;
+          }
+          _out.push({id:s._id,n:ana.nome||'—',lat:Math.round(lat*10000)/10000,lon:Math.round(lon*10000)/10000,q:ana.altitudine||0,p:ana.provincia||'—',mm});
+        } catch(e) {}
+      });
+      if (_out.length >= 10) {
+        fs.writeFileSync(path.join(DATA_DIR,_yDate+'.json'), JSON.stringify({date:_yDate,collected:new Date().toISOString(),source:'arpa-emilia-arpae',count:_out.length,stations:_out}),'utf8');
+        console.log('Aggiornato ieri: ' + _yDate + ' (' + _out.length + ' stazioni)');
+      }
+    } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
+  }
+
 
   // ── Step 6: pulizia ──────────────────────────────────────────
   const cutoff = new Date();
