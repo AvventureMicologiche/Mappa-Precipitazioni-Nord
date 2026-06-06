@@ -66,7 +66,15 @@ async function main() {
   console.log(`  Stazioni ricevute: ${items.length}`);
 
   // ── Step 2: converti data target in formato ARPAE (YYYYMMDD) ─
-  const dateKey = targetDate.replace(/-/g, ''); // es. 20260517
+  // ARPAE API ha offset +1 giorno: la chiave 20260606 contiene i dati meteo del 5 giugno
+  // Per ottenere i dati del giorno X, servono dalla chiave X+1
+  function dateKeyPlusOne(dateStr) {
+    const d = new Date(dateStr + 'T12:00:00Z');
+    d.setUTCDate(d.getUTCDate() + 1);
+    return d.toISOString().substring(0, 10).replace(/-/g, '');
+  }
+  const dateKey = dateKeyPlusOne(targetDate);
+  console.log(`  Chiave API per ${targetDate}: ${dateKey} (offset ARPAE +1g)`);
 
   // ── Step 3: estrai dati del giorno target ───────────────────
   const output = [];
@@ -158,7 +166,7 @@ async function main() {
     const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
     const _p = n => String(n).padStart(2, '0');
     const _yDate = _yd.getUTCFullYear() + '-' + _p(_yd.getUTCMonth()+1) + '-' + _p(_yd.getUTCDate());
-    const _yKey = _yDate.replace(/-/g,'');
+    const _yKey = dateKeyPlusOne(_yDate);
     console.log('Aggiorno anche ieri: ' + _yDate);
     try {
       const _out = [];
