@@ -1,7 +1,7 @@
 /**
  * collect-piemonte.js - Script definitivo
  * API ARPA Piemonte: /pie_anag (stazioni) + /data_pie (misure)
- * Usa cum_rain_24h come valore giornaliero diretto
+ * Usa sum(cum_rain_1h) per totale giornaliero + merge MAX protezione
  */
 const fs   = require('fs');
 const path = require('path');
@@ -71,7 +71,7 @@ async function main() {
   });
 
   // ── Step 2: misure del giorno ────────────────────────────────
-  // Usiamo cum_rain_24h dall'ultima misura disponibile del giorno
+  // Usiamo sum(cum_rain_1h) per il totale giornaliero
   const dateFrom = targetDate + 'T00:00';
   const dateTo   = targetDate + 'T23:59';
   console.log('Carico misure ' + dateFrom + ' → ' + dateTo + '...');
@@ -90,22 +90,18 @@ async function main() {
   }
   console.log('  Misure totali: ' + allMisure.length);
 
-  // ── Step 3: prendi cum_rain_24h dell'ULTIMO record per stazione ──
-  // L'ultimo record (~23:00) ha cum_rain_24h che copre ~23:00 ieri → ~23:00 oggi
-  // Quasi esattamente il giorno calendario, con minimo trascinamento
+  // ── Step 3: somma cum_rain_1h per stazione ─────────────────
+  // sum(cum_rain_1h) è il totale giornaliero esatto quando ci sono tutti i 24 record
   const rainMap = {};
-  const rainTime = {}; // timestamp dell'ultimo record per stazione
   allMisure.forEach(function(m) {
     const id = m.station_code;
     if (!id) return;
-    const v = parseFloat(m.cum_rain_24h);
+    const v = parseFloat(m.cum_rain_1h);
     if (isNaN(v) || v < 0) return;
-    const t = m.date || '';
-    if (!rainTime[id] || t > rainTime[id]) {
-      rainTime[id] = t;
-      rainMap[id] = v;
-    }
+    rainMap[id] = (rainMap[id] || 0) + v;
   });
+  // Arrotonda a 1 decimale
+  Object.keys(rainMap).forEach(id => { rainMap[id] = Math.round(rainMap[id] * 10) / 10; });
 
   // ── Step 4: costruisci output ─────────────────────────────────
   const output = [];
@@ -149,7 +145,7 @@ async function main() {
   console.log('\nSalvato: ' + outFile + ' (' + output.length + ' stazioni)');
   } // fine if output.length >= 5
   // ── Step 5b: aggiorna sempre anche ieri ──────────────────────
-  // Ad ogni run sovrascrive ieri con i dati più aggiornati disponibili nell'API
+  // Ad ogni run aggiorna ieri con sum(cum_rain_1h) + merge MAX protezione
   if (!process.env.DATE_OVERRIDE) {
     const _yd = new Date(new Date().getTime() + getItalyOffset(new Date()) * 3600000 - 24 * 3600000);
     const _p = n => String(n).padStart(2, '0');
@@ -165,20 +161,49 @@ async function main() {
         if (_rec.length < 10000) break;
         _pg++;
       }
-      const _rm = {}; const _rt = {};
-      _mY.forEach(m => { const id=m.station_code; if(!id) return; const v=parseFloat(m.cum_rain_24h); if(isNaN(v)||v<0) return; const t=m.date||''; if(!_rt[id]||t>_rt[id]){_rt[id]=t;_rm[id]=v;} });
-      const _out = [];
-      Object.keys(_rm).forEach(id => {
-        const s=stIndex[id]; if(!s) return;
-        const lat=parseFloat(s.lat); const lon=parseFloat(s.lng||s.lon);
-        if(isNaN(lat)||isNaN(lon)) return;
-        if(lat<43.8||lat>46.5||lon<6.6||lon>9.3) return;
-        let mm=_rm[id]; if(mm>300) mm=0;
-        _out.push({id,n:s.name||id,lat:Math.round(lat*10000)/10000,lon:Math.round(lon*10000)/10000,q:parseInt(s.altitude||0)||0,p:s.province||'—',mm:Math.round(mm*10)/10});
-      });
-      if (_out.length >= 5) {
-        fs.writeFileSync(path.join(DATA_DIR,_yDate+'.json'), JSON.stringify({date:_yDate,collected:new Date().toISOString(),count:_out.length,stations:_out}),'utf8');
-        console.log('Aggiornato ieri: ' + _yDate + ' (' + _out.length + ' stazioni)');
+      console.log('  Record ieri: ' + _mY.length);
+
+      // Safeguard: se < 1000 record, dati parziali → non aggiornare
+      if (_mY.length < 1000) {
+        console.log('  Troppo pochi record (' + _mY.length + '), salto aggiornamento ieri.');
+      } else {
+        // sum(cum_rain_1h) per stazione
+        const _rm = {};
+        _mY.forEach(m => { const id=m.station_code; if(!id) return; const v=parseFloat(m.cum_rain_1h); if(isNaN(v)||v<0) return; _rm[id]=(_rm[id]||0)+v; });
+
+        const _out = [];
+        Object.keys(_rm).forEach(id => {
+          const s=stIndex[id]; if(!s) return;
+          const lat=parseFloat(s.lat); const lon=parseFloat(s.lng||s.lon);
+          if(isNaN(lat)||isNaN(lon)) return;
+          if(lat<43.8||lat>46.5||lon<6.6||lon>9.3) return;
+          let mm=Math.round(_rm[id]*10)/10; if(mm>300) mm=0;
+          _out.push({id,n:s.name||id,lat:Math.round(lat*10000)/10000,lon:Math.round(lon*10000)/10000,q:parseInt(s.altitude||0)||0,p:s.province||'—',mm});
+        });
+
+        if (_out.length >= 5) {
+          // Merge MAX: confronta con file esistente, tieni il valore più alto per stazione
+          const yFile = path.join(DATA_DIR, _yDate+'.json');
+          let merged = _out;
+          if (fs.existsSync(yFile)) {
+            try {
+              const existing = JSON.parse(fs.readFileSync(yFile, 'utf8'));
+              const existMap = {};
+              (existing.stations || []).forEach(s => { existMap[s.id || s.n] = s.mm || 0; });
+              merged = _out.map(s => {
+                const prev = existMap[s.id || s.n] || 0;
+                return { ...s, mm: Math.max(s.mm, prev) };
+              });
+              // Aggiungi stazioni che erano nel vecchio file ma non nel nuovo
+              const newIds = new Set(_out.map(s => s.id || s.n));
+              (existing.stations || []).forEach(s => {
+                if (!newIds.has(s.id || s.n) && s.mm > 0) merged.push(s);
+              });
+            } catch(e) { /* file corrotto, sovrascrivi */ }
+          }
+          fs.writeFileSync(yFile, JSON.stringify({date:_yDate,collected:new Date().toISOString(),count:merged.length,stations:merged}),'utf8');
+          console.log('Aggiornato ieri: ' + _yDate + ' (' + merged.length + ' stazioni, merge MAX)');
+        }
       }
     } catch(e) { console.warn('Warn aggiornamento ieri: ' + e.message); }
   }
