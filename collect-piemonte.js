@@ -90,16 +90,21 @@ async function main() {
   }
   console.log('  Misure totali: ' + allMisure.length);
 
-  // ── Step 3: somma cum_rain_1h per stazione ─────────────────
-  // L'API restituisce un record per stazione per ora
-  // cum_rain_1h è l'incremento orario → sommiamo per ottenere il totale giornaliero
+  // ── Step 3: prendi cum_rain_24h dell'ULTIMO record per stazione ──
+  // L'ultimo record (~23:00) ha cum_rain_24h che copre ~23:00 ieri → ~23:00 oggi
+  // Quasi esattamente il giorno calendario, con minimo trascinamento
   const rainMap = {};
+  const rainTime = {}; // timestamp dell'ultimo record per stazione
   allMisure.forEach(function(m) {
     const id = m.station_code;
     if (!id) return;
-    const v = parseFloat(m.cum_rain_1h);
+    const v = parseFloat(m.cum_rain_24h);
     if (isNaN(v) || v < 0) return;
-    rainMap[id] = (rainMap[id] || 0) + v;
+    const t = m.date || '';
+    if (!rainTime[id] || t > rainTime[id]) {
+      rainTime[id] = t;
+      rainMap[id] = v;
+    }
   });
 
   // ── Step 4: costruisci output ─────────────────────────────────
@@ -160,8 +165,8 @@ async function main() {
         if (_rec.length < 10000) break;
         _pg++;
       }
-      const _rm = {};
-      _mY.forEach(m => { const id=m.station_code; if(!id) return; const v=parseFloat(m.cum_rain_1h); if(isNaN(v)||v<0) return; _rm[id]=(_rm[id]||0)+v; });
+      const _rm = {}; const _rt = {};
+      _mY.forEach(m => { const id=m.station_code; if(!id) return; const v=parseFloat(m.cum_rain_24h); if(isNaN(v)||v<0) return; const t=m.date||''; if(!_rt[id]||t>_rt[id]){_rt[id]=t;_rm[id]=v;} });
       const _out = [];
       Object.keys(_rm).forEach(id => {
         const s=stIndex[id]; if(!s) return;
