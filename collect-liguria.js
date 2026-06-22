@@ -105,30 +105,10 @@ async function main() {
   });
   console.log(`  Stazioni in Liguria: ${Object.keys(newData).length}`);
 
-  // ── Step 4: merge MAX con file esistente ─────────────────────
-  // Protegge da glitch: tiene il valore più alto tra esistente e nuovo
-  let merged = {};
-  if (fs.existsSync(outFile)) {
-    try {
-      const existing = JSON.parse(fs.readFileSync(outFile, 'utf8'));
-      if (existing.stations) {
-        existing.stations.forEach(s => { merged[s.id] = s; });
-        console.log(`  File esistente: ${existing.stations.length} stazioni`);
-      }
-    } catch(e) {
-      console.log('  Nessun file esistente o corrotto, creo nuovo.');
-    }
-  }
-
-  Object.values(newData).forEach(s => {
-    if (merged[s.id]) {
-      merged[s.id].mm = Math.max(merged[s.id].mm, s.mm);
-    } else {
-      merged[s.id] = s;
-    }
-  });
-
-  const output = Object.values(merged);
+  // ── Step 4: sovrascrittura (l'ultimo run della giornata vince) ─
+  // Alle 23:50 Pluvio24h copre 23:50 ieri → 23:50 oggi ≈ giorno calendario
+  // Ogni run sovrascrive il precedente, nessun accumulo
+  const output = Object.values(newData);
   console.log(`  Stazioni finali: ${output.length}`);
 
   if (output.length < 10) {
