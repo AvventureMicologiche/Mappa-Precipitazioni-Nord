@@ -1,7 +1,7 @@
 /**
  * collect-toscana-gh.js  —  GitHub Actions
  * Raccoglie precipitazioni giornaliere Toscana da CFR Toscana
- * Strategia: somma tutti i valori mm/15min del giorno corrente
+ * Strategia: prende il max cumulativo per stazione dai dati del giorno corrente
  * usando action=PLUVIO con ogni timestamp della lista giornaliera
  */
 
@@ -98,8 +98,8 @@ async function main() {
     throw new Error('Nessun timestamp disponibile');
   }
 
-  // Step 2: per ogni timestamp, somma i Valore (mm/15min) per stazione
-  const rainTot = {}; // IDStazione -> mm totali
+  // Step 2: per ogni timestamp, prendi il max Valore (cumulativo) per stazione
+  const rainTot = {}; // IDStazione -> mm cumulativo massimo
 
   for (let i = 0; i < timestamps.length; i++) {
     const ts = timestamps[i];
@@ -109,8 +109,8 @@ async function main() {
         data.data.forEach(s => {
           const id  = s.IDStazione;
           const val = parseFloat(s.Valore);
-          if (!id || isNaN(val) || val < 0 || val > 200) return;
-          rainTot[id] = (rainTot[id] || 0) + val;
+          if (!id || isNaN(val) || val < 0 || val > 500) return;
+          if (!rainTot[id] || val > rainTot[id]) rainTot[id] = val;
         });
       }
       process.stdout.write(`  Processati ${i+1}/${timestamps.length} timestamps\r`);
@@ -120,9 +120,9 @@ async function main() {
     }
   }
 
-  console.log(`\n  Somma completata per ${Object.keys(rainTot).length} stazioni`);
+  console.log(`\n  Max completato per ${Object.keys(rainTot).length} stazioni`);
 
-  // Step 3: costruisci array stazioni con mm totali
+  // Step 3: costruisci array stazioni con mm cumulativi
   // Per le coordinate usiamo stMeta dalla chiamata base
   // Per provincia dobbiamo aggiungerla dalla lista stazioni CFR
   const LIST_URL = `${BASE_URL}?action=list&rt=0&type_gauge=pluvio&speed=km/h`;
