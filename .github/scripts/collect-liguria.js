@@ -1,17 +1,17 @@
 /**
  * collect-liguria.js
- * Fonte: omirl.regione.liguria.it (stazioni pluviometriche)
- * Endpoint primario: /Omirl/rest/stations/Pluvio24h → cumulativo 24h
- * Fallback: /Omirl/rest/stations/Pluvio → per lista stazioni base
- * Merge MAX tra run per protezione da glitch.
+ * Fonte: omirl.regione.liguria.it — endpoint /charts/{code}/Pluvio
+ * Restituisce serie temporale oraria per ~69 ore.
+ * Series 0 = incremento orario, Series 1 = cumulativo.
+ * Strategia: sum(Series 0) per le ore di ieri = totale giornaliero esatto.
  */
 const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'liguria');
-const MAX_DAYS = 365;
-const OMIRL_BASE = 'https://omirl.regione.liguria.it/Omirl/rest/stations';
+const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'liguria');
+const MAX_DAYS  = 365;
+const OMIRL_BASE = 'https://omirl.regione.liguria.it/Omirl/rest';
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
@@ -22,123 +22,144 @@ function getItalyOffset(date) {
   return (date >= lastSunMarch && date < lastSunOct) ? 2 : 1;
 }
 
-function getItalyDate(offsetHours) {
+function getItalyDate(offsetDays) {
   const now = new Date();
-  const italy = new Date(now.getTime() + (getItalyOffset(now) + (offsetHours||0)) * 3600000);
+  const italy = new Date(now.getTime() + getItalyOffset(now) * 3600000 + (offsetDays || 0) * 86400000);
   return italy.toISOString().substring(0, 10);
-}
-
-function getTargetDate() {
-  if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) return process.env.DATE_OVERRIDE.trim();
-  return getItalyDate(0);
 }
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, {
-      headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' }
+    const req = https.get(url, {
+      headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' },
+      timeout: 15000
     }, (res) => {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => {
         try { resolve(JSON.parse(data)); }
-        catch(e) { reject(new Error('JSON parse error: ' + e.message)); }
+        catch(e) { reject(new Error('JSON parse error')); }
       });
-    }).on('error', reject);
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
   });
 }
 
+async function fetchWithRetry(url, retries) {
+  retries = retries || 2;
+  for (var i = 0; i <= retries; i++) {
+    try { return await fetchJSON(url); }
+    catch(e) {
+      if (i === retries) throw e;
+      await new Promise(function(r) { setTimeout(r, 1000); });
+    }
+  }
+}
+
 async function main() {
-  const targetDate = getTargetDate();
-  console.log(`\n=== Raccolta dati Liguria per ${targetDate} ===\n`);
+  var yesterdayDate = process.env.DATE_OVERRIDE || getItalyDate(-1);
+  console.log('\n=== Raccolta dati Liguria per ' + yesterdayDate + ' (da charts OMIRL) ===\n');
 
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-  const outFile = path.join(DATA_DIR, `${targetDate}.json`);
 
-  // ── Step 1: scarica lista stazioni base da Pluvio ────────────
-  console.log('Scarico lista stazioni da OMIRL Pluvio...');
-  let rawBase;
-  try {
-    rawBase = await fetchJSON(OMIRL_BASE + '/Pluvio');
-  } catch(e) {
-    console.error('Errore fetch Pluvio:', e.message);
-    process.exit(1);
-  }
-  console.log(`  Stazioni base: ${rawBase.length}`);
-
-  // ── Step 2: scarica cumulativo 24h da Pluvio24h ──────────────
-  console.log('Scarico dati 24h da OMIRL Pluvio24h...');
-  let raw24h = [];
-  try {
-    raw24h = await fetchJSON(OMIRL_BASE + '/Pluvio24h');
-    if (!Array.isArray(raw24h)) raw24h = [];
-  } catch(e) {
-    console.warn('  Pluvio24h non disponibile:', e.message);
-    raw24h = [];
-  }
-  console.log(`  Stazioni con pioggia 24h: ${raw24h.length}`);
-
-  // ── Step 3: costruisci mappa stazioni con mm 24h ─────────────
-  // Index delle stazioni 24h per shortCode
-  const rain24h = {};
-  raw24h.forEach(s => {
-    if (!s.shortCode) return;
-    const v = parseFloat(s.value);
-    if (!isNaN(v) && v >= 0 && v < 500) rain24h[s.shortCode] = v;
+  // Step 1: lista stazioni
+  console.log('Scarico lista stazioni...');
+  var rawStations = await fetchJSON(OMIRL_BASE + '/stations/Pluvio');
+  var stations = rawStations.filter(function(s) {
+    return s.lat && s.lon && s.name && s.shortCode &&
+      s.lat >= 43.7 && s.lat <= 44.8 && s.lon >= 7.4 && s.lon <= 10.3;
   });
+  console.log('  Stazioni in Liguria: ' + stations.length);
 
-  // Bounding box Liguria
-  const newData = {};
-  rawBase.forEach(s => {
-    if (!s.lat || !s.lon || !s.name) return;
-    if (s.lat < 43.7 || s.lat > 44.8 || s.lon < 7.4 || s.lon > 10.3) return;
-    const mm24 = rain24h[s.shortCode] || 0;
-    newData[s.shortCode] = {
-      id:  s.shortCode,
-      n:   s.name,
-      lat: Math.round(s.lat * 10000) / 10000,
-      lon: Math.round(s.lon * 10000) / 10000,
-      q:   s.alt || 0,
-      p:   s.municipality || '',
-      mm:  Math.round(mm24 * 10) / 10
-    };
-  });
-  console.log(`  Stazioni in Liguria: ${Object.keys(newData).length}`);
+  // Step 2: calcola boundaries giorno target in UTC
+  var offset = getItalyOffset(new Date());
+  var dayStart = new Date(yesterdayDate + 'T00:00:00Z');
+  dayStart.setUTCHours(dayStart.getUTCHours() - offset);
+  var dayEnd = new Date(dayStart.getTime() + 24 * 3600000);
+  var dayStartMs = dayStart.getTime();
+  var dayEndMs = dayEnd.getTime();
+  console.log('  Finestra UTC: ' + dayStart.toISOString() + ' -> ' + dayEnd.toISOString());
 
-  // ── Step 4: sovrascrittura (l'ultimo run della giornata vince) ─
-  // Alle 23:50 Pluvio24h copre 23:50 ieri → 23:50 oggi ≈ giorno calendario
-  // Ogni run sovrascrive il precedente, nessun accumulo
-  const output = Object.values(newData);
-  console.log(`  Stazioni finali: ${output.length}`);
+  // Step 3: fetch charts per ogni stazione (batch di 10)
+  console.log('  Scarico dati orari per ogni stazione...');
+  var ok = 0, fail = 0, withRain = 0;
+  var output = [];
+
+  for (var i = 0; i < stations.length; i += 10) {
+    var batch = stations.slice(i, i + 10);
+    var promises = batch.map(function(s) {
+      var url = OMIRL_BASE + '/charts/' + s.shortCode + '/Pluvio';
+      return fetchWithRetry(url).then(function(chart) {
+        var hourly = (chart.dataSeries && chart.dataSeries[0] && chart.dataSeries[0].data) || [];
+        var mm = 0;
+        hourly.forEach(function(p) {
+          if (p[0] >= dayStartMs && p[0] < dayEndMs && p[1] > 0) {
+            mm += p[1];
+          }
+        });
+        return { station: s, mm: Math.round(mm * 10) / 10 };
+      }).catch(function() {
+        return null;
+      });
+    });
+    var results = await Promise.all(promises);
+    results.forEach(function(r) {
+      if (r) {
+        output.push({
+          id:  r.station.shortCode,
+          n:   r.station.name,
+          lat: Math.round(r.station.lat * 10000) / 10000,
+          lon: Math.round(r.station.lon * 10000) / 10000,
+          q:   r.station.alt || 0,
+          p:   r.station.municipality || '',
+          mm:  r.mm
+        });
+        ok++;
+        if (r.mm > 0) withRain++;
+      } else {
+        fail++;
+      }
+    });
+    // Pausa tra batch
+    if (i + 10 < stations.length) {
+      await new Promise(function(r) { setTimeout(r, 500); });
+    }
+  }
+
+  console.log('  OK: ' + ok + ', fallite: ' + fail + ', con pioggia: ' + withRain);
 
   if (output.length < 10) {
-    console.warn('Poche stazioni (' + output.length + '), salto salvataggio.');
-  } else {
-    fs.writeFileSync(outFile, JSON.stringify({
-      date:      targetDate,
-      collected: new Date().toISOString(),
-      source:    'arpa-liguria-omirl-24h',
-      count:     output.length,
-      stations:  output
-    }), 'utf8');
-    console.log(`Salvato: ${outFile} (${output.length} stazioni)`);
+    console.error('Troppo poche stazioni, uscita senza salvare.');
+    process.exit(1);
   }
 
-  // ── Step 5: pulizia ───────────────────────────────────────────
-  const cutoff = new Date();
+  // Step 4: salva
+  var outFile = path.join(DATA_DIR, yesterdayDate + '.json');
+  fs.writeFileSync(outFile, JSON.stringify({
+    date:      yesterdayDate,
+    collected: new Date().toISOString(),
+    source:    'arpa-liguria-omirl-charts',
+    count:     output.length,
+    stations:  output
+  }), 'utf8');
+  console.log('\nSalvato: ' + outFile + ' (' + output.length + ' stazioni, ' + withRain + ' con pioggia)');
+
+  // Step 5: pulizia
+  var cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - MAX_DAYS);
-  const cutoffStr = cutoff.toISOString().substring(0, 10);
-  const allFiles = fs.readdirSync(DATA_DIR)
-    .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort();
-  let deleted = 0;
-  allFiles.forEach(f => {
+  var cutoffStr = cutoff.toISOString().substring(0, 10);
+  var allFiles = fs.readdirSync(DATA_DIR)
+    .filter(function(f) { return /^\d{4}-\d{2}-\d{2}\.json$/.test(f); }).sort();
+  var deleted = 0;
+  allFiles.forEach(function(f) {
     if (f.replace('.json', '') < cutoffStr) {
       fs.unlinkSync(path.join(DATA_DIR, f));
       deleted++;
     }
   });
-  console.log(`Pulizia: ${deleted} eliminati, ${allFiles.length - deleted} rimanenti`);
+  console.log('Pulizia: ' + deleted + ' eliminati, ' + (allFiles.length - deleted) + ' rimanenti');
   console.log('\n=== Completato! ===\n');
 }
 
-main().catch(e => { console.error('Errore fatale:', e); process.exit(1); });
+main().catch(function(e) { console.error('Errore fatale:', e); process.exit(1); });
