@@ -2,17 +2,6 @@
 <html lang="it">
 <head>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-9R7MXXS0V4');
-  </script>
-
   <meta name="description" content="Mappa interattiva delle precipitazioni in Nord Italia con dati da stazioni meteo reali. Pianifica le tue uscite funghi.">
   <meta property="og:title" content="Precipitazioni Nord Italia | Avventure Micologiche">
   <meta property="og:description" content="Mappa interattiva con dati meteo reali per pianificare ogni uscita. Trova le zone dove ha piovuto di più.">
@@ -224,6 +213,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   transition:opacity .2s;
 }
 #channel-logo:hover{opacity:1;}
+.iscriviti-btn{display:inline-block;}
+@media(max-width:600px){.iscriviti-btn{display:none!important;}}
 #channel-logo .ch-text{
   display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;
 }
@@ -570,20 +561,23 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     <!-- Logo canale stile ARPAL — bottom right -->
     <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
        style="position:absolute;bottom:56px;right:20px;z-index:1000;
-              display:flex;flex-direction:row;align-items:center;gap:10px;
+              display:flex;flex-direction:column;align-items:center;gap:8px;
               background:rgba(255,255,255,.70);border-radius:5px;
-              padding:8px 16px 8px 12px;text-decoration:none;opacity:0.80;
+              padding:10px 16px;text-decoration:none;opacity:0.80;
               transition:opacity .2s;"
        onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.80"
        id="channel-logo">
-      <svg width="42" height="30" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="42" height="30" rx="6" fill="#FF0000"/>
-        <polygon points="16,7 16,23 31,15" fill="white"/>
-      </svg>
-      <div style="display:flex;flex-direction:column;align-items:center;line-height:1.2;">
-        <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Avventure</span>
-        <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Micologiche</span>
+      <div style="display:flex;flex-direction:row;align-items:center;gap:10px;">
+        <svg width="42" height="30" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="42" height="30" rx="6" fill="#FF0000"/>
+          <polygon points="16,7 16,23 31,15" fill="white"/>
+        </svg>
+        <div style="display:flex;flex-direction:column;align-items:center;line-height:1.2;">
+          <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Avventure</span>
+          <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Micologiche</span>
+        </div>
       </div>
+      <div class="iscriviti-btn" style="background:#FF0000;color:white;font-size:12px;font-weight:700;padding:5px 18px;border-radius:3px;letter-spacing:0.3px;">ISCRIVITI</div>
     </a>
 
     <!-- Pannelli: su desktop sovrapposti alla mappa via absolute -->
