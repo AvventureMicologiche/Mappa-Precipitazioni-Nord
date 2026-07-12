@@ -1,0 +1,147 @@
+# Mappa Precipitazioni Nord Italia — CLAUDE.md
+
+## Progetto
+Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali da stazioni ARPA regionali su heatmap Leaflet.
+
+- **Dev:** avventurepluvio.netlify.app
+- **Prod:** precipitazioni.avventuremicologiche.it
+- **Repo:** github.com/AvventureMicologiche/Mappa-Precipitazioni-Nord
+- **Stack:** Leaflet 1.9.4, OpenStreetMap, Netlify (hosting + Functions), GitHub Actions (data collection)
+
+---
+
+## Regole fondamentali
+
+1. **Lo storico precipitazioni deve essere SEMPRE accurato e completo.** Mai accettare dati parziali o sbagliati come "non catastrofici". Ogni problema va risolto completamente.
+2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file.
+3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
+4. **Open-Meteo si usa SOLO per Valle d'Aosta e Friuli.** Tutte le altre regioni usano dati ARPA reali.
+5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
+
+---
+
+## Architettura dati per regione
+
+### Lombardia
+- **Fonte:** ARPA Lombardia Socrata API (live dal frontend, no collect script)
+- **Formula:** `sum(valore)` nella query API
+- **File su GitHub:** NO (dati caricati live dal browser)
+- **Stato:** ✅ sempre corretto
+
+### Piemonte
+- **Fonte:** ARPA Piemonte `utility.arpa.piemonte.it/api_realtime`
+- **Collect:** `collect-piemonte.js`
+- **Formula:** `sum(cum_rain_1h)` per totale giornaliero + merge MAX protezione
+- **Merge MAX:** se "aggiorna ieri" riceve <1000 record, salta l'aggiornamento
+- **PIEMONTE_STATIONS:** 170 stazioni curate (filtrate da 275) nell'index.html. Ceppo Morelli esclusa (sensore offline).
+- **Orari:** 6 run/giorno
+- **Dati corretti da:** ~12 giugno 2026
+- **Bug noto:** API manutenzione alle 04:00 UTC → run delle 06:00 CEST spesso fallisce
+- **ATTENZIONE:** `cum_rain_24h` è una finestra mobile, NON un totale giornaliero. MAI usare `max(cum_rain_24h)` perché trascina pioggia nel giorno dopo. L'API conserva solo ~1 record per stazione per i giorni vecchi, quindi `sum(cum_rain_1h)` funziona solo quando ci sono i record completi (24/giorno).
+
+### Emilia Romagna
+- **Fonte:** ARPAE REST `apps.arpae.it/REST/meteo_giornalieri`
+- **Collect:** `collect-emilia.js`
+- **Formula:** `precipitazione_cumulata_giornaliera` con `dateKeyPlusOne()` — l'API ARPAE ha offset +1 giorno (chiave 20260606 = dati meteo del 5 giugno)
+- **Orari:** 6 run/giorno + aggiorna ieri
+- **Dati corretti da:** 5 giugno 2026
+- **ATTENZIONE:** l'ARPAE copre ~104 stazioni anche in territorio toscano. Nomi non sempre corrispondono al CFR.
+
+### Veneto
+- **Fonte:** ARPA Veneto XML
+- **Collect:** `collect-veneto.js`
+- **Formula:** `max(vals)` su cumulativi giornalieri con reset a mezzanotte
+- **Orari:** 6 run/giorno + aggiorna ieri
+- **Dati corretti da:** 4 giugno 2026
+
+### Trentino
+- **Fonte:** Meteotrentino API
+- **Collect:** `collect-trentino-gh.js`
+- **Formula:** `PrecTotale` diretto dall'API
+- **Orari:** 6 run/giorno + aggiorna ieri
+- **Dati corretti da:** 6 giugno 2026
+
+### Alto Adige
+- **Fonte:** Meteo BZ API (solo dati odierni)
+- **Collect:** `collect-altoadige-gh.js`
+- **Formula:** `sensorValue` con merge MAX
+- **Orari:** 7 run/giorno (ultimo alle 23:55 CEST)
+- **Dati corretti da:** 4 giugno 2026
+
+### Toscana
+- **Fonte:** CFR Toscana `cfr.toscana.it/monitoraggio/actions.php`
+- **Collect:** `collect-toscana-gh.js`
+- **Formula:** `max(Valore)` — Valore è CUMULATIVO, NON incrementale. MAI usare `sum(Valore)`.
+- **TOSCANA_STATIONS:** 170 stazioni curate (filtrate da 379) nell'index.html
+- **Orari:** 7 run/giorno (ultimo alle 23:50 CEST)
+- **Dati corretti da:** 22 giugno 2026
+- **I valori CFR sono sempre interi** (risoluzione 1mm). Non è un bug.
+- **ATTENZIONE:** CFR restituisce solo dati del giorno corrente. Se un run glitcha a 0mm, merge MAX protegge i dati buoni.
+
+### Liguria
+- **Fonte:** OMIRL `omirl.regione.liguria.it/Omirl/rest/charts/{shortCode}/Pluvio`
+- **Collect:** `collect-liguria.js`
+- **Formula:** somma `dataSeries[0]` (incrementi orari) per le ore di ieri (mezzanotte-mezzanotte ora italiana)
+- **Orari:** 6 run/giorno
+- **Dati corretti da:** 19 giugno 2026
+- **ATTENZIONE CRITICA:** l'endpoint `/stations/Pluvio` restituisce solo l'ultimo valore 15-min. NON usarlo per totali giornalieri — cattura solo ~25% della pioggia. Usare SEMPRE `/charts/{shortCode}/Pluvio` che dà 69 ore di serie temporale oraria.
+- Il collect fa ~199 chiamate API (una per stazione), processate in batch di 10 con retry.
+
+### Valle d'Aosta
+- **Fonte:** Open-Meteo `precipitation_sum`
+- **Collect:** `collect-valledaosta-gh.js`
+- **~45 stazioni**
+- **Dati corretti da:** 4 giugno 2026
+
+### Friuli Venezia Giulia
+- **Fonte:** Open-Meteo `precipitation_sum`
+- **Collect:** `collect-friuli-gh.js`
+- **~30 stazioni**
+- **Dati corretti da:** 4 giugno 2026
+
+---
+
+## Bug risolti (cronologico)
+
+### Giugno 2026
+1. **Bug DST** — `getTimezoneOffset()` = 0 su GitHub Actions (UTC). Fix: `getItalyOffset()` basata su calendario.
+2. **Latenza API notturna** — "aggiorna sempre ieri" ad ogni run per Piemonte, Emilia, Veneto, Trentino, Liguria.
+3. **Glitch API Toscana/Alto Adige** — merge MAX per proteggere da 0mm errati.
+4. **Lombardia formula** — da `max-min` a `sum(valore)` nella query API.
+5. **Veneto formula** — da `max-min` a `max()` su cumulativi.
+6. **exit(1) crash** — 5 collect crashavano prima di "aggiorna ieri". Fix: skip salvataggio oggi ma continua con ieri.
+7. **Trentino getItalyOffset** — funzione mancante, aggiunta.
+8. **Emilia offset +1g** — API ARPAE usa chiave giorno+1. Fix: `dateKeyPlusOne()`. Storico corretto (363 file rinominati).
+9. **Piemonte cum_rain_24h** — finestra mobile, non totale giornaliero. Fix: `sum(cum_rain_1h)` + merge MAX.
+10. **Toscana sum(Valore)** — Valore è cumulativo, non incremento. Fix: `max(Valore)`.
+11. **Liguria undersampling** — `/stations/Pluvio` dava solo ultimo 15min. Fix: endpoint `/charts/{code}/Pluvio` con serie temporale oraria.
+12. **Toscana 170 stazioni** — filtro `TOSCANA_STATIONS` per evitare 379 stazioni che sforavano in Emilia.
+13. **Piemonte 170 stazioni** — filtro `PIEMONTE_STATIONS`, Ceppo Morelli esclusa.
+
+---
+
+## UI Features
+- Spinner di caricamento (overlay CSS, z-index 800)
+- YouTube "ISCRIVITI" button nel box canale (nascosto su mobile ≤600px)
+- Home icon nell'header
+- Pulsanti periodo: Ieri/7gg/10gg/15gg/20gg/30gg
+- "Piogge per funghi" (range 18-25 gg fa)
+- Date personalizzate
+- Nota "I dati escludono la giornata odierna"
+- IDW_RAD: 0.15 per ≤24h, 0.35 per periodi più lunghi
+- CACHE_VER: arpa5v7_
+
+---
+
+## Promozione a non-BETA
+**Target: 22 luglio 2026** (30 giorni dati corretti per tutte le regioni, inclusa Toscana dal 22 giugno).
+
+---
+
+## Check periodico dati
+Ogni ~5 giorni verificare:
+1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?)
+2. Nessun valore anomalo (>150mm/giorno)
+3. Nessun calo improvviso nel numero di stazioni
+4. Workflow tutti verdi
+5. Confronto puntuale con fonti ufficiali (cfr.toscana.it, omirl.regione.liguria.it, apps.arpae.it)
