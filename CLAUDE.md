@@ -45,7 +45,7 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 - **Formula:** `precipitazione_cumulata_giornaliera` con `dateKeyPlusOne()` — l'API ARPAE ha offset +1 giorno (chiave 20260606 = dati meteo del 5 giugno)
 - **Orari:** 6 run/giorno + aggiorna ieri
 - **Dati corretti da:** 5 giugno 2026
-- **ATTENZIONE:** l'ARPAE copre ~104 stazioni anche in territorio toscano. Nomi non sempre corrispondono al CFR.
+- **ATTENZIONE:** l'ARPAE copre 12 stazioni fisicamente in territorio toscano (provincia FI/PT/LU/MS), quasi tutte lungo il crinale appenninico. Nomi non sempre corrispondono a SIR/CFR (es. "Passo delle Radici" vs "Passo Radici"). Queste 9 duplicavano stazioni Toscana rimaste bloccate a 0mm ed erano state rimosse da `TOSCANA_STATIONS` (bug #14) prima ancora di scoprire e risolvere il problema alla radice passando a SIR.
 
 ### Veneto
 - **Fonte:** ARPA Veneto XML
@@ -69,14 +69,13 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 - **Dati corretti da:** 4 giugno 2026
 
 ### Toscana
-- **Fonte:** CFR Toscana `cfr.toscana.it/monitoraggio/actions.php`
-- **Collect:** `collect-toscana-gh.js`
-- **Formula:** `max(Valore)` — Valore è CUMULATIVO, NON incrementale. MAI usare `sum(Valore)`.
-- **TOSCANA_STATIONS:** 170 stazioni curate (filtrate da 379) nell'index.html
-- **Orari:** 7 run/giorno (ultimo alle 23:50 CEST)
-- **Dati corretti da:** 22 giugno 2026
-- **I valori CFR sono sempre interi** (risoluzione 1mm). Non è un bug.
-- **ATTENZIONE:** CFR restituisce solo dati del giorno corrente. Se un run glitcha a 0mm, merge MAX protegge i dati buoni.
+- **Fonte:** SIR Toscana (Servizio Idrologico Regionale) `sir.toscana.it/monitoraggio/stazioni.php?type=pluvio` — coordinate/quota da CFR Toscana `cfr.toscana.it/monitoraggio/actions.php` (action=PLUVIO, affidabile solo per i metadati)
+- **Collect:** `collect-toscana-sir.js` (sostituisce `collect-toscana-gh.js`, dismesso il 12 luglio 2026 — vedi bug #14)
+- **Formula:** Δ24h (finestra mobile) da SIR. Merge: vince SEMPRE la lettura più recente dello stesso giorno (mai `max()` tra run diversi — trascinerebbe pioggia del giorno precedente in avanti, stesso bug di Piemonte `cum_rain_24h`), con eccezione: se la lettura più recente è 0 ma la precedente era >0, si preserva la precedente (protezione glitch).
+- **TOSCANA_STATIONS:** 165 stazioni curate (filtrate da 379) nell'index.html
+- **Orari:** 6 run/giorno (ultimo alle 22:15 CEST — non ancora ottimizzato per allinearsi a mezzanotte, vedi nota bug #14)
+- **Dati corretti da:** 12 luglio 2026 (switch a SIR)
+- **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
 
 ### Liguria
 - **Fonte:** OMIRL `omirl.regione.liguria.it/Omirl/rest/charts/{shortCode}/Pluvio`
@@ -118,6 +117,9 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 12. **Toscana 170 stazioni** — filtro `TOSCANA_STATIONS` per evitare 379 stazioni che sforavano in Emilia.
 13. **Piemonte 170 stazioni** — filtro `PIEMONTE_STATIONS`, Ceppo Morelli esclusa.
 
+### Luglio 2026
+14. **CFR Toscana inaffidabile — switch a SIR.** Check periodico del 12 luglio ha trovato 234/380 stazioni Toscana (61%) ferme a 0mm per tutti i 21 giorni del periodo "corretto" (22 giugno–12 luglio), incluse stazioni con storico di pioggia reale (Marradi max 59.1mm, Firenzuola max 36.8mm). Confermato con fonte esterna indipendente (Open-Meteo reanalysis su coordinate Marradi: pioggia reale multipli giorni nello stesso periodo). Causa isolata confrontando in tempo reale `cfr.toscana.it/actions.php` (Valore=0) contro `sir.toscana.it/monitoraggio/stazioni.php?type=pluvio` (dati corretti) sulla STESSA stazione, STESSO istante: il feed CFR usato dal collector è rotto per la maggioranza delle stazioni, non i sensori. Fix: nuovo collector `collect-toscana-sir.js` che legge i valori (Δ24h) da SIR e le coordinate dal base-call CFR (affidabile solo per i metadati, stesso IDStazione condiviso tra le due fonti). Rimosse anche 5 stazioni duplicate con Emilia-Romagna rimaste morte su CFR (Pracchia, Bibbiana, Lago Paduli, Firenzuola, Marradi) da `TOSCANA_STATIONS`, ora coperte solo dal punto ARPAE Emilia già presente in mappa. Storico Toscana pre-12 luglio 2026 da considerarsi inaffidabile per larga parte delle stazioni.
+
 ---
 
 ## UI Features
@@ -134,7 +136,7 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 ---
 
 ## Promozione a non-BETA
-**Target: 22 luglio 2026** (30 giorni dati corretti per tutte le regioni, inclusa Toscana dal 22 giugno).
+**Target: 11 agosto 2026** (30 giorni dati corretti per tutte le regioni — aggiornato dopo lo switch Toscana a SIR del 12 luglio 2026, che ora è il vincolo più recente).
 
 ---
 

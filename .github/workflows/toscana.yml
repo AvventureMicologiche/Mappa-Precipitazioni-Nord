@@ -23,19 +23,19 @@ jobs:
           node-version: '20'
       - name: Raccoglie dati Toscana
         id: collect
-        run: node .github/scripts/collect-toscana-gh.js
+        run: node .github/scripts/collect-toscana-sir.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
         continue-on-error: true
       - name: Retry 1
         if: steps.collect.outcome == 'failure'
-        run: sleep 30 && node .github/scripts/collect-toscana-gh.js
+        run: sleep 30 && node .github/scripts/collect-toscana-sir.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
         continue-on-error: true
       - name: Retry 2
         if: steps.collect.outcome == 'failure'
-        run: sleep 60 && node .github/scripts/collect-toscana-gh.js
+        run: sleep 60 && node .github/scripts/collect-toscana-sir.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
       - name: Commit e push
