@@ -5,9 +5,13 @@
  * restituisce Valore=0 anche con pioggia reale in corso per la maggioranza delle stazioni
  * (verificato confrontando in tempo reale con SIR, che usa la stessa rete/stessi ID stazione).
  *
- * Le coordinate (lat/lon) restano prese dal base-call CFR (action=PLUVIO), che è affidabile
- * per i metadati anche se inaffidabile per i valori. I valori di pioggia vengono invece letti
- * da SIR (sir.toscana.it/monitoraggio/stazioni.php?type=pluvio), che usa gli stessi IDStazione.
+ * Le coordinate (lat/lon) sono lette da un file statico bundlato nel repo (toscana-stazioni-coords.json),
+ * generato una tantum dal base-call CFR (action=PLUVIO) — CFR è affidabile per i metadati (le
+ * coordinate non cambiano quasi mai) ma NON per i valori, e soprattutto da GitHub Actions
+ * l'endpoint CFR va spesso in timeout (rete CFR sembra bloccare/limitare i runner GH), quindi
+ * niente più chiamata live a CFR per evitare un punto di fallimento inutile ad ogni run.
+ * I valori di pioggia vengono letti da SIR (sir.toscana.it/monitoraggio/stazioni.php?type=pluvio),
+ * che usa gli stessi IDStazione di CFR.
  *
  * ATTENZIONE — Δ24h di SIR è una FINESTRA MOBILE (ultime 24 ore da adesso), non un totale di
  * calendario mezzanotte-mezzanotte. Stesso problema già noto per cum_rain_24h di Piemonte.
@@ -23,7 +27,7 @@ const fs     = require('fs');
 const path   = require('path');
 
 const DATA_DIR      = path.join(__dirname, '../..', 'data', 'toscana');
-const CFR_BASE_URL  = 'https://www.cfr.toscana.it/monitoraggio/actions.php';
+const COORDS_FILE   = path.join(__dirname, 'toscana-stazioni-coords.json');
 const SIR_URL       = 'https://www.sir.toscana.it/monitoraggio/stazioni.php?type=pluvio';
 
 function getItalyOffset(date) {
@@ -56,10 +60,6 @@ function fetchRaw(url) {
       });
     }).on('error', reject);
   });
-}
-
-function fetchJSON(url) {
-  return fetchRaw(url).then(data => JSON.parse(data));
 }
 
 function stripHtml(v) {
@@ -100,19 +100,9 @@ async function main() {
   }
   const dateStr = getTargetDate();
 
-  console.log('  Fetch metadati stazioni (lat/lon) da CFR...');
-  const base = await fetchJSON(`${CFR_BASE_URL}?action=PLUVIO`);
-  if (!base.data || !Array.isArray(base.data)) throw new Error('Risposta inattesa da CFR action=PLUVIO');
-
-  const meta = {};
-  base.data.forEach(s => {
-    const id  = s.IDStazione;
-    const lat = parseFloat(s.Lat);
-    const lon = parseFloat(s.Lon);
-    if (!id || isNaN(lat) || isNaN(lon)) return;
-    meta[id] = { lat, lon };
-  });
-  console.log(`  Metadati trovati per ${Object.keys(meta).length} stazioni`);
+  console.log('  Carico metadati stazioni (lat/lon) dal file statico...');
+  const meta = JSON.parse(fs.readFileSync(COORDS_FILE, 'utf8'));
+  console.log(`  Metadati disponibili per ${Object.keys(meta).length} stazioni`);
 
   console.log('  Fetch valori pioggia (Δ24h) da SIR...');
   const html = await fetchRaw(SIR_URL);
