@@ -1599,7 +1599,7 @@ function render(dati,fonte,labelPeriodo){
   var sorted=dati.slice().sort(function(a,b){return b.mm-a.mm;});
   var vals=dati.map(function(d){return d.mm;});
   var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals);
-  var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length);
+  var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*10)/10;
   document.getElementById('sn').textContent=dati.length;
   document.getElementById('smx').textContent=Math.round(mx*10)/10;
   document.getElementById('sav').textContent=av;
@@ -2026,7 +2026,7 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
   var sorted=dati.slice().sort(function(a,b){return b.mm-a.mm;});
   var vals=dati.map(function(d){return d.mm;});
   var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals);
-  var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length);
+  var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*10)/10;
   document.getElementById('sn').textContent=dati.length;
   document.getElementById('smx').textContent=Math.round(mx*10)/10;
   document.getElementById('sav').textContent=av;
