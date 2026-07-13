@@ -1164,7 +1164,7 @@ var REGIONS = {
   toscana: {
     name: 'Toscana',
     center: [43.3, 11.2], zoom: 8,
-    fonte: 'CFR Toscana',
+    fonte: 'SIR Toscana',
     geojson: 'https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson',
     geojsonFilter: 'toscan',
     dataSource: 'cfr_toscana',
@@ -1990,7 +1990,7 @@ function loadData(pastDate,nowDate,labelPeriodo){
       });
     } else if(source==='cfr_toscana'){
       loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 CFR Toscana');
+        onRegionDone(dati,'🟢 SIR Toscana');
       });
     } else {
       loadOpenMeteoRegion(cfg.stations||[],pastDate,nowDate,labelPeriodo,function(dati){
@@ -2817,7 +2817,7 @@ function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
   });
 }
 
-// 170 stazioni CFR Toscana distribuite uniformemente
+// 165 stazioni SIR Toscana distribuite uniformemente
 var TOSCANA_STATIONS=[
   {n:"Arezzo",lat:43.477,lon:11.904,q:0,p:"AR"},
   {n:"Badia Agnano",lat:43.436,lon:11.649,q:0,p:"AR"},

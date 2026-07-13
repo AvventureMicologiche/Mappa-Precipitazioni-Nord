@@ -13,6 +13,8 @@ on:
     - cron: '15 12 * * *'
     - cron: '15 16 * * *'
     - cron: '15 20 * * *'
+    - cron: '35 21 * * *'
+    - cron: '50 21 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
