@@ -13,8 +13,9 @@ on:
     - cron: '15 12 * * *'
     - cron: '15 16 * * *'
     - cron: '15 20 * * *'
-    - cron: '35 21 * * *'
-    - cron: '50 21 * * *'
+    - cron: '40 20 * * *'
+    - cron: '0 21 * * *'
+    - cron: '20 21 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -46,5 +47,8 @@ jobs:
           git config user.email "bot@bot.com"
           git add data/toscana/
           git diff --staged --quiet || git commit -m "toscana $(date -u +%Y-%m-%d)"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && break
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done
