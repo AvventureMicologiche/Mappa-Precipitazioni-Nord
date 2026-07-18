@@ -149,11 +149,12 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 - Nota "I dati escludono la giornata odierna"
 - IDW_RAD: 0.15 per ≤24h, 0.35 per periodi più lunghi
 - CACHE_VER: arpa5v7_
+- Eventi Google Analytics (18 luglio 2026): `analisi_regione` con parametro `regione` in loadData (dimensione personalizzata "Regioni" in GA4), `click_home` e `click_youtube` sui link header/canale
 
 ---
 
 ## Promozione a non-BETA
-**Target: 11 agosto 2026** (30 giorni dati corretti per tutte le regioni — aggiornato dopo lo switch Toscana a SIR del 12 luglio 2026, che ora è il vincolo più recente).
+**Completata il 18 luglio 2026**: header da "(BETA V3.0)" a "(v4.0)", su decisione dell'utente, anticipando il target originale dell'11 agosto 2026 (30 giorni di dati corretti per tutte le regioni; il vincolo più recente era lo switch Toscana a SIR del 12 luglio 2026).
 
 ---
 
