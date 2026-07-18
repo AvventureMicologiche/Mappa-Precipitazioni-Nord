@@ -1921,6 +1921,9 @@ function loadData(pastDate,nowDate,labelPeriodo){
     return;
   }
 
+  // Statistica analisi per regione (Google Analytics)
+  try{ regions.forEach(function(r){ gtag('event', 'analisi_regione', { regione: r }); }); }catch(e){}
+
   isLoading=true;
   loadSessionId++; // invalida tutte le richieste precedenti
   var mySession=loadSessionId;
