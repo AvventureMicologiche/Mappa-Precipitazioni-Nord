@@ -20,6 +20,13 @@
  * della giornata "scivola via" dalla pioggia di ieri e converge verso il vero totale del giorno.
  * L'unica eccezione è la protezione dai glitch a 0: se la lettura più recente è 0 ma quella
  * precedente dello stesso giorno era >0, si preserva il valore precedente.
+ *
+ * La protezione glitch è però DISATTIVATA nei run di chiusura serali (CLOSING=1 dal
+ * workflow, o comunque ora locale ≥ 22): a fine giornata la finestra Δ24h copre quasi
+ * esattamente il giorno di calendario, quindi uno 0 lì è un dato reale. Tenerla attiva
+ * congelerebbe per sempre la pioggia di IERI trascinata nel file dai run del mattino —
+ * bug #17: ogni giornata piovosa veniva duplicata sul giorno successivo se asciutto
+ * (il 16/7/2026 aveva 74 stazioni con valori identici al 15/7, ~219mm fantasma).
  */
 
 const https  = require('https');
@@ -123,6 +130,12 @@ async function main() {
   // Merge: vince la lettura più recente (Δ24h "scivola" verso il totale di calendario col
   // passare della giornata), con protezione solo sui glitch a 0. MAI max() tra run diversi:
   // trascinerebbe pioggia del giorno precedente in avanti (vedi commento in testa al file).
+  // Nei run di chiusura serali la protezione glitch NON si applica: lo 0 a fine giornata
+  // è un dato reale, e preservare il valore precedente congelerebbe la pioggia di ieri
+  // trascinata dai run del mattino (bug #17, vedi commento in testa al file).
+  const nowRun = new Date();
+  const italyHour = new Date(nowRun.getTime() + getItalyOffset(nowRun) * 3600000).getUTCHours();
+  const isClosing = process.env.CLOSING === '1' || italyHour >= 22;
   let finalStations = stations;
   if (fs.existsSync(outFile)) {
     try {
@@ -132,14 +145,16 @@ async function main() {
         existing.stations.forEach(s => { existMap[s.id] = s.mm || 0; });
         finalStations = stations.map(s => {
           const prevMM = existMap[s.id] || 0;
-          if (s.mm === 0 && prevMM > 0) return { ...s, mm: prevMM };
+          if (!isClosing && s.mm === 0 && prevMM > 0) return { ...s, mm: prevMM };
           return s;
         });
         const newIds = new Set(stations.map(s => s.id));
         existing.stations.forEach(s => {
           if (!newIds.has(s.id) && s.mm > 0) finalStations.push(s);
         });
-        console.log('  Merge (ultima lettura vince, protezione glitch 0) applicato');
+        console.log(isClosing
+          ? '  Merge (run di chiusura: ultima lettura vince, 0 inclusi) applicato'
+          : '  Merge (ultima lettura vince, protezione glitch 0) applicato');
       }
     } catch(e) {
       console.warn('  Warn: merge fallito, uso dati nuovi:', e.message);

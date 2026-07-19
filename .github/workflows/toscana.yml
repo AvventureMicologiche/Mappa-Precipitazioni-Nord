@@ -16,6 +16,10 @@ on:
     - cron: '40 20 * * *'
     - cron: '0 21 * * *'
     - cron: '20 21 * * *'
+env:
+  # I 3 cron di chiusura serale disattivano la protezione glitch-0 nel collector
+  # (bug #17): a fine giornata uno 0 da SIR è un dato reale, non un glitch.
+  CLOSING: ${{ (github.event.schedule == '40 20 * * *' || github.event.schedule == '0 21 * * *' || github.event.schedule == '20 21 * * *') && '1' || '' }}
 jobs:
   run:
     runs-on: ubuntu-latest
