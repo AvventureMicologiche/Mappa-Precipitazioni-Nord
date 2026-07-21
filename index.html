@@ -235,7 +235,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .sh-fonte{font-size:9px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #333}
 .sh-load{font-size:11px;color:#888;padding:18px 0;text-align:center}
 @media(max-width:600px){
-  #st-history{width:auto;left:8px!important;right:8px;top:auto!important;bottom:8px;}
+  /* Su schermi piccoli il pannello si aggancia in basso a tutta larghezza.
+     Il "bottom" lo calcola histPosition() in base all'altezza della legenda
+     (fixed, stesso z-index): la barra dei cumulati deve restare visibile. */
+  #st-history{position:fixed;width:auto;left:8px!important;right:8px;top:auto!important;}
+  #st-history .sh-bars{height:46px}
+  #st-history .sh-nome{padding-bottom:4px;margin-bottom:4px}
+  #st-history .sh-big{margin-bottom:2px}
+  #st-history .sh-per{margin-top:5px}
 }
 
 .fonte-tag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
@@ -1764,6 +1771,16 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo){
 }
 
 function histPosition(mx,my){
+  // Schermi piccoli: pannello agganciato in basso, SOPRA la legenda dei
+  // cumulati (fixed, stesso z-index) che deve restare sempre visibile.
+  if(window.innerWidth<=600){
+    var leg=document.getElementById('legend-panel');
+    var legH=(leg&&getComputedStyle(leg).display!=='none')
+      ? leg.getBoundingClientRect().height : 0;
+    histEl.style.bottom=(legH+8)+'px';
+    return;
+  }
+  histEl.style.bottom=''; // ripulisce l'aggancio mobile dopo un resize
   var r=mapEl.getBoundingClientRect();
   var w=histEl.offsetWidth||310,hh=histEl.offsetHeight||200;
   var x=mx-r.left+18,y=my-r.top-hh/2;
@@ -1771,6 +1788,22 @@ function histPosition(mx,my){
   if(x<8) x=8;
   if(y<8) y=8;
   if(y+hh>mapEl.clientHeight-8) y=Math.max(8,mapEl.clientHeight-hh-8);
+  // Anche su desktop la legenda dei cumulati non va mai coperta: se il
+  // pannello ci finisce sopra lo sposto prima sopra di essa, e se non c'è
+  // spazio a destra.
+  var leg=document.getElementById('legend-panel');
+  if(leg&&getComputedStyle(leg).display!=='none'){
+    var lr=leg.getBoundingClientRect();
+    var px=r.left+x,py=r.top+y;
+    if(!(px+w<lr.left||px>lr.right||py+hh<lr.top||py>lr.bottom)){
+      var ny=lr.top-hh-8-r.top;
+      if(ny>=8) y=ny;
+      else {
+        var nx=lr.right+8-r.left;
+        if(nx+w<=mapEl.clientWidth-8) x=nx;
+      }
+    }
+  }
   histEl.style.left=x+'px';
   histEl.style.top=y+'px';
 }
