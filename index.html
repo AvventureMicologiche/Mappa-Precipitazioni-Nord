@@ -614,7 +614,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <span class="sh-mm" id="sh-mm"></span>
         <span class="sh-unit2">mm</span>
       </div>
-      <div class="sh-row"><span>Provincia</span><b id="sh-prov"></b></div>
+      <div class="sh-row"><span id="sh-prov-lbl">Provincia</span><b id="sh-prov"></b></div>
       <div class="sh-row"><span>Quota</span><b id="sh-quota"></b></div>
       <div class="sh-row"><span>Ranking</span><b id="sh-rank"></b></div>
       <div class="sh-per" id="sh-per"></div>
@@ -1842,6 +1842,9 @@ function openStationHistory(s,rank,mx,my){
 
   document.getElementById('sh-nome').textContent=s.n;
   document.getElementById('sh-mm').textContent=s.mm;
+  // OMIRL Liguria non espone la provincia: il campo p contiene il comune
+  // (verificato sulla fonte). Etichetta coerente col dato invece che sbagliata.
+  document.getElementById('sh-prov-lbl').textContent=(regionKey==='liguria')?'Comune':'Provincia';
   document.getElementById('sh-prov').textContent=s.p||'—';
   document.getElementById('sh-quota').textContent=(s.q||0)+' m slm';
   document.getElementById('sh-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';
