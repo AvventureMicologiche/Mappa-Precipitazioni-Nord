@@ -259,30 +259,56 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   border-radius:10px;padding:3px 12px;font-size:9px;color:#888;
   pointer-events:none;white-space:nowrap;}
 
-/* Logo canale stile ARPAL — quadrato */
+/* ── Box canale YouTube (desktop, in basso a destra) ──
+   Filigrana sullo SFONDO, non sull'intero elemento: la mappa si intravede
+   ma Archie e il pulsante restano pieni. Col mouse sopra diventa opaco. */
 #channel-logo{
-  position:absolute;bottom:28px;right:10px;
-  z-index:1000;
-  display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.60);
-  border-radius:6px;
-  padding:8px 12px;
+  position:absolute;bottom:28px;right:14px;z-index:1000;
+  display:flex;align-items:center;gap:11px;
+  width:252px;padding:11px 13px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(226,224,216,.85);
+  border-radius:10px;
+  box-shadow:0 3px 14px rgba(0,0,0,.12);
   text-decoration:none;
-  opacity:0.75;
-  transition:opacity .2s;
+  transition:background .2s, box-shadow .2s;
 }
-#channel-logo:hover{opacity:1;}
-.iscriviti-btn{display:inline-block;}
-@media(max-width:600px){.iscriviti-btn{display:none!important;}}
-#channel-logo .ch-text{
-  display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;
+#channel-logo:hover{background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.20);}
+#channel-logo .ch-ava{
+  width:48px;height:48px;border-radius:50%;flex:none;
+  border:2px solid #1b3f6e;object-fit:cover;background:#f3efe6;
 }
-#channel-logo .ch-text span{
-  font-size:13px;font-weight:700;
-  color:#1a1a2e;
-  letter-spacing:.01em;
+#channel-logo .ch-txt{flex:1;min-width:0;}
+#channel-logo .ch-nome{
+  font-size:14px;font-weight:700;color:#1b3f6e;line-height:1.15;
   font-family:'Segoe UI',Arial,sans-serif;
-  display:block;
+}
+#channel-logo .ch-claim{font-size:11px;color:#5f5e5a;margin:3px 0 8px;}
+#channel-logo .ch-btn{
+  background:#FF0000;color:#fff;font-size:12px;font-weight:700;
+  padding:6px 0;border-radius:4px;text-align:center;letter-spacing:.4px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* ── Pillola canale (schermi piccoli) ──
+   Vive nel pannello dei cumulati, sotto le statistiche: non copre mai la
+   mappa. Sostituisce il box desktop, che sotto i 600px sparisce (prima
+   spariva solo il pulsante ISCRIVITI, lasciando un logo non cliccabile). */
+#channel-pill{display:none;}
+@media(max-width:600px){
+  #channel-logo{display:none!important;}
+  #channel-pill{
+    display:flex;align-items:center;gap:9px;
+    margin-top:9px;padding:7px 10px;
+    background:#FF0000;border-radius:22px;text-decoration:none;
+  }
+  #channel-pill img{
+    width:32px;height:32px;border-radius:50%;flex:none;
+    border:2px solid #fff;object-fit:cover;
+  }
+  #channel-pill .cp-t{color:#fff;font-size:12.5px;font-weight:700;line-height:1.2;flex:1;}
+  #channel-pill .cp-t small{display:block;font-weight:400;font-size:10px;opacity:.92;}
+  #channel-pill .cp-c{color:#fff;font-size:15px;font-weight:700;padding-right:3px;}
 }
 
 /* ── Frecce tutorial ── */
@@ -632,27 +658,25 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     </div>
     <div class="fonte-tag" id="fonte-tag">Fonte: ARPA Lombardia</div>
 
-    <!-- Logo canale stile ARPAL — bottom right -->
+    <!-- Box canale YouTube — desktop, in basso a destra.
+         Filigrana: lo SFONDO è semitrasparente (si intravede la mappa) ma il
+         contenuto resta pieno, così il pulsante rosso non risulta spento.
+         Prima era opacity:.80 sull'intero elemento, che sbiadiva tutto. -->
     <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
-       style="position:absolute;bottom:56px;right:20px;z-index:1000;
-              display:flex;flex-direction:column;align-items:center;gap:8px;
-              background:rgba(255,255,255,.70);border-radius:5px;
-              padding:10px 16px;text-decoration:none;opacity:0.80;
-              transition:opacity .2s;"
-       onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.80"
        onclick="try{gtag('event','click_youtube')}catch(e){}"
        id="channel-logo">
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px;">
-        <svg width="42" height="30" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="42" height="30" rx="6" fill="#FF0000"/>
-          <polygon points="16,7 16,23 31,15" fill="white"/>
-        </svg>
-        <div style="display:flex;flex-direction:column;align-items:center;line-height:1.2;">
-          <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Avventure</span>
-          <span style="font-size:22px;font-weight:700;color:#1b3f6e;font-family:Arial,sans-serif;letter-spacing:.01em;">Micologiche</span>
+      <img src="archie-avatar.png" alt="Archie" class="ch-ava">
+      <div class="ch-txt">
+        <div class="ch-nome">Avventure Micologiche</div>
+        <div class="ch-claim">Archie ti aspetta su YouTube</div>
+        <div class="ch-btn">
+          <svg width="15" height="11" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="42" height="30" rx="6" fill="#fff"/>
+            <polygon points="16,7 16,23 31,15" fill="#FF0000"/>
+          </svg>
+          ISCRIVITI
         </div>
       </div>
-      <div class="iscriviti-btn" style="background:#FF0000;color:white;font-size:12px;font-weight:700;padding:5px 18px;border-radius:3px;letter-spacing:0.3px;">ISCRIVITI</div>
     </a>
 
     <!-- Pannelli: su desktop sovrapposti alla mappa via absolute -->
@@ -787,6 +811,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <div class="stat"><div class="sv" id="sav">–</div><div class="sl">Media</div></div>
         <div class="stat"><div class="sv" id="smn">–</div><div class="sl">Min</div></div>
       </div>
+      <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
+         onclick="try{gtag('event','click_youtube')}catch(e){}"
+         id="channel-pill">
+        <img src="archie-avatar.png" alt="Archie">
+        <div class="cp-t">Archie ti aspetta su YouTube<small>Avventure Micologiche · iscriviti</small></div>
+        <div class="cp-c">›</div>
+      </a>
     </div>
   </div>
 </div>
