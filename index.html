@@ -1474,7 +1474,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 // STATO
 // ═══════════════════════════════════════════════════════════════
 var activeRegions   = ['lombardia','piemonte']; // regioni con checkbox spuntata
-var currentRegion  = 'lombardia';
+var DEFAULT_REGION = 'lombardia'; // ripiego se nessuna regione risulta spuntata
 var lastUsedFonte  = '—'; // fonte effettiva usata nell'ultimo render
 var ARPA_STATIONS    = null; // stazioni ARPA Lombardia
 var ARPA_PIE_STATIONS = null; // stazioni ARPA Piemonte (caricate al boot)
@@ -1834,9 +1834,7 @@ function openStationHistory(s,rank,mx,my){
   var todayStr=fmtISOLocal(new Date());
   if(fmtISOLocal(end)>=todayStr){end=new Date();end.setDate(end.getDate()-1);}
   var selFrom=fmtISOLocal(currentPast),selTo=fmtISOLocal(end);
-  // NB: si usa la regione realmente spuntata, non currentRegion — quest'ultima
-  // resta sempre 'lombardia' perché switchRegion() non viene mai chiamata.
-  var regionKey=getActiveRegions()[0]||currentRegion;
+  var regionKey=getActiveRegions()[0]||DEFAULT_REGION;
   var limit=HIST_REAL_FROM[regionKey];
 
   var days=[];
@@ -1952,41 +1950,10 @@ function addMarkers(dati,sorted){
   });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// RENDER FINALE
-// ═══════════════════════════════════════════════════════════════
-function render(dati,fonte,labelPeriodo){
-  totalStations=dati.length;
-  var sorted=dati.slice().sort(function(a,b){return b.mm-a.mm;});
-  var vals=dati.map(function(d){return d.mm;});
-  var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals);
-  var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*10)/10;
-  document.getElementById('sn').textContent=dati.length;
-  document.getElementById('smx').textContent=Math.round(mx*10)/10;
-  document.getElementById('sav').textContent=av;
-  document.getElementById('smn').textContent=Math.round(mn*10)/10;
-  document.getElementById('badge').textContent=dati.length+' stazioni · '+fonte;
-  document.getElementById('leg-title').textContent='mm cumulati ('+labelPeriodo+')';
-  document.getElementById('legend-panel').style.display='block';
-  showLegendMobile();
-  positionLegend();
-  addMarkers(dati,sorted);
-  var hasRain=dati.some(function(s){return s.mm>0;});
-  document.getElementById('tp-status').textContent=hasRain?'⏳ Calcolo mappa…':'✅ Nessuna pioggia';
-  setTimeout(function(){
-    initCanvas();
-    clearHeatmap();
-    if(hasRain){
-      var rings=regionRings[currentRegion]||[];
-      var idwR=0.35;
-      var grR=GRID_RES;
-      gridPoints=buildGrid(dati,rings,idwR,grR);
-      drawGrid();
-      var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
-    }
-    setLoading(false);
-  },20);
-}
+// La funzione render() vive più sotto, nella sezione "RENDER MULTI-REGIONE":
+// qui c'era una prima versione che veniva sovrascritta al caricamento e non
+// è mai stata eseguita (usava regionRings[currentRegion] anziché la regione
+// realmente selezionata). Rimossa perché induceva in errore chi legge.
 
 function positionPanels(){
   if(window.innerWidth<=900) return;
@@ -2387,9 +2354,10 @@ function renderMulti(allData, labelPeriodo, fontiArr){
   render(allData, fonteStr, labelPeriodo, allRings);
 }
 
-// Estende render per accettare rings opzionale
-var _renderBase=render;
-render=function(dati,fonte,labelPeriodo,ringsOverride){
+// Render della mappa. Accetta rings opzionale (usato da renderMulti per
+// unire i confini di più regioni); senza, ritaglia sui confini della prima
+// regione selezionata.
+function render(dati,fonte,labelPeriodo,ringsOverride){
   totalStations=dati.length;
   var sorted=dati.slice().sort(function(a,b){return b.mm-a.mm;});
   var vals=dati.map(function(d){return d.mm;});
@@ -2421,7 +2389,7 @@ render=function(dati,fonte,labelPeriodo,ringsOverride){
     }
     setLoading(false);
   },20);
-};
+}
 
 // ─── Wrapper ARPA Lombardia → callback ───────────────────────
 function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
@@ -3543,53 +3511,9 @@ function loadAllBorders(regionKeys, cb){
   });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// CAMBIO REGIONE
-// ═══════════════════════════════════════════════════════════════
-function switchRegion(regionKey){
-  if(regionKey===currentRegion) return;
-  currentRegion=regionKey;
-
-  // Aggiorna tab
-  document.querySelectorAll('.rtab').forEach(function(t){
-    t.classList.toggle('active',t.dataset.region===regionKey);
-  });
-
-  // Reset UI
-  document.querySelectorAll('.tp-btn,.tp-custom-btn').forEach(function(b){b.classList.remove('active');});
-  clearMarkers();
-  clearHeatmap();
-  document.getElementById('legend-panel').style.display='none';
-  hideLegendMobile();
-  var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
-  document.getElementById('badge').textContent='–';
-  document.getElementById('datehdr').textContent='Seleziona un periodo';
-  hideTooltip();
-
-  // Centra mappa sulla nuova regione
-  var cfg=REGIONS[regionKey];
-  if(cfg){
-    if(window.innerWidth<=900){
-      if(regionKey==='lombardia') map.setView([45.5, 9.85], 8, {animate:true});
-      else if(regionKey==='piemonte') map.setView([44.9, 7.9], 8, {animate:true});
-      else if(regionKey==='veneto') map.setView([45.6, 11.8], 8, {animate:true});
-      else if(regionKey==='liguria') map.setView([44.3, 8.8], 7.5, {animate:true});
-    } else {
-      map.setView(cfg.center, cfg.zoom, {animate:true});
-    }
-  }
-
-  // Aggiorna fonte tag
-  document.getElementById('fonte-tag').textContent='Fonte: '+(cfg?cfg.fonte:'—');
-
-  // Carica confine GeoJSON della nuova regione
-  setRegionBorder(regionKey, function(){
-    // Se c'era un periodo selezionato, ricarica i dati per la nuova regione
-    if(currentPast && currentNow){
-      loadData(currentPast, currentNow, currentLabel);
-    }
-  });
-}
+// La funzione switchRegion() stava qui: non veniva chiamata da nessuna parte
+// (il cambio regione passa dai checkbox e dal select mobile) e teneva in vita
+// riferimenti a elementi .rtab non più presenti. Rimossa.
 
 // ─── Centra mappa sulle regioni attive ───────────────────────
 var REGION_BOUNDS={
