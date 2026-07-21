@@ -207,27 +207,33 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tt-row b{color:#ddd;font-weight:600}
 .tt-fonte{font-size:9px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #333}
 
-/* Grafico storico per singola stazione (clic sul marker) */
-#st-history{position:absolute;z-index:2100;display:none;width:310px;background:#fff;
-  border:1px solid #e2e0d8;border-radius:12px;padding:12px 14px;
-  box-shadow:0 6px 22px rgba(0,0,0,.20);color:#1a1a1a;}
-.sh-close{position:absolute;top:6px;right:8px;cursor:pointer;color:#9a9a9a;
-  font-size:17px;line-height:1;border:0;background:none;padding:3px 5px;}
-.sh-close:hover{color:#1a1a1a}
-.sh-nome{font-size:15px;font-weight:700;padding-right:22px}
-.sh-meta{font-size:11px;color:#5f5e5a;font-weight:400}
-.sh-sub{font-size:12px;color:#5f5e5a;margin-top:2px}
-.sh-sub b{color:#1a1a1a;font-weight:600}
-.sh-unit{font-size:9px;color:#9a9a9a;text-align:right;padding-right:30px;margin:8px 0 2px}
-.sh-plot{position:relative;padding-right:30px}
-.sh-grid{position:absolute;left:0;right:30px;border-top:1px dashed #d8d6ce}
-.sh-grid span{position:absolute;right:-29px;top:-7px;font-size:9px;color:#9a9a9a;width:27px}
-.sh-bars{display:flex;align-items:flex-end;gap:2px;height:78px;position:relative;z-index:1}
+/* Pannello stazione con grafico storico — sostituisce il vecchio tooltip
+   sui marker con i dati (stessa palette scura, così resta coerente). */
+#st-history{position:absolute;z-index:2100;display:none;width:296px;background:#1e1e1e;
+  color:#fff;border-radius:7px;padding:10px 13px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.sh-close{position:absolute;top:5px;right:7px;cursor:pointer;color:#777;
+  font-size:16px;line-height:1;border:0;background:none;padding:2px 5px;}
+.sh-close:hover{color:#fff}
+.sh-nome{font-size:13px;font-weight:700;border-bottom:1px solid #3a3a3a;
+  padding-bottom:5px;margin-bottom:6px;padding-right:16px}
+.sh-meta{font-size:10px;color:#888;font-weight:400}
+.sh-big{display:flex;align-items:baseline;gap:5px;margin-bottom:4px}
+.sh-mm{font-size:22px;font-weight:700;color:#7ec8f8}
+.sh-unit2{font-size:11px;color:#888}
+.sh-row{display:flex;justify-content:space-between;font-size:10px;padding:1px 0;color:#aaa}
+.sh-row b{color:#ddd;font-weight:600}
+.sh-per{font-size:10px;color:#888;margin:7px 0 0}
+.sh-unit{font-size:9px;color:#777;text-align:right;padding-right:28px;margin:2px 0}
+.sh-plot{position:relative;padding-right:28px}
+.sh-grid{position:absolute;left:0;right:28px;border-top:1px dashed #3a3a3a}
+.sh-grid span{position:absolute;right:-27px;top:-7px;font-size:9px;color:#777;width:25px}
+.sh-bars{display:flex;align-items:flex-end;gap:2px;height:60px;position:relative;z-index:1}
 .sh-bar{flex:1;min-height:2px;border-radius:2px 2px 0 0}
-.sh-x{display:flex;gap:2px;margin-top:4px;padding-right:30px}
-.sh-x span{flex:1;text-align:center;font-size:8px;color:#9a9a9a}
-.sh-note{font-size:10px;color:#9a9a9a;margin-top:7px}
-.sh-load{font-size:12px;color:#5f5e5a;padding:20px 0;text-align:center}
+.sh-x{display:flex;gap:2px;margin-top:3px;padding-right:28px}
+.sh-x span{flex:1;text-align:center;font-size:8px;color:#777}
+.sh-note{font-size:9px;color:#666;margin-top:5px}
+.sh-fonte{font-size:9px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #333}
+.sh-load{font-size:11px;color:#888;padding:18px 0;text-align:center}
 @media(max-width:600px){
   #st-history{width:auto;left:8px!important;right:8px;top:auto!important;bottom:8px;}
 }
@@ -596,8 +602,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     <div id="st-history">
       <button class="sh-close" id="sh-close" aria-label="Chiudi">×</button>
       <div class="sh-nome" id="sh-nome"></div>
-      <div class="sh-sub" id="sh-sub"></div>
+      <div class="sh-big">
+        <span>💧</span>
+        <span class="sh-mm" id="sh-mm"></span>
+        <span class="sh-unit2">mm</span>
+      </div>
+      <div class="sh-row"><span>Provincia</span><b id="sh-prov"></b></div>
+      <div class="sh-row"><span>Quota</span><b id="sh-quota"></b></div>
+      <div class="sh-row"><span>Ranking</span><b id="sh-rank"></b></div>
+      <div class="sh-per" id="sh-per"></div>
       <div id="sh-body"></div>
+      <div class="sh-fonte" id="sh-fonte"></div>
     </div>
     <div class="fonte-tag" id="fonte-tag">Fonte: ARPA Lombardia</div>
 
@@ -1619,11 +1634,14 @@ function showTooltip(s,rank,mx,my){
 function hideTooltip(){tooltip.style.display='none';}
 
 // ═══════════════════════════════════════════════════════════════
-// GRAFICO STORICO PER SINGOLA STAZIONE (clic sul marker)
+// PANNELLO STAZIONE CON GRAFICO STORICO
+// Sostituisce il vecchio tooltip sui marker con i dati: si apre al
+// passaggio del mouse (con un attimo di ritardo, per non sparare
+// richieste mentre si attraversa la mappa) e resta fisso se si clicca.
 // Finestra SEMPRE di 30 giorni che termina con la fine del periodo
 // selezionato (non con oggi: le date personalizzate possono stare nel
 // passato). I giorni del periodo scelto sono a colori pieni e fanno il
-// totale mostrato dalla mappa; gli altri sono sbiaditi, servono solo a
+// totale mostrato dalla mappa; gli altri sono spenti, servono solo a
 // leggere l'andamento. Periodi più lunghi di 30 giorni mostrano solo
 // gli ultimi 30 (il totale in alto resta quello dell'intero periodo).
 // ═══════════════════════════════════════════════════════════════
@@ -1635,10 +1653,16 @@ var HIST_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Preci
 var HIST_REAL_FROM={toscana:'2026-07-12'};
 var histEl=document.getElementById('st-history');
 var histToken=0;
-var histOpenedAt=0; // vedi map.on('click') in fondo: evita l'auto-chiusura
+var histOpenedAt=0;   // vedi map.on('click'): evita l'auto-chiusura all'apertura
+var histPinned=false; // true dopo un clic: non si chiude uscendo col mouse
+var histHoverT=null,histHideT=null;
+// Cache dei file giorno già scaricati (chiave regione/data → nome stazione: mm):
+// ogni file contiene TUTTE le stazioni della regione, quindi dopo la prima
+// stazione le successive non scaricano più nulla.
+var histFileCache={},histLombCache={};
 
 function histColor(v){
-  if(v<=0) return '#e2e0d8';
+  if(v<=0) return '#3d3d3d';
   if(v<10) return '#85B7EB';
   if(v<20) return '#378ADD';
   if(v<60) return '#1D9E75';
@@ -1647,28 +1671,37 @@ function histColor(v){
 
 // Serie giornaliera da file JSON del repo (tutte le regioni tranne Lombardia)
 function histFromFiles(region,station,days,cb){
-  var out={},pending=days.length;
-  if(!pending){cb(out);return;}
-  days.forEach(function(ds){
+  function assemble(){
+    var out={};
+    days.forEach(function(ds){
+      var m=histFileCache[region+'/'+ds];
+      if(m&&typeof m[station.n]==='number') out[ds]=m[station.n];
+    });
+    cb(out);
+  }
+  var need=days.filter(function(ds){return !histFileCache[region+'/'+ds];});
+  if(!need.length){assemble();return;}
+  var pending=need.length;
+  need.forEach(function(ds){
     fetch(HIST_RAW+region+'/'+ds+'.json')
       .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(d){
-        if(d&&d.stations){
-          for(var i=0;i<d.stations.length;i++){
-            if(d.stations[i].n===station.n){out[ds]=d.stations[i].mm||0;break;}
-          }
-        }
+        var m={};
+        if(d&&d.stations) d.stations.forEach(function(s){m[s.n]=s.mm||0;});
+        histFileCache[region+'/'+ds]=m;
       })
-      .catch(function(){})
-      .then(function(){if(--pending===0)cb(out);});
+      .catch(function(){histFileCache[region+'/'+ds]={};}) // giorno mancante: non ritentare
+      .then(function(){if(--pending===0)assemble();});
   });
 }
 
 // Lombardia: nessun file storico nel repo, ma Socrata sa raggruppare per
 // giorno → 30 totali giornalieri di UNA stazione in una sola chiamata.
 function histFromLombardia(station,days,cb){
+  if(!station.idsensore||!days.length){cb({});return;}
+  var key=station.idsensore+'|'+days[0]+'|'+days[days.length-1];
+  if(histLombCache[key]){cb(histLombCache[key]);return;}
   var out={};
-  if(!station.idsensore||!days.length){cb(out);return;}
   var where="idsensore='"+station.idsensore+"' AND data between '"
     +days[0]+"T00:00:00' and '"+days[days.length-1]+"T23:59:59' AND valore >= 0";
   var url='/.netlify/functions/arpa?endpoint=647i-nhxk.json'
@@ -1683,6 +1716,7 @@ function histFromLombardia(station,days,cb){
         if(v>500) v=0; // stessa sanity check della mappa
         out[(r.g||'').substring(0,10)]=v;
       });
+      histLombCache[key]=out;
       cb(out);
     })
     .catch(function(){cb(out);});
@@ -1712,7 +1746,7 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo){
   days.forEach(function(ds,i){
     var v=vals[i];
     var sel=(ds>=selFrom&&ds<=selTo);
-    var col=(v===null)?'#f0eee8':(sel?histColor(v):(v>0?'#c9c7bf':'#e8e6e0'));
+    var col=(v===null)?'#262626':(sel?histColor(v):(v>0?'#5f5f5f':'#2f2f2f'));
     var hh=(v===null)?2:Math.max(2,Math.round(v/scale*100));
     var lbl=(v===null)?'dato non disponibile':(v+' mm');
     h+='<div class="sh-bar" style="height:'+hh+'%;background:'+col+'" title="'+ds+' · '+lbl+'"></div>';
@@ -1741,9 +1775,13 @@ function histPosition(mx,my){
   histEl.style.top=y+'px';
 }
 
-function closeStationHistory(){histEl.style.display='none';histToken++;}
+function closeStationHistory(){
+  histEl.style.display='none';
+  histPinned=false;
+  histToken++;
+}
 
-function openStationHistory(s,mx,my){
+function openStationHistory(s,rank,mx,my){
   hideTooltip();
   if(!currentPast||!currentNow) return;
   var token=++histToken;
@@ -1769,11 +1807,15 @@ function openStationHistory(s,mx,my){
   if(!days.length) return;
   var periodoLungo=(selFrom<days[0]);
 
-  document.getElementById('sh-nome').innerHTML=s.n+
-    ' <span class="sh-meta">· '+(s.p||'—')+(s.q?' · '+s.q+' m':'')+'</span>';
+  document.getElementById('sh-nome').textContent=s.n;
+  document.getElementById('sh-mm').textContent=s.mm;
+  document.getElementById('sh-prov').textContent=s.p||'—';
+  document.getElementById('sh-quota').textContent=(s.q||0)+' m slm';
+  document.getElementById('sh-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';
+  document.getElementById('sh-fonte').textContent=lastUsedFonte||'—';
   var gg=Math.round((end-currentPast)/(24*3600000))+1;
-  document.getElementById('sh-sub').innerHTML=
-    fmtBreve(currentPast)+' – '+fmtBreve(end)+' · <b>'+s.mm+' mm</b> · '+gg+(gg===1?' giorno':' giorni');
+  document.getElementById('sh-per').textContent=
+    fmtBreve(currentPast)+' – '+fmtBreve(end)+' · '+gg+(gg===1?' giorno':' giorni');
   document.getElementById('sh-body').innerHTML='<div class="sh-load">Carico lo storico…</div>';
   histEl.style.display='block';
   histPosition(mx,my);
@@ -1793,6 +1835,13 @@ function fmtBreve(d){
 }
 
 document.getElementById('sh-close').addEventListener('click',closeStationHistory);
+// Col mouse dentro al pannello non si chiude (serve per leggerlo e per il
+// tooltip dei valori sulle singole barre)
+histEl.addEventListener('mouseenter',function(){if(histHideT)clearTimeout(histHideT);});
+histEl.addEventListener('mouseleave',function(){
+  if(histPinned) return;
+  histHideT=setTimeout(closeStationHistory,280);
+});
 // Clic sulla mappa = chiudi. Il clic su un marker propaga comunque fino a qui
 // (Leaflet inoltra l'evento dei layer vettoriali alla mappa), quindi ignoro
 // quelli che arrivano nell'istante in cui il popup si è appena aperto:
@@ -1816,23 +1865,40 @@ function addMarkers(dati,sorted){
       color:'#333',weight:1.5,pane:'markerPane'
     }).addTo(map);
     activeMarkers.push(m);
+    // Hover: apre il pannello con il grafico (sostituisce il vecchio tooltip).
+    // Il ritardo evita di partire con le richieste mentre si attraversa la
+    // mappa; i file giorno restano in cache, quindi dalla seconda stazione
+    // in poi l'apertura è immediata.
     m.on('mouseover',function(e){
-      if(hideTimer)clearTimeout(hideTimer);
+      if(histHideT)clearTimeout(histHideT);
       this.setStyle({radius:8,weight:2,color:'#000'});
-      showTooltip(s,rank,e.originalEvent.clientX,e.originalEvent.clientY);
+      if(histPinned) return;
+      var cx=e.originalEvent.clientX,cy=e.originalEvent.clientY;
+      if(histHoverT)clearTimeout(histHoverT);
+      histHoverT=setTimeout(function(){openStationHistory(s,rank,cx,cy);},160);
     });
-    m.on('mousemove',function(e){posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
-    m.on('mouseout',function(){this.setStyle({radius:5,weight:1.5,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
+    m.on('mouseout',function(){
+      this.setStyle({radius:5,weight:1.5,color:'#333'});
+      if(histHoverT)clearTimeout(histHoverT);
+      if(histPinned) return;
+      histHideT=setTimeout(closeStationHistory,280);
+    });
+    // Clic: fissa il pannello (resta aperto anche spostando il mouse)
     m.on('click',function(e){
       if(e.originalEvent&&window.L&&L.DomEvent) L.DomEvent.stopPropagation(e.originalEvent);
-      openStationHistory(s,e.originalEvent.clientX,e.originalEvent.clientY);
+      if(histHoverT)clearTimeout(histHoverT);
+      if(histHideT)clearTimeout(histHideT);
+      histPinned=false; // riapre sulla stazione cliccata, poi fissa
+      openStationHistory(s,rank,e.originalEvent.clientX,e.originalEvent.clientY);
+      histPinned=true;
     });
-    // Touch support per mobile
+    // Touch: un tap apre il pannello e lo lascia fisso
     m.on('touchstart',function(e){
-      if(hideTimer)clearTimeout(hideTimer);
       this.setStyle({radius:10,weight:2,color:'#000'});
       var touch=e.originalEvent.touches[0];
-      showTooltip(s,rank,touch.clientX,touch.clientY);
+      histPinned=false;
+      openStationHistory(s,rank,touch.clientX,touch.clientY);
+      histPinned=true;
       e.originalEvent.stopPropagation();
     });
     m.on('touchend',function(e){
