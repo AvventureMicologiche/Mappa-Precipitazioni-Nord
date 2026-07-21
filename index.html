@@ -207,6 +207,31 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tt-row b{color:#ddd;font-weight:600}
 .tt-fonte{font-size:9px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #333}
 
+/* Grafico storico per singola stazione (clic sul marker) */
+#st-history{position:absolute;z-index:2100;display:none;width:310px;background:#fff;
+  border:1px solid #e2e0d8;border-radius:12px;padding:12px 14px;
+  box-shadow:0 6px 22px rgba(0,0,0,.20);color:#1a1a1a;}
+.sh-close{position:absolute;top:6px;right:8px;cursor:pointer;color:#9a9a9a;
+  font-size:17px;line-height:1;border:0;background:none;padding:3px 5px;}
+.sh-close:hover{color:#1a1a1a}
+.sh-nome{font-size:15px;font-weight:700;padding-right:22px}
+.sh-meta{font-size:11px;color:#5f5e5a;font-weight:400}
+.sh-sub{font-size:12px;color:#5f5e5a;margin-top:2px}
+.sh-sub b{color:#1a1a1a;font-weight:600}
+.sh-unit{font-size:9px;color:#9a9a9a;text-align:right;padding-right:30px;margin:8px 0 2px}
+.sh-plot{position:relative;padding-right:30px}
+.sh-grid{position:absolute;left:0;right:30px;border-top:1px dashed #d8d6ce}
+.sh-grid span{position:absolute;right:-29px;top:-7px;font-size:9px;color:#9a9a9a;width:27px}
+.sh-bars{display:flex;align-items:flex-end;gap:2px;height:78px;position:relative;z-index:1}
+.sh-bar{flex:1;min-height:2px;border-radius:2px 2px 0 0}
+.sh-x{display:flex;gap:2px;margin-top:4px;padding-right:30px}
+.sh-x span{flex:1;text-align:center;font-size:8px;color:#9a9a9a}
+.sh-note{font-size:10px;color:#9a9a9a;margin-top:7px}
+.sh-load{font-size:12px;color:#5f5e5a;padding:20px 0;text-align:center}
+@media(max-width:600px){
+  #st-history{width:auto;left:8px!important;right:8px;top:auto!important;bottom:8px;}
+}
+
 .fonte-tag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
   z-index:1000;background:rgba(255,255,255,.88);
   border-radius:10px;padding:3px 12px;font-size:9px;color:#888;
@@ -567,6 +592,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       <div class="tt-row"><span>Quota</span><b id="tt-quota"></b></div>
       <div class="tt-row"><span>Ranking</span><b id="tt-rank"></b></div>
       <div class="tt-fonte" id="tt-fonte"></div>
+    </div>
+    <div id="st-history">
+      <button class="sh-close" id="sh-close" aria-label="Chiudi">×</button>
+      <div class="sh-nome" id="sh-nome"></div>
+      <div class="sh-sub" id="sh-sub"></div>
+      <div id="sh-body"></div>
     </div>
     <div class="fonte-tag" id="fonte-tag">Fonte: ARPA Lombardia</div>
 
@@ -1570,6 +1601,10 @@ function posTooltip(mx,my){
   tooltip.style.left=tx+'px';tooltip.style.top=ty+'px';
 }
 function showTooltip(s,rank,mx,my){
+  // Col grafico storico aperto il tooltip si sovrapporrebbe (su mobile in modo
+  // vistoso, visto che il popup occupa tutta la larghezza): niente tooltip.
+  var _h=document.getElementById('st-history');
+  if(_h&&_h.style.display==='block') return;
   // Determina la regione dalla provincia della stazione
   var fonte=lastUsedFonte||'—';
   document.getElementById('tt-nome').textContent=s.n;
@@ -1582,6 +1617,191 @@ function showTooltip(s,rank,mx,my){
   tooltip.style.display='block';
 }
 function hideTooltip(){tooltip.style.display='none';}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAFICO STORICO PER SINGOLA STAZIONE (clic sul marker)
+// Finestra SEMPRE di 30 giorni che termina con la fine del periodo
+// selezionato (non con oggi: le date personalizzate possono stare nel
+// passato). I giorni del periodo scelto sono a colori pieni e fanno il
+// totale mostrato dalla mappa; gli altri sono sbiaditi, servono solo a
+// leggere l'andamento. Periodi più lunghi di 30 giorni mostrano solo
+// gli ultimi 30 (il totale in alto resta quello dell'intero periodo).
+// ═══════════════════════════════════════════════════════════════
+var HIST_DAYS=30;
+var HIST_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
+// Regioni il cui storico PRIMA di questa data non è dato di stazione reale
+// (Toscana: pre-switch a SIR, ricostruito con stime Open-Meteo — bug #14).
+// Il grafico si ferma lì invece di mostrare stime come fossero misure.
+var HIST_REAL_FROM={toscana:'2026-07-12'};
+var histEl=document.getElementById('st-history');
+var histToken=0;
+var histOpenedAt=0; // vedi map.on('click') in fondo: evita l'auto-chiusura
+
+function histColor(v){
+  if(v<=0) return '#e2e0d8';
+  if(v<10) return '#85B7EB';
+  if(v<20) return '#378ADD';
+  if(v<60) return '#1D9E75';
+  return '#639922';
+}
+
+// Serie giornaliera da file JSON del repo (tutte le regioni tranne Lombardia)
+function histFromFiles(region,station,days,cb){
+  var out={},pending=days.length;
+  if(!pending){cb(out);return;}
+  days.forEach(function(ds){
+    fetch(HIST_RAW+region+'/'+ds+'.json')
+      .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
+      .then(function(d){
+        if(d&&d.stations){
+          for(var i=0;i<d.stations.length;i++){
+            if(d.stations[i].n===station.n){out[ds]=d.stations[i].mm||0;break;}
+          }
+        }
+      })
+      .catch(function(){})
+      .then(function(){if(--pending===0)cb(out);});
+  });
+}
+
+// Lombardia: nessun file storico nel repo, ma Socrata sa raggruppare per
+// giorno → 30 totali giornalieri di UNA stazione in una sola chiamata.
+function histFromLombardia(station,days,cb){
+  var out={};
+  if(!station.idsensore||!days.length){cb(out);return;}
+  var where="idsensore='"+station.idsensore+"' AND data between '"
+    +days[0]+"T00:00:00' and '"+days[days.length-1]+"T23:59:59' AND valore >= 0";
+  var url='/.netlify/functions/arpa?endpoint=647i-nhxk.json'
+    +'&$select='+encodeURIComponent('date_trunc_ymd(data) as g, sum(valore) as s')
+    +'&$where='+encodeURIComponent(where)
+    +'&$group=g&$order=g&$limit=100';
+  fetch(url)
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(rows){
+      (rows||[]).forEach(function(r){
+        var v=Math.round((parseFloat(r.s)||0)*10)/10;
+        if(v>500) v=0; // stessa sanity check della mappa
+        out[(r.g||'').substring(0,10)]=v;
+      });
+      cb(out);
+    })
+    .catch(function(){cb(out);});
+}
+
+function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo){
+  var body=document.getElementById('sh-body');
+  var vals=days.map(function(ds){return (typeof serie[ds]==='number')?serie[ds]:null;});
+  var known=vals.filter(function(v){return v!==null;});
+  if(!known.length){
+    body.innerHTML='<div class="sh-load">Storico non disponibile per questa stazione.</div>';
+    return;
+  }
+  var max=Math.max.apply(null,known);
+  var scale=Math.max(max,4); // evita barre enormi con pioggia minima
+  // linee guida: due tacche tonde sotto il massimo
+  var step=scale<=10?5:(scale<=30?10:(scale<=60?20:50));
+  var ticks=[];
+  for(var t=step;t<=scale;t+=step) ticks.push(t);
+  if(ticks.length>3) ticks=ticks.slice(-3);
+
+  var h='<div class="sh-unit">mm</div><div class="sh-plot">';
+  ticks.forEach(function(tk){
+    h+='<div class="sh-grid" style="bottom:'+Math.round(tk/scale*100)+'%"><span>'+tk+'</span></div>';
+  });
+  h+='<div class="sh-bars">';
+  days.forEach(function(ds,i){
+    var v=vals[i];
+    var sel=(ds>=selFrom&&ds<=selTo);
+    var col=(v===null)?'#f0eee8':(sel?histColor(v):(v>0?'#c9c7bf':'#e8e6e0'));
+    var hh=(v===null)?2:Math.max(2,Math.round(v/scale*100));
+    var lbl=(v===null)?'dato non disponibile':(v+' mm');
+    h+='<div class="sh-bar" style="height:'+hh+'%;background:'+col+'" title="'+ds+' · '+lbl+'"></div>';
+  });
+  h+='</div></div><div class="sh-x">';
+  days.forEach(function(ds,i){
+    h+='<span>'+((i%3===0)?ds.substring(8,10):'')+'</span>';
+  });
+  h+='</div>';
+  var note=[];
+  if(periodoLungo) note.push('grafico: ultimi 30 giorni del periodo');
+  if(HIST_REAL_FROM[regionKey]) note.push('storico dal '+HIST_REAL_FROM[regionKey].split('-').reverse().join('/'));
+  if(note.length) h+='<div class="sh-note">'+note.join(' · ')+'</div>';
+  body.innerHTML=h;
+}
+
+function histPosition(mx,my){
+  var r=mapEl.getBoundingClientRect();
+  var w=histEl.offsetWidth||310,hh=histEl.offsetHeight||200;
+  var x=mx-r.left+18,y=my-r.top-hh/2;
+  if(x+w>mapEl.clientWidth-8) x=mx-r.left-w-18;
+  if(x<8) x=8;
+  if(y<8) y=8;
+  if(y+hh>mapEl.clientHeight-8) y=Math.max(8,mapEl.clientHeight-hh-8);
+  histEl.style.left=x+'px';
+  histEl.style.top=y+'px';
+}
+
+function closeStationHistory(){histEl.style.display='none';histToken++;}
+
+function openStationHistory(s,mx,my){
+  hideTooltip();
+  if(!currentPast||!currentNow) return;
+  var token=++histToken;
+  histOpenedAt=Date.now();
+
+  // Fine finestra = ultimo giorno del periodo selezionato, mai oggi
+  var end=new Date(currentNow.getFullYear(),currentNow.getMonth(),currentNow.getDate());
+  var todayStr=fmtISOLocal(new Date());
+  if(fmtISOLocal(end)>=todayStr){end=new Date();end.setDate(end.getDate()-1);}
+  var selFrom=fmtISOLocal(currentPast),selTo=fmtISOLocal(end);
+  // NB: si usa la regione realmente spuntata, non currentRegion — quest'ultima
+  // resta sempre 'lombardia' perché switchRegion() non viene mai chiamata.
+  var regionKey=getActiveRegions()[0]||currentRegion;
+  var limit=HIST_REAL_FROM[regionKey];
+
+  var days=[];
+  for(var i=HIST_DAYS-1;i>=0;i--){
+    var d=new Date(end.getFullYear(),end.getMonth(),end.getDate()-i);
+    var ds=fmtISOLocal(d);
+    if(limit&&ds<limit) continue;
+    days.push(ds);
+  }
+  if(!days.length) return;
+  var periodoLungo=(selFrom<days[0]);
+
+  document.getElementById('sh-nome').innerHTML=s.n+
+    ' <span class="sh-meta">· '+(s.p||'—')+(s.q?' · '+s.q+' m':'')+'</span>';
+  var gg=Math.round((end-currentPast)/(24*3600000))+1;
+  document.getElementById('sh-sub').innerHTML=
+    fmtBreve(currentPast)+' – '+fmtBreve(end)+' · <b>'+s.mm+' mm</b> · '+gg+(gg===1?' giorno':' giorni');
+  document.getElementById('sh-body').innerHTML='<div class="sh-load">Carico lo storico…</div>';
+  histEl.style.display='block';
+  histPosition(mx,my);
+
+  function done(serie){
+    if(token!==histToken) return; // clic su un'altra stazione nel frattempo
+    histRender(s,regionKey,days,serie,selFrom,selTo,periodoLungo);
+    histPosition(mx,my);
+  }
+  if(regionKey==='lombardia') histFromLombardia(s,days,done);
+  else histFromFiles(regionKey,s,days,done);
+}
+
+function fmtBreve(d){
+  var m=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  return d.getDate()+' '+m[d.getMonth()];
+}
+
+document.getElementById('sh-close').addEventListener('click',closeStationHistory);
+// Clic sulla mappa = chiudi. Il clic su un marker propaga comunque fino a qui
+// (Leaflet inoltra l'evento dei layer vettoriali alla mappa), quindi ignoro
+// quelli che arrivano nell'istante in cui il popup si è appena aperto:
+// senza questa guardia il popup si chiuderebbe da solo e la richiesta in
+// volo verrebbe annullata dal cambio di histToken.
+map.on('click',function(){
+  if(Date.now()-histOpenedAt<400) return;
+  closeStationHistory();
+});
 
 // ═══════════════════════════════════════════════════════════════
 // MARKER
@@ -1604,7 +1824,8 @@ function addMarkers(dati,sorted){
     m.on('mousemove',function(e){posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
     m.on('mouseout',function(){this.setStyle({radius:5,weight:1.5,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
     m.on('click',function(e){
-      map.setView([s.lat,s.lon],12);
+      if(e.originalEvent&&window.L&&L.DomEvent) L.DomEvent.stopPropagation(e.originalEvent);
+      openStationHistory(s,e.originalEvent.clientX,e.originalEvent.clientY);
     });
     // Touch support per mobile
     m.on('touchstart',function(e){
@@ -2175,6 +2396,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
           var todayMM=omMap[s.n||s.nomestazione]||0;
           var total=bestMm+todayMM;
           return {n:s.n||s.nomestazione,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'—',
+                  idsensore:s.idsensore||s.id||null, // serve al grafico storico (query Socrata per sensore)
                   mm:total<0.5?0:Math.round(total*10)/10};
         });
         cb(out.filter(function(s){return s.lat&&s.lon;}).length>=3?
