@@ -104,7 +104,16 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .rcheck-wrap:hover input:checked ~ .rcheck-name{background:#234f8a;}
 
 /* Select regioni mobile */
-.region-select-mobile{display:none;}
+.region-select-mobile{display:none;
+  /* La lista che si apre al tocco è disegnata dal sistema operativo, non dal
+     nostro CSS: di default segue il tema del telefono (scura su Android in
+     dark mode, bianca in tema chiaro o su altri browser). Con color-scheme
+     la chiediamo scura sempre, così l'aspetto è lo stesso ovunque.
+     Fuori da ogni media query: il select è già nascosto su desktop. */
+  color-scheme:dark;}
+/* Fallback per i browser che ignorano color-scheme sui select ma colorano
+   le singole voci. */
+.region-select-mobile option{background:#2b2b2b;color:#f2f2f2;}
 .region-btns-desktop{display:grid;}
 /* Regione "orfana" con numero dispari di pulsanti: occupa tutta la riga */
 .rcheck-full{grid-column:1/-1;}
