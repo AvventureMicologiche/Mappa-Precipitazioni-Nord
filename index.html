@@ -297,18 +297,21 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 #channel-pill{display:none;}
 @media(max-width:600px){
   #channel-logo{display:none!important;}
+  /* Blu istituzionale (#1b3f6e, lo stesso di titoli e pannelli): la pillola
+     sembra parte del sito e non un annuncio. Il rosso resta solo sull'icona
+     YouTube, che basta a dire dove porta il link. */
   #channel-pill{
-    display:flex;align-items:center;gap:9px;
-    margin-top:9px;padding:7px 10px;
-    background:#FF0000;border-radius:22px;text-decoration:none;
+    display:flex;align-items:center;gap:11px;
+    margin-top:9px;padding:9px 12px;
+    background:#1b3f6e;border-radius:26px;text-decoration:none;
   }
   #channel-pill img{
-    width:32px;height:32px;border-radius:50%;flex:none;
-    border:2px solid #fff;object-fit:cover;
+    width:46px;height:46px;border-radius:50%;flex:none;
+    border:2px solid #fff;object-fit:cover;background:#f3efe6;
   }
-  #channel-pill .cp-t{color:#fff;font-size:12.5px;font-weight:700;line-height:1.2;flex:1;}
-  #channel-pill .cp-t small{display:block;font-weight:400;font-size:10px;opacity:.92;}
-  #channel-pill .cp-c{color:#fff;font-size:15px;font-weight:700;padding-right:3px;}
+  #channel-pill .cp-t{color:#fff;font-size:15px;font-weight:700;line-height:1.25;flex:1;}
+  #channel-pill .cp-t small{display:block;font-weight:400;font-size:11.5px;opacity:.85;margin-top:1px;}
+  #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
 }
 
 /* ── Frecce tutorial ── */
@@ -816,7 +819,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
          id="channel-pill">
         <img src="archie-avatar.png" alt="Archie">
         <div class="cp-t">Archie ti aspetta su YouTube<small>Avventure Micologiche · iscriviti</small></div>
-        <div class="cp-c">›</div>
+        <div class="cp-yt">
+          <svg width="26" height="19" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="42" height="30" rx="6" fill="#FF0000"/>
+            <polygon points="16,7 16,23 31,15" fill="#fff"/>
+          </svg>
+        </div>
       </a>
     </div>
   </div>
