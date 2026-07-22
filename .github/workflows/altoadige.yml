@@ -13,7 +13,9 @@ on:
     - cron: '25 12 * * *'
     - cron: '25 16 * * *'
     - cron: '25 20 * * *'
-    - cron: '55 21 * * *'
+    # Run di chiusura giornata: anticipato dalle 21:55 alle 21:05 UTC perché i
+    # cron di GitHub slittano di 40-70 minuti e atterrava dopo mezzanotte CEST
+    - cron: '05 21 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest

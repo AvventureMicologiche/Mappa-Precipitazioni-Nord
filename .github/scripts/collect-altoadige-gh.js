@@ -90,6 +90,34 @@ async function main() {
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
 
+  // ── Guardia: cumulato di mezzanotte non ancora azzerato ──────────
+  // L'API BZ espone il cumulato dalla mezzanotte. I cron slittano
+  // regolarmente di 40+ minuti, quindi il run di chiusura serale può
+  // atterrare dopo mezzanotte: se in quel momento l'API non ha ancora
+  // azzerato, i totali di IERI finiscono nel file di OGGI e il merge MAX
+  // li congela per sempre (pioggia fantasma, 22 luglio 2026).
+  // Un payload identico stazione per stazione a quello del giorno prima non
+  // è una coincidenza possibile su decine di stazioni: è un reset mancato.
+  let skipWrite = false;
+  if (!fs.existsSync(outFile)) {
+    const prevStr = new Date(Date.UTC(
+      +dateStr.slice(0, 4), +dateStr.slice(5, 7) - 1, +dateStr.slice(8, 10)
+    ) - 86400000).toISOString().slice(0, 10);
+    const prevFile = path.join(DATA_DIR, `${prevStr}.json`);
+    if (fs.existsSync(prevFile)) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(prevFile, 'utf8'));
+        const prevMap = new Map((prev.stations || []).map(s => [s.id, s.mm]));
+        const totale = stations.reduce((a, s) => a + s.mm, 0);
+        skipWrite = totale > 0
+          && stations.length === prevMap.size
+          && stations.every(s => prevMap.get(s.id) === s.mm);
+      } catch(e) {
+        console.warn('  Warn: guardia reset non applicabile: ' + e.message);
+      }
+    }
+  }
+
   // Merge MAX con file esistente dello stesso giorno
   // Protegge da glitch API che restituiscono 0mm
   let finalStations = stations;
@@ -114,14 +142,18 @@ async function main() {
     }
   }
 
-  fs.writeFileSync(outFile, JSON.stringify({
-    date:      dateStr,
-    collected: new Date().toISOString(),
-    source:    'meteo-altoadige',
-    count:     finalStations.length,
-    stations:  finalStations
-  }));
-  console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
+  if (skipWrite) {
+    console.warn(`⚠️  Payload identico al giorno precedente: l'API non ha ancora azzerato il cumulato di mezzanotte. Salto la scrittura di ${dateStr}.`);
+  } else {
+    fs.writeFileSync(outFile, JSON.stringify({
+      date:      dateStr,
+      collected: new Date().toISOString(),
+      source:    'meteo-altoadige',
+      count:     finalStations.length,
+      stations:  finalStations
+    }));
+    console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
+  }
 
   // ── Pulizia file > 365 giorni (retention finestra scorrevole) ──
   const MAX_DAYS = 365;

@@ -87,18 +87,18 @@ async function main() {
     throw new Error('Nessun dato ricevuto da getValoriAggregatiGiornoJson');
   }
 
-  // Prova prima con la data richiesta, poi con la più recente disponibile
+  // Meteotrentino pubblica l'aggregato giornaliero solo a giornata conclusa:
+  // durante il giorno i record per `dateStr` non esistono ancora. Prima si
+  // ripiegava sul "giorno più recente disponibile", scrivendo i dati di IERI
+  // dentro il file di OGGI; il file veniva poi corretto solo dal primo run del
+  // mattino successivo, e nel frattempo la mappa mostrava come "ieri" i dati
+  // dell'altro ieri. Ora si salta il salvataggio di oggi e si aggiorna solo ieri.
   let todayRecords = records.filter(r => r.giorno && r.giorno.startsWith(dateStr));
   console.log(`  Record per ${dateStr}: ${todayRecords.length}`);
 
   if (todayRecords.length < 5) {
-    // Usa il giorno più recente disponibile nell'API
-    const dates = [...new Set(records.map(r => r.giorno ? r.giorno.substring(0,10) : null).filter(Boolean))].sort();
-    const latestDate = dates[dates.length - 1];
-    console.log(`  Provo con data più recente disponibile: ${latestDate}`);
-    todayRecords = records.filter(r => r.giorno && r.giorno.startsWith(latestDate));
-    console.log(`  Record per ${latestDate}: ${todayRecords.length}`);
-    if (todayRecords.length < 5) throw new Error(`Troppo pochi record: ${todayRecords.length}`);
+    console.log(`  Nessun aggregato pubblicato per ${dateStr}: salto il salvataggio di oggi.`);
+    todayRecords = [];
   }
 
   // Assembla stazioni

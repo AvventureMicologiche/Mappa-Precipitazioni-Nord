@@ -13,6 +13,9 @@ on:
     - cron: '20 12 * * *'
     - cron: '20 16 * * *'
     - cron: '20 20 * * *'
+    # Run dopo la mezzanotte locale: l'API pubblica l'aggregato di un giorno solo
+    # a giornata conclusa, questo lo raccoglie prima del primo run del mattino
+    - cron: '30 22 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
