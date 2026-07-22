@@ -2,22 +2,37 @@
 <html lang="it">
 <head>
   <!-- Google tag (gtag.js) -->
+  <!-- Il config parte solo sul dominio di produzione: questo stesso file gira
+       anche sul sito di test (avventurepluvio-test.netlify.app), che non deve
+       finire nelle statistiche. Senza config gtag.js non invia nulla, quindi
+       le chiamate gtag('event',...) sparse nella pagina restano innocue. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-9R7MXXS0V4');
+    if (/(^|\.)avventuremicologiche\.it$/.test(location.hostname)) {
+      gtag('config', 'G-9R7MXXS0V4');
+    }
   </script>
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="description" content="Mappa interattiva delle precipitazioni in Nord Italia con dati da stazioni meteo reali. Pianifica le tue uscite funghi.">
   <meta property="og:title" content="Precipitazioni Nord Italia | Avventure Micologiche">
   <meta property="og:description" content="Mappa interattiva con dati meteo reali per pianificare ogni uscita. Trova le zone dove ha piovuto di più.">
-  <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
+  <!-- Anteprima rifatta il 22 luglio 2026 (Emilia Romagna, 30 giorni, 1200x630).
+       Il ?v= serve a far riscaricare l'immagine ai social, che la tengono in
+       cache per URL e altrimenti continuerebbero a mostrare la vecchia. -->
+  <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg?v=20260722">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="Mappa delle precipitazioni degli ultimi 30 giorni in Emilia Romagna">
   <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it">
   <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg?v=20260722">
   <meta name="theme-color" content="#1b3f6e">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
