@@ -24,10 +24,14 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 ## Architettura dati per regione
 
 ### Lombardia
-- **Fonte:** ARPA Lombardia Socrata API (live dal frontend, no collect script)
-- **Formula:** `sum(valore)` nella query API
-- **File su GitHub:** NO (dati caricati live dal browser)
-- **Stato:** ✅ sempre corretto
+- **Fonte:** ARPA Lombardia Socrata API (`dati.lombardia.it`)
+- **Collect:** `collect-lombardia.js` (dal 24 luglio 2026) — prima era l'UNICA regione caricata live dal browser
+- **Formula:** `sum(valore)` su un giorno raggruppata per sensore = totale mm. Sensori pioggia da anagrafe `nf78-nj6b` (tipologia='Precipitazione'), misure da `647i-nhxk`
+- **Orari:** 6 run/giorno + ieri/altroieri
+- **Dati corretti da:** ~1 gennaio 2026 (backfill; il dataset Socrata 647i-nhxk contiene solo l'anno corrente in pieno — il 2025 è vuoto/sparso, min completo = gennaio 2026, ~204 giorni. Cresce a 365 con la retention)
+- **Migrazione a file (24 luglio 2026):** prima la Lombardia interrogava Socrata **live** dal browser a ogni caricamento — lenta sui periodi lunghi (~60 richieste per 30 giorni) e dipendente da Socrata in tempo reale. Ora scrive file giornalieri come le altre regioni: il sito legge i file (`loadARPALombardiaRegion` fa `fetch` del raw GitHub e somma), i sensori morti (offline, nessun dato quel giorno) non ci sono, e se Socrata va giù lo storico resta. Aspetto invariato (stesso grid `selectUniform`+nearest-neighbor). Fallback a Open-Meteo se i file mancano. Valori identici alla vecchia query live (verificato: 15/7 media 6.63)
+- **ATTENZIONE:** il grafico storico per stazione interroga ancora Socrata per sensore (via `idsensore` nei dati), NON i file — resta l'unica cosa live della Lombardia
+- **Sensori morti:** su 325 in anagrafe, ~250 riportano; su 30 giorni 71 non riportano mai (0 online genuinamente a zero → una stazione a ~0 su un mese è morta, non asciutta)
 
 ### Piemonte
 - **Fonte:** ARPA Piemonte `utility.arpa.piemonte.it/api_realtime`
