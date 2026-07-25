@@ -130,6 +130,9 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    le singole voci. */
 .region-select-mobile option{background:#2b2b2b;color:#f2f2f2;}
 .region-btns-desktop{display:grid;}
+/* Hint "(MAX 3)" accanto al titolo "Seleziona regione" — solo desktop (in
+   multiregione). Nascosta su mobile insieme ai checkbox (vedi media query). */
+.region-max-hint{color:inherit;font-weight:600;margin-left:5px;}
 /* Regione "orfana" con numero dispari di pulsanti: occupa tutta la riga */
 .rcheck-full{grid-column:1/-1;}
 
@@ -363,7 +366,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   /* Tablet layout */
 
   /* 1. Select regione: attaccata alla barra blu, tutta larghezza */
-  .region-btns-desktop{display:none !important;}
+  .region-btns-desktop,.region-max-hint{display:none !important;}
   .region-select-mobile{
     display:block !important;
     width:100% !important;
@@ -494,7 +497,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     padding-top:4px !important;
     padding-bottom:4px !important;
   }
-  .region-btns-desktop{display:none !important;}
+  .region-btns-desktop,.region-max-hint{display:none !important;}
   #rp-handle{display:none !important;}
   #region-panel{
     padding:6px 6px !important;
@@ -702,7 +705,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     <!-- Pannello regioni: gemello del pannello periodo -->
     <div id="region-panel">
       <div class="tp-handle" id="rp-handle">
-        <div class="tp-title" style="font-size:11px;white-space:nowrap;align-self:center;margin-top:-4px;">🗺 Seleziona regione</div>
+        <div class="tp-title" style="font-size:11px;white-space:nowrap;align-self:center;margin-top:-4px;">🗺 Seleziona regione <span class="region-max-hint">(MAX 3)</span></div>
       </div>
       <div class="tp-content">
         <!-- Desktop: bottoni (nascosti su mobile) -->
@@ -1518,7 +1521,10 @@ if(screenW<=480){
 }
 // Centro sul Nord Italia (Piemonte + Lombardia + Liguria + ER visibili)
 var initCenter=(screenW<=900)?[44.8,9.5]:[45.0,9.5];
-var map=L.map('map',{zoomSnap:0.5,zoomDelta:0.5}).setView(initCenter, initZoom);
+// zoomSnap 0.25: permette livelli di zoom a quarti (serve al controllo fine
+// dell'inquadratura multiregione, ZOOM_STEP). zoomDelta resta 0.5 → i pulsanti
+// +/- e la rotellina zoomano di 0,5 come prima (zoom manuale invariato).
+var map=L.map('map',{zoomSnap:0.25,zoomDelta:0.5}).setView(initCenter, initZoom);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,subdomains:'abc',
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -1579,6 +1585,11 @@ function clearHeatmap(){
 }
 
 var GRID_RES=0.009, IDW_RAD=0.15;
+// Passo EFFETTIVO della griglia: in multiregione la vista è zoomata fuori e il
+// dettaglio fine non si vede, quindi render() lo ingrandisce per non calcolare
+// centinaia di migliaia di celle (buildGrid è sincrono e bloccherebbe il thread).
+// gridPxSize() lo usa così i quadrati del disegno restano allineati al passo.
+var activeGridRes=GRID_RES;
 
 function pipGeo(lon,lat,ring){
   var inside=false,n=ring.length;
@@ -1602,17 +1613,36 @@ function inRegion(lon,lat,rings){
 
 function buildGrid(data,rings,idwRad,gridRes){
   var rad=idwRad||IDW_RAD;
-  var GR=gridRes||GRID_RES;
+  var GR=gridRes||activeGridRes||GRID_RES;
   // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
   var dataForIDW=data;
   // Bounding box per regione
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
   var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
+  // Bounding box dell'anello esterno di ogni poligono: la stragrande maggioranza
+  // delle celle è fuori regione e viene scartata da questo confronto O(1), senza
+  // il point-in-polygon sui migliaia di vertici del confine (era il collo di
+  // bottiglia in multiregione: box unito grande × tutti i confini per cella).
+  var polys=rings.map(function(poly){
+    var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
+    for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
+    return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
+  });
   var pts=[];
   for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR){
     for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
-      if(!inRegion(lon,lat,rings)) continue;
+      var inside=false;
+      for(var pz=0;pz<polys.length;pz++){
+        var P=polys[pz];
+        if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue; // AABB: reject veloce
+        if(pipGeo(lon,lat,P.poly[0])){
+          var hole=false;
+          for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
+          if(!hole){inside=true;break;}
+        }
+      }
+      if(!inside) continue;
       var num=0,den=0,found=false;
       for(var i=0;i<dataForIDW.length;i++){
         var dlat=lat-dataForIDW[i].lat;
@@ -1631,7 +1661,7 @@ function buildGrid(data,rings,idwRad,gridRes){
 }
 
 function gridPxSize(){
-  var gr=GRID_RES;
+  var gr=activeGridRes;
   var mpp=156543.03392*Math.cos(45.0*Math.PI/180)/Math.pow(2,map.getZoom());
   return Math.ceil(gr*111000/mpp)+1;
 }
@@ -1734,9 +1764,11 @@ function hideTooltip(){tooltip.style.display='none';}
 // ═══════════════════════════════════════════════════════════════
 var HIST_DAYS=30;
 var HIST_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
+// Override base-URL per lo storico di alcune "regioni" logiche (nessuno in prod).
+var HIST_RAW_BY_REGION={};
+function histRawBase(region){ return HIST_RAW_BY_REGION[region]||HIST_RAW; }
 // Regioni il cui storico PRIMA di questa data non è dato di stazione reale
 // (Toscana: pre-switch a SIR, ricostruito con stime Open-Meteo — bug #14).
-// Il grafico si ferma lì invece di mostrare stime come fossero misure.
 var HIST_REAL_FROM={toscana:'2026-07-12'};
 var histEl=document.getElementById('st-history');
 var histToken=0;
@@ -1770,7 +1802,7 @@ function histFromFiles(region,station,days,cb){
   if(!need.length){assemble();return;}
   var pending=need.length;
   need.forEach(function(ds){
-    fetch(HIST_RAW+region+'/'+ds+'.json')
+    fetch(histRawBase(region)+region+'/'+ds+'.json')
       .then(function(r){if(!r.ok)throw new Error('404');return r.json();})
       .then(function(d){
         var m={};
@@ -1905,7 +1937,7 @@ function openStationHistory(s,rank,mx,my){
   var todayStr=fmtISOLocal(new Date());
   if(fmtISOLocal(end)>=todayStr){end=new Date();end.setDate(end.getDate()-1);}
   var selFrom=fmtISOLocal(currentPast),selTo=fmtISOLocal(end);
-  var regionKey=getActiveRegions()[0]||DEFAULT_REGION;
+  var regionKey=s._region||getActiveRegions()[0]||DEFAULT_REGION; // multiregione: la regione della stazione cliccata, non la 1a attiva
   var limit=HIST_REAL_FROM[regionKey];
 
   var days=[];
@@ -2317,8 +2349,11 @@ function loadData(pastDate,nowDate,labelPeriodo){
   var allFonti=[];
   var pending=regions.length;
 
-  function onRegionDone(dati, fonte){
+  function onRegionDone(dati, fonte, regionKey){
     if(loadSessionId!==mySession) return; // richiesta obsoleta, ignora
+    // Etichetta ogni stazione con la sua regione: in multiregione il grafico
+    // storico deve sapere da dove viene la stazione cliccata (non la 1a attiva).
+    if(dati && regionKey) dati.forEach(function(s){ if(s) s._region=regionKey; });
     allData=allData.concat(dati);
     if(fonte && allFonti.indexOf(fonte)<0) allFonti.push(fonte);
     pending--;
@@ -2356,51 +2391,51 @@ function loadData(pastDate,nowDate,labelPeriodo){
 
     if(source==='arpa_lombardia'){
       loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 ARPA Lombardia');
+        onRegionDone(dati,'🟢 ARPA Lombardia',regionKey);
       });
     } else if(source==='arpa_piemonte'){
       loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 ARPA Piemonte');
+        onRegionDone(dati,'🟢 ARPA Piemonte',regionKey);
       });
     } else if(source==='arpa_veneto'){
       loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 ARPA Veneto');
+        onRegionDone(dati,'🟢 ARPA Veneto',regionKey);
       });
     } else if(source==='arpa_liguria'){
       loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 ARPA Liguria');
+        onRegionDone(dati,'🟢 ARPA Liguria',regionKey);
       });
     } else if(source==='arpa_emilia'){
       loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 ARPAE Emilia-Romagna');
+        onRegionDone(dati,'🟢 ARPAE Emilia-Romagna',regionKey);
       });
     } else if(source==='open_meteo_vda'){
       loadOpenMeteoStorico('valledaosta',pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 Open-Meteo');
+        onRegionDone(dati,'🟢 Open-Meteo',regionKey);
       });
     } else if(source==='open_meteo_fvg'){
       loadOpenMeteoStorico('friuli',pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 Open-Meteo');
+        onRegionDone(dati,'🟢 Open-Meteo',regionKey);
       });
     } else if(source==='meteo_altoadige'){
       loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 Meteo Alto Adige');
+        onRegionDone(dati,'🟢 Meteo Alto Adige',regionKey);
       });
     } else if(source==='meteotrentino'){
       loadMeteotrentino(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 Meteotrentino');
+        onRegionDone(dati,'🟢 Meteotrentino',regionKey);
       });
     } else if(source==='cfr_toscana'){
       loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 SIR Toscana');
+        onRegionDone(dati,'🟢 SIR Toscana',regionKey);
       });
     } else if(source==='oasi_ticino'){
       loadTicinoRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 OASI Ticino');
+        onRegionDone(dati,'🟢 OASI Ticino',regionKey);
       });
     } else {
       loadOpenMeteoRegion(cfg.stations||[],pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🌍 Open-Meteo');
+        onRegionDone(dati,'🌍 Open-Meteo',regionKey);
       });
     }
   });
@@ -2462,8 +2497,18 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       var activeR=getActiveRegions();
       var rings=ringsOverride||(regionRings[activeR[0]]||[]);
       var idwR=0.35;
-      var grR=GRID_RES;
-      gridPoints=buildGrid(dati,rings,idwR,grR);
+      // Multiregione: griglia più grossa (vista zoomata fuori, il dettaglio fine
+      // non si vede) e stazioni per l'IDW campionate uniformi — così buildGrid non
+      // blocca il thread per secondi. Single-region invariato (fattore 1, tutte le
+      // stazioni). I marker restano comunque tutti (addMarkers usa 'dati' pieno).
+      var nReg=ringsOverride?getActiveRegions().length:1;
+      // Passo griglia crescente col n. di regioni (più regioni = vista più zoomata
+      // fuori = dettaglio fine invisibile). Anche a 1 regione un lieve coarsening
+      // (×1,5) dimezza il point-in-polygon per cella — il costo dominante — con
+      // resa praticamente identica (celle ~3px a video invece di ~2).
+      activeGridRes=GRID_RES*(nReg>=3?2.4:(nReg===2?1.7:1.5));
+      var idwData=(nReg>1&&dati.length>320)?selectUniform(dati,320):dati;
+      gridPoints=buildGrid(idwData,rings,idwR,activeGridRes);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
     }
@@ -2477,7 +2522,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
   // invece di interrogare Socrata live a ogni caricamento (lento sui periodi
   // lunghi). I file (collect-lombardia.js) contengono solo i sensori che
   // riportano — i morti sono già fuori. Il grid nearest-neighbor resta identico
-  // (aspetto invariato). Fallback a Open-Meteo se i file mancano.
+  // (aspetto invariato). NB in produzione il RAW va cambiato in Mappa-Precipitazioni-Nord.
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/lombardia';
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
   var todayStr=_fmt(new Date());
@@ -3536,10 +3581,23 @@ function loadAllBorders(regionKeys, cb){
 // riferimenti a elementi .rtab non più presenti. Rimossa.
 
 // ─── Centra mappa sulle regioni attive ───────────────────────
+// Bbox per l'inquadratura multi-regione (fitMapToRegions). DEVE contenere
+// TUTTE le regioni selezionabili: se ne manca una, la bbox unificata resta
+// ai valori iniziali invertiti e la mappa zooma sul mondo intero (bug trovato
+// il 25/7/2026 con Toscana+Emilia). Le bbox racchiudono le coordinate reali
+// delle stazioni di ciascuna regione (con un po' di margine).
 var REGION_BOUNDS={
-  lombardia: [[44.90, 8.90],[46.40,10.70]],
-  piemonte:  [[43.80, 6.63],[46.46, 9.22]],
-  veneto:    [[44.79,10.63],[46.68,13.10]]
+  lombardia:   [[44.90, 8.90],[46.45,10.85]],
+  piemonte:    [[43.80, 6.63],[46.46, 9.22]],
+  veneto:      [[44.79,10.63],[46.68,13.10]],
+  valledaosta: [[45.47, 6.80],[45.99, 7.94]],
+  liguria:     [[43.75, 7.49],[44.68,10.07]],
+  emilia:      [[43.73, 9.20],[45.14,12.76]],
+  toscana:     [[42.24, 9.69],[44.47,12.37]],
+  friuli:      [[45.58,12.32],[46.65,13.92]],
+  trentino:    [[45.67,10.45],[46.53,11.96]],
+  altoadige:   [[46.22,10.38],[47.09,12.48]],
+  ticino:      [[45.82, 8.38],[46.63, 9.16]]
 };
 
 function fitMapToRegions(regionKeys){
@@ -3562,18 +3620,104 @@ function fitMapToRegions(regionKeys){
     return;
   }
   // Più regioni: calcola bbox unificata
-  var latMin=90,latMax=-90,lonMin=180,lonMax=-180;
+  var latMin=90,latMax=-90,lonMin=180,lonMax=-180,found=false;
   regionKeys.forEach(function(rk){
     var b=REGION_BOUNDS[rk];
+    if(!b){
+      // Rete di sicurezza: regione non in tabella → ricava la bbox dalle
+      // coordinate stazione. Se anche quelle mancano (es. Ticino, stazioni
+      // solo nei file dati), la regione viene saltata.
+      var st=(REGIONS[rk]&&REGIONS[rk].stations)||[];
+      if(st.length){
+        var la=st.map(function(s){return s.lat;}),lo=st.map(function(s){return s.lon;});
+        b=[[Math.min.apply(null,la),Math.min.apply(null,lo)],[Math.max.apply(null,la),Math.max.apply(null,lo)]];
+      }
+    }
     if(!b) return;
+    found=true;
     if(b[0][0]<latMin) latMin=b[0][0];
     if(b[1][0]>latMax) latMax=b[1][0];
     if(b[0][1]<lonMin) lonMin=b[0][1];
     if(b[1][1]>lonMax) lonMax=b[1][1];
   });
-  var pad=window.innerWidth<=900?[20,10]:[30,30];
+  // Nessuna bbox trovata: NON chiamare fitBounds su valori invertiti
+  // (Leaflet li normalizzerebbe a tutto il mondo). Meglio lasciare la vista com'è.
+  if(!found) return;
+  // Margine di fit ridotto = zoom un filo più stretto, SENZA tagliare le regioni
+  // (richiesta utente 25/7/2026: regione di mezzo centrata + più riempimento).
+  // Il margine vuoto residuo su un lato è intrinseco alla centratura sulla
+  // regione di mezzo (schermo largo 16:9 vs regioni compatte).
+  var pad=window.innerWidth<=900?[10,8]:[12,12];
   var opts={animate:true,duration:0.6,padding:pad};
-  map.fitBounds([[latMin,lonMin],[latMax,lonMax]],opts);
+  var bounds;
+  // Con 3 regioni: centro sulla regione "di mezzo" (quella che confina con
+  // entrambe le altre) tramite una bbox SIMMETRICA attorno al suo centro,
+  // abbastanza ampia da contenere la bbox unificata.
+  if(regionKeys.length===3){
+    var mid=middleRegion(regionKeys);
+    var c=mid&&REGIONS[mid]&&REGIONS[mid].center;
+    if(c){
+      var hw=Math.max(Math.abs(lonMax-c[1]),Math.abs(c[1]-lonMin));
+      // Orizzontale: simmetrico attorno alla regione di mezzo (resta centrata in lon).
+      // Verticale: estensione reale del contenuto (latMin..latMax), NON simmetrica
+      // attorno alla regione di mezzo — altrimenti lo "specchio" del mare a sud
+      // spingeva il contenuto troppo in alto e le Alpi a nord venivano ritagliate.
+      bounds=[[latMin,c[1]-hw],[latMax,c[1]+hw]];
+    }
+  }
+  if(!bounds) bounds=[[latMin,lonMin],[latMax,lonMax]];
+  // Le regioni del Nord formano un blocco compatto mentre l'area mappa è larga
+  // (16:9): "tutto visibile" (_fit) lascia grandi margini laterali. Per riempire
+  // di più si zooma sopra _fit, ritagliando sopra/sotto (Alpi/mare), fino al
+  // massimo "riempi pieno" (_fill).
+  var _lb=L.latLngBounds(bounds), _pp=L.point(pad[0],pad[1]);
+  var _fit=map.getBoundsZoom(_lb,false,_pp);   // tutto dentro (margini laterali)
+  var _fill=map.getBoundsZoom(_lb,true,_pp);   // riempie ritagliando sopra/sotto
+  // ZOOM_STEP: mezzi-livelli di zoom sopra _fit. Lo zoomSnap della mappa è 0,5 e
+  // _fit è già un multiplo di 0,5, quindi ogni step di 0,5 CAMBIA sempre a video
+  // (niente più valori che sembrano identici). 0=tutto visibile; 0.5/1.0/1.5=
+  // sempre più pieno. Cap a _fill. (Manopola zoom multiregione, utente 25/7/2026.)
+  var ZOOM_STEP=0;
+  var _z=Math.min(_fit+ZOOM_STEP,_fill);
+  // VSHIFT: spostamento verticale del centro. >0 ABBASSA il contenuto a video
+  // (regola #5: latitudine più alta = contenuto più in basso), ritagliando un po'
+  // più a sud e meno a nord. (Manopola verticale multiregione, utente 25/7/2026.)
+  var VSHIFT=0.20;
+  var _ctr=_lb.getCenter();
+  map.setView([_ctr.lat+VSHIFT,_ctr.lng], _z, {animate:true,duration:0.6});
+}
+
+// Adiacenze (confini) tra le regioni selezionabili. Servono a individuare la
+// "regione di mezzo" in una terna: quella che confina con entrambe le altre.
+var REGION_ADJ={
+  valledaosta:['piemonte'],
+  piemonte:['valledaosta','lombardia','liguria','ticino'],
+  liguria:['piemonte','emilia','toscana'],
+  lombardia:['piemonte','emilia','veneto','trentino','ticino'],
+  emilia:['lombardia','liguria','toscana','veneto'],
+  toscana:['liguria','emilia'],
+  veneto:['lombardia','emilia','trentino','altoadige','friuli'],
+  trentino:['lombardia','veneto','altoadige'],
+  altoadige:['trentino','veneto'],
+  friuli:['veneto'],
+  ticino:['piemonte','lombardia']
+};
+// La regione della terna che confina con entrambe le altre. Se la terna non è
+// contigua (nessuna confina con le altre due), ripiega sulla regione il cui
+// centro è più vicino al centroide dei tre centri.
+function middleRegion(keys){
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i], others=keys.filter(function(x){return x!==k;});
+    var adj=REGION_ADJ[k]||[];
+    if(others.every(function(o){return adj.indexOf(o)>=0;})) return k;
+  }
+  var cs=keys.map(function(k){return (REGIONS[k]&&REGIONS[k].center)||null;});
+  if(cs.some(function(c){return !c;})) return keys[0];
+  var clat=cs.reduce(function(a,c){return a+c[0];},0)/cs.length;
+  var clon=cs.reduce(function(a,c){return a+c[1];},0)/cs.length;
+  var best=keys[0],bd=Infinity;
+  keys.forEach(function(k){var c=REGIONS[k].center;var d=(c[0]-clat)*(c[0]-clat)+(c[1]-clon)*(c[1]-clon);if(d<bd){bd=d;best=k;}});
+  return best;
 }
 
 // Bottone funghi — piogge 16-23 giorni fa
@@ -3643,43 +3787,46 @@ document.getElementById('region-select').addEventListener('change', function(){
 
 document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
   cb.addEventListener('change',function(){
-    if(!this.checked){
-      // Se deseleziona l'unica attiva, non fare nulla
-      this.checked=true;
+    var rk=this.value;
+    // Massimo 3 regioni insieme: oltre, la mappa diventa lenta (troppe stazioni)
+    if(this.checked && getActiveRegions().length>3){
+      this.checked=false;
+      var _m=document.getElementById('tp-status');
+      if(_m){ _m.className='error'; _m.textContent='⚠️ Massimo 3 regioni per volta'; setTimeout(function(){ if(_m.textContent.indexOf('Massimo 3')>-1){ _m.textContent=''; _m.className=''; } },2800); }
       return;
     }
-    // Deseleziona tutte le altre
-    document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(other){
-      if(other!==cb){
-        other.checked=false;
-        var rk=other.value;
-        if(regionBorders[rk]){map.removeLayer(regionBorders[rk]);delete regionBorders[rk];}
-      }
-    });
-    // Reset mappa
+    // Serve almeno una regione: se hai tolto l'ultima, rimettila
+    if(getActiveRegions().length===0){ this.checked=true; return; }
+    // MULTIREGIONE: la spunta aggiunge/toglie solo la sua regione, non azzera le altre.
+    // Se la regione è stata TOLTA, rimuovi solo il suo bordo dalla mappa.
+    if(!this.checked && regionBorders[rk]){
+      map.removeLayer(regionBorders[rk]); delete regionBorders[rk];
+    }
+    var regions=getActiveRegions();
+    // Reset del disegno, poi ridisegna TUTTE le regioni attive insieme
     clearMarkers();
     clearHeatmap();
     document.getElementById('legend-panel').style.display='none';
-  hideLegendMobile();
+    hideLegendMobile();
     document.getElementById('badge').textContent='–';
-    document.getElementById('datehdr').textContent='Seleziona il periodo';
     var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
-    var rk=this.value;
-    // Centra mappa su mobile
-    if(window.innerWidth<=900){
-      if(rk==='lombardia') map.setView([45.3, 9.85], 7.5);
-      else if(rk==='piemonte') map.setView([44.8, 7.9], 7.5);
-      else if(rk==='veneto') map.setView([45.5, 11.8], 7.5);
-      else if(rk==='liguria') map.setView([43.9, 8.8], window.innerWidth<=375 ? 7.25 : 7.75);
-      else if(rk==='emilia') map.setView([43.9, 11.0], 7.0);
-    }
-    setRegionBorder(rk,function(){
-      clearMarkers();
-      addDefaultMarkersForRegion(rk);
-      if(window.innerWidth>600) fitMapToRegions([rk]);
+    // Inquadra su tutte le regioni attive (fitMapToRegions gestisce sia 1 che N)
+    fitMapToRegions(regions);
+    regions.forEach(function(r){
+      setRegionBorder(r,function(){ addDefaultMarkersForRegion(r); });
     });
+    // DEBOUNCE: non ricaricare a ogni spunta. Bordi e marker si aggiornano
+    // subito (sopra), ma il caricamento DATI parte una volta sola ~550ms dopo
+    // l'ultima modifica — così puoi aggiungere/togliere più regioni di fila
+    // senza aspettare. isLoading=false abbandona un caricamento in corso (i suoi
+    // risultati vengono scartati dal controllo loadSessionId), evitando l'impallo.
     if(currentPast&&currentNow){
-      loadData(currentPast,currentNow,currentLabel);
+      clearTimeout(window.__multiRegLoadT);
+      _ts.textContent='⏳ aggiorno ('+regions.length+(regions.length===1?' regione)':' regioni)');
+      window.__multiRegLoadT=setTimeout(function(){
+        isLoading=false;
+        loadData(currentPast,currentNow,currentLabel);
+      }, 550);
     }
   });
 });
