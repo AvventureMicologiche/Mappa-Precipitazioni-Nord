@@ -16,7 +16,7 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 1b. **Retention: max 365 giorni di storico per regione.** Finestra scorrevole: ogni nuovo giorno raccolto elimina il più vecchio oltre i 365. Ogni collector DEVE avere il blocco "Pulizia retention" a fine main() (uniformato a tutti i collector il 16 luglio 2026 — prima lo avevano solo Piemonte, Emilia, Veneto e Liguria, le altre regioni erano arrivate a 417-420 giorni).
 2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file.
 3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
-4. **Open-Meteo si usa SOLO per Valle d'Aosta e Friuli.** Tutte le altre regioni usano dati di stazione reali (ARPA regionali, SIR Toscana, OASI Ticino).
+4. **Tutte le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli). VdA e Friuli sono passate ai dati reali il **26 luglio 2026** (prima erano Open-Meteo). Open-Meteo resta solo come: (a) **backfill storico** dei due piloti — stime per i giorni prima dell'inizio del dato reale, `source: open-meteo-backfill-*`; (b) fallback dei loader se i file mancano.
 5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
 
 ---
@@ -108,16 +108,19 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 - Sviluppato e validato nel repo di test `Mappa-Precipitazioni-Nord-Test` (+ sito avventurepluvio-test.netlify.app), promosso in produzione il 17 luglio 2026.
 
 ### Valle d'Aosta
-- **Fonte:** Open-Meteo `precipitation_sum`
-- **Collect:** `collect-valledaosta-gh.js`
-- **~45 stazioni**
-- **Dati corretti da:** 4 giugno 2026
+- **Fonte:** Centro Funzionale Regione VdA (`presidi2.regione.vda.it`), dati reali di stazione — **dal 26 luglio 2026, al posto di Open-Meteo**
+- **Collect:** `.github/scripts/collect-valledaosta-cf.js` + `valledaosta-cf.yml` (2 run/giorno). Il vecchio `collect-valledaosta-gh.js`/`valledaosta.yml` (Open-Meteo) è **disattivato** (cron commentati il 26/7, resta lanciabile a mano)
+- **~70 stazioni** (66 Centro Funzionale + 6 Arpa)
+- **Dati reali da:** 16 luglio 2026. Prima (17/5→15/7): **backfill Open-Meteo** sulle stesse coordinate (`source: open-meteo-backfill-vda`, script `backfill-openmeteo-pilota.js`). Si legge sempre dai file, nessuno switch runtime; la parte reale cresce di 1 giorno/giorno fino a 365
+- **In mappa:** `dataSource: 'cf_valledaosta'`, `loadCFValdostaRegion`, URL dati da `PILOT_DATA_BASE`
 
 ### Friuli Venezia Giulia
-- **Fonte:** Open-Meteo `precipitation_sum`
-- **Collect:** `collect-friuli-gh.js`
-- **~30 stazioni**
-- **Dati corretti da:** 4 giugno 2026
+- **Fonte:** ARPA OSMER (`www.meteo.fvg.it`), dati reali di stazione — **dal 26 luglio 2026, al posto di Open-Meteo** — + 5 stazioni ARPA Veneto di confine (Cadore/Comelico) per l'alta Carnia NW
+- **Collect:** `.github/scripts/collect-friuli-osmer.js` + `friuli-osmer.yml` (2 run/giorno). Il vecchio `collect-friuli-gh.js`/`friuli.yml` (Open-Meteo) è **disattivato** (cron commentati il 26/7, resta lanciabile a mano)
+- **~41 stazioni OSMER + 5 Veneto.** Dati reali da 18 luglio 2026; prima (19/5→17/7): backfill Open-Meteo (`source: open-meteo-backfill-friuli`). L'anagrafe del backfill è l'**UNIONE di tutti i file reali** (il feed OSMER pubblica un set variabile, 39-41 staz.)
+- **Ricetta OSMER:** ore UTC dal CSV di `getStationData.php` (t=H_2) sommate sul giorno solare italiano; `MIN_ORE=20`; merge a copertura-crescente; cookie di consenso `meteofvg_cookie=1` obbligatorio
+- **Due protezioni qualità nel loader `loadOSMERFriuliRegion`:** (1) **filtro copertura** — una stazione OSMER è mostrata solo se presente in ≥80% dei giorni REALI del periodo (nasconde le stazioni a serie oraria bucata, es. Forni di Sopra, San Pietro al Natisone, che davano una macchia secca falsa; l'IDW dei vicini copre); (2) **5 stazioni ARPA Veneto** (Sella Ciampigotto, Santo Stefano di Cadore, Costalta, Domegge, Casamazzagno) lette da `data/veneto`, non filtrate, caricate solo se il Veneto non è già selezionato (no doppioni). Fonte → 'ARPA OSMER FVG + ARPA Veneto'. Limite noto: grafico storico vuoto cliccando una delle 5 Veneto
+- **In mappa:** `dataSource: 'osmer_fvg'`, URL dati da `PILOT_DATA_BASE`
 
 ---
 

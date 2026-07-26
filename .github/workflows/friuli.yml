@@ -6,13 +6,16 @@ on:
         description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per oggi)'
         required: false
         default: ''
-  schedule:
-    - cron: '35 0 * * *'
-    - cron: '35 4 * * *'
-    - cron: '35 8 * * *'
-    - cron: '35 12 * * *'
-    - cron: '35 16 * * *'
-    - cron: '35 20 * * *'
+  # DISATTIVATO 26/7/2026: il Friuli in mappa usa ARPA OSMER reale
+  # (collect-friuli-osmer.js + friuli-osmer.yml). Questo collector Open-Meteo
+  # resta lanciabile a mano (workflow_dispatch) ma non gira più in automatico.
+  # schedule:
+  #   - cron: '35 0 * * *'
+  #   - cron: '35 4 * * *'
+  #   - cron: '35 8 * * *'
+  #   - cron: '35 12 * * *'
+  #   - cron: '35 16 * * *'
+  #   - cron: '35 20 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest

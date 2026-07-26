@@ -6,13 +6,16 @@ on:
         description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per oggi)'
         required: false
         default: ''
-  schedule:
-    - cron: '30 0 * * *'
-    - cron: '30 4 * * *'
-    - cron: '30 8 * * *'
-    - cron: '30 12 * * *'
-    - cron: '30 16 * * *'
-    - cron: '30 20 * * *'
+  # DISATTIVATO 26/7/2026: la VdA in mappa usa il Centro Funzionale reale
+  # (collect-valledaosta-cf.js + valledaosta-cf.yml). Questo collector Open-Meteo
+  # resta lanciabile a mano (workflow_dispatch) ma non gira più in automatico.
+  # schedule:
+  #   - cron: '30 0 * * *'
+  #   - cron: '30 4 * * *'
+  #   - cron: '30 8 * * *'
+  #   - cron: '30 12 * * *'
+  #   - cron: '30 16 * * *'
+  #   - cron: '30 20 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
