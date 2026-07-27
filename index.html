@@ -825,6 +825,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         </div>
         <div class="tp-custom-btn" id="btn-custom">📅 Date personalizzate</div>
         <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 16-23 gg fa)</span></div>
+        <div id="osmer-notice" style="display:none;margin-top:6px;font-size:12.5px;line-height:1.35;color:#1b3f6e;">ℹ️ <b>Friuli</b>: alcune stazioni possono avere ritardi fino a 48h.</div>
         <div id="custom-box">
           <div class="cd-lbl">Data inizio</div>
           <input type="date" class="cd-inp" id="cd-from">
@@ -2348,6 +2349,33 @@ function getActiveRegions(){
   return active;
 }
 
+// Avviso ritardo pubblicazione OSMER (Friuli): desktop = inline accanto a
+// "✅ Ieri" (solo Ieri); mobile = box sotto "Piogge per funghi", alla selezione.
+function osmerInlineDesktop(){
+  var ts=document.getElementById('tp-status');
+  var old=document.getElementById('osmer-notice-inline');
+  if(old) old.remove();
+  var show=(window.innerWidth>900 && getActiveRegions().indexOf('friuli')>=0 && currentLabel==='Ieri');
+  if(show && ts){
+    var s=document.createElement('span');
+    s.id='osmer-notice-inline';
+    s.style.cssText='margin-left:8px;font-size:11px;font-weight:400;color:#1b3f6e;';
+    s.innerHTML='· ℹ️ <b>Friuli</b>: alcune stazioni possono avere ritardi fino a 48h';
+    ts.appendChild(s);
+  }
+}
+function osmerMobileHide(){
+  var n=document.getElementById('osmer-notice');
+  if(n) n.style.display='none';
+  if(typeof positionPanels==='function') positionPanels();
+}
+function updateOsmerNotice(){
+  osmerInlineDesktop();
+  var n=document.getElementById('osmer-notice');
+  if(n) n.style.display=(window.innerWidth<=900 && getActiveRegions().indexOf('friuli')>=0)?'block':'none';
+  if(typeof positionPanels==='function') positionPanels();
+}
+
 // ═══════════════════════════════════════════════════════════════
 // DISPATCHER: carica dati per tutte le regioni attive
 // ═══════════════════════════════════════════════════════════════
@@ -2551,6 +2579,7 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       gridPoints=buildGrid(idwData,rings,idwR,activeGridRes);
       drawGrid();
       var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
+      osmerInlineDesktop();
     }
     setLoading(false);
   },20);
@@ -3907,6 +3936,7 @@ document.getElementById('btn-funghi').addEventListener('click',function(){
   function fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
   var label='🍄 Piogge 16-23 gg fa ('+fmt(past23)+' → '+fmt(past16)+')';
   currentPast=past23; currentNow=past16; currentLabel=label;
+  osmerMobileHide();
   var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
   document.getElementById('datehdr').textContent=fmt(past23)+' – '+fmt(past16);
   loadData(past23,past16,label);
@@ -3924,6 +3954,7 @@ document.getElementById('region-select').addEventListener('change', function(){
   // Seleziona il checkbox corrispondente
   var cb = document.getElementById('chk-'+rk);
   if(cb) cb.checked = true;
+  updateOsmerNotice();
   clearMarkers(); clearHeatmap();
   document.getElementById('legend-panel').style.display='none';
   hideLegendMobile();
@@ -3972,6 +4003,7 @@ document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(
       map.removeLayer(regionBorders[rk]); delete regionBorders[rk];
     }
     var regions=getActiveRegions();
+    updateOsmerNotice();
     // Reset del disegno, poi ridisegna TUTTE le regioni attive insieme
     clearMarkers();
     clearHeatmap();
@@ -4021,6 +4053,7 @@ document.querySelectorAll('.tp-btn').forEach(function(btn){
       return;
     }
     var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
+    osmerMobileHide();
     setActiveBtn(this);
     document.getElementById('custom-box').style.display='none';
     document.getElementById('btn-custom').classList.remove('active');
@@ -4058,6 +4091,7 @@ document.getElementById('btn-custom').addEventListener('click',function(){
     return;
   }
   var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
+  osmerMobileHide();
   var box=document.getElementById('custom-box');
   var open=box.style.display==='block';
   box.style.display=open?'none':'block';
@@ -4232,9 +4266,25 @@ loadGeoJSONOnce(function(){
     });
 });
 
+// Ticino: come le reti senza lista stations statica, prende l'anagrafe da un
+// file recente (data.stations[] con n,lat,lon,q,p). Prima ticino aveva stations:[]
+// vuoto → nessun marker di default finché non si sceglieva un periodo.
+var ticinoStationsCache=null;
+function loadTicinoStations(cb){
+  if(ticinoStationsCache){ cb(ticinoStationsCache); return; }
+  var RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/ticino', tries=[], now=new Date();
+  for(var i=1;i<=6;i++){ var d=new Date(now.getTime()-i*86400000); tries.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')); }
+  var idx=0;
+  (function attempt(){
+    if(idx>=tries.length){ cb([]); return; }
+    fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(data){ var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'TI'};}); ticinoStationsCache=st; cb(st); })
+      .catch(function(){ idx++; attempt(); });
+  })();
+}
 function addDefaultMarkersForRegion(regionKey){
   var cfg=REGIONS[regionKey];
-  var stazioni=(regionKey==='lombardia')?(ARPA_STATIONS||LOMBARDIA_STATIONS):(cfg?cfg.stations:[]);
+  function draw(stazioni){
   stazioni.forEach(function(s){
     var m=L.circleMarker([s.lat,s.lon],{
       radius:5,fillColor:'#fff',fillOpacity:0.9,
@@ -4261,6 +4311,10 @@ function addDefaultMarkersForRegion(regionKey){
       mk.on('touchend',function(e){e.originalEvent.stopPropagation();});
     }(m,s));
   });
+  }
+  if(cfg && cfg.dataSource==='oasi_ticino'){ loadTicinoStations(function(st){ draw(st); }); return; }
+  var stazioni=(regionKey==='lombardia')?(ARPA_STATIONS||LOMBARDIA_STATIONS):(cfg?cfg.stations:[]);
+  draw(stazioni);
 }
 
 function loadDefaultMarkers(){
