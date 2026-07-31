@@ -202,7 +202,7 @@ Manda una mail quando una regione **smette di ricevere dati reali**.
 - Una sola mail per run con dentro tutto: allarmi nuovi, promemoria ogni 3 giorni sui guasti aperti, rientri, e il lunedì il riepilogo delle 11 regioni. Registro `data/alert-fonti.json`, che si aggiorna ogni giorno e fa da cruscotto: dice per ogni regione quando è arrivato l'ultimo dato **reale**.
 - **Invio con `curl` verso `smtps://smtp.gmail.com:465`, non con un'action di terzi**, così la password per le app di Gmail non esce dal runner. Lo script scrive il messaggio completo (intestazioni comprese, oggetto in encoded-word base64 per emoji e accenti) in `alert-mail.eml`, che è in `.gitignore`. Secret: `MAIL_USER`, `MAIL_PASS`, `MAIL_TO`. Se mancano, il workflow **fallisce apposta** — meglio la notifica di errore di GitHub che un allarme che tace credendo di funzionare.
 - Prove a mano, nessuna delle due tocca il registro: `TEST_MAIL=1` (mail di prova) e `SIMULA=liguria:4` (finge una regione ferma da 4 giorni). Entrambe disponibili anche come input del workflow.
-- **Da fare alla migrazione Italia v5.0:** aggiungere le regioni MeteoHub alla lista `REGIONI` di `check-fonti.js`.
+- **Da fare alla migrazione Italia v5.0**, due cose e non una: (1) aggiungere le 10 regioni MeteoHub alla lista `REGIONI`; (2) coprire il guasto tipico di MeteoHub, che **non** è il giorno mancante ma il giorno mezzo vuoto — `check-meteohub-gaps.js` integra le stazioni mancanti dentro il file lasciando `source: meteohub…`, quindi questo controllo lo vedrebbe come reale e non suonerebbe mai. Soluzione: leggere il registro `data/meteohub-gaps.json`, che quei giorni parziali li misura già, e allarmare su 3 giorni consecutivi con eventi. Checklist completa nel repo di test, `MIGRAZIONE-v5.md`.
 
 ---
 
