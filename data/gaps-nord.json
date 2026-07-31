@@ -1,0 +1,39 @@
+{
+  "nota": "Registro giorni mancanti nelle regioni del Nord e loro copertura con stime Open-Meteo.",
+  "eventi": [
+    {
+      "regione": "emilia",
+      "data": "2026-06-04",
+      "rilevato": "2026-07-31",
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-07-31",
+      "stazioniCoperte": 325,
+      "mmTotali": 0
+    },
+    {
+      "regione": "liguria",
+      "data": "2026-01-12",
+      "rilevato": "2026-07-31",
+      "stato": "aperto"
+    },
+    {
+      "regione": "toscana",
+      "data": "2025-12-10",
+      "rilevato": "2026-07-31",
+      "stato": "aperto"
+    },
+    {
+      "regione": "toscana",
+      "data": "2025-12-09",
+      "rilevato": "2026-07-31",
+      "stato": "aperto"
+    },
+    {
+      "regione": "toscana",
+      "data": "2025-08-12",
+      "rilevato": "2026-07-31",
+      "stato": "aperto"
+    }
+  ],
+  "aggiornato": "2026-07-31T09:42:00.548Z"
+}
