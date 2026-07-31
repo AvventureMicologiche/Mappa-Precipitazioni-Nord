@@ -195,14 +195,24 @@ Trova i giorni **interamente mancanti** nelle 11 regioni attive e, passata la gr
 - Uso a mano per buchi vecchi: `SCAN_DAYS=400 node check-gaps-nord.js`. Al primo giro (31/7) ha tappato i 5 buchi storici del Nord su ~4.000 giorni-regione.
 
 ### 2. Allarme fonti via mail — `check-fonti.js` + `alert-fonti.yml` (09:30 UTC)
-Manda una mail quando una regione **smette di ricevere dati reali**.
+Manda una mail quando una fonte si rompe. **Due guasti sorvegliati, stessa soglia di giorni:**
+
+**(a) Nessun dato** — nessun file con dati reali per 3 giorni consecutivi (5 per il Ticino).
 - **Guarda solo i file reali, ignora quelli `open-meteo-*`.** È il punto centrale: senza questa esclusione, dal terzo giorno il gapfill fa comparire il file e una regione morta sembrerebbe viva per sempre. Piemonte e Veneto non scrivono il campo `source`, quindi il test è **per esclusione** (è una stima solo se il source dice open-meteo), mai per inclusione. Un file con zero stazioni conta come giorno mancante.
-- **Soglia 3 giorni consecutivi** (5 per il Ticino, stesso motivo della grazia). Tre è anche il giorno in cui il gapfill inizia a coprire: la mail arriva esattamente quando il buco smetterebbe di vedersi.
-- **Non guarda il numero di stazioni**: un giorno presente ma mezzo vuoto (il caso Puglia di MeteoHub, 1 stazione buona su 132) qui non suona. Scelta esplicita, resta in carico al check periodico.
-- Una sola mail per run con dentro tutto: allarmi nuovi, promemoria ogni 3 giorni sui guasti aperti, rientri, e il lunedì il riepilogo delle 11 regioni. Registro `data/alert-fonti.json`, che si aggiorna ogni giorno e fa da cruscotto: dice per ogni regione quando è arrivato l'ultimo dato **reale**.
+- Tre è anche il giorno in cui il gapfill inizia a coprire: la mail arriva esattamente quando il buco smetterebbe di vedersi.
+
+**(b) Dati parziali** (dal 31/7/2026) — meno del **50%** delle stazioni per lo stesso numero di giorni consecutivi.
+- Serve perché una fonte che consegna il 6% delle stazioni è rotta quanto una spenta, ma il file c'è e il controllo (a) la vedrebbe sana. In mappa è peggio di un buco: il totale sembra plausibile e le zone scoperte risultano asciutte anche se ci ha piovuto.
+- **Il 50% non può dare falsi allarmi**, misurato su 731 giorni-regione: il calo più profondo mai registrato è **97,8%** (sei stazioni su 272 in Piemonte, sette su 323 in Emilia), nessun giorno sotto il 90%. Fra il rumore vero e la soglia c'è un abisso. Lo script di misura è usa e getta, il numero è qui.
+- Servono 3 giorni e non 1 perché un run parzialmente fallito capita (la Liguria fa 199 chiamate, una per stazione) e il run dopo lo ripara da sé.
+- **Il riferimento è il massimo fra tre numeri**: mediana a 14 giorni, mediana a 45, e valore congelato nel registro all'apertura dell'allarme. Non è pignoleria: con la sola mediana a 14 giorni, 20 giorni di Liguria a 20 stazioni su 199 **non suonavano affatto** — la finestra si era riempita di giorni degradati e il guasto era diventato la normalità. Trovato provando sul serio (accorciando davvero i file), non ragionando.
+
+**Comune ai due:**
+- Il guasto più grave vince: una regione spenta è segnalata come assente, non come "a stazioni ridotte". Se la natura del guasto cambia, riparte un allarme nuovo.
+- Una sola mail per run con dentro tutto: allarmi nuovi, promemoria ogni 3 giorni sui guasti aperti, rientri, e il lunedì il riepilogo delle 11 regioni. Registro `data/alert-fonti.json`, che si aggiorna ogni giorno e fa da cruscotto: per ogni regione dice l'ultimo dato **reale**, le stazioni di ieri e la loro normalità.
 - **Invio con `curl` verso `smtps://smtp.gmail.com:465`, non con un'action di terzi**, così la password per le app di Gmail non esce dal runner. Lo script scrive il messaggio completo (intestazioni comprese, oggetto in encoded-word base64 per emoji e accenti) in `alert-mail.eml`, che è in `.gitignore`. Secret: `MAIL_USER`, `MAIL_PASS`, `MAIL_TO`. Se mancano, il workflow **fallisce apposta** — meglio la notifica di errore di GitHub che un allarme che tace credendo di funzionare.
-- Prove a mano, nessuna delle due tocca il registro: `TEST_MAIL=1` (mail di prova) e `SIMULA=liguria:4` (finge una regione ferma da 4 giorni). Entrambe disponibili anche come input del workflow.
-- **Da fare alla migrazione Italia v5.0**, due cose e non una: (1) aggiungere le 10 regioni MeteoHub alla lista `REGIONI`; (2) coprire il guasto tipico di MeteoHub, che **non** è il giorno mancante ma il giorno mezzo vuoto — `check-meteohub-gaps.js` integra le stazioni mancanti dentro il file lasciando `source: meteohub…`, quindi questo controllo lo vedrebbe come reale e non suonerebbe mai. Soluzione: leggere il registro `data/meteohub-gaps.json`, che quei giorni parziali li misura già, e allarmare su 3 giorni consecutivi con eventi. Checklist completa nel repo di test, `MIGRAZIONE-v5.md`.
+- Prove a mano, nessuna tocca il registro: `TEST_MAIL=1` (mail di prova), `SIMULA=liguria:4` (ferma da 4 giorni), `SIMULA=liguria:4:staz` (stazioni ridotte da 4 giorni). Disponibili anche come input del workflow.
+- **Da fare alla migrazione Italia v5.0**: aggiungere le 10 regioni MeteoHub alla lista `REGIONI`. Attenzione, il controllo (b) da solo **non basta** per loro: `check-meteohub-gaps.js` integra le stazioni mancanti dentro il file marcandole `om:true`, quindi il conteggio delle stazioni torna pieno e il giorno sembra sano. Va letto il registro `data/meteohub-gaps.json`, che quei giorni parziali li misura prima della copertura. Checklist completa nel repo di test, `MIGRAZIONE-v5.md`.
 
 ---
 

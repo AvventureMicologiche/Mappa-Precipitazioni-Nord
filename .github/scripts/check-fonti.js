@@ -19,19 +19,41 @@
  * OASI fino a D-7 e recupera davvero (in 135 giorni: zero buchi). Allarmarlo
  * a 3 vorrebbe dire allarmare su un dato che stava arrivando.
  *
- * Cosa NON guarda: il numero di stazioni. Un giorno presente ma mezzo vuoto
- * (il caso Puglia di MeteoHub: 1 stazione buona su 132) qui non suona —
- * scelta esplicita del 31/7/2026, resta in carico al check periodico.
- * Un file con ZERO stazioni conta invece come giorno mancante.
+ * SECONDO TIPO DI GUASTO — il giorno che arriva mezzo vuoto (aggiunto il
+ * 31/7/2026 su richiesta dell'utente). Una fonte che consegna il 6% delle
+ * stazioni è rotta quanto una spenta, ma il file c'è e il primo controllo la
+ * vedrebbe sana. Peggio: la mappa somma quello che trova e mostra un totale
+ * plausibile, con le zone scoperte che risultano asciutte anche se ha piovuto.
+ * Un giorno è "malato" se ha meno del 50% delle stazioni della mediana dei
+ * 14 giorni reali precedenti; la mail parte agli STESSI giorni consecutivi
+ * dell'altro caso (3, o 5 per il Ticino).
+ *
+ * PERCHÉ IL 50% NON PUÒ DARE FALSI ALLARMI, misurato il 31/7/2026 su 731
+ * giorni-regione di storico: il calo più profondo mai registrato è 97,8% (sei
+ * stazioni su 272 in Piemonte, sette su 323 in Emilia). Nessun giorno sotto il
+ * 90%, mai. Fra il rumore vero (2,2%) e la soglia c'è un abisso.
+ *
+ * IL GUASTO LUNGO CHE SI NORMALIZZA — trovato provando, non ragionando. Con la
+ * sola mediana a 14 giorni, una Liguria a 20 stazioni su 199 per venti giorni
+ * di fila NON suonava: la finestra si era riempita di giorni degradati, la
+ * mediana era scesa a 20 e il guasto era diventato la normalità. Su un guasto
+ * già dichiarato sarebbe pure partito un falso rientro. Il riferimento è quindi
+ * il massimo fra tre numeri (dettagli in `analizza`): mediana a 14 giorni,
+ * mediana a 45, e riferimento congelato nel registro all'apertura dell'allarme.
+ * Provato: 20 giorni → suona; 35 giorni, con entrambe le mediane ormai
+ * degradate → continua a suonare grazie al valore congelato.
+ *
+ * Un file con ZERO stazioni conta come giorno mancante, non come malato.
  *
  * Una sola mail per run, che raccoglie tutto: allarmi nuovi, promemoria dei
  * guasti ancora aperti, rientri, e il lunedì il riepilogo delle 11 regioni.
  * Il registro `data/alert-fonti.json` serve a non ripetersi: alla rilevazione
  * parte la mail, poi un promemoria ogni 3 giorni finché il problema resta.
  *
- * Prove a mano (nessuna delle due tocca il registro):
- *   TEST_MAIL=1 node check-fonti.js          → mail di prova
- *   SIMULA=liguria:4 node check-fonti.js     → finge la Liguria ferma da 4 giorni
+ * Prove a mano (nessuna tocca il registro):
+ *   TEST_MAIL=1 node check-fonti.js            → mail di prova
+ *   SIMULA=liguria:4 node check-fonti.js       → Liguria ferma da 4 giorni
+ *   SIMULA=liguria:4:staz node check-fonti.js  → Liguria a stazioni ridotte da 4 giorni
  */
 
 const fs = require('fs');
@@ -44,8 +66,12 @@ const REPO = 'https://github.com/AvventureMicologiche/Mappa-Precipitazioni-Nord'
 
 const SOGLIA_DEFAULT = 3;
 const SOGLIA_PER_REGIONE = { ticino: 5 };
-const PROMEMORIA_GIORNI = 3;   // ogni quanto ripetere la mail su un guasto aperto
-const MAX_INDIETRO = 30;       // oltre non serve guardare: è comunque un guasto grave
+const PROMEMORIA_GIORNI = 3;    // ogni quanto ripetere la mail su un guasto aperto
+const MAX_INDIETRO = 30;        // oltre non serve guardare: è comunque un guasto grave
+const SOGLIA_STAZIONI = 0.5;    // sotto metà della normalità il giorno è "malato"
+const FINESTRA_MEDIANA = 14;    // normalità recente
+const FINESTRA_LUNGA = 45;      // normalità che regge anche ai guasti lunghi
+const MIN_RIFERIMENTO = 7;      // meno di così di storico e il confronto non si fa
 
 // Le 11 regioni attive. Escluse `valledaosta` e `friuli` (Open-Meteo, dismesse
 // il 26/7/2026 e sostituite da valledaosta-cf e friuli-osmer): le loro cartelle
@@ -89,38 +115,90 @@ function leggi(f) { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch
 const eStima = j => !!j && typeof j.source === 'string' && /open-meteo/.test(j.source);
 
 /* ---------- analisi di una regione ---------- */
+const mediana = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : 0; };
+
 /**
- * Risale da ieri all'indietro e si ferma al primo giorno con dati REALI.
- * Piemonte e Veneto non scrivono il campo `source`: il test è per esclusione
- * (è una stima solo se il source dice open-meteo), quindi vanno bene lo stesso.
+ * Legge i giorni da ieri all'indietro e ne ricava i due conteggi.
+ *
+ * `mancanti`  giorni consecutivi senza dati reali, a partire da ieri.
+ * `malati`    giorni reali consecutivi sotto la soglia di stazioni, da ieri.
+ *
+ * `rifMin` è il riferimento memorizzato nel registro quando l'allarme si è
+ * aperto: serve a impedire che un guasto lungo si "normalizzi" (vedi sotto).
+ *
+ * Piemonte e Veneto non scrivono il campo `source`: il test "è una stima" è per
+ * esclusione (lo è solo se il source dice open-meteo), quindi vanno bene uguale.
  */
-function analizza(dir, noon) {
-  let mancanti = 0;
-  for (let i = 1; i <= MAX_INDIETRO; i++) {
+function analizza(dir, noon, rifMin) {
+  const giorni = [];
+  for (let i = 1; i <= MAX_INDIETRO + FINESTRA_LUNGA; i++) {
     const g = fmtDate(new Date(noon - i * 86400000));
     const j = leggi(path.join(dir, g + '.json'));
-    const stazioni = (j && j.stations || []).length;
-    if (j && !eStima(j) && stazioni > 0) {
-      return { mancanti, ultimoReale: g, stazioni, fonte: j.source || '(senza campo source)' };
-    }
-    mancanti++;
+    const n = (j && j.stations || []).length;
+    giorni.push({ g, reale: !!j && !eStima(j) && n > 0, n, fonte: (j && j.source) || '(senza campo source)' });
   }
-  return { mancanti, ultimoReale: null, stazioni: 0, fonte: '?' };
+
+  // 1. giorni interamente mancanti, da ieri all'indietro
+  let mancanti = 0;
+  while (mancanti < MAX_INDIETRO && !giorni[mancanti].reale) mancanti++;
+  const primoReale = giorni[mancanti] && giorni[mancanti].reale ? giorni[mancanti] : null;
+
+  // 2. giorni reali sotto soglia di stazioni.
+  //    Il riferimento è il MASSIMO fra tre numeri, e ognuno copre un caso:
+  //    - mediana a 14 giorni → la normalità recente, quella che conta all'inizio
+  //      del guasto (quando la finestra è ancora tutta sana);
+  //    - mediana a 45 giorni → regge anche se il guasto dura settimane: finché i
+  //      giorni degradati sono meno della metà della finestra, la mediana resta
+  //      quella buona;
+  //    - riferimento memorizzato nel registro all'apertura dell'allarme → una
+  //      volta che il guasto è dichiarato, il metro non si tocca più.
+  //    Senza queste tre reti insieme un guasto lungo si "normalizza": la
+  //    mediana scivola verso il basso, il livello degradato diventa la norma e
+  //    l'allarme si spegne da solo mandando pure un falso rientro. Misurato:
+  //    con la sola mediana a 14 giorni, 20 giorni di Liguria a 20 stazioni su
+  //    199 non suonavano affatto.
+  const reali = giorni.filter(x => x.reale);
+  const finestra = reali.slice(1, 1 + FINESTRA_LUNGA).map(x => x.n);
+  let malati = 0, riferimento = 0;
+  if (finestra.length >= MIN_RIFERIMENTO) {
+    riferimento = Math.max(mediana(finestra.slice(0, FINESTRA_MEDIANA)), mediana(finestra), rifMin || 0);
+    while (malati < reali.length && riferimento > 0 && reali[malati].n < SOGLIA_STAZIONI * riferimento) malati++;
+  }
+
+  return {
+    mancanti,
+    ultimoReale: primoReale ? primoReale.g : null,
+    stazioni: primoReale ? primoReale.n : 0,
+    fonte: primoReale ? primoReale.fonte : '?',
+    malati,
+    stazioniIeri: reali.length ? reali[0].n : 0,
+    riferimento
+  };
 }
 
 /* ---------- composizione della mail ---------- */
-function blocco(r, st, soglia, dal) {
-  const primoMancante = fmtDate(new Date(new Date(st.ultimoReale || dal) .getTime() + 86400000));
+const coda = r => ['', `    workflow  ${REPO}/actions/workflows/${r.wf}`, `    fonte     ${r.sito}`, ''];
+
+function blocco(r, st, soglia, dal, tipo) {
+  if (tipo === 'stazioni') {
+    const perc = st.riferimento ? Math.round(st.stazioniIeri / st.riferimento * 100) : 0;
+    return [
+      `  ${r.nome}`,
+      `    fonte              ${st.fonte}`,
+      `    stazioni ieri      ${st.stazioniIeri} — normalmente ${st.riferimento} (${perc}%)`,
+      `    giorni sotto metà  ${st.malati} (soglia ${soglia} giorni, sotto il ${Math.round(SOGLIA_STAZIONI * 100)}%)`,
+      `    in questo stato da ${itaDate(dal)}`,
+      ...coda(r)
+    ].join('\n');
+  }
+  const primoMancante = fmtDate(new Date(new Date(st.ultimoReale || dal).getTime() + 86400000));
   return [
     `  ${r.nome}`,
     `    fonte              ${st.fonte}`,
     `    ultimo dato reale  ${st.ultimoReale ? `${itaDate(st.ultimoReale)} (${st.stazioni} stazioni)` : `nessuno negli ultimi ${MAX_INDIETRO} giorni`}`,
     `    giorni mancanti    ${st.mancanti}${st.ultimoReale ? `, dal ${itaDate(primoMancante)}` : ''} (soglia ${soglia})`,
     `    ferma da           ${itaDate(dal)}`,
-    '',
-    `    workflow  ${REPO}/actions/workflows/${r.wf}`,
-    `    fonte     ${r.sito}`,
-    ''
+    ...coda(r)
   ].join('\n');
 }
 
@@ -177,7 +255,7 @@ function main() {
     ultimoHeartbeat: null
   };
 
-  const [simReg, simGiorni] = SIMULA ? SIMULA.split(':') : [null, null];
+  const [simReg, simGiorni, simTipo] = SIMULA ? SIMULA.split(':') : [null, null, null];
 
   const allarmi = [], promemoria = [], rientri = [], riepilogo = [];
   let cambiato = false;
@@ -187,46 +265,69 @@ function main() {
     if (!fs.existsSync(dir)) { console.log(`-- ${r.dir}: cartella assente, salto`); continue; }
 
     const soglia = SOGLIA_PER_REGIONE[r.dir] ?? SOGLIA_DEFAULT;
-    const st = analizza(dir, noon);
+    const prec = reg.regioni[r.dir] || { stato: 'ok' };
+    // Con l'allarme già aperto il metro resta quello di allora, non si rinegozia.
+    const rifMin = (prec.stato === 'allarme' && prec.tipo === 'stazioni') ? (prec.riferimento || 0) : 0;
+    const st = analizza(dir, noon, rifMin);
     if (simReg === r.dir) {
-      st.mancanti = parseInt(simGiorni || '99', 10);
-      st.ultimoReale = fmtDate(new Date(noon - (st.mancanti + 1) * 86400000)); // coerente col conteggio
+      const n = parseInt(simGiorni || '99', 10);
+      if (simTipo === 'staz') {
+        st.malati = n;
+        st.riferimento = st.riferimento || st.stazioni;
+        st.stazioniIeri = Math.round(st.riferimento * 0.2);
+      } else {
+        st.mancanti = n;
+        st.ultimoReale = fmtDate(new Date(noon - (n + 1) * 86400000)); // coerente col conteggio
+      }
     }
 
-    const prec = reg.regioni[r.dir] || { stato: 'ok' };
-    riepilogo.push({ r, st, soglia, ferma: st.mancanti >= soglia });
+    // Il guasto più grave vince: una regione spenta non è anche "a stazioni
+    // ridotte", e va segnalata per quello che è.
+    const tipo = st.mancanti >= soglia ? 'assente' : (st.malati >= soglia ? 'stazioni' : null);
+    riepilogo.push({ r, st, soglia, tipo });
+    const stato = () => ({
+      ultimoReale: st.ultimoReale, giorniMancanti: st.mancanti,
+      giorniMalati: st.malati, stazioniIeri: st.stazioniIeri, riferimento: st.riferimento
+    });
 
-    if (st.mancanti >= soglia) {
-      if (prec.stato !== 'allarme') {
-        const dal = oggi;
-        allarmi.push(blocco(r, st, soglia, dal));
-        reg.regioni[r.dir] = { stato: 'allarme', dal, ultimoReale: st.ultimoReale, giorniMancanti: st.mancanti, ultimaMail: oggi };
+    if (tipo) {
+      const descr = tipo === 'assente'
+        ? `ferma da ${st.mancanti} giorni`
+        : `${st.stazioniIeri} stazioni su ${st.riferimento} da ${st.malati} giorni`;
+      // Se cambia la natura del guasto (si spegne del tutto dopo essersi
+      // svuotata) si riparte da capo: è un'altra notizia, va mandata.
+      if (prec.stato !== 'allarme' || prec.tipo !== tipo) {
+        allarmi.push(blocco(r, st, soglia, oggi, tipo));
+        reg.regioni[r.dir] = { stato: 'allarme', tipo, dal: oggi, ...stato(), ultimaMail: oggi };
         cambiato = true;
-        console.log(`🔴 ${r.dir}: ferma da ${st.mancanti} giorni (soglia ${soglia}) — ALLARME NUOVO`);
+        console.log(`🔴 ${r.dir}: ${descr} (soglia ${soglia}) — ALLARME NUOVO [${tipo}]`);
       } else {
         const attesa = prec.ultimaMail ? daysDiff(oggi, prec.ultimaMail) : 99;
         if (attesa >= PROMEMORIA_GIORNI) {
-          promemoria.push(blocco(r, st, soglia, prec.dal || oggi));
+          promemoria.push(blocco(r, st, soglia, prec.dal || oggi, tipo));
           prec.ultimaMail = oggi;
-          console.log(`🔴 ${r.dir}: ferma da ${st.mancanti} giorni — promemoria`);
+          console.log(`🔴 ${r.dir}: ${descr} — promemoria`);
         } else {
-          console.log(`🔴 ${r.dir}: ferma da ${st.mancanti} giorni — già segnalata, prossimo promemoria fra ${PROMEMORIA_GIORNI - attesa}g`);
+          console.log(`🔴 ${r.dir}: ${descr} — già segnalata, prossimo promemoria fra ${PROMEMORIA_GIORNI - attesa}g`);
         }
-        prec.ultimoReale = st.ultimoReale;
-        prec.giorniMancanti = st.mancanti;
-        reg.regioni[r.dir] = prec;
+        reg.regioni[r.dir] = { ...prec, ...stato() };
         cambiato = true;
       }
     } else {
       if (prec.stato === 'allarme') {
-        rientri.push(`  ${r.nome} — dati reali di nuovo presenti (ultimo: ${itaDate(st.ultimoReale)}, ${st.stazioni} stazioni).\n` +
-                     `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime Open-Meteo.\n`);
-        console.log(`🟢 ${r.dir}: rientrata`);
+        rientri.push(prec.tipo === 'stazioni'
+          ? `  ${r.nome} — stazioni tornate normali (ieri ${st.stazioniIeri}, di norma ${st.riferimento}).\n` +
+            `    Era a meno di metà dal ${itaDate(prec.dal)}. I giorni ridotti restano com'erano: quello che\n` +
+            `    non è stato misurato allora non si recupera.\n`
+          : `  ${r.nome} — dati reali di nuovo presenti (ultimo: ${itaDate(st.ultimoReale)}, ${st.stazioni} stazioni).\n` +
+            `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime Open-Meteo.\n`);
+        console.log(`🟢 ${r.dir}: rientrata [${prec.tipo || 'assente'}]`);
         cambiato = true;
       }
-      reg.regioni[r.dir] = { stato: 'ok', ultimoReale: st.ultimoReale, giorniMancanti: st.mancanti };
+      reg.regioni[r.dir] = { stato: 'ok', ...stato() };
       if (prec.stato !== 'ok' || prec.ultimoReale !== st.ultimoReale) cambiato = true;
-      console.log(`   ${r.dir}: ultimo dato reale ${st.ultimoReale || '—'} (${st.mancanti} giorni indietro, soglia ${soglia})`);
+      console.log(`   ${r.dir}: ultimo dato reale ${st.ultimoReale || '—'} (${st.mancanti} indietro), ` +
+                  `ieri ${st.stazioniIeri} stazioni su ${st.riferimento || '?'} — soglia ${soglia}g`);
     }
   }
 
@@ -236,20 +337,26 @@ function main() {
 
   /* --- una sola mail, con dentro tutto quello che c'è --- */
   const sezioni = [];
-  if (TEST_MAIL) sezioni.push('PROVA DI CONSEGNA\n\n  Se leggi questa mail, l\'allarme sulle fonti dati funziona.\n  Nessun problema in corso: sotto trovi lo stato delle 11 regioni.\n');
+  if (TEST_MAIL) sezioni.push('PROVA DI CONSEGNA\n\n  Se leggi questa mail, l\'allarme sulle fonti dati funziona.\n  Sotto trovi lo stato delle 11 regioni.\n');
+  const problemi = riepilogo.filter(x => x.tipo);
+  const assenti = problemi.filter(x => x.tipo === 'assente').length;
+  const ridotte = problemi.filter(x => x.tipo === 'stazioni').length;
   if (allarmi.length) {
-    sezioni.push(`ALLARME — ${allarmi.length === 1 ? '1 regione ferma' : `${allarmi.length} regioni ferme`}\n\n` + allarmi.join('\n') +
-      '\n  La rete di sicurezza sta coprendo i giorni mancanti con stime Open-Meteo:\n' +
-      '  la mappa non mostra buchi, ma quei totali sono stime, non pioggia misurata.\n' +
+    sezioni.push(`ALLARME — ${problemi.length === 1 ? '1 regione' : `${problemi.length} regioni`}\n\n` + allarmi.join('\n') +
+      (assenti ? '\n  La rete di sicurezza sta coprendo i giorni mancanti con stime Open-Meteo:\n' +
+                 '  la mappa non mostra buchi, ma quei totali sono stime, non pioggia misurata.\n' : '') +
+      (ridotte ? '\n  Attenzione al caso delle stazioni ridotte: i giorni ci sono e il totale in\n' +
+                 '  mappa sembra normale, ma è calcolato su una frazione della rete. Le zone\n' +
+                 '  rimaste scoperte risultano asciutte anche se ci ha piovuto.\n' : '') +
       `\n  Prossimo promemoria fra ${PROMEMORIA_GIORNI} giorni, se resta così.\n`);
   }
-  if (promemoria.length) sezioni.push('ANCORA FERMA\n\n' + promemoria.join('\n'));
+  if (promemoria.length) sezioni.push('ANCORA IN GUASTO\n\n' + promemoria.join('\n'));
   if (rientri.length) sezioni.push('RIENTRATA\n\n' + rientri.join('\n'));
   if (heartbeat) {
     const righe = riepilogo.map(x =>
       `  ${x.r.nome.padEnd(15)} ${(x.st.ultimoReale ? itaDate(x.st.ultimoReale) : '—').padEnd(12)} ` +
-      `${String(x.st.stazioni).padStart(4)} staz.  ${x.ferma ? '🔴' : '🟢'}`);
-    sezioni.push('STATO DELLE FONTI\n\n  regione         ultimo dato  stazioni\n' + righe.join('\n') + '\n');
+      `${String(x.st.stazioniIeri).padStart(4)}/${String(x.st.riferimento || '?').padEnd(4)} ${x.tipo ? '🔴' : '🟢'}`);
+    sezioni.push('STATO DELLE FONTI\n\n  regione         ultimo dato  staz./norma\n' + righe.join('\n') + '\n');
   }
 
   if (!sezioni.length) {
@@ -263,10 +370,14 @@ function main() {
   let subject;
   if (TEST_MAIL) subject = '🧪 Pluviometro: prova di consegna';
   else if (allarmi.length || promemoria.length) {
-    const ferme = riepilogo.filter(x => x.ferma);
-    subject = ferme.length === 1
-      ? `🔴 Pluviometro: ${ferme[0].r.nome} ferma da ${ferme[0].st.mancanti} giorni`
-      : `🔴 Pluviometro: ${ferme.length} regioni ferme`;
+    if (problemi.length === 1) {
+      const p = problemi[0];
+      subject = p.tipo === 'assente'
+        ? `🔴 Pluviometro: ${p.r.nome} ferma da ${p.st.mancanti} giorni`
+        : `🔴 Pluviometro: ${p.r.nome} a ${Math.round(p.st.stazioniIeri / (p.st.riferimento || 1) * 100)}% delle stazioni`;
+    } else {
+      subject = `🔴 Pluviometro: ${problemi.length} regioni in guasto`;
+    }
   }
   else if (rientri.length) subject = `🟢 Pluviometro: ${rientri.length === 1 ? 'fonte rientrata' : 'fonti rientrate'}`;
   else subject = '🟢 Pluviometro: tutte le fonti attive';
