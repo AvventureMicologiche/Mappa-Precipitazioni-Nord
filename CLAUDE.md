@@ -184,6 +184,28 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 
 ---
 
+## Sorveglianza automatica (31 luglio 2026)
+Due pezzi complementari, nati lo stesso giorno e da leggere insieme: il primo **ripara**, il secondo **avvisa**. Il secondo esiste proprio perché il primo, riparando, nasconde il guasto.
+
+### 1. Rete di sicurezza sui buchi — `check-gaps-nord.js` + `gaps-nord.yml` (09:10 UTC)
+Trova i giorni **interamente mancanti** nelle 11 regioni attive e, passata la grazia, li copre con stime Open-Meteo sulle coordinate delle stazioni vere (`source: open-meteo-gapfill`). Serve perché il sito somma i giorni che trova e scrive "✅ 30 giorni" con un totale più basso del vero, senza dirlo: fra una stima dichiarata e un buco silenzioso che falsa i totali, la stima è meglio.
+- **Grazia 3 giorni** (8 per il Ticino, l'unica fonte con query storiche funzionanti: il suo collector si auto-ripara fino a D-7). Misurata su 45 giorni di cronologia git: il file di un giorno arriva entro D+1 in tutte le regioni, mai oltre; e a D-3 nessun collector sta più scrivendo su quel giorno, quindi una stima non può finire dentro un merge MAX.
+- Rileva **solo** i giorni interi, non quelli "corti": nel Nord il numero di stazioni oscilla da sé e una soglia sulle stazioni darebbe falsi allarmi a raffica.
+- Tetto di 5 coperture per run, riprova sul 429. Registro `data/gaps-nord.json`.
+- Uso a mano per buchi vecchi: `SCAN_DAYS=400 node check-gaps-nord.js`. Al primo giro (31/7) ha tappato i 5 buchi storici del Nord su ~4.000 giorni-regione.
+
+### 2. Allarme fonti via mail — `check-fonti.js` + `alert-fonti.yml` (09:30 UTC)
+Manda una mail quando una regione **smette di ricevere dati reali**.
+- **Guarda solo i file reali, ignora quelli `open-meteo-*`.** È il punto centrale: senza questa esclusione, dal terzo giorno il gapfill fa comparire il file e una regione morta sembrerebbe viva per sempre. Piemonte e Veneto non scrivono il campo `source`, quindi il test è **per esclusione** (è una stima solo se il source dice open-meteo), mai per inclusione. Un file con zero stazioni conta come giorno mancante.
+- **Soglia 3 giorni consecutivi** (5 per il Ticino, stesso motivo della grazia). Tre è anche il giorno in cui il gapfill inizia a coprire: la mail arriva esattamente quando il buco smetterebbe di vedersi.
+- **Non guarda il numero di stazioni**: un giorno presente ma mezzo vuoto (il caso Puglia di MeteoHub, 1 stazione buona su 132) qui non suona. Scelta esplicita, resta in carico al check periodico.
+- Una sola mail per run con dentro tutto: allarmi nuovi, promemoria ogni 3 giorni sui guasti aperti, rientri, e il lunedì il riepilogo delle 11 regioni. Registro `data/alert-fonti.json`, che si aggiorna ogni giorno e fa da cruscotto: dice per ogni regione quando è arrivato l'ultimo dato **reale**.
+- **Invio con `curl` verso `smtps://smtp.gmail.com:465`, non con un'action di terzi**, così la password per le app di Gmail non esce dal runner. Lo script scrive il messaggio completo (intestazioni comprese, oggetto in encoded-word base64 per emoji e accenti) in `alert-mail.eml`, che è in `.gitignore`. Secret: `MAIL_USER`, `MAIL_PASS`, `MAIL_TO`. Se mancano, il workflow **fallisce apposta** — meglio la notifica di errore di GitHub che un allarme che tace credendo di funzionare.
+- Prove a mano, nessuna delle due tocca il registro: `TEST_MAIL=1` (mail di prova) e `SIMULA=liguria:4` (finge una regione ferma da 4 giorni). Entrambe disponibili anche come input del workflow.
+- **Da fare alla migrazione Italia v5.0:** aggiungere le regioni MeteoHub alla lista `REGIONI` di `check-fonti.js`.
+
+---
+
 ## Check periodico dati
 Ogni ~5 giorni verificare:
 1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?)
