@@ -1,0 +1,55 @@
+name: Buchi Nord — copertura Open-Meteo
+on:
+  workflow_dispatch:
+    inputs:
+      scan_days:
+        description: 'Giorni da scansionare (default 15; usa 400 per tappare buchi vecchi)'
+        required: false
+        default: '15'
+      max_coperture:
+        description: 'Massimo giorni coperti in un run (default 5)'
+        required: false
+        default: '5'
+  schedule:
+    # 1 run/giorno, dopo che tutti i collector del mattino hanno finito
+    # (i cron di GitHub slittano di 40-70 minuti). Trova i giorni interamente
+    # mancanti e, passata la grazia (3 giorni; 8 per il Ticino, che si
+    # auto-ripara dall'archivio OASI), li copre con stime Open-Meteo sulle
+    # coordinate delle stazioni vere. Vedi .github/scripts/check-gaps-nord.js
+    - cron: '10 9 * * *'
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Cerca e copri i buchi
+        id: check
+        env:
+          SCAN_DAYS: ${{ github.event.inputs.scan_days || '15' }}
+          MAX_COPERTURE: ${{ github.event.inputs.max_coperture || '5' }}
+        run: node .github/scripts/check-gaps-nord.js
+        continue-on-error: true
+      - name: Retry 1
+        if: steps.check.outcome == 'failure'
+        env:
+          SCAN_DAYS: ${{ github.event.inputs.scan_days || '15' }}
+          MAX_COPERTURE: ${{ github.event.inputs.max_coperture || '5' }}
+        run: sleep 60 && node .github/scripts/check-gaps-nord.js
+      - name: Commit e push
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "gaps-nord $(date -u +%Y-%m-%d)"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then ok=1; break; fi
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
