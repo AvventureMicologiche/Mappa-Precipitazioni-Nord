@@ -89,17 +89,30 @@ function anagrafeVicina(dir, giorni, buco) {
     .filter(g => g !== buco && Math.abs(daysDiff(g, buco)) <= 20)
     .sort((a, b) => Math.abs(daysDiff(a, buco)) - Math.abs(daysDiff(b, buco)))
     .slice(0, 10);
-  const reg = new Map();
-  for (const g of vicini) {
-    const j = leggi(path.join(dir, g + '.json'));
-    if (!j || eStima(j)) continue;
-    for (const s of (j.stations || [])) {
-      if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
-      const k = s.id ?? s.n;
-      if (!reg.has(k)) reg.set(k, { id: s.id ?? s.n, n: s.n, lat: s.lat, lon: s.lon, q: s.q || 0, p: s.p || '' });
+  const raccogli = accettaStime => {
+    const reg = new Map();
+    for (const g of vicini) {
+      const j = leggi(path.join(dir, g + '.json'));
+      if (!j) continue;
+      if (eStima(j) && !accettaStime) continue;
+      for (const s of (j.stations || [])) {
+        if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
+        const k = s.id ?? s.n;
+        if (!reg.has(k)) reg.set(k, { id: s.id ?? s.n, n: s.n, lat: s.lat, lon: s.lon, q: s.q || 0, p: s.p || '' });
+      }
     }
-  }
-  return [...reg.values()];
+    return [...reg.values()];
+  };
+  // Prima si prova con i soli giorni REALI: è l'anagrafe che vogliamo.
+  const reali = raccogli(false);
+  if (reali.length >= MIN_STAZIONI) return reali;
+  // Ripiego per i buchi che cadono in un'epoca già tutta stimata (i primi mesi
+  // di Liguria e Toscana sono `open-meteo-archive`, 51 pseudo-stazioni su
+  // griglia): lì attorno non esiste nessun file reale da cui prendere le
+  // coordinate, e coprire con le stesse pseudo-stazioni dei giorni vicini è
+  // coerente con quel pezzo di archivio. Senza questo ripiego quei giorni
+  // resterebbero per sempre "aperti" e riprovati a ogni run.
+  return raccogli(true);
 }
 
 /**
