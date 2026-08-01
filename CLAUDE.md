@@ -1,12 +1,32 @@
-# Mappa Precipitazioni Nord Italia — CLAUDE.md
+# Mappa Pluviometrica Italia — CLAUDE.md
 
 ## Progetto
-Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali da stazioni ARPA regionali su heatmap Leaflet.
+Mappa interattiva delle precipitazioni di TUTTA ITALIA (dal 1° agosto 2026, v5.0 — prima solo Nord) per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali di stazione su heatmap Leaflet.
 
 - **Dev:** avventurepluvio.netlify.app
 - **Prod:** precipitazioni.avventuremicologiche.it
 - **Repo:** github.com/AvventureMicologiche/Mappa-Precipitazioni-Nord
 - **Stack:** Leaflet 1.9.4, OpenStreetMap, Netlify (hosting + Functions), GitHub Actions (data collection)
+
+## Migrazione Italia v5.0 (1 agosto 2026)
+Portata in produzione dal repo di test seguendo `MIGRAZIONE-v5.md` (che resta lì):
+**22 regioni** — le 11 del Nord invariate, **10 nuove via MeteoHub** (Marche, Umbria,
+Lazio, Molise, Campania, Puglia, Basilicata, Calabria, Sicilia, Sardegna) e
+l'**Abruzzo** in Open-Meteo live. Multiregione max 3, tasto 📷 Screen, tendina
+mobile con fallback centro/zoom per il centro-sud.
+- **Centro-Sud dichiarato "in fase di test"**: badge `(beta)` sulle 10 regioni
+  MeteoHub nella tendina mobile + pillola gialla `#beta-note` sopra la chip fonte
+  (compare solo con una regione `dataSource:'meteohub'` attiva; gestita in
+  `renderMulti` e nel reset). L'Abruzzo NON è beta: è dichiarato come stime.
+- **Giorni di dati reali alla migrazione** (file `source: meteohub-dpcn`):
+  Marche/Umbria dal 13/7 (16-17/7 stimati), le altre 8 dal 19/7; Puglia col
+  27/7 interamente stimato. Prima: backfill Open-Meteo dal 14-20/5.
+- **Uscita dal beta, piano**: dall'**11/8** la finestra Piogge per funghi
+  (16-23 gg) è tutta reale anche al sud; ~12-14/8 Marche/Umbria raggiungono i
+  30 giorni reali, ~18/8 le altre; la **Puglia esce per ultima e comunque dopo
+  il bollettino pluviometrico regionale di luglio** (il giudice su MeteoHub —
+  vedi PILOTA nel CLAUDE.md del test).
+- I cron MeteoHub del repo di test sono spenti (commentati, stile ticino.yml).
 
 ---
 
@@ -16,7 +36,7 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 1b. **Retention: max 365 giorni di storico per regione.** Finestra scorrevole: ogni nuovo giorno raccolto elimina il più vecchio oltre i 365. Ogni collector DEVE avere il blocco "Pulizia retention" a fine main() (uniformato a tutti i collector il 16 luglio 2026 — prima lo avevano solo Piemonte, Emilia, Veneto e Liguria, le altre regioni erano arrivate a 417-420 giorni).
 2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file.
 3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
-4. **Tutte le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli). VdA e Friuli sono passate ai dati reali il **26 luglio 2026** (prima erano Open-Meteo). Open-Meteo resta solo come: (a) **backfill storico** dei due piloti — stime per i giorni prima dell'inizio del dato reale, `source: open-meteo-backfill-*`; (b) fallback dei loader se i file mancano.
+4. **Le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli; **centro-sud: MeteoHub**, rete dpcn — stazioni reali via piattaforma unica). Eccezione dichiarata: **Abruzzo = Open-Meteo live** (assente da MeteoHub, nessun collector). Open-Meteo resta solo come: (a) **backfill storico** — stime per i giorni prima dell'inizio del dato reale, `source: open-meteo-backfill-*`; (b) **gapfill** dei buchi (gaps-nord e meteohub-gaps, `source: open-meteo-gapfill` o stazioni `om:true`); (c) fallback dei loader se i file mancano.
 5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
 
 ---
@@ -110,6 +130,18 @@ Mappa interattiva delle precipitazioni del Nord Italia per il canale YouTube "Av
 - **Confine cantone:** `ticino-confine.geojson` nel repo (da swissBOUNDARIES3D), caricato via `geojsonUrl` (meccanismo dedicato per confini non italiani in `setRegionBorder`)
 - **Validazione (16-17 luglio 2026):** allineamento calendario confermato con analisi di lag vs Open-Meteo (corr. 0.73-0.82 stesso giorno, ~0.1 a ±1g); coerenza interna verificata (somma 10-min vs giornaliero: scarto 3%); confronti di confine con Piemonte coerenti col microclima (la sponda ovest del Verbano è genuinamente più piovosa).
 - Sviluppato e validato nel repo di test `Mappa-Precipitazioni-Nord-Test` (+ sito avventurepluvio-test.netlify.app), promosso in produzione il 17 luglio 2026.
+
+### Centro-Sud via MeteoHub (Marche, Umbria, Lazio, Molise, Campania, Puglia, Basilicata, Calabria, Sicilia, Sardegna)
+- **Fonte:** MeteoHub / Agenzia ItaliaMeteo (`meteohub.agenziaitaliameteo.it`), reti `dpcn-<regione>` — in larga parte le stesse reti regionali, CC-BY con citazione. Valori validati contro ARPA Lombardia: scarto medie 1-3%, max identici (pilota, luglio 2026)
+- **Collect:** `.github/scripts/collect-meteohub.js` + `meteohub.yml` (5 run/giorno: 02:20, 04:20, 07:20, 11:50, 17:50 UTC). Granularità VARIA per rete: il collector sceglie la serie più fitta e la somma, soglia completezza ≥85%. Finestra pubblica API ~10 giorni
+- **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (08:40 UTC) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`)
+- **Dati reali da:** Marche/Umbria 13 luglio 2026 (16-17/7 blackout piattaforma, stimati), le altre 8 dal 19 luglio; prima backfill Open-Meteo (`source: open-meteo-backfill-*`) dal 14-20 maggio
+- **In mappa:** `dataSource: 'meteohub'`, fonte 'MeteoHub'; etichette **(beta)** e pillola gialla finché in validazione
+- **ATTENZIONE:** i buchi di ingestione MeteoHub sono di piattaforma (16-17/7 tutte le reti; 27/7 Puglia quasi azzerata): la metrica che conta è la FREQUENZA degli eventi (registro), non la % di giorni persi. `meteohub-lombardia` era solo la rete di controllo del pilota e NON esiste in produzione
+
+### Abruzzo
+- **Fonte:** Open-Meteo, calcolato live dal browser (`dataSource: 'open_meteo'`) — assente dalle reti MeteoHub (404) e senza fonte regionale accessibile, per ora
+- Nessuna cartella dati, nessun collector, nessuna sorveglianza (niente che possa "smettere di arrivare"). Fonte dichiarata come stime in mappa
 
 ### Valle d'Aosta
 - **Fonte:** Centro Funzionale Regione VdA (`presidi2.regione.vda.it`), dati reali di stazione — **dal 26 luglio 2026, al posto di Open-Meteo**
@@ -220,7 +252,7 @@ Manda una mail quando una fonte si rompe. **Due guasti sorvegliati, stessa sogli
 - Una sola mail per run con dentro tutto: allarmi nuovi, promemoria ogni 3 giorni sui guasti aperti, rientri, e il lunedì il riepilogo delle 11 regioni. Registro `data/alert-fonti.json`, che si aggiorna ogni giorno e fa da cruscotto: per ogni regione dice l'ultimo dato **reale**, le stazioni di ieri e la loro normalità.
 - **Invio con `curl` verso `smtps://smtp.gmail.com:465`, non con un'action di terzi**, così la password per le app di Gmail non esce dal runner. Lo script scrive il messaggio completo (intestazioni comprese, oggetto in encoded-word base64 per emoji e accenti) in `alert-mail.eml`, che è in `.gitignore`. Secret: `MAIL_USER`, `MAIL_PASS`, `MAIL_TO`. Se mancano, il workflow **fallisce apposta** — meglio la notifica di errore di GitHub che un allarme che tace credendo di funzionare.
 - Prove a mano, nessuna tocca il registro: `TEST_MAIL=1` (mail di prova), `SIMULA=liguria:4` (ferma da 4 giorni), `SIMULA=liguria:4:staz` (stazioni ridotte da 4 giorni). Disponibili anche come input del workflow.
-- **Da fare alla migrazione Italia v5.0**: aggiungere le 10 regioni MeteoHub alla lista `REGIONI`. Attenzione, il controllo (b) da solo **non basta** per loro: `check-meteohub-gaps.js` integra le stazioni mancanti dentro il file marcandole `om:true`, quindi il conteggio delle stazioni torna pieno e il giorno sembra sano. Va letto il registro `data/meteohub-gaps.json`, che quei giorni parziali li misura prima della copertura. Checklist completa nel repo di test, `MIGRAZIONE-v5.md`.
+**(c) Eventi-buco MeteoHub** (dal 1/8/2026, con la migrazione v5.0) — le 10 regioni MeteoHub sono nella lista `REGIONI` (21 totali sorvegliate), ma per loro il controllo (b) da solo **non basta**: `check-meteohub-gaps.js` integra le stazioni mancanti dentro il file marcandole `om:true`, quindi il conteggio torna pieno e il giorno sembra sano (il 27/7 la Puglia aveva 0 stazioni buone su 128: guardata dopo, non si vedeva più). `check-fonti.js` legge quindi il registro `data/meteohub-gaps.json`, che i giorni rotti li misura PRIMA della copertura: **3 giorni consecutivi con eventi (mancante o parziale) che finiscono a ieri** (tolleranza 1 giorno per il lag di rilevamento) fanno partire la mail, tipo di guasto `eventi`. Prova a mano: `SIMULA=puglia:4:eventi` (per le reti MeteoHub vale anche il nome corto: `puglia` = `meteohub-puglia`). Collaudato il 1/8/2026: `simula puglia:4` → "Puglia ferma da 4 giorni", `puglia:4:eventi` → "Puglia con buchi MeteoHub da 4 giorni" coi dettagli dal registro.
 
 ---
 
