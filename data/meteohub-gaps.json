@@ -1,0 +1,39 @@
+{
+  "nota": "Registro buchi ingestione MeteoHub. Evento storico pre-registro: 16-17/7/2026 blackout totale piattaforma (coperto a mano il 27/7).",
+  "eventi": [
+    {
+      "rete": "puglia",
+      "data": "2026-07-27",
+      "tipo": "mancante",
+      "stazioniViste": 0,
+      "stazioniAttese": 128,
+      "rilevato": "2026-07-29",
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-07-30",
+      "stazioniCoperte": 130
+    },
+    {
+      "rete": "basilicata",
+      "data": "2026-07-27",
+      "tipo": "parziale",
+      "stazioniViste": 50,
+      "stazioniAttese": 61,
+      "rilevato": "2026-07-29",
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-07-30",
+      "stazioniCoperte": 11
+    },
+    {
+      "rete": "molise",
+      "data": "2026-07-29",
+      "tipo": "parziale",
+      "stazioniViste": 23,
+      "stazioniAttese": 28,
+      "rilevato": "2026-07-30",
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-07-31",
+      "stazioniCoperte": 5
+    }
+  ],
+  "aggiornato": "2026-07-31T11:11:09.599Z"
+}

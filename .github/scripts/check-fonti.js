@@ -45,6 +45,15 @@
  *
  * Un file con ZERO stazioni conta come giorno mancante, non come malato.
  *
+ * TERZO TIPO DI GUASTO — gli eventi-buco MeteoHub (migrazione Italia v5.0).
+ * Per le 10 reti del centro-sud il conteggio stazioni MENTE: il gapfill
+ * MeteoHub integra le stazioni mancanti dentro il file (om:true) e a copertura
+ * avvenuta il giorno sembra sano. Si legge quindi il registro
+ * data/meteohub-gaps.json, che i giorni rotti li misura PRIMA della copertura:
+ * 3 giorni consecutivi con eventi (mancante o parziale) che finiscono a ieri
+ * (tolleranza 1 giorno per il ritardo di rilevamento) fanno partire la mail.
+ * Nessuna soglia nuova da tarare: si riusa la misura già validata sul campo.
+ *
  * Una sola mail per run, che raccoglie tutto: allarmi nuovi, promemoria dei
  * guasti ancora aperti, rientri, e il lunedì il riepilogo delle 11 regioni.
  * Il registro `data/alert-fonti.json` serve a non ripetersi: alla rilevazione
@@ -54,6 +63,8 @@
  *   TEST_MAIL=1 node check-fonti.js            → mail di prova
  *   SIMULA=liguria:4 node check-fonti.js       → Liguria ferma da 4 giorni
  *   SIMULA=liguria:4:staz node check-fonti.js  → Liguria a stazioni ridotte da 4 giorni
+ *   SIMULA=puglia:4:eventi node check-fonti.js → Puglia con eventi-buco da 4 giorni
+ *   (per le reti MeteoHub vale anche il nome corto: puglia = meteohub-puglia)
  */
 
 const fs = require('fs');
@@ -73,9 +84,11 @@ const FINESTRA_MEDIANA = 14;    // normalità recente
 const FINESTRA_LUNGA = 45;      // normalità che regge anche ai guasti lunghi
 const MIN_RIFERIMENTO = 7;      // meno di così di storico e il confronto non si fa
 
-// Le 11 regioni attive. Escluse `valledaosta` e `friuli` (Open-Meteo, dismesse
-// il 26/7/2026 e sostituite da valledaosta-cf e friuli-osmer): le loro cartelle
-// sono ferme per scelta, allarmarle sarebbe rumore.
+// Le regioni attive: 11 del Nord + 10 MeteoHub del centro-sud (migrazione
+// Italia v5.0). Escluse `valledaosta` e `friuli` (Open-Meteo, dismesse il
+// 26/7/2026 e sostituite da valledaosta-cf e friuli-osmer) e
+// `meteohub-lombardia` (rete di controllo del pilota, ferma per scelta):
+// le loro cartelle sono ferme apposta, allarmarle sarebbe rumore.
 const REGIONI = [
   { dir: 'altoadige',      nome: 'Alto Adige',    wf: 'altoadige.yml',      sito: 'https://weather.provinz.bz.it/' },
   { dir: 'emilia',         nome: 'Emilia Romagna', wf: 'emilia.yml',        sito: 'https://apps.arpae.it/REST/meteo_giornalieri' },
@@ -87,8 +100,21 @@ const REGIONI = [
   { dir: 'toscana',        nome: 'Toscana',       wf: 'toscana.yml',        sito: 'https://sir.toscana.it/monitoraggio/stazioni.php?type=pluvio' },
   { dir: 'trentino',       nome: 'Trentino',      wf: 'trentino.yml',       sito: 'https://dati.meteotrentino.it/' },
   { dir: 'valledaosta-cf', nome: "Valle d'Aosta", wf: 'valledaosta-cf.yml', sito: 'https://presidi2.regione.vda.it/' },
-  { dir: 'veneto',         nome: 'Veneto',        wf: 'veneto.yml',         sito: 'https://www.arpa.veneto.it/' }
+  { dir: 'veneto',         nome: 'Veneto',        wf: 'veneto.yml',         sito: 'https://www.arpa.veneto.it/' },
+  // Centro-sud via MeteoHub (una sola piattaforma, un solo workflow)
+  { dir: 'meteohub-marche',     nome: 'Marche',     wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-umbria',     nome: 'Umbria',     wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-lazio',      nome: 'Lazio',      wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-molise',     nome: 'Molise',     wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-campania',   nome: 'Campania',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-puglia',     nome: 'Puglia',     wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-basilicata', nome: 'Basilicata', wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-calabria',   nome: 'Calabria',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-sicilia',    nome: 'Sicilia',    wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  { dir: 'meteohub-sardegna',   nome: 'Sardegna',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' }
 ];
+
+const GAPS_METEOHUB = path.join(DATA_ROOT, 'meteohub-gaps.json');
 
 const TEST_MAIL = process.env.TEST_MAIL === '1' || process.env.TEST_MAIL === 'true';
 const SIMULA = (process.env.SIMULA || '').trim();
@@ -176,10 +202,48 @@ function analizza(dir, noon, rifMin) {
   };
 }
 
+/* ---------- eventi-buco MeteoHub (dal registro, misura pre-copertura) ---------- */
+// Il conteggio stazioni da solo NON basta per MeteoHub: check-meteohub-gaps.js
+// integra le stazioni mancanti dentro il file marcandole `om:true`, quindi a
+// copertura avvenuta il giorno torna pieno e sembra sano (il 27/7 la Puglia
+// aveva 0 stazioni buone su 128: guardata dopo, non si vedeva più). Il registro
+// data/meteohub-gaps.json quei giorni li ha misurati PRIMA della copertura.
+// Regola: 3 giorni consecutivi con eventi (mancante o parziale) che finiscono
+// a ieri. Tolleranza di 1 giorno sull'inizio del conteggio: il rilevamento
+// arriva con 1-2 giorni di ritardo (campo `rilevato`), senza tolleranza un
+// guasto ancora in corso suonerebbe in ritardo.
+function eventiMeteoHub(rete, noon) {
+  const reg = leggi(GAPS_METEOHUB);
+  const eventi = (reg && reg.eventi) || [];
+  const perGiorno = {};
+  eventi.filter(e => e.rete === rete).forEach(e => { perGiorno[e.data] = e; });
+  const inizio = perGiorno[fmtDate(new Date(noon - 86400000))] ? 1 : 2;
+  let n = 0, ultimo = null;
+  for (let i = inizio; i <= MAX_INDIETRO; i++) {
+    const ev = perGiorno[fmtDate(new Date(noon - i * 86400000))];
+    if (!ev) break;
+    if (!ultimo) ultimo = ev;
+    n++;
+  }
+  return { n, ultimo };
+}
+
 /* ---------- composizione della mail ---------- */
 const coda = r => ['', `    workflow  ${REPO}/actions/workflows/${r.wf}`, `    fonte     ${r.sito}`, ''];
 
 function blocco(r, st, soglia, dal, tipo) {
+  if (tipo === 'eventi') {
+    const u = st.ultimoEvento || {};
+    return [
+      `  ${r.nome}`,
+      `    rete MeteoHub      ${u.rete || r.dir.replace('meteohub-', '')}`,
+      `    eventi-buco        ${st.eventi} giorni consecutivi (soglia ${soglia})`,
+      `    ultimo evento      ${u.data ? itaDate(u.data) : '?'} — ${u.tipo || '?'}${u.stazioniAttese ? `, ${u.stazioniViste ?? '?'} stazioni buone su ${u.stazioniAttese}` : ''}`,
+      `    stato copertura    ${u.stato || 'aperto'}`,
+      `    in questo stato da ${itaDate(dal)}`,
+      ...coda(r)
+    ].join('\n');
+  }
   if (tipo === 'stazioni') {
     const perc = st.riferimento ? Math.round(st.stazioniIeri / st.riferimento * 100) : 0;
     return [
@@ -269,12 +333,24 @@ function main() {
     // Con l'allarme già aperto il metro resta quello di allora, non si rinegozia.
     const rifMin = (prec.stato === 'allarme' && prec.tipo === 'stazioni') ? (prec.riferimento || 0) : 0;
     const st = analizza(dir, noon, rifMin);
-    if (simReg === r.dir) {
+
+    // Terzo guasto, solo reti MeteoHub: giorni consecutivi con eventi-buco
+    // nel registro (misura pre-copertura, vedi eventiMeteoHub).
+    const rete = r.dir.startsWith('meteohub-') ? r.dir.slice('meteohub-'.length) : null;
+    const ev = rete ? eventiMeteoHub(rete, noon) : { n: 0, ultimo: null };
+    st.eventi = ev.n; st.ultimoEvento = ev.ultimo;
+
+    // La simulazione accetta sia il nome cartella che quello corto
+    // (`SIMULA=puglia:4` vale per `meteohub-puglia`).
+    if (simReg === r.dir || (rete && simReg === rete)) {
       const n = parseInt(simGiorni || '99', 10);
       if (simTipo === 'staz') {
         st.malati = n;
         st.riferimento = st.riferimento || st.stazioni;
         st.stazioniIeri = Math.round(st.riferimento * 0.2);
+      } else if (simTipo === 'eventi') {
+        st.eventi = n;
+        st.ultimoEvento = { rete: rete || r.dir, data: fmtDate(new Date(noon - 86400000)), tipo: 'parziale', stazioniViste: 5, stazioniAttese: 100, stato: 'aperto' };
       } else {
         st.mancanti = n;
         st.ultimoReale = fmtDate(new Date(noon - (n + 1) * 86400000)); // coerente col conteggio
@@ -282,17 +358,24 @@ function main() {
     }
 
     // Il guasto più grave vince: una regione spenta non è anche "a stazioni
-    // ridotte", e va segnalata per quello che è.
-    const tipo = st.mancanti >= soglia ? 'assente' : (st.malati >= soglia ? 'stazioni' : null);
+    // ridotte", e va segnalata per quello che è. Per le reti MeteoHub gli
+    // eventi-buco del registro battono il conteggio stazioni (che dopo la
+    // copertura om:true mentirebbe).
+    const tipo = st.mancanti >= soglia ? 'assente'
+      : (st.eventi >= soglia ? 'eventi'
+      : (st.malati >= soglia ? 'stazioni' : null));
     riepilogo.push({ r, st, soglia, tipo });
     const stato = () => ({
       ultimoReale: st.ultimoReale, giorniMancanti: st.mancanti,
-      giorniMalati: st.malati, stazioniIeri: st.stazioniIeri, riferimento: st.riferimento
+      giorniMalati: st.malati, giorniEventi: st.eventi,
+      stazioniIeri: st.stazioniIeri, riferimento: st.riferimento
     });
 
     if (tipo) {
       const descr = tipo === 'assente'
         ? `ferma da ${st.mancanti} giorni`
+        : tipo === 'eventi'
+        ? `eventi-buco MeteoHub da ${st.eventi} giorni consecutivi`
         : `${st.stazioniIeri} stazioni su ${st.riferimento} da ${st.malati} giorni`;
       // Se cambia la natura del guasto (si spegne del tutto dopo essersi
       // svuotata) si riparte da capo: è un'altra notizia, va mandata.
@@ -319,6 +402,9 @@ function main() {
           ? `  ${r.nome} — stazioni tornate normali (ieri ${st.stazioniIeri}, di norma ${st.riferimento}).\n` +
             `    Era a meno di metà dal ${itaDate(prec.dal)}. I giorni ridotti restano com'erano: quello che\n` +
             `    non è stato misurato allora non si recupera.\n`
+          : prec.tipo === 'eventi'
+          ? `  ${r.nome} — nessun nuovo evento-buco MeteoHub. In guasto dal ${itaDate(prec.dal)}.\n` +
+            `    I giorni coperti nel frattempo restano integrazioni Open-Meteo (om:true nel file).\n`
           : `  ${r.nome} — dati reali di nuovo presenti (ultimo: ${itaDate(st.ultimoReale)}, ${st.stazioni} stazioni).\n` +
             `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime Open-Meteo.\n`);
         console.log(`🟢 ${r.dir}: rientrata [${prec.tipo || 'assente'}]`);
@@ -337,10 +423,11 @@ function main() {
 
   /* --- una sola mail, con dentro tutto quello che c'è --- */
   const sezioni = [];
-  if (TEST_MAIL) sezioni.push('PROVA DI CONSEGNA\n\n  Se leggi questa mail, l\'allarme sulle fonti dati funziona.\n  Sotto trovi lo stato delle 11 regioni.\n');
+  if (TEST_MAIL) sezioni.push(`PROVA DI CONSEGNA\n\n  Se leggi questa mail, l'allarme sulle fonti dati funziona.\n  Sotto trovi lo stato delle ${REGIONI.length} regioni.\n`);
   const problemi = riepilogo.filter(x => x.tipo);
   const assenti = problemi.filter(x => x.tipo === 'assente').length;
   const ridotte = problemi.filter(x => x.tipo === 'stazioni').length;
+  const buchi = problemi.filter(x => x.tipo === 'eventi').length;
   if (allarmi.length) {
     sezioni.push(`ALLARME — ${problemi.length === 1 ? '1 regione' : `${problemi.length} regioni`}\n\n` + allarmi.join('\n') +
       (assenti ? '\n  La rete di sicurezza sta coprendo i giorni mancanti con stime Open-Meteo:\n' +
@@ -348,6 +435,9 @@ function main() {
       (ridotte ? '\n  Attenzione al caso delle stazioni ridotte: i giorni ci sono e il totale in\n' +
                  '  mappa sembra normale, ma è calcolato su una frazione della rete. Le zone\n' +
                  '  rimaste scoperte risultano asciutte anche se ci ha piovuto.\n' : '') +
+      (buchi ? '\n  Gli eventi-buco MeteoHub sono misurati PRIMA della copertura: a schermo i\n' +
+               '  giorni sembrano pieni, ma le stazioni mancanti sono integrazioni Open-Meteo\n' +
+               '  (om:true nel file). Il registro è data/meteohub-gaps.json.\n' : '') +
       `\n  Prossimo promemoria fra ${PROMEMORIA_GIORNI} giorni, se resta così.\n`);
   }
   if (promemoria.length) sezioni.push('ANCORA IN GUASTO\n\n' + promemoria.join('\n'));
@@ -374,6 +464,8 @@ function main() {
       const p = problemi[0];
       subject = p.tipo === 'assente'
         ? `🔴 Pluviometro: ${p.r.nome} ferma da ${p.st.mancanti} giorni`
+        : p.tipo === 'eventi'
+        ? `🔴 Pluviometro: ${p.r.nome} con buchi MeteoHub da ${p.st.eventi} giorni`
         : `🔴 Pluviometro: ${p.r.nome} a ${Math.round(p.st.stazioniIeri / (p.st.riferimento || 1) * 100)}% delle stazioni`;
     } else {
       subject = `🔴 Pluviometro: ${problemi.length} regioni in guasto`;
