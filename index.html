@@ -1023,6 +1023,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 
 <div class="fonte">
   Dati: <span id="fonte-dati">agenzie regionali</span> ·
+  <a href="/fonti.html">Fonti e licenze</a> ·
   Mappa: <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a>
 </div>
 
@@ -5119,6 +5120,9 @@ if(_btnShot){
   _btnShot.addEventListener('touchstart',_prewarmH2C,{passive:true});
   _btnShot.addEventListener('click',function(){
     if(getActiveRegions().length===0||!currentPast) return;
+    // Contatore GA come share_map: si conta il click, non l'esito (la
+    // condivisione nativa non dice se l'utente ha poi annullato il menu).
+    try{gtag('event','share_image',{regioni:getActiveRegions().join(',')})}catch(e){}
     var old=_btnShot.dataset.label;
     _btnShot.disabled=true;_btnShot.textContent='⏳';
     var fine=function(esito){
