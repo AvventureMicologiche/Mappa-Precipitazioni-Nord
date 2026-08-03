@@ -248,7 +248,7 @@ Trova i giorni **interamente mancanti** nelle 11 regioni attive e, passata la gr
 - Tetto di 5 coperture per run, riprova sul 429. Registro `data/gaps-nord.json`.
 - Uso a mano per buchi vecchi: `SCAN_DAYS=400 node check-gaps-nord.js`. Al primo giro (31/7) ha tappato i 5 buchi storici del Nord su ~4.000 giorni-regione.
 
-### 2. Allarme fonti via mail — `check-fonti.js` + `alert-fonti.yml` (09:30 UTC)
+### 2. Allarme fonti via mail — `check-fonti.js` + `alert-fonti.yml` (09:43 UTC)
 Manda una mail quando una fonte si rompe. **Due guasti sorvegliati, stessa soglia di giorni:**
 
 **(a) Nessun dato** — nessun file con dati reali per 3 giorni consecutivi (5 per il Ticino).
