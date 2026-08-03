@@ -129,7 +129,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Alias link condivisi:** `?r=ticino` apre la Svizzera (link pre-3/8 in circolazione)
 - **Respiro confini:** unico `confPulse` 1,6s per tutti, sincronia esatta via `startTime=0` in `aggiornaConfPulse` (senza, la fase dipende da quando ogni confine riceve la classe; controfase provata e scartata)
 - Sviluppato e validato lo stesso 3/8 nel repo di test (pilota), promosso in giornata su decisione utente. Il collector di test resta attivo (il sito di test legge `data/svizzera` dal proprio repo, come per VdA/Friuli)
-- **DA FARE con le grafiche v6**: rifare `preview.jpg` con l'inquadratura Italia+Svizzera (il commento nei meta lo ricorda)
+- **`preview.jpg` rifatta il 3/8** con Italia+Svizzera a 30 giorni (2960 stazioni): scatto headless in finestra **1920×1008** a doppia densità, cioè già nel rapporto 1.91:1 dei social — si scala a 1200×630 senza tagli né fasce. Ricetta completa nel commento sopra `og:image`. `?v=20260803`
 
 ### Ticino (Svizzera)
 - **Fonte:** OASI (Osservatorio Ambientale della Svizzera Italiana) `oasi.ti.ch/web/rest` — API REST pubblica, licenza libera con citazione fonte
