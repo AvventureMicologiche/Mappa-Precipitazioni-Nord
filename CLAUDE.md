@@ -1,7 +1,7 @@
 # Mappa Pluviometrica Italia — CLAUDE.md
 
 ## Progetto
-Mappa interattiva delle precipitazioni di TUTTA ITALIA (dal 1° agosto 2026, v5.0 — prima solo Nord) per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali di stazione su heatmap Leaflet.
+Mappa interattiva delle precipitazioni di TUTTA ITALIA E SVIZZERA (dal 3 agosto 2026, **v6.0** — v5.0 tutta Italia dall'1/8, prima solo Nord) per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali di stazione su heatmap Leaflet. Header/title/og: "Mappa Pluviometrica Italia + Svizzera"; meta description e og:description citano la Svizzera.
 
 - **Dev:** avventurepluvio.netlify.app
 - **Prod:** precipitazioni.avventuremicologiche.it
@@ -116,6 +116,20 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Dati corretti da:** 19 giugno 2026
 - **ATTENZIONE CRITICA:** l'endpoint `/stations/Pluvio` restituisce solo l'ultimo valore 15-min. NON usarlo per totali giornalieri — cattura solo ~25% della pioggia. Usare SEMPRE `/charts/{shortCode}/Pluvio` che dà 69 ore di serie temporale oraria.
 - Il collect fa ~199 chiamate API (una per stazione), processate in batch di 10 con retry.
+
+### Svizzera intera (v6.0, in produzione dal 3 agosto 2026)
+- In mappa UN SOLO bottone **"Svizzera (CH)"** (regione `svizzera`, ha sostituito "Ticino (CH)"): sotto, DUE fonti unite da `loadSvizzeraRegion` con chiavi prefissate `ti:`/`ch:` — il Ticino resta OASI (cartella `data/ticino`, collector sotto), il resto del paese è **MeteoSwiss OGD** (`data/svizzera`). ~307 stazioni totali; fonte/chip/crediti "OASI Ticino + MeteoSvizzera"
+- **Fonte MeteoSwiss:** collezioni STAC `ch.meteoschweiz.ogd-smn` (SwissMetNet) + `ogd-smn-precip` su `data.geo.admin.ch`, CSV per stazione, coordinate già WGS84, licenza **CC BY 4.0** («Fonte: MeteoSvizzera», voce in fonti.html)
+- **Collect:** `collect-svizzera-meteoswiss.js` + `svizzera.yml` (5 run/giorno). **261 stazioni** (filtro inventario `rre150h0` attivo; ESCLUSI canton TI e `SBE` S. Bernardino — OASI copre anche il Moesano GR e SBE è la stessa stazione fisica, unico doppione su 260×47 coppie)
+- **RICETTA (validata 3/8 su 639 giorni-stazione, match al centesimo):** i giornalieri MeteoSwiss NON coincidono col giorno solare italiano (`rre150d0` = finestra 06-06 UTC, `rka150d0` = giorno di calendario UTC) → si sommano le ORE `rre150h0` (timestamp = FINE intervallo) sul giorno solare italiano, ricetta OSMER, MIN_ORE=20. `_h_recent` contiene già tutte le ore di ieri al mattino presto; `_h_now` (10 min) integra l'ultima ora
+- **Auto-riparazione GRATIS D-3..D-10**: `recent` copre l'anno intero, i giorni mancanti si ricostruiscono senza richieste extra (come OASI, un run fallito non perde dati) → soglia allarme fonti 5 giorni (`SOGLIA_PER_REGIONE`)
+- **Storico: 365 giorni di dati REALI dal primo giorno** — backfill una tantum dagli archivi `_h_historical_2020-2029` (script `backfill-svizzera-meteoswiss.js`, girato in locale: ~1 GB di download). Campo `backfill: true` nei file, source sempre `meteoswiss`
+- **Confine:** `svizzera-confine.geojson` — Landesgebiet swissBOUNDARIES3D via `api3.geo.admin.ch` (find `bez=Schweiz`, sr=4326), semplificato 52k→5k vertici (~40 m), coi buchi di Campione d'Italia e Büsingen. Vista iniziale INVARIATA (`svizzera` esclusa dal `fitVistaIniziale`); stile = blu delle regioni italiane + bordo TRATTEGGIATO (velo rosso provato in due intensità e tolto il 3/8, decisione utente)
+- **Grafico storico a doppia cartella**: tag per-stazione `_src` (`oasi`→`data/ticino`, `ms`→`data/svizzera`, vedi `histRegion` e `HIST_RAW_BY_REGION`)
+- **Alias link condivisi:** `?r=ticino` apre la Svizzera (link pre-3/8 in circolazione)
+- **Respiro confini:** unico `confPulse` 1,6s per tutti, sincronia esatta via `startTime=0` in `aggiornaConfPulse` (senza, la fase dipende da quando ogni confine riceve la classe; controfase provata e scartata)
+- Sviluppato e validato lo stesso 3/8 nel repo di test (pilota), promosso in giornata su decisione utente. Il collector di test resta attivo (il sito di test legge `data/svizzera` dal proprio repo, come per VdA/Friuli)
+- **DA FARE con le grafiche v6**: rifare `preview.jpg` con l'inquadratura Italia+Svizzera (il commento nei meta lo ricorda)
 
 ### Ticino (Svizzera)
 - **Fonte:** OASI (Osservatorio Ambientale della Svizzera Italiana) `oasi.ti.ch/web/rest` — API REST pubblica, licenza libera con citazione fonte
