@@ -46,7 +46,13 @@ const DATA_ROOT = path.join(__dirname, '..', '..', 'data');
 const LEDGER = path.join(DATA_ROOT, 'gaps-nord.json');
 
 const GRACE_DEFAULT = 3;
-const GRACE_PER_REGIONE = { ticino: 8 };
+// Grazia più lunga per le fonti che si riparano da sole dal proprio archivio:
+// coprire prima che abbiano finito significherebbe mettere una STIMA dove il
+// giorno dopo sarebbe arrivato il dato VERO — e la stima poi resta, perché il
+// file esiste e nessuno lo riscrive più. La grazia deve quindi superare la
+// finestra di auto-riparazione del collector: Ticino recupera fino a D-7 (8),
+// Svizzera fino a D-10 (11).
+const GRACE_PER_REGIONE = { ticino: 8, svizzera: 11 };
 const SCAN_DAYS = parseInt(process.env.SCAN_DAYS || '15', 10);
 const RETENTION_DAYS = 365;   // inutile creare file che la pulizia cancellerebbe
 const MIN_STAZIONI = 10;      // sotto questa soglia l'anagrafe non è affidabile
@@ -55,10 +61,10 @@ const MIN_STAZIONI = 10;      // sotto questa soglia l'anagrafe non è affidabil
 // Una regione grande (Emilia, 323 stazioni) costa 7 chiamate per giorno.
 const MAX_COPERTURE = parseInt(process.env.MAX_COPERTURE || '5', 10);
 
-// Cartelle dati del Nord. Escluse `valledaosta` e `friuli`: dismesse il
-// 26/7/2026, sostituite da valledaosta-cf e friuli-osmer.
+// Cartelle dati del Nord + Svizzera (v6.0, 3/8/2026). Escluse `valledaosta` e
+// `friuli`: dismesse il 26/7/2026, sostituite da valledaosta-cf e friuli-osmer.
 const REGIONI = ['altoadige','emilia','friuli-osmer','liguria','lombardia','piemonte',
-                 'ticino','toscana','trentino','valledaosta-cf','veneto'];
+                 'svizzera','ticino','toscana','trentino','valledaosta-cf','veneto'];
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
