@@ -279,6 +279,8 @@ Ogni ~5 giorni verificare:
 4. Workflow tutti verdi
 5. Confronto puntuale con fonti ufficiali (cfr.toscana.it, omirl.regione.liguria.it, apps.arpae.it)
 6. **Nessun file giornaliero identico a quello del giorno precedente** (confronto stazione per stazione, non solo del totale): è la firma comune dei bug #17, #18 e #19 — pioggia di ieri trascinata sul giorno dopo. Quando salta fuori, confrontare sempre con l'API interrogata in diretta prima di concludere.
+   - **Come NON farlo** (provato il 4/8/2026): contando tutte le stazioni identiche escono oltre cento "casi" su 24 cartelle, tutti falsi. In una giornata quasi asciutta il 97% delle stazioni è 0 in entrambi i giorni, quindi "identiche" per forza — il controllo misura il bel tempo, non un guasto.
+   - **Come farlo**: confrontare **solo le stazioni bagnate** (almeno una delle due giornate sopra zero), su giornate con almeno ~20 mm complessivi, escludendo il giorno in corso (durante il giorno Toscana e Alto Adige contengono per costruzione la coda di ieri, ed è regolare: la mappa esclude oggi comunque, regola #3). Con questi paletti il 4/8 il risultato era pulito su 25 giorni e tutte le cartelle.
 
 ---
 
