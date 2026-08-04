@@ -273,9 +273,37 @@ Manda una mail quando una fonte si rompe. **Due guasti sorvegliati, stessa sogli
 
 ## Check periodico dati
 Ogni ~5 giorni verificare:
-1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?)
+1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?) — **automatizzato dal 4 agosto 2026: `node .github/scripts/check-confini.js <confine>`**, `--lista` per i nomi (svizzera, emilia-piemonte, emilia-liguria, toscana-emilia, lombardia-trentino). Vedi la sezione dedicata più sotto.
 2. Nessun valore anomalo (>150mm/giorno)
 3. Nessun calo improvviso nel numero di stazioni
 4. Workflow tutti verdi
 5. Confronto puntuale con fonti ufficiali (cfr.toscana.it, omirl.regione.liguria.it, apps.arpae.it)
 6. **Nessun file giornaliero identico a quello del giorno precedente** (confronto stazione per stazione, non solo del totale): è la firma comune dei bug #17, #18 e #19 — pioggia di ieri trascinata sul giorno dopo. Quando salta fuori, confrontare sempre con l'API interrogata in diretta prima di concludere.
+
+---
+
+## Coerenza fra reti confinanti (4 agosto 2026)
+
+Una ricetta sbagliata dentro un collector **non si vede dall'interno**: i suoi numeri restano coerenti fra loro. Si vede solo confrontandolo con una rete diversa che misura la stessa pioggia.
+
+### `check-confini.js` — il confronto al confine
+`node .github/scripts/check-confini.js <confine>` (`--lista` per i nomi). Variabili: `GIORNI` `MAX_KM` `MAX_DQ` `SOGLIA`.
+
+**Il numero che decide è la percentuale "A più alta": vicino al 50% = le reti concordano.** Lo scarto medio in mm no — le code lunghe dei temporali lo spostano anche quando la mediana è perfetta. Il "divario in valore assoluto" è rumore di fondo, non un difetto: due pluviometri a 10 km su un temporale estivo danno numeri lontanissimi.
+
+**Piemonte, Friuli-OSMER e tutte le reti MeteoHub non pubblicano la quota** (`q` = 0). Il filtro dislivello si spegne da solo e lo dichiara a schermo: lasciandolo lavorare teneva solo le stazioni basse dell'altro lato (su Emilia↔Piemonte riduceva le coppie da 19 a 2, tutte di fondovalle) — e in silenzio, che è il modo peggiore di sbagliare.
+
+Esiti dei primi due giri:
+- **Italia↔Svizzera**: MeteoSwiss −0,18 mm e 48%, OASI-Ticino −0,13 mm e 55%, su 1.280 confronti. Valida in trasversale la ricetta somma-ore `rre150h0`: se la finestra fosse sfasata, 160 coppie di confine lo avrebbero mostrato.
+- **Emilia↔Piemonte**: 49% su 2.238 confronti. Il "Emilia più alta nel 100%" annotato a luglio era un artefatto di campione (9 coppie); lo scarto residuo di +1,76 mm è il massimo pluviometrico di alta Val Trebbia/Aveto contro la Val Borbera sottovento.
+
+### Le 8 stazioni gemelle ARPAE ∩ OMIRL — la verifica più stringente
+Otto pluviometri **fisicamente identici** compaiono sia in `data/emilia` (ARPAE) sia in `data/liguria` (OMIRL), a meno di 600 m: S. Stefano d'Aveto, Alpe Gorreto, Barbagelata, Cabanne, Rovegno, Torriglia, Diga del Brugneto (OMIRL: "Brugneto Diga"), Loco Carchelli. Sono stazioni in territorio ligure che ARPAE ospita nel suo feed, come OMIRL ospita quelle toscane della Lunigiana.
+
+Stesso strumento, due nostre pipeline indipendenti: se divergono, **l'errore è certamente nostro**. Al confine il dubbio dell'orografia resta sempre, qui no. **Da rilanciare dopo ogni modifica ai collector Emilia o Liguria.**
+
+**Esito dal 6/6/2026: 85% dei giorni identici, divario medio 1,36 mm, solo il 3% oltre i 10 mm.** Entrambi i collector sono sani.
+
+**Cosa hanno trovato nel passato.** Prima del 6/6 il quadro è opposto: 2% identici, divario 16,04 mm, 51% oltre i 10 mm. L'evento del **1-2 giugno 2026 è sul giorno sbagliato in Emilia** — OMIRL lo mette il 2/6 (196,6 mm sulle 8 gemelle), ARPAE il 1/6 (362,3 mm), sbagliato il giorno e quasi doppia la quantità, compatibile con un accumulo di due giorni schiacciato in uno. E `data/emilia/2026-06-02.json` è uno zero falso (315 stazioni a 0, timestamp sintetico `2026-06-04T12:00:00.000Z`). È lo strascico del commit `9d739483` del 6/6, "corretto offset +1 giorno su tutti i file storici" (bug #8): ha risolto il bug in corso ma ha lasciato mangiato l'evento a cavallo.
+
+**Rientra nella finestra già dichiarata inaffidabile** ("dati corretti da: 5 giugno 2026" nella scheda Emilia), quindi non contraddice nulla — ora però è misurato invece che presunto. **Non riparabile**: l'API ARPAE `meteo_giornalieri` offre solo ~15 giorni di storico (verificato il 4/8: finestra 21/7→4/8). Portata comunque piccola — i dati reali ARPAE partono dal **3 maggio 2026**, prima è tutto `open-meteo-archive` — e lo scan di traslazione ±1 giorno contro la Lombardia dà shift 0 come migliore in ogni epoca: **nessuno slittamento sistematico residuo**.
