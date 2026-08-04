@@ -52,7 +52,9 @@
       "stazioniViste": 154,
       "stazioniAttese": 207,
       "rilevato": "2026-08-03",
-      "stato": "aperto"
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-08-04",
+      "stazioniCoperte": 54
     },
     {
       "rete": "sicilia",
@@ -61,8 +63,28 @@
       "stazioniViste": 343,
       "stazioniAttese": 426,
       "rilevato": "2026-08-03",
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-08-04",
+      "stazioniCoperte": 93
+    },
+    {
+      "rete": "lazio",
+      "data": "2026-08-03",
+      "tipo": "mancante",
+      "stazioniViste": 0,
+      "stazioniAttese": 207,
+      "rilevato": "2026-08-04",
+      "stato": "aperto"
+    },
+    {
+      "rete": "sicilia",
+      "data": "2026-08-03",
+      "tipo": "parziale",
+      "stazioniViste": 341,
+      "stazioniAttese": 426,
+      "rilevato": "2026-08-04",
       "stato": "aperto"
     }
   ],
-  "aggiornato": "2026-08-03T12:00:14.019Z"
+  "aggiornato": "2026-08-04T11:07:09.422Z"
 }
