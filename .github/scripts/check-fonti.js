@@ -216,11 +216,17 @@ function analizza(dir, noon, rifMin) {
 // a ieri. Tolleranza di 1 giorno sull'inizio del conteggio: il rilevamento
 // arriva con 1-2 giorni di ritardo (campo `rilevato`), senza tolleranza un
 // guasto ancora in corso suonerebbe in ritardo.
+// Dal 4/8/2026 gli eventi marcati `lieve` NON contano: sono cali che lasciano
+// la rete sopra il 60% della sua normalità, quindi con abbastanza stazioni per
+// disegnare bene lo stesso. La Sicilia a 341 su 426 aveva fatto suonare
+// l'allarme pur avendo, con quelle 341, una densità migliore di Lombardia e
+// Piemonte in giornata piena. Restano nel registro perché la frequenza degli
+// eventi è la metrica con cui si giudica MeteoHub, ma non svegliano nessuno.
 function eventiMeteoHub(rete, noon) {
   const reg = leggi(GAPS_METEOHUB);
   const eventi = (reg && reg.eventi) || [];
   const perGiorno = {};
-  eventi.filter(e => e.rete === rete).forEach(e => { perGiorno[e.data] = e; });
+  eventi.filter(e => e.rete === rete && !e.lieve).forEach(e => { perGiorno[e.data] = e; });
   const inizio = perGiorno[fmtDate(new Date(noon - 86400000))] ? 1 : 2;
   let n = 0, ultimo = null;
   for (let i = inizio; i <= MAX_INDIETRO; i++) {
