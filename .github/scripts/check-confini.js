@@ -1,0 +1,292 @@
+/**
+ * check-confini.js — due reti diverse, lo stesso cielo: sono d'accordo?
+ *
+ * DA LANCIARE A MANO (non è in nessun workflow):
+ *     node .github/scripts/check-confini.js svizzera
+ *     node .github/scripts/check-confini.js emilia-piemonte
+ *     node .github/scripts/check-confini.js --lista
+ *     GIORNI=60 MAX_KM=15 node .github/scripts/check-confini.js svizzera
+ *
+ * PERCHÉ ESISTE (4 agosto 2026). Ogni regione della mappa arriva da una rete
+ * diversa, con la sua ricetta: finestra oraria, soglia di completezza, unità,
+ * arrotondamenti. Se una di quelle ricette è sbagliata — la finestra sfasata di
+ * sei ore, per dire — il singolo collector non se ne accorge: i suoi numeri
+ * restano interni e coerenti. Si vede solo al confine, dove due reti misurano
+ * la STESSA pioggia e devono dire la stessa cosa.
+ *
+ * Il controllo era già stato fatto due volte a mano (Emilia↔Piemonte a luglio,
+ * Italia↔Svizzera il 4 agosto). Questo script è quella procedura messa in
+ * forma stabile, così il prossimo confine costa un comando invece di mezz'ora.
+ *
+ * COME LEGGERE L'OUTPUT. Il numero che conta è "scarto medio": quanto un lato
+ * sta sopra l'altro, mediato su tutti i confronti. Vicino a zero e con la
+ * percentuale "A più alta" intorno al 50% = le due reti raccontano lo stesso
+ * cielo. Uno scarto costante di un segno solo, invece, è la firma di una
+ * ricetta diversa e va indagato nel collector.
+ *
+ * Il "divario medio in valore assoluto" è tutt'altra cosa e NON è un difetto:
+ * su un temporale estivo due pluviometri a 10 km danno numeri lontanissimi.
+ * Serve solo a dare la scala del rumore contro cui va letto lo scarto medio.
+ *
+ * ATTENZIONE ai due filtri, che non sono cosmetici:
+ *  - il dislivello massimo (MAX_DQ) evita di scambiare l'orografia per un bias:
+ *    una stazione di fondovalle e una di cresta a 8 km misurano davvero cose
+ *    diverse, e senza filtro il confine risulterebbe sbilanciato sempre;
+ *  - la soglia mm (SOGLIA) butta via i giorni asciutti da entrambi i lati, che
+ *    sono la maggioranza e diluirebbero qualsiasi segnale a zero.
+ *
+ * IL DISLIVELLO NON È SEMPRE DISPONIBILE. Piemonte, Friuli-OSMER e tutte le
+ * reti MeteoHub non pubblicano la quota (`q` vale 0 per ogni stazione). Se si
+ * lasciasse lavorare il filtro lo stesso, `|0 − q| <= MAX_DQ` diventerebbe
+ * "tieni solo le stazioni BASSE del lato che la quota ce l'ha": un campione
+ * scelto male e per giunta in silenzio — sul confine Emilia↔Piemonte riduceva
+ * le coppie da 19 a 2, tutte di fondovalle. Quando un lato non ha quote il
+ * filtro si spegne e lo dice; l'orografia va allora tenuta a mente leggendo le
+ * coppie, non delegata al programma.
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const DATA_ROOT = path.join(__dirname, '..', '..', 'data');
+
+const MAX_KM = Number(process.env.MAX_KM || 20);   // distanza massima fra le due stazioni di una coppia
+const MAX_DQ = Number(process.env.MAX_DQ || 300);  // dislivello massimo, metri
+const GIORNI = Number(process.env.GIORNI || 30);
+const SOGLIA = Number(process.env.SOGLIA || 1);    // mm minimi da un lato perché il giorno conti
+
+/**
+ * I confini già noti. `lati` sono due gruppi di cartelle sotto data/: ogni
+ * gruppo è un "paese" e le coppie si formano solo fra gruppi diversi, mai
+ * dentro lo stesso. Le sotto-fonti di un lato (Svizzera = MeteoSwiss + OASI)
+ * si dichiarano con `separa`, così l'esito viene rotto per fonte: se sbanda
+ * una sola delle due pipeline, mediarle insieme la nasconderebbe.
+ */
+const CONFINI = {
+  'svizzera': {
+    titolo: 'Italia ↔ Svizzera',
+    lati: [
+      { nome: 'CH', dirs: ['svizzera', 'ticino'], separa: { svizzera: 'MeteoSwiss', ticino: 'OASI-Ticino' } },
+      { nome: 'IT', dirs: ['valledaosta-cf', 'piemonte', 'lombardia', 'trentino', 'altoadige'] },
+    ],
+  },
+  'emilia-piemonte': {
+    titolo: 'Emilia ↔ Piemonte',
+    lati: [
+      { nome: 'Emilia',   dirs: ['emilia'] },
+      { nome: 'Piemonte', dirs: ['piemonte'] },
+    ],
+  },
+  'emilia-liguria': {
+    titolo: 'Emilia ↔ Liguria',
+    lati: [
+      { nome: 'Emilia',  dirs: ['emilia'] },
+      { nome: 'Liguria', dirs: ['liguria'] },
+    ],
+  },
+  'toscana-emilia': {
+    titolo: 'Toscana ↔ Emilia',
+    lati: [
+      { nome: 'Toscana', dirs: ['toscana'] },
+      { nome: 'Emilia',  dirs: ['emilia'] },
+    ],
+  },
+  'lombardia-trentino': {
+    titolo: 'Lombardia ↔ Trentino',
+    lati: [
+      { nome: 'Lombardia', dirs: ['lombardia'] },
+      { nome: 'Trentino',  dirs: ['trentino'] },
+    ],
+  },
+};
+
+function distanzaKm(a, b) {
+  const R = 6371, r = x => x * Math.PI / 180;
+  const dLa = r(b.lat - a.lat), dLo = r(b.lon - a.lon);
+  const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLo / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+function leggiGiorno(dir, giorno) {
+  const f = path.join(DATA_ROOT, dir, giorno + '.json');
+  if (!fs.existsSync(f)) return null;
+  try {
+    const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+    return Array.isArray(j.stations) ? j : null;
+  } catch { return null; }
+}
+
+/** Una stazione è "stimata" se la copertura Open-Meteo l'ha messa lei. */
+function eStima(s) { return s.om === true || /open-meteo/.test(s.src || ''); }
+
+function nomeFonte(lato, dir) { return (lato.separa && lato.separa[dir]) || lato.nome; }
+
+// ── Argomenti ─────────────────────────────────────────────────────────────
+const arg = (process.argv[2] || '').replace(/^--/, '');
+if (!arg || arg === 'lista' || arg === 'help') {
+  console.log('Confini disponibili:');
+  for (const [k, v] of Object.entries(CONFINI)) console.log(`  ${k.padEnd(20)} ${v.titolo}`);
+  console.log('\nEsempio:  node .github/scripts/check-confini.js emilia-piemonte');
+  console.log('Variabili: GIORNI (30)  MAX_KM (20)  MAX_DQ (300)  SOGLIA (1)');
+  process.exit(0);
+}
+const conf = CONFINI[arg];
+if (!conf) { console.error(`Confine "${arg}" sconosciuto. Lancia con --lista per vederli.`); process.exit(1); }
+
+const [latoA, latoB] = conf.lati;
+
+// ── Giorni da esaminare ───────────────────────────────────────────────────
+// Il calendario si prende dalla prima cartella del lato A e si scarta l'ultimo
+// giorno: è quello in corso, ancora a metà raccolta, e falserebbe tutto.
+const cartellaCal = latoA.dirs[0];
+const giorni = fs.readdirSync(path.join(DATA_ROOT, cartellaCal))
+  .filter(f => f.endsWith('.json'))
+  .map(f => f.slice(0, 10))
+  .sort()
+  .slice(-GIORNI - 1, -1);
+
+if (giorni.length === 0) { console.error(`Nessun dato in data/${cartellaCal}.`); process.exit(1); }
+const rif = giorni[giorni.length - 1];
+
+// ── Coppie transfrontaliere, costruite una volta sull'ultimo giorno buono ──
+function stazioniDi(lato, giorno) {
+  const out = [];
+  for (const dir of lato.dirs) {
+    const j = leggiGiorno(dir, giorno);
+    if (!j) continue;
+    for (const s of j.stations) {
+      if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
+      out.push({ ...s, dir });
+    }
+  }
+  return out;
+}
+
+const stazA = stazioniDi(latoA, rif);
+const stazB = stazioniDi(latoB, rif);
+if (!stazA.length || !stazB.length) { console.error(`Manca il giorno di riferimento ${rif} su un lato.`); process.exit(1); }
+
+// Il filtro dislivello vale solo se ENTRAMBI i lati pubblicano la quota: con
+// un lato a zero selezionerebbe le stazioni basse dell'altro invece di
+// appaiare quote simili. Meglio spento e dichiarato che acceso e bugiardo.
+const quoteA = stazA.some(s => s.q > 0);
+const quoteB = stazB.some(s => s.q > 0);
+const filtroQuota = quoteA && quoteB;
+
+const coppie = [];
+for (const a of stazA) {
+  for (const b of stazB) {
+    const d = distanzaKm(a, b);
+    if (d > MAX_KM) continue;
+    if (filtroQuota && Math.abs(a.q - b.q) > MAX_DQ) continue;
+    coppie.push({ fonte: nomeFonte(latoA, a.dir), a, b, km: d });
+  }
+}
+
+console.log(`=== ${conf.titolo} — coerenza al confine ===\n`);
+console.log(`Finestra: ${giorni[0]} → ${rif}  (${giorni.length} giorni)`);
+console.log(`Coppia valida: entro ${MAX_KM} km${filtroQuota ? ` e ${MAX_DQ} m di dislivello` : ''}.`);
+console.log(`Giorno valido: almeno ${SOGLIA} mm da un lato, e nessuna delle due stimata.`);
+if (!filtroQuota) {
+  const muto = !quoteA ? latoA.nome : latoB.nome;
+  console.log(`\n⚠️  FILTRO DISLIVELLO SPENTO: ${muto} non pubblica la quota delle stazioni.`);
+  console.log(`   Le coppie appaiano solo per distanza, quindi fondovalle e crinale possono`);
+  console.log(`   finire insieme. Prima di gridare al bias, guarda dove stanno le stazioni.`);
+}
+console.log('');
+
+if (!coppie.length) {
+  console.log('Nessuna coppia trovata: i due lati non si toccano entro i limiti dati.');
+  console.log('Prova ad allargare MAX_KM o MAX_DQ.');
+  process.exit(0);
+}
+
+console.log(`Coppie: ${coppie.length}`);
+for (const f of [...new Set(coppie.map(c => c.fonte))]) {
+  const sel = coppie.filter(c => c.fonte === f);
+  const nA = new Set(sel.map(c => c.a.id)).size, nB = new Set(sel.map(c => c.b.id)).size;
+  console.log(`  ${f.padEnd(14)} ${String(sel.length).padStart(4)} coppie  (${nA} stazioni ${latoA.nome} × ${nB} ${latoB.nome})`);
+}
+
+// ── Confronto giorno per giorno ───────────────────────────────────────────
+const perFonte = {};
+const perCoppia = new Map();
+const perGiorno = {};
+let scartatiStima = 0;
+
+for (const g of giorni) {
+  const mappe = {};
+  for (const dir of [...latoA.dirs, ...latoB.dirs]) {
+    const j = leggiGiorno(dir, g);
+    if (j) mappe[dir] = new Map(j.stations.map(s => [s.id, s]));
+  }
+
+  for (const c of coppie) {
+    const a = mappe[c.a.dir]?.get(c.a.id);
+    const b = mappe[c.b.dir]?.get(c.b.id);
+    if (!a || !b || typeof a.mm !== 'number' || typeof b.mm !== 'number') continue;
+    // Una stima Open-Meteo confrontata con un dato reale misura il modello,
+    // non il confine: sarebbe il difetto sbagliato da trovare.
+    if (eStima(a) || eStima(b)) { scartatiStima++; continue; }
+    if (a.mm < SOGLIA && b.mm < SOGLIA) continue;
+
+    const diff = a.mm - b.mm;
+    const f = perFonte[c.fonte] ||= { n: 0, aAlta: 0, pari: 0, sommaA: 0, sommaB: 0, diffAss: 0, casi: [] };
+    f.n++; f.sommaA += a.mm; f.sommaB += b.mm; f.diffAss += Math.abs(diff);
+    if (Math.abs(diff) < 0.15) f.pari++; else if (diff > 0) f.aAlta++;
+    f.casi.push({ g, na: a.n, nb: b.n, mmA: a.mm, mmB: b.mm, diff, km: c.km });
+
+    const k = c.a.id + '|' + c.b.id;
+    const pc = perCoppia.get(k) || { fonte: c.fonte, na: a.n, nb: b.n, km: c.km, n: 0, somma: 0 };
+    pc.n++; pc.somma += diff; perCoppia.set(k, pc);
+
+    const pg = perGiorno[g] ||= { n: 0, somma: 0 };
+    pg.n++; pg.somma += diff;
+  }
+}
+
+const totale = Object.values(perFonte).reduce((a, f) => a + f.n, 0);
+if (!totale) {
+  console.log('\nNessun confronto utile: nella finestra non ha piovuto abbastanza su nessuna coppia.');
+  console.log('Allarga GIORNI oppure abbassa SOGLIA.');
+  process.exit(0);
+}
+if (scartatiStima) console.log(`\n(${scartatiStima} confronti scartati perché una delle due stazioni era una stima Open-Meteo.)`);
+
+console.log(`\n=== ESITO  (positivo = ${latoA.nome} più alta) ===`);
+for (const [fonte, f] of Object.entries(perFonte)) {
+  const nonPari = f.n - f.pari || 1;
+  const pct = 100 * f.aAlta / nonPari;
+  const scarto = (f.sommaA - f.sommaB) / f.n;
+  const verdetto = (pct >= 65 || pct <= 35) ? '⚠️  SBILANCIATO, da indagare nel collector'
+                 : (pct >= 58 || pct <= 42) ? '~ leggera pendenza, tenere d\'occhio'
+                 : '✓ equilibrato';
+  console.log(`\n${fonte}`);
+  console.log(`  confronti utili: ${f.n}   (di cui ${f.pari} sostanzialmente pari)`);
+  console.log(`  media ${latoA.nome}: ${(f.sommaA / f.n).toFixed(2)} mm   media ${latoB.nome}: ${(f.sommaB / f.n).toFixed(2)} mm`);
+  console.log(`  scarto medio: ${(scarto > 0 ? '+' : '') + scarto.toFixed(2)} mm`);
+  console.log(`  ${latoA.nome} più alta nel ${pct.toFixed(0)}% dei confronti non pari   ${verdetto}`);
+  console.log(`  divario medio in valore assoluto: ${(f.diffAss / f.n).toFixed(2)} mm  (rumore di fondo, non un difetto)`);
+  console.log('  scarti più grossi:');
+  for (const t of f.casi.sort((x, y) => Math.abs(y.diff) - Math.abs(x.diff)).slice(0, 5)) {
+    console.log(`    ${t.g}  ${t.na} ${t.mmA} vs ${t.nb} ${t.mmB}   (${t.diff > 0 ? '+' : ''}${t.diff.toFixed(1)} mm, ${t.km.toFixed(1)} km)`);
+  }
+}
+
+console.log('\n=== COPPIE PIÙ SBILANCIATE (media, almeno 5 confronti) ===');
+const sbil = [...perCoppia.values()].filter(c => c.n >= 5)
+  .map(c => ({ ...c, media: c.somma / c.n }))
+  .sort((a, b) => Math.abs(b.media) - Math.abs(a.media)).slice(0, 10);
+if (!sbil.length) console.log('  (nessuna coppia arriva a 5 confronti: finestra troppo asciutta)');
+for (const c of sbil) {
+  console.log(`  ${((c.media > 0 ? '+' : '') + c.media.toFixed(2)).padStart(7)} mm/g   ${c.na} ↔ ${c.nb}   (${c.km.toFixed(1)} km, ${c.n} conf., ${c.fonte})`);
+}
+console.log('  Una singola coppia sbilanciata è quasi sempre orografia o una cella isolata.');
+console.log('  Il sospetto vero nasce quando SBANDA TUTTA LA COLONNA nello stesso verso.');
+
+console.log(`\n=== SCARTO MEDIO GIORNO PER GIORNO (${latoA.nome} − ${latoB.nome}) ===`);
+for (const [g, v] of Object.entries(perGiorno)) {
+  const m = v.somma / v.n;
+  console.log(`  ${g}  ${((m > 0 ? '+' : '') + m.toFixed(2)).padStart(7)} mm  ${String(v.n).padStart(4)} conf.  ${'█'.repeat(Math.min(30, Math.round(Math.abs(m) * 4)))}`);
+}
+console.log('  Il segno che cambia di continuo è meteo. Il segno sempre uguale è una ricetta sbagliata.');
