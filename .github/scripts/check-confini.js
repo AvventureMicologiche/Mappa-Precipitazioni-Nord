@@ -100,6 +100,26 @@ const CONFINI = {
   },
 };
 
+/**
+ * Da quando lo storico di ogni regione è considerato affidabile (le date
+ * "Dati corretti da" delle schede in CLAUDE.md). Il confronto si ferma alla
+ * più tarda fra le regioni coinvolte.
+ *
+ * Non è pignoleria: con la finestra piena di 120 giorni il confine
+ * Emilia↔Liguria risultava sbilanciato al 67%, con 39 stazioni su 45 dallo
+ * stesso lato — sembrava un collector rotto. Erano invece i giorni emiliani
+ * precedenti al 5/6/2026, dove l'evento dell'1-2 giugno è sul giorno
+ * sbagliato e quasi raddoppiato. Tagliando lì: +0,96 mm e 58%. Uno strumento
+ * che pesca in acque dichiarate torbide accusa gli innocenti.
+ */
+const AFFIDABILE_DA = {
+  lombardia: '2026-01-01', ticino: '2026-03-18', emilia: '2026-06-05',
+  veneto: '2026-06-04', altoadige: '2026-06-04', trentino: '2026-06-06',
+  piemonte: '2026-06-12', liguria: '2026-06-19', toscana: '2026-07-12',
+  'valledaosta-cf': '2026-07-16', 'friuli-osmer': '2026-07-18',
+  svizzera: '2025-08-04', // backfill dagli archivi MeteoSwiss: reale da subito
+};
+
 function distanzaKm(a, b) {
   const R = 6371, r = x => x * Math.PI / 180;
   const dLa = r(b.lat - a.lat), dLo = r(b.lon - a.lon);
@@ -116,7 +136,18 @@ function leggiGiorno(dir, giorno) {
   } catch { return null; }
 }
 
-/** Una stazione è "stimata" se la copertura Open-Meteo l'ha messa lei. */
+/**
+ * Le stime Open-Meteo si annunciano a DUE livelli e vanno scartate entrambe,
+ * altrimenti si finisce a misurare il modello invece del confine.
+ *  - per stazione: `om: true` o `src` con open-meteo, quando il gapfill ha
+ *    tappato solo i buchi dentro una giornata altrimenti reale;
+ *  - per FILE: `source: open-meteo-backfill-*` / `open-meteo-archive`, cioè
+ *    tutto il giorno è stimato. È il caso più insidioso perché le singole
+ *    stazioni non portano nessun contrassegno: la Toscana è backfill fino
+ *    all'11 luglio 2026, l'Emilia fino al 2 maggio, e senza questo controllo
+ *    entravano nel confronto travestite da dato reale.
+ */
+function fileStimato(j) { return /open-meteo/.test(j.source || ''); }
 function eStima(s) { return s.om === true || /open-meteo/.test(s.src || ''); }
 
 function nomeFonte(lato, dir) { return (lato.separa && lato.separa[dir]) || lato.nome; }
@@ -139,11 +170,16 @@ const [latoA, latoB] = conf.lati;
 // Il calendario si prende dalla prima cartella del lato A e si scarta l'ultimo
 // giorno: è quello in corso, ancora a metà raccolta, e falserebbe tutto.
 const cartellaCal = latoA.dirs[0];
+// La soglia si applica REGIONE PER REGIONE, non a tutto il confronto: tagliare
+// la finestra intera alla data più tarda buttava via mesi di dati sani. Sul
+// confine svizzero, per dire, la sola Valle d'Aosta (affidabile dal 16 luglio)
+// riduceva 120 giorni a 18, pur essendo uno dei cinque lati italiani.
 const giorni = fs.readdirSync(path.join(DATA_ROOT, cartellaCal))
   .filter(f => f.endsWith('.json'))
   .map(f => f.slice(0, 10))
   .sort()
-  .slice(-GIORNI - 1, -1);
+  .slice(0, -1)                       // via il giorno in corso, ancora a metà raccolta
+  .slice(-GIORNI);
 
 if (giorni.length === 0) { console.error(`Nessun dato in data/${cartellaCal}.`); process.exit(1); }
 const rif = giorni[giorni.length - 1];
@@ -211,14 +247,20 @@ for (const f of [...new Set(coppie.map(c => c.fonte))]) {
 // ── Confronto giorno per giorno ───────────────────────────────────────────
 const perFonte = {};
 const perCoppia = new Map();
+const perStazione = new Map();
 const perGiorno = {};
+const giorniStimati = new Set();
+const giorniInaffidabili = new Set();
 let scartatiStima = 0;
 
 for (const g of giorni) {
   const mappe = {};
   for (const dir of [...latoA.dirs, ...latoB.dirs]) {
+    if (AFFIDABILE_DA[dir] && g < AFFIDABILE_DA[dir]) { giorniInaffidabili.add(dir + ' ' + g); continue; }
     const j = leggiGiorno(dir, g);
-    if (j) mappe[dir] = new Map(j.stations.map(s => [s.id, s]));
+    if (!j) continue;
+    if (fileStimato(j)) { giorniStimati.add(dir + ' ' + g); continue; }
+    mappe[dir] = new Map(j.stations.map(s => [s.id, s]));
   }
 
   for (const c of coppie) {
@@ -240,6 +282,9 @@ for (const g of giorni) {
     const pc = perCoppia.get(k) || { fonte: c.fonte, na: a.n, nb: b.n, km: c.km, n: 0, somma: 0 };
     pc.n++; pc.somma += diff; perCoppia.set(k, pc);
 
+    const ps = perStazione.get(c.a.id) || { n: a.n, conf: 0, somma: 0 };
+    ps.conf++; ps.somma += diff; perStazione.set(c.a.id, ps);
+
     const pg = perGiorno[g] ||= { n: 0, somma: 0 };
     pg.n++; pg.somma += diff;
   }
@@ -251,15 +296,28 @@ if (!totale) {
   console.log('Allarga GIORNI oppure abbassa SOGLIA.');
   process.exit(0);
 }
-if (scartatiStima) console.log(`\n(${scartatiStima} confronti scartati perché una delle due stazioni era una stima Open-Meteo.)`);
+if (scartatiStima) console.log(`\n(${scartatiStima} confronti scartati: una delle due stazioni era una stima Open-Meteo.)`);
+if (giorniInaffidabili.size) {
+  const per = {};
+  for (const v of giorniInaffidabili) { const d = v.split(' ')[0]; per[d] = (per[d] || 0) + 1; }
+  console.log('(giornate saltate perche' + String.fromCharCode(39) + ' precedenti alla data in cui la regione e' + String.fromCharCode(39) + ' dichiarata affidabile: ' + Object.entries(per).map(([d, n]) => d + ' ' + n).join(', ') + ')');
+}
+if (giorniStimati.size) {
+  const per = {};
+  for (const v of giorniStimati) { const d = v.split(' ')[0]; per[d] = (per[d] || 0) + 1; }
+  console.log(`(giornate intere saltate perché di backfill Open-Meteo: ${Object.entries(per).map(([d, n]) => d + ' ' + n).join(', ')})`);
+}
 
 console.log(`\n=== ESITO  (positivo = ${latoA.nome} più alta) ===`);
 for (const [fonte, f] of Object.entries(perFonte)) {
   const nonPari = f.n - f.pari || 1;
   const pct = 100 * f.aAlta / nonPari;
   const scarto = (f.sommaA - f.sommaB) / f.n;
-  const verdetto = (pct >= 65 || pct <= 35) ? '⚠️  SBILANCIATO, da indagare nel collector'
-                 : (pct >= 58 || pct <= 42) ? '~ leggera pendenza, tenere d\'occhio'
+  // Non e' un verdetto: e' un campanello. Prima di dare la colpa a un
+  // collector si guarda il bilancio per stazione più sotto — su Emilia
+  // ↔Liguria questa riga dice 67% e le stazioni si dividono 11 a 10.
+  const verdetto = (pct >= 65 || pct <= 35) ? '⚠️  guardare il bilancio per stazione qui sotto'
+                 : (pct >= 58 || pct <= 42) ? '~ leggera pendenza'
                  : '✓ equilibrato';
   console.log(`\n${fonte}`);
   console.log(`  confronti utili: ${f.n}   (di cui ${f.pari} sostanzialmente pari)`);
@@ -271,6 +329,30 @@ for (const [fonte, f] of Object.entries(perFonte)) {
   for (const t of f.casi.sort((x, y) => Math.abs(y.diff) - Math.abs(x.diff)).slice(0, 5)) {
     console.log(`    ${t.g}  ${t.na} ${t.mmA} vs ${t.nb} ${t.mmB}   (${t.diff > 0 ? '+' : ''}${t.diff.toFixed(1)} mm, ${t.km.toFixed(1)} km)`);
   }
+}
+
+// ── Il controllo che distingue la ricetta dalla geografia ─────────────────
+// La percentuale "A più alta" conta i CONFRONTI, e i confronti non pesano
+// uguale: una stazione molto piovosa che si accoppia con cinque vicini più
+// asciutti produce cinque risultati positivi da sola. Basta che il lato A
+// abbia qualche stazione dentro un massimo pluviometrico e la percentuale
+// schizza, senza che nessun collector abbia sbagliato niente.
+// Il test vero e' contare le STAZIONI: se pendono tutte dallo stesso lato e'
+// la ricetta, se si dividono a meta' e' la montagna.
+const staz = [...perStazione.values()].filter(s => s.conf >= 8).map(s => ({ ...s, media: s.somma / s.conf }));
+if (staz.length >= 4) {
+  const su = staz.filter(s => s.media > 0).length;
+  const giu = staz.length - su;
+  const quota = 100 * su / staz.length;
+  console.log(`\n=== BILANCIO PER STAZIONE DEL LATO ${latoA.nome} (min 8 confronti) ===`);
+  console.log(`  ${su} stazioni leggono più alto dei vicini, ${giu} più basso  (${quota.toFixed(0)}% in positivo)`);
+  console.log(`  ${(quota >= 25 && quota <= 75)
+    ? '✓ si dividono: il divario è geografia, non ricetta — anche se la percentuale sui confronti è alta'
+    : '⚠️  pendono quasi tutte dallo stesso lato: QUESTO sì che indica un problema di ricetta'}`);
+  const ord = staz.sort((a, b) => b.media - a.media);
+  const mostra = s => `${s.n} ${(s.media > 0 ? '+' : '') + s.media.toFixed(2)}`;
+  console.log(`  più alte:  ${ord.slice(0, 3).map(mostra).join('  |  ')}`);
+  console.log(`  più basse: ${ord.slice(-3).map(mostra).join('  |  ')}`);
 }
 
 console.log('\n=== COPPIE PIÙ SBILANCIATE (media, almeno 5 confronti) ===');

@@ -293,9 +293,23 @@ Una ricetta sbagliata dentro un collector **non si vede dall'interno**: i suoi n
 
 **Piemonte, Friuli-OSMER e tutte le reti MeteoHub non pubblicano la quota** (`q` = 0). Il filtro dislivello si spegne da solo e lo dichiara a schermo: lasciandolo lavorare teneva solo le stazioni basse dell'altro lato (su Emilia↔Piemonte riduceva le coppie da 19 a 2, tutte di fondovalle) — e in silenzio, che è il modo peggiore di sbagliare.
 
-Esiti dei primi due giri:
-- **Italia↔Svizzera**: MeteoSwiss −0,18 mm e 48%, OASI-Ticino −0,13 mm e 55%, su 1.280 confronti. Valida in trasversale la ricetta somma-ore `rre150h0`: se la finestra fosse sfasata, 160 coppie di confine lo avrebbero mostrato.
-- **Emilia↔Piemonte**: 49% su 2.238 confronti. Il "Emilia più alta nel 100%" annotato a luglio era un artefatto di campione (9 coppie); lo scarto residuo di +1,76 mm è il massimo pluviometrico di alta Val Trebbia/Aveto contro la Val Borbera sottovento.
+**Tre correzioni imparate facendolo girare** — senza, lo strumento accusa gli innocenti:
+1. **Le stime si annunciano a due livelli.** Per stazione (`om:true`, `src` open-meteo) ma anche per FILE intero (`source: open-meteo-backfill-*`), e quello è il caso insidioso perché le singole stazioni non portano contrassegno. Senza il controllo sul file, Toscana↔Emilia dava 74% "sbilanciato": era il backfill toscano fino all'11 luglio confrontato con l'Emilia reale. Col filtro giusto: **52%**.
+2. **Ogni regione entra solo dal giorno in cui è dichiarata affidabile** (tabella `AFFIDABILE_DA`, allineata alle date "Dati corretti da" delle schede qui sopra). La soglia si applica **regione per regione**, non tagliando la finestra intera: sul confine svizzero la sola Valle d'Aosta (dal 16 luglio) avrebbe ridotto 120 giorni a 18, buttando via mesi di dati sani degli altri quattro lati.
+3. **La percentuale sui confronti da sola non basta.** Conta i confronti, e i confronti non pesano uguale: una stazione molto piovosa accoppiata con cinque vicini più asciutti produce cinque risultati positivi da sola. Il test vero è il **bilancio per stazione** — se pendono tutte dallo stesso lato è la ricetta, se si dividono è la montagna. Emilia↔Liguria dice 58% sui confronti e 24 contro 20 sulle stazioni: geografia.
+
+**Esiti al 4 agosto 2026 — tutti e cinque i confini in ordine:**
+
+| confine | confronti | scarto medio | A più alta | stazioni |
+|---|---|---|---|---|
+| Italia↔Svizzera (MeteoSwiss) | 1.652 | −0,82 mm | 44% | — |
+| Italia↔Svizzera (OASI-Ticino) | 3.339 | −0,58 mm | 50% | 14 su / 27 giù |
+| Emilia↔Piemonte | 321 | +1,35 mm | 48% | 8 su / 5 giù |
+| Emilia↔Liguria | 2.646 | +0,87 mm | 58% | 24 su / 20 giù |
+| Toscana↔Emilia | 1.134 | +0,08 mm | 52% | 27 su / 27 giù |
+| Lombardia↔Trentino | 573 | +0,29 mm | 51% | 6 su / 6 giù |
+
+Il confine svizzero valida in trasversale la ricetta somma-ore `rre150h0`: se la finestra fosse sfasata, 160 coppie lo avrebbero mostrato. Su Emilia↔Piemonte, il "Emilia più alta nel 100%" annotato a luglio era un artefatto di campione (9 coppie).
 
 ### Le 8 stazioni gemelle ARPAE ∩ OMIRL — la verifica più stringente
 Otto pluviometri **fisicamente identici** compaiono sia in `data/emilia` (ARPAE) sia in `data/liguria` (OMIRL), a meno di 600 m: S. Stefano d'Aveto, Alpe Gorreto, Barbagelata, Cabanne, Rovegno, Torriglia, Diga del Brugneto (OMIRL: "Brugneto Diga"), Loco Carchelli. Sono stazioni in territorio ligure che ARPAE ospita nel suo feed, come OMIRL ospita quelle toscane della Lunigiana.
