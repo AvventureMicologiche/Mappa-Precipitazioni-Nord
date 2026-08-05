@@ -98,8 +98,19 @@ async function main() {
   // li congela per sempre (pioggia fantasma, 22 luglio 2026).
   // Un payload identico stazione per stazione a quello del giorno prima non
   // è una coincidenza possibile su decine di stazioni: è un reset mancato.
-  // Soglia 90% (non 100%): il 27 luglio 2026 il reset era già avvenuto su
-  // 2 stazioni su 58 al momento del run slittato e la guardia non è scattata.
+  //
+  // SI CONTANO SOLO LE STAZIONI BAGNATE (5 agosto 2026, terza recidiva).
+  // Prima si guardavano tutte, con soglia 90%. In una giornata quasi asciutta
+  // le decine di stazioni a zero in entrambi i giorni sono identiche per forza
+  // e diluiscono le poche contaminate: il 30 luglio 2026 le identiche erano
+  // 44 su 57 (77%, sotto soglia) ma fra le BAGNATE erano 26 su 39 (67%). La
+  // firma c'era, nascosta dal bel tempo — lo stesso errore di misura già
+  // imparato al check periodico dei giorni ripetuti.
+  // Collaudato su 366 giorni di storico: la regola nuova prende sia il 27 sia
+  // il 30 luglio e non scatta MAI sugli altri giorni; la vecchia mancava il 30
+  // e scattava su 18 giornate di pioviggine buone, bloccandone la scrittura.
+  // Il 30 luglio è stato trovato dal collector Austria, che sullo stesso giorno
+  // dava 0 mm su 454 stazioni.
   let skipWrite = false;
   if (!fs.existsSync(outFile)) {
     const prevStr = new Date(Date.UTC(
@@ -111,9 +122,12 @@ async function main() {
         const prev = JSON.parse(fs.readFileSync(prevFile, 'utf8'));
         const prevMap = new Map((prev.stations || []).map(s => [s.id, s.mm]));
         const totale = stations.reduce((a, s) => a + s.mm, 0);
-        const identiche = stations.filter(s => prevMap.get(s.id) === s.mm).length;
-        skipWrite = totale > 0 && identiche >= stations.length * 0.9;
-        if (skipWrite) console.log(`  Guardia reset: ${identiche}/${stations.length} stazioni identiche a ${prevStr}`);
+        // "bagnata" = con pioggia in almeno uno dei due giorni. Le altre non
+        // informano: 0 contro 0 è identico sempre, anche quando tutto va bene.
+        const bagnate = stations.filter(s => prevMap.get(s.id) > 0 || s.mm > 0);
+        const uguali  = bagnate.filter(s => Math.abs(prevMap.get(s.id) - s.mm) < 0.05).length;
+        skipWrite = totale > 0 && bagnate.length >= 5 && uguali >= bagnate.length * 0.6;
+        if (skipWrite) console.log(`  Guardia reset: ${uguali}/${bagnate.length} stazioni BAGNATE identiche a ${prevStr}`);
       } catch(e) {
         console.warn('  Warn: guardia reset non applicabile: ' + e.message);
       }
@@ -145,7 +159,7 @@ async function main() {
   }
 
   if (skipWrite) {
-    console.warn(`⚠️  Payload quasi identico al giorno precedente (≥90% stazioni): l'API non ha ancora azzerato il cumulato di mezzanotte. Salto la scrittura di ${dateStr}.`);
+    console.warn(`⚠️  Payload quasi identico al giorno precedente (≥60% delle stazioni BAGNATE): l'API non ha ancora azzerato il cumulato di mezzanotte. Salto la scrittura di ${dateStr}.`);
   } else {
     fs.writeFileSync(outFile, JSON.stringify({
       date:      dateStr,
