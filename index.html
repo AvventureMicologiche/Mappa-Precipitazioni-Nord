@@ -2640,6 +2640,24 @@ function getActiveRegions(){
   });
   return active;
 }
+/**
+ * Le SCELTE dell'utente, senza espandere i combo: 'piemonte-vda' resta tale.
+ *
+ * Serve SOLO alla statistica, che deve dire cosa è stato scelto e non cosa è
+ * stato caricato. Con getActiveRegions un tocco sulla tendina mobile
+ * "Piemonte-VdA" contava anche come analisi della Valle d'Aosta, e la regione
+ * saliva in classifica senza che nessuno l'avesse cercata (nei dati di luglio
+ * valeva quasi metà del suo totale). Per caricare i dati serve invece
+ * l'elenco espanso, quindi le due funzioni convivono: non sostituire l'una
+ * con l'altra.
+ */
+function getSelectedValues(){
+  var v=[];
+  document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
+    if(cb.checked) v.push(cb.value);
+  });
+  return v;
+}
 // Avviso ritardo pubblicazione OSMER (Friuli), due contesti distinti:
 //  - DESKTOP (>900px): testo inline accanto a "✅ Ieri" (solo periodo Ieri).
 //  - MOBILE  (≤900px): box giallo sotto "Piogge per funghi", visibile da quando
@@ -2684,28 +2702,18 @@ function loadData(pastDate,nowDate,labelPeriodo){
 
   // Statistica analisi per regione (Google Analytics)
   //
-  // Si manda il valore SELEZIONATO, non le regioni espanse da getActiveRegions.
-  // Mandando le espanse, un solo tocco sulla tendina mobile "Piemonte-VdA"
-  // produceva DUE eventi, uno dei quali per la Valle d'Aosta: la regione
-  // finiva nella classifica delle più consultate senza che nessuno l'avesse
-  // cercata. Nei dati del 4/8/2026 la VdA risultava ottava con 291 analisi e
-  // l'Alto Adige settimo con 458, ma quanta parte fosse interesse vero e
-  // quanta tocchi sul combo non era ricostruibile. Il guaio è che proprio su
-  // questa classifica si decide a quali regioni dare una fonte diretta al
-  // posto di dpcn.
+  // Si manda il valore SELEZIONATO (vedi getSelectedValues), non le regioni
+  // espanse. Nei dati del 4/8/2026 la Valle d'Aosta risultava ottava con 291
+  // analisi e l'Alto Adige settimo con 458, ma erano gonfiati dai tocchi sui
+  // combo della tendina mobile — e proprio su questa classifica si decide a
+  // quali regioni dare una fonte diretta al posto di dpcn.
   //
   // Su desktop i combo non esistono (dal 27/7 si clicca la mappa, che spunta
   // le caselle individuali) e i link condivisi spuntano anch'essi le singole:
   // lì il valore selezionato COINCIDE con la regione, e non cambia niente.
   // Dalla tendina mobile esce invece 'piemonte-vda' / 'trentino-aa' come voce
   // a sé — che dice anche, di riflesso, quanta gente naviga da telefono.
-  try{
-    var scelte=[];
-    document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
-      if(cb.checked) scelte.push(cb.value);
-    });
-    scelte.forEach(function(v){ gtag('event', 'analisi_regione', { regione: v }); });
-  }catch(e){}
+  try{ getSelectedValues().forEach(function(v){ gtag('event', 'analisi_regione', { regione: v }); }); }catch(e){}
 
   isLoading=true;
   loadSessionId++; // invalida tutte le richieste precedenti
@@ -5285,7 +5293,12 @@ if(_btnShare){
   _btnShare.addEventListener('click',function(){
     var url=buildShareUrl();
     if(!url) return;
-    try{gtag('event','share_map',{regioni:getActiveRegions().join(',')})}catch(e){}
+    // Le scelte, non le espanse: stesso motivo di analisi_regione in loadData.
+    // Qui però l'evento resta UNO per condivisione (il parametro tiene tutte
+    // le regioni unite da virgola), se no il conteggio delle condivisioni si
+    // moltiplicherebbe per il numero di regioni scelte e non direbbe più
+    // quante volte la gente ha premuto il tasto.
+    try{gtag('event','share_map',{regioni:getSelectedValues().join(',')})}catch(e){}
     if(isTouchShare()){
       // Solo il link, senza descrizione: l'anteprima la mette l'app di chat.
       navigator.share({url:url}).catch(function(){});
@@ -5305,7 +5318,7 @@ if(_btnShot){
     if(getActiveRegions().length===0||!currentPast) return;
     // Contatore GA come share_map: si conta il click, non l'esito (la
     // condivisione nativa non dice se l'utente ha poi annullato il menu).
-    try{gtag('event','share_image',{regioni:getActiveRegions().join(',')})}catch(e){}
+    try{gtag('event','share_image',{regioni:getSelectedValues().join(',')})}catch(e){}
     var old=_btnShot.dataset.label;
     _btnShot.disabled=true;_btnShot.textContent='⏳';
     var fine=function(esito){
