@@ -2683,7 +2683,29 @@ function loadData(pastDate,nowDate,labelPeriodo){
   }
 
   // Statistica analisi per regione (Google Analytics)
-  try{ regions.forEach(function(r){ gtag('event', 'analisi_regione', { regione: r }); }); }catch(e){}
+  //
+  // Si manda il valore SELEZIONATO, non le regioni espanse da getActiveRegions.
+  // Mandando le espanse, un solo tocco sulla tendina mobile "Piemonte-VdA"
+  // produceva DUE eventi, uno dei quali per la Valle d'Aosta: la regione
+  // finiva nella classifica delle più consultate senza che nessuno l'avesse
+  // cercata. Nei dati del 4/8/2026 la VdA risultava ottava con 291 analisi e
+  // l'Alto Adige settimo con 458, ma quanta parte fosse interesse vero e
+  // quanta tocchi sul combo non era ricostruibile. Il guaio è che proprio su
+  // questa classifica si decide a quali regioni dare una fonte diretta al
+  // posto di dpcn.
+  //
+  // Su desktop i combo non esistono (dal 27/7 si clicca la mappa, che spunta
+  // le caselle individuali) e i link condivisi spuntano anch'essi le singole:
+  // lì il valore selezionato COINCIDE con la regione, e non cambia niente.
+  // Dalla tendina mobile esce invece 'piemonte-vda' / 'trentino-aa' come voce
+  // a sé — che dice anche, di riflesso, quanta gente naviga da telefono.
+  try{
+    var scelte=[];
+    document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
+      if(cb.checked) scelte.push(cb.value);
+    });
+    scelte.forEach(function(v){ gtag('event', 'analisi_regione', { regione: v }); });
+  }catch(e){}
 
   isLoading=true;
   loadSessionId++; // invalida tutte le richieste precedenti
