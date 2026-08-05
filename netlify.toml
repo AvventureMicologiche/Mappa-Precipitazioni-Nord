@@ -8,9 +8,23 @@
 
 [build]
   publish = "."
-  # Salta la build solo se il commit ha toccato SOLTANTO data/ (i collector
-  # scrivono decine di commit al giorno e non serve ripubblicare per quelli).
-  # Prima la regola elencava i file che DEVONO far ripubblicare (index.html e
-  # netlify/), e il 22 luglio 2026 una preview.jpg nuova e' rimasta su GitHub
-  # senza mai arrivare sul sito. Elencare cosa si ignora, non cosa conta.
-  ignore = "git diff --quiet HEAD^ HEAD -- . ':(exclude)data'"
+  # Salta la build se il commit non ha toccato niente di pubblicato.
+  #
+  # Si elenca cosa si IGNORA, mai cosa conta: prima la regola elencava i file
+  # che DEVONO far ripubblicare (index.html e netlify/), e il 22 luglio 2026
+  # una preview.jpg nuova e' rimasta su GitHub senza mai arrivare sul sito.
+  # Una dimenticanza nella lista di cosa si ignora costa un deploy inutile,
+  # una dimenticanza nella lista di cosa conta costa una modifica invisibile.
+  #
+  # Cosa si ignora e perche':
+  #  - data/       i collector scrivono decine di commit al giorno, e il sito
+  #                legge quei file dal raw di GitHub, non da qui;
+  #  - .github/    workflow e script dei collector girano su GitHub Actions,
+  #                non fanno parte del sito pubblicato;
+  #  - *.md        documentazione (CLAUDE.md, README, checklist di migrazione).
+  #
+  # Misurato il 5/8/2026 sul consumo Netlify: i deploy erano il 98% dei crediti
+  # (1.005 su 1.024, ~15 crediti l'uno) e su nove deploy consecutivi SETTE
+  # erano di documentazione o di script dei collector — roba che non cambia di
+  # una virgola il sito pubblicato. Le due esclusioni qui sotto li azzerano.
+  ignore = "git diff --quiet HEAD^ HEAD -- . ':(exclude)data' ':(exclude).github' ':(exclude)*.md'"
