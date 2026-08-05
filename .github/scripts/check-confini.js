@@ -49,6 +49,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_ROOT = path.join(__dirname, '..', '..', 'data');
+const DATA_ALT  = process.env.DATA_ALT || '';   // radice dati secondaria (repo di test)
 
 const MAX_KM = Number(process.env.MAX_KM || 20);   // distanza massima fra le due stazioni di una coppia
 const MAX_DQ = Number(process.env.MAX_DQ || 300);  // dislivello massimo, metri
@@ -98,6 +99,17 @@ const CONFINI = {
       { nome: 'Trentino',  dirs: ['trentino'] },
     ],
   },
+  // Il confronto più stringente dopo le gemelle: è l'UNICO confine dove
+  // entrambi i lati pubblicano la QUOTA, quindi il filtro dislivello lavora
+  // davvero invece di spegnersi da solo. L'Austria è ancora nel repo di test:
+  //   DATA_ALT="…\Mappa-Precipitazioni-Nord-Test\data" node check-confini.js altoadige-tirolo
+  'altoadige-tirolo': {
+    titolo: 'Alto Adige ↔ Austria (Tirolo/Salisburgo/Carinzia)',
+    lati: [
+      { nome: 'Austria', dirs: ['austria'] },
+      { nome: 'IT',      dirs: ['altoadige', 'trentino', 'friuli-osmer', 'veneto'] },
+    ],
+  },
 };
 
 /**
@@ -117,6 +129,10 @@ const AFFIDABILE_DA = {
   veneto: '2026-06-04', altoadige: '2026-06-04', trentino: '2026-06-06',
   piemonte: '2026-06-12', liguria: '2026-06-19', toscana: '2026-07-12',
   'valledaosta-cf': '2026-07-16', 'friuli-osmer': '2026-07-18',
+  // Austria: il backfill GeoSphere è fatto di dati REALI di stazione fin dal
+  // primo giorno (non stime), quindi non c'è una data prima della quale
+  // diffidare — vale tutto lo storico disponibile.
+  austria: '2025-08-05',
   svizzera: '2025-08-04', // backfill dagli archivi MeteoSwiss: reale da subito
 };
 
@@ -127,8 +143,26 @@ function distanzaKm(a, b) {
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
+/**
+ * Cartella dei dati di una regione, con radice secondaria di riserva.
+ * Le fonti ancora in pilota vivono nel repo di test (oggi l'Austria): senza
+ * questa via d'uscita il confine Alto Adige↔Tirolo non si potrebbe misurare
+ * finché l'Austria non è promossa in produzione — cioè proprio quando la
+ * misura servirebbe per decidere se promuoverla.
+ *   DATA_ALT="…\Mappa-Precipitazioni-Nord-Test\data" node check-confini.js altoadige-tirolo
+ */
+function cartellaDi(dir) {
+  const p1 = path.join(DATA_ROOT, dir);
+  if (fs.existsSync(p1)) return p1;
+  if (DATA_ALT) {
+    const p2 = path.join(DATA_ALT, dir);
+    if (fs.existsSync(p2)) return p2;
+  }
+  return p1;
+}
+
 function leggiGiorno(dir, giorno) {
-  const f = path.join(DATA_ROOT, dir, giorno + '.json');
+  const f = path.join(cartellaDi(dir), giorno + '.json');
   if (!fs.existsSync(f)) return null;
   try {
     const j = JSON.parse(fs.readFileSync(f, 'utf8'));
@@ -174,7 +208,7 @@ const cartellaCal = latoA.dirs[0];
 // la finestra intera alla data più tarda buttava via mesi di dati sani. Sul
 // confine svizzero, per dire, la sola Valle d'Aosta (affidabile dal 16 luglio)
 // riduceva 120 giorni a 18, pur essendo uno dei cinque lati italiani.
-const giorni = fs.readdirSync(path.join(DATA_ROOT, cartellaCal))
+const giorni = fs.readdirSync(cartellaDi(cartellaCal))
   .filter(f => f.endsWith('.json'))
   .map(f => f.slice(0, 10))
   .sort()

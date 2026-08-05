@@ -296,7 +296,14 @@ Ogni ~5 giorni verificare:
 Una ricetta sbagliata dentro un collector **non si vede dall'interno**: i suoi numeri restano coerenti fra loro. Si vede solo confrontandolo con una rete diversa che misura la stessa pioggia.
 
 ### `check-confini.js` — il confronto al confine
-`node .github/scripts/check-confini.js <confine>` (`--lista` per i nomi). Variabili: `GIORNI` `MAX_KM` `MAX_DQ` `SOGLIA`.
+`node .github/scripts/check-confini.js <confine>` (`--lista` per i nomi). Variabili: `GIORNI` `MAX_KM` `MAX_DQ` `SOGLIA` **`DATA_ALT`**.
+
+**`DATA_ALT` = radice dati secondaria** (dal 5/8/2026): le fonti ancora in pilota vivono nel repo di test, e senza questa via d'uscita il loro confine non si potrebbe misurare finché non sono promosse — cioè proprio quando la misura serve per decidere se promuoverle.
+```
+DATA_ALT="…\Mappa-Precipitazioni-Nord-Test\data" node .github/scripts/check-confini.js altoadige-tirolo
+```
+
+**Confine `altoadige-tirolo` (Austria, dal 5/8/2026): è l'UNICO in cui entrambi i lati pubblicano la QUOTA**, quindi il filtro dislivello lavora davvero invece di spegnersi da solo — dopo le gemelle è il confronto più stringente che abbiamo. Primo esito su 60 giorni, 16 coppie, 416 confronti: **Austria più alta nel 54%, scarto +0,69 mm, 5 stazioni su e 4 giù → equilibrato**. Vale anche come validazione esterna dei collector Alto Adige e Trentino.
 
 **Il numero che decide è la percentuale "A più alta": vicino al 50% = le reti concordano.** Lo scarto medio in mm no — le code lunghe dei temporali lo spostano anche quando la mediana è perfetta. Il "divario in valore assoluto" è rumore di fondo, non un difetto: due pluviometri a 10 km su un temporale estivo danno numeri lontanissimi.
 
