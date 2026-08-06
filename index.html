@@ -454,18 +454,18 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      post-analisi" giudicata l'idea migliore il 28/7, che era già scritta. */
   #channel-pill{
     display:flex;align-items:center;gap:10px;
-    margin:10px 0 2px;padding:8px 10px;
+    margin:8px 0 0;padding:6px 10px;
     background:#1b3f6e;border-radius:10px;
     text-decoration:none;
     box-shadow:0 2px 8px rgba(27,63,110,.25);
   }
   #channel-pill:active{transform:scale(.985);}
   #channel-pill img{
-    width:46px;height:46px;border-radius:50%;flex:none;
+    width:38px;height:38px;border-radius:50%;flex:none;
     border:2px solid #fff;object-fit:cover;background:#f3efe6;
   }
-  #channel-pill .cp-t{color:#fff;font-size:15px;font-weight:700;line-height:1.25;flex:1;}
-  #channel-pill .cp-t small{display:block;font-weight:400;font-size:11.5px;opacity:.85;margin-top:1px;}
+  #channel-pill .cp-t{color:#fff;font-size:14px;font-weight:700;line-height:1.25;flex:1;}
+  #channel-pill .cp-t small{display:block;font-weight:400;font-size:11px;opacity:.85;margin-top:1px;}
   #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
 }
 
@@ -801,12 +801,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   /* Tab regioni più grandi */
   .rcheck-label{font-size:15px!important;font-weight:700!important;padding:8px 16px!important;}
 
-  /* Stats legenda più grandi */
-  .sv{font-size:26px;}.sl{font-size:12px;}
-  .grad{height:18px;}.grad-l{font-size:12px;margin-bottom:8px;}
+  /* Stats legenda: leggibili ma compatte (6/8/2026 — con la pillola canale
+     il pannello copriva troppa mappa; qui si recuperano ~25px di striscia) */
+  .sv{font-size:20px;}.sl{font-size:10px;}
+  .grad{height:14px;}.grad-l{font-size:11px;margin-bottom:4px;}
   .leg-title{font-size:16px;font-weight:700;}
-  .stats-row{gap:6px;margin-top:10px;}
-  .stat{padding:8px 4px;}
+  .stats-row{gap:6px;margin-top:8px;}
+  .stat{padding:5px 4px;}
 
   /* Tooltip in alto */
   #st-tooltip{
@@ -2457,6 +2458,9 @@ function showLegendMobile(){
   leg.style.display='block';
   leg.offsetHeight;
   leg.classList.add('leg-visible');
+  // Il pannello dei cumulati non è alto come quello del periodo: a fine
+  // transizione si rimisura la copertura e si corregge il residuo.
+  setTimeout(centraRegioneInStriscia,350);
 }
 
 function hideLegendMobile(){
@@ -2468,6 +2472,44 @@ function hideLegendMobile(){
 }
 
 window.hideLegendMobile=hideLegendMobile;
+
+// ── Centratura verticale nella striscia visibile (6/8/2026) ──
+// Su telefono i pannelli (periodo o cumulati) coprono la parte bassa della
+// mappa. Le viste della tendina compensavano a mano il pannello di ALLORA,
+// ma la pillola canale lo ha allungato e ogni regione finiva troppo in basso
+// (segnalato su Svizzera e Liguria). Invece di ritarare 13 centri a occhio,
+// si MISURA: dove sta il centro della regione, dove sta il centro della
+// striscia libera, e si sposta della differenza. Vale per qualunque regione
+// e sopravvive a future modifiche di altezza dei pannelli. Se nessun
+// pannello copre la mappa (tablet coi pannelli laterali) non tocca nulla.
+function centraRegioneInStriscia(){
+  if(window.innerWidth>900) return;
+  if(typeof getActiveRegions!=='function') return;
+  var rks=getActiveRegions(); if(!rks.length) return;
+  var mEl=document.getElementById('map'); if(!mEl) return;
+  var mBox=mEl.getBoundingClientRect(), coperto=0;
+  ['legend-panel','time-panel'].forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    var st=getComputedStyle(el);
+    if(st.display==='none'||st.visibility==='hidden'||+st.opacity===0) return;
+    var r=el.getBoundingClientRect();
+    if(r.height<40) return;                        // chiuso, o ridotto a maniglia
+    var ov=mBox.bottom-Math.max(r.top,mBox.top);   // quanto mangia dal basso
+    if(ov>coperto) coperto=ov;
+  });
+  if(coperto<=20) return;                          // niente da compensare
+  var bb=null;
+  rks.forEach(function(r){
+    var b=REGION_BOUNDS[r]; if(!b) return;
+    var lb=L.latLngBounds([[b[0][0],b[0][1]],[b[1][0],b[1][1]]]);
+    bb=bb?bb.extend(lb):lb;
+  });
+  if(!bb) return;
+  var cy=map.latLngToContainerPoint(bb.getCenter()).y; // centro regione oggi
+  var ty=(mBox.height-coperto)/2;                      // centro della striscia
+  var dy=Math.round(cy-ty);
+  if(Math.abs(dy)>12) map.panBy([0,dy],{animate:false});
+}
 
 function setLoading(on){
   isLoading=on;
@@ -4788,6 +4830,9 @@ document.getElementById('region-select').addEventListener('change', function(){
     var tp=document.getElementById('time-panel');
     if(tp) tp.classList.add('open');
   }
+  // La copertura si misura DOPO che il pannello periodo ha finito di aprirsi
+  // (misurarla qui darebbe il vuoto: la transizione dura ~300ms).
+  setTimeout(centraRegioneInStriscia,420);
 });
 
 document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
