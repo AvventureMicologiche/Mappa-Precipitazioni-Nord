@@ -1992,6 +1992,20 @@ var _retryCall     = false;
 // animate:false — veniva scavalcato dall'animazione in corsa: il link si
 // apriva sempre alla vista di default. Trovato dall'utente il 1/8.
 var _linkView      = false;
+// ── "l'inquadratura l'ha scelta l'utente" (7/8/2026) ──────────────────────
+// Serve allo SCATTO. Dal 30/7 captureMapBlob allarga la vista se non contiene
+// tutte le regioni attive (rimedio all'immagine tagliata sull'Italia intera).
+// Ma la condizione non distingue "il fit automatico non ci sta" da "l'utente
+// ha zoomato apposta": appena zoomi, la vista non contiene piu' la regione e
+// lo scatto si riallarga. E siccome la vista viene RIPRISTINATA subito dopo,
+// a schermo non si vede nulla e sembra stregoneria (segnalato il 7/8).
+// Si ascoltano solo gesti UMANI: `dragstart` non scatta sui panBy
+// programmatici, e rotellina, pinch, doppio clic e i bottoni +/- sono per
+// definizione dell'utente. Il flag si spegne a ogni nuova analisi.
+var _vistaUtente   = false;
+// La vista arriva da un link condiviso: su telefono va protetta da
+// centraRegioneInStriscia, che altrimenti la riporterebbe sulla regione.
+var _vistaDaLink   = false;
 
 // ═══════════════════════════════════════════════════════════════
 // CANVAS / HEATMAP
@@ -2221,6 +2235,20 @@ map.on('moveend',function(){
 // invece di 10 e spostati di ~490px per 870ms. Nasconderli costa nulla (sono
 // già disegnati, riappaiono al posto giusto) ed è lo stesso trattamento che la
 // heat riceve dalla riga sotto.
+(function ascoltaGestiUtente(){
+  var segna=function(){ _vistaUtente=true; };
+  map.on('dragstart',segna);          // il trascinamento e' solo umano
+  var cont=map.getContainer();
+  ['wheel','dblclick','touchstart'].forEach(function(ev){
+    cont.addEventListener(ev,function(e){
+      if(ev==='touchstart'&&e.touches&&e.touches.length<2) return;  // pinch, non tap
+      segna();
+    },{passive:true});
+  });
+  cont.addEventListener('click',function(e){
+    if(e.target.closest&&e.target.closest('.leaflet-control-zoom')) segna();
+  },true);
+})();
 map.on('zoomstart',function(){
   if(cvs) cvs.style.opacity='0';
   var mp=document.querySelector('.leaflet-marker-pane');
@@ -2677,6 +2705,7 @@ window.hideLegendMobile=hideLegendMobile;
 // pannello copre la mappa (tablet coi pannelli laterali) non tocca nulla.
 function centraRegioneInStriscia(){
   if(window.innerWidth>900) return;
+  if(_vistaDaLink) return;   // la vista arriva da un link condiviso: comanda quella
   if(typeof getActiveRegions!=='function') return;
   var rks=getActiveRegions(); if(!rks.length) return;
   var mEl=document.getElementById('map'); if(!mEl) return;
@@ -3016,6 +3045,11 @@ function updateOsmerNotice(){
 // ═══════════════════════════════════════════════════════════════
 function loadData(pastDate,nowDate,labelPeriodo){
   if(isLoading) return;
+  // Nuova analisi = nuova inquadratura automatica: lo zoom scelto a mano per
+  // l'analisi precedente non deve piu' comandare sullo scatto. (_vistaDaLink
+  // NO: loadData e' chiamata anche dall'apertura di un link, che imposta la
+  // vista subito dopo.)
+  _vistaUtente=false;
 
   var regions=getActiveRegions();
   if(regions.length===0){
@@ -5183,6 +5217,7 @@ document.getElementById('btn-funghi').addEventListener('click',function(){
 document.getElementById('region-select').addEventListener('change', function(){
   var rk = this.value;
   if(!rk) return;
+  _vistaUtente=false; _vistaDaLink=false;   // nuova regione: si riparte dall'inquadratura automatica
   // Deseleziona tutti i checkbox
   document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
     cb.checked = false;
@@ -5500,6 +5535,11 @@ function buildShareUrl(){
   p.set('z',String(Math.round(map.getZoom()*100)/100));
   var c=map.getCenter();
   p.set('c',c.lat.toFixed(4)+','+c.lng.toFixed(4));
+  // Nota (7/8/2026): si era provato ad aggiungere `w`, la larghezza della mappa
+  // di chi condivide, per far vedere a chi riceve la STESSA PORZIONE di
+  // territorio adattando lo zoom. Provato fra PC e telefono e SCARTATO:
+  // allargava di due livelli in un verso e stringeva di due nell'altro. Chi
+  // condivide si aspetta la stessa SCALA, non la stessa area.
   return location.origin+location.pathname+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
@@ -5507,6 +5547,7 @@ window.buildShareUrl=buildShareUrl;
 // Serve solo alle verifiche automatiche (centro/zoom dopo le animazioni);
 // nessun codice del sito lo usa.
 window._mapDebug=map;
+window._boundsDebug=function(){return REGION_BOUNDS;};  // stesso scopo: solo verifiche automatiche
 // ── Immagine della mappa (canvas) per condivisione/download ────────────────
 // html2canvas si carica solo alla prima richiesta (pre-riscaldato all'hover/
 // touch dei bottoni, così il click resta dentro la finestra del gesto utente).
@@ -5557,7 +5598,9 @@ function captureMapBlob(scala){
       var b=REGION_BOUNDS[k]; if(!b) return;
       _bb=_bb?_bb.extend(L.latLngBounds(b)):L.latLngBounds(b);
     });
-    if(_bb && !map.getBounds().contains(_bb)){
+    // Si riallarga SOLO se l'inquadratura e' quella automatica: se l'utente
+    // ha zoomato o trascinato lui, la sua scelta comanda.
+    if(_bb && !_vistaUtente && !map.getBounds().contains(_bb)){
       vistaPrec={c:map.getCenter(),z:map.getZoom()};
       // Padding asimmetrico: su desktop i pannelli di sinistra (~410px) sono
       // sovrapposti alla mappa — un fit centrato nasconderebbe dietro di loro
@@ -5929,12 +5972,16 @@ if(_btnShot){
   whenLombardiaReady(function(){
     loadAllBorders(keys,function(){
       var z=parseFloat(q.get('z')),c=(q.get('c')||'').split(',').map(Number);
-      var vistaDalLink=(window.innerWidth>900 && isFinite(z) && c.length===2 && isFinite(c[0]) && isFinite(c[1]));
+      // Zoom e centro si applicano TALI E QUALI, su qualunque schermo. Prima
+      // erano limitati a >900px e su telefono la vista condivisa veniva
+      // buttata via: il 69% del pubblico vedeva un'altra inquadratura.
+      var vistaDalLink=(isFinite(z) && c.length===2 && isFinite(c[0]) && isFinite(c[1]));
       // Il flag va alzato PRIMA di loadData (è lì dentro che parte il fit).
       if(vistaDalLink) _linkView=true;
       loadData(pastDate,nowDate,label);
       _linkView=false; // se loadData è uscito presto (isLoading), il flag non deve sopravvivere
       if(vistaDalLink){
+        _vistaDaLink=true;   // su telefono protegge la vista da centraRegioneInStriscia
         map.setView([c[0],c[1]],z,{animate:false});
       } else if(window.innerWidth<=900){
         try{ fitMapToRegions(keys); }catch(e){}
