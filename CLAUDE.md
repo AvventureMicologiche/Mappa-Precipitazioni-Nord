@@ -136,6 +136,24 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Cron di chiusura `40 22 * * *` (00:40 italiane)**: il giorno solare italiano chiude alle 22:00 UTC e l'API è quasi in tempo reale, quindi 40 minuti dopo il totale di ieri è definitivo. Senza, il primo run utile sarebbe quello delle 03:10 UTC che coi ritardi di GitHub diventa ~05:00: tutta la notte senza "ieri" in mappa. ⚠️ **La prima notte (6→7/8) GitHub l'ha semplicemente saltato** e il file di ieri è comparso alle 03:37 italiane: il rimedio è giusto ma il collaudo è ancora da fare
 - **Il collector del repo di TEST resta attivo**, come per la Svizzera: il sito di test legge l'Austria dal proprio repo
 
+> ⚠️ **COME SI FA UNA PROMOZIONE, se ne arriva un'altra — NON si copia `index.html` dal test.**
+> Alla promozione dell'Austria la prod aveva tre cose che il test non ha (evento
+> `analisi_regione` corretto il 4/8, mappatura dello storico svizzero, `EMILIA_ESCLUSE`) e
+> una copia in blocco le avrebbe cancellate. Si portano i pezzi uno per uno. Trappole viste
+> sul campo, tutte e tre lo stesso giorno:
+> - **Estrarre blocchi per numero di riga taglia i commenti a metà** → `SyntaxError: Unexpected token '*'`.
+> - **Le dipendenze non si annunciano**: `quandoMappaDisegnata` vuole `baseTiles`, che in prod non esisteva.
+> - ⚠️ **Il pezzo dimenticato è la CHIAMATA, non la funzione** (7/8, segnalato dall'utente:
+>   «l'Austria non mostra le stazioni finché non schiaccio le date»). `loadAustriaStations`
+>   era stata portata, il ramo `dataSource==='austria'` in `addDefaultMarkersForRegion` no:
+>   l'Austria cadeva nel caso generale, leggeva `stations: []` e non disegnava nessun
+>   pallino finché non si sceglieva un periodo (quello è `loadAustriaRegion`, altro ramo,
+>   e funzionava). **Il codice c'era tutto, mancava chi lo invocava** — la firma peggiore,
+>   perché una funzione morta non dà nessun errore.
+>   **Come si trova in dieci secondi**: contare le occorrenze della chiave regione nei due
+>   `index.html` — 25 in prod contro 26 nel test, e la differenza era esattamente quella riga.
+>   Da fare alla fine di ogni promozione, prima di dichiararla conclusa.
+
 ### Svizzera intera (v6.0, in produzione dal 3 agosto 2026)
 - In mappa UN SOLO bottone **"Svizzera (CH)"** (regione `svizzera`, ha sostituito "Ticino (CH)"): sotto, DUE fonti unite da `loadSvizzeraRegion` con chiavi prefissate `ti:`/`ch:` — il Ticino resta OASI (cartella `data/ticino`, collector sotto), il resto del paese è **MeteoSwiss OGD** (`data/svizzera`). ~307 stazioni totali; fonte/chip/crediti "OASI Ticino + MeteoSvizzera"
 - **Fonte MeteoSwiss:** collezioni STAC `ch.meteoschweiz.ogd-smn` (SwissMetNet) + `ogd-smn-precip` su `data.geo.admin.ch`, CSV per stazione, coordinate già WGS84, licenza **CC BY 4.0** («Fonte: MeteoSvizzera», voce in fonti.html)
