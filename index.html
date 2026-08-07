@@ -19,7 +19,7 @@
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="description" content="Mappa interattiva delle precipitazioni in Italia e Svizzera con dati da stazioni meteo reali. Pianifica le tue uscite funghi.">
-  <meta property="og:title" content="Mappa Pluviometrica Italia e Svizzera | Avventure Micologiche">
+  <meta property="og:title" content="Mappa Pluviometrica Italia, Svizzera e Austria | Avventure Micologiche">
   <meta property="og:description" content="Mappa interattiva con dati meteo reali di Italia e Svizzera per pianificare ogni uscita. Trova le zone dove ha piovuto di più.">
   <!-- Anteprima rifatta il 3 agosto 2026 con la v6.0: ITALIA + SVIZZERA a 30
        giorni, 22 regioni e la Svizzera intera, 2960 stazioni, con header e
@@ -48,7 +48,7 @@
   <meta name="theme-color" content="#1b3f6e">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mappa Pluviometrica Italia e Svizzera</title>
+<title>Mappa Pluviometrica Italia, Svizzera e Austria</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -854,7 +854,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
            a 360 e a 10px persino su un Pixel 9 (412). Su telefono resta "Mappa
            Pluviometrica Italia", che entra anche a 320. <title> e og:title
            restano interi: quelli servono a chi condivide, non allo schermo. -->
-      <h1>Mappa Pluviometrica<span class="hdr-paesi"> Italia · Svizzera</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v6.0)</span></h1>
+      <h1>Mappa Pluviometrica<span class="hdr-paesi"> Italia · Svizzera · Austria</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v6.0)</span></h1>
       <div class="hdr-sub" id="datehdr"></div>
     </div>
   </div>
@@ -947,6 +947,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <label class="rcheck-wrap"><input type="checkbox" id="chk-liguria" value="liguria"><span class="rcheck-box"></span><span class="rcheck-name">Liguria</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-lombardia" value="lombardia"><span class="rcheck-box"></span><span class="rcheck-name">Lombardia</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-svizzera" value="svizzera"><span class="rcheck-box"></span><span class="rcheck-name">Svizzera (CH)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-austria" value="austria"><span class="rcheck-box"></span><span class="rcheck-name">Austria (AT)</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-trentino-aa" value="trentino-aa"><span class="rcheck-box"></span><span class="rcheck-name">Trentino-A.A.</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-veneto" value="veneto"><span class="rcheck-box"></span><span class="rcheck-name">Veneto</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-friuli" value="friuli"><span class="rcheck-box"></span><span class="rcheck-name">Friuli V.G.</span></label>
@@ -979,8 +980,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <!-- Mobile: select dropdown -->
         <select id="region-select" class="region-select-mobile">
           <option value="">Tocca per scegliere la regione ▼</option>
-          <!-- Prima l'estero, poi le regioni italiane (ordine scelto il 6/8/2026;
-               alla promozione l'Austria va QUI SOPRA la Svizzera) -->
+          <!-- Prima l'estero, poi le regioni italiane (ordine scelto il 6/8/2026) -->
+          <option value="austria">Austria (AT)</option>
           <option value="svizzera">Svizzera (CH)</option>
           <option value="piemonte-vda">Piemonte-Valle d'Aosta</option>
           <option value="liguria">Liguria</option>
@@ -1545,6 +1546,21 @@ var REGIONS = {
     stations: []
   },
 
+  // Austria (in produzione dal 7/8/2026, sviluppata nel repo di test dal 5/8):
+  // GeoSphere Austria Data Hub, dataset orario klima-v2-1h, ~269 stazioni con
+  // 365 giorni di storico REALE dal primo giorno — niente stime, niente beta.
+  // Come la Svizzera non ha lista stations statica: l'anagrafe si prende da un
+  // file recente. Confine BEV via data.gv.at (CC BY-SA 2.0, diversa dai dati).
+  austria: {
+    name: 'Austria',
+    center: [47.6, 13.4], zoom: 7,
+    fonte: 'GeoSphere Austria',
+    geojsonUrl: 'austria-confine.geojson',
+    geojsonFilter: 'austria',
+    dataSource: 'austria',
+    stations: []
+  },
+
   toscana: {
     name: 'Toscana',
     center: [43.3, 11.2], zoom: 8,
@@ -1827,11 +1843,105 @@ var initCenter=(screenW<=900)?[42.0,12.6]:[42.0,12.9];
 // dell'inquadratura multiregione, ZOOM_STEP). zoomDelta resta 0.5 → i pulsanti
 // +/- e la rotellina zoomano di 0,5 come prima (zoom manuale invariato).
 var map=L.map('map',{zoomSnap:0.25,zoomDelta:0.5}).setView(initCenter, initZoom);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+// `baseTiles`: serve a quandoMappaDisegnata, che aspetta l'evento `load` di
+// questo layer prima di far partire il calcolo della griglia.
+var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,subdomains:'abc',
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+/**
+ * Esegue `cb` quando la mappa ha davvero DISEGNATO le tile della vista attuale.
+ *
+ * Serve perché buildGrid è sincrono e blocca il thread: se parte subito dopo il
+ * setView, Leaflet non fa in tempo a far comparire le tile appena scaricate
+ * (la dissolvenza gira su requestAnimationFrame, che durante il blocco non
+ * scatta) e l'utente vede una schermata GRIGIA — lo sfondo del contenitore.
+ * Si nota solo dove la vista salta su un'area mai caricata, cioè l'Austria.
+ * Prima si mostra la mappa, poi si calcola: il calcolo dura uguale, ma avviene
+ * sopra una mappa visibile invece che sopra il vuoto.
+ *
+ * `load` del tile layer scatta quando tutte le tile visibili sono pronte; i due
+ * requestAnimationFrame dopo servono a lasciar PAINTARE il fotogramma, perché
+ * l'evento arriva un attimo prima che il pixel sia a schermo. Il tetto di
+ * ATTESA_MAX evita di restare appesi se una tile non arriva mai (rete lenta,
+ * OSM che rifiuta): oltre quel tempo si calcola comunque, tornando al
+ * comportamento di prima invece di non disegnare nulla.
+ */
+/**
+ * Scarica in anticipo le tile della vista in cui la mappa ATTERRERÀ.
+ *
+ * Il grigio residuo non è più calcolo: è il tempo di rete. Il `setView` del
+ * clic sul periodo rimuove tutte le tile e ne chiede di nuove, e finché non
+ * arrivano si vede lo sfondo del contenitore. Con le regioni italiane non si
+ * nota perché le tile della vista iniziale sono già in cache; l'Austria invece
+ * atterra su un'area mai scaricata.
+ *
+ * Qui si sfrutta il tempo morto: fra lo spuntare la regione e il cliccare il
+ * periodo passano secondi, e in quei secondi le tile possono già arrivare. Non
+ * si sposta niente e non si disegna niente — si chiedono le immagini al
+ * browser, che le mette nella sua cache; quando poi Leaflet le richiede, sono
+ * già lì. Se l'utente non clicca nessun periodo si sono scaricate ~45 immagini
+ * per niente: è il costo, e vale il tetto di MAX_TILE.
+ *
+ * `crossOrigin` deve combaciare con quello del tile layer, altrimenti il
+ * browser tiene due voci di cache separate e il precarico non serve a nulla.
+ */
+var _tilePrecaricate={};
+function precaricaTileDestinazione(regionKeys){
+  var MAX_TILE=90;
+  try{
+    if(!regionKeys||!regionKeys.length||typeof REGION_BOUNDS==='undefined') return;
+    var laMin=90,laMax=-90,loMin=180,loMax=-180,trovato=false;
+    regionKeys.forEach(function(rk){
+      var b=REGION_BOUNDS[rk]; if(!b) return;
+      trovato=true;
+      if(b[0][0]<laMin)laMin=b[0][0]; if(b[1][0]>laMax)laMax=b[1][0];
+      if(b[0][1]<loMin)loMin=b[0][1]; if(b[1][1]>loMax)loMax=b[1][1];
+    });
+    if(!trovato) return;
+    var lb=L.latLngBounds([[laMin,loMin],[laMax,loMax]]);
+    // stesso padding-pannelli del fit, così lo zoom stimato è quello vero
+    var pad=(window.innerWidth>900)?L.point(440,24):L.point(24,24);
+    var z=Math.round(map.getBoundsZoom(lb,false,pad));
+    if(!isFinite(z)||z<2||z>19) return;
+    var size=map.getSize(), cp=map.project(lb.getCenter(),z), lato=Math.pow(2,z);
+    var x0=Math.floor((cp.x-size.x/2)/256)-1, x1=Math.floor((cp.x+size.x/2)/256)+1;
+    var y0=Math.floor((cp.y-size.y/2)/256)-1, y1=Math.floor((cp.y+size.y/2)/256)+1;
+    var sub=['a','b','c'], n=0;
+    for(var x=x0;x<=x1;x++){
+      for(var y=y0;y<=y1;y++){
+        if(y<0||y>=lato) continue;
+        var xx=((x%lato)+lato)%lato;
+        var url='https://'+sub[Math.abs(xx+y)%3]+'.tile.openstreetmap.org/'+z+'/'+xx+'/'+y+'.png';
+        if(_tilePrecaricate[url]) continue;
+        _tilePrecaricate[url]=1;
+        if(++n>MAX_TILE) return;
+        var im=new Image();
+        im.crossOrigin='';   // come il tile layer: stessa voce di cache
+        im.src=url;
+      }
+    }
+  }catch(e){ /* il precarico è un di più: se fallisce non deve rompere nulla */ }
+}
+
+function quandoMappaDisegnata(cb){
+  var ATTESA_MAX=1500, fatto=false;
+  function via(){
+    if(fatto) return; fatto=true;
+    baseTiles.off('load',via);
+    requestAnimationFrame(function(){ requestAnimationFrame(cb); });
+  }
+  baseTiles.on('load',via);
+  setTimeout(via,ATTESA_MAX);
+  // Se non c'è nulla in caricamento la mappa è già a posto: non aspettare.
+  // `_loading` è il flag interno di GridLayer (Leaflet non ne espone uno
+  // pubblico: `isLoading()` NON esiste, ci ero cascato). Se un domani sparisse,
+  // `undefined` fa cadere qui dentro e si torna al vecchio comportamento a
+  // 20 ms — cioè si perde il beneficio, non si rompe niente.
+  if(!baseTiles._loading) setTimeout(via,20);
+}
 
 // ─── Crediti delle fonti dati ──────────────────────────────────
 // Fino al 22 luglio 2026 sia il piè di pagina sia l'attribuzione Leaflet
@@ -1934,6 +2044,74 @@ function inRegion(lon,lat,rings){
     }
   }
   return false;
+}
+
+
+/**
+ * Come buildGrid, ma A FETTE: lavora ~22 ms per volta e poi restituisce il
+ * controllo al browser, che così può dipingere. Stessa identica matematica —
+ * il corpo del doppio ciclo è copiato, non riscritto — cambia solo QUANDO si
+ * ferma.
+ *
+ * Perché serve: su una regione grande come l'Austria il ciclo sincrono teneva
+ * il thread bloccato **1,1 secondi** (misurato con PerformanceObserver sui
+ * longtask). In quel secondo la pagina è congelata: le tile appena scaricate
+ * non compaiono, il cursore non risponde, e l'utente vede una schermata ferma
+ * e grigia. È l'ultimo strato di un difetto che ne aveva quattro.
+ *
+ * `sessione` è la fotografia di loadSessionId al momento della partenza: se
+ * l'utente cambia periodo o regione mentre calcoliamo, il lavoro in corso va
+ * buttato — vale "l'ultimo clic vince", come per le richieste di rete.
+ */
+function buildGridAFette(data,rings,idwRad,gridRes,sessione,onFatto){
+  var rad=idwRad||IDW_RAD;
+  var GR=gridRes||activeGridRes||GRID_RES;
+  var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
+  var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
+  var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
+  var polys=rings.map(function(poly){
+    var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
+    for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
+    return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
+  });
+  var pts=[], lat=LAT_MIN, FETTA=22;
+  function giro(){
+    if(sessione!==undefined && sessione!==loadSessionId) return;  // sorpassati: si molla
+    var t0=(window.performance&&performance.now)?performance.now():Date.now();
+    while(lat<=LAT_MAX){
+      for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
+        var inside=false;
+        for(var pz=0;pz<polys.length;pz++){
+          var P=polys[pz];
+          if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue;
+          if(pipGeo(lon,lat,P.poly[0])){
+            var hole=false;
+            for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
+            if(!hole){inside=true;break;}
+          }
+        }
+        if(!inside) continue;
+        var num=0,den=0,found=false;
+        for(var i=0;i<data.length;i++){
+          var dlat=lat-data[i].lat;
+          var dlon=(lon-data[i].lon)*Math.cos(lat*Math.PI/180);
+          var d2=dlat*dlat+dlon*dlon;
+          if(d2>rad*rad) continue;
+          found=true;
+          if(d2<0.000001){num=data[i].mm;den=1;break;}
+          var w=1/d2; num+=w*data[i].mm; den+=w;
+        }
+        if(!found) continue;
+        pts.push({lat:lat,lon:lon,mm:num/den});
+      }
+      lat+=GR;
+      var ora=(window.performance&&performance.now)?performance.now():Date.now();
+      if(ora-t0>FETTA) break;   // fiato al browser
+    }
+    if(lat<=LAT_MAX) setTimeout(giro,0);
+    else onFatto(pts);
+  }
+  giro();
 }
 
 function buildGrid(data,rings,idwRad,gridRes){
@@ -2111,7 +2289,8 @@ var PILOT_DATA_BASE='https://raw.githubusercontent.com/AvventureMicologiche/Mapp
 var HIST_RAW_BY_REGION={
   'friuli-osmer':PILOT_DATA_BASE,
   'valledaosta-cf':PILOT_DATA_BASE,
-  'svizzera':PILOT_DATA_BASE   // pilota MeteoSwiss (il Ticino OASI resta su HIST_RAW prod)
+  'svizzera':PILOT_DATA_BASE,  // MeteoSwiss (il Ticino OASI resta su HIST_RAW)
+  'austria':PILOT_DATA_BASE    // GeoSphere Austria
 };
 function histRawBase(region){ if(region&&region.indexOf('meteohub-')===0) return PILOT_DATA_BASE; return HIST_RAW_BY_REGION[region]||HIST_RAW; }
 // Piloti VdA-CF e Friuli-OSMER: lo storico è backfill Open-Meteo (stime, source
@@ -3005,6 +3184,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 SIR Toscana',regionKey);
       });
+    } else if(source==='austria'){
+      loadAustriaRegion(pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 GeoSphere Austria',regionKey);
+      });
     } else if(source==='svizzera'){
       loadSvizzeraRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 OASI Ticino + MeteoSvizzera',regionKey);
@@ -3093,7 +3276,11 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
   // Avviso Friuli anche nel ramo "Nessuna pioggia": è proprio il caso del
   // ritardo OSMER (giorno appena chiuso non ancora pubblicato) in cui serve.
   if(typeof osmerInlineDesktop==='function') osmerInlineDesktop();
-  setTimeout(function(){
+  // PRIMA la mappa a schermo, POI il calcolo (6/8/2026). Qui c'era un
+  // setTimeout di 20 ms: troppo pochi perché Leaflet facesse comparire le tile
+  // della nuova vista, e buildGrid — sincrono — congelava subito il thread
+  // lasciando l'utente davanti a una schermata grigia. Vedi quandoMappaDisegnata.
+  quandoMappaDisegnata(function(){
     initCanvas();
     clearHeatmap();
     if(hasRain){
@@ -3111,9 +3298,15 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       // resa praticamente identica (celle ~3px a video invece di ~2).
       var fattore=(nReg>=3?2.4:(nReg===2?1.7:1.5));
       // ...ma il numero di regioni è un cattivo indicatore del LAVORO: quello
-      // dipende dall'AREA coperta. Pavimento proporzionale alla radice dell'area,
-      // così le celle restano circa costanti; il `max` protegge i fattori già
-      // tarati. Vedi AREA_RIF per il perché di 6,5.
+      // dipende dall'AREA coperta. L'Austria da sola copre ~20 gradi quadrati,
+      // sette volte Trentino+Alto Adige: stesso passo, sette volte le celle, e
+      // buildGrid — che è sincrono — ha congelato il thread per 2,44 s contro
+      // 0,37 s (misurato il 6/8/2026). In quei due secondi e mezzo Leaflet non
+      // riesce a far comparire le tile appena scaricate e la mappa resta GRIGIA:
+      // sembra un guasto, ed è la segnalazione da cui è partita l'indagine.
+      // Qui si aggiunge un pavimento proporzionale all'area, così le celle
+      // restano circa costanti. Il `max` protegge le regioni italiane, che
+      // conservano i fattori già tarati.
       var laMin=90,laMax=-90,loMin=180,loMax=-180;
       rings.forEach(function(poly){ poly.forEach(function(r){ r.forEach(function(pt){
         if(pt[1]<laMin)laMin=pt[1]; if(pt[1]>laMax)laMax=pt[1];
@@ -3123,22 +3316,32 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       if(area>0) fattore=Math.min(4.5,Math.max(fattore,1.5*Math.sqrt(area/AREA_RIF)));
       activeGridRes=GRID_RES*fattore;
       var idwData=(nReg>1&&dati.length>320)?selectUniform(dati,320):dati;
-      gridPoints=buildGrid(idwData,rings,idwR,activeGridRes);
-      drawGrid();
-      // Ridisegni di sicurezza: se il primo draw avviene con la mappa ancora
-      // in animazione (fit del periodo appena partito), celle e canvas restano
-      // sfalsati rispetto ai tile finché un moveend non corregge — e in alcuni
-      // casi l'evento non arriva (successo il 29/7: heatmap spostata a est di
-      // ~mezzo grado dopo Indietro + nuova analisi). A mappa ferma il redraw
-      // è idempotente e costa pochi ms.
-      setTimeout(drawGrid,700);
-      setTimeout(drawGrid,1600);
-      var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
-      osmerInlineDesktop(); // avviso Friuli inline accanto a "✅ Ieri" (solo desktop + Ieri)
-      if(typeof refreshSelectorStyles==='function') refreshSelectorStyles(); // via il riempimento: non deve coprire la heatmap
+      // Calcolo A FETTE: il ciclo restituisce il controllo al browser ogni
+      // ~22 ms, così la pagina non si congela mentre la griglia si costruisce.
+      // Sull'Austria il blocco unico era di 1,1 s. Il totale dura uguale, ma
+      // succede a mappa viva.
+      var _sess=loadSessionId;
+      buildGridAFette(idwData,rings,idwR,activeGridRes,_sess,function(pts){
+        if(_sess!==loadSessionId) return;   // l'utente ha già chiesto altro
+        gridPoints=pts;
+        drawGrid();
+        // Ridisegni di sicurezza: se il primo draw avviene con la mappa ancora
+        // in animazione (fit del periodo appena partito), celle e canvas restano
+        // sfalsati rispetto ai tile finché un moveend non corregge — e in alcuni
+        // casi l'evento non arriva (successo il 29/7: heatmap spostata a est di
+        // ~mezzo grado dopo Indietro + nuova analisi). A mappa ferma il redraw
+        // è idempotente e costa pochi ms.
+        setTimeout(drawGrid,700);
+        setTimeout(drawGrid,1600);
+        var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='✅ '+labelPeriodo;
+        osmerInlineDesktop(); // avviso Friuli inline accanto a "✅ Ieri" (solo desktop + Ieri)
+        if(typeof refreshSelectorStyles==='function') refreshSelectorStyles(); // via il riempimento: non deve coprire la heatmap
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
-  },20);
+  });
 }
 
 // ─── Wrapper ARPA Lombardia → callback ───────────────────────
@@ -3707,6 +3910,25 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ─── ARPA Emilia Romagna (file storici da GitHub) ───────────────
 function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/emilia';
+  // Le 8 stazioni che l'ARPAE ospita in provincia di GENOVA sono le STESSE che
+  // OMIRL pubblica in data/liguria — da 0 a 460 m di distanza, spesso lo stesso
+  // punto: S. Stefano d'Aveto, Alpe Gorreto, Barbagelata, Cabanne, Rovegno,
+  // Torriglia, Diga del Brugneto, Loco Carchelli. Sono le "gemelle" usate ai
+  // check periodici come verifica più stringente fra le due pipeline.
+  //
+  // Escluse dal rendering Emilia il 6/8/2026, per due motivi:
+  //  (1) DOPPIONE — con Emilia e Liguria selezionate insieme gli stessi
+  //      pluviometri venivano disegnati due volte e pesati due volte nell'IDW.
+  //  (2) ZERI FALSI — su Alpe Gorreto (5565) il feed ARPAE ha restituito 0
+  //      invece di "dato assente" per quattro giorni di fila (29/6→2/7 2026),
+  //      mentre OMIRL misurava 50,8 · 28,2 · 9,8 · 1,1 mm. Sommando le gemelle
+  //      sembrava che l'intera rete ARPAE fosse più bassa di OMIRL: era una
+  //      stazione sola. Le altre cinque sono identiche al decimale su 48 giorni
+  //      su 48 (Torriglia 47/48), quindi il collector Emilia è sano.
+  // Il dato non si perde: quei pluviometri restano in mappa via OMIRL, che per
+  // loro è la fonte di casa. Stesso rimedio già usato per le 9 stazioni toscane
+  // duplicate (bug #14) e per LOMB_ESCLUSE.
+  var EMILIA_ESCLUSE={'5317':1,'5565':1,'5566':1,'5561':1,'5568':1,'3080':1,'3077':1,'12307':1};
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
   var todayStr=_fmt(new Date());
@@ -3746,6 +3968,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
       .then(function(data){
         if(data&&data.stations){
           data.stations.forEach(function(s){
+            if(s.id&&EMILIA_ESCLUSE[String(s.id)]) return;   // gemelle liguri: le porta OMIRL
             var key=s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
             rainTot[key]=(rainTot[key]||0)+(s.mm||0);
@@ -3765,6 +3988,53 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ═══════════════════════════════════════════════════════════════
 // METEOTRENTINO — carica dati giornalieri da GitHub
 // ═══════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// AUSTRIA — GeoSphere Austria Data Hub (in produzione dal 7/8/2026).
+// Fonte unica, quindi il loader è quello semplice della Valle d'Aosta.
+// Storico REALE fin dal primo giorno (backfill dall'archivio orario), quindi
+// nessuno switch fra stime e dati veri: si legge sempre dai file.
+// ═══════════════════════════════════════════════════════════════
+function loadAustriaRegion(pastDate,nowDate,labelPeriodo,cb){
+  var AT_RAW=PILOT_DATA_BASE+'austria';
+  var rainTot={}, stMeta={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+  var pending=dates.length;
+  if(pending===0){cb([]);return;}
+  dates.forEach(function(dateStr){
+    fetch(AT_RAW+'/'+dateStr+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(usaGiorno)
+      .then(function(data){
+        if(data.stations){
+          data.stations.forEach(function(s){
+            var key=s.id||s.n;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AT'};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function(){
+        pending--;
+        if(pending>0) return;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AT',mm:mm<0.5?0:Math.round(mm*10)/10};
+        }).filter(Boolean);
+        if(full.length<5){cb([]);return;}
+        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+        cb(full);
+      });
+  });
+}
 
 // ═══════════════════════════════════════════════════════════════
 // METEO ALTO ADIGE — carica dati giornalieri da GitHub
@@ -4431,7 +4701,7 @@ function setRegionBorder(regionKey,cb){
         // Il tratteggio della Svizzera (confine di stato) resta anche sul bordo
         // disegnato durante l'analisi, così l'identità non sparisce coi dati.
         style:{color:'#1b3f6e',weight:1.5,opacity:0.6,fill:false,
-               dashArray:regionKey==='svizzera'?'6 4':null}
+               dashArray:(regionKey==='svizzera'||regionKey==='austria')?'6 4':null}
       }).addTo(map);
       regionBorders[regionKey]=layer;
 
@@ -4460,7 +4730,7 @@ function selStyle(on,rk){
   // respiro sincronizzato e l'header "Italia + Svizzera" bastava il tratteggio,
   // e niente tinte in mappa — verde e rosso sono già le "parole" della scala
   // pioggia.
-  var ch=(rk==='svizzera');
+  var ch=(rk==='svizzera'||rk==='austria');   // stati esteri: bordo tratteggiato
   if(on){
     // Con un'analisi visibile NIENTE riempimento (coprirebbe la heatmap):
     // resta il bordo marcato. fillOpacity 0 (non fill:false) così l'interno
@@ -4655,6 +4925,9 @@ var REGION_BOUNDS={
   // Svizzera intera (bbox nazionale swissBOUNDARIES3D). ATTENZIONE: è esclusa
   // apposta dal fitVistaIniziale — l'inquadratura di apertura resta l'Italia.
   svizzera:    [[45.82, 5.96],[47.81,10.49]],
+  // Austria: esclusa dalla vista di apertura come la Svizzera — si spinge a
+  // 17,2°E e includerla trascinerebbe l'inquadratura fino all'Ungheria.
+  austria:     [[46.37, 9.53],[49.02,17.16]],
   // Centro-sud (bounds dalle stazioni reali MeteoHub) + Abruzzo (Open-Meteo)
   marche:      [[42.74,12.13],[43.91,13.89]],
   umbria:      [[42.53,11.95],[43.52,13.19]],
@@ -4687,7 +4960,7 @@ var REGION_BOUNDS={
     // La Svizzera intera NON entra nella vista di apertura (decisione 3/8/2026):
     // includerla fino a Sciaffusa (47,8°N) rimpicciolirebbe l'Italia. Il suo
     // confine si vede entrare dal bordo alto; selezionandola il fit la mostra tutta.
-    if(rk==='svizzera') return;
+    if(rk==='svizzera'||rk==='austria') return;
     var b=REGION_BOUNDS[rk];
     if(b[0][0]<latMin) latMin=b[0][0];
     if(b[1][0]>latMax) latMax=b[1][0];
@@ -4708,6 +4981,57 @@ var REGION_BOUNDS={
   var c=map.unproject(map.project(lb.getCenter(),z).subtract(L.point(shift,0)),z);
   initZoom=z;
   initCenter=[c.lat,c.lng];
+  map.setView(initCenter,initZoom,{animate:false});
+})();
+
+/**
+ * L'avanzo verticale si REGALA AL NORD (6 agosto 2026, su segnalazione utente).
+ *
+ * Sotto la punta della Sicilia avanzava un grado intero di mare — 75 px a
+ * 1920×950 — mentre in cima Svizzera e Austria restavano tagliate. Lo spazio
+ * c'era, era solo dalla parte sbagliata.
+ *
+ * Non è un ritocco a occhio: si sposta il centro verso nord fin dove i due
+ * vincoli lo consentono, e i vincoli sono espressi in pixel perché è in pixel
+ * che si vede il problema.
+ *   - sotto: almeno MARGINE_SUD px di respiro sotto la punta della Sicilia,
+ *     se no sembra tagliata via;
+ *   - sopra: non oltre LIMITE_NORD, il bordo settentrionale dell'Austria —
+ *     più su ci sarebbe solo Germania, che non è nostra.
+ * Vince il vincolo più stringente, e se il risultato non è uno spostamento
+ * verso nord non si tocca niente.
+ *
+ * Regola #5 del progetto: per far SCENDERE il contenuto sullo schermo la
+ * latitudine del centro deve AUMENTARE. Qui infatti la latitudine sale.
+ *
+ * SOLO DESKTOP. Su telefono la vista di apertura è tarata e il pubblico è il
+ * 69% del totale: non si tocca per un miglioramento pensato su uno schermo
+ * largo.
+ */
+(function avanzoAlNord(){
+  if(window.innerWidth<=900) return;
+  // 25 px sotto la stazione più a sud della Sicilia: un dito di mare, che
+  // basta a non farla sembrare tagliata. Ogni pixel risparmiato qui è un
+  // pixel guadagnato sull'Austria, quindi il valore è stato stretto fin dove
+  // reggeva all'occhio — non oltre.
+  var MARGINE_SUD=25, LIMITE_NORD=49.10;
+  var latMin=90,latMax=-90;
+  Object.keys(REGION_BOUNDS).forEach(function(rk){
+    if(rk==='svizzera'||rk==='austria') return;   // la vista di apertura è l'Italia
+    var b=REGION_BOUNDS[rk];
+    if(b[0][0]<latMin) latMin=b[0][0];
+    if(b[1][0]>latMax) latMax=b[1][0];
+  });
+  if(latMin>latMax) return;
+  var h=map.getSize().y, z=initZoom;
+  var yCentro=map.project(L.latLng(initCenter[0],initCenter[1]),z).y;
+  // In Mercator la Y cresce verso SUD: andare a nord = diminuire la Y.
+  var ySud=map.project(L.latLng(latMin,initCenter[1]),z).y;       // punta della Sicilia
+  var yLim=map.project(L.latLng(LIMITE_NORD,initCenter[1]),z).y;  // bordo nord dell'Austria
+  var yMin=Math.max(ySud+MARGINE_SUD-h/2, yLim+h/2);              // il più stringente dei due
+  if(yMin>=yCentro) return;                                        // non ci sarebbe da guadagnare
+  var nuovo=map.unproject(L.point(0,yMin),z).lat;
+  initCenter=[nuovo,initCenter[1]];
   map.setView(initCenter,initZoom,{animate:false});
 })();
 
@@ -4795,11 +5119,12 @@ var REGION_ADJ={
   lombardia:['piemonte','emilia','veneto','trentino','svizzera'],
   emilia:['lombardia','liguria','toscana','veneto'],
   toscana:['liguria','emilia','umbria','marche','lazio'],
-  veneto:['lombardia','emilia','trentino','altoadige','friuli'],
+  veneto:['lombardia','emilia','trentino','altoadige','friuli','austria'],
   trentino:['lombardia','veneto','altoadige'],
-  altoadige:['trentino','veneto','svizzera'],
-  friuli:['veneto'],
-  svizzera:['valledaosta','piemonte','lombardia','altoadige'],
+  altoadige:['trentino','veneto','svizzera','austria'],
+  friuli:['veneto','austria'],
+  svizzera:['valledaosta','piemonte','lombardia','altoadige','austria'],
+  austria:['svizzera','altoadige','veneto','friuli'],
   umbria:['toscana','marche','lazio','abruzzo'],
   marche:['emilia','toscana','umbria','abruzzo','lazio'],
   lazio:['toscana','umbria','abruzzo','molise','campania'],
@@ -4895,7 +5220,26 @@ document.getElementById('region-select').addEventListener('change', function(){
   // Centro-sud e regioni future: nessuna vista calibrata a mano nella catena
   // qui sopra → si usa centro/zoom della scheda regione (senza questo ramo la
   // mappa restava sull'Italia intera: successo su Android con la Basilicata).
-  else if(REGIONS[rk]&&REGIONS[rk].center) map.setView(REGIONS[rk].center, REGIONS[rk].zoom||7.5, NOA);
+  else if(REGIONS[rk]&&REGIONS[rk].center){
+    // ...ma un centro e uno zoom FISSI non sanno quanto è larga la regione né
+    // quanto è largo il telefono. L'Austria è larga 7,6° di longitudine e a
+    // zoom 7 un telefono ne mostra ~4,3: si apriva tagliata (segnalato il
+    // 6/8/2026 su Pixel). Qui si calcola lo zoom che la fa entrare davvero e
+    // si tiene il PIÙ LARGO dei due, così le regioni già tarate a mano non
+    // cambiano di una virgola e solo quelle che non ci stavano si allargano.
+    var zt=REGIONS[rk].zoom||7.5, ct=REGIONS[rk].center;
+    var bb=null;
+    expandRegion(rk).forEach(function(r){
+      var b=REGION_BOUNDS[r]; if(!b) return;
+      var lb=L.latLngBounds([[b[0][0],b[0][1]],[b[1][0],b[1][1]]]);
+      bb=bb?bb.extend(lb):lb;
+    });
+    if(bb){
+      var zf=map.getBoundsZoom(bb,false,L.point(14,14));
+      if(zf<zt){ zt=zf; ct=bb.getCenter(); }   // non ci stava: si allarga e si ricentra
+    }
+    map.setView(ct,zt,NOA);
+  }
   clearMarkers();
   expandRegion(rk).forEach(function(r){ setRegionBorder(r, function(){ addDefaultMarkersForRegion(r); }); });
   if(currentPast&&currentNow) loadData(currentPast, currentNow, currentLabel);
@@ -4930,6 +5274,7 @@ document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(
     var regions=getActiveRegions();
     updateOsmerNotice();
     if(typeof refreshSelectorStyles==='function') refreshSelectorStyles(); // evidenzia/spegni sul selettore mappa
+    precaricaTileDestinazione(regions);   // usa il tempo morto prima del clic sul periodo
     // Reset del disegno, poi ridisegna TUTTE le regioni attive insieme
     clearMarkers();
     clearHeatmap();
@@ -5716,6 +6061,25 @@ function loadSvizzeraStations(cb){
         .catch(function(){ idx++; attempt(); });
     })();
   });
+}
+// Austria: anagrafe da un file recente, con qualche giorno di riserva se
+// l'ultimo non c'è ancora (stessa ricetta di MeteoHub e Svizzera).
+var austriaStationsCache=null;
+function loadAustriaStations(cb){
+  if(austriaStationsCache){ cb(austriaStationsCache); return; }
+  var RAW=PILOT_DATA_BASE+'austria';
+  var tries=[], now=new Date();
+  for(var i=1;i<=6;i++){ var d=new Date(now.getTime()-i*86400000); tries.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')); }
+  var idx=0;
+  (function attempt(){
+    if(idx>=tries.length){ cb([]); return; }
+    fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(data){
+        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AT'};});
+        austriaStationsCache=st; cb(st);
+      })
+      .catch(function(){ idx++; attempt(); });
+  })();
 }
 function addDefaultMarkersForRegion(regionKey){
   var cfg=REGIONS[regionKey];

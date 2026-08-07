@@ -79,7 +79,7 @@ const SOGLIA_DEFAULT = 3;
 // Grazia lunga per le fonti che si auto-riparano dall'archivio: Ticino (OASI,
 // query storiche, recupera fino a D-7) e Svizzera (MeteoSwiss, il file recent
 // copre l'anno intero e il collector ricostruisce D-3..D-10 da solo).
-const SOGLIA_PER_REGIONE = { ticino: 5, svizzera: 5 };
+const SOGLIA_PER_REGIONE = { ticino: 5, svizzera: 5, austria: 5 };
 const PROMEMORIA_GIORNI = 3;    // ogni quanto ripetere la mail su un guasto aperto
 const MAX_INDIETRO = 30;        // oltre non serve guardare: è comunque un guasto grave
 const SOGLIA_STAZIONI = 0.5;    // sotto metà della normalità il giorno è "malato"
@@ -101,6 +101,7 @@ const REGIONI = [
   { dir: 'piemonte',       nome: 'Piemonte',      wf: 'piemonte.yml',       sito: 'https://utility.arpa.piemonte.it/api_realtime' },
   { dir: 'ticino',         nome: 'Ticino',        wf: 'ticino.yml',         sito: 'https://oasi.ti.ch/' },
   { dir: 'svizzera',       nome: 'Svizzera (MeteoSwiss)', wf: 'svizzera.yml', sito: 'https://opendatadocs.meteoswiss.ch/' },
+  { dir: 'austria',        nome: 'Austria (GeoSphere)',   wf: 'austria.yml',  sito: 'https://data.hub.geosphere.at/' },
   { dir: 'toscana',        nome: 'Toscana',       wf: 'toscana.yml',        sito: 'https://sir.toscana.it/monitoraggio/stazioni.php?type=pluvio' },
   { dir: 'trentino',       nome: 'Trentino',      wf: 'trentino.yml',       sito: 'https://dati.meteotrentino.it/' },
   { dir: 'valledaosta-cf', nome: "Valle d'Aosta", wf: 'valledaosta-cf.yml', sito: 'https://presidi2.regione.vda.it/' },
