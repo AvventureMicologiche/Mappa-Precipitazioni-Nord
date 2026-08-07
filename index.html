@@ -6175,6 +6175,11 @@ function addDefaultMarkersForRegion(regionKey){
     loadSvizzeraStations(function(st){ drawDefaultMarkers(st,cfg); });
     return;
   }
+  // Austria: come MeteoHub e Svizzera, nessuna lista stations statica.
+  if(cfg && cfg.dataSource==='austria'){
+    loadAustriaStations(function(st){ drawDefaultMarkers(st,cfg); });
+    return;
+  }
   var stazioni=(regionKey==='lombardia')?(ARPA_STATIONS||LOMBARDIA_STATIONS):((cfg&&cfg.stations)?cfg.stations:[]);
   drawDefaultMarkers(stazioni,cfg);
 }
