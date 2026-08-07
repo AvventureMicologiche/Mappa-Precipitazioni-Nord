@@ -54,7 +54,7 @@ const GRACE_DEFAULT = 3;
 // Svizzera fino a D-10 (11).
 const GRACE_PER_REGIONE = { ticino: 8, svizzera: 11 };
 const SCAN_DAYS = parseInt(process.env.SCAN_DAYS || '15', 10);
-const RETENTION_DAYS = 365;   // inutile creare file che la pulizia cancellerebbe
+const RETENTION_DAYS = 730;   // inutile creare file che la pulizia cancellerebbe
 const MIN_STAZIONI = 10;      // sotto questa soglia l'anagrafe non è affidabile
 // Massimo di giorni coperti per run: se si accumula un arretrato lo si smaltisce
 // nei giorni successivi invece di martellare l'API pubblica in un colpo solo.
