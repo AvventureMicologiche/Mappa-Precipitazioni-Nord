@@ -1,0 +1,12 @@
+# Mappa Pluviometrica Italia, Svizzera e Austria
+# Tutto il sito è aperto ai motori di ricerca.
+# Fino all'8 agosto 2026 questo file non esisteva (404): non bloccava niente,
+# ma non c'era nemmeno il rimando alla sitemap, che è il motivo per cui esiste.
+
+User-agent: *
+Allow: /
+
+# Le funzioni Netlify non sono pagine: sono le chiamate dati del sito.
+Disallow: /.netlify/
+
+Sitemap: https://precipitazioni.avventuremicologiche.it/sitemap.xml

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+<!-- charset e viewport PER PRIMI: la specifica vuole la dichiarazione di
+     codifica entro i primi 1024 byte, e fino all'8 agosto 2026 stava al byte
+     3150, spinta in basso dal blocco di Google Analytics qui sotto. Non
+     rompeva niente (l'header HTTP di Netlify dichiara già UTF-8) ma era una
+     svista da non lasciare in giro. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappa Pluviometrica Italia, Svizzera e Austria | Pluviometri e piogge</title>
+<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/">
+
   <!-- Google tag (gtag.js) -->
   <!-- Il config parte solo sul dominio di produzione: questo stesso file gira
        anche sul sito di test (avventurepluvio-test.netlify.app), che non deve
@@ -18,9 +28,15 @@
   </script>
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <meta name="description" content="Mappa interattiva delle precipitazioni in Italia e Svizzera con dati da stazioni meteo reali. Pianifica le tue uscite funghi.">
+  <!-- description e og:description dicevano ancora "Italia e Svizzera": erano
+       rimaste indietro alla promozione dell'Austria (7/8). Nella description
+       la parola cercata e' "pluviometri" al plurale — quella che la gente
+       scrive su Google — mentre nel testo del sito c'era solo l'aggettivo
+       "pluviometrica". og:title resta col marchio: serve alla condivisione,
+       non alla ricerca, e i due mestieri e' giusto che restino separati. -->
+  <meta name="description" content="Quanta pioggia è caduta? Mappa dei pluviometri di Italia, Svizzera e Austria: dati reali di oltre 3.000 stazioni delle reti pubbliche, fino a 30 giorni indietro. Per chi cerca funghi.">
   <meta property="og:title" content="Mappa Pluviometrica Italia, Svizzera e Austria | Avventure Micologiche">
-  <meta property="og:description" content="Mappa interattiva con dati meteo reali di Italia e Svizzera per pianificare ogni uscita. Trova le zone dove ha piovuto di più.">
+  <meta property="og:description" content="Mappa dei pluviometri di Italia, Svizzera e Austria con dati reali di stazione. Trova le zone dove ha piovuto di più e pianifica l'uscita.">
   <!-- Anteprima rifatta il 3 agosto 2026 con la v6.0: ITALIA + SVIZZERA a 30
        giorni, 22 regioni e la Svizzera intera, 2960 stazioni, con header e
        pannelli. Ricetta: pagina locale usa-e-getta (copia dell'index con il
@@ -46,9 +62,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg?v=20260803">
   <meta name="theme-color" content="#1b3f6e">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mappa Pluviometrica Italia, Svizzera e Austria</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -511,6 +524,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .fonte{font-size:9px;color:#aaa;padding:2px 10px;
   border-top:1px solid #eee;text-align:center;background:#fff;flex-shrink:0;}
 .fonte a{color:#1b3f6e}
+/* La frase per i motori di ricerca sta solo da 901px in su: a 760 mandava la
+   striscia a capo e la mappa perdeva 12px (misurato). Sotto i 600 la .fonte
+   è già nascosta per intero, quindi lì non cambia nulla. */
+@media(max-width:900px){ .claim{display:none;} }
 
 /* ══════════════════════════════════════
    TABLET (601-900px)
@@ -1080,6 +1097,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 </div>
 
 <div class="fonte">
+  <!-- Una riga di testo VERO per i motori di ricerca (8/8/2026). La pagina ne
+       aveva 250 parole in tutto: tutto il resto lo disegna JavaScript, e
+       "pluviometri" al plurale — la parola che si cerca su Google — non
+       compariva da nessuna parte fuori dal codice. La striscia .fonte è già
+       display:none sotto i 600px, quindi su telefono non toglie un pixel alla
+       mappa. Se un giorno servisse più testo, la strada è fonti.html, che è
+       una pagina di parole e ne ha già 653. -->
+  <span class="claim">Mappa dei <b>pluviometri</b> di Italia, Svizzera e Austria: quanta pioggia è caduta negli ultimi 30 giorni, misurata dalle stazioni delle reti pubbliche.</span> ·
   © 2024-2026 <a href="https://avventuremicologiche.it" target="_blank" rel="noopener">Avventure Micologiche</a> ·
   Dati: <span id="fonte-dati">agenzie regionali</span> ·
   <a href="/fonti.html">Fonti e licenze</a> ·
