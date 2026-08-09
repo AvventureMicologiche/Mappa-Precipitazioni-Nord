@@ -2707,9 +2707,10 @@ function showLegendMobile(){
   leg.style.display='block';
   leg.offsetHeight;
   leg.classList.add('leg-visible');
-  // Il pannello dei cumulati non è alto come quello del periodo: a fine
-  // transizione si rimisura la copertura e si corregge il residuo.
-  setTimeout(centraRegioneInStriscia,350);
+  // Il pannello dei cumulati non è alto come quello del periodo: al suo
+  // ARRIVO (transitionend, non un timer: vedi la corsa dei 50ms) si rimisura
+  // la copertura e si corregge il residuo.
+  centraDopoPannello('legend-panel');
 }
 
 function hideLegendMobile(){
@@ -2721,6 +2722,36 @@ function hideLegendMobile(){
 }
 
 window.hideLegendMobile=hideLegendMobile;
+
+// ── La corsa dei 50ms, chiusa il 9/8/2026 ──
+// I pannelli salgono con una transizione di transform da ~300ms e la
+// centratura partiva da un timer fisso (350/420ms): 50ms di margine. Ma i
+// timer scaduti durante un blocco del thread (il disegno di stazioni e
+// heatmap) girano PRIMA del frame che avvia la transizione: il pannello
+// viene misurato ancora fuori schermo (top=800 su viewport 800), coperto=0,
+// la funzione esce e nessuno la richiama più — regione scentrata in modo
+// PERMANENTE (il Lazio: 138px, riprodotto identico due volte su telefono).
+// Riprodotte entrambe le forme con riproduci-corsa-50ms.js (cartella claudio):
+// misura a metà corsa → 57px sotto il pannello; misura prima del primo frame
+// → uscita secca, vista mai corretta. Il rimedio non allarga i margini (una
+// riprova a contatore condiviso è già stata provata l'8/8 e ha fatto passare
+// il giro da 28 a 150 secondi: i contatori si azzeravano a vicenda): si
+// misura all'arrivo VERO del pannello, transitionend del transform, che
+// scatta esatto su qualunque motore. La riserva a 900ms copre il caso senza
+// transizione (pannello già aperto: nessun evento, ma anche niente da
+// aspettare). La riserva NON conclude: se l'evento deve ancora arrivare, la
+// sua misura anticipata è solo provvisoria e l'evento la corregge — la
+// centratura è idempotente, rieseguirla a pannello fermo non muove nulla.
+function centraDopoPannello(elId){
+  var el=document.getElementById(elId), daEvento=false;
+  if(el) el.addEventListener('transitionend', function suo(e){
+    if(e.target!==el || e.propertyName!=='transform') return;
+    el.removeEventListener('transitionend',suo);
+    daEvento=true;
+    centraRegioneInStriscia();
+  });
+  setTimeout(function(){ if(!daEvento) centraRegioneInStriscia(); },900);
+}
 
 // ── Centratura verticale nella striscia visibile (6/8/2026) ──
 // Su telefono i pannelli (periodo o cumulati) coprono la parte bassa della
@@ -5333,9 +5364,9 @@ document.getElementById('region-select').addEventListener('change', function(){
     var tp=document.getElementById('time-panel');
     if(tp) tp.classList.add('open');
   }
-  // La copertura si misura DOPO che il pannello periodo ha finito di aprirsi
-  // (misurarla qui darebbe il vuoto: la transizione dura ~300ms).
-  setTimeout(centraRegioneInStriscia,420);
+  // La copertura si misura all'ARRIVO del pannello periodo (transitionend,
+  // non un timer: vedi la corsa dei 50ms). Misurarla qui darebbe il vuoto.
+  centraDopoPannello('time-panel');
 });
 
 document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
