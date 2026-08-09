@@ -5550,7 +5550,15 @@ setTimeout(positionPanels, 100);
 
 // ── Condivisione: link con lo stato corrente (regioni, date, vista) ─────────
 // ?r=reg1,reg2&da=YYYY-MM-DD&a=YYYY-MM-DD&z=8.25&c=45.62,9.81
-function buildShareUrl(){
+// `mezzo` distingue il tasto di partenza: 'link' (Copia link) o 'immagine'
+// (didascalia dello scatto). Serve a misurare il passaparola, che finora era
+// invisibile: chi apriva un link ricevuto su WhatsApp risultava "(direct)"
+// esattamente come chi digita l'indirizzo a mano. Con questo diventano
+// condivisione/link e condivisione/immagine in GA4, e finalmente si vede
+// quale dei due tasti porta gente davvero: su un mese GA4 contava 22 pressioni
+// del tasto Link e 17 di Immagine, ma sulle APERTURE non sapevamo nulla — ed è
+// il motivo per cui il 7/8 abbiamo messo l'indirizzo dentro l'immagine.
+function buildShareUrl(mezzo){
   var regions=getActiveRegions();
   if(regions.length===0||!currentPast||!currentNow) return null;
   var p=new URLSearchParams();
@@ -5565,6 +5573,8 @@ function buildShareUrl(){
   // territorio adattando lo zoom. Provato fra PC e telefono e SCARTATO:
   // allargava di due livelli in un verso e stringeva di due nell'altro. Chi
   // condivide si aspetta la stessa SCALA, non la stessa area.
+  p.set('utm_source','condivisione');
+  p.set('utm_medium',mezzo||'link');
   return location.origin+location.pathname+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
@@ -5911,7 +5921,7 @@ impostaEtichetteCondivisione();
 var _btnShare=document.getElementById('btn-share');
 if(_btnShare){
   _btnShare.addEventListener('click',function(){
-    var url=buildShareUrl();
+    var url=buildShareUrl('link');
     if(!url) return;
     // Le scelte, non le espanse: stesso motivo di analisi_regione in loadData.
     // Qui però l'evento resta UNO per condivisione (il parametro tiene tutte
@@ -5947,7 +5957,7 @@ if(_btnShot){
       setTimeout(function(){_btnShot.classList.remove('ok');_btnShot.textContent=old;_btnShot.disabled=false;},1800);
     };
     captureMapBlob().then(function(blob){
-      var url=buildShareUrl();
+      var url=buildShareUrl('immagine');
       var file=new File([blob],shareFileName(),{type:'image/png'});
       if(isTouchShare()&&navigator.canShare&&navigator.canShare({files:[file]})){
         // Telefono: foto nel menu nativo, col solo link in didascalia
