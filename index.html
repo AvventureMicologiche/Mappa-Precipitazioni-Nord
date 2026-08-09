@@ -1864,10 +1864,13 @@ if(screenW<=480){
 }
 // Vista sull'Italia intera (dalle Alpi alla Sicilia)
 var initCenter=(screenW<=900)?[42.0,12.6]:[42.0,12.9];
-// zoomSnap 0.25: permette livelli di zoom a quarti (serve al controllo fine
-// dell'inquadratura multiregione, ZOOM_STEP). zoomDelta resta 0.5 → i pulsanti
-// +/- e la rotellina zoomano di 0,5 come prima (zoom manuale invariato).
-var map=L.map('map',{zoomSnap:0.25,zoomDelta:0.5}).setView(initCenter, initZoom);
+// zoomSnap 0.1 (dal 9/8/2026, era 0.25): il passo fine serve all'inquadratura
+// su telefono — coi quarti la correzione andava a scatti troppo grossi e quattro
+// regioni restavano tagliate (Lombardia 24px). Su desktop il fit multiregione
+// resta ai quarti (vedi fitMapToRegions), perché REGION_BOUNDS è più stretta
+// dei confini veri e senza il quarto di margine si taglia. zoomDelta resta 0.5
+// → i pulsanti +/- e la rotellina zoomano di 0,5 come prima (manuale invariato).
+var map=L.map('map',{zoomSnap:0.1,zoomDelta:0.5}).setView(initCenter, initZoom);
 // `baseTiles`: serve a quandoMappaDisegnata, che aspetta l'evento `load` di
 // questo layer prima di far partire il calcolo della griglia.
 var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -2787,7 +2790,8 @@ function centraRegioneInStriscia(){
     w0=Math.abs(pNE.x-pSW.x); h0=Math.abs(pSW.y-pNE.y); c0=bb.getCenter();
   }
   if(w0>4&&h0>4){
-    // Quanto si può zoomare: LARGHEZZA quasi piena (5% di tolleranza) oppure
+    // Quanto si può zoomare: LARGHEZZA piena (tetto 100%, dal 9/8/2026 — il 5%
+    // di sbordo che ci si concedeva era i 24px tagliati della Lombardia) oppure
     // 92% dell'altezza della striscia — il primo dei due che scatta. Il
     // debordo laterale "tanto si scorre col dito" è stato provato (tetto a
     // 1,35×) e SCARTATO su segnalazione: su una regione ad arco come la
@@ -2797,8 +2801,8 @@ function centraRegioneInStriscia(){
     // è il CONTENUTO che è diverso. Quindi niente tagli per nessuno: chi ha
     // margine verticale (Svizzera, Emilia) si allarga comunque, le regioni
     // "a nastro" restano allo zoom tarato. Arrotondamento per DIFETTO: il
-    // quarto di livello in più nei casi limite era il "troppo zoomata".
-    var f=Math.min(1.05*mBox.width/w0, 0.92*S/h0);
+    // passo di livello in più nei casi limite era il "troppo zoomata".
+    var f=Math.min(1.00*mBox.width/w0, 0.92*S/h0);
     // La banda morta evita l'oscillazione fra le due chiamate (alla seconda
     // i pallini delle stazioni allargano di poco la misura del disegnato).
     // ⚠️ 9/8/2026 — il limite inferiore era 0.85 e zittiva anche le correzioni
@@ -2809,10 +2813,11 @@ function centraRegioneInStriscia(){
     // sui vertici veri. La banda serve contro l'oscillazione fra le due
     // chiamate, che riguarda i ritocchi verso l'ALTO; sotto l'1 il fattore dice
     // che la regione NON CI STA, e lì non si può soprassedere. Alzato a 0.98:
-    // tocca solo il Friuli (la Lombardia è a 0,984, cioè esattamente al 105% di
-    // sbordo che il codice già si concede, e resta ferma).
+    // tocca solo il Friuli (la Lombardia era a 0,984, esattamente il 105% di
+    // sbordo che il codice ALLORA si concedeva; col tetto al 100% e il passo
+    // 0,1 anche lei rientra).
     if(f>1.09||f<0.98){
-      var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*4)/4; // passo 0.25
+      var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*10)/10; // passo 0.1 (era 0.25: troppo grosso, vedi zoomSnap)
       if(z1!==map.getZoom()) map.setView(c0,z1,{animate:false});
     }
   }
@@ -5144,6 +5149,15 @@ function fitMapToRegions(regionKeys,factor){
   var panelPx=isDesk?420:0;
   var _pp=L.point((panelPx/2)+30, 70);            // padding simmetrico che riserva il pannello
   var _z=map.getBoundsZoom(_lb,false,_pp);
+  // SOLO desktop: fit ai quarti come prima di zoomSnap 0.1, poi giu' al decimo
+  // rappresentabile (7,75 con snap 0,1 verrebbe arrotondato a 7,8: PIU' stretto
+  // di prima; 7,7 e' appena piu' largo, mai piu' stretto). Senza questa riga il
+  // passo fine avvicina il fit al limite teorico e la bbox REGION_BOUNDS - piu'
+  // stretta dei confini veri - non ha piu' il quarto di margine che la copriva:
+  // misurata la Lombardia tagliata su tre lati (collaudo-desktop.js, 9/8/2026).
+  // Su telefono NO (la funzione gira anche li', dai link condivisi): il passo
+  // fine e' proprio il guadagno dell'esperimento.
+  if(isDesk) _z=Math.floor((Math.floor(_z*4)/4)*10+1e-6)/10;
   // Spostamento a est del contenuto (per liberare i pannelli): sulle finestre
   // STRETTE lo spostamento fisso di panelPx/2 spingeva la regione fuori dal
   // bordo destro. Cap: mai oltre lo spazio che resta alla zoom scelta.
