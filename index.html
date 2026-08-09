@@ -2801,7 +2801,17 @@ function centraRegioneInStriscia(){
     var f=Math.min(1.05*mBox.width/w0, 0.92*S/h0);
     // La banda morta evita l'oscillazione fra le due chiamate (alla seconda
     // i pallini delle stazioni allargano di poco la misura del disegnato).
-    if(f>1.09||f<0.85){
+    // ⚠️ 9/8/2026 — il limite inferiore era 0.85 e zittiva anche le correzioni
+    // NECESSARIE. Il Friuli: confine largo 411px su 360 di schermo, la funzione
+    // calcolava giusto (fattore 0,94 = "rimpicciolisci del 6%") ma 0,94 cadeva
+    // dentro la banda morta, quindi non faceva nulla e la regione restava
+    // tagliata di 46px a ovest — l'11,5% del contorno fuori schermo, misurato
+    // sui vertici veri. La banda serve contro l'oscillazione fra le due
+    // chiamate, che riguarda i ritocchi verso l'ALTO; sotto l'1 il fattore dice
+    // che la regione NON CI STA, e lì non si può soprassedere. Alzato a 0.98:
+    // tocca solo il Friuli (la Lombardia è a 0,984, cioè esattamente al 105% di
+    // sbordo che il codice già si concede, e resta ferma).
+    if(f>1.09||f<0.98){
       var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*4)/4; // passo 0.25
       if(z1!==map.getZoom()) map.setView(c0,z1,{animate:false});
     }
