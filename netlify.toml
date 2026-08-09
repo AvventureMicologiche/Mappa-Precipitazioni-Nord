@@ -27,4 +27,13 @@
   # (1.005 su 1.024, ~15 crediti l'uno) e su nove deploy consecutivi SETTE
   # erano di documentazione o di script dei collector — roba che non cambia di
   # una virgola il sito pubblicato. Le due esclusioni qui sotto li azzerano.
-  ignore = "git diff --quiet HEAD^ HEAD -- . ':(exclude)data' ':(exclude).github' ':(exclude)*.md'"
+  #
+  # ⚠️ NON usare `HEAD^ HEAD`: guarda solo l'ULTIMO commit. Il 9/8/2026 un push
+  # di tre commit (due su index.html + CLAUDE.md in cima) e' stato annullato
+  # perche' la regola ha esaminato solo il commit del CLAUDE.md — la corsa dei
+  # 50ms e' rimasta su GitHub senza mai arrivare sul sito. Coi collector non si
+  # era mai visto: pushano un commit alla volta. CACHED_COMMIT_REF..COMMIT_REF
+  # e' l'intervallo INTERO dall'ultimo deploy pubblicato a questo, ed e' quello
+  # che Netlify stessa usa nella sua regola di default. Il ripiego HEAD^/HEAD
+  # serve solo se le variabili mancassero (build manuale da CLI).
+  ignore = "git diff --quiet ${CACHED_COMMIT_REF:-HEAD^} ${COMMIT_REF:-HEAD} -- . ':(exclude)data' ':(exclude).github' ':(exclude)*.md'"
