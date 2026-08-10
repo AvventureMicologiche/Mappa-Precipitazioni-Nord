@@ -141,6 +141,19 @@ mobile con fallback centro/zoom per il centro-sud.
 > `analisi_regione` corretto il 4/8, mappatura dello storico svizzero, `EMILIA_ESCLUSE`) e
 > una copia in blocco le avrebbe cancellate. Si portano i pezzi uno per uno. Trappole viste
 > sul campo, tutte e tre lo stesso giorno:
+>
+> 💥 **È SUCCESSO DAVVERO il 10/8/2026, ed è costato un difetto in produzione per mezza
+> giornata.** La promozione della Francia (commit `3e74625e`) ha copiato `index.html` dal
+> test con `sed 's/Nord-Test/Nord/g'` e ha cancellato `EMILIA_ESCLUSE`, aggiunto tre giorni
+> prima: le 8 gemelle liguri sono tornate doppie nel rendering Emilia, zero falso di Alpe
+> Gorreto compreso. Nessun errore, nessun test rosso — una riga in meno e basta.
+> **Rimedio strutturale applicato lo stesso giorno**: `EMILIA_ESCLUSE` è stata messa
+> ANCHE nel repo di test, così una copia in blocco non può più cancellarla. La regola resta
+> «non si copia in blocco», ma adesso non è più l'unica difesa.
+> **Come si verifica una promozione, in dieci secondi**: `git show <commit-prima>:index.html`
+> e confrontare il conteggio delle chiavi prod-only (`EMILIA_ESCLUSE`, `HIST_RAW_BY_REGION`,
+> `analisi_regione`) con quello del file nuovo. Se un numero scende, la copia ha mangiato
+> qualcosa.
 > - **Estrarre blocchi per numero di riga taglia i commenti a metà** → `SyntaxError: Unexpected token '*'`.
 > - **Le dipendenze non si annunciano**: `quandoMappaDisegnata` vuole `baseTiles`, che in prod non esisteva.
 > - ⚠️ **Il pezzo dimenticato è la CHIAMATA, non la funzione** (7/8, segnalato dall'utente:
