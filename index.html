@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<!-- charset e viewport PER PRIMI: la specifica vuole la dichiarazione di
-     codifica entro i primi 1024 byte, e fino all'8 agosto 2026 stava al byte
-     3150, spinta in basso dal blocco di Google Analytics qui sotto. Non
-     rompeva niente (l'header HTTP di Netlify dichiara già UTF-8) ma era una
-     svista da non lasciare in giro. -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mappa Pluviometrica Italia, Svizzera e Austria | Pluviometri e piogge</title>
-<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/">
-
   <!-- Google tag (gtag.js) -->
   <!-- Il config parte solo sul dominio di produzione: questo stesso file gira
        anche sul sito di test (avventurepluvio-test.netlify.app), che non deve
@@ -28,15 +18,9 @@
   </script>
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <!-- description e og:description dicevano ancora "Italia e Svizzera": erano
-       rimaste indietro alla promozione dell'Austria (7/8). Nella description
-       la parola cercata e' "pluviometri" al plurale — quella che la gente
-       scrive su Google — mentre nel testo del sito c'era solo l'aggettivo
-       "pluviometrica". og:title resta col marchio: serve alla condivisione,
-       non alla ricerca, e i due mestieri e' giusto che restino separati. -->
-  <meta name="description" content="Quanta pioggia è caduta? Mappa dei pluviometri di Italia, Svizzera e Austria: dati reali di oltre 3.000 stazioni delle reti pubbliche, fino a 30 giorni indietro. Per chi cerca funghi.">
-  <meta property="og:title" content="Mappa Pluviometrica Italia, Svizzera e Austria | Avventure Micologiche">
-  <meta property="og:description" content="Mappa dei pluviometri di Italia, Svizzera e Austria con dati reali di stazione. Trova le zone dove ha piovuto di più e pianifica l'uscita.">
+  <meta name="description" content="Mappa interattiva delle precipitazioni in Italia, Svizzera, Austria e Francia con dati da stazioni meteo reali. Pianifica le tue uscite funghi.">
+  <meta property="og:title" content="Mappa Pluviometrica Italia, Svizzera, Austria e Francia | Avventure Micologiche">
+  <meta property="og:description" content="Mappa interattiva con dati meteo reali di Italia, Svizzera, Austria e Francia per pianificare ogni uscita. Trova le zone dove ha piovuto di più.">
   <!-- Anteprima rifatta il 3 agosto 2026 con la v6.0: ITALIA + SVIZZERA a 30
        giorni, 22 regioni e la Svizzera intera, 2960 stazioni, con header e
        pannelli. Ricetta: pagina locale usa-e-getta (copia dell'index con il
@@ -52,7 +36,7 @@
        che la tengono in cache per URL e altrimenti mostrerebbero la vecchia.
        NB: nel repo di TEST l'URL punta al dominio di test (per provare
        l'anteprima); in produzione è il dominio vero. -->
-  <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg?v=20260803">
+  <meta property="og:image" content="https://avventurepluvio-test.netlify.app/preview.jpg?v=20260803">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/jpeg">
@@ -60,8 +44,11 @@
   <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg?v=20260803">
+  <meta name="twitter:image" content="https://avventurepluvio-test.netlify.app/preview.jpg?v=20260803">
   <meta name="theme-color" content="#1b3f6e">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappa Pluviometrica Italia, Svizzera, Austria e Francia</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -456,15 +443,11 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   /* Blu istituzionale (#1b3f6e, lo stesso di titoli e pannelli): la pillola
      sembra parte del sito e non un annuncio. Il rosso resta solo sull'icona
      YouTube, che basta a dire dove porta il link. */
-  /* ACCESA il 6 agosto 2026. Era rimasta `display:none` sia qui sia nella
-     regola base: disegnata, mai mostrata a nessuno. Sotto i 600px l'unico
-     invito al canale era il bottoncino rosso da 12px nell'header, e quel
-     formato lo vede il 69% del pubblico — misurato in GA4: su 1.188 visitatori
-     in 28 giorni, 896 hanno usato la mappa e solo 49 hanno cliccato YouTube.
-     Non era un CTR basso, era una richiesta mai fatta.
-     La posizione è la sua forza: sta SOTTO le statistiche del periodo, quindi
-     si legge subito dopo aver visto dove ha piovuto — è la "CTA contestuale
-     post-analisi" giudicata l'idea migliore il 28/7, che era già scritta. */
+  /* ACCESA il 6 agosto 2026 (parità con la produzione). Era `display:none`
+     sia qui sia nella regola base: disegnata, mai mostrata a nessuno. Sotto i
+     600px l'unico invito al canale era il bottoncino da 12px nell'header, e
+     quel formato lo vede il 69% del pubblico. Sta SOTTO le statistiche, quindi
+     si legge subito dopo aver visto dove ha piovuto. */
   #channel-pill{
     display:flex;align-items:center;gap:10px;
     margin:8px 0 0;padding:6px 10px;
@@ -524,10 +507,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .fonte{font-size:9px;color:#aaa;padding:2px 10px;
   border-top:1px solid #eee;text-align:center;background:#fff;flex-shrink:0;}
 .fonte a{color:#1b3f6e}
-/* La frase per i motori di ricerca sta solo da 901px in su: a 760 mandava la
-   striscia a capo e la mappa perdeva 12px (misurato). Sotto i 600 la .fonte
-   è già nascosta per intero, quindi lì non cambia nulla. */
-@media(max-width:900px){ .claim{display:none;} }
 
 /* ══════════════════════════════════════
    TABLET (601-900px)
@@ -850,37 +829,26 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 
 <header>
   <div class="hdr-l">
-    <!-- Qui c'era una CASETTA (6 agosto 2026). In un sito-mappa quel simbolo si
-         legge come "torna alla vista iniziale", non come "vai su un altro sito":
-         è l'ipotesi più semplice per spiegare perché faceva 114 utenti contro i
-         49 del bottone YouTube, pur essendo un quadratino senza etichetta. Con
-         la faccia di Archie il significato diventa "chi c'è dietro" e l'equivoco
-         sparisce. Da misurare: se click_home SCENDE e click_youtube SALE,
-         l'ipotesi era giusta; se click_home resta uguale, la gente voleva
-         davvero il sito e la casetta non c'entrava. -->
+    <!-- Avatar al posto della casetta (6/8/2026, parità con la produzione): in
+         un sito-mappa la casetta si legge come "torna alla vista iniziale", non
+         come "vai su un altro sito". Da misurare su click_home / click_youtube. -->
     <a href="https://avventuremicologiche.it" target="_blank" rel="noopener" title="Vai al sito Avventure Micologiche" onclick="try{gtag('event','click_home',{pulsante:'archie-header'})}catch(e){}" style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#f3efe6;text-decoration:none;flex-shrink:0;margin-right:2px;border:1.5px solid rgba(255,255,255,.85);box-sizing:border-box;overflow:hidden;">
       <img src="archie-avatar.png" alt="Avventure Micologiche" style="width:100%;height:100%;object-fit:cover;display:block;">
     </a>
     <span style="font-size:18px">🌧</span>
     <div>
       <!-- L'elenco dei paesi sta in un pezzo a sé perché sotto i 600px sparisce
-           (6/8/2026). Misurato headless: col titolo intero l'header TRABOCCA di
-           9px a 360 di larghezza (Galaxy A, formato molto diffuso) e di 49px a
-           320, spingendo il tasto "Iscriviti" fuori dallo schermo — difetto che
-           c'era già. Aggiungendo l'Austria alla promozione si arriverebbe a 62px
-           a 360 e a 10px persino su un Pixel 9 (412). Su telefono resta "Mappa
-           Pluviometrica Italia", che entra anche a 320. <title> e og:title
-           restano interi: quelli servono a chi condivide, non allo schermo. -->
-      <h1>Mappa Pluviometrica<span class="hdr-paesi"> Italia · Svizzera · Austria</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v6.0)</span></h1>
+           (6/8/2026). Misurato headless: "Italia + Svizzera + Austria" fa
+           traboccare l'header di 62px a 360 di larghezza, 47 a 375 e 10 persino
+           su un Pixel 9 (412), spingendo fuori il tasto "Iscriviti"; e anche il
+           solo "+ Svizzera" traboccava già di 9px a 360. Su telefono resta
+           "Mappa Pluviometrica Italia", che entra anche a 320. -->
+      <h1>Mappa Pluviometrica<span class="hdr-paesi"> Italia · Svizzera · Austria · Francia</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v7.0)</span></h1>
       <div class="hdr-sub" id="datehdr"></div>
     </div>
   </div>
   <div id="badge"></div>
   <div class="hdr-r" style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-    <!-- Parametro `pulsante` su tutti i click_* (6/8/2026): senza, GA4 non può
-         dire QUALE dei quattro bottoni YouTube viene usato. Dimensione GA4
-         "Pulsante" (ambito Evento, parametro pulsante) — come per le
-         condivisioni, niente storico: i dati partono dal deploy. -->
     <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener"
        onclick="try{gtag('event','click_youtube',{pulsante:'iscriviti-header'})}catch(e){}"
        id="hdr-yt" title="Iscriviti su YouTube" aria-label="Iscriviti su YouTube">
@@ -927,7 +895,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       <div class="sh-fonte" id="sh-fonte"></div>
     </div>
     <div class="fonte-tag" id="fonte-tag">Fonte: —</div>
-    <div id="beta-note">🧪 Centro-Sud in fase di test: dati MeteoHub in validazione</div>
+    <div id="beta-note">🧪 Sicilia e Lazio in fase di test: dati MeteoHub in validazione</div>
 
     <!-- Box canale YouTube — desktop, in basso a destra.
          Filigrana: lo SFONDO è semitrasparente (si intravede la mappa) ma il
@@ -965,22 +933,35 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <label class="rcheck-wrap"><input type="checkbox" id="chk-lombardia" value="lombardia"><span class="rcheck-box"></span><span class="rcheck-name">Lombardia</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-svizzera" value="svizzera"><span class="rcheck-box"></span><span class="rcheck-name">Svizzera (CH)</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-austria" value="austria"><span class="rcheck-box"></span><span class="rcheck-name">Austria (AT)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-aura" value="francia-aura"><span class="rcheck-box"></span><span class="rcheck-name">Alvernia-Rodano-Alpi (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-bfc" value="francia-bfc"><span class="rcheck-box"></span><span class="rcheck-name">Borgogna-Franca Contea (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-bretagna" value="francia-bretagna"><span class="rcheck-box"></span><span class="rcheck-name">Bretagna (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-centro" value="francia-centro"><span class="rcheck-box"></span><span class="rcheck-name">Centro-Valle Loira (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-corsica" value="francia-corsica"><span class="rcheck-box"></span><span class="rcheck-name">Corsica (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-grandest" value="francia-grandest"><span class="rcheck-box"></span><span class="rcheck-name">Grand Est (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-hdf" value="francia-hdf"><span class="rcheck-box"></span><span class="rcheck-name">Hauts-de-France (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-idf" value="francia-idf"><span class="rcheck-box"></span><span class="rcheck-name">Île-de-France (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-normandia" value="francia-normandia"><span class="rcheck-box"></span><span class="rcheck-name">Normandia (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-naq" value="francia-naq"><span class="rcheck-box"></span><span class="rcheck-name">Nuova Aquitania (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-occitania" value="francia-occitania"><span class="rcheck-box"></span><span class="rcheck-name">Occitania (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-loira" value="francia-loira"><span class="rcheck-box"></span><span class="rcheck-name">Paesi della Loira (FR)</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-francia-provenza" value="francia-provenza"><span class="rcheck-box"></span><span class="rcheck-name">Provenza-Costa Azzurra (FR)</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-trentino-aa" value="trentino-aa"><span class="rcheck-box"></span><span class="rcheck-name">Trentino-A.A.</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-veneto" value="veneto"><span class="rcheck-box"></span><span class="rcheck-name">Veneto</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-friuli" value="friuli"><span class="rcheck-box"></span><span class="rcheck-name">Friuli V.G.</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-emilia" value="emilia"><span class="rcheck-box"></span><span class="rcheck-name">Emilia-R.</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-toscana" value="toscana"><span class="rcheck-box"></span><span class="rcheck-name">Toscana</span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-umbria" value="umbria"><span class="rcheck-box"></span><span class="rcheck-name">Umbria <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-marche" value="marche"><span class="rcheck-box"></span><span class="rcheck-name">Marche <sup class="beta-tag">beta</sup></span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-umbria" value="umbria"><span class="rcheck-box"></span><span class="rcheck-name">Umbria</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-marche" value="marche"><span class="rcheck-box"></span><span class="rcheck-name">Marche</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-lazio" value="lazio"><span class="rcheck-box"></span><span class="rcheck-name">Lazio <sup class="beta-tag">beta</sup></span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-abruzzo" value="abruzzo"><span class="rcheck-box"></span><span class="rcheck-name">Abruzzo</span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-molise" value="molise"><span class="rcheck-box"></span><span class="rcheck-name">Molise <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-campania" value="campania"><span class="rcheck-box"></span><span class="rcheck-name">Campania <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-puglia" value="puglia"><span class="rcheck-box"></span><span class="rcheck-name">Puglia <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-basilicata" value="basilicata"><span class="rcheck-box"></span><span class="rcheck-name">Basilicata <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-calabria" value="calabria"><span class="rcheck-box"></span><span class="rcheck-name">Calabria <sup class="beta-tag">beta</sup></span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-molise" value="molise"><span class="rcheck-box"></span><span class="rcheck-name">Molise</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-campania" value="campania"><span class="rcheck-box"></span><span class="rcheck-name">Campania</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-puglia" value="puglia"><span class="rcheck-box"></span><span class="rcheck-name">Puglia</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-basilicata" value="basilicata"><span class="rcheck-box"></span><span class="rcheck-name">Basilicata</span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-calabria" value="calabria"><span class="rcheck-box"></span><span class="rcheck-name">Calabria</span></label>
           <label class="rcheck-wrap"><input type="checkbox" id="chk-sicilia" value="sicilia"><span class="rcheck-box"></span><span class="rcheck-name">Sicilia <sup class="beta-tag">beta</sup></span></label>
-          <label class="rcheck-wrap"><input type="checkbox" id="chk-sardegna" value="sardegna"><span class="rcheck-box"></span><span class="rcheck-name">Sardegna <sup class="beta-tag">beta</sup></span></label>
+          <label class="rcheck-wrap"><input type="checkbox" id="chk-sardegna" value="sardegna"><span class="rcheck-box"></span><span class="rcheck-name">Sardegna</span></label>
           <!-- Checkbox INDIVIDUALI (mai visibili): stato per la selezione da mappa
                su desktop, dove i combo Piemonte-VdA / Trentino-A.A. non esistono
                e ogni regione si clicca da sola. La tendina mobile continua a
@@ -999,6 +980,19 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <option value="">Tocca per scegliere la regione ▼</option>
           <!-- Prima l'estero, poi le regioni italiane (ordine scelto il 6/8/2026) -->
           <option value="austria">Austria (AT)</option>
+          <option value="francia-aura">Alvernia-Rodano-Alpi (FR)</option>
+          <option value="francia-bfc">Borgogna-Franca Contea (FR)</option>
+          <option value="francia-bretagna">Bretagna (FR)</option>
+          <option value="francia-centro">Centro-Valle Loira (FR)</option>
+          <option value="francia-corsica">Corsica (FR)</option>
+          <option value="francia-grandest">Grand Est (FR)</option>
+          <option value="francia-hdf">Hauts-de-France (FR)</option>
+          <option value="francia-idf">Île-de-France (FR)</option>
+          <option value="francia-normandia">Normandia (FR)</option>
+          <option value="francia-naq">Nuova Aquitania (FR)</option>
+          <option value="francia-occitania">Occitania (FR)</option>
+          <option value="francia-loira">Paesi della Loira (FR)</option>
+          <option value="francia-provenza">Provenza-Costa Azzurra (FR)</option>
           <option value="svizzera">Svizzera (CH)</option>
           <option value="piemonte-vda">Piemonte-Valle d'Aosta</option>
           <option value="liguria">Liguria</option>
@@ -1008,17 +1002,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <option value="friuli">Friuli V.G.</option>
           <option value="emilia">Emilia Romagna</option>
           <option value="toscana">Toscana</option>
-          <option value="umbria">Umbria (beta)</option>
-          <option value="marche">Marche (beta)</option>
+          <option value="umbria">Umbria</option>
+          <option value="marche">Marche</option>
           <option value="lazio">Lazio (beta)</option>
           <option value="abruzzo">Abruzzo</option>
-          <option value="molise">Molise (beta)</option>
-          <option value="campania">Campania (beta)</option>
-          <option value="puglia">Puglia (beta)</option>
-          <option value="basilicata">Basilicata (beta)</option>
-          <option value="calabria">Calabria (beta)</option>
+          <option value="molise">Molise</option>
+          <option value="campania">Campania</option>
+          <option value="puglia">Puglia</option>
+          <option value="basilicata">Basilicata</option>
+          <option value="calabria">Calabria</option>
           <option value="sicilia">Sicilia (beta)</option>
-          <option value="sardegna">Sardegna (beta)</option>
+          <option value="sardegna">Sardegna</option>
         </select>
       </div>
     </div>
@@ -1097,14 +1091,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 </div>
 
 <div class="fonte">
-  <!-- Una riga di testo VERO per i motori di ricerca (8/8/2026). La pagina ne
-       aveva 250 parole in tutto: tutto il resto lo disegna JavaScript, e
-       "pluviometri" al plurale — la parola che si cerca su Google — non
-       compariva da nessuna parte fuori dal codice. La striscia .fonte è già
-       display:none sotto i 600px, quindi su telefono non toglie un pixel alla
-       mappa. Se un giorno servisse più testo, la strada è fonti.html, che è
-       una pagina di parole e ne ha già 653. -->
-  <span class="claim">Mappa dei <b>pluviometri</b> di Italia, Svizzera e Austria: quanta pioggia è caduta negli ultimi 30 giorni, misurata dalle stazioni delle reti pubbliche.</span> ·
   © 2024-2026 <a href="https://avventuremicologiche.it" target="_blank" rel="noopener">Avventure Micologiche</a> ·
   Dati: <span id="fonte-dati">agenzie regionali</span> ·
   <a href="/fonti.html">Fonti e licenze</a> ·
@@ -1571,11 +1557,10 @@ var REGIONS = {
     stations: []
   },
 
-  // Austria (in produzione dal 7/8/2026, sviluppata nel repo di test dal 5/8):
-  // GeoSphere Austria Data Hub, dataset orario klima-v2-1h, ~269 stazioni con
-  // 365 giorni di storico REALE dal primo giorno — niente stime, niente beta.
-  // Come la Svizzera non ha lista stations statica: l'anagrafe si prende da un
-  // file recente. Confine BEV via data.gv.at (CC BY-SA 2.0, diversa dai dati).
+  // Austria (pilota dal 5/8/2026): GeoSphere Austria Data Hub, dataset orario
+  // klima-v2-1h, ~269 stazioni con 365 giorni di storico REALE dal primo
+  // giorno. Come la Svizzera non ha lista stations statica: l'anagrafe si
+  // prende da un file recente. Confine BEV via data.gv.at (CC BY-SA 2.0).
   austria: {
     name: 'Austria',
     center: [47.6, 13.4], zoom: 7,
@@ -1583,6 +1568,155 @@ var REGIONS = {
     geojsonUrl: 'austria-confine.geojson',
     geojsonFilter: 'austria',
     dataSource: 'austria',
+    stations: []
+  },
+
+  // Francia intera nelle 13 régions ufficiali (9/8/2026, decisione utente:
+  // «un peccato fare solo una porzione»). Météo-France API Paquet Observations,
+  // ~1.700 stazioni orarie nazionali, una cartella dati e un confine per
+  // régione (IGN via france-geojson, ~70 m). Stessa architettura dell'Austria;
+  // dataDir = cartella sotto data/, usata da loader e anagrafe.
+
+  'francia-aura': {
+    name: 'Alvernia-Rodano-Alpi (FR)',
+    center: [45.4, 4.6], zoom: 7,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-aura-confine.geojson',
+    geojsonFilter: 'francia-aura',
+    dataSource: 'francia',
+    dataDir: 'francia-aura',
+    stations: []
+  },
+
+  'francia-bfc': {
+    name: 'Borgogna-Franca Contea (FR)',
+    center: [47.25, 5.0], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-bfc-confine.geojson',
+    geojsonFilter: 'francia-bfc',
+    dataSource: 'francia',
+    dataDir: 'francia-bfc',
+    stations: []
+  },
+
+  'francia-bretagna': {
+    name: 'Bretagna (FR)',
+    center: [48.1, -3.1], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-bretagna-confine.geojson',
+    geojsonFilter: 'francia-bretagna',
+    dataSource: 'francia',
+    dataDir: 'francia-bretagna',
+    stations: []
+  },
+
+  'francia-centro': {
+    name: 'Centro-Valle Loira (FR)',
+    center: [47.6, 1.6], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-centro-confine.geojson',
+    geojsonFilter: 'francia-centro',
+    dataSource: 'francia',
+    dataDir: 'francia-centro',
+    stations: []
+  },
+
+  'francia-corsica': {
+    name: 'Corsica (FR)',
+    center: [42.15, 9.1], zoom: 8,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-corsica-confine.geojson',
+    geojsonFilter: 'francia-corsica',
+    dataSource: 'francia',
+    dataDir: 'francia-corsica',
+    stations: []
+  },
+
+  'francia-grandest': {
+    name: 'Grand Est (FR)',
+    center: [48.8, 5.8], zoom: 7,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-grandest-confine.geojson',
+    geojsonFilter: 'francia-grandest',
+    dataSource: 'francia',
+    dataDir: 'francia-grandest',
+    stations: []
+  },
+
+  'francia-hdf': {
+    name: 'Hauts-de-France (FR)',
+    center: [49.95, 2.8], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-hdf-confine.geojson',
+    geojsonFilter: 'francia-hdf',
+    dataSource: 'francia',
+    dataDir: 'francia-hdf',
+    stations: []
+  },
+
+  'francia-idf': {
+    name: 'Île-de-France (FR)',
+    center: [48.7, 2.5], zoom: 8.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-idf-confine.geojson',
+    geojsonFilter: 'francia-idf',
+    dataSource: 'francia',
+    dataDir: 'francia-idf',
+    stations: []
+  },
+
+  'francia-normandia': {
+    name: 'Normandia (FR)',
+    center: [49.1, -0.1], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-normandia-confine.geojson',
+    geojsonFilter: 'francia-normandia',
+    dataSource: 'francia',
+    dataDir: 'francia-normandia',
+    stations: []
+  },
+
+  'francia-naq': {
+    name: 'Nuova Aquitania (FR)',
+    center: [45.0, 0.4], zoom: 6.75,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-naq-confine.geojson',
+    geojsonFilter: 'francia-naq',
+    dataSource: 'francia',
+    dataDir: 'francia-naq',
+    stations: []
+  },
+
+  'francia-occitania': {
+    name: 'Occitania (FR)',
+    center: [43.7, 2.2], zoom: 7,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-occitania-confine.geojson',
+    geojsonFilter: 'francia-occitania',
+    dataSource: 'francia',
+    dataDir: 'francia-occitania',
+    stations: []
+  },
+
+  'francia-loira': {
+    name: 'Paesi della Loira (FR)',
+    center: [47.4, -0.85], zoom: 7.5,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-loira-confine.geojson',
+    geojsonFilter: 'francia-loira',
+    dataSource: 'francia',
+    dataDir: 'francia-loira',
+    stations: []
+  },
+
+  'francia-provenza': {
+    name: 'Provenza-Costa Azzurra (FR)',
+    center: [44.05, 6.0], zoom: 7,
+    fonte: 'Météo-France',
+    geojsonUrl: 'francia-provenza-confine.geojson',
+    geojsonFilter: 'francia-provenza',
+    dataSource: 'francia',
+    dataDir: 'francia-provenza',
     stations: []
   },
 
@@ -1864,15 +1998,10 @@ if(screenW<=480){
 }
 // Vista sull'Italia intera (dalle Alpi alla Sicilia)
 var initCenter=(screenW<=900)?[42.0,12.6]:[42.0,12.9];
-// zoomSnap 0.1 (dal 9/8/2026, era 0.25): il passo fine serve all'inquadratura
-// su telefono — coi quarti la correzione andava a scatti troppo grossi e quattro
-// regioni restavano tagliate (Lombardia 24px). Su desktop il fit multiregione
-// resta ai quarti (vedi fitMapToRegions), perché REGION_BOUNDS è più stretta
-// dei confini veri e senza il quarto di margine si taglia. zoomDelta resta 0.5
-// → i pulsanti +/- e la rotellina zoomano di 0,5 come prima (manuale invariato).
-var map=L.map('map',{zoomSnap:0.1,zoomDelta:0.5}).setView(initCenter, initZoom);
-// `baseTiles`: serve a quandoMappaDisegnata, che aspetta l'evento `load` di
-// questo layer prima di far partire il calcolo della griglia.
+// zoomSnap 0.25: permette livelli di zoom a quarti (serve al controllo fine
+// dell'inquadratura multiregione, ZOOM_STEP). zoomDelta resta 0.5 → i pulsanti
+// +/- e la rotellina zoomano di 0,5 come prima (zoom manuale invariato).
+var map=L.map('map',{zoomSnap:0.25,zoomDelta:0.5}).setView(initCenter, initZoom);
 var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,subdomains:'abc',
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
@@ -2021,15 +2150,14 @@ var _retryCall     = false;
 // apriva sempre alla vista di default. Trovato dall'utente il 1/8.
 var _linkView      = false;
 // ── "l'inquadratura l'ha scelta l'utente" (7/8/2026) ──────────────────────
-// Serve allo SCATTO. Dal 30/7 captureMapBlob allarga la vista se non contiene
-// tutte le regioni attive (rimedio all'immagine tagliata sull'Italia intera).
-// Ma la condizione non distingue "il fit automatico non ci sta" da "l'utente
-// ha zoomato apposta": appena zoomi, la vista non contiene piu' la regione e
-// lo scatto si riallarga. E siccome la vista viene RIPRISTINATA subito dopo,
-// a schermo non si vede nulla e sembra stregoneria (segnalato il 7/8).
+// Serve allo SCATTO. Dal 30/7 l'immagine si riallarga alla regione intera se
+// la vista non la contiene tutta: giusto quando l'inquadratura è quella
+// automatica e il contenuto sborda, SBAGLIATO quando è l'utente ad aver
+// zoomato apposta su una valle — e siccome la vista veniva ripristinata subito
+// dopo, a schermo non si vedeva nulla e sembrava un mistero.
 // Si ascoltano solo gesti UMANI: `dragstart` non scatta sui panBy
 // programmatici, e rotellina, pinch, doppio clic e i bottoni +/- sono per
-// definizione dell'utente. Il flag si spegne a ogni nuova analisi.
+// definizione dell'utente. Il flag si azzera a ogni nuova analisi.
 var _vistaUtente   = false;
 // La vista arriva da un link condiviso: su telefono va protetta da
 // centraRegioneInStriscia, che altrimenti la riporterebbe sulla regione.
@@ -2058,14 +2186,14 @@ var GRID_RES=0.009, IDW_RAD=0.15;
 var activeGridRes=GRID_RES;
 // Area di riferimento in gradi quadrati per il passo della griglia (vedi il
 // blocco in renderMulti). NON è un numero scelto a occhio: 6,5 è il valore che
-// RIPRODUCE i fattori già tarati a mano, così nessuna vista cambia aspetto.
+// RIPRODUCE i fattori già tarati a mano, così nessuna vista italiana cambia.
 //   1 regione   (~3,0 gradi²)  → 1,5·√(3,0/6,5)  = 1,02  → vince il 1,5 tarato
 //   2 regioni   (~7,0)         → 1,56                    → vince l'1,7 tarato
 //   3 regioni   (~16,7)        → 2,40                    → pari al 2,4 tarato
-// Serve per le regioni molto grandi prese da sole, dove la tabella per numero
-// di regioni non arrivava: sul test l'Austria (~20,2) congelava il thread per
-// 2,44 s contro 0,37 s del Trentino-Alto Adige, e in quel tempo Leaflet non
-// riusciva a mostrare le tile — mappa grigia. Qui oggi è un no-op.
+//   Austria sola (~20,2)       → 2,64                    → è QUI che serve
+// In pratica la formula dice la stessa cosa della tabella dove la tabella era
+// giusta, e continua a dirla dove la tabella non arrivava: una regione enorme
+// da sola. Il numero di regioni era un cattivo indicatore del lavoro.
 var AREA_RIF=6.5;
 
 function pipGeo(lon,lat,ring){
@@ -2088,6 +2216,54 @@ function inRegion(lon,lat,rings){
   return false;
 }
 
+function buildGrid(data,rings,idwRad,gridRes){
+  var rad=idwRad||IDW_RAD;
+  var GR=gridRes||activeGridRes||GRID_RES;
+  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+  var dataForIDW=data;
+  // Bounding box per regione
+  var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
+  var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
+  var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
+  // Bounding box dell'anello esterno di ogni poligono: la stragrande maggioranza
+  // delle celle è fuori regione e viene scartata da questo confronto O(1), senza
+  // il point-in-polygon sui migliaia di vertici del confine (era il collo di
+  // bottiglia in multiregione: box unito grande × tutti i confini per cella).
+  var polys=rings.map(function(poly){
+    var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
+    for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
+    return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
+  });
+  var pts=[];
+  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR){
+    for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
+      var inside=false;
+      for(var pz=0;pz<polys.length;pz++){
+        var P=polys[pz];
+        if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue; // AABB: reject veloce
+        if(pipGeo(lon,lat,P.poly[0])){
+          var hole=false;
+          for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
+          if(!hole){inside=true;break;}
+        }
+      }
+      if(!inside) continue;
+      var num=0,den=0,found=false;
+      for(var i=0;i<dataForIDW.length;i++){
+        var dlat=lat-dataForIDW[i].lat;
+        var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
+        var d2=dlat*dlat+dlon*dlon;
+        if(d2>rad*rad) continue;
+        found=true;
+        if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
+        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
+      }
+      if(!found) continue;
+      pts.push({lat:lat,lon:lon,mm:num/den});
+    }
+  }
+  return pts;
+}
 
 /**
  * Come buildGrid, ma A FETTE: lavora ~22 ms per volta e poi restituisce il
@@ -2156,55 +2332,6 @@ function buildGridAFette(data,rings,idwRad,gridRes,sessione,onFatto){
   giro();
 }
 
-function buildGrid(data,rings,idwRad,gridRes){
-  var rad=idwRad||IDW_RAD;
-  var GR=gridRes||activeGridRes||GRID_RES;
-  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
-  var dataForIDW=data;
-  // Bounding box per regione
-  var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
-  var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
-  var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
-  // Bounding box dell'anello esterno di ogni poligono: la stragrande maggioranza
-  // delle celle è fuori regione e viene scartata da questo confronto O(1), senza
-  // il point-in-polygon sui migliaia di vertici del confine (era il collo di
-  // bottiglia in multiregione: box unito grande × tutti i confini per cella).
-  var polys=rings.map(function(poly){
-    var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
-    for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
-    return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
-  });
-  var pts=[];
-  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR){
-    for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
-      var inside=false;
-      for(var pz=0;pz<polys.length;pz++){
-        var P=polys[pz];
-        if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue; // AABB: reject veloce
-        if(pipGeo(lon,lat,P.poly[0])){
-          var hole=false;
-          for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
-          if(!hole){inside=true;break;}
-        }
-      }
-      if(!inside) continue;
-      var num=0,den=0,found=false;
-      for(var i=0;i<dataForIDW.length;i++){
-        var dlat=lat-dataForIDW[i].lat;
-        var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
-        var d2=dlat*dlat+dlon*dlon;
-        if(d2>rad*rad) continue;
-        found=true;
-        if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
-        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
-      }
-      if(!found) continue;
-      pts.push({lat:lat,lon:lon,mm:num/den});
-    }
-  }
-  return pts;
-}
-
 function gridPxSize(){
   var gr=activeGridRes;
   var mpp=156543.03392*Math.cos(45.0*Math.PI/180)/Math.pow(2,map.getZoom());
@@ -2259,7 +2386,7 @@ map.on('moveend',function(){
 // I pallini stazione seguono la heat: NASCOSTI durante l'animazione di zoom.
 // Perché (3/8/2026, segnalato dall'utente): durante lo zoom Leaflet non
 // ridisegna i vettori, applica una transform di SCALA all'intero livello e li
-// rimette a posto solo alla fine — misurato qui in prod, pallini larghi 24px
+// rimette a posto solo alla fine — misurato in prod, pallini larghi 24px
 // invece di 10 e spostati di ~490px per 870ms. Nasconderli costa nulla (sono
 // già disegnati, riappaiono al posto giusto) ed è lo stesso trattamento che la
 // heat riceve dalla riga sotto.
@@ -2339,16 +2466,16 @@ var HIST_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Preci
 // Override base-URL per lo storico di alcune "regioni" logiche: il dato OSMER
 // del Friuli sta nel repo di TEST (pilota), non in produzione.
 // Repo dei dati dei piloti VdA-CF e Friuli-OSMER. Finché non si promuove, i file
-// stanno nel repo di TEST. ►► PROMOZIONE A PROD: cambiare Nord → Nord in questa
+// (promozione fatta il 10/8/2026: qui in prod gli URL puntano già a Nord)
 // UNICA riga (e spostare data/valledaosta-cf + data/friuli-osmer nel repo prod). ◄◄
 var PILOT_DATA_BASE='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
 var HIST_RAW_BY_REGION={
   'friuli-osmer':PILOT_DATA_BASE,
   'valledaosta-cf':PILOT_DATA_BASE,
-  'svizzera':PILOT_DATA_BASE,  // MeteoSwiss (il Ticino OASI resta su HIST_RAW)
-  'austria':PILOT_DATA_BASE    // GeoSphere Austria
+  'svizzera':PILOT_DATA_BASE,  // pilota MeteoSwiss (il Ticino OASI resta su HIST_RAW prod)
+  'austria':PILOT_DATA_BASE    // pilota GeoSphere Austria
 };
-function histRawBase(region){ if(region&&region.indexOf('meteohub-')===0) return PILOT_DATA_BASE; return HIST_RAW_BY_REGION[region]||HIST_RAW; }
+function histRawBase(region){ if(region&&(region.indexOf('meteohub-')===0||region.indexOf('francia')===0)) return PILOT_DATA_BASE; return HIST_RAW_BY_REGION[region]||HIST_RAW; }
 // Piloti VdA-CF e Friuli-OSMER: lo storico è backfill Open-Meteo (stime, source
 // 'open-meteo-backfill-*') per i 60 giorni prima del primo dato reale + dati reali
 // di stazione, tutti sulle STESSE coordinate. Nessuno switch runtime: si legge
@@ -2707,10 +2834,9 @@ function showLegendMobile(){
   leg.style.display='block';
   leg.offsetHeight;
   leg.classList.add('leg-visible');
-  // Il pannello dei cumulati non è alto come quello del periodo: al suo
-  // ARRIVO (transitionend, non un timer: vedi la corsa dei 50ms) si rimisura
-  // la copertura e si corregge il residuo.
-  centraDopoPannello('legend-panel');
+  // Il pannello dei cumulati non è alto come quello del periodo: a fine
+  // transizione si rimisura la copertura e si corregge il residuo.
+  setTimeout(centraRegioneInStriscia,350);
 }
 
 function hideLegendMobile(){
@@ -2723,43 +2849,14 @@ function hideLegendMobile(){
 
 window.hideLegendMobile=hideLegendMobile;
 
-// ── La corsa dei 50ms, chiusa il 9/8/2026 ──
-// I pannelli salgono con una transizione di transform da ~300ms e la
-// centratura partiva da un timer fisso (350/420ms): 50ms di margine. Ma i
-// timer scaduti durante un blocco del thread (il disegno di stazioni e
-// heatmap) girano PRIMA del frame che avvia la transizione: il pannello
-// viene misurato ancora fuori schermo (top=800 su viewport 800), coperto=0,
-// la funzione esce e nessuno la richiama più — regione scentrata in modo
-// PERMANENTE (il Lazio: 138px, riprodotto identico due volte su telefono).
-// Riprodotte entrambe le forme con riproduci-corsa-50ms.js (cartella claudio):
-// misura a metà corsa → 57px sotto il pannello; misura prima del primo frame
-// → uscita secca, vista mai corretta. Il rimedio non allarga i margini (una
-// riprova a contatore condiviso è già stata provata l'8/8 e ha fatto passare
-// il giro da 28 a 150 secondi: i contatori si azzeravano a vicenda): si
-// misura all'arrivo VERO del pannello, transitionend del transform, che
-// scatta esatto su qualunque motore. La riserva a 900ms copre il caso senza
-// transizione (pannello già aperto: nessun evento, ma anche niente da
-// aspettare). La riserva NON conclude: se l'evento deve ancora arrivare, la
-// sua misura anticipata è solo provvisoria e l'evento la corregge — la
-// centratura è idempotente, rieseguirla a pannello fermo non muove nulla.
-function centraDopoPannello(elId){
-  var el=document.getElementById(elId), daEvento=false;
-  if(el) el.addEventListener('transitionend', function suo(e){
-    if(e.target!==el || e.propertyName!=='transform') return;
-    el.removeEventListener('transitionend',suo);
-    daEvento=true;
-    centraRegioneInStriscia();
-  });
-  setTimeout(function(){ if(!daEvento) centraRegioneInStriscia(); },900);
-}
-
 // ── Centratura verticale nella striscia visibile (6/8/2026) ──
 // Su telefono i pannelli (periodo o cumulati) coprono la parte bassa della
 // mappa. Le viste della tendina compensavano a mano il pannello di ALLORA,
 // ma la pillola canale lo ha allungato e ogni regione finiva troppo in basso
 // (segnalato su Svizzera e Liguria). Invece di ritarare 13 centri a occhio,
 // si MISURA: dove sta il centro della regione, dove sta il centro della
-// striscia libera, e si sposta della differenza. Vale per qualunque regione
+// striscia libera, e si sposta della differenza. Generalizza la correzione
+// nata il 6/8 per le regioni larghe (Austria): vale per qualunque regione
 // e sopravvive a future modifiche di altezza dei pannelli. Se nessun
 // pannello copre la mappa (tablet coi pannelli laterali) non tocca nulla.
 function centraRegioneInStriscia(){
@@ -2821,8 +2918,7 @@ function centraRegioneInStriscia(){
     w0=Math.abs(pNE.x-pSW.x); h0=Math.abs(pSW.y-pNE.y); c0=bb.getCenter();
   }
   if(w0>4&&h0>4){
-    // Quanto si può zoomare: LARGHEZZA piena (tetto 100%, dal 9/8/2026 — il 5%
-    // di sbordo che ci si concedeva era i 24px tagliati della Lombardia) oppure
+    // Quanto si può zoomare: LARGHEZZA quasi piena (5% di tolleranza) oppure
     // 92% dell'altezza della striscia — il primo dei due che scatta. Il
     // debordo laterale "tanto si scorre col dito" è stato provato (tetto a
     // 1,35×) e SCARTATO su segnalazione: su una regione ad arco come la
@@ -2832,23 +2928,12 @@ function centraRegioneInStriscia(){
     // è il CONTENUTO che è diverso. Quindi niente tagli per nessuno: chi ha
     // margine verticale (Svizzera, Emilia) si allarga comunque, le regioni
     // "a nastro" restano allo zoom tarato. Arrotondamento per DIFETTO: il
-    // passo di livello in più nei casi limite era il "troppo zoomata".
-    var f=Math.min(1.00*mBox.width/w0, 0.92*S/h0);
+    // quarto di livello in più nei casi limite era il "troppo zoomata".
+    var f=Math.min(1.05*mBox.width/w0, 0.92*S/h0);
     // La banda morta evita l'oscillazione fra le due chiamate (alla seconda
     // i pallini delle stazioni allargano di poco la misura del disegnato).
-    // ⚠️ 9/8/2026 — il limite inferiore era 0.85 e zittiva anche le correzioni
-    // NECESSARIE. Il Friuli: confine largo 411px su 360 di schermo, la funzione
-    // calcolava giusto (fattore 0,94 = "rimpicciolisci del 6%") ma 0,94 cadeva
-    // dentro la banda morta, quindi non faceva nulla e la regione restava
-    // tagliata di 46px a ovest — l'11,5% del contorno fuori schermo, misurato
-    // sui vertici veri. La banda serve contro l'oscillazione fra le due
-    // chiamate, che riguarda i ritocchi verso l'ALTO; sotto l'1 il fattore dice
-    // che la regione NON CI STA, e lì non si può soprassedere. Alzato a 0.98:
-    // tocca solo il Friuli (la Lombardia era a 0,984, esattamente il 105% di
-    // sbordo che il codice ALLORA si concedeva; col tetto al 100% e il passo
-    // 0,1 anche lei rientra).
-    if(f>1.09||f<0.98){
-      var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*10)/10; // passo 0.1 (era 0.25: troppo grosso, vedi zoomSnap)
+    if(f>1.09||f<0.85){
+      var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*4)/4; // passo 0.25
       if(z1!==map.getZoom()) map.setView(c0,z1,{animate:false});
     }
   }
@@ -3063,24 +3148,6 @@ function getActiveRegions(){
   });
   return active;
 }
-/**
- * Le SCELTE dell'utente, senza espandere i combo: 'piemonte-vda' resta tale.
- *
- * Serve SOLO alla statistica, che deve dire cosa è stato scelto e non cosa è
- * stato caricato. Con getActiveRegions un tocco sulla tendina mobile
- * "Piemonte-VdA" contava anche come analisi della Valle d'Aosta, e la regione
- * saliva in classifica senza che nessuno l'avesse cercata (nei dati di luglio
- * valeva quasi metà del suo totale). Per caricare i dati serve invece
- * l'elenco espanso, quindi le due funzioni convivono: non sostituire l'una
- * con l'altra.
- */
-function getSelectedValues(){
-  var v=[];
-  document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
-    if(cb.checked) v.push(cb.value);
-  });
-  return v;
-}
 // Avviso ritardo pubblicazione OSMER (Friuli), due contesti distinti:
 //  - DESKTOP (>900px): testo inline accanto a "✅ Ieri" (solo periodo Ieri).
 //  - MOBILE  (≤900px): box giallo sotto "Piogge per funghi", visibile da quando
@@ -3116,10 +3183,10 @@ function updateOsmerNotice(){
 // ═══════════════════════════════════════════════════════════════
 function loadData(pastDate,nowDate,labelPeriodo){
   if(isLoading) return;
-  // Nuova analisi = nuova inquadratura automatica: lo zoom scelto a mano per
-  // l'analisi precedente non deve piu' comandare sullo scatto. (_vistaDaLink
-  // NO: loadData e' chiamata anche dall'apertura di un link, che imposta la
-  // vista subito dopo.)
+  // Nuova analisi = nuova inquadratura automatica: lo zoom scelto a mano
+  // per l'analisi precedente non deve piu' comandare sullo scatto.
+  // (_vistaDaLink NO: qui loadData e' chiamata anche dall'apertura di un link,
+  //  che imposta la vista subito dopo.)
   _vistaUtente=false;
 
   var regions=getActiveRegions();
@@ -3129,19 +3196,7 @@ function loadData(pastDate,nowDate,labelPeriodo){
   }
 
   // Statistica analisi per regione (Google Analytics)
-  //
-  // Si manda il valore SELEZIONATO (vedi getSelectedValues), non le regioni
-  // espanse. Nei dati del 4/8/2026 la Valle d'Aosta risultava ottava con 291
-  // analisi e l'Alto Adige settimo con 458, ma erano gonfiati dai tocchi sui
-  // combo della tendina mobile — e proprio su questa classifica si decide a
-  // quali regioni dare una fonte diretta al posto di dpcn.
-  //
-  // Su desktop i combo non esistono (dal 27/7 si clicca la mappa, che spunta
-  // le caselle individuali) e i link condivisi spuntano anch'essi le singole:
-  // lì il valore selezionato COINCIDE con la regione, e non cambia niente.
-  // Dalla tendina mobile esce invece 'piemonte-vda' / 'trentino-aa' come voce
-  // a sé — che dice anche, di riflesso, quanta gente naviga da telefono.
-  try{ getSelectedValues().forEach(function(v){ gtag('event', 'analisi_regione', { regione: v }); }); }catch(e){}
+  try{ regions.forEach(function(r){ gtag('event', 'analisi_regione', { regione: r }); }); }catch(e){}
 
   isLoading=true;
   loadSessionId++; // invalida tutte le richieste precedenti
@@ -3156,10 +3211,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
   // Il velo di selezione (#1b3f6e al 16%) va spento SUBITO, non a fine disegno.
   // selStyle lo azzera già quando currentLabel è impostato, ma finora nessuno
   // rileggeva lo stile fino al refresh di fine render: per tutto il caricamento
-  // la regione restava velata. Qui in produzione si nota poco (sotto ci sono già
-  // le tile della vista iniziale), ma sul test con l'Austria — che porta la mappa
-  // su un'area mai scaricata — il velo su fondo bianco diventava una sagoma
-  // grigia a tutto schermo che sembra un guasto. Corretto in parità il 6/8/2026.
+  // la regione restava velata. Sulle regioni italiane non si notava — sotto ci
+  // sono già le tile della vista iniziale — ma con l'Austria la mappa vola su
+  // un'area mai scaricata, resta bianca, e il velo diventa una sagoma grigia a
+  // tutto schermo che sembra un guasto (segnalato dall'utente il 6/8/2026).
   if(typeof refreshSelectorStyles==='function') refreshSelectorStyles();
   // Desktop: lo zoom sulle regioni avviene QUI (al click del periodo), non alla
   // selezione — così sull'Italia intera si cliccano comodamente anche regioni
@@ -3293,6 +3348,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadAustriaRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 GeoSphere Austria',regionKey);
       });
+    } else if(source==='francia'){
+      loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,function(dati){
+        onRegionDone(dati,'🟢 Météo-France',regionKey);
+      });
     } else if(source==='svizzera'){
       loadSvizzeraRegion(pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 OASI Ticino + MeteoSvizzera',regionKey);
@@ -3339,10 +3398,13 @@ function renderMulti(allData, labelPeriodo, fontiArr, _retry){
   document.getElementById('fonte-tag').textContent='Fonte: '+fonteStr;
   lastUsedFonte=fonteStr;
 
-  // Pillola "fase di test": visibile solo se tra le regioni disegnate
-  // ce n'e' almeno una su dati MeteoHub (Centro-Sud in validazione).
+  // Pillola "fase di test": dal 10/8/2026 il beta e' PER-REGIONE, non per
+  // fonte. Otto reti MeteoHub sono uscite dal beta (30 giorni di registro
+  // buchi: 5 mai colpite, 3 con un solo evento vecchio e gia' coperto);
+  // restano in validazione Sicilia (3 eventi) e Lazio (2), ultimo il 3/8.
+  var BETA_REGIONS=['sicilia','lazio'];
   var betaAttivo=regions.some(function(rk){
-    return REGIONS[rk]&&REGIONS[rk].dataSource==='meteohub';
+    return BETA_REGIONS.indexOf(rk)>=0;
   });
   document.getElementById('beta-note').style.display=betaAttivo?'block':'none';
 
@@ -4015,25 +4077,6 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ─── ARPA Emilia Romagna (file storici da GitHub) ───────────────
 function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
   var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/emilia';
-  // Le 8 stazioni che l'ARPAE ospita in provincia di GENOVA sono le STESSE che
-  // OMIRL pubblica in data/liguria — da 0 a 460 m di distanza, spesso lo stesso
-  // punto: S. Stefano d'Aveto, Alpe Gorreto, Barbagelata, Cabanne, Rovegno,
-  // Torriglia, Diga del Brugneto, Loco Carchelli. Sono le "gemelle" usate ai
-  // check periodici come verifica più stringente fra le due pipeline.
-  //
-  // Escluse dal rendering Emilia il 6/8/2026, per due motivi:
-  //  (1) DOPPIONE — con Emilia e Liguria selezionate insieme gli stessi
-  //      pluviometri venivano disegnati due volte e pesati due volte nell'IDW.
-  //  (2) ZERI FALSI — su Alpe Gorreto (5565) il feed ARPAE ha restituito 0
-  //      invece di "dato assente" per quattro giorni di fila (29/6→2/7 2026),
-  //      mentre OMIRL misurava 50,8 · 28,2 · 9,8 · 1,1 mm. Sommando le gemelle
-  //      sembrava che l'intera rete ARPAE fosse più bassa di OMIRL: era una
-  //      stazione sola. Le altre cinque sono identiche al decimale su 48 giorni
-  //      su 48 (Torriglia 47/48), quindi il collector Emilia è sano.
-  // Il dato non si perde: quei pluviometri restano in mappa via OMIRL, che per
-  // loro è la fonte di casa. Stesso rimedio già usato per le 9 stazioni toscane
-  // duplicate (bug #14) e per LOMB_ESCLUSE.
-  var EMILIA_ESCLUSE={'5317':1,'5565':1,'5566':1,'5561':1,'5568':1,'3080':1,'3077':1,'12307':1};
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
   var todayStr=_fmt(new Date());
@@ -4073,7 +4116,6 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
       .then(function(data){
         if(data&&data.stations){
           data.stations.forEach(function(s){
-            if(s.id&&EMILIA_ESCLUSE[String(s.id)]) return;   // gemelle liguri: le porta OMIRL
             var key=s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
             rainTot[key]=(rainTot[key]||0)+(s.mm||0);
@@ -4095,7 +4137,11 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
 // ═══════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════════
-// AUSTRIA — GeoSphere Austria Data Hub (in produzione dal 7/8/2026).
+// METEO ALTO ADIGE — carica dati giornalieri da GitHub
+// ═══════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// AUSTRIA — GeoSphere Austria Data Hub (pilota dal 5/8/2026).
 // Fonte unica, quindi il loader è quello semplice della Valle d'Aosta.
 // Storico REALE fin dal primo giorno (backfill dall'archivio orario), quindi
 // nessuno switch fra stime e dati veri: si legge sempre dai file.
@@ -4141,9 +4187,51 @@ function loadAustriaRegion(pastDate,nowDate,labelPeriodo,cb){
   });
 }
 
+// FRANCIA — Météo-France, 6 dipartimenti di confine (pilota dal 9/8/2026).
+// Fonte unica e storico REALE dal primo giorno (backfill dai CSV
+// climatologici, stessa banca dati dell'API): il loader è il gemello di
+// quello austriaco, si legge sempre dai file.
 // ═══════════════════════════════════════════════════════════════
-// METEO ALTO ADIGE — carica dati giornalieri da GitHub
-// ═══════════════════════════════════════════════════════════════
+function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
+  var FR_RAW=PILOT_DATA_BASE+(REGIONS[regionKey].dataDir||regionKey);
+  var rainTot={}, stMeta={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+  var pending=dates.length;
+  if(pending===0){cb([]);return;}
+  dates.forEach(function(dateStr){
+    fetch(FR_RAW+'/'+dateStr+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(usaGiorno)
+      .then(function(data){
+        if(data.stations){
+          data.stations.forEach(function(s){
+            var key=s.id||s.n;
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FR'};
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0);
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function(){
+        pending--;
+        if(pending>0) return;
+        var full=Object.keys(rainTot).map(function(key){
+          var s=stMeta[key];if(!s)return null;
+          var mm=rainTot[key]||0;
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FR',mm:mm<0.5?0:Math.round(mm*10)/10};
+        }).filter(Boolean);
+        if(full.length<5){cb([]);return;}
+        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+        cb(full);
+      });
+  });
+}
 
 // ═══════════════════════════════════════════════════════════════
 // SVIZZERA — regione a DUE FONTI (pilota dal 3/8/2026):
@@ -4837,7 +4925,7 @@ function setRegionBorder(regionKey,cb){
         // Il tratteggio della Svizzera (confine di stato) resta anche sul bordo
         // disegnato durante l'analisi, così l'identità non sparisce coi dati.
         style:{color:'#1b3f6e',weight:1.5,opacity:0.6,fill:false,
-               dashArray:(regionKey==='svizzera'||regionKey==='austria')?'6 4':null}
+               dashArray:(regionKey==='svizzera'||regionKey==='austria'||regionKey.indexOf('francia')===0)?'6 4':null}
       }).addTo(map);
       regionBorders[regionKey]=layer;
 
@@ -4866,7 +4954,7 @@ function selStyle(on,rk){
   // respiro sincronizzato e l'header "Italia + Svizzera" bastava il tratteggio,
   // e niente tinte in mappa — verde e rosso sono già le "parole" della scala
   // pioggia.
-  var ch=(rk==='svizzera'||rk==='austria');   // stati esteri: bordo tratteggiato
+  var ch=(rk==='svizzera'||rk==='austria'||rk.indexOf('francia')===0);   // stati esteri: bordo tratteggiato
   if(on){
     // Con un'analisi visibile NIENTE riempimento (coprirebbe la heatmap):
     // resta il bordo marcato. fillOpacity 0 (non fill:false) così l'interno
@@ -5062,9 +5150,24 @@ var REGION_BOUNDS={
   // Svizzera intera (bbox nazionale swissBOUNDARIES3D). ATTENZIONE: è esclusa
   // apposta dal fitVistaIniziale — l'inquadratura di apertura resta l'Italia.
   svizzera:    [[45.82, 5.96],[47.81,10.49]],
-  // Austria: esclusa dalla vista di apertura come la Svizzera — si spinge a
-  // 17,2°E e includerla trascinerebbe l'inquadratura fino all'Ungheria.
+  // Austria (bbox nazionale BEV). Come la Svizzera è esclusa dalla vista di
+  // apertura: entrerebbe da est allargando l'inquadratura su mezza Europa.
   austria:     [[46.37, 9.53],[49.02,17.16]],
+  // Francia: bbox delle 13 régions (confini IGN). Tutte escluse dalla
+  // vista di apertura come Svizzera e Austria.
+  'francia-aura': [[44.12, 2.06],[46.8, 7.19]],
+  'francia-bfc': [[46.16, 2.85],[48.4, 7.14]],
+  'francia-bretagna': [[47.28, -5.14],[48.9, -1.02]],
+  'francia-centro': [[46.35, 0.05],[48.94, 3.13]],
+  'francia-corsica': [[41.33, 8.54],[43.03, 9.56]],
+  'francia-grandest': [[47.42, 3.38],[50.17, 8.23]],
+  'francia-hdf': [[48.84, 1.38],[51.09, 4.26]],
+  'francia-idf': [[48.12, 1.45],[49.24, 3.56]],
+  'francia-normandia': [[48.18, -1.95],[50.07, 1.8]],
+  'francia-naq': [[42.78, -1.79],[47.18, 2.61]],
+  'francia-occitania': [[42.33, -0.33],[45.05, 4.85]],
+  'francia-loira': [[46.27, -2.62],[48.57, 0.92]],
+  'francia-provenza': [[42.98, 4.23],[45.13, 7.72]],
   // Centro-sud (bounds dalle stazioni reali MeteoHub) + Abruzzo (Open-Meteo)
   marche:      [[42.74,12.13],[43.91,13.89]],
   umbria:      [[42.53,11.95],[43.52,13.19]],
@@ -5097,7 +5200,10 @@ var REGION_BOUNDS={
     // La Svizzera intera NON entra nella vista di apertura (decisione 3/8/2026):
     // includerla fino a Sciaffusa (47,8°N) rimpicciolirebbe l'Italia. Il suo
     // confine si vede entrare dal bordo alto; selezionandola il fit la mostra tutta.
-    if(rk==='svizzera'||rk==='austria') return;
+    // Stessa cosa per l'Austria (5/8/2026), e a maggior ragione: si spinge
+    // fino a 17,2°E, quindi includerla trascinerebbe l'inquadratura verso est
+    // fino all'Ungheria, con l'Italia schiacciata a sinistra.
+    if(rk==='svizzera'||rk==='austria'||rk.indexOf('francia')===0) return;
     var b=REGION_BOUNDS[rk];
     if(b[0][0]<latMin) latMin=b[0][0];
     if(b[1][0]>latMax) latMax=b[1][0];
@@ -5154,7 +5260,7 @@ var REGION_BOUNDS={
   var MARGINE_SUD=25, LIMITE_NORD=49.10;
   var latMin=90,latMax=-90;
   Object.keys(REGION_BOUNDS).forEach(function(rk){
-    if(rk==='svizzera'||rk==='austria') return;   // la vista di apertura è l'Italia
+    if(rk==='svizzera'||rk==='austria'||rk.indexOf('francia')===0) return;   // la vista di apertura è l'Italia
     var b=REGION_BOUNDS[rk];
     if(b[0][0]<latMin) latMin=b[0][0];
     if(b[1][0]>latMax) latMax=b[1][0];
@@ -5212,15 +5318,6 @@ function fitMapToRegions(regionKeys,factor){
   var panelPx=isDesk?420:0;
   var _pp=L.point((panelPx/2)+30, 70);            // padding simmetrico che riserva il pannello
   var _z=map.getBoundsZoom(_lb,false,_pp);
-  // SOLO desktop: fit ai quarti come prima di zoomSnap 0.1, poi giu' al decimo
-  // rappresentabile (7,75 con snap 0,1 verrebbe arrotondato a 7,8: PIU' stretto
-  // di prima; 7,7 e' appena piu' largo, mai piu' stretto). Senza questa riga il
-  // passo fine avvicina il fit al limite teorico e la bbox REGION_BOUNDS - piu'
-  // stretta dei confini veri - non ha piu' il quarto di margine che la copriva:
-  // misurata la Lombardia tagliata su tre lati (collaudo-desktop.js, 9/8/2026).
-  // Su telefono NO (la funzione gira anche li', dai link condivisi): il passo
-  // fine e' proprio il guadagno dell'esperimento.
-  if(isDesk) _z=Math.floor((Math.floor(_z*4)/4)*10+1e-6)/10;
   // Spostamento a est del contenuto (per liberare i pannelli): sulle finestre
   // STRETTE lo spostamento fisso di panelPx/2 spingeva la regione fuori dal
   // bordo destro. Cap: mai oltre lo spazio che resta alla zoom scelta.
@@ -5259,9 +5356,9 @@ function fitMapToRegions(regionKeys,factor){
 // Adiacenze (confini) tra le regioni selezionabili. Servono a individuare la
 // "regione di mezzo" in una terna: quella che confina con entrambe le altre.
 var REGION_ADJ={
-  valledaosta:['piemonte','svizzera'],
-  piemonte:['valledaosta','lombardia','liguria','svizzera'],
-  liguria:['piemonte','emilia','toscana'],
+  valledaosta:['piemonte','svizzera','francia-aura'],
+  piemonte:['valledaosta','lombardia','liguria','svizzera','francia-aura','francia-provenza'],
+  liguria:['piemonte','emilia','toscana','francia-provenza'],
   lombardia:['piemonte','emilia','veneto','trentino','svizzera'],
   emilia:['lombardia','liguria','toscana','veneto'],
   toscana:['liguria','emilia','umbria','marche','lazio'],
@@ -5269,8 +5366,21 @@ var REGION_ADJ={
   trentino:['lombardia','veneto','altoadige'],
   altoadige:['trentino','veneto','svizzera','austria'],
   friuli:['veneto','austria'],
-  svizzera:['valledaosta','piemonte','lombardia','altoadige','austria'],
+  svizzera:['valledaosta','piemonte','lombardia','altoadige','austria','francia-aura','francia-bfc','francia-grandest'],
   austria:['svizzera','altoadige','veneto','friuli'],
+  'francia-aura':['valledaosta','piemonte','svizzera','francia-provenza','francia-occitania','francia-naq','francia-centro','francia-bfc'],
+  'francia-provenza':['liguria','piemonte','francia-aura','francia-occitania'],
+  'francia-occitania':['francia-provenza','francia-aura','francia-naq'],
+  'francia-naq':['francia-occitania','francia-aura','francia-centro','francia-loira'],
+  'francia-centro':['francia-naq','francia-aura','francia-bfc','francia-idf','francia-normandia','francia-loira'],
+  'francia-bfc':['svizzera','francia-aura','francia-centro','francia-idf','francia-grandest'],
+  'francia-grandest':['svizzera','francia-bfc','francia-idf','francia-hdf'],
+  'francia-idf':['francia-centro','francia-bfc','francia-grandest','francia-hdf','francia-normandia'],
+  'francia-hdf':['francia-idf','francia-grandest','francia-normandia'],
+  'francia-normandia':['francia-hdf','francia-idf','francia-centro','francia-loira','francia-bretagna'],
+  'francia-loira':['francia-bretagna','francia-normandia','francia-centro','francia-naq'],
+  'francia-bretagna':['francia-loira','francia-normandia'],
+  'francia-corsica':['sardegna','francia-provenza'],
   umbria:['toscana','marche','lazio','abruzzo'],
   marche:['emilia','toscana','umbria','abruzzo','lazio'],
   lazio:['toscana','umbria','abruzzo','molise','campania'],
@@ -5281,7 +5391,7 @@ var REGION_ADJ={
   basilicata:['campania','puglia','calabria'],
   calabria:['basilicata','sicilia'],
   sicilia:['calabria'],
-  sardegna:[]
+  sardegna:['francia-corsica']
 };
 // La regione della terna che confina con entrambe le altre. Se la terna non è
 // contigua (nessuna confina con le altre due), ripiega sulla regione il cui
@@ -5396,9 +5506,9 @@ document.getElementById('region-select').addEventListener('change', function(){
     var tp=document.getElementById('time-panel');
     if(tp) tp.classList.add('open');
   }
-  // La copertura si misura all'ARRIVO del pannello periodo (transitionend,
-  // non un timer: vedi la corsa dei 50ms). Misurarla qui darebbe il vuoto.
-  centraDopoPannello('time-panel');
+  // La copertura si misura DOPO che il pannello periodo ha finito di aprirsi
+  // (misurarla qui darebbe il vuoto: la transizione dura ~300ms).
+  setTimeout(centraRegioneInStriscia,420);
 });
 
 document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
@@ -5637,15 +5747,7 @@ setTimeout(positionPanels, 100);
 
 // ── Condivisione: link con lo stato corrente (regioni, date, vista) ─────────
 // ?r=reg1,reg2&da=YYYY-MM-DD&a=YYYY-MM-DD&z=8.25&c=45.62,9.81
-// `mezzo` distingue il tasto di partenza: 'link' (Copia link) o 'immagine'
-// (didascalia dello scatto). Serve a misurare il passaparola, che finora era
-// invisibile: chi apriva un link ricevuto su WhatsApp risultava "(direct)"
-// esattamente come chi digita l'indirizzo a mano. Con questo diventano
-// condivisione/link e condivisione/immagine in GA4, e finalmente si vede
-// quale dei due tasti porta gente davvero: su un mese GA4 contava 22 pressioni
-// del tasto Link e 17 di Immagine, ma sulle APERTURE non sapevamo nulla — ed è
-// il motivo per cui il 7/8 abbiamo messo l'indirizzo dentro l'immagine.
-function buildShareUrl(mezzo){
+function buildShareUrl(){
   var regions=getActiveRegions();
   if(regions.length===0||!currentPast||!currentNow) return null;
   var p=new URLSearchParams();
@@ -5657,11 +5759,10 @@ function buildShareUrl(mezzo){
   p.set('c',c.lat.toFixed(4)+','+c.lng.toFixed(4));
   // Nota (7/8/2026): si era provato ad aggiungere `w`, la larghezza della mappa
   // di chi condivide, per far vedere a chi riceve la STESSA PORZIONE di
-  // territorio adattando lo zoom. Provato fra PC e telefono e SCARTATO:
-  // allargava di due livelli in un verso e stringeva di due nell'altro. Chi
-  // condivide si aspetta la stessa SCALA, non la stessa area.
-  p.set('utm_source','condivisione');
-  p.set('utm_medium',mezzo||'link');
+  // territorio adattando lo zoom. Provato dall'utente fra PC e telefono e
+  // SCARTATO: allargava di due livelli da PC a telefono e stringeva di due
+  // nell'altro verso. Chi condivide si aspetta la stessa SCALA, non la stessa
+  // area. Lo zoom viaggia grezzo.
   return location.origin+location.pathname+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
@@ -6008,14 +6109,9 @@ impostaEtichetteCondivisione();
 var _btnShare=document.getElementById('btn-share');
 if(_btnShare){
   _btnShare.addEventListener('click',function(){
-    var url=buildShareUrl('link');
+    var url=buildShareUrl();
     if(!url) return;
-    // Le scelte, non le espanse: stesso motivo di analisi_regione in loadData.
-    // Qui però l'evento resta UNO per condivisione (il parametro tiene tutte
-    // le regioni unite da virgola), se no il conteggio delle condivisioni si
-    // moltiplicherebbe per il numero di regioni scelte e non direbbe più
-    // quante volte la gente ha premuto il tasto.
-    try{gtag('event','share_map',{regioni:getSelectedValues().join(',')})}catch(e){}
+    try{gtag('event','share_map',{regioni:getActiveRegions().join(',')})}catch(e){}
     if(isTouchShare()){
       // Solo il link, senza descrizione: l'anteprima la mette l'app di chat.
       navigator.share({url:url}).catch(function(){});
@@ -6035,7 +6131,7 @@ if(_btnShot){
     if(getActiveRegions().length===0||!currentPast) return;
     // Contatore GA come share_map: si conta il click, non l'esito (la
     // condivisione nativa non dice se l'utente ha poi annullato il menu).
-    try{gtag('event','share_image',{regioni:getSelectedValues().join(',')})}catch(e){}
+    try{gtag('event','share_image',{regioni:getActiveRegions().join(',')})}catch(e){}
     var old=_btnShot.dataset.label;
     _btnShot.disabled=true;_btnShot.textContent='⏳';
     var fine=function(esito){
@@ -6044,7 +6140,7 @@ if(_btnShot){
       setTimeout(function(){_btnShot.classList.remove('ok');_btnShot.textContent=old;_btnShot.disabled=false;},1800);
     };
     captureMapBlob().then(function(blob){
-      var url=buildShareUrl('immagine');
+      var url=buildShareUrl();
       var file=new File([blob],shareFileName(),{type:'image/png'});
       if(isTouchShare()&&navigator.canShare&&navigator.canShare({files:[file]})){
         // Telefono: foto nel menu nativo, col solo link in didascalia
@@ -6128,9 +6224,12 @@ if(_btnShot){
   whenLombardiaReady(function(){
     loadAllBorders(keys,function(){
       var z=parseFloat(q.get('z')),c=(q.get('c')||'').split(',').map(Number);
-      // Zoom e centro si applicano TALI E QUALI, su qualunque schermo. Prima
-      // erano limitati a >900px e su telefono la vista condivisa veniva
-      // buttata via: il 69% del pubblico vedeva un'altra inquadratura.
+      // Zoom e centro si applicano TALI E QUALI, su qualunque schermo: chi
+      // riceve vede la mappa alla stessa scala di chi ha condiviso, centrata
+      // sullo stesso punto. Prima era limitato a >900px, e su telefono la vista
+      // condivisa veniva buttata via: il 69% del pubblico vedeva un'altra
+      // inquadratura. (Provata e scartata la compensazione sulla larghezza
+      // dello schermo: vedi la nota in buildShareUrl.)
       var vistaDalLink=(isFinite(z) && c.length===2 && isFinite(c[0]) && isFinite(c[1]));
       // Il flag va alzato PRIMA di loadData (è lì dentro che parte il fit).
       if(vistaDalLink) _linkView=true;
@@ -6285,6 +6384,25 @@ function loadAustriaStations(cb){
       .catch(function(){ idx++; attempt(); });
   })();
 }
+// Francia: anagrafe da un file recente, gemella di quella austriaca ma
+// con cache PER régione (13 cartelle indipendenti).
+var franciaStationsCache={};
+function loadFranciaStations(regionKey,cb){
+  if(franciaStationsCache[regionKey]){ cb(franciaStationsCache[regionKey]); return; }
+  var RAW=PILOT_DATA_BASE+(REGIONS[regionKey].dataDir||regionKey);
+  var tries=[], now=new Date();
+  for(var i=1;i<=6;i++){ var d=new Date(now.getTime()-i*86400000); tries.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')); }
+  var idx=0;
+  (function attempt(){
+    if(idx>=tries.length){ cb([]); return; }
+    fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(data){
+        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FR'};});
+        franciaStationsCache[regionKey]=st; cb(st);
+      })
+      .catch(function(){ idx++; attempt(); });
+  })();
+}
 function addDefaultMarkersForRegion(regionKey){
   var cfg=REGIONS[regionKey];
   // MeteoHub non ha lista stations statica: prende l'anagrafe da un file recente
@@ -6300,6 +6418,12 @@ function addDefaultMarkersForRegion(regionKey){
   // Austria: come MeteoHub e Svizzera, nessuna lista stations statica.
   if(cfg && cfg.dataSource==='austria'){
     loadAustriaStations(function(st){ drawDefaultMarkers(st,cfg); });
+    return;
+  }
+  // Francia: idem — e questo ramo è ESATTAMENTE quello che mancò all'Austria
+  // alla promozione del 7/8/2026 (pallini assenti, nessun errore).
+  if(cfg && cfg.dataSource==='francia'){
+    loadFranciaStations(regionKey,function(st){ drawDefaultMarkers(st,cfg); });
     return;
   }
   var stazioni=(regionKey==='lombardia')?(ARPA_STATIONS||LOMBARDIA_STATIONS):((cfg&&cfg.stations)?cfg.stations:[]);

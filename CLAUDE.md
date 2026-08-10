@@ -154,6 +154,42 @@ mobile con fallback centro/zoom per il centro-sud.
 >   `index.html` — 25 in prod contro 26 nel test, e la differenza era esattamente quella riga.
 >   Da fare alla fine di ogni promozione, prima di dichiararla conclusa.
 
+### Francia intera (v7.0, in produzione dal 10 agosto 2026)
+
+**Tutta la Francia metropolitana nelle 13 régions ufficiali**, sviluppata e collaudata
+nel repo di test il 9/8 e promossa il giorno dopo. Fonte: **Météo-France, API Paquet
+Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouverte
+2.0 Etalab, attribuzione «Météo-France». Studio fonti in `francia-rapporto-fonti.md`
+(cartella claudio).
+
+- **Collect:** `collect-francia-meteofrance.js` + `francia.yml` (4 run/giorno, chiusura
+  22:50 UTC). 95 pacchetti dipartimento a giro (~5-6'), **1.818 stazioni in anagrafe,
+  ~1.700 con `rr1`**, cartelle `data/francia-<régione>` (13). ⚠️ `id-departement` SENZA
+  zero (5, non 05); la **Corsica è `20` unico**. ⚠️ Nel passo commit-e-push del workflow
+  il glob va SENZA apici (`git add data/francia-*`): quotato arriva a git letterale.
+- ⚠️ **Chiave**: secret `METEOFRANCE_API_KEY` in ENTRAMBI i repo (account dell'utente
+  sul portale portail-api.meteofrance.fr, **scade il 9/8/2028** con l'abbonamento).
+  401 improvvisi = chiave scaduta: si rigenera dal portale e si aggiornano i secrets.
+- **RICETTA:** il RR giornaliero francese è la finestra 06-06 UTC (definizione
+  ufficiale) → somma ore `rr1` sul giorno solare italiano, timestamp di FINE
+  intervallo, `(start, end]`, MIN_ORE=20 — identica a Svizzera/Austria/OSMER.
+  Quadratura contro il RR ufficiale consolidato: **99,6% esatta entro 0,2 mm su
+  9.763 giorni bagnati** (2026, 6 dipartimenti alpini). Il pacchetto orario contiene
+  **~5 giorni** (la doc dice 24h): auto-riparazione D-1..D-4 gratis a ogni run.
+- **Storico: 369 giorni REALI** (1/8/2025→4/8/2026) dai CSV orari `BASE/HOR` di
+  meteo.data.gouv.fr — ⚠️ SOLO il mirror S3 OVH (`meteofrance.s3.sbg.io.cloud.ovh.net`):
+  `object.files.data.gouv.fr` è fermo a giugno 2026 e il `last_modified` dell'API
+  data.gouv mente. Niente stime, niente beta.
+- **In mappa:** 13 voci «… (FR)», `dataSource:'francia'` condiviso + `dataDir` per
+  cartella, loader/anagrafe parametrizzati per régione, bordo tratteggiato ed
+  esclusione dalla vista di apertura **a prefisso** (`rk.indexOf('francia')===0`),
+  Corsica↔Sardegna selezionabili insieme. Confini `francia-<x>-confine.geojson`
+  (IGN via france-geojson, Licence Ouverte, ~70 m) — ⚠️ il feature DEVE avere
+  `properties.reg_name`, il filtro di setRegionBorder cerca quello.
+  Residuo noto: **Bretagna 104% di larghezza su telefono** (~7px per lato, dentro
+  la banda morta della centratura) — accettato il 9/8.
+- **Allarme fonti:** le 13 cartelle sono in `check-fonti.js` con soglia 4 giorni.
+
 ### Svizzera intera (v6.0, in produzione dal 3 agosto 2026)
 - In mappa UN SOLO bottone **"Svizzera (CH)"** (regione `svizzera`, ha sostituito "Ticino (CH)"): sotto, DUE fonti unite da `loadSvizzeraRegion` con chiavi prefissate `ti:`/`ch:` — il Ticino resta OASI (cartella `data/ticino`, collector sotto), il resto del paese è **MeteoSwiss OGD** (`data/svizzera`). ~307 stazioni totali; fonte/chip/crediti "OASI Ticino + MeteoSvizzera"
 - **Fonte MeteoSwiss:** collezioni STAC `ch.meteoschweiz.ogd-smn` (SwissMetNet) + `ogd-smn-precip` su `data.geo.admin.ch`, CSV per stazione, coordinate già WGS84, licenza **CC BY 4.0** («Fonte: MeteoSvizzera», voce in fonti.html)
@@ -183,6 +219,8 @@ mobile con fallback centro/zoom per il centro-sud.
 - Sviluppato e validato nel repo di test `Mappa-Precipitazioni-Nord-Test` (+ sito avventurepluvio-test.netlify.app), promosso in produzione il 17 luglio 2026.
 
 ### Centro-Sud via MeteoHub (Marche, Umbria, Lazio, Molise, Campania, Puglia, Basilicata, Calabria, Sicilia, Sardegna)
+
+**Beta PER-REGIONE dal 10/8/2026**: fuori dal beta Marche, Umbria, Campania, Calabria, Sardegna (mai un evento-buco in 30 giorni), Puglia, Basilicata e Molise (un solo evento vecchio, coperto). Restano in validazione **Sicilia e Lazio** (lista `BETA_REGIONS` in index.html, pillola gialla solo per loro). La rete di sicurezza gapfill resta attiva per tutte.
 - **Fonte:** MeteoHub / Agenzia ItaliaMeteo (`meteohub.agenziaitaliameteo.it`), reti `dpcn-<regione>` — in larga parte le stesse reti regionali, CC-BY con citazione. Valori validati contro ARPA Lombardia: scarto medie 1-3%, max identici (pilota, luglio 2026)
 - **Collect:** `.github/scripts/collect-meteohub.js` + `meteohub.yml` (5 run/giorno: 02:20, 04:20, 07:20, 11:50, 17:50 UTC). Granularità VARIA per rete: il collector sceglie la serie più fitta e la somma, soglia completezza ≥85%. Finestra pubblica API ~10 giorni
 - **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (08:40 UTC) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
