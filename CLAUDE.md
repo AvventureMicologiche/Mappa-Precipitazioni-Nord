@@ -59,7 +59,8 @@ mobile con fallback centro/zoom per il centro-sud.
   - **Quanto costava**, misurato sul periodo 8-15 luglio: 253 stazioni misuravano, **solo 128 misure arrivavano in mappa**. 125 non si vedevano mai, compreso il **massimo del periodo** (77,2 mm a Oltre il Colle Zambla, mentre il pannello dichiarava 68,6). `selectUniform` tiene al massimo 4 stazioni per ognuna delle 80 caselle in cui divide la regione, quindi decima proprio la montagna, dove la rete è fitta: nelle Orobie sopravvivevano **2 pluviometri su 12** e una sacca da 44 mm risultava asciutta. Per una mappa che serve a trovare dove ha piovuto 16-23 giorni fa era il difetto peggiore possibile — trovato dall'utente guardando un buco di pallini fra Valtellina e Val di Scalve.
   - **Velocità: nessun costo.** A/B in locale a cache calda: 7 giorni 777→793 ms, 30 giorni 983 ms sul test e 923 in produzione. La lentezza che aveva motivato il taglio era Socrata in diretta, non il numero di stazioni. Attenzione a non ripetere l'errore di misura fatto quel giorno: la prima apertura assoluta scarica il confine GeoJSON e i file dei giorni e può sforare il timeout di sicurezza di 30s, quindi **si confronta solo a cache calda**.
   - **Tre sensori esclusi** (`LOMB_ESCLUSE` in `loadARPALombardiaRegion`): hanno coordinate corrotte nell'anagrafe ARPA — `2239` "Ispra prato" (VA) alle coordinate di Gandellino Tezzi (BG), `2206` "Ispra tetto" (VA) sulle colline bergamasche, `2535` "Virgilio Mantova Cerese" (MN) alle coordinate di Dorio (LC). Sono morti da sempre, il filtro serve a non ritrovarseli piantati in mappa se tornassero a riportare. **`Ispra JRC` (32355) è invece corretta e riporta ogni giorno: non toccarla.**
-- **ATTENZIONE:** il grafico storico per stazione interroga ancora Socrata per sensore (via `idsensore` nei dati), NON i file — resta l'unica cosa live della Lombardia
+- **Il grafico storico legge i FILE dall'11/8/2026** (`histFromFiles`, come tutte le altre regioni): era l'ultima cosa live su Socrata (`histFromLombardia`, rimossa). La Netlify function `/arpa` resta in uso per l'anagrafe della mappa
+- **Temperatura/vento (dall'11/8/2026):** l'anagrafe ha sensori Temperatura (309, °C) e Velocità Vento (155, **m/s → ×3,6**, dichiarato in `unit_dimisura`); il join col pluviometro è via `idstazione`. UNA query Socrata in più per giorno, raggruppata per (sensore, ora) → la completezza si misura in ORE COPERTE (≥20) a prescindere dalla granularità (temperatura 10', vento 5'). **La raffica non esiste su Socrata** → `w:[media,null]`. Backfill `backfill-meteo-lombardia.js` dal 28/6
 - **Sensori morti:** su 325 in anagrafe, ~250 riportano; su 30 giorni 71 non riportano mai (0 online genuinamente a zero → una stazione a ~0 su un mese è morta, non asciutta)
 
 ### Piemonte
@@ -70,6 +71,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **PIEMONTE_STATIONS:** 170 stazioni curate (filtrate da 275) nell'index.html. Ceppo Morelli esclusa (sensore offline). MONTE MALANOTTE (id 106, Cuneo) NON è in lista e non va aggiunta: pluviometro guasto dal 16 luglio 2026 — pioggia fantasma per giorni consecutivi (fino a 136mm/giorno) con Open-Meteo a 0.0, vicini asciutti e sensori temperatura/umidità null. I valori errati restano nei file grezzi `data/piemonte/` (16-20 luglio+) ma non arrivano mai in mappa (filtro applicato prima dell'accumulo). **Ricontrollata il 25 luglio 2026:** tornata online dal 22/7, ma temperatura/umidità ancora al 100% `null` (la firma del guasto persiste) e nessun evento di pioggia per testare il pluviometro → **esclusa in via definitiva, non riaggiungere e non serve più ricontrollarla ai check periodici.**
 - **Orari:** 6 run/giorno
 - **Dati corretti da:** ~12 giugno 2026
+- **Temperatura/vento (dall'11/8/2026):** gli STESSI record orari della pioggia portano `air_temperature`, `wind` e `gust_of_wind` — zero richieste extra. ⚠️ **wind/gust GIÀ in km/h** (validato contro Open-Meteo su stazioni di pianura: rapporto ~0,9; fosse m/s sarebbe ~3,6) → nessuna conversione. ⚠️ **Niente backfill**: l'API tiene solo ~2 giorni pieni (verificato: 9/8 pieno, 5/8 vuoto) — t/w partono dal 9/8/2026 e crescono un giorno al giorno
 - **Bug noto:** API manutenzione alle 04:00 UTC → run delle 06:00 CEST spesso fallisce
 - **ATTENZIONE:** `cum_rain_24h` è una finestra mobile, NON un totale giornaliero. MAI usare `max(cum_rain_24h)` perché trascina pioggia nel giorno dopo. L'API conserva solo ~1 record per stazione per i giorni vecchi, quindi `sum(cum_rain_1h)` funziona solo quando ci sono i record completi (24/giorno).
 
@@ -128,6 +130,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Dati corretti da:** 19 giugno 2026
 - **ATTENZIONE CRITICA:** l'endpoint `/stations/Pluvio` restituisce solo l'ultimo valore 15-min. NON usarlo per totali giornalieri — cattura solo ~25% della pioggia. Usare SEMPRE `/charts/{shortCode}/Pluvio` che dà 69 ore di serie temporale oraria.
 - Il collect fa ~199 chiamate API (una per stazione), processate in batch di 10 con retry.
+- **Temperatura/vento (dall'11/8/2026):** stessi shortCode, endpoint `/charts/{code}/Termo` (185 stazioni: serie media/min/max ogni 30', **~15 giorni di storia**) e `/charts/{code}/Vento` (57: velocità+raffica, **GIÀ km/h** — validato contro Open-Meteo, rapporto ~0,9). ~240 chiamate in più per run, stessi batch. Backfill `backfill-meteo-liguria.js` dal 28/7 (il massimo che i charts conservano; UNA chiamata per stazione copre tutti i giorni)
 
 ### Austria (in produzione dal 7 agosto 2026)
 - **Fonte:** GeoSphere Austria Data Hub, `dataset.api.hub.geosphere.at`, dataset **`klima-v2-1h`**, parametro `rr`. **Licenza CC BY 4.0** («Fonte: GeoSphere Austria»), voce in `fonti.html`
@@ -322,7 +325,9 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   REALI di stazione: campi compatti `t:[min,max]` °C e `w:[media,raffica]` km/h
   dentro i file giornalieri esistenti, scritti dai collector solo con ore valide
   ≥20. Reti coperte dall'11/8: Austria (dal 2/7), Svizzera, Francia, Alto Adige e
-  Ticino (dal 27/6), Emilia (dal 27/7, finestra API); le altre dicono
+  Ticino (dal 27/6), Emilia (dal 27/7, finestra API), Lombardia (dal 28/6),
+  Liguria (dal 28/7, finestra charts), Piemonte (dal 9/8, l'API non conserva
+  di più — cresce un giorno al giorno); le altre dicono
   «Temperatura/Vento non disponibile» e si riempiranno estendendo i collector,
   senza altri deploy. Sviluppata sul repo di test (pilota Austria 10/8), portata
   in prod pezzo per pezzo l'11/8 su decisione utente («facciamo direttamente in
