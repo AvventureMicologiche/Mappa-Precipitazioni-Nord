@@ -36,6 +36,7 @@ const path   = require('path');
 const DATA_DIR      = path.join(__dirname, '../..', 'data', 'toscana');
 const COORDS_FILE   = path.join(__dirname, 'toscana-stazioni-coords.json');
 const SIR_URL       = 'https://www.sir.toscana.it/monitoraggio/stazioni.php?type=pluvio';
+const TERMO_URL     = 'https://www.sir.toscana.it/monitoraggio/stazioni.php?type=termo';
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
@@ -169,6 +170,58 @@ async function main() {
     stations:  finalStations
   }));
   console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
+
+  // ── Temperatura (dall'11/8/2026 — grafici stazione) ────────────────
+  // La pagina SIR type=termo pubblica min/max di OGGI (progressivi, i run
+  // successivi correggono e quelli di chiusura finalizzano) e di IERI
+  // (consolidati): una richiesta per run, niente storico (pagina live-only,
+  // come la pioggia), NIENTE vento (non esiste su SIR).
+  // ⚠️ Gli array della pagina hanno nomi offuscati e i nomi stazione
+  // contengono parentesi: si prende OGNI `new Array(...)` e si estraggono gli
+  // argomenti QUOTATI (la regex sul solo [^)]* si tronca su "Pisa (Fac.
+  // Agraria)" e fa sembrare la pagina vuota — errore fatto l'11/8 mattina).
+  // Colonne (riga a 16+ campi): [8]=min oggi [10]=max oggi [12]=min ieri
+  // [14]=max ieri. Tutto in un try: un guasto non tocca mai la pioggia.
+  try {
+    const termoHtml = await fetchRaw(TERMO_URL);
+    const reArr = /\[\d+\]\s*=\s*new Array\((.*?)\);/g;
+    const perId = {};
+    let am;
+    while ((am = reArr.exec(termoHtml))) {
+      const args = am[1].match(/"((?:[^"\\]|\\.)*)"/g);
+      if (!args || args.length < 16) continue;
+      const p = args.map(s => s.slice(1, -1));
+      if (!/^TOS/.test(p[0])) continue;
+      if (!perId[p[0]] || args.length > perId[p[0]].length) perId[p[0]] = p;
+    }
+    const num = v => { const x = parseFloat(stripHtml(v)); return isNaN(x) ? null : x; };
+    const coppia = (mn, mx) => {
+      const a = num(mn), b = num(mx);
+      if (a === null || b === null || a < -45 || b > 50 || a > b) return null;
+      return [Math.round(a * 10) / 10, Math.round(b * 10) / 10];
+    };
+    const tOggi = {}, tIeri = {};
+    Object.keys(perId).forEach(id => {
+      const p = perId[id];
+      const o = coppia(p[8], p[10]);  if (o) tOggi[id] = o;
+      const y = coppia(p[12], p[14]); if (y) tIeri[id] = y;
+    });
+    // oggi: sul file appena scritto
+    const applica = (file, mappa) => {
+      if (!fs.existsSync(file)) return 0;
+      const j = JSON.parse(fs.readFileSync(file, 'utf8'));
+      let n = 0;
+      (j.stations || []).forEach(s => { if (mappa[s.id]) { s.t = mappa[s.id]; n++; } });
+      if (n > 0) fs.writeFileSync(file, JSON.stringify(j));
+      return n;
+    };
+    const nOggi = applica(outFile, tOggi);
+    const ieriStr = fmtDate(new Date(new Date(dateStr + 'T12:00:00Z').getTime() - 24 * 3600000));
+    const nIeri = applica(path.join(DATA_DIR, `${ieriStr}.json`), tIeri);
+    console.log(`  Meteo t: ${nOggi} stazioni su oggi, ${nIeri} su ieri (${ieriStr})`);
+  } catch (e) {
+    console.warn('  Warn: temperatura SIR saltata: ' + e.message);
+  }
 
   // ── Pulizia file > 730 giorni (retention finestra scorrevole) ──
   const MAX_DAYS = 730;

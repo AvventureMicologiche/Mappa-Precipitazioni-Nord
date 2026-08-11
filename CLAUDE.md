@@ -122,7 +122,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **TOSCANA_STATIONS:** 165 stazioni curate (filtrate da 379) nell'index.html
 - **Orari:** 9 run/giorno — i 6 regolari (00:15-20:15 UTC) + 3 run di chiusura ravvicinati (20:40, 21:00, 21:20 UTC = 22:40/23:00/23:20 CEST in estate). Essendo SIR consultabile solo per l'istante attuale (nessuna query storica), un run che scivola dopo mezzanotte per ritardi di GitHub Actions scrive sul giorno SBAGLIATO invece di chiudere quello giusto — successo il 15 luglio 2026: i 2 run di chiusura originari (21:35/21:50 UTC) sono partiti in ritardo di ~55 minuti, finendo entrambi dopo mezzanotte CEST. Anticipati a 20:40-21:20 UTC per lasciare più margine, e portati a 3 tentativi invece di 2 per aumentare le probabilità che almeno uno arrivi in tempo. Nota: come per Alto Adige, l'orario fisso UTC non è consapevole del cambio ora legale/solare — in inverno questi run cadranno un'ora prima in orario locale (21:40/22:00/22:20 CET), stesso compromesso già accettato nel progetto. Il passo "Commit e push" ora riprova fino a 5 volte (10s tra un tentativo e l'altro) anche in caso di conflitto push con altri workflow concorrenti (causa del fallimento del run delle 22:42 UTC del 15 luglio — la raccolta dati era riuscita, solo il push era stato rifiutato).
 - **Dati corretti da:** 12 luglio 2026 (switch a SIR)
-- **Temperatura/vento: NON ANCORA** (unica rete scoperta all'11/8/2026). La pagina SIR `stazioni.php?type=termo` esiste (256 voci, colonne min/max di oggi e ieri) ma all'assaggio dell'11/8 aveva dati su **4 stazioni su 256** — forse si popola solo in certe fasce orarie, da studiare a parte prima di scriverci un collector. Il vento su SIR non esiste; CFR `action=TERMO` risponde vuoto
+- **Temperatura (dall'11/8/2026):** pagina SIR `stazioni.php?type=termo` (una richiesta per run) — min/max di OGGI (progressivi, finalizzati dai run di chiusura) e di IERI (consolidati) su ~251 stazioni. Niente storico (pagina live-only come la pioggia) → t dal 10/8, cresce un giorno al giorno. **Niente vento** (non esiste su SIR; CFR `action=TERMO` risponde vuoto). ⚠️ **Trappola del parsing**: gli array della pagina hanno nomi offuscati e i nomi stazione contengono PARENTESI («Pisa (Fac. Agraria) (GPRS)») — una regex che si ferma alla prima `)` tronca la riga prima dei valori e fa sembrare la pagina VUOTA (errore commesso l'11/8 mattina, la pagina pareva avere 4 stazioni su 256: gli argomenti si estraggono per stringhe quotate, come già fa `parseSirValues`)
 - **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
 
 ### Liguria
@@ -335,11 +335,12 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   (dal 28/6), Liguria (dal 28/7, finestra charts), Piemonte (dal 9/8) e Veneto
   (dal 9/8) — le due finestre API più corte, crescono un giorno al giorno;
   Trentino (dal 5/8, SOLO temperatura: l'API ha la sola raffica e senza media
-  il grafico non disegna); le 10 reti MeteoHub del sud (dal 2/8, finestra API).
-  **UNICA rete senza t/w: la Toscana** — la pagina SIR `stazioni.php?type=termo`
-  all'assaggio dell'11/8 aveva dati su 4 stazioni su 256 (da studiare a parte,
-  forse popolata solo in certe fasce orarie); il vento su SIR non esiste.
-  L'Abruzzo è Open-Meteo live, niente collector. Le stazioni scoperte dicono
+  il grafico non disegna); le 10 reti MeteoHub del sud (dal 3/8, finestra API);
+  Toscana (dal 10/8, SOLO temperatura dalla pagina SIR termo, live-only).
+  **TUTTE le 15 reti a dati reali sono coperte.** L'Abruzzo resta fuori: è
+  Open-Meteo live (stime, niente collector né file) — mettergli t/w di modello
+  tradirebbe la regola «dati reali di stazione»; la strada è trovargli una
+  fonte reale (Centro Funzionale allarmeteo, in coda). Le stazioni scoperte dicono
   «Temperatura/Vento non disponibile» e si riempiranno estendendo i collector,
   senza altri deploy. Sviluppata sul repo di test (pilota Austria 10/8), portata
   in prod pezzo per pezzo l'11/8 su decisione utente («facciamo direttamente in
