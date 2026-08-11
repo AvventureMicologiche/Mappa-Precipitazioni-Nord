@@ -2579,7 +2579,14 @@ var histCurrent=null;
 // Ticino OASI (stessa data, e il regionKey delle stazioni ticinesi è svizzera).
 var METEO_HIST_FROM={austria:'2026-07-02',svizzera:'2026-06-27',francia:'2026-06-27',
   altoadige:'2026-06-27',emilia:'2026-07-27',
-  lombardia:'2026-06-28',liguria:'2026-07-28',piemonte:'2026-08-09'};
+  lombardia:'2026-06-28',liguria:'2026-07-28',piemonte:'2026-08-09',
+  // terza ondata (11/8 sera): trentino solo temperatura (l'API ha la sola
+  // raffica, senza media il grafico non disegna); veneto ~2 gg di finestra XML;
+  // meteohub sud ~8 gg di finestra API (stessa data per le 10 reti)
+  trentino:'2026-08-05',veneto:'2026-08-09',valledaosta:'2026-06-27',friuli:'2026-06-27',
+  marche:'2026-08-03',umbria:'2026-08-03',lazio:'2026-08-03',campania:'2026-08-03',
+  puglia:'2026-08-03',calabria:'2026-08-03',sicilia:'2026-08-03',sardegna:'2026-08-03',
+  basilicata:'2026-08-03',molise:'2026-08-03'};
 
 function histAsseX(days){
   var h='<div class="sh-x">';
