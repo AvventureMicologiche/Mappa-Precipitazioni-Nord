@@ -2520,7 +2520,7 @@ var histHoverT=null,histHideT=null;
 // Cache dei file giorno già scaricati (chiave regione/data → nome stazione: mm):
 // ogni file contiene TUTTE le stazioni della regione, quindi dopo la prima
 // stazione le successive non scaricano più nulla.
-var histFileCache={},histLombCache={};
+var histFileCache={};
 
 function histColor(v){
   if(v<=0) return '#3d3d3d';
@@ -2561,33 +2561,11 @@ function histFromFiles(region,station,days,cb){
   });
 }
 
-// Lombardia: nessun file storico nel repo, ma Socrata sa raggruppare per
-// giorno → 30 totali giornalieri di UNA stazione in una sola chiamata.
-function histFromLombardia(station,days,cb){
-  if(!station.idsensore||!days.length){cb({});return;}
-  var key=station.idsensore+'|'+days[0]+'|'+days[days.length-1];
-  if(histLombCache[key]){cb(histLombCache[key]);return;}
-  var out={};
-  var where="idsensore='"+station.idsensore+"' AND data between '"
-    +days[0]+"T00:00:00' and '"+days[days.length-1]+"T23:59:59' AND valore >= 0";
-  var url='/.netlify/functions/arpa?endpoint=647i-nhxk.json'
-    +'&$select='+encodeURIComponent('date_trunc_ymd(data) as g, sum(valore) as s')
-    +'&$where='+encodeURIComponent(where)
-    +'&$group=g&$order=g&$limit=100';
-  fetch(url)
-    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-    .then(function(rows){
-      (rows||[]).forEach(function(r){
-        var v=Math.round((parseFloat(r.s)||0)*10)/10;
-        if(v>500) v=0; // stessa sanity check della mappa
-        // stessa forma a oggetto di histFromFiles (Socrata dà solo la pioggia)
-        out[(r.g||'').substring(0,10)]={mm:v,t:null,w:null};
-      });
-      histLombCache[key]=out;
-      cb(out);
-    })
-    .catch(function(){cb(out);});
-}
+// Lombardia: dall'11/8/2026 anche il grafico storico legge i FILE del repo
+// (histFromFiles) come tutte le altre regioni — era l'ultima cosa live su
+// Socrata, e i file (che esistono da gennaio) ora portano anche t/w.
+// La vecchia histFromLombardia (query Socrata via Netlify function) è stata
+// rimossa qui; la function /arpa resta in uso per l'anagrafe della mappa.
 
 // ── Schede del pannello: 'mm' barre pioggia, 't' linee min/max, 'v' linee vento.
 // histTab è la scheda attiva e si ricorda tra una stazione e l'altra;
@@ -2600,7 +2578,8 @@ var histCurrent=null;
 // quelle dei backfill di PROD (11/8/2026); la chiave svizzera copre anche il
 // Ticino OASI (stessa data, e il regionKey delle stazioni ticinesi è svizzera).
 var METEO_HIST_FROM={austria:'2026-07-02',svizzera:'2026-06-27',francia:'2026-06-27',
-  altoadige:'2026-06-27',emilia:'2026-07-27'};
+  altoadige:'2026-06-27',emilia:'2026-07-27',
+  lombardia:'2026-06-28',liguria:'2026-07-28',piemonte:'2026-08-09'};
 
 function histAsseX(days){
   var h='<div class="sh-x">';
@@ -2831,8 +2810,7 @@ function openStationHistory(s,rank,mx,my){
     histRender(s,regionKey,days,serie,selFrom,selTo,periodoLungo);
     histPosition(mx,my);
   }
-  if(regionKey==='lombardia') histFromLombardia(s,days,done);
-  else histFromFiles(histRegion,s,days,done);
+  histFromFiles(histRegion,s,days,done);
 }
 
 function fmtBreve(d){
