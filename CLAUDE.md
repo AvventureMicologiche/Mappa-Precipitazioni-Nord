@@ -95,6 +95,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Formula:** `max(vals)` su cumulativi giornalieri con reset a mezzanotte
 - **Orari:** 6 run/giorno + aggiorna ieri
 - **Dati corretti da:** 4 giugno 2026
+- **Temperatura/vento (dall'11/8/2026):** gli STESSI XML di stazione portano sensori `TEMP` (°C, letture ogni 30') e `VVENTO` (**m/s → ×3,6**, nessuna raffica) — zero richieste extra. ⚠️ La regex dei DATI per t/w ammette il segno meno (le temperature possono essere negative; quella della pioggia no). Finestra XML ~2,5 giorni → niente backfill: t/w dal 9/8/2026
 
 ### Trentino
 - **Fonte:** Meteotrentino API
@@ -102,6 +103,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Formula:** `PrecTotale` diretto dall'API
 - **Orari:** 7 run/giorno + aggiorna ieri (il cron `30 22 UTC`, aggiunto il 22 luglio 2026, mira le 00:30 locali per raccogliere il giorno appena chiuso senza aspettare il primo run del mattino)
 - **Dati corretti da:** 6 giugno 2026
+- **Temperatura (dall'11/8/2026):** `Minima`/`Massima` sono aggregati ufficiali GIÀ nella stessa risposta (t su ~104/109 stazioni), zero richieste extra; backfill 6 giorni (`backfill-meteo-trentino.js`, dal 5/8). ⚠️ **Niente vento**: l'API ha solo `vento_max` (raffica) senza la media, e il grafico disegna la media — da riconsiderare se l'API cambiasse
 - **ATTENZIONE:** `getValoriAggregatiGiornoJson` pubblica l'aggregato di un giorno **solo a giornata conclusa** — durante il giorno i record per la data odierna non esistono proprio (verificato il 22 luglio 2026 alle 15:15: l'API si fermava al 21). Il file di un giorno viene quindi creato dal ramo "aggiorna ieri" del primo run dopo mezzanotte, non durante il giorno stesso. Il collector NON deve ripiegare sul "giorno più recente disponibile" per riempire il file di oggi: era il bug #19.
 
 ### Alto Adige
@@ -120,6 +122,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **TOSCANA_STATIONS:** 165 stazioni curate (filtrate da 379) nell'index.html
 - **Orari:** 9 run/giorno — i 6 regolari (00:15-20:15 UTC) + 3 run di chiusura ravvicinati (20:40, 21:00, 21:20 UTC = 22:40/23:00/23:20 CEST in estate). Essendo SIR consultabile solo per l'istante attuale (nessuna query storica), un run che scivola dopo mezzanotte per ritardi di GitHub Actions scrive sul giorno SBAGLIATO invece di chiudere quello giusto — successo il 15 luglio 2026: i 2 run di chiusura originari (21:35/21:50 UTC) sono partiti in ritardo di ~55 minuti, finendo entrambi dopo mezzanotte CEST. Anticipati a 20:40-21:20 UTC per lasciare più margine, e portati a 3 tentativi invece di 2 per aumentare le probabilità che almeno uno arrivi in tempo. Nota: come per Alto Adige, l'orario fisso UTC non è consapevole del cambio ora legale/solare — in inverno questi run cadranno un'ora prima in orario locale (21:40/22:00/22:20 CET), stesso compromesso già accettato nel progetto. Il passo "Commit e push" ora riprova fino a 5 volte (10s tra un tentativo e l'altro) anche in caso di conflitto push con altri workflow concorrenti (causa del fallimento del run delle 22:42 UTC del 15 luglio — la raccolta dati era riuscita, solo il push era stato rifiutato).
 - **Dati corretti da:** 12 luglio 2026 (switch a SIR)
+- **Temperatura/vento: NON ANCORA** (unica rete scoperta all'11/8/2026). La pagina SIR `stazioni.php?type=termo` esiste (256 voci, colonne min/max di oggi e ieri) ma all'assaggio dell'11/8 aveva dati su **4 stazioni su 256** — forse si popola solo in certe fasce orarie, da studiare a parte prima di scriverci un collector. Il vento su SIR non esiste; CFR `action=TERMO` risponde vuoto
 - **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
 
 ### Liguria
@@ -252,6 +255,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (08:40 UTC) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
 - **Misura della frequenza:** `.github/scripts/analizza-buchi-meteohub.js` (da lanciare a mano) — legge il registro e dà eventi per settimana, distanza fra un evento e l'altro e quota di giorni finiti a stime, rete per rete. È il numero su cui si decide l'uscita dal beta, al posto del "mi sembra che peggiori"
 - **Dati reali da:** Marche/Umbria 13 luglio 2026 (16-17/7 blackout piattaforma, stimati), le altre 8 dal 19 luglio; prima backfill Open-Meteo (`source: open-meteo-backfill-*`) dal 14-20 maggio
+- **Temperatura/vento (dall'11/8/2026):** prodotti `B12101` (temperatura, ⚠️ **KELVIN** → `v>100 ? v-273,15`, come la Francia), `B11002` (vento medio, m/s → ×3,6) e `B11041` (raffica, poche stazioni — null dove manca); tre query in più per (rete, giorno), stazioni agganciate per id lat_lon, serie più fitta per prodotto, ore coperte ≥20. Backfill `backfill-meteo-meteohub.js` (finestra API ~9 giorni, dal 2/8)
 - **In mappa:** `dataSource: 'meteohub'`, fonte 'MeteoHub'; etichette **(beta)** e pillola gialla finché in validazione
 - **ATTENZIONE:** i buchi di ingestione MeteoHub sono di piattaforma (16-17/7 tutte le reti; 27/7 Puglia quasi azzerata): la metrica che conta è la FREQUENZA degli eventi (registro), non la % di giorni persi. `meteohub-lombardia` era solo la rete di controllo del pilota e NON esiste in produzione
 - **VERIFICA CONTRO IL BOLLETTINO UFFICIALE PUGLIA (6 agosto 2026)** — il bollettino pluviometrico mensile di luglio (uscito il 5/8, `protezionecivile.regione.puglia.it/bollettini-pluviometrici`) dà i valori giornalieri ufficiali stazione per stazione: è la verità a terra per il sud, come ARPA Socrata lo è per la Lombardia. Estrazione con **`pdftotext -table`** (già installato) — un estrattore artigianale sbaglia, perché il PDF ha due mappe ToUnicode in conflitto che producono ENTRAMBE lettere.
@@ -271,6 +275,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Collect:** `.github/scripts/collect-valledaosta-cf.js` + `valledaosta-cf.yml` (4 run/giorno dal 28 luglio 2026: mattutini ridondanti 02:30/04:30/07:30 UTC + 12:15, come già nel test — con 2 soli cron i ritardi di GitHub Actions arrivavano a 3h38 e il file di ieri restava mancante fino a metà mattina). Il vecchio `collect-valledaosta-gh.js`/`valledaosta.yml` (Open-Meteo) è **disattivato** (cron commentati il 26/7, resta lanciabile a mano)
 - **~70 stazioni** (66 Centro Funzionale + 6 Arpa)
 - **Dati reali da:** 16 luglio 2026. Prima (17/5→15/7): **backfill Open-Meteo** sulle stesse coordinate (`source: open-meteo-backfill-vda`, script `backfill-openmeteo-pilota.js`). Si legge sempre dai file, nessuno switch runtime; la parte reale cresce di 1 giorno/giorno fino a 365
+- **Temperatura/vento (dall'11/8/2026):** seconda chiamata `get_allparams_data` per stazione con `aggr:'hh'` → orari di tutti i parametri; prid 1 = Temperatura (°C), prid 10 = Velocità Vento Vett. (**m/s → ×3,6**, validato contro Open-Meteo: Mont-Fleury rapporto 3,81 ≈ 3,6; Donnas più alto del modello ma è la porta del föhn). Nessuna raffica → `w:[media,null]`. Backfill `backfill-meteo-valledaosta.js` dal 27/6 (una chiamata per stazione copre 45 giorni)
 - **In mappa:** `dataSource: 'cf_valledaosta'`, `loadCFValdostaRegion`, URL dati da `PILOT_DATA_BASE`
 
 ### Friuli Venezia Giulia
@@ -279,6 +284,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **~41 stazioni OSMER + 5 Veneto.** Dati reali da 18 luglio 2026; prima (19/5→17/7): backfill Open-Meteo (`source: open-meteo-backfill-friuli`). L'anagrafe del backfill è l'**UNIONE di tutti i file reali** (il feed OSMER pubblica un set variabile, 39-41 staz.)
 - **Ricetta OSMER:** ore UTC dal CSV di `getStationData.php` (t=H_2) sommate sul giorno solare italiano; `MIN_ORE=20`; merge a copertura-crescente; cookie di consenso `meteofvg_cookie=1` obbligatorio
 - **Due protezioni qualità nel loader `loadOSMERFriuliRegion`:** (1) **filtro copertura** — una stazione OSMER è mostrata solo se presente in ≥80% dei giorni REALI del periodo (nasconde le stazioni a serie oraria bucata, es. Forni di Sopra, San Pietro al Natisone, che davano una macchia secca falsa; l'IDW dei vicini copre); (2) **5 stazioni ARPA Veneto** (Sella Ciampigotto, Santo Stefano di Cadore, Costalta, Domegge, Casamazzagno) lette da `data/veneto`, non filtrate, caricate solo se il Veneto non è già selezionato (no doppioni). Fonte → 'ARPA OSMER FVG + ARPA Veneto'. Limite noto: grafico storico vuoto cliccando una delle 5 Veneto
+- **Temperatura/vento (dall'11/8/2026):** lo STESSO CSV orario ha le colonne `Temp. °C`, `Vento med km/h` e `Vento max km/h` (**già km/h**, dichiarato nell'intestazione) — zero richieste extra; la mappa oraria in cache è passata a oggetti `{mm,t,vm,vx}`. Backfill dal 27/6 lanciando il collector con `GIORNI_FINESTRA=45` (l'archivio risponde su qualsiasi giorno passato)
 - **In mappa:** `dataSource: 'osmer_fvg'`, URL dati da `PILOT_DATA_BASE`
 
 ---
@@ -324,10 +330,16 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   stazione ha tre schede — 💧 Pioggia | 🌡 Temp (linee min/max) | 💨 Vento — su dati
   REALI di stazione: campi compatti `t:[min,max]` °C e `w:[media,raffica]` km/h
   dentro i file giornalieri esistenti, scritti dai collector solo con ore valide
-  ≥20. Reti coperte dall'11/8: Austria (dal 2/7), Svizzera, Francia, Alto Adige e
-  Ticino (dal 27/6), Emilia (dal 27/7, finestra API), Lombardia (dal 28/6),
-  Liguria (dal 28/7, finestra charts), Piemonte (dal 9/8, l'API non conserva
-  di più — cresce un giorno al giorno); le altre dicono
+  ≥20. Reti coperte dall'11/8: Austria (dal 2/7), Svizzera, Francia, Alto Adige,
+  Ticino, VdA e Friuli (dal 27/6), Emilia (dal 27/7, finestra API), Lombardia
+  (dal 28/6), Liguria (dal 28/7, finestra charts), Piemonte (dal 9/8) e Veneto
+  (dal 9/8) — le due finestre API più corte, crescono un giorno al giorno;
+  Trentino (dal 5/8, SOLO temperatura: l'API ha la sola raffica e senza media
+  il grafico non disegna); le 10 reti MeteoHub del sud (dal 2/8, finestra API).
+  **UNICA rete senza t/w: la Toscana** — la pagina SIR `stazioni.php?type=termo`
+  all'assaggio dell'11/8 aveva dati su 4 stazioni su 256 (da studiare a parte,
+  forse popolata solo in certe fasce orarie); il vento su SIR non esiste.
+  L'Abruzzo è Open-Meteo live, niente collector. Le stazioni scoperte dicono
   «Temperatura/Vento non disponibile» e si riempiranno estendendo i collector,
   senza altri deploy. Sviluppata sul repo di test (pilota Austria 10/8), portata
   in prod pezzo per pezzo l'11/8 su decisione utente («facciamo direttamente in

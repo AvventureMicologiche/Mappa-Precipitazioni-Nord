@@ -101,6 +101,19 @@ async function main() {
     todayRecords = [];
   }
 
+  // Temperatura (11/8/2026 — grafici stazione): Minima/Massima sono aggregati
+  // ufficiali GIÀ nella stessa risposta, zero richieste extra. Il vento c'è
+  // solo come raffica (vento_max) SENZA media: il grafico disegna la media,
+  // quindi non si scrive niente — da riconsiderare se l'API pubblicasse anche
+  // la media. Sanity come le altre reti: t in [-45,50] °C.
+  function estraiMeteoTrn(r) {
+    const out = {};
+    const tn = parseFloat(r.Minima), tx = parseFloat(r.Massima);
+    if (!isNaN(tn) && !isNaN(tx) && tn >= -45 && tx <= 50 && tn <= tx)
+      out.t = [Math.round(tn * 10) / 10, Math.round(tx * 10) / 10];
+    return out;
+  }
+
   // Assembla stazioni
   const stations = todayRecords.map(r => {
     const id = r.idstaz;
@@ -108,7 +121,7 @@ async function main() {
     if (mm === null || mm === undefined || isNaN(parseFloat(mm))) return null;
     const meta = stMeta[id];
     if (!meta || !meta.lat || !meta.lon) return null;
-    return {
+    const rec = {
       id,
       n:   meta.n,
       lat: meta.lat,
@@ -117,6 +130,8 @@ async function main() {
       p:   meta.p,
       mm:  Math.round(parseFloat(mm) * 10) / 10
     };
+    Object.assign(rec, estraiMeteoTrn(r));
+    return rec;
   }).filter(Boolean);
 
   console.log(`  Stazioni con dati: ${stations.length}`);
@@ -151,7 +166,9 @@ async function main() {
           if (mm === null || mm === undefined || isNaN(parseFloat(mm))) return null;
           const meta = stMeta[id];
           if (!meta || !meta.lat || !meta.lon) return null;
-          return { id, n: meta.n, lat: meta.lat, lon: meta.lon, q: meta.q, p: meta.p, mm: Math.round(parseFloat(mm) * 10) / 10 };
+          const _rec = { id, n: meta.n, lat: meta.lat, lon: meta.lon, q: meta.q, p: meta.p, mm: Math.round(parseFloat(mm) * 10) / 10 };
+          Object.assign(_rec, estraiMeteoTrn(r));
+          return _rec;
         }).filter(Boolean);
         if (_yStations.length >= 10) {
           const _yFile = path.join(DATA_DIR, `${_yDate}.json`);
