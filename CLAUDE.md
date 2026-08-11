@@ -80,6 +80,11 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Orari:** 6 run/giorno + aggiorna ieri
 - **Dati corretti da:** 5 giugno 2026
 - **`EMILIA_ESCLUSE` (6 agosto 2026):** le **8 stazioni che l'ARPAE ospita in provincia di GENOVA** (5317 S. Stefano d'Aveto, 5565 Alpe Gorreto, 5566 Barbagelata, 5561 Cabanne, 5568 Rovegno, 3080 Torriglia, 3077 Diga del Brugneto, 12307 Loco Carchelli) **non entrano più nel rendering Emilia**: sono le "gemelle", cioè gli stessi pluviometri che OMIRL pubblica in `data/liguria` da 0 a 460 m di distanza. Due motivi: (a) con Emilia e Liguria selezionate insieme venivano disegnate due volte e pesate due volte nell'IDW (461 stazioni invece di 469, verificato); (b) su **Alpe Gorreto il feed ARPAE ha dato 0 invece di "dato assente" per quattro giorni di fila** (29/6→2/7/2026) mentre OMIRL misurava 50,8 · 28,2 · 9,8 · 1,1 mm. Il dato non si perde: quei punti restano in mappa via OMIRL, che per loro è la fonte di casa. Emilia da 271 a 263 stazioni. ⚠️ **Le gemelle restano lo strumento di verifica ai check periodici** — si confrontano i FILE `data/emilia` e `data/liguria`, che sono intatti: l'esclusione è solo nel rendering.
+- **Temperatura/vento (dall'11/8/2026):** `t`/`w` dagli aggregati già presenti
+  nella stessa chiamata (`temperatura_minima/massima_giornaliera_2m`,
+  `velocita_vento_media_...` e `massima_raffica_..._10m`, m/s → ×3,6), zero
+  richieste extra. ~200 stazioni con t, ~40 col vento su 315. L'API conserva
+  ~15 giorni: backfill solo dal 27/7/2026 (`backfill-meteo-emilia.js`).
 - **ATTENZIONE:** l'ARPAE copre 12 stazioni fisicamente in territorio toscano (provincia FI/PT/LU/MS), quasi tutte lungo il crinale appenninico. Nomi non sempre corrispondono a SIR/CFR (es. "Passo delle Radici" vs "Passo Radici"). Queste 9 duplicavano stazioni Toscana rimaste bloccate a 0mm ed erano state rimosse da `TOSCANA_STATIONS` (bug #14) prima ancora di scoprire e risolvere il problema alla radice passando a SIR.
 
 ### Veneto
@@ -103,6 +108,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Formula:** `sensorValue` (cumulato dalla mezzanotte) con merge MAX
 - **Orari:** 7 run/giorno — il run di chiusura è stato anticipato dalle 21:55 alle **21:05 UTC** il 22 luglio 2026 (bug #18): i cron di GitHub slittano di 40-70 minuti e quello serale atterrava sistematicamente dopo mezzanotte CEST
 - **Dati corretti da:** 4 giugno 2026
+- **Temperatura/vento (dall'11/8/2026):** valley.json ha solo il valore istantaneo → min/max/media dalle **timeseries a 10 minuti** dell'Open Data provinciale (`daten.buergernetz.bz.it/services/meteo/v1/timeseries`, sensori LT/WG/WG.BOE, timestamp in ORA LOCALE, interrogabili sul passato). Ogni run ricalcola ieri+oggi (~171 richieste extra, tutte in un try: un guasto non tocca la pioggia); «oggi» si riempie solo dalla sera (ore ≥20). ⚠️ L'endpoint rifiuta le raffiche di richieste: nel collector c'è un retry con pausa 1,5s (52/57 transitori al collaudo, 57/57 col retry). Backfill `backfill-meteo-altoadige.js` dal 27/6
 - **ATTENZIONE:** il cumulato dell'API riparte da zero a mezzanotte, ma il reset non è istantaneo. Un run che scivola oltre mezzanotte può leggere ancora i totali di ieri e scriverli nel file di oggi, dove il merge MAX li congela per sempre. Dal 22 luglio 2026 il collector ha una **guardia**: se il file del giorno non esiste ancora e il payload somiglia troppo a quello del giorno precedente (con somma > 0), salta la scrittura. **Dal 5 agosto 2026 la somiglianza si misura sulle sole stazioni BAGNATE** — pioggia in almeno uno dei due giorni — con soglia 60% e minimo 5 stazioni: contando tutte le stazioni, in una giornata quasi asciutta gli zeri identici per forza nascondono la contaminazione (terza recidiva, 30 luglio). Vedi bug #18.
 
 ### Toscana
@@ -134,6 +140,7 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Confine:** `austria-confine.geojson`, BEV via data.gv.at, 4.661 vertici, 90 KB. ⚠️ **CC BY-SA 2.0 AT**, diversa dai dati di pioggia: il file è una nostra semplificazione, quindi resta BY-SA ed è dichiarato in `fonti.html`
 - **Ha ripagato prima di entrare in mappa:** al primo run ha trovato la terza recidiva del bug #18 (Alto Adige 30/7), dando le stazioni di confine a 0 mentre il nostro file dichiarava pioggia. **Prima volta che una rete estera fa da controllo a una nostra regione**
 - **Cron di chiusura `40 22 * * *` (00:40 italiane)**: il giorno solare italiano chiude alle 22:00 UTC e l'API è quasi in tempo reale, quindi 40 minuti dopo il totale di ieri è definitivo. Senza, il primo run utile sarebbe quello delle 03:10 UTC che coi ritardi di GitHub diventa ~05:00: tutta la notte senza "ieri" in mappa. ⚠️ **La prima notte (6→7/8) GitHub l'ha semplicemente saltato** e il file di ieri è comparso alle 03:37 italiane: il rimedio è giusto ma il collaudo è ancora da fare
+- **Temperatura/vento (dall'11/8/2026):** `parameters=rr,tl,ff,ffx` nella stessa chiamata (zero richieste extra), ogni run ricalcola il giorno intero. Backfill `backfill-meteo-austria.js` dal 2/7
 - **Il collector del repo di TEST resta attivo**, come per la Svizzera: il sito di test legge l'Austria dal proprio repo
 
 > ⚠️ **COME SI FA UNA PROMOZIONE, se ne arriva un'altra — NON si copia `index.html` dal test.**
@@ -201,12 +208,14 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   `properties.reg_name`, il filtro di setRegionBorder cerca quello.
   Residuo noto: **Bretagna 104% di larghezza su telefono** (~7px per lato, dentro
   la banda morta della centratura) — accettato il 9/8.
+- **Temperatura/vento (dall'11/8/2026):** dagli stessi pacchetti, `t`/`tn`/`tx` (⚠️ KELVIN → `v>100 ? v-273.15`) e `ff`/`fxi` (m/s ×3,6). Backfill `backfill-meteo-francia.js` dal 27/6, dal mirror S3 OVH (~99% stazioni con t, vento su ~1/4).
 - **Allarme fonti:** le 13 cartelle sono in `check-fonti.js` con soglia 4 giorni.
 
 ### Svizzera intera (v6.0, in produzione dal 3 agosto 2026)
 - In mappa UN SOLO bottone **"Svizzera (CH)"** (regione `svizzera`, ha sostituito "Ticino (CH)"): sotto, DUE fonti unite da `loadSvizzeraRegion` con chiavi prefissate `ti:`/`ch:` — il Ticino resta OASI (cartella `data/ticino`, collector sotto), il resto del paese è **MeteoSwiss OGD** (`data/svizzera`). ~307 stazioni totali; fonte/chip/crediti "OASI Ticino + MeteoSvizzera"
 - **Fonte MeteoSwiss:** collezioni STAC `ch.meteoschweiz.ogd-smn` (SwissMetNet) + `ogd-smn-precip` su `data.geo.admin.ch`, CSV per stazione, coordinate già WGS84, licenza **CC BY 4.0** («Fonte: MeteoSvizzera», voce in fonti.html)
-- **Collect:** `collect-svizzera-meteoswiss.js` + `svizzera.yml` (5 run/giorno). **261 stazioni** (filtro inventario `rre150h0` attivo; ESCLUSI canton TI e `SBE` S. Bernardino — OASI copre anche il Moesano GR e SBE è la stessa stazione fisica, unico doppione su 260×47 coppie)
+- **Collect:** `collect-svizzera-meteoswiss.js` + `svizzera.yml` (5 run/giorno). **270 stazioni** (filtro inventario `rre150h0` attivo; il canton TI resta escluso — lo copre OASI — TRANNE la whitelist `TI_SMN_DA_OASI`, vedi sotto)
+- **Le 9 stazioni SMN del Ticino/Moesano si prendono da qui dall'11/8/2026** (whitelist `TI_SMN_DA_OASI`: MAG Cadenazzo, CEV Cevio, COM Comprovasco, OTL Locarno-Monti, LUG Lugano, PIO Piotta, ROE Robièi, SBE S. Bernardino, SBO Stabio): sono di PROPRIETÀ MeteoSvizzera e le condizioni d'uso OASI vietano di ripubblicarne i grezzi — le pubblicavamo via data/ticino da mesi senza accorgercene (trovato al censimento sensori t/w). Migrazione con `migra-ti-smn-da-oasi-a-ogd.js` (una tantum, 11/8): pioggia OGD su tutto lo storico dentro data/svizzera (valori verificati identici a OASI: SBE 16,4=16,4, Lugano 3,5=3,5, Piotta 8,7=8,7 sul 26/7) e gemelle rimosse da TUTTI i file data/ticino (146 file, 1312 voci). SBE non è più un'esclusione: la vecchia costante `SVIZZERA_ESCLUSE` non esiste più. ⚠️ La whitelist è volutamente CHIUSA: la rete SMN in TI ha anche BIA/CIM/GEN e la rete precip altre 7 stazioni — non aggiungerle senza un check doppioni contro le OASI rimaste
 - **RICETTA (validata 3/8 su 639 giorni-stazione, match al centesimo):** i giornalieri MeteoSwiss NON coincidono col giorno solare italiano (`rre150d0` = finestra 06-06 UTC, `rka150d0` = giorno di calendario UTC) → si sommano le ORE `rre150h0` (timestamp = FINE intervallo) sul giorno solare italiano, ricetta OSMER, MIN_ORE=20. `_h_recent` contiene già tutte le ore di ieri al mattino presto; `_h_now` (10 min) integra l'ultima ora
 - **Auto-riparazione GRATIS D-3..D-10**: `recent` copre l'anno intero, i giorni mancanti si ricostruiscono senza richieste extra (come OASI, un run fallito non perde dati) → soglia allarme fonti 5 giorni (`SOGLIA_PER_REGIONE`)
 - **Storico: 365 giorni di dati REALI dal primo giorno** — backfill una tantum dagli archivi `_h_historical_2020-2029` (script `backfill-svizzera-meteoswiss.js`, girato in locale: ~1 GB di download). Campo `backfill: true` nei file, source sempre `meteoswiss`
@@ -218,7 +227,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **`preview.jpg` rifatta il 3/8** con Italia+Svizzera a 30 giorni (2960 stazioni): scatto headless in finestra **1920×1008** a doppia densità, cioè già nel rapporto 1.91:1 dei social — si scala a 1200×630 senza tagli né fasce. Ricetta completa nel commento sopra `og:image`. `?v=20260803`
 
 ### Ticino (Svizzera)
-- **Fonte:** OASI (Osservatorio Ambientale della Svizzera Italiana) `oasi.ti.ch/web/rest` — API REST pubblica, licenza libera con citazione fonte
+- **Fonte:** OASI (Osservatorio Ambientale della Svizzera Italiana) `oasi.ti.ch/web/rest` — API REST pubblica, licenza libera con citazione fonte. ⚠️ **ECCETTO i dati MeteoSvizzera**: le condizioni d'uso OASI vietano di ripubblicarne i grezzi → dall'11/8/2026 il collector esclude anche `owner === 'MeteoSvizzera'` (9 stazioni, ~39 restanti), che arrivano da MeteoSwiss OGD via `data/svizzera` (vedi scheda Svizzera, whitelist `TI_SMN_DA_OASI`)
 - **Collect:** `collect-ticino-gh.js`
 - **Formula:** `resolution=d&parameter=Prec` — valore giornaliero GIÀ aggregato dall'API, nessuna formula. L'ultima lettura vince sempre (il dato giornaliero OASI è autoritativo).
 - **~50 stazioni** utilizzabili (59 nel dominio meteo, escluse le 8-9 ARPA Lombardia/Piemonte già coperte dai nostri collector — filtro sul campo `owner`)
@@ -228,6 +237,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **QUERY STORICHE FUNZIONANTI** (unica fonte del progetto ad averle): qualsiasi giorno passato è interrogabile e i dati sono recuperabili retroattivamente — un run fallito non perde mai dati. Archivio: Airolo dal 2017, Lugano dal 2005 (varia per stazione).
 - **Dati corretti da:** 18 marzo 2026 (backfill 120 giorni con dati reali di stazione, script `backfill-ticino.js` una tantum)
 - **Confine cantone:** `ticino-confine.geojson` nel repo (da swissBOUNDARIES3D), caricato via `geojsonUrl` (meccanismo dedicato per confini non italiani in `setRegionBorder`)
+- **Temperatura/vento (dall'11/8/2026):** parametri OASI `T`/`WS`/`WSgust` a 10 minuti (`resolution=h`), stessa ricetta delle altre reti (ore ≥20, m/s ×3,6). Solo **15 stazioni con T, 7 col vento** (censimento 11/8: le pluvio UCA non hanno altri sensori); se T non dà righe si saltano anche WS/WSgust. Backfill `backfill-meteo-ticino.js` dal 27/6
 - **Validazione (16-17 luglio 2026):** allineamento calendario confermato con analisi di lag vs Open-Meteo (corr. 0.73-0.82 stesso giorno, ~0.1 a ±1g); coerenza interna verificata (somma 10-min vs giornaliero: scarto 3%); confronti di confine con Piemonte coerenti col microclima (la sponda ovest del Verbano è genuinamente più piovosa).
 - Sviluppato e validato nel repo di test `Mappa-Precipitazioni-Nord-Test` (+ sito avventurepluvio-test.netlify.app), promosso in produzione il 17 luglio 2026.
 
@@ -307,6 +317,31 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 ---
 
 ## UI Features
+- **Grafici stazione: schede Temperatura e Vento (11 agosto 2026).** Il pannello
+  stazione ha tre schede — 💧 Pioggia | 🌡 Temp (linee min/max) | 💨 Vento — su dati
+  REALI di stazione: campi compatti `t:[min,max]` °C e `w:[media,raffica]` km/h
+  dentro i file giornalieri esistenti, scritti dai collector solo con ore valide
+  ≥20. Reti coperte dall'11/8: Austria (dal 2/7), Svizzera, Francia, Alto Adige e
+  Ticino (dal 27/6), Emilia (dal 27/7, finestra API); le altre dicono
+  «Temperatura/Vento non disponibile» e si riempiranno estendendo i collector,
+  senza altri deploy. Sviluppata sul repo di test (pilota Austria 10/8), portata
+  in prod pezzo per pezzo l'11/8 su decisione utente («facciamo direttamente in
+  produzione»). Dettagli di impianto:
+  - `histFileCache` tiene oggetti `{mm,t,w}` (Lombardia Socrata avvolta in
+    `{mm,t:null,w:null}`); `histRenderPioggia` (barre di sempre) +
+    `histRenderLinee` (segmenti sui buchi, giorno isolato = trattino);
+    `histTab` si ricorda tra stazioni; `METEO_HIST_FROM` = date di inizio t/w
+    (le 13 régions francesi condividono la chiave `francia`; la chiave
+    `svizzera` copre anche il Ticino, il regionKey delle stazioni OASI è quello).
+  - **Vento: SOLA media nel grafico** (decisione utente 10/8): la raffica in
+    scala schiacciava la media sul fondo. La raffica resta nel tooltip del
+    giorno e nei file (`w[1]`).
+  - ⚠️ Il pannello vive DENTRO il contenitore Leaflet: la barra schede ha
+    `L.DomEvent.disableClickPropagation`, senza cui il click risale a
+    `map.on('click')` e chiude il pannello. Vale per qualsiasi elemento
+    interattivo futuro nel pannello.
+  - Backfill una tantum in `.github/scripts/backfill-meteo-<rete>.js` (GIORNI=n,
+    idempotenti, toccano solo t/w). Push di soli data/.github = zero crediti.
 - Spinner di caricamento (overlay CSS, z-index 800)
 - YouTube "ISCRIVITI" button nel box canale (nascosto su mobile ≤600px)
 - Home icon nell'header

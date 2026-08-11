@@ -23,6 +23,13 @@
  *
  * Vengono escluse le stazioni gestite da ARPA Lombardia / ARPA Piemonte presenti
  * in OASI: quelle zone sono già coperte dai nostri collector regionali.
+ * Dall'11/8/2026 sono escluse anche le 9 stazioni di PROPRIETÀ MeteoSvizzera
+ * (Cadenazzo, Cevio, Comprovasco, Locarno, Lugano, Piotta, Robiei,
+ * S.Bernardino, Stabio): le condizioni d'uso OASI vietano di ripubblicarne i
+ * dati grezzi. Le stesse identiche stazioni fisiche arrivano ora dal collector
+ * MeteoSwiss OGD (CC BY, whitelist TI_SMN_DA_OASI) nella cartella
+ * data/svizzera; lo storico in data/ticino è stato ripulito lo stesso giorno
+ * (script una tantum migra-ti-smn-da-oasi-a-ogd.js).
  *
  * Licenza dati OASI: uso e pubblicazione liberi citando la fonte (oasi.ti.ch).
  *
@@ -250,7 +257,12 @@ async function main() {
   const locs = JSON.parse(await fetchRaw(`${BASE_URL}/locations?domain=meteo`));
 
   const stations = locs
-    .filter(l => !((l.simpleOwner || l.owner || '').toUpperCase().includes('ARPA')))
+    .filter(l => {
+      const o = (l.simpleOwner || l.owner || '');
+      // ARPA: zone già coperte dai nostri collector. MeteoSvizzera: licenza
+      // OASI (vedi intestazione) — quelle stazioni arrivano da MeteoSwiss OGD.
+      return !o.toUpperCase().includes('ARPA') && o !== 'MeteoSvizzera';
+    })
     .map(l => {
       const c = l.coordinates || {};
       if (typeof c.x !== 'number' || typeof c.y !== 'number') return null;
