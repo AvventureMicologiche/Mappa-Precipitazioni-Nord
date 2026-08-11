@@ -4,6 +4,21 @@
  * API: https://static-meteo.provincia.bz.it/stations-data/website/valley.json
  *   → restituisce tutte le stazioni con cumulato dalla mezzanotte
  * Sensore precipitazione: sensorCode = "N"
+ *
+ * TEMPERATURA E VENTO (dall'11/8/2026 — grafici stazione):
+ * valley.json ha solo il valore ISTANTANEO, quindi min/max/media giornalieri
+ * si calcolano dalle timeseries a 10 minuti dell'Open Data provinciale
+ * (daten.buergernetz.bz.it/services/meteo/v1/timeseries — interrogabile
+ * anche sui giorni passati, timestamp in ora locale CEST/CET):
+ *   LT     → temperatura → t: [min, max] °C
+ *   WG     → vento medio (m/s ×3,6)  ┐
+ *   WG.BOE → raffica    (m/s ×3,6)  ┘→ w: [media, raffica] km/h
+ * Ogni run ricalcola IERI (giorno completo) e OGGI (parziale, i run
+ * successivi correggono) → nessun problema di merge. Campi scritti solo con
+ * ore coperte ≥ MIN_ORE_METEO; stazioni senza sensore restano senza campi.
+ * Sanity come Svizzera/Austria: t in [-45,50] °C, WG <60 m/s, BOE <90 m/s.
+ * ~171 richieste extra per run (57 stazioni × 3 sensori); tutta la parte
+ * meteo sta in un try: un suo guasto non tocca mai la raccolta pioggia.
  */
 
 const https = require('https');
@@ -46,6 +61,99 @@ function fetchJSON(url) {
       });
     }).on('error', reject);
   });
+}
+
+// ── Temperatura e vento dalle timeseries a 10 minuti ─────────────────
+const TS_URL = 'https://daten.buergernetz.bz.it/services/meteo/v1/timeseries';
+const MIN_ORE_METEO = 20;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/** Righe {day:'YYYY-MM-DD', hh, v} di un sensore fra due giorni (YYYY-MM-DD). */
+async function fetchSensore(stationCode, sensorCode, fromDay, toDay) {
+  const url = `${TS_URL}?station_code=${encodeURIComponent(stationCode)}`
+            + `&sensor_code=${encodeURIComponent(sensorCode)}`
+            + `&date_from=${fromDay.replace(/-/g, '')}&date_to=${toDay.replace(/-/g, '')}`;
+  const rows = await fetchJSON(url);
+  return (Array.isArray(rows) ? rows : []).map(r => {
+    // DATE es. "2026-08-10T23:50:00CEST" — già ora locale, il giorno è il prefisso
+    const v = parseFloat(r.VALUE);
+    if (isNaN(v) || typeof r.DATE !== 'string') return null;
+    return { day: r.DATE.slice(0, 10), hh: r.DATE.slice(11, 13), v };
+  }).filter(Boolean);
+}
+
+/** Aggrega le righe dei tre sensori sul giorno dateStr → {t?, w?} (o {}). */
+function aggregaMeteo(lt, wg, boe, dateStr) {
+  const out = {};
+  const oreDi = rows => new Set(rows.map(r => r.hh)).size;
+  const delGiorno = rows => rows.filter(r => r.day === dateStr);
+  const vLT = delGiorno(lt).filter(r => r.v >= -45 && r.v <= 50);
+  if (oreDi(vLT) >= MIN_ORE_METEO) {
+    let mn = Infinity, mx = -Infinity;
+    vLT.forEach(r => { if (r.v < mn) mn = r.v; if (r.v > mx) mx = r.v; });
+    out.t = [Math.round(mn * 10) / 10, Math.round(mx * 10) / 10];
+  }
+  const vWG = delGiorno(wg).filter(r => r.v >= 0 && r.v < 60);
+  if (oreDi(vWG) >= MIN_ORE_METEO) {
+    const media = vWG.reduce((a, r) => a + r.v, 0) / vWG.length;
+    const vBOE = delGiorno(boe).filter(r => r.v >= 0 && r.v < 90);
+    out.w = [Math.round(media * 3.6 * 10) / 10,
+             vBOE.length ? Math.round(Math.max(...vBOE.map(r => r.v)) * 3.6 * 10) / 10 : null];
+  }
+  return out;
+}
+
+/** Scrive i t/w calcolati dentro il file del giorno, se esiste. */
+function applicaMeteoAlFile(dateStr, meteoById) {
+  const f = path.join(DATA_DIR, `${dateStr}.json`);
+  if (!fs.existsSync(f)) return 0;
+  const data = JSON.parse(fs.readFileSync(f, 'utf8'));
+  let toccate = 0;
+  (data.stations || []).forEach(s => {
+    const m = meteoById[s.id];
+    if (!m || (!m.t && !m.w)) return;
+    if (m.t) s.t = m.t;
+    if (m.w) s.w = m.w;
+    toccate++;
+  });
+  if (toccate > 0) fs.writeFileSync(f, JSON.stringify(data));
+  return toccate;
+}
+
+/** Raccoglie t/w per tutte le stazioni sui giorni chiesti e aggiorna i file. */
+async function raccogliMeteo(codes, giorni) {
+  const fromDay = giorni[0];
+  // date_to è ESCLUSIVO oltre la mezzanotte finale: si chiede fino al giorno dopo
+  const d = new Date(giorni[giorni.length - 1] + 'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate() + 1);
+  const toDay = d.toISOString().slice(0, 10);
+  const perGiorno = {};             // dateStr → { id → {t?,w?} }
+  giorni.forEach(g => perGiorno[g] = {});
+  let falliti = 0;
+  for (const code of codes) {
+    // Un retry con pausa: l'endpoint ogni tanto rifiuta le raffiche di
+    // richieste (visto al collaudo dell'11/8: 52/57 transitori in un run,
+    // tutti ok pochi minuti dopo). Il run successivo ricalcola comunque.
+    for (let tent = 1; tent <= 2; tent++) {
+      try {
+        const lt  = await fetchSensore(code, 'LT', fromDay, toDay);
+        const wg  = await fetchSensore(code, 'WG', fromDay, toDay);
+        const boe = await fetchSensore(code, 'WG.BOE', fromDay, toDay);
+        giorni.forEach(g => { perGiorno[g][code] = aggregaMeteo(lt, wg, boe, g); });
+        break;
+      } catch (e) {
+        if (tent === 1) { await sleep(1500); continue; }
+        falliti++;
+        if (falliti <= 3) console.warn(`  Warn meteo ${code}: ${e.message}`);
+      }
+    }
+    await sleep(80);
+  }
+  giorni.forEach(g => {
+    const n = applicaMeteoAlFile(g, perGiorno[g]);
+    console.log(`  Meteo t/w ${g}: ${n} stazioni aggiornate`);
+  });
+  if (falliti > 0) console.warn(`  Warn meteo: ${falliti} stazioni senza risposta timeseries`);
 }
 
 async function main() {
@@ -169,6 +277,20 @@ async function main() {
       stations:  finalStations
     }));
     console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
+  }
+
+  // ── Temperatura e vento: ieri (completo) + oggi (parziale) ──────
+  // Dentro un try: un guasto delle timeseries non deve MAI far fallire
+  // la raccolta pioggia già scritta qui sopra.
+  try {
+    const prevStr = new Date(Date.UTC(
+      +dateStr.slice(0, 4), +dateStr.slice(5, 7) - 1, +dateStr.slice(8, 10)
+    ) - 86400000).toISOString().slice(0, 10);
+    const giorni = process.env.DATE_OVERRIDE ? [dateStr] : [prevStr, dateStr];
+    console.log(`  Meteo t/w: raccolgo ${giorni.join(', ')}...`);
+    await raccogliMeteo(stations.map(s => s.id), giorni);
+  } catch (e) {
+    console.warn('  Warn: raccolta meteo t/w fallita: ' + e.message);
   }
 
   // ── Pulizia file > 730 giorni (retention finestra scorrevole) ──
