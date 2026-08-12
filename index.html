@@ -2769,11 +2769,12 @@ function histRenderLinee(days,serie,tipo){
 // se la rete ha pubblicato la grandezza e se questa stazione c'era.
 var histCopCache={};
 function histCopertura(region,station,days,campo){
-  var rete=0,staz=0;
+  var rete=0,staz=0,visto=0;
   var pieno=function(v){return v&&(typeof v[0]==='number'||typeof v[1]==='number');};
   days.forEach(function(ds){
     var m=histFileCache[region+'/'+ds];
     if(!m) return;
+    for(var q in m){ visto++; break; }   // giornata con dentro davvero delle stazioni
     var ck=region+'/'+ds+'/'+campo,pubblica=histCopCache[ck];
     if(pubblica===undefined){
       pubblica=false;
@@ -2784,7 +2785,7 @@ function histCopertura(region,station,days,campo){
     rete++;
     if(m[station.n]&&pieno(m[station.n][campo])) staz++;
   });
-  return {rete:rete,staz:staz};
+  return {rete:rete,staz:staz,visto:visto};
 }
 // Quante giornate di riscontro servono per dire «lo strumento non c'è».
 // Il grafico guarda 30 giorni (HIST_DAYS), quindi 10 si raggiungono sempre
@@ -2793,6 +2794,14 @@ function histCopertura(region,station,days,campo){
 // strumento che non è mai stato installato. Sotto la soglia si resta sul
 // messaggio prudente: il pannello non deve mai affermare più di quanto sa.
 var HIST_PROVE_MIN=10;
+// Le reti che una grandezza NON la misurano proprio, verificato alla fonte e
+// scritto nelle schede del CLAUDE.md. Elenco a mano e non dedotto, perche' un
+// archivio vuoto puo' essere colpa nostra: qui si dichiara solo cio' che si sa.
+//   toscana  il SIR non ha il vento (CFR action=TERMO risponde vuoto)
+//   trentino l'API dà la sola raffica, senza media il grafico non disegna
+// ⚠️ Se una di queste fonti un giorno cominciasse a pubblicare, la voce va
+// tolta: resterebbe una frase falsa proprio dove diciamo di essere sicuri.
+var RETI_SENZA={toscana:'w',trentino:'w'};
 // Tre situazioni, due frasi (scelte con l'utente il 12/8/2026). Una sola voce
 // e un solo verbo, «misurare»: cambia il TEMPO, e il tempo è quello che
 // separa una cosa vera da una falsa.
@@ -2814,12 +2823,22 @@ function histMessaggioVuoto(region,region2,station,days){
   // già da quando esistono, quindi qui basta il passato.
   var da=METEO_HIST_FROM[region2]||(region2&&region2.indexOf('francia')===0?METEO_HIST_FROM.francia:null);
   if(da&&days[days.length-1]<da) return ora;
-  var c=histCopertura(region,station,days,(histTab==='t')?'t':'w');
-  // Nessuna stazione della rete ha pubblicato in tutta la finestra: la rete
-  // quella grandezza non la dà (SIR Toscana e Meteotrentino non danno il
-  // vento), quindi nemmeno questa stazione la misura. La frase è vera, solo
-  // meno informativa che nominare la fonte.
-  if(c.rete===0) return mai;
+  var campo=(histTab==='t')?'t':'w';
+  var c=histCopertura(region,station,days,campo);
+  // ⚠️ NON ABBIAMO VISTO NIENTE: nessuna giornata in cache con delle stazioni
+  // dentro. Non e' una prova che la stazione non misuri, e' l'assenza di
+  // prove — i file possono non essersi scaricati, o la regione puo' leggere
+  // lo storico da un'altra strada (nel repo di TEST la Lombardia arriva da
+  // Socrata, che non passa da histFileCache e non porta t/w). Qui il presente
+  // sarebbe un'affermazione nata da un guasto di rete: si resta sul passato.
+  if(c.visto===0) return ora;
+  // Nessuna stazione della rete ha pubblicato in tutta la finestra. Le cause
+  // possibili sono DUE e dall'interno non si distinguono: la rete quella
+  // grandezza non la misura, oppure e' il NOSTRO archivio a non averla per
+  // quella regione (nel repo di test capita per piu' d'una, e in produzione
+  // capitava alla Toscana prima del 10/8). Quindi non si deduce: si afferma
+  // solo dove lo sappiamo per certo, da elenco esplicito. Altrove, prudenza.
+  if(c.rete===0) return (RETI_SENZA[region2]||'').indexOf(campo)>=0?mai:ora;
   // La rete pubblica e questa stazione tace da almeno HIST_PROVE_MIN giornate:
   // è uno strumento che non c'è, non un sensore in avaria.
   if(c.staz===0&&c.rete>=HIST_PROVE_MIN) return mai;
