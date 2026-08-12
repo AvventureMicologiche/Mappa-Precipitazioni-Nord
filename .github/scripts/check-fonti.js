@@ -80,6 +80,15 @@ const SOGLIA_DEFAULT = 3;
 // query storiche, recupera fino a D-7) e Svizzera (MeteoSwiss, il file recent
 // copre l'anno intero e il collector ricostruisce D-3..D-10 da solo).
 const SOGLIA_PER_REGIONE = { ticino: 5, svizzera: 5, austria: 5,
+  // Slovenia: 4 e non 3, e il motivo e strutturale, non prudenza. L'archivio
+  // ARSO pubblica con ~34 ore di ritardo, quindi il file di IERI non esiste
+  // MAI. `mancanti` si conta da ieri all'indietro: la Slovenia parte SEMPRE
+  // da 1 anche quando funziona tutto. Con la soglia 3 delle altre suonerebbe
+  // dopo appena DUE giorni veri di guasto; con 4 la sensibilita' torna quella
+  // di tutti, cioe' tre giorni veri. Se dovesse risultare rumorosa si alza a
+  // 5 come Austria e Svizzera (anche qui c'e' auto-riparazione: ogni run
+  // ricostruisce D-2..D-9 e le query storiche rispondono su qualsiasi data).
+  slovenia: 4,
   'francia-aura': 4, 'francia-bfc': 4, 'francia-bretagna': 4, 'francia-centro': 4, 'francia-corsica': 4, 'francia-grandest': 4, 'francia-hdf': 4, 'francia-idf': 4, 'francia-normandia': 4, 'francia-naq': 4, 'francia-occitania': 4, 'francia-loira': 4, 'francia-provenza': 4 };
 const PROMEMORIA_GIORNI = 3;    // ogni quanto ripetere la mail su un guasto aperto
 const MAX_INDIETRO = 30;        // oltre non serve guardare: è comunque un guasto grave
@@ -103,6 +112,7 @@ const REGIONI = [
   { dir: 'ticino',         nome: 'Ticino',        wf: 'ticino.yml',         sito: 'https://oasi.ti.ch/' },
   { dir: 'svizzera',       nome: 'Svizzera (MeteoSwiss)', wf: 'svizzera.yml', sito: 'https://opendatadocs.meteoswiss.ch/' },
   { dir: 'austria',        nome: 'Austria (GeoSphere)',   wf: 'austria.yml',  sito: 'https://data.hub.geosphere.at/' },
+  { dir: 'slovenia',       nome: 'Slovenia (ARSO)',       wf: 'slovenia.yml', sito: 'https://meteo.arso.gov.si/' },
   // Francia: 13 régions, un solo collector/workflow (Météo-France, dal 10/8/2026);
   // soglia 4 come le altre auto-riparanti (il pacchetto orario tiene ~5 giorni).
   { dir: 'francia-aura', nome: 'Francia — Alvernia-Rodano-Alpi', wf: 'francia.yml', sito: 'https://portail-api.meteofrance.fr/' },

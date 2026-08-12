@@ -99,15 +99,42 @@ const CONFINI = {
       { nome: 'Trentino',  dirs: ['trentino'] },
     ],
   },
-  // Il confronto più stringente dopo le gemelle: è l'UNICO confine dove
-  // entrambi i lati pubblicano la QUOTA, quindi il filtro dislivello lavora
-  // davvero invece di spegnersi da solo. L'Austria è ancora nel repo di test:
-  //   DATA_ALT="…\Mappa-Precipitazioni-Nord-Test\data" node check-confini.js altoadige-tirolo
+  // Il confronto più stringente dopo le gemelle: uno dei DUE confini dove
+  // entrambi i lati pubblicano la QUOTA (l'altro è slovenia-austria, dal
+  // 12/8/2026), quindi il filtro dislivello lavora davvero invece di spegnersi
+  // da solo. Dal 7/8/2026 l'Austria è in produzione: niente più DATA_ALT.
   'altoadige-tirolo': {
     titolo: 'Alto Adige ↔ Austria (Tirolo/Salisburgo/Carinzia)',
     lati: [
       { nome: 'Austria', dirs: ['austria'] },
       { nome: 'IT',      dirs: ['altoadige', 'trentino', 'friuli-osmer', 'veneto'] },
+    ],
+  },
+  // Slovenia ↔ Austria (12/8/2026). Il SECONDO confine con la quota su
+  // entrambi i lati, ed è la stessa misura che ha validato la ricetta slovena
+  // in fase di studio (correlazione oraria e giornaliera contro l'Austria):
+  // qui diventa un controllo ripetibile invece di un'analisi una tantum.
+  // Le due reti sono indipendenti davvero — ARSO mezz'orario CET fisso contro
+  // GeoSphere orario — quindi uno scarto costante di un segno solo
+  // smaschererebbe una finestra sfasata da una parte o dall'altra.
+  'slovenia-austria': {
+    titolo: 'Slovenia ↔ Austria (Carinzia/Stiria)',
+    lati: [
+      { nome: 'Slovenia', dirs: ['slovenia'] },
+      { nome: 'Austria',  dirs: ['austria'] },
+    ],
+  },
+  // Slovenia ↔ Friuli. In mappa i due si toccano (160 stazioni insieme, la
+  // heatmap attraversa il confine), quindi vale la pena sorvegliarlo.
+  // ⚠️ L'OSMER non pubblica la quota: qui il filtro dislivello SI SPEGNE da
+  // solo e lo dichiara. L'orografia va tenuta a mente leggendo le coppie —
+  // il confine è breve e va dal Collio (poche decine di metri) alle Alpi
+  // Giulie, quindi due stazioni vicine possono essere molto diverse.
+  'slovenia-friuli': {
+    titolo: 'Slovenia ↔ Friuli Venezia Giulia',
+    lati: [
+      { nome: 'Slovenia', dirs: ['slovenia'] },
+      { nome: 'Friuli',   dirs: ['friuli-osmer'] },
     ],
   },
 };
@@ -134,6 +161,9 @@ const AFFIDABILE_DA = {
   // diffidare — vale tutto lo storico disponibile.
   austria: '2025-08-05',
   svizzera: '2025-08-04', // backfill dagli archivi MeteoSwiss: reale da subito
+  // Slovenia: come l'Austria, il backfill ARSO è fatto di mezz'ore REALI di
+  // stazione dal primo giorno (mai stime), quindi vale tutto lo storico.
+  slovenia: '2025-08-11',
 };
 
 function distanzaKm(a, b) {
