@@ -287,7 +287,31 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Temperatura/vento (dall'11/8/2026):** lo STESSO CSV orario ha le colonne `Temp. °C`, `Vento med km/h` e `Vento max km/h` (**già km/h**, dichiarato nell'intestazione) — zero richieste extra; la mappa oraria in cache è passata a oggetti `{mm,t,vm,vx}`. Backfill dal 27/6 lanciando il collector con `GIORNI_FINESTRA=45` (l'archivio risponde su qualsiasi giorno passato)
 - **In mappa:** `dataSource: 'osmer_fvg'`, URL dati da `PILOT_DATA_BASE`
 
-### Slovenia (in produzione dal 12 agosto 2026)
+### Slovenia (v8.0, in produzione dal 12 agosto 2026)
+
+**L'header non tiene piu' insieme titolo e badge: si danno il cambio** (12/8).
+A riposo il titolo elenca le nazioni coperte, appena parte un'analisi il badge
+le sostituisce con stazioni e fonte, e con «↩ Indietro» tornano. Lo fa
+`setBadge()`, l'unico punto da cui si scrive il badge.
+⚠️ **Perche', e perche' non bastava una media query.** Il badge e' centrato in
+posizione assoluta e passa SOPRA il titolo. Misurato: con l'elenco esteso si
+sovrapponevano da **910px** di larghezza, e da **1063px** con piu' reti
+selezionate (badge «161 stazioni · ARSO Slovenia + ARPA OSMER FVG + ARPA
+Veneto» = 306px contro i 153 di una regione sola). Il difetto **esisteva gia'
+prima della Slovenia**, a 999px. Nessuna soglia lo chiudeva, perche' il badge
+cambia larghezza con la regione scelta e il punto di rottura si sposta mentre
+navighi. Alternandoli, la larghezza minima non e' piu' la SOMMA dei due ma il
+piu' largo dei due: **da 1063px a ~790px**, e niente da tarare.
+Scartate per strada: alzare la soglia a 900/1070 (nasconde l'elenco sui
+portatili piccoli), abbassare il badge (restava sovrapposto), le bandierine
+(⚠️ **su Windows le emoji 🇮🇹 diventano le lettere «IT»**: Segoe UI Emoji non
+ha i glifi delle bandiere — con SVG in linea si vedrebbero, ma si risparmiavano
+solo 178px e a 800px toccava ancora).
+⚠️ **Trappola di misura, costata due diagnosi sbagliate**: `resetToStart()` esce
+subito se `isLoading` e' acceso, ed e' voluto. Col pannello del browser nascosto
+Chrome strozza il renderer, il «Calcolo mappa» sfora i 30s del timer di
+sicurezza e ogni clic su Indietro sembra ignorato. **Non e' un bug del sito**:
+prima di dichiararne uno, aspettare che lo spinner si spenga.
 
 **ARSO** (Agencija Republike Slovenije za okolje), archivio mezz'orario ufficiale
 delle stazioni automatiche. Licenza: riuso libero con **citazione obbligatoria
