@@ -2627,6 +2627,13 @@ var METEO_HIST_FROM={austria:'2026-07-02',slovenia:'2026-06-27',
   // raffica, senza media il grafico non disegna); veneto ~2 gg di finestra XML;
   // meteohub sud ~8 gg di finestra API (stessa data per le 10 reti)
   trentino:'2026-08-05',veneto:'2026-08-09',valledaosta:'2026-06-27',friuli:'2026-06-27',
+  // Toscana (aggiunta il 12/8/2026, era l'unica chiave che mancava). Il SIR e'
+  // live-only, quindi la temperatura esiste solo dal primo giorno in cui
+  // l'abbiamo raccolta: 10/8, 251 stazioni (il 9 erano zero). ⚠️ Senza questa
+  // voce il pannello, guardando luglio, diceva «questa stazione non misura la
+  // temperatura» — FALSO: il SIR la misura, siamo noi a non averla. Il vento
+  // invece su SIR non esiste davvero e resta senza data.
+  toscana:'2026-08-10',
   marche:'2026-08-03',umbria:'2026-08-03',lazio:'2026-08-03',campania:'2026-08-03',
   puglia:'2026-08-03',calabria:'2026-08-03',sicilia:'2026-08-03',sardegna:'2026-08-03',
   basilicata:'2026-08-03',molise:'2026-08-03'};
@@ -2747,9 +2754,81 @@ function histRenderLinee(days,serie,tipo){
   return h;
 }
 
-function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo){
+// ── «Non c'è lo strumento» ≠ «manca il dato» (12/8/2026) ──────────────
+// Nato da una domanda dell'utente sulla Lombardia: «vedo moltissime stazioni
+// che non hanno vento ma nemmeno temperatura, è normale?». Sì, ed è la rete:
+// ARPA Lombardia ha 326 pluviometri ma solo 155 anemometri e 309 termometri,
+// quindi 180 stazioni di pioggia l'anemometro non ce l'hanno proprio. Il
+// pannello però diceva «non disponibile» in TUTTI i casi, appiattendo tre
+// situazioni molto diverse: strumento assente, rete che non pubblica affatto
+// quella grandezza (Toscana e Trentino non danno il vento), e sensore che
+// esiste ma quel giorno tace.
+//
+// La distinzione non costa una riga di rete: histFileCache tiene ogni giorno
+// già scaricato con TUTTE le stazioni dentro, quindi per ogni giornata si sa
+// se la rete ha pubblicato la grandezza e se questa stazione c'era.
+var histCopCache={};
+function histCopertura(region,station,days,campo){
+  var rete=0,staz=0;
+  var pieno=function(v){return v&&(typeof v[0]==='number'||typeof v[1]==='number');};
+  days.forEach(function(ds){
+    var m=histFileCache[region+'/'+ds];
+    if(!m) return;
+    var ck=region+'/'+ds+'/'+campo,pubblica=histCopCache[ck];
+    if(pubblica===undefined){
+      pubblica=false;
+      for(var k in m){ if(pieno(m[k][campo])){pubblica=true;break;} }
+      histCopCache[ck]=pubblica;
+    }
+    if(!pubblica) return;      // giornata muta per tutti: non prova nulla
+    rete++;
+    if(m[station.n]&&pieno(m[station.n][campo])) staz++;
+  });
+  return {rete:rete,staz:staz};
+}
+// Quante giornate di riscontro servono per dire «lo strumento non c'è».
+// Il grafico guarda 30 giorni (HIST_DAYS), quindi 10 si raggiungono sempre
+// quando la rete pubblica davvero; e un sensore guasto per dieci giorni di
+// fila MENTRE il resto della rete risponde è molto meno probabile di uno
+// strumento che non è mai stato installato. Sotto la soglia si resta sul
+// messaggio prudente: il pannello non deve mai affermare più di quanto sa.
+var HIST_PROVE_MIN=10;
+// Tre situazioni, due frasi (scelte con l'utente il 12/8/2026). Una sola voce
+// e un solo verbo, «misurare»: cambia il TEMPO, e il tempo è quello che
+// separa una cosa vera da una falsa.
+//   presente → lo strumento non c'è, e non ci sarà domani
+//   passato  → lo strumento c'è, in quelle date non ha risposto
+// ⚠️ Dire «non misura» a una stazione che invece misura sarebbe un errore che
+// l'utente scopre da solo spostando le date, perché il grafico comparirebbe:
+// il sito si smentirebbe da sé. Per questo il presente si usa solo con le
+// prove in mano (HIST_PROVE_MIN), e mai quando il buco può essere nostro.
+function histMessaggioVuoto(region,region2,station,days){
+  if(histTab==='mm') return 'Storico non disponibile per questa stazione.';
+  var cosa=(histTab==='t')?'la temperatura':'il vento';
+  var mai='Questa stazione non misura '+cosa+'.';
+  var ora='Questa stazione non ha misurato '+cosa+' in queste date.';
+  // PRIMA di tutto: il periodo è tutto anteriore all'inizio di t/w per questa
+  // rete? Allora il vuoto è NOSTRO, non della stazione — «non misura» sarebbe
+  // falso (il Piemonte ha t/w dal 9/8: chi guarda luglio non trova nulla, ma
+  // quelle stazioni il termometro ce l'hanno). La nota sotto al pannello dice
+  // già da quando esistono, quindi qui basta il passato.
+  var da=METEO_HIST_FROM[region2]||(region2&&region2.indexOf('francia')===0?METEO_HIST_FROM.francia:null);
+  if(da&&days[days.length-1]<da) return ora;
+  var c=histCopertura(region,station,days,(histTab==='t')?'t':'w');
+  // Nessuna stazione della rete ha pubblicato in tutta la finestra: la rete
+  // quella grandezza non la dà (SIR Toscana e Meteotrentino non danno il
+  // vento), quindi nemmeno questa stazione la misura. La frase è vera, solo
+  // meno informativa che nominare la fonte.
+  if(c.rete===0) return mai;
+  // La rete pubblica e questa stazione tace da almeno HIST_PROVE_MIN giornate:
+  // è uno strumento che non c'è, non un sensore in avaria.
+  if(c.staz===0&&c.rete>=HIST_PROVE_MIN) return mai;
+  return ora;
+}
+
+function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo,histRegion){
   histCurrent={station:station,regionKey:regionKey,days:days,serie:serie,
-               selFrom:selFrom,selTo:selTo,periodoLungo:periodoLungo};
+               selFrom:selFrom,selTo:selTo,periodoLungo:periodoLungo,histRegion:histRegion};
   document.querySelectorAll('#st-history .sh-tab').forEach(function(b){
     b.classList.toggle('on',b.getAttribute('data-t')===histTab);
   });
@@ -2758,8 +2837,8 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,periodoLungo){
   if(histTab==='mm') h=histRenderPioggia(days,serie,selFrom,selTo);
   else h=histRenderLinee(days,serie,histTab);
   if(h===null){
-    var cosa=(histTab==='t')?'Temperatura non disponibile':(histTab==='v')?'Vento non disponibile':'Storico non disponibile';
-    body.innerHTML='<div class="sh-load">'+cosa+' per questa stazione.</div>';
+    body.innerHTML='<div class="sh-load">'+histMessaggioVuoto(histRegion||regionKey,regionKey,station,days)+'</div>'
+                  +histNote(regionKey,days,periodoLungo);
     return;
   }
   body.innerHTML=h+histNote(regionKey,days,periodoLungo);
@@ -2857,7 +2936,7 @@ function openStationHistory(s,rank,mx,my){
 
   function done(serie){
     if(token!==histToken) return; // clic su un'altra stazione nel frattempo
-    histRender(s,regionKey,days,serie,selFrom,selTo,periodoLungo);
+    histRender(s,regionKey,days,serie,selFrom,selTo,periodoLungo,histRegion);
     histPosition(mx,my);
   }
   histFromFiles(histRegion,s,days,done);
@@ -2884,7 +2963,8 @@ document.querySelectorAll('#st-history .sh-tab').forEach(function(b){
     if(t===histTab) return;
     histTab=t;
     if(histCurrent) histRender(histCurrent.station,histCurrent.regionKey,histCurrent.days,
-      histCurrent.serie,histCurrent.selFrom,histCurrent.selTo,histCurrent.periodoLungo);
+      histCurrent.serie,histCurrent.selFrom,histCurrent.selTo,histCurrent.periodoLungo,
+      histCurrent.histRegion);
   });
 });
 // Col mouse dentro al pannello non si chiude (serve per leggerlo e per il
