@@ -167,6 +167,20 @@ mobile con fallback centro/zoom per il centro-sud.
 > e confrontare il conteggio delle chiavi prod-only (`EMILIA_ESCLUSE`, `HIST_RAW_BY_REGION`,
 > `analisi_regione`) con quello del file nuovo. Se un numero scende, la copia ha mangiato
 > qualcosa.
+> 💥 **E NON ERANO UNA, ERANO TRE — scoperto il 13/8/2026 guardando i dati GA4.**
+> La copia in blocco del 10/8 aveva annullato anche le due correzioni GA del 5/8
+> (commit `2a1b38a5`), cancellando `getSelectedValues()` da entrambi i repo:
+> `analisi_regione`, `share_map` e `share_image` sono tornati a mandare le
+> regioni ESPANSE invece della scelta dell'utente. Di `EMILIA_ESCLUSE` ci si
+> accorse in mezza giornata perché si vedeva in mappa; **di queste no, per tre
+> giorni, perché si vedono solo in GA4**: nel report Regioni la stessa mappa
+> compariva sotto due etichette (`piemonte-vda` 10 condivisioni e
+> `piemonte,valledaosta` 13, che sono la stessa cosa), e ogni analisi su una
+> regione combinata contava DUE eventi invece di uno.
+> **La lezione**: dopo una promozione, il conteggio delle chiavi prod-only va
+> fatto anche sulle cose che non si vedono a schermo. Un difetto invisibile
+> resta in produzione finché qualcuno non apre le statistiche.
+> Rimesse il 13/8 in ENTRAMBI i repo, così una prossima copia non può ripetersi.
 > - **Estrarre blocchi per numero di riga taglia i commenti a metà** → `SyntaxError: Unexpected token '*'`.
 > - **Le dipendenze non si annunciano**: `quandoMappaDisegnata` vuole `baseTiles`, che in prod non esisteva.
 > - ⚠️ **Il pezzo dimenticato è la CHIAMATA, non la funzione** (7/8, segnalato dall'utente:
