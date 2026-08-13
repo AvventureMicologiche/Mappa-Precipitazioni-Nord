@@ -3543,6 +3543,12 @@ function regioneHaIlGiorno(rk,giorno,cb){
               .catch(function(){ _ieriCache[url]=false; fine(false); });
   });
 }
+// Reti con un ritardo di pubblicazione NOTO e strutturale: per loro il file di
+// ieri non c'e' MAI, e non e' un guasto — arriva il giorno dopo. Va detto, se no
+// l'utente torna a controllare ogni ora una cosa che non puo' cambiare.
+// ⚠️ Solo qui dentro si puo' promettere «in arrivo»: per una rete che si e'
+// inceppata sarebbe una bugia, perche' quel giorno potrebbe non arrivare mai.
+var RITARDO_NOTO={slovenia:'36h'};
 function aggiornaAvvisoIeri(){
   var box=document.getElementById('ieri-notice');
   if(box){ box.style.display='none'; box.innerHTML=''; }
@@ -3552,24 +3558,28 @@ function aggiornaAvvisoIeri(){
   var ieriStr=fmtISOLocal(ieri);
   if(fmtISOLocal(currentNow)!==ieriStr) return;
   var regioni=getActiveRegions(); if(!regioni.length) return;
-  var restanti=regioni.length, mancanti=[];
+  var restanti=regioni.length, noti=[], imprevisti=[], ritardo='36h';
   regioni.forEach(function(rk){
     regioneHaIlGiorno(rk,ieriStr,function(ok){
-      if(!ok) mancanti.push((REGIONS[rk]&&REGIONS[rk].name)||rk);
-      if(--restanti>0 || !mancanti.length) return;
+      if(!ok){
+        var nome=(REGIONS[rk]&&REGIONS[rk].name)||rk;
+        if(RITARDO_NOTO[rk]){ ritardo=RITARDO_NOTO[rk]; noti.push(nome); }
+        else imprevisti.push(nome);
+      }
+      if(--restanti>0 || (!noti.length && !imprevisti.length)) return;
       // una regione sola: il nome non serve, si sa gia' di chi si parla
-      var chi=(regioni.length===1)?'':('<b>'+mancanti.join(', ')+'</b>: ');
-      // Frase CORTA: con «al momento» a 320px (iPhone SE) andava a capo — 310px
-      // contro 292 utili. Senza, sta in riga su TUTTI i telefoni. «Non pervenuti»
-      // dice gia' da solo che e' una faccenda temporanea.
-      var testo='dati di ieri non pervenuti';
+      var chi=function(l){ return (regioni.length===1)?'':('<b>'+l.join(', ')+'</b>: '); };
+      var righe=[];
+      // «non incluso» e non «non pervenuto»: parla del TOTALE che si sta
+      // guardando, che e' corto di un giorno anche su 7/30 giorni.
+      if(noti.length) righe.push('⚠️ '+chi(noti)+'ieri non incluso, in arrivo ('+ritardo+')');
+      if(imprevisti.length) righe.push('⚠️ '+chi(imprevisti)+'dati di ieri non pervenuti');
       var ts=document.getElementById('tp-status');
       // Analisi finita a vuoto: si SOSTITUISCE il generico «Nessun dato per
-      // questo periodo», che non dice ne' chi ne' perche', invece di
-      // aggiungere una seconda riga rossa che ripete la stessa cosa.
-      if(ts && ts.className==='error'){ ts.innerHTML='⚠️ '+chi+testo; return; }
+      // questo periodo», che non dice ne' chi ne' perche'.
+      if(ts && ts.className==='error'){ ts.innerHTML=righe.join(' · '); return; }
       if(box){
-        box.innerHTML='⚠️ '+chi+testo+'.';
+        box.innerHTML=righe.join('<br>');
         box.style.display='block';
         if(typeof positionPanels==='function') positionPanels();
       }
