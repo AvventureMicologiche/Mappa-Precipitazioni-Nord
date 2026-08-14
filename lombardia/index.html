@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dove ha piovuto in Lombardia — piogge per funghi | Mappa Pluviometrica</title>
+<meta name="description" content="Dove ha piovuto in Lombardia: riepilogo degli ultimi 7 e 15 giorni con le zone più bagnate, da oltre 250 pluviometri ARPA aggiornati ogni giorno. E la mappa interattiva stazione per stazione.">
+<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/lombardia/">
+<meta property="og:title" content="Dove ha piovuto in Lombardia — piogge per funghi">
+<meta property="og:description" content="Riepilogo degli ultimi 7 e 15 giorni con le zone più bagnate, da oltre 250 pluviometri ARPA Lombardia.">
+<meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
+<meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/lombardia/">
+<meta property="og:type" content="website">
+<!-- Google tag (gtag.js) — stessa proprietà del sito -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9R7MXXS0V4');
+</script>
+<style>
+:root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header a{color:#fff;text-decoration:none;}
+header .logo{font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;}
+main{max-width:760px;margin:0 auto;padding:22px 16px 4px;}
+h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
+.sotto{color:#555;font-size:17px;margin-bottom:22px;}
+h2{color:var(--blu-scuro);font-size:22px;margin:34px 0 10px;}
+p{margin-bottom:12px;}
+.cta{display:block;text-align:center;background:var(--blu);color:#fff;font-size:19px;font-weight:600;padding:15px 18px;border-radius:9px;text-decoration:none;margin:22px 0;}
+.cta:hover{background:#2a5490;}
+.griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:18px 0;}
+.card{background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:16px;}
+.card h2{margin:0 0 6px;font-size:20px;}
+.numerone{font-size:32px;font-weight:700;color:var(--blu-scuro);}
+.numerone small{font-size:15px;font-weight:400;color:#555;}
+.attesa{color:#777;font-style:italic;}
+.nota{font-size:14px;color:#666;margin-top:8px;}
+.top-staz{margin:6px 0 0;}
+.top-staz li{margin:4px 0 4px 20px;}
+footer{border-top:1px solid var(--bordo);margin-top:8px;padding:14px 16px 24px;font-size:14px;color:#555;text-align:center;}
+footer a{color:var(--blu);}
+@media(max-width:480px){h1{font-size:25px;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="https://precipitazioni.avventuremicologiche.it/">🌧️ Mappa Pluviometrica</a>
+  <a class="yt" href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener"
+     onclick="try{gtag('event','click_youtube',{pulsante:'pagina-lombardia'})}catch(e){}">▶ Iscriviti</a>
+</header>
+<main>
+<h1>Dove ha piovuto in Lombardia</h1>
+<p class="sotto">Piogge misurate da <b>oltre 250 pluviometri di ARPA Lombardia</b>, dalla Valchiavenna all'Oltrepò, aggiornate ogni giorno.</p>
+
+<a class="cta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia"
+   onclick="try{gtag('event','apri_mappa',{da:'pagina-lombardia'})}catch(e){}">Apri la mappa interattiva della Lombardia →</a>
+
+<div class="griglia">
+  <div class="card">
+    <h2>Ultimi 7 giorni</h2>
+    <div class="numerone" id="rip7-media"><span class="attesa">calcolo in corso…</span></div>
+    <div id="rip7-top"></div>
+    <p class="nota" id="rip7-date"></p>
+  </div>
+  <div class="card">
+    <h2>Ultimi 15 giorni</h2>
+    <div class="numerone" id="rip15-media"><span class="attesa">calcolo in corso…</span></div>
+    <div id="rip15-top"></div>
+    <p class="nota" id="rip15-date"></p>
+  </div>
+</div>
+
+<h2>Chi siamo</h2>
+<p>La mappa è un progetto di <b>Avventure Micologiche</b>, canale YouTube dedicato ai funghi e ai tartufi. Raccogliamo ogni giorno i dati di oltre 5000 pluviometri fra Italia, Svizzera, Austria, Francia e Slovenia e li trasformiamo in una mappa gratuita, pensata per chi il bosco lo vive davvero.</p>
+<p style="margin-bottom:6px;"><a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-lombardia'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
+<p><a href="https://youtu.be/fvsBZJ_Ylf4" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'faq-pagina-lombardia'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Video FAQ: come si usa la mappa (2 minuti)</a></p>
+
+<a class="cta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia"
+   onclick="try{gtag('event','apri_mappa',{da:'pagina-lombardia'})}catch(e){}">Vedi la tua zona sulla mappa →</a>
+</main>
+
+<footer>
+  Dati: <a href="https://www.dati.lombardia.it/" target="_blank" rel="noopener">ARPA Lombardia</a> ·
+  <a href="https://precipitazioni.avventuremicologiche.it/fonti.html">tutte le fonti e licenze</a> ·
+  <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
+  La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
+</footer>
+
+<script>
+(function(){
+  var BASE='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/lombardia/';
+  var MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function breve(d){ return d.getDate()+' '+MESI[d.getMonth()]; }
+  function giornoFa(n){ var d=new Date(); d.setDate(d.getDate()-n); return d; }
+  function prendi(d){
+    return fetch(BASE+iso(d)+'.json').then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+  }
+  // Una sola passata: da ieri a 15 giorni fa. I primi 7 fanno anche il riepilogo corto.
+  var giorni=[]; for(var i=1;i<=15;i++) giorni.push(giornoFa(i));
+  Promise.all(giorni.map(prendi)).then(function(files){
+    function riepilogo(quanti, prefisso){
+      var somma={}, nomi={}, presenti=0, ultimo=null, primo=null;
+      for(var k=0;k<quanti;k++){
+        var j=files[k];
+        if(!j||!j.stations) continue;
+        presenti++;
+        if(!ultimo) ultimo=giorni[k];
+        primo=giorni[k];
+        j.stations.forEach(function(s){
+          if(s.mm==null) return;
+          somma[s.id]=(somma[s.id]||0)+s.mm;
+          nomi[s.id]=s.n+(s.p?' ('+s.p+')':'');
+        });
+      }
+      var el=document.getElementById(prefisso+'-media');
+      if(!presenti){ el.innerHTML='<span class="attesa">dati non disponibili al momento</span>'; return; }
+      var valori=Object.keys(somma).map(function(id){return somma[id];});
+      var media=valori.reduce(function(a,b){return a+b;},0)/valori.length;
+      el.innerHTML=media.toFixed(0)+' mm <small>di media regionale</small>';
+      var top=Object.keys(somma).sort(function(a,b){return somma[b]-somma[a];}).slice(0,5);
+      var cont=document.getElementById(prefisso+'-top');
+      if(somma[top[0]]<1){
+        cont.innerHTML='<p class="nota">Periodo quasi asciutto su tutta la regione.</p>';
+      }else{
+        var ol=document.createElement('ol'); ol.className='top-staz';
+        top.forEach(function(id){
+          var li=document.createElement('li');
+          li.textContent=nomi[id]+' — '+somma[id].toFixed(1)+' mm';
+          ol.appendChild(li);
+        });
+        cont.innerHTML='<p style="margin:8px 0 2px"><b>Dove ha piovuto di più:</b></p>';
+        cont.appendChild(ol);
+      }
+      document.getElementById(prefisso+'-date').textContent='Dal '+breve(primo)+' al '+breve(ultimo)+', su '+presenti+' giornate di dati. La giornata odierna è esclusa.';
+    }
+    riepilogo(7,'rip7');
+    riepilogo(15,'rip15');
+  });
+})();
+</script>
+</body>
+</html>
