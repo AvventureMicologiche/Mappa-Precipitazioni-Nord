@@ -581,6 +581,48 @@ La centratura partiva da timer fissi (350ms cumulati, 420ms periodo) contro tran
 
 ---
 
+## Resilienza a GitHub raw (17 agosto 2026)
+
+**Cosa e' successo.** Incidente GitHub dalle ~14:00 alle ~18:15 UTC: `raw.githubusercontent.com` rispondeva
+429/503 a tutti (verificato da PC, rete cellulare e un'altra rete; githubstatus «raw repository content
+downloads ~50% error rate»). Il sito prendeva da raw TUTTI i file giornalieri e i **confini delle regioni
+italiane** (openpolis): senza confine le regioni italiane non si disegnavano (barriera confini in `renderMulti`),
+le estere reggevano solo per cache del browser e perche' i loro GeoJSON stanno nel repo. All'utente arrivava
+«⚠️ Caricamento timeout» dopo 30 s, che sembra colpa del telefono. Prod e test erano intatti.
+
+**Tre rimedi, un deploy (commit `fdaf7461` prod, `ec74efb6`+`400827e6` test), tutti AUTOMATICI — decisione utente: nessun cartello manuale.**
+1. **Confini italiani nel repo**: `italia-regioni-confine.geojson` (copia di openpolis `limits_IT_regions`,
+   2,75 MB) e `italia-province-tn-bz-confine.geojson` (solo Trento e Bolzano, 170 KB); `GEOJSON_URL` e
+   `GEOJSON_PROVINCE_URL` puntano li' (i campi `geojson:` per regione sono decorativi, il loader usa le
+   costanti). Erano l'unico pezzo vitale del sito preso da un repo altrui. openpolis resta citato in `fonti.html`.
+2. **Riserva dati** (shim su `window.fetch`, sopra `HIST_RAW`): per gli URL `raw.githubusercontent.com/AvventureMicologiche/<repo>/main/data/...`,
+   se raw risponde 429/5xx/rete o non risponde entro **6 s** (`TETTO_RAW_MS`), lo stesso percorso si riprova sulla
+   **copia del sito** (`_RISERVA_DATI`: prod → `precipitazioni.avventuremicologiche.it/data/`, test → `avventurepluvio-test.netlify.app/data/`),
+   che Netlify pubblica a ogni deploy — quindi copre lo storico **fino all'ultimo deploy**, i giorni dopo danno 404.
+   Dopo **3 fallimenti** nello stesso caricamento (`INTERRUTTORE`) si va dritti alla riserva; i contatori
+   (`_archivio`) si azzerano a ogni `loadData`, cosi' appena GitHub torna ci si torna da soli. Il **404 di raw passa
+   com'e'** (un giorno mancante e' normale). ⚠️ **jsdelivr provato e SCARTATO**: per i file che non ha in cache va a
+   chiederli a GitHub, con GitHub giu' risponde 404 dopo 20-45 s. ⚠️ Raw in errore e' LENTO (4-31 s a rispondere):
+   senza il tetto la riserva arrivava dopo il timeout di sicurezza (34 s → 9,7 s col tetto).
+   `netlify.toml`: `Access-Control-Allow-Origin: *` su `/data/*`, perche' il test legge la riserva di prod da un altro dominio.
+3. **Avviso automatico** (`notaArchivio()`, elemento `#archivio-notice` sotto `#ieri-notice`): analisi riuscita con
+   riserva → «Archivio dati (GitHub) non raggiungibile: dati dalla copia del sito, gli ultimi giorni possono mancare»;
+   riuscita con raw a singhiozzo senza riserva utile → «instabile, alcuni giorni possono mancare»; finita a vuoto o
+   timeout → «non raggiungibile in questo momento: non dipende da te, riprova tra qualche minuto» al posto di
+   «Nessun dato»/«Caricamento timeout». Ha la precedenza su «dati di ieri non pervenuti» in `aggiornaAvvisoIeri`.
+
+**Collaudo** (`collaudo-riserva.js` nello scratchpad della sessione, puppeteer): tre modi — GitHub giu' per davvero,
+`simula` (raw→429), `ok` (raw emulato sano: ⚠️ le risposte emulate DEVONO avere `Access-Control-Allow-Origin`, se
+no il browser le scarta e sembra che la riserva scatti a torto), `nulla` (raw giu' + riserva 404). Con GitHub sano:
+zero chiamate alla riserva, nessun avviso, «ieri non incluso» della Slovenia invariato.
+⚠️ Il sito vive tutto dentro una funzione: le sue variabili NON sono globali, `page.evaluate` non le vede — si
+legge il DOM (`#tp-status`, `#archivio-notice`, path dell'overlay-pane).
+
+**Come si diagnostica la prossima volta**: `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/piemonte/<ieri>.json`
++ `https://www.githubstatus.com/api/v2/summary.json`; nel browser `performance.getEntriesByType('resource')` filtrato su `responseStatus>=400`.
+
+---
+
 ## Sorveglianza automatica (31 luglio 2026)
 Due pezzi complementari, nati lo stesso giorno e da leggere insieme: il primo **ripara**, il secondo **avvisa**. Il secondo esiste proprio perché il primo, riparando, nasconde il guasto.
 
