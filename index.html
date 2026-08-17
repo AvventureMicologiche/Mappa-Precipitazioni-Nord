@@ -321,13 +321,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 #leg-back-btn{display:none;}
 .grad{height:13px;border-radius:4px;margin-bottom:4px;
   background:-webkit-linear-gradient(left,
-    #ffffff 0%,#d2e6ff 5%,#a0c8ff 10%,#6496f0 15%,
+    #ffffff 0%,#ffffff 2%,#e4f1fd 5%,#badcfa 12%,#6496f0 15%,
     #326edc 20%,#00b4c8 28%,#00b450 35%,#008c28 42%,
     #78c800 49%,#dcE600 55%,#ffb400 61%,#ff7800 67%,
     #f03200 73%,#b40000 79%,#8c00b4 85%,#c864dc 90%,
     #f0aaf0 95%,#ffdcff 100%);
   background:linear-gradient(to right,
-    #ffffff 0%,#d2e6ff 5%,#a0c8ff 10%,#6496f0 15%,
+    #ffffff 0%,#ffffff 2%,#e4f1fd 5%,#badcfa 12%,#6496f0 15%,
     #326edc 20%,#00b4c8 28%,#00b450 35%,#008c28 42%,
     #78c800 49%,#dcE600 55%,#ffb400 61%,#ff7800 67%,
     #f03200 73%,#b40000 79%,#8c00b4 85%,#c864dc 90%,
@@ -2061,11 +2061,12 @@ function selectUniform(stazioni, maxTotal){
 // ═══════════════════════════════════════════════════════════════
 var STOPS=[
   {v:0,   r:255,g:255,b:255},
-  {v:0.5, r:220,g:240,b:255},
-  {v:1,   r:190,g:225,b:255},
-  {v:2,   r:160,g:210,b:255},
-  {v:5,   r:110,g:180,b:255},
-  {v:10,  r:100,g:160,b:240},
+  // 16/8/2026: sotto i 2 mm la mappa resta trasparente, fra 5 e
+  // 20 un azzurro tenue. Prima colorava gia' da 0,1 mm e a 5 mm era gia'
+  // azzurro pieno: 7 mm in due settimane sembravano 20.
+  {v:2,   r:255,g:255,b:255},
+  {v:5,   r:228,g:241,b:253},
+  {v:12,  r:186,g:220,b:250},
   {v:20,  r:50, g:110,b:220},
   {v:40,  r:0,  g:180,b:200},
   {v:60,  r:0,  g:180,b:80 },
@@ -2082,7 +2083,7 @@ var STOPS=[
   {v:500, r:255,g:220,b:255}
 ];
 // Soglia minima per mostrare colore — sotto 0.3mm = trasparente
-var MIN_MM_DISPLAY=0.1;
+var MIN_MM_DISPLAY=2;      // 16/8/2026: era 0.1 — sotto i 2 mm trasparente
 function mmToRGB(mm){
   var v=Math.max(0,Math.min(mm,400));
   for(var i=1;i<STOPS.length;i++){
@@ -2248,6 +2249,7 @@ var regionRings    = {};   // cache GeoJSON per regione
 var regionBorder   = null; // layer Leaflet confine attivo
 var activeMarkers  = [];
 var gridPoints     = [];
+var gridRings      = [];   // anelli della/e regione/i dell'ultima griglia: drawGrid ci ritaglia la sfumatura
 var cvs=null, heatCtx=null, drawTimer=null;
 var heatOpacity    = 0.70;
 var totalStations  = 0;
@@ -2297,6 +2299,13 @@ function clearHeatmap(){
 }
 
 var GRID_RES=0.009, IDW_RAD=0.15;
+// 16/8/2026 — VETO LOCALE. Se la stazione piu' vicina a un punto
+// e' entro VETO_KM ed e' praticamente a zero, quel punto e' zero: la media IDW
+// non puo' "prestargli" i mm di un temporale a 20 km. Nasce dai cerchi rossi
+// dell'utente su Bergamo-Brescia (11 stazioni a 0 su 24, eppure tutto azzurro:
+// media fra dieci zeri e cinque temporali = 3-5 mm). Tocca SOLO i punti con
+// una stazione a zero a portata di mano; montagna identica al centesimo.
+var VETO_KM=6, VETO_MM=1, VETO_D2=(VETO_KM/111)*(VETO_KM/111);
 // Passo EFFETTIVO della griglia: in multiregione la vista è zoomata fuori e il
 // dettaglio fine non si vede, quindi render() lo ingrandisce per non calcolare
 // centinaia di migliaia di celle (buildGrid è sincrono e bloccherebbe il thread).
@@ -2366,18 +2375,20 @@ function buildGrid(data,rings,idwRad,gridRes){
         }
       }
       if(!inside) continue;
-      var num=0,den=0,found=false;
+      var num=0,den=0,found=false,dMin=Infinity,mmMin=0;
       for(var i=0;i<dataForIDW.length;i++){
         var dlat=lat-dataForIDW[i].lat;
         var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
         var d2=dlat*dlat+dlon*dlon;
         if(d2>rad*rad) continue;
         found=true;
+        if(d2<dMin){dMin=d2;mmMin=dataForIDW[i].mm;}
         if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
         var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
       }
       if(!found) continue;
-      pts.push({lat:lat,lon:lon,mm:num/den});
+      // veto locale (vedi VETO_KM): stazione vicina a zero => punto a zero
+      pts.push({lat:lat,lon:lon,mm:(dMin<=VETO_D2&&mmMin<VETO_MM)?0:num/den});
     }
   }
   return pts;
@@ -2427,18 +2438,20 @@ function buildGridAFette(data,rings,idwRad,gridRes,sessione,onFatto){
           }
         }
         if(!inside) continue;
-        var num=0,den=0,found=false;
+        var num=0,den=0,found=false,dMin=Infinity,mmMin=0;
         for(var i=0;i<data.length;i++){
           var dlat=lat-data[i].lat;
           var dlon=(lon-data[i].lon)*Math.cos(lat*Math.PI/180);
           var d2=dlat*dlat+dlon*dlon;
           if(d2>rad*rad) continue;
           found=true;
+          if(d2<dMin){dMin=d2;mmMin=data[i].mm;}
           if(d2<0.000001){num=data[i].mm;den=1;break;}
           var w=1/d2; num+=w*data[i].mm; den+=w;
         }
         if(!found) continue;
-        pts.push({lat:lat,lon:lon,mm:num/den});
+        // veto locale: stessa regola di buildGrid (le due copie devono restare gemelle)
+        pts.push({lat:lat,lon:lon,mm:(dMin<=VETO_D2&&mmMin<VETO_MM)?0:num/den});
       }
       lat+=GR;
       var ora=(window.performance&&performance.now)?performance.now():Date.now();
@@ -2460,30 +2473,58 @@ function drawGrid(){
   if(!cvs||!heatCtx||gridPoints.length===0) return;
   var size=map.getSize();
   cvs.width=size.x; cvs.height=size.y;
-  // Resetta transform e ricalcola posizione corretta
   cvs.style.transform='';
   var tl=map.containerPointToLayerPoint([0,0]);
   cvs.style.transform='translate('+tl.x+'px,'+tl.y+'px)';
   heatCtx.clearRect(0,0,size.x,size.y);
-  var sq=gridPxSize(),a=Math.round(heatOpacity*255),half=sq/2;
-  var imgData=heatCtx.createImageData(size.x,size.y);
-  var px=imgData.data,W=size.x,H=size.y;
-  for(var i=0;i<gridPoints.length;i++){
-    var g=gridPoints[i];
-    var pt=map.latLngToContainerPoint(L.latLng(g.lat,g.lon));
-    var x0=Math.round(pt.x-half),y0=Math.round(pt.y-half);
-    var x1=x0+sq,y1=y0+sq;
-    if(x1<0||y1<0||x0>=W||y0>=H) continue;
-    var rgb=mmToRGB(g.mm);
-    var r=rgb[0],g2=rgb[1],b=rgb[2];
-    // Sotto soglia: trasparente. Tra soglia e 2mm: fade-in graduale
-    var fa=a;
-    if(g.mm<MIN_MM_DISPLAY){continue;}
-    else if(g.mm<2.0){fa=Math.round(a*(g.mm-MIN_MM_DISPLAY)/(2.0-MIN_MM_DISPLAY));}
-    var xa=Math.max(0,x0),xb=Math.min(W,x1),ya=Math.max(0,y0),yb=Math.min(H,y1);
-    for(var y=ya;y<yb;y++){var row=y*W*4+xa*4;for(var x=xa;x<xb;x++){px[row]=r;px[row+1]=g2;px[row+2]=b;px[row+3]=fa;row+=4;}}
+  // 16/8/2026 — SFUMATURA. Prima ogni cella era un quadrato di
+  // colore piatto steso pixel per pixel: una griglia, non una superficie. Con
+  // l'azzurro uniforme intorno non si notava; col bianco della pianura a zero
+  // i quadretti da 2,4 km (3 regioni) saltano all'occhio anche a zoom normale.
+  // Ora: si dipinge un canvas PICCOLO con UN PIXEL PER CELLA e lo si stende
+  // ingrandito con drawImage + imageSmoothingEnabled: l'interpolazione
+  // bilineare la fa il browser. Il calcolo (buildGrid, veto, scala) non
+  // cambia di una virgola: cambia solo come si stende il colore.
+  var GR=activeGridRes;
+  // griglia lat/lon -> indici interi di cella
+  var latMin=Infinity,latMax=-Infinity,lonMin=Infinity,lonMax=-Infinity;
+  for(var i=0;i<gridPoints.length;i++){var g=gridPoints[i];
+    if(g.lat<latMin)latMin=g.lat;if(g.lat>latMax)latMax=g.lat;if(g.lon<lonMin)lonMin=g.lon;if(g.lon>lonMax)lonMax=g.lon;}
+  var nx=Math.round((lonMax-lonMin)/GR)+1, ny=Math.round((latMax-latMin)/GR)+1;
+  if(nx<1||ny<1||nx*ny>4e6) return;
+  var small=drawGrid._small||(drawGrid._small=document.createElement('canvas'));
+  small.width=nx; small.height=ny;
+  var sc=small.getContext('2d'); var img=sc.createImageData(nx,ny); var px=img.data;
+  var a=Math.round(heatOpacity*255);
+  for(var k=0;k<gridPoints.length;k++){var q=gridPoints[k];
+    if(q.mm<MIN_MM_DISPLAY) continue;
+    var fa=a; if(q.mm<5.0){fa=Math.round(a*(q.mm-MIN_MM_DISPLAY)/(5.0-MIN_MM_DISPLAY));}   // sfumatura 2->5
+    var cx=Math.round((q.lon-lonMin)/GR), cy=(ny-1)-Math.round((q.lat-latMin)/GR);   // riga 0 = nord
+    if(cx<0||cx>=nx||cy<0||cy>=ny) continue;
+    var rgb=mmToRGB(q.mm), o=(cy*nx+cx)*4;
+    px[o]=rgb[0];px[o+1]=rgb[1];px[o+2]=rgb[2];px[o+3]=fa;}
+  sc.putImageData(img,0,0);
+  // rettangolo a schermo coperto dalla griglia: dal centro della prima cella
+  // al centro dell'ultima, piu' mezza cella per lato
+  var pNW=map.latLngToContainerPoint(L.latLng(latMax+GR/2,lonMin-GR/2));
+  var pSE=map.latLngToContainerPoint(L.latLng(latMin-GR/2,lonMax+GR/2));
+  // Ritaglio sul confine: la sfumatura bilineare mescola anche verso l'esterno
+  // (trasparente) e il colore "usciva" di mezza cella dalla regione. Con il
+  // clip sui poligoni il bordo torna netto e la sfumatura resta dentro.
+  heatCtx.save();
+  if(gridRings&&gridRings.length){
+    heatCtx.beginPath();
+    for(var rI=0;rI<gridRings.length;rI++){var poly=gridRings[rI];
+      for(var hI=0;hI<poly.length;hI++){var ring=poly[hI];
+        for(var vI=0;vI<ring.length;vI++){var pp=map.latLngToContainerPoint(L.latLng(ring[vI][1],ring[vI][0]));
+          if(vI===0)heatCtx.moveTo(pp.x,pp.y);else heatCtx.lineTo(pp.x,pp.y);}
+        heatCtx.closePath();}}
+    heatCtx.clip('evenodd');   // evenodd: i buchi (es. enclave) restano fuori
   }
-  heatCtx.putImageData(imgData,0,0);
+  heatCtx.imageSmoothingEnabled=true;
+  try{heatCtx.imageSmoothingQuality='high';}catch(e){}
+  heatCtx.drawImage(small,0,0,nx,ny,pNW.x,pNW.y,pSE.x-pNW.x,pSE.y-pNW.y);
+  heatCtx.restore();
   cvs.style.opacity='1';
 }
 
@@ -4001,7 +4042,18 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       var area=(laMax>laMin&&loMax>loMin)?(laMax-laMin)*(loMax-loMin):0;
       if(area>0) fattore=Math.min(4.5,Math.max(fattore,1.5*Math.sqrt(area/AREA_RIF)));
       activeGridRes=GRID_RES*fattore;
-      var idwData=(nReg>1&&dati.length>320)?selectUniform(dati,320):dati;
+      // La heatmap usa TUTTE le stazioni. Fino al 16/8/2026 qui c'era
+      //   idwData=(nReg>1&&dati.length>320)?selectUniform(dati,320):dati
+      // cioe' in multiregione sopra 320 stazioni il colore veniva calcolato su
+      // un CAMPIONE (max 6 per casella di una griglia 10x8, scelte per
+      // coordinate e non per mm) mentre i pallini mostravano tutte le stazioni.
+      // Effetto misurato su Austria+Alto Adige+Veneto a 30 gg (513 stazioni,
+      // 242 usate, 271 scartate): sotto Kleinzicken (28,9 mm) l'IDW faceva 14,8
+      // perche' Kleinzicken, Bernstein, Hartberg e Kroisegg erano state scartate
+      // e comandava Rechnitz (12). Tooltip 29, colore da 15: un utente l'ha
+      // visto. Il campionamento era nato il 6/8 per non bloccare il thread,
+      // ma da quando la griglia si calcola A FETTE non serve piu' a niente.
+      var idwData=dati;
       // Calcolo A FETTE: il ciclo restituisce il controllo al browser ogni
       // ~22 ms, così la pagina non si congela mentre la griglia si costruisce.
       // Sull'Austria il blocco unico era di 1,1 s. Il totale dura uguale, ma
@@ -4009,7 +4061,7 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
       var _sess=loadSessionId;
       buildGridAFette(idwData,rings,idwR,activeGridRes,_sess,function(pts){
         if(_sess!==loadSessionId) return;   // l'utente ha già chiesto altro
-        gridPoints=pts;
+        gridPoints=pts; gridRings=rings;
         drawGrid();
         // Ridisegni di sicurezza: se il primo draw avviene con la mappa ancora
         // in animazione (fit del periodo appena partito), celle e canvas restano
