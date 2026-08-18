@@ -614,6 +614,20 @@ le estere reggevano solo per cache del browser e perche' i loro GeoJSON stanno n
    timeout → «non raggiungibile in questo momento: non dipende da te, riprova tra qualche minuto» al posto di
    «Nessun dato»/«Caricamento timeout». Ha la precedenza su «dati di ieri non pervenuti» in `aggiornaAvvisoIeri`.
 
+**Richiesta di scorta e avviso silenzioso (18/8/2026).** Misurato dal browser su prod (3 regioni × 30 gg, ~120 file in
+raffica, tre prove): **ogni volta 2-3 file prendono un 429 VERO** da raw (limite per IP sulle raffiche; il 429 arriva dopo
+4-20 s) e 1-3 superano i 6 s; tutti gli altri in 50-500 ms. Siccome l'analisi finisce all'ultimo file, quel 2% costava
+**6,3 s a ogni analisi invece di ~1,5**, e l'avviso «dati dalla copia del sito» compariva sempre a GitHub sano. Non era il
+peso dei campi `u` (+1,5-3,4 KB a file, +8%). ⚠️ Prima del 17/8 il 429 c'era uguale e il giorno veniva BUTTATO in silenzio
+(`!r.ok → catch`): la riserva l'ha reso visibile. Rimedi nello shim: (1) **scorta** — se raw non risponde entro
+`SCORTA_MS` (1,5 s) parte in parallelo la stessa richiesta alla copia e vince chi arriva prima → fase di scarico
+6,3 s → **2,0 s**, visto dal sito max 1,8 s; (2) i **giorni freschi** (`GIORNI_FRESCHI`=2) non hanno scorta né interruttore:
+la copia si aggiorna solo ai deploy e per loro vale solo se raw fallisce davvero (prima, con l'interruttore scattato, i
+file di IERI andavano dritti alla copia vecchia); (3) `INTERRUTTORE` 3 → **8** e conta solo errori veri (`_archivio.errori`:
+429/5xx/rete), non i timeout; (4) `notaArchivio()` parla **solo se `riservaKo>0`** o analisi a vuoto: se la copia ha
+coperto tutto la mappa è completa e resta una riga `console.info('[archivio] …')`. Collaudo rifatto nei 4 modi
+(ok/simula/nulla/reale) più la misura live: zero avvisi, giorni freschi sempre da raw.
+
 **Collaudo** (`collaudo-riserva.js` nello scratchpad della sessione, puppeteer): tre modi — GitHub giu' per davvero,
 `simula` (raw→429), `ok` (raw emulato sano: ⚠️ le risposte emulate DEVONO avere `Access-Control-Allow-Origin`, se
 no il browser le scarta e sembra che la riserva scatti a torto), `nulla` (raw giu' + riserva 404). Con GitHub sano:
