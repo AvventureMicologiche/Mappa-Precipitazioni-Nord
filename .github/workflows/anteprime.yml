@@ -1,0 +1,80 @@
+name: Anteprime mappa per le pagine regione
+on:
+  workflow_dispatch:
+    inputs:
+      regioni:
+        description: 'Regioni separate da virgola, oppure vuoto = tutte'
+        required: false
+        default: ''
+  # Ogni TRE giorni alle 05:40 UTC. Le anteprime mostrano gli ultimi 20 giorni:
+  # rinfrescarle piu' spesso non cambierebbe quasi nulla (una macchia di pioggia
+  # entra ed esce dalla finestra in giorni, non in ore), rinfrescarle piu' di
+  # rado le farebbe invecchiare fino a raccontare un'altra stagione.
+  #
+  # ⚠️ NON costa deploy Netlify: le immagini NON stanno nel sito ne' su main, ma
+  # su un ramo a se', `anteprime`, e le pagine regione le leggono da
+  # raw.githubusercontent (che serve qualunque ramo) come gia' fanno coi JSON
+  # delle piogge. Se un giorno si spostassero nella cartella del sito, ogni run
+  # diventerebbe ~15 crediti.
+  #
+  # ⚠️ E NON GONFIA IL REPO: le 23 immagini pesano ~8 MB e git conserva per
+  # sempre ogni versione di ogni file, quindi un giro ogni tre giorni su main
+  # sarebbe ~975 MB l'anno su un repo che oggi ne pesa 44. Il ramo dedicato
+  # invece viene riscritto da capo (un commit solo, senza genitori) e forzato:
+  # il peso resta quello di un giro solo.
+  schedule:
+    - cron: '40 5 */3 * *'
+permissions:
+  contents: write
+env:
+  OUT: ${{ github.workspace }}/../anteprime-out
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      # puppeteer completo: si porta dietro il suo Chromium. In locale invece si
+      # usa puppeteer-core col Chrome di sistema (variabile CHROME).
+      - name: Installa Chromium
+        run: npm install --no-save puppeteer@23
+      - name: Genera le anteprime
+        id: genera
+        run: node .github/scripts/genera-anteprime.js "${{ inputs.regioni || 'tutte' }}"
+        continue-on-error: true
+      - name: Retry
+        if: steps.genera.outcome == 'failure'
+        run: sleep 60 && node .github/scripts/genera-anteprime.js "${{ inputs.regioni || 'tutte' }}"
+      - name: Pubblica sul ramo anteprime
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          quante=$(ls -1 "$OUT"/*.jpg 2>/dev/null | wc -l)
+          # Rete di sicurezza: senza immagini nuove il ramo NON si tocca, se no
+          # un giro andato male lo svuoterebbe e le pagine resterebbero cieche.
+          if [ "$quante" = "0" ]; then echo "Nessuna anteprima generata: ramo lasciato com'era"; exit 1; fi
+          echo "$quante anteprime da pubblicare"
+
+          rm -rf "$RUNNER_TEMP/pub" && mkdir -p "$RUNNER_TEMP/pub"
+          cd "$RUNNER_TEMP/pub"
+          git init -q
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}"
+          # Si riparte dal ramo esistente (se c'e'): con `regioni` a mano se ne
+          # rifanno poche, e le altre 20 non devono sparire. La storia non si
+          # eredita, il commit resta orfano.
+          if git fetch -q --depth 1 origin anteprime 2>/dev/null; then
+            git checkout -q FETCH_HEAD -- . || true
+          fi
+          cp "$OUT"/*.jpg .
+          git add -A
+          git commit -q -m "anteprime mappa $(date -u +%Y-%m-%d)"
+          # --force perche' ogni giro riscrive il ramo da capo: e' voluto, e'
+          # tutto il senso del ramo separato (vedi il commento in testa).
+          git push -q --force origin HEAD:anteprime
+          echo "Pubblicate: $(ls -1 *.jpg | wc -l) immagini, $(du -sh . --exclude=.git | cut -f1) in tutto"

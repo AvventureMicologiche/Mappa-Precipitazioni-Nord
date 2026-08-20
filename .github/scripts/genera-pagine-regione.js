@@ -40,6 +40,13 @@ const VIDEO_FAQ = 'https://youtu.be/fvsBZJ_Ylf4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
 
+// Le anteprime della mappa stanno su un RAMO A SE', `anteprime`, coi file alla
+// radice: le rifa' genera-anteprime.js ogni tre giorni riscrivendo il ramo da
+// capo, cosi' gli 8 MB di immagini non si accumulano nella storia di main.
+// raw.githubusercontent serve qualunque ramo, quindi rinfrescarle NON fa
+// scattare un deploy Netlify.
+const ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime';
+
 // chiave = quella delle caselle della mappa (?r=<chiave>) e della cartella pagina.
 // dirs   = cartelle dati da sommare. prep = preposizione del titolo.
 // staz   = come si dice il numero di stazioni CHE LA MAPPA MOSTRA.
@@ -71,7 +78,8 @@ const REGIONI = [
 
 function pagina(r){
   const titolo = `Dove ha piovuto ${r.prep} ${r.nome}`;
-  const descr  = `Dove ha piovuto ${r.prep} ${r.nome}: riepilogo degli ultimi 7 e 15 giorni con le zone più bagnate, da ${r.staz} pluviometri di ${r.agenzia} aggiornati ogni giorno. E la mappa interattiva stazione per stazione.`;
+  const titoloTag = `${titolo}: ieri e negli ultimi 20 giorni`;
+  const descr  = `Dove ha piovuto ${r.prep} ${r.nome} ieri e negli ultimi 7 e 20 giorni, da ${r.staz} pluviometri di ${r.agenzia}. Le zone più bagnate, stazione per stazione. Aggiornata oggi.`;
   const fonteFooter = r.url
     ? `<a href="${r.url}" target="_blank" rel="noopener">${r.agenzia}</a>`
     : r.agenzia;
@@ -80,11 +88,11 @@ function pagina(r){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${titolo} — piogge per funghi | Mappa Pluviometrica</title>
+<title>${titoloTag} | Mappa Pluviometrica</title>
 <meta name="description" content="${descr}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 <meta property="og:title" content="${titolo} — piogge per funghi">
-<meta property="og:description" content="Riepilogo degli ultimi 7 e 15 giorni con le zone più bagnate, da ${r.staz} pluviometri di ${r.agenzia}.">
+<meta property="og:description" content="Riepilogo degli ultimi 7 e 20 giorni con le zone più bagnate, da ${r.staz} pluviometri di ${r.agenzia}.">
 <meta property="og:image" content="${SITO}/preview.jpg">
 <meta property="og:url" content="${SITO}/${r.k}/">
 <meta property="og:type" content="website">
@@ -133,7 +141,7 @@ footer a{color:var(--blu);}
 </header>
 <main>
 <h1>${titolo}</h1>
-<p class="sotto">Piogge misurate da <b>${r.staz} pluviometri di ${r.agenzia}</b>, ${r.geo}, aggiornate ogni giorno.</p>${r.nota ? `\n<p class="nota" style="margin:-16px 0 20px;">${r.nota}</p>` : ''}
+<p class="sotto">Ieri e negli ultimi 20 giorni, da <b>${r.staz} pluviometri di ${r.agenzia}</b>, ${r.geo}.</p>${r.nota ? `\n<p class="nota" style="margin:-16px 0 20px;">${r.nota}</p>` : ''}
 
 <div class="griglia">
   <div class="card">
@@ -145,17 +153,32 @@ footer a{color:var(--blu);}
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-7gg'})}catch(e){}">Apri la mappa a 7 giorni →</a>
   </div>
   <div class="card">
-    <h2>Ultimi 15 giorni</h2>
+    <h2>Ultimi 20 giorni</h2>
     <div class="numerone" id="rip15-media"><span class="attesa">calcolo in corso…</span></div>
     <div id="rip15-top"></div>
     <p class="nota" id="rip15-date"></p>
     <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="${SITO}/"
-       onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-15gg'})}catch(e){}">Apri la mappa a 15 giorni →</a>
+       onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-20gg'})}catch(e){}">Apri la mappa a 20 giorni →</a>
   </div>
 </div>
 
-<h2>Chi siamo</h2>
-<p>La mappa è un progetto di <b>Avventure Micologiche</b>, canale YouTube dedicato ai funghi e ai tartufi. Raccogliamo ogni giorno i dati di oltre 5000 pluviometri fra Italia, Svizzera, Austria, Francia e Slovenia e li trasformiamo in una mappa gratuita, pensata per chi il bosco lo vive davvero.</p>
+<h2>Ecco cosa vedi sulla mappa</h2>
+<a href="${SITO}/?r=${r.k}" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-anteprima'})}catch(e){}">
+  <img src="${ANTEPRIME}/${r.k}.jpg" alt="La mappa delle piogge ${r.prep} ${r.nome}: le zone più bagnate, stazione per stazione"
+       width="1600" height="1000" loading="lazy"
+       style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
+  <span style="display:block;text-align:center;background:var(--blu);color:#fff;font-size:19px;font-weight:600;padding:15px 18px;border-radius:9px;margin:12px 0 4px;">Apri la mappa ${r.prep} ${r.nome} →</span>
+</a>
+<p class="nota" style="text-align:center;margin-bottom:26px;">Più il colore è acceso, più acqua è caduta. Ogni pallino è un pluviometro: cliccalo e vedi il suo storico.</p>
+
+<h2>Come si legge</h2>
+<p>Il colore mostra i millimetri <b>cumulati</b> nel periodo che scegli.</p>
+<p>Cliccando una stazione trovi quota, grafico della pioggia degli ultimi 30 giorni e, dove ci sono i sensori, temperatura minima e massima, vento e umidità.</p>
+
+<h2>Da dove arrivano i dati</h2>
+<p>Sono <b>${r.staz} pluviometri di ${r.agenzia}</b>, strumenti a terra, non stime da modello.</p>
+
 <p style="margin-bottom:6px;"><a href="${CANALE}" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
    onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 <p><a href="${VIDEO_FAQ}" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
@@ -192,8 +215,8 @@ footer a{color:var(--blu);}
     });
   }
   document.getElementById('cta7').href='${SITO}/?r=${r.k}&da='+iso(giornoFa(7))+'&a='+iso(giornoFa(1));
-  document.getElementById('cta15').href='${SITO}/?r=${r.k}&da='+iso(giornoFa(15))+'&a='+iso(giornoFa(1));
-  var giorni=[]; for(var i=1;i<=15;i++) giorni.push(giornoFa(i));
+  document.getElementById('cta15').href='${SITO}/?r=${r.k}&da='+iso(giornoFa(20))+'&a='+iso(giornoFa(1));
+  var giorni=[]; for(var i=1;i<=20;i++) giorni.push(giornoFa(i));
   Promise.all(giorni.map(prendi)).then(function(files){
     function riepilogo(quanti, prefisso){
       var somma={}, nomi={}, prov={}, presenti=0, ultimo=null, primo=null;
@@ -250,7 +273,7 @@ footer a{color:var(--blu);}
       document.getElementById(prefisso+'-date').textContent='Dal '+breve(primo)+' al '+breve(ultimo)+', su '+presenti+' giornate di dati. La giornata odierna è esclusa.';
     }
     riepilogo(7,'rip7');
-    riepilogo(15,'rip15');
+    riepilogo(20,'rip15');
   });
 })();
 </script>
