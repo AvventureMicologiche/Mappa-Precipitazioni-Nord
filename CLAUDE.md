@@ -33,7 +33,27 @@ mobile con fallback centro/zoom per il centro-sud.
 
 ## Regole fondamentali
 
-1. **Lo storico precipitazioni deve essere SEMPRE accurato e completo.** Mai accettare dati parziali o sbagliati come "non catastrofici". Ogni problema va risolto completamente.
+1. **LA FRONTIERA DEL DATO REALE (definita il 20/8/2026).** Ogni regione ha una data
+   di partenza, oltre la quale i dati **sono reali e vanno tenuti seri**: da lì in avanti
+   niente stime, niente giornate parziali accettate come «non catastrofiche», ogni
+   problema si risolve. **Prima di quella data ci sono le stime Open-Meteo del backfill,
+   e ci restano**: sono dichiarate nel file (`source: open-meteo-backfill-*`) e in mappa,
+   il passato non si riscrive per principio, e col passare dei mesi quella coda pesa
+   sempre meno. Si sostituisce una finestra vecchia solo per un motivo preciso, come è
+   stato per il Veneto del bug #20, non per completismo.
+   - **Le frontiere, al 20/8/2026**: centro-sud **19 luglio** (Marche e Umbria 13 luglio,
+     Lazio 6 luglio dopo la sostituzione del 20/8), **eccetto il blackout di piattaforma
+     del 16-17 luglio che resta stimato per tutti e non è recuperabile**. Nord: Lombardia
+     gennaio, Alto Adige e Veneto 4 giugno, Emilia 5 giugno, Trentino 6 giugno, Piemonte
+     12 giugno, Liguria 19 giugno, Toscana 12 luglio, VdA 16 luglio, Friuli 18 luglio,
+     Ticino 18 marzo. Estero: Austria, Svizzera, Francia e Slovenia sono **reali su tutti
+     i 365 giorni** dal primo giorno.
+   - **Le verifiche si fanno se sono semplici, efficaci e poco onerose.** Non è nostro
+     compito scovare l'errore della singola stazione dentro un fornitore molto più grande
+     di noi: rincorrerlo su 5.000 stazioni impila complessità finché a rompersi è la
+     nostra macchina di controllo. Prima di costruire un controllo nuovo: quale decisione
+     cambia, quante volte il problema è già successo davvero, quanto costa tenerlo vivo il
+     giorno che sbaglia. Se le risposte sono deboli, non si costruisce.
 1b. **Retention: max 730 giorni (2 anni) di storico per regione — allungata da 365 il 7 agosto 2026.** Finestra scorrevole: ogni nuovo giorno raccolto elimina il più vecchio oltre i 730. Ogni collector DEVE avere il blocco "Pulizia retention" a fine main() (uniformato a tutti i collector il 16 luglio 2026 — prima lo avevano solo Piemonte, Emilia, Veneto e Liguria, le altre regioni erano arrivate a 417-420 giorni).
    - **Perché è stata allungata proprio quel giorno**: Austria e Svizzera avevano **esattamente 365 file, dal 7/8/2025 al 6/8/2026**, cioè erano appoggiate al muro — da lì in poi ogni giorno nuovo avrebbe cancellato un giorno di dato REALE, ricostruito con backfill una tantum (per la Svizzera ~1 GB di CSV). Le altre regioni non rischiavano nulla, loro sì.
    - **Non recupera il passato**: i giorni già cancellati sono persi, si smette solo di cancellare. Attenzione a non leggere "2 anni di archivio" come "2 anni di dati veri": al 7/8/2026 l'anno più vecchio è per il 73-93% **stime** Open-Meteo (backfill), tranne Svizzera, Austria, Lombardia e Ticino che sono reali. I due anni tutti reali arrivano a metà 2028.
