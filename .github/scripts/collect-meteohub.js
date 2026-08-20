@@ -69,10 +69,34 @@ function fmtDate(d) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+// ── Account MeteoHub (19/8/2026) ──────────────────────────────────────────
+// Senza login l'API serve solo gli ultimi ~10 giorni (il resto risponde 401).
+// Con un account gratuito (MH_USER / MH_PASS, secret del repo) il token JWT
+// apre l'archivio: arpafvg dal 26/7/2026, dpcn-lazio da maggio, sir-toscana
+// dal 14/6 (dpcn-puglia ha la rete completa solo dal 21/7). Il token si chiede
+// UNA volta per run e si passa come Bearer; se le credenziali mancano si
+// lavora come prima, anonimi, e i cron quotidiani non cambiano.
+let MH_TOKEN = null;
+async function loginMeteoHub() {
+  const user = (process.env.MH_USER || '').trim(), pass = process.env.MH_PASS || '';
+  if (!user || !pass) return null;
+  const r = await fetch('https://meteohub.agenziaitaliameteo.it/auth/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ username: user, password: pass })
+  });
+  const testo = await r.text();
+  if (!r.ok) throw new Error('login MeteoHub HTTP ' + r.status);
+  let tok = testo.trim();
+  try { const j = JSON.parse(testo); tok = j.token || j.access_token || j.accessToken || tok; } catch (e) {}
+  return tok.replace(/^"|"$/g, '') || null;
+}
+
 async function fetchJSON(url, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url, { headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' } });
+      const headers = { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' };
+      if (MH_TOKEN) headers['Authorization'] = 'Bearer ' + MH_TOKEN;
+      const res = await fetch(url, { headers });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch(e) {
@@ -223,7 +247,7 @@ function tipicoReali(dir, giorni) {
   return v[Math.floor(v.length / 2)];
 }
 
-function writeDay(dir, dateStr, stations, net, soglia) {
+function writeDay(dir, dateStr, stations, net, soglia, src) {
   if (stations.length < 10) {
     console.warn(`  ${dateStr}: solo ${stations.length} stazioni, salto la scrittura`);
     return false;
@@ -247,7 +271,7 @@ function writeDay(dir, dateStr, stations, net, soglia) {
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),
-    source:    'meteohub-dpcn',
+    source:    src || 'meteohub-dpcn',
     network:   net,
     count:     stations.length,
     stations
@@ -258,21 +282,57 @@ function writeDay(dir, dateStr, stations, net, soglia) {
 
 async function main() {
   console.log('=== collect-meteohub avviato (pilota) ===');
+  try {
+    MH_TOKEN = await loginMeteoHub();
+    console.log(MH_TOKEN ? '  accesso MeteoHub con account (archivio aperto)' : '  accesso MeteoHub anonimo (ultimi ~10 giorni)');
+  } catch (e) { console.warn('  Warn login MeteoHub: ' + e.message + ' — proseguo anonimo'); }
 
   const now = new Date();
   const italyNow = new Date(now.getTime() + getItalyOffset(now) * 3600000);
   const todayStr = fmtDate(italyNow);
   const noon = new Date(todayStr + 'T12:00:00Z').getTime();
 
-  for (const netCfg of NETWORKS) {
+  // SOLO_RETE=arpafvg → lavora su una rete sola. Serve alle prove a mano: senza
+  // questo filtro un run di collaudo riscriverebbe anche le dieci cartelle dpcn,
+  // che in produzione sono già a posto (19/8/2026).
+  const soloRete = (process.env.SOLO_RETE || '').trim();
+  const daFare = soloRete ? NETWORKS.filter(n => n.net === soloRete) : NETWORKS;
+  if (soloRete && !daFare.length) throw new Error(`SOLO_RETE=${soloRete} non è fra le reti configurate`);
+
+  for (const netCfg of daFare) {
     console.log(`--- Rete ${netCfg.net}`);
     const dir = path.join(DATA_ROOT, netCfg.dir);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     let targetDays;
-    let soglia = 0; // stazioni reali minime perché un giorno regga senza stime
+    // Stazioni reali minime perché un giorno regga senza stime: mediana dei
+    // giorni sani recenti, meno il 10%. La usa writeDay() per NON sostituire
+    // una mappa di stime con una raccolta troppo scarsa.
+    // ⚠️ Si calcola SEMPRE, anche con DATE_OVERRIDE (corretto il 20/8/2026):
+    // prima stava solo nel ramo automatico, quindi un backfill a mano girava
+    // con la rete di sicurezza spenta e una giornata parziale poteva svuotare
+    // la mappa — esattamente le macchie asciutte false che la soglia evita.
+    const recenti = [];
+    for (let i = 1; i <= 10; i++) recenti.push(fmtDate(new Date(noon - i * 24 * 3600000)));
+    let soglia = Math.floor(tipicoReali(dir, recenti) * 0.9); // 0 se la finestra è troppo scarna
     if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) {
-      targetDays = [process.env.DATE_OVERRIDE.trim()];
+      // Una data "YYYY-MM-DD" oppure un intervallo "YYYY-MM-DD:YYYY-MM-DD"
+      // (backfill con account, 19/8/2026). Nell'intervallo i giorni già
+      // scritti con dato reale si saltano: si può rilanciare senza rifare tutto.
+      const ov = process.env.DATE_OVERRIDE.trim();
+      if (ov.includes(':')) {
+        const [da, a] = ov.split(':');
+        targetDays = [];
+        for (let t = new Date(da + 'T12:00:00Z').getTime(); t <= new Date(a + 'T12:00:00Z').getTime(); t += 86400000) {
+          const dStr = new Date(t).toISOString().slice(0, 10);
+          const j = leggiFile(path.join(dir, `${dStr}.json`));
+          if (j && !haStime(j) && (j.count || 0) >= 10) continue;
+          targetDays.push(dStr);
+        }
+        console.log(`  Intervallo ${da} → ${a}: ${targetDays.length} giorni da raccogliere`);
+      } else {
+        targetDays = [ov];
+      }
     } else {
       // ieri + altroieri sempre; auto-riparazione 3-9 giorni indietro
       // (la finestra pubblica MeteoHub copre ~10 giorni: 9 lascia un giorno di
@@ -287,9 +347,6 @@ async function main() {
       // ancora i giorni parziali sopra le 10 stazioni (Molise 29/7: 23 su 28),
       // che non venivano riletti MAI.
       targetDays = [1, 2].map(i => fmtDate(new Date(noon - i * 24 * 3600000)));
-      const recenti = [];
-      for (let i = 1; i <= 10; i++) recenti.push(fmtDate(new Date(noon - i * 24 * 3600000)));
-      soglia = Math.floor(tipicoReali(dir, recenti) * 0.9); // 0 se la finestra è troppo scarna
       for (let i = 3; i <= 9; i++) {
         const dStr = fmtDate(new Date(noon - i * 24 * 3600000));
         const j = leggiFile(path.join(dir, `${dStr}.json`));
@@ -306,7 +363,7 @@ async function main() {
     for (const dStr of targetDays) {
       try {
         console.log(`  Raccolgo ${dStr}...`);
-        writeDay(dir, dStr, await collectDay(netCfg, dStr), netCfg.net, soglia);
+        writeDay(dir, dStr, await collectDay(netCfg, dStr), netCfg.net, soglia, netCfg.src);
       } catch(e) {
         console.warn(`  Warn: ${netCfg.net} ${dStr} fallito: ${e.message}`);
       }

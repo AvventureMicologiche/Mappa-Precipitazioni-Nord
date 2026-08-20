@@ -3,7 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       date_override:
-        description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per ieri+altroieri)'
+        description: 'Data (YYYY-MM-DD) o intervallo (YYYY-MM-DD:YYYY-MM-DD, serve l''account); vuoto = ieri+altroieri'
+        required: false
+        default: ''
+      solo_rete:
+        description: 'Una rete sola (es. dpcn-lazio). Vuoto = tutte'
         required: false
         default: ''
   schedule:
@@ -32,18 +36,27 @@ jobs:
         run: node .github/scripts/collect-meteohub.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          SOLO_RETE: ${{ inputs.solo_rete }}
+          MH_USER: ${{ secrets.MH_USER }}
+          MH_PASS: ${{ secrets.MH_PASS }}
         continue-on-error: true
       - name: Retry 1
         if: steps.collect.outcome == 'failure'
         run: sleep 30 && node .github/scripts/collect-meteohub.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          SOLO_RETE: ${{ inputs.solo_rete }}
+          MH_USER: ${{ secrets.MH_USER }}
+          MH_PASS: ${{ secrets.MH_PASS }}
         continue-on-error: true
       - name: Retry 2
         if: steps.collect.outcome == 'failure'
         run: sleep 60 && node .github/scripts/collect-meteohub.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          SOLO_RETE: ${{ inputs.solo_rete }}
+          MH_USER: ${{ secrets.MH_USER }}
+          MH_PASS: ${{ secrets.MH_PASS }}
       - name: Commit e push
         run: |
           git config user.name "bot"
