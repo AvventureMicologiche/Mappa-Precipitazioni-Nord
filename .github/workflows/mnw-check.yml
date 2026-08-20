@@ -30,8 +30,16 @@ on:
         description: 'Manda una mail di prova (non tocca il registro)'
         type: boolean
         default: false
-  schedule:
-    - cron: '53 10 * * 1'
+  # ⚠️ SCHEDULAZIONE SPENTA il 20/8/2026, decisione dell'utente, e non va
+  # riaccesa senza un motivo nuovo e concreto. In 45 giorni questo controllo ha
+  # prodotto 86 segnalazioni e ZERO errori MeteoHub dimostrabili; meta' erano
+  # rumore, e per zittirlo sono stati aggiunti tre strati nella stessa giornata.
+  # Le due cose davvero rotte trovate quel giorno erano NOSTRE e nate qui dentro.
+  # Resta lanciabile a mano quando c'e' un sospetto preciso, per esempio una
+  # stazione che sembra ferma: e' cosi' che si e' trovata Sellia Superiore, con
+  # la prima versione da otto giorni.
+  # schedule:
+  #   - cron: '53 10 * * 1'
 permissions:
   contents: write
 jobs:
