@@ -41,6 +41,10 @@ jobs:
       # usa puppeteer-core col Chrome di sistema (variabile CHROME).
       - name: Installa Chromium
         run: npm install --no-save puppeteer@23
+      # ffmpeg riduce lo scatto a 1600 px. Le immagini ubuntu-24.04 non lo hanno
+      # piu' preinstallato (il primo giro e' morto qui, "spawnSync ffmpeg ENOENT").
+      - name: Installa ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Genera le anteprime
         id: genera
         run: node .github/scripts/genera-anteprime.js "${{ inputs.regioni || 'tutte' }}"

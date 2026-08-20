@@ -86,7 +86,8 @@ async function scatta(browser, k) {
     }));
     const png = path.join(OUT_DIR, k + '.png');
     await page.screenshot({ path: png });
-    // ffmpeg c'e' sui runner GitHub e sulla macchina di sviluppo
+    // ffmpeg: in CI lo installa il workflow (le immagini ubuntu-24.04 non
+    // ce l'hanno piu'), in locale e' quello di sistema o la variabile FFMPEG.
     execFileSync(process.env.FFMPEG || 'ffmpeg',
       ['-y', '-loglevel', 'error', '-i', png, '-vf', 'scale=' + LARGHEZZA + ':-2', '-q:v', QUALITA,
        path.join(OUT_DIR, k + '.jpg')]);
@@ -118,7 +119,7 @@ async function scatta(browser, k) {
   for (const k of lista) { if (await scatta(browser, k)) fatte++; }
   await browser.close();
 
-  console.log('\n' + fatte + ' su ' + lista.length + ' generate in data/anteprime/');
+  console.log('\n' + fatte + ' su ' + lista.length + ' generate in ' + OUT_DIR);
   // Una regione che fallisce tiene la sua immagine precedente: meglio vecchia
   // di qualche giorno che assente. Si esce in errore solo se non ne riesce
   // NESSUNA, cioe' se e' rotto il meccanismo e non la singola regione.
