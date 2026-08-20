@@ -2,14 +2,12 @@ name: Controllo MeteoNetwork sul centro-sud
 # UN TESTIMONE INDIPENDENTE per le dieci regioni MeteoHub. Perche' serve, come
 # giudica e cosa NON deve diventare: tutto scritto in .github/scripts/check-mnw-sud.js.
 #
-# UNA VOLTA A SETTIMANA, non ogni giorno. Le contraddizioni vere sono rare (su
-# 45 giorni di collaudo: 25 aperte e UN caso confermato da tre fonti) e non si
-# corregge niente in automatico, quindi guardarle il lunedi' o il martedi' non
-# cambia nulla. Il lunedi' alle 10:53 UTC: i collector del mattino hanno chiuso
-# da un pezzo e il minuto sparso tiene il run fuori dalle code di GitHub.
+# SOLO A MANO. Girava una volta a settimana per mezza giornata, il 20/8/2026:
+# spento la sera stessa perche' in 45 giorni non ha trovato un solo errore
+# MeteoHub dimostrabile (vedi il blocco sulla schedulazione qui sotto).
 #
-# FINESTRA DI 30 GIORNI, che e' anche il minimo sensato: la reputazione dei
-# testimoni vuole almeno 20 giorni di storia per giudicare un pluviometro.
+# FINESTRA PREDEFINITA 30 GIORNI, che e' anche il minimo sensato: la reputazione
+# dei testimoni vuole almeno 20 giorni di storia per giudicare un pluviometro.
 #
 # ⚠️ NON TOCCA UN SOLO DATO. Scrive il registro data/mnw-check.json e, solo per
 # i casi nuovi in cui manca pioggia ai nostri dati E lo conferma anche la terza
