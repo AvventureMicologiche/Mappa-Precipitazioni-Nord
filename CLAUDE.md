@@ -144,6 +144,28 @@ mobile con fallback centro/zoom per il centro-sud.
 - **TOSCANA_STATIONS:** 165 stazioni curate (filtrate da 379) nell'index.html
 - **Orari:** 9 run/giorno — i 6 regolari (00:15-20:15 UTC) + 3 run di chiusura ravvicinati (20:40, 21:00, 21:20 UTC = 22:40/23:00/23:20 CEST in estate). Essendo SIR consultabile solo per l'istante attuale (nessuna query storica), un run che scivola dopo mezzanotte per ritardi di GitHub Actions scrive sul giorno SBAGLIATO invece di chiudere quello giusto — successo il 15 luglio 2026: i 2 run di chiusura originari (21:35/21:50 UTC) sono partiti in ritardo di ~55 minuti, finendo entrambi dopo mezzanotte CEST. Anticipati a 20:40-21:20 UTC per lasciare più margine, e portati a 3 tentativi invece di 2 per aumentare le probabilità che almeno uno arrivi in tempo. Nota: come per Alto Adige, l'orario fisso UTC non è consapevole del cambio ora legale/solare — in inverno questi run cadranno un'ora prima in orario locale (21:40/22:00/22:20 CET), stesso compromesso già accettato nel progetto. Il passo "Commit e push" ora riprova fino a 5 volte (10s tra un tentativo e l'altro) anche in caso di conflitto push con altri workflow concorrenti (causa del fallimento del run delle 22:42 UTC del 15 luglio — la raccolta dati era riuscita, solo il push era stato rifiutato).
 - **Dati corretti da:** 12 luglio 2026 (switch a SIR)
+- **VENTO dal 21/8/2026 — e non viene dal SIR.** Il SIR pubblica pluvio, termo,
+  igro, idro e nivo, il vento no; ma il **CFR** ha la pagina anemometrica
+  (`cfr.toscana.it/monitoraggio/stazioni.php?type=anemo`, 864 record) che pero'
+  da' solo l'istante attuale e i massimi di oggi e di ieri: niente serie storica,
+  quindi la media giornaliera va costruita da noi. `campiona-vento-toscana.js` +
+  `toscana-vento.yml` la leggono **ogni ora** e accumulano i campioni in
+  `data/toscana-vento/<giorno>.json`; con almeno 20 letture si calcola
+  `w:[media×3,6, raffica]`, dove la **raffica e' quella UFFICIALE** della colonna
+  «Raff. Max ieri», scritta nel file del giorno a cui si riferisce. Poi
+  `collect-toscana-sir.js`, nel suo passo t/u di ieri, attacca `w` al file di
+  `data/toscana`: **un solo scrittore per cartella**, i due workflow non si
+  pestano i push.
+  - **Prima giornata piena, 20/8/2026**: 144 stazioni campionate, mediana 23
+    campioni, **141 con `w`**. Prova di coerenza: la raffica ufficiale sta sempre
+    SOPRA il massimo dei nostri campioni (26,7 contro 18,5 m/s il giorno della
+    tempesta), che e' il rapporto giusto — campionando ogni ora il picco lo si
+    manca, ed e' per questo che la raffica si prende dalla fonte.
+  - ⚠️ **Il vento parte dal 20/8, la temperatura dal 10/8**: `METEO_HIST_FROM` e'
+    una data per REGIONE e non basta, quindi c'e' `VENTO_HIST_FROM={toscana:…}`.
+    Senza, il pannello prometterebbe vento dal 10/8.
+  - Collaudato sul repo di test dal 19/8; li' il cron e' stato **spento** alla
+    promozione, perche' il sito di test legge la Toscana da produzione.
 - **Temperatura (dall'11/8/2026):** pagina SIR `stazioni.php?type=termo` (una richiesta per run) — min/max di OGGI (progressivi, finalizzati dai run di chiusura) e di IERI (consolidati) su ~251 stazioni. Niente storico (pagina live-only come la pioggia) → t dal 10/8, cresce un giorno al giorno. **Niente vento** (non esiste su SIR; CFR `action=TERMO` risponde vuoto). ⚠️ **Trappola del parsing**: gli array della pagina hanno nomi offuscati e i nomi stazione contengono PARENTESI («Pisa (Fac. Agraria) (GPRS)») — una regex che si ferma alla prima `)` tronca la riga prima dei valori e fa sembrare la pagina VUOTA (errore commesso l'11/8 mattina, la pagina pareva avere 4 stazioni su 256: gli argomenti si estraggono per stringhe quotate, come già fa `parseSirValues`)
 - **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
 
