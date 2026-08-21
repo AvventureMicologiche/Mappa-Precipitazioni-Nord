@@ -51,6 +51,14 @@ const NETWORKS = [
   { net: 'dpcn-sardegna',   dir: 'meteohub-sardegna',   sigla: 'SAR' },
   { net: 'dpcn-basilicata', dir: 'meteohub-basilicata', sigla: 'BAS' },
   { net: 'dpcn-molise',     dir: 'meteohub-molise',     sigla: 'MOL' },
+  // Friuli V.G. (19/8/2026): NON è una rete dpcn, è la rete idrometeorologica
+  // completa di ARPA FVG. L'archivio OSMER che usiamo in mappa (data/friuli-osmer)
+  // espone solo ~40 stazioni; qui ce ne sono 139, di cui 136 con la giornata
+  // completa, 99 con temperatura, 44 col vento e 55 con l'umidità.
+  // VALIDATA il 19/8/2026 col metodo delle stazioni gemelle: sulle 32 stazioni
+  // presenti in entrambe le fonti la pioggia del 17/8 coincide al decimo
+  // (Barcis 6,6=6,6; Codroipo 19,4=19,4; Tarvisio 24,1=24,1).
+  { net: 'arpafvg',         dir: 'meteohub-friuli',     sigla: 'FVG', src: 'meteohub-arpafvg' },
 ];
 
 function getItalyOffset(date) {
