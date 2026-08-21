@@ -4745,7 +4745,13 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
   // 8,7 mm contro i 100,8 di mediana dei vicini entro 15 km, cioe' il 9%, e il
   // 20/8/2026 dava 0 mentre intorno cadevano 11 mm. Trovata col check dei picchi
   // isolati del 21/8. A 4 km c'e' Selva Ferriere, che funziona (125 mm).
-  var EMILIA_ESCLUSE={'5317':1,'5565':1,'5566':1,'5561':1,'5568':1,'3080':1,'3077':1,'12307':1,'3014':1};
+  // 12863 Lugo RA e 14719 Corte Centrale (FE): fermi anche loro, trovati dal
+  // controllo automatico del 21/8/2026 (check-stazioni-ferme.js). Lugo misurava
+  // 38,8 mm a maggio e 20,9 a luglio, poi PIU' NIENTE: ultima pioggia l'11
+  // luglio, 7,3 mm in 45 giorni contro i 54,8 dei vicini. Corte Centrale e'
+  // ferma dal 26 luglio, 1,2 mm contro 81,6 (Codigoro a 7,7 km ne ha fatti 101).
+  // Da ricontrollare se tornassero a misurare, come MONTE MALANOTTE in Piemonte.
+  var EMILIA_ESCLUSE={'5317':1,'5565':1,'5566':1,'5561':1,'5568':1,'3080':1,'3077':1,'12307':1,'3014':1,'12863':1,'14719':1};
   function _fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
   var todayStr=_fmt(new Date());
@@ -5216,8 +5222,19 @@ function loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,cb){
 // e' una macchia secca FALSA in mezzo alla Calabria, del tipo che manda la
 // gente a cercare funghi dove non ha piovuto. Da ricontrollare se tornasse a
 // misurare, come si fece per MONTE MALANOTTE in Piemonte.
+//
+// Poggio San Vicino (Marche, 43.36842_13.07953) e Ponte S.Maria (Umbria,
+// 42.89595_12.02092): fermi a zero, trovati dal controllo automatico del
+// 21/8/2026 (check-stazioni-ferme.js). Sono il caso piu' netto di tutti:
+// **non hanno mai misurato una goccia** in tutti i giorni che abbiamo,
+// rispettivamente 0,0 e 0,2 mm, mentre i cinque vicini piu' prossimi stanno a
+// 58,9 e 79,8 mm in 45 giorni (San Giovanni a 3,8 km ne fa 59, Ponticelli a
+// 5,7 km ne fa 109). Non e' una zona asciutta, e' un pluviometro che non
+// riporta. Da ricontrollare se tornassero a misurare.
 var MH_ESCLUSE={
-  calabria:{'Sellia Superiore':true}
+  calabria:{'Sellia Superiore':true},
+  marche:{'Poggio San Vicino':true},
+  umbria:{'Ponte S.Maria':true}
 };
 function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
   var RAW=PILOT_DATA_BASE+'meteohub-'+regionKey;
@@ -5541,8 +5558,19 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
     d.setDate(d.getDate()+1);
   }
 
-  // Filtra solo le 170 stazioni curate nei file GitHub
-  var allowedToscana={}; TOSCANA_STATIONS.forEach(function(s){allowedToscana[s.n]=true;});
+  // Filtra solo le 170 stazioni curate nei file GitHub, meno le escluse.
+  // La lista di esclusione sta a parte invece di togliere la riga dalla
+  // whitelist: cosi' il motivo resta scritto e una futura rigenerazione della
+  // whitelist non la riporta dentro in silenzio (stessa idea di LOMB_ESCLUSE,
+  // EMILIA_ESCLUSE, PIEMONTE_ESCLUSE e MH_ESCLUSE).
+  //
+  // Serra Pistoiese (PT): pluviometro fermo, trovato dal controllo automatico
+  // del 21/8/2026 (check-stazioni-ferme.js). Ultima pioggia il 15 luglio, poi
+  // 0,4 mm in tutto agosto: 4,6 mm in 45 giorni contro i 107,2 dei cinque
+  // vicini piu' prossimi, cioe' il 4%. A 3,2 km c'e' Sorana, che ne ha fatti
+  // 110. Da ricontrollare se tornasse a misurare.
+  var TOSCANA_ESCLUSE={'Serra Pistoiese':1};
+  var allowedToscana={}; TOSCANA_STATIONS.forEach(function(s){if(!TOSCANA_ESCLUSE[s.n])allowedToscana[s.n]=true;});
 
   var rainTot={};
   var stMeta={};

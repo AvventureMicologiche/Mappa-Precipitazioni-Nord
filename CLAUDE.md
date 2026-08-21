@@ -715,6 +715,67 @@ Manda una mail quando una fonte si rompe. **Due guasti sorvegliati, stessa sogli
 
 ---
 
+### 3. Pluviometri fermi — `check-stazioni-ferme.js`, dentro `alert-fonti.yml` (dal 21 agosto 2026)
+
+I primi due pezzi sorvegliano le FONTI; questo sorveglia le singole STAZIONI, ed
+e' il buco che restava scoperto. Una stazione spenta si vede subito, il file non
+arriva. Una stazione **ferma** e' invisibile: il file c'e', la stazione c'e', il
+numero c'e', ed e' 0. In mappa diventa un buco bianco in mezzo alla pioggia e
+abbassa la media della regione — cioe' manda la gente a cercare dove non ha
+piovuto, che e' il difetto peggiore per questo sito.
+
+Nasce dal pomeriggio del 20/8/2026, quando cercandoli a mano ne sono usciti
+quattro: la stessa domanda, fatta ogni lunedi' da sola.
+
+- **Sui nostri soli dati, nessuna fonte esterna.** I testimoni sono i
+  pluviometri vicini, che sono gia' nostri e stanno gia' nel checkout: niente
+  rete, niente chiavi, niente quote. E' l'opposto di `check-mnw-sud.js`, che
+  interrogava un testimone di fuori e in 45 giorni non ha trovato un solo
+  errore dimostrabile.
+- **Soglie**: finestra **45 giorni**, almeno **30 giorni di dato reale** (sotto
+  quella soglia il problema e' un buco, e quello e' mestiere di `check-fonti.js`),
+  **5 vicini entro 25 km** con mediana **>= 50 mm** (senza pioggia intorno uno
+  zero e' la verita', non un guasto), sospetta **sotto il 15%** di quella mediana.
+- **I giorni stimati non contano** (`source` con open-meteo): la stima e'
+  calcolata sulle coordinate della stazione e darebbe pioggia anche a un
+  pluviometro morto, cioe' coprirebbe proprio il guasto che si cerca.
+- **Gira solo il lunedi'**, dentro il workflow dell'allarme fonti (stessa posta,
+  stesso registro, stesso commit): il segnale si muove su 45 giorni. Il controllo
+  del giorno sta dentro il `run` e non in un `if:`, cosi' gli output esistono
+  sempre e il passo del commit non deve indovinare. Input `ferme_ora` per
+  lanciarlo subito. Registro `data/stazioni-ferme.json`: una stazione si segnala
+  una volta sola, se rientra esce in silenzio.
+- **NON tocca un dato e non esclude niente da solo**: manda l'elenco, la
+  decisione resta umana.
+
+**Primo giro (21/8/2026): 5.717 stazioni giudicate, 12 sospette** — e fra queste
+sono riemersi da soli i due esclusi a mano il giorno prima, 3014 Ferriere Pluvio
+e VIFRA Villafranca Lunigiana, che il controllo non conosceva. E' la prova che
+il metro funziona.
+
+**Come si legge l'elenco: il numero da guardare non e' la percentuale, e' la
+STORIA.** Guardando indietro 200 giorni, le 12 si dividono in tre famiglie, e
+solo le prime due sono da escludere:
+- **mai una goccia** — VIFRA (0,0 mm in 98 giorni su 98), Poggio San Vicino
+  (0,0 in 37), Ponte S.Maria (0,2 in 37);
+- **morte con una data** — Ferriere Pluvio (97,5 mm a maggio, poi 0,0 in agosto,
+  ultima pioggia il 15 luglio), Lugo RA (ultima l'11 luglio), Serra Pistoiese
+  (ultima il 15 luglio), Corte Centrale (ultima il 26 luglio);
+- **vive, solo piu' asciutte dei vicini** — Camaiore, Villanova Solaro,
+  Roccelletta, Corte in Corsica, e **Sella Giassina**, che e' il caso
+  interessante: misura ancora (ultima pioggia il 20 agosto) ma fa 17 mm dove
+  Torriglia a 3,7 km ne fa 209. Non e' ferma, e' **sorda** — probabile imbuto
+  parzialmente ostruito. Restano in mappa e il registro le tiene zitte.
+
+**Escluse in conseguenza, il 21/8/2026** (in `index.html`, un solo deploy):
+`EMILIA_ESCLUSE` + 12863 Lugo RA e 14719 Corte Centrale; `MH_ESCLUSE` + Poggio
+San Vicino (Marche) e Ponte S.Maria (Umbria); **`TOSCANA_ESCLUSE` nuova** con
+Serra Pistoiese. Quest'ultima e' una lista a parte invece della cancellazione
+della riga da `TOSCANA_STATIONS`: cosi' il motivo resta scritto e una futura
+rigenerazione della whitelist non se la riporta dentro in silenzio.
+Verifica prima del push, in locale contro il sito vivo: Toscana+Emilia 479 → 476
+stazioni, Marche+Umbria 195 → 193. Esattamente le cinque tolte.
+
 ## Check periodico dati
 Ogni ~5 giorni verificare:
 1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?) — **automatizzato dal 4 agosto 2026: `node .github/scripts/check-confini.js <confine>`**, `--lista` per i nomi (svizzera, emilia-piemonte, emilia-liguria, toscana-emilia, lombardia-trentino). Vedi la sezione dedicata più sotto.
