@@ -10,6 +10,10 @@ on:
         description: "Finge una regione ferma, es. liguria:4 (non tocca il registro)"
         required: false
         default: ''
+      ferme_ora:
+        description: 'Controlla subito i pluviometri fermi, senza aspettare lunedì'
+        type: boolean
+        default: false
   schedule:
     # 1 run/giorno, dopo i collector del mattino. Nessun vincolo di ordine con
     # gaps-nord (09:10): questo controllo ignora i file di stima, quindi non
@@ -71,12 +75,64 @@ jobs:
           [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
           echo "Mail inviata."
 
+      # ── Secondo inquilino di questo workflow: i pluviometri FERMI ──────────
+      # Sta qui e non in un cron suo perché ha bisogno delle stesse cose (la
+      # posta, il registro, un commit) e perché il momento giusto è lo stesso:
+      # dopo i collector del mattino. Gira SOLO IL LUNEDÌ: il segnale che cerca
+      # si muove su 45 giorni, guardarlo ogni giorno sarebbe rumore e tempo di
+      # Actions buttato. Il controllo dei giorni feriali sta dentro il run e non
+      # in un `if:` per una ragione pratica: così il passo esiste sempre e i
+      # suoi output esistono sempre, e il commit più sotto non deve indovinare.
+      # Vedi .github/scripts/check-stazioni-ferme.js
+      - name: Controlla i pluviometri fermi (lunedì)
+        id: ferme
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ "${{ inputs.ferme_ora }}" != "true" ] && [ "$(date -u +%u)" != "1" ]; then
+            echo "Non è lunedì: il controllo dei pluviometri fermi si salta."
+            echo "mail=false" >> $GITHUB_OUTPUT
+            echo "registro=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          node .github/scripts/check-stazioni-ferme.js
+        continue-on-error: true
+
+      - name: Manda la mail dei pluviometri fermi
+        if: steps.ferme.outputs.mail == 'true'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ -z "$MAIL_USER" ] || [ -z "$MAIL_PASS" ] || [ -z "$MAIL_TO" ]; then
+            echo "::error::Mancano i secret MAIL_USER / MAIL_PASS / MAIL_TO: la mail non parte."
+            exit 1
+          fi
+          ok=0
+          for i in 1 2 3; do
+            if curl --silent --show-error --ssl-reqd \
+                 --url 'smtps://smtp.gmail.com:465' \
+                 --user "$MAIL_USER:$MAIL_PASS" \
+                 --mail-from "$MAIL_USER" \
+                 --mail-rcpt "$MAIL_TO" \
+                 --upload-file ferme-mail.eml; then ok=1; break; fi
+            echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
+            sleep 20
+          done
+          [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
+          echo "Mail inviata."
+
       - name: Commit del registro
-        if: steps.check.outputs.registro == 'true'
+        if: steps.check.outputs.registro == 'true' || steps.ferme.outputs.registro == 'true'
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
           git add data/alert-fonti.json
+          # Il registro dei fermi nasce al primo lunedì: prima di allora non
+          # esiste, e `git add` su un file che non c'è farebbe fallire il passo.
+          if [ -f data/stazioni-ferme.json ]; then git add data/stazioni-ferme.json; fi
           git diff --staged --quiet || git commit -m "alert-fonti $(date -u +%Y-%m-%d)"
           ok=0
           for i in 1 2 3 4 5; do
