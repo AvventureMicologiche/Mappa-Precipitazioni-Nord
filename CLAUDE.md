@@ -345,6 +345,44 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Temperatura/vento (dall'11/8/2026):** lo STESSO CSV orario ha le colonne `Temp. °C`, `Vento med km/h` e `Vento max km/h` (**già km/h**, dichiarato nell'intestazione) — zero richieste extra; la mappa oraria in cache è passata a oggetti `{mm,t,vm,vx}`. Backfill dal 27/6 lanciando il collector con `GIORNI_FINESTRA=45` (l'archivio risponde su qualsiasi giorno passato)
 - **In mappa:** `dataSource: 'osmer_fvg'`, URL dati da `PILOT_DATA_BASE`
 
+**LA RETE REGIONALE COMPLETA, dal 21 agosto 2026 — da 46 a 150 stazioni.**
+L'archivio OSMER che leggevamo espone ~41 pluviometri; la stessa ARPA FVG
+pubblica su **MeteoHub la rete `arpafvg` con ~137 stazioni al giorno**. Non sono
+un'altra misura: sulle 31 presenti in entrambe le fonti (gemelle entro 500 m) i
+valori del 20/8 coincidono **al decimo di millimetro, scarto medio 0,00 mm su 34
+coppie**. E' la stessa rete letta da una porta piu' larga, e il confronto e' lo
+stesso metodo delle gemelle ARPAE-OMIRL.
+- **Impianto**: rete `arpafvg` in `collect-meteohub.js` (entra nei cinque giri
+  gia' schedulati di `meteohub.yml`, zero cron nuovi) → `data/meteohub-friuli`;
+  `loadOSMERFriuliRegion` unisce le due fonti come fa la Svizzera con OASI +
+  MeteoSwiss, con tag per-stazione `_src` (`osmer`/`mh`) usato anche dal grafico
+  storico (`histRegion` e la lista cartelle a due voci).
+- **Doppioni**: si scartano le MeteoHub che cadono a meno di ~1 km da una OSMER.
+  Tolleranza larga apposta: le due fonti arrotondano le coordinate in modo
+  diverso, e due pluviometri veri non stanno mai cosi' vicini. **Vince OSMER**,
+  che e' la fonte di casa.
+- **Copertura**: il filtro all'80% vale per entrambe, ma per le MeteoHub il
+  denominatore sono i **giorni CHIESTI**, non quelli restituiti — con i giorni
+  restituiti una stazione presente in 8 giorni su 8 disponibili passerebbe anche
+  in una finestra di 15, portando in mappa un cumulato di 8 giorni con
+  l'etichetta di 15: la macchia secca falsa che il filtro deve impedire.
+- ⚠️ **Storico dal 27/7/2026** (`FVG_MH_HIST_FROM`): e' il limite dell'archivio
+  MeteoHub per questa rete anche con l'account. Sulle finestre piu' lunghe le 106
+  stazioni nuove spariscono e restano le OSMER — coerente con la regola 1, e la
+  coda si accorcia da sola un giorno al giorno.
+- **NON e' nel registro di `check-meteohub-gaps.js`**, e non e' una
+  dimenticanza: li' un buco si copre con stime Open-Meteo, che qui non servono
+  perche' le ~41 OSMER coprono comunque il Friuli. Un buco MeteoHub costa
+  densita', non una giornata asciutta inventata. In `check-fonti.js` invece c'e'
+  (dir `meteohub-friuli`), cosi' se la fonte nuova muore lo si viene a sapere.
+- **Misura del guadagno**, 14-20 agosto: **46 → 150 stazioni** e **massimo del
+  periodo da 124,6 a 188,3 mm**. Il picco piu' forte della settimana stava su un
+  pluviometro che non avevamo.
+- ⚠️ Trieste molo F.lli Bandiera e' l'unica stazione fuori dal confine regionale
+  (e' su un molo): la lascia fuori il disegno, non serve escluderla a mano.
+- **Nessun beta**: a differenza del centro-sud, se MeteoHub salta un giorno qui
+  c'e' gia' la rete di sicurezza OSMER.
+
 ### Slovenia (v8.0, in produzione dal 12 agosto 2026)
 
 **L'header non tiene piu' insieme titolo e badge: si danno il cambio** (12/8).
