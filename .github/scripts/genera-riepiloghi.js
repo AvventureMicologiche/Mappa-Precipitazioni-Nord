@@ -152,6 +152,40 @@ const oggi = oggiItalia();
 const giorni = giorniIndietro(oggi, FINESTRA);
 fs.mkdirSync(USCITA, { recursive: true });
 
+// ── LETTURE DEL GIORNO, per la riga «5.584 pluviometri letti stamattina» ──
+//
+// PERCHE': il sito non aveva nessun modo di dire che dietro c'e' una macchina
+// che si sveglia ogni mattina. Questa riga lo dice con un numero verificabile:
+// torni domani e l'ora e' cambiata. Il conto e' gratis, i file sono gia' qui.
+//
+// ⚠️ SI CONTA UN GIORNO SOLO, IERI, non «l'ultimo giorno che ogni rete ha».
+// Sommare l'ultimo giorno disponibile cartella per cartella gonfierebbe il
+// totale mescolando giorni diversi. Cosi' invece le reti in ritardo dichiarato
+// (Slovenia 34 ore, Puglia quando MeteoHub salta) semplicemente non entrano, e
+// il numero esce piu' BASSO del vero: e' il verso giusto in cui sbagliare.
+//
+// ⚠️ `letto` e' l'istante in cui gira QUESTO script, non l'ora dei collector:
+// e' l'ora in cui abbiamo guardato, ed e' quella che la pagina scrive.
+function letture(giorno) {
+  let stazioni = 0, cartelle = 0;
+  for (const d of fs.readdirSync(DATI)) {
+    if (d === 'riepiloghi') continue;
+    let st;
+    try {
+      if (!fs.statSync(path.join(DATI, d)).isDirectory()) continue;
+      st = leggi(d, giorno);
+    } catch (e) { continue; }
+    if (!st) continue;
+    stazioni += st.length;
+    cartelle++;
+  }
+  return { giorno, stazioni, cartelle, letto: new Date().toISOString() };
+}
+const conteggio = letture(giorni[0]);
+// Questo file si riscrive SEMPRE, anche identico: l'ora e' il suo contenuto.
+fs.writeFileSync(path.join(USCITA, 'letture.json'), JSON.stringify(conteggio, null, 1) + '\n', 'utf8');
+console.log(`  letture: ${conteggio.stazioni} pluviometri in ${conteggio.cartelle} cartelle il ${conteggio.giorno}\n`);
+
 let scritti = 0, saltati = [];
 for (const r of REGIONI) {
   const fuori = gemelleDaScartare(r.dirs, giorni);
