@@ -748,6 +748,44 @@ legge il DOM (`#tp-status`, `#archivio-notice`, path dell'overlay-pane).
 
 ---
 
+## Riepiloghi delle pagine regione (24 agosto 2026)
+
+Le 23 pagine regione si calcolavano i loro due numeri **dal browser di chi le
+apre**, scaricando i file giornalieri uno per uno: **20 richieste** a
+raw.githubusercontent per la maggior parte delle regioni, **40** per Friuli e
+Svizzera che di cartelle ne hanno due. Funzionava, ma appoggiava a raw una
+raffica per ogni visita, ed e' la stessa raffica che il 18/8 prendeva 2-3 429
+veri su 120 file. La mappa quel caso lo para (scorta, riserva Netlify, avviso);
+**le pagine no**, e un 429 li' faceva sparire in silenzio il giorno di quella
+cartella: media piu' bassa senza dirlo.
+
+- **`genera-riepiloghi.js` + `riepiloghi.yml`**, due giri al giorno (05:10 e
+  23:20 UTC), scrivono `data/riepiloghi/<regione>.json` (~1,5 KB l'uno): media,
+  giorni, stazioni, primo/ultimo giorno e le prime cinque stazioni gia' pronte
+  da stampare, per la scheda a 7 e per quella a 20 giorni. **Zero rete**: legge i
+  file gia' nel checkout, nessuna API di nessun ente, 0,7 s per tutte e 23. E
+  **zero crediti Netlify**, perche' `data/` e' nella regola ignore.
+- **La pagina fa UNA richiesta.** Il vecchio calcolo resta come **ripiego** se il
+  riepilogo manca o e' vecchio. ⚠️ **La freschezza si misura su `generato`, non
+  sull'ultimo giorno contenuto**: la Slovenia dichiara 34 ore di ritardo e la
+  Puglia ha giornate che MeteoHub non consegna, quindi un riepilogo sanissimo
+  puo' finire due giorni indietro — col controllo sbagliato quelle due regioni
+  sarebbero cadute sul ripiego tutti i giorni. Soglia 36 ore, cioe' un giro
+  saltato si perdona, due no.
+- **L'anagrafe delle regioni sta in UN posto solo**: `genera-pagine-regione.js`
+  ora si lascia anche `require`, e il generatore dei riepiloghi prende da li'
+  `dirs`. Due elenchi di cartelle divergenti darebbero pagina e riepilogo
+  diversi sullo stesso indirizzo, senza che nessuno se ne accorga.
+- ⚠️ **La regola delle gemelle esiste ora in TRE copie** (mappa, ripiego dentro
+  la pagina, generatore dei riepiloghi) e devono restare uguali.
+- I pulsanti prendono le date dal riepilogo: se no la mappa si apriva su un
+  periodo diverso da quello scritto nella scheda.
+- **Collaudo, tutte e tre le strade** (misurate sul browser, sito di test prima e
+  produzione poi): riepilogo fresco → 1 richiesta; mancante → 41; vecchio di 5
+  giorni → 40. Numeri identici nei tre casi (Friuli 77 e 98 mm).
+
+---
+
 ## Sorveglianza automatica (31 luglio 2026)
 Due pezzi complementari, nati lo stesso giorno e da leggere insieme: il primo **ripara**, il secondo **avvisa**. Il secondo esiste proprio perché il primo, riparando, nasconde il guasto.
 
