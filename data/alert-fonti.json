@@ -3,7 +3,7 @@
   "regioni": {
     "altoadige": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -12,7 +12,7 @@
     },
     "emilia": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -21,16 +21,16 @@
     },
     "friuli-osmer": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 37,
+      "stazioniIeri": 39,
       "riferimento": 41
     },
     "liguria": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -39,7 +39,7 @@
     },
     "lombardia": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -48,7 +48,7 @@
     },
     "piemonte": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -57,7 +57,7 @@
     },
     "ticino": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -66,25 +66,25 @@
     },
     "toscana": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 378,
+      "stazioniIeri": 377,
       "riferimento": 379
     },
     "trentino": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
       "stazioniIeri": 104,
-      "riferimento": 103
+      "riferimento": 104
     },
     "valledaosta-cf": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -93,16 +93,16 @@
     },
     "veneto": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 185,
+      "stazioniIeri": 186,
       "riferimento": 186
     },
     "meteohub-marche": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -111,7 +111,7 @@
     },
     "meteohub-umbria": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -120,16 +120,16 @@
     },
     "meteohub-lazio": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 208,
+      "stazioniIeri": 207,
       "riferimento": 208
     },
     "meteohub-molise": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -138,7 +138,7 @@
     },
     "meteohub-campania": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -146,26 +146,29 @@
       "riferimento": 176
     },
     "meteohub-puglia": {
-      "stato": "ok",
+      "stato": "allarme",
+      "tipo": "assente",
+      "dal": "2026-08-24",
       "ultimoReale": "2026-08-20",
-      "giorniMancanti": 2,
+      "giorniMancanti": 3,
       "giorniMalati": 0,
-      "giorniEventi": 2,
+      "giorniEventi": 3,
       "stazioniIeri": 128,
-      "riferimento": 128
+      "riferimento": 128,
+      "ultimaMail": "2026-08-24"
     },
     "meteohub-basilicata": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 50,
+      "stazioniIeri": 49,
       "riferimento": 62
     },
     "meteohub-calabria": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -174,16 +177,16 @@
     },
     "meteohub-sicilia": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 433,
+      "stazioniIeri": 430,
       "riferimento": 429
     },
     "meteohub-sardegna": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -192,7 +195,7 @@
     },
     "svizzera": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -201,25 +204,25 @@
     },
     "austria": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 267,
+      "stazioniIeri": 268,
       "riferimento": 269
     },
     "francia-aura": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 338,
-      "riferimento": 343
+      "stazioniIeri": 336,
+      "riferimento": 341
     },
     "francia-bfc": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -228,34 +231,34 @@
     },
     "francia-bretagna": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 66,
+      "stazioniIeri": 67,
       "riferimento": 77
     },
     "francia-centro": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 99,
+      "stazioniIeri": 98,
       "riferimento": 99
     },
     "francia-corsica": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 50,
+      "stazioniIeri": 52,
       "riferimento": 52
     },
     "francia-grandest": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -264,25 +267,25 @@
     },
     "francia-hdf": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 64,
+      "stazioniIeri": 67,
       "riferimento": 68
     },
     "francia-idf": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 43,
+      "stazioniIeri": 44,
       "riferimento": 44
     },
     "francia-normandia": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
@@ -291,59 +294,59 @@
     },
     "francia-naq": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 202,
-      "riferimento": 209
+      "stazioniIeri": 197,
+      "riferimento": 208
     },
     "francia-occitania": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 240,
+      "stazioniIeri": 238,
       "riferimento": 245
     },
     "francia-loira": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 81,
+      "stazioniIeri": 79,
       "riferimento": 82
     },
     "francia-provenza": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 142,
+      "stazioniIeri": 141,
       "riferimento": 149
     },
     "slovenia": {
       "stato": "ok",
-      "ultimoReale": "2026-08-21",
+      "ultimoReale": "2026-08-22",
       "giorniMancanti": 1,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 112,
+      "stazioniIeri": 111,
       "riferimento": 114
     },
     "meteohub-friuli": {
       "stato": "ok",
-      "ultimoReale": "2026-08-22",
+      "ultimoReale": "2026-08-23",
       "giorniMancanti": 0,
       "giorniMalati": 0,
       "giorniEventi": 0,
-      "stazioniIeri": 136,
-      "riferimento": 138
+      "stazioniIeri": 137,
+      "riferimento": 137
     }
   },
-  "ultimoHeartbeat": "2026-08-17",
-  "aggiornato": "2026-08-23T10:00:26.720Z"
+  "ultimoHeartbeat": "2026-08-24",
+  "aggiornato": "2026-08-24T10:22:31.906Z"
 }
