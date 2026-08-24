@@ -379,9 +379,10 @@ footer a{color:var(--blu);}
   // ⚠️ La freschezza si misura su QUANDO E' STATO SCRITTO (36 ore), non
   // sull'ultimo giorno che contiene: la Slovenia pubblica con 34 ore di
   // ritardo e la Puglia ha giornate che MeteoHub non consegna, quindi un
-  // riepilogo sanissimo puo' finire due giorni indietro. Guardando `ultimo`,
-  // quelle due regioni sarebbero cadute sul ripiego TUTTI i giorni, cioe' le
-  // 20 richieste sarebbero tornate proprio dove piu' danno fastidio.
+  // riepilogo sanissimo puo' finire due giorni indietro. Guardando l'ultimo
+  // giorno che contiene, quelle due regioni sarebbero cadute sul ripiego
+  // TUTTI i giorni, cioe' le 20 richieste sarebbero tornate proprio dove
+  // piu' danno fastidio.
   // Sopra le 36 ore vuol dire invece workflow fermo, e allora si ricalcola.
   function fresco(j){
     if(!j||!j.generato||!j.periodi||!j.periodi['20']||!j.periodi['7']) return false;
