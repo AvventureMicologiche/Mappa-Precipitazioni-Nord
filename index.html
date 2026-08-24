@@ -711,31 +711,19 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   border-top:1px solid #eee;text-align:center;background:#fff;flex-shrink:0;}
 .fonte a{color:#1b3f6e}
 
-/* CONTATORE DELLE LETTURE (24/8/2026). Due copie, MAI visibili insieme: sopra
-   i 600px vive sotto la mappa accanto ai crediti, sotto i 600px il pie' di
-   pagina e' display:none e allora sta dentro il pannello dei cumulati, sopra
-   la pillola del canale. Il :empty le tiene sparite finche' il numero non
-   arriva: se il file non si scarica la pagina resta identica a prima, senza
-   buchi ne' scritte di attesa. */
-#letture-fonte{display:none;}
-#letture-pannello{display:none;}
-@media(min-width:601px){
-  #letture-fonte{display:block;font-size:11px;color:#7a8598;text-align:center;
-    background:#fff;padding:5px 10px 0;flex-shrink:0;}
-  #letture-fonte:empty{display:none;}
-}
-@media(max-width:600px){
-  #letture-pannello{display:block;font-size:12.5px;line-height:1.3;color:#5a6472;
-    text-align:center;padding:4px 8px 1px;margin-top:5px;
-    border-top:1px solid rgba(0,0,0,.07);
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  #letture-pannello:empty{display:none;}
-}
-
 /* ══════════════════════════════════════
    TABLET (601-900px)
    ══════════════════════════════════════ */
 @media(max-width:375px){
+  /* ⚠️ #reg-apri e' il bottone VERO della scelta regione: il select nativo
+     della riga sotto e' nascosto sotto i 900px. A 17px il testo «Tocca qui
+     per scegliere la regione ▼» vuole 340px, e a 360 di schermo ce ne sono
+     326: andava a capo e il pannello passava da 58 a 68px (misurato il
+     24/8/2026). A 16px ne servono 320 ed entra. ⚠️ La soglia comprende il
+     375 apposta: li' a 17px entrava per UN pixel, cioe' bastava un carattere
+     reso un filo piu' largo per mandarlo a capo lo stesso. Sotto i 330px va
+     a capo comunque (servirebbe 14,3px) e si accetta: sono due telefoni. */
+  #reg-apri{font-size:16px;}
   /* iPhone SE: pannello date proporzionalmente compatto */
   .region-select-mobile{font-size:14px !important;font-weight:700 !important;padding:4px 8px !important;}
   #time-panel{padding:5px 8px !important;}
@@ -1062,7 +1050,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   .tt-mm{font-size:18px;}
   h1{font-size:12px;}
   .hdr-sub{display:none;}
-  .fonte-tag{bottom:auto;top:52px;font-size:8px;}
+  /* ⚠️ IL `top` LO SCRIVE `posizionaChipFonte()` a ogni cambio di pannello:
+     52px fissi finivano SOTTO il pannello «Tocca qui per scegliere la
+     regione», che e' alto 58px a una riga e ~90 quando il testo va a capo
+     (360px di larghezza). Era un difetto vecchio: copriva anche «Fonte:
+     ARPA Lombardia». Qui resta solo come valore di partenza.
+     Il corpo passa da 8 a 10px: a 8 non si legge (segnalato dall'utente
+     su Android), a 10 si legge e resta una scritta di servizio. */
+  .fonte-tag{bottom:auto;top:66px;font-size:10px;background:rgba(255,255,255,.92);}
 }
 
 </style>
@@ -1405,12 +1400,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       <div id="ieri-notice" style="display:none;margin-top:8px;font-size:14px;font-weight:600;line-height:1.3;color:#cc0000;"></div>
       <div id="archivio-notice" style="display:none;margin-top:8px;font-size:14px;font-weight:600;line-height:1.3;color:#cc0000;"></div>
       <div id="osmer-notice" style="display:none;margin-top:6px;font-size:14px;font-weight:600;line-height:1.3;color:#cc0000;">⚠️ <b>Friuli</b>: possibili ritardi fino a 48h</div>
-      <!-- Sta QUI, sotto le statistiche e sopra la pillola del canale, perche'
-           e' il parente stretto di «254 Staz.»: quella riga dice quante
-           stazioni ha usato QUESTA analisi, questa dice quante ne legge il
-           sito ogni mattina. Costa 27px al pannello (268 -> 295), misurati a
-           393x760 e 360x640. -->
-      <div id="letture-pannello"></div>
       <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
          onclick="try{gtag('event','click_youtube',{pulsante:'pillola-mobile'})}catch(e){}"
          id="channel-pill">
@@ -1426,8 +1415,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     </div>
   </div>
 </div>
-
-<div id="letture-fonte"></div>
 
 <div class="fonte">
   © 2024-2026 <a href="https://avventuremicologiche.it" target="_blank" rel="noopener">Avventure Micologiche</a> ·
@@ -3617,7 +3604,35 @@ function addMarkers(dati,sorted){
 // è mai stata eseguita (usava regionRings[currentRegion] anziché la regione
 // realmente selezionata). Rimossa perché induceva in errore chi legge.
 
+// La chip «Fonte:»/letture sta in alto sul telefono e deve stare SOTTO il
+// pannello delle regioni, che cambia altezza (una riga o due, a seconda della
+// larghezza e di cosa c'e' scritto). Si misura quello visibile fra i tre che
+// occupano quella posizione, esattamente come fa positionPanels qui sotto per
+// il pannello del periodo.
+function posizionaChipFonte(){
+  var c=document.getElementById('fonte-tag'), m=document.getElementById('map');
+  if(!c||!m) return;
+  if(window.innerWidth>600){ c.style.top=''; return; }   // desktop/tablet: sta in basso, ci pensa il CSS
+  // ⚠️ NON si usa offsetParent per capire se un pannello e' in campo: per gli
+  // elementi `position:fixed` Chrome lo restituisce NULLO anche quando sono
+  // visibilissimi, e la chip finiva lo stesso sotto il pannello. Si guarda il
+  // rettangolo vero.
+  function vis(e){
+    if(!e) return false;
+    var s=getComputedStyle(e);
+    if(s.display==='none'||s.visibility==='hidden') return false;
+    return e.getBoundingClientRect().height>0;
+  }
+  var el=[document.getElementById('region-panel'),
+          document.getElementById('map-hint-panel'),
+          document.getElementById('btn-reset-regions')].filter(vis)[0];
+  var top=m.getBoundingClientRect().top;
+  c.style.top=Math.round(el ? (el.getBoundingClientRect().bottom-top+8) : 6)+'px';
+}
+window.posizionaChipFonte=posizionaChipFonte;
+
 function positionPanels(){
+  posizionaChipFonte();          // vale su TUTTE le larghezze, quindi prima del taglio
   if(window.innerWidth<=900) return;
   var GAP=10;
   var rp=document.getElementById('region-panel');
@@ -6815,6 +6830,9 @@ function resetToStart(){
   document.querySelectorAll('.tp-btn,.tp-custom-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('custom-box').style.display='none';
   document.getElementById('fonte-tag').textContent='Fonte: —';
+  // Nessuna analisi a schermo: la chip torna a fare da contatore delle letture
+  // (vedi in fondo). Se il numero non e' ancora arrivato resta «Fonte: —».
+  try{ if(window.mostraLetture) window.mostraLetture(); }catch(e){}
   document.getElementById('beta-note').style.display='none';
   currentPast=null; currentNow=null; currentLabel='';
   updateOsmerNotice();
@@ -8457,26 +8475,41 @@ function loadDefaultMarkers(){
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   «5.584 pluviometri letti stamattina alle 7:10»  (24 agosto 2026)
+   «🟢 5.584 pluviometri in 5 nazioni, letti stamattina alle 7:10»
+   ⚠️ Il pallino e' VERDE come quello della chip «Fonte:», e vuol dire la
+   stessa cosa: dati di stazione reali (il 🌍 invece sono le stime). La
+   nuvoletta era grigia e a 10px non la vedeva nessuno.
+   (24 agosto 2026, seconda versione)
 
-   PERCHE': il sito non diceva da nessuna parte che dietro c'e' una macchina
-   che si sveglia ogni mattina e legge mezza Europa. Questa riga lo dice con
-   un numero che si puo' VERIFICARE: torni domani e l'ora e' cambiata.
+   DOVE STA E PERCHE' LI'. Nello spazio della chip «Fonte:», e SOLO quando
+   quella chip e' vuota, cioe' quando non c'e' nessuna analisi a schermo:
+   all'apertura e dopo «Indietro». Appena parte un'analisi la chip torna a
+   dire «Fonte: ARPA Lombardia» e il contatore sparisce. E' lo stesso
+   meccanismo del titolo e del badge nell'header, che si danno il cambio.
 
-   COSTA UNA RICHIESTA da 150 byte, non bloccante: se non arriva, le due
-   caselle restano vuote (:empty) e la pagina e' identica a prima. Il numero
-   lo scrive `genera-riepiloghi.js` nei due giri gia' schedulati, quindi
-   niente cron nuovi, niente funzioni, niente crediti Netlify.
+   ⚠️ LE DUE VERSIONI PRECEDENTI ERANO SBAGLIATE, e per lo stesso motivo:
+   la VICINANZA a un altro numero. Sotto «254 Staz.» il totale della rete
+   sembrava contraddirlo; accanto a «Fonte: ARPA Lombardia» sembrava dire
+   che ARPA Lombardia ha 5.584 pluviometri. Qui, quando si vede, non c'e'
+   nessun altro numero ne' nessun nome di agenzia con cui confonderlo.
+   E in piu' non ruba una riga a nessuno: la chip e' appoggiata sulla mappa.
+
+   COSTA UNA RICHIESTA da 150 byte, non bloccante: se non arriva, la chip
+   resta «Fonte: —» come prima. Il numero lo scrive `genera-riepiloghi.js`
+   nei due giri gia' schedulati: niente cron nuovi, niente funzioni, niente
+   crediti Netlify.
 
    ⚠️ L'INDIRIZZO E' QUELLO DI PRODUZIONE ANCHE NEL REPO DI TEST, ed e'
    voluto: li' il workflow non gira. Cosi' la riga resta IDENTICA nei due
    file e non diventa una sesta «riga di dominio» da tenere allineata.
 
-   ⚠️ L'ora e' sempre quella ITALIANA, non quella del visitatore: il file
-   porta un istante UTC e qui si formatta su Europe/Rome.
+   ⚠️ «5 nazioni» e' scritto a mano: se un giorno se ne aggiunge una sesta
+   va cambiato qui (e nel titolo, e nella home).
    ═══════════════════════════════════════════════════════════════ */
 (function(){
   var URL_LETTURE='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/riepiloghi/letture.json';
+  var NAZIONI=5;
+  var TESTO=null;
   function giornoRoma(d){ return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Rome'}).format(d); }
   // ⚠️ NON si usa toLocaleString: in italiano Intl non mette il punto ai
   // numeri di QUATTRO cifre (5584) e lo mette a quelli di cinque, quindi il
@@ -8494,19 +8527,66 @@ function loadDefaultMarkers(){
     var p=g.split('-');
     return 'il '+(+p[2])+'/'+(+p[1]);
   }
+  // ⚠️ IL CARICATORE STA NELLO STESSO IDENTICO PUNTO (24/8/2026, segnalato
+  // dall'utente con uno scatto): «#loader» e' fixed a bottom:18px, left:50%, e
+  // la chip e' a bottom:6px centrata. Prima non se ne accorgeva nessuno perche'
+  // «Fonte: —» e' largo 60px e ci spariva sotto; la riga delle letture e' larga
+  // 259px e spuntava da tutt'e due i lati. Succede solo su DESKTOP: sotto i
+  // 600px il caricatore sta al 40% dell'altezza. Quindi finche' il caricatore
+  // e' visibile la chip resta «Fonte: —», e le letture tornano appena sparisce.
+  // ⚠️ Si guarda il `display`, cioe' se il caricatore e' IN CAMPO, non se e'
+  // gia' visibile: e' `opacity:0` con `animation ... 2.5s`, quindi guardando
+  // l'opacita' la chip si liberava mentre la pillola stava gia' comparendo, e
+  // per un fotogramma erano tutt'e due li' (misurato: 1 campione su 78).
+  // Col display si libera 2,5 secondi PRIMA: sovrapposizione impossibile, non
+  // improbabile. In cambio le letture compaiono a mappa pronta invece che
+  // durante il caricamento, che e' anche piu' sensato.
+  function loaderSopra(){
+    var l=document.getElementById('loader');
+    if(!l) return false;
+    return getComputedStyle(l).display!=='none';
+  }
+  // Tiene la regola: fonte vera -> non si tocca; caricatore sopra -> chip
+  // libera; niente di tutto cio' -> letture.
+  function sincronizza(){
+    var c=document.getElementById('fonte-tag');
+    if(!c) return false;
+    var t=(c.textContent||'').trim();
+    var nostro=!!TESTO && t===TESTO;
+    var libera=!t || t.indexOf('—')>=0;
+    if(!nostro && !libera) return false;
+    if(loaderSopra()){ if(nostro) c.textContent='Fonte: —'; return false; }
+    if(TESTO && libera){ c.textContent=TESTO; return true; }
+    return false;
+  }
+  window.mostraLetture=sincronizza;
   try{
     fetch(URL_LETTURE)
       .then(function(r){ return r.ok?r.json():null; })
       .catch(function(){ return null; })
       .then(function(j){
         if(!j||!j.stazioni||!j.letto) return;
-        var t='🌧️ '+migliaia(j.stazioni)+' pluviometri letti '+quando(j.letto);
-        ['letture-fonte','letture-pannello'].forEach(function(id){
-          var e=document.getElementById(id);
-          if(e) e.textContent=t;
-        });
+        TESTO='🟢 '+migliaia(j.stazioni)+' pluviometri in '+NAZIONI+' nazioni, letti '+quando(j.letto);
+        sincronizza();
       })
       .catch(function(){});
+  }catch(e){}
+  // Si ricontrolla quando il caricatore compare (animationstart, che scatta
+  // DOPO il ritardo di 2,5s) e quando viene mostrato o nascosto (lo fa con
+  // `style.display`, quindi una mutazione di attributo). La rete di sicurezza
+  // a 3 secondi copre il caso in cui l'animazione sia gia' stata consumata.
+  try{
+    var _l=document.getElementById('loader');
+    if(_l){
+      _l.addEventListener('animationstart',sincronizza);
+      window.addEventListener('resize',function(){ try{ posizionaChipFonte(); }catch(e){} });
+      window.addEventListener('orientationchange',function(){ setTimeout(function(){ try{ posizionaChipFonte(); }catch(e){} },300); });
+      _l.addEventListener('animationend',sincronizza);
+      new MutationObserver(sincronizza).observe(_l,{attributes:true,attributeFilter:['style','class']});
+    }
+    setTimeout(sincronizza,3000);
+    try{ posizionaChipFonte(); }catch(e){}
+    setTimeout(function(){ try{ posizionaChipFonte(); }catch(e){} },600);
   }catch(e){}
 })();
 </script>
