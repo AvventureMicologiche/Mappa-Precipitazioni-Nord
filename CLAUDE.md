@@ -398,6 +398,17 @@ stesso metodo delle gemelle ARPAE-OMIRL.
   (e' su un molo): la lascia fuori il disegno, non serve escluderla a mano.
 - **Nessun beta**: a differenza del centro-sud, se MeteoHub salta un giorno qui
   c'e' gia' la rete di sicurezza OSMER.
+- **La PAGINA `/friuli/` e' rimasta indietro tre giorni, corretta il 24/8/2026.**
+  La mappa univa le due fonti dal 21/8, la pagina regione no: leggeva la sola
+  `friuli-osmer` e calcolava media e classifica su **41 pluviometri** mentre il
+  testo ne dichiarava «oltre 130». Ora `genera-pagine-regione.js` legge tutt'e
+  due le cartelle e porta la stessa **regola delle gemelle** della mappa (unione
+  per POSIZIONE, ~1 km, vince la prima cartella dell'elenco): 41 + 141 - 37 =
+  **145 stazioni**. Media a 7 giorni da 63 a 77 mm, e il massimo del periodo da
+  156,3 (Chievolis) a **224,6 mm (Meduno)**: di nuovo un pluviometro che la
+  pagina non aveva. ⚠️ **Se si aggiunge una cartella a una regione, la regola
+  vale gia' da sola**: e' generica, e sulla Svizzera (svizzera+ticino) scarta
+  zero stazioni perche' le 9 sovrapposte furono sanate l'11/8.
 
 ### Slovenia (v8.0, in produzione dal 12 agosto 2026)
 

@@ -21,6 +21,19 @@
  * Lombardia esclude 3 sensori con coordinate corrotte e l'Emilia le 8 gemelle
  * liguri. Scrivere il conteggio grezzo sarebbe una bugia verificabile.
  *
+ * ⚠️ GEMELLE (24/8/2026): quando una regione legge PIU' cartelle, le stazioni
+ * si uniscono per POSIZIONE, non per cartella+id. Il Friuli e' il caso che l'ha
+ * imposto: la pagina leggeva la sola OSMER (41 pluviometri) mentre dichiarava
+ * «oltre 130», perche' dal 21/8 la mappa unisce OSMER e la rete regionale
+ * completa via MeteoHub. Ma MeteoHub ripubblica le stesse stazioni OSMER con un
+ * altro id (`46.51697_12.86492` invece di `osmer_BIC`): unendo per cartella+id,
+ * 37 pluviometri su 141 sarebbero stati contati DUE volte, con la stessa
+ * pioggia due volte in classifica. La regola e' quella gia' usata in mappa da
+ * `loadOSMERFriuliRegion` — vince la PRIMA cartella dell'elenco (la fonte di
+ * casa), le altre perdono le stazioni entro ~1 km. Friuli: 41 + 141 − 37 = 145.
+ * Sulla Svizzera (svizzera+ticino) non scarta niente: le 9 sovrapposte erano
+ * gia' state sanate l'11/8 passando le SMN ticinesi a MeteoSwiss OGD.
+ *
  * ⚠️ L'ABRUZZO NON HA UNA PAGINA, ed e' voluto: e' l'unica regione a stime
  * Open-Meteo live, non ha cartella dati, e i due riepiloghi non potrebbero
  * calcolare niente. Una pagina che promette numeri e non li ha lavora contro.
@@ -57,7 +70,7 @@ const REGIONI = [
   { k:'liguria',     nome:'Liguria',                prep:'in',   dirs:['liguria'],              agenzia:'ARPA Liguria (OMIRL)',  url:'', staz:'quasi 200',        geo:'dalle Alpi Liguri alla Lunigiana' },
   { k:'emilia',      nome:'Emilia-Romagna',         prep:'in',   dirs:['emilia'],               agenzia:'ARPAE Emilia-Romagna',  url:'', staz:'oltre 300',        geo:'dal crinale appenninico al delta del Po' },
   { k:'veneto',      nome:'Veneto',                 prep:'in',   dirs:['veneto'],               agenzia:'ARPA Veneto',           url:'', staz:'oltre 180',        geo:'dalle Dolomiti bellunesi alla laguna' },
-  { k:'friuli',      nome:'Friuli Venezia Giulia',  prep:'in',   dirs:['friuli-osmer'],         agenzia:'ARPA FVG (OSMER e rete regionale)', agenziaCorta:'ARPA FVG', nomeTitolo:'Friuli', url:'', staz:'oltre 130',geo:'dalle Alpi Carniche al Carso' },
+  { k:'friuli',      nome:'Friuli Venezia Giulia',  prep:'in',   dirs:['friuli-osmer','meteohub-friuli'], agenzia:'ARPA FVG (OSMER e rete regionale)', agenziaCorta:'ARPA FVG', nomeTitolo:'Friuli', url:'', staz:'oltre 130',geo:'dalle Alpi Carniche al Carso' },
   { k:'trentino',    nome:'Trentino',               prep:'in',   dirs:['trentino'],             agenzia:'Meteotrentino',         url:'', staz:'oltre 100',        geo:'dalle Dolomiti di Brenta alla Valsugana' },
   { k:'altoadige',   nome:'Alto Adige',             prep:'in',   dirs:['altoadige'],            agenzia:'Provincia autonoma di Bolzano', agenziaCorta:'Provincia di Bolzano', url:'', staz:'oltre 50', geo:'dalla Val Venosta alle Dolomiti' },
   { k:'toscana',     nome:'Toscana',                prep:'in',   dirs:['toscana'],              agenzia:'SIR Toscana',           url:'', staz:'oltre 350',        geo:'dalla Lunigiana al Monte Amiata' },
@@ -240,8 +253,38 @@ footer a{color:var(--blu);}
   }
   document.getElementById('cta7').href='${SITO}/?r=${r.k}&da='+iso(giornoFa(7))+'&a='+iso(giornoFa(1));
   document.getElementById('cta15').href='${SITO}/?r=${r.k}&da='+iso(giornoFa(20))+'&a='+iso(giornoFa(1));
+  // GEMELLE. Se le cartelle sono piu' d'una, le reti si sovrappongono: la
+  // stessa stazione fisica compare in tutt'e due con id diversi (il Friuli ha
+  // 37 pluviometri OSMER ripubblicati da MeteoHub come «lat_lon»), e unendo per
+  // cartella+id la sua pioggia verrebbe contata due volte. Si scartano quindi
+  // le stazioni delle cartelle successive che cadono entro ~1 km da una della
+  // PRIMA cartella, che e' la fonte di casa. Tolleranza larga apposta: le due
+  // fonti arrotondano le coordinate in modo diverso e due pluviometri veri non
+  // stanno mai cosi' vicini. Stessa regola della mappa (loadOSMERFriuliRegion).
+  function scartaGemelle(files){
+    var fuori={};
+    if(DIRS.length<2) return fuori;
+    var pos={};
+    files.forEach(function(parti){ if(!parti) return; parti.forEach(function(p){
+      if(p.dir!==DIRS[0]) return;
+      p.stations.forEach(function(s){ pos[s.id]=[s.lat,s.lon]; });
+    });});
+    var casa=Object.keys(pos).map(function(k){ return pos[k]; });
+    files.forEach(function(parti){ if(!parti) return; parti.forEach(function(p){
+      if(p.dir===DIRS[0]) return;
+      p.stations.forEach(function(s){
+        var id=p.dir+':'+s.id;
+        if(id in fuori) return;
+        fuori[id]=casa.some(function(q){
+          return Math.abs(q[0]-s.lat)<0.009 && Math.abs(q[1]-s.lon)<0.013;
+        });
+      });
+    });});
+    return fuori;
+  }
   var giorni=[]; for(var i=1;i<=20;i++) giorni.push(giornoFa(i));
   Promise.all(giorni.map(prendi)).then(function(files){
+    var gemelle=scartaGemelle(files);
     function riepilogo(quanti, prefisso){
       var somma={}, nomi={}, prov={}, presenti=0, ultimo=null, primo=null;
       for(var k=0;k<quanti;k++){
@@ -254,6 +297,7 @@ footer a{color:var(--blu);}
           p.stations.forEach(function(s){
             if(s.mm==null) return;
             var id=p.dir+':'+s.id;
+            if(gemelle[id]) return;
             somma[id]=(somma[id]||0)+s.mm;
             nomi[id]=s.n;
             if(s.p) prov[id]=s.p;

@@ -138,8 +138,38 @@ footer a{color:var(--blu);}
   }
   document.getElementById('cta7').href='https://precipitazioni.avventuremicologiche.it/?r=molise&da='+iso(giornoFa(7))+'&a='+iso(giornoFa(1));
   document.getElementById('cta15').href='https://precipitazioni.avventuremicologiche.it/?r=molise&da='+iso(giornoFa(20))+'&a='+iso(giornoFa(1));
+  // GEMELLE. Se le cartelle sono piu' d'una, le reti si sovrappongono: la
+  // stessa stazione fisica compare in tutt'e due con id diversi (il Friuli ha
+  // 37 pluviometri OSMER ripubblicati da MeteoHub come «lat_lon»), e unendo per
+  // cartella+id la sua pioggia verrebbe contata due volte. Si scartano quindi
+  // le stazioni delle cartelle successive che cadono entro ~1 km da una della
+  // PRIMA cartella, che e' la fonte di casa. Tolleranza larga apposta: le due
+  // fonti arrotondano le coordinate in modo diverso e due pluviometri veri non
+  // stanno mai cosi' vicini. Stessa regola della mappa (loadOSMERFriuliRegion).
+  function scartaGemelle(files){
+    var fuori={};
+    if(DIRS.length<2) return fuori;
+    var pos={};
+    files.forEach(function(parti){ if(!parti) return; parti.forEach(function(p){
+      if(p.dir!==DIRS[0]) return;
+      p.stations.forEach(function(s){ pos[s.id]=[s.lat,s.lon]; });
+    });});
+    var casa=Object.keys(pos).map(function(k){ return pos[k]; });
+    files.forEach(function(parti){ if(!parti) return; parti.forEach(function(p){
+      if(p.dir===DIRS[0]) return;
+      p.stations.forEach(function(s){
+        var id=p.dir+':'+s.id;
+        if(id in fuori) return;
+        fuori[id]=casa.some(function(q){
+          return Math.abs(q[0]-s.lat)<0.009 && Math.abs(q[1]-s.lon)<0.013;
+        });
+      });
+    });});
+    return fuori;
+  }
   var giorni=[]; for(var i=1;i<=20;i++) giorni.push(giornoFa(i));
   Promise.all(giorni.map(prendi)).then(function(files){
+    var gemelle=scartaGemelle(files);
     function riepilogo(quanti, prefisso){
       var somma={}, nomi={}, prov={}, presenti=0, ultimo=null, primo=null;
       for(var k=0;k<quanti;k++){
@@ -152,6 +182,7 @@ footer a{color:var(--blu);}
           p.stations.forEach(function(s){
             if(s.mm==null) return;
             var id=p.dir+':'+s.id;
+            if(gemelle[id]) return;
             somma[id]=(somma[id]||0)+s.mm;
             nomi[id]=s.n;
             if(s.p) prov[id]=s.p;
