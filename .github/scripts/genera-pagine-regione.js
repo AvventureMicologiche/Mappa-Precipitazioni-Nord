@@ -52,34 +52,51 @@ const ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-
 // staz   = come si dice il numero di stazioni CHE LA MAPPA MOSTRA.
 const REGIONI = [
   { k:'lombardia',   nome:'Lombardia',              prep:'in',   dirs:['lombardia'],            agenzia:'ARPA Lombardia',        url:'https://www.dati.lombardia.it/', staz:'oltre 250',        geo:"dalla Valchiavenna all'Oltrepò" },
-  { k:'piemonte',    nome:'Piemonte',               prep:'in',   dirs:['piemonte'],             agenzia:'ARPA Piemonte',         url:'', staz:'oltre 160',        geo:'dalle Alpi Marittime al Lago Maggiore' },
-  { k:'valledaosta', nome:"Valle d'Aosta",          prep:'in',   dirs:['valledaosta-cf'],       agenzia:'Centro Funzionale della Valle d’Aosta', url:'', staz:'oltre 60',  geo:'dal fondovalle della Dora ai ghiacciai del Monte Rosa' },
+  { k:'piemonte',    nome:'Piemonte',               prep:'in',   dirs:['piemonte'],             agenzia:'ARPA Piemonte',         url:'', staz:'oltre 250',        geo:'dalle Alpi Marittime al Lago Maggiore' },
+  { k:'valledaosta', nome:"Valle d'Aosta",          prep:'in',   dirs:['valledaosta-cf'],       agenzia:'Centro Funzionale della Valle d’Aosta', agenziaCorta:'Centro Funzionale VdA', url:'', staz:'oltre 60',  geo:'dal fondovalle della Dora ai ghiacciai del Monte Rosa' },
   { k:'liguria',     nome:'Liguria',                prep:'in',   dirs:['liguria'],              agenzia:'ARPA Liguria (OMIRL)',  url:'', staz:'quasi 200',        geo:'dalle Alpi Liguri alla Lunigiana' },
   { k:'emilia',      nome:'Emilia-Romagna',         prep:'in',   dirs:['emilia'],               agenzia:'ARPAE Emilia-Romagna',  url:'', staz:'oltre 300',        geo:'dal crinale appenninico al delta del Po' },
   { k:'veneto',      nome:'Veneto',                 prep:'in',   dirs:['veneto'],               agenzia:'ARPA Veneto',           url:'', staz:'oltre 180',        geo:'dalle Dolomiti bellunesi alla laguna' },
-  { k:'friuli',      nome:'Friuli Venezia Giulia',  prep:'in',   dirs:['friuli-osmer'],         agenzia:'ARPA OSMER FVG',        url:'', staz:'una quarantina di',geo:'dalle Alpi Carniche al Carso' },
+  { k:'friuli',      nome:'Friuli Venezia Giulia',  prep:'in',   dirs:['friuli-osmer'],         agenzia:'ARPA FVG (OSMER e rete regionale)', agenziaCorta:'ARPA FVG', nomeTitolo:'Friuli', url:'', staz:'oltre 130',geo:'dalle Alpi Carniche al Carso' },
   { k:'trentino',    nome:'Trentino',               prep:'in',   dirs:['trentino'],             agenzia:'Meteotrentino',         url:'', staz:'oltre 100',        geo:'dalle Dolomiti di Brenta alla Valsugana' },
-  { k:'altoadige',   nome:'Alto Adige',             prep:'in',   dirs:['altoadige'],            agenzia:'Provincia autonoma di Bolzano', url:'', staz:'oltre 50', geo:'dalla Val Venosta alle Dolomiti' },
-  { k:'toscana',     nome:'Toscana',                prep:'in',   dirs:['toscana'],              agenzia:'SIR Toscana',           url:'', staz:'oltre 160',        geo:'dalla Lunigiana al Monte Amiata' },
+  { k:'altoadige',   nome:'Alto Adige',             prep:'in',   dirs:['altoadige'],            agenzia:'Provincia autonoma di Bolzano', agenziaCorta:'Provincia di Bolzano', url:'', staz:'oltre 50', geo:'dalla Val Venosta alle Dolomiti' },
+  { k:'toscana',     nome:'Toscana',                prep:'in',   dirs:['toscana'],              agenzia:'SIR Toscana',           url:'', staz:'oltre 350',        geo:'dalla Lunigiana al Monte Amiata' },
   { k:'umbria',      nome:'Umbria',                 prep:'in',   dirs:['meteohub-umbria'],      agenzia:'MeteoHub',              url:'', staz:'oltre 70',         geo:"dall'Appennino umbro-marchigiano al Trasimeno" },
   { k:'marche',      nome:'Marche',                 prep:'nelle',dirs:['meteohub-marche'],      agenzia:'MeteoHub',              url:'', staz:'oltre 110',        geo:'dai Monti Sibillini alla costa adriatica' },
   { k:'lazio',       nome:'Lazio',                  prep:'nel',  dirs:['meteohub-lazio'],       agenzia:'MeteoHub',              url:'', staz:'oltre 200',        geo:'dai Monti della Laga al litorale pontino' },
-  { k:'molise',      nome:'Molise',                 prep:'in',   dirs:['meteohub-molise'],      agenzia:'MeteoHub',              url:'', staz:'una trentina di',  geo:'dal Matese al basso Molise' },
-  { k:'campania',    nome:'Campania',               prep:'in',   dirs:['meteohub-campania'],    agenzia:'MeteoHub',              url:'', staz:'oltre 170',        geo:'dal Cilento al Matese' },
+  { k:'molise',      nome:'Molise',                 prep:'in',   dirs:['meteohub-molise'],      agenzia:'MeteoHub',              url:'', staz:'circa 25',  geo:'dal Matese al basso Molise' },
+  { k:'campania',    nome:'Campania',               prep:'in',   dirs:['meteohub-campania'],    agenzia:'MeteoHub',              url:'', staz:'oltre 150',        geo:'dal Cilento al Matese' },
   { k:'puglia',      nome:'Puglia',                 prep:'in',   dirs:['meteohub-puglia'],      agenzia:'MeteoHub',              url:'', staz:'oltre 120',        geo:'dal Gargano al Salento' },
-  { k:'basilicata',  nome:'Basilicata',             prep:'in',   dirs:['meteohub-basilicata'],  agenzia:'MeteoHub',              url:'', staz:'oltre 60',         geo:'dal Pollino alle Murge lucane' },
+  { k:'basilicata',  nome:'Basilicata',             prep:'in',   dirs:['meteohub-basilicata'],  agenzia:'MeteoHub',              url:'', staz:'circa 50',         geo:'dal Pollino alle Murge lucane' },
   { k:'calabria',    nome:'Calabria',               prep:'in',   dirs:['meteohub-calabria'],    agenzia:'MeteoHub',              url:'', staz:'circa 140',        geo:"dal Pollino all'Aspromonte" },
   { k:'sicilia',     nome:'Sicilia',                prep:'in',   dirs:['meteohub-sicilia'],     agenzia:'MeteoHub',              url:'', staz:'oltre 400',        geo:"dall'Etna alle Madonie" },
   { k:'sardegna',    nome:'Sardegna',               prep:'in',   dirs:['meteohub-sardegna'],    agenzia:'MeteoHub',              url:'', staz:'oltre 90',         geo:'dalla Gallura al Sulcis' },
-  { k:'svizzera',    nome:'Svizzera',               prep:'in',   dirs:['svizzera','ticino'],    agenzia:'MeteoSvizzera e OASI Ticino', url:'', staz:'oltre 300',  geo:'dal Ticino ai Grigioni, dal Vallese al Giura' },
+  { k:'svizzera',    nome:'Svizzera',               prep:'in',   dirs:['svizzera','ticino'],    agenzia:'MeteoSvizzera e OASI Ticino', agenziaCorta:'MeteoSvizzera', url:'', staz:'oltre 300',  geo:'dal Ticino ai Grigioni, dal Vallese al Giura' },
   { k:'austria',     nome:'Austria',                prep:'in',   dirs:['austria'],              agenzia:'GeoSphere Austria',     url:'', staz:'quasi 270',        geo:'dai ghiacciai del Tirolo alle colline del Burgenland' },
   { k:'slovenia',    nome:'Slovenia',               prep:'in',   dirs:['slovenia'],             agenzia:'ARSO Slovenia',         url:'', staz:'oltre 110',        geo:'dalle Alpi Giulie al Carso', nota:'ARSO pubblica con circa 36 ore di ritardo: nei riepiloghi qui sotto gli ultimi uno o due giorni possono mancare, ed è normale.' },
 ];
 
 function pagina(r){
+  // ⚠️ TITOLO E DESCRIZIONE rifatti il 23/8/2026 sui dati di Search Console, e
+  // qui dentro devono restare uguali a quelli pubblicati: la pagina Liguria era
+  // vista 70 volte per «mappa pluviometri liguria» e cliccata zero, e la parola
+  // «pluviometri» nel titolo non c'era. Fuori anche il suffisso «| Mappa
+  // Pluviometrica», che mangiava spazio ripetendo la stessa parola, e i titoli
+  // sono passati da 78-93 caratteri (tagliati da Google) a 51-59.
+  // «misurata» nella descrizione fa un lavoro preciso: dice che non siamo una
+  // previsione. Limiti da rispettare: titolo <= 62, descrizione <= 158.
+  const nomeCorto = r.nomeTitolo || r.nome;
   const titolo = `Dove ha piovuto ${r.prep} ${r.nome}`;
-  const titoloTag = `${titolo}: ieri e negli ultimi 20 giorni`;
-  const descr  = `Dove ha piovuto ${r.prep} ${r.nome} ieri e negli ultimi 7 e 20 giorni, da ${r.staz} pluviometri di ${r.agenzia}. Le zone più bagnate, stazione per stazione. Aggiornata oggi.`;
+  const titoloTag = `Dove ha piovuto ${r.prep} ${nomeCorto}: la mappa dei pluviometri`;
+  const agMeta = r.agenziaCorta || r.agenzia;
+  const code = ['Le zone più bagnate, aggiornate ogni giorno.', 'Zone più bagnate, aggiornate ogni giorno.',
+                'Zone più bagnate, ogni giorno.', 'Aggiornate ogni giorno.'];
+  const prep2 = /^(Provincia|Centro)/.test(agMeta) ? (agMeta.startsWith('Provincia') ? 'della' : 'del') : 'di';
+  let descr = '';
+  for (const coda of code) {
+    descr = `Quanta pioggia è caduta ${r.prep} ${nomeCorto} negli ultimi 7 e 20 giorni, misurata da ${r.staz} pluviometri ${prep2} ${agMeta}. ${coda}`;
+    if (descr.length <= 158) break;
+  }
   const fonteFooter = r.url
     ? `<a href="${r.url}" target="_blank" rel="noopener">${r.agenzia}</a>`
     : r.agenzia;
@@ -88,7 +105,7 @@ function pagina(r){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${titoloTag} | Mappa Pluviometrica</title>
+<title>${titoloTag}</title>
 <meta name="description" content="${descr}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 <meta property="og:title" content="${titolo} — piogge per funghi">
@@ -149,7 +166,14 @@ footer a{color:var(--blu);}
     <div class="numerone" id="rip7-media"><span class="attesa">calcolo in corso…</span></div>
     <div id="rip7-top"></div>
     <p class="nota" id="rip7-date"></p>
-    <a class="cta" id="cta7" style="margin:14px 0 2px;margin-top:auto;" href="${SITO}/"
+    <!-- ⚠️ L'indirizzo scritto qui deve GIA' portare alla regione (23/8/2026):
+         lo script in fondo alla pagina lo riscrive con le date esatte, ma solo
+         dopo che i dati sono arrivati, e chi cliccava prima finiva sulla mappa
+         vuota da scegliere. Il parametro g sono i giorni: la mappa li fa date.
+         ⚠️ Se un giorno queste pagine si rigenerano, la correzione deve stare
+         QUI: la stessa, fatta a mano sulle 23 pagine, e' durata mezza giornata
+         ed e' stata cancellata dal primo giro del generatore. -->
+    <a class="cta" id="cta7" style="margin:14px 0 2px;margin-top:auto;" href="${SITO}/?r=${r.k}&amp;g=7"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-7gg'})}catch(e){}">Apri la mappa a 7 giorni →</a>
   </div>
   <div class="card">
@@ -157,7 +181,7 @@ footer a{color:var(--blu);}
     <div class="numerone" id="rip15-media"><span class="attesa">calcolo in corso…</span></div>
     <div id="rip15-top"></div>
     <p class="nota" id="rip15-date"></p>
-    <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="${SITO}/"
+    <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="${SITO}/?r=${r.k}&amp;g=20"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-20gg'})}catch(e){}">Apri la mappa a 20 giorni →</a>
   </div>
 </div>

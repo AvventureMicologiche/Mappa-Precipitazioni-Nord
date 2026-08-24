@@ -65,7 +65,14 @@ footer a{color:var(--blu);}
     <div class="numerone" id="rip7-media"><span class="attesa">calcolo in corso…</span></div>
     <div id="rip7-top"></div>
     <p class="nota" id="rip7-date"></p>
-    <a class="cta" id="cta7" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=slovenia&g=7"
+    <!-- ⚠️ L'indirizzo scritto qui deve GIA' portare alla regione (23/8/2026):
+         lo script in fondo alla pagina lo riscrive con le date esatte, ma solo
+         dopo che i dati sono arrivati, e chi cliccava prima finiva sulla mappa
+         vuota da scegliere. Il parametro g sono i giorni: la mappa li fa date.
+         ⚠️ Se un giorno queste pagine si rigenerano, la correzione deve stare
+         QUI: la stessa, fatta a mano sulle 23 pagine, e' durata mezza giornata
+         ed e' stata cancellata dal primo giro del generatore. -->
+    <a class="cta" id="cta7" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=slovenia&amp;g=7"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-slovenia-7gg'})}catch(e){}">Apri la mappa a 7 giorni →</a>
   </div>
   <div class="card">
@@ -73,7 +80,7 @@ footer a{color:var(--blu);}
     <div class="numerone" id="rip15-media"><span class="attesa">calcolo in corso…</span></div>
     <div id="rip15-top"></div>
     <p class="nota" id="rip15-date"></p>
-    <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=slovenia&g=20"
+    <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=slovenia&amp;g=20"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-slovenia-20gg'})}catch(e){}">Apri la mappa a 20 giorni →</a>
   </div>
 </div>
