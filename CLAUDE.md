@@ -780,6 +780,33 @@ cartella: media piu' bassa senza dirlo.
   la pagina, generatore dei riepiloghi) e devono restare uguali.
 - I pulsanti prendono le date dal riepilogo: se no la mappa si apriva su un
   periodo diverso da quello scritto nella scheda.
+- **La riga «5.584 pluviometri letti stamattina alle 7:10» (24/8/2026) esce da
+  qui**: lo stesso script scrive `data/riepiloghi/letture.json` (stazioni,
+  cartelle, giorno, ora in cui abbiamo guardato). ⚠️ Si conta **un giorno solo,
+  ieri**, non l'ultimo giorno disponibile cartella per cartella: sommando giorni
+  diversi il totale si gonfia. Le reti in ritardo dichiarato (Slovenia 34 ore,
+  Puglia quando MeteoHub salta) restano fuori e il numero esce **piu' basso** del
+  vero. In mappa sono DUE caselle mai visibili insieme: `#letture-fonte` sotto la
+  mappa sopra i 600px, `#letture-pannello` dentro il pannello dei cumulati sotto
+  i 600px (li' il pie' di pagina e' `display:none`, e su telefono sta l'86% degli
+  utenti). Il `:empty` le tiene sparite finche' il numero non arriva: se il file
+  non si scarica la pagina e' identica a prima. Misurato in produzione: la
+  richiesta parte a 386 ms e dura 313, mentre l'ultimo file dei dati arriva a
+  1.777 ms — sta tutta nell'ombra del caricamento e nessuno la aspetta. Il
+  pannello passa da 268 a 295 px, verificato a 393x760 e 360x640.
+  ⚠️ **L'indirizzo del file e' quello di PRODUZIONE anche nel repo di test** (li'
+  il workflow non gira), cosi' la riga resta identica nei due `index.html` e non
+  diventa una sesta riga di dominio.
+  ⚠️ **Niente `toLocaleString` per le migliaia**: in italiano Intl non punta i
+  numeri di quattro cifre (5584) e punta quelli di cinque (55.840), quindi la
+  riga cambierebbe faccia da sola il giorno che le stazioni passano 9.999.
+- **Perche' NON e' un contatore di visite o di analisi, che era la richiesta di
+  partenza**: le analisi vere sono 16.473 in 28 giorni (GA4, 18/8) e sarebbero
+  un bel numero, ma per farlo salire in diretta serviva una funzione Netlify con
+  un archivio, e **il piano e' quello gratuito da 1.000 crediti** dove i soli
+  deploy ne avevano gia' consumati 1.024 in un mese. Decisione dell'utente:
+  niente costi incerti. Il conto delle letture invece e' gratis, sta gia' nei
+  file, e dice la stessa cosa da un'altra parte: che la macchina lavora.
 - **Collaudo, tutte e tre le strade** (misurate sul browser, sito di test prima e
   produzione poi): riepilogo fresco → 1 richiesta; mancante → 41; vecchio di 5
   giorni → 40. Numeri identici nei tre casi (Friuli 77 e 98 mm).
