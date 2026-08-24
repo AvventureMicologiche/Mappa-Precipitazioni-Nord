@@ -668,6 +668,18 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
 }
 
+/* ── Vetrina video (24/8/2026) ──
+   Pezzi usati solo dentro la finestra promo. Fuori dalla finestra restano
+   inerti, perche' nessun elemento porta quelle classi. */
+#channel-logo.vetrina .ch-ava{width:64px;height:64px;}
+#channel-logo .ch-occhio{display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:10.5px;font-weight:800;letter-spacing:.7px;color:#FF0000;
+  text-transform:uppercase;margin-bottom:5px;}
+#channel-logo .ch-gancio{font-size:15px;font-weight:700;color:#1b3f6e;line-height:1.22;
+  text-align:center;margin:0 0 4px;}
+#channel-logo .ch-canale{font-size:10.5px;font-weight:600;color:#6b7a8c;text-align:center;
+  margin:0 0 9px;white-space:nowrap;}
+
 /* ── Frecce tutorial ── */
 .spinner{width:36px;height:36px;border:3px solid #eee;
   border-top-color:#1b3f6e;border-radius:50%;animation:spin .7s linear infinite}
@@ -8590,5 +8602,66 @@ function loadDefaultMarkers(){
   }catch(e){}
 })();
 </script>
+<script>
+/* ══ Vetrina video ═══════════════════════════════════
+   Dal 24/8/2026 al 28/8/2026 la scheda desktop e la pillola telefono non
+   dicono piu' "iscriviti": puntano al video nuovo, col gancio al posto del
+   claim. Scaduta la finestra questo blocco esce alla prima riga e non tocca
+   NIENTE, quindi torna da sola la versione di prima, che resta scritta nel
+   markup qui sopra. Stessa cosa se qui dentro salta qualcosa: il try/catch
+   lascia la pagina com'era. Se la data non e' leggibile il confronto da'
+   NaN e si esce, cioe' si sbaglia dalla parte giusta.
+   ═════════════════════════════════════════════════ */
+(function(){
+  var V={
+    fino:'2026-08-28T23:59:59+02:00',
+    link:'https://youtu.be/moADfe6fWGw',
+    id:'moADfe6fWGw',
+    gancio:'Prima uscita dopo i temporali: stanno nascendo?',
+    canale:'Avventure Micologiche'
+  };
+  try{
+    if(!(Date.now() <= new Date(V.fino).getTime())) return;
+
+    var ytPieno='<svg width="15" height="11" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>';
+    var ytVuoto='<svg width="19" height="14" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#fff"/><polygon points="16,7 16,23 31,15" fill="#FF0000"/></svg>';
+
+    // L'onclick e' un attributo scritto nel markup: va SOSTITUITO, non aggiunto,
+    // altrimenti a ogni clic partirebbero due eventi.
+    function tracc(dove){
+      return "try{gtag('event','click_youtube',{pulsante:'"+dove+"',video:'"+V.id+"'})}catch(e){}";
+    }
+
+    // Scheda desktop: occhiello rosso, gancio, nome canale, bottone GUARDA.
+    var box=document.getElementById('channel-logo');
+    if(box){
+      var txt=box.querySelector('.ch-txt');
+      if(txt){
+        txt.innerHTML='<div class="ch-occhio">'+ytPieno+' Nuovo video</div>'
+          +'<div class="ch-gancio">'+V.gancio+'</div>'
+          +'<div class="ch-canale">'+V.canale+'</div>'
+          +'<div class="ch-btn">'+ytVuoto+' GUARDA</div>';
+        box.classList.add('vetrina');
+        box.href=V.link;
+        box.title='Guarda il video nuovo';
+        box.setAttribute('onclick',tracc('vetrina-desktop'));
+      }
+    }
+
+    // Pillola telefono: il gancio in prima riga, la riga piccola sotto.
+    // Usa il markup che c'e' gia', quindi niente CSS nuovo.
+    var pill=document.getElementById('channel-pill');
+    if(pill){
+      var t=pill.querySelector('.cp-t');
+      if(t){
+        t.innerHTML=V.gancio+'<small>\u25B6 Nuovo video \u00B7 '+V.canale+'</small>';
+        pill.href=V.link;
+        pill.setAttribute('onclick',tracc('vetrina-mobile'));
+      }
+    }
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
