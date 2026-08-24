@@ -594,14 +594,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   pointer-events:none;white-space:nowrap;display:none;}
 @media(max-width:600px){#beta-note{bottom:auto;top:72px;font-size:8px;}}
 
-/* ── Box canale YouTube (desktop, in basso a destra) ──
-   Filigrana sullo SFONDO, non sull'intero elemento: la mappa si intravede
-   ma Archie e il pulsante restano pieni. Col mouse sopra diventa opaco. */
+/* ── Box canale YouTube (desktop, in alto a destra) ──
+   Rifatta il 24/8/2026 col linguaggio della vetrina video: stessa cornice,
+   stessa gerarchia (occhiello rosso, riga grande, riga piccola, bottone in
+   rilievo), stesse classi .v-*. Cosi' quando la vetrina scade non si torna a
+   una scheda di un'altra epoca: cambiano i contenuti, non il vestito.
+   Lo sfondo era al 65% e faceva filigrana: sembrava roba smorta, ora e' 92%. */
 #channel-logo{
   position:absolute;top:100px;right:14px;z-index:1000;
-  display:flex;align-items:center;gap:14px;
-  width:368px;padding:14px 17px;
-  background:rgba(255,255,255,.65);
+  display:block;
+  width:368px;padding:12px 13px 13px;
+  background:rgba(255,255,255,.92);
   border:1px solid rgba(226,224,216,.85);
   border-radius:13px;
   box-shadow:0 3px 14px rgba(0,0,0,.12);
@@ -623,18 +626,18 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   width:80px;height:80px;border-radius:50%;flex:none;
   border:2px solid #1b3f6e;object-fit:cover;background:#f3efe6;
 }
-#channel-logo .ch-txt{flex:1;min-width:0;}
-#channel-logo .ch-nome{
-  font-size:18px;font-weight:700;color:#1b3f6e;line-height:1.15;
-  font-family:'Segoe UI',Arial,sans-serif;
-  text-align:center;
-}
-#channel-logo .ch-claim{font-size:12px;font-weight:600;color:#000;margin:4px 0 10px;line-height:1.3;text-align:center;white-space:nowrap;}
-#channel-logo .ch-btn{
-  background:#FF0000;color:#fff;font-size:15px;font-weight:700;
-  padding:8px 0;border-radius:5px;text-align:center;letter-spacing:.4px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+/* Le righe che esistono solo nella scheda «Iscriviti». La classe `v-iscr` sta
+   solo in QUESTO markup: quando parte la vetrina l'innerHTML viene riscritto e
+   quelle classi spariscono da sole, quindi la scheda col video non cambia di
+   un pixel. Testo grande e righe attaccate: la versione con le tre righe
+   piccole e distanziate lasciava un buco bianco in mezzo alla scheda. */
+#channel-logo .v-alto.v-iscr{align-items:center;}
+#channel-logo .v-occhio.v-iscr{font-size:12px;margin-bottom:3px;}
+#channel-logo .v-nome{font-size:23px;line-height:1.02;color:#1b3f6e;letter-spacing:-.3px;
+  font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;font-weight:900;}
+#channel-logo .v-sotto{font-size:13px;font-weight:600;color:#3f5a7a;margin-top:4px;line-height:1.15;}
+#channel-logo .v-btn.v-iscr{font-size:17px;margin-top:9px;padding:9px 0 10px;
+  font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;}
 
 /* ── Pillola canale (schermi piccoli) ──
    Vive nel pannello dei cumulati, sotto le statistiche: non copre mai la
@@ -672,12 +675,11 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    Regole usate SOLO dentro la finestra promo: fuori restano inerti, perche'
    nessun elemento porta quelle classi. Il contenitore diventa a blocchi: la
    scheda "Iscriviti" e' una riga flex, questa no. */
-#channel-logo.vetrina{display:block;padding:12px 13px 13px;background:rgba(255,255,255,.92);}
-#channel-logo.vetrina:hover{background:#fff;}
 /* Con un'analisi a schermo la scheda si toglie di mezzo: la mappa e' la cosa
-   che si e' venuti a guardare, e 368x158 in alto a destra ne coprono un pezzo.
-   Torna da sola con «Indietro», come fa il contatore delle letture. */
-#channel-logo.vetrina.nascosta{display:none;}
+   che si e' venuti a guardare, e la scheda in alto a destra ne copre un pezzo.
+   Torna da sola con «Indietro», come fa il contatore delle letture. Vale per
+   la scheda in tutte e due le versioni, video e «Iscriviti». */
+#channel-logo.nascosta{display:none;}
 #channel-logo .v-alto{display:flex;gap:11px;align-items:stretch;}
 #channel-logo .v-cop{width:130px;height:73px;flex:none;border-radius:7px;
   background:#e8e5dc center/cover no-repeat;box-shadow:0 1px 5px rgba(0,0,0,.28);}
@@ -1189,18 +1191,15 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
        onclick="try{gtag('event','click_youtube',{pulsante:'box-desktop'})}catch(e){}"
        id="channel-logo">
-      <img src="archie-avatar.png" alt="Archie" class="ch-ava">
-      <div class="ch-txt">
-        <div class="ch-nome">Avventure Micologiche</div>
-        <div class="ch-claim">Questo sito è free, sostienici su YouTube</div>
-        <div class="ch-btn">
-          <svg width="19" height="14" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="42" height="30" rx="6" fill="#fff"/>
-            <polygon points="16,7 16,23 31,15" fill="#FF0000"/>
-          </svg>
-          ISCRIVITI
+      <div class="v-alto v-iscr">
+        <img src="archie-avatar.png" alt="Archie" class="ch-ava">
+        <div class="v-dx">
+          <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
+          <div class="v-nome">Avventure Micologiche</div>
+          <div class="v-sotto">Questo sito è free, sostienici</div>
         </div>
       </div>
+      <div class="v-btn v-iscr">ISCRIVITI</div>
     </a>
 
     <!-- Pannelli: su desktop sovrapposti alla mappa via absolute -->
@@ -8707,6 +8706,31 @@ function loadDefaultMarkers(){
    parte giusta.
    ════════════════════════ */
 (function(){
+  // ── La scheda si toglie di mezzo quando c'e' un'analisi ────────────────
+  // Vale SEMPRE, non solo durante la vetrina: dal 28/8 la vetrina scade ma la
+  // scheda «Iscriviti» e' alta uguale, e resterebbe piantata sopra la mappa.
+  // I segnali sono quelli che il sito gia' produce: il badge dell'header
+  // (svuotato da setBadge('') dentro resetToStart, cioe' «Indietro») e la
+  // rotella sulla mappa, che si accende al primo istante del calcolo. Servono
+  // tutti e due: con la sola rotella la scheda tornerebbe a fine analisi, col
+  // solo badge resterebbe li' per tutta l'attesa. Non si tocca nessuna
+  // funzione esistente, si guardano gli elementi.
+  try{
+    var scheda=document.getElementById('channel-logo');
+    var _badge=document.getElementById('badge');
+    var _rotella=document.getElementById('map-spinner');
+    if(scheda){
+      var aggiornaScheda=function(){
+        var analisi=(_badge && _badge.textContent.trim()!=='')
+                 || (_rotella && _rotella.style.display==='flex');
+        scheda.classList.toggle('nascosta',!!analisi);
+      };
+      if(_badge) new MutationObserver(aggiornaScheda).observe(_badge,{childList:true,characterData:true,subtree:true});
+      if(_rotella) new MutationObserver(aggiornaScheda).observe(_rotella,{attributes:true,attributeFilter:['style']});
+      aggiornaScheda();
+    }
+  }catch(e){}
+
   var V={
     fino:'2026-08-28T23:59:59+02:00',
     link:'https://youtu.be/moADfe6fWGw',
@@ -8745,24 +8769,6 @@ function loadDefaultMarkers(){
         +'</div></div>'
         +'<div class="v-btn">GUARDA IL VIDEO</div>';
 
-      // Sparisce appena parte un'analisi, torna quando si torna all'apertura.
-      // I segnali sono quelli che il sito gia' usa: il badge dell'header
-      // (setBadge('') dentro resetToStart, cioe' «Indietro») e la rotella sulla
-      // mappa, che si accende al primo istante del calcolo. Servono tutti e
-      // due: con la sola rotella la scheda tornerebbe a fine analisi, col solo
-      // badge resterebbe li' per tutto il conto. Non si tocca nessuna funzione
-      // esistente, si guardano gli elementi — cosi' alla scadenza della
-      // vetrina non resta niente da smontare.
-      var _badge=document.getElementById('badge');
-      var _rotella=document.getElementById('map-spinner');
-      var aggiornaScheda=function(){
-        var analisi=(_badge && _badge.textContent.trim()!=='')
-                 || (_rotella && _rotella.style.display==='flex');
-        box.classList.toggle('nascosta',!!analisi);
-      };
-      if(_badge) new MutationObserver(aggiornaScheda).observe(_badge,{childList:true,characterData:true,subtree:true});
-      if(_rotella) new MutationObserver(aggiornaScheda).observe(_rotella,{attributes:true,attributeFilter:['style']});
-      aggiornaScheda();
     }
 
     // Pillola telefono: invariata dal 24/8, il gancio in prima riga e la riga
