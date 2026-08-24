@@ -23,7 +23,13 @@ on:
   # invece viene riscritto da capo (un commit solo, senza genitori) e forzato:
   # il peso resta quello di un giro solo.
   schedule:
-    - cron: '40 5 */3 * *'
+    # OGNI GIORNO dal 24/8/2026 (prima ogni tre): l'anteprima nella pagina
+    # regione mostrava il periodo di tre giorni prima mentre i riepiloghi
+    # sopra erano di ieri, e le due cose stonavano. Il ramo viene riscritto
+    # da capo a ogni giro, quindi girare piu' spesso NON fa crescere il peso:
+    # costa solo 4 minuti di macchina, e zero crediti Netlify (il ramo non si
+    # pubblica, le immagini le serve raw.githubusercontent).
+    - cron: '40 5 * * *'
 permissions:
   contents: write
 env:
