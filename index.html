@@ -674,6 +674,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    scheda "Iscriviti" e' una riga flex, questa no. */
 #channel-logo.vetrina{display:block;padding:12px 13px 13px;background:rgba(255,255,255,.92);}
 #channel-logo.vetrina:hover{background:#fff;}
+/* Con un'analisi a schermo la scheda si toglie di mezzo: la mappa e' la cosa
+   che si e' venuti a guardare, e 368x158 in alto a destra ne coprono un pezzo.
+   Torna da sola con «Indietro», come fa il contatore delle letture. */
+#channel-logo.vetrina.nascosta{display:none;}
 #channel-logo .v-alto{display:flex;gap:11px;align-items:stretch;}
 #channel-logo .v-cop{width:130px;height:73px;flex:none;border-radius:7px;
   background:#e8e5dc center/cover no-repeat;box-shadow:0 1px 5px rgba(0,0,0,.28);}
@@ -8667,6 +8671,25 @@ function loadDefaultMarkers(){
           +'<div class="v-canale"><img src="archie-avatar.png" alt="">'+V.canale+'</div>'
         +'</div></div>'
         +'<div class="v-btn">GUARDA IL VIDEO</div>';
+
+      // Sparisce appena parte un'analisi, torna quando si torna all'apertura.
+      // I segnali sono quelli che il sito gia' usa: il badge dell'header
+      // (setBadge('') dentro resetToStart, cioe' «Indietro») e la rotella sulla
+      // mappa, che si accende al primo istante del calcolo. Servono tutti e
+      // due: con la sola rotella la scheda tornerebbe a fine analisi, col solo
+      // badge resterebbe li' per tutto il conto. Non si tocca nessuna funzione
+      // esistente, si guardano gli elementi — cosi' alla scadenza della
+      // vetrina non resta niente da smontare.
+      var _badge=document.getElementById('badge');
+      var _rotella=document.getElementById('map-spinner');
+      var aggiornaScheda=function(){
+        var analisi=(_badge && _badge.textContent.trim()!=='')
+                 || (_rotella && _rotella.style.display==='flex');
+        box.classList.toggle('nascosta',!!analisi);
+      };
+      if(_badge) new MutationObserver(aggiornaScheda).observe(_badge,{childList:true,characterData:true,subtree:true});
+      if(_rotella) new MutationObserver(aggiornaScheda).observe(_rotella,{attributes:true,attributeFilter:['style']});
+      aggiornaScheda();
     }
 
     // Pillola telefono: invariata dal 24/8, il gancio in prima riga e la riga
