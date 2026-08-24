@@ -1,0 +1,48 @@
+name: Riepiloghi per le pagine regione
+on:
+  workflow_dispatch:
+  schedule:
+    # DUE giri al giorno, e sono di ore diverse apposta.
+    #  05:10 UTC (07:10 italiane) e' il giro buono: a quell'ora tutti i
+    #    collector hanno chiuso «ieri», ed e' lo stesso momento in cui si
+    #    rifanno le anteprime (05:40), cosi' immagine e numeri della pagina
+    #    raccontano lo stesso periodo.
+    #  23:20 UTC (01:20 italiane) serve alla notte: appena scoccata mezzanotte
+    #    «ieri» diventa il giorno appena chiuso, e senza questo giro la scheda
+    #    resterebbe indietro di un giorno fino al mattino. Le regioni i cui
+    #    collector chiudono piu' tardi entreranno col giro delle 07:10: e'
+    #    esattamente quello che gia' faceva la pagina calcolandoseli da sola.
+    - cron: '10 5 * * *'
+    - cron: '20 23 * * *'
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      # Nessuna rete: legge i file gia' nel checkout e scrive 23 JSON da ~1,5 KB.
+      # Sul portatile ci mette 0,7 secondi in tutto.
+      - name: Genera i riepiloghi
+        run: node .github/scripts/genera-riepiloghi.js
+      # ⚠️ `data/` e' nella regola ignore di netlify.toml: questo commit NON fa
+      # partire nessun deploy, come per i collector. Se un giorno i riepiloghi
+      # si spostassero fuori da `data/`, ogni giro comincerebbe a costare ~15
+      # crediti Netlify.
+      - name: Commit e push
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add data/riepiloghi/
+          git diff --staged --quiet || git commit -m "riepiloghi pagine regione $(date -u +%Y-%m-%d)"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then ok=1; break; fi
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
