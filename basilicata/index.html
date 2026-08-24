@@ -11,13 +11,21 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/basilicata/">
 <meta property="og:type" content="website">
-<!-- Google tag (gtag.js) — stessa proprietà del sito -->
+<!-- Google tag (gtag.js) — stessa proprietà del sito.
+     ⚠️ Il config sta dietro al controllo sull'HOSTNAME, come in index.html dal
+     22/7/2026: senza, le stesse pagine pubblicate sul sito di TEST manderebbero
+     eventi alla proprietà vera, e sono proprio i numeri per regione che si
+     stanno usando per giudicare titoli e descrizioni. Senza quel config gtag.js
+     non invia nulla e le chiamate gtag('event',…) sparse nella pagina restano
+     innocue. La regex copre dominio nudo e www. -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-9R7MXXS0V4');
+  if (/(^|\.)avventuremicologiche\.it$/.test(location.hostname)) {
+    gtag('config', 'G-9R7MXXS0V4');
+  }
 </script>
 <style>
 :root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}

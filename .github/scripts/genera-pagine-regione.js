@@ -126,13 +126,21 @@ function pagina(r){
 <meta property="og:image" content="${SITO}/preview.jpg">
 <meta property="og:url" content="${SITO}/${r.k}/">
 <meta property="og:type" content="website">
-<!-- Google tag (gtag.js) — stessa proprietà del sito -->
+<!-- Google tag (gtag.js) — stessa proprietà del sito.
+     ⚠️ Il config sta dietro al controllo sull'HOSTNAME, come in index.html dal
+     22/7/2026: senza, le stesse pagine pubblicate sul sito di TEST manderebbero
+     eventi alla proprietà vera, e sono proprio i numeri per regione che si
+     stanno usando per giudicare titoli e descrizioni. Senza quel config gtag.js
+     non invia nulla e le chiamate gtag('event',…) sparse nella pagina restano
+     innocue. La regex copre dominio nudo e www. -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '${GA_ID}');
+  if (/(^|\\.)avventuremicologiche\\.it$/.test(location.hostname)) {
+    gtag('config', '${GA_ID}');
+  }
 </script>
 <style>
 :root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}
