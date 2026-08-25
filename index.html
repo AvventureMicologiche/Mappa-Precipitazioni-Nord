@@ -654,21 +654,63 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      600px l'unico invito al canale era il bottoncino da 12px nell'header, e
      quel formato lo vede il 69% del pubblico. Sta SOTTO le statistiche, quindi
      si legge subito dopo aver visto dove ha piovuto. */
+  /* ⚠️ LE TRE PILLOLE DEVONO ESSERE INTERCAMBIABILI (25/8/2026). Qui dentro
+     ne vivono tre, mai insieme: «Iscriviti» (canale), vetrina col solo
+     YouTube, vetrina coi tre social. La dieta del 25/8 aveva ristretto solo
+     la terza, e le altre due sarebbero tornate col vestito vecchio — avatar
+     38 e testo 14 in un pannello ormai tarato su 12-13. Le misure di taglia
+     stanno QUI, sulla regola base, cosi' valgono per tutte e tre e nessuna
+     puo' piu' restare indietro. */
   #channel-pill{
-    display:flex;align-items:center;gap:10px;
-    margin:8px 0 0;padding:6px 10px;
+    display:flex;align-items:center;gap:9px;
+    margin:5px 0 0;padding:6px 9px 7px;
     background:#1b3f6e;border-radius:10px;
     text-decoration:none;
     box-shadow:0 2px 8px rgba(27,63,110,.25);
   }
   #channel-pill:active{transform:scale(.985);}
   #channel-pill img{
-    width:38px;height:38px;border-radius:50%;flex:none;
+    width:32px;height:32px;border-radius:50%;flex:none;
     border:2px solid #fff;object-fit:cover;background:#f3efe6;
   }
-  #channel-pill .cp-t{color:#fff;font-size:14px;font-weight:700;line-height:1.25;flex:1;}
-  #channel-pill .cp-t small{display:block;font-weight:400;font-size:11px;opacity:.85;margin-top:1px;}
+  /* ⚠️ 13,5 e non 14: a 14 il gancio della vetrina va su DUE righe e la
+     pillola cresce di 17 px invece di 8, cioe' l'opposto di un +5%. */
+  #channel-pill .cp-t{color:#fff;font-size:13.5px;font-weight:700;line-height:1.25;flex:1;}
+  #channel-pill .cp-t small{display:block;font-weight:400;font-size:10.5px;opacity:.85;margin-top:1px;}
   #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
+
+  /* ── SCELTA DEL SOCIAL (25/8/2026) ──
+     Regole usate SOLO quando la vetrina ha un video pubblicato anche altrove:
+     la classe la mette il JS piu' sotto, quindi fuori da quel caso restano
+     inerti. La pillola smette di essere una riga sola e diventa a blocchi, col
+     gancio sopra (che porta su YouTube, la casa del video) e i tre bottoni
+     sotto.
+     ⚠️ MISURATA sul mockup a 360px prima di scriverla: i tre bersagli vengono
+     larghi ~105px, contro i 29 che sarebbero venuti mettendo le tre icone in
+     fila accanto al testo. Quella strada sembrava piu' prudente ma costava
+     quasi uguale in altezza (+31px contro +42), perche' il gancio finiva su
+     tre righe: si pagava lo stesso e si toccava peggio. */
+  /* ⚠️ MISURE DEL 25/8: la pillola coi tre social nasceva alta 105 px. Qui
+     scende a 88 SENZA toccare i bottoni, che restano a 31: le due diete che
+     rimpicciolivano anche quelli arrivavano a 91 con bersagli da 28, cioe'
+     peggio in tutt'e due i sensi. I 17 px si prendono dalla riga piccola
+     («▶ Nuovo video · Avventure Micologiche»), che con tre bottoni colorati
+     li' sotto ripeteva una cosa gia' evidente, e da un po' d'aria. */
+  /* Qui restano solo le differenze VERE della versione a tre social: da riga
+     unica a blocchi. Taglia (avatar, corpo, spaziature) la eredita dalla
+     regola base qui sopra, che vale per tutte e tre.
+     ⚠️ Il corpo a 13 px non e' un vezzo: a 14 il gancio andava su DUE righe. */
+  #channel-pill.cp-social{display:block;}
+  #channel-pill.cp-social .cp-alto{display:flex;align-items:center;gap:9px;text-decoration:none;}
+  #channel-pill.cp-social .cp-t small{display:none;}
+  #channel-pill.cp-social .cp-riga{display:flex;gap:6px;margin-top:5px;}
+  #channel-pill.cp-social .cp-riga a{flex:1;display:flex;align-items:center;justify-content:center;
+    gap:5px;padding:7px 0;border-radius:8px;text-decoration:none;
+    font-size:11.5px;font-weight:700;color:#fff;letter-spacing:.2px;}
+  #channel-pill.cp-social .cp-riga a:active{transform:scale(.97);}
+  #channel-pill.cp-social .s-yt{background:#FF0000;}
+  #channel-pill.cp-social .s-fb{background:#1877F2;}
+  #channel-pill.cp-social .s-ig{background:linear-gradient(45deg,#F58529,#DD2A7B 55%,#8134AF);}
 }
 
 /* ── Vetrina video (24/8/2026) ──
@@ -758,7 +800,14 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      375 apposta: li' a 17px entrava per UN pixel, cioe' bastava un carattere
      reso un filo piu' largo per mandarlo a capo lo stesso. Sotto i 330px va
      a capo comunque (servirebbe 14,3px) e si accetta: sono due telefoni. */
-  #reg-apri{font-size:16px;}
+  /* ⚠️ Il ▼ andava a capo LO STESSO, anche dopo il passaggio a 16px del
+     24/8: misurato il 25/8 a 360px, le parole prendono 309 px e ne restano
+     326, ma con lo spazio davanti il triangolo sfora di 4-5 px e si porta
+     dietro una riga intera (bottone da 43 a 66 px). Non era il corpo del
+     carattere: era la SPAZIATURA FRA LE LETTERE, 0,3 px per 36 caratteri,
+     cioe' 11 px — piu' del doppio di quelli che mancavano. Tolta qui sotto i
+     375, il testo torna su una riga sola e la mappa guadagna 23 px. */
+  #reg-apri{font-size:16px;letter-spacing:0;}
   /* iPhone SE: pannello date proporzionalmente compatto */
   .region-select-mobile{font-size:14px !important;font-weight:700 !important;padding:4px 8px !important;}
   #time-panel{padding:5px 8px !important;}
@@ -1037,12 +1086,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   #leg-back-btn{
     display:inline-flex !important;
     align-items:center;gap:6px;
-    padding:8px 20px;
+    padding:6px 19px;
     border-radius:22px;
     border:2px solid #1b3f6e;
     background:#f0f4fb;
     color:#1b3f6e;
-    font-family:inherit;font-size:18px;font-weight:700;
+    font-family:inherit;font-size:15px;font-weight:700;
     cursor:pointer;
     white-space:nowrap;
   }
@@ -1050,12 +1099,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      (Indietro finiva 14px oltre il bordo su 390px, 44px su 360px): il titolo
      prende una riga sua e i tre tasti vanno sotto, occupando tutta la larghezza
      (a dimensione da desktop restavano due tasti minuscoli accanto a Indietro). */
-  .leg-header{flex-wrap:wrap;gap:10px;}
+  .leg-header{flex-wrap:wrap;gap:7px;margin-bottom:3px;}
   .leg-header .leg-title{flex:1 1 100%;margin-bottom:2px;}
   #btn-shot,#btn-share{
     flex:1 1 0;min-width:0;margin-left:0;
     display:inline-flex;align-items:center;justify-content:center;gap:6px;
-    font-size:15px;padding:11px 8px;border-radius:10px;
+    font-size:14px;padding:6px 8px;border-radius:10px;
   }
 
   /* Nascondi tasti zoom su mobile (si usa pinch) */
@@ -1070,11 +1119,15 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 
   /* Stats legenda: leggibili ma compatte (6/8/2026 — con la pillola canale
      il pannello copriva troppa mappa; qui si recuperano ~25px di striscia) */
-  .sv{font-size:20px;}.sl{font-size:10px;}
-  .grad{height:14px;}.grad-l{font-size:11px;margin-bottom:4px;}
-  .leg-title{font-size:16px;font-weight:700;}
-  .stats-row{gap:6px;margin-top:8px;}
-  .stat{padding:5px 4px;}
+  .sv{font-size:18px;}.sl{font-size:9.5px;color:#5a7192;}
+  .grad{height:12px;}.grad-l{font-size:10.5px;margin-bottom:2px;color:#5a7192;}
+  .leg-title{font-size:13px;font-weight:700;color:#456086;}
+  .stats-row{gap:5px;margin-top:4px;}
+  /* Le ultime due scritte chiare: la targhetta «Fonte:» sulla mappa e la riga
+     dei crediti in fondo. Stessa famiglia di blu delle altre. */
+  .fonte{color:#6b80a0;}
+  .fonte-tag{color:#4a5f7d;}
+  .stat{padding:4px 4px;}
 
   /* Tooltip in alto */
   #st-tooltip{
@@ -3760,6 +3813,25 @@ function centraRegioneInStriscia(){
     var ov=mBox.bottom-Math.max(r.top,mBox.top);   // quanto mangia dal basso
     if(ov>coperto) coperto=ov;
   });
+  // ⚠️ E ANCHE DALL'ALTO (25/8/2026). Fin qui si guardava solo cosa mangia la
+  // mappa dal basso, ma «Tocca qui per scegliere la regione» (#region-panel) e'
+  // fixed con z-index 1500 e ne copre i primi 58 px. La striscia davvero
+  // visibile comincia sotto quella barra, quindi centrare su S/2 misurato dal
+  // bordo della mappa spingeva ogni regione 29 px piu' in alto del giusto.
+  // Non si vedeva finche' le regioni erano piccole; appena il pannello e'
+  // dimagrito (25/8) lo zoom e' cresciuto, la cima e' arrivata sotto la barra
+  // e l'utente se n'e' accorto subito su Svizzera e Liguria.
+  var sopra=0;
+  ['region-panel'].forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    var st=getComputedStyle(el);
+    if(st.display==='none'||st.visibility==='hidden'||+st.opacity===0) return;
+    var r=el.getBoundingClientRect();
+    if(r.height<10) return;
+    var ov=Math.min(r.bottom,mBox.bottom)-mBox.top;   // quanto mangia dall'alto
+    if(ov>sopra) sopra=ov;
+  });
+  if(sopra<0) sopra=0;
   if(coperto<=20) return;                          // niente da compensare
   var bb=null;
   rks.forEach(function(r){
@@ -3794,7 +3866,7 @@ function centraRegioneInStriscia(){
     if(!isFinite(top)) return null;
     return {w:rgt-lft,h:bot-top,cx:(lft+rgt)/2-mBox.left,cy:(top+bot)/2-mBox.top};
   }
-  var S=mBox.height-coperto;
+  var S=mBox.height-coperto-sopra;
   var d=unioneDisegno(), w0,h0,c0;
   if(d){ w0=d.w; h0=d.h; c0=map.containerPointToLatLng([d.cx,d.cy]); }
   else{
@@ -3825,7 +3897,9 @@ function centraRegioneInStriscia(){
   // Ricentra nella striscia, rimisurando dopo lo zoom
   var d2=unioneDisegno();
   var cy=d2?d2.cy:map.latLngToContainerPoint(bb.getCenter()).y;
-  var dy=Math.round(cy-S/2);
+  // Il bersaglio non e' piu' meta' della striscia contata dal bordo della
+  // mappa, ma meta' della striscia contata da sotto la barra della regione.
+  var dy=Math.round(cy-(sopra+S/2));
   if(Math.abs(dy)>12) map.panBy([0,dy],{animate:false});
 }
 
@@ -8759,6 +8833,13 @@ function loadDefaultMarkers(){
     fino:'2026-08-28T23:59:59+02:00',
     link:'https://youtu.be/moADfe6fWGw',
     id:'moADfe6fWGw',
+    // Lo stesso video ripubblicato altrove. ⚠️ VANNO GLI INDIRIZZI DEL VIDEO,
+    // non dei profili: mandare qualcuno sulla bacheca a cercarselo e' peggio
+    // che non dargli il pulsante. Se un'uscita non va su un social, si lascia
+    // la stringa vuota e quel bottone non viene disegnato; se restano vuoti
+    // tutti e due, la pillola resta quella di sempre a link unico.
+    facebook:'https://www.facebook.com/reel/1323432696274400',
+    instagram:'https://www.instagram.com/p/DcbWMJMNu_3/',
     copertina:'vetrina-video.jpg',
     gancio1:'Prima uscita dopo i temporali:',
     gancio2:'stanno nascendo?',
@@ -8772,6 +8853,11 @@ function loadDefaultMarkers(){
 
     // L'onclick e' un attributo scritto nel markup: va SOSTITUITO, non aggiunto,
     // altrimenti a ogni clic partirebbero due eventi.
+    // ⚠️ L'evento resta `click_youtube` anche per Facebook e Instagram: il nome
+    // e' improprio ma cambiarlo spezzerebbe in due la serie storica in GA4, e
+    // il confronto con le uscite precedenti vale piu' del nome giusto. Quale
+    // social e' stato scelto si legge dal campo `pulsante`
+    // (vetrina-mobile-youtube / -facebook / -instagram).
     function tracc(dove){
       return "try{gtag('event','click_youtube',{pulsante:'"+dove+"',video:'"+V.id+"'})}catch(e){}";
     }
@@ -8795,16 +8881,43 @@ function loadDefaultMarkers(){
 
     }
 
-    // Pillola telefono: invariata dal 24/8, il gancio in prima riga e la riga
-    // piccola sotto. Usa il markup che c'e' gia', quindi niente CSS nuovo.
+    // Pillola telefono. Senza social alternativi resta quella di sempre: un
+    // link solo, il gancio in prima riga e la riga piccola sotto.
     var pill=document.getElementById('channel-pill');
-    if(pill){
+    var altri=[];
+    if(V.facebook) altri.push({cl:'s-fb',nome:'Facebook',ga:'facebook',url:V.facebook,
+      svg:'<svg width="13" height="13" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0022 12z"/></svg>'});
+    if(V.instagram) altri.push({cl:'s-ig',nome:'Instagram',ga:'instagram',url:V.instagram,
+      svg:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="#fff" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" stroke="#fff" stroke-width="2.2"/><circle cx="17.4" cy="6.6" r="1.4" fill="#fff"/></svg>'});
+
+    if(pill && !altri.length){
       var t=pill.querySelector('.cp-t');
       if(t){
         t.innerHTML=V.gancio+'<small>\u25B6 Nuovo video \u00B7 '+V.canale+'</small>';
         pill.href=V.link;
         pill.setAttribute('onclick',tracc('vetrina-mobile'));
       }
+    } else if(pill){
+      // ⚠️ CON PIU' DESTINAZIONI LA PILLOLA NON PUO' RESTARE UN <a>: un <a>
+      // dentro un altro <a> non e' HTML valido, e i browser lo spezzano come
+      // gli pare. Quindi l'elemento si SOSTITUISCE con un <div> che si tiene
+      // lo stesso id — cosi' tutto il CSS gia' scritto continua a valere — e
+      // dentro ci vanno i link veri: il gancio verso YouTube e i tre bottoni.
+      var yt='<svg width="14" height="10" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="10,4 10,26 32,15" fill="#fff"/></svg>';
+      var riga='<a class="s-yt" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-youtube').replace(/"/g,'&quot;')+'">'+yt+'YouTube</a>';
+      altri.forEach(function(s){
+        riga+='<a class="'+s.cl+'" href="'+s.url+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-'+s.ga).replace(/"/g,'&quot;')+'">'+s.svg+s.nome+'</a>';
+      });
+      var nuova=document.createElement('div');
+      nuova.id='channel-pill';
+      nuova.className='cp-social';
+      nuova.innerHTML=
+        '<a class="cp-alto" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile').replace(/"/g,'&quot;')+'">'
+        +'<img src="archie-avatar.png" alt="Archie">'
+        +'<div class="cp-t">'+V.gancio+'<small>\u25B6 Nuovo video \u00B7 '+V.canale+'</small></div>'
+        +'</a>'
+        +'<div class="cp-riga">'+riga+'</div>';
+      pill.replaceWith(nuova);
     }
   }catch(e){}
 })();
