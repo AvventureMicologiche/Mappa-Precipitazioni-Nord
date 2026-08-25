@@ -180,12 +180,28 @@ async function main() {
       var url = OMIRL_BASE + '/charts/' + s.shortCode + '/Pluvio';
       return fetchWithRetry(url).then(function(chart) {
         var hourly = (chart.dataSeries && chart.dataSeries[0] && chart.dataSeries[0].data) || [];
-        var mm = 0;
+        var mm = 0, ore = 0;
         hourly.forEach(function(p) {
-          if (p[0] >= dayStartMs && p[0] < dayEndMs && p[1] > 0) {
-            mm += p[1];
-          }
+          if (p[0] < dayStartMs || p[0] >= dayEndMs) return;
+          if (p[1] === null || p[1] === undefined) return;   // ora non misurata
+          ore++;
+          if (p[1] > 0) mm += p[1];
         });
+        // ⚠️ ASSENTE NON E' ZERO (25/8/2026). Prima una serie vuota dava
+        // mm = 0 come una serie di zeri veri, e le due cose non si
+        // distinguevano: se OMIRL fosse rimasta muta, il file sarebbe uscito
+        // con 199 stazioni asciutte nel giorno della pioggia. E' esattamente
+        // il bug dell'Emilia del 21/8 (169 stazioni a zero nel giorno del
+        // diluvio), stessa trappola su un'altra rete.
+        // OMIRL non usa mai `null`: quando una stazione non misura, la serie
+        // semplicemente non ha punti in quelle ore (verificato su 25 stazioni
+        // il 25/8: 1.345 punti a zero, 80 con pioggia, zero null). Quindi il
+        // segnale giusto e' il NUMERO DI ORE PRESENTI nella finestra del
+        // giorno: se sono zero, la stazione si salta come una fallita.
+        // Con la rete muta nessuna stazione arriva in fondo, output resta
+        // sotto le 10 e lo script esce senza salvare: il file del giro
+        // precedente resta intatto.
+        if (ore === 0) return null;
         return { station: s, mm: Math.round(mm * 10) / 10 };
       }).catch(function() {
         return null;
@@ -231,6 +247,30 @@ async function main() {
 
   // Step 4: salva
   var outFile = path.join(DATA_DIR, yesterdayDate + '.json');
+
+  // ⚠️ SI FONDE COL FILE GIA' SCRITTO. Questo collector gira SEI volte al
+  // giorno (ogni 4 ore) e riscrive il file da zero. Da quando le stazioni
+  // assenti si saltano invece di valere zero, senza questo passaggio una
+  // stazione che a QUESTO giro non risponde perderebbe il valore che un giro
+  // precedente aveva gia' raccolto — si sarebbe tappato un buco aprendone un
+  // altro. Si tiene il record vecchio solo per le stazioni che ora mancano:
+  // quelle che rispondono vengono sempre riscritte col dato fresco, perche'
+  // durante la giornata il totale cresce di ora in ora.
+  var tenuti = 0;
+  if (fs.existsSync(outFile)) {
+    try {
+      var vecchio = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      var presenti = {};
+      output.forEach(function(s) { presenti[s.id] = true; });
+      (vecchio.stations || []).forEach(function(s) {
+        if (s && s.id && !presenti[s.id]) { output.push(s); tenuti++; }
+      });
+    } catch (e) {
+      console.warn('  Warn: file precedente illeggibile, si riscrive da capo');
+    }
+  }
+  if (tenuti) console.log('  Tenute dal giro precedente (ora assenti in OMIRL): ' + tenuti);
+
   fs.writeFileSync(outFile, JSON.stringify({
     date:      yesterdayDate,
     collected: new Date().toISOString(),
