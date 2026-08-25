@@ -8840,7 +8840,27 @@ function loadDefaultMarkers(){
     }
   }catch(e){}
 
-  var V={
+  // ⚠️ L'INTERRUTTORE. 'video' = l'uscita del momento, 'guida' = la guida al
+  // pluviometro, '' = niente vetrina, resta la scheda «Iscriviti». La guida non
+  // scade e si puo' riaccendere quando serve: e' sempre attuale, a differenza
+  // di un'uscita che invecchia in una settimana.
+  var MOSTRA='video';
+
+  var VETRINE={};
+  VETRINE.guida={
+    fino:'2030-12-31T23:59:59+01:00',   // non scade: spiega come si usa la mappa
+    link:'https://youtu.be/fvsBZJ_Ylf4',
+    id:'fvsBZJ_Ylf4',
+    facebook:'',
+    instagram:'',
+    copertina:'guida-pluviometro.jpg',
+    occhiello:'Guida',
+    bottone:'GUARDA LA GUIDA',
+    gancio1:'Guida al pluviometro',
+    gancio2:'',
+    canale:'Avventure Micologiche'
+  };
+  VETRINE.video={
     fino:'2026-08-28T23:59:59+02:00',
     link:'https://youtu.be/moADfe6fWGw',
     id:'moADfe6fWGw',
@@ -8856,7 +8876,15 @@ function loadDefaultMarkers(){
     gancio2:'stanno nascendo?',
     canale:'Avventure Micologiche'
   };
-  V.gancio=V.gancio1+' '+V.gancio2;
+
+  var V=VETRINE[MOSTRA];
+  if(!V) return;                       // nessuna vetrina: resta «Iscriviti»
+  // Il gancio va su due righe nella scheda desktop. Se la seconda e' vuota (la
+  // guida ha un titolo corto) non si lascia un <b> vuoto che aprirebbe una riga
+  // in bianco: si usa la sola prima.
+  V.gancio=(V.gancio1+' '+(V.gancio2||'')).trim();
+  V.occhiello=V.occhiello||'Nuovo video';
+  V.bottone=V.bottone||'GUARDA IL VIDEO';
   try{
     if(!(Date.now() <= new Date(V.fino).getTime())) return;
 
@@ -8884,11 +8912,11 @@ function loadDefaultMarkers(){
       box.innerHTML='<div class="v-alto">'
         +'<div class="v-cop" style="background-image:url('+V.copertina+')"></div>'
         +'<div class="v-dx">'
-          +'<div class="v-occhio">'+ytPieno+' Nuovo video</div>'
-          +'<div class="v-gancio"><b>'+V.gancio1+'</b><b>'+V.gancio2+'</b></div>'
+          +'<div class="v-occhio">'+ytPieno+' '+V.occhiello+'</div>'
+          +'<div class="v-gancio"><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
           +'<div class="v-canale"><img src="archie-avatar.png" alt="">'+V.canale+'</div>'
         +'</div></div>'
-        +'<div class="v-btn">GUARDA IL VIDEO</div>';
+        +'<div class="v-btn">'+V.bottone+'</div>';
 
     }
 
@@ -8904,7 +8932,7 @@ function loadDefaultMarkers(){
     if(pill && !altri.length){
       var t=pill.querySelector('.cp-t');
       if(t){
-        t.innerHTML=V.gancio+'<small>\u25B6 Nuovo video \u00B7 '+V.canale+'</small>';
+        t.innerHTML=V.gancio+'<small>\u25B6 '+V.occhiello+' \u00B7 '+V.canale+'</small>';
         pill.href=V.link;
         pill.setAttribute('onclick',tracc('vetrina-mobile'));
       }
@@ -8925,7 +8953,7 @@ function loadDefaultMarkers(){
       nuova.innerHTML=
         '<a class="cp-alto" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile').replace(/"/g,'&quot;')+'">'
         +'<img src="archie-avatar.png" alt="Archie">'
-        +'<div class="cp-t">'+V.gancio+'<small>\u25B6 Nuovo video \u00B7 '+V.canale+'</small></div>'
+        +'<div class="cp-t">'+V.gancio+'<small>\u25B6 '+V.occhiello+' \u00B7 '+V.canale+'</small></div>'
         +'</a>'
         +'<div class="cp-riga">'+riga+'</div>';
       pill.replaceWith(nuova);
