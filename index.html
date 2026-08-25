@@ -8857,15 +8857,23 @@ function loadDefaultMarkers(){
     }
   }catch(e){}
 
-  // ⚠️ L'INTERRUTTORE. 'video' = l'uscita del momento, 'guida' = la guida al
-  // pluviometro, '' = niente vetrina, resta la scheda «Iscriviti». La guida non
-  // scade e si puo' riaccendere quando serve: e' sempre attuale, a differenza
-  // di un'uscita che invecchia in una settimana.
-  var MOSTRA='video';
+  // ⚠️ L'INTERRUTTORE. 'alterna' = le due vetrine si danno il cambio a caso,
+  // 'video' o 'guida' = sempre quella, '' = niente vetrina e resta la scheda
+  // «Iscriviti».
+  //
+  // L'alternanza la decide il BROWSER di chi apre il sito, non il repo: costa
+  // un deploy per metterla e poi zero, per sempre. Quando le date di scadenza
+  // saranno passate tutte e due, la scheda «Iscriviti» torna da sola senza che
+  // nessuno pubblichi niente.
+  var MOSTRA='alterna';
 
   var VETRINE={};
   VETRINE.guida={
-    fino:'2030-12-31T23:59:59+01:00',   // non scade: spiega come si usa la mappa
+    // ⚠️ Stessa scadenza del video, per decisione dell'utente il 25/8: passata
+    // quella data escono di scena tutte e due e resta «Iscriviti». La guida
+    // potrebbe restare (non invecchia, spiega come si usa la mappa): per
+    // riaccenderla basta spostare avanti questa data.
+    fino:'2026-08-28T23:59:59+02:00',
     link:'https://youtu.be/fvsBZJ_Ylf4',
     id:'fvsBZJ_Ylf4',
     facebook:'',
@@ -8896,7 +8904,29 @@ function loadDefaultMarkers(){
     canale:'Avventure Micologiche'
   };
 
-  var V=VETRINE[MOSTRA];
+  var V=null, QUALE='';
+  if(MOSTRA==='alterna'){
+    // Solo le vetrine ancora in corso partecipano: quando il video scade,
+    // l'alternanza si riduce da sola alla guida, e quando scade anche quella
+    // non resta nessuno e si esce.
+    var ora=Date.now(), scelte=[];
+    ['video','guida'].forEach(function(k){
+      if(VETRINE[k] && ora <= new Date(VETRINE[k].fino).getTime()) scelte.push(k);
+    });
+    if(!scelte.length) return;
+    // ⚠️ LA SCELTA SI RICORDA. Tirando il dado a ogni apertura la stessa
+    // persona vedrebbe il video, poi la guida, poi di nuovo il video: un sito
+    // che non sa quello che vuole. Cosi' invece ognuno ha la sua, e in GA4 il
+    // confronto fra le due e' fra persone diverse, che e' quello che serve.
+    try{ QUALE=localStorage.getItem('vetrina')||''; }catch(e){}
+    if(scelte.indexOf(QUALE)<0){
+      QUALE=scelte[Math.floor(Math.random()*scelte.length)];
+      try{ localStorage.setItem('vetrina',QUALE); }catch(e){}
+    }
+    V=VETRINE[QUALE];
+  } else {
+    QUALE=MOSTRA; V=VETRINE[MOSTRA];
+  }
   if(!V) return;                       // nessuna vetrina: resta «Iscriviti»
   // Il gancio va su due righe nella scheda desktop. Se la seconda e' vuota (la
   // guida ha un titolo corto) non si lascia un <b> vuoto che aprirebbe una riga
@@ -8917,8 +8947,11 @@ function loadDefaultMarkers(){
     // il confronto con le uscite precedenti vale piu' del nome giusto. Quale
     // social e' stato scelto si legge dal campo `pulsante`
     // (vetrina-mobile-youtube / -facebook / -instagram).
+    // Il campo `vetrina` dice QUALE delle due era in onda quando si e'
+    // cliccato: e' il confronto che mancava da luglio per sapere, coi numeri
+    // invece che a sensazione, se tira di piu' l'uscita nuova o la guida.
     function tracc(dove){
-      return "try{gtag('event','click_youtube',{pulsante:'"+dove+"',video:'"+V.id+"'})}catch(e){}";
+      return "try{gtag('event','click_youtube',{pulsante:'"+dove+"',video:'"+V.id+"',vetrina:'"+QUALE+"'})}catch(e){}";
     }
 
     // Scheda desktop: copertina del video a sinistra, occhiello/gancio/canale
