@@ -5058,6 +5058,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!s.id||LOMB_ESCLUSE[String(s.id)])return;
             rainMap[s.id]=(rainMap[s.id]||0)+(s.mm||0); cop[s.id]=(cop[s.id]||0)+1;
             if(!meta[s.id]) meta[s.id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p};
+            else if(!meta[s.id].q && s.q) meta[s.id].q=s.q;   // la quota arriva anche da un file dopo
           });
         }
       })
@@ -5213,7 +5214,15 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
             // nomi doppi (verificato il 21/8/2026 su tutte le reti).
             var key=s.n;
             if(PIEMONTE_ESCLUSE[key]) return; // pluviometri guasti/offline, non in mappa
+            // ⚠️ LA QUOTA PUO' ARRIVARE DA UN FILE SUCCESSIVO (25/8/2026). I metadati
+            // si registravano la PRIMA volta che si incontrava la stazione e non si
+            // toccavano piu'; ma i file del periodo si scaricano in parallelo, quindi
+            // «la prima volta» e' un giorno a caso. Il Piemonte ha la quota su tutte
+            // le stazioni solo dai file dal 20/8 in poi: bastava che arrivasse prima
+            // un giorno di agosto piu' vecchio e il pannello diceva «0 m slm» per
+            // Verolengo, che sta a 163 metri. Ora un valore buono rimpiazza lo zero.
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5281,6 +5290,7 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5372,6 +5382,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(s.id&&LIGURIA_ESCLUSE[String(s.id)]) return;   // pluviometro fermo, vedi sopra
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5472,6 +5483,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(s.id&&EMILIA_ESCLUSE[String(s.id)]) return;   // gemelle liguri: le porta OMIRL
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5522,6 +5534,7 @@ function loadAustriaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AT'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5569,6 +5582,7 @@ function loadSloveniaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'SI'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5618,6 +5632,7 @@ function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FR'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5677,6 +5692,7 @@ function loadSvizzeraRegion(pastDate,nowDate,labelPeriodo,cb){
             data.stations.forEach(function(s){
               var key=srcCfg.pref+(s.id||s.n);
               if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||srcCfg.pDef,_src:srcCfg.src};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
               if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
               rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
             });
@@ -5729,6 +5745,7 @@ function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5848,6 +5865,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
         data.stations.forEach(function(s){
           var key=s.id||s.n;
           if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FVG',_src:'osmer'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
           if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
           rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           if(isReal) presReal[key]=(presReal[key]||0)+1;
@@ -5868,6 +5886,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
         data.stations.forEach(function(s){
           var key='mh_'+(s.id||s.n);
           if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FVG',_src:'mh'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
           if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
           rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           presMH[key]=(presMH[key]||0)+1;
@@ -5888,6 +5907,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
             usaVeneto=true;
             var key='ven_'+s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BL',_src:'veneto'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5922,6 +5942,7 @@ function loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AO'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5998,6 +6019,7 @@ function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
             if(escluse[s.n]) return;                 // pluviometro guasto, vedi MH_ESCLUSE
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6046,6 +6068,7 @@ function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BZ'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6095,6 +6118,7 @@ function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'TN'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6243,6 +6267,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(TOSCANA_ESCLUSE[key]) return; // guasti, vedi TOSCANA_ESCLUSE
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
