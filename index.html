@@ -469,7 +469,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   .cd-inp{font-size:16px!important;padding:10px!important;}
   .cd-go{font-size:16px!important;padding:12px!important;}
 }
-.cd-lbl{font-size:9px;text-transform:uppercase;color:#aaa;letter-spacing:.05em;margin-bottom:2px}
+.cd-lbl{font-size:9px;text-transform:uppercase;color:#5a7192;letter-spacing:.05em;margin-bottom:2px}
 .cd-inp{width:100%;border:1px solid #d0d8e8;border-radius:5px;padding:4px 6px;
   font-size:11px;color:#333;font-family:inherit;margin-bottom:5px}
 .cd-inp:focus{outline:none;border-color:#1b3f6e}
@@ -525,13 +525,19 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .tt-unit{font-size:11px;color:#888}
 .tt-row{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;color:#aaa}
 .tt-row b{color:#ddd;font-weight:600}
-.tt-fonte{font-size:9px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #333}
+/* ⚠️ Su fondo scuro (#1e1e1e) si SCHIARISCE per leggere meglio, il contrario
+   di quello che si fa sul bianco. Misurato il 25/8: #555 dava 2,2:1, #888 da'
+   4,7. E qui il blu del pannello sarebbe un peggioramento (3,3:1): il colore
+   giusto dipende dal fondo, non dal gusto. */
+.tt-fonte{font-size:9px;color:#888;margin-top:5px;padding-top:5px;border-top:1px solid #333}
 
 /* Pannello stazione con grafico storico — sostituisce il vecchio tooltip
    sui marker con i dati (stessa palette scura, così resta coerente). */
 #st-history{position:absolute;z-index:2100;display:none;width:296px;background:#1e1e1e;
   color:#fff;border-radius:7px;padding:10px 13px;box-shadow:0 4px 20px rgba(0,0,0,.5);}
-.sh-close{position:absolute;top:5px;right:7px;cursor:pointer;color:#777;
+/* La X di chiusura e' un COMANDO: a 3,7:1 si faceva cercare. Con #aaa sta a
+   7,2 e resta discreta. */
+.sh-close{position:absolute;top:5px;right:7px;cursor:pointer;color:#aaa;
   font-size:16px;line-height:1;border:0;background:none;padding:2px 5px;}
 .sh-close:hover{color:#fff}
 .sh-nome{font-size:13px;font-weight:700;border-bottom:1px solid #3a3a3a;
@@ -543,7 +549,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .sh-row{display:flex;justify-content:space-between;font-size:10px;padding:1px 0;color:#aaa}
 .sh-row b{color:#ddd;font-weight:600}
 .sh-per{font-size:10px;color:#888;margin:7px 0 0}
-.sh-unit{font-size:9px;color:#777;text-align:right;padding-right:28px;margin:2px 0}
+.sh-unit{font-size:9px;color:#999;text-align:right;padding-right:28px;margin:2px 0}
 .sh-plot{position:relative;padding-right:28px}
 .sh-grid{position:absolute;left:0;right:28px;border-top:1px dashed #3a3a3a}
 .sh-grid span{position:absolute;right:-27px;top:-7px;font-size:9px;color:#777;width:25px}
