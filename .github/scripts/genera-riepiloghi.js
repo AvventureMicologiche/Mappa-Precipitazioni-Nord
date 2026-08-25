@@ -181,7 +181,23 @@ function letture(giorno) {
   }
   return { giorno, stazioni, cartelle, letto: new Date().toISOString() };
 }
-const conteggio = letture(giorni[0]);
+// ⚠️ NON «ieri» e basta: questo script gira DUE volte, alle 7:10 e all'1:20.
+// All'1:20 il giorno di ieri e' appena finito ma i collector lo devono ancora
+// scrivere — girano fra le 6:00 e le 7:15 della mattina dopo. Il 25/8/2026
+// alle 1:40 il conto usciva 2.957 pluviometri in 19 cartelle, e restava
+// esposto sul sito fino al giro del mattino: alle 7:42 lo stesso identico
+// giorno ne dava 5.573 in 36. Quasi sei ore col numero dimezzato, proprio la
+// fascia di chi apre presto (segnalato dall'utente alle 7:24).
+//
+// Si sceglie fra ieri e l'altroieri quello con piu' CARTELLE, non con piu'
+// stazioni: le cartelle dicono quante reti hanno consegnato (19 contro 36 e'
+// un giorno a meta'), mentre il totale delle stazioni oscilla di suo di qualche
+// decina da un giorno all'altro (5.573 contro 5.597 il 24 e il 23) e sceglierlo
+// come arbitro terrebbe fisso l'altroieri per una manciata di pluviometri.
+// Resta comunque UN GIORNO SOLO: la regola di non mescolare giorni non si tocca.
+const cIeri  = letture(giorni[0]);
+const cPrima = letture(giorni[1]);
+const conteggio = (cPrima.cartelle > cIeri.cartelle) ? cPrima : cIeri;
 // Questo file si riscrive SEMPRE, anche identico: l'ora e' il suo contenuto.
 fs.writeFileSync(path.join(USCITA, 'letture.json'), JSON.stringify(conteggio, null, 1) + '\n', 'utf8');
 console.log(`  letture: ${conteggio.stazioni} pluviometri in ${conteggio.cartelle} cartelle il ${conteggio.giorno}\n`);
