@@ -617,7 +617,7 @@ c'era nessuna fase beta da aspettare.
 - YouTube "ISCRIVITI" button nel box canale (nascosto su mobile ≤600px)
 - Home icon nell'header
 - Pulsanti periodo: Ieri/7gg/10gg/15gg/20gg/30gg
-- "Piogge per funghi" (range **15-21 gg fa** dal 7 agosto 2026; 16-23 dal 24 luglio, prima ancora 18-25)
+- "Piogge per funghi" (range **15-21 gg fa** dal 7 agosto 2026; 16-23 dal 24 luglio, prima ancora 18-25) — ⚠️ **13-20 e' pronto SUL TEST dal 26/8/2026**, non ancora in produzione: quando si promuove, aggiornare questa riga
 - Date personalizzate
 - Nota "I dati escludono la giornata odierna"
 - IDW_RAD: 0.15 per ≤24h, 0.35 per periodi più lunghi
@@ -993,3 +993,60 @@ Stesso strumento, due nostre pipeline indipendenti: se divergono, **l'errore è 
 ~~**Aperto, trovato il 5/8**: il 29 e 30 giugno ARPAE è molto più bassa di OMIRL sulle gemelle~~ — **CHIUSO il 6/8/2026: era UNA stazione, non la rete.** Sette gemelle confrontabili dal 19 giugno (48 giorni): Barbagelata, Cabanne, Rovegno, Brugneto e Loco Carchelli **identiche al decimale 48 giorni su 48**, Torriglia 47/48. Tutto lo scarto veniva da **Alpe Gorreto**, dove il feed ARPAE ha restituito **0 invece di "dato assente" per quattro giorni di fila** (29/6, 30/6, 1/7, 2/7) mentre OMIRL misurava 50,8 · 28,2 · 9,8 · 1,1 mm — lo stesso zero falso già visto sull'Emilia del 2 giugno. La stazione **non è morta** (20 giorni di pioggia riportati, ultimo bagnato il 2 agosto): è una finestra di silenzio scritta come zero.
 > ⚠️ **La lezione di metodo**: sommare le gemelle e guardare il totale ha fatto sembrare sbilanciata un'intera rete per colpa di una stazione con 90 mm mancanti. **Il totale non è mai la diagnosi** — si guarda il bilancio stazione per stazione, esattamente come per la percentuale sui confronti in `check-confini.js`. Stesso errore, terza volta.
 Conseguenza operativa: le 8 gemelle sono state escluse dal rendering Emilia (`EMILIA_ESCLUSE`, vedi scheda Emilia), che toglie insieme lo zero falso e il doppione.
+
+---
+
+## La quota delle stazioni (26 agosto 2026)
+
+Trovato dall'utente: «molti pluviometri Piemonte non hanno l'altitudine».
+Misurato su tutti i file di tutte le cartelle, erano **due problemi diversi**.
+
+### 1. Piemonte, finestra storica 3/5 → 14/8/2026 — RIPARATA
+104 file su 384 avevano `q: 0` su TUTTE le stazioni: il collector di allora non
+scriveva la quota, e solo il **v2 (in produzione dal 15/8)** la prende
+dall'anagrafica ufficiale ARPA. Prima del 3/5 il Piemonte erano 56 stazioni e la
+quota c'era: la finestra rotta stava in mezzo. Riparata con
+`ripara-quote-storiche.js piemonte`, che rimette la quota **dai file che ce
+l'hanno gia'**, per codice stazione: 28.434 stazioni-giorno su 28.673 (99,2%).
+Le due dismesse rimaste fuori (Malciaussia, Alto Sermenza) hanno preso la quota
+del terreno, come le reti qui sotto.
+
+### 2. Undici reti che la quota non ce l'hanno proprio — QUOTA DAL TERRENO
+Le 10 reti MeteoHub e OSMER Friuli, **~1.650 stazioni**: l'API dei metadati
+MeteoHub espone solo nome e lat/lon (sta scritto in cima a `collect-meteohub.js`)
+e OSMER non la pubblica nel tracciato che usiamo.
+- `quote-terreno.js` chiede a Open-Meteo Elevation (Copernicus DEM GLO-90)
+  l'altezza del terreno nel punto di ogni stazione e scrive
+  `data/quote-terreno.json`. Si rilancia quando compaiono stazioni nuove: chiede
+  solo quelle che non conosce. ⚠️ **Open-Meteo conta le richieste a PESO**: lotti
+  da 100 punti prendono 429: lotti da 50, pausa 2,5 s, attesa 65 s sul rifiuto.
+- `ripara-quote-storiche.js terreno` la mette nei file storici, marcando ogni
+  stazione con **`qt: 1`**; `collect-meteohub.js` e `collect-friuli-osmer.js` la
+  leggono a ogni giro, se no domani tornerebbe `q: 0`.
+- ⚠️ **NON e' la quota della stazione, e' l'altezza del terreno**: la quota vera
+  la dichiara l'ente, questa la deduciamo dalle coordinate. Il sito la mostra col
+  **~ davanti**. **RESTA DA RISOLVERE**: la strada giusta e' l'anagrafica vera di
+  quelle reti (la lezione della Toscana: non «l'endpoint che uso ha il dato?» ma
+  «l'ente lo pubblica da qualche parte?»).
+
+### 3. In mappa: `testoQuota(s)`
+Prima si scriveva sempre `s.q + ' m slm'` e per chi la quota non ce l'ha usciva
+**«0 m slm»**: non ammettere di non sapere, ma AFFERMARE il livello del mare su
+un pluviometro di montagna. Adesso: **«—»** se ignota (`q: null`), **«~ 1.240 m
+slm»** se dal terreno, «1.240 m slm» se la dichiara l'ente.
+⚠️ **Zero NON e' ignoto**: Grado, Lignano, Muggia, Trieste molo, Bibione,
+Chioggia, Viareggio, Livorno Mareografo, Orbetello, Bosa Marina, Manfredonia,
+Lesina, Foce Metauro e Port-La-Nouvelle stanno davvero sul mare, e i loro zeri
+non si toccano. ⚠️ Per questo il campo `qt` va copiato in TUTTI i punti in cui i
+loader ricostruiscono la stazione (`q:s.q,qt:s.qt,`, 40 posti) e nelle due righe
+«la quota arriva anche da un file dopo»: dimenticarlo li' fa sparire il ~ senza
+nessun errore.
+
+### Stato dopo la riparazione
+1.439.756 stazioni-giorno, **zero senza quota**, 152.549 col contrassegno del
+terreno. Gli unici zeri rimasti sono le stazioni sul mare elencate sopra.
+⚠️ Nota a margine trovata provando: sul Piemonte i pallini di partenza (prima di
+scegliere un periodo) prendono la quota dall'anagrafica del realtime, che per
+Acqui Terme dice 156 m mentre la banca dati ufficiale dice 217. Due numeri ARPA
+diversi per la stessa stazione: non e' colpa nostra e non e' urgente, ma se un
+giorno si vuole allineare, il posto e' `loadARPAPiemonteStations`.

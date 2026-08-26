@@ -212,15 +212,19 @@ async function collectDay(netCfg, dateStr) {
     mm = Math.round(mm * 10) / 10;
     if (mm < 0 || mm > 500) continue;
     const nome = ((entry.stat.details || []).find(x => x.var === 'B01019') || {}).val || '—';
-    out.push({
-      id:  `${stat.lat.toFixed(5)}_${stat.lon.toFixed(5)}`,
+    const idStaz = `${stat.lat.toFixed(5)}_${stat.lon.toFixed(5)}`;
+    const qTer = quotaTerreno(idStaz);
+    const rec = {
+      id:  idStaz,
       n:   nome,
       lat: Math.round(stat.lat * 10000) / 10000,
       lon: Math.round(stat.lon * 10000) / 10000,
-      q:   0,
+      q:   qTer,
       p:   netCfg.sigla,
       mm
-    });
+    };
+    if (qTer !== null) rec.qt = 1;   // quota del terreno, non dichiarata dall'ente
+    out.push(rec);
   }
   // t/w: un guasto qui non deve mai far fallire la pioggia
   try {
@@ -228,6 +232,29 @@ async function collectDay(netCfg, dateStr) {
     out.forEach(rec => { if (meteo[rec.id]) Object.assign(rec, meteo[rec.id]); });
   } catch (e) { console.warn(`  Warn meteo ${netCfg.net}: ${e.message}`); }
   return out;
+}
+
+/* ── QUOTA DAL TERRENO (26/8/2026) ─────────────────────────────────────────
+   Questa fonte l'altitudine non la pubblica: fino al 26/8 scrivevamo `q: 0`,
+   cioe' dichiaravamo il livello del mare su pluviometri di montagna. La quota
+   arriva da `data/quote-terreno.json` (altezza del TERRENO nel punto della
+   stazione, vedi quote-terreno.js) e si porta dietro `qt: 1`, che il sito
+   legge per mostrare il ~ davanti al numero.
+   ⚠️ Se il file manca la quota resta `null`, cioe' «non lo sappiamo»: MAI 0,
+   che vuol dire «sul mare» ed e' un'affermazione falsa.
+   ⚠️ RESTA DA RISOLVERE: la strada giusta e' l'anagrafica vera dell'ente. */
+let _quoteTerreno = null;
+function quotaTerreno(id) {
+  if (_quoteTerreno === null) {
+    _quoteTerreno = {};
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'quote-terreno.json'), 'utf8'));
+      for (const rete of Object.values(j.reti || {})) Object.assign(_quoteTerreno, rete);
+      console.log(`  quote dal terreno: ${Object.keys(_quoteTerreno).length} stazioni note`);
+    } catch (e) { console.warn(`  Warn quote-terreno.json: ${e.message}`); }
+  }
+  const q = _quoteTerreno[id];
+  return typeof q === 'number' ? Math.max(0, Math.round(q)) : null;
 }
 
 /** Stazioni REALI (non stimate) presenti in un file già scritto. */
