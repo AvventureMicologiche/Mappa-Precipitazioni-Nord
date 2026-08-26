@@ -8956,15 +8956,19 @@ function loadDefaultMarkers(){
       if(VETRINE[k] && ora <= new Date(VETRINE[k].fino).getTime()) scelte.push(k);
     });
     if(!scelte.length) return;
-    // ⚠️ LA SCELTA SI RICORDA. Tirando il dado a ogni apertura la stessa
-    // persona vedrebbe il video, poi la guida, poi di nuovo il video: un sito
-    // che non sa quello che vuole. Cosi' invece ognuno ha la sua, e in GA4 il
-    // confronto fra le due e' fra persone diverse, che e' quello che serve.
-    try{ QUALE=localStorage.getItem('vetrina')||''; }catch(e){}
-    if(scelte.indexOf(QUALE)<0){
-      QUALE=scelte[Math.floor(Math.random()*scelte.length)];
-      try{ localStorage.setItem('vetrina',QUALE); }catch(e){}
-    }
+    // ⚠️ IL DADO SI TIRA A OGNI APERTURA, e la scelta NON si ricorda.
+    // Prima restava appiccicata alla persona (localStorage 'vetrina'): chi
+    // aveva pescato la guida vedeva sempre e solo quella. Decisione
+    // dell'utente il 26/8/2026: chi ne ha gia' visto uno e' giusto che veda
+    // anche l'altro, quindi ogni caricamento e' una moneta nuova.
+    // Il confronto in GA4 regge lo stesso: le due vetrine escono circa meta'
+    // e meta' delle volte, quindi i clic si possono confrontare cosi' come
+    // sono, senza pesarli. Cambia solo che il paragone non e' piu' fra
+    // persone diverse ma fra aperture diverse.
+    QUALE=scelte[Math.floor(Math.random()*scelte.length)];
+    // La chiave vecchia non si legge piu': si toglie di mezzo una volta sola,
+    // se no resta li' a sporcare il browser di chi c'era prima.
+    try{ if(localStorage.getItem('vetrina')) localStorage.removeItem('vetrina'); }catch(e){}
     V=VETRINE[QUALE];
   } else {
     QUALE=MOSTRA; V=VETRINE[MOSTRA];

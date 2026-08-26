@@ -12,6 +12,17 @@ on:
     # stazione con intervallo). Il valore giornaliero è stabile a giorno chiuso,
     # bastano 2 run. Orari sfalsati da meteohub.yml (xx:50) e ticino.
     # Run mattutini ridondanti (i cron GitHub slittano): "ieri" pronto presto.
+    #
+    # ⚠️ CHIUSURA DEL GIORNO (26/8/2026). Senza questa riga il primo run era
+    # quello delle 02:30 UTC che, coi ritardi di GitHub, atterrava alle 05:30
+    # italiane: dalla mezzanotte alle cinque e mezza la Valle d'Aosta non aveva
+    # "ieri" in mappa. È la stessa finestra buia già chiusa per l'Austria
+    # (22:40) e per il Trentino. Il giorno solare italiano finisce alle 22:00
+    # UTC e la fonte VdA aggrega in CONTINUO (verificato il 26/8: alle 05:37
+    # italiane restituiva già il totale giornaliero di quel giorno stesso),
+    # quindi 45 minuti dopo la chiusura il totale di ieri è completo. Le 22:40
+    # sono già dell'Austria e le 22:50 della Francia: qui si usa 22:45.
+    - cron: '45 22 * * *'
     - cron: '30 2 * * *'
     - cron: '30 4 * * *'
     - cron: '30 7 * * *'
