@@ -9,6 +9,14 @@ on:
   schedule:
     - cron: '5 0 * * *'
     - cron: '5 4 * * *'
+    # 06:30 UTC = 08:30 italiane, aggiunto il 27/8/2026.
+    # ⚠️ ARPAE pubblica la giornata di IERI verso le 06:00 UTC (misurato dal
+    # campo _updated dell'API: il 27/8 era 06:01). Il primo giro utile era
+    # quello delle 08:05 UTC, cioe' le 10:05 italiane: ogni mattina l'Emilia
+    # arrivava in mappa con due ore di ritardo rispetto a quando il dato
+    # esisteva gia'. Il giro delle 00:05 e quello delle 04:05 non possono
+    # trovare niente e restano solo come rete di sicurezza.
+    - cron: '30 6 * * *'
     - cron: '5 8 * * *'
     - cron: '5 12 * * *'
     - cron: '5 16 * * *'
