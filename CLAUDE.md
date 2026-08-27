@@ -617,7 +617,7 @@ c'era nessuna fase beta da aspettare.
 - YouTube "ISCRIVITI" button nel box canale (nascosto su mobile ≤600px)
 - Home icon nell'header
 - Pulsanti periodo: Ieri/7gg/10gg/15gg/20gg/30gg
-- "Piogge per funghi" (range **15-21 gg fa** dal 7 agosto 2026; 16-23 dal 24 luglio, prima ancora 18-25) — ⚠️ **13-20 e' pronto SUL TEST dal 26/8/2026**, non ancora in produzione: quando si promuove, aggiornare questa riga
+- "Piogge per funghi" (range **13-20 gg fa** dal 27 agosto 2026; 15-21 dal 7 agosto, 16-23 dal 24 luglio, prima ancora 18-25). Otto giorni di accumulo invece di sette
 - Date personalizzate
 - Nota "I dati escludono la giornata odierna"
 - IDW_RAD: 0.15 per ≤24h, 0.35 per periodi più lunghi
@@ -1050,3 +1050,66 @@ scegliere un periodo) prendono la quota dall'anagrafica del realtime, che per
 Acqui Terme dice 156 m mentre la banca dati ufficiale dice 217. Due numeri ARPA
 diversi per la stessa stazione: non e' colpa nostra e non e' urgente, ma se un
 giorno si vuole allineare, il posto e' `loadARPAPiemonteStations`.
+
+---
+
+## Promozione del 27 agosto 2026 (v9.1)
+
+Tutto il lavoro del 26/8, portato in produzione in un solo deploy. ⚠️ Il file
+NON e' stato copiato alla cieca: prima si e' misurato il diff prod↔test (682
+righe), classificata ogni riga, e verificato che le uniche davvero solo-prod
+fossero le due `og:image`/`twitter:image` — rimesse a mano. Conteggio delle
+chiavi prod-only prima e dopo: EMILIA_ESCLUSE 5, HIST_RAW_BY_REGION 2,
+analisi_regione 1, getSelectedValues 4, LOMB/TOSCANA/LIGURIA/PIEMONTE/MH_ESCLUSE
+e PILOT_DATA_BASE invariati. Nessuno calato.
+
+### 1. «La mia posizione», SOLO da telefono
+Blocco NOVITA' dentro la tendina: bottone + casella. ⚠️ Sul PC non c'e', e la
+regola e' `(hover:hover) and (pointer:fine)` — **non la larghezza**: un computer
+con la finestra stretta scende sotto i 901 px, prende le regole del telefono e
+si riprenderebbe il tasto, mentre il GPS non ce l'ha lo stesso.
+- **Due tentativi in PARALLELO** (watchPosition col GPS + getCurrentPosition di
+  rete): il ripiego partiva solo dopo un errore, ma su Chrome Android il
+  watch a volte non richiama NESSUNO dei due callback e l'errore non arrivava
+  mai. Era una porta di sicurezza chiusa dall'interno.
+- **`coords.accuracy` si guarda**: sotto 3 km si parte subito, fra 3 e 20 km si
+  aspettano 2 s, sopra 8 s e poi si rinuncia dicendolo. E' il caso Caserta: al
+  computer la posizione arriva dall'indirizzo internet e sbaglia di 600 km.
+- Attesa spiegata a gradini (3 s e 10 s), rotella nel dischetto, riclic =
+  `maximumAge:0`, spia `?geodebug=1` con codici e tempi.
+- ⚠️ **PRIVACY**: col GPS il punto non viaggia col link e il centro mappa si
+  arrotonda a 2 decimali (~1 km). La ricerca scritta resta intatta.
+
+### 2. La quota: `testoQuota()`
+«—» se ignota, «~ 1.240 m slm» se viene dal modello del terreno (`qt`), il
+numero secco se la dichiara l'ente. ⚠️ Zero NON e' ignoto (Grado, Chioggia,
+Viareggio...). Vedi la scheda «La quota delle stazioni» piu' sopra.
+
+### 3. Tetto dei pallini 150 → 400
+⚠️ Trovato perche' l'utente cercava **Santo Stefano d'Aveto e non la vedeva**.
+Il dato c'era in tutti i 384 file: era il diradamento dei pallini del 20-21/8,
+che sulla Liguria (arco stretto, 4 stazioni per casella) ne disegnava **111 su
+197**. Nascondeva il 44% della Liguria, il 56% della Toscana, il 40% della
+Lombardia, il 37% del Piemonte: proprio le reti a cui avevamo tolto le
+whitelist per mostrarle intere. Il DATO non si perdeva (colore, massimo, media
+e classifica si calcolano su TUTTE), ma senza pallino non c'e' tooltip ne'
+grafico. A 400 restano diradate solo la Sicilia (431 su un'isola compatta, il
+caso per cui il diradamento era nato) e le reti estere fitte: **1.071 pallini
+restituiti**, Liguria da 111 a 195.
+
+### 4. «S.» vale San, Sant', Santo, Santa
+In produzione «s. stefano d'aveto», «s margherita lig», «s. angelo» davano
+**zero righe**. Nell'elenco il santo e' sempre per esteso (494 comuni su 8.610,
+nessuno abbreviato), quindi non si tocca l'elenco: `locVarianti()` allarga la
+DOMANDA. Il punto diventa punteggiatura come l'apostrofo. ⚠️ Si allarga solo
+con l'abbreviazione, e il grassetto segue la variante trovata.
+
+### Attrezzi di collaudo nati qui (cartella claudio)
+`prova-geo.js` (nove casi di GPS simulato, compreso `mutosolo` = watch muto),
+`prova-geo-tempi.js`, `prova-attesa.js`, `prova-riclic.js`,
+`prova-tasto-mouse.js` (⚠️ hover/pointer si emulano col protocollo di Chrome,
+`emulateMediaFeatures` non li conosce), `prova-telefono-css.js` (⚠️ **dopo
+aver toccato la struttura del CSS si riprova a TUTTE le larghezze**: il 26/8 una
+parentesi rimasta indietro ha spento tutte le regole del telefono senza un solo
+errore in console), `prova-ricerca-santo.js`, `verifica-aveto.js`,
+`verifica-diradamento.js`, `prova-quota-tooltip.js`.

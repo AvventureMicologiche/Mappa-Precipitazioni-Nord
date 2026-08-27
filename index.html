@@ -234,12 +234,35 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      destra sulla mappa (top:52px;right:14px), e in relative quei valori
      restano validi come SPOSTAMENTO: scendeva di 52 px e finiva sopra
      l'elenco, coprendo «OPPURE SCEGLI LA REGIONE» (22/8/2026). */
-  #reg-sheet #loc-box{position:relative;top:auto;right:auto;left:auto;width:100%;}
+  #reg-sheet #novita-box{position:relative;top:auto;right:auto;left:auto;width:100%;}
+  /* ── IL BLOCCO SI VESTE DEL FOGLIO (26/8/2026) ──────────────────────────
+     Sul foglio blu (#1b3f6e) la cornice bianca era un corpo estraneo, e da
+     telefono si legge come una macchia grigia (segnalato dall'utente).
+     ⚠️ Solo qui sotto: sul PC la cornice galleggia sulla MAPPA chiara e deve
+     restare chiara, se no sparisce. */
+  #reg-sheet #novita-box{background:none;border:0;border-radius:0;padding:0;box-shadow:none;}
+  /* Era blu su bianco; qui sarebbe blu su blu, cioe' invisibile. */
+  #reg-sheet .nv-tag{background:#fff;color:#1b3f6e;}
+  #reg-sheet #novita-testa{margin-bottom:8px;}
+  /* ⚠️ LA CASELLA RESTA BIANCA, di proposito: il fondo bianco e' il segnale
+     universale di «qui dentro si scrive». E' la stessa ragione per cui il
+     26/8 si era scelta la casella aperta invece di un secondo bottone. */
+  #reg-sheet #geo-btn{background:none;border-color:#fff;color:#fff;}
+  #reg-sheet #geo-btn:hover{background:rgba(255,255,255,.10);}
+  #reg-sheet #geo-btn[disabled]{opacity:.55;}
+  /* Il rosso su blu non si legge: dentro il foglio l'avviso e' rosa chiaro. */
+  #reg-sheet .gb-nota{color:#ffc8c2;}
+  #reg-sheet #geo-btn.attesa .gb-nota{color:#b9d0ec;}
+  /* ⚠️ Sul foglio blu un anello blu non si vede: qui e' bianco. */
+  #reg-sheet #geo-btn.loc-chiama{animation:geo-anello-pulsa-blu 1.7s ease-in-out infinite;}
+  @keyframes geo-anello-pulsa-blu{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.55);}
+    50%{box-shadow:0 0 0 6px rgba(255,255,255,0);}}
   /* ⚠️ Nascosta finche' non e' dentro la tendina: il trasloco lo fa il
      codice, e per un istante dopo il caricamento la casella si vedeva
      sotto la barra delle regioni (segnalato il 22/8/2026). */
-  #loc-box{display:none;}
-  #reg-sheet #loc-box{display:block;}
+  #novita-box{display:none;}
+  #reg-sheet #novita-box{display:block;}
   /* ⚠️ ASSOLUTA, non nel flusso: se la tendina dei risultati sta dentro il
      flusso, #loc-box diventa alto quanto l'elenco e la lente, che e'
      ancorata al 50% della casella, finisce in mezzo ai risultati (visto
@@ -289,6 +312,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   0%,100%{border-color:#d0d8e8;box-shadow:0 0 0 0 rgba(27,63,110,.42),0 2px 10px rgba(0,0,0,.13);}
   50%{border-color:#1b3f6e;box-shadow:0 0 0 6px rgba(27,63,110,0),0 2px 10px rgba(0,0,0,.13);}}
 @media(prefers-reduced-motion:reduce){#loc-input.loc-chiama{animation:none;border-color:#1b3f6e;}}
+/* ⚠️ «O PULSANO TUTTI E DUE O NESSUNO» (26/8/2026, l'utente). La chiamata
+   stava solo sulla casella e il bottone accanto restava immobile, che su un
+   tasto nuovo si legge come «spento». Sul bottone e' un ANELLO e non il
+   bordo: cosi' regge qualunque colore gli si dia domani. La classe la
+   mettono nello STESSO istante (vedi locAvvia), se no vanno fuori fase e
+   il respiro doppio da' l'idea di due cose scollegate. */
+#geo-btn.loc-chiama{animation:geo-anello-pulsa 1.7s ease-in-out infinite;}
+@keyframes geo-anello-pulsa{
+  0%,100%{box-shadow:0 0 0 0 rgba(27,63,110,.42);}
+  50%{box-shadow:0 0 0 6px rgba(27,63,110,0);}}
+@media(prefers-reduced-motion:reduce){#geo-btn.loc-chiama{animation:none;}}
 /* Guida a lampeggio (solo desktop): pulsa il pannello del passo attivo —
    regioni finché non ne selezioni una, poi periodo finché non lo clicchi.
    Anello marcato + sfondo che "respira" verso l'azzurro per farsi notare. */
@@ -357,7 +391,61 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    sola. Il primo giro l'aveva messa in alto a sinistra, di fianco ai tasti
    dello zoom, ma quel lato è già la colonna del lavoro — hint, periodo,
    legenda — e la casella ci finiva in mezzo. A destra sopra c'era il vuoto. */
-#loc-box{position:absolute;top:52px;right:14px;width:368px;z-index:1001;box-sizing:border-box;}
+/* ── BLOCCO «NOVITA'» (26/8/2026) ──────────────────────────────────────
+   I due modi di dire dove sei stanno insieme in una cornice sola: la casella
+   della localita' (che stava gia' qui) e «La mia posizione». Le coordinate
+   assolute sono passate dalla casella alla CORNICE, ed e' la cornice che
+   trasloca dentro la tendina sotto i 900px. */
+#novita-box{position:absolute;top:52px;right:14px;width:368px;z-index:1001;box-sizing:border-box;
+  background:rgba(255,255,255,.96);border:1px solid #378ADD;border-radius:10px;
+  padding:8px 9px 9px;box-shadow:0 2px 10px rgba(0,0,0,.13);}
+#novita-testa{display:flex;align-items:center;margin-bottom:7px;}
+.nv-tag{background:#1b3f6e;color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+  padding:2px 8px;border-radius:20px;line-height:1.6;}
+/* ⚠️ relative e NON static: lente e × sono posizionate in assoluto DENTRO la
+   casella e senza un contenitore posizionato si agganciano alla cornice. */
+#loc-box{position:relative;width:100%;box-sizing:border-box;margin-top:6px;}
+#geo-btn{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;
+  /* Il grigio-azzurro dei tasti del periodo (.tp-btn), scelto il 26/8/2026:
+     l'azzurrino di prima faceva sembrare il bottone una seconda casella da
+     riempire, e qui invece si preme. Stesso colore = stessa promessa. */
+  background:#f0f4fb;border:1px solid #d0d8e8;border-radius:5px;padding:8px 11px;
+  font-family:inherit;font-size:14px;font-weight:600;color:#1b3f6e;cursor:pointer;text-align:left;}
+#geo-btn:hover{background:#dde8ff;border-color:#90b0d8;}
+#geo-btn[disabled]{opacity:.65;cursor:default;}
+/* MENTRE CERCA (26/8/2026): il bottone restava identico a se stesso e
+   sembrava che il clic non fosse arrivato. La rotella sta DENTRO il
+   dischetto rosso, al posto del mirino: e' lo stesso posto, quindi il
+   bottone non cambia larghezza e non fa saltare niente. */
+#geo-btn[disabled].cerca{opacity:1;}
+#geo-btn.cerca .gb-disco svg{display:none;}
+#geo-btn.cerca .gb-disco::after{content:"";width:12px;height:12px;box-sizing:border-box;
+  border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;
+  animation:spin .7s linear infinite;}
+@media(prefers-reduced-motion:reduce){#geo-btn.cerca .gb-disco::after{animation:none;}}
+/* ⚠️ IL ROSSO NON E' UNA DECORAZIONE: e' lo stesso #e12b2b del segnaposto
+   che locSegnaposto() pianta sulla mappa un secondo dopo. Schiacci il rosso,
+   spunta il rosso. E NON e' il #FF0000 di YouTube, che nel sito vuol dire
+   un'altra cosa: due rossi distinti, due significati distinti. */
+.gb-disco{width:22px;height:22px;border-radius:50%;background:#e12b2b;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;color:#fff;}
+#geo-btn svg{flex:none;width:13px;height:13px;}
+/* ⚠️ L'AVVISO STA DENTRO IL BOTTONE (26/8/2026, chiesto dall'utente). Due
+   ragioni, e la seconda e' quella che conta: il guasto appartiene al tasto che
+   ha fallito, e mettendolo nella casella di ricerca le si toglieva proprio il
+   ruolo di via d'uscita — chi ha il GPS rotto deve VEDERE che puo' scrivere il
+   paese. Sotto al titolo, dentro lo stesso tasto: il tasto resta cliccabile e
+   un secondo clic riprova. */
+.gb-testi{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;}
+/* white-space:normal e non nowrap: una frase lunga va a capo dentro il tasto,
+   che si alza — e il box canale sotto lo insegue perche' collocaCanale()
+   MISURA invece di fidarsi di un numero fisso. */
+.gb-nota{display:none;font-size:12px;font-weight:600;color:#cc0000;line-height:1.25;
+  white-space:normal;text-align:left;}
+#geo-btn.avviso .gb-nota,#geo-btn.attesa .gb-nota{display:block;}
+/* ⚠️ L'attesa NON e' un guasto: grigio, non rosso. Un messaggio rosso
+   mentre il sito sta ancora lavorando fa credere che sia gia' finita male. */
+#geo-btn.attesa .gb-nota{color:#5a6470;font-weight:500;}
 #loc-input{
   width:100%;box-sizing:border-box;
   padding:8px 30px 8px 32px;         /* spazio a sinistra per la lente, a destra per la × */
@@ -365,8 +453,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   font-size:14px;font-weight:600;color:#1b3f6e;font-family:inherit;
   transition:border-color .12s,box-shadow .12s;
 }
-#loc-input{box-shadow:0 2px 10px rgba(0,0,0,.13);}   /* galleggia sulla mappa, non su un pannello */
-#loc-input:focus{outline:none;border-color:#90b0d8;box-shadow:0 0 0 2px rgba(27,63,110,.18),0 2px 10px rgba(0,0,0,.13);}
+/* L'ombra sta sulla CORNICE (#novita-box): qui dentro farebbe doppione. */
+#loc-input:focus{outline:none;border-color:#90b0d8;box-shadow:0 0 0 2px rgba(27,63,110,.18);}
 /* Il grigio chiaro del suggerimento: deve dire COSA scrivere senza sembrare
    testo già inserito. */
 #loc-input::placeholder{color:#9aa4b2;font-weight:500;opacity:1;}
@@ -410,13 +498,51 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    CDN non risponde è peggio che non averlo. Qui è un SVG dentro la pagina. */
 .loc-pin{background:none;border:none;}
 .loc-pin svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45));}
+/* ⚠️ SUL PC IL BLOCCO NON C'E' (26/8/2026, deciso dall'utente dopo la prova:
+   «alla fine e' una funzione per telefono»). Chi sta al computer non ha il
+   GPS: la posizione gliela darebbe il servizio di rete, che senza wi-fi
+   riconosciute ripiega sull'indirizzo internet e sbaglia di centinaia di
+   chilometri (il caso Caserta). Un tasto che quasi sempre risponde male e'
+   peggio di un tasto che non c'e'.
+   Sopra i 900 px resta quindi la SOLA casella di ricerca, identica a com'era
+   prima del blocco: bianca, con la sua ombra, appoggiata sulla mappa. La
+   cornice si smonta (era li' per tenere insieme due controlli, e ne resta
+   uno) e l'ombra torna sulla casella, che se no galleggerebbe senza niente
+   sotto. Niente lampeggio, sempre per sua richiesta. */
+@media(min-width:901px){
+  #novita-testa,#geo-btn{display:none;}
+  #novita-box{background:none;border:0;border-radius:0;padding:0;box-shadow:none;}
+  #loc-box{margin-top:0;}
+  #loc-input{box-shadow:0 2px 10px rgba(0,0,0,.13);}
+  #loc-input:focus{box-shadow:0 0 0 2px rgba(27,63,110,.18),0 2px 10px rgba(0,0,0,.13);}
+  /* ⚠️ LA CASELLA TORNA A RESPIRARE COM'ERA PRIMA DEL TASTO (26/8/2026,
+     l'utente: «lascialo esattamente come era prima»). Il «non farle
+     lampeggiare su desktop» di stamattina riguardava le DUE cose che
+     respiravano insieme; adesso che sul PC il tasto non c'e' piu', resta
+     la sola casella e la sua chiamata e' quella di sempre, viva dal 22/8.
+     Non si aggiunge niente qui: basta non spegnerla. */
+}
+/* ⚠️ NIENTE «LA MIA POSIZIONE» DOVE C'E' UN MOUSE, a qualunque larghezza
+   (26/8/2026, l'utente: «ti avevo detto di tornare alla versione pre tasto»).
+   Legarlo alla LARGHEZZA non bastava: un PC con la finestra stretta scende
+   sotto i 901 px, prende le regole del telefono e si riprende il tasto —
+   ma il GPS non ce l'ha lo stesso, e la posizione gliela darebbe l'indirizzo
+   internet, cioe' il caso Caserta. La domanda giusta non e' «quanto e'
+   largo lo schermo» ma «c'e' un mouse o un dito»: hover+pointer:fine e'
+   vero sui computer (touchscreen compresi) e falso sui telefoni.
+   ⚠️ Qui si spengono SOLO il tasto e il cartellino: la cornice e l'ombra
+   le sistema il blocco @media(min-width:901px), che riguarda l'impaginazione
+   e non il dito. */
+@media (hover:hover) and (pointer:fine){
+  #novita-testa,#geo-btn{display:none !important;}
+}
 /* TELEFONO E TABLET (misurato a 360x640 e 393x760, non dedotto).
    Qui il pannello regioni ESISTE ed è una barra alta 42px in cima alla mappa,
    con dentro la tendina delle regioni; i tasti dello zoom invece non ci sono.
    La casella si mette SOTTO quella barra, a tutta larghezza meno i margini:
    con la misura del desktop (left 54, width 356) sbordava di 50px a destra. */
 @media (max-width:900px){
-  #loc-box{top:48px;left:7px;right:7px;width:auto;}   /* il pannello Iscriviti qui non c'è */
+  #novita-box{top:48px;left:7px;right:7px;width:auto;}   /* il pannello Iscriviti qui non c'è */
   /* ⚠️ 16px NON è un capriccio tipografico: sotto i 16px iOS ingrandisce la
      pagina da solo quando si apre la tastiera, e la mappa resta storta. */
   #loc-input{font-size:16px;padding-top:9px;padding-bottom:9px;}
@@ -615,6 +741,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    rilievo), stesse classi .v-*. Cosi' quando la vetrina scade non si torna a
    una scheda di un'altra epoca: cambiano i contenuti, non il vestito.
    Lo sfondo era al 65% e faceva filigrana: sembrava roba smorta, ora e' 92%. */
+/* ⚠️ IL TOP LO SCRIVE IL CODICE (collocaCanale, 26/8/2026): sopra c'e' il
+   blocco «novita'», che cambia altezza quando compare la riga di avviso
+   sotto «La mia posizione». Il 100px qui sotto e' solo il valore di
+   partenza per il primo istante, prima che la misura arrivi. */
 #channel-logo{
   position:absolute;top:100px;right:14px;z-index:1000;
   display:block;
@@ -1400,16 +1530,28 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     risultati in media (856 il peggiore), con 3 la mediana e' 2 e il
     novantesimo percentile 14. Sotto le tre lettere non e' un elenco,
     e' un muro. -->
+    <div id="novita-box">
+    <div id="novita-testa"><span class="nv-tag">NOVITÀ</span></div>
+    <button id="geo-btn" type="button">
+    <span class="gb-disco"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/>
+    <line x1="12" y1="1.5" x2="12" y2="4.5" stroke-linecap="round"/>
+    <line x1="12" y1="19.5" x2="12" y2="22.5" stroke-linecap="round"/>
+    <line x1="1.5" y1="12" x2="4.5" y2="12" stroke-linecap="round"/>
+    <line x1="19.5" y1="12" x2="22.5" y2="12" stroke-linecap="round"/>
+    </svg></span><span class="gb-testi"><span class="gb-t">La mia posizione</span><span class="gb-nota" role="status"></span></span>
+    </button>
     <div id="loc-box">
     <svg class="loc-lente" viewBox="0 0 24 24" aria-hidden="true">
     <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
     <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
-    <input id="loc-input" type="text" placeholder="Nuovo: trova la tua località" autocomplete="off"
+    <input id="loc-input" type="text" placeholder="Cerca località" autocomplete="off"
     autocorrect="off" spellcheck="false" aria-label="Cerca una località"
     aria-autocomplete="list" aria-controls="loc-drop" aria-expanded="false">
     <button id="loc-clear" type="button" aria-label="Cancella la ricerca">×</button>
     <div id="loc-drop" role="listbox" aria-label="Località trovate"></div>
+    </div>
     </div>
     <!-- La tendina nostra: casella di ricerca in cima, regioni sotto. Il suo
          contenuto lo genera regRender() leggendo la select nativa. -->
@@ -1447,7 +1589,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <div class="tp-btn" data-type="d" data-val="30">30 giorni</div>
         </div>
         <div class="tp-custom-btn" id="btn-custom">📅 Date personalizzate</div>
-        <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 15-21 gg fa)</span></div>
+        <div class="tp-custom-btn tp-funghi-btn" id="btn-funghi"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAC6ElEQVR42m2TPWxTVxTHz7nvvveuE8cmtuNgG8cGQhEfgRCGBqlFqAtDVTGwsMOKOnTpUFUdq6pjhmYoDEhVVQnxIb6UABKIqoWUqFUpBNpA3IKdBD+C46R+ee/eczo8KwmoZ/7/7l/63XOQmWF1mADFbH3h9tWLT+7f9hsvVSJdHhh+7/BH5WIeAJgZEQEA2xgzM4MQ3337zdjol+xVilnVqdzQmGaLmnZ6z5ETxz/5TElkBkRsY0QGhPXVpycnTo30pqGwKbMhkQi1EYiWANbB1F/V+PDRL0a/dyxEFAIAyBghrLNnTt07PVLqs4VrubYTBAGRMUavBDpga8/AttbE2TMjXwthMRESEQIs+8HHh3cpr4IuIHNfPtuhlDHEAMRMRASo0DxasD4/92tvJiWYCBCfTD1qvZhmo5sN3Vg0U09r03/PeguLzUZDt5ZdpJgEW8WUX//j/l0AkJGZTDr1WqWTW7cWCuWQ8Xmt3lPMLQd+p2svvfa8ymMnaOa7VtAEK/6/bZOR1ouXLv0++WNPKr7YaFpS9m/eFIsnDxz8YKbyfHJiMpvqGj//w4M7N0fHfyuVSm2TETk3O1epzFy5fCGXsuOdnbv37i9v6Z9/OT8+dmvf0FB1bj6dLRw6+D4zy+ifEZGIejf29mSzP98ZSyZjwCKR3EDMUsrilv6BoeF3O2ICMSoQaxvCzMw3ro9pv2lZtm3bjqu01l3xuA5aHTElEIgocrGGCSEQcfrPh5lMdxiGtutKKQ2R6yrbwmqtBoARs4ZF1c2l5aVFL6aU1lq5ypISmBkgmYi/qtej2BtYNK88j40GRCnt0uZ+aL/Njuv4fmt98g2MmQGIiXbs2tuzMWe0jnyFgXZc9T9YtNO5fC4kK5cvvLNjZxiGiCillFJUZ+f7SqUo9nYbM7uO8+GRY0//8Wq1KiIAsN9qXbt2o1jenuruXtW47t7WiXk2M/PL3Z8AjC1lqGnb9p2Dg4OrBxrNfxMWeekz+THZAAAAAElFTkSuQmCC" style="width:18px;height:18px;vertical-align:middle;margin-right:5px;">Piogge per funghi <span style="font-size:13px;opacity:.8">(range 13-20 gg fa)</span></div>
         <!-- Riga di stato e rotella: QUI, sotto «Piogge per funghi» e sopra il
              link «FAQ video» (13/8/2026). Stavano in FONDO al pannello, dopo il
              FAQ e dopo il riquadro delle date personalizzate. Su telefono
@@ -2977,6 +3119,19 @@ function posTooltip(mx,my){
   if(ty<0)ty=4;
   tooltip.style.left=tx+'px';tooltip.style.top=ty+'px';
 }
+/* LA QUOTA, E QUANDO NON SI SA (26/8/2026) ─────────────────────────────
+   Prima si scriveva sempre `s.q + ' m slm'`, e per chi la quota non ce l'ha
+   veniva fuori «0 m slm»: non ammettere di non sapere, ma AFFERMARE il
+   livello del mare su un pluviometro che sta in montagna.
+   ⚠️ Zero NON vuol dire ignoto: Grado, Chioggia, Viareggio e Livorno
+   Mareografo stanno davvero sul mare. Ignoto e' `null`.
+   ⚠️ La tilde dice che la quota non la dichiara l'ente: e' l'altezza del
+   TERRENO nel punto della stazione (undici reti fra MeteoHub e OSMER non la
+   pubblicano). RESTA DA RISOLVERE trovando le anagrafiche vere. */
+function testoQuota(s){
+  if(!s || s.q === null || s.q === undefined || s.q === '') return '—';
+  return (s.qt ? '~ ' : '') + s.q + ' m slm';
+}
 function showTooltip(s,rank,mx,my){
   // Col grafico storico aperto il tooltip si sovrapporrebbe (su mobile in modo
   // vistoso, visto che il popup occupa tutta la larghezza): niente tooltip.
@@ -2987,7 +3142,7 @@ function showTooltip(s,rank,mx,my){
   document.getElementById('tt-nome').textContent=s.n;
   document.getElementById('tt-mm').textContent=s.mm;
   document.getElementById('tt-prov').textContent=s.p;
-  document.getElementById('tt-quota').textContent=s.q+' m slm';
+  document.getElementById('tt-quota').textContent=testoQuota(s);
   document.getElementById('tt-rank').textContent='#'+rank+' / '+totalStations;
   document.getElementById('tt-fonte').textContent=fonte;
   posTooltip(mx,my);
@@ -3615,7 +3770,7 @@ function openStationHistory(s,rank,mx,my){
   // (verificato sulla fonte). Etichetta coerente col dato invece che sbagliata.
   document.getElementById('sh-prov-lbl').textContent=(regionKey==='liguria')?'Comune':'Provincia';
   document.getElementById('sh-prov').textContent=s.p||'—';
-  document.getElementById('sh-quota').textContent=(s.q||0)+' m slm';
+  document.getElementById('sh-quota').textContent=testoQuota(s);
   document.getElementById('sh-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';
   document.getElementById('sh-fonte').textContent=lastUsedFonte||'—';
   var gg=Math.round((end-currentPast)/(24*3600000))+1;
@@ -3878,6 +4033,22 @@ function centraRegioneInStriscia(){
   });
   if(sopra<0) sopra=0;
   if(coperto<=20) return;                          // niente da compensare
+  // ⚠️ SE L'UTENTE HA DETTO DOVE, IL BERSAGLIO E' IL SUO PUNTO (26/8/2026).
+  // Fin qui si centrava sempre il baricentro delle REGIONI attive: chi cercava
+  // un paese (o usava «La mia posizione») veniva portato sul suo punto, poi
+  // cliccava il periodo, la scala graduata compariva, la striscia visibile si
+  // accorciava e questa funzione ricentrava sulla regione intera — il punto
+  // scivolava in basso, fin sotto la scala. Segnalato dall'utente provando dal
+  // telefono vero. ⚠️ Il difetto c'era gia' nella RICERCA PER LOCALITA', viva
+  // dal 22/8: la geolocalizzazione l'ha solo reso evidente.
+  // Qui non si tocca lo zoom (l'ha scelto fitMapToPunto): si sposta e basta.
+  if(typeof _vistaPaese!=='undefined' && _vistaPaese && !_vistaDaLink){
+    var Sp=mBox.height-coperto-sopra;
+    var pp=map.latLngToContainerPoint([_vistaPaese.lat,_vistaPaese.lon]);
+    var dyp=Math.round(pp.y-(sopra+Sp/2));
+    if(Math.abs(dyp)>12) map.panBy([0,dyp],{animate:false});
+    return;
+  }
   var bb=null;
   rks.forEach(function(r){
     var b=REGION_BOUNDS[r]; if(!b) return;
@@ -4027,7 +4198,7 @@ function loadOpenMeteo(stations,pastDate,nowDate,labelPeriodo,badgePrefix){
     if(pending>0) return;
     // Assembla output
     var out=stations.map(function(s){
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p,mm:results[s.n]||0};
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,mm:results[s.n]||0};
     });
     var fonte=badgePrefix?badgePrefix+' · Open-Meteo':'🌍 Open-Meteo live';
     render(out,fonte,labelPeriodo);
@@ -4199,7 +4370,7 @@ function osmerInlineDesktop(){
 // GIORNI)» sommandone sei. Un totale corto di un giorno con l'etichetta del
 // giorno pieno, e nessun modo per l'utente di accorgersene — su una mappa per
 // funghi l'ultimo giorno e' fra i piu' importanti. La finestra «Piogge per
-// funghi» non e' toccata: finisce 15 giorni fa, non arriva a ieri.
+// funghi» non e' toccata: finisce 13 giorni fa, non arriva a ieri.
 //
 // NON SI DEDUCE DALLA REGIONE, SI VERIFICA IL FILE. Cosi' l'avviso e' vero
 // anche il giorno in cui a incepparsi fosse il Piemonte, e sparisce da solo
@@ -4770,7 +4941,18 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
     else pallini.push(s);
   });
   Object.keys(daDiradare).forEach(function(rk){
-    pallini=pallini.concat(selectUniformRicche(daDiradare[rk],150));
+    // ⚠️ TETTO 400, NON 150 (26/8/2026). Con 150 la griglia teneva 4 stazioni
+    // per casella e la Liguria scendeva da 197 pallini a 111: fra i mancanti
+    // c'era Santo Stefano d'Aveto, che l'utente cercava. Non era un guasto e
+    // il DATO non si perdeva (colore, massimo, media e classifica si calcolano
+    // su tutte), ma il pallino sparito vuol dire niente tooltip e niente
+    // grafico per quella stazione. Nascondeva il 44% della Liguria, il 56%
+    // della Toscana, il 40% della Lombardia: proprio le reti a cui avevamo
+    // tolto le whitelist per mostrarle intere.
+    // A 400 restano diradate solo la Sicilia (431 stazioni su un'isola
+    // compatta, il caso per cui il diradamento era nato) e le reti estere
+    // piu' fitte. Misurato sui dati del 25/8: 1.071 pallini restituiti.
+    pallini=pallini.concat(selectUniformRicche(daDiradare[rk],400));
   });
   addMarkers(pallini,sorted);
   var hasRain=dati.some(function(s){return s.mm>0;});
@@ -5015,7 +5197,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
   // caselle in cui divide la regione, quindi decima proprio la montagna, dove
   // la rete è fitta: nelle Orobie sopravvivevano 2 pluviometri su 12 e una
   // sacca da 44 mm risultava asciutta. Per una mappa che serve a trovare dove
-  // ha piovuto 15-21 giorni fa è il difetto peggiore possibile.
+  // ha piovuto 13-20 giorni fa è il difetto peggiore possibile.
   // NB in produzione il RAW va cambiato in Mappa-Precipitazioni-Nord.
   //
   // Sensori esclusi: hanno coordinate corrotte nell'anagrafe ARPA (nome e
@@ -5041,7 +5223,7 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
     var out=Object.keys(rainMap).map(function(id){
       if(_scarsa(id))return null;
       var m=meta[id];
-      return {n:m.n||'—',lat:m.lat,lon:m.lon,q:m.q||0,p:m.p||'—',
+      return {n:m.n||'—',lat:m.lat,lon:m.lon,q:m.q,qt:m.qt,p:m.p||'—',
               idsensore:id,                                  // serve al grafico storico
               mm:rainMap[id]<0.5?0:Math.round(rainMap[id]*10)/10};
     }).filter(function(s){return s&&s.lat&&s.lon;});
@@ -5057,8 +5239,8 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             if(!s.id||LOMB_ESCLUSE[String(s.id)])return;
             rainMap[s.id]=(rainMap[s.id]||0)+(s.mm||0); cop[s.id]=(cop[s.id]||0)+1;
-            if(!meta[s.id]) meta[s.id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p};
-            else if(!meta[s.id].q && s.q) meta[s.id].q=s.q;   // la quota arriva anche da un file dopo
+            if(!meta[s.id]) meta[s.id]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p};
+            else if(!meta[s.id].q && s.q) meta[s.id].q=s.q;meta[s.id].qt=s.qt;   // la quota arriva anche da un file dopo
           });
         }
       })
@@ -5079,7 +5261,7 @@ function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
   function onBatchDone(){
     pending--;
     if(pending>0) return;
-    var out=stations.map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,p:s.p,mm:results[s.n]||0};});
+    var out=stations.map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,mm:results[s.n]||0};});
     cb(out);
   }
   function fmtD(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
@@ -5192,7 +5374,7 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5221,8 +5403,8 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
             // le stazioni solo dai file dal 20/8 in poi: bastava che arrivasse prima
             // un giorno di agosto piu' vecchio e il pannello diceva «0 m slm» per
             // Verolengo, che sta a 163 metri. Ora un valore buono rimpiazza lo zero.
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5265,7 +5447,7 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5289,8 +5471,8 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
         if(data&&data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5352,7 +5534,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5381,8 +5563,8 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             if(s.id&&LIGURIA_ESCLUSE[String(s.id)]) return;   // pluviometro fermo, vedi sopra
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5457,7 +5639,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5482,8 +5664,8 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             if(s.id&&EMILIA_ESCLUSE[String(s.id)]) return;   // gemelle liguri: le porta OMIRL
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5533,8 +5715,8 @@ function loadAustriaRegion(pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AT'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'AT'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5549,7 +5731,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'AT',mm:mm<0.5?0:Math.round(mm*10)/10};
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'AT',mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
         full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
@@ -5581,8 +5763,8 @@ function loadSloveniaRegion(pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'SI'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'SI'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5597,7 +5779,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'SI',mm:mm<0.5?0:Math.round(mm*10)/10};
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'SI',mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
         full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
@@ -5631,8 +5813,8 @@ function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FR'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FR'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5647,7 +5829,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'FR',mm:mm<0.5?0:Math.round(mm*10)/10};
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FR',mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
         full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
@@ -5691,8 +5873,8 @@ function loadSvizzeraRegion(pastDate,nowDate,labelPeriodo,cb){
           if(data.stations){
             data.stations.forEach(function(s){
               var key=srcCfg.pref+(s.id||s.n);
-              if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||srcCfg.pDef,_src:srcCfg.src};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+              if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||srcCfg.pDef,_src:srcCfg.src};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
               if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
               rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
             });
@@ -5707,7 +5889,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
             if(_scarsa(key))return null;
             var s=stMeta[key];if(!s)return null;
             var mm=rainTot[key]||0;
-            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p,_src:s._src,
+            return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p,_src:s._src,
                     mm:mm<0.5?0:Math.round(mm*10)/10};
           }).filter(Boolean);
           if(full.length<5){cb([]);return;}
@@ -5744,8 +5926,8 @@ function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5760,7 +5942,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
                   mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
@@ -5841,7 +6023,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
       // _src viaggia fino alla stazione in mappa: al grafico storico serve per
       // cercare il file nella cartella giusta (friuli-osmer o meteohub-friuli),
       // come già fa la Svizzera con 'oasi'/'ms'.
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'FVG',_src:s._src,
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FVG',_src:s._src,
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([],'🟢 ARPA OSMER FVG');return;}
@@ -5864,8 +6046,8 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
         if(isReal) realDays++;
         data.stations.forEach(function(s){
           var key=s.id||s.n;
-          if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FVG',_src:'osmer'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+          if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FVG',_src:'osmer'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
           if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
           rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           if(isReal) presReal[key]=(presReal[key]||0)+1;
@@ -5885,8 +6067,8 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
         if(!data.stations) return;
         data.stations.forEach(function(s){
           var key='mh_'+(s.id||s.n);
-          if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'FVG',_src:'mh'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+          if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FVG',_src:'mh'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
           if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
           rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           presMH[key]=(presMH[key]||0)+1;
@@ -5906,8 +6088,8 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
             if(!FRIULI_VENETO_BORDER[s.n]) return;
             usaVeneto=true;
             var key='ven_'+s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BL',_src:'veneto'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'BL',_src:'veneto'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5941,8 +6123,8 @@ function loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'AO'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'AO'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -5957,7 +6139,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'AO',mm:mm<0.5?0:Math.round(mm*10)/10};
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'AO',mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([],'🟢 Centro Funzionale VdA');return;}
         full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
@@ -6018,8 +6200,8 @@ function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             if(escluse[s.n]) return;                 // pluviometro guasto, vedi MH_ESCLUSE
             var key=s.id||s.n;
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6034,7 +6216,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',mm:mm<0.5?0:Math.round(mm*10)/10};
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
         full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
@@ -6067,8 +6249,8 @@ function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'BZ'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'BZ'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6083,7 +6265,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'BZ',
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'BZ',
                   mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
@@ -6117,8 +6299,8 @@ function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
         if(data.stations){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||'TN'};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'TN'};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6133,7 +6315,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da 
           if(_scarsa(key))return null;
           var s=stMeta[key];if(!s)return null;
           var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'TN',
+          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'TN',
                   mm:mm<0.5?0:Math.round(mm*10)/10};
         }).filter(Boolean);
         if(full.length<5){cb([]);return;}
@@ -6247,7 +6429,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -6266,8 +6448,8 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
           data.stations.forEach(function(s){
             var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
             if(TOSCANA_ESCLUSE[key]) return; // guasti, vedi TOSCANA_ESCLUSE
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''};
-else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;   // la quota arriva anche da un file dopo
+            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
+else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
@@ -6589,10 +6771,42 @@ var _vistaPaese = null;      // {lat,lon} finché l'utente resta sul paese cerca
 var _daRicerca = false;      // per distinguere le spunte nostre da quelle a dito
 
 function locNormalizza(s) {
-  // accenti via, apostrofi e trattini come spazi: «Sant'Angelo» si deve trovare
+  // accenti via, apostrofi trattini e PUNTI come spazi (il punto dal 26/8/2026:
+  // cosi' «S.Stefano» e «S. Stefano» valgono «s stefano») «Sant'Angelo» si deve trovare
   // scrivendo «sant angelo», «santangelo» o «angelo».
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-          .replace(/['’\-]/g, ' ').replace(/\s+/g, ' ').trim();
+          .replace(/['’\-.]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+/* ⚠️ «S.» E «S» VALGONO SAN, SANT', SANTO, SANTA (26/8/2026, l'utente: «se
+   faccio s o s. mi da' zero paesi»). Nell'elenco il santo e' scritto sempre
+   per esteso, 494 comuni su 8.610 (345 San, 76 Sant', 59 Santa, 14 Santo) e
+   nessuno abbreviato: non e' l'elenco a essere disordinato, e' la DOMANDA che
+   va allargata. Chi scrive «s stefano» cerca anche «santo stefano», e vince
+   quella che esiste davvero.
+   ⚠️ Si allarga SOLO quando uno scrive l'abbreviazione: chi scrive «san» per
+   intero trova quello che trovava prima, ne' piu' ne' meno. */
+var LOC_SANTI = ['san', 'sant', 'santo', 'santa', 'santi', 'sante'];
+function locVarianti(q) {
+  var m = q.match(/^ss? (.+)$/);       // «s stefano», «ss annunziata»
+  if (!m) return [q];
+  return [q].concat(LOC_SANTI.map(function (x) { return x + ' ' + m[1]; }));
+}
+
+/* Dove comincia, dentro il nome, il pezzo trovato: serve al grassetto della
+   tendina. Torna anche QUANTO e' lungo, perche' con le varianti il pezzo
+   trovato puo' essere piu' lungo di quello scritto (uno scrive «s stefano» e
+   in grassetto va «Santo Stefano»).
+   ⚠️ pos -1 = non trovato: prima il calcolo dava 0 e il grassetto finiva sulle
+   prime lettere a caso. */
+function locDove(p, varianti) {
+  for (var v = 0; v < varianti.length; v++) {
+    var qq = varianti[v];
+    if (p.q.lastIndexOf(qq, 0) === 0) return { pos: 0, len: qq.length };
+    var i = p.q.indexOf(' ' + qq);
+    if (i >= 0) return { pos: i + 1, len: qq.length };
+  }
+  return { pos: -1, len: 0 };
 }
 
 function locCarica() {
@@ -6674,11 +6888,15 @@ function locDaGeocoder(testo) {
 function locCerca(testo) {
   var q = locNormalizza(testo);
   if (!q || !_locIndice) return { righe: [], totale: 0 };
+  var varianti = locVarianti(q);
   var inizio = [], dentro = [];
   for (var i = 0; i < _locIndice.length; i++) {
     var p = _locIndice[i];
-    if (p.q.lastIndexOf(q, 0) === 0) inizio.push(p);
-    else if (p.q.indexOf(' ' + q) >= 0) dentro.push(p);   // inizio di una parola qualsiasi
+    for (var v = 0; v < varianti.length; v++) {
+      var qq = varianti[v];
+      if (p.q.lastIndexOf(qq, 0) === 0) { inizio.push(p); break; }
+      if (p.q.indexOf(' ' + qq) >= 0) { dentro.push(p); break; }   // inizio di una parola qualsiasi
+    }
   }
   // dentro ogni gruppo comanda la popolazione: chi cerca «San» vuole prima
   // San Giovanni Rotondo, non una frazione da sei anime.
@@ -6748,9 +6966,9 @@ function locDisegna(res, testo, intestazione) {
     // evidenzia il pezzo digitato, ma sul nome VERO (accenti compresi): la
     // lunghezza combacia perché la normalizzazione non aggiunge né toglie
     // caratteri, li sostituisce
-    var pos = p.q.lastIndexOf(q, 0) === 0 ? 0 : p.q.indexOf(' ' + q) + 1;
+    var d = locDove(p, locVarianti(q)), pos = d.pos;
     var nome = pos >= 0
-      ? p.n.slice(0, pos) + '<b>' + p.n.slice(pos, pos + q.length) + '</b>' + p.n.slice(pos + q.length)
+      ? p.n.slice(0, pos) + '<b>' + p.n.slice(pos, pos + d.len) + '</b>' + p.n.slice(pos + d.len)
       : p.n;
     var reg = (typeof REGIONS !== 'undefined' && REGIONS[p.reg] && REGIONS[p.reg].name) || p.reg;
     return '<div class="loc-riga" role="option" data-i="' + i + '">' +
@@ -6850,8 +7068,13 @@ function fitMapToPunto(lat, lon, tacca) {
 
 function locVai(p) {
   if (!p || isLoading) return;
-  document.getElementById('loc-input').value = p.n;
-  document.getElementById('loc-box').classList.add('pieno');
+  // ⚠️ p.muta: la casella NON si riempie. Serve a «La mia posizione», che
+  // passa di qui ma non e' una ricerca scritta: vedersi comparire «La mia
+  // posizione» dentro il campo di ricerca confondeva (segnalato il 26/8/2026).
+  if (!p.muta) {
+    document.getElementById('loc-input').value = p.n;
+    document.getElementById('loc-box').classList.add('pieno');
+  }
   locChiudi();
   document.getElementById('loc-input').blur();
 
@@ -6870,7 +7093,7 @@ function locVai(p) {
   document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function (cb) { cb.checked = false; });
   regioni.forEach(function (k) { document.getElementById('chk-' + k).checked = true; });
 
-  _vistaPaese = { lat: p.lat, lon: p.lon, n: p.n, z: p.t === 'z' };   // z: e' un'area, si inquadra piu' larga
+  _vistaPaese = { lat: p.lat, lon: p.lon, n: p.n, z: p.t === 'z', priv: !!p.priv };   // z: e' un'area, si inquadra piu' larga
   _vistaDaLink = false;   // ricerca nuova: comanda lei, non piu' il link da cui sei arrivato
   _daRicerca = true;
   document.getElementById('chk-' + regioni[regioni.length - 1]).dispatchEvent(new Event('change'));
@@ -6924,6 +7147,8 @@ function locFermaChiamata() {
   _locChiamata = false;
   var i = document.getElementById('loc-input');
   if (i) i.classList.remove('loc-chiama');
+  var g = document.getElementById('geo-btn');
+  if (g) g.classList.remove('loc-chiama');
 }
 
 (function locAvvia() {
@@ -6932,7 +7157,14 @@ function locFermaChiamata() {
   var box = document.getElementById('loc-box'), drop = document.getElementById('loc-drop');
 
   inp.classList.add('loc-chiama');
+  // ⚠️ NELLO STESSO ISTANTE della casella, non in geoPrepara: due
+  // animazioni identiche fatte partire in due momenti diversi vanno fuori
+  // fase, e il respiro sfalsato si legge come due cose scollegate.
+  var gb = document.getElementById('geo-btn');
+  if (gb) gb.classList.add('loc-chiama');
   inp.addEventListener('focus', locFermaChiamata);   // l'ha vista: basta chiamare
+  // Se imbocca l'altra strada, l'avviso del GPS ha finito il suo lavoro.
+  inp.addEventListener('focus', function(){ if (typeof geoNota === 'function') geoNota(''); });
 
   // La casella vive DENTRO il contenitore Leaflet: un doppio click per
   // selezionare una parola arrivava alla mappa e la zoomava (segnalato il
@@ -7411,8 +7643,9 @@ function middleRegion(keys){
   return best;
 }
 
-// Bottone funghi — piogge 15-21 giorni fa (finestra spostata il 7/8/2026;
-// prima 16-23, prima ancora 18-25)
+// Bottone funghi — piogge 13-20 giorni fa (finestra spostata il 26/8/2026;
+// prima 15-21 dal 7/8, prima ancora 16-23 e 18-25). Sono OTTO giorni di
+// accumulo, non piu' sette, e la finestra si avvicina di due giorni a oggi.
 document.getElementById('btn-funghi').addEventListener('click',function(){
   isLoading=false; // reset forzato per evitare blocco
   if(false) return;
@@ -7425,15 +7658,15 @@ document.getElementById('btn-funghi').addEventListener('click',function(){
   this.classList.add('active');
   document.getElementById('custom-box').style.display='none';
   var now=new Date();
-  var past21=new Date(now.getTime()-21*24*3600000);
-  var past15=new Date(now.getTime()-15*24*3600000);
+  var past20=new Date(now.getTime()-20*24*3600000);
+  var past13=new Date(now.getTime()-13*24*3600000);
   function fmt(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
-  var label='🍄 Piogge 15-21 gg fa ('+fmt(past21)+' → '+fmt(past15)+')';
-  currentPast=past21; currentNow=past15; currentLabel=label;
+  var label='🍄 Piogge 13-20 gg fa ('+fmt(past20)+' → '+fmt(past13)+')';
+  currentPast=past20; currentNow=past13; currentLabel=label;
   osmerMobileHide(); // scelto un periodo → nascondi la nota mobile
   var _ts=document.getElementById('tp-status');_ts.className='';_ts.textContent='';
-  document.getElementById('datehdr').textContent=fmt(past21)+' – '+fmt(past15);
-  loadData(past21,past15,label);
+  document.getElementById('datehdr').textContent=fmt(past20)+' – '+fmt(past13);
+  loadData(past20,past13,label);
 });
 // Select mobile regioni — a DUE LIVELLI dal 10/8/2026: le 13 régions francesi
 // stanno in un sottomenu (voce "Francia ▸"), se no la tendina spingeva le
@@ -7465,9 +7698,245 @@ var OPZIONI_FRANCIA=
 // non solo al caricamento: chi apriva il sito con la finestra stretta e poi la
 // allargava restava SENZA CASELLA, perche' era finita dentro una tendina che
 // su desktop non si apre (trovato collaudando la promozione, 22/8/2026).
+/* ── «La mia posizione» (26/8/2026) ──────────────────────────────────────
+   Non ricalcola NIENTE di suo: prende le coordinate dal browser e chiama
+   locVai(), la stessa strada della ricerca per localita' — sceglie le regioni
+   dalla griglia da 0,05°, centra, mette il segnaposto e avvisa se sono stime.
+   ⚠️ La posizione NON esce dal browser: nessuna nostra chiamata la riceve.
+   ⚠️ Il bottone non viene proprio disegnato se il browser non ha la
+   geolocalizzazione o se la pagina non e' in HTTPS (Chrome la spegne e basta):
+   meglio non vederlo che vederlo morto.                                      */
+var NOVITA_FINO = '2026-09-30T23:59:59+02:00';   // poi il cartellino sparisce da solo
+
+/* ⚠️ L'AVVISO VA NEL BOTTONE, NON NELLA CASELLA (26/8/2026, l'utente).
+   La casella di ricerca e' l'ALTERNATIVA a questo tasto: se ci scrivo dentro
+   che il GPS non va, chi ha il GPS rotto non vede piu' la via d'uscita.
+   Il messaggio sta su una riga sua dentro il tasto, che resta cliccabile:
+   il secondo clic riprova e ripulisce. */
+function geoNota(msg, attesa){
+  var b = document.getElementById('geo-btn');
+  if(!b) return;
+  var n = b.querySelector('.gb-nota');
+  if(n) n.textContent = msg || '';
+  // Stessa riga, due significati: grigio mentre cerca, rosso quando rinuncia.
+  b.classList.toggle('attesa', !!msg && !!attesa);
+  b.classList.toggle('avviso', !!msg && !attesa);
+  if(typeof collocaCanale === 'function') collocaCanale();
+}
+
+/* ⚠️ ANDROID NON TROVAVA LA POSIZIONE (26/8/2026, provato dall'utente sul suo
+   telefono: sul PC funzionava, su Android no). La prima versione chiedeva la
+   posizione con enableHighAccuracy:FALSE e dieci secondi di tetto. Su Android
+   quella strada passa dal servizio di rete di Google: se e' spento, o se non
+   ha campo, risponde POSITION_UNAVAILABLE e NON prova il GPS. Ora si fa in
+   due tempi:
+     1. watchPosition col GPS acceso. watch e non getCurrentPosition perche'
+        su Chrome Android capita che il secondo non richiami MAI nessuno dei
+        due callback (e' la ragione per cui il tetto nostro esisteva gia').
+     2. se il primo fallisce, un secondo tentativo grossolano che si
+        accontenta anche di una posizione vecchia di un quarto d'ora: a noi
+        serve il paese, non il metro.
+   ⚠️ I messaggi ora sono TRE DISTINTI (negato / non disponibile / troppo
+   lento) e il codice d'errore va in GA4: se ricapita, e' il messaggio stesso
+   a dire quale dei tre e' stato, senza doverglielo chiedere.
+   ⚠️ Il tetto nostro e' largo apposta: il tempo che uno ci mette a rispondere
+   al permesso NON e' compreso nei timeout del browser, ma nel nostro si'. */
+var GEO_TETTO   = 25000;
+/* ⚠️ IL SECONDO CLIC PRETENDE UN COLPO NUOVO (26/8/2026, l'utente: «si puo'
+   fare che se riclicco rifa la ricerca?»). Il tasto il browser lo interrogava
+   gia' (misurato), ma con maximumAge a 60 s si riprendeva la POSIZIONE DI
+   PRIMA dalla cache: la mappa non si muoveva e da fuori sembrava un tasto
+   morto. Il primo clic puo' accontentarsi di un colpo recente, che e'
+   immediato; dal secondo in poi si azzera la cache e si aspetta il GPS. */
+var _geoFatto = false;
+function geoOpzioni(fresco){
+  // ⚠️ La cache non si prende piu' a cuor leggero: il grossolano accetta un
+  // colpo di al massimo DUE MINUTI (prima quindici), e al riclic pretende
+  // comunque un colpo nuovo. «Dove sono» che risponde con dove eri stamattina
+  // e' peggio di un errore.
+  return {
+    preciso: { enableHighAccuracy:true,  timeout:20000, maximumAge: fresco ? 0 : 60000 },
+    grosso:  { enableHighAccuracy:false, timeout:12000, maximumAge: fresco ? 0 : 120000 }
+  };
+}
+
+/* ⚠️ QUANTO E' BUONA LA POSIZIONE (26/8/2026: «su PC mi dice che sono a
+   Caserta invece che in Liguria»). Sul computer il GPS non esiste: la
+   posizione la da' il servizio di rete, e quando non riconosce nessuna rete
+   wi-fi intorno ripiega sull'INDIRIZZO INTERNET, cioe' sulla centrale del
+   provider. Puo' sbagliare di seicento chilometri, ed e' esattamente il caso
+   Caserta. Il browser pero' non ce lo nasconde: `coords.accuracy` e' il raggio
+   in metri entro cui dice di essere sicuro. Un colpo da GPS sta sotto i 50 m,
+   uno da wi-fi sotto il chilometro, uno da indirizzo internet sta sulle
+   decine o centinaia di chilometri.
+   Quindi: sotto GEO_BUONA si parte subito; sopra si tiene da parte e si da'
+   tempo al GPS di svegliarsi (per questo serviva watchPosition: continua a
+   mandare colpi via via piu' precisi); passata l'attesa si prende il migliore
+   solo se sta sotto GEO_MASSIMA, che e' il limite oltre il quale non e'
+   nemmeno detto che la REGIONE sia quella giusta. Se no si dice che non lo
+   sappiamo: meglio ammetterlo che portare uno in Campania. */
+var GEO_BUONA   = 3000;    // m: buona, si parte senza aspettare altro
+var GEO_MASSIMA = 20000;   // m: oltre non e' sicura nemmeno la regione
+var GEO_ATTESA  = 8000;    // ms: quanto si aspetta se il colpo e' pessimo
+// ⚠️ Un colpo da 5 km il paese lo dice gia': far aspettare otto secondi per
+// raffinarlo e' tempo tolto a chi guarda lo schermo. Sopra GEO_MASSIMA il
+// dubbio e' sulla REGIONE e li' vale la pena aspettare; sotto, no.
+var GEO_ATTESA_CORTA = 2000;
+
+/* La spia: index.html?geodebug=1 fa scrivere al tasto codice e precisione.
+   Serve a capire da lontano cosa risponde un telefono che non e' qui. */
+var GEO_SPIA = /(^|[?&])geodebug(=1)?(&|$)/.test(location.search);
+
+function geoTrova(){
+  var b = document.getElementById('geo-btn');
+  if(!b || b.disabled || isLoading) return;
+  var et = b.querySelector('.gb-t'), vecchio = et.textContent;
+  var chiuso = false, tmr = null, watch = null;
+  var miglior = null, attesa = null;
+  // ⚠️ null = sta ancora provando, numero = ha fallito con quel codice.
+  // Si rinuncia solo quando hanno fallito TUTTI E DUE.
+  var esito = { preciso: null, grosso: null };
+  var t0 = Date.now(), tFix = 0;   // per la spia: dove se ne va il tempo
+  var passi = [];                  // i gradini dell'attesa, da spegnere alla fine
+  var opz = geoOpzioni(_geoFatto);   // dal secondo clic in poi: colpo nuovo
+  _geoFatto = true;
+
+  function stop(){
+    if(watch === null) return;
+    try{ navigator.geolocation.clearWatch(watch); }catch(e){}
+    watch = null;
+  }
+  function spia(pre){
+    return pre + ' [spia: p=' + (esito.preciso === null ? 'attesa' : esito.preciso) +
+      ' g=' + (esito.grosso === null ? 'attesa' : esito.grosso) +
+      ' ±' + (miglior ? Math.round(miglior.coords.accuracy || 0) : '?') + ' m' +
+      (tFix ? ', posizione in ' + tFix + ' ms' : '') +
+      ', tot ' + (Date.now() - t0) + ' ms]';
+  }
+  function fine(msg, tipo, codice, prec){
+    if(chiuso) return;
+    chiuso = true; clearTimeout(tmr); clearTimeout(attesa); stop();
+    passi.forEach(clearTimeout);
+    b.disabled = false; b.classList.remove('cerca'); et.textContent = vecchio;
+    if(GEO_SPIA && tipo) msg = spia(msg ? msg + ' ' : (tipo + ' '));
+    geoNota(msg);
+    if(tipo){ try{ gtag('event','usa_posizione',
+      {esito:tipo, codice:codice||0, precisione:Math.round(prec||0)}); }catch(e){} }
+  }
+  function accetta(pos){
+    stop(); clearTimeout(attesa);
+    if(chiuso) return;
+    var lat = pos.coords.latitude, lon = pos.coords.longitude, acc = pos.coords.accuracy || 0;
+    locCarica().then(function(){
+      if(chiuso) return;
+      var vic = locRegioniVicine(lat, lon).filter(function(k){ return document.getElementById('chk-'+k); });
+      if(!vic.length){ fine('Qui non arriviamo ancora', 'fuori', 0, acc); return; }
+      // l'evento se lo manda da solo perche' porta anche la regione:
+      // fine() non deve rifarlo, se no in GA4 ne contiamo due.
+      try{ gtag('event','usa_posizione',{esito:'ok', regione:vic[0], precisione:Math.round(acc)}); }catch(e){}
+      fine(GEO_SPIA ? spia('ok') : '');
+      // muta: non scrive nella casella di ricerca.
+      // priv: il punto NON viaggia col link condiviso, vedi buildShareUrl.
+      locVai({ n:'La mia posizione', lat:lat, lon:lon, reg:vic[0], t:'', muta:true, priv:true });
+    }).catch(function(){ fine('Non ci sono riuscito: scrivi il paese qui sotto', 'errore', 0, acc); });
+  }
+  function decidi(){
+    stop(); clearTimeout(attesa);
+    if(chiuso) return;
+    var a = miglior ? (miglior.coords.accuracy || 0) : 0;
+    if(miglior && (!a || a <= GEO_MASSIMA)) accetta(miglior);
+    else fine('Non riesco a capire dove sei: scrivi il paese qui sotto', 'impreciso', 0, a);
+  }
+  function trovato(pos){
+    if(chiuso) return;
+    if(!tFix) tFix = Date.now() - t0;      // il PRIMO colpo utile, per la spia
+    var acc = (pos.coords && pos.coords.accuracy) || 0;
+    if(!miglior || acc < (miglior.coords.accuracy || 0)) miglior = pos;
+    if(!acc || acc <= GEO_BUONA){ accetta(pos); return; }
+    // Colpo grossolano tenuto da parte: si da' tempo al GPS di svegliarsi,
+    // ma solo se il preciso e' ancora vivo — se ha gia' fallito non arrivera'.
+    if(esito.preciso !== null){ decidi(); return; }
+    if(attesa === null) attesa = setTimeout(decidi,
+      acc <= GEO_MASSIMA ? GEO_ATTESA_CORTA : GEO_ATTESA);
+  }
+  function fallito(chi, err){
+    if(chiuso) return;
+    var c = (err && err.code) || 0;
+    esito[chi] = c;
+    if(chi === 'preciso') stop();
+    // Il permesso negato vale per tutti e due: inutile aspettare l'altro.
+    if(c === 1){ fine('Permesso negato: scrivi il paese qui sotto', 'negato', 1); return; }
+    if(esito.preciso === null || esito.grosso === null) return;   // l'altro ci prova ancora
+    if(miglior){ decidi(); return; }                              // qualcosa era arrivato
+    var cc = esito.preciso || esito.grosso;
+    fine(cc === 3 ? 'Ci sto mettendo troppo: scrivi il paese qui sotto'
+                  : 'GPS non disponibile: scrivi il paese qui sotto',
+         cc === 3 ? 'lento' : 'nondisponibile', cc);
+  }
+
+  geoNota('');
+  if(typeof locFermaChiamata === 'function') locFermaChiamata();
+  // ⚠️ L'elenco dei paesi si scarica MENTRE il GPS cerca, non dopo: sono due
+  // attese che possono stare sovrapposte invece che in fila. locCarica()
+  // tiene la sua promessa, quindi la seconda chiamata non riscarica niente.
+  try{ locCarica(); }catch(e){}
+  b.disabled = true; b.classList.add('cerca'); et.textContent = 'Ti sto cercando…';
+  tmr = setTimeout(function(){
+    if(miglior){ decidi(); return; }
+    fine('Ci sto mettendo troppo: scrivi il paese qui sotto', 'lento', 0);
+  }, GEO_TETTO);
+  // ⚠️ L'ATTESA SI SPIEGA (26/8/2026: «con Chrome e' stato piu' lento»). Quanto
+  // ci mette un colpo di GPS non lo decidiamo noi: con una posizione recente in
+  // cache sono mezzi secondi, da freddo sono secondi — e Chrome e il browser
+  // interno hanno cache SEPARATE, per questo lo stesso telefono e' rapido su uno
+  // e lento sull'altro. Quello che possiamo togliere e' il buio: un'attesa muta
+  // si sente doppia. La ricerca NON si ferma, e se la posizione arriva mentre
+  // uno legge, vince lei.
+  passi.push(setTimeout(function(){
+    if(!chiuso) geoNota('Ci vuole qualche secondo\u2026', true);
+  }, 3000));
+  passi.push(setTimeout(function(){
+    if(!chiuso) geoNota('Il GPS \u00e8 lento: puoi anche scrivere il paese qui sotto', true);
+  }, 10000));
+  // ⚠️ I DUE TENTATIVI PARTONO INSIEME (26/8/2026, seconda prova dal telefono:
+  // «ci sta mettendo piu' del solito»). Prima il grossolano partiva SOLO dopo
+  // un errore del preciso: ma su Chrome Android watchPosition a volte non
+  // richiama nessuno dei due callback, quindi l'errore non arrivava mai e il
+  // ripiego non partiva mai. Era una porta di sicurezza chiusa dall'interno.
+  try{ watch = navigator.geolocation.watchPosition(trovato,
+    function(e){ fallito('preciso', e); }, opz.preciso); }
+  catch(e){ fallito('preciso', { code: 0 }); }
+  try{ navigator.geolocation.getCurrentPosition(trovato,
+    function(e){ fallito('grosso', e); }, opz.grosso); }
+  catch(e){ fallito('grosso', { code: 0 }); }
+}
+
+/* Il box canale sta SOTTO il blocco «novita'», e il blocco cambia altezza
+   (l'avviso compare e sparisce). Si misura invece di scrivere un numero:
+   un numero fisso si scollega il giorno che il blocco cresce di una riga. */
+function collocaCanale(){
+  var nb = document.getElementById('novita-box'), cl = document.getElementById('channel-logo');
+  if(!nb || !cl) return;
+  if(window.innerWidth <= 900 || getComputedStyle(nb).display === 'none'){ cl.style.top = ''; return; }
+  var m = document.getElementById('map');
+  if(!m) return;
+  var giu = nb.getBoundingClientRect().bottom - m.getBoundingClientRect().top + 10;
+  cl.style.top = Math.round(giu) + 'px';
+}
+window.addEventListener('resize', collocaCanale);
+
+function geoPrepara(){
+  var b = document.getElementById('geo-btn');
+  if(!b) return;
+  if(!navigator.geolocation || !window.isSecureContext){ b.style.display = 'none'; return; }
+  b.addEventListener('click', geoTrova);
+  var t = document.getElementById('novita-testa');
+  if(t && Date.now() > new Date(NOVITA_FINO).getTime()) t.style.display = 'none';
+}
+
 var _locCasa = null, _locDopo = null;
 function locCollocaCasella(){
-  var box=document.getElementById('loc-box'), slot=document.getElementById('reg-cerca-slot');
+  var box=document.getElementById('novita-box'), slot=document.getElementById('reg-cerca-slot');
   if(!box||!slot) return;
   if(!_locCasa){ _locCasa=box.parentElement; _locDopo=box.nextSibling; }
   if(window.innerWidth<=900){
@@ -7475,6 +7944,7 @@ function locCollocaCasella(){
   } else if(box.parentElement!==_locCasa){
     _locCasa.insertBefore(box,_locDopo);
   }
+  if(typeof collocaCanale === 'function') collocaCanale();
 }
 window.addEventListener('resize', locCollocaCasella);
 
@@ -7521,6 +7991,8 @@ function regChiudi(){
   // La casella di ricerca TRASLOCA dentro la tendina: e' lo stesso elemento di
   // sempre (#loc-box), quindi tutta la ricerca continua a funzionare com'e'.
   locCollocaCasella();
+  geoPrepara();
+  collocaCanale();
   apri.addEventListener('click', regApri);
   document.getElementById('reg-chiudi').addEventListener('click', regChiudi);
   // Tocco sul velo scuro = chiudi. Sul pannello no: e' dentro #reg-sheet.
@@ -7892,11 +8364,22 @@ function buildShareUrl(){
   p.set('a',fmtISOLocal(new Date(currentNow)));
   p.set('z',String(Math.round(map.getZoom()*100)/100));
   var c=map.getCenter();
-  p.set('c',c.lat.toFixed(4)+','+c.lng.toFixed(4));
+  // ⚠️ E NON BASTA TOGLIERE pl (26/8/2026): dopo «La mia posizione» il CENTRO
+  // della mappa e' la persona, e quattro decimali sono undici metri — a quel
+  // punto il link dice comunque dov'era, casa compresa. Con la posizione GPS
+  // il centro si arrotonda a DUE decimali, circa un chilometro: chi riceve
+  // vede la stessa zona, ma il punto di partenza non e' piu' un indirizzo.
+  var _dec = (_vistaPaese && _vistaPaese.priv) ? 2 : 4;
+  p.set('c',c.lat.toFixed(_dec)+','+c.lng.toFixed(_dec));
   // Il PAESE CERCATO viaggia col link (22/8/2026): senza, chi riceveva vedeva
   // la stessa inquadratura ma senza segnaposto, e non capiva di cosa si stesse
   // parlando. Due parametri, coordinate e nome.
-  if(_vistaPaese){
+  // ⚠️ MAI la posizione DELLA PERSONA (26/8/2026). Il paese cercato a mano
+  // viaggia col link, e va bene: e' un nome pubblico. Le coordinate prese dal
+  // GPS no: pl ha CINQUE decimali, cioe' circa un metro, e un link condiviso
+  // su Facebook direbbe a tutti dove si trovava chi l'ha creato — spesso casa
+  // sua. Chi riceve vede la stessa inquadratura, senza il segnaposto.
+  if(_vistaPaese && !_vistaPaese.priv){
     p.set('pl', _vistaPaese.lat.toFixed(5)+','+_vistaPaese.lon.toFixed(5));
     if(_vistaPaese.n) p.set('pn', _vistaPaese.n);
   }
@@ -8228,14 +8711,17 @@ function didascaliaFoto(){
   // foto legge «Viozene», non «Liguria, Provenza-Costa Azzurra (FR), Piemonte»,
   // che e' l'elenco delle regioni che servono A NOI per disegnare. «e dintorni»
   // perche' la mappa mostra la zona attorno, non il paese soltanto.
-  if(_vistaPaese && _vistaPaese.n)
+  // ⚠️ Non con la posizione GPS: la didascalia direbbe «Dove ha piovuto a La
+  // mia posizione», che non vuol dire niente a chi legge. Li' tornano i nomi
+  // delle regioni, come prima della ricerca per localita'.
+  if(_vistaPaese && _vistaPaese.n && !_vistaPaese.priv)
     return 'Dove ha piovuto a '+_vistaPaese.n+' e dintorni'+quando+': mappa dei pluviometri, dati reali di stazione';
   return 'Dove ha piovuto in '+nomi.join(', ')+quando+': mappa dei pluviometri, dati reali di stazione';
 }
 function shareFileName(){
   // Stesso ragionamento della didascalia: se c'e' un paese, il file porta il
   // suo nome. pioggia_viozene_2026-08-15_2026-08-21.png
-  var chi=(_vistaPaese&&_vistaPaese.n)
+  var chi=(_vistaPaese&&_vistaPaese.n&&!_vistaPaese.priv)
     ? _vistaPaese.n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
         .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
     : getActiveRegions().join('-');
@@ -8581,7 +9067,7 @@ function loadMeteoHubStations(regionKey,cb){
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){ var escl=MH_ESCLUSE[regionKey]||{};
                              var st=(data.stations||[]).filter(function(s){return !escl[s.n];})
-                                     .map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'',
+                                     .map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
                                                               w:s.w,u:s.u,t:s.t};});  // i sensori servono a selectUniformRicche
                              meteohubStationsCache[regionKey]=st; cb(st); })
       .catch(function(){ idx++; attempt(); });
@@ -8605,7 +9091,7 @@ function loadSvizzeraStations(cb){
       if(idx>=tries.length){ if(--pendingSrc===0){ svizzeraStationsCache=merged; cb(merged); } return; }
       fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
         .then(function(data){
-          (data.stations||[]).forEach(function(s){ merged.push({n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,p:s.p||''}); });
+          (data.stations||[]).forEach(function(s){ merged.push({n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''}); });
           if(--pendingSrc===0){ svizzeraStationsCache=merged; cb(merged); }
         })
         .catch(function(){ idx++; attempt(); });
@@ -8625,7 +9111,7 @@ function loadAustriaStations(cb){
     if(idx>=tries.length){ cb([]); return; }
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){
-        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'AT'};});
+        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'AT'};});
         austriaStationsCache=st; cb(st);
       })
       .catch(function(){ idx++; attempt(); });
@@ -8644,7 +9130,7 @@ function loadSloveniaStations(cb){
     if(idx>=tries.length){ cb([]); return; }
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){
-        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'SI'};});
+        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'SI'};});
         sloveniaStationsCache=st; cb(st);
       })
       .catch(function(){ idx++; attempt(); });
@@ -8663,7 +9149,7 @@ function loadFranciaStations(regionKey,cb){
     if(idx>=tries.length){ cb([]); return; }
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){
-        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q||0,w:s.w,u:s.u,t:s.t,p:s.p||'FR'};});
+        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FR'};});
         franciaStationsCache[regionKey]=st; cb(st);
       })
       .catch(function(){ idx++; attempt(); });
@@ -8724,7 +9210,7 @@ function drawDefaultMarkers(stazioni,cfg){
         document.getElementById('tt-nome').textContent=st.n;
         document.getElementById('tt-mm').textContent='–';
         document.getElementById('tt-prov').textContent=st.p;
-        document.getElementById('tt-quota').textContent=st.q+' m slm';
+        document.getElementById('tt-quota').textContent=testoQuota(st);
         document.getElementById('tt-rank').textContent='seleziona un periodo';
         document.getElementById('tt-fonte').textContent=cfg?cfg.fonte:'—';
         posTooltip(cx,cy);
