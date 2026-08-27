@@ -44,5 +44,8 @@ jobs:
           git config user.email "bot@bot.com"
           git add data/liguria/
           git diff --staged --quiet || git commit -m "liguria $(date -u +%Y-%m-%d)"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && break
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done
