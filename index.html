@@ -6800,10 +6800,13 @@ function locVarianti(q) {
    ⚠️ pos -1 = non trovato: prima il calcolo dava 0 e il grassetto finiva sulle
    prime lettere a caso. */
 function locDove(p, varianti) {
+  // ⚠️ Non ci si fida del campo: un ricordo vecchio puo' non avere `q`, e qui
+  // un'eccezione non fa sbagliare il grassetto, spegne TUTTA la tendina.
+  var pq = (p && p.q) || '';
   for (var v = 0; v < varianti.length; v++) {
     var qq = varianti[v];
-    if (p.q.lastIndexOf(qq, 0) === 0) return { pos: 0, len: qq.length };
-    var i = p.q.indexOf(' ' + qq);
+    if (pq.lastIndexOf(qq, 0) === 0) return { pos: 0, len: qq.length };
+    var i = pq.indexOf(' ' + qq);
     if (i >= 0) return { pos: i + 1, len: qq.length };
   }
   return { pos: -1, len: 0 };
@@ -6954,8 +6957,44 @@ function locSegnapostoVia() {
 // che e' roba sua e resta sul suo computer: nessuno le vede e non viaggiano.
 var LOC_RECENTI = 6;
 var LOC_CHIAVE = 'pluvio_localita_recenti';
+/* La memoria del browser funziona davvero? Si prova a scrivere e rileggere:
+   in incognito, o con i dati dei siti bloccati, localStorage esiste ma non
+   conserva niente — e allora la cronologia non e' un nostro guasto. */
+function locMemoriaStato() {
+  try {
+    localStorage.setItem('_pluvio_prova', '1');
+    var v = localStorage.getItem('_pluvio_prova');
+    localStorage.removeItem('_pluvio_prova');
+    return v === '1' ? 'ok' : 'non conserva';
+  } catch (e) { return 'bloccata (' + ((e && e.name) || '?') + ')'; }
+}
+
 function locLeggiRecenti() {
-  try { return JSON.parse(localStorage.getItem(LOC_CHIAVE) || '[]'); } catch (e) { return []; }
+  /* ⚠️ I RICORDI SI RIPARANO IN LETTURA (27/8/2026). UN SOLO ricordo malfatto
+     spegneva TUTTA la tendina: locDove() fa `p.q.lastIndexOf(...)` e su un
+     ricordo senza `q` solleva un'eccezione, quindi non si disegna piu' niente
+     e a schermo non compare NULLA. E' il difetto che l'utente ha inseguito per
+     due ore, con la spia che diceva «ricordi=5, memoria=ok»: i ricordi c'erano,
+     era il disegno che moriva.
+     Da dove veniva il ricordo rotto: «La mia posizione» finiva fra i cercati di
+     recente, e il suo oggetto NON ha il campo `q` — JSON.stringify butta via le
+     proprieta' undefined, quindi in memoria restava un ricordo senza q. Sul PC
+     non capitava piu' perche' li' il tasto della posizione non esiste.
+     Adesso: i malfatti si scartano, e a chi manca solo `q` la si ricalcola dal
+     nome. La lista si ripara da sola alla prima lettura, senza che nessuno
+     debba cancellare niente. */
+  try {
+    var a = JSON.parse(localStorage.getItem(LOC_CHIAVE) || '[]');
+    if (!Array.isArray(a)) return [];
+    // ⚠️ I ricordi senza `q` SI BUTTANO, non si riparano: l'unico modo di
+    // averne uno era «La mia posizione», che finiva qui dentro per sbaglio e
+    // in un elenco di paesi cercati non ci deve stare. Ripararlo voleva dire
+    // farlo ricomparire in cima, che e' quello che l'utente si e' ritrovato.
+    return a.filter(function (x) {
+      return x && x.n && x.q && x.n !== 'La mia posizione' &&
+             typeof x.lat === 'number' && typeof x.lon === 'number';
+    });
+  } catch (e) { return []; }
 }
 function locSalvaRecente(p) {
   try {
@@ -7120,6 +7159,13 @@ function locVai(p, _giro) {
     document.getElementById('loc-input').value = p.n;
     document.getElementById('loc-box').classList.add('pieno');
   }
+  /* ⚠️ IL RICORDO SI SCRIVE QUI, NON IN FONDO (27/8/2026). Stava dopo il cambio
+     regioni, la centratura, il segnaposto e il caricamento: qualunque cosa si
+     rompesse per strada, il paese non finiva fra i «cercati di recente» e
+     l'utente si ritrovava la lista vuota senza capire perche'.
+     ⚠️ Non per «La mia posizione» (p.muta): il GPS non e' una ricerca, e
+     trovarsela fra i paesi cercati non vuol dire niente. Prima ci finiva. */
+  if (!p.muta) locSalvaRecente(p);
   locChiudi();
   document.getElementById('loc-input').blur();
 
@@ -7179,7 +7225,6 @@ function locVai(p, _giro) {
     if (typeof regChiudi === 'function') regChiudi();      // scelto il paese: via la tendina, si guarda la mappa
   }
 
-  locSalvaRecente(p);
   try { gtag('event', 'cerca_localita', { regioni: regioni.join(','), stime: !!stime }); } catch (e) {}
 }
 
@@ -7194,6 +7239,20 @@ function locFermaChiamata() {
   if (i) i.classList.remove('loc-chiama');
   var g = document.getElementById('geo-btn');
   if (g) g.classList.remove('loc-chiama');
+}
+
+/* I «cercati di recente», da qualunque strada si arrivi: il fuoco, il tocco a
+   fuoco gia' preso, la ✕ che svuota. Una funzione sola perche' le tre strade
+   non possano divergere.
+   ⚠️ Se non c'e' niente si DICE: un nulla non si sa leggere, e per capire che
+   la lista era vuota e non nascosta ci sono voluti tre scambi di messaggi.
+   Con ?geodebug=1 la riga porta anche i due numeri che distinguono «non
+   abbiamo mai salvato» da «il telefono non conserva niente». */
+function locMostraRecenti() {
+  var rec = locLeggiRecenti();
+  if (rec.length) { locDisegna({ righe: rec, totale: rec.length }, '', 'Cercate di recente'); return; }
+  locDisegna({ righe: [], totale: 0 }, '', '',
+    'Qui compariranno i paesi che cerchi');
 }
 
 (function locAvvia() {
@@ -7239,8 +7298,21 @@ function locFermaChiamata() {
     // nome scelto, e senza questo uno dovrebbe cancellarlo a mano prima di
     // scriverne un altro. Così la prima lettera che batte lo sostituisce.
     try { inp.select(); } catch (e) {}
-    var rec = locLeggiRecenti();
-    if (rec.length) locDisegna({ righe: rec, totale: rec.length }, '', 'Cercate di recente');
+    locMostraRecenti();
+  });
+
+  /* ⚠️ ANCHE AL TOCCO, NON SOLO AL FUOCO (27/8/2026). La lista era appesa al
+     solo evento `focus`, e **un tocco su una casella che ha GIA' il fuoco non
+     genera nessun focus**. Il giro dell'utente era proprio quello: la ✕ svuota
+     il campo e lascia il cursore dentro, quindi da li' in poi toccare la
+     casella non faceva partire niente e la lista non compariva mai — ne' in
+     Chrome ne' nel browser interno, mentre sul computer non si vedeva perche'
+     li' si clicca altrove di continuo e il fuoco se ne va davvero.
+     ⚠️ Solo se NON si sta cercando (meno di LOC_MIN lettere): se no
+     cancellerebbe i risultati mentre uno li sta guardando. */
+  inp.addEventListener('click', function () {
+    if (locNormalizza(inp.value).length >= LOC_MIN) return;
+    locMostraRecenti();
   });
 
   inp.addEventListener('input', function () {
@@ -7294,10 +7366,28 @@ function locFermaChiamata() {
     } else if (e.key === 'Escape') { locChiudi(); inp.blur(); }
   });
 
-  inp.addEventListener('blur', function () { setTimeout(locChiudi, 120); });
+  /* ⚠️ LA TENDINA SI CHIUDE SOLO SE IL FUOCO E' DAVVERO ANDATO VIA (27/8/2026).
+     Prima bastava un blur qualsiasi e dopo 120 ms si chiudeva. Sul computer non
+     si nota; su Android il tocco sulla casella fa aprire la tastiera, che
+     rimpicciolisce la finestra e puo' far partire un blur seguito subito da un
+     altro focus: la tendina appena disegnata (i «cercate di recente») spariva
+     un decimo di secondo dopo essere comparsa. E' il difetto segnalato
+     dall'utente il 27/8: «da cellulare non ricorda la cronologia», mentre da PC
+     la stessa cronologia c'e'.
+     Adesso, passati i 120 ms, si guarda DOVE sta il fuoco: se e' ancora dentro
+     la casella o dentro il suo riquadro, non si chiude niente. */
+  inp.addEventListener('blur', function () {
+    setTimeout(function () {
+      var a = document.activeElement;
+      if (a && (a === inp || (box && box.contains(a)))) return;
+      locChiudi();
+    }, 120);
+  });
 
   document.getElementById('loc-clear').addEventListener('click', function () {
-    inp.value = ''; box.classList.remove('pieno'); locChiudi(); inp.focus();
+    // ⚠️ Svuotare e chiudere lasciava il cursore dentro e la tendina chiusa:
+    // da li' nessun tocco poteva piu' riaprirla (niente focus nuovo).
+    inp.value = ''; box.classList.remove('pieno'); inp.focus(); locMostraRecenti();
   });
 
   // Ritocco alla tendina delle recenti: si apre anche ri-toccando la casella
