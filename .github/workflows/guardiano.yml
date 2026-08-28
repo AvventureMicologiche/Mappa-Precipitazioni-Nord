@@ -1,0 +1,67 @@
+name: Guardiano — collector rimasti indietro
+
+# ⚠️ TRE ORARI, non uno. Il guardiano e' anche lui un cron e puo' saltare come
+# gli altri: nella notte del 26-27/8/2026 GitHub ha perso il 71% dei giri
+# programmati, in quella del 27-28 il 38%. Tre colpi distanziati dimezzano piu'
+# volte la probabilita' di restare a bocca asciutta, e non costano niente
+# (repo pubblico = minuti Actions gratis; a vuoto il giro dura pochi secondi).
+#
+# Perche' proprio questi: 06:55 e' dopo l'ultimo giro notturno di quasi tutti;
+# 08:50 e' dopo il grosso della fascia 08:00-08:40; 10:10 e' l'ultima rete
+# prima che la mattina finisca.
+# ⚠️ Scelti su MISURA, non a occhio: sono minuti in cui non parte nessun altro
+# workflow entro cinque minuti. Il primo tentativo metteva le 08:20, dove ne
+# partono gia' due — mettersi in coda con gli altri e' il modo piu' sicuro di
+# farsi saltare.
+on:
+  workflow_dispatch:
+    inputs:
+      simula:
+        description: "Finge che a certe cartelle manchi il giorno, es. liguria,emilia"
+        required: false
+        default: ''
+      solo_guarda:
+        description: 'Guarda e riferisce, senza ri-lanciare niente'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '55 6 * * *'
+    - cron: '50 8 * * *'
+    - cron: '10 10 * * *'
+
+# ⚠️ actions: write e' quello che permette di ri-lanciare gli altri workflow.
+# workflow_dispatch e' l'ECCEZIONE documentata alla regola «gli eventi
+# innescati dal GITHUB_TOKEN non creano nuovi run»: qui il run nasce davvero.
+# contents: write serve solo a scrivere data/guardiano.json.
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Guarda chi e' rimasto indietro
+        run: node .github/scripts/guardiano-collector.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # a mano si puo' chiedere di guardare e basta; da cron agisce sempre
+          LANCIA: ${{ (github.event_name == 'schedule' || inputs.solo_guarda != true) && '1' || '' }}
+          SIMULA: ${{ inputs.simula }}
+
+      - name: Commit e push del registro
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add data/guardiano.json
+          git diff --staged --quiet || git commit -m "guardiano $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && break
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done

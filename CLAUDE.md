@@ -906,6 +906,81 @@ rigenerazione della whitelist non se la riporta dentro in silenzio.
 Verifica prima del push, in locale contro il sito vivo: Toscana+Emilia 479 → 476
 stazioni, Marche+Umbria 195 → 193. Esattamente le cinque tolte.
 
+---
+
+### 4. Guardiano dei collector in ritardo — `guardiano-collector.js` + `guardiano.yml` (dal 28 agosto 2026)
+
+I tre pezzi qui sopra sorvegliano le FONTI e le STAZIONI. Questo sorveglia
+**GitHub**, che e' l'anello di cui nessuno si occupava.
+
+**Il fatto, misurato su 1.650 giri reali:** lo scheduler di GitHub su questo
+repo ha un ritardo **mediano di 38 minuti**, solo l'**1% parte entro 5 minuti**,
+il 24% sfora l'ora. E nelle notti storte salta i giri del tutto:
+
+| notte | programmati | partiti | saltati |
+|---|---|---|---|
+| 26 → 27 agosto | 78 | 23 | **71%** |
+| 27 → 28 agosto | 78 | 48 | **38%** |
+
+⚠️ **IN TUTTE E DUE LE NOTTI, ZERO RUN FALLITI.** Quelli che partono riescono;
+gli altri non nascono proprio. Quindi **guardare gli esiti dei workflow non
+serve a niente** — e' verde anche quando manca il 71% del lavoro. **L'unico
+segnale onesto sono i FILE dei dati**, ed e' quello che il guardiano guarda.
+
+**Chi si salva e' chi ha ridondanza.** La notte del 38% i dati c'erano tutti
+perche' i collector con 4-7 cron hanno avuto un superstite. Non ce l'hanno fatta
+i workflow con uno o due cron: `riepiloghi` (0 giri su 2), `meteohub-gaps` (0 su
+1), `anteprime` (0 su 1). ⚠️ Questo va **contro** l'idea di «diradare i cron»:
+quella notte diradare avrebbe fatto peggio.
+
+**Cosa fa.** Per ogni cartella di `data/` controlla che ci sia il giorno che
+dovrebbe esserci; se manca e l'ultimo giro programmato di quel workflow e'
+passato da un pezzo, lo ri-lancia con `gh workflow run`. Piu' i riepiloghi, che
+non sono una cartella di dati e si giudicano sul campo `generato`.
+
+- **Gli orari programmati si LEGGONO dai `.yml` a runtime**, non da una tabella:
+  due elenchi che divergono direbbero due verita' diverse. Stessa ragione per
+  cui l'anagrafica cartella → workflow sta in un posto solo, `check-fonti.js`,
+  che ora si lascia anche `require` (`module.exports = { REGIONI }`).
+- **Le tarature, col perche':** `MARGINE_MIN=150` (il ritardo mediano e' 38' e
+  il 6% sfora le due ore: sotto le 2h30 si ri-lancerebbero workflow che stanno
+  solo arrivando tardi), `PROSSIMO_MIN=20` (se il prossimo giro e' dietro
+  l'angolo ci pensa lui), `MAX_LANCI=8` (piu' di cosi' non e' un giro perso, e'
+  GitHub giu': non si lancia niente).
+- ⚠️ **La Slovenia e' in `RITARDO_DICHIARATO`** (2 giorni): ARSO pubblica con
+  ~34 ore di scarto e per lei «ieri» non esiste mai. Senza quella riga il
+  guardiano l'avrebbe trovata in ritardo tutte le mattine.
+- **Deduplica per workflow**: le 13 cartelle francesi e le 11 di MeteoHub sono
+  un lancio solo. Senza, una piattaforma giu' produrrebbe 13 dispatch.
+- **`permissions: actions: write`** e' cio' che permette di ri-lanciare gli
+  altri workflow. ⚠️ `workflow_dispatch` e' l'**eccezione documentata** alla
+  regola «gli eventi innescati dal GITHUB_TOKEN non creano nuovi run».
+- **TRE cron** (06:55, 08:50, 10:10 UTC) e non uno: il guardiano e' anche lui un
+  cron e nella notte del 71% sarebbe saltato pure lui. ⚠️ I tre minuti sono
+  scelti su misura — nessun altro workflow parte entro cinque minuti. Il primo
+  tentativo metteva le 08:20, dove ne partono gia' due.
+- **Registro** `data/guardiano.json`: serve a non ripetersi e soprattutto a
+  MISURARE quanto spesso capita, **senza nessuna chiamata di rete**.
+
+**⚠️ IL LIMITE, DETTO CHIARO:** copre il caso «GitHub ha saltato la notte ed e'
+tornato in se' la mattina», che e' il piu' frequente. Non copre «GitHub e' giu'
+da dodici ore»: li' salta anche lui, e quando torna ripartono da soli anche i
+collector. **Non e' un sostituto di `check-fonti.js`**: se una fonte e' morta
+davvero, la mail arriva lo stesso dopo tre giorni.
+
+**Prove a mano** (`workflow_dispatch` o da riga di comando):
+`SIMULA=liguria,emilia` finge che manchi il giorno · `ORA=2026-08-28T09:00:00Z`
+finge il momento · `MAX_LANCI=1` per vedere il ramo del tetto · senza `LANCIA=1`
+guarda e basta. ⚠️ Quando si simula, il guardiano **dice perche'** ha deciso di
+non lanciare: un «tutto a posto» in risposta a una simulazione sembra un difetto
+e invece e' quasi sempre una taratura che lavora.
+
+**Al primo giro serio ha trovato una cosa vera**: la Slovenia sembrava ferma al
+25 agosto. Non lo era — ARSO aveva il 26 (114 stazioni, verificato lanciando il
+collector a mano) e il collector conta i suoi due giorni di ritardo a partire da
+oggi, quindi lo scrive col giro del mattino. **Il guardiano l'ha segnalata solo
+all'orario in cui era giusto segnalarla**, non a quello vero.
+
 ## Check periodico dati
 Ogni ~5 giorni verificare:
 1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?) — **automatizzato dal 4 agosto 2026: `node .github/scripts/check-confini.js <confine>`**, `--lista` per i nomi (svizzera, emilia-piemonte, emilia-liguria, toscana-emilia, lombardia-trentino). Vedi la sezione dedicata più sotto.

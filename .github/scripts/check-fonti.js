@@ -534,4 +534,12 @@ function salvaRegistro(reg) {
   fs.writeFileSync(REGISTRO, JSON.stringify(reg, null, 2));
 }
 
-try { main(); } catch (e) { console.error('❌', e.message); process.exit(1); }
+// ⚠️ Si lascia anche `require`, come genera-pagine-regione.js: la tabella
+// REGIONI (cartella dati -> workflow che la produce) serve al guardiano, e due
+// elenchi che divergono darebbero due verita' diverse sulla stessa cosa senza
+// che nessuno se ne accorga. Lanciato a mano fa il suo lavoro di sempre.
+if (require.main === module) {
+  try { main(); } catch (e) { console.error('❌', e.message); process.exit(1); }
+}
+
+module.exports = { REGIONI, SOGLIA_PER_REGIONE };
