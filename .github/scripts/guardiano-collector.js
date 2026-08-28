@@ -259,6 +259,15 @@ function main() {
 // e soprattutto MISURARE quanto spesso capita, che era la domanda di partenza.
 // Nessuna chiamata di rete: il conto si fa sui nostri stessi dati.
 function aggiornaRegistro(adesso, ritardo, lanciati) {
+  // ⚠️ UNA SIMULAZIONE NON TOCCA IL REGISTRO. Stessa regola del SIMULA di
+  // check-fonti.js, e non e' pignoleria: il registro serve a misurare quanto
+  // spesso capita davvero, e una prova che ci scrive dentro gonfia proprio il
+  // numero per cui esiste. Successo alla prima prova sul serio, il 28/8: il
+  // giro di collaudo aveva registrato la Liguria «in ritardo».
+  if (process.env.SIMULA) {
+    console.log('\nregistro: non toccato (e\' una simulazione)');
+    return;
+  }
   let reg = { giri: [] };
   if (fs.existsSync(REGISTRO)) {
     try { reg = JSON.parse(fs.readFileSync(REGISTRO, 'utf8')); } catch (e) {}
