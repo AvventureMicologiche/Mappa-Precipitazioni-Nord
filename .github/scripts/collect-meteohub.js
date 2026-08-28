@@ -37,6 +37,22 @@ const path = require('path');
 const BASE_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const DATA_ROOT = path.join(__dirname, '../..', 'data');
 
+// ⚠️ MeteoHub consegna certi nomi con l'ESCAPE UNICODE ROTTO, senza la barra:
+//    arriva la stringa «Borgo Libertu00e0» invece di «Borgo Libertà». Non e'
+//    un nostro errore di lettura (JSON.parse un escape vero lo scioglierebbe
+//    da solo): e' scritto cosi' nella loro anagrafe. Colpiva sei stazioni fra
+//    Puglia, Sicilia e Sardegna, e il nome sbagliato finiva in mappa nel
+//    tooltip e nel pannello stazione. Trovato e corretto il 28/8/2026.
+//    Si ricompongono solo le lettere accentate italiane: un decodificatore
+//    generico rischierebbe di rovinare un nome che contiene «u00» per caso.
+const ACCENTATE = { c0:'À', c8:'È', cc:'Ì', d2:'Ò', d9:'Ù',
+                    e0:'à', e8:'è', e9:'é', ec:'ì', f2:'ò', f9:'ù' };
+function ripulisciNome(s) {
+  // il (?<!\\) protegge gli escape SCRITTI BENE, che vanno lasciati stare
+  return String(s).replace(/(?<!\\)u00([0-9a-fA-F]{2})/g,
+    (intero, hex) => ACCENTATE[hex.toLowerCase()] || intero);
+}
+
 const NETWORKS = [
   // Lombardia RIMOSSA il 27/7/2026: in mappa (e in produzione) la Lombardia usa
   // ARPA, non MeteoHub. La rete dpcn-lombardia serviva solo da CONTROLLO — la
@@ -211,7 +227,7 @@ async function collectDay(netCfg, dateStr) {
     let mm = vals.reduce((a, v) => a + v.val, 0);
     mm = Math.round(mm * 10) / 10;
     if (mm < 0 || mm > 500) continue;
-    const nome = ((entry.stat.details || []).find(x => x.var === 'B01019') || {}).val || '—';
+    const nome = ripulisciNome(((entry.stat.details || []).find(x => x.var === 'B01019') || {}).val || '—');
     const idStaz = `${stat.lat.toFixed(5)}_${stat.lon.toFixed(5)}`;
     const qTer = quotaTerreno(idStaz);
     const rec = {
