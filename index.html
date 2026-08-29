@@ -9733,19 +9733,35 @@ function loadDefaultMarkers(){
     canale:'Avventure Micologiche'
   };
   VETRINE.video={
-    fino:'2026-08-28T23:59:59+02:00',
-    link:'https://youtu.be/moADfe6fWGw',
-    id:'moADfe6fWGw',
+    // Uscita del 28/8/2026: quattro giorni, poi torna «Iscriviti» da sola.
+    fino:'2026-09-01T23:59:59+02:00',
+    // ⚠️ E' uno SHORT (verticale). Il link va bene com'e', ma la COPERTINA no:
+    // `maxresdefault.jpg` di uno short e' 16:9 col verticale in mezzo e due
+    // bande scure ai lati, e nella scheda da 130x73 il soggetto diventa una
+    // strisciolina. Si parte da `oardefault.jpg` (il fotogramma verticale
+    // vero) e si ritaglia una fascia 16:9 — vedi vetrina-short.jpg.
+    link:'https://youtube.com/shorts/eQgHg2fqO6k',
+    id:'eQgHg2fqO6k',
     // Lo stesso video ripubblicato altrove. ⚠️ VANNO GLI INDIRIZZI DEL VIDEO,
     // non dei profili: mandare qualcuno sulla bacheca a cercarselo e' peggio
     // che non dargli il pulsante. Se un'uscita non va su un social, si lascia
     // la stringa vuota e quel bottone non viene disegnato; se restano vuoti
     // tutti e due, la pillola resta quella di sempre a link unico.
-    facebook:'https://www.facebook.com/reel/1323432696274400',
-    instagram:'https://www.instagram.com/p/DcbWMJMNu_3/',
-    copertina:'vetrina-video.jpg',
-    gancio1:'Prima uscita dopo i temporali:',
-    gancio2:'stanno nascendo?',
+    facebook:'https://www.facebook.com/share/r/19GnWH4fjF/',
+    // ⚠️ Tolti gli `utm_source`/`igsi` che Instagram appiccica al «copia
+    // link»: sono i suoi contrassegni di provenienza, non servono a noi e
+    // allungano l'indirizzo per niente.
+    instagram:'https://www.instagram.com/reel/DcoIYwqtsNr/',
+    copertina:'vetrina-short.jpg',
+    gancio1:'Liguria: i primi estatini',
+    gancio2:'',
+    // Corpo del gancio a UNA riga. ⚠️ Non si tocca `.v-uno` nel CSS: quei 18px
+    // sono tarati su «Guida al pluviometro», che e' piu' corto, e cambiarli
+    // rimpicciolirebbe la guida il giorno che torna. Misurato il 28/8 sulla
+    // colonna da 199 px: a 17,5 il testo la tocca esatta, a 18 sborda di 6 px.
+    // Si tengono 17 (97%) per lo stesso margine gia' lasciato alla guida: i
+    // font su altri computer escono un filo piu' larghi.
+    ganciopx:17,
     canale:'Avventure Micologiche'
   };
 
@@ -9815,7 +9831,7 @@ function loadDefaultMarkers(){
         +'<div class="v-cop" style="background-image:url('+V.copertina+')"></div>'
         +'<div class="v-dx">'
           +'<div class="v-occhio">'+ytPieno+' '+V.occhiello+'</div>'
-          +'<div class="v-gancio'+(V.gancio2?'':' v-uno')+'"><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
+          +'<div class="v-gancio'+(V.gancio2?'':' v-uno')+'"'+(V.ganciopx?' style="font-size:'+V.ganciopx+'px"':'')+'><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
           +'<div class="v-canale"><img src="archie-avatar.png" alt="">'+V.canale+'</div>'
         +'</div></div>'
         +'<div class="v-btn">'+V.bottone+'</div>';
