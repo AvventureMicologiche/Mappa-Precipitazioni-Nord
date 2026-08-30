@@ -1125,11 +1125,15 @@ nessun errore.
 ### Stato dopo la riparazione
 1.439.756 stazioni-giorno, **zero senza quota**, 152.549 col contrassegno del
 terreno. Gli unici zeri rimasti sono le stazioni sul mare elencate sopra.
-⚠️ Nota a margine trovata provando: sul Piemonte i pallini di partenza (prima di
-scegliere un periodo) prendono la quota dall'anagrafica del realtime, che per
-Acqui Terme dice 156 m mentre la banca dati ufficiale dice 217. Due numeri ARPA
-diversi per la stessa stazione: non e' colpa nostra e non e' urgente, ma se un
-giorno si vuole allineare, il posto e' `loadARPAPiemonteStations`.
+⚠️ ~~Nota a margine: sul Piemonte i pallini di partenza prendono la quota
+dall'anagrafica del realtime, che per Acqui Terme dice 156 m mentre la banca
+dati ufficiale dice 217. Due numeri ARPA diversi per la stessa stazione.~~
+**SBAGLIATO, e chiuso il 30/8/2026.** Non c'erano due anagrafiche in disaccordo:
+quei pallini non venivano da nessuna ARPA, erano una lista di PAESI scritta a
+mano, e il 156 era la quota del paese di Acqui Terme battuta a mano su un punto
+che sta 989 m lontano dalla stazione vera. La funzione citata,
+`loadARPAPiemonteStations`, non esisteva nemmeno. Vedi la sezione
+«I pallini di partenza e le due voci rimaste aperte» in fondo a questo file.
 
 ---
 
@@ -1288,3 +1292,144 @@ Slovenia: due commenti da cambiare, `sed -i`, e i **CRLF spariti dall'intero
 file** — `git diff --stat` da 19.897 righe invece che da 83. Non da' nessun
 errore e il file funziona lo stesso: se ne accorge solo chi guarda il diff
 prima di committare. Rifatto da capo con lo strumento di Edit normale.
+---
+
+## I pallini di partenza e le due voci rimaste aperte (30 agosto 2026)
+
+Tre cose chiuse nella stessa sessione, nate da due domande dell'utente: «il
+Piemonte ha le quote sbagliate» e «la mappa disegna 314 stazioni dove il conto
+ne prevede 317».
+
+### 1. I pallini di partenza erano NOMI DI PAESI
+
+I pallini bianchi che si vedono dopo aver scelto la regione e **prima** di aver
+scelto il periodo uscivano da `cfg.stations`, una lista scritta a mano dentro
+`index.html`. Non erano pluviometri: erano paesi, con le coordinate del centro
+abitato e la quota battuta a mano. Misurato il 30/8 contro la rete vera:
+
+| regione | voci | su un pluviometro vero (<200 m) |
+|---|---|---|
+| Piemonte | 65 | **0** (e 30 stavano oltre 3 km) |
+| Veneto | 61 | **0** |
+| Emilia | 30 | 1 |
+| Liguria | 30 | 1 |
+| Friuli | 15 | 2 |
+| Alto Adige | 30 | 6 |
+| Toscana | 30 | 20 |
+| Trentino | 50 | 42 |
+
+⚠️ **La nota che stava qui («due numeri ARPA diversi per la stessa stazione,
+Acqui Terme 156 contro 217») ERA SBAGLIATA.** Non c'erano due anagrafiche che
+litigavano: il 156 era un numero battuto a mano per il PAESE di Acqui Terme, e
+il pallino stava 989 m lontano dalla stazione vera, che sta a 217 m. Il caso
+peggiore era Vinadio: 905 m scritti contro 1.433 veri, a 2,9 km. Il tooltip
+dichiarava nome, provincia e quota di una stazione inesistente, con sotto la
+fonte vera.
+
+**Rimedio**: `loadStazioniPallini()`, una funzione sola che legge l'ULTIMO file
+giornaliero della cartella dati, la stessa ricetta che Austria, Slovenia,
+Svizzera, Francia e MeteoHub usavano gia' (`loadAustriaStations` e' il
+modello). **354 stazioni inventate via, 1.680 vere al loro posto**:
+
+| regione | prima | dopo |
+|---|---|---|
+| Toscana | 30 | **367** |
+| Emilia | 30 | **298** |
+| Piemonte | 65 | **265** |
+| Liguria | 30 | **195** |
+| Veneto | 61 | **183** |
+| Friuli | 15 | **141** |
+| Trentino | 50 | 103 |
+| Valle d'Aosta | 43 | 70 |
+| Alto Adige | 30 | 57 |
+
+I numeri quadrano con quelli gia' scritti altrove in questo file: Liguria 195 e'
+il valore del tetto a 400 del 27/8, Toscana 367 quello del giorno in cui e'
+stata tolta la whitelist, Emilia 298 e' identico a quello che la mappa disegna
+DOPO aver scelto il periodo (prima erano 30).
+
+Cose da sapere se ci si torna:
+- ⚠️ **`EMILIA_ESCLUSE` e' stata portata FUORI dal suo loader.** Era una `var`
+  dentro `loadARPAEmiliaRegion`, quindi irraggiungibile: senza spostarla, i
+  pallini di partenza dell'Emilia mostravano le 8 gemelle liguri e i
+  pluviometri fermi, che poi sparivano al clic sul periodo. Le altre quattro
+  liste (`PIEMONTE_`, `LIGURIA_`, `TOSCANA_`, `MH_`) stavano gia' fuori.
+- ⚠️ **Il tetto dei pallini era rimasto a 150** mentre quello dei dati e'
+  passato a 400 il 27/8. Non si notava perche' le liste a mano erano corte; con
+  le stazioni vere Piemonte e Toscana si sarebbero DIRADATI alla scelta della
+  regione per poi infittirsi al clic sul periodo. Allineato a 400. Effetto
+  voluto: anche l'Austria passa da 150 a 307 pallini di partenza, cioe' quelli
+  che aveva comunque dopo il clic.
+- Il **Friuli ha due cartelle** (`friuli-osmer` + `meteohub-friuli`): i doppioni
+  si scartano sotto il chilometro e vince OSMER, stessa regola e stessa
+  tolleranza di `loadOSMERFriuliRegion`, che resta il posto dove e' spiegata.
+- Se il file non si scarica **non si disegna niente**, come per le estere:
+  meglio nessun pallino che pallini finti.
+- **Fuori dal giro, e per due motivi diversi**: la LOMBARDIA, i cui pallini
+  vengono dall'anagrafe ARPA vera (⚠️ che pero' contiene ancora i tre sensori
+  con le coordinate corrotte di `LOMB_ESCLUSE`: «Ispra prato» risulta a
+  45.996/9.955, cioe' nel bergamasco, e «Virgilio Mantova Cerese» a Dorio in
+  provincia di Lecco. Il loader dei dati li scarta, quello dei pallini no:
+  **resta aperto**); e l'ABRUZZO, dove la lista non e' un abbellimento ma
+  l'elenco dei punti su cui si chiedono le stime a Open-Meteo, cioe' la fonte.
+- Residuo cosmetico: sul Piemonte il tooltip dei pallini di partenza ora dice
+  «PROVINCIA DI ALESSANDRIA» invece di «AL», perche' e' cosi' che ARPA scrive il
+  campo. Non e' una regressione: dopo il clic sul periodo diceva gia' cosi'.
+
+### 2. «La mappa disegna meno stazioni di quante ne conta»: non e' un difetto
+
+Il badge e i pallini **coincidono sempre**: misurato in produzione, Emilia sola,
+299 e 299 sia su «Ieri» sia su 30 giorni. Il divario che si vede confrontando
+col numero di stazioni presenti nei file e' il **filtro di copertura al 60%**
+(in produzione dal 22/8), che fa esattamente il suo mestiere:
+
+| periodo | stazioni con almeno un dato | disegnate | tolte dal filtro |
+|---|---|---|---|
+| Ieri | 299 | 299 | 0 |
+| 7 giorni | 303 | 297 | 6 |
+| 30 giorni | 314 | 299 | 15 |
+
+⚠️ **La cosa che non ci si aspetta: delle 15 tolte a 30 giorni, 11 sono stazioni
+NUOVE**, che l'ARPAE ha cominciato a pubblicare il **17 agosto** e che riportano
+ancora ieri (Alfonsine, Faenza, Ponte dell'Olio, Fiorenzuola d'Arda,
+Castell'Arquato, Fiorano, Castelnovo di Sotto, Ravenna urbana, Copparo,
+Martorano, Forli' Urbana). Solo 2 sono morte davvero (Modena urbana, ferma dal
+12/8, e S. Bartolomeo in Bosco dal 3/8) e 2 sono a singhiozzo.
+
+Il filtro, nato per nascondere i pluviometri spenti, oggi nasconde soprattutto
+quelli appena nati, **e fa bene lo stesso**: una stazione con 13 giorni di dati
+su una mappa da 30 mostrerebbe un cumulato di 13 giorni accanto a cumulati di
+30, cioe' la macchia secca falsa che il filtro esiste per impedire. **Deciso il
+30/8 di non toccare niente.**
+
+### 3. Due pluviometri allo stesso identico punto: le Giralda
+
+⚠️ **Di «Giralda» ce ne sono TRE**, e due hanno lo stesso nome in due posti
+diversi. Si ragiona per **id**, mai per nome:
+
+| id | nome | coordinate | sensori | note |
+|---|---|---|---|---|
+| 3730 | Giralda | 44.8138, **12.2483** | solo pioggia | dal 3/5, nessun giorno mancante |
+| 14727 | Giralda | 44.8138, **12.2002** | solo pioggia | 3,8 km piu' a ovest, **ferma dal 20/8** |
+| 53432 | GIRALDA meteo | 44.8138, **12.2483** | pioggia, t, vento, umidita' | dal 18/5 |
+
+La 3730 e la 53432 stanno a **zero metri** l'una dall'altra: cercando in tutto
+il progetto (5.700 stazioni, 40 cartelle) e' **l'unica coppia sotto i 50 m
+dentro la stessa rete**. Costo: due pallini nello stesso pixel (se ne clicca uno
+solo, e il grafico dell'altro non lo apre nessuno) e un punto che pesa doppio
+nell'IDW in una zona del delta dove il vicino piu' prossimo sta a 12 km.
+
+⚠️ **Nessuna delle due e' rotta**: su 22 giorni bagnati in comune 11 sono
+identici entro 0,3 mm e solo 2 si scostano di piu' di 3 mm (15/7: 8,8 contro
+4,6; 21/8: 30,8 contro 21,8, con Codigoro a 12 km che segna 19,4). Sono due
+strumenti veri sullo stesso sito, uno della rete idrometrica e uno della
+stazione meteo. Il controllo del lunedi' non le vede, ed e' giusto: 84%.
+
+**Decisione del 30/8: esclusa la 3730**, col criterio gia' scritto in
+`togliGemelleDiConfine`, cioe' vince il record piu' ricco di sensori: la 53432
+porta anche temperatura, vento e umidita'.
+⚠️ **Il prezzo, misurato e accettato**: la 53432 ha 4 giorni mancanti sugli
+ultimi 40 (22, 23, 25 e 26 agosto) e il 25 la 3730 misurava 9,8 mm, che in quel
+punto adesso non ci sono piu'. Sulle finestre corte costa il pallino: **5
+finestre da 7 giorni su 54** fanno cadere il sito sotto il 60% di copertura. Da
+10 giorni in su, mai.
