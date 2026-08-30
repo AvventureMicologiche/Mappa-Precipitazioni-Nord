@@ -1342,6 +1342,7 @@ modello). **354 stazioni inventate via, 1.680 vere al loro posto**:
 | Trentino | 50 | 103 |
 | Valle d'Aosta | 43 | 70 |
 | Alto Adige | 30 | 57 |
+| Lombardia | 200 diradati da 326 | **254** |
 
 I numeri quadrano con quelli gia' scritti altrove in questo file: Liguria 195 e'
 il valore del tetto a 400 del 27/8, Toscana 367 quello del giorno in cui e'
@@ -1365,13 +1366,28 @@ Cose da sapere se ci si torna:
   tolleranza di `loadOSMERFriuliRegion`, che resta il posto dove e' spiegata.
 - Se il file non si scarica **non si disegna niente**, come per le estere:
   meglio nessun pallino che pallini finti.
-- **Fuori dal giro, e per due motivi diversi**: la LOMBARDIA, i cui pallini
-  vengono dall'anagrafe ARPA vera (⚠️ che pero' contiene ancora i tre sensori
-  con le coordinate corrotte di `LOMB_ESCLUSE`: «Ispra prato» risulta a
-  45.996/9.955, cioe' nel bergamasco, e «Virgilio Mantova Cerese» a Dorio in
-  provincia di Lecco. Il loader dei dati li scarta, quello dei pallini no:
-  **resta aperto**); e l'ABRUZZO, dove la lista non e' un abbellimento ma
-  l'elenco dei punti su cui si chiedono le stime a Open-Meteo, cioe' la fonte.
+- **La LOMBARDIA e' entrata anche lei, in un secondo giro lo stesso giorno.**
+  I suoi pallini non erano paesi inventati: venivano dall'anagrafe ARPA vera,
+  chiesta alla function Netlify `/arpa` e assottigliata a 200 con
+  `selectUniform`. Ma quell'anagrafe elenca **tutti** i sensori, anche i tre
+  con le coordinate corrotte di `LOMB_ESCLUSE` che il loader dei dati scarta:
+  letta in produzione il 30/8, «Ispra prato» risulta a 45.996/9.955, cioe' nel
+  bergamasco, e «Virgilio Mantova Cerese» a Dorio in provincia di Lecco, 150 km
+  da Mantova. Adesso legge `data/lombardia` come le altre: **254 pallini,
+  identici a quelli che restano dopo il clic sul periodo** (erano 200 diradati
+  da 326, coi morti dentro).
+  ⚠️ **Conseguenza: la function `/arpa` non la chiama piu' nessuno.** Era
+  l'ultima chiamata rimasta nel sito. Con lei sono cadute `ARPA_STATIONS`,
+  `caricaAnagrafeLombardia()` e **l'attesa dentro `whenLombardiaReady`**, che
+  all'apertura di un link condiviso conteneva la Lombardia si fermava fino a
+  8 secondi ad aspettare quell'anagrafe: dal 24/7/2026, cioe' da quando la
+  Lombardia legge i file, **`ARPA_STATIONS` non lo leggeva piu' nessuno**, e si
+  aspettava un valore che non serviva a niente. La function resta nel repo, non
+  la chiama piu' il sito. `LOMBARDIA_STATIONS` invece **resta**: e' l'elenco dei
+  punti su cui si chiedono le stime a Open-Meteo se i file mancassero.
+- **Fuori dal giro resta il solo ABRUZZO**, dove la lista non e' un
+  abbellimento ma l'elenco dei punti su cui si chiedono le stime a Open-Meteo,
+  cioe' la fonte stessa. Non si tocca finche' non ha una rete vera.
 - Residuo cosmetico: sul Piemonte il tooltip dei pallini di partenza ora dice
   «PROVINCIA DI ALESSANDRIA» invece di «AL», perche' e' cosi' che ARPA scrive il
   campo. Non e' una regressione: dopo il clic sul periodo diceva gia' cosi'.
