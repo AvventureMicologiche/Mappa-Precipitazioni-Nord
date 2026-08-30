@@ -1193,3 +1193,98 @@ aver toccato la struttura del CSS si riprova a TUTTE le larghezze**: il 26/8 una
 parentesi rimasta indietro ha spento tutte le regole del telefono senza un solo
 errore in console), `prova-ricerca-santo.js`, `verifica-aveto.js`,
 `verifica-diradamento.js`, `prova-quota-tooltip.js`.
+---
+
+## L'etichetta del tasto posizione (30 agosto 2026, v9.2)
+
+**Il numero che ha fatto partire il lavoro.** Le tre dimensioni personalizzate
+GA4 registrate quel giorno (`esito`, `codice`, `precisione`) hanno dato il primo
+dato leggibile sul tasto «La mia posizione», tre giorni di raccolta:
+
+| esito | tentativi | quota |
+|---|---|---|
+| `negato` | 26 | **53%** |
+| `ok` | 18 | 37% |
+| `lento` | 2 | 4% |
+| non registrati | 3 | 6% |
+| `fuori` | 0 | — |
+| `errore` | 0 | — |
+
+**49 tentativi, uno su due finisce col permesso negato.** E siccome `fuori` e
+`errore` sono a zero, il difetto non e' nostro: non e' il GPS che sbaglia, non
+e' il punto che cade fuori copertura. E' che **la richiesta del browser arriva
+inaspettata**, e chi non se l'aspetta dice no.
+
+### La correzione: il tasto dichiara lo stato del permesso
+Non si tira a indovinare, perche' **il browser lo sa gia' e lo dice**
+(`navigator.permissions.query({name:'geolocation'})`). Tre stati, tutti in
+`geoEtichetta()`:
+
+| stato | a riposo | premuto |
+|---|---|---|
+| `prompt` | «La mia posizione **· autorizzazione richiesta**» | (parte la ricerca) |
+| `granted` | «La mia posizione» | (parte la ricerca) |
+| `denied` | «La mia posizione» | «**Sbloccala dalle impostazioni**» + pallino `#8a1a12` |
+
+- La coda e' uno `<span class="gb-coda">` in **tono minore** (peso 500, opacita'
+  0,82, corpo 12,5 px): e' un'informazione, non un guasto, e il rosso qui
+  direbbe una cosa falsa.
+- Con l'evento `change` della PermissionStatus **la coda sparisce da sola** nel
+  momento in cui l'utente autorizza, senza ricaricare la pagina.
+- Lo stato `denied` premuto torna «La mia posizione» **riaprendo la tendina**:
+  lo fa `regApri()`, che chiama `geoNota('')`, che rimette `_geoBloccato=false`.
+  E' voluto: il messaggio serve subito dopo il tocco, non per sempre.
+- Quando il messaggio sta NEL tasto, la riga sotto (`.gb-nota`) si **spegne**:
+  se no la stessa cosa e' scritta due volte, una sopra l'altra.
+
+### ⚠️ TUTTO SU UNA RIGA SOLA, e non e' un vezzo
+Misurati a 360 px di larghezza, i tre testi stanno in **249, 106 e 179 px**, e
+soprattutto **il blocco resta 114 px in tutti e tre i casi**, cioe' identico a
+com'era prima della modifica.
+
+La prima versione, provata la mattina del 30/8 (`8fed5f52`, solo sul test),
+metteva l'avviso su una **riga separata sotto il titolo**: costava **13 px** e
+spingeva la tendina a 15 px dal fondo dello schermo. Scartata. L'idea di
+mettere la coda accanto al titolo invece che sotto **e' dell'utente**, ed e'
+quella che non costa niente. Vale come promemoria: su un pannello che e' gia'
+40vh, ogni riga nuova si paga, e spesso la si evita cambiando dove va il testo
+invece di accorciarlo.
+
+### Due trappole
+- ⚠️ **L'etichetta non si ripristina copiando il testo di prima.** Il vecchio
+  `geoTrova()` faceva `var vecchio = et.textContent` e lo rimetteva a fine
+  ricerca: con la coda quello avrebbe riscritto «La mia posizione ·
+  autorizzazione richiesta» come **testo semplice**, perdendo lo `<span>` e
+  quindi il tono minore. Adesso si **RICOSTRUISCE dallo stato** chiamando
+  `geoEtichetta()`. Regola generale: quando un'etichetta ha degli stati, si
+  rigenera, non si fotografa.
+- ⚠️ **Safari non risponde**: `navigator.permissions` non supporta
+  `geolocation` su tutte le versioni. Li' si ricade sul **mostrare** la coda,
+  che e' il ramo prudente — **dire una cosa vera a chi non serviva costa meno
+  che tacerla a chi serviva**. Stesso principio del `~` sulla quota dedotta.
+
+### Collaudo
+Sul sito di test **col permesso VERO del browser**, non simulato
+(`Browser.setPermission` via CDP), a 360x640, cinque casi: prima volta
+(`prompt`), autorizzato, negato a riposo, negato premuto, chiuso e riaperto.
+Larghezza del testo e altezza del blocco misurate una per una, tabella qui
+sopra. In produzione ricontrollato online lo stato `denied` nei due momenti
+(riposo e tocco), pallino `rgb(138,26,18)`, riga sotto vuota, zero errori in
+console.
+
+### La promozione
+Commit `be41fb5f`, un deploy. **Il file NON e' stato copiato dal test**: si e'
+preso il diff dei due commit del test (`2f419aa0..1380f9f5`) e lo si e'
+applicato con `git apply` alla produzione, che nel frattempo aveva 43 righe che
+il test non ha (l'altezza dell'anemometro Veneto dello stesso giorno). Quattro
+pezzi, offset di 27 righe, **79 righe aggiunte e 4 tolte**. Chiavi prod-only
+ricontate prima e dopo: EMILIA_ESCLUSE 5, HIST_RAW_BY_REGION 2,
+analisi_regione 1, getSelectedValues 4, le cinque `*_ESCLUSE` e
+`PILOT_DATA_BASE` invariate. `og:image` e `twitter:image` restano quelle del
+dominio di produzione.
+
+⚠️ **E' ricapitata la trappola del `sed -i`**, gia' scritta in fondo alla scheda
+Slovenia: due commenti da cambiare, `sed -i`, e i **CRLF spariti dall'intero
+file** — `git diff --stat` da 19.897 righe invece che da 83. Non da' nessun
+errore e il file funziona lo stesso: se ne accorge solo chi guarda il diff
+prima di committare. Rifatto da capo con lo strumento di Edit normale.
