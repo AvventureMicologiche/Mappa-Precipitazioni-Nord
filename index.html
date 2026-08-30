@@ -3443,8 +3443,20 @@ function histAsseX(days){
   return h+'</div>';
 }
 
-function histNote(regionKey,days,notaPeriodo){
+function histNote(regionKey,days,notaPeriodo,station){
   var note=[];
+  // ⚠️ L'ALTEZZA DELL'ANEMOMETRO, quando la fonte la dichiara (30/8/2026).
+  // Piu' si sale da terra e piu' il vento e' forte: lo standard sono 10 m, ma
+  // ARPA Veneto misura anche a 5 e a 2, e lo scrive nel nome del sensore.
+  // Contate tutte e 190 le stazioni venete: 39 a 10 m, 64 a 5 m, 16 a 2 m
+  // (71 non hanno anemometro). Nei nostri dati di agosto quelle a 5 m danno il
+  // 18% in meno di quelle a 10, quelle a 2 m il 40% in meno — quindi due
+  // stazioni vicine possono dare numeri diversi con lo stesso vento.
+  // ⚠️ NON si normalizza a 10 m: la formula esiste ma vuole la rugosita' del
+  // terreno, che non sappiamo, e infilerebbe un modello dentro un dato
+  // misurato (regola 4). Si dichiara e basta, come il ~ della quota dedotta.
+  // Le altre reti l'altezza non la dichiarano: li' la riga non compare.
+  if(histTab==='v'&&station&&typeof station.wh==='number') note.push('anemometro a '+station.wh+' m');
   // ⚠️ Dal 27/8/2026 la finestra e' SEMPRE gli ultimi 30 giorni, mai «del
   // periodo»: il vecchio testo era giusto solo finche' finiva col periodo.
   if(notaPeriodo==='fuori') note.push('grafico: ultimi 30 giorni, il periodo scelto è più indietro');
@@ -3453,9 +3465,9 @@ function histNote(regionKey,days,notaPeriodo){
     if(HIST_REAL_FROM[regionKey]) note.push('storico dal '+HIST_REAL_FROM[regionKey].split('-').reverse().join('/'));
   }else{
     // le 13 régions francesi condividono la data: chiave unica 'francia'
-    var da=(histTab==='u')?umidDa(regionKey):(histTab==='w'&&ventoDa(regionKey))?ventoDa(regionKey)
+    var da=(histTab==='u')?umidDa(regionKey):(histTab==='v'&&ventoDa(regionKey))?ventoDa(regionKey)
       :(METEO_HIST_FROM[regionKey]||(regionKey&&regionKey.indexOf('francia')===0?METEO_HIST_FROM.francia:null));
-    if(da&&days[0]<da) note.push(((histTab==='u')?'umidità dal ':(histTab==='w'&&ventoDa(regionKey))?'vento dal ':'temperatura e vento dal ')+da.split('-').reverse().join('/'));
+    if(da&&days[0]<da) note.push(((histTab==='u')?'umidità dal ':(histTab==='v'&&ventoDa(regionKey))?'vento dal ':'temperatura e vento dal ')+da.split('-').reverse().join('/'));
   }
   return note.length?'<div class="sh-note">'+note.join(' · ')+'</div>':'';
 }
@@ -3650,7 +3662,7 @@ function histMessaggioVuoto(region,region2,station,days){
   // falso (il Piemonte ha t/w dal 9/8: chi guarda luglio non trova nulla, ma
   // quelle stazioni il termometro ce l'hanno). La nota sotto al pannello dice
   // già da quando esistono, quindi qui basta il passato.
-  var da=(histTab==='u')?umidDa(region2):(histTab==='w'&&ventoDa(region2))?ventoDa(region2)
+  var da=(histTab==='u')?umidDa(region2):(histTab==='v'&&ventoDa(region2))?ventoDa(region2)
     :(METEO_HIST_FROM[region2]||(region2&&region2.indexOf('francia')===0?METEO_HIST_FROM.francia:null));
   if(da&&days[days.length-1]<da) return ora;
   var campo=(histTab==='t')?'t':((histTab==='u')?'u':'w');
@@ -3687,10 +3699,10 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,notaPeriodo,histR
   else h=histRenderLinee(days,serie,histTab);
   if(h===null){
     body.innerHTML='<div class="sh-load">'+histMessaggioVuoto(histRegion||regionKey,regionKey,station,days)+'</div>'
-                  +histNote(regionKey,days,notaPeriodo);
+                  +histNote(regionKey,days,notaPeriodo,station);
     return;
   }
-  body.innerHTML=h+histNote(regionKey,days,notaPeriodo);
+  body.innerHTML=h+histNote(regionKey,days,notaPeriodo,station);
 }
 
 function histPosition(mx,my){
@@ -5480,7 +5492,7 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,wh:s.wh,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5512,6 +5524,7 @@ function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5553,7 +5566,7 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,wh:s.wh,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5580,6 +5593,7 @@ function loadARPAVenetoRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5640,7 +5654,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,wh:s.wh,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5672,6 +5686,7 @@ function loadARPALiguriaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5745,7 +5760,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,wh:s.wh,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -5773,6 +5788,7 @@ function loadARPAEmiliaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5824,6 +5840,7 @@ function loadAustriaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'AT'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5872,6 +5889,7 @@ function loadSloveniaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'SI'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5922,6 +5940,7 @@ function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FR'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -5982,6 +6001,7 @@ function loadSvizzeraRegion(pastDate,nowDate,labelPeriodo,cb){
               if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||srcCfg.pDef,_src:srcCfg.src};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
               if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
               rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
             });
           }
@@ -6035,6 +6055,7 @@ function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -6197,6 +6218,7 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la qu
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'BL',_src:'veneto'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         })
@@ -6232,6 +6254,7 @@ function loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'AO'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -6309,6 +6332,7 @@ function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -6358,6 +6382,7 @@ function loadAltoAdigeRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'BZ'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -6408,6 +6433,7 @@ function loadMeteotrentino(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'TN'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
@@ -6535,7 +6561,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
       if(_scarsa(key))return null;
       var s=stMeta[key];if(!s)return null;
       var mm=rainTot[key]||0;
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
+      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,wh:s.wh,p:s.p||'',
               mm:mm<0.5?0:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([]);return;}
@@ -6557,6 +6583,7 @@ function loadCFRToscanaRegion(pastDate,nowDate,labelPeriodo,cb){
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
             if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
+            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
             rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
           });
         }
