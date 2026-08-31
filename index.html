@@ -790,6 +790,20 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 #channel-logo .v-nome{font-size:23px;line-height:1.02;color:#1b3f6e;letter-spacing:-.3px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;font-weight:900;}
 #channel-logo .v-sotto{font-size:13px;font-weight:600;color:#3f5a7a;margin-top:4px;line-height:1.15;}
+/* ⚠️ 21 E NON 23 (31/8/2026). A 23 px «Avventure Micologiche» NON ci sta nella
+   colonna accanto ad Archie e va a capo in «Avventure» / «Micologiche»: era cosi'
+   da sempre. Misurato: la colonna e' larga 249 px, a 23 px il nome ne chiede di
+   piu', a 21 ci sta su UNA riga. Archie resta 80 px. */
+#channel-logo .v-nome{font-size:21px;}
+/* Il ringraziamento sta SOTTO, a tutta larghezza: nella colonna stretta
+   andrebbe a capo quattro volte e la scheda diventerebbe una colonna
+   sbilenca. ⚠️ Quando parte la vetrina l'innerHTML di #channel-logo viene
+   riscritto, quindi questa riga sparisce da sola: la scheda col video non
+   cambia di un pixel. */
+#channel-logo .v-grazie{margin-top:9px;padding-top:9px;
+  border-top:1px solid rgba(27,63,110,.14);
+  font-size:13px;line-height:1.35;color:#3f5a7a;font-weight:600;}
+#channel-logo .v-grazie b{color:#1b3f6e;font-weight:800;}
 #channel-logo .v-btn.v-iscr{font-size:17px;margin-top:9px;padding:9px 0 10px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;}
 
@@ -1185,13 +1199,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
     display:flex !important;
     flex-direction:column;
     align-items:stretch;
-    padding:8px 12px 6px;
+    padding:5px 12px 3px;
     cursor:pointer;
     width:100%;
     box-sizing:border-box;
   }
   .tp-handle-bar{
-    width:36px;height:4px;background:#ccc;border-radius:2px;margin-bottom:6px;align-self:center;
+    width:36px;height:4px;background:#ccc;border-radius:2px;margin-bottom:4px;align-self:center;
   }
   .tp-title-row{
     display:flex !important;
@@ -1231,7 +1245,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   .tp-title{margin-bottom:0 !important;font-size:13px !important;color:#123252 !important;white-space:nowrap;flex-shrink:0;line-height:1.2;}
   .nota-i{width:21px;height:21px;font-size:14px;vertical-align:-1px;}
   /* Contenuto nascosto quando collassato */
-  .tp-content{padding-top:10px;}
+  .tp-content{padding-top:5px;}
   #time-panel.open{transform:translateY(0);}
 
   /* Legenda: overlay slide-up — copre completamente il time-panel */
@@ -1420,9 +1434,9 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <div class="v-dx">
           <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
           <div class="v-nome">Avventure Micologiche</div>
-          <div class="v-sotto">Questo sito è free, sostienici</div>
         </div>
       </div>
+      <div class="v-grazie"><b>Grazie a tutti:</b> avete fatto oltre <b>35.000 analisi</b> in poche settimane. Se vi siamo stati utili, lasciate un like e un'iscrizione.</div>
       <div class="v-btn v-iscr">ISCRIVITI</div>
     </a>
 
@@ -1673,7 +1687,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
          onclick="try{gtag('event','click_youtube',{pulsante:'pillola-mobile'})}catch(e){}"
          id="channel-pill">
         <img src="archie-avatar.png" alt="Archie">
-        <div class="cp-t">Archie ti aspetta su YouTube<small>Avventure Micologiche · iscriviti</small></div>
+        <div class="cp-t">Grazie: oltre 35.000 analisi<small>Lasciate un like e un'iscrizione</small></div>
         <div class="cp-yt">
           <svg width="26" height="19" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect width="42" height="30" rx="6" fill="#FF0000"/>
@@ -8467,6 +8481,7 @@ function buildShareUrl(){
   // SCARTATO: allargava di due livelli da PC a telefono e stringeva di due
   // nell'altro verso. Chi condivide si aspetta la stessa SCALA, non la stessa
   // area. Lo zoom viaggia grezzo.
+  if(window._radarModo) p.set('radar', window._radarModo);
   return location.origin+location.pathname+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
@@ -8475,6 +8490,17 @@ window.buildShareUrl=buildShareUrl;
 // nessun codice del sito lo usa.
 window._mapDebug=map;
 window._boundsDebug=function(){return REGION_BOUNDS;};  // stesso scopo: solo verifiche automatiche
+/* ⚠️ ESPOSTE PER IL BLOCCO RADAR (31/8/2026). Tutto questo script sta dentro
+   una IIFE che comincia a riga 1701, quindi le sue funzioni NON sono globali:
+   il radar, che e' un <script> separato in fondo, le vedeva `undefined` e il
+   suo `typeof ...==='function'` le scartava IN SILENZIO. Risultato: il radar
+   non inquadrava piu' niente e si limitava a togliere zoom a quello che
+   trovava, sommando le sottrazioni a ogni chiamata (misurato: 6 → 5 → 4).
+   Un guasto muto, il tipo peggiore. Si espongono le due che gli servono, come
+   si era gia' fatto con la mappa qui sopra. */
+window._fitRegioni=fitMapToRegions;
+window._regioniAttive=getActiveRegions;
+window._centraStriscia=centraRegioneInStriscia;
 // ── Immagine della mappa (canvas) per condivisione/download ────────────────
 // html2canvas si carica solo alla prima richiesta (pre-riscaldato all'hover/
 // touch dei bottoni, così il click resta dentro la finestra del gesto utente).
@@ -9584,7 +9610,7 @@ function loadDefaultMarkers(){
     // quella data escono di scena tutte e due e resta «Iscriviti». La guida
     // potrebbe restare (non invecchia, spiega come si usa la mappa): per
     // riaccenderla basta spostare avanti questa data.
-    fino:'2026-08-28T23:59:59+02:00',
+    fino:'2027-12-31T23:59:59+01:00',
     link:'https://youtu.be/fvsBZJ_Ylf4',
     id:'fvsBZJ_Ylf4',
     facebook:'',
@@ -9640,6 +9666,7 @@ function loadDefaultMarkers(){
     ['video','guida'].forEach(function(k){
       if(VETRINE[k] && ora <= new Date(VETRINE[k].fino).getTime()) scelte.push(k);
     });
+    scelte.push('iscriviti');   // ⚠️ anche la scheda canale partecipa al sorteggio
     if(!scelte.length) return;
     // ⚠️ IL DADO SI TIRA A OGNI APERTURA, e la scelta NON si ricorda.
     // Prima restava appiccicata alla persona (localStorage 'vetrina'): chi
@@ -9746,5 +9773,622 @@ function loadDefaultMarkers(){
 })();
 </script>
 
+<style>
+/* Modo radar — in produzione dal 31/8/2026 */
+.rd-coppia{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rd-coppia > *{margin:0 !important;width:auto !important}
+.rd-btn{text-align:center;cursor:pointer;position:relative;overflow:visible}
+/* le icone dei due tasti affiancati, un filo piu' grandi del testo */
+.rd-ic{font-size:1.28em;vertical-align:-2px;margin-right:1px}
+/* ⚠️ Il «new» e' uno pseudo-elemento, non testo dentro il tasto: cosi'
+   sopravvive all'innerHTML che cambia entrando in modo radar, e sparisce da
+   solo quando il tasto diventa «Chiudi radar». */
+#btn-radar::after{content:'new';position:absolute;top:-6px;right:-4px;
+  background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;
+  padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none}
+.modo-radar #btn-radar::after{display:none}
+/* tre tasti al posto della riga delle statistiche: il pannello non cresce */
+.rd-durate{display:none;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 4px}
+.modo-radar .rd-durate{display:grid}
+.rd-d{
+  padding:8px 2px;text-align:center;font-size:12.5px;font-weight:600;
+  border:1px solid #cfd8e6;border-radius:7px;background:#f0f4fb;color:#1b3f6e;
+  cursor:pointer;white-space:nowrap;
+}
+.rd-d.on{background:#1b3f6e;color:#fff;border-color:#1b3f6e}
+/* ⚠️ I due tasti che non sono una misura si distinguono col BORDO
+   TRATTEGGIATO, non col fondo: bianchi in mezzo agli altri azzurrini
+   sembravano spenti o di un'altra famiglia. */
+.rd-d.rd-prev{border-style:dashed}
+.rd-d.rd-prev.on{background:#5a6470;border-color:#5a6470;color:#fff}
+/* La linea del tempo: una tacca per fotogramma, i capi scritti sotto. */
+/* ⚠️ Legata ALLA CLASSE DEL MODO, non a uno stile scritto a mano: con
+   `display:block` messo dal codice la linea restava a video anche dopo essere
+   usciti dal radar, come succedeva ai pallini prima del 31/8. */
+.rd-linea{display:none;margin:1px 0 5px}
+.modo-radar .rd-linea.viva{display:block}
+.rd-tacche{display:flex;gap:3px}
+.rd-tacche i{flex:1;height:6px;border-radius:3px;background:#dbe3ef;cursor:pointer;transition:background .12s}
+.rd-tacche i.vis{background:#a8c2e2}
+.rd-tacche i.on{background:#1b3f6e}
+.rd-capi{display:flex;justify-content:space-between;font-size:10.5px;color:#7a8698;margin-top:2px}
+.rd-nota{display:none;font-size:11.5px;line-height:1.35;color:#5a6470;margin:0 0 4px}
+/* ⚠️ LA LEGENDA E' VERA, non inventata: i colori sono quelli della tabella
+   ufficiale dello schema «Universal Blue» (rainviewer_api_colors_table.csv,
+   la stessa palette che serve LibreWXR), e i millimetri all'ora vengono dai
+   dBZ con la formula di Marshall-Palmer Z=200*R^1.6:
+     20 dBZ #00a3e0 = 0,6 mm/h    35 dBZ #ffee00 = 5,6
+     30 dBZ #005588 = 2,7         40 dBZ #ffaa00 = 11,5
+     45 dBZ #ff4400 = 23,7        50 dBZ #c10000 = 48,6 */
+.rd-scala{display:none;margin:2px 0 4px}
+.modo-radar .rd-scala{display:block}
+.rd-barra{height:10px;border-radius:3px;
+  background:linear-gradient(90deg,#00a3e0 0%,#005588 26%,#ffee00 45%,#ffaa00 63%,#ff4400 81%,#c10000 100%)}
+.rd-num{display:flex;justify-content:space-between;font-size:10px;color:#8a93a0;margin-top:1px}
+.modo-radar .rd-nota{display:block}
+/* in modo radar il cumulato non esiste: via barra, numeri e tasto Immagine */
+.modo-radar .grad,
+.modo-radar .grad-l,
+.modo-radar .stats-row,
+.modo-radar #btn-shot{display:none !important}
+/* il velo azzurro della regione si mangerebbe le macchie di pioggia */
+.modo-radar #map path{fill-opacity:0 !important}
+.modo-radar path.conf-pulse{stroke-opacity:1 !important;stroke-width:2.6px}
+/* col radar acceso non pulsa niente: sono richiami per scegliere la regione */
+.modo-radar path.conf-pulse,
+.modo-radar .panel-pulse,
+.modo-radar .panel-pulse-ring,
+.modo-radar #loc-input.loc-chiama,
+.modo-radar #geo-btn.loc-chiama{animation:none !important}
+/* il pannello legenda esiste solo con un'analisi: in modo radar serve sempre */
+/* ⚠️ Sparisce SOLO il riquadro di destra del desktop (`#channel-logo`, 157 px
+   prima delle date e 0 dopo): quello copre la mappa. La PILLOLA del telefono
+   (`#channel-pill`) resta, perche' non e' mai sparita nemmeno scegliendo un
+   periodo e non c'e' ragione di farla sparire qui. */
+.modo-radar #channel-logo{display:none !important}
+/* i pallini delle stazioni sono cerchi SVG; il segnaposto della ricerca e
+   quello della posizione sono div, e restano */
+body.senza-pallini #map .leaflet-marker-pane svg{display:none}
+/* ⚠️ Sul telefono il pannello del periodo restava a sbucare sopra quello
+   del radar: due intestazioni una sull'altra. In modo radar comanda uno
+   solo, e il ritorno ai giorni si fa con «Indietro» o col tasto del radar. */
+@media(max-width:900px){.modo-radar #time-panel{display:none !important}}
+/* ⚠️ «↩ Indietro» deve esserci anche nel radar. Su desktop il sito lo
+   mostra solo con un'analisi in corso, quindi entrando nel radar senza
+   periodo non c'era modo di tornare indietro se non col tasto del radar. */
+@media(min-width:901px){.modo-radar #btn-reset-regions{display:block !important}}
+.modo-radar #legend-panel{display:block !important}
+@media(max-width:900px){.modo-radar #legend-panel{transform:translateY(0) !important}}
+@media(max-width:900px){
+  #reg-sheet .rd-d{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+  #reg-sheet .rd-d.on{background:#fff;color:#1b3f6e}
+}
+/* ⚠️ LE NUVOLE. L'immagine a infrarossi copre il 100% della tessera e il
+   cielo sereno non e' nero: e' un grigio medio (luminosita' 92 su 255,
+   misurata). Messa cosi' e' un velo sulla mappa, ed e' il motivo per cui
+   «non si vedevano». Rimedio in due tempi: prima si stira il contrasto in
+   modo che il sereno finisca a ZERO e le nuvole restino alte, poi si fonde
+   in `screen`, dove il nero non dipinge niente. Misurato sulla catena qui
+   sotto: sereno 92 -> 0, nuvola media -> 224, nuvola alta -> 255. */
+/* ⚠️ QUI C'ERA IL TASTO «NUVOLE» (satellite a infrarossi), TOLTO il
+   31/8/2026 dopo averlo provato. Non per come veniva disegnato, ma per tre
+   ragioni che non si risolvono con una taratura:
+   1. non risponde alla domanda del sito: dice dove sono le NUVOLE, non dove
+      piove, e una nuvola asciutta a chi cerca funghi non serve;
+   2. la soglia fra cielo sereno e nuvola va ritarata di continuo, perche' il
+      fondo dell'infrarosso cambia con l'ora e la stagione: misurato lo
+      stesso giorno, 92 la mattina e 64 il pomeriggio sul centro Italia;
+   3. sui siti meteo si vede bene perche' la loro mappa e' blu scura. La
+      nostra e' chiara e colorata: il bianco delle nuvole ci si perde e il
+      grigio la sporca. Non e' una taratura, e' il fondo.
+   Restano i tre tasti che sono RADAR e rispondono alla domanda giusta. */
+/* ⚠️ Il blur va messo sul PANNELLO e non sulle singole tessere: applicato
+   tessera per tessera sfuma anche i bordi e si vedono le cuciture. */
+</style>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   «MODO RADAR» — 31 agosto 2026
+   ⚠️ IN PROVA SUL SITO DI TEST dal 31/8/2026. Non e' in produzione.
+
+   ⚠️ IL DPC E' STATO TOLTO DEL TUTTO. Non per le cumulate sbagliate (quelle
+   erano gia' fuori), ma per una cosa che si vede a occhio e che ho misurato
+   contando i colori della stessa tessera:
+
+     livello      velo grigio   pioggia vera
+     DPC vmi        41,5%          0,02%
+     DPC sri        41,4% (nero)   0,06%
+     LibreWXR        0,6%          2,52%
+
+   Il DPC disegna la MASCHERA DELLA COPERTURA RADAR come un velo semitrasparente
+   su mezza Italia — `RGBA(130,130,130,51)` — e sotto, quando non piove, non c'e'
+   niente. Il risultato e' una coltre grigia addosso alla regione. LibreWXR
+   invece e' trasparente al 96% e colorato solo dove piove davvero.
+   Con lui cade anche il vantaggio dello zoom 13 del DPC: serviva a ingrandire
+   il velo grigio.
+
+   ⚠️ IL FLASH DELL'ANIMAZIONE ERA UN MIO ERRORE. Creavo uno strato nuovo per
+   ogni fotogramma e toglievo il vecchio al caricamento (o dopo 1,5 s) mentre
+   il passo era 700 ms: gli strati si accavallavano e fra l'uno e l'altro si
+   vedeva il vuoto. Ora gli strati si creano TUTTI UNA VOLTA con opacita' 0 e
+   si accende solo quello giusto: nessuna tessera viene ricaricata, nessun
+   buco fra un fotogramma e l'altro. E' la ricetta dell'esempio ufficiale.
+   Prezzo: i fotogrammi si scaricano tutti all'inizio (12 x ~40 tessere per le
+   2 ore), quindi l'animazione parte dopo un attimo invece che subito.
+   ═══════════════════════════════════════════════════════════════ */
+(function(){
+  var API='https://api.librewxr.net/public/weather-maps.json';
+  var acceso=false, scelta=null, vistaPrec=null;
+  var strati=[], idx=-1, timer=null, fisso=null;
+  var cache=null, cacheQuando=0, ultimoBuono=null;
+  /* Quanto piu' largo sta il radar rispetto all'inquadratura normale della
+     regione, in livelli di zoom. 1 = il doppio di spazio per lato. E' la
+     manopola: 0,5 per stare piu' stretti, 1,5 per vedere mezza Europa. */
+  var LARGHEZZA = 1;
+
+  /* ⚠️ LA SCORTA: cosa succede quando LibreWXR non risponde.
+     1. TETTO DI 3 SECONDI e una sola riprova. ⚠️ In teoria fa 6 secondi, MISURATO
+        ne fa 8-9: i timer di 3 s slittano di mezzo secondo l'uno perche' la pagina
+        sta caricando le sue tessere. Non e' un'attesa muta, la riga sotto dice
+        «carico...» per tutto il tempo. Un tasto che gira all'infinito
+        e' peggio di un tasto che dice di no: e' la lezione del loader appeso
+        ad ARPA del 24/8/2026.
+     2. Se cade ENTRANDO, il modo NON si apre: si resta sulla mappa delle
+        piogge passate, che funziona sempre, e si dice perche' usando la riga
+        che c'e' gia' (#tp-status), la stessa di «Massimo 3 regioni».
+     3. Se cade mentre il radar e' GIA' acceso non si spegne niente: resta
+        l'ultimo fotogramma buono e la riga sotto dichiara di quando e'. Una
+        mappa vecchia dichiarata batte uno schermo vuoto.
+     4. La risposta si tiene 60 secondi in cache: cambiare tasto non deve
+        rifare la stessa domanda, e ogni domanda in meno e' un guasto in meno.
+     ⚠️ NESSUN RIPIEGO SU UN'ALTRA FONTE: RainViewer e' escluso per la licenza
+     («solo uso personale») e il DPC per il velo grigio su mezza Italia.
+     Ripiegare su una fonte gia' giudicata inadatta sarebbe peggio del
+     messaggio onesto. */
+  function chiedi(){
+    if(cache && Date.now()-cacheQuando<60000) return Promise.resolve(cache);
+    var una=function(){
+      return new Promise(function(ok,ko){
+        var scaduto=setTimeout(function(){ ko(new Error('tetto')); },3000);   // 3 s + una riprova = 6 al peggio
+        fetch(API).then(function(r){ return r.ok?r.json():Promise.reject(); })
+          .then(function(j){ clearTimeout(scaduto); ok(j); },
+                function(e){ clearTimeout(scaduto); ko(e); });
+      });
+    };
+    return una().catch(una).then(function(j){ cache=j; cacheQuando=Date.now(); return j; });
+  }
+  function caduta(){
+    /* ⚠️ `strati.length` NON E' UN DI PIU'. Senza, questa riga annunciava un
+       fotogramma che non c'era: dichiarare una cosa che lo schermo non
+       mostra e' peggio del guasto. Se non c'e' piu' niente a video si passa
+       oltre, e si dice la verita' scomoda invece di quella comoda. */
+    if(ultimoBuono && strati.length){ nota('⚠️ Radar non aggiornato: ultimo dato delle '+ultimoBuono); return; }
+    esci();
+    var a=el('tp-status');
+    if(a){ a.className='error'; a.textContent='⚠️ Radar non raggiungibile, riprova fra poco';
+           clearTimeout(a._t); a._t=setTimeout(function(){
+             if(a.textContent.indexOf('Radar non raggiungibile')>-1){ a.textContent=''; a.className=''; }
+           },3500); }
+  }
+
+  function map(){ return window._mapDebug; }
+  function el(id){ return document.getElementById(id); }
+  function regioniAttive(){
+    return [].map.call(document.querySelectorAll('#region-panel input[type=checkbox]:checked'),
+                       function(c){return c.value;});
+  }
+
+  function monta(){
+    var cu=el('btn-custom'); if(!cu) return;
+    var riga=document.createElement('div'); riga.className='rd-coppia';
+    cu.parentNode.insertBefore(riga,cu); riga.appendChild(cu);
+    cu.innerHTML='<span class="rd-ic">\uD83D\uDCC5</span> Scegli date';
+    var b=document.createElement('div');
+    /* ⚠️ IL NOME E' «DIRETTA RADAR» (31/8/2026, sua proposta).
+       MISURATO a 360 px, altezza del tasto contro i 54 px del gemello
+       «Scegli date»: «Radar meteo» 54, «Diretta radar» 54, ma
+       «Radar in diretta» 77 e «Radar meteo live» 77, cioe' vanno a capo
+       e fanno lo scalino che si nota subito. Restano quindi solo le
+       forme corte.
+       Fra le due si sceglie «Diretta radar» perche' messa accanto
+       all'altro tasto la coppia si legge «Scegli date | Diretta radar»:
+       il passato e l'adesso, che e' esattamente la differenza fra i due
+       modi. E dice «live» in italiano, che era la parola chiesta. */
+    b.className='tp-custom-btn rd-btn'; b.id='btn-radar'; b.innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Diretta radar';
+    riga.appendChild(b);
+    b.addEventListener('click',function(){ acceso?esci():entra(); });
+    // ⚠️ Il tasto «Indietro» della legenda chiama hideLegendMobile(), che in
+    //    modo radar non fa niente perche' il pannello lo teniamo aperto a
+    //    forza: sembrava rotto. In modo radar deve uscire dal radar.
+    /* ⚠️ «INVIA LINK» NON PARTIVA. Il gestore del sito fa
+       `var url=buildShareUrl(); if(!url) return;` e buildShareUrl torna NULL
+       quando non c'e' un'analisi (`!currentPast || !currentNow`). Nel radar
+       ci si puo' entrare senza aver scelto un periodo, e li' il tasto non
+       faceva niente, in silenzio. In modo radar il link lo costruiamo noi:
+       regione, vista e durata bastano, le date non servono. */
+    var bs=el('btn-share');
+    if(bs) bs.addEventListener('click',function(e){
+      if(!acceso) return;
+      e.stopImmediatePropagation(); e.preventDefault();
+      var mm=map(), c=mm.getCenter();
+      var q=new URLSearchParams();
+      q.set('r', regioniAttive().join(','));
+      q.set('z', String(Math.round(mm.getZoom()*100)/100));
+      q.set('c', c.lat.toFixed(4)+','+c.lng.toFixed(4));
+      q.set('radar', scelta||'ora');
+      var url=location.origin+location.pathname+'?'+q.toString();
+      var testo={ora:'Sta piovendo adesso? Guarda il radar',
+                 due:'La pioggia delle ultime due ore, al radar',
+                 prev:'Dove va la pioggia nei prossimi 40 minuti',
+                }[scelta||'ora'];
+      try{ gtag('event','share_map',{regioni:regioniAttive().join(',')}); }catch(x){}
+      var fatto=function(){
+        var v=bs.dataset.label||bs.textContent;
+        bs.classList.add('ok'); bs.textContent='✓ Copiato';
+        setTimeout(function(){ bs.classList.remove('ok'); bs.textContent=v; },2200);
+      };
+      if(navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)){
+        navigator.share({text:testo,url:url}).catch(function(){});
+      } else if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(fatto,function(){});
+      }
+    },true);
+    /* ↩ Indietro del desktop: prima si esce dal radar, poi il sito fa il suo
+       resetToStart. Cosi' il tasto vuol dire la stessa cosa in tutti e due i
+       modi, che e' quello che uno si aspetta. */
+    var rr=el('btn-reset-regions');
+    if(rr) rr.addEventListener('click',function(){ if(acceso) esci(false); },true);
+    var ind=el('leg-back-btn');
+    if(ind) ind.addEventListener('click',function(e){
+      if(acceso){ e.stopImmediatePropagation(); e.preventDefault(); esci(); }
+    },true);
+    [].forEach.call(document.querySelectorAll('#time-panel .tp-btn, #btn-custom, #btn-funghi'),
+      function(x){ x.addEventListener('click',function(){ if(acceso) esci(false); }); });
+
+    var lp=el('legend-panel'); if(!lp) return;
+    var st=lp.querySelector('.stats-row');
+    var d=document.createElement('div'); d.className='rd-durate'; d.id='rd-durate';
+    [{id:'ora',  t:'Adesso',       tit:'la pioggia che sta cadendo adesso'},
+     {id:'due',  t:'\u25B6 -2 ore', tit:'le ultime due ore, animate'},   // il meno dice che e' passato
+     {id:'prev', t:'+40 min',      tit:'dove si sposta nei prossimi 40 minuti: previsione, non misura'},
+    ].forEach(function(x){
+      var c=document.createElement('div');
+      c.className='rd-d'+(x.id==='prev'?' rd-prev':''); c.dataset.id=x.id;
+      c.textContent=x.t; c.title=x.tit;
+      c.addEventListener('click',function(){
+        // ⚠️ Ripremendo il tasto gia' acceso si torna ad «Adesso»: durante
+        //    un'animazione quello e' il gesto naturale per fermarla, e non
+        //    serve un tasto in piu' per farlo.
+        if(scelta===x.id && x.id!=='ora') vai('ora'); else vai(x.id);
+      });
+      d.appendChild(c);
+    });
+    var sc=document.createElement('div'); sc.className='rd-scala'; sc.id='rd-scala';
+    sc.innerHTML='<div class="rd-barra"></div>'
+      +'<div class="rd-num"><span>0,5</span><span>3</span><span>6</span>'
+      +'<span>12</span><span>24</span><span>50 mm/h</span></div>';
+    /* ⚠️ CHI RICEVE UN LINK COL RADAR entra in modo radar. Si aspetta che
+       la regione del link sia stata selezionata (il sito la spunta da solo
+       leggendo ?r=), poi si entra sulla durata scritta nel link. Tetto di
+       15 secondi e poi si lascia perdere in silenzio: un link vecchio o
+       storto non deve rompere l'apertura del sito. */
+    try{
+      var q=new URLSearchParams(location.search).get('radar');
+      if(q && ['ora','due','prev'].indexOf(q)>-1){
+        var giri=0, att2=setInterval(function(){
+          if(regioniAttive().length){ clearInterval(att2); entra(); vai(q); }
+          else if(++giri>75) clearInterval(att2);
+        },200);
+      }
+    }catch(e){}
+    var ln=document.createElement('div'); ln.className='rd-linea'; ln.id='rd-linea';
+    var n=document.createElement('div'); n.className='rd-nota'; n.id='rd-nota';
+    st.parentNode.insertBefore(d,st); st.parentNode.insertBefore(ln,st);
+    st.parentNode.insertBefore(sc,st); st.parentNode.insertBefore(n,st);
+  }
+
+  function entra(){
+    if(!map()) return;
+    if(!regioniAttive().length){
+      var a=el('tp-status');
+      if(a){ a.className='error'; a.textContent='\u26A0\uFE0F Prima scegli la regione';
+             clearTimeout(a._t); a._t=setTimeout(function(){
+               if(a.textContent.indexOf('Prima scegli')>-1){ a.textContent=''; a.className=''; }
+             },2800); }
+      return;
+    }
+    acceso=true;
+    document.body.classList.add('modo-radar');
+    window._radarModo=scelta||'ora';   // lo legge buildShareUrl
+    el('btn-radar').innerHTML='\u2715 Chiudi radar';
+    heat(false); pallini(false);
+    var m=map();
+    vistaPrec={c:m.getCenter(),z:m.getZoom()};
+    var pts=[]; m.eachLayer(function(l){ if(l instanceof L.CircleMarker) pts.push(l.getLatLng()); });
+    if(typeof showLegendMobile==='function' && window.innerWidth<=900){ try{ showLegendMobile(); }catch(e){} }
+    sorveglia(true);
+    /* ⚠️ L'INQUADRATURA SI FA NELLA STRISCIA VISIBILE, non sulla mappa intera.
+       Sul telefono il pannello copre meta' schermo: un fitBounds centrato
+       mette la regione sotto al pannello, ed e' quello che si vedeva sulla
+       Lombardia. Si MISURA quanto copre e si spinge il contenuto sopra, che
+       e' la stessa cosa che fa centraRegioneInStriscia per le regioni.
+       Due tempi, perche' il pannello arriva con una transizione: subito con
+       quello che c'e', e di nuovo dopo mezzo secondo a pannello fermo. */
+    /* ⚠️ NON SI ASPETTANO PIU' I PALLINI (31/8/2026). Prima si inquadrava solo
+       se c'erano almeno tre CircleMarker: entrando mentre le stazioni stavano
+       ancora arrivando l'inquadratura saltava del tutto, oppure si calcolava
+       su tre pallini vicini e usciva uno zoom assurdo. Adesso la misura parte
+       dai CONFINI della regione, che ci sono da subito. */
+    inquadra();
+    setTimeout(function(){ if(acceso) inquadra(); },550);
+    vai('ora');
+  }
+  /* ⚠️ `ripristina` esiste per un difetto vero, visto il 31/8: uscendo dal
+     radar rimettevo SEMPRE la vista di prima, anche quando si usciva
+     cliccando un periodo. Ma in quel caso l'analisi sta gia' calcolando la
+     SUA inquadratura, e il mio setView animato le arrivava sopra: la
+     regione restava piccola in mezzo a mezza Europa. E' la stessa famiglia
+     della corsa dei 50 ms: due cose che muovono la mappa nello stesso
+     istante. Rimedio: chi esce per scegliere un periodo NON tocca la vista
+     e la lascia fare a chi di dovere. */
+  function esci(ripristina){
+    if(!acceso) return;
+    acceso=false; sorveglia(false); pulisci(); ultimoBuono=null; window._radarModo=null;
+    document.body.classList.remove('modo-radar');
+    el('btn-radar').innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Diretta radar';
+    heat(true); pallini(true);
+    /* ⚠️ USCENDO SI TORNA ALL'INQUADRATURA STANDARD DELLA REGIONE, non alla
+       vista che c'era prima di entrare (cambiato il 31/8/2026 su sua
+       richiesta). Prima rimettevo `vistaPrec`, e siccome nel radar si sta
+       larghi apposta, uscire lasciava la regione lontana o storta a seconda
+       di dove stava la mappa un minuto prima. `fitMapToRegions` e' la stessa
+       funzione che il sito usa quando finisce di caricare un'analisi: uscire
+       dal radar e scegliere un periodo adesso finiscono nello stesso posto.
+       ⚠️ `stop()` PRIMA, perche' se si esce mentre l'inquadratura d'ingresso
+       sta ancora volando (e' il caso della SCORTA, che cade dopo un istante)
+       il movimento di ritorno arriva sopra un'animazione in corso e viene
+       mangiato: misurato il 31/8, z6 di partenza e z8 dopo il finto guasto.
+       Con `ripristina===false` non si tocca niente: chi esce cliccando un
+       periodo lascia inquadrare all'analisi, che lo fa da se'. */
+    if(ripristina!==false){
+      try{ map().stop(); }catch(e){}
+      try{
+        var _rk=regioniAttive();
+        if(_rk.length && typeof window._fitRegioni==='function') window._fitRegioni(_rk);
+        else if(vistaPrec) map().setView(vistaPrec.c,vistaPrec.z,{animate:false});
+      }catch(e){}
+      /* ⚠️ SUL TELEFONO NON BASTA `fitMapToRegions` (segnalato il 31/8 con la
+         Liguria mezza nascosta dietro al pannello: lo zoom era giusto, la
+         posizione no). Quella funzione inquadra la MAPPA INTERA, ma sul
+         telefono meta' mappa sta sotto al pannello del periodo: il sito
+         infatti la fa sempre seguire da `centraRegioneInStriscia`, che alza
+         il contenuto nella striscia che resta libera. Il radar la saltava.
+         Due tempi come fa il sito (subito e a pannelli fermi), perche' il
+         pannello torna alla sua altezza con una transizione e misurarlo
+         mentre si muove da' il numero sbagliato. */
+      if(window.innerWidth<=900 && typeof window._centraStriscia==='function'){
+        try{ window._centraStriscia(); }catch(e){}
+        setTimeout(function(){ try{ window._centraStriscia(); }catch(e){} },420);
+      }
+    }
+    vistaPrec=null;
+    var t=el('leg-title'); if(t&&t._vecchio!=null){ t.textContent=t._vecchio; t._vecchio=null; }
+  }
+  /* ⚠️ L'INQUADRATURA E' UNA FUNZIONE A SE', perche' la richiama anche il
+     sorvegliante qui sotto: in una data normale cambiare regione rifa'
+     l'inquadratura, e nel radar deve fare lo stesso. Si misura la striscia
+     lasciata libera dai pannelli, come centraRegioneInStriscia. */
+  function inquadra(){
+    var m=map(); if(!m) return;
+    var rk=regioniAttive(); if(!rk.length) return;
+    /* ⚠️ SI PARTE DALL'INQUADRATURA DEL SITO, NON DA UN FIT SUI PALLINI
+       (rifatto il 31/8/2026). Prima misuravo da solo il riquadro dei pallini
+       e toglievo delle tacche: ma quella base non c'entra niente con
+       l'inquadratura normale della regione, che riserva 420 px al pannello
+       su desktop e 70 px di bordo sul telefono. Misurato sulla Lombardia a
+       1366 px: il fit sui pallini dava 8,5 e lo standard del sito 6, cioe'
+       due tacche e mezzo di scarto che cambia con la finestra e con la
+       regione. Togliendo un numero fisso il radar finiva ora piu' stretto
+       ora identico allo standard, mai piu' largo: e' il difetto che si
+       vedeva. Adesso si chiede al sito la SUA inquadratura e si toglie un
+       livello pieno da li': cosi' «piu' largo di uno» vale su ogni regione e
+       su ogni schermo. */
+    if(typeof window._fitRegioni==='function'){ try{ window._fitRegioni(rk); }catch(e){} }
+    m.setZoom(Math.max(4, m.getZoom()-LARGHEZZA), {animate:false});
+    /* Sul telefono il pannello del radar copre la parte bassa della mappa:
+       si alza il contenuto di meta' di quello che copre, che e' la stessa
+       correzione di centraRegioneInStriscia. */
+    if(window.innerWidth<=900){
+      var lp=el('legend-panel'), mp=el('map');
+      if(lp&&mp){
+        var r=lp.getBoundingClientRect(), mb=mp.getBoundingClientRect();
+        var coperto=mb.bottom-Math.max(r.top,mb.top);
+        if(r.height>40 && coperto>20) m.panBy([0, Math.round(coperto/2)], {animate:false});
+      }
+    }
+  }
+
+  /* ⚠️ SORVEGLIANTE DELLE REGIONI. Non si ascoltano le caselle, perche' su
+     telefono la regione si sceglie da una tendina che e' un altro pezzo di
+     interfaccia: si guarda il RISULTATO, cioe' quanti pallini ci sono in
+     mappa. Se cambiano, la regione e' cambiata e si riinquadra. Un giro al
+     secondo, solo mentre il radar e' acceso. */
+  var quanti=0, guardia=null;
+  function sorveglia(si){
+    if(guardia){ clearInterval(guardia); guardia=null; }
+    if(!si) return;
+    quanti=contaPallini();
+    guardia=setInterval(function(){
+      if(!acceso) return;
+      var n=contaPallini();
+      if(n!==quanti && n>2){ quanti=n; inquadra(); }
+    },1000);
+  }
+  function contaPallini(){
+    var n=0, m=map(); if(!m) return 0;
+    m.eachLayer(function(l){ if(l instanceof L.CircleMarker) n++; });
+    return n;
+  }
+  function heat(si){
+    var c=document.querySelector('#map .leaflet-overlay-pane canvas'); if(c) c.style.display=si?'':'none';
+  }
+  /* ⚠️ SI NASCONDONO SOLO I PALLINI, NON TUTTO IL PANNELLO. Prima spegnevo
+     `markerPane` intero, ma li' dentro non ci sono solo le stazioni: ci
+     stanno anche il SEGNAPOSTO della localita' cercata e quello de «La mia
+     posizione», che sono divIcon. Risultato: cercavi un paese e il
+     segnaposto non compariva. Adesso lo fa il CSS, che spegne il solo
+     disegno SVG dei cerchi e lascia in piedi i marcatori a div. */
+  function pallini(si){ document.body.classList.toggle('senza-pallini', !si); }
+
+  function pulisci(){
+    if(timer){ clearInterval(timer); timer=null; }
+    var m=map();
+    strati.forEach(function(l){
+      try{ m.removeLayer(l); }catch(e){}
+    });
+    strati=[]; idx=-1;
+    var box=el('rd-linea'); if(box){ box.classList.remove('viva'); box.innerHTML=''; }
+    if(fisso){ try{ m.removeLayer(fisso); }catch(e){} fisso=null; }
+  }
+
+  function vai(id){
+    /* \u26a0\ufe0f QUI C'ERA `pulisci()`, ED ERA IL BUCO DELLA SCORTA (visto il 31/8).
+       Buttavo gli strati PRIMA di chiedere: se poi la richiesta cadeva, la
+       riga annunciava \u00abultimo dato delle 17:50\u00bb con lo schermo vuoto, perche'
+       quel fotogramma l'avevo appena tolto io. Misurato: zero tessere a video.
+       Adesso si ferma la sola animazione, gli strati restano finche' i nuovi
+       non sono in mano (li toglie `crea`), e se si cade si torna a segnare il
+       tasto di prima: cosi' quello che si vede e' quello che dice la riga. */
+    var prima=scelta;
+    if(timer){ clearInterval(timer); timer=null; }
+    scelta=id;
+    if(acceso) window._radarModo=id;   // il link segue il tasto scelto
+    segna(id);
+    nota('carico\u2026');
+    chiedi()
+      .then(function(j){
+        var h=j.host;
+        var lista;
+        if(id==='prev')      lista=(j.radar&&j.radar.nowcast)||[];
+        else if(id==='ora')  lista=((j.radar&&j.radar.past)||[]).slice(-1);
+        else                 lista=(j.radar&&j.radar.past)||[];
+        if(!lista.length) throw 0;
+        var coda = '/256/{z}/{x}/{y}/2/1_1.png';
+        crea(lista.map(function(f){ return {t:f.time, u:h+f.path+coda}; }));
+      })
+      .catch(function(){
+        // si e' rimasti col fotogramma di prima: il tasto acceso torna quello
+        if(ultimoBuono && strati.length && prima && prima!==id){
+          scelta=prima; if(acceso) window._radarModo=prima; segna(prima);
+        }
+        caduta();
+      });
+  }
+  function segna(id){
+    [].forEach.call(document.querySelectorAll('.rd-d'),function(c){ c.classList.toggle('on', c.dataset.id===id); });
+    var t=el('leg-title');
+    var tit={ora:'Radar · adesso', due:'Radar · ultime 2 ore',
+             prev:'Radar · prossimi 40 minuti'}[id];
+    if(t){ if(t._vecchio==null) t._vecchio=t.textContent; t.textContent=tit; }
+  }
+
+  // TUTTI gli strati insieme, opacita' 0, e si accende solo quello giusto:
+  // e' cosi' che si toglie il flash.
+  function crea(frames){
+    pulisci();          // i vecchi strati si tolgono SOLO adesso, a dati in mano
+    var m=map();
+    if(!m.getPane('radar')){
+      m.createPane('radar');
+      m.getPane('radar').style.zIndex=450;
+      m.getPane('radar').style.pointerEvents='none';
+    }
+    var OP = 0.95;
+    strati=frames.map(function(f){
+      var l=L.tileLayer(f.u,{opacity:0,pane:'radar',maxNativeZoom:6,
+        attribution:'radar <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / OPERA (CC BY)'});
+      l._quando=f.t; l.addTo(m);
+      return l;
+    });
+    var primo=strati.length-1;
+    if(frames.length>1 && scelta!=='ora') primo=0;
+    linea(frames);
+    accendi(primo,OP);
+    if(frames.length>1){
+      /* ⚠️ SI ASPETTA CHE SIANO PRONTI TUTTI, NON SOLO IL PRIMO (31/8/2026).
+         Prima si partiva al `load` del solo fotogramma zero: gli altri
+         stavano ancora scaricando le tessere e, quando toccava a loro, si
+         accendeva uno strato mezzo vuoto. E' il tremolio del «+40 min», che
+         ha solo sei fotogrammi e quindi ci ripassa sopra in fretta.
+         Adesso si conta quanti sono arrivati e si parte quando ci sono tutti.
+         Tetto di 8 secondi perche' una rete lenta non deve bloccare tutto:
+         meglio un giro con qualche buco che un'animazione che non parte. */
+      var pronti=0, tot=strati.length, partito=false;
+      var avvia=function(){
+        if(partito||timer||!acceso) return;
+        partito=true;
+        timer=setInterval(function(){ accendi((idx+1)%strati.length,OP); },700);
+      };
+      strati.forEach(function(l){
+        l.once('load',function(){ if(++pronti>=tot) avvia(); });
+      });
+      setTimeout(avvia,8000);
+    }
+  }
+  /* ⚠️ LA LINEA DEL TEMPO. Senza, appena l'animazione fa un giro non si sa
+     piu' dove si e': i sei fotogrammi del «+40 min» durano quattro secondi e
+     l'ora scritta sotto cambia troppo in fretta per raccapezzarsi. Una tacca
+     per fotogramma, quella accesa dice a che punto siamo, e ai due capi c'e'
+     scritto dove comincia e dove finisce. Le tacche si possono anche cliccare:
+     ferma il giro e resta li'. */
+  function linea(frames){
+    var box=el('rd-linea'); if(!box) return;
+    if(frames.length<2){ box.classList.remove('viva'); box.innerHTML=''; return; }
+    box.classList.add('viva');
+    var q=function(t){ return new Date(t*1000).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); };
+    /* ⚠️ AI CAPI CI VA L'ORA, NON I MINUTI (31/8). Scrivendo «+50 min» a destra
+       si finiva con due numeri diversi a schermo nello stesso momento, perche'
+       il tasto dice «+40 min»: i fotogrammi del nowcast arrivano a 50 minuti,
+       il tasto e' un nome. Con l'ora dell'orologio non c'e' niente da
+       confrontare e si capisce meglio: «adesso -> 21:00». */
+    var sx=(scelta==='prev')?'adesso':q(frames[0].t);
+    var dx=(scelta==='prev')?q(frames[frames.length-1].t):'adesso';
+    var tacche='';
+    for(var i=0;i<frames.length;i++) tacche+='<i data-i="'+i+'" title="'+q(frames[i].t)+'"></i>';
+    box.innerHTML='<div class="rd-tacche">'+tacche+'</div>'
+      +'<div class="rd-capi"><span>'+sx+'</span><span>'+dx+'</span></div>';
+    [].forEach.call(box.querySelectorAll('.rd-tacche i'),function(t){
+      t.addEventListener('click',function(){
+        if(timer){ clearInterval(timer); timer=null; }   // si ferma dove lo metti
+        accendi(+t.dataset.i,0.95);
+      });
+    });
+  }
+  function accendi(i,OP){
+    idx=i;
+    strati.forEach(function(l,k){
+      l.setOpacity(k===i?OP:0);
+    });
+    var box=el('rd-linea');
+    if(box) [].forEach.call(box.querySelectorAll('.rd-tacche i'),function(t,k){
+      t.classList.toggle('on',k===i);
+      t.classList.toggle('vis',k<=i);      // quanto se n'e' gia' visto
+    });
+    var f=strati[i];
+    var ora=new Date(f._quando*1000).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+    ultimoBuono=ora;   // lo usa la scorta: e' l'ora dell'ultimo fotogramma mostrato
+    // ⚠️ Le scritte non ripetono quello che dice gia' il tasto: «+40 min»
+    //    dichiara da solo che e' una previsione, e ribadirlo sotto suona come
+    //    una scusa.
+    if(scelta==='prev')     nota('Previsione per le '+ora+' \u00b7 LibreWXR');
+    else                    nota('Radar \u00b7 h '+ora+' \u00b7 composito europeo OPERA');
+  }
+  function nota(t){ var n=el('rd-nota'); if(n) n.textContent=t; }
+
+  var giri=0;
+  var att=setInterval(function(){
+    if(window._mapDebug&&window.L&&el('btn-custom')&&el('legend-panel')){ clearInterval(att); monta(); }
+    else if(++giri>75) clearInterval(att);
+  },200);
+}());
+</script>
 </body>
 </html>

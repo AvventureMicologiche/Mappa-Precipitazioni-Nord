@@ -1449,3 +1449,134 @@ ultimi 40 (22, 23, 25 e 26 agosto) e il 25 la 3730 misurava 9,8 mm, che in quel
 punto adesso non ci sono piu'. Sulle finestre corte costa il pallino: **5
 finestre da 7 giorni su 54** fanno cadere il sito sotto il 60% di copertura. Da
 10 giorni in su, mai.
+
+---
+
+## «Diretta radar» in produzione (31 agosto 2026, v9.3)
+
+Un tasto accanto a «📅 Scegli date» che apre un **modo**: la heatmap si spegne,
+i pallini spariscono, restano i confini, la vista si allarga e il pannello dei
+cumulati diventa il pannello del radar. Tre tasti: **Adesso · ▶ -2 ore ·
++40 min**, con la scala colori vera in dBZ e mm/h e una **linea del tempo** a
+tacche cliccabili. Si esce col tasto o scegliendo un periodo.
+
+**FONTE UNICA: LibreWXR** (`api.librewxr.net/public/weather-maps.json`),
+progetto open source che serve il composito europeo EUMETNET OPERA, CC BY,
+senza chiave. Voce in `fonti.html`.
+
+⚠️ **PERCHÉ NON IL RADAR DELLA PROTEZIONE CIVILE**, che sarebbe stata la scelta
+ovvia. Due difetti misurati, non impressioni:
+1. **le cumulate non tornano**: contati i pixel di pioggia sulla stessa
+   tessera, 1h=2.888, 3h=204, 6h=1.272, 12h=19.156, 24h=128. Una finestra più
+   lunga CONTIENE quella più corta, quindi 24 ore non può essere meno di 12;
+2. **il velo grigio**: il VMI disegna la maschera della copertura radar come un
+   grigio semitrasparente, il 41,5% dei pixel della tessera con sotto lo 0,02%
+   di pioggia vera. LibreWXR sulla stessa zona: 0,6% di grigio e 2,52% di
+   pioggia.
+⚠️ **E nemmeno RainViewer**: API gratuita «solo uso personale o didattico», e
+sopra lo zoom 7 restituisce sempre la stessa immagine finta.
+
+### Le cose da sapere se ci si torna
+
+⚠️ **LE FUNZIONI DEL SITO NON SONO GLOBALI.** Tutto lo script principale sta
+dentro una IIFE: il radar è un `<script>` separato in fondo e vedeva
+`fitMapToRegions` come `undefined`, scartandola IN SILENZIO dentro un `typeof`.
+Un guasto muto, il tipo peggiore: il radar non inquadrava più niente e si
+limitava a togliere zoom a quello che trovava, sommando le sottrazioni a ogni
+chiamata (misurato: 6 → 5 → 4). Sono esposte `window._fitRegioni`,
+`window._regioniAttive` e `window._centraStriscia`. Se una funzione del radar
+«non fa niente», è la prima cosa da guardare.
+
+⚠️ **LA LARGHEZZA SI MISURA DALL'INQUADRATURA DEL SITO, non da un fit sui
+pallini.** Il fit sui pallini non c'entra niente con l'inquadratura vera della
+regione, che riserva 420 px al pannello su desktop: sulla Lombardia il primo
+dava 8,5 e lo standard 6, due tacche e mezzo di scarto che cambia con la
+finestra e con la regione. Adesso si chiede al sito la SUA inquadratura e si
+toglie `LARGHEZZA` (1 livello) da lì. Misurato: analisi 9,25 → radar 8,25.
+
+⚠️ **USCENDO SI TORNA ALL'INQUADRATURA DELL'ANALISI**, e sul telefono NON basta
+`fitMapToRegions`: quella inquadra la mappa intera, ma metà mappa sta sotto al
+pannello. Va seguita da `centraRegioneInStriscia`, in due tempi. Senza, la
+regione restava mezza nascosta dietro al pannello: lo zoom giusto, la posizione
+no.
+
+⚠️ **L'ANIMAZIONE PARTE QUANDO SONO PRONTI TUTTI I FOTOGRAMMI**, non solo il
+primo: era quello il tremolio del «+40 min», che ha pochi fotogrammi e ci
+ripassa sopra in fretta. Tetto di 8 secondi per non restare fermi su rete lenta.
+
+⚠️ **LA SCORTA.** Tetto di 3 secondi e una riprova (misurati 8-9 s reali: i
+timer slittano mentre la pagina carica le tessere). Se cade ENTRANDO il modo non
+si apre e lo dice `#tp-status`; se cade a radar acceso resta l'ultimo fotogramma
+e la riga dichiara di quando è, **ma solo se quel fotogramma c'è davvero**
+(`strati.length`): annunciare una cosa che lo schermo non mostra è peggio del
+guasto. Cache di 60 secondi. NESSUN ripiego su un'altra fonte.
+
+⚠️ **IL TASTO «IMMAGINE» SPARISCE APPOSTA** in modo radar: le tessere LibreWXR
+non mandano `Access-Control-Allow-Origin` e sporcherebbero il canvas dello
+scatto, rompendo la foto per tutto il resto. Il link invece resta e porta il
+radar (`?radar=ora|due|prev`).
+
+⚠️ **IL NOME È «DIRETTA RADAR»**, misurato: a 360 px «Radar meteo live» e
+«Radar in diretta» vanno a capo e fanno il tasto alto 77 px contro i 54 del
+gemello «Scegli date». Ci stanno su una riga «Radar meteo», «Radar pioggia» e
+«Diretta radar».
+
+⚠️ **LE NUVOLE DA SATELLITE SONO STATE TOLTE**, non dimenticate: l'infrarosso
+copre il 100% della tessera e il cielo sereno è un grigio medio (luminosità 92
+su 255), si vedevano male comunque. Non riproporle senza una fonte migliore.
+
+⚠️ **MISURARE LO ZOOM COL RIQUADRO DEL BROWSER NASCOSTO NON VALE NIENTE**: la
+finestra è 0×0, `getBoundsZoom` restituisce il massimo e si legge zoom 16,5 dove
+non c'è nessun difetto. Prima di misurare un'inquadratura si impone una
+dimensione alla finestra.
+
+---
+
+## La scheda «Iscriviti» e il ringraziamento (31 agosto 2026)
+
+Sul desktop il nome sta su **una riga** e sotto, a tutta larghezza, c'è il
+ringraziamento per le analisi; sul telefono la stessa cosa in due righe dentro
+la pillola. La guida al pluviometro è stata **riaccesa** e adesso «Iscriviti»
+**partecipa al sorteggio** come una faccia della moneta: prima il dado sceglieva
+solo fra le vetrine, quindi era o sempre vetrina o mai. Misurato su 26 aperture:
+11 vetrina e 15 Iscriviti.
+
+⚠️ **IL NOME A 21 px E NON 23.** A 23 «Avventure Micologiche» NON ci sta nella
+colonna accanto ad Archie e va a capo in «Avventure» / «Micologiche»: era così
+da sempre. La colonna è larga 249 px. Archie resta 80 px.
+
+⚠️ **IL RINGRAZIAMENTO STA SOTTO**, non nella colonna: lì andrebbe a capo
+quattro volte e la scheda diventerebbe una colonna sbilenca. La scheda passa da
+162 a 234 px.
+
+⚠️ **LA VETRINA NON CAMBIA DI UN PIXEL**: quando parte, l'innerHTML di
+`#channel-logo` viene riscritto e `.v-grazie` sparisce da sola.
+
+**Il numero**, letto da GA4 il 31/8/2026: `analisi_regione` = **35.791 eventi da
+3.264 utenti**, dal 18/7/2026 (giorno in cui l'evento è stato aggiunto) al 31/8.
+Verificato che allargando la finestra al 1/1/2025 il numero non cambia: è tutto
+lo storico. In pagina si scrive «oltre 35.000», che resta vero mentre il conto
+sale.
+
+---
+
+## ⚠️ TEST E PROD NON SONO PIÙ «PROD + QUATTRO RIGHE» (31 agosto 2026)
+
+La regola scritta al 17/8 («prod è la base, il test = prod + quattro righe»)
+**non vale più**, e crederci fa danni. Il 31/8, andando a portare il radar in
+produzione, la differenza fra i due `index.html` era di **323 righe presenti
+solo in prod**, e dentro c'era codice vero: tutto il lavoro dei **pallini di
+partenza reali** (`loadStazioniPallini`, `PALLINI_CARTELLE`, `_pallEscluso`,
+Lombardia spostata su `data/lombardia`), fatto in prod la mattina stessa e mai
+portato sul test.
+
+**Copiare l'index del test sopra quello di produzione avrebbe cancellato tutto
+quel lavoro**, in silenzio e senza un errore.
+
+**Come si fa invece**: si portano i pezzi uno per uno con uno script che
+sostituisce stringhe esatte e **conta le occorrenze prima di sostituire**
+(se non ne trova esattamente una, si ferma). Lo script del 31/8 sta in
+`scratchpad/porta-in-prod.js`. E prima di scrivere si controlla che il numero
+di riferimenti a `Nord-Test` non sia cambiato: ce n'è **uno legittimo** già in
+prod (la mappa nome-repo → sito), quindi il controllo è sul CONTEGGIO, non
+sulla presenza.
