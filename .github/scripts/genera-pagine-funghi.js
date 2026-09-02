@@ -37,7 +37,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI } = require('./genera-pagine-regione.js');
+const { REGIONI, navAltre } = require('./genera-pagine-regione.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -214,6 +214,10 @@ a:active .vai-mappa{transform:translateY(2px);
   .capo-btns{flex-direction:column;}
   .capo-btn{width:100%;text-align:center;}
 }
+nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
+nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
+nav.altre p{line-height:1.9;}
+nav.altre a{color:var(--blu);}
 </style>
 </head>
 <body>
@@ -277,6 +281,10 @@ caduta. Ogni pallino è un pluviometro: cliccalo e vedi il suo storico.</p>
 <p class="nota" style="margin-top:22px">Dati di ${r.agenzia} via il nostro archivio. Il
 bosco è calcolato su dati OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 
+<h2 style="margin-top:30px">Tutta la pioggia ${r.prep} ${nome}</h2>
+<p>Questa pagina guarda solo i pluviometri in mezzo al bosco. Per la regione intera, pianura compresa, c'è <a href="${SITO}/${r.k}/">dove ha piovuto ${r.prep} ${nome}</a>: ${r.staz} pluviometri di ${r.agenzia}.</p>
+
+${navAltre(r.k, 'funghi')}
 </main>
 
 <script>
