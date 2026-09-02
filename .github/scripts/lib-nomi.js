@@ -19,16 +19,27 @@
  * scritta in fondo alla scheda Slovenia del CLAUDE.md.
  */
 
-// ⚠️ QUALI REGIONI HANNO LE PAGINE PER LOCALITA'. Il 2/9/2026: la sola
-// Liguria, 112 pagine, per decisione dell'utente. NON e' una limitazione
-// tecnica, il generatore le farebbe tutte e 948: e' che Google tratta male le
-// pagine sottili sfornate in massa, e finche' non sappiamo se una pagina
-// localita' porta clic sarebbe una scommessa su novecento carte in una volta.
-// La Liguria e' la regione con i numeri di riferimento in Search Console (33
-// clic su 625 impressioni al 24/8) e quella del Passo del Turchino, cioe' il
-// confronto diretto con la pagina d'esempio di 3bmeteo.
-// Per aprirne un'altra si aggiunge la chiave qui e si rilancia il generatore.
-const LOCALITA = ['liguria'];
+// ⚠️ QUALI REGIONI HANNO LE PAGINE PER LOCALITA'. Dal 2/9/2026 sera: TUTTE E
+// DICIANNOVE, 948 pagine. La mattina erano solo le 112 liguri, e il motivo per
+// cui si e' allargato in giornata e' la STAGIONE, non un ripensamento tecnico.
+//
+// ⚠️ IL CONTO CHE HA DECISO. Google ci mette da una a tre settimane a scoprire
+// e cominciare a posizionare pagine nuove. Pubblicate il 2 settembre hanno
+// davanti ~8 settimane di stagione dei porcini; aspettando i primi dati di
+// Search Console (20-25 settembre) comincerebbero a posizionarsi a meta'
+// ottobre, cioe' a stagione gia' in chiusura in montagna. **Aspettare la misura
+// voleva dire non usare la stagione per cui la misura serviva.**
+//
+// ⚠️ E il rischio delle «pagine sottili sfornate in massa» qui e' piu' piccolo
+// di come sembra: Google punisce le pagine senza contenuto proprio, e queste
+// hanno un pluviometro vero ciascuna, numeri diversi, il grafico dei 25 giorni,
+// i vicini con le distanze, e sono linkate dalla pagina madre della regione.
+// Non sono novecento varianti dello stesso testo.
+//
+// Per chiuderne una, si toglie la chiave da qui e si cancella la sua cartella.
+const LOCALITA = ['lombardia', 'piemonte', 'valledaosta', 'liguria', 'emilia', 'veneto',
+  'friuli', 'trentino', 'altoadige', 'toscana', 'umbria', 'marche', 'lazio',
+  'campania', 'puglia', 'basilicata', 'calabria', 'sicilia', 'sardegna'];
 
 // Le particelle che dentro un nome restano minuscole: «Colle di Cadibona», non
 // «Colle Di Cadibona».
