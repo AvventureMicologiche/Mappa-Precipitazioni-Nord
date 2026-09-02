@@ -38,6 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, navAltre } = require('./genera-pagine-regione.js');
+const { LOCALITA, bello, slugRegione } = require('./lib-nomi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -66,15 +67,9 @@ const GENITIVO = {
 // Breia», non «Cellio Con Breia».
 // Non si tocca `funghi-posti.json`, che deve restare fedele alla fonte: questa
 // e' presentazione, e sta nel generatore delle pagine.
-const PARTICELLE = new Set(['di','de','del','dello','della','dei','degli','delle',
-  'da','dal','dalla','al','alla','allo','ai','agli','alle','in','e','ed','a','su',
-  'sul','sulla','con','per','il','lo','la','i','gli','le','d','l']);
-function bello(n) {
-  if (n !== n.toUpperCase() || !/[A-Z]{3}/.test(n)) return n;
-  return n.toLowerCase().replace(/[a-zàèéìòù]+/g,
-    (parola, i) => (i > 0 && PARTICELLE.has(parola))
-      ? parola : parola.charAt(0).toUpperCase() + parola.slice(1));
-}
+// ⚠️ `bello()` e `PARTICELLE` stavano qui e adesso stanno in `lib-nomi.js`:
+// dal 2/9/2026 servono anche a `genera-pagine-localita.js` e a
+// `genera-funghi.js`, che scrive l'anagrafe dentro il file dei giorni.
 
 function pagina(r, posti) {
   const nome = r.nomeTitolo || r.nome;
@@ -280,6 +275,16 @@ caduta. Ogni pallino è un pluviometro: cliccalo e vedi il suo storico.</p>
 
 <p class="nota" style="margin-top:22px">Dati di ${r.agenzia} via il nostro archivio. Il
 bosco è calcolato su dati OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
+
+${LOCALITA.includes(r.k) ? `
+<h2 style="margin-top:30px">Tutti i posti da bosco ${gen}</h2>
+<p class="nota">Ognuno ha la sua pagina, con la pioggia giorno per giorno e i pluviometri vicini.</p>
+<nav class="altre"><p>${(function(){
+  const sl = slugRegione(posti);
+  return posti.map(p => [bello(p[1]), sl[p[0]]])
+    .sort((a, b) => a[0].localeCompare(b[0], 'it'))
+    .map(([n, s]) => `<a href="${SITO}/funghi/${r.k}/${s}/">${n}</a>`).join(' · ');
+}())}</p></nav>` : ''}
 
 <h2 style="margin-top:30px">Tutta la pioggia ${r.prep} ${nome}</h2>
 <p>Questa pagina guarda solo i pluviometri in mezzo al bosco. Per la regione intera, pianura compresa, c'è <a href="${SITO}/${r.k}/">dove ha piovuto ${r.prep} ${nome}</a>: ${r.staz} pluviometri di ${r.agenzia}.</p>

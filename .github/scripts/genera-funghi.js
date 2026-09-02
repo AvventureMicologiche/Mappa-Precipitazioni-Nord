@@ -43,6 +43,7 @@ const fs = require('fs');
 const path = require('path');
 const { REGIONI } = require('./genera-pagine-regione.js');
 const { DATI, oggiItalia, giorniIndietro, leggi } = require('./lib-giorni.js');
+const { LOCALITA, bello, slugRegione } = require('./lib-nomi.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
 const USCITA = path.join(DATI, 'funghi');
@@ -125,6 +126,36 @@ for (const k of Object.keys(POSTI)) {
 
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
   // riscrive, cosi' un run in piu' non produce un commit di sole date.
+  // ── Il file dei GIORNI, per le pagine di localita' ──────────────────────
+  // ⚠️ E' un file A SE' e non un campo in piu' del riepilogo: chi apre la
+  // pagina di una regione non deve scaricare le serie di 112 posti per vedere
+  // una classifica di quindici righe. Le due pagine chiedono file diversi.
+  // ⚠️ Dentro c'e' anche l'ANAGRAFE, coi nomi gia' scritti in tondo e con lo
+  // slug: cosi' la pagina di un posto non se la porta cotta dentro. Erano
+  // ~7 KB per pagina, cioe' 780 KB sulla sola Liguria e 6,6 MB se un giorno si
+  // facessero tutte e 948.
+  if (LOCALITA.includes(k)) {
+    const serie = {};
+    for (const p of POSTI[k]) {
+      const a = [];
+      for (let n = 1; n <= GIORNI; n++) a.push(uno((g.mm[n] && g.mm[n][p[0]]) || 0));
+      serie[p[0]] = a;
+    }
+    const sl = slugRegione(POSTI[k]);
+    const anagrafe = POSTI[k].map(p => [p[0], bello(p[1]), p[2], p[3], p[4], p[5], p[6], sl[p[0]]]);
+    const testoG = JSON.stringify({
+      regione: k, generato: new Date().toISOString(),
+      oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo, anagrafe, serie,
+    }) + '\n';
+    const destG = path.join(USCITA, k + '-giorni.json');
+    const primaG = fs.existsSync(destG) ? fs.readFileSync(destG, 'utf8') : '';
+    const senzaDataG = t => t.replace(/"generato":"[^"]+",/, '');
+    if (!(primaG && senzaDataG(primaG) === senzaDataG(testoG))) {
+      fs.writeFileSync(destG, testoG, 'utf8');
+      scritti++;
+    }
+  }
+
   const dest = path.join(USCITA, k + '.json');
   const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
   const senzaData = t => t.replace(/"generato":"[^"]+",/, '');
