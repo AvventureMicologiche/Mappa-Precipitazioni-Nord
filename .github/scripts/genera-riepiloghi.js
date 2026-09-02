@@ -37,36 +37,16 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI } = require('./genera-pagine-regione.js');
+const { DATI, oggiItalia, giorniIndietro, leggi } = require('./lib-giorni.js');
 
-const RADICE = path.resolve(__dirname, '..', '..');
-const DATI = path.join(RADICE, 'data');
 const USCITA = path.join(DATI, 'riepiloghi');
 const PERIODI = [7, 20];          // le due schede della pagina
 const FINESTRA = Math.max(...PERIODI);
 
-// Il giorno di calendario ITALIANO, non quello del runner (che e' a UTC): alle
-// 00:30 italiane di lunedi' a Londra e' ancora domenica, e i file si chiamano
-// col giorno italiano. Intl fa il lavoro dell'ora legale senza tabelle a mano.
-function oggiItalia() {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
-}
-function giorniIndietro(isoOggi, n) {
-  const [a, m, g] = isoOggi.split('-').map(Number);
-  const base = Date.UTC(a, m - 1, g, 12);           // mezzogiorno: niente sorprese di fuso
-  const out = [];
-  for (let i = 1; i <= n; i++) {
-    const d = new Date(base - i * 86400000);
-    out.push(d.toISOString().slice(0, 10));
-  }
-  return out;                                       // [ieri, altroieri, ...]
-}
-
-function leggi(dir, giorno) {
-  try {
-    const j = JSON.parse(fs.readFileSync(path.join(DATI, dir, giorno + '.json'), 'utf8'));
-    return Array.isArray(j.stations) && j.stations.length ? j.stations : null;
-  } catch (e) { return null; }
-}
+// Il calendario (che giorno e' in Italia, quali sono gli ultimi N giorni, come
+// si legge il file di una cartella) sta in lib-giorni.js dal 2/9/2026: lo usa
+// anche genera-funghi.js, e due copie che divergessero darebbero due pagine
+// con finestre diverse sullo stesso giorno.
 
 // Le stazioni delle cartelle successive che cadono entro ~1 km da una della
 // PRIMA cartella sono la stessa stazione fisica letta da un'altra porta: si

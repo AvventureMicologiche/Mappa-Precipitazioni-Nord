@@ -1,4 +1,4 @@
-name: Riepiloghi per le pagine regione
+name: Riepiloghi delle pagine regione e delle pagine funghi
 on:
   workflow_dispatch:
   schedule:
@@ -29,6 +29,11 @@ jobs:
       # Sul portatile ci mette 0,7 secondi in tutto.
       - name: Genera i riepiloghi
         run: node .github/scripts/genera-riepiloghi.js
+      # Stessa medicina per le pagine «Piogge per funghi», ma un file diverso:
+      # il riepilogo e' della REGIONE, qui serve una riga per POSTO. Anche
+      # questo senza rete, 0,4 secondi, 19 JSON da 33 KB in tutto.
+      - name: Genera i numeri delle pagine funghi
+        run: node .github/scripts/genera-funghi.js
       # ⚠️ `data/` e' nella regola ignore di netlify.toml: questo commit NON fa
       # partire nessun deploy, come per i collector. Se un giorno i riepiloghi
       # si spostassero fuori da `data/`, ogni giro comincerebbe a costare ~15
@@ -37,8 +42,8 @@ jobs:
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          git add data/riepiloghi/
-          git diff --staged --quiet || git commit -m "riepiloghi pagine regione $(date -u +%Y-%m-%d)"
+          git add data/riepiloghi/ data/funghi/
+          git diff --staged --quiet || git commit -m "riepiloghi pagine regione e funghi $(date -u +%Y-%m-%d)"
           ok=0
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then ok=1; break; fi
