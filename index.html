@@ -9602,7 +9602,7 @@ function loadDefaultMarkers(){
   // un deploy per metterla e poi zero, per sempre. Quando le date di scadenza
   // saranno passate tutte e due, la scheda «Iscriviti» torna da sola senza che
   // nessuno pubblichi niente.
-  var MOSTRA='alterna';
+  var MOSTRA='video';
 
   var VETRINE={};
   VETRINE.guida={
@@ -9625,38 +9625,45 @@ function loadDefaultMarkers(){
     canale:'Avventure Micologiche'
   };
   VETRINE.video={
-    // Uscita del 28/8/2026: quattro giorni, poi torna «Iscriviti» da sola.
-    fino:'2026-09-01T23:59:59+02:00',
-    // ⚠️ E' uno SHORT (verticale). Il link va bene com'e', ma la COPERTINA no:
-    // `maxresdefault.jpg` di uno short e' 16:9 col verticale in mezzo e due
-    // bande scure ai lati, e nella scheda da 130x73 il soggetto diventa una
-    // strisciolina. Si parte da `oardefault.jpg` (il fotogramma verticale
-    // vero) e si ritaglia una fascia 16:9 — vedi vetrina-short.jpg.
-    link:'https://youtube.com/shorts/eQgHg2fqO6k',
-    id:'eQgHg2fqO6k',
-    // Lo stesso video ripubblicato altrove. ⚠️ VANNO GLI INDIRIZZI DEL VIDEO,
-    // non dei profili: mandare qualcuno sulla bacheca a cercarselo e' peggio
-    // che non dargli il pulsante. Se un'uscita non va su un social, si lascia
-    // la stringa vuota e quel bottone non viene disegnato; se restano vuoti
-    // tutti e due, la pillola resta quella di sempre a link unico.
-    facebook:'https://www.facebook.com/share/r/19GnWH4fjF/',
-    // ⚠️ Tolti gli `utm_source`/`igsi` che Instagram appiccica al «copia
-    // link»: sono i suoi contrassegni di provenienza, non servono a noi e
-    // allungano l'indirizzo per niente.
-    instagram:'https://www.instagram.com/reel/DcoIYwqtsNr/',
-    copertina:'vetrina-short.jpg',
-    gancio1:'Liguria: i primi estatini',
-    gancio2:'',
-    // Corpo del gancio a UNA riga. ⚠️ Non si tocca `.v-uno` nel CSS: quei 18px
-    // sono tarati su «Guida al pluviometro», che e' piu' corto, e cambiarli
-    // rimpicciolirebbe la guida il giorno che torna. Misurato il 28/8 sulla
-    // colonna da 199 px: a 17,5 il testo la tocca esatta, a 18 sborda di 6 px.
-    // Si tengono 17 (97%) per lo stesso margine gia' lasciato alla guida: i
-    // font su altri computer escono un filo piu' larghi.
-    ganciopx:17,
+    // Uscita del 2/9/2026 alle 18: video LUNGO, non uno Short.
+    // ⚠️ `da` e' la manopola dell'ACCENSIONE, aggiunta il 2/9. Prima c'era la
+    // sola scadenza, quindi per accendere una vetrina all'ora giusta bisognava
+    // stare li' a pubblicare a quell'ora. Adesso si pubblica prima e la scheda
+    // si accende DA SOLA sul browser di chi apre: un deploy solo, e all'ora
+    // esatta. Come lo spegnimento, non costa niente (lo valuta il browser).
+    da:'2026-09-02T18:00:00+02:00',
+    fino:'2026-09-07T23:59:59+02:00',
+    link:'https://youtu.be/2tl0g4bhWG8',
+    id:'2tl0g4bhWG8',
+    // ⚠️ VUOTI APPOSTA, deciso dall'utente il 2/9. I due corti su Facebook e
+    // Instagram sono ALTRI video, non questo: coi tre bottoni chi clicca non
+    // trova quello che gli e' stato promesso. E i clic si spezzerebbero (il
+    // 29/8: 19 clic, di cui solo 6 al canale) proprio nell'ora di lancio, per
+    // mandarli dove il lungo non prende minuti guardati. I due corti, semmai,
+    // si spingono con una pillola loro fra qualche giorno.
+    facebook:'',
+    instagram:'',
+    // Video lungo, quindi copertina NORMALE: `maxresdefault.jpg` e' gia' 16:9
+    // (1280x720) e basta ridurlo a 480x270. Il ritaglio da `oardefault.jpg`
+    // serve solo per gli SHORT, vedi vetrina-short.jpg.
+    copertina:'vetrina-porcini.jpg',
+    // Titolo vero: «PORCINI 2026 BOTTA DI AEREUS ED AESTIVALIS DOPO I
+    // TEMPORALI», che nella colonna da 199 px non ci sta in nessun modo. Due
+    // righe, a capo DECISO sui due <b> in nowrap: si spezza dopo i due punti.
+    gancio1:'Porcini 2026:',
+    gancio2:'la botta dopo i temporali',
+    // ⚠️ IL CORPO LO DETTA LA RIGA PIU' LUNGA, e qui e' la SECONDA. Misurato
+    // il 2/9 sulla colonna da 199 px: «la botta dopo i temporali» fa 191,6 px
+    // a 16,5 e 197,4 a 17, cioe' a 17 restano 1,6 px e non bastano (i font
+    // resi altrove escono un filo piu' larghi). Si tengono 16,5, che lascia
+    // 7,4 px: lo stesso margine gia' lasciato alla guida.
+    // ⚠️ La spezzatura costa corpo: con «Porcini 2026: la botta» + «dopo i
+    // temporali» la riga lunga e' la prima e si sarebbe potuti salire a 19,
+    // ma il testo restava sfrangiato. Provate tutt'e due e scelta questa
+    // dall'utente il 2/9. La scheda passa da 159 a 167 px.
+    ganciopx:16.5,
     canale:'Avventure Micologiche'
   };
-
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
@@ -9664,7 +9671,9 @@ function loadDefaultMarkers(){
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
     ['video','guida'].forEach(function(k){
-      if(VETRINE[k] && ora <= new Date(VETRINE[k].fino).getTime()) scelte.push(k);
+      var v=VETRINE[k]; if(!v) return;
+      if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
+      if(ora <= new Date(v.fino).getTime()) scelte.push(k);
     });
     scelte.push('iscriviti');   // ⚠️ anche la scheda canale partecipa al sorteggio
     if(!scelte.length) return;
@@ -9694,7 +9703,12 @@ function loadDefaultMarkers(){
   V.occhielloP=V.occhielloP||V.occhiello;
   V.bottone=V.bottone||'GUARDA IL VIDEO';
   try{
-    if(!(Date.now() <= new Date(V.fino).getTime())) return;
+    // ⚠️ Due estremi, non uno: `da` (se c'e') e `fino`. Li valuta il browser a
+    // ogni apertura, quindi ne' l'accensione ne' lo spegnimento costano un
+    // deploy. Prima dell'ora di `da` si esce e resta la scheda «Iscriviti».
+    var _ora=Date.now();
+    if(V.da && _ora < new Date(V.da).getTime()) return;
+    if(!(_ora <= new Date(V.fino).getTime())) return;
 
     var ytPieno='<svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>';
 
