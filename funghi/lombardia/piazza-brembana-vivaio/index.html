@@ -191,13 +191,27 @@ pluviometro di ARPA Lombardia, aggiornata ogni giorno.</p>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
-<a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia" style="display:block;text-decoration:none;">
+<a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.9461,9.6728&amp;pn=Piazza%20Brembana%20vivaio" style="display:block;text-decoration:none;">
   <img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia.jpg"
        alt="La mappa delle piogge in Lombardia: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"
        style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
   <span class="vai-mappa">Apri la mappa su questo pluviometro →</span>
 </a>
+
+<h2>Sta piovendo adesso?</h2>
+<p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è esclusa,
+perché il pluviometro la sta ancora misurando. Per la pioggia <b>in corso</b> c'è la diretta
+radar, che mostra dove sta piovendo in questo momento, le ultime due ore e i quaranta minuti
+seguenti.</p>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.9461,9.6728&amp;pn=Piazza%20Brembana%20vivaio&amp;radar=ora" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'localita-lombardia-radar'})}catch(e){}">
+  <span class="vai-mappa">Guarda la diretta radar a Piazza Brembana vivaio →</span>
+</a>
+<p class="nota">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di
+risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a
+contare quanta acqua è caduta. I millimetri di questa pagina restano quelli misurati a terra
+da ARPA Lombardia.</p>
 
 <h2 style="margin-bottom:12px">Perché proprio questo posto</h2>
 <div class="metodo">

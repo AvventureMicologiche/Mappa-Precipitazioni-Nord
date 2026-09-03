@@ -100,6 +100,12 @@ function pagina(z) {
   const regioni = [...new Set(z.posti.map(id => REG_DI[id]))].filter(Boolean);
   const casa = REGIONI.find(x => x.k === z.reg) || REGIONI.find(x => x.k === regioni[0]);
   const nomeReg = casa.nomeTitolo || casa.nome;
+
+  // IL SEGNAPOSTO NEL LINK (3/9/2026). pl = coordinate del centro della zona,
+  // pn = nome, pz=1 = e' un AREA e non un paese, quindi la mappa la inquadra
+  // piu' larga (una tacca di zoom in meno). Senza, chi cliccava da una pagina
+  // di zona si trovava la regione intera senza sapere dove guardare.
+  const PIN = 'pl=' + z.lat + ',' + z.lon + '&amp;pn=' + encodeURIComponent(z.n) + '&amp;pz=1';
   const agenzie = [...new Set(regioni.map(k => {
     const r = REGIONI.find(x => x.k === k);
     return r ? (r.agenziaCorta || r.agenzia.replace(/\s*\(.*\)$/, '')) : null;
@@ -176,13 +182,27 @@ function pagina(z) {
 '<div id="tabella"></div>\n' +
 '<p class="nota" id="notaforte"></p>\n\n' +
 '<h2>Ecco cosa vedi sulla mappa</h2>\n' +
-'<a href="' + SITO + '/?r=' + casa.k + '" style="display:block;text-decoration:none;">\n' +
+'<a href="' + SITO + '/?r=' + casa.k + '&amp;' + PIN + '" style="display:block;text-decoration:none;">\n' +
 '  <img src="' + ANTEPRIME + '/' + casa.k + '.jpg"\n' +
 '       alt="La mappa delle piogge ' + casa.prep + ' ' + esc(nomeReg) + '"\n' +
 '       width="1600" height="1000" loading="lazy"\n' +
 '       style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">\n' +
 '  <span class="vai-mappa">Apri la mappa su questa zona →</span>\n' +
 '</a>\n\n' +
+
+'<h2>Sta piovendo adesso?</h2>\n' +
+"<p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è esclusa,\n" +
+"perché i pluviometri la stanno ancora misurando. Per la pioggia <b>in corso</b> c'è la diretta\n" +
+'radar, che mostra dove sta piovendo in questo momento, le ultime due ore e i quaranta minuti\n' +
+'seguenti.</p>\n' +
+'<a href="' + SITO + '/?r=' + casa.k + '&amp;' + PIN + '&amp;radar=ora" style="display:block;text-decoration:none;"\n' +
+'   onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-' + zslug + '-radar\'})}catch(e){}">\n' +
+'  <span class="vai-mappa">Guarda la diretta radar ' + esc(z.dove) + ' →</span>\n' +
+'</a>\n' +
+"<p class=\"nota\">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di\n" +
+'risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a\n' +
+'contare quanta acqua è caduta. I millimetri di questa pagina restano quelli misurati a terra\n' +
+'da ' + esc(elenco(agenzie)) + '.</p>\n\n' +
 '<h2 style="margin-bottom:12px">Come scegliamo i pluviometri di una zona</h2>\n' +
 '<div class="metodo">\n' +
 '  <div><span class="n">1</span><b>Ognuno va alla zona più vicina, e a una sola.</b> Non un cerchio\n' +

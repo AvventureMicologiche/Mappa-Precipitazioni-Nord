@@ -173,13 +173,27 @@ nav.altre a{color:var(--blu);}
 <p class="nota" id="notaforte"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
-<a href="https://precipitazioni.avventuremicologiche.it/?r=marche" style="display:block;text-decoration:none;">
+<a href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;pl=42.92645,13.1866&amp;pn=Val%20di%20Bove&amp;pz=1" style="display:block;text-decoration:none;">
   <img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/marche.jpg"
        alt="La mappa delle piogge nelle Marche"
        width="1600" height="1000" loading="lazy"
        style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
   <span class="vai-mappa">Apri la mappa su questa zona →</span>
 </a>
+
+<h2>Sta piovendo adesso?</h2>
+<p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è esclusa,
+perché i pluviometri la stanno ancora misurando. Per la pioggia <b>in corso</b> c'è la diretta
+radar, che mostra dove sta piovendo in questo momento, le ultime due ore e i quaranta minuti
+seguenti.</p>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;pl=42.92645,13.1866&amp;pn=Val%20di%20Bove&amp;pz=1&amp;radar=ora" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-bove-radar'})}catch(e){}">
+  <span class="vai-mappa">Guarda la diretta radar in Val di Bove →</span>
+</a>
+<p class="nota">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di
+risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a
+contare quanta acqua è caduta. I millimetri di questa pagina restano quelli misurati a terra
+da MeteoHub.</p>
 
 <h2 style="margin-bottom:12px">Come scegliamo i pluviometri di una zona</h2>
 <div class="metodo">

@@ -79,6 +79,13 @@ function pagina(r, posto, slug) {
   const GEN = GENITIVO[REG];
   const DOVE = aPosto(nomePosto);
 
+  // ⚠️ IL SEGNAPOSTO NEL LINK (3/9/2026). pl = coordinate, pn = nome: la mappa
+  // ci mette la puntina, scrive il nome nella casella di ricerca e lo fa
+  // comparire in cima alla tendina. Senza, chi cliccava da una pagina di paese
+  // si trovava la regione intera senza sapere dove guardare. La mappa lo legge
+  // anche sui link corti (senza date) solo dal 3/9: prima serviva il periodo.
+  const PIN = 'pl=' + lat + ',' + lon + '&amp;pn=' + encodeURIComponent(nomePosto);
+
   // ⚠️ Limiti che Google taglia: titolo <= 62 caratteri, descrizione <= 158.
   // Il nome di un posto puo' essere lungo, quindi la coda del titolo si toglie
   // invece di lasciarlo mozzare a meta' parola.
@@ -179,13 +186,27 @@ pluviometro di ${esc(CORTA)}, aggiornata ogni giorno.</p>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
-<a href="${SITO}/?r=${REG}" style="display:block;text-decoration:none;">
+<a href="${SITO}/?r=${REG}&amp;${PIN}" style="display:block;text-decoration:none;">
   <img src="${ANTEPRIME}/${REG}.jpg"
        alt="La mappa delle piogge ${r.prep} ${esc(NOME)}: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"
        style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
   <span class="vai-mappa">Apri la mappa su questo pluviometro →</span>
 </a>
+
+<h2>Sta piovendo adesso?</h2>
+<p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è esclusa,
+perché il pluviometro la sta ancora misurando. Per la pioggia <b>in corso</b> c'è la diretta
+radar, che mostra dove sta piovendo in questo momento, le ultime due ore e i quaranta minuti
+seguenti.</p>
+<a href="${SITO}/?r=${REG}&amp;${PIN}&amp;radar=ora" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">
+  <span class="vai-mappa">Guarda la diretta radar ${esc(DOVE)} →</span>
+</a>
+<p class="nota">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di
+risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a
+contare quanta acqua è caduta. I millimetri di questa pagina restano quelli misurati a terra
+da ${esc(CORTA)}.</p>
 
 <h2 style="margin-bottom:12px">Perché proprio questo posto</h2>
 <div class="metodo">
