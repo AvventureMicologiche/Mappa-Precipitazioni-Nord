@@ -62,6 +62,31 @@ const ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-
 
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
+// «ARPA Liguria, ARPAE Emilia-Romagna e SIR Toscana»: l'ultimo con la «e», gli
+// altri con la virgola. ⚠️ Prima erano uniti tutti con « e » e con tre enti
+// usciva «ARPA Liguria e ARPAE Emilia-Romagna e SIR Toscana», due «e» di fila.
+function elenco(v) {
+  return v.length < 2 ? (v[0] || '') : v.slice(0, -1).join(', ') + ' e ' + v[v.length - 1];
+}
+
+// Il genitivo della zona, ricavato dalla preposizione che gia' abbiamo:
+// «in Garfagnana» -> «della Garfagnana», «nel Mugello» -> «del Mugello»,
+// «sui Monti Lattari» -> «dei Monti Lattari», «sulle Alpi Apuane» -> «delle».
+// ⚠️ Anche questo NON si deduce dal genere del nome, si deduce dall'articolo
+// che il nome si porta gia' dietro: e' il motivo per cui la preposizione sta
+// nell'anagrafe invece di essere ricalcolata ogni volta.
+function diZona(dove) {
+  const m = dove.match(/^(sull'|negli |nelle |sulle |sui |nel |sul |in )(.*)$/);
+  if (!m) return 'della ' + dove;
+  const pre = m[1], n = m[2];
+  if (pre === 'negli ') return 'degli ' + n;
+  if (pre === 'nelle ' || pre === 'sulle ') return 'delle ' + n;
+  if (pre === 'sui ') return 'dei ' + n;
+  if (pre === 'nel ' || pre === 'sul ') return 'del ' + n;
+  if (pre === "sull'") return "dell'" + n;
+  return /^[AEIOUÀÈÉÌÒÙ]/.test(n) ? "dell'" + n : 'della ' + n;
+}
+
 // id del posto -> regione, e id -> slug della sua pagina localita'
 const REG_DI = {};
 const SLUG_DI = {};
@@ -82,7 +107,7 @@ function pagina(z) {
 
   const TITOLO = ('Piogge per funghi ' + z.dove).slice(0, 62);
   const DESCR = 'Quanta pioggia è caduta ' + z.dove + ', misurata da ' + z.posti.length +
-    ' pluviometri in mezzo al bosco. La finestra da 13 a 20 giorni fa, quella che conta per i funghi.';
+    ' pluviometri nelle zone da bosco. La finestra da 13 a 20 giorni fa, quella che conta per i funghi.';
 
   const modello = path.join(RADICE, 'funghi', casa.k, 'index.html');
   if (!fs.existsSync(modello)) {
@@ -106,7 +131,7 @@ function pagina(z) {
 '<meta name="description" content="' + esc(DESCR) + '">\n' +
 '<link rel="canonical" href="' + SITO + '/funghi/zone/' + zslug + '/">\n' +
 '<meta property="og:title" content="Piogge per funghi ' + esc(z.dove) + '">\n' +
-'<meta property="og:description" content="La pioggia vera, misurata dai pluviometri in mezzo al bosco.">\n' +
+'<meta property="og:description" content="La pioggia vera, misurata dai pluviometri nelle zone da bosco.">\n' +
 '<meta property="og:image" content="' + SITO + '/preview.jpg">\n' +
 '<meta property="og:url" content="' + SITO + '/funghi/zone/' + zslug + '/">\n' +
 '<meta property="og:type" content="website">\n' +
@@ -133,8 +158,8 @@ function pagina(z) {
 '</header>\n\n<main>\n' +
 '<p class="nota" style="margin-bottom:6px"><a href="' + SITO + '/funghi/' + casa.k + '/" style="color:var(--blu)">‹ Piogge per funghi ' + casa.prep + ' ' + esc(nomeReg) + '</a></p>\n\n' +
 '<h1>Piogge per funghi ' + esc(z.dove) + '</h1>\n' +
-'<p class="sotto">' + esc(nomeReg) + ' · <b>' + z.posti.length + ' pluviometri in mezzo al bosco</b>, di ' +
-   esc(agenzie.join(' e ')) + '. Pioggia misurata, aggiornata ogni giorno.</p>\n\n' +
+'<p class="sotto">' + esc(nomeReg) + ' · <b>' + z.posti.length + ' pluviometri di ' + esc(elenco(agenzie)) +
+   '</b>, nelle zone da bosco ' + esc(diZona(z.dove)) + '. Pioggia misurata, aggiornata ogni giorno.</p>\n\n' +
 '<div class="patto">\n' +
 '  <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la\n' +
 '  fa nessuno, e noi non ce la inventiamo.</p>\n' +
@@ -180,7 +205,7 @@ function pagina(z) {
       .map(x => '<a href="' + SITO + '/funghi/zone/' + slug(x.n) + '/">' + esc(x.n) + '</a>').join(' · ') +
   (ZONE.filter(x => x.reg === z.reg && x.n !== z.n).length ? '' : "<span class=\"nota\">È l'unica zona di questa regione.</span>") +
 '</p></nav>\n\n' +
-'<p class="nota" style="margin-top:22px">Dati di ' + esc(agenzie.join(', ')) + ' via il nostro archivio. Il\n' +
+'<p class="nota" style="margin-top:22px">Dati di ' + esc(elenco(agenzie)) + ' via il nostro archivio. Il\n' +
 'bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>\n' +
 '</main>\n\n' +
 '<footer>\n' +
