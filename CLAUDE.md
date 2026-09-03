@@ -1580,3 +1580,101 @@ sostituisce stringhe esatte e **conta le occorrenze prima di sostituire**
 di riferimenti a `Nord-Test` non sia cambiato: ce n'è **uno legittimo** già in
 prod (la mappa nome-repo → sito), quindi il controllo è sul CONTEGGIO, non
 sulla presenza.
+
+---
+
+## «Diretta radar» sulle 1.085 pagine, e il segnaposto nei link (3 settembre 2026)
+
+Tutte le pagine contano i giorni **già chiusi** e oggi lo escludono, ma chi
+cerca «dove ha piovuto **oggi** in puglia» atterrava proprio lì e trovava
+scritto che no. La Puglia lo mostrava nero su bianco: **posizione media 2 in
+Search Console e un secondo di permanenza** dal traffico Google, contro 1m42s-
+7m56s di tutte le altre pagine regione. Non era la pagina rotta, era
+l'intenzione sbagliata. Da qui il blocco «Sta piovendo adesso?» con il tasto
+alla diretta radar, su **23 pagine regione, 948 di paese e 114 di zona**, e la
+precisazione in chiaro che **il radar non è un pluviometro** (misura dal cielo,
+2 km di risoluzione) e che i millimetri della pagina restano quelli misurati a
+terra.
+
+Insieme, tre cose che le pagine di paese e di zona non facevano:
+
+- **il segnaposto sul posto**, via `pl` (coordinate) e `pn` (nome) nel link,
+  più `pz=1` quando il posto è un'area e va inquadrata più larga;
+- **le regioni vicine**, fino a 3, con lo STESSO criterio della ricerca per
+  località e la STESSA griglia (`data/regioni-vicine.txt`) — Alpe Gorreto passa
+  da 195 a **757 stazioni**, e sparisce la mezza mappa vuota oltre il confine;
+- **un periodo già scelto**: il tasto sotto l'anteprima apriva la mappa senza
+  date, e chi non conosce il sito non capiva di doverle scegliere.
+
+### ⚠️ Le cinque trappole, tutte trovate DOPO aver dichiarato fatto
+
+**1. Il segnaposto è disegnato in SVG, e col radar acceso sparisce.** Due
+regole nate per i pallini delle stazioni se lo mangiavano:
+`.modo-radar #map path{fill-opacity:0}` e
+`body.senza-pallini #map .leaflet-marker-pane svg{display:none}`. Il commento
+accanto alla seconda diceva «i pallini sono svg, quelli del paese e della
+posizione sono div»: **vero per il contenitore, falso per il disegno dentro**,
+che è un `<svg><path fill="#e12b2b">`. Il difetto **c'era da prima**: valeva
+anche per chi cercava un paese e poi accendeva il radar. Corretto con due
+eccezioni su `.loc-pin`.
+⚠️ **Il controllo automatico non lo vedeva**: `document.querySelector('.loc-pin')`
+rispondeva sì, e il `getBoundingClientRect` dava misure sensate. Da qui in poi,
+per una cosa che si deve VEDERE, si controlla anche `display` dell'svg e
+`fill-opacity` del path — o si guarda lo scatto.
+
+**2. `_daRicerca` va alzato PRIMA del `change`, non dopo.** Mettendo il
+segnaposto dentro l'attesa dei confini, il gestore del cambio regione lo
+spegneva (`if(!_daRicerca){ _vistaPaese=null; locSegnapostoVia(); }`) e faceva
+la sua **mezza inquadratura** sulle regioni: la puntina arrivava al quarto
+secondo e la mappa faceva un salto. È **la stessa correzione del 22/8/2026**
+per la ricerca per località («un istante sull'inquadratura vecchia, poi lo
+scatto sul paese»): cambia solo da dove arriva il posto. Il flag esiste apposta,
+si riusa. Modello da copiare: `locVai`.
+
+**3. Col radar non si inquadra niente.** L'inquadratura è del radar, che si
+riquadra da solo sulla regione e lo rifà a ogni cambio di pallini: qualunque
+nostra inquadratura si vede come uno scatto. Misurato sulla Garfagnana:
+**z7,25 → z8,5 → z7,25** in mezzo secondo. E per lo stesso motivo col radar si
+alza `_daRicerca` anche senza segnaposto, se no la mezza inquadratura resta e
+**sfarfalla** (Puglia: 7,25 e subito 7,50, mentre il tasto «Diretta radar»
+dentro al sito non sfarfalla perché di inquadrature ne parte una sola).
+
+**4. Le regioni vicine NON si mettono sul tasto del radar.** Il radar è un
+composito europeo e **non dipende dalle regioni scelte**: aggiungerle allargava
+l'inquadratura di oltre un livello senza mostrare un dato in più. Sulle analisi
+sì, perché lì le regioni sono i pluviometri.
+
+**5. ⚠️ I TRE TASTI IN CIMA ALLE PAGINE LI COSTRUISCE IL JAVASCRIPT DELLA
+PAGINA, NON IL GENERATORE.** Avevo messo `pl`/`pn` solo sui tasti che scrivo io
+nel modello, e quelli restavano senza puntina: l'utente ha cliccato proprio
+quelli e ha visto la mappa senza segnaposto. Stanno dentro `disegna()`, nella
+funzione `link(dal, al, centra)`. **Toccando i link di una pagina si cercano
+TUTTI i punti in cui nascono**, non solo quelli nel modello.
+
+### Come si collauda (e come NON si collauda)
+
+`collauda-bottoni.js` (cartella claudio): apre ogni pagina, **clicca ogni tasto che
+porta alla mappa** e riporta regioni accese, periodo analizzato, se la puntina
+è DISEGNATA (non solo presente) e l'inquadratura. Ne esiste il gemello sul sito
+vero. Tredici tasti su tre famiglie di pagine: è così che sono venuti fuori
+«Tutta la regione» che apriva tre regioni mentre il tasto ne prometteva una, e
+il link di una stazione della zona che buttava via le vicine.
+⚠️ **Provando in locale, i tasti delle pagine puntano alla PRODUZIONE**: per
+seguire la catena fino in fondo si girano i link sul server locale, e prima di
+committare si rigenera e si controlla che `localhost` non compaia in nessuna
+delle 1.085 pagine.
+
+### Dove sta la roba
+
+- `.github/scripts/lib-vicine.js` — la griglia delle regioni vicine letta a
+  build time. **La regola sta in un posto solo**: il sito la applica a runtime
+  con `locRegioniVicine`, i generatori con questo, sulla stessa griglia.
+- Il tetto di **3 regioni** non è gusto: è il massimo che la mappa accetta.
+  Superandolo il link perde le regioni in coda senza dirlo.
+- ⚠️ **Barre e apici**: `genera-pagine-zona.js` è tutto stringhe con apici
+  singoli e `genera-pagine-localita.js` è un modello con apici inversi. In un
+  giorno solo hanno rotto la compilazione tre volte: un `che e' il` dentro una
+  stringa, un apice inverso dentro il modello, e uno script passato al volo alla
+  shell che si è **mangiato le barre** di `\n`. Le patch si scrivono su file con
+  lo strumento di Write e si lanciano da lì, con il conteggio delle occorrenze
+  prima di sostituire. È la stessa regola già scritta per `index.html`.
