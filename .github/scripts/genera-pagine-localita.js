@@ -38,8 +38,19 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI } = require('./genera-pagine-regione.js');
-const { LOCALITA, bello, slugRegione } = require('./lib-nomi.js');
+// ⚠️ `slug` si chiama qui `slugDaNome`: dentro pagina() c'e' gia' un parametro
+// che si chiama slug ed e' una STRINGA. Importandola col suo nome la funzione
+// veniva coperta e usciva «slug is not a function» solo a generazione avviata,
+// non al controllo di sintassi.
+const { LOCALITA, bello, slug: slugDaNome, slugRegione } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
+// La zona a cui appartiene il posto, se ce n'e' una. Serve a non lasciare
+// orfane le pagine di zona, e a chi legge serve per allargare lo sguardo dal
+// singolo pluviometro alla valle. `dove` e' gia' scritto con la preposizione
+// giusta («in Garfagnana», «nelle Langhe»): non si ricostruisce, si usa.
+const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
+const ZONA_DI = {};
+for (const z of ZONE) for (const id of z.posti) ZONA_DI[id] = z;
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -230,7 +241,12 @@ da ${esc(CORTA)}.</p>
   pioggia.
 </div>
 
-<h2 style="margin-top:30px">Gli altri posti da bosco ${esc(GEN)}</h2>
+${ZONA_DI[ID] ? `<p class="nota" style="margin-top:26px">Questo pluviometro sta
+${esc(ZONA_DI[ID].dove)}: <a href="${SITO}/funghi/zone/${slugDaNome(ZONA_DI[ID].n)}/"
+style="color:var(--blu)">guarda tutta la zona</a>, con i suoi
+${ZONA_DI[ID].posti.length} pluviometri insieme.</p>` : ''}
+
+<h2 style="margin-top:30px">Quanto ha piovuto? Trova un'altra località</h2>
 <nav class="altre" id="altri"><p class="nota">Sto leggendo l'elenco…</p></nav>
 
 <p class="nota" style="margin-top:22px">Dati di ${esc(AGENZIA)} via il nostro archivio. Il
