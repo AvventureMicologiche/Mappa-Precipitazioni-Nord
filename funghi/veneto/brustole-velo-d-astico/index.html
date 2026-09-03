@@ -336,7 +336,11 @@ provinciali ISTAT.</p>
       + '<div class="capo-btns">'
       + '<a class="capo-btn" href="' + link(daG, aG, true) + '">Apri mappa · 13-20 gg fa</a>'
       + '<a class="capo-btn" href="' + link(daG, a20, true) + '">Apri mappa · ultimi 20 gg</a>'
-      + '<a class="capo-btn" href="' + link(daG, a20, false) + '">Tutta la ' + NOME + '</a>'
+      /* ⚠️ QUI C'ERA UN TERZO BOTTONE, «Tutta la <regione>», tolto il 3/9/2026.
+         Dal 3/9 il bottone sotto l'anteprima della mappa fa esattamente la
+         stessa cosa (regione sola, 20 giorni, niente segnaposto) e i due erano
+         gemelli a mezza pagina di distanza. Se un giorno servisse di nuovo, lo
+         costruiva la funzione link qui sopra col terzo argomento a false. */
       + '</div></div>';
 
     /* ⚠️ Perche' 13-20 e non un altro numero: il fungo non spunta subito dopo
