@@ -9096,7 +9096,14 @@ if(_btnShot){
          localita', «un istante sull'inquadratura vecchia, poi lo scatto sul
          paese». Qui il caso e' identico, cambia solo da dove arriva il posto. */
       var _pin=pinDaLink(q);
-      if(_pin) _daRicerca=true;
+      var _conRadar=['ora','due','prev'].indexOf(q.get('radar'))>-1;
+      /* ⚠️ `_daRicerca` ALZATO ANCHE COL RADAR, non solo col segnaposto. Il
+         gestore del change fa la «mezza inquadratura» sulle regioni (lo zoom
+         in due tempi del 27/7), e col radar quella mezza inquadratura si vede
+         come uno sfarfallio: misurato sulla Puglia il 3/9, 7,25 e subito 7,50
+         appena il radar rifa' la sua. Il tasto «Diretta radar» dentro al sito
+         non sfarfalla proprio perche' li' di inquadrature ne parte una sola. */
+      if(_pin || _conRadar) _daRicerca=true;
       // change sull'ultima: il gestore di sempre disegna i confini e valida
       document.getElementById('chk-'+_kk[_kk.length-1]).dispatchEvent(new Event('change'));
       _daRicerca=false;
@@ -9110,8 +9117,13 @@ if(_btnShot){
          riallargarsi mezzo secondo dopo (misurato il 3/9 sulla Garfagnana:
          z7,25 → z8,5 → z7,25). La puntina invece resta, ed e' l'unica cosa
          che dice dove sei mentre guardi una regione intera. */
-      var _conRadar=['ora','due','prev'].indexOf(q.get('radar'))>-1;
-      if(_pin && !_conRadar && typeof fitMapToPunto==='function'){
+      if(_conRadar){
+        /* ⚠️ NIENTE INQUADRATURA QUI: la fa il radar, e una nostra prima
+           inquadratura si vede come uno scatto appena lui rifa' la sua
+           (misurato il 3/9 sulla Puglia: 7,25 e subito 7,50, mentre il tasto
+           «Diretta radar» dentro al sito non scatta perche' inquadra una volta
+           sola). Il radar entra al primo giro del suo controllo, 200 ms. */
+      } else if(_pin && typeof fitMapToPunto==='function'){
         try{ fitMapToPunto(_vistaPaese.lat,_vistaPaese.lon,_vistaPaese.z?LOC_TACCA_ZONA:LOC_TACCA_FINE); }catch(e){}
       } else { try{ fitMapToRegions(_kk); }catch(e){} }
       if(!_pin){

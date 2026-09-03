@@ -191,12 +191,13 @@ pluviometro di ARPA Liguria, aggiornata ogni giorno.</p>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
-<a href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;pl=44.4876,9.1821&amp;pn=Sella%20Giassina" style="display:block;text-decoration:none;">
+<a href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;g=20" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'localita-liguria-20gg'})}catch(e){}">
   <img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/liguria.jpg"
        alt="La mappa delle piogge in Liguria: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"
        style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
-  <span class="vai-mappa">Apri la mappa su questo pluviometro →</span>
+  <span class="vai-mappa">Apri mappa Liguria · ultimi 20 gg →</span>
 </a>
 
 <h2>Sta piovendo adesso?</h2>
@@ -248,6 +249,7 @@ provinciali ISTAT.</p>
 <script>
 (function(){
   var REG = "liguria", ID = "SEGIA", NOME = "Liguria";
+  var REGS = "liguria,emilia,piemonte", POSTO = "Sella Giassina";
   var LAT = 44.4876, LON = 9.1821;
   var SITO = "https://precipitazioni.avventuremicologiche.it", MAPPA = SITO + '/';
   var LOCALE = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
@@ -298,7 +300,7 @@ provinciali ISTAT.</p>
     g.style.display='block';
     g.innerHTML='⚠️ Non riesco a leggere l’archivio delle piogge in questo momento. Non dipende '
       + 'da te: riprova fra qualche minuto, oppure vai direttamente '
-      + '<a href="'+MAPPA+'?r='+REG+'">sulla mappa</a>.';
+      + '<a href="'+MAPPA+'?r='+REGS+'">sulla mappa</a>.';
     document.getElementById('altri').innerHTML =
       '<p class="nota"><a href="'+SITO+'/funghi/'+REG+'/">Vedi tutti i posti da bosco</a></p>';
   }
@@ -313,8 +315,17 @@ provinciali ISTAT.</p>
     var quando = forte ? (forte.g===1 ? 'ieri' : forte.g+' giorni fa') : null;
 
     function link(dal, al, centra){
-      return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al
-        + (centra ? '&z=11&c=' + LAT.toFixed(4) + ',' + LON.toFixed(4) : '');
+      /* ⚠️ pl/pn = il segnaposto. Senza, questi tre bottoni aprivano la
+         mappa sul posto giusto ma SENZA la puntina, e chi arriva non sa quale
+         dei pallini e' il suo (segnalato il 3/9/2026). Il bottone «Tutta la
+         regione» la puntina non la vuole: li' si guarda l'insieme. */
+      /* ⚠️ «Tutta la <regione>» apre UNA regione: le vicine servono a chi
+         guarda il suo paese sul confine, non a chi ha chiesto l'insieme, e
+         il bottone prometterebbe una cosa e ne farebbe un'altra. */
+      return MAPPA + '?r=' + (centra ? REGS : REG) + '&da=' + dal + '&a=' + al
+        + (centra ? '&pl=' + LAT.toFixed(4) + ',' + LON.toFixed(4)
+                  + '&pn=' + encodeURIComponent(POSTO)
+                  + '&z=11&c=' + LAT.toFixed(4) + ',' + LON.toFixed(4) : '');
     }
 
     document.getElementById('testa').innerHTML =
