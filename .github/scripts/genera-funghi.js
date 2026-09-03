@@ -58,25 +58,31 @@ const MINIMO = 5;                   // sotto questi giorni buoni non si scrive
 // filtro delle gemelle e' univoco — perche' l'Alto Adige e il Friuli hanno
 // pluviometri che una sola delle due fonti pubblica.
 function perGiorno(dirs, giorni) {
-  const out = {};
+  const out = {}, outT = {}, outW = {};
   let presenti = 0, primo = null, ultimo = null;
   giorni.forEach((g, i) => {
     const n = i + 1;
-    const m = {};
+    const m = {}, mt = {}, mw = {};
     let qualcosa = false;
     for (const dir of dirs) {
       const staz = leggi(dir, g);
       if (!staz) continue;
       qualcosa = true;
-      for (const s of staz) if (s.mm != null) m[s.id] = (m[s.id] || 0) + s.mm;
+      for (const s of staz) {
+        if (s.mm != null) m[s.id] = (m[s.id] || 0) + s.mm;
+        // ⚠️ t e w si prendono COSI' COME SONO, non si sommano: la pioggia di
+        // due cartelle sullo stesso id si somma, una temperatura no.
+        if (Array.isArray(s.t) && s.t.some(v => v != null) && !mt[s.id]) mt[s.id] = s.t;
+        if (Array.isArray(s.w) && s.w.some(v => v != null) && !mw[s.id]) mw[s.id] = s.w;
+      }
     }
     if (!qualcosa) return;
-    out[n] = m;
+    out[n] = m; outT[n] = mt; outW[n] = mw;
     presenti++;
     if (!ultimo) ultimo = g;        // giorni e' ordinato dal piu' recente
     primo = g;
   });
-  return { mm: out, presenti, primo, ultimo };
+  return { mm: out, t: outT, w: outW, presenti, primo, ultimo };
 }
 
 const uno = n => Math.round(n * 10) / 10;
@@ -141,11 +147,30 @@ for (const k of Object.keys(POSTI)) {
       for (let n = 1; n <= GIORNI; n++) a.push(uno((g.mm[n] && g.mm[n][p[0]]) || 0));
       serie[p[0]] = a;
     }
+    /* ⚠️ TEMPERATURA E VENTO: due serie parallele alla pioggia, ma scritte
+       SOLO per i pluviometri che quel sensore ce l'hanno. Su 948 posti la
+       temperatura ce l'ha il 78%, il vento il 20%: mettere 25 null a testa
+       per i restanti gonfierebbe il file senza dire niente. Chi non c'e',
+       nella pagina non mostra la scheda. */
+    const serieT = {}, serieW = {};
+    for (const p of POSTI[k]) {
+      const t = [], w = [];
+      let haT = false, haW = false;
+      for (let n = 1; n <= GIORNI; n++) {
+        const vt = g.t[n] && g.t[n][p[0]];
+        const vw = g.w[n] && g.w[n][p[0]];
+        if (vt) { haT = true; t.push([uno(vt[0]), uno(vt[1])]); } else t.push(null);
+        if (vw && vw[0] != null) { haW = true; w.push(uno(vw[0])); } else w.push(null);
+      }
+      if (haT) serieT[p[0]] = t;
+      if (haW) serieW[p[0]] = w;
+    }
     const sl = slugRegione(POSTI[k]);
     const anagrafe = POSTI[k].map(p => [p[0], bello(p[1]), p[2], p[3], p[4], p[5], p[6], sl[p[0]]]);
     const testoG = JSON.stringify({
       regione: k, generato: new Date().toISOString(),
       oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo, anagrafe, serie,
+      serieT, serieW,
     }) + '\n';
     const destG = path.join(USCITA, k + '-giorni.json');
     const primaG = fs.existsSync(destG) ? fs.readFileSync(destG, 'utf8') : '';
@@ -168,5 +193,29 @@ for (const k of Object.keys(POSTI)) {
     `${String(g.presenti).padStart(2)}/${GIORNI} gg  ` +
     `primo: ${nome} ${primi[1][0]} mm${uguale ? '  (invariato)' : ''}`);
 }
+/* ── L'INDICE COORDINATE → PAGINA, per il tasto nel pannello della mappa ──
+   ⚠️ LA CHIAVE SONO LE COORDINATE, NON L'ID. I loader della mappa
+   ricostruiscono la stazione campo per campo e l'id NON lo copiano: nel
+   pannello arrivano n, lat, lon, q, qt, t, w, u, p e basta. Latitudine e
+   longitudine invece ci sono sempre, e vengono dagli stessi file dati da cui
+   esce funghi-posti.json, quindi combaciano al quarto decimale.
+   ⚠️ Si scrive UNA volta per tutte le regioni, non una per regione: la mappa
+   non sa in che regione sia la stazione cliccata finche' non guarda qui.
+   Il file lo scarica solo chi apre una stazione, mai chi guarda la mappa. */
+{
+  const indice = {};
+  for (const k of LOCALITA) {
+    const sl = slugRegione(POSTI[k] || []);
+    for (const p of (POSTI[k] || [])) indice[p[4].toFixed(4) + ',' + p[5].toFixed(4)] = k + '/' + sl[p[0]];
+  }
+  const destI = path.join(USCITA, 'indice.json');
+  const testoI = JSON.stringify(indice) + '\n';
+  if (!fs.existsSync(destI) || fs.readFileSync(destI, 'utf8') !== testoI) {
+    fs.writeFileSync(destI, testoI, 'utf8');
+    scritti++;
+    console.log(`  indice.json  ${Object.keys(indice).length} posti`);
+  }
+}
+
 console.log(`\n${scritti} file scritti su ${Object.keys(POSTI).length}` +
   (saltati.length ? ', SALTATI: ' + saltati.join(', ') : ''));

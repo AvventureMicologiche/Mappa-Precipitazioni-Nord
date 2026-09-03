@@ -697,7 +697,15 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .sh-x{display:flex;gap:2px;margin-top:3px;padding-right:28px}
 .sh-x span{flex:1;text-align:center;font-size:9px;color:#aaa}
 .sh-note{font-size:9px;color:#999;margin-top:5px}
-.sh-fonte{font-size:9px;color:#888;margin-top:5px;padding-top:5px;border-top:1px solid #333}
+.sh-fonte{font-size:9px;color:#888;margin-top:5px;padding-top:5px;border-top:1px solid #333;
+  display:flex;align-items:center;justify-content:space-between;gap:8px}
+/* 3/9/2026: il tasto che porta alla pagina del posto. Sta sulla RIGA
+   della fonte, a destra: non si prende una riga sua, e la fonte da sola non
+   riempiva la larghezza. */
+.sh-funghi{flex:0 0 auto;padding:3px 8px;border-radius:999px;
+  background:#26405f;color:#dce7f3;text-decoration:none;font-size:10.5px;
+  font-weight:600;white-space:nowrap;border:1px solid #3d5f8a;line-height:1.5}
+.sh-funghi:hover{background:#2f4f7a;color:#fff}
 .sh-load{font-size:11px;color:#888;padding:18px 0;text-align:center}
 /* Schede del pannello stazione: Pioggia / Temperatura / Vento (10/8/2026).
    I bottoni stanno FUORI da sh-body, così sopravvivono ai re-render del corpo. */
@@ -1418,7 +1426,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <button class="sh-tab" data-t="u">💦 Umidità</button>
       </div>
       <div id="sh-body"></div>
-      <div class="sh-fonte" id="sh-fonte"></div>
+      <div class="sh-fonte">
+        <span id="sh-fonte"></span>
+        <!-- 3/9/2026: il ponte fra la mappa e le 948 pagine di paese.
+             Compare solo per i pluviometri che una pagina ce l'hanno. -->
+        <a class="sh-funghi" id="sh-funghi" href="#" style="display:none"></a>
+      </div>
     </div>
     <div class="fonte-tag" id="fonte-tag">Fonte: —</div>
     <div id="beta-note">🧪 Sicilia e Lazio in fase di test: dati MeteoHub in validazione</div>
@@ -1745,35 +1758,6 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   <a href="/svizzera/">Svizzera</a> ·
   <a href="/austria/">Austria</a> ·
   <a href="/slovenia/">Slovenia</a>
-</div>
-
-<!-- ⚠️ LA SECONDA RIGA, 3/9/2026. Qui atterra l'89% delle sessioni e fino a
-     oggi da questa pagina NON si arrivava a nessuna delle 1.081 pagine
-     «Piogge per funghi»: per raggiungerne una servivano tre clic passando
-     dalla pagina regione. Le 19 righe qui sotto sono le sole regioni che
-     hanno i posti da bosco (l'elenco LOCALITA di lib-nomi.js): l'estero e
-     l'Abruzzo non ce l'hanno. -->
-<div class="fonte fonte-reg">
-  Piogge per funghi:
-  <a href="/funghi/lombardia/">Lombardia</a> ·
-  <a href="/funghi/piemonte/">Piemonte</a> ·
-  <a href="/funghi/valledaosta/">Valle d'Aosta</a> ·
-  <a href="/funghi/liguria/">Liguria</a> ·
-  <a href="/funghi/emilia/">Emilia-Romagna</a> ·
-  <a href="/funghi/veneto/">Veneto</a> ·
-  <a href="/funghi/friuli/">Friuli</a> ·
-  <a href="/funghi/trentino/">Trentino</a> ·
-  <a href="/funghi/altoadige/">Alto Adige</a> ·
-  <a href="/funghi/toscana/">Toscana</a> ·
-  <a href="/funghi/umbria/">Umbria</a> ·
-  <a href="/funghi/marche/">Marche</a> ·
-  <a href="/funghi/lazio/">Lazio</a> ·
-  <a href="/funghi/campania/">Campania</a> ·
-  <a href="/funghi/puglia/">Puglia</a> ·
-  <a href="/funghi/basilicata/">Basilicata</a> ·
-  <a href="/funghi/calabria/">Calabria</a> ·
-  <a href="/funghi/sicilia/">Sicilia</a> ·
-  <a href="/funghi/sardegna/">Sardegna</a>
 </div>
 
 <script>
@@ -3535,6 +3519,36 @@ function openStationHistory(s,rank,mx,my){
   document.getElementById('sh-quota').textContent=testoQuota(s);
   document.getElementById('sh-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';
   document.getElementById('sh-fonte').textContent=lastUsedFonte||'—';
+  /* 3/9/2026 — il ponte verso la pagina del posto.
+     L'indice id → indirizzo si chiede UNA volta sola e solo al primo clic su
+     un pallino: chi guarda la mappa e non apre nessuna stazione non lo scarica
+     mai. 940 voci, 32 KB, 11 compressi. */
+  (function(){
+    var a=document.getElementById('sh-funghi'); if(!a) return;
+    a.style.display='none';
+    /* ⚠️ LA CHIAVE SONO LE COORDINATE, NON L'ID. I loader della mappa
+       ricostruiscono la stazione campo per campo e l'id NON lo copiano: nel
+       pannello ci sono n, lat, lon, q, qt, t, w, u, p e basta. Latitudine e
+       longitudine invece ci sono sempre, e vengono dagli stessi file dati da
+       cui esce funghi-posti.json, quindi combaciano al quarto decimale. */
+    function mostra(){
+      if(s.lat==null||s.lon==null) return;
+      var v=window._indiceFunghi && window._indiceFunghi[s.lat.toFixed(4)+','+s.lon.toFixed(4)];
+      if(!v) return;                       // questo pluviometro la pagina non ce l'ha
+      a.href='/funghi/'+v+'/';
+      a.textContent='vai alla scheda →';
+      a.style.display='block';
+    }
+    if(window._indiceFunghi) return mostra();
+    if(window._indiceFunghiInCorso) return;
+    window._indiceFunghiInCorso=true;
+    /* In locale si legge dalla cartella del repo: cosi' l'indice si prova
+       senza aspettare che sia online. */
+    var _base=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/data/':PILOT_DATA_BASE;
+    fetch(_base+'funghi/indice.json').then(function(r){return r.json();})
+      .then(function(j){ window._indiceFunghi=j; mostra(); })
+      .catch(function(){ window._indiceFunghi={}; });
+  }());
   var gg=Math.round((end-currentPast)/(24*3600000))+1;
   document.getElementById('sh-per').textContent=
     fmtBreve(currentPast)+' – '+fmtBreve(end)+' · '+gg+(gg===1?' giorno':' giorni');
