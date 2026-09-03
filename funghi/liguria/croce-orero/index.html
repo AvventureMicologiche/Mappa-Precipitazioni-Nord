@@ -154,12 +154,24 @@ nav.altre a{color:var(--blu);}
 .gg-leg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;}
 /* le due linee della temperatura: stessa larghezza del grafico della pioggia,
    cosi' i giorni stanno incolonnati e si leggono insieme */
-.tt{width:100%;height:150px;margin:14px 0 4px;display:block;}
-.tt .griglia{stroke:#e3e8ef;stroke-width:1;vector-effect:non-scaling-stroke;}
-.tt .max{fill:none;stroke:#d1603d;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
-.tt .min{fill:none;stroke:#3a6ea8;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
-.tt .et{fill:#6b7a8d;font-size:10.5px;}
-.vv .b i{background:#8fa9c4;}
+/* ⚠️ LA SCALA STA FUORI DALL'SVG. Il disegno e' stirato in larghezza
+   (preserveAspectRatio="none"): un <text> dentro uscirebbe schiacciato,
+   e per lo stesso motivo il tratto delle linee ha vector-effect. Le
+   tacche sono <span> posizionati in percentuale sopra il disegno. */
+.tt-box{position:relative;padding-right:42px;margin:14px 0 2px;}
+.tt{width:100%;height:150px;display:block;overflow:visible;}
+.tt .griglia{stroke:#e6eaf0;stroke-width:1;vector-effect:non-scaling-stroke;}
+.tt polyline{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;
+  vector-effect:non-scaling-stroke;}
+.tt .max{stroke:#d1603d;}
+.tt .min{stroke:#3a6ea8;}
+.tt .vento{stroke:#4a7fb5;}
+.tt-y{position:absolute;top:0;right:0;width:42px;height:150px;pointer-events:none;}
+.tt-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;
+  color:#6b7a8d;line-height:1;padding-left:5px;}
+.tt-y .tt-u{position:absolute;top:auto;bottom:-19px;right:0;transform:none;
+  font-size:11px;color:#8a97a6;}
+.tt-x{padding-right:42px;}
 .tre{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;}
 .tre > div{flex:1;min-width:150px;background:var(--grigio);border:1px solid var(--bordo);
   border-radius:9px;padding:12px 14px;}
@@ -405,6 +417,52 @@ provinciali ISTAT.</p>
        dei posti, il vento il 20%. Una scheda vuota con scritto «non
        disponibile» occupa spazio per dire niente. */
     var sT = (j.serieT && j.serieT[ID]) || null, sW = (j.serieW && j.serieW[ID]) || null;
+
+    /* Un grafico a linee con la scala a destra, come il pannello della mappa.
+       ⚠️ Le SCRITTE NON STANNO DENTRO L'SVG: il disegno e' stirato in
+       larghezza (preserveAspectRatio="none") e un testo dentro uscirebbe
+       schiacciato. Le tacche sono <span> in percentuale sopra il disegno, e
+       il tratto delle linee non si scala (vector-effect). */
+    function scala(lo, hi) {
+      /* tacche tonde: si sceglie il passo che ne fa 3-5 dentro l'intervallo */
+      var passi = [1, 2, 2.5, 5, 10, 20, 25, 50, 100], d = hi - lo, p = passi[passi.length - 1];
+      for (var q = 0; q < passi.length; q++) if (d / passi[q] <= 5) { p = passi[q]; break; }
+      var out = [], v = Math.ceil(lo / p) * p;
+      for (; v <= hi + 1e-9; v += p) out.push(Math.round(v * 100) / 100);
+      return out;
+    }
+    function grafico(serie, cls, colori, lo, hi, unita) {
+      var W = 100, HH = 100, passo = W / (GIORNI - 1);
+      var y = function (v) { return HH - (v - lo) / (hi - lo) * HH; };
+      var linea = function (leggi) {
+        var pezzi = [], cur = [];
+        for (var q = GIORNI; q >= 1; q--) {
+          var x = (GIORNI - q) * passo, v = leggi(serie[q - 1]);
+          if (v == null) { if (cur.length > 1) pezzi.push(cur.join(' ')); cur = []; }
+          else cur.push(x.toFixed(1) + ',' + y(v).toFixed(1));
+        }
+        if (cur.length > 1) pezzi.push(cur.join(' '));
+        return pezzi;
+      };
+      var tacche = scala(lo, hi), svg = '', et = '';
+      for (var g2 = 0; g2 < tacche.length; g2++) {
+        var yy = y(tacche[g2]);
+        svg += '<line class="griglia" x1="0" y1="' + yy.toFixed(1) + '" x2="100" y2="' + yy.toFixed(1) + '"/>';
+        /* niente virgola dove non serve: 35 e non 35,0. La virgola resta
+           solo se il passo delle tacche e' mezzo grado o meno. */
+        var eti = (tacche[g2] % 1 === 0) ? String(tacche[g2]) : num(tacche[g2]);
+        et += '<span style="top:' + yy.toFixed(1) + '%">' + eti + '</span>';
+      }
+      for (var k2 = 0; k2 < colori.length; k2++) {
+        var pezzi = linea(colori[k2].leggi);
+        for (var z = 0; z < pezzi.length; z++)
+          svg += '<polyline class="' + colori[k2].cl + '" points="' + pezzi[z] + '"/>';
+      }
+      return '<div class="tt-box"><svg class="tt ' + cls + '" viewBox="0 0 100 100" preserveAspectRatio="none">'
+        + svg + '</svg><div class="tt-y">' + et + '<span class="tt-u">' + unita + '</span></div></div>'
+        + '<div class="gg-x tt-x">' + ascisse + '</div>';
+    }
+
     if (sT || sW) {
       /* Il titolo dice solo quello che c'e' sotto: sui pluviometri con la sola
          temperatura citare il vento prometteva un grafico che non arrivava. */
@@ -412,46 +470,20 @@ provinciali ISTAT.</p>
       var H = '<h2 style="margin-top:30px">' + che + ', stesso periodo</h2>';
       if (sT) {
         var vals = [];
-        for (var q = 0; q < GIORNI; q++) if (sT[q]) { vals.push(sT[q][0]); vals.push(sT[q][1]); }
+        for (var q3 = 0; q3 < GIORNI; q3++) if (sT[q3]) { vals.push(sT[q3][0]); vals.push(sT[q3][1]); }
         var lo = Math.floor(Math.min.apply(null, vals) - 1), hi = Math.ceil(Math.max.apply(null, vals) + 1);
-        var W = 100, HH = 100, passo = W / (GIORNI - 1);
-        var y = function (v) { return HH - (v - lo) / (hi - lo) * HH; };
-        /* linea spezzata sui buchi: un giorno senza dato non si inventa */
-        var linea = function (idx) {
-          var pezzi = [], cur = [];
-          for (var q2 = GIORNI; q2 >= 1; q2--) {
-            var x = (GIORNI - q2) * passo, d = sT[q2 - 1];
-            if (d) cur.push(x.toFixed(1) + ',' + y(d[idx]).toFixed(1));
-            else { if (cur.length > 1) pezzi.push(cur.join(' ')); cur = []; }
-          }
-          if (cur.length > 1) pezzi.push(cur.join(' '));
-          return pezzi;
-        };
-        var cl = ['min', 'max'], svg = '';
-        for (var g2 = 0; g2 <= 4; g2++) {
-          var yy = (g2 * HH / 4).toFixed(1);
-          svg += '<line class="griglia" x1="0" y1="' + yy + '" x2="100" y2="' + yy + '"/>';
-        }
-        for (var k2 = 0; k2 < 2; k2++)
-          svg += linea(k2).map(function (p) { return '<polyline class="' + cl[k2] + '" points="' + p + '"/>'; }).join('');
-        H += '<svg class="tt" viewBox="0 0 100 100" preserveAspectRatio="none">' + svg + '</svg>'
-          + '<div class="gg-x">' + ascisse + '</div>'
+        H += grafico(sT, 'tt-temp', [
+              { cl: 'min', leggi: function (d) { return d ? d[0] : null; } },
+              { cl: 'max', leggi: function (d) { return d ? d[1] : null; } }], lo, hi, '&deg;C')
           + '<p class="gg-leg"><i style="background:#d1603d"></i>massima &nbsp;'
-          + '<i style="background:#3a6ea8"></i>minima &nbsp; da ' + lo + ' a ' + hi + ' &deg;C</p>';
+          + '<i style="background:#3a6ea8"></i>minima</p>';
       }
       if (sW) {
-        var maxW = Math.max.apply(null, sW.filter(function (v) { return v != null; }).concat([1]));
-        var bw = '';
-        for (var i2 = GIORNI; i2 >= 1; i2--) {
-          var vv = sW[i2 - 1];
-          var dd = menoDa(j.oggi, i2);
-          bw += '<div class="b" title="' + gg(iso(dd)) + ': ' + (vv == null ? 'nessun dato' : num(vv) + ' km/h') + '">'
-            + (vv == null ? '' : '<i style="height:' + Math.max(2, Math.round(vv / maxW * 100)) + '%"></i>') + '</div>';
-        }
-        H += '<h3 style="font-size:16px;margin:22px 0 0">Vento medio</h3>'
-          + '<div class="gg vv" style="height:90px">' + bw + '</div>'
-          + '<div class="gg-x">' + ascisse + '</div>'
-          + '<p class="gg-leg">media del giorno in km/h, massimo del periodo ' + num(maxW) + '</p>';
+        var vw = sW.filter(function (v) { return v != null; });
+        var hiW = Math.ceil(Math.max.apply(null, vw.concat([1])) * 1.1);
+        H += (sT ? '<h3 style="font-size:16px;margin:24px 0 0">Vento medio</h3>' : '')
+          + grafico(sW, 'tt-vento', [{ cl: 'vento', leggi: function (d) { return d == null ? null : d; } }], 0, hiW, 'km/h')
+          + '<p class="gg-leg">media del giorno, massimo del periodo ' + num(Math.max.apply(null, vw)) + ' km/h</p>';
       }
       H += '<p class="nota">' + (sT && sW ? 'Temperatura e vento sono misurati'
         : (sT ? 'La temperatura è misurata' : 'Il vento è misurato'))

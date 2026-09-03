@@ -78,6 +78,35 @@ function valoriIn(punti, startMs, endMs, lo, hi) {
               .map(function(p) { return p[1]; });
 }
 
+/* ⚠️ LO ZERO NON E' UNA TEMPERATURA, E' UN BUCO (3/9/2026).
+   Sette stazioni liguri davano minima 0,0 °C ad agosto a 700-1.100 m:
+   Brugneto Diga, Rovegno, Barbagelata, Cabanne, S. Stefano d'Aveto,
+   Torriglia e Alpe Gorreto. Sono le stesse stazioni che ARPAE ospita nel
+   suo feed, e li' la minima e' giusta (14,4 · 14,6 · 17,4 …), col MASSIMO
+   identico al decimale: quindi non e' il sensore, e' come OMIRL le pubblica.
+   Misurato sul grezzo: una stazione sana espone TRE serie (media, minima,
+   massima), queste ne espongono UNA sola, e dentro ha due valori 0,0 esatti
+   su 1.437. Il collector cadeva giustamente sul ripiego della media, ma poi
+   il Math.min pescava quello zero.
+   Il filtro di sanita' -45..50 non lo prendeva: 0 e' un valore legittimo
+   d'inverno. Quindi si buttano gli zeri ESATTI solo quando il resto della
+   giornata sta bene sopra lo zero, che e' l'unico caso in cui uno zero non
+   puo' essere vero. E' la stessa lezione dell'Emilia e di Alpe Gorreto:
+   «assente non e' zero».
+   ⚠️ IL METRO E' IL VALORE PIU' BASSO VERO, NON LA MEDIANA. Con la mediana
+   una giornata di primavera (0 di notte, 7 a mezzogiorno) perdeva lo zero
+   buono. Con questo invece si butta lo zero solo se la lettura piu' bassa
+   che NON e' zero sta sopra i 5 °C: a mezz'ora di distanza la temperatura
+   non scende di quindici gradi e non risale, quindi li' lo zero e' un buco.
+   Se la giornata sfiora davvero lo zero, la lettura piu' bassa vera sara'
+   0,3 o 1,2 e non si tocca niente. */
+function senzaZeriFinti(v) {
+  if (v.length < 3) return v;
+  var noZero = v.filter(function(x) { return x !== 0; });
+  if (noZero.length === v.length || !noZero.length) return v;
+  return Math.min.apply(null, noZero) > 5 ? noZero : v;
+}
+
 /** Aggiunge t/w ai record del giorno (byId: shortCode → record del file). */
 async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
   var termo = await fetchWithRetry(OMIRL_BASE + '/stations/Termo');
@@ -96,7 +125,7 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
         // serie 0 = media 30', 1 = minima, 2 = massima
         var med = (ds[0] && ds[0].data) || [], mn = (ds[1] && ds[1].data) || [], mx = (ds[2] && ds[2].data) || [];
         if (oreCoperte(med, dayStartMs, dayEndMs) < MIN_ORE_METEO) return null;
-        var mins = valoriIn(mn.length ? mn : med, dayStartMs, dayEndMs, -45, 50);
+        var mins = senzaZeriFinti(valoriIn(mn.length ? mn : med, dayStartMs, dayEndMs, -45, 50));
         var maxs = valoriIn(mx.length ? mx : med, dayStartMs, dayEndMs, -45, 50);
         if (!mins.length || !maxs.length) return null;
         return { code: code, t: [Math.round(Math.min.apply(null, mins) * 10) / 10,
