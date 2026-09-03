@@ -1,17 +1,25 @@
 {
  "regione": "emilia",
- "generato": "2026-09-03T01:09:55.475Z",
+ "generato": "2026-09-03T09:40:19.566Z",
  "periodi": {
   "7": {
-   "media": 1.1,
-   "giorni": 6,
+   "media": 1.7,
+   "giorni": 7,
    "stazioni": 318,
    "primo": "2026-08-27",
-   "ultimo": "2026-09-01",
+   "ultimo": "2026-09-02",
    "top": [
     {
+     "n": "Ostia Parmense (Parma)",
+     "mm": 32.4
+    },
+    {
+     "n": "Pessola (Parma)",
+     "mm": 24
+    },
+    {
      "n": "Vetto (Reggio nell'Emilia)",
-     "mm": 20.8
+     "mm": 21.2
     },
     {
      "n": "S. Pancrazio (Parma)",
@@ -20,27 +28,19 @@
     {
      "n": "Chiavica Rossa (Parma)",
      "mm": 16.9
-    },
-    {
-     "n": "S. Geminiano (Parma)",
-     "mm": 15
-    },
-    {
-     "n": "Termina (Parma)",
-     "mm": 14.8
     }
    ]
   },
   "20": {
-   "media": 51.5,
-   "giorni": 19,
+   "media": 52.1,
+   "giorni": 20,
    "stazioni": 327,
    "primo": "2026-08-14",
-   "ultimo": "2026-09-01",
+   "ultimo": "2026-09-02",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 380
+     "mm": 380.2
     },
     {
      "n": "Diga del Brugneto (Genova)",
@@ -51,12 +51,12 @@
      "mm": 261.8
     },
     {
-     "n": "Rovegno (Genova)",
-     "mm": 204.6
+     "n": "Lagdei (Parma)",
+     "mm": 210.1
     },
     {
-     "n": "Lagdei (Parma)",
-     "mm": 204.1
+     "n": "Rovegno (Genova)",
+     "mm": 204.6
     }
    ]
   }
