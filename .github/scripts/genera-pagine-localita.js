@@ -228,7 +228,10 @@ ${STILE}
   vector-effect:non-scaling-stroke;}
 .tt .max{stroke:#d1603d;}
 .tt .min{stroke:#3a6ea8;}
-.tt .vento{stroke:#4a7fb5;}
+/* Il vento GIALLO come nel pannello della mappa (#ffd54f di histRenderLinee):
+   stessa grandezza, stesso colore, cosi' chi passa dalla mappa alla pagina non
+   deve reimparare la legenda. */
+.tt .vento{stroke:#ffd54f;}
 .tt-y{position:absolute;top:0;right:0;width:42px;height:150px;pointer-events:none;}
 .tt-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;
   color:#6b7a8d;line-height:1;padding-left:5px;}
@@ -283,21 +286,6 @@ pluviometro di ${esc(CORTA)}, aggiornata ogni giorno.</p>
 
 <div id="meteo"></div>
 
-${RITRATTO ? `<h2 style="margin-top:30px">Quanto piove ${esc(DOVE)}, secondo il nostro archivio</h2>
-<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
-teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
-<b>${periodo(RITRATTO)}</b>, in ${RITRATTO.giorni} giorni di misura,
-${bagnate(RITRATTO)}</p>
-<p>Il giorno più bagnato di tutto l'archivio è stato il <b>${dataBella(RITRATTO.maxData)}</b>,
-con <b>${virgola(RITRATTO.maxMm)} mm</b> in ventiquattro ore.${RITRATTO.mese && RITRATTO.meseMm >= 1 ? ` Il mese più piovoso,
-fra quelli che abbiamo per intero, è <b>${meseBello(RITRATTO.mese)}</b> con
-${migliaia(RITRATTO.meseMm)} mm.` : ''}${POSTO_IN_CLASSIFICA ? ` Su ${QUANTI_CONFRONTABILI} pluviometri
-da bosco ${esc(GEN)} con lo stesso periodo alle spalle, questo è il <b>${POSTO_IN_CLASSIFICA}º</b>
-per acqua caduta.` : ''}</p>
-<p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
-giorni, e basta. L'archivio parte dal ${dataBella(RITRATTO.dal)} e si allunga di un giorno al
-giorno.</p>` : ''}
-
 <h2>Come sta messo rispetto agli altri posti ${esc(GEN)}</h2>
 <table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
 <tbody id="vicini">
@@ -342,6 +330,21 @@ da ${esc(CORTA)}.</p>
   <div><span class="n">3</span><b>Almeno il 37% di bosco entro 3 km</b>, misurato sulle mappe di
   OpenStreetMap. Qui è il ${bosco}%.</div>
 </div>
+
+${RITRATTO ? `<h2 style="margin-top:30px">Quanto piove ${esc(DOVE)}, secondo il nostro archivio</h2>
+<p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
+teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
+<b>${periodo(RITRATTO)}</b>, in ${RITRATTO.giorni} giorni di misura,
+${bagnate(RITRATTO)}</p>
+<p>Il giorno più bagnato di tutto l'archivio è stato il <b>${dataBella(RITRATTO.maxData)}</b>,
+con <b>${virgola(RITRATTO.maxMm)} mm</b> in ventiquattro ore.${RITRATTO.mese && RITRATTO.meseMm >= 1 ? ` Il mese più piovoso,
+fra quelli che abbiamo per intero, è <b>${meseBello(RITRATTO.mese)}</b> con
+${migliaia(RITRATTO.meseMm)} mm.` : ''}${POSTO_IN_CLASSIFICA ? ` Su ${QUANTI_CONFRONTABILI} pluviometri
+da bosco ${esc(GEN)} con lo stesso periodo alle spalle, questo è il <b>${POSTO_IN_CLASSIFICA}º</b>
+per acqua caduta.` : ''}</p>
+<p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
+giorni, e basta. L'archivio parte dal ${dataBella(RITRATTO.dal)} e si allunga di un giorno al
+giorno.</p>` : ''}
 
 <div class="avviso">
   <b>Una cosa da tenere a mente.</b> Tanta pioggia non vuol dire tanti funghi: contano anche la

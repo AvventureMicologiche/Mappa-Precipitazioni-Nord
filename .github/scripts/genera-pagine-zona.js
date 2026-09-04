@@ -243,20 +243,6 @@ function pagina(z) {
 '<th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>\n' +
 '<tbody id="tabella">\n' + righeTab + '\n</tbody></table>\n' +
 '<p class="nota" id="notaforte"></p>\n\n' +
-(RITRATTO ? '<h2 style="margin-top:30px">Quanto piove ' + esc(z.dove) + ', secondo il nostro archivio</h2>\n' +
-  '<p>Qui sopra c\'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri\n' +
-  'teniamo tutti i giorni da quando li leggiamo. Da ' + meseIso(RITRATTO.dal) + ' a ' + meseIso(RITRATTO.al) +
-  ', in ' + RITRATTO.giorni + ' giorni di misura, i ' + RITRATTO.quanti + ' pluviometri ' +
-  esc(diZona(z.dove)) + (RITRATTO.quanti < z.posti.length ? ' che leggiamo dallo stesso giorno' : '') +
-  ' hanno contato <b>' + migliaia(RITRATTO.media) + ' mm</b> di pioggia a testa,\n' +
-  'in media. Il più bagnato è <b>' + esc(RITRATTO.alto.n) + '</b> con ' + migliaia(RITRATTO.alto.c.mm) +
-  ' mm, il più asciutto ' + esc(RITRATTO.basso.n) + ' con ' + migliaia(RITRATTO.basso.c.mm) + '.</p>\n' +
-  '<p>La giornata più violenta di tutto l\'archivio è stata il <b>' + dataBella(RITRATTO.forte.c.maxData) +
-  '</b> a ' + esc(RITRATTO.forte.n) + ', con <b>' + virgola(RITRATTO.forte.c.maxMm) + ' mm</b> in\n' +
-  'ventiquattro ore.</p>\n' +
-  '<p class="nota">Non è una media climatica: è quello che questi strumenti hanno misurato in quei\n' +
-  'giorni, e basta. L\'archivio parte dal ' + dataBella(RITRATTO.dal) + ' e si allunga di un giorno al\n' +
-  'giorno.</p>\n\n' : '') +
 '<h2>Ecco cosa vedi sulla mappa</h2>\n' +
 '<a href="' + SITO + '/?r=' + REGS + '&amp;g=20&amp;' + PIN + '&amp;z=10&amp;c=' + z.lat + ',' + z.lon + '" style="display:block;text-decoration:none;"\n' +
 '   onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-' + zslug + '-20gg\'})}catch(e){}">\n' +
@@ -290,6 +276,20 @@ function pagina(z) {
 '  <div><span class="n">3</span><b>Almeno tre.</b> Sotto i tre pluviometri una zona non ha una\n' +
 '  pagina: un numero solo non racconta una valle.</div>\n' +
 '</div>\n\n' +
+(RITRATTO ? '<h2 style="margin-top:30px">Quanto piove ' + esc(z.dove) + ', secondo il nostro archivio</h2>\n' +
+  '<p>In cima alla pagina c\'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri\n' +
+  'teniamo tutti i giorni da quando li leggiamo. Da ' + meseIso(RITRATTO.dal) + ' a ' + meseIso(RITRATTO.al) +
+  ', in ' + RITRATTO.giorni + ' giorni di misura, i ' + RITRATTO.quanti + ' pluviometri ' +
+  esc(diZona(z.dove)) + (RITRATTO.quanti < z.posti.length ? ' che leggiamo dallo stesso giorno' : '') +
+  ' hanno contato <b>' + migliaia(RITRATTO.media) + ' mm</b> di pioggia a testa,\n' +
+  'in media. Il più bagnato è <b>' + esc(RITRATTO.alto.n) + '</b> con ' + migliaia(RITRATTO.alto.c.mm) +
+  ' mm, il più asciutto ' + esc(RITRATTO.basso.n) + ' con ' + migliaia(RITRATTO.basso.c.mm) + '.</p>\n' +
+  '<p>La giornata più violenta di tutto l\'archivio è stata il <b>' + dataBella(RITRATTO.forte.c.maxData) +
+  '</b> a ' + esc(RITRATTO.forte.n) + ', con <b>' + virgola(RITRATTO.forte.c.maxMm) + ' mm</b> in\n' +
+  'ventiquattro ore.</p>\n' +
+  '<p class="nota">Non è una media climatica: è quello che questi strumenti hanno misurato in quei\n' +
+  'giorni, e basta. L\'archivio parte dal ' + dataBella(RITRATTO.dal) + ' e si allunga di un giorno al\n' +
+  'giorno.</p>\n\n' : '') +
 '<div class="avviso">\n' +
 '  <b>Una cosa da tenere a mente.</b> Tanta pioggia non vuol dire tanti funghi: contano anche la\n' +
 '  temperatura, il vento e il tipo di bosco. <b>La temperatura e il vento ce li abbiamo:</b>\n' +
