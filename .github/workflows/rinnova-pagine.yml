@@ -1,0 +1,52 @@
+name: Rinnovo stagionale delle pagine di paese e di zona
+on:
+  workflow_dispatch:
+  schedule:
+    # QUATTRO VOLTE L'ANNO, il primo di marzo, giugno, settembre e dicembre.
+    # ⚠️ Non e' un cron a caso: dentro quelle pagine c'e' il «ritratto» del
+    # pluviometro cotto nell'HTML (quanto ha piovuto in tutto l'archivio, il
+    # giorno piu' bagnato, il mese piu' piovoso). Quei numeri non scadono —
+    # ogni frase dichiara il suo periodo — ma invecchiano come utilita': a
+    # ogni stagione l'archivio e' piu' lungo e il ritratto dice di piu'.
+    # ⚠️ E COSTA: le pagine stanno nella radice, quindi ogni giro fa partire un
+    # deploy Netlify, ~15 crediti. Quattro giri = 60 crediti l'anno su 1.000,
+    # il 6% del piano. Cuocere i millimetri di ieri invece che l'archivio
+    # vorrebbe dire un deploy al giorno, cioe' 450 crediti al mese: e' il
+    # motivo per cui quelli restano nel javascript della pagina.
+    # ⚠️ Il minuto e' scelto libero: alle 11 UTC partono solo i :45 e i :50.
+    - cron: '20 11 1 3,6,9,12 *'
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      # Nessuna rete: legge i file di `data/` gia' nel checkout. Rigenera le 19
+      # pagine funghi (da li' le altre prendono il foglio di stile), le 948 di
+      # paese e le 114 di zona, e sposta la data della sitemap SOLO per le
+      # famiglie che sono cambiate davvero.
+      - name: Rigenera le pagine
+        run: node .github/scripts/rinnova-pagine.js
+      # ⚠️ QUESTO COMMIT FA PARTIRE UN DEPLOY (~15 crediti Netlify): `funghi/`
+      # e le sitemap NON sono nella regola ignore di netlify.toml, a differenza
+      # di `data/` e `.github/`. Se non e' cambiato niente non si committa e non
+      # si spende niente.
+      - name: Commit e push
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add funghi/ sitemap.xml sitemap-mappa.xml sitemap-funghi.xml sitemap-localita.xml sitemap-zone.xml .github/scripts/pagine-lastmod.json
+          git diff --staged --quiet && { echo "Niente da pubblicare: nessun deploy."; exit 0; }
+          git commit -m "rinnovo stagionale delle pagine di paese e di zona $(date -u +%Y-%m-%d)"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then ok=1; break; fi
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            sleep 10
+          done
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }

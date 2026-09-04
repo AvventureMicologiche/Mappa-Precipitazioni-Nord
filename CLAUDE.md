@@ -1781,3 +1781,28 @@ riscrive mille pagine ogni notte, e smetterebbe di crederci.
 
 Il resto lo dira' il rapporto Pagine di Search Console fra tre settimane, ed e'
 per quello che la sitemap e' divisa.
+
+### Il rinnovo si fa da solo, quattro volte l'anno
+
+`rinnova-pagine.js` + `rinnova-pagine.yml`, cron `20 11 1 3,6,9,12 *` (il primo
+di marzo, giugno, settembre e dicembre). Rigenera funghi -> paese -> zona, e se
+qualcosa e' cambiato davvero sposta la data in `pagine-lastmod.json` **solo per
+le famiglie toccate**, rifa' la sitemap, committa e spinge.
+
+⚠️ **QUESTO GIRO COSTA ~15 CREDITI NETLIFY**, perche' `funghi/` sta nella radice
+e non nella regola ignore come `data/` e `.github/`. Quattro giri = 60 crediti
+l'anno, il 6% del piano. E' esattamente il motivo per cui il ritratto contiene
+l'archivio e non i millimetri di ieri: quelli sarebbero un deploy al giorno,
+450 crediti al mese.
+
+⚠️ **Le quattro date della sitemap sono uscite dal codice** e stanno in
+`.github/scripts/pagine-lastmod.json`, cosi' il rinnovo puo' aggiornarle senza
+riscrivere un sorgente. Si possono ancora cambiare a mano quando si tocca un
+modello.
+
+⚠️ Se non e' cambiato niente **non committa e non spende**. `DRY_RUN=1` guarda e
+dice cosa farebbe — ma attenzione: rigenera comunque le pagine sul disco, quindi
+dopo una prova si fa `git checkout -- funghi/`.
+
+⚠️ **Non tocca le 23 pagine regione ne' le 19 funghi**: quelle il ritratto non
+ce l'hanno e la loro data deve restare quella vera dell'ultima modifica.

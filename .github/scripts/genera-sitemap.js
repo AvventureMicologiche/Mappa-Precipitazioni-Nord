@@ -48,19 +48,18 @@ const path = require('path');
 
 const FUNGHI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
 
-// ⚠️ QUESTE DATE SI CAMBIANO A MANO, e solo quando il GUSCIO cambia davvero.
-// Sono l'ultima volta che l'HTML di quella famiglia e' stato riscritto, non il
-// giorno in cui arrivano dati nuovi: i numeri li scarica il browser e l'HTML
-// resta identico. Mettendoci la data di oggi a ogni giro, a Google risulterebbe
-// un sito che riscrive mille pagine ogni notte, e smetterebbe di crederci.
-// Storia: regione 14/8 (nascita) e 3/9 (blocco radar); funghi 2/9 (nascita) e
-// 3/9 (elenco delle zone); localita' 2/9 (nascita), 3/9 (radar, grafici) e 4/9
-// (ritratto dell'archivio e vicini nell'HTML); zone 3/9 (nascita) e 4/9 (come
-// le localita').
-const NASCITA_REGIONI = '2026-09-03';
-const NASCITA_FUNGHI = '2026-09-03';
-const NASCITA_LOCALITA = '2026-09-04';
-const NASCITA_ZONE = '2026-09-04';
+// ⚠️ LE DATE STANNO IN `pagine-lastmod.json`, e sono l'ultima volta che il
+// GUSCIO di quella famiglia e' stato riscritto — non il giorno in cui arrivano
+// dati nuovi: i numeri li scarica il browser e l'HTML resta identico. Se ci si
+// mettesse la data di oggi a ogni giro, a Google risulterebbe un sito che
+// riscrive mille pagine ogni notte e smetterebbe di crederci.
+// Le aggiorna da solo `rinnova-pagine.js` (una volta a stagione), e si possono
+// cambiare a mano quando si tocca un modello.
+const LASTMOD = JSON.parse(fs.readFileSync(path.join(__dirname, 'pagine-lastmod.json'), 'utf8'));
+const NASCITA_REGIONI = LASTMOD.regioni;
+const NASCITA_FUNGHI = LASTMOD.funghi;
+const NASCITA_LOCALITA = LASTMOD.localita;
+const NASCITA_ZONE = LASTMOD.zone;
 
 function scriviSitemap(SITO, RADICE) {
   const { REGIONI } = require('./genera-pagine-regione.js');
