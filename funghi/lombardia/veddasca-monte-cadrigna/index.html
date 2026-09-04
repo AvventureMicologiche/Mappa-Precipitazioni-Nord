@@ -220,8 +220,43 @@ pluviometro di ARPA Lombardia, aggiornata ogni giorno.</p>
 
 <div id="meteo"></div>
 
+<h2 style="margin-top:30px">Quanto piove a Veddasca Monte Cadrigna, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
+teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
+<b>da gennaio 2026 a settembre 2026</b>, in 246 giorni di misura,
+ha contato <b>871 mm</b> di pioggia in <b>60 giornate</b> bagnate. Nelle altre 186 non è caduto niente, o così poco da non contare.</p>
+<p>Il giorno più bagnato di tutto l'archivio è stato il <b>2 giugno 2026</b>,
+con <b>134,2 mm</b> in ventiquattro ore. Il mese più piovoso,
+fra quelli che abbiamo per intero, è <b>giugno 2026</b> con
+266 mm. Su 88 pluviometri
+da bosco della Lombardia con lo stesso periodo alle spalle, questo è il <b>30º</b>
+per acqua caduta.</p>
+<p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
+giorni, e basta. L'archivio parte dal 1 gennaio 2026 e si allunga di un giorno al
+giorno.</p>
+
 <h2>Come sta messo rispetto agli altri posti della Lombardia</h2>
-<div id="vicini"></div>
+<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
+<tbody id="vicini">
+<tr class="qui" data-id="14661"><td><b>Veddasca Monte Cadrigna</b> <span class="com">(sei qui)</span><span class="com">VA · 1302 MT</span></td>
+<td>—</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="14131"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/lavena-ponte-tresa-via-della-boschiva/"><b>Lavena Ponte Tresa via della Boschiva</b></a><span class="com">VA · 269 MT</span></td>
+<td>12,8 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="22022"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/porto-valtravaglia-san-michele/"><b>Porto Valtravaglia San Michele</b></a><span class="com">VA · 875 MT</span></td>
+<td>14,8 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="10666"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/valganna-mondonico/"><b>Valganna Mondonico</b></a><span class="com">VA · 665 MT</span></td>
+<td>17,7 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="8150"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/cuveglio/"><b>Cuveglio</b></a><span class="com">VA · 294 MT</span></td>
+<td>18,8 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="19356"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/porto-ceresio-campo-sportivo/"><b>Porto Ceresio campo sportivo</b></a><span class="com">VA · 275 MT</span></td>
+<td>21,6 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
@@ -521,18 +556,23 @@ provinciali ISTAT.</p>
     var qui = tutti.find(function(x){ return x.id === ID; });
     var righe = vicini.concat([qui]).sort(function(a,b){ return a.d - b.d; });
 
-    document.getElementById('vicini').innerHTML =
-      '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead><tbody>'
-      + righe.map(function(r){
-          var io = r.id === ID;
-          return '<tr' + (io ? ' class="qui"' : '') + '><td>'
-            + (io ? '<b>' + esc(r.n) + '</b> <span class="com">(sei qui)</span>'
-                  : '<a class="loc" href="' + pag(r) + '"><b>' + esc(r.n) + '</b></a>')
-            + '<span class="com">' + esc(r.sig) + ' · ' + r.q + ' MT</span></td>'
-            + '<td>' + (io ? '—' : num(r.d) + ' km') + '</td>'
-            + '<td class="mm"><span class="v' + (r.mm>0?'':' zero') + '">' + (r.mm>0?num(r.mm):'—') + '</span></td></tr>';
-        }).join('')
-      + '</tbody></table>';
+    /* ⚠️ La tabella dei vicini e' GIA' NELL'HTML, coi nomi, le distanze e i
+       link: qui si riempiono solo le caselle dei millimetri, che cambiano ogni
+       giorno. Rifacendola con innerHTML si cancellerebbero i link dalla pagina
+       che Google ha in mano dopo il rendering, che e' proprio quello che si
+       voleva evitare. Se una riga non ha dati nel file, resta il trattino. */
+    var perId = {};
+    for (var iv = 0; iv < righe.length; iv++) perId[righe[iv].id] = righe[iv];
+    var corpo = document.getElementById('vicini');
+    var trs = corpo ? corpo.querySelectorAll('tr[data-id]') : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute('data-id')];
+      var cel = trs[it].querySelector('.mm .v');
+      if (!cel) continue;
+      if (!d) { cel.textContent = '—'; cel.className = 'v zero'; continue; }
+      cel.textContent = d.mm > 0 ? num(d.mm) : '—';
+      cel.className = d.mm > 0 ? 'v' : 'v zero';
+    }
 
     document.getElementById('notavicini').innerHTML =
       'Nella finestra dei funghi questo pluviometro è <b>' + pos + 'º su ' + tutti.length + '</b> '

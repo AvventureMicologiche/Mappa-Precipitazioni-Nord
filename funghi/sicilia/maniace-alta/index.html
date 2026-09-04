@@ -220,8 +220,41 @@ pluviometro di MeteoHub, aggiornata ogni giorno.</p>
 
 <div id="meteo"></div>
 
+<h2 style="margin-top:30px">Quanto piove a Maniace Alta, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
+teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
+<b>da luglio 2026 a settembre 2026</b>, in 46 giorni di misura,
+ha contato <b>34 mm</b> di pioggia in <b>5 giornate</b> bagnate. Nelle altre 41 non è caduto niente, o così poco da non contare.</p>
+<p>Il giorno più bagnato di tutto l'archivio è stato il <b>30 luglio 2026</b>,
+con <b>15,0 mm</b> in ventiquattro ore. Il mese più piovoso,
+fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
+19 mm.</p>
+<p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
+giorni, e basta. L'archivio parte dal 19 luglio 2026 e si allunga di un giorno al
+giorno.</p>
+
 <h2>Come sta messo rispetto agli altri posti della Sicilia</h2>
-<div id="vicini"></div>
+<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
+<tbody id="vicini">
+<tr class="qui" data-id="37.89111_14.77056"><td><b>Maniace Alta</b> <span class="com">(sei qui)</span><span class="com">ME · 1128 MT</span></td>
+<td>—</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="37.92972_14.84194"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/trearie/"><b>Trearie</b></a><span class="com">CT · 1282 MT</span></td>
+<td>7,6 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="37.96861_14.76750"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/case-mangalaviti/"><b>Case Mangalaviti</b></a><span class="com">ME · 1242 MT</span></td>
+<td>8,6 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="37.95583_14.71222"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/biviere-di-cesaro/"><b>Biviere di Cesaro'</b></a><span class="com">ME · 1273 MT</span></td>
+<td>8,8 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="37.91861_14.65472"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/miraglia/"><b>Miraglia</b></a><span class="com">ME · 1530 MT</span></td>
+<td>10,6 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="37.93861_14.57139"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/caronia-bosco/"><b>Caronia Bosco</b></a><span class="com">ME · 961 MT</span></td>
+<td>18,3 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
@@ -521,18 +554,23 @@ provinciali ISTAT.</p>
     var qui = tutti.find(function(x){ return x.id === ID; });
     var righe = vicini.concat([qui]).sort(function(a,b){ return a.d - b.d; });
 
-    document.getElementById('vicini').innerHTML =
-      '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead><tbody>'
-      + righe.map(function(r){
-          var io = r.id === ID;
-          return '<tr' + (io ? ' class="qui"' : '') + '><td>'
-            + (io ? '<b>' + esc(r.n) + '</b> <span class="com">(sei qui)</span>'
-                  : '<a class="loc" href="' + pag(r) + '"><b>' + esc(r.n) + '</b></a>')
-            + '<span class="com">' + esc(r.sig) + ' · ' + r.q + ' MT</span></td>'
-            + '<td>' + (io ? '—' : num(r.d) + ' km') + '</td>'
-            + '<td class="mm"><span class="v' + (r.mm>0?'':' zero') + '">' + (r.mm>0?num(r.mm):'—') + '</span></td></tr>';
-        }).join('')
-      + '</tbody></table>';
+    /* ⚠️ La tabella dei vicini e' GIA' NELL'HTML, coi nomi, le distanze e i
+       link: qui si riempiono solo le caselle dei millimetri, che cambiano ogni
+       giorno. Rifacendola con innerHTML si cancellerebbero i link dalla pagina
+       che Google ha in mano dopo il rendering, che e' proprio quello che si
+       voleva evitare. Se una riga non ha dati nel file, resta il trattino. */
+    var perId = {};
+    for (var iv = 0; iv < righe.length; iv++) perId[righe[iv].id] = righe[iv];
+    var corpo = document.getElementById('vicini');
+    var trs = corpo ? corpo.querySelectorAll('tr[data-id]') : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute('data-id')];
+      var cel = trs[it].querySelector('.mm .v');
+      if (!cel) continue;
+      if (!d) { cel.textContent = '—'; cel.className = 'v zero'; continue; }
+      cel.textContent = d.mm > 0 ? num(d.mm) : '—';
+      cel.className = d.mm > 0 ? 'v' : 'v zero';
+    }
 
     document.getElementById('notavicini').innerHTML =
       'Nella finestra dei funghi questo pluviometro è <b>' + pos + 'º su ' + tutti.length + '</b> '

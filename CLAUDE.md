@@ -1678,3 +1678,106 @@ delle 1.085 pagine.
   shell che si è **mangiato le barre** di `\n`. Le patch si scrivono su file con
   lo strumento di Write e si lanciano da lì, con il conteggio delle occorrenze
   prima di sostituire. È la stessa regola già scritta per `index.html`.
+
+---
+
+## Il ritratto del pluviometro, e perche' e' una faccenda di indicizzazione (4 settembre 2026)
+
+Le 948 pagine di localita' e le 114 di zona erano **gusci identici**: stesso
+testo per tutte, i numeri scaricati dal browser. Misurato quel giorno su due
+pagine sorelle della Liguria: **su 35 frasi, 28 identiche parola per parola**;
+fra regioni diverse 22 su 35. E' il profilo classico delle pagine che Google
+scansiona e poi lascia in **«scansionata, attualmente non indicizzata»** —
+che non e' una coda, e' un verdetto, e rivederlo costa piu' tempo che prenderlo
+bene la prima volta. Le pagine erano online da due giorni: la finestra giusta.
+
+### Cosa si cuoce e cosa NO
+
+- **Si cuoce quello che non cambia**: totale dell'archivio, giorni di pioggia,
+  giorno piu' bagnato, mese piu' piovoso, posizione in classifica. Si scrive
+  una volta e resta vero per sempre, perche' e' dichiarato col suo periodo.
+- **NON si cuociono i millimetri di oggi**: cambiano ogni giorno e ogni
+  aggiornamento sarebbe un deploy, ~15 crediti, **450 al mese su 1.000**. Il
+  commento in cima a `genera-pagine-localita.js` diceva gia' perche' l'anagrafe
+  non e' cotta: quel motivo vale per l'anagrafe, non per l'archivio.
+
+### `lib-clima.js` — il ritratto
+
+`clima(dirs)` legge tutti i file di una regione e per ogni id restituisce
+giorni, primo e ultimo, totale, giornate bagnate, giorno piu' bagnato, mese
+piu' piovoso. Tre paletti, tutti e tre necessari:
+
+1. ⚠️ **Solo misure VERE.** Si scartano i file di stima (`source:
+   open-meteo-*`) e le singole stazioni contrassegnate (`om:true`, `src`). Il
+   test sul file e' **per esclusione**, perche' Piemonte e Veneto il campo
+   `source` non lo scrivono affatto. Senza questo filtro il Lazio contava 106
+   giorni invece dei 55 veri: cinquanta giorni di modello dentro una frase che
+   dice «questo strumento ha misurato».
+2. ⚠️ **Solo la finestra affidabile.** La tabella `AFFIDABILE_DA` era dentro
+   `check-confini.js`; dal 4/9 sta in **`lib-affidabile.js`** e la usano tutt'e
+   due. Le chiavi sono le CARTELLE (`friuli-osmer`), non le regioni.
+3. ⚠️ **Il mese piu' piovoso solo fra i mesi INTERI** (90% dei giorni): un mese
+   entrato in archivio a meta' perderebbe il confronto per un motivo che col
+   tempo non c'entra.
+
+**`GIORNI_MINIMI = 30`, scelto su un conto**: con 30 il ritratto ce l'hanno
+tutti e 948 i posti, con 45 ne restavano fuori 66, con 60 addirittura 410 — la
+meta' del centro-sud, dove il dato reale comincia a luglio.
+
+⚠️ **La classifica si fa solo fra pluviometri con lo STESSO periodo alle
+spalle** (giorni entro il ±10%), e solo se ce ne sono almeno dieci. Uno entrato
+in archivio a meta' avrebbe meno millimetri per un motivo che con la pioggia
+non c'entra niente. Per le ZONE il gruppo e' il **piu' numeroso** a pari
+periodo, non il piu' lungo: la Garfagnana e' emilia+toscana (90 giorni contro
+55) e coi piu' lunghi restavano due pluviometri, cioe' nessun ritratto. Sei
+zone su 114 restano senza, e va bene cosi'.
+
+⚠️ **Le frasi con i numeri vogliono la grammatica.** «in 1 giornate bagnate»,
+«ha contato 0 mm», «il mese piu' piovoso e' agosto con 0 mm»: singolare,
+plurale e il caso dei **5 pluviometri del sud che in tutto l'archivio non hanno
+passato il millimetro**. Un numero cotto dentro non ha nessuno che lo rilegge:
+i casi limite si contano PRIMA di scrivere la frase.
+
+### I link dei vicini stanno nell'HTML, non nel javascript
+
+Le tabelle («i cinque vicini» sulle localita', «i pluviometri della zona»)
+nascevano a pagina aperta con `innerHTML`. **Nell'HTML servito non c'era nessun
+link fra pagine sorelle**: ogni localita' aveva UN solo link in entrata in tutto
+il sito, e le zone non linkavano nessuna delle loro localita'. Google i link nel
+javascript li segue, ma dopo e pesano meno.
+
+Adesso le righe sono cotte, coi nomi, le quote, le distanze e i link; il
+javascript **riempie le caselle dei millimetri** e, sulle zone, **riordina le
+righe** dal piu' bagnato spostando i nodi.
+⚠️ **Non si rifa' la tabella con `innerHTML`**: cancellerebbe i link proprio
+dalla pagina che Google ha in mano dopo il rendering, cioe' l'opposto di quello
+che si voleva. Se un giorno si tocca quella parte, il controllo e' guardare
+l'HTML servito con `curl`, non la pagina aperta nel browser.
+⚠️ L'elenco dei vicini e' **congelato fino alla prossima generazione**: un posto
+nuovo non compare da solo. E' il prezzo, ed e' accettato — sono cinque righe,
+non le centododici dell'elenco in fondo, che infatti resta disegnato dal file.
+
+### La sitemap e' un indice
+
+`sitemap.xml` e' diventato un `<sitemapindex>` con quattro figlie:
+`sitemap-mappa.xml` (25), `sitemap-funghi.xml` (19), `sitemap-localita.xml`
+(948), `sitemap-zone.xml` (114). **Non accelera niente**: serve a MISURARE. Con
+1.106 indirizzi in un file solo, il rapporto Pagine di Search Console li conta
+tutti insieme e non si vede se sono le localita' a restare fuori o le zone.
+⚠️ Le figlie si scrivono solo se hanno voci e l'indice elenca solo quelle
+scritte: il repo di test non ha sempre le stesse famiglie della produzione.
+⚠️ **`lastmod` si cambia a mano**, e solo quando il GUSCIO cambia davvero.
+Mettendoci la data di oggi a ogni giro, a Google risulterebbe un sito che
+riscrive mille pagine ogni notte, e smetterebbe di crederci.
+
+### Quanto e' servito, misurato
+
+| | prima | dopo |
+|---|---|---|
+| parole per pagina di localita' | 426 | **642** |
+| frasi identiche a una sorella | 80% | **69%** |
+| link statici a pagine sorelle | 0 | **6 per pagina** |
+| link in entrata di una localita' | 1 | **fino a 7** |
+
+Il resto lo dira' il rapporto Pagine di Search Console fra tre settimane, ed e'
+per quello che la sitemap e' divisa.

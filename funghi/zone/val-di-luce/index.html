@@ -181,8 +181,29 @@ nav.altre a{color:var(--blu);}
 <p class="nota" id="notamedia"></p>
 
 <h2>I pluviometri della zona, dal più bagnato</h2>
-<div id="tabella"></div>
+<table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
+<tbody id="tabella">
+<tr data-id="TOS02000351"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/boscolungo/"><b>Boscolungo</b></a><span class="com">PT · 1345 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02004215"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/casotti-di-cutigliano/"><b>Casotti di Cutigliano</b></a><span class="com">PT · 593 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02000421"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-oppio/"><b>Monte Oppio</b></a><span class="com">PT · 810 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02000275"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-romecchio/"><b>Monte Romecchio</b></a><span class="com">LU · 1591 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="5499"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/piandelagotti/"><b>Piandelagotti</b></a><span class="com">MO · 1219 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="3012"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/pievepelago/"><b>Pievepelago</b></a><span class="com">MO · 1083 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02004231"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ponte-di-lucchio/"><b>Ponte di Lucchio</b></a><span class="com">PT · 350 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02000431"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/san-marcello-pistoiese/"><b>San Marcello Pistoiese</b></a><span class="com">PT · 618 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TOS02000401"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/selva-dei-porci/"><b>Selva dei Porci</b></a><span class="com">PT · 755 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notaforte"></p>
+
+<h2 style="margin-top:30px">Quanto piove in Val di Luce, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
+teniamo tutti i giorni da quando li leggiamo. Da luglio 2026 a settembre 2026, in 55 giorni di misura, i 7 pluviometri della Val di Luce che leggiamo dallo stesso giorno hanno contato <b>166 mm</b> di pioggia a testa,
+in media. Il più bagnato è <b>Boscolungo</b> con 193 mm, il più asciutto Monte Romecchio con 127.</p>
+<p>La giornata più violenta di tutto l'archivio è stata il <b>26 luglio 2026</b> a Ponte di Lucchio, con <b>77,9 mm</b> in
+ventiquattro ore.</p>
+<p class="nota">Non è una media climatica: è quello che questi strumenti hanno misurato in quei
+giorni, e basta. L'archivio parte dal 12 luglio 2026 e si allunga di un giorno al
+giorno.</p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia&amp;g=20&amp;pl=44.13144,10.63064&amp;pn=Val%20di%20Luce&amp;pz=1&amp;z=10&amp;c=44.13144,10.63064" style="display:block;text-decoration:none;"
@@ -354,17 +375,28 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
       + "finestra dei funghi è <b>" + esc(primo.n) + "</b> con " + num(primo.mm) + " mm, il più asciutto "
       + "<b>" + esc(dati[dati.length-1].n) + "</b> con " + num(dati[dati.length-1].mm) + ".";
 
-    document.getElementById("tabella").innerHTML =
-      "<table class=\"vic\"><thead><tr><th>Località</th><th>13-20 gg fa</th>"
-      + "<th>Ultimi 7</th><th class=\"tagl\">Ultimi 25</th></tr></thead><tbody>"
-      + dati.map(function(r){
-          return "<tr><td><a class=\"loc\" href=\"" + SITO + "/funghi/" + r.reg + "/" + r.slug + "/\"><b>"
-            + esc(r.n) + "</b></a><span class=\"com\">" + esc(r.sig) + " · " + r.q + " MT</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm>0?"":" zero") + "\">" + (r.mm>0?num(r.mm):"—") + "</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm7>0?"":" zero") + "\">" + (r.mm7>0?num(r.mm7):"—") + "</span></td>"
-            + "<td class=\"mm tagl\"><span class=\"v\">" + num(r.mm25) + "</span></td></tr>";
-        }).join("")
-      + "</tbody></table>";
+    /* ⚠️ La tabella e' GIA' NELL'HTML, coi nomi e i link verso le pagine
+       di paese: qui si riempiono le caselle e si RIORDINA dal più bagnato,
+       spostando le righe. Rifacendola con innerHTML si cancellerebbero i link
+       dalla pagina che Google ha in mano dopo il rendering. */
+    var corpo = document.getElementById("tabella");
+    var perId = {};
+    for (var iv = 0; iv < dati.length; iv++) perId[dati[iv].id] = dati[iv];
+    var trs = corpo ? [].slice.call(corpo.querySelectorAll("tr[data-id]")) : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute("data-id")];
+      var cel = trs[it].querySelectorAll(".mm .v");
+      if (cel.length < 3) continue;
+      if (!d) { for (var ic = 0; ic < 3; ic++) { cel[ic].textContent = "—"; cel[ic].className = "v zero"; } continue; }
+      cel[0].textContent = d.mm > 0 ? num(d.mm) : "—";  cel[0].className = d.mm > 0 ? "v" : "v zero";
+      cel[1].textContent = d.mm7 > 0 ? num(d.mm7) : "—"; cel[1].className = d.mm7 > 0 ? "v" : "v zero";
+      cel[2].textContent = num(d.mm25); cel[2].className = "v";
+    }
+    trs.sort(function(a, b){
+      var x = perId[a.getAttribute("data-id")], y = perId[b.getAttribute("data-id")];
+      return (y ? y.mm : -1) - (x ? x.mm : -1);
+    });
+    for (var iq = 0; iq < trs.length; iq++) corpo.appendChild(trs[iq]);
 
     var conForte = dati.filter(function(r){ return r.forte; }).length;
     document.getElementById("notaforte").innerHTML =

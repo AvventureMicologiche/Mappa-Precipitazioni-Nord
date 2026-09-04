@@ -220,8 +220,41 @@ pluviometro di MeteoHub, aggiornata ogni giorno.</p>
 
 <div id="meteo"></div>
 
+<h2 style="margin-top:30px">Quanto piove a Episcopia-Pizzutello, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
+teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
+<b>da luglio 2026 a settembre 2026</b>, in 46 giorni di misura,
+ha contato <b>52 mm</b> di pioggia in <b>6 giornate</b> bagnate. Nelle altre 40 non è caduto niente, o così poco da non contare.</p>
+<p>Il giorno più bagnato di tutto l'archivio è stato il <b>5 agosto 2026</b>,
+con <b>17,5 mm</b> in ventiquattro ore. Il mese più piovoso,
+fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
+52 mm.</p>
+<p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
+giorni, e basta. L'archivio parte dal 19 luglio 2026 e si allunga di un giorno al
+giorno.</p>
+
 <h2>Come sta messo rispetto agli altri posti della Basilicata</h2>
-<div id="vicini"></div>
+<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
+<tbody id="vicini">
+<tr class="qui" data-id="40.07000_16.10361"><td><b>Episcopia-Pizzutello</b> <span class="com">(sei qui)</span><span class="com">PZ · 432 MT</span></td>
+<td>—</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="39.98389_16.29833"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/terranova-di-pollino/"><b>Terranova di Pollino</b></a><span class="com">PZ · 1207 MT</span></td>
+<td>19,1 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="40.13444_15.76222"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/lagonegro/"><b>Lagonegro</b></a><span class="com">PZ · 798 MT</span></td>
+<td>29,9 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="40.50056_15.76111"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/abriola-a-sellata-pierfaone/"><b>Abriola a Sellata Pierfaone</b></a><span class="com">PZ · 1490 MT</span></td>
+<td>56,0 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="40.86533_15.61067"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/t-atella-p-te-ss381/"><b>T. Atella - P.te SS381</b></a><span class="com">PZ · 507 MT</span></td>
+<td>97,8 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+<tr data-id="40.94400_15.61467"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/m-te-vulture/"><b>M.te Vulture</b></a><span class="com">PZ · 933 MT</span></td>
+<td>105,6 km</td>
+<td class="mm"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notavicini"></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
@@ -518,18 +551,23 @@ provinciali ISTAT.</p>
     var qui = tutti.find(function(x){ return x.id === ID; });
     var righe = vicini.concat([qui]).sort(function(a,b){ return a.d - b.d; });
 
-    document.getElementById('vicini').innerHTML =
-      '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead><tbody>'
-      + righe.map(function(r){
-          var io = r.id === ID;
-          return '<tr' + (io ? ' class="qui"' : '') + '><td>'
-            + (io ? '<b>' + esc(r.n) + '</b> <span class="com">(sei qui)</span>'
-                  : '<a class="loc" href="' + pag(r) + '"><b>' + esc(r.n) + '</b></a>')
-            + '<span class="com">' + esc(r.sig) + ' · ' + r.q + ' MT</span></td>'
-            + '<td>' + (io ? '—' : num(r.d) + ' km') + '</td>'
-            + '<td class="mm"><span class="v' + (r.mm>0?'':' zero') + '">' + (r.mm>0?num(r.mm):'—') + '</span></td></tr>';
-        }).join('')
-      + '</tbody></table>';
+    /* ⚠️ La tabella dei vicini e' GIA' NELL'HTML, coi nomi, le distanze e i
+       link: qui si riempiono solo le caselle dei millimetri, che cambiano ogni
+       giorno. Rifacendola con innerHTML si cancellerebbero i link dalla pagina
+       che Google ha in mano dopo il rendering, che e' proprio quello che si
+       voleva evitare. Se una riga non ha dati nel file, resta il trattino. */
+    var perId = {};
+    for (var iv = 0; iv < righe.length; iv++) perId[righe[iv].id] = righe[iv];
+    var corpo = document.getElementById('vicini');
+    var trs = corpo ? corpo.querySelectorAll('tr[data-id]') : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute('data-id')];
+      var cel = trs[it].querySelector('.mm .v');
+      if (!cel) continue;
+      if (!d) { cel.textContent = '—'; cel.className = 'v zero'; continue; }
+      cel.textContent = d.mm > 0 ? num(d.mm) : '—';
+      cel.className = d.mm > 0 ? 'v' : 'v zero';
+    }
 
     document.getElementById('notavicini').innerHTML =
       'Nella finestra dei funghi questo pluviometro è <b>' + pos + 'º su ' + tutti.length + '</b> '

@@ -181,8 +181,27 @@ nav.altre a{color:var(--blu);}
 <p class="nota" id="notamedia"></p>
 
 <h2>I pluviometri della zona, dal più bagnato</h2>
-<div id="tabella"></div>
+<table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
+<tbody id="tabella">
+<tr data-id="BELEN"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-belenda/"><b>Colle Belenda</b></a><span class="com">IM · 1357 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="CODOG"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-d-oggia/"><b>Colle D'Oggia</b></a><span class="com">IM · 1163 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="MONTL"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/montalto-ligure/"><b>Montalto Ligure</b></a><span class="com">IM · 240 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="PORNA"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/pornassio/"><b>Pornassio</b></a><span class="com">IM · 475 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="TRIOR"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/triora/"><b>Triora</b></a><span class="com">IM · 789 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="308"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/upega/"><b>Upega</b></a><span class="com">CN · 1310 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="VERDE"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/verdeggia/"><b>Verdeggia</b></a><span class="com">IM · 1120 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notaforte"></p>
+
+<h2 style="margin-top:30px">Quanto piove in Terra brigasca, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
+teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 73 giorni di misura, i 7 pluviometri della Terra brigasca hanno contato <b>154 mm</b> di pioggia a testa,
+in media. Il più bagnato è <b>Upega</b> con 214 mm, il più asciutto Montalto Ligure con 89.</p>
+<p>La giornata più violenta di tutto l'archivio è stata il <b>21 agosto 2026</b> a Colle Belenda, con <b>66,8 mm</b> in
+ventiquattro ore.</p>
+<p class="nota">Non è una media climatica: è quello che questi strumenti hanno misurato in quei
+giorni, e basta. L'archivio parte dal 19 giugno 2026 e si allunga di un giorno al
+giorno.</p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte,francia-provenza&amp;g=20&amp;pl=44.0625,7.61639&amp;pn=Terra%20brigasca&amp;pz=1&amp;z=10&amp;c=44.0625,7.61639" style="display:block;text-decoration:none;"
@@ -354,17 +373,28 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
       + "finestra dei funghi è <b>" + esc(primo.n) + "</b> con " + num(primo.mm) + " mm, il più asciutto "
       + "<b>" + esc(dati[dati.length-1].n) + "</b> con " + num(dati[dati.length-1].mm) + ".";
 
-    document.getElementById("tabella").innerHTML =
-      "<table class=\"vic\"><thead><tr><th>Località</th><th>13-20 gg fa</th>"
-      + "<th>Ultimi 7</th><th class=\"tagl\">Ultimi 25</th></tr></thead><tbody>"
-      + dati.map(function(r){
-          return "<tr><td><a class=\"loc\" href=\"" + SITO + "/funghi/" + r.reg + "/" + r.slug + "/\"><b>"
-            + esc(r.n) + "</b></a><span class=\"com\">" + esc(r.sig) + " · " + r.q + " MT</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm>0?"":" zero") + "\">" + (r.mm>0?num(r.mm):"—") + "</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm7>0?"":" zero") + "\">" + (r.mm7>0?num(r.mm7):"—") + "</span></td>"
-            + "<td class=\"mm tagl\"><span class=\"v\">" + num(r.mm25) + "</span></td></tr>";
-        }).join("")
-      + "</tbody></table>";
+    /* ⚠️ La tabella e' GIA' NELL'HTML, coi nomi e i link verso le pagine
+       di paese: qui si riempiono le caselle e si RIORDINA dal più bagnato,
+       spostando le righe. Rifacendola con innerHTML si cancellerebbero i link
+       dalla pagina che Google ha in mano dopo il rendering. */
+    var corpo = document.getElementById("tabella");
+    var perId = {};
+    for (var iv = 0; iv < dati.length; iv++) perId[dati[iv].id] = dati[iv];
+    var trs = corpo ? [].slice.call(corpo.querySelectorAll("tr[data-id]")) : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute("data-id")];
+      var cel = trs[it].querySelectorAll(".mm .v");
+      if (cel.length < 3) continue;
+      if (!d) { for (var ic = 0; ic < 3; ic++) { cel[ic].textContent = "—"; cel[ic].className = "v zero"; } continue; }
+      cel[0].textContent = d.mm > 0 ? num(d.mm) : "—";  cel[0].className = d.mm > 0 ? "v" : "v zero";
+      cel[1].textContent = d.mm7 > 0 ? num(d.mm7) : "—"; cel[1].className = d.mm7 > 0 ? "v" : "v zero";
+      cel[2].textContent = num(d.mm25); cel[2].className = "v";
+    }
+    trs.sort(function(a, b){
+      var x = perId[a.getAttribute("data-id")], y = perId[b.getAttribute("data-id")];
+      return (y ? y.mm : -1) - (x ? x.mm : -1);
+    });
+    for (var iq = 0; iq < trs.length; iq++) corpo.appendChild(trs[iq]);
 
     var conForte = dati.filter(function(r){ return r.forte; }).length;
     document.getElementById("notaforte").innerHTML =

@@ -181,8 +181,23 @@ nav.altre a{color:var(--blu);}
 <p class="nota" id="notamedia"></p>
 
 <h2>I pluviometri della zona, dal più bagnato</h2>
-<div id="tabella"></div>
+<table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
+<tbody id="tabella">
+<tr data-id="75600MS"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/fie-allo-sciliar/"><b>Fie' allo Sciliar</b></a><span class="com">BZ · 840 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="78305MS"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/nova-levante/"><b>Nova Levante</b></a><span class="com">BZ · 1126 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="79300MS"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/renon-siffian/"><b>Renon Siffian</b></a><span class="com">BZ · 989 MT</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+</tbody></table>
 <p class="nota" id="notaforte"></p>
+
+<h2 style="margin-top:30px">Quanto piove in Val di Tires, secondo il nostro archivio</h2>
+<p>Qui sopra c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
+teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 93 giorni di misura, i 3 pluviometri della Val di Tires hanno contato <b>367 mm</b> di pioggia a testa,
+in media. Il più bagnato è <b>Renon Siffian</b> con 391 mm, il più asciutto Nova Levante con 322.</p>
+<p>La giornata più violenta di tutto l'archivio è stata il <b>10 giugno 2026</b> a Renon Siffian, con <b>82,4 mm</b> in
+ventiquattro ore.</p>
+<p class="nota">Non è una media climatica: è quello che questi strumenti hanno misurato in quei
+giorni, e basta. L'archivio parte dal 4 giugno 2026 e si allunga di un giorno al
+giorno.</p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=altoadige,trentino,veneto&amp;g=20&amp;pl=46.46611,11.51722&amp;pn=Val%20di%20Tires&amp;pz=1&amp;z=10&amp;c=46.46611,11.51722" style="display:block;text-decoration:none;"
@@ -354,17 +369,28 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
       + "finestra dei funghi è <b>" + esc(primo.n) + "</b> con " + num(primo.mm) + " mm, il più asciutto "
       + "<b>" + esc(dati[dati.length-1].n) + "</b> con " + num(dati[dati.length-1].mm) + ".";
 
-    document.getElementById("tabella").innerHTML =
-      "<table class=\"vic\"><thead><tr><th>Località</th><th>13-20 gg fa</th>"
-      + "<th>Ultimi 7</th><th class=\"tagl\">Ultimi 25</th></tr></thead><tbody>"
-      + dati.map(function(r){
-          return "<tr><td><a class=\"loc\" href=\"" + SITO + "/funghi/" + r.reg + "/" + r.slug + "/\"><b>"
-            + esc(r.n) + "</b></a><span class=\"com\">" + esc(r.sig) + " · " + r.q + " MT</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm>0?"":" zero") + "\">" + (r.mm>0?num(r.mm):"—") + "</span></td>"
-            + "<td class=\"mm\"><span class=\"v" + (r.mm7>0?"":" zero") + "\">" + (r.mm7>0?num(r.mm7):"—") + "</span></td>"
-            + "<td class=\"mm tagl\"><span class=\"v\">" + num(r.mm25) + "</span></td></tr>";
-        }).join("")
-      + "</tbody></table>";
+    /* ⚠️ La tabella e' GIA' NELL'HTML, coi nomi e i link verso le pagine
+       di paese: qui si riempiono le caselle e si RIORDINA dal più bagnato,
+       spostando le righe. Rifacendola con innerHTML si cancellerebbero i link
+       dalla pagina che Google ha in mano dopo il rendering. */
+    var corpo = document.getElementById("tabella");
+    var perId = {};
+    for (var iv = 0; iv < dati.length; iv++) perId[dati[iv].id] = dati[iv];
+    var trs = corpo ? [].slice.call(corpo.querySelectorAll("tr[data-id]")) : [];
+    for (var it = 0; it < trs.length; it++) {
+      var d = perId[trs[it].getAttribute("data-id")];
+      var cel = trs[it].querySelectorAll(".mm .v");
+      if (cel.length < 3) continue;
+      if (!d) { for (var ic = 0; ic < 3; ic++) { cel[ic].textContent = "—"; cel[ic].className = "v zero"; } continue; }
+      cel[0].textContent = d.mm > 0 ? num(d.mm) : "—";  cel[0].className = d.mm > 0 ? "v" : "v zero";
+      cel[1].textContent = d.mm7 > 0 ? num(d.mm7) : "—"; cel[1].className = d.mm7 > 0 ? "v" : "v zero";
+      cel[2].textContent = num(d.mm25); cel[2].className = "v";
+    }
+    trs.sort(function(a, b){
+      var x = perId[a.getAttribute("data-id")], y = perId[b.getAttribute("data-id")];
+      return (y ? y.mm : -1) - (x ? x.mm : -1);
+    });
+    for (var iq = 0; iq < trs.length; iq++) corpo.appendChild(trs[iq]);
 
     var conForte = dati.filter(function(r){ return r.forte; }).length;
     document.getElementById("notaforte").innerHTML =
