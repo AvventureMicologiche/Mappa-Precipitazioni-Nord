@@ -9800,9 +9800,10 @@ function loadDefaultMarkers(){
   // un deploy per metterla e poi zero, per sempre. Quando le date di scadenza
   // saranno passate tutte e due, la scheda «Iscriviti» torna da sola senza che
   // nessuno pubblichi niente.
-  // 5/9/2026: arriva lo Short sul Butyriboletus regius e, per decisione
-  // dell'utente, in gara restano SOLO i due video: fuori la guida al
-  // pluviometro e fuori la scheda «Iscriviti» (che resta il ripiego).
+  // 5/9/2026: arrivano lo Short sul Butyriboletus regius e, nel pomeriggio,
+  // quello sugli ovoli. Per decisione dell'utente in gara restano SOLO i
+  // video, adesso tre: fuori la guida al pluviometro e fuori la scheda
+  // «Iscriviti» (che resta il ripiego).
   // 4/9/2026: sorteggio a tre. Fino a ieri era inchiodato su 'video' per
   // l'uscita dei Porcini, cioe' la guida e la scheda «Iscriviti» non
   // uscivano mai. Con 'alterna' partecipano tutt'e tre, e quando il video
@@ -9905,13 +9906,50 @@ function loadDefaultMarkers(){
     ganciopx: 19,
     canale: 'Avventure Micologiche'
   };
+  VETRINE.ovoli = {
+    // Short degli OVOLI del 5/9/2026, uscito anche su Facebook e Instagram:
+    // stesso video su tutt'e tre, quindi i bottoni social ci vanno.
+    // ⚠️ Nessun `da`: e' gia' online, la vetrina parte subito. Scadenza
+    // lontana come per il regius, perche' uno Short cosi' non invecchia.
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtube.com/shorts/y0P_TxcIKuQ',
+    id: 'y0P_TxcIKuQ',
+    // ⚠️ L'indirizzo di Facebook e' quello CANONICO del reel, non il link
+    // `share/r/...` che si copia dall'app: quello e' una redirezione con
+    // dentro i parametri di tracciamento di chi l'ha condiviso.
+    facebook: 'https://www.facebook.com/reel/1119754967245480',
+    instagram: 'https://www.instagram.com/reel/Dc6VzA1N_VJ/',
+    // Copertina di uno SHORT, stessa ricetta del regius: sorgente verticale
+    // (`oar2.jpg`, 1080x1920) e ritaglio della fascia centrale a 480x270.
+    // ⚠️ La fascia centrale serve anche a TOGLIERE il timbro «ANTEPRIMA»
+    // che sta in alto a sinistra nel fotogramma: qui dentro e' il video di
+    // adesso, non l'anticipo di un altro, e quel timbro confonderebbe.
+    copertina: 'vetrina-ovoli.jpg',
+    occhiello: 'Short',
+    occhielloP: 'Short',
+    bottone: 'GUARDA LO SHORT',
+    // Titolo vero: «OVOLI IN DIRETTA, 16 GIORNI DOPO LA PIOGGIA». Due righe,
+    // a capo DECISO sulla virgola.
+    gancio1: 'Ovoli in diretta:',
+    gancio2: '16 giorni dopo la pioggia',
+    // ⚠️ IL CORPO LO DETTA LA RIGA PIU' LUNGA, e qui e' la SECONDA.
+    // Misurato sulla colonna da 199 px: «16 giorni dopo la pioggia» fa
+    // 190,7 px a 16 e 196,7 a 16,5, cioe' a 16,5 restano 2,3 px e non
+    // bastano. A 16 ne restano 8,3, lo stesso margine tenuto sugli altri
+    // due. E' piu' piccolo del regius (19) solo perche' la riga e' piu'
+    // lunga: la regola non cambia.
+    // ⚠️ Provato ad accorciare in «16 giorni dopo l'acqua», che avrebbe
+    // retto 18 px, e scartato: «pioggia» e' la parola del sito.
+    ganciopx: 16,
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['video','regius'].forEach(function(k){
+    ['video','regius','ovoli'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
@@ -9920,9 +9958,10 @@ function loadDefaultMarkers(){
     // fuori la guida al pluviometro e fuori la scheda «Iscriviti», che dal
     // 31/8 pescava una volta su tre e si mangiava le aperture delle vetrine.
     // La scheda «Iscriviti» resta comunque il RIPIEGO: se nessun video e' in
-    // corso `scelte` e' vuoto, si esce, e in pagina resta il markup di sempre
-    // — cioe' quando il 7/9 scade l'uscita dei Porcini resta il solo Short,
-    // e quando scadra' anche quello torna «Iscriviti» da sola.
+    // corso `scelte` e' vuoto, si esce, e in pagina resta il markup di sempre.
+    // ⚠️ SONO TRE, dal pomeriggio del 5/9: il lungo dei Porcini, il regius
+    // e gli ovoli. Il lungo scade il 7/9 e da li' in poi la moneta e' a due
+    // facce, senza che nessuno pubblichi niente.
     // Per rimetterle in gara: la chiave `guida` nell'elenco qui sopra e la
     // riga `scelte.push('iscriviti')` qui.
     if(!scelte.length) return;
