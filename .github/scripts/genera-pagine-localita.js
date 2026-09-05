@@ -315,7 +315,7 @@ radar, che mostra dove sta piovendo in questo momento, le ultime due ore e i qua
 seguenti.</p>
 <a href="${SITO}/?r=${REG}&amp;${PIN}&amp;radar=ora" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">
-  <span class="vai-mappa">Guarda la diretta radar ${esc(DOVE)} →</span>
+  <span class="vai-mappa">Guarda il radar della pioggia ${esc(DOVE)} →</span>
 </a>
 <p class="nota">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di
 risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a

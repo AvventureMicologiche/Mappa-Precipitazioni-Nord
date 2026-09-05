@@ -260,7 +260,7 @@ function pagina(z) {
 'seguenti.</p>\n' +
 '<a href="' + SITO + '/?r=' + casa.k + '&amp;' + PIN + '&amp;radar=ora" style="display:block;text-decoration:none;"\n' +
 '   onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-' + zslug + '-radar\'})}catch(e){}">\n' +
-'  <span class="vai-mappa">Guarda la diretta radar ' + esc(z.dove) + ' →</span>\n' +
+'  <span class="vai-mappa">Guarda il radar della pioggia ' + esc(z.dove) + ' →</span>\n' +
 '</a>\n' +
 "<p class=\"nota\">⚠️ Il radar <b>non è un pluviometro</b>: è una misura presa dal cielo, a 2 km di\n" +
 'risoluzione, e inquadra tutta la regione. Serve a vedere <i>dove</i> sta piovendo adesso, non a\n' +
