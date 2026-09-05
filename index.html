@@ -10255,17 +10255,24 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     cu.parentNode.insertBefore(riga,cu); riga.appendChild(cu);
     cu.innerHTML='<span class="rd-ic">\uD83D\uDCC5</span> Scegli date';
     var b=document.createElement('div');
-    /* ⚠️ IL NOME E' «DIRETTA RADAR» (31/8/2026, sua proposta).
-       MISURATO a 360 px, altezza del tasto contro i 54 px del gemello
-       «Scegli date»: «Radar meteo» 54, «Diretta radar» 54, ma
-       «Radar in diretta» 77 e «Radar meteo live» 77, cioe' vanno a capo
-       e fanno lo scalino che si nota subito. Restano quindi solo le
-       forme corte.
-       Fra le due si sceglie «Diretta radar» perche' messa accanto
-       all'altro tasto la coppia si legge «Scegli date | Diretta radar»:
-       il passato e l'adesso, che e' esattamente la differenza fra i due
-       modi. E dice «live» in italiano, che era la parola chiesta. */
-    b.className='tp-custom-btn rd-btn'; b.id='btn-radar'; b.innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Diretta radar';
+    /* ⚠️ IL NOME DICE «PIOGGIA», dal 5/9/2026, e il motivo e' un
+       fraintendimento vero: «radar» da solo fa aspettare le NUVOLE, e noi
+       mostriamo dove sta CADENDO l'acqua. Chi apre e vede le macchie
+       colorate deve gia' sapere cosa sono.
+       ⚠️ MISURATO a 360 px (l'altezza del tasto contro i 55 del gemello
+       «Scegli date»: se cresce a 77 il nome e' andato a capo e si vede lo
+       scalino). Su UNA riga ci stanno solo quattro nomi: «Diretta radar»,
+       «Radar pioggia», «Radar piogge» e «Pioggia ora». Vanno a capo
+       «Dove piove ora», «Pioggia adesso», «Piogge in diretta» e
+       «Radar delle piogge» — a 390 px alcune reggono, ma il tetto lo
+       detta il telefono piu' stretto.
+       Fra le quattro si tiene «Radar pioggia»: dice tutt'e due le cose
+       (che e' un radar e che si guarda l'acqua) e accanto all'altro tasto
+       la coppia resta leggibile, «Scegli date | Radar pioggia».
+       ⚠️ Il nome sta in DUE posti, qui e nel ripristino di `esci()`:
+       cambiarne uno solo lascia il tasto col nome vecchio dopo la prima
+       uscita dal radar. */
+    b.className='tp-custom-btn rd-btn'; b.id='btn-radar'; b.innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Radar pioggia';
     riga.appendChild(b);
     b.addEventListener('click',function(){ acceso?esci():entra(); });
     // ⚠️ Il tasto «Indietro» della legenda chiama hideLegendMobile(), che in
@@ -10406,7 +10413,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     if(!acceso) return;
     acceso=false; sorveglia(false); pulisci(); ultimoBuono=null; window._radarModo=null;
     document.body.classList.remove('modo-radar');
-    el('btn-radar').innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Diretta radar';
+    el('btn-radar').innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Radar pioggia';
     heat(true); pallini(true);
     /* ⚠️ USCENDO SI TORNA ALL'INQUADRATURA STANDARD DELLA REGIONE, non alla
        vista che c'era prima di entrare (cambiato il 31/8/2026 su sua
@@ -10558,8 +10565,13 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function segna(id){
     [].forEach.call(document.querySelectorAll('.rd-d'),function(c){ c.classList.toggle('on', c.dataset.id===id); });
     var t=el('leg-title');
-    var tit={ora:'Radar · adesso', due:'Radar · ultime 2 ore',
-             prev:'Radar · prossimi 40 minuti'}[id];
+    /* ⚠️ «RADAR» DA SOLO NON BASTA (5/9/2026): chi legge «radar» si
+       aspetta le nuvole, e invece le macchie colorate sono la PIOGGIA che
+       cade. Il titolo del pannello e' l'unico posto sopra la scala dei
+       colori, quindi lo dice li' — e non costa un pixel, perche' la riga
+       c'era gia'. */
+    var tit={ora:'Radar pioggia · adesso', due:'Radar pioggia · ultime 2 ore',
+             prev:'Radar pioggia · prossimi 40 minuti'}[id];
     if(t){ if(t._vecchio==null) t._vecchio=t.textContent; t.textContent=tit; }
   }
 
