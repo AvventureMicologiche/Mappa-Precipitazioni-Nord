@@ -9800,6 +9800,9 @@ function loadDefaultMarkers(){
   // un deploy per metterla e poi zero, per sempre. Quando le date di scadenza
   // saranno passate tutte e due, la scheda «Iscriviti» torna da sola senza che
   // nessuno pubblichi niente.
+  // 5/9/2026: arriva lo Short sul Butyriboletus regius e, per decisione
+  // dell'utente, in gara restano SOLO i due video: fuori la guida al
+  // pluviometro e fuori la scheda «Iscriviti» (che resta il ripiego).
   // 4/9/2026: sorteggio a tre. Fino a ieri era inchiodato su 'video' per
   // l'uscita dei Porcini, cioe' la guida e la scheda «Iscriviti» non
   // uscivano mai. Con 'alterna' partecipano tutt'e tre, e quando il video
@@ -9867,18 +9870,63 @@ function loadDefaultMarkers(){
     ganciopx:16.5,
     canale:'Avventure Micologiche'
   };
+  VETRINE.regius = {
+    // Short del 5/9/2026, pubblicato anche su Facebook e Instagram: e' lo
+    // STESSO video su tutt'e tre, quindi qui i bottoni social CI VANNO (a
+    // differenza dell'uscita del 2/9, dove i corti social erano altri video e
+    // i campi erano vuoti apposta).
+    // ⚠️ `facebook` E' VUOTO PERCHE' IL LINK NON CE L'HO, non per scelta:
+    // sulla pillola escono due bottoni invece di tre. Appena arriva si mette
+    // qui e basta.
+    // ⚠️ Nessun `da`: il video e' gia' online, la vetrina parte subito.
+    // Scadenza lontana perche' uno Short cosi' non invecchia: per toglierlo
+    // prima basta spostare indietro questa data, e non costa un deploy
+    // perche' la valuta il browser.
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtube.com/shorts/Uvpf0knhgAw',
+    id: 'Uvpf0knhgAw',
+    facebook: '',
+    instagram: 'https://www.instagram.com/reel/Dc3_tWkwlID/',
+    // ⚠️ Copertina di uno SHORT: la sorgente e' VERTICALE (`oar2.jpg`,
+    // 1080x1920) e si ritaglia la fascia centrale a 480x270, che e' il formato
+    // di tutte le copertine del sito. `maxresdefault.jpg` di uno Short e'
+    // ORIZZONTALE e mostra il fotogramma sbagliato.
+    copertina: 'vetrina-regius.jpg',
+    occhiello: 'Short',
+    occhielloP: 'Short',
+    bottone: 'GUARDA LO SHORT',
+    // Titolo vero: «Butyriboletus Regius il fungo piu' sottovalutato e
+    // ribaltato». Nella colonna da 199 px non ci sta: due righe, a capo
+    // DECISO dopo il nome.
+    gancio1: 'Butyriboletus regius:',
+    gancio2: 'il fungo sottovalutato',
+    // ⚠️ IL CORPO LO DETTA LA RIGA PIU' LUNGA. Misurato il 5/9 nella colonna
+    // da 199 px: «il fungo sottovalutato» fa 152,5 px a 15 e 188,1 a 18,5,
+    // cioe' restano 10,9 px di margine — piu' largo dei 7,4 tenuti sui
+    // Porcini, che e' la prudenza giusta per i font resi altrove.
+    ganciopx: 18.5,
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['video','guida'].forEach(function(k){
+    ['video','regius'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
     });
-    scelte.push('iscriviti');   // ⚠️ anche la scheda canale partecipa al sorteggio
+    // ⚠️ DAL 5/9/2026 IN GARA CI SONO SOLO I VIDEO. Decisione dell'utente:
+    // fuori la guida al pluviometro e fuori la scheda «Iscriviti», che dal
+    // 31/8 pescava una volta su tre e si mangiava le aperture delle vetrine.
+    // La scheda «Iscriviti» resta comunque il RIPIEGO: se nessun video e' in
+    // corso `scelte` e' vuoto, si esce, e in pagina resta il markup di sempre
+    // — cioe' quando il 7/9 scade l'uscita dei Porcini resta il solo Short,
+    // e quando scadra' anche quello torna «Iscriviti» da sola.
+    // Per rimetterle in gara: la chiave `guida` nell'elenco qui sopra e la
+    // riga `scelte.push('iscriviti')` qui.
     if(!scelte.length) return;
     // ⚠️ IL DADO SI TIRA A OGNI APERTURA, e la scelta NON si ricorda.
     // Prima restava appiccicata alla persona (localStorage 'vetrina'): chi
