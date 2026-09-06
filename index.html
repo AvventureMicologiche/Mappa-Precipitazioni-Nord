@@ -387,7 +387,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    Stessa tavolozza dei pannelli (blu #1b3f6e, fondo #f0f4fb, bordo #d0d8e8):
    la casella deve sembrare parte del pannello, non un pezzo appiccicato. */
 /* Su DESKTOP la casella sta in alto a DESTRA, appoggiata sopra il pannello
-   «Iscriviti» e allineata a lui (right:14px, width:368px): formano una colonna
+   «Iscriviti» e allineata a lui (right:14px, width:414px): formano una colonna
    sola. Il primo giro l'aveva messa in alto a sinistra, di fianco ai tasti
    dello zoom, ma quel lato è già la colonna del lavoro — hint, periodo,
    legenda — e la casella ci finiva in mezzo. A destra sopra c'era il vuoto. */
@@ -396,7 +396,9 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    della localita' (che stava gia' qui) e «La mia posizione». Le coordinate
    assolute sono passate dalla casella alla CORNICE, ed e' la cornice che
    trasloca dentro la tendina sotto i 900px. */
-#novita-box{position:absolute;top:52px;right:14px;width:368px;z-index:1001;box-sizing:border-box;
+/* ⚠️ Larga quanto la scheda qui sotto (414 px dal 6/9/2026): le due formano
+   una colonna sola, e se una delle due cambia larghezza si sfalsano. */
+#novita-box{position:absolute;top:52px;right:14px;width:414px;z-index:1001;box-sizing:border-box;
   background:rgba(255,255,255,.96);border:1px solid #378ADD;border-radius:10px;
   padding:8px 9px 9px;box-shadow:0 2px 10px rgba(0,0,0,.13);}
 #novita-testa{display:flex;align-items:center;margin-bottom:7px;}
@@ -773,7 +775,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 #channel-logo{
   position:absolute;top:100px;right:14px;z-index:1000;
   display:block;
-  width:368px;padding:12px 13px 13px;
+  width:414px;padding:12px 13px 13px;
   background:rgba(255,255,255,.92);
   border:1px solid rgba(226,224,216,.85);
   border-radius:13px;
@@ -907,8 +909,24 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    la scheda in tutte e due le versioni, video e «Iscriviti». */
 #channel-logo.nascosta{display:none;}
 #channel-logo .v-alto{display:flex;gap:11px;align-items:stretch;}
-#channel-logo .v-cop{width:130px;height:73px;flex:none;border-radius:7px;
+/* ⚠️ LA COPERTINA E LA LARGHEZZA DELLA SCHEDA SI MUOVONO INSIEME (6/9/2026).
+   La colonna del testo qui accanto e' `flex:1`, cioe' si prende quello che
+   avanza: allargando solo la copertina si sarebbe mangiata il testo, e i
+   `ganciopx` delle vetrine sono tutti misurati sui suoi 199 px. Allargando
+   invece anche `#channel-logo` della stessa quantita', la colonna resta
+   199 e non si tocca nessun titolo. Se un giorno si cambia una di queste
+   due misure, va cambiata anche l'altra, e con loro `#novita-box`. */
+#channel-logo .v-cop{width:176px;height:99px;flex:none;border-radius:7px;
   background:#e8e5dc center/cover no-repeat;box-shadow:0 1px 5px rgba(0,0,0,.28);}
+/* ⚠️ SOTTO I 900 px LA SCHEDA TORNA ALLA MISURA VECCHIA. MISURATO a 734 px:
+   il pannello del periodo arriva a 328 e la scheda larga 414 parte da 192,
+   cioe' se ne fa coprire 136 px invece dei 90 di prima. La copertina grande
+   e' un lusso da schermo largo: sotto i 600 la scheda non si vede proprio,
+   e in mezzo si tiene quella che non da' fastidio. */
+@media (max-width:900px){
+  #channel-logo{width:368px;}
+  #channel-logo .v-cop{width:130px;height:73px;}
+}
 #channel-logo .v-dx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;}
 #channel-logo .v-occhio{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;
   letter-spacing:.8px;color:#FF0000;text-transform:uppercase;}
@@ -9771,23 +9789,45 @@ function loadDefaultMarkers(){
   // Vale SEMPRE, non solo durante la vetrina: dal 28/8 la vetrina scade ma la
   // scheda «Iscriviti» e' alta uguale, e resterebbe piantata sopra la mappa.
   // I segnali sono quelli che il sito gia' produce: il badge dell'header
-  // (svuotato da setBadge('') dentro resetToStart, cioe' «Indietro») e la
-  // rotella sulla mappa, che si accende al primo istante del calcolo. Servono
-  // tutti e due: con la sola rotella la scheda tornerebbe a fine analisi, col
-  // solo badge resterebbe li' per tutta l'attesa. Non si tocca nessuna
-  // funzione esistente, si guardano gli elementi.
+  // (svuotato da setBadge('') dentro resetToStart, cioe' «Indietro»), la
+  // rotella sulla mappa, che si accende al primo istante del calcolo, e la
+  // riga di stato del pannello periodo. Servono tutti e tre: con la sola
+  // rotella la scheda tornerebbe a fine analisi, col solo badge resterebbe
+  // li' per tutta l'attesa. Non si tocca nessuna funzione esistente, si
+  // guardano gli elementi.
+  //
+  // ⚠️ LA RIGA DI STATO E' STATA AGGIUNTA IL 5/9/2026, e serve a togliere un
+  // LAMPO segnalato dall'utente: con la data gia' scelta, aggiungendo o
+  // togliendo una regione sulla mappa la vetrina ricompariva per un attimo e
+  // spariva di nuovo. Misurato in locale aggiungendo l'Umbria a un'analisi
+  // finita: a 30 ms setBadge('') svuota il badge mentre la rotella e' ancora
+  // spenta, quindi i due soli segnali dicevano «nessuna analisi»; il
+  // caricamento parte solo dopo, per via del debounce di 550 ms che aspetta
+  // le altre spunte. In mezzo la scheda tornava.
+  // In quella finestra pero' la riga di stato dice gia' «⏳ aggiorno (3
+  // regioni)», e durante il calcolo dice «⏳ Calcolo mappa…»: la clessidra e'
+  // quindi il segnale esatto di «c'e' qualcosa in corso», e non serve
+  // inventarsi un ritardo a occhio. I tre segnali si sovrappongono senza
+  // buchi: la rotella si accende nello stesso millisecondo in cui la riga di
+  // stato si svuota (misurato: 1.884 ms tutt'e due).
+  // ⚠️ Basta CERCARE la clessidra, non guardare l'inizio della riga: i
+  // messaggi che non sono un'attesa («Nessuna pioggia», «Caricamento
+  // timeout») hanno altri simboli e non la contengono.
   try{
     var scheda=document.getElementById('channel-logo');
     var _badge=document.getElementById('badge');
     var _rotella=document.getElementById('map-spinner');
+    var _stato=document.getElementById('tp-status');
     if(scheda){
       var aggiornaScheda=function(){
         var analisi=(_badge && _badge.textContent.trim()!=='')
-                 || (_rotella && _rotella.style.display==='flex');
+                 || (_rotella && _rotella.style.display==='flex')
+                 || (_stato && _stato.textContent.indexOf('⏳')>-1);
         scheda.classList.toggle('nascosta',!!analisi);
       };
       if(_badge) new MutationObserver(aggiornaScheda).observe(_badge,{childList:true,characterData:true,subtree:true});
       if(_rotella) new MutationObserver(aggiornaScheda).observe(_rotella,{attributes:true,attributeFilter:['style']});
+      if(_stato) new MutationObserver(aggiornaScheda).observe(_stato,{childList:true,characterData:true,subtree:true});
       aggiornaScheda();
     }
   }catch(e){}
@@ -9839,7 +9879,9 @@ function loadDefaultMarkers(){
     // si accende DA SOLA sul browser di chi apre: un deploy solo, e all'ora
     // esatta. Come lo spegnimento, non costa niente (lo valuta il browser).
     da:'2026-09-02T18:00:00+02:00',
-    fino:'2026-09-07T23:59:59+02:00',
+    // ⚠️ ANTICIPATA dal 7/9 al 6/9 alle 17:59: si fa da parte nel minuto
+    // esatto in cui si accende l'uscita nuova, cosi' non si sovrappongono.
+    fino:'2026-09-06T17:59:59+02:00',
     link:'https://youtu.be/2tl0g4bhWG8',
     id:'2tl0g4bhWG8',
     // ⚠️ VUOTI APPOSTA, deciso dall'utente il 2/9. I due corti su Facebook e
@@ -9880,6 +9922,10 @@ function loadDefaultMarkers(){
     // Scadenza lontana perche' uno Short cosi' non invecchia: per toglierlo
     // prima basta spostare indietro questa data, e non costa un deploy
     // perche' la valuta il browser.
+    // ⚠️ FUORI DAL SORTEGGIO dal 6/9/2026, per decisione dell'utente: in
+    // vetrina resta il solo video lungo, e si cambia a mano. Questa scheda
+    // e' pronta e non scade: per rimetterla in gara basta riaggiungere
+    // 'regius' all'elenco del sorteggio, piu' sotto.
     fino: '2027-12-31T23:59:59+01:00',
     link: 'https://youtube.com/shorts/Uvpf0knhgAw',
     id: 'Uvpf0knhgAw',
@@ -9911,6 +9957,7 @@ function loadDefaultMarkers(){
     // stesso video su tutt'e tre, quindi i bottoni social ci vanno.
     // ⚠️ Nessun `da`: e' gia' online, la vetrina parte subito. Scadenza
     // lontana come per il regius, perche' uno Short cosi' non invecchia.
+    // ⚠️ Fuori dal sorteggio come il regius: vedi li' il perche'.
     fino: '2027-12-31T23:59:59+01:00',
     link: 'https://youtube.com/shorts/y0P_TxcIKuQ',
     id: 'y0P_TxcIKuQ',
@@ -9943,13 +9990,48 @@ function loadDefaultMarkers(){
     ganciopx: 16,
     canale: 'Avventure Micologiche'
   };
+  VETRINE.lungo16 = {
+    // Uscita LUNGA del 6/9/2026 alle 18: «PORCINI E OVOLI 2026 16 GIORNI DOPO
+    // I TEMPORALI». E' il video di cui i due Short (regius e ovoli) sono
+    // l'anteprima, e infatti da domani sera si alternano con lui.
+    da: '2026-09-06T18:00:00+02:00',
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtu.be/oCgBZBEwi4k',
+    id: 'oCgBZBEwi4k',
+    // ⚠️ VUOTI APPOSTA, come per l'uscita lunga del 2/9. Su Facebook e
+    // Instagram ci sono i CORTI, che sono altri video: coi tre bottoni chi
+    // clicca non trova quello che gli e' stato promesso, e i clic si
+    // spezzerebbero proprio nell'ora di lancio. Se un giorno il lungo esce
+    // anche li', questi due campi si riempiono e i bottoni compaiono da soli.
+    facebook: '',
+    instagram: '',
+    // Video lungo, quindi copertina NORMALE: `maxresdefault.jpg` e' gia' 16:9
+    // (1280x720) e basta ridurlo a 480x270. Il ritaglio da `oar2.jpg` serve
+    // solo per gli Short.
+    copertina: 'vetrina-16gg.jpg',
+    // Titolo vero: «PORCINI E OVOLI 2026 16 GIORNI DOPO I TEMPORALI». Due
+    // righe, a capo DECISO dopo il nome.
+    gancio1: 'Porcini e ovoli 2026:',
+    gancio2: '16 giorni dopo i temporali',
+    // ⚠️ IL CORPO LO DETTA LA RIGA PIU' LUNGA, e qui e' la SECONDA.
+    // Misurato sulla colonna da 199 px: «16 giorni dopo i temporali» fa
+    // 191,9 px a 15,5 e 198,1 a 16, cioe' a 16 resta meno di un pixel.
+    // ⚠️ E' il corpo piu' piccolo delle quattro vetrine, e si e' scelto lo
+    // stesso: spezzando in «Porcini e ovoli: 16 giorni» + «dopo i temporali»
+    // si sarebbe saliti a 16,5, ma l'a capo cadeva in mezzo alla frase e il
+    // testo restava sfrangiato. E' la stessa scelta fatta il 2/9 sui Porcini.
+    // Togliere «i temporali» avrebbe retto 20 px, ma quella e' la parola che
+    // lega la pioggia ai funghi, cioe' il senso del sito.
+    ganciopx: 15.5,
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['video','regius','ovoli'].forEach(function(k){
+    ['video','lungo16'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
@@ -9959,9 +10041,14 @@ function loadDefaultMarkers(){
     // 31/8 pescava una volta su tre e si mangiava le aperture delle vetrine.
     // La scheda «Iscriviti» resta comunque il RIPIEGO: se nessun video e' in
     // corso `scelte` e' vuoto, si esce, e in pagina resta il markup di sempre.
-    // ⚠️ SONO TRE, dal pomeriggio del 5/9: il lungo dei Porcini, il regius
-    // e gli ovoli. Il lungo scade il 7/9 e da li' in poi la moneta e' a due
-    // facce, senza che nessuno pubblichi niente.
+    // ⚠️ IN GARA CE N'E' UNA SOLA PER VOLTA, dal 6/9/2026. Il cambio della
+    // guardia di stasera lo fanno le date, senza pubblicare niente:
+    //   fino alle 17:59  -> il lungo dei Porcini del 2/9, che li' scade;
+    //   dalle 18:00      -> l'uscita nuova, e RESTA finche' non la cambia
+    //                       lui a mano (decisione del 6/9).
+    // I due Short sono scritti qui sopra ma NON sono in questo elenco,
+    // quindi non partecipano: per rimetterli in rotazione si aggiungono
+    // qui, e da quel momento la moneta torna a tre facce.
     // Per rimetterle in gara: la chiave `guida` nell'elenco qui sopra e la
     // riga `scelte.push('iscriviti')` qui.
     if(!scelte.length) return;
