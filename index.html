@@ -794,8 +794,12 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   100%{transform:scale(1);}
 }
 #channel-logo:hover .ch-ava{animation:archieTada .85s ease;}
+/* ⚠️ LA FACCIA E' DA 104 DAL 6/9/2026, e non e' un vezzo: allargando la
+   scheda a 414 la colonna del nome e' cresciuta di 46 px e quelli sono
+   diventati aria. Con la faccia da 104 la colonna torna a 268 e il blocco
+   e' pieno. */
 #channel-logo .ch-ava{
-  width:80px;height:80px;border-radius:50%;flex:none;
+  width:104px;height:104px;border-radius:50%;flex:none;
   border:2px solid #1b3f6e;object-fit:cover;background:#f3efe6;
 }
 /* Le righe che esistono solo nella scheda «Iscriviti». La classe `v-iscr` sta
@@ -805,14 +809,22 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    piccole e distanziate lasciava un buco bianco in mezzo alla scheda. */
 #channel-logo .v-alto.v-iscr{align-items:center;}
 #channel-logo .v-occhio.v-iscr{font-size:12px;margin-bottom:3px;}
+/* ⚠️ QUESTA MISURA NON COMANDA: piu' sotto c'e' un'altra regola sul
+   nome, e in CSS vince l'ultima. Il corpo vero si cambia li'. */
 #channel-logo .v-nome{font-size:23px;line-height:1.02;color:#1b3f6e;letter-spacing:-.3px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;font-weight:900;}
-#channel-logo .v-sotto{font-size:13px;font-weight:600;color:#3f5a7a;margin-top:4px;line-height:1.15;}
-/* ⚠️ 21 E NON 23 (31/8/2026). A 23 px «Avventure Micologiche» NON ci sta nella
-   colonna accanto ad Archie e va a capo in «Avventure» / «Micologiche»: era cosi'
-   da sempre. Misurato: la colonna e' larga 249 px, a 23 px il nome ne chiede di
-   piu', a 21 ci sta su UNA riga. Archie resta 80 px. */
-#channel-logo .v-nome{font-size:21px;}
+#channel-logo .v-sotto{font-size:13.5px;font-weight:600;color:#3f5a7a;margin-top:4px;line-height:1.15;}
+/* ⚠️ LA REGOLA CHE COMANDA sul nome del canale: e' l'ultima, quindi vince
+   su quella scritta piu' in alto.
+   ~~21 e non 23 (31/8/2026)~~ — 21 era giusto quando la colonna era larga
+   249 px. Dal 6/9/2026 la scheda e' 414 e la faccia 104, la colonna e'
+   diventata 268, e a 23 px il nome ne chiede 256,3: ci sta con 11,7 px di
+   margine, su UNA riga.
+   ⚠️ NON si sale a 24: ne chiede 267,7 su 268, restano 0,3 px, e i
+   caratteri resi altrove escono un filo piu' larghi.
+   ⚠️ Sotto i 900 px la scheda torna a 368 e la faccia a 80: li' la colonna
+   e' di nuovo 249 e il nome torna a 21, nel blocco @media piu' sotto. */
+#channel-logo .v-nome{font-size:23px;}
 /* Il ringraziamento sta SOTTO, a tutta larghezza: nella colonna stretta
    andrebbe a capo quattro volte e la scheda diventerebbe una colonna
    sbilenca. ⚠️ Quando parte la vetrina l'innerHTML di #channel-logo viene
@@ -820,7 +832,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
    cambia di un pixel. */
 #channel-logo .v-grazie{margin-top:9px;padding-top:9px;
   border-top:1px solid rgba(27,63,110,.14);
-  font-size:13px;line-height:1.35;color:#3f5a7a;font-weight:600;}
+  font-size:14.5px;line-height:1.4;color:#3f5a7a;font-weight:600;}
 #channel-logo .v-grazie b{color:#1b3f6e;font-weight:800;}
 #channel-logo .v-btn.v-iscr{font-size:17px;margin-top:9px;padding:9px 0 10px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;}
@@ -926,6 +938,11 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 @media (max-width:900px){
   #channel-logo{width:368px;}
   #channel-logo .v-cop{width:130px;height:73px;}
+  /* Con la scheda stretta torna stretta anche la scheda del canale: con la
+     faccia da 104 la colonna del nome scende a 227 px e «Avventure
+     Micologiche» va a capo. Misurato a 800 px. */
+  #channel-logo .ch-ava{width:80px;height:80px;}
+  #channel-logo .v-nome{font-size:21px;}
 }
 #channel-logo .v-dx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;}
 #channel-logo .v-occhio{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;
@@ -1474,9 +1491,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <div class="v-dx">
           <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
           <div class="v-nome">Avventure Micologiche</div>
+          <div class="v-sotto">Oltre 5.700 pluviometri veri</div>
         </div>
       </div>
-      <div class="v-grazie"><b>Grazie a tutti:</b> avete fatto oltre <b>40.000 analisi</b> in poche settimane. Se vi siamo stati utili, lasciate un like e un'iscrizione.</div>
+      <div class="v-grazie"><b>Grazie a tutti</b>, più di <b>1.000 analisi al giorno</b>. Se serve anche a te, <b>iscriviti al canale</b>: le uscite le raccontiamo lì.</div>
       <div class="v-btn v-iscr">ISCRIVITI</div>
     </a>
 
@@ -1727,7 +1745,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
          onclick="try{gtag('event','click_youtube',{pulsante:'pillola-mobile'})}catch(e){}"
          id="channel-pill">
         <img src="archie-avatar.png" alt="Archie">
-        <div class="cp-t">Grazie: oltre 40.000 analisi<small>Lasciate un like e un'iscrizione</small></div>
+        <div class="cp-t">Più di 1.000 analisi al giorno<small>Grazie a tutti · iscriviti al canale</small></div>
         <div class="cp-yt">
           <svg width="26" height="19" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect width="42" height="30" rx="6" fill="#FF0000"/>
@@ -9957,8 +9975,11 @@ function loadDefaultMarkers(){
     // stesso video su tutt'e tre, quindi i bottoni social ci vanno.
     // ⚠️ Nessun `da`: e' gia' online, la vetrina parte subito. Scadenza
     // lontana come per il regius, perche' uno Short cosi' non invecchia.
-    // ⚠️ Fuori dal sorteggio come il regius: vedi li' il perche'.
-    fino: '2027-12-31T23:59:59+01:00',
+    // ⚠️ IN VETRINA FINO A STASERA, poi si fa da parte per il video lungo
+    // di cui e' l'anteprima. Non e' una scadenza definitiva: per
+    // riaccenderlo un altro giorno basta spostare avanti questa data, e
+    // non costa un deploy perche' la valuta il browser.
+    fino: '2026-09-06T17:59:59+02:00',
     link: 'https://youtube.com/shorts/y0P_TxcIKuQ',
     id: 'y0P_TxcIKuQ',
     // ⚠️ L'indirizzo di Facebook e' quello CANONICO del reel, non il link
@@ -10031,11 +10052,21 @@ function loadDefaultMarkers(){
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['video','lungo16'].forEach(function(k){
+    ['lungo16','ovoli'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
     });
+    // ⚠️ LA SCHEDA «ISCRIVITI» IN GARA, MA SOLO FINO ALLE 17:59 DI OGGI.
+    // Il `push` sta dentro un controllo sull'ora e non fuori: senza quel
+    // controllo resterebbe in gara per sempre e si mangerebbe meta' delle
+    // aperture del video nuovo, che e' esattamente quello che era successo
+    // dal 31/8 al 5/9. Quando la data passa, il ramo si spegne da solo e
+    // non serve pubblicare niente.
+    // ⚠️ Non e' una vetrina e non sta in VETRINE: quando vince, `V` resta
+    // vuoto, il `return` qui sotto lascia in pagina il markup di sempre,
+    // che e' gia' la scheda del canale.
+    if(ora <= new Date('2026-09-06T17:59:59+02:00').getTime()) scelte.push('iscriviti');
     // ⚠️ DAL 5/9/2026 IN GARA CI SONO SOLO I VIDEO. Decisione dell'utente:
     // fuori la guida al pluviometro e fuori la scheda «Iscriviti», che dal
     // 31/8 pescava una volta su tre e si mangiava le aperture delle vetrine.
