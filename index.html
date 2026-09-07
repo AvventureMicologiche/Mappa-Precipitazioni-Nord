@@ -1382,9 +1382,79 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
      ARPA Lombardia». Qui resta solo come valore di partenza.
      Il corpo passa da 8 a 10px: a 8 non si legge (segnalato dall'utente
      su Android), a 10 si legge e resta una scritta di servizio. */
-  .fonte-tag{bottom:auto;top:66px;font-size:10px;background:rgba(255,255,255,.92);}
+  /* ⚠️ VA A CAPO, NON ESCE. Era `nowrap` come sul computer, e con tre
+     regioni la riga delle fonti («ARPA Liguria + OASI Ticino +
+     MeteoSvizzera + ARPA Piemonte») usciva dallo schermo tagliata.
+     Difetto vecchio, ma il multiregione la fa vedere spesso. */
+  /* ⚠️ UNA RIGA SOLA, MAI DUE: due righe coprono troppa mappa. Le fonti
+     che non ci stanno le toglie `accorciaFonti()` da destra, lasciando
+     un «…». `width:max-content` ci vuole lo stesso: la targhetta e'
+     `left:50%` con la traslazione, e senza quello il browser le da' per
+     disponibile la sola meta' destra (180 px su 360). E `overflow:hidden`
+     serve a misurare se sfora (scrollWidth contro clientWidth). */
+  .fonte-tag{bottom:auto;top:66px;font-size:10px;background:rgba(255,255,255,.92);
+    white-space:nowrap;width:max-content;max-width:calc(100% - 16px);
+    overflow:hidden;text-align:center;}
 }
 
+/* ── AGGIUNGI LA CONFINANTE (6/9/2026, solo test) ─────────────────── */
+/* Sul computer non si vede: li' ci sono le caselle da spuntare. */
+#vic-riga{display:none;}
+@media(max-width:900px){
+  /* ⚠️ SENZA min-width:0 LA RIGA NON TAGLIA E QUINDI NON SCORRE: dentro un
+     contenitore flex un elemento non scende sotto la larghezza del proprio
+     contenuto (misurato: 1077 px di riga su uno schermo da 375). */
+  #region-panel .tp-content{min-width:0;}
+  #vic-riga.c{display:flex;gap:6px;align-items:center;overflow-x:auto;
+    padding:7px 2px 1px;margin:0;scrollbar-width:none;
+    width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+  #vic-riga.c::-webkit-scrollbar{display:none;}
+  .vic-chip{flex:0 0 auto;border:1px solid #cfd8ea;background:#fff;
+    color:#1b3f6e;font-size:14px;font-weight:700;padding:7px 12px;
+    border-radius:17px;line-height:1;white-space:nowrap;cursor:pointer;
+    font-family:inherit;}
+  .vic-chip.on{background:#1b3f6e;border-color:#1b3f6e;color:#fff;}
+  .vic-chip.altre{background:#eef2f8;border-color:#c3cfe2;}
+  /* Larghe uguali: a parita' di larghezza il testo sta piu' stretto,
+     quindi carattere e imbottitura calano un filo. Si mette solo dopo
+     aver controllato che i nomi ci stiano ancora tutti. */
+  .vic-chip.pari{font-size:13px;padding:8px 6px;text-align:center;
+    overflow:hidden;}
+  /* ⚠️ STRETTA DI SUO, LARGA SOLO DOPO LA MISURA. Al centro dello spazio
+     che avanza ci va con `flex:1`, ma se glielo si da' subito la sua
+     larghezza a video diventa tutto lo spazio libero e il controllo che
+     serve a non farla sforare la butta via sempre. Prima si misura
+     stretta, poi le si da' la classe `larga`. */
+  .vic-nota{flex:0 0 auto;font-size:15.5px;color:#3f5470;font-weight:700;
+    white-space:nowrap;padding-left:2px;}
+  .vic-nota.larga{flex:1 1 auto;min-width:0;text-align:center;
+    padding-left:0;}
+  #vic-altre{display:none;position:fixed;z-index:2200;background:#fff;
+    border:1px solid #cfd8ea;border-radius:12px;padding:5px;
+    box-shadow:0 12px 30px rgba(16,35,60,.24);max-height:52vh;
+    overflow-y:auto;}
+  #vic-altre.c{display:block;}
+  #vic-altre button{display:block;width:100%;text-align:left;border:0;
+    background:none;font-family:inherit;font-size:15px;font-weight:700;
+    color:#1b3f6e;padding:12px;border-radius:8px;cursor:pointer;}
+  #vic-altre button+button{border-top:1px solid #eef2f8;}
+  #vic-velo{display:none;position:fixed;inset:0;z-index:2150;}
+  #vic-velo.c{display:block;}
+  /* ⚠️ UNA RIGA SOLA. Con i nomi per esteso cinque pastiglie non ci
+     stanno in 346 px e la Francia andava a capo da sola. Con bandierina
+     e sigla ci stanno, e restano bersagli larghi perche' si dividono
+     tutta la riga in parti uguali. */
+  #naz-riga{display:flex;flex-wrap:nowrap;gap:5px;padding:0 0 9px;}
+  /* La tendina ha il fondo BLU SCURO, quindi qui i colori vanno al
+     contrario delle pastiglie sulla barra: se no la pastiglia accesa era
+     blu su blu e spariva, e le spente sembravano tutte scelte. */
+  .naz-chip{flex:1 1 0;min-width:0;border:1px solid rgba(255,255,255,.45);
+    background:transparent;color:#fff;font-size:14px;font-weight:700;
+    padding:9px 4px;border-radius:18px;line-height:1;white-space:nowrap;
+    cursor:pointer;font-family:inherit;text-align:center;
+    overflow:hidden;}
+  .naz-chip.on{background:#fff;border-color:#fff;color:#1b3f6e;}
+}
 </style>
 </head>
 <body>
@@ -1558,6 +1628,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         </div>
         <!-- Mobile: select dropdown -->
         <button id="reg-apri" type="button">Tocca qui per scegliere la regione ▼</button>
+        <div id="vic-riga"></div>
         <select id="region-select" class="region-select-mobile">
           <option value="">Tocca qui per scegliere la regione ▼</option>
           <!-- Prima l'estero, poi le regioni italiane (ordine scelto il 6/8/2026).
@@ -1641,6 +1712,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <div class="reg-testa"><span>DOVE VUOI GUARDARE?</span><button id="reg-chiudi" type="button" aria-label="Chiudi">×</button></div>
         <div id="reg-cerca-slot"></div>
         <div class="reg-oppure">OPPURE SCEGLI LA REGIONE</div>
+        <div id="naz-riga"></div>
         <div id="reg-lista"></div>
       </div>
     </div>
@@ -3897,6 +3969,13 @@ window.hideLegendMobile=hideLegendMobile;
 // pannello copre la mappa (tablet coi pannelli laterali) non tocca nulla.
 function centraRegioneInStriscia(){
   if(window.innerWidth>900) return;
+  /* ⚠️ COL RADAR ACCESO SI STA FERMI: l'inquadratura se la fa lui, che
+     chiama _fitRegioni, toglie un livello pieno e si corregge da solo il
+     pannello che copre il basso. Questa funzione in mezzo alzava lo zoom a
+     riempire la striscia e mezzo secondo dopo il radar riallargava
+     (misurato il 6/9/2026: 7,5 a 935 ms, 6,75 a 1554). Due movimenti dove
+     ne basta uno, ed e' proprio lo sfarfallio segnalato. */
+  if(document.body.classList.contains('modo-radar')) return;
   if(_vistaDaLink) return;   // la vista arriva da un link condiviso: comanda quella
   if(typeof getActiveRegions!=='function') return;
   var rks=getActiveRegions(); if(!rks.length) return;
@@ -8334,7 +8413,14 @@ document.getElementById('region-select').addEventListener('change', function(){
   // (la Liguria usciva a zoom 8 invece di 7.75). Con la vista istantanea la
   // misura trova la mappa ferma.
   var NOA={animate:false};
-  if(rk==='lombardia') map.setView([45.3, 9.85], 7.5, NOA);
+  /* ⚠️ COL RADAR ACCESO NON SI INQUADRA: ci pensa lui, che si riquadra da
+     solo sulla regione e lo rifa' a ogni cambio. Senza questa riga la mappa
+     stringeva sulla vista fissa qui sotto e mezzo secondo dopo il radar la
+     riallargava (misurato il 6/9/2026, uguale in produzione: 6,25 poi 7,5 a
+     550 ms, poi 6,75 a 1520). E' la stessa regola gia' scritta il 3/9 per i
+     link col radar, che qui mancava. */
+  if(document.body.classList.contains('modo-radar')){ /* inquadra il radar */ }
+  else if(rk==='lombardia') map.setView([45.3, 9.85], 7.5, NOA);
   else if(rk==='piemonte') map.setView([44.8, 7.9], 7.5, NOA);
   else if(rk==='veneto') map.setView([45.5, 11.8], 7.5, NOA);
   else if(rk==='liguria') map.setView([43.9, 8.8], window.innerWidth<=375 ? 7.25 : 7.75, NOA);
@@ -9297,7 +9383,18 @@ if(_btnShot){
       // Il segnaposto del paese, se il link lo porta. Va DOPO la vista, che
       // se no il fit delle regioni se lo mangerebbe, e mette anche il nome
       // nella casella: chi apre deve leggere DI CHE POSTO si parla.
-      if(!pinDaLink(q) && window.innerWidth<=900){
+      /* ⚠️ IL FIT SOLO SE IL LINK NON PORTA LA VISTA. Con `z` e `c` dentro,
+         questo fit buttava via l'inquadratura del mittente e ne rifaceva una
+         sulla scatola INTERA della mappa, che i pannelli coprono sopra e
+         sotto: chi riceveva vedeva il contenuto piu' in basso (misurato il
+         7/9/2026 a 360x800: 90 px sotto il centro della striscia in
+         produzione, 71 sul test). E centraRegioneInStriscia non lo
+         raddrizza, perche' si ferma apposta sui link. Resta per i link
+         corti delle pagine regione, che la vista non ce l'hanno.
+         ⚠️ `pinDaLink` va chiamata SEMPRE: oltre a rispondere, piazza il
+         segnaposto e riempie la casella. Il cortocircuito la salterebbe. */
+      var _pin=pinDaLink(q);
+      if(!vistaDalLink && !_pin && window.innerWidth<=900){
         try{ fitMapToRegions(keys); }catch(e){}
       }
     });
@@ -10274,6 +10371,11 @@ function loadDefaultMarkers(){
    (`#channel-pill`) resta, perche' non e' mai sparita nemmeno scegliendo un
    periodo e non c'e' ragione di farla sparire qui. */
 .modo-radar #channel-logo{display:none !important}
+/* ⚠️ LA TARGHETTA DELLE FONTI NON C'ENTRA NIENTE COL RADAR (6/9/2026).
+   Diceva «Fonte: ARPA Lombardia» sopra una mappa che di pluviometri non
+   ne mostra nemmeno uno: quella che si vede e' la pioggia del composito
+   europeo OPERA, e lo dice gia' la riga del radar. */
+.modo-radar .fonte-tag{display:none !important}
 /* i pallini delle stazioni sono cerchi SVG; il segnaposto della ricerca e
    quello della posizione sono div, e restano */
 body.senza-pallini #map .leaflet-marker-pane svg{display:none}
@@ -10630,15 +10732,30 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        su ogni schermo. */
     if(typeof window._fitRegioni==='function'){ try{ window._fitRegioni(rk); }catch(e){} }
     m.setZoom(Math.max(4, m.getZoom()-LARGHEZZA), {animate:false});
-    /* Sul telefono il pannello del radar copre la parte bassa della mappa:
-       si alza il contenuto di meta' di quello che copre, che e' la stessa
-       correzione di centraRegioneInStriscia. */
+    /* Sul telefono i pannelli coprono la mappa sopra e sotto: si alza il
+       contenuto di meta' della DIFFERENZA fra i due, che e' la stessa
+       correzione di centraRegioneInStriscia.
+       ⚠️ ANCHE QUELLA DI SOPRA. Fin qui si guardava solo il pannello del
+       radar, che copre dal basso, e si alzava di meta' di quello: ma la
+       barra delle regioni copre dall'alto, e alzando di troppo le regioni
+       finivano sopra il centro della striscia libera (misurato il 7/9/2026
+       con tre regioni a 360x800: alzava 126 px quando ne servivano 80, e le
+       regioni restavano 47 px troppo in alto). E' la stessa lezione del
+       25/8/2026 su centraRegioneInStriscia, mai applicata a questa copia. */
     if(window.innerWidth<=900){
-      var lp=el('legend-panel'), mp=el('map');
+      var lp=el('legend-panel'), mp=el('map'), rp=el('region-panel');
       if(lp&&mp){
         var r=lp.getBoundingClientRect(), mb=mp.getBoundingClientRect();
         var coperto=mb.bottom-Math.max(r.top,mb.top);
-        if(r.height>40 && coperto>20) m.panBy([0, Math.round(coperto/2)], {animate:false});
+        var sopra=0;
+        if(rp){
+          var rr=rp.getBoundingClientRect();
+          var cs=getComputedStyle(rp);
+          if(cs.display!=='none' && rr.height>10)
+            sopra=Math.max(0, Math.min(rr.bottom, mb.bottom)-mb.top);
+        }
+        var alza=Math.round((coperto-sopra)/2);
+        if(r.height>40 && alza>10) m.panBy([0, alza], {animate:false});
       }
     }
   }
@@ -10830,6 +10947,458 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     else if(++giri>75) clearInterval(att);
   },200);
 }());
+</script>
+<script>
+/* ── AGGIUNGI LA CONFINANTE (6/9/2026, solo sito di test) ──────────────
+   Le pastiglie NON aprono una strada nuova: spuntano lo stesso checkbox
+   che spunterebbe un dito sulla mappa, quindi il tetto dei 3, il debounce
+   dei 550 ms, i bordi e il ricaricamento continuano a funzionare senza
+   sapere che esistono. E' la stessa regola della ricerca per localita'. */
+(function(){
+  // Copia di REGION_ADJ, che sta dentro la IIFE del sito e da fuori non si
+  // vede. Se un giorno questa roba entra in produzione, le due tabelle
+  // vanno unite: una regola in due copie diverge.
+  var ADJ={
+    valledaosta:['piemonte','svizzera','francia-aura'],
+    piemonte:['valledaosta','lombardia','liguria','svizzera','francia-aura','francia-provenza'],
+    liguria:['piemonte','emilia','toscana','francia-provenza'],
+    lombardia:['piemonte','emilia','veneto','trentino','svizzera'],
+    trentino:['lombardia','veneto','altoadige'],
+    altoadige:['trentino','veneto','svizzera','austria'],
+    veneto:['lombardia','trentino','altoadige','friuli','emilia','austria'],
+    friuli:['veneto','austria','slovenia'],
+    emilia:['lombardia','veneto','piemonte','liguria','toscana','marche'],
+    toscana:['liguria','emilia','marche','umbria','lazio'],
+    umbria:['toscana','marche','lazio','abruzzo'],
+    marche:['emilia','toscana','umbria','abruzzo','lazio'],
+    lazio:['toscana','umbria','abruzzo','molise','campania'],
+    abruzzo:['marche','umbria','lazio','molise'],
+    molise:['abruzzo','lazio','campania','puglia'],
+    campania:['lazio','molise','puglia','basilicata'],
+    puglia:['molise','campania','basilicata'],
+    basilicata:['campania','puglia','calabria'],
+    calabria:['basilicata','sicilia'],
+    sicilia:['calabria'],
+    sardegna:['francia-corsica'],
+    svizzera:['valledaosta','piemonte','lombardia','altoadige','austria'],
+    austria:['altoadige','veneto','friuli','slovenia','svizzera'],
+    slovenia:['friuli','austria'],
+    /* ⚠️ LE REGIONS FRANCESI MANCAVANO DEL TUTTO, e partendo da una di
+       loro non usciva nessuna pastiglia (visto da lui il 7/9/2026). Qui
+       ci sono tutte e tredici: quelle che toccano casa nostra portano
+       anche i vicini italiani e la Svizzera. */
+    'francia-aura':['francia-bfc','francia-centro','francia-naq',
+      'francia-occitania','francia-provenza','svizzera','valledaosta','piemonte'],
+    'francia-provenza':['francia-aura','francia-occitania','piemonte','liguria'],
+    'francia-bfc':['francia-aura','francia-centro','francia-grandest',
+      'francia-idf','svizzera'],
+    'francia-grandest':['francia-bfc','francia-hdf','francia-idf'],
+    'francia-hdf':['francia-grandest','francia-idf','francia-normandia'],
+    'francia-idf':['francia-bfc','francia-centro','francia-grandest',
+      'francia-hdf','francia-normandia'],
+    'francia-centro':['francia-aura','francia-bfc','francia-idf',
+      'francia-loira','francia-naq','francia-normandia'],
+    'francia-normandia':['francia-bretagna','francia-centro','francia-hdf',
+      'francia-idf','francia-loira'],
+    'francia-bretagna':['francia-loira','francia-normandia'],
+    'francia-loira':['francia-bretagna','francia-centro','francia-naq',
+      'francia-normandia'],
+    'francia-naq':['francia-aura','francia-centro','francia-loira',
+      'francia-occitania'],
+    'francia-occitania':['francia-aura','francia-naq','francia-provenza'],
+    'francia-corsica':['sardegna']
+  };
+  var COMBO={'piemonte-vda':['piemonte','valledaosta'],
+             'trentino-aa':['trentino','altoadige']};
+  /* Nomi accorciati per le sole francesi: «Provenza-Costa Azzurra (FR)» e'
+     una pastiglia da 236 px su uno schermo da 375. */
+  var CORTI={'francia-provenza':'Provenza (FR)','francia-aura':'Alvernia (FR)',
+             'francia-bfc':'Borgogna (FR)','francia-grandest':'Grand Est (FR)',
+             'francia-corsica':'Corsica (FR)'};
+  /* Le combinazioni che la gente usa DAVVERO, dai link aperti in 28 giorni
+     (GA4, 6/9/2026): liguria+emilia+piemonte 157, liguria+piemonte 141,
+     lombardia+emilia+piemonte 130, emilia+toscana 55. Servono a non far
+     seppellire dal solo costo di zoom quello che la gente cerca: da
+     Liguria+Piemonte l'Emilia sarebbe SESTA (0,83 di costo) ed e' la terna
+     piu' aperta del sito. */
+  var USATE=[['liguria','emilia','piemonte'],['liguria','piemonte'],
+    ['lombardia','emilia','piemonte'],['emilia','toscana'],
+    ['toscana','umbria'],['piemonte','valledaosta'],
+    ['austria','altoadige'],['trentino','altoadige'],['veneto','trentino']];
+  var aggiunte=[];
+
+  function esp(k){ return COMBO[k]||[k]; }
+  function nome(k){
+    if(CORTI[k]) return CORTI[k];
+    var s=document.querySelector('#chk-'+k+' ~ .rcheck-name');
+    return s?s.textContent.trim():k;
+  }
+  function scelte(){
+    return [].slice.call(document.querySelectorAll('.rcheck-wrap input[type=checkbox]:checked'))
+      .map(function(c){return c.value;});
+  }
+  function reali(){
+    var v=[];
+    scelte().forEach(function(k){ esp(k).forEach(function(r){ if(v.indexOf(r)<0) v.push(r); }); });
+    return v;
+  }
+  function usata(ins){
+    return USATE.some(function(c){
+      return ins.every(function(k){ return c.indexOf(k)>=0; });
+    });
+  }
+  /* Il COSTO di una vicina: di quanto si allarga l'inquadratura ad
+     aggiungerla, con la matematica di getBoundsZoom sullo schermo vero.
+     Sul telefono comanda quasi sempre la LARGHEZZA (315 px utili contro
+     626 in altezza), quindi una vicina a nord o a sud spesso costa zero. */
+  function pyy(lat){ var s=Math.sin(lat*Math.PI/180);
+    return (0.5-Math.log((1+s)/(1-s))/(4*Math.PI))*256; }
+  function pxx(lon){ return (lon+180)/360*256; }
+  function zoomDi(keys){
+    var B=null; try{ B=window._boundsDebug(); }catch(e){ return null; }
+    var la1=90,la2=-90,lo1=180,lo2=-180,c=0;
+    keys.forEach(function(k){ var b=B[k]; if(!b) return; c++;
+      if(b[0][0]<la1)la1=b[0][0]; if(b[1][0]>la2)la2=b[1][0];
+      if(b[0][1]<lo1)lo1=b[0][1]; if(b[1][1]>lo2)lo2=b[1][1]; });
+    if(!c) return null;
+    var W=innerWidth-60, H=(innerHeight-46)-140;
+    var dx=Math.abs(pxx(lo2)-pxx(lo1)), dy=Math.abs(pyy(la1)-pyy(la2));
+    if(!dx||!dy) return null;
+    return Math.min(Math.log2(W/dx), Math.log2(H/dy));
+  }
+  function costo(cand){
+    var B=null; try{ B=window._boundsDebug(); }catch(e){}
+    if(!B || !esp(cand).some(function(r){ return B[r]; })) return 9;
+    var ora=reali(), poi=ora.concat(esp(cand));
+    var a=zoomDi(ora), b=zoomDi(poi);
+    if(a===null||b===null) return 9;
+    return (a-b) - (usata(poi)?1.0:0);
+  }
+  function candidate(){
+    var dentro=reali(), fuori=[];
+    dentro.forEach(function(r){ (ADJ[r]||[]).forEach(function(v){
+      if(dentro.indexOf(v)>=0) return;
+      if(!document.getElementById('chk-'+v)) return;
+      if(fuori.indexOf(v)<0) fuori.push(v);
+    }); });
+    return fuori.map(function(k){ return [k,costo(k)]; })
+      .sort(function(a,b){ return a[1]-b[1]; })
+      .map(function(x){ return x[0]; });
+  }
+  function tocca(k,acceso){
+    var cb=document.getElementById('chk-'+k); if(!cb) return;
+    cb.checked=!acceso;
+    cb.dispatchEvent(new Event('change'));
+    if(cb.checked){ if(aggiunte.indexOf(k)<0) aggiunte.push(k); }
+    else aggiunte=aggiunte.filter(function(x){return x!==k;});
+    /* ⚠️ SUL TELEFONO L'INQUADRATURA LA RIFACCIAMO NOI. In loadData il fit
+       sta dentro un `if(window.innerWidth>900)`: sul telefono inquadra la
+       TENDINA, alla scelta, con un setView scritto a mano regione per
+       regione. Senza queste righe la vicina appena aggiunta restava fuori
+       dallo schermo (misurato: zoom 7,25 prima e dopo, centro fermo).
+       Poi `_centraStriscia`, che misura da solo quanto e' alta la barra e
+       compensa anche questa riga nuova. */
+    /* ⚠️ COL RADAR ACCESO NON SI INQUADRA NIENTE. Il radar si riquadra da
+       solo sulla regione e lo rifa' a ogni cambio: la nostra inquadratura
+       in mezzo faceva quattro zoom in un secondo e mezzo (misurato il 6/9:
+       6,25 poi 7, poi 6, poi 7), che e' esattamente lo sfarfallio gia'
+       descritto il 3/9 per i link col radar. La regola c'era, mancava qui. */
+    var conRadar=document.body.classList.contains('modo-radar');
+    setTimeout(function(){
+      if(innerWidth<=900 && !conRadar){
+        try{ window._fitRegioni(window._regioniAttive()); }catch(e){}
+      }
+      disegna();
+      if(!conRadar) setTimeout(function(){
+        try{ window._centraStriscia(); }catch(e){}
+      },420);
+    },60);
+  }
+  function chiudiAltre(){
+    var p=document.getElementById('vic-altre'), v=document.getElementById('vic-velo');
+    if(p) p.className=''; if(v) v.className='';
+  }
+  function apriAltre(lista){
+    var p=document.getElementById('vic-altre'), v=document.getElementById('vic-velo');
+    var riga=document.getElementById('vic-riga');
+    if(!p||!riga) return;
+    p.innerHTML='';
+    lista.forEach(function(k){
+      var b=document.createElement('button');
+      b.type='button'; b.textContent='\uff0b '+nome(k);
+      b.onclick=function(){ chiudiAltre(); tocca(k,false); };
+      p.appendChild(b);
+    });
+    var r=riga.getBoundingClientRect();
+    p.style.left=Math.round(r.left+6)+'px';
+    p.style.top=Math.round(r.bottom+4)+'px';
+    p.style.width=Math.min(268, innerWidth-24)+'px';
+    p.className='c'; if(v) v.className='c';
+  }
+  // Nell'ordine in cui le ha toccate lui, non in quello del documento.
+  function ordine(){
+    var s=scelte();
+    return s.filter(function(k){ return aggiunte.indexOf(k)<0; }).concat(aggiunte);
+  }
+  function etichetta(){
+    var b=document.getElementById('reg-apri'); if(!b) return;
+    var o=ordine(); if(!o.length) return;
+    b.textContent=o.map(nome).join(' + ')+' \u25bc';
+  }
+  function disegna(){
+    var riga=document.getElementById('vic-riga'); if(!riga) return;
+    var s=scelte();
+    aggiunte=aggiunte.filter(function(k){ return s.indexOf(k)>=0; });
+    if(!s.length){ riga.className=''; riga.innerHTML=''; chiudiAltre(); return; }
+    riga.className='c'; riga.innerHTML='';
+    var pieno=s.length>=3;
+    /* ⚠️ SI TOGLIE TUTTO MENO LA PRIMA, non solo quello che ho aggiunto
+       io. Chi apre un link a tre regioni non ha «aggiunto» niente: la riga
+       gli veniva con la sola scritta «massimo 3» e nessuna croce, cioe' un
+       vicolo cieco. La prima resta l'ancora: sotto una regione non si
+       scende, e il sito stesso rimette la spunta se togli l'ultima. */
+    ordine().slice(1).forEach(function(k){
+      var b=document.createElement('button');
+      b.type='button'; b.className='vic-chip on';
+      b.textContent=nome(k)+'  \u2715';
+      b.onclick=function(){ tocca(k,true); };
+      riga.appendChild(b);
+    });
+    if(pieno){
+      /* ⚠️ PRIMA SI MISURA, POI SI SCRIVE. «massimo 3, togline una» con due
+         nomi lunghi (Piemonte + Svizzera) usciva dallo schermo e si leggeva
+         «massimo 3, togline un». Una scritta tagliata e' peggio di nessuna
+         scritta: se non ci sta, la ✕ sulle pastiglie dice gia' come si fa. */
+      var largOn=0;
+      [].slice.call(riga.querySelectorAll('.vic-chip.on')).forEach(function(c){
+        largOn+=c.offsetWidth+6;
+      });
+      var n=document.createElement('span');
+      n.className='vic-nota'; n.textContent='massimo 3';
+      riga.appendChild(n);
+      // misurata stretta: se ci sta, si prende lo spazio e si centra dentro
+      if(largOn+n.offsetWidth+6>riga.clientWidth-4) riga.removeChild(n);
+      else n.classList.add('larga');
+    } else {
+      /* ⚠️ NIENTE PASTIGLIE TAGLIATE A META'. Una pastiglia mozzata sul
+         bordo non la si legge e non viene in mente di strisciare: e' come
+         se non ci fosse. Entra solo quello che ci sta davvero, misurato,
+         e il resto va sotto «altre N». Cosi' non serve ne' scorrere ne'
+         una seconda riga, che costerebbe altri 38 px di schermo. */
+      var tutti=candidate(), messe=[];
+      tutti.forEach(function(k){
+        var b=document.createElement('button');
+        b.type='button'; b.className='vic-chip';
+        b.textContent='\uff0b '+nome(k);
+        b.onclick=function(){ tocca(k,false); };
+        riga.appendChild(b); messe.push(b);
+      });
+      var spazio=riga.clientWidth-4, usato=0, quante=0;
+      var prova=document.createElement('button');
+      prova.type='button'; prova.className='vic-chip altre';
+      prova.textContent='altre \u25be'; riga.appendChild(prova);
+      var largAltre=prova.offsetWidth+6;
+      riga.removeChild(prova);
+      [].slice.call(riga.querySelectorAll('.vic-chip.on')).forEach(function(b){
+        usato+=b.offsetWidth+6;
+      });
+      for(var i=0;i<messe.length;i++){
+        var w=messe[i].offsetWidth+6;
+        var restano=messe.length-i-1;
+        if(usato+w+(restano>0?largAltre:0)>spazio) break;
+        usato+=w; quante++;
+      }
+      if(quante<messe.length){
+        for(var j=quante;j<messe.length;j++) riga.removeChild(messe[j]);
+        var b2=document.createElement('button');
+        b2.type='button'; b2.className='vic-chip altre';
+        b2.textContent='altre '+(messe.length-quante)+' \u25be';
+        b2.onclick=function(ev){ ev.stopPropagation(); apriAltre(tutti.slice(quante)); };
+        riga.appendChild(b2);
+      }
+      /* ⚠️ TUTTE LARGHE UGUALI, «altre» compreso: la riga si riempie e i
+         bersagli diventano tutti della stessa misura. Le larghezze si
+         calcolano e si scrivono a mano, perche' `flex:1` da sole restano
+         proporzionali ai nomi. Le «✕» no: quelle tengono la loro misura.
+         ⚠️ POI SI CONTROLLA CHE IL TESTO CI STIA ANCORA. A 360 px un terzo
+         di riga fa 111 px e «＋ Piemonte» ne vuole 125: per questo la
+         classe `pari` stringe carattere e imbottitura. Se anche cosi' non
+         basta si torna alle larghezze naturali, che e' sempre meglio di un
+         nome tagliato a meta'. */
+      var pari=[].slice.call(riga.querySelectorAll('.vic-chip:not(.on)'));
+      var croci=0;
+      [].slice.call(riga.querySelectorAll('.vic-chip.on')).forEach(function(c){
+        croci+=c.offsetWidth+6;
+      });
+      if(pari.length){
+        var largo=Math.floor((riga.clientWidth-4-croci-6*pari.length)/pari.length);
+        if(largo>40){
+          pari.forEach(function(c){ c.classList.add('pari'); c.style.width=largo+'px'; });
+          var stretto=pari.some(function(c){ return c.scrollWidth>c.clientWidth+1; });
+          if(stretto) pari.forEach(function(c){
+            c.classList.remove('pari'); c.style.width=''; c.style.flexGrow='1';
+          });
+        }
+      }
+    }
+    etichetta();
+  }
+  /* ⚠️ LA BARRA VA PORTATA FUORI DA #map, O IL DITO NON SCORRE. Leaflet
+     mette `touch-action:none` sul contenitore della mappa e quella regola
+     vale per tutto quello che sta dentro. Misurato con un dito vero:
+     dentro scrollLeft resta 0, fuori arriva a 262. Stessa medicina del
+     22/8/2026 per la tendina delle regioni. Solo sul telefono. */
+  function collocaBarra(){
+    var rp=document.getElementById('region-panel'); if(!rp) return;
+    var m=document.getElementById('map');
+    if(innerWidth<=900){ if(rp.parentElement!==document.body) document.body.appendChild(rp); }
+    else if(m && rp.parentElement!==m) m.appendChild(rp);
+  }
+  collocaBarra();
+  window.addEventListener('resize', collocaBarra);
+  (function(){
+    var p=document.createElement('div'); p.id='vic-altre';
+    var v=document.createElement('div'); v.id='vic-velo';
+    v.addEventListener('click', chiudiAltre);
+    document.body.appendChild(v); document.body.appendChild(p);
+    window.addEventListener('resize', chiudiAltre);
+  })();
+  var sel=document.getElementById('region-select');
+  if(sel) sel.addEventListener('change', function(){ aggiunte=[]; setTimeout(disegna,0); });
+  document.querySelectorAll('.rcheck-wrap input[type=checkbox]').forEach(function(cb){
+    cb.addEventListener('change', function(){ setTimeout(disegna,0); });
+  });
+  /* ⚠️ RONDA, e non cinque agganci diversi. Le spunte le mettono in cinque
+     modi (tendina, mappa, ricerca, «la mia posizione», link) e non tutti
+     passano da un evento ascoltabile: il link, per dirne uno, spunta la
+     casella e basta, senza `change`. Se questa roba va in produzione, gli
+     agganci si fanno per bene e la ronda si toglie. */
+  var ultimo="";
+  setInterval(function(){
+    var f=scelte().join(',');
+    if(f!==ultimo){ ultimo=f; disegna(); }
+  },500);
+  setTimeout(disegna,600);
+})();
+</script>
+<script>
+/* ── LE NAZIONI IN CIMA ALLA TENDINA (6/9/2026, solo sito di test) ─────
+   Le pastiglie non rifanno niente: nascondono la riga corrispondente
+   dell'elenco e poi la CLICCANO. Cambio lista, sottomenu Francia,
+   chiusura della tendina e scelta della regione restano quelli del sito. */
+(function(){
+  var NAZ=[
+    /* Bandierina piu' sigla. Su Windows la bandierina non c'e' e si
+       vedono le due lettere regionali (cioe' «IT IT»): sul telefono,
+       che e' dove questa tendina si usa, si vede la bandiera. */
+    {k:'italia',    t:'\ud83c\uddee\ud83c\uddf9 IT'},
+    {k:'svizzera',  t:'\ud83c\udde8\ud83c\udded CH'},
+    {k:'austria',   t:'\ud83c\udde6\ud83c\uddf9 AT'},
+    {k:'slovenia',  t:'\ud83c\uddf8\ud83c\uddee SI'},
+    {k:'__francia', t:'\ud83c\uddeb\ud83c\uddf7 FR'}
+  ];
+  // Le righe che ora hanno una pastiglia: si nascondono, non si tolgono.
+  var COPERTE=['austria','slovenia','svizzera','__francia','__indietro'];
+  function lista(){ return document.getElementById('reg-lista'); }
+  function riga(v){
+    var l=lista();
+    return l?l.querySelector('.reg-riga[data-v="'+v+'"]'):null;
+  }
+  // Nell'elenco delle regions francesi c'e' «Indietro», nell'altro no.
+  function inFrancia(){ return !!riga('__indietro'); }
+  function dipingi(){
+    var fr=inFrancia();
+    [].slice.call(document.querySelectorAll('#naz-riga .naz-chip')).forEach(function(b){
+      var k=b.getAttribute('data-k');
+      b.classList.toggle('on', fr ? (k==='__francia') : (k==='italia'));
+    });
+  }
+  function copri(){
+    if(!lista()) return;
+    COPERTE.forEach(function(v){ var r=riga(v); if(r) r.style.display='none'; });
+    dipingi();
+  }
+  function vai(k){
+    /* ⚠️ DALLA FRANCIA SI TORNA INDIETRO PRIMA. Le pastiglie cliccano la
+       riga corrispondente dell'elenco, ma con l'elenco delle regions
+       aperto le righe di Svizzera, Austria e Slovenia non esistono: si
+       toccava e non succedeva niente, funzionava solo Italia perche' e'
+       la riga «Indietro» (visto da lui il 7/9/2026). Quindi prima si
+       torna all'elenco principale, poi si sceglie il paese. */
+    if(k==='italia'){
+      var ind=riga('__indietro');
+      if(ind){ ind.click(); setTimeout(copri,0); }
+      return;
+    }
+    var r=riga(k);
+    if(r){ r.click(); setTimeout(copri,0); return; }
+    var ind2=riga('__indietro');
+    if(!ind2) return;
+    ind2.click();
+    setTimeout(function(){
+      copri();
+      var r2=riga(k);
+      if(r2){ r2.click(); setTimeout(copri,0); }
+    },120);
+  }
+  (function(){
+    var riq=document.getElementById('naz-riga'); if(!riq) return;
+    NAZ.forEach(function(n){
+      var b=document.createElement('button');
+      b.type='button'; b.className='naz-chip';
+      b.setAttribute('data-k', n.k); b.textContent=n.t;
+      b.onclick=function(){ vai(n.k); };
+      riq.appendChild(b);
+    });
+    /* L'elenco lo ridisegna il sito (all'apertura e a ogni giro dentro la
+       Francia): si guarda quando cambia invece di indovinare quando. */
+    var l=lista();
+    if(l) new MutationObserver(function(){ copri(); })
+      .observe(l,{childList:true});
+    copri();
+  })();
+})();
+</script>
+<script>
+/* ── LE FONTI STANNO SU UNA RIGA (6/9/2026, solo sito di test) ─────────
+   Con tre regioni la riga delle fonti e' lunga il doppio dello schermo.
+   Andare a capo copriva troppa mappa, quindi si tolgono le fonti da destra
+   finche' la riga non ci sta e si lascia un «…»: cosi' si vede che ne
+   manca qualcuna invece di credere che siano tutte li'. L'elenco completo
+   resta sulla pagina delle fonti. */
+(function(){
+  var tag=document.getElementById('fonte-tag'); if(!tag) return;
+  var tutto='', mio='';
+  function accorcia(){
+    if(!tutto) return;
+    if(innerWidth>600){ scrivi(tutto); return; }   // sul computer sta in basso e ci sta
+    scrivi(tutto);
+    if(tag.scrollWidth<=tag.clientWidth+1) return;
+    /* ⚠️ NON SI SPEZZA SU OGNI « + ». La Svizzera e' «OASI Ticino +
+       MeteoSvizzera», cioe' UNA fonte con un piu' dentro: tagliando li'
+       restava «OASI Ticino» senza MeteoSvizzera, che e' la principale.
+       Ogni blocco comincia con la sua emoji di stato (verde dati veri,
+       mappamondo stime), quindi si spezza solo davanti a un carattere che
+       non e' una lettera. */
+    var pezzi=tutto.replace(/^Fonte: /,'').split(/ \+ (?=[^A-Za-z])/);
+    while(pezzi.length>1){
+      pezzi.pop();
+      scrivi('Fonte: '+pezzi.join(' + ')+' + \u2026');
+      if(tag.scrollWidth<=tag.clientWidth+1) return;
+    }
+  }
+  function scrivi(t){ mio=t; tag.textContent=t; }
+  /* Il testo lo scrive il sito a ogni analisi. Si guarda quando cambia, e
+     si sta attenti a non rincorrere le proprie scritture: il confronto con
+     `mio` basta, perche' la sentinella arriva sempre dopo. */
+  new MutationObserver(function(){
+    var t=tag.textContent;
+    if(t===mio) return;
+    tutto=t;
+    accorcia();
+  }).observe(tag,{childList:true,characterData:true,subtree:true});
+  window.addEventListener('resize', function(){ setTimeout(accorcia,120); });
+})();
 </script>
 </body>
 </html>
