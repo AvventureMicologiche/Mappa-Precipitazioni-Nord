@@ -193,6 +193,9 @@ for (const s of giudicabili) {
     perc: med > 0 ? Math.round((mio / med) * 1000) / 10 : 0,
     vicinoNome: vicino.nome, vicinoTot: Math.round(vicino.tot * 10) / 10, vicinoKm: Math.round(vicino.d * 10) / 10,
     giorniDato: s.giorni,
+    // L'ULTIMO GIORNO CHE HA CONSEGNATO: serve alla mail, che prima dava per
+    // scontato che consegnassero tutte tutti i giorni (vedi sotto).
+    ultimo: giorni[indici[indici.length - 1]],
     esempiVicini: primi.slice(0, 3).map(v => `${v.nome} ${Math.round(v.tot)} mm a ${v.d.toFixed(1)} km`)
   });
 }
@@ -248,6 +251,9 @@ for (const s of giudicabili) {
     tot: 0, vicini: Math.round(med5 * 10) / 10, perc: 0, zeroAssoluto: true,
     vicinoNome: vicino.nome, vicinoTot: Math.round(vicino.tot * 10) / 10, vicinoKm: Math.round(vicino.d * 10) / 10,
     giorniDato: s.giorni,
+    // L'ULTIMO GIORNO CHE HA CONSEGNATO: serve alla mail, che prima dava per
+    // scontato che consegnassero tutte tutti i giorni (vedi sotto).
+    ultimo: giorni[indici[indici.length - 1]],
     esempiVicini: primi.slice(0, 3).map(v => `${v.nome} ${Math.round(v.tot)} mm a ${v.d.toFixed(1)} km`)
   });
 }
@@ -303,6 +309,13 @@ if (!nuove.length) {
 // percentuale sta fra parentesi: così si evita anche il problema dell'articolo
 // («il 0,0%» era sgrammaticato).
 const vir = n => String(n).replace('.', ',');
+// Da quanti giorni non consegna, contati fino alla fine della finestra. Sotto
+// i tre giorni non e' silenzio, e' il ritardo normale di una rete.
+const mutaDa = s => {
+  if (!s.ultimo) return 0;
+  const g = Math.round((new Date(giorni[giorni.length - 1]) - new Date(s.ultimo)) / 86400000);
+  return g >= 3 ? g : 0;
+};
 const righe = nuove.map(s =>
   `• ${s.nome}${s.prov ? ' (' + s.prov + ')' : ''} — ${s.regione}, id ${s.id}\n` +
   // Per lo zero assoluto la percentuale non dice niente (e' zero per
@@ -311,14 +324,22 @@ const righe = nuove.map(s =>
   (s.zeroAssoluto
     ? `  ZERO ASSOLUTO: nemmeno un decimo di millimetro in ${s.giorniDato} giorni di dato,\n` +
       `  mentre i cinque vicini piu' prossimi ne facevano ${vir(s.vicini)} mm.\n`
-    : `  ${vir(s.tot)} mm in ${FINESTRA} giorni contro ${vir(s.vicini)} mm dei cinque vicini piu' prossimi (${vir(s.perc.toFixed(1))}%).\n`) +
+    : `  ${vir(s.tot)} mm nei ${s.giorniDato} giorni consegnati su ${FINESTRA} contro ${vir(s.vicini)} mm\n` +
+      `  dei cinque vicini piu' prossimi (${vir(s.perc.toFixed(1))}%).\n`) +
+  // ⚠️ SE HA SMESSO, SI DICE. Il controllo chiede 30 giorni su 45, quindi una
+  // stazione puo' passare avendo consegnato solo nella prima meta' della
+  // finestra ed essere muta da due settimane: e' successo il 7/9/2026 con la
+  // 198 VERCELLI, che la mail annunciava come se consegnasse ogni giorno.
+  (mutaDa(s) ? `  ATTENZIONE: non consegna piu' dal ${s.ultimo}, cioe' da ${mutaDa(s)} giorni.\n` : '') +
   `  Vicini: ${s.esempiVicini.join('; ')}.`
 ).join('\n\n');
 
 const corpo =
-`Queste stazioni consegnano il dato tutti i giorni ma non misurano piu' niente,
-mentre intorno a loro piove. Sono candidate all'esclusione, come lo sono state
-3014 Ferriere Pluvio e VIFRA Villafranca Lunigiana il 20 agosto.
+`Queste stazioni consegnano il dato ma non misurano quasi piu' niente, mentre
+intorno a loro piove. Alcune hanno anche smesso di consegnare: dove succede
+c'e' scritto da quando. Sono candidate all'esclusione, come lo sono state 3014
+Ferriere Pluvio e VIFRA Villafranca Lunigiana il 20 agosto, e VERCELLI il 7
+settembre.
 
 ${righe}
 
