@@ -1,12 +1,41 @@
 {
  "regione": "basilicata",
- "generato": "2026-09-07T10:10:48.871Z",
+ "generato": "2026-09-08T01:14:19.075Z",
  "periodi": {
   "7": {
-   "media": 3.8,
-   "giorni": 7,
+   "media": 2.4,
+   "giorni": 6,
    "stazioni": 62,
-   "primo": "2026-08-31",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-06",
+   "top": [
+    {
+     "n": "Castelsaraceno",
+     "mm": 22.5
+    },
+    {
+     "n": "Craco Peschiera",
+     "mm": 18.9
+    },
+    {
+     "n": "Sinni SS106",
+     "mm": 18.3
+    },
+    {
+     "n": "Ferrandina",
+     "mm": 11.6
+    },
+    {
+     "n": "Albano di Lucania",
+     "mm": 9.1
+    }
+   ]
+  },
+  "20": {
+   "media": 3.8,
+   "giorni": 19,
+   "stazioni": 62,
+   "primo": "2026-08-19",
    "ultimo": "2026-09-06",
    "top": [
     {
@@ -28,35 +57,6 @@
     {
      "n": "Vaglio di Basilicata",
      "mm": 17
-    }
-   ]
-  },
-  "20": {
-   "media": 8.9,
-   "giorni": 20,
-   "stazioni": 62,
-   "primo": "2026-08-18",
-   "ultimo": "2026-09-06",
-   "top": [
-    {
-     "n": "Brienza",
-     "mm": 44.4
-    },
-    {
-     "n": "Cavone SS106",
-     "mm": 33.5
-    },
-    {
-     "n": "Sinni SS106",
-     "mm": 31.3
-    },
-    {
-     "n": "Castelsaraceno",
-     "mm": 30.7
-    },
-    {
-     "n": "Craco Peschiera",
-     "mm": 22.8
     }
    ]
   }

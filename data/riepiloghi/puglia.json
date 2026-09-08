@@ -1,12 +1,41 @@
 {
  "regione": "puglia",
- "generato": "2026-09-07T10:10:48.868Z",
+ "generato": "2026-09-08T01:14:19.073Z",
  "periodi": {
   "7": {
-   "media": 0.8,
-   "giorni": 7,
+   "media": 0.3,
+   "giorni": 6,
    "stazioni": 130,
-   "primo": "2026-08-31",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-06",
+   "top": [
+    {
+     "n": "Loconia",
+     "mm": 14.4
+    },
+    {
+     "n": "Laterza",
+     "mm": 8.8
+    },
+    {
+     "n": "Poliba Sede Taranto",
+     "mm": 5.2
+    },
+    {
+     "n": "Ginosa",
+     "mm": 2.4
+    },
+    {
+     "n": "Cerignola",
+     "mm": 1.6
+    }
+   ]
+  },
+  "20": {
+   "media": 1,
+   "giorni": 19,
+   "stazioni": 130,
+   "primo": "2026-08-19",
    "ultimo": "2026-09-06",
    "top": [
     {
@@ -15,7 +44,7 @@
     },
     {
      "n": "Faeto",
-     "mm": 17.5
+     "mm": 17.7
     },
     {
      "n": "Loconia",
@@ -28,35 +57,6 @@
     {
      "n": "Laterza",
      "mm": 8.8
-    }
-   ]
-  },
-  "20": {
-   "media": 2.9,
-   "giorni": 20,
-   "stazioni": 130,
-   "primo": "2026-08-18",
-   "ultimo": "2026-09-06",
-   "top": [
-    {
-     "n": "Monopoli",
-     "mm": 50.6
-    },
-    {
-     "n": "Castellana Grotte",
-     "mm": 32.2
-    },
-    {
-     "n": "Poliba Sede Taranto",
-     "mm": 22.7
-    },
-    {
-     "n": "Presicce",
-     "mm": 21.8
-    },
-    {
-     "n": "Taranto",
-     "mm": 21
     }
    ]
   }
