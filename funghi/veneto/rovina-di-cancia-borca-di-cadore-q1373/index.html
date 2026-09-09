@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rovina-di-cancia-borca-di-cadore-q1373/">
 <meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Piogge per funghi","item":"https://precipitazioni.avventuremicologiche.it/funghi/"},{"@type":"ListItem","position":2,"name":"Veneto","item":"https://precipitazioni.avventuremicologiche.it/funghi/veneto/"},{"@type":"ListItem","position":3,"name":"Rovina di Cancia (Borca di Cadore Q1373)"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -198,11 +199,22 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 </header>
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/" style="color:var(--blu)">‹ Piogge per funghi in Veneto</a></p>
 
-<h1>Piogge per funghi a Rovina di Cancia (Borca di Cadore Q1373)</h1>
-<p class="sotto">BL · 1373 m slm · 42% di bosco entro 3 km. Pioggia misurata dal
-pluviometro di ARPA Veneto, aggiornata ogni giorno.</p>
+<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/" style="color:var(--blu)">Veneto</a></p>
+
+
+<h1>Quanta pioggia è caduta a Rovina di Cancia (Borca di Cadore Q1373) da 13 a 20 giorni fa</h1>
+<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
+dodici o tredici giorni. Per questo conta la pioggia di due settimane fa e non quella di ieri.
+I millimetri li misura il pluviometro di ARPA Veneto: BL · 1373 m slm ·
+42% di bosco entro 3 km.</p>
+
+
+<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo solo
+gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi 20 giorni
+o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=veneto,friuli,altoadige&amp;g=20&amp;pl=46.4372,12.2426&amp;pn=Rovina%20di%20Cancia%20(Borca%20di%20Cadore%20Q1373)"
+style="color:var(--blu);font-weight:700">apri Rovina di Cancia (Borca di Cadore Q1373) sulla mappa</a> e cambia
+le date da lì.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -283,13 +295,13 @@ da ARPA Veneto.</p>
 <h2 style="margin-top:30px">Quanto piove a Rovina di Cancia (Borca di Cadore Q1373), secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
 teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
-<b>da giugno 2026 a settembre 2026</b>, in 94 giorni di misura,
-ha contato <b>250 mm</b> di pioggia in <b>34 giornate</b> bagnate. Nelle altre 60 non è caduto niente, o così poco da non contare.</p>
+<b>da giugno 2026 a settembre 2026</b>, in 97 giorni di misura,
+ha contato <b>253 mm</b> di pioggia in <b>35 giornate</b> bagnate. Nelle altre 62 non è caduto niente, o così poco da non contare.</p>
 <p>Il giorno più bagnato di tutto l'archivio è stato il <b>6 agosto 2026</b>,
 con <b>34,6 mm</b> in ventiquattro ore. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
 124 mm. Su 49 pluviometri
-da bosco del Veneto con lo stesso periodo alle spalle, questo è il <b>5º</b>
+da bosco del Veneto con lo stesso periodo alle spalle, questo è il <b>6º</b>
 per acqua caduta.</p>
 <p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
 giorni, e basta. L'archivio parte dal 4 giugno 2026 e si allunga di un giorno al
@@ -424,11 +436,13 @@ provinciali ISTAT.</p>
        la pioggia, gli servono almeno 12-13 giorni e quanti dipende dalla
        temperatura. Dirlo e' il punto della pagina: senza, la finestra sembra
        scelta a caso. */
+        /* ⚠️ QUI NON SI RIPETE LA REGOLA DEI 12-13 GIORNI: dal 9/9/2026 sta
+       nelle tre righe in cima, ed e' la prima cosa che si legge. Restano le
+       DATE, che in cima non possono stare perche' cambiano ogni giorno. */
     document.getElementById('finestra').innerHTML =
       'Qui la pioggia è caduta fra il <b>' + gg(daG) + '</b> e il <b>' + gg(aG) + '</b>, cioè da '
-      + '<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli '
-      + 'servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia '
-      + 'che fa nascere i funghi <b>adesso</b>.';
+      + '<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dal pluviometro, non una '
+      + 'previsione.';
 
     /* ── il grafico: 25 barre, ieri a destra ── */
     var max = Math.max.apply(null, s.concat([1]));

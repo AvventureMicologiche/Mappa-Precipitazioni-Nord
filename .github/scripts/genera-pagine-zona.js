@@ -47,7 +47,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI } = require('./genera-pagine-regione.js');
+const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { bello, slug, slugRegione } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
@@ -201,6 +201,11 @@ function pagina(z) {
 '<meta property="og:image" content="' + SITO + '/preview.jpg">\n' +
 '<meta property="og:url" content="' + SITO + '/funghi/zone/' + zslug + '/">\n' +
 '<meta property="og:type" content="website">\n' +
+briciolaJson([
+  ['Piogge per funghi', SITO + '/funghi/'],
+  [nomeReg, SITO + '/funghi/' + casa.k + '/'],
+  [z.n, null],
+]) + '\n' +
 '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GA_ID + '"></script>\n' +
 '<script>\n' +
 'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n' +
@@ -222,10 +227,37 @@ function pagina(z) {
 '  <a class="yt" href="' + CANALE + '?sub_confirmation=1" target="_blank" rel="noopener"\n' +
 '     onclick="try{gtag(\'event\',\'click_youtube\',{pulsante:\'zona-' + casa.k + '\'})}catch(e){}">▶ Canale YouTube</a>\n' +
 '</header>\n\n<main>\n' +
-'<p class="nota" style="margin-bottom:6px"><a href="' + SITO + '/funghi/' + casa.k + '/" style="color:var(--blu)">‹ Piogge per funghi ' + casa.prep + ' ' + esc(nomeReg) + '</a></p>\n\n' +
-'<h1>Piogge per funghi ' + esc(z.dove) + '</h1>\n' +
-'<p class="sotto">' + esc(nomeReg) + ' · <b>' + z.posti.length + ' pluviometri di ' + esc(elenco(agenzie)) +
-   '</b>, nelle zone da bosco ' + esc(diZona(z.dove)) + '. Pioggia misurata, aggiornata ogni giorno.</p>\n\n' +
+// ⚠️ BRICIOLA A DUE LIVELLI dall'8/9/2026: la prima parte porta all'indice
+// /funghi/, che prima nessuna di queste 114 pagine nominava. Il perche' sta
+// scritto per esteso in genera-pagine-localita.js, dove la stessa riga vale per
+// 948 pagine: sono link dentro il TESTO, visibili anche sul telefono, mentre
+// sulla mappa 26 link interni su 27 sono spenti sotto i 600 px.
+'<p class="nota" style="margin-bottom:6px"><a href="' + SITO + '/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="' + SITO + '/funghi/' + casa.k + '/" style="color:var(--blu)">' + esc(nomeReg) + '</a></p>\n\n' +
+// ⚠️ LA FINESTRA E LA CLASSIFICA NELLE PRIME RIGHE (9/9/2026), come
+// sull'indice e sulle pagine di regione. Prima il titolo diceva «Piogge per
+// funghi in Carnia» e sotto c'erano la regione e il numero di pluviometri:
+// chi arrivava da Google non capiva ne' che sta guardando la pioggia di due
+// settimane fa, ne' che piu' sotto c'e' una classifica.
+// ⚠️ Il titolo e' quello delle REGIONI e non quello dei paesi: una zona e'
+// un territorio con dentro piu' pluviometri, quindi un «dove» ce l'ha; la
+// pagina di un paese ne ha uno solo e li' la domanda giusta e' un'altra.
+'<h1>Dove potrebbero esserci le prime nascite di funghi ' + esc(z.dove) + '</h1>\n' +
+'<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono\n' +
+'almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella\n' +
+'<b>da 13 a 20 giorni fa</b>, misurata dai <b>' + z.posti.length + ' pluviometri</b> di ' +
+   esc(elenco(agenzie)) + ' nelle zone da bosco ' + esc(diZona(z.dove)) + ', in ' + esc(nomeReg) +
+   '. In cima alla classifica c’è quello dove ne è caduta di più.</p>\n\n' +
+// ⚠️ LA VIA D'USCITA PER CHI CERCAVA ALTRO (9/9/2026), la stessa delle pagine
+// di paese e di regione: chi arriva da Google puo' voler sapere quanto e'
+// piovuto IERI, e qui trova otto giorni di due settimane fa. I bottoni per gli
+// ultimi 20 giorni c'erano gia' ma mezza pagina piu' sotto, dentro il riquadro
+// scuro. Sta PRIMA del patto perche' e' la risposta a chi si e' appena accorto
+// di essere sulla pagina sbagliata.
+'<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo\n' +
+'solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi\n' +
+'20 giorni o un periodo scelto da te, <a href="' + SITO + '/?r=' + REGS + '&amp;g=20&amp;' + PIN +
+   '" style="color:var(--blu);font-weight:700">apri ' + esc(z.n) + ' sulla mappa</a> e cambia\n' +
+'le date da lì.</div>\n\n' +
 '<div class="patto">\n' +
 '  <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la\n' +
 '  fa nessuno, e noi non ce la inventiamo.</p>\n' +
@@ -400,11 +432,13 @@ function pagina(z) {
 '      + "<a class=\\"capo-btn\\" href=\\"" + link(null, daG, a20) + "\\">Apri mappa · ultimi 20 gg</a>"\n' +
 '      + "<a class=\\"capo-btn\\" href=\\"" + SITO + "/funghi/zone/\\" style=\\"display:none\\">.</a>"\n' +
 '      + "</div></div>";\n\n' +
+// ⚠️ QUI NON SI RIPETE LA REGOLA DEI 12-13 GIORNI: dal 9/9/2026 sta nelle tre
+// righe in cima, ed e' la prima cosa che si legge. Restano le DATE, che in cima
+// non possono stare perche' cambiano ogni giorno.
 '    document.getElementById("finestra").innerHTML =\n' +
 '      "Qui la pioggia è caduta fra il <b>" + gg(daG) + "</b> e il <b>" + gg(aG) + "</b>, cioè da "\n' +
-'      + "<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli "\n' +
-'      + "servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia "\n' +
-'      + "che fa nascere i funghi <b>adesso</b>.";\n\n' +
+'      + "<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dai pluviometri, non una "\n' +
+'      + "previsione.";\n\n' +
 '    document.getElementById("tre").innerHTML =\n' +
 '      "<div><div class=\\"et\\">Media 13-20 giorni fa</div><div class=\\"n\\">" + num(med("mm")) + " mm</div></div>"\n' +
 '      + "<div><div class=\\"et\\">Media ultimi 7 giorni</div><div class=\\"n\\">" + num(med("mm7")) + " mm</div></div>"\n' +

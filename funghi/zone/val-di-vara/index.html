@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-di-vara/">
 <meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Piogge per funghi","item":"https://precipitazioni.avventuremicologiche.it/funghi/"},{"@type":"ListItem","position":2,"name":"Liguria","item":"https://precipitazioni.avventuremicologiche.it/funghi/liguria/"},{"@type":"ListItem","position":3,"name":"Val di Vara"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -160,10 +161,17 @@ nav.altre a{color:var(--blu);}
 </header>
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/" style="color:var(--blu)">‹ Piogge per funghi in Liguria</a></p>
+<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/" style="color:var(--blu)">Liguria</a></p>
 
-<h1>Piogge per funghi in Val di Vara</h1>
-<p class="sotto">Liguria · <b>6 pluviometri di ARPA Liguria e SIR Toscana</b>, nelle zone da bosco della Val di Vara. Pioggia misurata, aggiornata ogni giorno.</p>
+<h1>Dove potrebbero esserci le prime nascite di funghi in Val di Vara</h1>
+<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono
+almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella
+<b>da 13 a 20 giorni fa</b>, misurata dai <b>6 pluviometri</b> di ARPA Liguria e SIR Toscana nelle zone da bosco della Val di Vara, in Liguria. In cima alla classifica c’è quello dove ne è caduta di più.</p>
+
+<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo
+solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi
+20 giorni o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,toscana,emilia&amp;g=20&amp;pl=44.24306,9.83639&amp;pn=Val%20di%20Vara&amp;pz=1" style="color:var(--blu);font-weight:700">apri Val di Vara sulla mappa</a> e cambia
+le date da lì.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -229,7 +237,7 @@ da ARPA Liguria e SIR Toscana.</p>
 
 <h2 style="margin-top:30px">Quanto piove in Val di Vara, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
-teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 78 giorni di misura, i 4 pluviometri della Val di Vara che leggiamo dallo stesso giorno hanno contato <b>196 mm</b> di pioggia a testa,
+teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 81 giorni di misura, i 4 pluviometri della Val di Vara che leggiamo dallo stesso giorno hanno contato <b>196 mm</b> di pioggia a testa,
 in media. Il più bagnato è <b>Bosco di Rossano</b> con 328 mm, il più asciutto Parana con 37.</p>
 <p>La giornata più violenta di tutto l'archivio è stata il <b>21 agosto 2026</b> a Bosco di Rossano, con <b>140,6 mm</b> in
 ventiquattro ore.</p>
@@ -358,9 +366,8 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
 
     document.getElementById("finestra").innerHTML =
       "Qui la pioggia è caduta fra il <b>" + gg(daG) + "</b> e il <b>" + gg(aG) + "</b>, cioè da "
-      + "<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli "
-      + "servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia "
-      + "che fa nascere i funghi <b>adesso</b>.";
+      + "<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dai pluviometri, non una "
+      + "previsione.";
 
     document.getElementById("tre").innerHTML =
       "<div><div class=\"et\">Media 13-20 giorni fa</div><div class=\"n\">" + num(med("mm")) + " mm</div></div>"

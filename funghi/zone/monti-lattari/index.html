@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/zone/monti-lattari/">
 <meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Piogge per funghi","item":"https://precipitazioni.avventuremicologiche.it/funghi/"},{"@type":"ListItem","position":2,"name":"Campania","item":"https://precipitazioni.avventuremicologiche.it/funghi/campania/"},{"@type":"ListItem","position":3,"name":"Monti Lattari"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -160,10 +161,17 @@ nav.altre a{color:var(--blu);}
 </header>
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/" style="color:var(--blu)">‹ Piogge per funghi in Campania</a></p>
+<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/" style="color:var(--blu)">Campania</a></p>
 
-<h1>Piogge per funghi sui Monti Lattari</h1>
-<p class="sotto">Campania · <b>3 pluviometri di MeteoHub</b>, nelle zone da bosco dei Monti Lattari. Pioggia misurata, aggiornata ogni giorno.</p>
+<h1>Dove potrebbero esserci le prime nascite di funghi sui Monti Lattari</h1>
+<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono
+almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella
+<b>da 13 a 20 giorni fa</b>, misurata dai <b>3 pluviometri</b> di MeteoHub nelle zone da bosco dei Monti Lattari, in Campania. In cima alla classifica c’è quello dove ne è caduta di più.</p>
+
+<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo
+solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi
+20 giorni o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;g=20&amp;pl=40.65,14.5&amp;pn=Monti%20Lattari&amp;pz=1" style="color:var(--blu);font-weight:700">apri Monti Lattari sulla mappa</a> e cambia
+le date da lì.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -226,7 +234,7 @@ da MeteoHub.</p>
 
 <h2 style="margin-top:30px">Quanto piove sui Monti Lattari, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
-teniamo tutti i giorni da quando li leggiamo. Da luglio 2026 a settembre 2026, in 47 giorni di misura, i 3 pluviometri dei Monti Lattari hanno contato <b>42 mm</b> di pioggia a testa,
+teniamo tutti i giorni da quando li leggiamo. Da luglio 2026 a settembre 2026, in 51 giorni di misura, i 3 pluviometri dei Monti Lattari hanno contato <b>42 mm</b> di pioggia a testa,
 in media. Il più bagnato è <b>Moiano</b> con 57 mm, il più asciutto Agerola METEO con 31.</p>
 <p>La giornata più violenta di tutto l'archivio è stata il <b>18 agosto 2026</b> a Moiano, con <b>28,2 mm</b> in
 ventiquattro ore.</p>
@@ -355,9 +363,8 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
 
     document.getElementById("finestra").innerHTML =
       "Qui la pioggia è caduta fra il <b>" + gg(daG) + "</b> e il <b>" + gg(aG) + "</b>, cioè da "
-      + "<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli "
-      + "servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia "
-      + "che fa nascere i funghi <b>adesso</b>.";
+      + "<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dai pluviometri, non una "
+      + "previsione.";
 
     document.getElementById("tre").innerHTML =
       "<div><div class=\"et\">Media 13-20 giorni fa</div><div class=\"n\">" + num(med("mm")) + " mm</div></div>"

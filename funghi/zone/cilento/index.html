@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/zone/cilento/">
 <meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Piogge per funghi","item":"https://precipitazioni.avventuremicologiche.it/funghi/"},{"@type":"ListItem","position":2,"name":"Campania","item":"https://precipitazioni.avventuremicologiche.it/funghi/campania/"},{"@type":"ListItem","position":3,"name":"Cilento"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -160,10 +161,17 @@ nav.altre a{color:var(--blu);}
 </header>
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/" style="color:var(--blu)">‹ Piogge per funghi in Campania</a></p>
+<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/" style="color:var(--blu)">Campania</a></p>
 
-<h1>Piogge per funghi nel Cilento</h1>
-<p class="sotto">Campania · <b>3 pluviometri di MeteoHub</b>, nelle zone da bosco del Cilento. Pioggia misurata, aggiornata ogni giorno.</p>
+<h1>Dove potrebbero esserci le prime nascite di funghi nel Cilento</h1>
+<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono
+almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella
+<b>da 13 a 20 giorni fa</b>, misurata dai <b>3 pluviometri</b> di MeteoHub nelle zone da bosco del Cilento, in Campania. In cima alla classifica c’è quello dove ne è caduta di più.</p>
+
+<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo
+solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi
+20 giorni o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;g=20&amp;pl=40.33333,15.25&amp;pn=Cilento&amp;pz=1" style="color:var(--blu);font-weight:700">apri Cilento sulla mappa</a> e cambia
+le date da lì.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -226,7 +234,7 @@ da MeteoHub.</p>
 
 <h2 style="margin-top:30px">Quanto piove nel Cilento, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
-teniamo tutti i giorni da quando li leggiamo. Da luglio 2026 a settembre 2026, in 43 giorni di misura, i 3 pluviometri del Cilento hanno contato <b>151 mm</b> di pioggia a testa,
+teniamo tutti i giorni da quando li leggiamo. Da luglio 2026 a settembre 2026, in 47 giorni di misura, i 3 pluviometri del Cilento hanno contato <b>151 mm</b> di pioggia a testa,
 in media. Il più bagnato è <b>Rofrano-Fistole Faraone</b> con 178 mm, il più asciutto Campora con 131.</p>
 <p>La giornata più violenta di tutto l'archivio è stata il <b>16 agosto 2026</b> a Rofrano, con <b>40,2 mm</b> in
 ventiquattro ore.</p>
@@ -355,9 +363,8 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
 
     document.getElementById("finestra").innerHTML =
       "Qui la pioggia è caduta fra il <b>" + gg(daG) + "</b> e il <b>" + gg(aG) + "</b>, cioè da "
-      + "<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli "
-      + "servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia "
-      + "che fa nascere i funghi <b>adesso</b>.";
+      + "<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dai pluviometri, non una "
+      + "previsione.";
 
     document.getElementById("tre").innerHTML =
       "<div><div class=\"et\">Media 13-20 giorni fa</div><div class=\"n\">" + num(med("mm")) + " mm</div></div>"

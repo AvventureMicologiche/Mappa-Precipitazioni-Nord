@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-di-tires/">
 <meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Piogge per funghi","item":"https://precipitazioni.avventuremicologiche.it/funghi/"},{"@type":"ListItem","position":2,"name":"Alto Adige","item":"https://precipitazioni.avventuremicologiche.it/funghi/altoadige/"},{"@type":"ListItem","position":3,"name":"Val di Tires"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -160,10 +161,17 @@ nav.altre a{color:var(--blu);}
 </header>
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/" style="color:var(--blu)">‹ Piogge per funghi in Alto Adige</a></p>
+<p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/" style="color:var(--blu)">Alto Adige</a></p>
 
-<h1>Piogge per funghi in Val di Tires</h1>
-<p class="sotto">Alto Adige · <b>3 pluviometri di Provincia di Bolzano</b>, nelle zone da bosco della Val di Tires. Pioggia misurata, aggiornata ogni giorno.</p>
+<h1>Dove potrebbero esserci le prime nascite di funghi in Val di Tires</h1>
+<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono
+almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella
+<b>da 13 a 20 giorni fa</b>, misurata dai <b>3 pluviometri</b> di Provincia di Bolzano nelle zone da bosco della Val di Tires, in Alto Adige. In cima alla classifica c’è quello dove ne è caduta di più.</p>
+
+<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo
+solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi
+20 giorni o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=altoadige,trentino,veneto&amp;g=20&amp;pl=46.46611,11.51722&amp;pn=Val%20di%20Tires&amp;pz=1" style="color:var(--blu);font-weight:700">apri Val di Tires sulla mappa</a> e cambia
+le date da lì.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -226,7 +234,7 @@ da Provincia di Bolzano.</p>
 
 <h2 style="margin-top:30px">Quanto piove in Val di Tires, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questi pluviometri
-teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 94 giorni di misura, i 3 pluviometri della Val di Tires hanno contato <b>367 mm</b> di pioggia a testa,
+teniamo tutti i giorni da quando li leggiamo. Da giugno 2026 a settembre 2026, in 97 giorni di misura, i 3 pluviometri della Val di Tires hanno contato <b>367 mm</b> di pioggia a testa,
 in media. Il più bagnato è <b>Renon Siffian</b> con 391 mm, il più asciutto Nova Levante con 322.</p>
 <p>La giornata più violenta di tutto l'archivio è stata il <b>10 giugno 2026</b> a Renon Siffian, con <b>82,4 mm</b> in
 ventiquattro ore.</p>
@@ -355,9 +363,8 @@ bosco è calcolato su dati OpenStreetMap, licenza ODbL.</p>
 
     document.getElementById("finestra").innerHTML =
       "Qui la pioggia è caduta fra il <b>" + gg(daG) + "</b> e il <b>" + gg(aG) + "</b>, cioè da "
-      + "<b>13 a 20 giorni fa</b>. Dopo l’acqua il fungo non spunta subito: per svilupparsi gli "
-      + "servono <b>almeno 12-13 giorni</b>, a seconda della temperatura. È questa la pioggia "
-      + "che fa nascere i funghi <b>adesso</b>.";
+      + "<b>13 a 20 giorni fa</b>. Sono millimetri misurati a terra dai pluviometri, non una "
+      + "previsione.";
 
     document.getElementById("tre").innerHTML =
       "<div><div class=\"et\">Media 13-20 giorni fa</div><div class=\"n\">" + num(med("mm")) + " mm</div></div>"

@@ -104,6 +104,11 @@ fs.mkdirSync(USCITA, { recursive: true });
 
 let scritti = 0;
 const saltati = [];
+// La classifica NAZIONALE, per la pagina indice `/funghi/`: si riempie regione
+// per regione dentro il giro qui sotto e si scrive alla fine. Sta qui e non in
+// un altro script perche' i millimetri li ha gia' in mano questo: rileggerli da
+// fuori vorrebbe dire una seconda copia della ricetta, che prima o poi diverge.
+const italia = [];
 for (const k of Object.keys(POSTI)) {
   const r = REGIONI.find(x => x.k === k);
   // Se una regione sparisce dall'anagrafe delle pagine si ferma tutto: meglio
@@ -123,6 +128,17 @@ for (const k of Object.keys(POSTI)) {
     const f = forte(g.mm, id);
     posti[id] = [somma(g.mm, DA, A, id), somma(g.mm, 7, 1, id), somma(g.mm, GIORNI, 1, id),
                  f ? f[0] : 0, f ? f[1] : 0];
+  }
+
+  // ⚠️ Entrano solo le regioni che hanno le pagine di paese: la classifica
+  // nazionale e' fatta di righe CLICCABILI, e una riga senza pagina sarebbe un
+  // nome scritto per niente. Oggi sono tutte e 19, ma la condizione resta.
+  if (LOCALITA.includes(k)) {
+    const sln = slugRegione(POSTI[k]);
+    for (const p of POSTI[k]) {
+      const v = posti[p[0]][0];
+      if (v > 0) italia.push([bello(p[1]), p[2], k, sln[p[0]], v, p[4], p[5]]);
+    }
   }
 
   const testo = JSON.stringify({
@@ -214,6 +230,82 @@ for (const k of Object.keys(POSTI)) {
     fs.writeFileSync(destI, testoI, 'utf8');
     scritti++;
     console.log(`  indice.json  ${Object.keys(indice).length} posti`);
+  }
+}
+
+/* ── LA CLASSIFICA NAZIONALE, per la pagina indice `/funghi/` ──────────────
+   La pagina indice fa UNA richiesta e trova i posti piu' bagnati d'Italia gia'
+   in ordine. L'alternativa era farle scaricare i 19 file di regione: pochi KB
+   l'uno, ma diciannove raffiche a raw.githubusercontent per ogni visita, che e'
+   esattamente la raffica che il 18/8 prendeva i 429 veri.
+   ⚠️ SI SCRIVONO 25 RIGHE E LA PAGINA NE MOSTRA 20: le ultime cinque sono la
+   riserva per i posti che nel frattempo hanno perso la pagina. Piu' di cosi'
+   non serve — chi vuole l'elenco intero della sua regione ha la pagina della
+   regione, che li ha tutti. */
+{
+  italia.sort((a, b) => b[4] - a[4]);
+
+  /* ⚠️ LE GEMELLE, che qui saltano fuori PIU' che altrove. Dentro una regione
+     il problema non si pone (i doppioni li tolgono gia' i loader e i
+     riepiloghi), ma la classifica nazionale mette in fila regioni diverse, e
+     la Lunigiana la pubblicano sia OMIRL sia il SIR: al primo giro «Iera MS»
+     compariva DUE volte con lo stesso identico numero, terza e quarta.
+     Stessa regola e stessa tolleranza del resto del progetto: sotto il
+     chilometro sono lo stesso strumento.
+     ⚠️ NON si accoppiano per nome: la stessa stazione e' «Diga del Brugneto»
+     per ARPAE e «Brugneto Diga» per OMIRL. Si accoppiano per posizione.
+     ⚠️ CHI VINCE lo dice il dato, non una tabella scritta a mano: per ogni
+     sigla di provincia la regione di CASA e' quella che ne ha piu' posti (MS
+     e' toscana, che ne ha ventuno, non liguria che ne ha tre). Una tabella
+     provincia -> regione battuta a mano sarebbe un secondo elenco da tenere
+     allineato, ed e' l'errore che questo progetto ha gia' pagato altrove. */
+  const quanti = {};
+  for (const r of italia) {
+    quanti[r[1]] = quanti[r[1]] || {};
+    quanti[r[1]][r[2]] = (quanti[r[1]][r[2]] || 0) + 1;
+  }
+  const casa = {};
+  for (const sig of Object.keys(quanti))
+    casa[sig] = Object.entries(quanti[sig]).sort((a, b) => b[1] - a[1])[0][0];
+
+  const vicino = (a, b) => {
+    const dy = (a[5] - b[5]) * 111.2;
+    const dx = (a[6] - b[6]) * 111.2 * Math.cos(a[5] * Math.PI / 180);
+    return Math.sqrt(dx * dx + dy * dy) < 1;
+  };
+  const tenute = [];
+  let gemelle = 0;
+  for (const r of italia) {
+    const g = tenute.findIndex(t => vicino(t, r));
+    if (g < 0) { tenute.push(r); continue; }
+    gemelle++;
+    // Se la doppia e' quella di casa prende il posto dell'altra: il numero e'
+    // lo stesso, cambia solo su quale pagina si finisce cliccando.
+    if (casa[r[1]] === r[2] && casa[tenute[g][1]] !== tenute[g][2]) tenute[g] = r;
+  }
+  /* ⚠️ SI RIORDINA DOPO, e non e' pignoleria: le due gemelle NON danno lo
+     stesso numero. Sulla diga del Brugneto, sugli stessi otto giorni, ARPAE
+     conta 245,8 mm e OMIRL 222,7 — sono due strumenti veri sullo stesso sito,
+     letti da due catene diverse. Sostituendo la tenuta con quella di casa il
+     valore cambia, e senza questo riordino la riga resta al posto della
+     sorella: al primo giro il Brugneto usciva sopra un posto che ne aveva 14
+     in piu'. */
+  tenute.sort((a, b) => b[4] - a[4]);
+
+  const testoN = JSON.stringify({
+    generato: new Date().toISOString(), oggi,
+    finestra: [giorni[DA - 1], giorni[A - 1]],
+    quanti: tenute.length, regioni: Object.keys(POSTI).length - saltati.length,
+    primi: tenute.slice(0, 25).map(r => [r[0], r[1], r[2], r[3], uno(r[4])]),
+  }) + '\n';
+  const destN = path.join(USCITA, 'italia.json');
+  const primaN = fs.existsSync(destN) ? fs.readFileSync(destN, 'utf8') : '';
+  const senzaDataN = t => t.replace(/"generato":"[^"]+",/, '');
+  if (!(primaN && senzaDataN(primaN) === senzaDataN(testoN))) {
+    fs.writeFileSync(destN, testoN, 'utf8');
+    scritti++;
+    console.log(`  italia.json  ${tenute.length} posti bagnati (${gemelle} gemelle scartate), ` +
+      `primo: ${tenute.length ? tenute[0][0] + ' ' + uno(tenute[0][4]) + ' mm' : '—'}`);
   }
 }
 

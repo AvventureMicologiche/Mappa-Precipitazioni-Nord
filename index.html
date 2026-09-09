@@ -1023,7 +1023,35 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .fonte{font-size:9px;color:#6b80a0;padding:2px 10px;
   border-top:1px solid #eee;text-align:center;background:#fff;flex-shrink:0;}
 .fonte a{color:#1b3f6e}
-.fonte-reg{border-top:none;padding-bottom:4px;line-height:1.7;}
+/* ⚠️ LA PASTIGLIA E' L'ETICHETTA DELLA FILA, non un blocco a se'.
+   Storia in due passi. L'8/9/2026 la voce dei funghi stava in coda ai 23 nomi
+   delle pagine REGIONE, dopo un puntino, e si leggeva come una
+   ventiquattresima regione: allora le si diede `flex:1` alla lista, che la
+   spingeva contro il bordo opposto — erano due famiglie diverse ed era lo
+   SPAZIO a separarle. Poche ore dopo la fila e' diventata quella delle 19
+   pagine FUNGHI, cioe' la stessa famiglia dell'indice a cui la pastiglia
+   porta: adesso quel buco dividerebbe cose che vanno lette insieme, e si
+   sta tutto attaccato e centrato, come una frase sola. */
+.fonte-reg{border-top:none;padding-bottom:4px;line-height:1.7;
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:1px 12px;}
+.fonte-reg .fr-lista{flex:0 1 auto;}
+/* La domanda che apre la riga: e' lei a dire che le due strade rispondono
+   alla stessa cosa in due modi diversi. Un filo piu' scura e in neretto,
+   perche' sia chiaro che e' l'attacco e non un link. */
+/* Le DUE scritte della riga, non i link: stesso peso e stesso colore, perche
+   sono le due meta' della stessa frase. Prima la domanda era in neretto scuro
+   e il ponte in tondo chiaro, e sembravano di importanza diversa. */
+.fonte-reg .fr-dom,.fonte-reg .fr-pon{font-weight:700;color:#42506a;}
+.fonte-reg .fr-dom{flex:0 0 auto;}
+/* Il verde e' quello del bottone «Piogge per funghi» del pannello, apposta. */
+/* ⚠️ `line-height:1` e non il valore ereditato: e' cio' che rende la
+   pastiglia alta 15 px come la riga di testo accanto, e la striscia resta
+   di 21 px esatti, gli stessi che aveva senza. Col line-height ereditato
+   saliva a 26, cioe' cinque pixel rubati alla mappa per un bordo. */
+.fonte a.fr-funghi{flex:0 0 auto;background:#eef9ed;border:1px solid #b7dcb8;
+  color:#2d6a30;font-weight:700;border-radius:999px;padding:2px 10px;line-height:1;
+  text-decoration:none;white-space:nowrap;}
+.fonte a.fr-funghi:hover{background:#ddf1dc;border-color:#7bc67e;}
 
 /* ══════════════════════════════════════
    TABLET (601-900px)
@@ -1837,43 +1865,56 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   Mappa: <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a>
 </div>
 
-<!-- ⚠️ LA PORTA VERSO LE PAGINE REGIONE, aggiunta il 2/9/2026.
-     Fino a quel giorno la mappa non linkava NESSUNA delle 23 pagine: erano
-     orfane, e l'unica strada per arrivarci era la sitemap. La sitemap ti fa
-     scoprire, i link interni ti danno peso.
-     ⚠️ Qui stanno solo le 23 REGIONE, non anche le 19 funghi: la strada giusta
-     e' mappa -> regione -> funghi, e mettendo tutt'e 42 in fondo alla mappa la
-     striscia diventava alta il doppio rubendo spazio alla mappa. Le funghi le
-     linka la pagina della loro regione, che e' anche il posto dove ha senso.
+<!-- ⚠️ LA PORTA VERSO LE PAGINE «PIOGGE PER FUNGHI».
+     STORIA. Il 2/9/2026 qui erano nate le 23 pagine REGIONE, che fino a quel
+     giorno la mappa non linkava affatto: erano orfane e le trovava solo la
+     sitemap. L'8/9 la striscia cambia famiglia ed elenca le 19 pagine funghi.
+
+     ⚠️ PERCHE'. Misurate tutte e tre le strade, quel giorno:
+       23 regione (com'era)  1.249 px   regione 21 link a 1 clic, funghi 26 a 2
+       19 funghi  (questa)   1.033 px   regione 20 link a 2 clic, funghi 27 A 1
+       tutt'e due            2.036 px   regione 21 a 1 clic,      funghi 27 a 1
+     Le 19 sono piu' CORTE delle 23 (niente Svizzera, Austria, Slovenia e
+     Molise): la riga resta singola gia' dai ~1.050 px invece che dai ~1.270.
+     Tenerle tutt'e due sarebbe stato il meglio per i link, ma costava due
+     righe fisse su qualunque schermo, cioe' 16 px di mappa sempre.
+
+     ⚠️ LE 23 REGIONE NON RESTANO ORFANE, controllate una per una: le nomina
+     l'elenco in fondo a tutte e 19 le pagine funghi, piu' l'indice. Molise e
+     Austria, le piu' esposte perche' una pagina funghi non ce l'hanno,
+     tengono 20 link a testa. Quello che si perde e' il clic diretto dalla
+     mappa a «dove ha piovuto in Liguria»: chi e' sulla mappa pero' e' gia'
+     dentro lo strumento della pioggia, e da Google ci si arriva lo stesso.
+
      ⚠️ Sotto i 600px questa striscia e' display:none come .fonte, e Google
-     indicizza col crawler MOBILE: questi link li segue ma li pesa meno. Per
-     valere pieno dovrebbero stare in un punto visibile anche sul telefono, e
-     sulla mappa quel punto non c'e' senza rimpicciolire la mappa. -->
+     indicizza col crawler MOBILE: questi link li segue ma li pesa meno. Il
+     peso vero alla famiglia funghi lo danno le briciole delle 1.062 pagine di
+     paese e di zona, che sono testo visibile. Qui si guadagna il clic dalla
+     pagina piu' forte del sito, che e' un'altra cosa e vale sul desktop. -->
 <div class="fonte fonte-reg">
-  Dove ha piovuto:
-  <a href="/lombardia/">Lombardia</a> ·
-  <a href="/piemonte/">Piemonte</a> ·
-  <a href="/valledaosta/">Valle d'Aosta</a> ·
-  <a href="/liguria/">Liguria</a> ·
-  <a href="/emilia/">Emilia-Romagna</a> ·
-  <a href="/veneto/">Veneto</a> ·
-  <a href="/friuli/">Friuli</a> ·
-  <a href="/trentino/">Trentino</a> ·
-  <a href="/altoadige/">Alto Adige</a> ·
-  <a href="/toscana/">Toscana</a> ·
-  <a href="/umbria/">Umbria</a> ·
-  <a href="/marche/">Marche</a> ·
-  <a href="/lazio/">Lazio</a> ·
-  <a href="/molise/">Molise</a> ·
-  <a href="/campania/">Campania</a> ·
-  <a href="/puglia/">Puglia</a> ·
-  <a href="/basilicata/">Basilicata</a> ·
-  <a href="/calabria/">Calabria</a> ·
-  <a href="/sicilia/">Sicilia</a> ·
-  <a href="/sardegna/">Sardegna</a> ·
-  <a href="/svizzera/">Svizzera</a> ·
-  <a href="/austria/">Austria</a> ·
-  <a href="/slovenia/">Slovenia</a>
+  <span class="fr-dom">Dove ha piovuto di più?</span>
+  <a href="/funghi/" class="fr-funghi">🍄 La nostra selezione</a>
+  <span class="fr-lista"><span class="fr-pon">oppure guarda il riepilogo delle regioni:</span>
+  <a href="/funghi/lombardia/">Lombardia</a> ·
+  <a href="/funghi/piemonte/">Piemonte</a> ·
+  <a href="/funghi/valledaosta/">Valle d'Aosta</a> ·
+  <a href="/funghi/liguria/">Liguria</a> ·
+  <a href="/funghi/emilia/">Emilia-Romagna</a> ·
+  <a href="/funghi/veneto/">Veneto</a> ·
+  <a href="/funghi/friuli/">Friuli</a> ·
+  <a href="/funghi/trentino/">Trentino</a> ·
+  <a href="/funghi/altoadige/">Alto Adige</a> ·
+  <a href="/funghi/toscana/">Toscana</a> ·
+  <a href="/funghi/umbria/">Umbria</a> ·
+  <a href="/funghi/marche/">Marche</a> ·
+  <a href="/funghi/lazio/">Lazio</a> ·
+  <a href="/funghi/campania/">Campania</a> ·
+  <a href="/funghi/puglia/">Puglia</a> ·
+  <a href="/funghi/basilicata/">Basilicata</a> ·
+  <a href="/funghi/calabria/">Calabria</a> ·
+  <a href="/funghi/sicilia/">Sicilia</a> ·
+  <a href="/funghi/sardegna/">Sardegna</a>
+  </span>
 </div>
 
 <script>
