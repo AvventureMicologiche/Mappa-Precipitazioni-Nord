@@ -6242,10 +6242,40 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la qu
 // 58,9 e 79,8 mm in 45 giorni (San Giovanni a 3,8 km ne fa 59, Ponticelli a
 // 5,7 km ne fa 109). Non e' una zona asciutta, e' un pluviometro che non
 // riporta. Da ricontrollare se tornassero a misurare.
+// ⚠️ SI AGGANCIA ALL'ID, NON AL NOME (dal 10/9/2026). L'id di MeteoHub e' la
+// coppia `lat_lon`, e i nomi doppi esistono: in Sicilia «Agira», «Bisacquino»
+// e «Montalbano Elicona», in Umbria «S.Gemini». Le due Agira stanno a 4,4 km,
+// una misura e l'altra no: agganciando al nome sarebbero sparite tutt'e due.
+// E' la stessa lezione delle due Giralda in Emilia e dei quattro nomi doppi
+// in Toscana. Verificato il 10/9 che tutte e 1.583 le stazioni MeteoHub hanno
+// l'id, quindi non serve nessun ripiego sul nome.
 var MH_ESCLUSE={
-  calabria:{'Sellia Superiore':true},
-  marche:{'Poggio San Vicino':true},
-  umbria:{'Ponte S.Maria':true}
+  // Sellia Superiore (CZ): 41,4 mm negli ultimi 45 giorni, il 30% della
+  // mediana dei cinque vicini (136,8) e il 30% di Sant'Elia-Jano, che sta a
+  // 4,9 km. Ne restano 7 entro 10 km. Ricontrollata il 10/9/2026.
+  calabria:{'38.98528_16.62083':true},
+  // Ponte S.Maria (PG): 0,2 mm in 57 giorni consegnati, una sola giornata
+  // bagnata (0,2 mm il 18/8). Campogrande a 4,8 km ne fa 77,8 e Ponticelli a
+  // 5,7 km 89,6. ⚠️ Entro 10 km ne restano solo DUE, meno dei tre che la
+  // regola chiede: si tiene fuori lo stesso perche' 0,2 mm in 57 giorni non
+  // e' un dato da sostituire, e' gia' un buco adesso — e i due vicini sono a
+  // 5 km, non a 15.
+  umbria:{'42.89595_12.02092':true},
+  // Agira (EN), quella a 37.655/14.528: 0,0 mm in 53 giorni consegnati, MAI
+  // una goccia. L'ALTRA «Agira», a 4,4 km, ne fa 61,2 negli ultimi 45 giorni
+  // ed e' sana. Ne restano 3 entro 10 km. Trovata dal controllo del lunedi'
+  // il 31/8/2026, chiusa il 10/9.
+  sicilia:{'37.65500_14.52833':true}
+  // ── RIENTRATA il 10/9/2026: Poggio San Vicino (MC, 43.36842_13.07953) ────
+  // Esclusa il 21/8/2026 perche' faceva 0,0 mm in 37 giorni. Ha ripreso a
+  // misurare quello stesso giorno: 21,8 mm il 21/8, 36,4 il 25/8, 18,0 il
+  // 9/9. Sono 76,2 mm negli ultimi 45 giorni, il 147% della mediana dei
+  // cinque vicini e l'85% di San Giovanni, che sta a 3,8 km; nei 45 giorni
+  // precedenti era a zero secco.
+  // ⚠️ QUESTA LISTA E' A MANO E NESSUNO LA RILEGGE: il registro del
+  // controllo del lunedi' tace quando una stazione rientra, ma qui dentro
+  // resta fuori per sempre. Quando si tocca questa lista si ricontrollano
+  // TUTTE le voci contro i vicini, non solo quella che si sta aggiungendo.
 };
 function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
   var RAW=MH_DATA_BASE+'meteohub-'+regionKey;
@@ -6267,7 +6297,7 @@ function loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
       .then(function(data){
         if(data.stations){
           data.stations.forEach(function(s){
-            if(escluse[s.n]) return;                 // pluviometro guasto, vedi MH_ESCLUSE
+            if(escluse[s.id]) return;                // pluviometro guasto, vedi MH_ESCLUSE (per ID)
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
@@ -9653,7 +9683,7 @@ function loadMeteoHubStations(regionKey,cb){
     if(idx>=tries.length){ cb([]); return; }
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){ var escl=MH_ESCLUSE[regionKey]||{};
-                             var st=(data.stations||[]).filter(function(s){return !escl[s.n];})
+                             var st=(data.stations||[]).filter(function(s){return !escl[s.id];})
                                      .map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
                                                               w:s.w,u:s.u,t:s.t};});  // i sensori servono a selectUniformRicche
                              meteohubStationsCache[regionKey]=st; cb(st); })
