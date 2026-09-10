@@ -10165,7 +10165,11 @@ function loadDefaultMarkers(){
     // I TEMPORALI». E' il video di cui i due Short (regius e ovoli) sono
     // l'anteprima, e infatti da domani sera si alternano con lui.
     da: '2026-09-06T18:00:00+02:00',
-    fino: '2027-12-31T23:59:59+01:00',
+    // ⚠️ ANTICIPATA dal 31/12/2027 al 10/9 alle 17:59: si fa da parte nel
+    // minuto esatto in cui si accende l'uscita nuova, come il lungo dei
+    // Porcini si era fatto da parte per lei. Il cambio della guardia lo
+    // fanno le date, senza pubblicare niente.
+    fino: '2026-09-10T17:59:59+02:00',
     link: 'https://youtu.be/oCgBZBEwi4k',
     id: 'oCgBZBEwi4k',
     // ⚠️ VUOTI APPOSTA, come per l'uscita lunga del 2/9. Su Facebook e
@@ -10195,13 +10199,43 @@ function loadDefaultMarkers(){
     ganciopx: 15.5,
     canale: 'Avventure Micologiche'
   };
+  VETRINE.lungo20 = {
+    // Uscita LUNGA del 10/9/2026 alle 18: «PORCINI 2026 PINICOLA ED
+    // AESTIVALIS 20 GG DOPO I TEMPORALI». Terza uscita lunga di fila sullo
+    // stesso filone: 16 giorni il 6/9, 20 giorni adesso.
+    da: '2026-09-10T18:00:00+02:00',
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtu.be/rpLBWflVgPE',
+    id: 'rpLBWflVgPE',
+    // ⚠️ VUOTI APPOSTA, come per le due uscite lunghe precedenti: all'ora di
+    // lancio la vetrina non si divide, e il lungo deve prendere minuti
+    // guardati, che fuori da YouTube non arrivano.
+    facebook: '',
+    instagram: '',
+    // Video lungo, quindi copertina NORMALE: `maxresdefault.jpg` e' gia' 16:9
+    // (1280x720) ridotto a 480x270 con PIL. Il ritaglio da `oar2.jpg` serve
+    // solo per gli Short — e qui `oardefault.jpg` risponde 404, che e' la
+    // conferma che non e' uno Short.
+    copertina: 'vetrina-20gg.jpg',
+    gancio1: 'Porcini 2026:',
+    // ⚠️ IL TAGLIO E' SCELTA SUA, ed e' il primo che non finisce con «dopo i
+    // temporali». Le due uscite lunghe precedenti dicevano «16 giorni dopo i
+    // temporali» e «la botta dopo i temporali»: un terzo uguale sembrava lo
+    // stesso video della settimana prima. Qui in seconda riga vanno le due
+    // specie, che sono la cosa nuova, e il corpo sale da 15,5 a 20 px.
+    gancio2: 'pinicola e aestivalis',
+    // Misurato sulla colonna da 199 px: la riga lunga fa 187,9 px a 20, cioe'
+    // restano 11,1 px. E' il corpo piu' grande di tutte le vetrine finora.
+    ganciopx: 20,
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['lungo16','ovoli'].forEach(function(k){
+    ['lungo16','lungo20'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
