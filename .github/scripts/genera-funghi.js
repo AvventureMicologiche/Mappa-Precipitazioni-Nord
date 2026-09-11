@@ -50,6 +50,17 @@ const USCITA = path.join(DATI, 'funghi');
 
 const GIORNI = 25;                  // la finestra piu' lunga della pagina
 const FORTE = 30;                   // «pioggia forte»: mm in un giorno solo
+/* ⚠️ QUANTO INDIETRO SI CERCA L'ULTIMA PIOGGIA FORTE, e perche' non 25.
+   La serie che la pagina scarica resta di 25 giorni, ma «da quanto non piove
+   sul serio» con quella finestra sa dire solo «in 25 giorni mai», che e' la
+   risposta meno utile proprio dove serve di piu'. Misurato l'11/9/2026 sulle
+   114 zone con la soglia a 30 mm: TRENTA non avevano niente neanche in
+   ottanta giorni. Si cerca quindi fino a 150 giorni, ma **solo per i
+   pluviometri che nei primi 25 non hanno trovato niente**, e la scansione si
+   ferma appena li ha risolti tutti: sul grosso delle regioni non legge un
+   file in piu'. Il file che il visitatore scarica non cresce di un byte:
+   sono due numeri per pluviometro, non 125 giorni di serie. */
+const FINESTRA_FORTE = 150;
 const DA = 20, A = 13;              // la finestra dei funghi: 13-20 giorni fa
 const MINIMO = 5;                   // sotto questi giorni buoni non si scrive
 
@@ -98,6 +109,37 @@ function forte(mm, id) {
   return null;
 }
 
+/* Chi nei primi GIORNI non ha trovato niente lo si cerca piu' indietro, un
+   giorno per volta, fermandosi appena la lista dei mancanti si svuota.
+   Restituisce { id: [giorniFa, mm] } e la profondita' raggiunta, che serve
+   alla pagina per dire «in N giorni mai» invece di un «mai» senza appiglio. */
+function forteIndietro(dirs, oggi, mancanti) {
+  const trovati = {};
+  let restano = new Set(mancanti);
+  let arrivatoA = GIORNI;
+  if (!restano.size) return { trovati, arrivatoA };
+  const giorni = giorniIndietro(oggi, FINESTRA_FORTE);
+  for (let n = GIORNI + 1; n <= FINESTRA_FORTE && restano.size; n++) {
+    const g = giorni[n - 1];
+    const somma = {};
+    let qualcosa = false;
+    for (const dir of dirs) {
+      const staz = leggi(dir, g);
+      if (!staz) continue;
+      qualcosa = true;
+      // ⚠️ Si somma per id come fa perGiorno: dove una regione legge due
+      // cartelle lo stesso pluviometro puo' comparire in tutt'e due.
+      for (const s of staz) if (s.mm != null && restano.has(String(s.id)))
+        somma[s.id] = (somma[s.id] || 0) + s.mm;
+    }
+    if (qualcosa) arrivatoA = n;
+    for (const id of Object.keys(somma)) {
+      if (somma[id] >= FORTE) { trovati[id] = [n, uno(somma[id])]; restano.delete(id); }
+    }
+  }
+  return { trovati, arrivatoA };
+}
+
 const oggi = oggiItalia();
 const giorni = giorniIndietro(oggi, GIORNI);
 fs.mkdirSync(USCITA, { recursive: true });
@@ -123,11 +165,19 @@ for (const k of Object.keys(POSTI)) {
   if (g.presenti < MINIMO) { saltati.push(`${k} (${g.presenti} giorni)`); continue; }
 
   const posti = {};
+  const senzaForte = [];
   for (const p of POSTI[k]) {
     const id = p[0];
     const f = forte(g.mm, id);
+    if (!f) senzaForte.push(String(id));
     posti[id] = [somma(g.mm, DA, A, id), somma(g.mm, 7, 1, id), somma(g.mm, GIORNI, 1, id),
                  f ? f[0] : 0, f ? f[1] : 0];
+  }
+  // Chi non ha preso 30 mm negli ultimi 25 giorni si cerca piu' indietro.
+  const oltre = forteIndietro(r.dirs, oggi, senzaForte);
+  for (const id of Object.keys(oltre.trovati)) {
+    posti[id][3] = oltre.trovati[id][0];
+    posti[id][4] = oltre.trovati[id][1];
   }
 
   // ⚠️ Entrano solo le regioni che hanno le pagine di paese: la classifica
@@ -143,7 +193,15 @@ for (const k of Object.keys(POSTI)) {
 
   const testo = JSON.stringify({
     regione: k, generato: new Date().toISOString(),
-    oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo, posti,
+    oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo,
+    // Fin dove si e' guardato indietro cercando la pioggia forte: serve alla
+    // pagina per scrivere «in 92 giorni mai» invece di un «mai» campato.
+    // ⚠️ `tetto` dice se quel numero e' il FONDO DELL'ARCHIVIO o solo il nostro
+    // limite di ricerca: sono due frasi diverse. Con 114 giorni in Sicilia e'
+    // vero che l'archivio finisce li'; con 150 in Liguria no, e' solo fin dove
+    // abbiamo guardato — scriverlo come «da quando abbiamo archivio» sarebbe
+    // falso.
+    cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE, posti,
   }) + '\n';
 
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
@@ -183,9 +241,17 @@ for (const k of Object.keys(POSTI)) {
     }
     const sl = slugRegione(POSTI[k]);
     const anagrafe = POSTI[k].map(p => [p[0], bello(p[1]), p[2], p[3], p[4], p[5], p[6], sl[p[0]]]);
+    /* ⚠️ L'ULTIMA PIOGGIA FORTE VA SCRITTA QUI, non lasciata calcolare alla
+       pagina dalla serie: la serie e' di 25 giorni e la pagina di zona non
+       potrebbe mai dire «21 giorni fa» per una valle asciutta da un mese.
+       Sono due numeri per pluviometro, e solo per quelli che ce l'hanno. */
+    const forteMap = {};
+    for (const p of POSTI[k]) if (posti[p[0]][3]) forteMap[p[0]] = [posti[p[0]][3], posti[p[0]][4]];
     const testoG = JSON.stringify({
       regione: k, generato: new Date().toISOString(),
-      oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo, anagrafe, serie,
+      oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo,
+      cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE,
+      anagrafe, serie, forte: forteMap,
       serieT, serieW,
     }) + '\n';
     const destG = path.join(USCITA, k + '-giorni.json');

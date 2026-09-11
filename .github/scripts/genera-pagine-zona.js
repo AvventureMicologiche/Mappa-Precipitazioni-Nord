@@ -215,6 +215,16 @@ briciolaJson([
 '<style>\n' + STILE + '\n' +
 '.tre{display:flex;gap:10px;margin:18px 0 6px;flex-wrap:wrap;}\n' +
 '.tre > div{flex:1;min-width:150px;background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:12px 14px;}\n' +
+/* ⚠️ LA QUARTA CASELLA, quella di «da quanto non piove», e piu LARGA delle
+   altre tre e non e un vezzo: misurato l 11/9/2026, la sua etichetta a 13 px
+   chiede 170,2 px e una casella normale ne offre 169. Sforava di 1,2 px,
+   andava a capo e abbassava il numero rispetto agli altri tre. Si allarga la
+   casella invece di rimpicciolire il testo, cosi la tipografia resta la
+   stessa su tutte e quattro.
+   ⚠️ Sotto i 600 px va a tutta larghezza da sola: li le caselle si dispongono
+   a due a due, e una quarta piu alta gonfierebbe la sua riga. */
+'.tre > div.secco{flex:1.25;border-left:4px solid var(--verde);}\n' +
+'@media(max-width:600px){.tre > div.secco{flex-basis:100%;}}\n' +
 '.tre .et{font-size:13px;color:#5a6b80;}\n' +
 '.tre .n{font-size:26px;font-weight:700;color:var(--blu-scuro);line-height:1.2;}\n' +
 'nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}\n' +
@@ -382,12 +392,20 @@ briciolaJson([
 '  })).then(function(js){\n' +
 '    var buoni = js.filter(function(j){ return j && fresco(j); });\n' +
 '    if(buoni.length !== REGIONI.length) return guasto();\n' +
-'    var serie = {}, oggi = null;\n' +
+'    var serie = {}, oggi = null, forti = {}, fino = null, tetto = null;\n' +
 '    buoni.forEach(function(j){ Object.keys(j.serie).forEach(function(id){ serie[id] = j.serie[id]; });\n' +
+'                               var f = j.forte || {};\n' +
+'                               Object.keys(f).forEach(function(id){ forti[id] = f[id]; });\n' +
+'                               /* ⚠️ Fin dove si e\' guardato indietro: se la zona sta a cavallo\n' +
+'                                  di due regioni con archivi lunghi diversi vale il PIU CORTO,\n' +
+'                                  se no si prometterebbe una ricerca che per meta della valle\n' +
+'                                  non e stata fatta. */\n' +
+'                               if(j.cercatoFino && (fino === null || j.cercatoFino < fino)) fino = j.cercatoFino;\n' +
+'                               if(j.tetto && (tetto === null || j.tetto < tetto)) tetto = j.tetto;\n' +
 '                               if(!oggi || j.oggi < oggi) oggi = j.oggi; });\n' +
 '    var righe = POSTI.filter(function(p){ return serie[p[0]]; });\n' +
 '    if(righe.length < 2) return guasto();\n' +
-'    disegna(serie, oggi, righe);\n' +
+'    disegna(serie, oggi, righe, forti, fino, tetto);\n' +
 '  }).catch(function(){ guasto(); });\n\n' +
 '  function guasto(){\n' +
 '    document.getElementById("attesa").style.display="none";\n' +
@@ -397,17 +415,36 @@ briciolaJson([
 '      + "da te: riprova fra qualche minuto, oppure vai direttamente "\n' +
 '      + "<a href=\\"" + MAPPA + "?r=" + REGS + "\\">sulla mappa</a>.";\n' +
 '  }\n\n' +
-'  function disegna(serie, oggi, righe){\n' +
+'  function disegna(serie, oggi, righe, forti, fino, tetto){\n' +
 '    var daG = iso(menoDa(oggi,20)), aG = iso(menoDa(oggi,13)), a20 = iso(menoDa(oggi,1));\n' +
 '    var dati = righe.map(function(p){\n' +
 '      var s = serie[p[0]];\n' +
-'      var forte = null;\n' +
-'      for(var n=1;n<=GIORNI;n++) if(s[n-1] >= FORTE){ forte = {g:n, mm:s[n-1]}; break; }\n' +
+'      /* ⚠️ L ULTIMA PIOGGIA FORTE ARRIVA DAL FILE, non si cerca nella serie.\n' +
+'         La serie e di 25 giorni: cercandola li dentro, una valle asciutta da\n' +
+'         un mese risponderebbe «mai» invece di «trentadue giorni fa». Il\n' +
+'         generatore la cerca fino a 150 giorni indietro e scrive due numeri. */\n' +
+'      var ff = forti && forti[p[0]];\n' +
+'      var forte = ff ? {g:ff[0], mm:ff[1]} : null;\n' +
 '      return { id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], slug:p[6], reg:p[7],\n' +
 '               mm:somma(s,20,13), mm7:somma(s,7,1), mm25:somma(s,GIORNI,1), forte:forte };\n' +
 '    }).sort(function(a,b){ return b.mm - a.mm; });\n\n' +
 '    var med = function(c){ var t=0; dati.forEach(function(x){ t+=x[c]; }); return uno(t/dati.length); };\n' +
 '    var primo = dati[0];\n\n' +
+'    /* ⚠️ IL VALORE DELLA ZONA E LA MEDIANA DEI GIORNI, non il piu recente.\n' +
+'       Col piu recente basterebbe un temporale su un pluviometro solo per\n' +
+'       dichiarare bagnata tutta la valle, e per i funghi conta che l acqua\n' +
+'       sia arrivata dappertutto. Chi non ne ha mai avuta una entra nel conto\n' +
+'       come «piu indietro di tutti», cosi non sparisce e non falsa la meta. */\n' +
+/* ⚠️ NON chiamarla `gg`: nella pagina esiste gia' una funzione `gg(data)` che
+   scrive «21 agosto», e una var dentro disegna la coprirebbe per tutta la
+   funzione. Costava un «gg is not a function» inghiottito dal .catch, che in
+   pagina si vede solo come «non riesco a leggere l'archivio». */
+'    var gForti = dati.map(function(x){ return x.forte ? x.forte.g : 1e9; })\n' +
+'                     .sort(function(a,b){ return a-b; });\n' +
+'    var mez = gForti.length % 2 ? gForti[(gForti.length-1)/2]\n' +
+'                                : Math.round((gForti[gForti.length/2-1] + gForti[gForti.length/2]) / 2);\n' +
+'    var mediaG = mez >= 1e9 ? null : mez;\n' +
+'    function quandoG(n){ return n===1 ? "ieri" : n===2 ? "l\'altro ieri" : n + " giorni fa"; }\n\n' +
 '    function link(x, dal, al){\n' +
 '      /* pl/pn = il segnaposto. Senza, questi bottoni aprivano la mappa sul\n' +
 '         punto giusto ma SENZA la puntina, e chi arriva non sa quale pallino\n' +
@@ -442,7 +479,9 @@ briciolaJson([
 '    document.getElementById("tre").innerHTML =\n' +
 '      "<div><div class=\\"et\\">Media 13-20 giorni fa</div><div class=\\"n\\">" + num(med("mm")) + " mm</div></div>"\n' +
 '      + "<div><div class=\\"et\\">Media ultimi 7 giorni</div><div class=\\"n\\">" + num(med("mm7")) + " mm</div></div>"\n' +
-'      + "<div><div class=\\"et\\">Media ultimi 25 giorni</div><div class=\\"n\\">" + num(med("mm25")) + " mm</div></div>";\n\n' +
+'      + "<div><div class=\\"et\\">Media ultimi 25 giorni</div><div class=\\"n\\">" + num(med("mm25")) + " mm</div></div>"\n' +
+'      + "<div class=\\"secco\\"><div class=\\"et\\">Ultima pioggia sopra i " + FORTE + " mm</div>"\n' +
+'        + "<div class=\\"n\\">" + (mediaG === null ? "mai" : quandoG(mediaG)) + "</div></div>";\n\n' +
 '    document.getElementById("notamedia").innerHTML =\n' +
 '      "Medie sui <b>" + dati.length + " pluviometri</b> da bosco della zona. Il più bagnato nella "\n' +
 '      + "finestra dei funghi è <b>" + esc(primo.n) + "</b> con " + num(primo.mm) + " mm, il più asciutto "\n' +
@@ -469,13 +508,24 @@ briciolaJson([
 '      return (y ? y.mm : -1) - (x ? x.mm : -1);\n' +
 '    });\n' +
 '    for (var iq = 0; iq < trs.length; iq++) corpo.appendChild(trs[iq]);\n\n' +
-'    var conForte = dati.filter(function(r){ return r.forte; }).length;\n' +
+'    /* ⚠️ QUI SI DICE «DA QUANTO NON PIOVE SUL SERIO», e la frase e cambiata\n' +
+'       l 11/9/2026: prima diceva «negli ultimi 25 giorni ne hanno avuta N su\n' +
+'       M», che con la ricerca estesa a 150 giorni sarebbe diventata FALSA\n' +
+'       senza dare nessun errore. Adesso dice da quanto, che era la domanda. */\n' +
 '    document.getElementById("notaforte").innerHTML =\n' +
 '      "«Pioggia forte» vuol dire almeno " + FORTE + " mm in un giorno solo: è quella che bagna "\n' +
-'      + "davvero il terreno. Negli ultimi " + GIORNI + " giorni ne hanno avuta "\n' +
-'      + (conForte === dati.length ? "<b>tutti</b> i pluviometri della zona"\n' +
-'         : conForte === 0 ? "<b>nessun</b> pluviometro della zona"\n' +
-'         : "<b>" + conForte + " pluviometri su " + dati.length + "</b>") + ". "\n' +
+'      + "davvero il terreno, mentre sotto quella soglia l’acqua resta nella lettiera e se ne va. "\n' +
+'      + (mediaG === null\n' +
+'         ? "In " + ZONA + " più di metà dei <b>" + dati.length + " pluviometri</b> non ne vede una "\n' +
+'           + "da almeno <b>" + (fino || GIORNI) + " giorni</b>"\n' +
+/* ⚠️ Due frasi diverse, e la differenza e' vera: fermarsi al nostro tetto
+   di 150 giorni non vuol dire che l'archivio finisca li'. Scriverlo come
+   «da quando abbiamo archivio» sarebbe falso su mezzo nord. */
+'           + (tetto && fino >= tetto ? ", che è fin dove siamo andati a guardare. "\n' +
+'                                     : ", cioè da quando abbiamo archivio qui. ")\n' +
+'         : "In " + ZONA + " l’ultima è di <b>" + quandoG(mediaG) + "</b>, il valore di mezzo fra i "\n' +
+'           + "<b>" + dati.length + " pluviometri</b> della zona: metà l’ha avuta più di recente, "\n' +
+'           + "metà più indietro. ")\n' +
 '      + "Ogni nome della tabella porta alla sua pagina, con la pioggia giorno per giorno.";\n\n' +
 '    document.getElementById("attesa").style.display = "none";\n' +
 '  }\n' +
