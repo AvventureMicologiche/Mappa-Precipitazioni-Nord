@@ -72,6 +72,12 @@ function scriviSitemap(SITO, RADICE) {
 
   voci.push({ loc: SITO + '/', lastmod: '2026-08-14', freq: 'daily', pri: '1.0' });
   voci.push({ loc: SITO + '/fonti.html', lastmod: '2026-08-07', freq: 'monthly', pri: '0.5' });
+  // La guida (12/9/2026). Priorita' 0.6: sta sopra le fonti, che sono una
+  // pagina di servizio, e sotto le pagine regione, che sono la risposta alla
+  // domanda per cui la gente arriva. `lastmod` e' il giorno in cui e' nata: si
+  // sposta a mano quando la pagina cambia davvero, non quando cambiano i dati.
+  if (c_e(path.join('guida', 'index.html')))
+    voci.push({ loc: SITO + '/guida/', lastmod: '2026-09-12', freq: 'monthly', pri: '0.6' });
 
   for (const r of REGIONI) {
     if (c_e(path.join(r.k, 'index.html')))

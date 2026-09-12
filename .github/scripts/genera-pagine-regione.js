@@ -573,13 +573,20 @@ function briciolaJson(voci) {
    e' meglio di riscrivere il file a caso.
    ⚠️ `fonti.html` e' a CRLF: si riscrive con lo stesso `scrivi(..., true)`. */
 function mappaDelSito(radice) {
-  const F = path.join(radice, 'fonti.html');
+  /* Dal 12/9/2026 i file sono DUE: `fonti.html` e la guida. L'elenco e' lo
+     stesso e si scrive nello stesso modo, quindi si cicla invece di copiare la
+     funzione: due elenchi che divergono sono la trappola gia' pagata. */
+  for (const rel of ['fonti.html', path.join('guida', 'index.html')]) mappaInUnFile(radice, rel);
+}
+
+function mappaInUnFile(radice, rel) {
+  const F = path.join(radice, rel);
   const A = '<!-- PAGINE:INIZIO -->', B = '<!-- PAGINE:FINE -->';
-  if (!fs.existsSync(F)) { console.log('  ⚠️ fonti.html non c\'e\': mappa del sito saltata'); return; }
+  if (!fs.existsSync(F)) { console.log(`  ⚠️ ${rel} non c'e': mappa del sito saltata`); return; }
   const testo = fs.readFileSync(F, 'utf8');
   const i = testo.indexOf(A), j = testo.indexOf(B);
   if (i < 0 || j < 0 || j < i) {
-    console.log('  ⚠️ fonti.html senza segnaposti PAGINE: mappa del sito saltata');
+    console.log(`  ⚠️ ${rel} senza segnaposti PAGINE: mappa del sito saltata`);
     return;
   }
   const dentro = [
@@ -592,9 +599,9 @@ function mappaDelSito(radice) {
     '</div>',
   ].join('\r\n') + '\r\n';
   const nuovo = testo.slice(0, i) + dentro + testo.slice(j);
-  if (nuovo === testo) { console.log('  fonti.html  (invariato)'); return; }
+  if (nuovo === testo) { console.log(`  ${rel}  (invariato)`); return; }
   scrivi(F, nuovo, true);
-  console.log(`  fonti.html  mappa del sito: ${REGIONI.length} regioni e ${FUNGHI.length} funghi`);
+  console.log(`  ${rel}  mappa del sito: ${REGIONI.length} regioni e ${FUNGHI.length} funghi`);
 }
 
 module.exports = { REGIONI, FUNGHI, navAltre, briciolaJson };

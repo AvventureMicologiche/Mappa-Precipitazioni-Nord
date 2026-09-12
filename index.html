@@ -93,11 +93,17 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .hdr-soc{color:#fff;display:flex;line-height:0;text-decoration:none;opacity:.9;transition:opacity .15s;}
 .hdr-soc:hover{opacity:1;}
 .hdr-soc svg{width:20px;height:20px;fill:currentColor;}
-/* Video FAQ "come si usa la mappa": UNA sola porta per volta.
+/* «Guida»: UNA sola porta per volta.
    Sul desktop e' il bottone rosso in coda alle icone social — sta dentro
    .hdr-socials, quindi sotto i 600px sparisce da solo insieme a loro.
    Sul telefono al suo posto c'e' la scritta #faq-funghi sotto "Piogge per
-   funghi", che infatti compare solo alla stessa soglia. */
+   funghi", che infatti compare solo alla stessa soglia.
+   ⚠️ Dal 12/9/2026 i due link portano alla PAGINA /guida/, non piu' al video:
+   il video sta in cima alla guida. Motivo: sotto i 600px questa scritta e'
+   l'unico link interno visibile che la mappa ha, e Google scansiona col
+   crawler mobile — mandandolo su YouTube quel peso si buttava via.
+   Gli id restano quelli (#hdr-faq, #faq-funghi) perche' li citano le regole
+   qui sotto e tenereVisibileLoStato(); e' il nome, non il bersaglio. */
 #hdr-faq{display:inline-flex;align-items:center;background:#e12b2b;color:#fff;font-size:12px;font-weight:600;padding:6px 11px;border-radius:7px;text-decoration:none;line-height:1;white-space:nowrap;margin-left:4px;}
 #hdr-faq:hover{background:#f4433a;}
 #tp-links{display:none;}   /* la coppia FAQ + feedback: solo mobile */
@@ -1526,9 +1532,9 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       <a href="https://www.facebook.com/avventuremicologiche/" target="_blank" rel="noopener" aria-label="Facebook" class="hdr-soc" onclick="try{gtag('event','click_facebook',{pulsante:'icona-social'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
       <a href="https://www.instagram.com/avventuremicologiche/" target="_blank" rel="noopener" aria-label="Instagram" class="hdr-soc" onclick="try{gtag('event','click_instagram',{pulsante:'icona-social'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
       <a href="https://suno.com/@avventuremicologiche" target="_blank" rel="noopener" aria-label="Suno" class="hdr-soc" onclick="try{gtag('event','click_suno',{pulsante:'icona-social'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></a>
-      <a href="https://youtu.be/fvsBZJ_Ylf4" target="_blank" rel="noopener" id="hdr-faq"
-         title="Come si usa la mappa — video di 2 minuti"
-         onclick="try{gtag('event','click_youtube',{pulsante:'faq-desktop'})}catch(e){}">FAQ video</a>
+      <a href="/guida/" target="_blank" rel="noopener" id="hdr-faq"
+         title="Guida: come si usa la mappa, tutte le funzioni"
+         onclick="try{gtag('event','click_guida',{pulsante:'guida-desktop'})}catch(e){}">Guida</a>
     </div>
   </div>
 </header>
@@ -1793,8 +1799,8 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
         <div id="tp-status"></div>
         <div id="tp-spinner"><div class="mini-spin"></div><span>Caricamento…</span></div>
         <div id="tp-links">
-          <a href="https://youtu.be/fvsBZJ_Ylf4" target="_blank" rel="noopener" id="faq-funghi"
-             onclick="try{gtag('event','click_youtube',{pulsante:'faq-mobile'})}catch(e){}">FAQ video</a>
+          <a href="/guida/" target="_blank" rel="noopener" id="faq-funghi"
+             onclick="try{gtag('event','click_guida',{pulsante:'guida-mobile'})}catch(e){}">Guida</a>
           <a href="/fonti.html#feedback" id="tp-feedback"
              onclick="try{gtag('event','click_feedback',{pulsante:'mappa-mobile'})}catch(e){}">invia feedback</a>
         </div>
