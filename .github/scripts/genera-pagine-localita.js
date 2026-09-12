@@ -679,7 +679,12 @@ provinciali ISTAT.</p>
        meteorologica italiana, scelte pero' sui nostri dati. */
     var nInt = document.getElementById('notaintensita');
     if (forte && forte.ore) {
-      var perOra = forte.mm / forte.ore;
+      /* ⚠️ SI ARROTONDA PRIMA DI GIUDICARE, se no il numero scritto e la
+         parola si contraddicono: Tolmin, 1,95 mm all'ora, usciva «2 mm
+         all'ora, pioggia lenta» mentre la soglia della lenta e' proprio 2.
+         Capita a cavallo delle due soglie, circa una volta su cento, e chi
+         conosce la scala se ne accorge. */
+      var perOra = uno(forte.mm / forte.ore);
       var parola = perOra < 2 ? 'lenta' : perOra <= 6 ? 'media' : 'battente';
       var senso = perOra < 2
         ? 'acqua che ha avuto tutto il tempo di entrare nel terreno'
