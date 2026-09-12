@@ -29,6 +29,18 @@
  * Nove tolte il 2/9/2026, tutte friulane. Per questo qui gli id si possono
  * unire fra cartelle senza tolleranze: sono gia' univoci.
  *
+ * ⚠️ IL 12/9/2026 NE SONO USCITE ALTRE TRENTASETTE, e quelle erano di un'altra
+ * razza: non due porte della stessa rete ma DUE AGENZIE diverse sullo stesso
+ * pluviometro, quindi invisibili al controllo per cartella. Cabanne stava
+ * sotto la Liguria (OMIRL) e sotto l'Emilia (ARPAE), Marradi sotto la Toscana
+ * (SIR) e sotto l'Emilia: due pagine di paese a testa, e in trentatre' casi su
+ * trentasette anche due volte dentro la media della STESSA zona. Si e' tenuta
+ * quella dell'agenzia della regione dove il paese sta davvero, letta dalla
+ * sigla della provincia. Restano fuori dal filtro due coppie vicine ma vere,
+ * riconosciute confrontando sessanta giorni di pioggia: Barco e Giogo (810 m,
+ * 180,8 mm contro 54,4) e Giacopiane Diga e Lago. I trentasette indirizzi
+ * vecchi rimandano ai nuovi da `_redirects`.
+ *
  * ⚠️ LE FINESTRE SONO 7 E 25 GIORNI DAVVERO. La pagina di prova sommava
  * `n = 6 … 0` e `n = 24 … 0` partendo pero' da n = 1 (oggi non c'e', i
  * collector scrivono ieri): erano SEI giorni sotto l'etichetta «ultimi 7» e
