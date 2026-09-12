@@ -1806,3 +1806,136 @@ dopo una prova si fa `git checkout -- funghi/`.
 
 ⚠️ **Non tocca le 23 pagine regione ne' le 19 funghi**: quelle il ritratto non
 ce l'hanno e la loro data deve restare quella vera dell'ultima modifica.
+
+---
+
+## L'intensita' della pioggia: ore bagnate e punta oraria (12 settembre 2026)
+
+Ogni stazione-giorno porta un campo compatto in piu':
+
+    i: [ore bagnate, punta oraria in mm]
+
+I millimetri all'ora si ricavano dividendo `mm` per le ore bagnate: non si
+scrivono, sarebbero un terzo numero deducibile dagli altri due.
+
+**PERCHE'.** La stessa pioggia in un'ora vale meno che in otto: quella che
+scende piano entra nel terreno, quella che scroscia corre via. Il 10 settembre
+2026 in Liguria **Fontana Fresca** ha contato **35,6 mm in 3 ore** con una
+punta di 19,8, e **Passo della Cisa 34,6 mm in 8 ore** sparse dalle tre del
+mattino alle sette di sera. Sulla mappa erano la stessa giornata. Per chi cerca
+funghi no. Idea nata dal confronto con labuttata.it del 10/9.
+
+**COSTA ZERO RICHIESTE.** I collector percorrevano gia' la serie oraria per
+fare la somma del giorno e contavano gia' le ore valide: sono due numeri dentro
+un ciclo che esiste. Stessa ricetta con cui sono entrati temperatura, vento e
+umidita'. Peso sui file: **+8,6%** misurato su sette cartelle in un giorno
+piovoso, ed e' lo stesso ordine del campo `u` (+8% il 18/8). Sui giorni asciutti
+il campo non si scrive affatto.
+
+### La libreria, e perche' ce n'e' una
+
+`.github/scripts/lib-intensita.js` — `creaOre()`, `segna(ore, chiave, mm)`,
+`intensita(ore)`.
+
+⚠️ **SI CONTA SEMPRE PER ORE PIENE, anche dove la rete pubblica ogni 5, 10 o
+30 minuti.** Senza questo passaggio una rete a 10 minuti direbbe «84 fasce
+bagnate» e una oraria «7»: i due numeri non sarebbero confrontabili fra loro
+ne' con la scala meteorologica, che e' in millimetri ALL'ORA. Il collector non
+conta i campioni, li versa nell'ora a cui appartengono e il conto lo fa la
+libreria.
+
+⚠️ **`segna()` si chiama ANCHE per gli zeri**: il secchiello vuoto e' la prova
+che quell'ora l'abbiamo letta. Chiamandola solo quando piove, un giorno con due
+ore di pioggia e ventidue di silenzio risulterebbe letto per due ore e finirebbe
+scartato dalla soglia.
+
+Tre casi danno `null`, cioe' nessun campo nel file: meno di **20 ore lette**
+(la durata non e' misurabile, stessa soglia di t/w/u), nessuna ora bagnata,
+oppure meno di **0,5 mm** in tutto il giorno (0,2 mm in un'ora fanno 0,2 mm
+all'ora, tecnicamente «lenta», ma e' rumore).
+
+### Chi ce l'ha e chi no
+
+**Nove collector**: Liguria, Piemonte, Lombardia, Svizzera, Austria, Francia,
+Slovenia, OSMER Friuli e le 11 reti MeteoHub.
+
+**Non ce l'hanno, e non e' una dimenticanza**: Toscana (il SIR pubblica solo la
+differenza su 24 ore), Emilia e Trentino (solo l'aggregato del giorno), Veneto e
+Alto Adige (contatori cumulativi letti sei o sette volte al giorno: con sette
+letture l'ora non si ricostruisce). Sono quasi le stesse reti rimaste fuori dal
+vento, e non e' un caso: chi non pubblica la serie non pubblica nemmeno quella.
+
+### La chiave dell'ora, rete per rete
+
+| rete | passo | chiave |
+|---|---|---|
+| Liguria, Piemonte, Francia, Svizzera, Austria | oraria | la marca del punto |
+| Slovenia | mezz'ore | ora di (fine - 1 ms) |
+| MeteoHub | da 5' a 60', varia per rete | ora di (`ref` - 1 ms) |
+| Lombardia | 10' | l'ora la aggrega Socrata |
+| OSMER Friuli | oraria, due giornate cucite | `'p'+h` e `'c'+h` |
+
+⚠️ **OSMER: il prefisso non e' un vezzo.** Il giorno solare italiano si cuce
+con la coda di ieri e la testa di oggi: senza `p`/`c`, l'ora 23 di ieri e
+l'ora 23 di oggi finirebbero nello stesso secchiello.
+
+⚠️ **LOMBARDIA: qui e' cambiata la QUERY, unico caso.** Prima chiedeva
+`sum(valore)` raggruppato per sensore, cioe' un numero al giorno senza ore;
+adesso raggruppa anche per ora con `date_extract_hh`, come faceva gia'
+`fetchMeteoDay` per temperatura e vento, e la somma del giorno si fa in codice.
+**Resta UNA sola richiesta**: cambia il numero di righe, non di chiamate. Il
+tetto e' passato da 5.000 a 80.000 perche' ~250 sensori per 24 ore fanno 6.000
+righe e a 5.000 la risposta verrebbe **troncata in silenzio**.
+
+### ⚠️ La trappola che ha morso, e che mordera' ancora
+
+Il collector **svizzero ricostruisce il record campo per campo** prima di
+scriverlo (`const rec = {id, n, lat, lon, q, p, mm}` e poi copia `t`, `w`, `u`).
+Il campo `i` veniva calcolato correttamente e **spariva li'**: millimetri
+giusti, nessun errore, zero `i` nei file. E' la stessa firma del ramo
+`addDefaultMarkersForRegion` dimenticato all'Austria il 7/8: **il pezzo che
+manca e' la consegna, non il calcolo**.
+
+**Quindi la prova non e' «il codice c'e'», e' APRIRE IL FILE SCRITTO** e
+contare le stazioni che hanno il campo.
+
+### Come si e' collaudato
+
+- `prova-intensita.js` (cartella claudio): 17 prove — casi limite, i numeri
+  veri del 10 settembre, e la chiave dell'ora di ogni rete compreso MeteoHub a
+  tutti e cinque i passi. Da rilanciare quando si tocca la libreria.
+- `scratchpad/prova-collector.py`: lancia un collector VERO spostando la sola
+  riga della cartella di uscita su una cartella di prova, e poi la rimette.
+  Cosi' si prova contro l'API vera senza toccare `data/`, che e' tracciata e la
+  riscrivono i cron.
+- **Il controllo che conta e' che i MILLIMETRI non cambino di un decimo.**
+  Misurato: Liguria 0 differenze su 198, Svizzera 0 su 270, Slovenia 0 su 798,
+  OSMER 0 su 246, Lombardia 0 su 254 (ed e' quella dove la query e' cambiata),
+  Austria 3 su 2.683, Piemonte 1 su 270 (la passata ufficiale, non noi).
+- **Francia e MeteoHub non si sono potute provare in locale**: vogliono la
+  chiave Meteo-France e i secret MH_USER/MH_PASS, che stanno su GitHub. Per
+  loro valgono le prove sintetiche e **il primo giro dei cron va guardato**.
+
+⚠️ **LA SCADENZA, ED E' MISURATA.** Il passato non si recupera. Chiesto a OMIRL
+il 12/9: le ore del **10 e dell'11 settembre** rispondono con 198 stazioni,
+quelle del **9 con ZERO**. La finestra e' ~69 ore, il Piemonte ~2 giorni. Da qui
+in avanti il dato cresce di un giorno al giorno.
+
+⚠️ **SULLE PAGINE FUNGHI ARRIVA CON VENTI GIORNI DI RITARDO**: la finestra dei
+funghi guarda da 13 a 20 giorni fa, quindi la prima interamente coperta si
+chiude venti giorni dopo la partenza. In mappa invece funziona dal giorno dopo.
+
+### La scala, quando si mostrera'
+
+**2 e 6 mm all'ora**, scelte dall'utente il 12/9 sui dati veri: sotto 2 lenta,
+da 2 a 6 media, sopra 6 forte. Sono **le stesse soglie della convenzione
+meteorologica italiana** (il WMO taglia a 2,5 e 7,6).
+⚠️ Le soglie dette il 10/9 (1 e 4) **non reggevano alla prova**: sulle 87
+stazioni liguri sopra i 5 mm del 10 settembre davano 4 lente e 45 forti, cioe'
+la prima fascia quasi sempre vuota. Con 2 e 6 fanno 16 / 42 / 29.
+⚠️ **Il nostro numero non e' l'intensita' istantanea**: e' il totale diviso le
+ore bagnate, e quelle ore non sono attaccate. Sta sempre sotto la punta, e sulla
+pagina va scritto cosa si e' misurato. Chi e' direttamente confrontabile con la
+scala e' la **punta oraria**.
+⚠️ **Niente scala di colori sui pallini**: il colore significa gia' i
+millimetri, un secondo significato sullo stesso oggetto va spiegato.

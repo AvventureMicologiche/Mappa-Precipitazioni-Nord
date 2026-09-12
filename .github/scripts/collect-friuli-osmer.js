@@ -29,6 +29,7 @@
 
 const https = require('https');
 const fs    = require('fs');
+const { creaOre, segna, intensita } = require('./lib-intensita.js');
 const path  = require('path');
 
 const HOST     = 'www.meteo.fvg.it';
@@ -190,6 +191,20 @@ function localDayTotal(prevHours, curHours, offset) {
   return (mm < 0 || mm > 500) ? null : mm;
 }
 
+/** [ore bagnate, punta oraria] dalle stesse mappe orarie, oppure null.
+    Le ore sono gia' ore piene: la chiave dice da quale delle due
+    giornate d'archivio viene, se no h=23 di ieri e h=23 di oggi
+    finirebbero nello stesso secchiello. */
+function localDayIntensita(prevHours, curHours, offset) {
+  const B = 24 - offset;
+  const secchielli = creaOre();
+  for (let h = B + 1; h <= 24; h++)
+    if (prevHours && prevHours[h] && prevHours[h].mm != null) segna(secchielli, 'p' + h, prevHours[h].mm);
+  for (let h = 1; h <= B; h++)
+    if (curHours && curHours[h] && curHours[h].mm != null) segna(secchielli, 'c' + h, curHours[h].mm);
+  return intensita(secchielli);
+}
+
 /** t/w/u del giorno solare italiano dalle stesse mappe orarie → {t?, w?, u?}. */
 function localDayMeteo(prevHours, curHours, offset) {
   const B = 24 - offset;
@@ -307,6 +322,10 @@ async function main() {
       const rec = { id: idStaz, n: st.n, lat: Math.round(st.lat * 10000) / 10000, lon: Math.round(st.lon * 10000) / 10000, q: qTer, p: 'FVG', mm };
       if (qTer !== null) rec.qt = 1;   // quota del terreno, non dichiarata dall'ente
       try { Object.assign(rec, localDayMeteo(cache[`${st.val}|${pd}`], cache[`${st.val}|${dStr}`], offset)); } catch(e) {}
+      try {
+        const inte = localDayIntensita(cache[`${st.val}|${pd}`], cache[`${st.val}|${dStr}`], offset);
+        if (inte) rec.i = inte;
+      } catch(e) {}
       stations.push(rec);
     }
     mergeDay(dStr, stations);

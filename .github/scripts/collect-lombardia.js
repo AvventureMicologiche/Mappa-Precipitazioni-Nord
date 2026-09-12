@@ -17,6 +17,7 @@
 
 const https = require('https');
 const fs    = require('fs');
+const { creaOre, segna, intensita } = require('./lib-intensita.js');
 const path  = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'lombardia');
@@ -158,8 +159,18 @@ async function fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz) {
 /** Totale giornaliero per sensore per il giorno dateStr (YYYY-MM-DD). */
 async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
   const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND valore >= '0'`);
-  const sel = encodeURIComponent('idsensore,sum(valore) as s');
-  const rows = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=idsensore&$limit=5000`);
+  const sel = encodeURIComponent('idsensore,date_extract_hh(data) as h,sum(valore) as s');
+  const orarie = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=${encodeURIComponent('idsensore,h')}&$limit=80000`);
+  // Dalle righe orarie si ricava sia il totale del giorno sia l'intensita'.
+  const perSensore = {};
+  orarie.forEach(r => {
+    const a = perSensore[r.idsensore] = perSensore[r.idsensore] || { s: 0, ore: creaOre() };
+    const v = parseFloat(r.s);
+    if (!isFinite(v)) return;
+    a.s += v;
+    segna(a.ore, r.h, v);
+  });
+  const rows = Object.keys(perSensore).map(id => ({ idsensore: id, s: perSensore[id].s }));
   // t/w in un try: un guasto della query meteo non tocca mai la pioggia
   let meteo = {};
   if (tempByStaz) {
@@ -173,6 +184,8 @@ async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
     let mm = Math.round((parseFloat(r.s) || 0) * 10) / 10;
     if (mm < 0 || mm > 500) return;          // sanity per giorno singolo
     const rec = { id: r.idsensore, n: meta.n, lat: meta.lat, lon: meta.lon, q: meta.q, p: meta.p, mm };
+    const inte = intensita(perSensore[r.idsensore].ore);
+    if (inte) rec.i = inte;
     if (meta.st && meteo[meta.st]) Object.assign(rec, meteo[meta.st]);
     stations.push(rec);
   });

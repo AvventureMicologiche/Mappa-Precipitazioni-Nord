@@ -32,6 +32,7 @@
  */
 
 const fs   = require('fs');
+const { creaOre, segna, intensita } = require('./lib-intensita.js');
 const path = require('path');
 
 const BASE_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
@@ -240,6 +241,10 @@ async function collectDay(netCfg, dateStr) {
       mm
     };
     if (qTer !== null) rec.qt = 1;   // quota del terreno, non dichiarata dall'ente
+    const secchielli = creaOre();   // intensita' (12/9/2026)
+    for (const v of vals) segna(secchielli, Math.floor((Date.parse(v.ref + 'Z') - 1) / 3600000), v.val);
+    const inte = intensita(secchielli);
+    if (inte) rec.i = inte;
     out.push(rec);
   }
   // t/w: un guasto qui non deve mai far fallire la pioggia
