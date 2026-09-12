@@ -240,6 +240,7 @@ le date da lì.</div>
 <div id="grafico"></div>
 <div class="tre" id="tre"></div>
 <p class="nota" id="notaforte"></p>
+<p class="nota" id="notaintensita"></p>
 
 <div id="meteo"></div>
 
@@ -303,8 +304,8 @@ da ARPA Piemonte.</p>
 <h2 style="margin-top:30px">Quanto piove a Chiaves, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
 teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
-<b>da giugno 2026 a settembre 2026</b>, in 92 giorni di misura,
-ha contato <b>175 mm</b> di pioggia in <b>18 giornate</b> bagnate. Nelle altre 74 non è caduto niente, o così poco da non contare.</p>
+<b>da giugno 2026 a settembre 2026</b>, in 93 giorni di misura,
+ha contato <b>175 mm</b> di pioggia in <b>18 giornate</b> bagnate. Nelle altre 75 non è caduto niente, o così poco da non contare.</p>
 <p>Il giorno più bagnato di tutto l'archivio è stato il <b>25 giugno 2026</b>,
 con <b>27,8 mm</b> in ventiquattro ore. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
@@ -414,7 +415,11 @@ provinciali ISTAT.</p>
        numeri per pluviometro, e cercatoFino dice fin dove ha guardato.
        (Niente apici inversi qui dentro: questo file e' un modello backtick.) */
     var ff = (j.forte || {})[ID];
-    var forte = ff ? {g:ff[0], mm:ff[1]} : null;
+    /* La voce ha DUE numeri (giorni fa, mm) oppure QUATTRO, quando di
+       quel giorno sappiamo anche le ore bagnate e la punta oraria.
+       Si guarda la lunghezza: i giorni vecchi l'intensita' non ce
+       l'hanno e non ce l'avranno mai, il passato non si recupera. */
+    var forte = ff ? {g:ff[0], mm:ff[1], ore:ff[2], punta:ff[3]} : null;
     var quando = forte ? (forte.g===1 ? 'ieri' : forte.g===2 ? 'l’altro ieri'
                                                              : forte.g+' giorni fa') : null;
 
@@ -585,6 +590,28 @@ provinciali ISTAT.</p>
         + (j.tetto && j.cercatoFino >= j.tetto
            ? ', che è fin dove siamo andati a guardare.'
            : ', cioè da quando abbiamo archivio su questo pluviometro.');
+
+    /* ── Con che RITMO e' caduta (12/9/2026) ──────────────────────
+       La stessa pioggia in un'ora vale meno che in otto: quella che
+       scende piano entra nel terreno, quella che scroscia corre via.
+       ⚠️ LE PAROLE SONO «lenta / media / battente» e non «forte»:
+       due righe sopra «pioggia forte» vuol dire gia' un'altra cosa,
+       cioe' almeno trenta millimetri in un giorno solo.
+       ⚠️ Le soglie 2 e 6 mm all'ora sono le stesse della convenzione
+       meteorologica italiana, scelte pero' sui nostri dati. */
+    var nInt = document.getElementById('notaintensita');
+    if (forte && forte.ore) {
+      var perOra = forte.mm / forte.ore;
+      var parola = perOra < 2 ? 'lenta' : perOra <= 6 ? 'media' : 'battente';
+      var senso = perOra < 2
+        ? 'acqua che ha avuto tutto il tempo di entrare nel terreno'
+        : perOra <= 6
+          ? 'un ritmo con cui l’acqua fa ancora in tempo a entrare'
+          : 'a quel ritmo una parte corre via lungo il pendio invece di entrare';
+      nInt.innerHTML = 'Sono caduti in <b>' + forte.ore + (forte.ore === 1 ? ' ora' : ' ore')
+        + '</b>, con una punta di <b>' + num(forte.punta) + ' mm in un’ora</b>: '
+        + num(perOra) + ' mm all’ora, <b>pioggia ' + parola + '</b>, ' + senso + '.';
+    } else nInt.style.display = 'none';
 
     /* ── posizione in classifica e posti vicini ──
        L'anagrafe arriva dal file: [id, nome, sigla, quota, lat, lon, bosco%, slug] */
