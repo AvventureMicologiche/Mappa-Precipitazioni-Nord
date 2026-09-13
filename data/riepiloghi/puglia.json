@@ -1,7 +1,36 @@
 {
  "regione": "puglia",
- "generato": "2026-09-13T10:10:11.393Z",
+ "generato": "2026-09-13T16:01:24.345Z",
  "periodi": {
+  "1": {
+   "media": 3.1,
+   "giorni": 1,
+   "stazioni": 125,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Manduria",
+     "mm": 48.6
+    },
+    {
+     "n": "Cerignola",
+     "mm": 45.2
+    },
+    {
+     "n": "Mass.Monteruga",
+     "mm": 35.1
+    },
+    {
+     "n": "Vignacastrisi",
+     "mm": 28.8
+    },
+    {
+     "n": "Copertino",
+     "mm": 22.8
+    }
+   ]
+  },
   "7": {
    "media": 4.9,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Collepasso",
      "mm": 23.6
+    }
+   ]
+  },
+  "30": {
+   "media": 12.5,
+   "giorni": 30,
+   "stazioni": 130,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Santeramo in Colle",
+     "mm": 88.1
+    },
+    {
+     "n": "Ruffano",
+     "mm": 58.9
+    },
+    {
+     "n": "Manduria",
+     "mm": 56.2
+    },
+    {
+     "n": "Monopoli",
+     "mm": 50.6
+    },
+    {
+     "n": "Cerignola",
+     "mm": 49.6
     }
    ]
   }

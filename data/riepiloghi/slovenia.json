@@ -1,62 +1,120 @@
 {
  "regione": "slovenia",
- "generato": "2026-09-13T01:06:48.686Z",
+ "generato": "2026-09-13T16:01:24.499Z",
  "periodi": {
+  "1": {
+   "media": 18.5,
+   "giorni": 1,
+   "stazioni": 112,
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-11",
+   "top": [
+    {
+     "n": "Godnje",
+     "mm": 51.8
+    },
+    {
+     "n": "Korošče",
+     "mm": 44.2
+    },
+    {
+     "n": "Velike Lašče",
+     "mm": 37.2
+    },
+    {
+     "n": "Nova vas (Bloke)",
+     "mm": 35.8
+    },
+    {
+     "n": "Radegunda",
+     "mm": 32
+    }
+   ]
+  },
   "7": {
-   "media": 73.9,
-   "giorni": 5,
+   "media": 93.8,
+   "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-10",
+   "primo": "2026-09-05",
+   "ultimo": "2026-09-11",
    "top": [
     {
      "n": "Zadlog",
-     "mm": 163.5
+     "mm": 185.6
     },
     {
      "n": "Breginj",
-     "mm": 154.3
+     "mm": 168.3
     },
     {
      "n": "Idrija",
-     "mm": 148.2
+     "mm": 165.7
     },
     {
      "n": "OTLICA - EKOLOSKA",
-     "mm": 146.7
+     "mm": 160.5
     },
     {
      "n": "Vodice (Ajdovščina)",
-     "mm": 140
+     "mm": 160
     }
    ]
   },
   "20": {
-   "media": 93.6,
-   "giorni": 18,
+   "media": 111.7,
+   "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-08-24",
-   "ultimo": "2026-09-10",
+   "primo": "2026-08-23",
+   "ultimo": "2026-09-11",
    "top": [
     {
      "n": "Bovec - letališče",
-     "mm": 223.7
-    },
-    {
-     "n": "Breginj",
-     "mm": 201.5
+     "mm": 238.6
     },
     {
      "n": "Krn",
-     "mm": 200.3
+     "mm": 215.6
     },
     {
-     "n": "Predel",
-     "mm": 193.3
+     "n": "Breginj",
+     "mm": 215.5
     },
     {
      "n": "Zadlog",
-     "mm": 183.7
+     "mm": 205.8
+    },
+    {
+     "n": "Predel",
+     "mm": 204.5
+    }
+   ]
+  },
+  "30": {
+   "media": 181.3,
+   "giorni": 30,
+   "stazioni": 114,
+   "primo": "2026-08-13",
+   "ultimo": "2026-09-11",
+   "top": [
+    {
+     "n": "Vodice (Ajdovščina)",
+     "mm": 348
+    },
+    {
+     "n": "Krn",
+     "mm": 336
+    },
+    {
+     "n": "Bovec - letališče",
+     "mm": 325.7
+    },
+    {
+     "n": "Predel",
+     "mm": 323.3
+    },
+    {
+     "n": "Breginj",
+     "mm": 307.4
     }
    ]
   }

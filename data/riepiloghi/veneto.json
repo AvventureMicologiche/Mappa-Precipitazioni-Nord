@@ -1,7 +1,36 @@
 {
  "regione": "veneto",
- "generato": "2026-09-13T01:06:48.546Z",
+ "generato": "2026-09-13T16:01:24.190Z",
  "periodi": {
+  "1": {
+   "media": 0,
+   "giorni": 1,
+   "stazioni": 186,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Pian del Crep (Val di Zoldo) (BL)",
+     "mm": 0.2
+    },
+    {
+     "n": "San Pietro in Cariano (VR)",
+     "mm": 0.2
+    },
+    {
+     "n": "Passo Valles (BL)",
+     "mm": 0.2
+    },
+    {
+     "n": "Cansiglio - Tramedere (BL)",
+     "mm": 0.2
+    },
+    {
+     "n": "Col di Pra' (BL)",
+     "mm": 0.2
+    }
+   ]
+  },
   "7": {
    "media": 70,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "mm": 160.6
+    }
+   ]
+  },
+  "30": {
+   "media": 135.3,
+   "giorni": 30,
+   "stazioni": 186,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Bibione (VE)",
+     "mm": 325.8
+    },
+    {
+     "n": "Lugugnana (Portogruaro) (VE)",
+     "mm": 310.2
+    },
+    {
+     "n": "Soffranco (BL)",
+     "mm": 287
+    },
+    {
+     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
+     "mm": 250.4
+    },
+    {
+     "n": "Sant'Antonio Tortal (BL)",
+     "mm": 236.6
     }
    ]
   }

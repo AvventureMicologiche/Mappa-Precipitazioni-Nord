@@ -1,7 +1,36 @@
 {
  "regione": "toscana",
- "generato": "2026-09-13T01:06:48.587Z",
+ "generato": "2026-09-13T16:01:24.280Z",
  "periodi": {
+  "1": {
+   "media": 1,
+   "giorni": 1,
+   "stazioni": 378,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Marradi (FI)",
+     "mm": 25.9
+    },
+    {
+     "n": "Pian di Scò (AR)",
+     "mm": 19.2
+    },
+    {
+     "n": "Stia Monte (AR)",
+     "mm": 17.3
+    },
+    {
+     "n": "S. Brigida all'Opaco (FI)",
+     "mm": 15.3
+    },
+    {
+     "n": "Villore (FI)",
+     "mm": 14.5
+    }
+   ]
+  },
   "7": {
    "media": 53.6,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Sambuca (FI)",
      "mm": 166.4
+    }
+   ]
+  },
+  "30": {
+   "media": 121.7,
+   "giorni": 30,
+   "stazioni": 379,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Bagnone (MS)",
+     "mm": 470.6
+    },
+    {
+     "n": "Iera (MS)",
+     "mm": 454.1
+    },
+    {
+     "n": "Villafranca (MS)",
+     "mm": 414.2
+    },
+    {
+     "n": "Villafranca (MS)",
+     "mm": 387.6
+    },
+    {
+     "n": "Sorano Meteo (GR)",
+     "mm": 331.5
     }
    ]
   }

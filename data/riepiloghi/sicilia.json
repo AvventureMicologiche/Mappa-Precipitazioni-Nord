@@ -1,7 +1,36 @@
 {
  "regione": "sicilia",
- "generato": "2026-09-13T10:10:11.418Z",
+ "generato": "2026-09-13T16:01:24.406Z",
  "periodi": {
+  "1": {
+   "media": 1.4,
+   "giorni": 1,
+   "stazioni": 428,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Noto SP80",
+     "mm": 45.7
+    },
+    {
+     "n": "Ficarra SP144",
+     "mm": 23.8
+    },
+    {
+     "n": "Montagnareale",
+     "mm": 22.4
+    },
+    {
+     "n": "Sinagra",
+     "mm": 22.4
+    },
+    {
+     "n": "Castell'Umberto",
+     "mm": 21.2
+    }
+   ]
+  },
   "7": {
    "media": 2.8,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Monforte San Giorgio",
      "mm": 27.7
+    }
+   ]
+  },
+  "30": {
+   "media": 8.5,
+   "giorni": 30,
+   "stazioni": 436,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Noto SP80",
+     "mm": 92.6
+    },
+    {
+     "n": "Intraleo",
+     "mm": 73.4
+    },
+    {
+     "n": "Palagonia",
+     "mm": 72.8
+    },
+    {
+     "n": "Modica SIAS",
+     "mm": 70.6
+    },
+    {
+     "n": "Linguaglossa Etna Nord",
+     "mm": 68.6
     }
    ]
   }

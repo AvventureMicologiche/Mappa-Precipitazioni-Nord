@@ -1,7 +1,36 @@
 {
  "regione": "austria",
- "generato": "2026-09-13T01:06:48.680Z",
+ "generato": "2026-09-13T16:01:24.487Z",
  "periodi": {
+  "1": {
+   "media": 0,
+   "giorni": 1,
+   "stazioni": 268,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Eisenstadt Nordost (Burgenland)",
+     "mm": 1.1
+    },
+    {
+     "n": "Buchberg (Niederösterreich)",
+     "mm": 0.8
+    },
+    {
+     "n": "Gumpoldskirchen (Niederösterreich)",
+     "mm": 0.6
+    },
+    {
+     "n": "Zwerndorf (Niederösterreich)",
+     "mm": 0.4
+    },
+    {
+     "n": "Klausen-Leopoldsdorf (Niederösterreich)",
+     "mm": 0.3
+    }
+   ]
+  },
   "7": {
    "media": 30.6,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Feldkirchen (Kärnten)",
      "mm": 120.3
+    }
+   ]
+  },
+  "30": {
+   "media": 93.8,
+   "giorni": 30,
+   "stazioni": 271,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 233.6
+    },
+    {
+     "n": "Villacher Alpe (Kärnten)",
+     "mm": 193.1
+    },
+    {
+     "n": "Kornat (Kärnten)",
+     "mm": 189.1
+    },
+    {
+     "n": "Kolm-Saigurn (Salzburg)",
+     "mm": 185.7
+    },
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 183.9
     }
    ]
   }

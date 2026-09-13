@@ -1,13 +1,42 @@
 {
  "regione": "basilicata",
- "generato": "2026-09-13T10:10:11.395Z",
+ "generato": "2026-09-13T16:01:24.351Z",
  "periodi": {
+  "1": {
+   "media": 1.2,
+   "giorni": 1,
+   "stazioni": 60,
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-11",
+   "top": [
+    {
+     "n": "Ferrandina",
+     "mm": 10.4
+    },
+    {
+     "n": "Grassano",
+     "mm": 9.2
+    },
+    {
+     "n": "S.Giuliano",
+     "mm": 8.5
+    },
+    {
+     "n": "Potenza Q.A.",
+     "mm": 7.9
+    },
+    {
+     "n": "S.Mauro Forte",
+     "mm": 7.2
+    }
+   ]
+  },
   "7": {
-   "media": 7.4,
+   "media": 6.5,
    "giorni": 7,
-   "stazioni": 62,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-12",
+   "stazioni": 61,
+   "primo": "2026-09-05",
+   "ultimo": "2026-09-11",
    "top": [
     {
      "n": "Marsico Nuovo",
@@ -23,7 +52,7 @@
     },
     {
      "n": "Forenza",
-     "mm": 39.2
+     "mm": 35.6
     },
     {
      "n": "Abriola a Sellata Pierfaone",
@@ -32,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 11.1,
+   "media": 10.2,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-08-24",
-   "ultimo": "2026-09-12",
+   "primo": "2026-08-23",
+   "ultimo": "2026-09-11",
    "top": [
     {
      "n": "Marsico Nuovo",
@@ -51,12 +80,41 @@
      "mm": 45.8
     },
     {
-     "n": "Forenza",
+     "n": "Potenza Q.A.",
      "mm": 41.8
     },
     {
-     "n": "Potenza Q.A.",
-     "mm": 41.8
+     "n": "Forenza",
+     "mm": 38.2
+    }
+   ]
+  },
+  "30": {
+   "media": 21.9,
+   "giorni": 30,
+   "stazioni": 62,
+   "primo": "2026-08-13",
+   "ultimo": "2026-09-11",
+   "top": [
+    {
+     "n": "Marsico Nuovo",
+     "mm": 93.2
+    },
+    {
+     "n": "Brienza",
+     "mm": 81
+    },
+    {
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 80.3
+    },
+    {
+     "n": "Potenza",
+     "mm": 56.6
+    },
+    {
+     "n": "Castrocucco",
+     "mm": 54.4
     }
    ]
   }

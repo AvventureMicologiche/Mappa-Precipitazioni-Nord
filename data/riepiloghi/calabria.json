@@ -1,7 +1,36 @@
 {
  "regione": "calabria",
- "generato": "2026-09-13T10:10:11.400Z",
+ "generato": "2026-09-13T16:01:24.364Z",
  "periodi": {
+  "1": {
+   "media": 10.6,
+   "giorni": 1,
+   "stazioni": 140,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Castrovillari - Camerata",
+     "mm": 58.4
+    },
+    {
+     "n": "Cerchiara di Calabria",
+     "mm": 53
+    },
+    {
+     "n": "Laino Borgo",
+     "mm": 48.8
+    },
+    {
+     "n": "Licciardi",
+     "mm": 37.4
+    },
+    {
+     "n": "Papasidero",
+     "mm": 30.4
+    }
+   ]
+  },
   "7": {
    "media": 12.7,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "Gimigliano",
      "mm": 50.8
+    }
+   ]
+  },
+  "30": {
+   "media": 28.5,
+   "giorni": 30,
+   "stazioni": 140,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "Gimigliano",
+     "mm": 131.4
+    },
+    {
+     "n": "Sant'Elia-Jano",
+     "mm": 115
+    },
+    {
+     "n": "Cecita",
+     "mm": 80.8
+    },
+    {
+     "n": "Longobucco",
+     "mm": 80.6
+    },
+    {
+     "n": "Cerchiara di Calabria",
+     "mm": 76.8
     }
    ]
   }

@@ -1,7 +1,36 @@
 {
  "regione": "piemonte",
- "generato": "2026-09-13T01:06:48.512Z",
+ "generato": "2026-09-13T16:01:24.100Z",
  "periodi": {
+  "1": {
+   "media": 0,
+   "giorni": 1,
+   "stazioni": 269,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "BORGOFRANCO D'IVREA (Torino)",
+     "mm": 4.6
+    },
+    {
+     "n": "CANNOBIO (Provincia del verbano cusio os)",
+     "mm": 1.2
+    },
+    {
+     "n": "CORIO (Torino)",
+     "mm": 0.6
+    },
+    {
+     "n": "AVIGLIANA (Torino)",
+     "mm": 0.4
+    },
+    {
+     "n": "CARMAGNOLA (Torino)",
+     "mm": 0.4
+    }
+   ]
+  },
   "7": {
    "media": 24.1,
    "giorni": 7,
@@ -57,6 +86,35 @@
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
      "mm": 147.9
+    }
+   ]
+  },
+  "30": {
+   "media": 102.1,
+   "giorni": 30,
+   "stazioni": 287,
+   "primo": "2026-08-14",
+   "ultimo": "2026-09-12",
+   "top": [
+    {
+     "n": "UNCHIO TROBASO (Provincia del verbano cusio os)",
+     "mm": 321.2
+    },
+    {
+     "n": "CICOGNA (Provincia del verbano cusio os)",
+     "mm": 300.9
+    },
+    {
+     "n": "CANDOGLIA TOCE (Provincia del verbano cusio ossola)",
+     "mm": 298
+    },
+    {
+     "n": "SOMERARO (Provincia del verbano cusio os)",
+     "mm": 297.9
+    },
+    {
+     "n": "VARALLO POMBIA (Novara)",
+     "mm": 276.4
     }
    ]
   }
