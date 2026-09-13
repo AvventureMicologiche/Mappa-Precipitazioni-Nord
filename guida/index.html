@@ -174,12 +174,36 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
 .pagine a:hover{text-decoration:underline}
 .pagine .bosco{margin-top:16px;padding:4px 16px 13px;border-left-width:1px;border-radius:10px}
 .fine{margin-top:34px;padding-top:18px;border-top:1px solid var(--bordo);font-size:14.5px;color:#44536a}
+/* ── telefono: carattere piu' grande (13/9/2026) ────────────────────────
+   Chiesto da lui: «un po' piccolo». Si alza tutto di un punto o un punto e
+   mezzo, SOLO sotto i 640 px: sul computer la colonna e' larga e 15,5 basta.
+   ⚠️ Misurato prima e dopo con `misura-guida-telefono.js` a 360 e 393:
+   nessun elemento deve uscire a destra. I tasti `.ui` sono nowrap, e il piu'
+   largo e' quello da controllare. */
 @media(max-width:640px){
-  .top h1{font-size:24px}
-  .top .sotto{font-size:15px}
-  h2{font-size:19px;margin-top:34px}
-  p,ul,ol.testo{font-size:15px}
-  table{display:block;overflow-x:auto;white-space:nowrap}
+  .top h1{font-size:25px}
+  .top .sotto{font-size:16px}
+  h2{font-size:20.5px;margin-top:36px}
+  h3{font-size:17px}
+  p,ul,ol.testo{font-size:16.5px}
+  .guida-intro{font-size:17px}
+  .passi li{font-size:16.5px}
+  .nota,.bosco{font-size:16px}
+  .faq h3{font-size:16.5px}
+  .faq p{font-size:16px}
+  .upd ul{font-size:15.5px}
+  .upd .data{font-size:12.5px}
+  .video .t{font-size:15.5px}
+  .video .t b{font-size:16px}
+  figcaption,.mini{font-size:14px}
+  figure.tre span{font-size:13.5px}
+  .ui{font-size:15px}
+  .scala-l{font-size:13px}
+  .pagine p,.fine{font-size:15.5px}
+  /* ⚠️ L'INDICE NO: a due colonne su 360 px ogni colonna ha 113 px di testo, e
+     a 14,5 le voci a capo passavano da cinque a otto. E' navigazione, non
+     lettura: resta alla taglia di prima e l'impaginazione non cambia. */
+  table{font-size:15px;display:block;overflow-x:auto;white-space:nowrap}
   td:first-child{white-space:normal}
 }
 </style>
@@ -299,13 +323,13 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
 </figure>
 
 <table>
-<thead><tr><th>Tasto</th><th>Che cosa somma</th><th>A cosa serve</th></tr></thead>
+<thead><tr><th>Tasto</th><th>Che cosa somma</th></tr></thead>
 <tbody>
-<tr><td>Ieri</td><td>il solo giorno di ieri</td><td>capire dov'è passato il temporale</td></tr>
-<tr><td>7 giorni</td><td>gli ultimi sette giorni</td><td>la settimana appena passata</td></tr>
-<tr><td>10 e 15 giorni</td><td>dieci o quindici giorni</td><td>vedere se una pioggia è stata un episodio o un periodo</td></tr>
-<tr><td>20 e 30 giorni</td><td>venti o trenta giorni</td><td>il quadro del mese</td></tr>
-<tr><td>Scegli date</td><td>l'intervallo che scrivi tu</td><td>un temporale preciso, un fine settimana, un confronto</td></tr>
+<tr><td>Ieri</td><td>il solo giorno di ieri</td></tr>
+<tr><td>7 giorni</td><td>gli ultimi sette giorni</td></tr>
+<tr><td>10 e 15 giorni</td><td>dieci o quindici giorni</td></tr>
+<tr><td>20 e 30 giorni</td><td>venti o trenta giorni</td></tr>
+<tr><td>Scegli date</td><td>l'intervallo che scrivi tu</td></tr>
 </tbody>
 </table>
 
