@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dove ha piovuto in Calabria: la mappa dei pluviometri</title>
-<meta name="description" content="Quanta pioggia è caduta in Calabria negli ultimi 7 e 20 giorni, misurata da circa 140 pluviometri di MeteoHub. Le zone più bagnate, aggiornate ogni giorno.">
+<title>Pluviometria Calabria: dove ha piovuto e dati dei pluviometri</title>
+<meta name="description" content="Dove ha piovuto ieri in Calabria e negli ultimi 7, 20 e 30 giorni: dati pluviometrici di circa 140 pluviometri di MeteoHub. Zone più bagnate, ogni giorno.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/calabria/">
-<meta property="og:title" content="Dove ha piovuto in Calabria — piogge per funghi">
-<meta property="og:description" content="Riepilogo degli ultimi 7 e 20 giorni con le zone più bagnate, da circa 140 pluviometri di MeteoHub.">
+<meta property="og:title" content="Dove ha piovuto in Calabria: ieri e negli ultimi giorni">
+<meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da circa 140 pluviometri di MeteoHub.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/calabria/">
 <meta property="og:type" content="website">
@@ -44,6 +44,7 @@ p{margin-bottom:12px;}
 .cta:hover{background:#2a5490;}
 .griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:18px 0;}
 .card{background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:16px;display:flex;flex-direction:column;}
+.card.largo{grid-column:1/-1;}
 .card h2{margin:0 0 6px;font-size:20px;}
 .numerone{font-size:32px;font-weight:700;color:var(--blu-scuro);}
 .numerone small{font-size:15px;font-weight:400;color:#555;}
@@ -51,6 +52,8 @@ p{margin-bottom:12px;}
 .nota{font-size:14px;color:#666;margin-top:8px;}
 .top-staz{margin:6px 0 0;}
 .top-staz li{margin:4px 0 4px 20px;}
+.altre-zone{font-size:16px;line-height:1.9;color:#555;}
+.altre-zone a{color:var(--blu);}
 footer{border-top:1px solid var(--bordo);margin-top:8px;padding:14px 16px 24px;font-size:14px;color:#555;text-align:center;}
 footer a{color:var(--blu);}
 nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
@@ -69,9 +72,21 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 </header>
 <main>
 <h1>Dove ha piovuto in Calabria</h1>
-<p class="sotto">Ieri e negli ultimi 20 giorni, da <b>circa 140 pluviometri di MeteoHub</b>, dal Pollino all'Aspromonte.</p>
+<p class="sotto">Ieri e negli ultimi 30 giorni, da <b>circa 140 pluviometri di MeteoHub</b>, dal Pollino all'Aspromonte.</p>
 
 <div class="griglia">
+  <!-- 13/9/2026: IERI. Chi cerca «dove ha piovuto ieri in Campania» trovava 7
+       e 20 giorni e un sottotitolo che prometteva «ieri» senza darlo. Il titolo
+       della scheda lo riscrive il javascript con la data vera se il riepilogo
+       e' di altroieri (ieri non ancora arrivato da tutte le reti). -->
+  <div class="card" id="card1">
+    <h2 id="tit1">Ieri</h2>
+    <div class="numerone" id="rip1-media"><span class="attesa">calcolo in corso…</span></div>
+    <div id="rip1-top"></div>
+    <p class="nota" id="rip1-date"></p>
+    <a class="cta" id="cta1" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=1"
+       onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-1gg'})}catch(e){}">Apri la mappa di ieri →</a>
+  </div>
   <div class="card">
     <h2>Ultimi 7 giorni</h2>
     <div class="numerone" id="rip7-media"><span class="attesa">calcolo in corso…</span></div>
@@ -95,7 +110,23 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
     <a class="cta" id="cta15" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=20"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-20gg'})}catch(e){}">Apri la mappa a 20 giorni →</a>
   </div>
+  <!-- 13/9/2026: il mese. Chi cerca «pluviometria toscana ultimo mese» o
+       «ultimi trenta giorni» sulla pagina trovava solo 7 e 20. Sta sotto e
+       largo, perche' la colonna e' da 760 px e tre schede affiancate andrebbero
+       a capo nei nomi delle stazioni. -->
+  <div class="card" id="card30">
+    <h2>Ultimi 30 giorni</h2>
+    <div class="numerone" id="rip30-media"><span class="attesa">calcolo in corso…</span></div>
+    <div id="rip30-top"></div>
+    <p class="nota" id="rip30-date"></p>
+    <a class="cta" id="cta30" style="margin:14px 0 2px;margin-top:auto;" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=30"
+       onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-30gg'})}catch(e){}">Apri la mappa a 30 giorni →</a>
+  </div>
 </div>
+
+<h2>Dove ha piovuto, zona per zona</h2>
+<p class="nota" style="margin-top:0">Ieri, ultimi 7 e 30 giorni, con i pluviometri di ogni valle.</p>
+<p class="altre-zone"><a href="https://precipitazioni.avventuremicologiche.it/zone/serre-calabresi/">Serre calabresi</a> · <a href="https://precipitazioni.avventuremicologiche.it/zone/sila-greca/">Sila Greca</a></p>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria" style="display:block;text-decoration:none;"
@@ -123,13 +154,13 @@ misurati a terra, pluviometro per pluviometro.</p>
 <p>Il colore mostra i millimetri <b>cumulati</b> nel periodo che scegli.</p>
 <p>Cliccando una stazione trovi quota, grafico della pioggia degli ultimi 30 giorni e, dove ci sono i sensori, temperatura minima e massima, vento e umidità.</p>
 
-<h2>Da dove arrivano i dati</h2>
+<h2>Dati pluviometrici: da dove arrivano</h2>
 <p>Sono <b>circa 140 pluviometri di MeteoHub</b>, strumenti a terra, non stime da modello.</p>
 
 <p style="margin-bottom:6px;"><a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
    onclick="try{gtag('event','click_youtube',{pulsante:'pagina-calabria'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
-<p><a href="https://youtu.be/fvsBZJ_Ylf4" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;"
-   onclick="try{gtag('event','click_youtube',{pulsante:'faq-pagina-calabria'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Video FAQ: come si usa la mappa (2 minuti)</a></p>
+<p><a href="https://precipitazioni.avventuremicologiche.it/guida/" style="color:var(--blu);font-weight:600;"
+   onclick="try{gtag('event','click_guida',{pulsante:'pagina-calabria'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni →</a></p>
 
 <h2>Piogge per funghi in Calabria</h2>
 <p>Se cerchi funghi ti serve un altro taglio degli stessi dati: <a href="https://precipitazioni.avventuremicologiche.it/funghi/calabria/">dove ha piovuto nelle zone da bosco in Calabria</a>. Solo i pluviometri in mezzo al bosco, e la finestra da 13 a 20 giorni fa, che è quella che conta: dopo la pioggia il fungo non spunta subito, per svilupparsi gli servono almeno dodici o tredici giorni.</p>
@@ -152,7 +183,9 @@ misurati a terra, pluviometro per pluviometro.</p>
 <script>
 (function(){
   var DIRS=["meteohub-calabria"];
-  var BASE='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
+  // In locale si legge la cartella del repo, come fa la mappa per l'indice dei
+  // funghi: cosi' un riepilogo appena rigenerato si prova senza pubblicarlo.
+  var BASE=/^(localhost|127.0.0.1)$/.test(location.hostname)?'/data/':'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
   var MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
   function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
   // breve() legge una data ISO 'AAAA-MM-GG': e' la forma in cui arrivano dal
@@ -160,6 +193,8 @@ misurati a terra, pluviometro per pluviometro.</p>
   // di dire la stessa cosa.
   function breve(s){ var p=String(s).split('-'); return (+p[2])+' '+MESI[(+p[1])-1]; }
   function giornoFa(n){ var d=new Date(); d.setDate(d.getDate()-n); return d; }
+  // «l’8» e «l’11»: davanti a una vocale l'articolo si elide.
+  function ilGiorno(s){ var g=+String(s).split('-')[2]; return (g===8||g===11?'l’':'il ')+breve(s); }
   // Una regione puo' leggere piu' cartelle (la Svizzera somma MeteoSvizzera e
   // OASI Ticino): si scaricano tutte e si uniscono, con la chiave stazione
   // prefissata dalla cartella per non far collidere id di reti diverse.
@@ -209,18 +244,27 @@ misurati a terra, pluviometro per pluviometro.</p>
   // Indirizzi di partenza dei pulsanti: portano gia' alla regione col periodo
   // giusto anche prima che arrivino i numeri. disegna() li riscrive poi con le
   // date VERE del riepilogo, che possono essere di un giorno indietro.
+  document.getElementById('cta1').href='https://precipitazioni.avventuremicologiche.it/?r=calabria&da='+iso(giornoFa(1))+'&a='+iso(giornoFa(1));
   document.getElementById('cta7').href='https://precipitazioni.avventuremicologiche.it/?r=calabria&da='+iso(giornoFa(7))+'&a='+iso(giornoFa(1));
   document.getElementById('cta15').href='https://precipitazioni.avventuremicologiche.it/?r=calabria&da='+iso(giornoFa(20))+'&a='+iso(giornoFa(1));
+  document.getElementById('cta30').href='https://precipitazioni.avventuremicologiche.it/?r=calabria&da='+iso(giornoFa(30))+'&a='+iso(giornoFa(1));
 
   // Il disegno e' uno solo per tutt'e due le strade: prende sempre
   // {media, top:[{n,mm}], primo, ultimo, giorni} e non sa da dove viene.
+  var GIORNI=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+  // «Ieri» solo se e' davvero ieri: il riepilogo puo' essere di altroieri.
+  function nomeGiorno(s){
+    if(s===iso(giornoFa(1))) return 'Ieri';
+    var p=String(s).split('-'), d=new Date(+p[0],+p[1]-1,+p[2]);
+    return GIORNI[d.getDay()]+' '+breve(s);
+  }
   function disegna(prefisso, d){
     var el=document.getElementById(prefisso+'-media');
     if(!d||!d.giorni){ el.innerHTML='<span class="attesa">dati non disponibili al momento</span>'; return; }
     el.innerHTML=Math.round(d.media)+' mm <small>di media regionale</small>';
     var cont=document.getElementById(prefisso+'-top');
     if(!d.top||!d.top.length||d.top[0].mm<1){
-      cont.innerHTML='<p class="nota">Periodo quasi asciutto su tutta la regione.</p>';
+      cont.innerHTML='<p class="nota">'+(prefisso==='rip1'?'Giornata':'Periodo')+' quasi asciutto su tutta la regione.</p>';
     }else{
       var ol=document.createElement('ol'); ol.className='top-staz';
       d.top.forEach(function(s){
@@ -231,14 +275,22 @@ misurati a terra, pluviometro per pluviometro.</p>
       cont.innerHTML='<p style="margin:8px 0 2px"><b>Dove ha piovuto di più:</b></p>';
       cont.appendChild(ol);
     }
-    document.getElementById(prefisso+'-date').textContent='Dal '+breve(d.primo)+' al '+breve(d.ultimo)+', su '+d.giorni+' giornate di dati. La giornata odierna è esclusa.';
-    var cta=document.getElementById(prefisso==='rip7'?'cta7':'cta15');
+    if(prefisso==='rip1'){
+      var t=nomeGiorno(d.ultimo);
+      document.getElementById('tit1').textContent=t;
+      document.getElementById('rip1-date').textContent= t==='Ieri'
+        ? 'Giornata di ieri, '+breve(d.ultimo)+'.'
+        : 'I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera, '+ilGiorno(d.ultimo)+'.';
+    }else{
+      document.getElementById(prefisso+'-date').textContent='Dal '+breve(d.primo)+' al '+breve(d.ultimo)+', su '+d.giorni+' giornate di dati. La giornata odierna è esclusa.';
+    }
+    var cta=document.getElementById({rip1:'cta1',rip7:'cta7',rip15:'cta15',rip30:'cta30'}[prefisso]);
     if(cta&&d.primo&&d.ultimo) cta.href='https://precipitazioni.avventuremicologiche.it/?r=calabria&da='+d.primo+'&a='+d.ultimo;
   }
 
   // ── RIPIEGO: i giorni uno per uno, come faceva la pagina fino al 24/8/2026 ──
   function calcolaDaiFile(){
-    var giorni=[]; for(var i=1;i<=20;i++) giorni.push(giornoFa(i));
+    var giorni=[]; for(var i=1;i<=30;i++) giorni.push(giornoFa(i));
     return Promise.all(giorni.map(prendi)).then(function(files){
       var gemelle=scartaGemelle(files);
       function riepilogo(quanti, prefisso){
@@ -282,8 +334,10 @@ misurati a terra, pluviometro per pluviometro.</p>
                       .map(function(id){ return {n:etichetta(id), mm:somma[id]}; });
         disegna(prefisso,{media:media, top:top, primo:iso(primo), ultimo:iso(ultimo), giorni:presenti});
       }
+      riepilogo(1,'rip1');
       riepilogo(7,'rip7');
       riepilogo(20,'rip15');
+      riepilogo(30,'rip30');
     });
   }
 
@@ -305,7 +359,17 @@ misurati a terra, pluviometro per pluviometro.</p>
     .then(function(res){ return res.ok?res.json():null; })
     .catch(function(){ return null; })
     .then(function(j){
-      if(j&&fresco(j)){ disegna('rip7',j.periodi['7']); disegna('rip15',j.periodi['20']); return; }
+      if(j&&fresco(j)){
+        disegna('rip7',j.periodi['7']); disegna('rip15',j.periodi['20']);
+        // ⚠️ Un riepilogo scritto PRIMA del 13/9 il mese non ce l'ha: si
+        // nasconde la scheda invece di dire «dati non disponibili», che
+        // sarebbe falso. Il giro successivo del workflow la riaccende.
+        if(j.periodi['30']) disegna('rip30',j.periodi['30']);
+        else document.getElementById('card30').style.display='none';
+        if(j.periodi['1']) disegna('rip1',j.periodi['1']);
+        else document.getElementById('card1').style.display='none';
+        return;
+      }
       return calcolaDaiFile();
     })
     .catch(function(){ return calcolaDaiFile(); });

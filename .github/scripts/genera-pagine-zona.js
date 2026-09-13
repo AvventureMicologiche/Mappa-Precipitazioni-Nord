@@ -48,7 +48,8 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
-const { bello, slug, slugRegione } = require('./lib-nomi.js');
+const { bello, slug, slugRegione, elenco, diZona } = require('./lib-nomi.js');
+const { rigaStagione } = require('./lib-stagione.js');
 const { perLink } = require('./lib-vicine.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 // Il ritratto dell'archivio, cotto dentro la pagina: il perche' sta in cima
@@ -66,30 +67,8 @@ const ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-
 
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
-// «ARPA Liguria, ARPAE Emilia-Romagna e SIR Toscana»: l'ultimo con la «e», gli
-// altri con la virgola. ⚠️ Prima erano uniti tutti con « e » e con tre enti
-// usciva «ARPA Liguria e ARPAE Emilia-Romagna e SIR Toscana», due «e» di fila.
-function elenco(v) {
-  return v.length < 2 ? (v[0] || '') : v.slice(0, -1).join(', ') + ' e ' + v[v.length - 1];
-}
-
-// Il genitivo della zona, ricavato dalla preposizione che gia' abbiamo:
-// «in Garfagnana» -> «della Garfagnana», «nel Mugello» -> «del Mugello»,
-// «sui Monti Lattari» -> «dei Monti Lattari», «sulle Alpi Apuane» -> «delle».
-// ⚠️ Anche questo NON si deduce dal genere del nome, si deduce dall'articolo
-// che il nome si porta gia' dietro: e' il motivo per cui la preposizione sta
-// nell'anagrafe invece di essere ricalcolata ogni volta.
-function diZona(dove) {
-  const m = dove.match(/^(sull'|negli |nelle |sulle |sui |nel |sul |in )(.*)$/);
-  if (!m) return 'della ' + dove;
-  const pre = m[1], n = m[2];
-  if (pre === 'negli ') return 'degli ' + n;
-  if (pre === 'nelle ' || pre === 'sulle ') return 'delle ' + n;
-  if (pre === 'sui ') return 'dei ' + n;
-  if (pre === 'nel ' || pre === 'sul ') return 'del ' + n;
-  if (pre === "sull'") return "dell'" + n;
-  return /^[AEIOUÀÈÉÌÒÙ]/.test(n) ? "dell'" + n : 'della ' + n;
-}
+// elenco() e diZona() stanno in lib-nomi.js dal 13/9/2026: le usa anche
+// genera-pagine-zona-piogge.js.
 
 // id del posto -> regione, e id -> slug della sua pagina localita'
 const REG_DI = {};
@@ -119,9 +98,20 @@ function pagina(z) {
     return r ? (r.agenziaCorta || r.agenzia.replace(/\s*\(.*\)$/, '')) : null;
   }).filter(Boolean))];
 
-  const TITOLO = ('Piogge per funghi ' + z.dove).slice(0, 62);
-  const DESCR = 'Quanta pioggia è caduta ' + z.dove + ', misurata da ' + z.posti.length +
-    ' pluviometri nelle zone da bosco. La finestra da 13 a 20 giorni fa, quella che conta per i funghi.';
+  // ⚠️ 13/9/2026: «DOVE ANDARE A FUNGHI OGGI». Le zone escono gia' in prima
+  // pagina su «funghi in garfagnana oggi» (114 viste in 28 giorni, ottavo
+  // posto) col titolo «Piogge per funghi in Garfagnana», che la domanda vera
+  // non l'aveva. ⚠️ «Oggi» si' e tutto l'anno: fuori stagione ci tutela la riga
+  // di stagione sotto il titolo (lib-stagione.js). Tetto 62 caratteri.
+  const TITOLO = [
+    'Funghi ' + z.dove + ' oggi: dove andare e dove ha piovuto',
+    'Funghi ' + z.dove + ' oggi: dove andare',
+    'Funghi ' + z.dove + ' oggi',
+  ].find(t => t.length <= 62) || ('Funghi ' + z.dove).slice(0, 62);
+  const DESCR = [
+    'Dove andare a funghi ' + z.dove + ' oggi: le piogge per funghi, cioè la pioggia caduta da 13 a 20 giorni fa, da ' + z.posti.length + ' pluviometri da bosco. Aggiornato ogni giorno.',
+    'Dove andare a funghi ' + z.dove + ' oggi: la pioggia caduta da 13 a 20 giorni fa, misurata da ' + z.posti.length + ' pluviometri da bosco.',
+  ].find(t => t.length <= 158) || ('Dove andare a funghi ' + z.dove + ' oggi.');
 
   const modello = path.join(RADICE, 'funghi', casa.k, 'index.html');
   if (!fs.existsSync(modello)) {
@@ -196,7 +186,7 @@ function pagina(z) {
 '<title>' + esc(TITOLO) + '</title>\n' +
 '<meta name="description" content="' + esc(DESCR) + '">\n' +
 '<link rel="canonical" href="' + SITO + '/funghi/zone/' + zslug + '/">\n' +
-'<meta property="og:title" content="Piogge per funghi ' + esc(z.dove) + '">\n' +
+'<meta property="og:title" content="Funghi ' + esc(z.dove) + ' oggi: dove andare">\n' +
 '<meta property="og:description" content="La pioggia vera, misurata dai pluviometri nelle zone da bosco.">\n' +
 '<meta property="og:image" content="' + SITO + '/preview.jpg">\n' +
 '<meta property="og:url" content="' + SITO + '/funghi/zone/' + zslug + '/">\n' +
@@ -251,7 +241,8 @@ briciolaJson([
 // ⚠️ Il titolo e' quello delle REGIONI e non quello dei paesi: una zona e'
 // un territorio con dentro piu' pluviometri, quindi un «dove» ce l'ha; la
 // pagina di un paese ne ha uno solo e li' la domanda giusta e' un'altra.
-'<h1>Dove potrebbero esserci le prime nascite di funghi ' + esc(z.dove) + '</h1>\n' +
+'<h1>Dove andare a funghi ' + esc(z.dove) + ' oggi</h1>\n' +
+rigaStagione() + '\n' +
 '<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono\n' +
 'almeno dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella\n' +
 '<b>da 13 a 20 giorni fa</b>, misurata dai <b>' + z.posti.length + ' pluviometri</b> di ' +
@@ -264,10 +255,10 @@ briciolaJson([
 // scuro. Sta PRIMA del patto perche' e' la risposta a chi si e' appena accorto
 // di essere sulla pagina sbagliata.
 '<div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo\n' +
-'solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi\n' +
-'20 giorni o un periodo scelto da te, <a href="' + SITO + '/?r=' + REGS + '&amp;g=20&amp;' + PIN +
-   '" style="color:var(--blu);font-weight:700">apri ' + esc(z.n) + ' sulla mappa</a> e cambia\n' +
-'le date da lì.</div>\n\n' +
+'solo gli otto giorni della finestra dei funghi. Per la pioggia di ieri e degli ultimi 30 giorni\n' +
+'c’è <a href="' + SITO + '/zone/' + zslug + '/" style="color:var(--blu);font-weight:700">dove ha piovuto ' + esc(z.dove) + '</a>;\n' +
+'per un periodo scelto da te, <a href="' + SITO + '/?r=' + REGS + '&amp;g=20&amp;' + PIN +
+   '" style="color:var(--blu)">apri ' + esc(z.n) + ' sulla mappa</a>.</div>\n\n' +
 '<div class="patto">\n' +
 '  <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la\n' +
 '  fa nessuno, e noi non ce la inventiamo.</p>\n' +

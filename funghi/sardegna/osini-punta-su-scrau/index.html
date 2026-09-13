@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Piogge per funghi a Osini - Punta su Scrau</title>
-<meta name="description" content="Quanta pioggia è caduta a Osini - Punta su Scrau (OG, 1009 m), misurata dal pluviometro di MeteoHub. La finestra da 13 a 20 giorni fa, quella che conta per i funghi.">
+<title>Funghi a Osini - Punta su Scrau oggi: piogge per funghi</title>
+<meta name="description" content="Funghi a Osini - Punta su Scrau oggi: la pioggia caduta da 13 a 20 giorni fa, misurata dal pluviometro. Aggiornato ogni giorno.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/funghi/sardegna/osini-punta-su-scrau/">
-<meta property="og:title" content="Piogge per funghi a Osini - Punta su Scrau">
+<meta property="og:title" content="Funghi a Osini - Punta su Scrau oggi">
 <meta property="og:description" content="La pioggia vera, misurata dal pluviometro, giorno per giorno.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/funghi/sardegna/osini-punta-su-scrau/">
@@ -138,6 +138,11 @@ a:active .vai-mappa{transform:translateY(2px);
   .capo-btn{width:100%;text-align:center;}
 }
 nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
+ol.zone-dove{list-style:none;margin:10px 0 26px;padding:0;counter-reset:z;}
+ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
+ol.zone-dove li:before{content:counter(z);min-width:22px;text-align:right;color:#8a97a6;font-size:13px;}
+ol.zone-dove a{font-weight:600;color:var(--blu);text-decoration:none;}
+ol.zone-dove .zmm{margin-left:auto;font-weight:700;white-space:nowrap;}
 nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
@@ -211,7 +216,9 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/sardegna/" style="color:var(--blu)">Sardegna</a></p>
 
 
-<h1>Quanta pioggia è caduta a Osini - Punta su Scrau da 13 a 20 giorni fa</h1>
+<h1>Funghi a Osini - Punta su Scrau oggi: la pioggia di 13-20 giorni fa</h1>
+<div id="stagione"></div>
+<script>(function(){var m=new Date().getMonth()+1,t=null;if(m===12||m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco. I millimetri qui sotto restano veri e misurati, ma per usarli davvero aspetta le piogge di fine estate.";else if(m===11||m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto sono veri, ma valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 <p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo conta la pioggia di due settimane fa e non quella di ieri.
 I millimetri li misura il pluviometro di MeteoHub: OG · 1009 m slm ·
@@ -219,10 +226,10 @@ I millimetri li misura il pluviometro di MeteoHub: OG · 1009 m slm ·
 
 
 <div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo solo
-gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi 20 giorni
-o un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=sardegna&amp;g=20&amp;pl=39.8372,9.4766&amp;pn=Osini%20-%20Punta%20su%20Scrau"
-style="color:var(--blu);font-weight:700">apri Osini - Punta su Scrau sulla mappa</a> e cambia
-le date da lì.</div>
+gli otto giorni della finestra dei funghi. Per la pioggia di ieri e degli ultimi 30 giorni c’è
+<a href="https://precipitazioni.avventuremicologiche.it/sardegna/" style="color:var(--blu);font-weight:700">dove ha piovuto in Sardegna</a>;
+per un periodo scelto da te, <a href="https://precipitazioni.avventuremicologiche.it/?r=sardegna&amp;g=20&amp;pl=39.8372,9.4766&amp;pn=Osini%20-%20Punta%20su%20Scrau"
+style="color:var(--blu)">apri Osini - Punta su Scrau sulla mappa</a>.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -239,6 +246,7 @@ le date da lì.</div>
 <h2>Giorno per giorno, ultimi 25 giorni</h2>
 <div id="grafico"></div>
 <div class="tre" id="tre"></div>
+<p class="nota" id="ieri"></p>
 <p class="nota" id="notaforte"></p>
 <p class="nota" id="notaintensita"></p>
 
@@ -304,7 +312,7 @@ da MeteoHub.</p>
 <h2 style="margin-top:30px">Quanto piove a Osini - Punta su Scrau, secondo il nostro archivio</h2>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
 teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
-<b>da luglio 2026 a settembre 2026</b>, in 55 giorni di misura,
+<b>da luglio 2026 a settembre 2026</b>, in 56 giorni di misura,
 ha contato <b>1 mm</b> di pioggia, senza nemmeno una giornata sopra il millimetro.</p>
 <p>Il giorno più bagnato di tutto l'archivio è stato il <b>26 luglio 2026</b>,
 con <b>0,6 mm</b> in ventiquattro ore.</p>
@@ -399,6 +407,14 @@ provinciali ISTAT.</p>
   function disegna(j){
     var s = j.serie[ID];
     var mm = somma(s,20,13), mm7 = somma(s,7,1), mm25 = somma(s,GIORNI,1);
+    /* 13/9/2026: IERI, per chi cerca «quanto ha piovuto ieri a» e arriva qui.
+       Si dice il giorno vero: il file puo' essere stato scritto prima di
+       mezzanotte, e allora il suo ieri e' l'altroieri di chi legge.
+       Un giorno senza dato non e' uno zero. */
+    var ieriFile = iso(menoDa(j.oggi,1)), ieriVero = iso(menoDa(iso(new Date()),1));
+    var vIeri = s[0];
+    document.getElementById('ieri').innerHTML = (ieriFile === ieriVero ? 'Ieri, ' : 'Il ')
+      + gg(ieriFile) + ': ' + (vIeri == null ? 'il dato non è ancora arrivato.' : '<b>' + num(vIeri) + ' mm</b>.');
     var daG = iso(menoDa(j.oggi,20)), aG = iso(menoDa(j.oggi,13)), a20 = iso(menoDa(j.oggi,1));
 
     /* ⚠️ L'ULTIMA PIOGGIA FORTE ARRIVA DAL FILE, non si cerca nella serie.

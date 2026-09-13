@@ -44,6 +44,7 @@ const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 // non al controllo di sintassi.
 const { LOCALITA, bello, slug: slugDaNome, slugRegione } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
+const { rigaStagione } = require('./lib-stagione.js');
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
 // genera: totale dell'archivio, giorni di pioggia, giorno piu' bagnato,
 // mese piu' piovoso. Il perche' sta in cima a lib-clima.js.
@@ -91,6 +92,9 @@ function kmFra(la, lo, lb, lob) {
 function aPosto(n) {
   if (/^(Passo|Colle|Monte|Bric|Rifugio|Lago|Piano|Ponte|Bosco|Forte|Poggio)\b/.test(n)) return 'al ' + n;
   if (/^(Alpe|Isola|Alta|Valle|Villa|Cima)\b/.test(n)) return "all'" + n;
+  // «ad Anterselva», «ad Aulla»: davanti alla a si scrive ad (13/9/2026, il
+  // titolo nuovo comincia proprio da qui e «a Anterselva» si leggeva male).
+  if (/^A/.test(n)) return 'ad ' + n;
   return 'a ' + n;
 }
 
@@ -169,10 +173,23 @@ function pagina(r, posto, slug, sl) {
   // ⚠️ Limiti che Google taglia: titolo <= 62 caratteri, descrizione <= 158.
   // Il nome di un posto puo' essere lungo, quindi la coda del titolo si toglie
   // invece di lasciarlo mozzare a meta' parola.
-  const pieno = `Piogge per funghi ${DOVE}: dove ha piovuto davvero`;
-  const TITOLO = pieno.length <= 62 ? pieno : `Piogge per funghi ${DOVE}`;
-  const DESCR = `Quanta pioggia è caduta ${DOVE} (${sigla}, ${quota} m), misurata dal ` +
-    `pluviometro di ${CORTA}. La finestra da 13 a 20 giorni fa, quella che conta per i funghi.`;
+  // ⚠️ 13/9/2026: CATEGORIA FUNGHI. La domanda e' «funghi a Torriglia oggi»:
+  // «oggi» nel titolo si', tutto l'anno, e a gennaio ci tutela la riga di
+  // stagione sotto il titolo (lib-stagione.js). Per la pioggia e basta c'e' la
+  // pagina piogge della zona, e il riquadro qui sotto ci manda.
+  const TITOLO = [
+    `Funghi ${DOVE} oggi: piogge per funghi e dove ha piovuto`,
+    `Funghi ${DOVE} oggi: piogge per funghi`,
+    `Funghi ${DOVE} oggi`,
+  ].find(t => t.length <= 62) || `Funghi ${DOVE}`;
+  const DESCR = [
+    `Funghi ${DOVE} oggi: la pioggia caduta da 13 a 20 giorni fa, la finestra che conta, misurata dal pluviometro di ${CORTA} (${sigla}, ${quota} m). Aggiornato ogni giorno.`,
+    `Funghi ${DOVE} oggi: la pioggia caduta da 13 a 20 giorni fa, la finestra che conta, misurata dal pluviometro di ${CORTA}. Aggiornato ogni giorno.`,
+    `Funghi ${DOVE} oggi: la pioggia caduta da 13 a 20 giorni fa, misurata dal pluviometro. Aggiornato ogni giorno.`,
+  ].find(t => t.length <= 158) || `Funghi ${DOVE} oggi: la pioggia da 13 a 20 giorni fa.`;
+  const ZONA = ZONA_DI[ID];
+  const PIOGGE_URL = ZONA ? `${SITO}/zone/${slugDaNome(ZONA.n)}/` : `${SITO}/${REG}/`;
+  const PIOGGE_DOVE = ZONA ? ZONA.dove : `${r.prep} ${r.nomeTitolo || r.nome}`;
 
   // Il foglio di stile viene dalla pagina funghi della regione: una copia sola.
   const modello = path.join(RADICE, 'funghi', REG, 'index.html');
@@ -191,7 +208,7 @@ function pagina(r, posto, slug, sl) {
 <title>${esc(TITOLO)}</title>
 <meta name="description" content="${esc(DESCR)}">
 <link rel="canonical" href="${SITO}/funghi/${REG}/${slug}/">
-<meta property="og:title" content="Piogge per funghi ${esc(DOVE)}">
+<meta property="og:title" content="Funghi ${esc(DOVE)} oggi">
 <meta property="og:description" content="La pioggia vera, misurata dal pluviometro, giorno per giorno.">
 <meta property="og:image" content="${SITO}/preview.jpg">
 <meta property="og:url" content="${SITO}/funghi/${REG}/${slug}/">
@@ -294,7 +311,8 @@ ${/* ⚠️ LA FINESTRA NELLE PRIME RIGHE (9/9/2026), come sull'indice e sulle
      «dove», il posto e' quello. E la domanda che la gente scrive davvero, col
      nome del paese, e' «quanto ha piovuto a Cascia»: il titolo la ricalca e ci
      aggiunge la finestra. */''}
-<h1>Quanta pioggia è caduta ${esc(DOVE)} da 13 a 20 giorni fa</h1>
+<h1>Funghi ${esc(DOVE)} oggi: la pioggia di 13-20 giorni fa</h1>
+${rigaStagione()}
 <p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo conta la pioggia di due settimane fa e non quella di ieri.
 I millimetri li misura il pluviometro di ${esc(CORTA)}: ${esc(sigla)} · ${quota} m slm ·
@@ -309,10 +327,10 @@ ${/* ⚠️ LA VIA D'USCITA PER CHI CERCAVA ALTRO (9/9/2026). Chi arriva da Goog
      ⚠️ Sta PRIMA del patto e non dopo: e' la risposta a chi si e' appena
      accorto di essere sulla pagina sbagliata, e va data subito. */''}
 <div class="spiega" style="margin-top:14px"><b>Ti serve un altro periodo?</b> Qui contiamo solo
-gli otto giorni della finestra dei funghi. Per la pioggia di ieri, quella degli ultimi 20 giorni
-o un periodo scelto da te, <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}"
-style="color:var(--blu);font-weight:700">apri ${esc(bello(nomePosto))} sulla mappa</a> e cambia
-le date da lì.</div>
+gli otto giorni della finestra dei funghi. Per la pioggia di ieri e degli ultimi 30 giorni c’è
+<a href="${PIOGGE_URL}" style="color:var(--blu);font-weight:700">dove ha piovuto ${esc(PIOGGE_DOVE)}</a>;
+per un periodo scelto da te, <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}"
+style="color:var(--blu)">apri ${esc(bello(nomePosto))} sulla mappa</a>.</div>
 
 <div class="patto">
   <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la
@@ -329,6 +347,7 @@ le date da lì.</div>
 <h2>Giorno per giorno, ultimi 25 giorni</h2>
 <div id="grafico"></div>
 <div class="tre" id="tre"></div>
+<p class="nota" id="ieri"></p>
 <p class="nota" id="notaforte"></p>
 <p class="nota" id="notaintensita"></p>
 
@@ -484,6 +503,14 @@ provinciali ISTAT.</p>
   function disegna(j){
     var s = j.serie[ID];
     var mm = somma(s,20,13), mm7 = somma(s,7,1), mm25 = somma(s,GIORNI,1);
+    /* 13/9/2026: IERI, per chi cerca «quanto ha piovuto ieri a» e arriva qui.
+       Si dice il giorno vero: il file puo' essere stato scritto prima di
+       mezzanotte, e allora il suo ieri e' l'altroieri di chi legge.
+       Un giorno senza dato non e' uno zero. */
+    var ieriFile = iso(menoDa(j.oggi,1)), ieriVero = iso(menoDa(iso(new Date()),1));
+    var vIeri = s[0];
+    document.getElementById('ieri').innerHTML = (ieriFile === ieriVero ? 'Ieri, ' : 'Il ')
+      + gg(ieriFile) + ': ' + (vIeri == null ? 'il dato non è ancora arrivato.' : '<b>' + num(vIeri) + ' mm</b>.');
     var daG = iso(menoDa(j.oggi,20)), aG = iso(menoDa(j.oggi,13)), a20 = iso(menoDa(j.oggi,1));
 
     /* ⚠️ L'ULTIMA PIOGGIA FORTE ARRIVA DAL FILE, non si cerca nella serie.

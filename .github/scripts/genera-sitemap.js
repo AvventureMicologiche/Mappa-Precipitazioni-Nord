@@ -67,7 +67,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: '2026-08-14', freq: 'daily', pri: '1.0' });
@@ -125,6 +125,17 @@ function scriviSitemap(SITO, RADICE) {
     }
   }
 
+  // Le pagine «dove ha piovuto» di ZONA, dal 13/9/2026: categoria PIOGGE, una
+  // sitemap loro cosi' Search Console le conta a parte dalle zone funghi.
+  // Priorita' 0.7: sotto le regioni (0.8), sopra le risposte strette (0.6).
+  const zp = path.join(RADICE, 'zone');
+  if (fs.existsSync(zp)) {
+    for (const d of fs.readdirSync(zp).sort()) {
+      if (!c_e(path.join('zone', d, 'index.html'))) continue;
+      fam.zonePiogge.push({ loc: SITO + '/zone/' + d + '/', lastmod: LASTMOD.zonePiogge || LASTMOD.regioni, freq: 'weekly', pri: '0.7' });
+    }
+  }
+
   const voce = v => `  <url>\n    <loc>${v.loc}</loc>\n    <lastmod>${v.lastmod}</lastmod>\n` +
                     `    <changefreq>${v.freq}</changefreq>\n    <priority>${v.pri}</priority>\n  </url>`;
   const INTESTA = `<!-- Generata da .github/scripts/genera-sitemap.js — non modificare a mano.\n` +
@@ -135,7 +146,8 @@ function scriviSitemap(SITO, RADICE) {
   // scritte: un repo che non ha ancora una famiglia (il test, quando una
   // famiglia nasce in produzione) dichiarerebbe un file inesistente.
   const NOMI = { mappa: 'sitemap-mappa.xml', funghi: 'sitemap-funghi.xml',
-                 localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml' };
+                 localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml',
+                 zonePiogge: 'sitemap-zone-piogge.xml' };
   const figlie = [];
   let totale = 0;
   for (const k of Object.keys(NOMI)) {

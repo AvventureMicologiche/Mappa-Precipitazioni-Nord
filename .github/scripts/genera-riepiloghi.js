@@ -40,8 +40,11 @@ const { REGIONI } = require('./genera-pagine-regione.js');
 const { DATI, oggiItalia, giorniIndietro, leggi } = require('./lib-giorni.js');
 
 const USCITA = path.join(DATI, 'riepiloghi');
-const PERIODI = [7, 20];          // le due schede della pagina
-const FINESTRA = Math.max(...PERIODI);
+// 1 = l'ultimo giorno COMPLETO, di solito ieri (13/9/2026). 30 dal 13/9/2026.
+const PERIODI = [1, 7, 20, 30];
+// Due giorni di margine oltre i 30: quando ieri non e' ancora completo le
+// finestre partono da altroieri, e servono i giorni per contarlo.
+const FINESTRA = 34;
 
 // Il calendario (che giorno e' in Italia, quali sono gli ultimi N giorni, come
 // si legge il file di una cartella) sta in lib-giorni.js dal 2/9/2026: lo usa
@@ -132,6 +135,33 @@ const oggi = oggiItalia();
 const giorni = giorniIndietro(oggi, FINESTRA);
 fs.mkdirSync(USCITA, { recursive: true });
 
+// ── L'ULTIMO GIORNO COMPLETO (13/9/2026) ────────────────────────────────────
+// La scheda «Ieri» e' quella che si legge per prima, e un ieri a meta' e' la
+// cosa peggiore da mostrare: una giornata piovosa che sembra asciutta. Due
+// guardie, tutte e due gia' pagate altrove:
+//  1. il giro di notte (23:20 UTC, cioe' fra mezzanotte e l'una e mezza
+//     italiane) NON prende mai il giorno appena chiuso: i collector lo scrivono
+//     la mattina dopo. E' la stessa trappola della riga «pluviometri letti» del
+//     25/8/2026, sei ore col numero dimezzato;
+//  2. un giorno vale se ha almeno il 90% delle stazioni dei due giorni dopo:
+//     una rete che non ha ancora consegnato abbassa il conto e si vede.
+// Se il giorno buono e' altroieri, TUTTE le finestre partono da li': 7 giorni
+// sono i 7 giorni che finiscono con l'ultimo giorno completo. La pagina scrive
+// la data vera accanto al numero, quindi non c'e' niente di nascosto.
+const ORA_ITALIA = Number(new Intl.DateTimeFormat('en-GB',
+  { timeZone: 'Europe/Rome', hour: '2-digit', hour12: false }).format(new Date()));
+function stazioniDelGiorno(dirs, i) {
+  return dirs.reduce((n, d) => n + ((leggi(d, giorni[i]) || []).length), 0);
+}
+function ultimoCompleto(dirs) {
+  for (const i of (ORA_ITALIA >= 5 ? [0, 1, 2] : [1, 2])) {
+    const n = stazioniDelGiorno(dirs, i);
+    const dopo = Math.max(stazioniDelGiorno(dirs, i + 1), stazioniDelGiorno(dirs, i + 2));
+    if (n && n >= 0.9 * dopo) return i;
+  }
+  return null;
+}
+
 // ── LETTURE DEL GIORNO, per la riga «5.584 pluviometri letti stamattina» ──
 //
 // PERCHE': il sito non aveva nessun modo di dire che dietro c'e' una macchina
@@ -186,15 +216,21 @@ let scritti = 0, saltati = [];
 for (const r of REGIONI) {
   const fuori = gemelleDaScartare(r.dirs, giorni);
   const periodi = {};
-  for (const n of PERIODI) {
-    const p = riepilogo(r, giorni.slice(0, n), fuori);
-    if (p) periodi[String(n)] = p;
+  const da = ultimoCompleto(r.dirs);
+  if (da !== null) {
+    for (const n of PERIODI) {
+      const p = riepilogo(r, giorni.slice(da, da + n), fuori);
+      if (p) periodi[String(n)] = p;
+    }
   }
   // ⚠️ Se non e' uscito niente NON si scrive: si lascia il file di ieri e la
   // pagina, vedendolo vecchio, si ricalcola i numeri da sola. Sovrascrivere con
   // un riepilogo vuoto sarebbe il modo peggiore di gestire una fonte ferma —
   // la pagina direbbe «dati non disponibili» credendo di essere aggiornata.
-  if (!periodi[String(FINESTRA)]) { saltati.push(r.k); continue; }
+  // ⚠️ Si guarda il 20 e non la FINESTRA: e' la scheda che la pagina esige per
+  // fidarsi del riepilogo, e il 30 aggiunto il 13/9 non deve cambiare chi viene
+  // saltato.
+  if (!periodi['20']) { saltati.push(r.k); continue; }
   const dest = path.join(USCITA, r.k + '.json');
   const testo = JSON.stringify({ regione: r.k, generato: new Date().toISOString(), periodi }, null, 1) + '\n';
   const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
@@ -206,3 +242,90 @@ for (const r of REGIONI) {
   console.log(`  ${r.k.padEnd(12)} ${String(p20.stazioni).padStart(4)} staz.  ${String(Math.round(p20.media)).padStart(3)} mm/20gg  ${p20.primo}→${p20.ultimo}${uguale ? '  (invariato)' : ''}`);
 }
 console.log(`\n${scritti} riepiloghi scritti su ${REGIONI.length}${saltati.length ? ', SALTATI (nessun dato): ' + saltati.join(', ') : ''}`);
+
+// ── LE ZONE: i riepiloghi delle pagine «dove ha piovuto» di zona (13/9/2026) ──
+//
+// PERCHE'. Garfagnana, Lunigiana, Mugello si cercano anche per la pioggia, e
+// fino a oggi di una zona esisteva solo la pagina FUNGHI (la finestra 13-20
+// giorni fa). Queste sono le pagine della PIOGGIA: ieri, 7 e 30 giorni.
+// Un file per zona, ~1 KB: la pagina fa UNA richiesta, come le regioni.
+//
+// ⚠️ UNA ZONA STA A CAVALLO DI PIU' REGIONI (la Garfagnana ha pluviometri
+// dell'Emilia), quindi ogni pluviometro si legge dalle cartelle della SUA
+// regione. I pluviometri sono quelli di funghi-zone.json, gli stessi della
+// pagina funghi della zona: stessa zona, stessi strumenti, altro periodo.
+// ⚠️ L'ULTIMO GIORNO COMPLETO della zona e' il piu' vecchio fra quelli delle
+// sue regioni: se una delle due non ha ancora consegnato ieri, si parte da
+// altroieri per tutte, e non si mescolano giorni diversi nella stessa media.
+const { slug, bello } = require('./lib-nomi.js');
+const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
+const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
+const USCITA_ZONE = path.join(USCITA, 'zone');
+fs.mkdirSync(USCITA_ZONE, { recursive: true });
+
+const regDi = {}, nomeDi = {};
+for (const k of Object.keys(POSTI)) for (const p of POSTI[k]) { regDi[p[0]] = k; nomeDi[p[0]] = bello(p[1]); }
+
+const cache = {};
+function datiRegione(k) {
+  if (cache[k]) return cache[k];
+  const r = REGIONI.find(x => x.k === k);
+  const out = { da: r ? ultimoCompleto(r.dirs) : null, mm: [] };
+  for (let i = 0; i < FINESTRA; i++) {
+    const m = new Map();
+    for (const d of (r ? r.dirs : [])) {
+      for (const st of leggi(d, giorni[i]) || []) {
+        if (st.mm != null && !m.has(st.id)) m.set(st.id, st.mm);
+      }
+    }
+    out.mm.push(m);
+  }
+  return (cache[k] = out);
+}
+const uno = x => Math.round(x * 10) / 10;
+
+let zScritte = 0, zSaltate = [];
+for (const z of ZONE) {
+  const ids = z.posti.filter(id => regDi[id]);
+  const regs = [...new Set(ids.map(id => regDi[id]))];
+  const inizi = regs.map(k => datiRegione(k).da).filter(x => x !== null);
+  if (!ids.length || !inizi.length) { zSaltate.push(z.n); continue; }
+  const da = Math.max(...inizi);
+
+  const valori = {};                         // id -> [ieri, 7 giorni, 30 giorni]
+  const periodi = {};
+  for (const [j, n] of [[0, 1], [1, 7], [2, 30]]) {
+    const giorniConDati = new Set();
+    for (const id of ids) {
+      const rd = datiRegione(regDi[id]);
+      let somma = 0, visti = 0;
+      for (let i = da; i < da + n; i++) {
+        const v = rd.mm[i].get(id);
+        if (v == null) continue;
+        somma += v; visti++; giorniConDati.add(i);
+      }
+      (valori[id] = valori[id] || [null, null, null])[j] = visti ? uno(somma) : null;
+    }
+    const con = ids.filter(id => valori[id][j] != null);
+    if (!con.length) continue;
+    const ord = con.slice().sort((a, b) => valori[b][j] - valori[a][j]);
+    const dentro = [...giorniConDati].sort((a, b) => a - b);
+    periodi[String(n)] = {
+      media: uno(con.reduce((t, id) => t + valori[id][j], 0) / con.length),
+      stazioni: con.length,
+      giorni: dentro.length,
+      primo: giorni[dentro[dentro.length - 1]],
+      ultimo: giorni[dentro[0]],
+      top: ord.slice(0, 3).map(id => ({ n: nomeDi[id], mm: valori[id][j] })),
+    };
+  }
+  if (!periodi['7']) { zSaltate.push(z.n); continue; }
+
+  const dest = path.join(USCITA_ZONE, slug(z.n) + '.json');
+  const testo = JSON.stringify({ zona: z.n, generato: new Date().toISOString(),
+    ultimoGiorno: giorni[da], periodi, posti: valori }) + '\n';
+  const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
+  const uguale = prima && prima.replace(/"generato":"[^"]+",/, '') === testo.replace(/"generato":"[^"]+",/, '');
+  if (!uguale) { fs.writeFileSync(dest, testo, 'utf8'); zScritte++; }
+}
+console.log(`${zScritte} riepiloghi di zona scritti su ${ZONE.length}${zSaltate.length ? ', SALTATE: ' + zSaltate.join(', ') : ''}`);

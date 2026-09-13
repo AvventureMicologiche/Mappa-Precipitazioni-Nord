@@ -1939,3 +1939,40 @@ pagina va scritto cosa si e' misurato. Chi e' direttamente confrontabile con la
 scala e' la **punta oraria**.
 ⚠️ **Niente scala di colori sui pallini**: il colore significa gia' i
 millimetri, un secondo significato sullo stesso oggetto va spiegato.
+
+---
+
+## Le due categorie di pagine (13 settembre 2026)
+
+**Decisione dell'utente, e vale per ogni pagina futura.** Il sito ha due
+famiglie che rispondono a due ricerche diverse, e non si mescolano:
+
+| categoria | ricerca | pagine |
+|---|---|---|
+| **PIOGGE** | «dove ha piovuto ieri in Toscana / in Garfagnana» | 23 regioni (`/toscana/`) + **114 zone** (`/zone/<slug>/`) |
+| **FUNGHI** | «dove andare a funghi oggi in Toscana» | 19 regioni, 114 zone, 911 localita', indice (`/funghi/...`) |
+
+- **Piogge**: si deve essere i piu' avanti possibile su IERI. Le regioni hanno
+  la scheda «Ieri» (piu' 7, 20, 30 giorni) e l'elenco «Dove ha piovuto, zona per
+  zona». Le zone (`genera-pagine-zona-piogge.js`) hanno ieri, 7 e 30 giorni e la
+  tabella dei pluviometri. ⚠️ **Pagine piogge per LOCALITA' no**, deciso: 911
+  gusci quasi uguali ai gemelli funghi sono il profilo «scansionata, non
+  indicizzata».
+- **Funghi**: «oggi» nel titolo TUTTO L'ANNO (e' la ricerca), e sotto l'H1 la
+  **riga di stagione** di `lib-stagione.js`, scritta dal browser col SUO mese:
+  dicembre-febbraio fuori stagione, novembre e marzo ai margini, vuota il resto.
+  Scartati: titoli senza «oggi» e titoli che cambiano con la stagione.
+- Ogni pagina funghi rimanda alla sua pagina piogge («Ti serve un altro
+  periodo?») e le zone piogge rimandano alla zona funghi.
+- ⚠️ **«Ieri» solo se e' davvero ieri.** `genera-riepiloghi.js` sceglie
+  l'ultimo giorno COMPLETO (`ultimoCompleto`: nel giro notturno, prima delle 5
+  italiane, ieri si salta; e un giorno con meno del 90% delle stazioni dei giorni
+  dopo non conta). Le pagine scrivono il giorno vero («Giovedi' 11 set») quando
+  il riepilogo e' di altroieri.
+- I riepiloghi di zona stanno in `data/riepiloghi/zone/<slug>.json`, scritti
+  dallo stesso giro (zero crediti). ⚠️ Le medie dell'elenco zone sulle pagine
+  funghi usano TUTTI i pluviometri della zona anche fuori regione e lo stesso
+  arrotondamento della pagina di zona: prima 41 zone su 114 davano un numero
+  diverso da quello che trovavi aprendola.
+- `slug`, `elenco`, `diZona` stanno in `lib-nomi.js`: una regola sola per gli
+  indirizzi delle zone. Sitemap: famiglia `sitemap-zone-piogge.xml`.
