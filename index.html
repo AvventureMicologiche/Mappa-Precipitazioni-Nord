@@ -705,6 +705,13 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 .sh-x{display:flex;gap:2px;margin-top:3px;padding-right:28px}
 .sh-x span{flex:1;text-align:center;font-size:9px;color:#aaa}
 .sh-note{font-size:9px;color:#999;margin-top:5px}
+/* 13/9/2026: la riga dell'intensita' sotto le barre, e la barra del giorno raccontato */
+.sh-int{font-size:10px;color:#bbb;margin-top:5px}
+.sh-int:empty{display:none}
+.sh-int b{color:#eee;font-weight:600}
+.sh-invito{display:block;font-size:9px;color:#8a8a8a;margin-top:2px}
+.sh-bar.scelto{box-shadow:0 0 0 1px #fff}
+.sh-bars .sh-hits div{cursor:pointer}
 .sh-fonte{font-size:9px;color:#888;margin-top:5px;padding-top:5px;border-top:1px solid #333;
   display:flex;align-items:center;justify-content:space-between;gap:8px}
 /* 3/9/2026: il tasto che porta alla pagina del posto. Sta sulla RIGA
@@ -1564,6 +1571,10 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       </div>
       <div class="sh-row"><span id="sh-prov-lbl">Provincia</span><b id="sh-prov"></b></div>
       <div class="sh-row"><span>Quota</span><b id="sh-quota"></b></div>
+      <!-- 13/9/2026: durata e punta, solo col periodo di UN giorno e solo se
+           la rete pubblica l'ora. Le accende histRender, a serie arrivata. -->
+      <div class="sh-row sh-ore" style="display:none"><span>Durata</span><b id="sh-durata"></b></div>
+      <div class="sh-row sh-ore" style="display:none"><span>Punta oraria</span><b id="sh-punta"></b></div>
       <div class="sh-row"><span>Ranking</span><b id="sh-rank"></b></div>
       <div class="sh-per" id="sh-per"></div>
       <div class="sh-tabs">
@@ -3230,7 +3241,7 @@ function histFromFiles(region,station,days,cb){
       .then(function(d){
         var m={};
         if(d&&d.stations) d.stations.forEach(function(s){
-          m[s.n]={mm:(typeof s.mm==='number')?s.mm:0,t:s.t||null,w:s.w||null,u:s.u||null};
+          m[s.n]={mm:(typeof s.mm==='number')?s.mm:0,t:s.t||null,w:s.w||null,u:s.u||null,i:s.i||null};
         });
         histFileCache[region+'/'+ds]=m;
       })
@@ -3365,10 +3376,64 @@ function histRenderPioggia(days,serie,selFrom,selTo){
     var col=(v===null)?'#262626':(sel?histColor(v):(v>0?'#5f5f5f':'#2f2f2f'));
     var hh=(v===null)?2:Math.max(2,Math.round(v/scale*100));
     var lbl=(v===null)?'dato non disponibile':(v+' mm');
-    h+='<div class="sh-bar" style="height:'+hh+'%;background:'+col+'" title="'+ds+' · '+lbl+'"></div>';
+    h+='<div class="sh-bar" data-d="'+ds+'" style="height:'+hh+'%;background:'+col+'" title="'+ds+' · '+lbl+'"></div>';
   });
-  h+='</div></div>'+histAsseX(days);
+  // Colonne trasparenti a tutta altezza: una barra da 2 px col dito non si
+  // prende, la colonna si'. Toccandola la riga dell'intensita' passa a quel giorno.
+  h+='<div class="sh-hits">';
+  days.forEach(function(ds){ h+='<div data-d="'+ds+'"></div>'; });
+  h+='</div></div></div>'+histAsseX(days)+'<div class="sh-int" id="sh-int"></div>';
   return h;
+}
+
+// ── L'intensita' nel pannello (13/9/2026) ────────────────────────────────
+// Il campo i:[ore bagnate, punta oraria mm] sta nei file dal 10/9/2026, solo
+// per le reti che pubblicano l'ora (vedi «L'intensita' della pioggia» nel
+// CLAUDE.md). Qui si mostrano SOLO NUMERI, come deciso nel mockup del 12/9:
+// l'aggettivo lenta/media/battente sta sulle pagine di paese, dove c'e' posto
+// per spiegarlo. ⚠️ L'intensita' e' di UN giorno: su un periodo di sette non
+// si sommano le ore, si racconta il giorno piu' piovoso del periodo.
+function histNum(v){ return String(v).replace('.',','); }
+function histGiorno(ds){
+  var m=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  return (+ds.substring(8,10))+' '+m[+ds.substring(5,7)-1];
+}
+function histReteHaOre(days,serie){
+  return days.some(function(ds){ return serie[ds]&&serie[ds].i; });
+}
+function histRigaIntensita(ds){
+  var el=document.getElementById('sh-int'); if(!el||!histCurrent) return;
+  var serie=histCurrent.serie,o=ds&&serie[ds];
+  document.querySelectorAll('#sh-body .sh-bar.scelto').forEach(function(b){b.classList.remove('scelto');});
+  if(!o||!histReteHaOre(histCurrent.days,serie)){ el.innerHTML=''; return; }
+  var b=document.querySelector('#sh-body .sh-bar[data-d="'+ds+'"]'); if(b) b.classList.add('scelto');
+  var t='<b>'+histGiorno(ds)+'</b> · '+histNum(o.mm)+' mm';
+  if(o.i) t+=' in <b>'+o.i[0]+(o.i[0]===1?' ora':' ore')+'</b> · punta <b>'+histNum(o.i[1])+' mm</b> in un’ora';
+  else if(o.mm>0) t+=' · durata non misurata';
+  // ⚠️ L'invito a toccare: senza, nessuno scopre che le barre rispondono.
+  var dito=!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches);
+  el.innerHTML=t+'<span class="sh-invito">'+(dito?'Tocca':'Clicca')+' una barra per un altro giorno</span>';
+}
+// Col periodo di un giorno la riga sotto il grafico parte vuota: l'invito
+// serve lo stesso, se la rete ha le ore.
+function histSoloInvito(){
+  var el=document.getElementById('sh-int'); if(!el||!histCurrent||el.innerHTML) return;
+  if(!histReteHaOre(histCurrent.days,histCurrent.serie)) return;
+  var dito=!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches);
+  el.innerHTML='<span class="sh-invito" style="margin-top:0">'+(dito?'Tocca':'Clicca')+' una barra per durata e punta di quel giorno</span>';
+}
+// Il giorno da raccontare all'apertura: il piu' piovoso del periodo scelto fra
+// quelli che hanno le ore. Col periodo di un giorno solo la riga resta vuota,
+// perche' durata e punta stanno gia' nelle righe in alto.
+function histGiornoDaMostrare(c){
+  if(c.selFrom===c.selTo) return null;
+  var best=null;
+  c.days.forEach(function(ds){
+    var o=c.serie[ds];
+    if(ds<c.selFrom||ds>c.selTo||!o||!o.i) return;
+    if(!best||o.mm>c.serie[best].mm) best=ds;
+  });
+  return best;
 }
 
 // Linee di temperatura ('t': [min,max] °C) o vento ('v': [media,raffica] km/h).
@@ -3562,6 +3627,14 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,notaPeriodo,histR
   document.querySelectorAll('#st-history .sh-tab').forEach(function(b){
     b.classList.toggle('on',b.getAttribute('data-t')===histTab);
   });
+  // Durata e punta nelle righe in alto: solo col periodo di un giorno solo.
+  (function(){
+    var o=(selFrom===selTo)&&serie[selTo], ok=!!(o&&o.i);
+    document.querySelectorAll('#st-history .sh-ore').forEach(function(r){ r.style.display=ok?'':'none'; });
+    if(!ok) return;
+    document.getElementById('sh-durata').textContent=o.i[0]+(o.i[0]===1?' ora':' ore');
+    document.getElementById('sh-punta').textContent=histNum(o.i[1])+' mm in un’ora';
+  }());
   var body=document.getElementById('sh-body');
   var h;
   if(histTab==='mm') h=histRenderPioggia(days,serie,selFrom,selTo);
@@ -3572,6 +3645,7 @@ function histRender(station,regionKey,days,serie,selFrom,selTo,notaPeriodo,histR
     return;
   }
   body.innerHTML=h+histNote(regionKey,days,notaPeriodo,station);
+  if(histTab==='mm'){ histRigaIntensita(histGiornoDaMostrare(histCurrent)); histSoloInvito(); }
 }
 
 function histPosition(mx,my){
@@ -3761,6 +3835,12 @@ document.querySelectorAll('#st-history .sh-tab').forEach(function(b){
       histCurrent.serie,histCurrent.selFrom,histCurrent.selTo,histCurrent.notaPeriodo,
       histCurrent.histRegion);
   });
+});
+// 13/9/2026: toccando una colonna del grafico Pioggia la riga dell'intensita'
+// racconta quel giorno. Delega sul corpo, che si riscrive a ogni render.
+document.getElementById('sh-body').addEventListener('click',function(e){
+  var c=e.target&&e.target.closest&&e.target.closest('.sh-bars .sh-hits [data-d]');
+  if(c&&histTab==='mm') histRigaIntensita(c.getAttribute('data-d'));
 });
 // Col mouse dentro al pannello non si chiude (serve per leggerlo e per il
 // tooltip dei valori sulle singole barre)

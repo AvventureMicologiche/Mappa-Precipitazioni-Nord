@@ -268,6 +268,22 @@ for (const k of Object.keys(POSTI)) {
       if (haT) serieT[p[0]] = t;
       if (haW) serieW[p[0]] = w;
     }
+    /* ⚠️ L'INTENSITA' GIORNO PER GIORNO (13/9/2026), per la riga sotto il
+       grafico: {id: {indice: [ore bagnate, punta oraria]}}, con l'indice della
+       serie (0 = ieri). SOLO i giorni con almeno 5 mm: la serie piena costava
+       +51% sul file in Liguria, questa a regime circa +15-20%, e sotto i 5 mm
+       durata e punta non raccontano niente. Chi non ha nessun giorno non c'e'. */
+    const serieI = {};
+    for (const p of POSTI[k]) {
+      const o = {};
+      let ha = false;
+      for (let n = 1; n <= GIORNI; n++) {
+        const vi = g.i[n] && g.i[n][p[0]];
+        const mm = (g.mm[n] && g.mm[n][p[0]]) || 0;
+        if (vi && mm >= 5) { o[n - 1] = [vi[0], uno(vi[1])]; ha = true; }
+      }
+      if (ha) serieI[p[0]] = o;
+    }
     const sl = slugRegione(POSTI[k]);
     const anagrafe = POSTI[k].map(p => [p[0], bello(p[1]), p[2], p[3], p[4], p[5], p[6], sl[p[0]]]);
     /* ⚠️ L'ULTIMA PIOGGIA FORTE VA SCRITTA QUI, non lasciata calcolare alla
@@ -287,7 +303,7 @@ for (const k of Object.keys(POSTI)) {
       oggi, giorni: g.presenti, primo: g.primo, ultimo: g.ultimo,
       cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE,
       anagrafe, serie, forte: forteMap,
-      serieT, serieW,
+      serieT, serieW, serieI,
     }) + '\n';
     const destG = path.join(USCITA, k + '-giorni.json');
     const primaG = fs.existsSync(destG) ? fs.readFileSync(destG, 'utf8') : '';

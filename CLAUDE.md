@@ -1940,6 +1940,16 @@ scala e' la **punta oraria**.
 ⚠️ **Niente scala di colori sui pallini**: il colore significa gia' i
 millimetri, un secondo significato sullo stesso oggetto va spiegato.
 
+**Dal 13/9/2026 l'intensita' si mostra anche nella scheda della mappa e sotto il
+grafico delle pagine di paese**, solo numeri («10 set · 143,7 mm in 19 ore ·
+punta 30,3 mm in un'ora»), con l'invito «Tocca/Clicca una barra».
+- Mappa: `histFromFiles` porta `i`; `histRigaIntensita` racconta il giorno piu'
+  piovoso del periodo, le colonne `.sh-bars .sh-hits` cambiano giorno; col
+  periodo di un giorno solo durata e punta vanno nelle righe `.sh-ore` in alto.
+- Pagine di paese: `serieI` in `data/funghi/<reg>-giorni.json`, scritta da
+  `genera-funghi.js` SOLO per i giorni da 5 mm in su (la serie piena costava
+  +51%). L'aggettivo lenta/media/battente resta nella frase della pioggia forte.
+
 ---
 
 ## Le due categorie di pagine (13 settembre 2026)

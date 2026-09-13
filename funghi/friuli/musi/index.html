@@ -157,6 +157,13 @@ nav.altre a{color:var(--blu);}
 .gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
 .gg-x span{flex:1;text-align:center;}
 .gg-leg{font-size:13.5px;color:#555;margin-top:8px;}
+/* 13/9/2026: la riga dell'intensita' del giorno scelto, e la sua barra */
+.gg-int{font-size:14.5px;color:#333;margin:8px 0 0;}
+.gg-int:empty{display:none;}
+.gg-int b{color:var(--blu-scuro);}
+.gg-invito{display:block;font-size:13px;color:#6b7a8d;margin-top:2px;}
+.gg .b{cursor:pointer;}
+.gg .b.scelto i{box-shadow:0 0 0 2px #f0a000;}
 .gg-leg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;}
 /* le due linee della temperatura: stessa larghezza del grafico della pioggia,
    cosi' i giorni stanno incolonnati e si leggono insieme */
@@ -313,9 +320,9 @@ da ARPA FVG.</p>
 <p>In cima alla pagina c'è la finestra corta, quella che serve per i funghi. Ma di questo pluviometro
 teniamo tutti i giorni da quando lo leggiamo, e messi in fila raccontano un'altra cosa:
 <b>da luglio 2026 a settembre 2026</b>, in 55 giorni di misura,
-ha contato <b>405 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 35 non è caduto niente, o così poco da non contare.</p>
+ha contato <b>406 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 35 non è caduto niente, o così poco da non contare.</p>
 <p>Il giorno più bagnato di tutto l'archivio è stato il <b>10 settembre 2026</b>,
-con <b>102,5 mm</b> in ventiquattro ore. Il mese più piovoso,
+con <b>103,1 mm</b> in ventiquattro ore. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
 193 mm.</p>
 <p class="nota">Non è una media climatica: è quello che questo strumento ha misurato in quei
@@ -490,7 +497,7 @@ provinciali ISTAT.</p>
          adiacenti si sovrappongono e si legge «55,87,2». */
       var etich = v >= max*0.28 && (ultimaEt === null || ultimaEt - i >= 3);
       if (etich) ultimaEt = i;
-      barre += '<div class="b' + cl + '" title="' + gg(iso(d)) + ': ' + num(v) + ' mm">'
+      barre += '<div class="b' + cl + '" data-n="' + i + '" title="' + gg(iso(d)) + ': ' + num(v) + ' mm">'
         + (etich ? '<b>' + num(v) + '</b>' : '')
         + '<i style="height:' + Math.max(2, Math.round(v/max*100)) + '%"></i></div>';
       /* Giorno e mese in forma corta: «13/8» non va a capo, «13 ago» si'. */
@@ -498,8 +505,41 @@ provinciali ISTAT.</p>
     }
     document.getElementById('grafico').innerHTML =
       '<div class="gg">' + barre + '</div><div class="gg-x">' + ascisse + '</div>'
+      + '<p class="gg-int" id="ggint"></p>'
       + '<p class="gg-leg"><i style="background:var(--blu)"></i>la finestra dei funghi, '
       + 'da 13 a 20 giorni fa &nbsp; <i style="background:#b9cbe2"></i>gli altri giorni</p>';
+
+    /* ── l'intensita' del giorno (13/9/2026) ──────────────────────────────
+       Stessa riga del pannello della mappa, solo numeri: l'aggettivo
+       lenta/media/battente resta nella frase della pioggia forte, piu' sotto.
+       All'apertura racconta il giorno piu' piovoso che ha le ore; toccando
+       una barra passa a quel giorno. serieI ha solo i giorni da 5 mm in su:
+       se questo pluviometro non ne ha nessuno, la riga non esiste. */
+    var sI = (j.serieI && j.serieI[ID]) || null;
+    function rigaInt(n) {
+      var el = document.getElementById('ggint');
+      if (!el || !sI) return;
+      var v = s[n-1] || 0, o = sI[n-1];
+      [].forEach.call(document.querySelectorAll('#grafico .b.scelto'), function (b) { b.classList.remove('scelto'); });
+      var b = document.querySelector('#grafico .b[data-n="' + n + '"]');
+      if (b) b.classList.add('scelto');
+      var t = '<b>' + gg(iso(menoDa(j.oggi, n))) + '</b> · ' + num(v) + ' mm';
+      if (o) t += ' in <b>' + o[0] + (o[0] === 1 ? ' ora' : ' ore') + '</b> · punta <b>' + num(o[1]) + ' mm</b> in un’ora';
+      /* ⚠️ L'INVITO A TOCCARE: senza, nessuno scopre che le barre si
+         toccano (segnalato dall'utente il 13/9). Col mouse si dice «clicca». */
+      var dito = !(window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches);
+      el.innerHTML = t + '<span class="gg-invito">' + (dito ? 'Tocca' : 'Clicca')
+        + ' una barra per vedere durata e punta di un altro giorno.</span>';
+    }
+    if (sI) {
+      var nMax = null;
+      for (var k2 in sI) { var n2 = +k2 + 1; if (nMax === null || (s[n2-1] || 0) > (s[nMax-1] || 0)) nMax = n2; }
+      if (nMax) rigaInt(nMax);
+      document.getElementById('grafico').addEventListener('click', function (e) {
+        var b = e.target && e.target.closest && e.target.closest('.b[data-n]');
+        if (b) rigaInt(+b.getAttribute('data-n'));
+      });
+    }
 
     /* ── temperatura e vento, se il pluviometro ce li ha ──────────────────
        ⚠️ Si mostra SOLO quello che c'e' davvero: la temperatura ce l'ha il 78%

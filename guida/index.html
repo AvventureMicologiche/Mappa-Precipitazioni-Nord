@@ -258,6 +258,7 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
   <div class="tit"><span class="tag">NOVITÀ</span><b>Ultimi aggiornamenti</b>
     <span class="quando">13 settembre 2026</span></div>
   <ul>
+    <li><span class="data">13 set</span><span><a href="#misure">Durata e punta nella scheda del pluviometro</a>: tocca una barra del grafico e vedi in quante ore è caduta la pioggia di quel giorno.</span></li>
     <li><span class="data">13 set</span><span><a href="#pagine">Dove ha piovuto, zona per zona</a>: la pioggia di ieri, degli ultimi 7 e 30 giorni in Garfagnana, Val Trebbia, Sila e altre centoundici zone.</span></li>
     <li><span class="data">12 set</span><span><a href="#misure">Quanto forte è piovuto</a>: per ogni giornata di pioggia forte, in quante ore è caduta e la punta in un'ora.</span></li>
     <li><span class="data">9 set</span><span><a href="#pagine">Il nuovo indice «Piogge per funghi»</a>, con la classifica delle località più bagnate d'Italia.</span></li>
@@ -265,7 +266,6 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
     <li><span class="data">2 set</span><span><a href="#pagine">Le pagine di paese</a>: oltre novecento schede con l'archivio del pluviometro più vicino.</span></li>
     <li><span class="data">31 ago</span><span><a href="#radar">La diretta radar</a>: la pioggia in corso, le ultime due ore e i quaranta minuti seguenti.</span></li>
     <li><span class="data">27 ago</span><span><a href="#dove">«La mia posizione»</a>: dal telefono la mappa ti porta dove sei.</span></li>
-    <li><span class="data">22 ago</span><span><a href="#dove">La ricerca per località</a>: scrivi il nome del paese e la mappa ci va.</span></li>
   </ul>
 </div>
 
@@ -382,13 +382,10 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
 <h3>💧 La pioggia, in millimetri</h3>
 <p>Un millimetro è un litro d'acqua per metro quadrato. È la misura base, quella dei pallini e dei colori. Per dare un'idea: <b>sotto i 10 mm</b> in una finestra di otto giorni il terreno del bosco resta asciutto sotto la superficie, <b>fra i 20 e i 40</b> comincia a essere una pioggia che conta, <b>oltre i 50-60</b> è un evento che di solito basta a innescare, se la temperatura accompagna.</p>
 
-<!-- ⚠️ DA FARE: qui manca la figura. L'intensita' si vede solo sulle pagine
-     di paese, sotto la giornata di pioggia piu' forte, e il campo esiste nei
-     file solo dal 12/9/2026 in avanti: finche' nella finestra non cade una
-     giornata forte, non c'e' niente da fotografare. Appena compare si scatta
-     quella frase e si mette qui (l'attrezzo e' `scatta-guida.js`). -->
+<!-- 13/9/2026: la figura e' la scheda di Platischis (Friuli) dopo il
+     temporale del 10 settembre, scattata a doppia densita' come le altre. -->
 <h3>⏱ L'intensità: in quante ore</h3>
-<p>Cinquanta millimetri in un pomeriggio e cinquanta distribuiti su sei giorni sono due storie diverse, e per il terreno la seconda è molto migliore. Dal 12 settembre 2026, per le giornate di pioggia forte, contiamo <b>le ore in cui ha piovuto</b> e <b>la punta caduta in un'ora</b>, e le traduciamo in una parola.</p>
+<p>Cinquanta millimetri in un pomeriggio e cinquanta distribuiti su sei giorni sono due storie diverse, e per il terreno la seconda è molto migliore. Dal 10 settembre 2026, per ogni giornata di pioggia, contiamo <b>le ore in cui ha piovuto</b> e <b>la punta caduta in un'ora</b>. Dividendo i millimetri per le ore si ottiene il ritmo, e lo traduciamo in una parola.</p>
 <table>
 <thead><tr><th>Millimetri all'ora</th><th>Come la chiamiamo</th><th>Nel bosco</th></tr></thead>
 <tbody>
@@ -397,7 +394,14 @@ td:first-child{font-weight:600;color:#2c3e54;white-space:nowrap}
 <tr><td>oltre 6</td><td>pioggia battente</td><td>molta acqua corre via in superficie: nei millimetri si vede, nel terreno meno</td></tr>
 </tbody>
 </table>
-<p>Le due soglie sono quelle della convenzione meteorologica italiana. La frase compare sulle <a href="/funghi/">pagine di paese</a>, sotto la giornata di pioggia più forte, e suona così: «Sono caduti in 7 ore, con una punta di 102,1 mm in un'ora: 17,7 mm all'ora, pioggia battente».</p>
+<p>Le due soglie sono quelle della convenzione meteorologica italiana.</p>
+<p><b>Dove la trovi.</b> Nella scheda del pluviometro, sotto il grafico della pioggia, c'è il giorno più piovoso del periodo con le sue ore e la sua punta. Tocca un'altra barra e la riga passa a quel giorno. Col periodo <span class="ui">Ieri</span> durata e punta stanno direttamente fra le righe in alto.</p>
+<figure class="stretta">
+  <img src="intensita.jpg" alt="La scheda del pluviometro di Platischis su sette giorni: sotto il grafico, 10 settembre, 143,7 mm in 19 ore, punta 30,3 mm in un'ora" width="592" height="726" loading="lazy">
+  <figcaption>Platischis, in Friuli: il 10 settembre 143,7 mm in 19 ore, con una punta di 30,3 mm in un'ora. La barra col bordo bianco è il giorno raccontato.</figcaption>
+</figure>
+<p>Le stesse due informazioni ci sono sotto il grafico delle <a href="/funghi/">pagine di paese</a>, e lì la giornata di pioggia più forte ha anche la parola: «Sono caduti in 19 ore, con una punta di 30,3 mm in un'ora: 7,6 mm all'ora, pioggia battente».</p>
+<p class="mini">Le ore le pubblicano Piemonte, Liguria, Lombardia, Friuli, le reti del centro-sud, Svizzera, Austria, Francia e Slovenia. Toscana, Emilia, Veneto, Trentino e Alto Adige danno solo il totale del giorno: lì la riga non compare.</p>
 
 <h3>🌡 La temperatura, minima e massima</h3>
 <p>È il secondo interruttore dopo la pioggia. Dopo una pioggia buona, quello che decide se e quando nasce qualcosa sono le notti: <b>minime che restano sopra i 10 gradi</b> tengono il bosco in moto, minime vicine allo zero lo fermano. In quota la stessa pioggia di agosto e quella di ottobre danno esiti diversi solo per questo. Il grafico della scheda mostra minima e massima giorno per giorno, e serve proprio a guardare l'andamento delle notti nei giorni dopo la pioggia.</p>
