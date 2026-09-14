@@ -10320,7 +10320,9 @@ function loadDefaultMarkers(){
     // AESTIVALIS 20 GG DOPO I TEMPORALI». Terza uscita lunga di fila sullo
     // stesso filone: 16 giorni il 6/9, 20 giorni adesso.
     da: '2026-09-10T18:00:00+02:00',
-    fino: '2027-12-31T23:59:59+01:00',
+    // ⚠️ ANTICIPATA al 14/9 alle 17:29:59: si fa da parte nel minuto in cui
+    // si accende l'uscita dei 25 giorni. Il cambio lo fanno le date.
+    fino: '2026-09-14T17:29:59+02:00',
     link: 'https://youtu.be/rpLBWflVgPE',
     id: 'rpLBWflVgPE',
     // ⚠️ VUOTI APPOSTA, come per le due uscite lunghe precedenti: all'ora di
@@ -10345,13 +10347,38 @@ function loadDefaultMarkers(){
     ganciopx: 20,
     canale: 'Avventure Micologiche'
   };
+  VETRINE.lungo25 = {
+    // Uscita LUNGA del 14/9/2026 alle 17:30: «PORCINI 2026 25 GIORNI DOPO LA
+    // PIOGGIA Edulis ovunque negli abeti». Quarta uscita lunga del filone.
+    da: '2026-09-14T17:30:00+02:00',
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtu.be/RMHalRmChGg',
+    id: 'RMHalRmChGg',
+    // ⚠️ VUOTI APPOSTA, come per le uscite lunghe precedenti.
+    facebook: '',
+    instagram: '',
+    // Video lungo (`oardefault.jpg` risponde 404): maxresdefault 1280x720
+    // ridotto a 480x270 con PIL.
+    copertina: 'vetrina-25gg.jpg',
+    // Taglio A, scelta sua fra quattro misurati: il nome in prima riga come
+    // nelle uscite lunghe precedenti, la cosa nuova (edulis negli abeti) in
+    // seconda. Scartati D (20 px, «edulis» in prima riga), B (troppo simile a
+    // «16 giorni dopo i temporali») e C.
+    gancio1: 'Porcini 2026:',
+    gancio2: 'edulis ovunque negli abeti',
+    // Misurato sulla colonna da 199 px: la riga lunga fa 188,4 px a 15.
+    ganciopx: 15,
+    // La pillola del telefono va a capo da sola: si decide qui, come sulla scheda.
+    gancioP: 'Porcini 2026:<br>edulis ovunque negli abeti',
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
     // l'alternanza si riduce da sola alla guida, e quando scade anche quella
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
-    ['lungo16','lungo20'].forEach(function(k){
+    ['lungo20','lungo25'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
@@ -10462,7 +10489,9 @@ function loadDefaultMarkers(){
     if(pill && !altri.length){
       var t=pill.querySelector('.cp-t');
       if(t){
-        t.innerHTML=V.gancio+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small>';
+        // \u26A0\uFE0F `gancioP`: l'a capo DECISO per la pillola (14/9/2026). Senza, la
+        // riga va a capo dove capita e lascia una parola sola sotto (\u00ABabeti\u00BB).
+        t.innerHTML=(V.gancioP||V.gancio)+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small>';
         pill.href=V.link;
         pill.setAttribute('onclick',tracc('vetrina-mobile'));
       }
@@ -10483,7 +10512,7 @@ function loadDefaultMarkers(){
       nuova.innerHTML=
         '<a class="cp-alto" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile').replace(/"/g,'&quot;')+'">'
         +'<img src="archie-avatar.png" alt="Archie">'
-        +'<div class="cp-t">'+V.gancio+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small></div>'
+        +'<div class="cp-t">'+(V.gancioP||V.gancio)+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small></div>'
         +'</a>'
         +'<div class="cp-riga">'+riga+'</div>';
       pill.replaceWith(nuova);
