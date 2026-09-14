@@ -1,20 +1,27 @@
 {
-  "aggiornato": "2026-09-07",
+  "aggiornato": "2026-09-14",
   "finestra": 45,
   "ferme": [
     {
-      "chiave": "liguria/VIFRA",
-      "nome": "Villafranca Lunigiana",
-      "regione": "liguria",
+      "chiave": "lombardia/7043",
+      "nome": "Ponti sul Mincio v.San Martino",
+      "regione": "lombardia",
       "perc": 0,
-      "dal": "2026-08-21"
+      "dal": "2026-09-14"
     },
     {
-      "chiave": "meteohub-campania/40.83083_14.12778",
-      "nome": "Pozzuoli",
-      "regione": "meteohub-campania",
+      "chiave": "toscana/TOS03001965",
+      "nome": "Gabbro",
+      "regione": "toscana",
       "perc": 0,
-      "dal": "2026-08-31"
+      "dal": "2026-08-24"
+    },
+    {
+      "chiave": "meteohub-sardegna/39.83719_9.47661",
+      "nome": "Osini - Punta su Scrau",
+      "regione": "meteohub-sardegna",
+      "perc": 0,
+      "dal": "2026-09-14"
     },
     {
       "chiave": "meteohub-sicilia/37.65500_14.52833",
@@ -27,43 +34,22 @@
       "chiave": "meteohub-umbria/42.89595_12.02092",
       "nome": "Ponte S.Maria",
       "regione": "meteohub-umbria",
-      "perc": 0.1,
+      "perc": 0.2,
       "dal": "2026-08-21"
     },
     {
-      "chiave": "toscana/TOS03001965",
-      "nome": "Gabbro",
-      "regione": "toscana",
-      "perc": 0.5,
-      "dal": "2026-08-24"
+      "chiave": "francia-provenza/83075001",
+      "nome": "Les Mayons",
+      "regione": "francia-provenza",
+      "perc": 1.5,
+      "dal": "2026-09-14"
     },
     {
-      "chiave": "toscana/TOS01001561",
-      "nome": "Serra Pistoiese",
-      "regione": "toscana",
-      "perc": 2.3,
-      "dal": "2026-08-21"
-    },
-    {
-      "chiave": "toscana/TOS11000103",
-      "nome": "Alberese",
-      "regione": "toscana",
-      "perc": 2.8,
-      "dal": "2026-08-31"
-    },
-    {
-      "chiave": "meteohub-calabria/38.81444_16.55972",
-      "nome": "Roccelletta",
-      "regione": "meteohub-calabria",
-      "perc": 13.1,
-      "dal": "2026-08-21"
-    },
-    {
-      "chiave": "piemonte/198",
-      "nome": "VERCELLI",
-      "regione": "piemonte",
-      "perc": 13.9,
-      "dal": "2026-09-07"
+      "chiave": "meteohub-umbria/42.79042_12.11868",
+      "nome": "Cassa Molino di Bagni",
+      "regione": "meteohub-umbria",
+      "perc": 5.1,
+      "dal": "2026-09-14"
     }
   ]
 }
