@@ -1,42 +1,42 @@
 {
  "regione": "austria",
- "generato": "2026-09-13T16:01:24.487Z",
+ "generato": "2026-09-14T08:39:56.209Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 2.1,
    "giorni": 1,
-   "stazioni": 268,
-   "primo": "2026-09-12",
-   "ultimo": "2026-09-12",
+   "stazioni": 269,
+   "primo": "2026-09-13",
+   "ultimo": "2026-09-13",
    "top": [
     {
-     "n": "Eisenstadt Nordost (Burgenland)",
-     "mm": 1.1
+     "n": "Reichersberg (Oberösterreich)",
+     "mm": 11.3
     },
     {
-     "n": "Buchberg (Niederösterreich)",
-     "mm": 0.8
+     "n": "Schärding (Oberösterreich)",
+     "mm": 11.2
     },
     {
-     "n": "Gumpoldskirchen (Niederösterreich)",
-     "mm": 0.6
+     "n": "Feuerkogel (Oberösterreich)",
+     "mm": 10.6
     },
     {
-     "n": "Zwerndorf (Niederösterreich)",
-     "mm": 0.4
+     "n": "Gallspach (Oberösterreich)",
+     "mm": 10.1
     },
     {
-     "n": "Klausen-Leopoldsdorf (Niederösterreich)",
-     "mm": 0.3
+     "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
+     "mm": 10.1
     }
    ]
   },
   "7": {
-   "media": 30.6,
+   "media": 32.8,
    "giorni": 7,
    "stazioni": 270,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-12",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-13",
    "top": [
     {
      "n": "Kanzelhöhe (Kärnten)",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 53.2,
+   "media": 55,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-08-24",
-   "ultimo": "2026-09-12",
+   "primo": "2026-08-25",
+   "ultimo": "2026-09-13",
    "top": [
     {
      "n": "Preitenegg (Kärnten)",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 133.2
+     "mm": 126.6
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
@@ -90,15 +90,19 @@
    ]
   },
   "30": {
-   "media": 93.8,
+   "media": 95.9,
    "giorni": 30,
    "stazioni": 271,
-   "primo": "2026-08-14",
-   "ultimo": "2026-09-12",
+   "primo": "2026-08-15",
+   "ultimo": "2026-09-13",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 233.6
+     "mm": 234.9
+    },
+    {
+     "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
+     "mm": 194
     },
     {
      "n": "Villacher Alpe (Kärnten)",
@@ -109,12 +113,8 @@
      "mm": 189.1
     },
     {
-     "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 185.7
-    },
-    {
      "n": "Schröcken (Vorarlberg)",
-     "mm": 183.9
+     "mm": 188
     }
    ]
   }
