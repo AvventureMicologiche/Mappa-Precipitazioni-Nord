@@ -264,7 +264,7 @@ misurati a terra, pluviometro per pluviometro.</p>
     el.innerHTML=Math.round(d.media)+' mm <small>di media regionale</small>';
     var cont=document.getElementById(prefisso+'-top');
     if(!d.top||!d.top.length||d.top[0].mm<1){
-      cont.innerHTML='<p class="nota">'+(prefisso==='rip1'?'Giornata':'Periodo')+' quasi asciutto su tutta la regione.</p>';
+      cont.innerHTML='<p class="nota">'+(prefisso==='rip1'?'Giornata quasi asciutta':'Periodo quasi asciutto')+' su tutta la regione.</p>';
     }else{
       var ol=document.createElement('ol'); ol.className='top-staz';
       d.top.forEach(function(s){
@@ -282,7 +282,9 @@ misurati a terra, pluviometro per pluviometro.</p>
         ? 'Giornata di ieri, '+breve(d.ultimo)+'.'
         : 'I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera, '+ilGiorno(d.ultimo)+'.';
     }else{
-      document.getElementById(prefisso+'-date').textContent='Dal '+breve(d.primo)+' al '+breve(d.ultimo)+', su '+d.giorni+' giornate di dati. La giornata odierna è esclusa.';
+      // «dall’8», «all’11»: davanti a otto e undici la preposizione si apostrofa
+      var apo=function(s){ return /^(8|11) /.test(s); };
+      document.getElementById(prefisso+'-date').textContent=(apo(breve(d.primo))?'Dall’':'Dal ')+breve(d.primo)+(apo(breve(d.ultimo))?' all’':' al ')+breve(d.ultimo)+', su '+d.giorni+' giornate di dati. La giornata odierna è esclusa.';
     }
     var cta=document.getElementById({rip1:'cta1',rip7:'cta7',rip15:'cta15',rip30:'cta30'}[prefisso]);
     if(cta&&d.primo&&d.ultimo) cta.href='https://precipitazioni.avventuremicologiche.it/?r=emilia&da='+d.primo+'&a='+d.ultimo;

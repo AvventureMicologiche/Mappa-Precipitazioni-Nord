@@ -182,7 +182,7 @@ minuti seguenti.</p>
     el.innerHTML = mm(d.media) + ' <small>di media nella zona</small>';
     var top = document.getElementById('rip'+k+'-top');
     if (!d.top || !d.top.length || d.top[0].mm < 1) {
-      top.innerHTML = '<p class="nota">' + (k === '1' ? 'Giornata' : 'Periodo') + ' quasi asciutto in tutta la zona.</p>';
+      top.innerHTML = '<p class="nota">' + (k === '1' ? 'Giornata quasi asciutta' : 'Periodo quasi asciutto') + ' in tutta la zona.</p>';
     } else {
       var ol = document.createElement('ol'); ol.className = 'top-staz';
       d.top.forEach(function(s){ var li = document.createElement('li'); li.textContent = s.n + ' — ' + mm(s.mm); ol.appendChild(li); });
@@ -198,7 +198,9 @@ minuti seguenti.</p>
         ? 'Giornata di ieri, ' + breve(d.ultimo) + ', su ' + d.stazioni + ' pluviometri.'
         : 'I dati di ieri non sono ancora arrivati da tutti i pluviometri: questa è l’ultima giornata intera, ' + ilGiorno(d.ultimo) + '.';
     } else {
-      nota.textContent = 'Dal ' + breve(d.primo) + ' al ' + breve(d.ultimo) + ', su ' + d.giorni + ' giornate di dati. La giornata odierna è esclusa.';
+      // «dall’8», «all’11»: davanti a otto e undici la preposizione si apostrofa
+      var apo = function (s) { return /^(8|11) /.test(s); };
+      nota.textContent = (apo(breve(d.primo)) ? 'Dall’' : 'Dal ') + breve(d.primo) + (apo(breve(d.ultimo)) ? ' all’' : ' al ') + breve(d.ultimo) + ', su ' + d.giorni + ' giornate di dati. La giornata odierna è esclusa.';
     }
     var cta = document.getElementById('cta'+k);
     if (cta && d.primo && d.ultimo) cta.href = SITO + '/?r=' + REGS + '&da=' + d.primo + '&a=' + d.ultimo + '&' + PIN;
