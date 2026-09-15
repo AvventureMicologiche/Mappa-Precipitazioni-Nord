@@ -1,32 +1,32 @@
 {
  "regione": "liguria",
- "generato": "2026-09-15T01:32:56.096Z",
+ "generato": "2026-09-15T06:02:42.585Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 198,
-   "primo": "2026-09-13",
-   "ultimo": "2026-09-13",
+   "primo": "2026-09-14",
+   "ultimo": "2026-09-14",
    "top": [
+    {
+     "n": "Genova - Pontedecimo (Genova)",
+     "mm": 0.8
+    },
     {
      "n": "Colle Belenda (Pigna)",
      "mm": 0.4
     },
     {
-     "n": "Varese Ligure (Varese Ligure)",
-     "mm": 0.2
+     "n": "Passo del Brattello (Pontremoli)",
+     "mm": 0.4
+    },
+    {
+     "n": "Pitelli (La Spezia)",
+     "mm": 0.4
     },
     {
      "n": "Torriglia - Garaventa (Torriglia)",
-     "mm": 0.2
-    },
-    {
-     "n": "Mallare (Mallare)",
-     "mm": 0.2
-    },
-    {
-     "n": "Equi Terme (Fivizzano)",
      "mm": 0.2
     }
    ]
@@ -35,12 +35,12 @@
    "media": 51.4,
    "giorni": 7,
    "stazioni": 198,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-13",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-14",
    "top": [
     {
      "n": "Cabanne (Rezzoaglio)",
-     "mm": 305.4
+     "mm": 305.6
     },
     {
      "n": "Barbagelata (Lorsica)",
@@ -61,48 +61,48 @@
    ]
   },
   "20": {
-   "media": 58.5,
+   "media": 53.2,
    "giorni": 20,
    "stazioni": 198,
-   "primo": "2026-08-25",
-   "ultimo": "2026-09-13",
+   "primo": "2026-08-26",
+   "ultimo": "2026-09-14",
    "top": [
     {
      "n": "Cabanne (Rezzoaglio)",
-     "mm": 313.2
+     "mm": 306.6
     },
     {
      "n": "Barbagelata (Lorsica)",
-     "mm": 301.6
+     "mm": 295.2
     },
     {
      "n": "Ognio (Neirone)",
-     "mm": 249.8
+     "mm": 245.4
     },
     {
      "n": "Croce Orero (Orero)",
-     "mm": 241
+     "mm": 234.6
     },
     {
-     "n": "Amborzasco (Santo Stefano d'Aveto)",
-     "mm": 229.8
+     "n": "Cichero (San Colombano Certenoli)",
+     "mm": 224
     }
    ]
   },
   "30": {
-   "media": 173.5,
+   "media": 172.1,
    "giorni": 30,
    "stazioni": 199,
-   "primo": "2026-08-15",
-   "ultimo": "2026-09-13",
+   "primo": "2026-08-16",
+   "ultimo": "2026-09-14",
    "top": [
-    {
-     "n": "Barbagelata (Lorsica)",
-     "mm": 478.7
-    },
     {
      "n": "Bagnone (Bagnone)",
      "mm": 470.2
+    },
+    {
+     "n": "Barbagelata (Lorsica)",
+     "mm": 458.5
     },
     {
      "n": "Iera (Bagnone)",
@@ -113,8 +113,8 @@
      "mm": 450
     },
     {
-     "n": "Cabanne (Rezzoaglio)",
-     "mm": 444.8
+     "n": "Reppia (Ne)",
+     "mm": 444.4
     }
    ]
   }
