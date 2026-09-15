@@ -5293,7 +5293,12 @@ function copFiltro(cop){
 //   2206 "Ispra tetto" (VA)             → colline bergamasche, non Ispra
 //   2535 "Virgilio Mantova Cerese" (MN) → coordinate di Dorio (LC)
 // Attenzione: "Ispra JRC" (32355) è invece corretta e riporta ogni giorno.
-var LOMB_ESCLUSE={'2239':1,'2206':1,'2535':1};
+// 15/9/2026, PLUVIOMETRO MORTO CON UNA DATA:
+//   7043 "Ponti sul Mincio v.San Martino" (MN) → da gennaio a luglio all'80-96%
+//   di Monzambano (2,9 km), dal 22/7 0,0 mm tutti i giorni (agosto 0 contro 49,
+//   settembre 0 contro 51). Temperatura e umidita' arrivano ancora: la stazione
+//   e' viva, il pluviometro no. Restano Monzambano a 2,9 km e Peschiera a 1,3.
+var LOMB_ESCLUSE={'2239':1,'2206':1,'2535':1,'7043':1};
 function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
   // Dal 24/7/2026 la Lombardia legge file giornalieri come le altre regioni,
   // invece di interrogare Socrata live a ogni caricamento (lento sui periodi
@@ -5943,6 +5948,18 @@ else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la qu
 // climatologici, stessa banca dati dell'API): il loader è il gemello di
 // quello austriaco, si legge sempre dai file.
 // ═══════════════════════════════════════════════════════════════
+// ── PLUVIOMETRI FRANCESI ESCLUSI (lista nata il 15/9/2026) ──────────────
+// Per ID Meteo-France, che e' unico su tutte e 13 le régions: una lista sola.
+// Stessa regola delle liste italiane: si esclude chi consegna ma non misura
+// piu', solo se intorno restano pluviometri a coprire il posto.
+var FRANCIA_ESCLUSE={
+  // Les Mayons (Var): 13 mesi buoni (80-180% dei vicini), poi i due temporali
+  // di agosto l'hanno trovata a zero mentre bagnavano tutti e quattro i vicini:
+  // 21/8 Bormes 33,4, Collobrieres 33,1, Le Luc 24, Cogolin 18,3 -> lei 0;
+  // 24/8 12,9-24,4 -> lei 0. Ultimo giorno sopra 1 mm il 4/6. Restano Le Luc
+  // a 7,7 km e gli altri tre fra 12 e 14 km.
+  '83075001':true
+};
 function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
   var FR_RAW=PILOT_DATA_BASE+(REGIONS[regionKey].dataDir||regionKey);
   var rainTot={}, stMeta={}, cop={};
@@ -5962,6 +5979,7 @@ function loadFranciaRegion(regionKey,pastDate,nowDate,labelPeriodo,cb){
       .then(function(data){
         if(data.stations){
           data.stations.forEach(function(s){
+            if(s.id&&FRANCIA_ESCLUSE[String(s.id)])return;
             var key=s.id||s.n;
             if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FR'};
 else if(!stMeta[key].q && s.q) stMeta[key].q=s.q;stMeta[key].qt=s.qt;   // la quota arriva anche da un file dopo
@@ -6346,7 +6364,17 @@ var MH_ESCLUSE={
   // regola chiede: si tiene fuori lo stesso perche' 0,2 mm in 57 giorni non
   // e' un dato da sostituire, e' gia' un buco adesso — e i due vicini sono a
   // 5 km, non a 15.
-  umbria:{'42.89595_12.02092':true},
+  // Cassa Molino di Bagni (TR), 42.79042/12.11868, esclusa il 15/9/2026: SORDA.
+  // Consegna ancora ma sempre un'inezia: 21/8 0,2 contro 19-30 mm dei quattro
+  // vicini entro 8 km, 25/8 1,2 contro 35-58, 10/9 4,2 contro 44-62. Agosto
+  // al 3%, settembre all'8%. Ne restano 4 entro 10 km (Allerona, Orvieto,
+  // Orvieto Scalo, Ponte Adunata; gli ultimi due danno sempre lo stesso numero).
+  umbria:{'42.89595_12.02092':true,'42.79042_12.11868':true},
+  // Osini - Punta su Scrau (NU), esclusa il 15/9/2026: MAI una goccia. In
+  // archivio dal 19/7, mai un giorno sopra 1 mm; in agosto zero in tutti e 7 i
+  // giorni di pioggia dei vicini (3/8 Gairo 39,7; 5/8 Lanusei 34 e Jerzu 27,2;
+  // 7/8 Jerzu 27,6). Restano Punta Tricoli, Jerzu, Gairo e Lanusei entro 9 km.
+  sardegna:{'39.83719_9.47661':true},
   // Agira (EN), quella a 37.655/14.528: 0,0 mm in 53 giorni consegnati, MAI
   // una goccia. L'ALTRA «Agira», a 4,4 km, ne fa 61,2 negli ultimi 45 giorni
   // ed e' sana. Ne restano 3 entro 10 km. Trovata dal controllo del lunedi'
@@ -9852,7 +9880,8 @@ function loadFranciaStations(regionKey,cb){
     if(idx>=tries.length){ cb([]); return; }
     fetch(RAW+'/'+tries[idx]+'.json').then(function(r){return r.ok?r.json():Promise.reject();})
       .then(function(data){
-        var st=(data.stations||[]).map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FR'};});
+        var st=(data.stations||[]).filter(function(s){return !(s.id&&FRANCIA_ESCLUSE[String(s.id)]);})
+          .map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FR'};});
         franciaStationsCache[regionKey]=st; cb(st);
       })
       .catch(function(){ idx++; attempt(); });
