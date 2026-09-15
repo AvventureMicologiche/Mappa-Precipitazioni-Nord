@@ -1,16 +1,24 @@
 {
  "regione": "marche",
- "generato": "2026-09-14T08:39:56.015Z",
+ "generato": "2026-09-15T06:09:49.521Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 104,
-   "primo": "2026-09-13",
-   "ultimo": "2026-09-13",
+   "primo": "2026-09-14",
+   "ultimo": "2026-09-14",
    "top": [
     {
-     "n": "Camponocecchio",
+     "n": "Rotella",
+     "mm": 0.6
+    },
+    {
+     "n": "Tronto",
+     "mm": 0.4
+    },
+    {
+     "n": "San Benedetto",
      "mm": 0.2
     },
     {
@@ -18,15 +26,7 @@
      "mm": 0.2
     },
     {
-     "n": "Bronzo",
-     "mm": 0.2
-    },
-    {
-     "n": "Acqualagna",
-     "mm": 0.2
-    },
-    {
-     "n": "Spindoli",
+     "n": "Sefro",
      "mm": 0.2
     }
    ]
@@ -35,8 +35,8 @@
    "media": 31.5,
    "giorni": 7,
    "stazioni": 115,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-13",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-14",
    "top": [
     {
      "n": "Fossombrone",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Cantiano",
-     "mm": 63.4
+     "mm": 63.6
     },
     {
      "n": "Marina di Montemarciano",
@@ -61,31 +61,31 @@
    ]
   },
   "20": {
-   "media": 51.7,
+   "media": 32.1,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-08-25",
-   "ultimo": "2026-09-13",
+   "primo": "2026-08-26",
+   "ultimo": "2026-09-14",
    "top": [
     {
-     "n": "Cantiano",
-     "mm": 137.2
+     "n": "Fossombrone",
+     "mm": 95.6
+    },
+    {
+     "n": "Piagge",
+     "mm": 76.8
     },
     {
      "n": "Monte Petrano",
-     "mm": 114
+     "mm": 72.2
     },
     {
-     "n": "Campodiegoli",
-     "mm": 110.2
+     "n": "Cantiano",
+     "mm": 66
     },
     {
-     "n": "Monte Nerone",
-     "mm": 107.1
-    },
-    {
-     "n": "Serravalle di Carda",
-     "mm": 104.3
+     "n": "Marina di Montemarciano",
+     "mm": 62.2
     }
    ]
   },
@@ -93,12 +93,12 @@
    "media": 65.8,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-08-15",
-   "ultimo": "2026-09-13",
+   "primo": "2026-08-16",
+   "ultimo": "2026-09-14",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 166.6
+     "mm": 166
     },
     {
      "n": "Campodiegoli",
