@@ -2,18 +2,24 @@ name: Riepiloghi delle pagine regione e delle pagine funghi
 on:
   workflow_dispatch:
   schedule:
-    # DUE giri al giorno, e sono di ore diverse apposta.
-    #  05:10 UTC (07:10 italiane) e' il giro buono: a quell'ora tutti i
-    #    collector hanno chiuso «ieri», ed e' lo stesso momento in cui si
-    #    rifanno le anteprime (05:40), cosi' immagine e numeri della pagina
-    #    raccontano lo stesso periodo.
-    #  23:20 UTC (01:20 italiane) serve alla notte: appena scoccata mezzanotte
-    #    «ieri» diventa il giorno appena chiuso, e senza questo giro la scheda
-    #    resterebbe indietro di un giorno fino al mattino. Le regioni i cui
-    #    collector chiudono piu' tardi entreranno col giro delle 07:10: e'
-    #    esattamente quello che gia' faceva la pagina calcolandoseli da sola.
+    # QUATTRO giri, tutti al mattino (orari UTC; in italiane +2 d'estate).
+    # ⚠️ PERCHE' NON PIU' IL GIRO DELL'01:20 (cambiato il 15/9/2026). Dal 13/9
+    #    «ieri» si scrive solo se il giorno e' completo, e prima delle 5
+    #    italiane non lo e' mai: il giro di notte, che GitHub faceva partire
+    #    alle 3, non portava avanti niente. Tutto dipendeva dal solo giro delle
+    #    7:10, e il 14/9 GitHub l'ha fatto partire alle 12:32 (col guardiano
+    #    anche lui in ritardo di tre-sei ore): pagine su «altroieri» fino a
+    #    pranzo. Quindi piu' giri, al mattino, a distanza fra loro. Se trovano
+    #    i riepiloghi gia' aggiornati non riscrivono niente: costano zero.
+    #  03:30 UTC (05:30) il primo che puo' portare «ieri» al giorno giusto;
+    #  04:45 UTC (06:45) riserva;
+    #  05:10 UTC (07:10) quello di sempre, allineato alle anteprime (05:40);
+    #  06:40 UTC (08:40) riserva.
+    # I minuti sono scelti dove non parte nessun altro workflow.
+    - cron: '30 3 * * *'
+    - cron: '45 4 * * *'
     - cron: '10 5 * * *'
-    - cron: '20 23 * * *'
+    - cron: '40 6 * * *'
 permissions:
   contents: write
 jobs:
