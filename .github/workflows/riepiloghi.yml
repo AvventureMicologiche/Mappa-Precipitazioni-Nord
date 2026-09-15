@@ -14,12 +14,17 @@ on:
     #  03:30 UTC (05:30) il primo che puo' portare «ieri» al giorno giusto;
     #  04:45 UTC (06:45) riserva;
     #  05:10 UTC (07:10) quello di sempre, allineato alle anteprime (05:40);
-    #  06:40 UTC (08:40) riserva.
+    #  06:40 UTC (08:40) riserva;
+    #  09:15 UTC (11:15) per l'EMILIA (aggiunto il 15/9/2026): ARPAE completa
+    #    la giornata di ieri a volte alle 6:30 e a volte verso le 11 (il 15/9
+    #    alle 8 c'erano 14 stazioni su 322). Senza questo giro, nei giorni
+    #    lenti l'Emilia e le sue zone restavano su altroieri fino al mattino dopo.
     # I minuti sono scelti dove non parte nessun altro workflow.
     - cron: '30 3 * * *'
     - cron: '45 4 * * *'
     - cron: '10 5 * * *'
     - cron: '40 6 * * *'
+    - cron: '15 9 * * *'
 permissions:
   contents: write
 jobs:
