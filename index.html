@@ -4209,7 +4209,13 @@ function centraRegioneInStriscia(){
     var f=Math.min(1.05*mBox.width/w0, 0.92*S/h0);
     // La banda morta evita l'oscillazione fra le due chiamate (alla seconda
     // i pallini delle stazioni allargano di poco la misura del disegnato).
-    if(f>1.09||f<0.85){
+    // ⚠️ MA NON DEVE COPRIRE UNA REGIONE CHE ESCE DALLA STRISCIA (16/9/2026):
+    // con f fra 0,85 e 0,92 il confine sta gia' sotto la barra o dentro il
+    // pannello, e la banda lo lasciava li'. Misurato aprendo dal link:
+    // Campania al 104% dell'altezza, 6 px sotto la barra e 5 dentro il
+    // pannello; Calabria 8 e 7. Se esce davvero si allarga sempre.
+    var esce = h0 > S + 2;
+    if(f>1.09||f<0.85||(esce&&f<1)){
       var z1=Math.floor((map.getZoom()+Math.log(f)/Math.LN2)*4)/4; // passo 0.25
       if(z1!==map.getZoom()) map.setView(c0,z1,{animate:false});
     }
@@ -6962,6 +6968,12 @@ var LOC_TACCA_FINE  = 10;   // al click del periodo
 // Le ZONE e le VALLI sono aree, non punti: la Valtellina e' lunga 120 km e
 // col riquadro di un paese se ne vedrebbe un pezzo. Una tacca piu' larga.
 var LOC_TACCA_ZONA  = 8;    // al posto della 10 quando il posto e' una zona
+// La MAPPA BOSCHI su un paese (16/9/2026): i boschi si leggono da vicino, e la
+// tacca 10 (325 km di larghezza) li mostra come una macchia. La 18 vale zoom 12
+// circa, una quarantina di km: il paese e i suoi versanti. Le zone una tacca
+// piu' larga, come sopra.
+var LOC_TACCA_BOSCHI      = 18;
+var LOC_TACCA_BOSCHI_ZONA = 15;
 // Quanto vale UNA tacca, in livelli di zoom di Leaflet. Tarato perche' la
 // tacca 10 cadesse esattamente sulla vista del 22/8/2026: zoom 9 su una
 // mappa 1536x697, cioe' 325x148 km. Questa e' la scala, non la preferenza:
@@ -7473,7 +7485,13 @@ function locVai(p, _giro) {
   // ⚠️ Solo su desktop: sul telefono il click del periodo NON muove la mappa
   // (quel fit sta dentro un if(innerWidth>900)), quindi la vista di mezzo
   // resterebbe l'unica e il paese si vedrebbe da troppo lontano per sempre.
-  fitMapToPunto(p.lat, p.lon, window.innerWidth > 900 ? LOC_TACCA_MEZZO : (p.t === 'z' ? LOC_TACCA_ZONA : LOC_TACCA_FINE));
+  // ⚠️ CON LA MAPPA BOSCHI ACCESA si va vicini, come quando la si apre su un
+  // paese (16/9/2026, segnalato dall'utente: Liguria, boschi, poi «Torriglia»
+  // e la mappa si allargava). La vista di mezzo serve alla pioggia, che
+  // stringe al click del periodo; i boschi un periodo non ce l'hanno.
+  var tacca = window._boschiAcceso ? (p.t === 'z' ? LOC_TACCA_BOSCHI_ZONA : LOC_TACCA_BOSCHI)
+            : window.innerWidth > 900 ? LOC_TACCA_MEZZO : (p.t === 'z' ? LOC_TACCA_ZONA : LOC_TACCA_FINE);
+  fitMapToPunto(p.lat, p.lon, tacca);
   locSegnaposto(p.lat, p.lon);
 
   // L'avviso delle stime. L'Abruzzo è l'unica regione senza pluviometri reali,
@@ -8952,6 +8970,7 @@ function buildShareUrl(){
   // nell'altro verso. Chi condivide si aspetta la stessa SCALA, non la stessa
   // area. Lo zoom viaggia grezzo.
   if(window._radarModo) p.set('radar', window._radarModo);
+  if(window._boschiAcceso) p.set('boschi', '1');   // retino «Tipi di bosco», 15/9/2026
   return location.origin+location.pathname+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
@@ -8970,7 +8989,17 @@ window._boundsDebug=function(){return REGION_BOUNDS;};  // stesso scopo: solo ve
    si era gia' fatto con la mappa qui sopra. */
 window._fitRegioni=fitMapToRegions;
 window._regioniAttive=getActiveRegions;
+window._nomeRegione=function(k){ return (REGIONS[k]&&REGIONS[k].name)||k; };   // per la legenda della Mappa boschi, 15/9/2026
 window._centraStriscia=centraRegioneInStriscia;
+/* Per la Mappa boschi (16/9/2026): chi arriva da una pagina di paese col link
+   `boschi=1`, o ha cercato un paese e poi preme il tasto, deve vedere i boschi
+   INTORNO AL PAESE e non la regione intera. Restituisce false se un paese non
+   c'e', e allora il blocco boschi inquadra la regione come prima. */
+window._fitPaeseBoschi=function(){
+  if(!_vistaPaese) return false;
+  fitMapToPunto(_vistaPaese.lat,_vistaPaese.lon,_vistaPaese.z?LOC_TACCA_BOSCHI_ZONA:LOC_TACCA_BOSCHI);
+  return true;
+};
 // ── Immagine della mappa (canvas) per condivisione/download ────────────────
 // html2canvas si carica solo alla prima richiesta (pre-riscaldato all'hover/
 // touch dei bottoni, così il click resta dentro la finestra del gesto utente).
@@ -9086,6 +9115,7 @@ function captureMapBlob(scala){
     for(var i=0;i<tiles.length;i++){
       var t=tiles[i];
       if(!t.complete||!t.naturalWidth||!visibile(t)) continue;
+      if(t.closest('.leaflet-boschi-pane')) continue;   // il retino dei boschi va sopra la pioggia, piu' giu'
       var r=rel(t);
       try{ ctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
     }
@@ -9106,6 +9136,16 @@ function captureMapBlob(scala){
       sotto.forEach(function(d){ if(d.im){ try{ ctx.drawImage(d.im,d.r.x,d.r.y,d.r.w,d.r.h); }catch(e){} } });
       var heat=mapEl.querySelector('.leaflet-overlay-pane canvas');
       if(heat&&visibile(heat)){ var rh=rel(heat); try{ ctx.drawImage(heat,rh.x,rh.y,rh.w,rh.h); }catch(e){} }
+      // retino «Tipi di bosco» (15/9/2026): sopra la pioggia, sotto i pallini, come a schermo
+      var bt=window._boschiTessere?window._boschiTessere():[];
+      if(bt.length){
+        ctx.save(); ctx.globalAlpha=window._boschiOpacita||1;
+        bt.forEach(function(t){
+          if(!t.complete||!t.naturalWidth) return;
+          var rb=rel(t); try{ ctx.drawImage(t,rb.x,rb.y,rb.w,rb.h); }catch(e){}
+        });
+        ctx.restore();
+      }
       return raster(svgSopra);
     });
   }).then(function(dis){
@@ -9494,7 +9534,28 @@ if(_btnShot){
            sola). Il radar entra al primo giro del suo controllo, 200 ms. */
       } else if(_pin && typeof fitMapToPunto==='function'){
         try{ fitMapToPunto(_vistaPaese.lat,_vistaPaese.lon,_vistaPaese.z?LOC_TACCA_ZONA:LOC_TACCA_FINE); }catch(e){}
-      } else { try{ fitMapToRegions(_kk); }catch(e){} }
+      } else {
+        try{ fitMapToRegions(_kk); }catch(e){}
+        /* ⚠️ SUL TELEFONO IL FIT DA SOLO NON BASTA (16/9/2026, visto dall'utente
+           su Android col link ?r=liguria): fitMapToRegions inquadra la mappa
+           INTERA, e meta' mappa sta sotto il pannello del periodo. Misurato a
+           412x744: Liguria 169 px sotto il centro della striscia libera e 71 px
+           dentro il pannello. La tendina lo evita chiamando la centratura a
+           pannello aperto; qui mancava. Due tempi: a 420 ms il pannello ha
+           finito di aprirsi, a 1500 i confini veri sono arrivati e la misura
+           si fa sul disegnato invece che sulla bbox (la funzione e' idempotente,
+           la seconda chiamata non muove niente se la prima era giusta). */
+        /* ⚠️ E UN LIVELLO PIU' LARGO, prima: il fit sulla mappa intera parte gia'
+           troppo vicino, e la centratura non allarga se la regione sfora di
+           meno del 9% (banda morta contro l'oscillazione). Misurato: Campania
+           104% dell'altezza, 6 px sotto la barra e 5 dentro il pannello. Dalla
+           tendina non succede perche' la vista di partenza e' piu' larga e la
+           centratura AVVICINA fino al tetto; qui si fa partire uguale. */
+        if(window.innerWidth<=900){
+          try{ map.setZoom(map.getZoom()-1,{animate:false}); }catch(e){}
+          setTimeout(centraRegioneInStriscia,420); setTimeout(centraRegioneInStriscia,1500);
+        }
+      }
       if(!_pin){
         var _sr=document.getElementById('region-select');
         if(_sr && _kk.length===1){ _sr.value=_kk[0]; if(typeof regEtichetta==='function') regEtichetta(); }
@@ -10560,10 +10621,13 @@ function loadDefaultMarkers(){
 /* ⚠️ Il «new» e' uno pseudo-elemento, non testo dentro il tasto: cosi'
    sopravvive all'innerHTML che cambia entrando in modo radar, e sparisce da
    solo quando il tasto diventa «Chiudi radar». */
-#btn-radar::after{content:'new';position:absolute;top:-6px;right:-4px;
+#btn-radar::after,#btn-boschi::after{content:'new';position:absolute;top:-6px;right:-4px;
   background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;
   padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none}
 .modo-radar #btn-radar::after{display:none}
+/* anche la Mappa boschi (16/9/2026, sua richiesta: «lascialo su entrambi»);
+   sparisce quando il tasto diventa «Chiudi mappa», come quello del radar */
+.modo-boschi #btn-boschi::after{display:none}
 /* tre tasti al posto della riga delle statistiche: il pannello non cresce */
 .rd-durate{display:none;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 4px}
 .modo-radar .rd-durate{display:grid}
@@ -10675,6 +10739,32 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
    Restano i tre tasti che sono RADAR e rispondono alla domanda giusta. */
 /* ⚠️ Il blur va messo sul PANNELLO e non sulle singole tessere: applicato
    tessera per tessera sfuma anche i bordi e si vedono le cuciture. */
+
+/* ── PANNELLO DEL PERIODO COMPATTO SUL TELEFONO (16/9/2026) ────────────────
+   Con la riga «Radar pioggia | Mappa boschi» il pannello aperto arrivava a
+   342 px su 698 di mappa a 412x744 (Android, segnalato dall'utente: «e' un
+   disastro»). Tasti da 47-55 px diventano tutti da 40, e i margini fra le
+   righe da 6 a 5: sotto i 40 px un pollice comincia a sbagliare tasto, sopra
+   si spreca mappa. Sotto i 375 px (iPhone SE e Android piccoli) 36 px, con
+   il testo a 14.
+   ⚠️ La MANIGLIA col titolo non si tocca: da chiuso il pannello mostra solo
+   quella, e la sua altezza la usano la trasformazione e la centratura.
+   ⚠️ L'altezza la fissa la line-height e non il padding da solo: l'emoji del
+   calendario e le icone dei due tasti alzavano la riga di 8 px, ed era per
+   quello che «Date personalizzate» e la coppia erano da 55 e i periodi da 47. */
+@media(max-width:900px){
+  #time-panel .tp-grid3{gap:5px !important;margin-bottom:5px !important;}
+  #time-panel .tp-btn{padding:9px 2px !important;font-size:15px !important;line-height:20px !important;}
+  #time-panel .tp-custom-btn{padding:9px 8px !important;font-size:15px !important;line-height:20px !important;margin-top:0 !important;}
+  #time-panel .rd-coppia{margin-top:5px !important;gap:5px !important;}
+  #time-panel .rd-ic{font-size:1.15em;line-height:1;vertical-align:-1px;}
+  #time-panel #btn-funghi{padding:9px 8px !important;font-size:15px !important;line-height:20px !important;margin-top:5px !important;}
+  #tp-links{margin:6px 0 0 !important;}
+}
+@media(max-width:375px){
+  #time-panel .tp-btn{padding:8px 1px !important;font-size:14px !important;line-height:18px !important;}
+  #time-panel .tp-custom-btn,#time-panel #btn-funghi{padding:8px 6px !important;font-size:14px !important;line-height:18px !important;}
+}
 </style>
 <script>
 /* ═══════════════════════════════════════════════════════════════
@@ -11205,6 +11295,359 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   var att=setInterval(function(){
     if(window._mapDebug&&window.L&&el('btn-custom')&&el('legend-panel')){ clearInterval(att); monta(); }
     else if(++giri>75) clearInterval(att);
+  },200);
+}());
+</script>
+<style>
+/* Modo «Mappa forestale» — PROVA Piemonte, 15/9/2026 */
+/* ⚠️ UN SOLO RIQUADRO: IN ALTO IMMAGINE E COPIA LINK, SOTTO LA LEGENDA.
+   Provato il 15/9/2026 un riquadro a parte per la legenda, con sopra un
+   pannello «Mappa forestale» coi soli due tasti: bocciato («che senso ha?»).
+   Il titolo del pannello legenda sparisce e il posto lo prende la legenda. */
+.bo-leg{display:none}
+.modo-boschi .bo-leg{display:block;margin-top:2px}
+/* come il radar: via la vetrina di destra e la targhetta delle fonti dei
+   pluviometri, che sulla mappa dei boschi non c'entrano (16/9/2026) */
+.modo-boschi #channel-logo{display:none !important}
+.modo-boschi .fonte-tag{display:none !important}
+.modo-boschi #leg-title{display:none !important}
+.modo-boschi #btn-shot{margin-left:0}
+@media(min-width:901px){.modo-boschi .leg-header{justify-content:flex-start}}
+.bo-tit{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#1b3f6e;margin:2px 0 6px}
+.bo-griglia{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:12.5px;color:#33404f}
+.bo-riga{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bo-sw{width:13px;height:13px;border-radius:3px;flex:none}
+/* le carte usate e quelle che mancano si devono leggere (16/9/2026, sua
+   richiesta): da 11 a 12,5 px e piu' scure; la regione senza carta in
+   grassetto rosso scuro, che si nota senza sembrare un allarme */
+.bo-nota{font-size:12.5px;line-height:1.4;color:#2f3d4c;font-weight:600;margin-top:6px}
+.bo-nota .bo-manca{display:block;font-weight:700;color:#b3261e;margin-top:2px}
+.bo-nota .bo-manca-in{font-weight:700;color:#b3261e;white-space:nowrap}
+.bo-nota .bo-corta{display:none}
+@media(max-width:900px){ .bo-nota .bo-lunga{display:none} .bo-nota .bo-corta{display:inline} }
+.bo-lontano{display:none;font-size:11.5px;font-weight:600;color:#9a5a00;margin-top:4px}
+.modo-boschi.bo-lontano-on .bo-lontano{display:block}
+/* ⚠️ MAPPA FORESTALE E PIOGGIA NON STANNO INSIEME (deciso dall'utente il
+   15/9/2026, dopo averle viste sovrapposte: «è bella ma non si può fare
+   insieme alla heatmap»). Col modo acceso spariscono la macchia della
+   pioggia, la barra dei millimetri e i numeri; pallini e confini restano.
+   Scegliere un periodo, «Indietro» o il radar riportano alla pioggia. */
+.modo-boschi #map .leaflet-overlay-pane canvas{display:none !important}
+/* il velo della regione, che sotto la pioggia non si nota, sopra i boschi
+   li ingrigiva tutti (stessa regola del radar, ma solo per i confini: i
+   pallini stanno nel marker pane e restano pieni) */
+.modo-boschi #map .leaflet-overlay-pane path{fill-opacity:0 !important}
+/* ⚠️ VIA ANCHE I PALLINI (chiesto dall'utente il 15/9/2026): in multiregione,
+   da lontano, coprivano meta' dei boschi. Restano il segnaposto del paese
+   cercato e quello della posizione, che sono div e non cerchi SVG (stessa
+   regola di `senza-pallini` del radar). */
+.modo-boschi #map .leaflet-marker-pane svg{display:none !important}
+.modo-boschi #map .leaflet-marker-pane .loc-pin svg{display:block !important}
+.modo-boschi .grad,
+.modo-boschi .grad-l,
+.modo-boschi .stats-row{display:none !important}
+/* il pannello legenda esiste solo con un'analisi: col modo acceso serve sempre */
+.modo-boschi #legend-panel{display:block !important}
+@media(max-width:900px){
+  .modo-boschi #time-panel{display:none !important}
+  .modo-boschi #legend-panel{transform:translateY(0) !important}
+}
+@media(min-width:901px){.modo-boschi #btn-reset-regions{display:block !important}}
+/* col radar acceso le tessere non c'entrano */
+.modo-radar .leaflet-boschi-pane{display:none !important}
+</style>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   «MAPPA FORESTALE» — PROVA PIEMONTE, 15 settembre 2026
+   ═══════════════════════════════════════════════════════════════
+   Un tasto del pannello, in coppia con «Radar pioggia» (scelto dall'utente
+   fra tre disposizioni: niente domanda all'apertura, niente clic in piu').
+   E' un MODO come il radar: si entra col tasto, si esce col tasto stesso
+   («✕ Chiudi mappa»), con «Indietro» o scegliendo un periodo.
+
+   Fonte: Carta forestale regionale 2024, Regione Piemonte / IPLA, CC BY 4.0.
+   Le 20 categorie IPLA raggruppate in 8 colori.
+
+   ⚠️ LE TESSERE SONO NOSTRE, non del servizio della Regione: il loro WMS
+   disegna i boschi solo sotto i ~15 m a pixel (zoom 13) e piu' da lontano
+   manda un'immagine VUOTA senza errori. Le fa `tessere-boschi-piemonte.py`
+   nella cartella di lavoro: scarica la carta una volta al livello 14 e
+   rimpicciolisce fino al 7. 2.157 tessere a z13, 11 MB in tutto, PNG a
+   tavolozza da 9 colori. Oltre lo z13 Leaflet ingrandisce le tessere del 13.
+   `indice.json` elenca le tessere che esistono: dove non c'e' bosco la
+   tessera non c'e', e senza indice sarebbero centinaia di 404 in console. */
+(function(){
+  // ⚠️ UNA SOLA SERIE DI TESSERE PER TUTTA ITALIA (dal 15/9/2026, con la
+  // Lombardia): le fa `tessere-boschi.py` fondendo le carte regionali, cosi'
+  // ai confini fra due regioni non ci sono tessere doppie. Quali regioni ci
+  // sono dentro lo dice indice.json, e la legenda lo dichiara.
+  var BASE='tessere-boschi/italia/', OPACITA=0.7;
+  var strato=null, acceso=false, indice=null, esistono={}, titoloVecchio=null, displayVecchio=null;
+  var VUOTA='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  /* ⚠️ «MAPPA BOSCHI» E NON «MAPPA FORESTALE»: misurato a 360 px, il nome
+     lungo andava a capo e la coppia di tasti saliva da 55 a 77 px (lo
+     stesso tetto di 13 caratteri trovato col radar il 5/9). */
+  var ETICHETTA='<span class="rd-ic">🌲</span> Mappa boschi';
+
+  function map(){ return window._mapDebug; }
+  function el(id){ return document.getElementById(id); }
+
+  function creaStrato(){
+    var m=map();
+    if(!m.getPane('boschi')){
+      m.createPane('boschi');
+      m.getPane('boschi').style.zIndex=440;
+      m.getPane('boschi').style.pointerEvents='none';
+    }
+    var Tessere=L.TileLayer.extend({
+      getTileUrl:function(c){
+        return esistono[c.z+'/'+c.x+'/'+c.y] ? BASE+c.z+'/'+c.x+'/'+c.y+'.png' : VUOTA;
+      }
+    });
+    // ⚠️ i crediti NON stanno sullo strato: li gestisce aggiornaCrediti() secondo
+    // le regioni scelte (con sei fonti tutte insieme occupavano tre righe sopra la mappa)
+    return new Tessere('',{pane:'boschi',opacity:OPACITA,minZoom:indice.z_min,maxNativeZoom:indice.z_max,maxZoom:19});
+  }
+
+  var creditoBoschi=null;
+  function aggiornaCrediti(){
+    var ac=map() && map().attributionControl; if(!ac||!indice) return;
+    if(creditoBoschi){ ac.removeAttribution(creditoBoschi); creditoBoschi=null; }
+    if(!acceso) return;
+    var rk=(window._regioniAttive?window._regioniAttive():[]).filter(function(k){ return indice.regioni[k]; });
+    if(!rk.length) return;
+    creditoBoschi='boschi: '+rk.map(function(k){
+      var r=indice.regioni[k];
+      return '<a href="'+r.link+'" target="_blank" rel="noopener">'+r.fonte+'</a> ('+r.licenza+')';
+    }).join(', ');
+    ac.addAttribution(creditoBoschi);
+  }
+
+  /* La nota in fondo alla legenda segue le regioni SCELTE: per ognuna la sua
+     carta, e per quelle che non ce l'hanno ancora lo si dice. In multiregione
+     ognuna mostra quello che ha (deciso dall'utente il 15/9/2026). */
+  function notaFonti(){
+    var n=el('bo-fonti'); if(!n||!indice) return;
+    var nome=window._nomeRegione||function(k){return k;};
+    var rk=(window._regioniAttive?window._regioniAttive():[]);
+    var con=[], senza=[];
+    rk.forEach(function(k){ (indice.regioni[k]?con:senza).push(k); });
+    var righe=con.map(function(k){ return nome(k)+': '+indice.regioni[k].fonte.replace(/, (Regione|Provincia) .*$/,'').replace(/ regionale/,''); });
+    if(senza.length) righe.push('<span class="bo-manca">'+senza.map(nome).join(', ')+': carta non ancora disponibile</span>');
+    if(!rk.length) righe.push('Carte forestali regionali');
+    /* ⚠️ SUL TELEFONO, CON PIU' REGIONI, UNA RIGA SOLA CHE VA A CAPO (16/9/2026,
+       sua richiesta): tre regioni erano tre righe tolte alla mappa. Il nome
+       intero di ogni carta resta nei crediti in fondo e in /fonti/: qui basta
+       regione e anno. La versione lunga resta per il PC e per la regione sola. */
+    var corta='';
+    if(rk.length>1){
+      var pezzi=con.map(function(k){ var a=(indice.regioni[k].fonte.match(/\b(19|20)\d\d\b/)||[''])[0]; return nome(k)+(a?' '+a:''); });
+      senza.forEach(function(k){ pezzi.push('<span class="bo-manca-in">'+nome(k)+' non disponibile</span>'); });
+      corta='<span class="bo-corta">Carte: '+pezzi.join(' · ')+'</span>';
+    }
+    n.innerHTML=(corta?'<span class="bo-lunga">':'')+righe.join('<br>')+(corta?'</span>'+corta:'');
+    aggiornaCrediti();
+  }
+
+  function aggiornaLontano(){
+    var lont=acceso && indice && map().getZoom()<indice.z_min;
+    document.body.classList.toggle('bo-lontano-on',!!lont);
+  }
+
+  function legenda(){
+    var box=el('bo-leg'); if(!box||!indice) return;
+    box.innerHTML='<div class="bo-tit">Legenda boschi</div><div class="bo-griglia">'+indice.gruppi.map(function(g){
+        return '<div class="bo-riga"><span class="bo-sw" style="background:'+g[1]+';opacity:'+OPACITA+'"></span>'+g[0]+'</div>';
+      }).join('')+'</div>'
+      +'<div class="bo-lontano">Avvicinati per vedere i boschi</div>'
+      +'<div class="bo-nota" id="bo-fonti"></div>';
+    notaFonti();
+  }
+
+  function conIndice(cb){
+    if(indice) return cb();
+    fetch(BASE+'indice.json').then(function(r){ return r.json(); }).then(function(j){
+      indice=j;
+      Object.keys(j.tessere).forEach(function(z){
+        j.tessere[z].forEach(function(xy){ esistono[z+'/'+xy[0]+'/'+xy[1]]=1; });
+      });
+      legenda(); cb();
+    }).catch(function(){});
+  }
+
+  function analisiInCorso(){ return !!(window.buildShareUrl && window.buildShareUrl()); }
+  /* ⚠️ I PANNELLI DEL DESKTOP SI METTONO IN COLONNA A MANO (positionPanels,
+     dentro lo script grande, non raggiungibile da qui) e solo al resize o a
+     fine analisi. La riga di tasti in piu' allunga il pannello del periodo
+     DOPO quella misura, e la legenda gli finiva sopra di una decina di pixel.
+     Il resize finto fa rimisurare la colonna; gli altri gestori del resize
+     sono tutti idempotenti. */
+  function riposiziona(){ setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30); }
+
+
+  function entra(){
+    var m=map(); if(!m||acceso) return;
+    /* ⚠️ SENZA REGIONE NON SI ENTRA (16/9/2026, segnalato dall'utente): il modo
+       si accendeva sull'Italia intera, con la legenda senza fonti e nessuna
+       inquadratura. Stesso avviso e stessa durata del radar. */
+    var rkPrima=window._regioniAttive?window._regioniAttive():[];
+    if(!rkPrima.length){
+      var a=el('tp-status');
+      if(a){ a.className='error'; a.textContent='⚠️ Prima scegli la regione';
+             clearTimeout(a._t); a._t=setTimeout(function(){
+               if(a.textContent.indexOf('Prima scegli')>-1){ a.textContent=''; a.className=''; }
+             },2800); }
+      return;
+    }
+    // col radar acceso prima si esce dal radar: un modo alla volta
+    if(document.body.classList.contains('modo-radar') && el('btn-radar')) el('btn-radar').click();
+    conIndice(function(){
+      acceso=true; window._boschiAcceso=true;
+      document.body.classList.add('modo-boschi');
+      if(!strato) strato=creaStrato();
+      strato.addTo(m);
+      el('btn-boschi').innerHTML='✕ Chiudi mappa';
+      var t=el('leg-title');
+      if(t){ if(titoloVecchio==null) titoloVecchio=t.textContent; t.textContent='Mappa forestale'; }
+      if(typeof showLegendMobile==='function' && window.innerWidth<=900){ try{ showLegendMobile(); }catch(e){} }
+      /* ⚠️ positionPanels mette la legenda in colonna SOLO se il suo stile in
+         linea non dice `none`: mostrarla col solo CSS la lasciava dov'era,
+         36 px sopra il fondo del pannello del periodo. Si scrive in linea e
+         all'uscita si rimette com'era. */
+      var lp=el('legend-panel');
+      if(lp && window.innerWidth>900){ displayVecchio=lp.style.display; lp.style.display='block'; }
+      aggiornaLontano();
+      notaFonti();
+      riposiziona();
+      /* ⚠️ SI INQUADRA LA REGIONE, come a fine analisi (segnalato il 15/9:
+         «la mappa non zooma quando clicchi Mappa boschi»). Sotto lo zoom 7
+         le tessere non ci sono, e dalla vista d'Italia il tasto sembrava
+         non fare niente. Stessa funzione che usa il sito, e il telefono si
+         ricentra poi da solo nella striscia libera sopra il foglio. */
+      /* ⚠️ COL PAESE SI INQUADRA IL PAESE (16/9/2026): i link delle pagine di
+         paese portano `pl` e `boschi=1`, e inquadrando la regione il posto per
+         cui uno e' venuto finiva un puntino in mezzo a 200 km di boschi. */
+      var rk=window._regioniAttive?window._regioniAttive():[];
+      var sulPaese=false;
+      try{ m.stop(); sulPaese=!!(window._fitPaeseBoschi && window._fitPaeseBoschi()); }catch(e){}
+      /* ⚠️ SOPRA UN'ANALISI, SUL TELEFONO, LA VISTA NON SI TOCCA: e' gia'
+         centrata sulla regione, e rifacendola col pannello dei boschi (piu'
+         alto di quello dei cumulati) le regioni alte uscivano un quarto di
+         livello piu' piccole (Toscana, Piemonte). Stessa mappa, stessa vista. */
+      var tieniVista = window.innerWidth<=900 && analisiInCorso();
+      if(!sulPaese && !tieniVista && rk.length && typeof window._fitRegioni==='function'){
+        try{ window._fitRegioni(rk); }catch(e){}
+        /* ⚠️ SUL TELEFONO LA STESSA CENTRATURA DELLA PIOGGIA (16/9/2026): il fit
+           da solo inquadra la mappa intera, meta' della quale sta sotto la
+           legenda, e la Liguria usciva piccola e diversa da quella dei «7
+           giorni» (segnalato dall'utente con le due schermate). Stessa ricetta
+           del link ?r=: un livello piu' largo, poi la centratura nella striscia. */
+        if(window.innerWidth<=900 && typeof window._centraStriscia==='function'){
+          try{ m.setZoom(m.getZoom()-1,{animate:false}); }catch(e){}
+          setTimeout(window._centraStriscia,420); setTimeout(window._centraStriscia,1500);
+        }
+      }
+      try{ gtag('event','click_boschi',{stato:'acceso'}); }catch(_){}
+    });
+  }
+
+  // `perPeriodo`: si esce perche' e' stato scelto un periodo, e l'analisi
+  // nuova si sistema pannelli e inquadratura da se'
+  function esci(perPeriodo){
+    if(!acceso) return;
+    acceso=false; window._boschiAcceso=false;
+    document.body.classList.remove('modo-boschi','bo-lontano-on');
+    if(strato) map().removeLayer(strato);
+    aggiornaCrediti();
+    el('btn-boschi').innerHTML=ETICHETTA;
+    var t=el('leg-title');
+    if(t && titoloVecchio!=null){ t.textContent=titoloVecchio; titoloVecchio=null; }
+    // sul telefono, senza un'analisi dietro, si torna al pannello del periodo
+    if(!perPeriodo && !analisiInCorso() && typeof hideLegendMobile==='function'){ try{ hideLegendMobile(); }catch(e){} }
+    var lp=el('legend-panel');
+    if(lp && displayVecchio!=null){ if(!analisiInCorso() && !perPeriodo) lp.style.display=displayVecchio; displayVecchio=null; }
+    riposiziona();
+  }
+
+  function monta(){
+    var br=el('btn-radar'), cu=el('btn-custom');
+    if(!br||!cu) return false;
+    var riga=br.parentNode;
+    // «Scegli date» esce dalla coppia e prende la riga intera; nella coppia
+    // restano i due modi: «Radar pioggia | Mappa forestale»
+    riga.parentNode.insertBefore(cu,riga);
+    // con la riga intera c'e' spazio per il nome lungo (chiesto dall'utente il 15/9/2026).
+    // ⚠️ Lo stesso nome sta nella guida (/guida/: testo, tabella e foto del pannello).
+    cu.innerHTML='<span class="rd-ic">📅</span> Date personalizzate';
+    var b=document.createElement('div');
+    b.className='tp-custom-btn rd-btn'; b.id='btn-boschi'; b.innerHTML=ETICHETTA;
+    b.title='Mostra i tipi di bosco al posto della pioggia';
+    riga.appendChild(b);
+    b.addEventListener('click',function(){ acceso?esci():entra(); });
+    riposiziona();
+
+    var lp=el('legend-panel'), st=lp&&lp.querySelector('.stats-row');
+    if(st){ var d=document.createElement('div'); d.className='bo-leg'; d.id='bo-leg'; st.parentNode.insertBefore(d,st); }
+
+    // periodi e radar riportano alla pioggia (in fase di cattura: l'analisi
+    // nuova si disegna gia' fuori dal modo)
+    document.addEventListener('click',function(e){
+      if(acceso && e.target.closest && e.target.closest('.tp-btn,#btn-funghi,#cd-apply,#btn-radar')) esci(true);
+    },true);
+    // «Indietro» della legenda (telefono) e del desktop: prima si esce dal modo
+    var ind=el('leg-back-btn');
+    if(ind) ind.addEventListener('click',function(e){
+      if(acceso){ e.stopImmediatePropagation(); e.preventDefault(); esci(); }
+    },true);
+    var rr=el('btn-reset-regions');
+    if(rr) rr.addEventListener('click',function(){ if(acceso) esci(); },true);
+    /* «Copia link» senza un'analisi: buildShareUrl torna null e il tasto non
+       farebbe niente (stesso difetto gia' visto col radar). Il link lo
+       costruiamo qui: regione, vista e il modo. */
+    var bs=el('btn-share');
+    if(bs) bs.addEventListener('click',function(e){
+      if(!acceso || analisiInCorso()) return;
+      e.stopImmediatePropagation(); e.preventDefault();
+      var mm=map(), c=mm.getCenter(), q=new URLSearchParams();
+      var rk=(window._regioniAttive?window._regioniAttive():[]);
+      if(rk.length) q.set('r', rk.join(','));
+      q.set('z', String(Math.round(mm.getZoom()*100)/100));
+      q.set('c', c.lat.toFixed(4)+','+c.lng.toFixed(4));
+      q.set('boschi','1');
+      var url=location.origin+location.pathname+'?'+q.toString();
+      if(navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)) navigator.share({url:url}).catch(function(){});
+      else if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).catch(function(){});
+    },true);
+
+    map().on('zoomend',aggiornaLontano);
+    // aggiungere o togliere una regione a modo acceso aggiorna la nota delle fonti
+    document.addEventListener('change',function(e){
+      if(acceso && e.target.closest && e.target.closest('#region-panel')) setTimeout(notaFonti,50);
+    },true);
+    // per lo scatto dell'«Immagine»: le tessere del modo e la loro opacita'
+    window._boschiTessere=function(){
+      if(!acceso||!strato) return [];
+      return [].slice.call(map().getPane('boschi').querySelectorAll('img.leaflet-tile'));
+    };
+    window._boschiOpacita=OPACITA;
+    /* Dal link si aspetta che il sito abbia spuntato le regioni di ?r=, come fa
+       il radar: con la guardia qui sopra, entrare prima voleva dire l'avviso
+       «Prima scegli la regione» su un link giusto. Tetto 15 secondi, poi niente. */
+    if(new URLSearchParams(location.search).get('boschi')==='1'){
+      var giri=0, att=setInterval(function(){
+        var rk=window._regioniAttive?window._regioniAttive():[];
+        if(rk.length){ clearInterval(att); entra(); }
+        else if(++giri>75) clearInterval(att);
+      },200);
+    }
+    return true;
+  }
+
+  // si monta DOPO il radar, che costruisce la coppia di tasti
+  var giri=0;
+  var att=setInterval(function(){
+    if(window._mapDebug&&window.L&&el('btn-radar')&&el('legend-panel')){ clearInterval(att); monta(); }
+    else if(++giri>100) clearInterval(att);
   },200);
 }());
 </script>

@@ -52,6 +52,7 @@ const { bello, slug, slugRegione, elenco, diZona } = require('./lib-nomi.js');
 const { rigaStagione } = require('./lib-stagione.js');
 const { perLink } = require('./lib-vicine.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
+const { haBoschi, cartaBreve } = require('./lib-boschi.js');
 // Il ritratto dell'archivio, cotto dentro la pagina: il perche' sta in cima
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola } = require('./lib-clima.js');
@@ -286,6 +287,25 @@ rigaStagione() + '\n' +
 '  <span class="vai-mappa">Apri la mappa · ultimi 20 giorni →</span>\n' +
 '</a>\n\n' +
 
+// ⚠️ Il blocco dei boschi guarda la regione di CASA della zona: e' quella che
+// il link accende per prima, e una zona sul crinale mostra comunque anche le
+// tessere delle vicine che le hanno
+(haBoschi(casa.k) ?
+'<h2>Che boschi ci sono nella zona?</h2>\n' +
+'<p>La pioggia dice <i>quando</i> andare, il bosco dice <i>dove</i>: faggete, castagneti, querceti\n' +
+'e abetine non danno gli stessi funghi. La mappa boschi colora i boschi ' + esc(z.dove) + ' per tipo,\n' +
+'con i disegni della carta forestale della Regione.</p>\n' +
+'<a href="' + SITO + '/?r=' + casa.k + '&amp;' + PIN + '&amp;boschi=1" style="display:block;text-decoration:none;"\n' +
+'   onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-' + zslug + '-boschi\'})}catch(e){}">\n' +
+'  <img src="' + SITO + '/tessere-boschi/anteprime/' + casa.k + '.jpg"\n' +
+'       alt="La mappa boschi ' + casa.prep + ' ' + esc(nomeReg) + ': faggete, castagneti, querceti e abetine colorati per tipo"\n' +
+'       width="1600" height="1000" loading="lazy"\n' +
+'       style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">\n' +
+'  <span class="vai-mappa">Guarda i boschi ' + esc(z.dove) + ' →</span>\n' +
+'</a>\n' +
+"<p class=\"nota\">La fonte è la carta «" + esc(cartaBreve(casa.k)) + "»: dice che bosco c'è, non se\n" +
+"quest'anno ci sono nati funghi. Per quello servono la pioggia di questa pagina e un giro a piedi.</p>\n\n"
+: '') +
 '<h2>Sta piovendo adesso?</h2>\n' +
 "<p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è esclusa,\n" +
 "perché i pluviometri la stanno ancora misurando. Per la pioggia <b>in corso</b> c'è la diretta\n" +
