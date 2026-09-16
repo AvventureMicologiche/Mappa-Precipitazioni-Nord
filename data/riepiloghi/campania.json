@@ -1,42 +1,71 @@
 {
  "regione": "campania",
- "generato": "2026-09-15T06:09:49.556Z",
+ "generato": "2026-09-16T08:43:55.532Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 176,
-   "primo": "2026-09-14",
-   "ultimo": "2026-09-14",
+   "primo": "2026-09-15",
+   "ultimo": "2026-09-15",
    "top": [
     {
-     "n": "Cusano Mutri",
-     "mm": 0.8
+     "n": "S.Mauro la Bruca",
+     "mm": 6.3
     },
     {
-     "n": "Sorgenti Grassano",
-     "mm": 0.2
+     "n": "Morigerati",
+     "mm": 3.4
     },
     {
-     "n": "Cassano Irpino",
-     "mm": 0.2
+     "n": "Sapri Timpone",
+     "mm": 2.6
     },
     {
-     "n": "Morcone",
-     "mm": 0.2
+     "n": "Morigerati Bussento",
+     "mm": 2.4
     },
     {
-     "n": "Nisida METEO",
-     "mm": 0
+     "n": "Casaletto Spartano-Melette Sorge",
+     "mm": 2.4
     }
    ]
   },
   "7": {
-   "media": 8.7,
+   "media": 4.7,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-14",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-15",
+   "top": [
+    {
+     "n": "S.Ambrogio",
+     "mm": 48.2
+    },
+    {
+     "n": "Rocca d'Evandro METEO",
+     "mm": 44.8
+    },
+    {
+     "n": "Rocca d'Evandro",
+     "mm": 35.6
+    },
+    {
+     "n": "Monteforte Irpino",
+     "mm": 30.8
+    },
+    {
+     "n": "Pietramelara",
+     "mm": 28.2
+    }
+   ]
+  },
+  "20": {
+   "media": 10,
+   "giorni": 20,
+   "stazioni": 179,
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-15",
    "top": [
     {
      "n": "Sala Consilina Tanagro",
@@ -60,45 +89,16 @@
     }
    ]
   },
-  "20": {
-   "media": 9.9,
-   "giorni": 20,
-   "stazioni": 179,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-14",
-   "top": [
-    {
-     "n": "Sala Consilina Tanagro",
-     "mm": 50.8
-    },
-    {
-     "n": "Sala Consilina",
-     "mm": 49.4
-    },
-    {
-     "n": "S.Ambrogio",
-     "mm": 48.4
-    },
-    {
-     "n": "Cusano Mutri",
-     "mm": 47.4
-    },
-    {
-     "n": "Rocca d'Evandro METEO",
-     "mm": 44.8
-    }
-   ]
-  },
   "30": {
-   "media": 30.5,
+   "media": 29.3,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-08-16",
-   "ultimo": "2026-09-14",
+   "primo": "2026-08-17",
+   "ultimo": "2026-09-15",
    "top": [
     {
      "n": "S.Salvatore Telesino METEO",
-     "mm": 121
+     "mm": 120.2
     },
     {
      "n": "Pietramelara",
@@ -109,12 +109,12 @@
      "mm": 107
     },
     {
-     "n": "Rofrano",
-     "mm": 105.9
-    },
-    {
      "n": "Sorgenti Grassano",
      "mm": 104
+    },
+    {
+     "n": "Alvignano",
+     "mm": 92.8
     }
    ]
   }
