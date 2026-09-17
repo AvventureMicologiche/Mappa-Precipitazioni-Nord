@@ -1,14 +1,18 @@
 {
  "regione": "umbria",
- "generato": "2026-09-16T08:43:55.498Z",
+ "generato": "2026-09-17T08:47:43.459Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 79,
-   "primo": "2026-09-15",
-   "ultimo": "2026-09-15",
+   "stazioni": 78,
+   "primo": "2026-09-16",
+   "ultimo": "2026-09-16",
    "top": [
+    {
+     "n": "Castiglione del Lago",
+     "mm": 0.2
+    },
     {
      "n": "La Bolsella",
      "mm": 0
@@ -24,19 +28,15 @@
     {
      "n": "Armenzano",
      "mm": 0
-    },
-    {
-     "n": "Tresa",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 31.6,
+   "media": 29.7,
    "giorni": 7,
    "stazioni": 79,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-15",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-16",
    "top": [
     {
      "n": "Todi",
@@ -55,8 +55,8 @@
      "mm": 61.8
     },
     {
-     "n": "Citta'di Castello",
-     "mm": 58.2
+     "n": "Orvieto Scalo",
+     "mm": 57.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 31.8,
    "giorni": 20,
    "stazioni": 79,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-15",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-16",
    "top": [
     {
      "n": "Todi",
@@ -90,31 +90,31 @@
    ]
   },
   "30": {
-   "media": 76,
+   "media": 72,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-08-17",
-   "ultimo": "2026-09-15",
+   "primo": "2026-08-18",
+   "ultimo": "2026-09-16",
    "top": [
-    {
-     "n": "Massa Martana",
-     "mm": 155.2
-    },
-    {
-     "n": "Montemartano",
-     "mm": 151.4
-    },
     {
      "n": "Allerona",
      "mm": 131.6
     },
     {
      "n": "Scheggia",
-     "mm": 129
+     "mm": 128.8
     },
     {
      "n": "Orvieto",
      "mm": 122.2
+    },
+    {
+     "n": "Monte Cucco",
+     "mm": 118.2
+    },
+    {
+     "n": "Todi",
+     "mm": 117.6
     }
    ]
   }
