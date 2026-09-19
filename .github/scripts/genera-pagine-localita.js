@@ -45,7 +45,7 @@ const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { LOCALITA, bello, slug: slugDaNome, slugRegione } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
 const { rigaStagione } = require('./lib-stagione.js');
-const { haBoschi, cartaBreve } = require('./lib-boschi.js');
+const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
 // genera: totale dell'archivio, giorni di pioggia, giorno piu' bagnato,
 // mese piu' piovoso. Il perche' sta in cima a lib-clima.js.
@@ -386,7 +386,7 @@ ${VICINI5.map(v => `<tr${v.io ? ' class="qui"' : ''} data-id="${esc(v.id)}"><td>
 ${haBoschi(REG) ? `<h2>Che boschi ci sono intorno?</h2>
 <p>La pioggia dice <i>quando</i> andare, il bosco dice <i>dove</i>: faggete, castagneti, querceti
 e abetaie non danno gli stessi funghi. La mappa boschi colora i boschi ${esc(DOVE)} e dintorni
-per tipo, con i disegni della carta forestale della Regione.</p>
+per tipo, con i disegni ${cartaDi(REG)}.</p>
 <a href="${SITO}/?r=${REG}&amp;${PIN}&amp;boschi=1" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-boschi'})}catch(e){}">
   <img src="${SITO}/tessere-boschi/anteprime/${REG}.jpg"
@@ -395,7 +395,7 @@ per tipo, con i disegni della carta forestale della Regione.</p>
        style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
   <span class="vai-mappa">Guarda i boschi intorno ${esc(DOVE)} →</span>
 </a>
-<p class="nota">La fonte è la carta «${esc(cartaBreve(REG))}»: dice che bosco c'è, non se
+<p class="nota">La fonte è ${esc(fonteNota(REG))}: dice che bosco c'è, non se
 quest'anno ci sono nati funghi. Per quello servono la pioggia di questa pagina e un giro a piedi.</p>
 
 ` : ''}<h2>Sta piovendo adesso?</h2>
