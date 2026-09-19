@@ -1986,3 +1986,149 @@ famiglie che rispondono a due ricerche diverse, e non si mescolano:
   diverso da quello che trovavi aprendola.
 - `slug`, `elenco`, `diZona` stanno in `lib-nomi.js`: una regola sola per gli
   indirizzi delle zone. Sitemap: famiglia `sitemap-zone-piogge.xml`.
+
+
+---
+
+## La mappa boschi (v10, 19 settembre 2026)
+
+Un **modo** della mappa, come il radar: tasto «🌲 Mappa boschi» nel pannello,
+heatmap e pallini spenti, sopra la mappa il retino delle **carte forestali
+ufficiali** in nove colori. In produzione dal 16/9 con nove regioni; dalla v10
+sono **21, cioe' tutta Italia**. Nata il 15/9 dal confronto con ilcercafunghi.it.
+
+### Dove sta la roba
+
+- **Tessere**: `tessere-boschi/italia/<z>/<x>/<y>.png`, zoom 5-13, ~31.500
+  file, una serie SOLA per tutta Italia (ai confini le carte si fondono senza
+  cuciture). Le fa `tessere-boschi.py` nel banco di lavoro (cartella claudio),
+  dalla cache `cache-boschi`; ogni regione ha il suo scaricatore (`wms-sld`,
+  `arcgis-def`, `arcgis-query`...), tutte finiscono negli stessi gruppi.
+- **`tessere-boschi/italia/indice.json`**: gruppi e colori, regioni con fonte e
+  licenza, elenco delle tessere esistenti. **E' l'unica fonte di verita'**: lo
+  leggono la legenda della mappa, il tocco sul bosco e `.github/scripts/lib-boschi.js`
+  (blocco «Che boschi ci sono» delle pagine funghi). Niente liste doppie.
+- **Anteprime** per le pagine funghi: `tessere-boschi/anteprime/<regione>.jpg`
+  (21, 1600x1000), accanto alle tessere e NON sul ramo `anteprime` delle piogge,
+  perche' non cambiano. Le fa `anteprime-boschi.js` (cartella claudio).
+- ⚠️ **Le tessere viaggiano col deploy** (`tessere-boschi/` non e' nella regola
+  ignore): ogni cambio di tessere e' un deploy, ~15 crediti. Il commit di ~30.000
+  file impiega **circa mezz'ora**: si lancia in background.
+
+### I nove gruppi
+
+| gruppo | colore |
+|---|---|
+| faggete | `#1b9e77` |
+| castagneti | `#d95f02` |
+| querceti | `#e6ab02` |
+| abetaie e peccete | `#264b73` |
+| lariceti | `#ffe14d` |
+| pinete | `#e7298a` |
+| robinieti | `#66a61e` |
+| conifere non precisate | `#7a5cc8` |
+| altri boschi | `#8c8c8c` |
+
+- ⚠️ **«abetaie e peccete», MAI «abetine»** (decisione dell'utente, 16/9).
+- ⚠️ **«pinete» solo se la carta dice pino.** Una conifera senza specie va in
+  **«conifere non precisate»** (~295.000 ha, quasi tutti ISPRA Carta della
+  Natura, codici 42.G e 83.31, piu' Lazio, Abruzzo, Sicilia ed Emilia). Prima
+  finivano in «altri boschi», e Boscolungo all'Abetone, abetaia vera, era grigio:
+  il grigio diceva «non conifera», che e' un'altra cosa falsa.
+- **Riserve naturali biogenetiche dello Stato**: dentro i confini EUAP le
+  conifere non precisate prendono la specie della riserva (abetaie ad Abetone,
+  Vallombrosa, Camaldoli, Acquerino, Pian degli Ontani, Campolino, Scodella,
+  Badia Prataglia, Campigna; pinete di laricio a Trenta Coste; **Gariglione
+  esclusa** perche' mista). ~1.700 ha. `riserve-boschi.json` nel banco,
+  `correggi_riserve()` in `tessere-boschi.py`, al momento delle tessere: la
+  cache resta pura.
+- ⚠️ **PROVATE E SCARTATE**, non riproporle: la carta europea delle specie di
+  OpenGeoHub (0 abeti su 124 abetaie note dell'Appennino) e la soglia di quota
+  per separare pini e abeti (in Abruzzo il 78% delle pinete sta sopra i 1.200 m).
+- **I colori si cambiano riscrivendo la sola tavolozza** delle tessere (PNG a
+  tavolozza di 9 colori, chunk `PLTE`), senza rifare il disegno: pochi secondi
+  su 31.500 file. Cosi' il 19/9 il viola e' passato da `#7570b3` a `#7a5cc8`:
+  con l'opacita' 0,7 il vecchio diventava un lilla-grigio che si confondeva col
+  blu notte e col grigio. **Un colore si sceglie sulla mappa vera**, non sul
+  quadratino: in puppeteer si intercettano tessere e `indice.json` e si
+  ricolora al volo (`prova-colori-abetaie.js` nello scratchpad del 19/9).
+  Scartati quel giorno: azzurro puffo, cobalto e ciano per le abetaie.
+- ⚠️ Cambiando un colore si cambiano TRE posti: tavolozza delle tessere,
+  `indice.json`, `GRUPPI` in `tessere-boschi.py`. E si riscattano le immagini
+  con la legenda dentro: le 21 anteprime, le foto della guida, l'immagine della
+  home.
+
+### Il tocco sul bosco
+
+Un tocco (o un clic) dice il tipo di bosco in quel punto, in una nuvoletta.
+**Non chiede niente a nessuno**: legge il COLORE della tessera sotto il dito
+(PNG servite dal nostro dominio, quindi il canvas le puo' leggere) e lo riporta
+al gruppo piu' vicino di `indice.gruppi`. Se il dito cade in un buco del mosaico
+guarda intorno per qualche pixel e scrive «qui intorno». Evento GA4
+`click_boschi` con `stato:'tocco'`.
+- ⚠️ In modo boschi i contorni delle regioni hanno `pointer-events:none`: si
+  mangiavano il tocco e TOGLIEVANO la regione, e con lei l'analisi.
+- ⚠️ In modo boschi il tocco non apre le schede dei pallini (`_boschiAcceso`).
+
+### La tendina pioggia | boschi
+
+«⇆ Confronta con piogge», nella riga del titolo della legenda (su una riga a
+parte il pannello del telefono cresceva di 33 px). Una linea da trascinare: a
+sinistra SOLO la pioggia dell'analisi, a destra SOLO i boschi. Pioggia e boschi
+sovrapposti erano stati bocciati il 15/9; qui non si sovrappongono mai.
+- ⚠️ **Si ritagliano DUE strati**: il pane dei boschi e il canvas della
+  heatmap. Le tessere sono al 70%, e la pioggia si vedrebbe attraverso.
+- ⚠️ **`clip` e non `clip-path`**: il pane dei boschi e' un div di dimensione
+  zero (Leaflet) e le percentuali di `clip-path` non avrebbero niente su cui
+  calcolarsi.
+- **Senza un'analisi dietro** il tasto non sceglie il periodo da solo
+  (bocciato: «io devo poter scegliere»): chiede il periodo in rosso e, calcolato
+  quello, torna ai boschi con la tendina aperta.
+- **Con la tendina aperta, un periodo nuovo la CHIUDE** e si torna alla pioggia
+  (dal 19/9, sua decisione: «chiudila come su Android»). Sul telefono lo faceva
+  gia': per cambiare data si passa da «Indietro».
+- **La barra si spiega da sola alle prime QUATTRO aperture col tasto**: va
+  avanti e indietro (1,6 s), il pallino pulsa, la nuvoletta «Trascina la barra ⇆»
+  resta fino al primo trascinamento. Contatore in localStorage `boTendVolte`
+  (dentro `try`: in navigazione privata la dimostrazione compare sempre). Le
+  riaperture automatiche dopo un cambio di periodo non ne consumano una. Nata
+  dalla prova con gli utenti sul test: «pensavano fosse la stessa zona a
+  confronto».
+- L'etichetta di sinistra dice il periodo («◀ 💧 Pioggia 12-18 set»), letto dal
+  link dell'analisi.
+- Sul telefono pomello ed etichette stanno al 30% dell'altezza: la meta' bassa
+  della mappa e' sotto la legenda.
+
+### Altre cose della v10
+
+- **Con una scheda di pluviometro aperta, un clic dentro la regione chiude la
+  scheda** invece di accendere o spegnere la regione (dal computer). Il
+  poligono fermava il clic e `map.on('click')` non lo vedeva mai.
+  ⚠️ `histEl.style.display==='block'` e non `!=='none'`: all'apertura lo style
+  e' vuoto e il primo clic sulle regioni si perdeva.
+- **In modo boschi sul telefono la pillola del canale sparisce** e la regione si
+  rimette al centro della striscia libera.
+- **Niente riga «Segnalacelo» nella legenda** (tolta il 19/9: la legenda ha gia'
+  troppo poco spazio). L'invito a segnalare i boschi sbagliati sta in guida,
+  fonti e nei testi social.
+
+### Licenze e fonti
+
+Una voce per carta in `fonti.html`, e il campo `licenza` di `indice.json` finisce
+nell'attribuzione della mappa («fonte (licenza)»): **diciture CORTE**. Casi da
+ricordare: Veneto «citazione obbligatoria» (la scheda del 2006 vieta la
+distribuzione a terzi); Abruzzo CC BY-NC 3.0 (mail per il non commerciale:
+**lui ha detto di lasciar perdere**, non riproporla); Puglia e Basilicata senza
+licenza scritta, dato aperto per CAD art. 52; Alto Adige CC0 ma **tipi
+naturali**, modellati e poi tarati sul terreno (l'utente non vuole avvertenze in
+guida o nelle pagine, resta la sola nota in fonti).
+
+### Come si collauda
+
+In locale (`python -m http.server` o il `launch.json` su 8898), mai sul test:
+- `collaudo-boschi.js` (cartella claudio): desktop, 393 e 360.
+- La tendina e il cambio di periodo vogliono **clic veri**: il sito ascolta solo
+  gli eventi `isTrusted`. Col riquadro del browser nascosto i clic non arrivano:
+  si usa puppeteer headless (`prova-tendina-periodo.js` nello scratchpad del 19/9).
+- Dopo una ricolorazione: legenda col colore nuovo e tocco su un pixel di quel
+  colore che restituisce il nome giusto (`prova-tocco-conifere.js`).
