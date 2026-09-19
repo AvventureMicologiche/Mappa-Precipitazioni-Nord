@@ -10500,6 +10500,29 @@ function loadDefaultMarkers(){
     gancioP: 'Novità sulla mappa:<br>boschi e intensità',
     canale: 'Avventure Micologiche'
   };
+  VETRINE.update = {
+    // Short «update mappa» del 19/9/2026 (v10: boschi di tutta Italia, tendina
+    // pioggia | boschi, tocco sul bosco), ripubblicato come reel su Facebook e
+    // Instagram. Computer solo YouTube (la scheda porta a V.link); telefono coi
+    // tre tasti, perche' e' lo STESSO video su tutt'e tre.
+    fino: '2027-12-31T23:59:59+01:00',
+    link: 'https://youtube.com/shorts/i9tBE9VDdME',
+    id: 'i9tBE9VDdME',
+    facebook: 'https://www.facebook.com/reel/1443830011141662',
+    // ⚠️ Tolti `utm_source` e `stkn` che il «copia link» di Instagram appiccica.
+    instagram: 'https://www.instagram.com/reel/DdedvF6AEzb/',
+    // Short: fascia 16:9 dal fotogramma verticale della tendina (18,25 s, lo
+    // stesso della copertina), y 395-1003 su 1080x1920, 480x270 con PIL.
+    copertina: 'vetrina-update.jpg',
+    // Generico apposta (sua scelta per il titolo): le novita' le mostra il video.
+    gancio1: 'Aggiornamento mappa:',
+    gancio2: 'tutte le novità',
+    // Misurato sulla colonna da 199 px: la riga lunga fa 190,8 px a 17, cioe'
+    // restano 8,2 px.
+    ganciopx: 17,
+    gancioP: 'Aggiornamento mappa:<br>tutte le novità',
+    canale: 'Avventure Micologiche'
+  };
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
@@ -10507,7 +10530,8 @@ function loadDefaultMarkers(){
     // non resta nessuno e si esce.
     var ora=Date.now(), scelte=[];
     // 16/9/2026: in gara il solo post delle novita', al posto del lungo dei 25 giorni.
-    ['novita'].forEach(function(k){
+    // 19/9/2026: al suo posto lo Short «update mappa» (v10).
+    ['update'].forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
