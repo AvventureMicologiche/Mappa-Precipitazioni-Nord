@@ -1,13 +1,42 @@
 {
  "regione": "veneto",
- "generato": "2026-09-18T08:23:21.577Z",
+ "generato": "2026-09-19T08:11:17.030Z",
  "periodi": {
   "1": {
-   "media": 16.7,
+   "media": 0.7,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-09-17",
-   "ultimo": "2026-09-17",
+   "primo": "2026-09-18",
+   "ultimo": "2026-09-18",
+   "top": [
+    {
+     "n": "Barbarano Vicentino (VI)",
+     "mm": 7.6
+    },
+    {
+     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
+     "mm": 7.4
+    },
+    {
+     "n": "Teolo (PD)",
+     "mm": 7.4
+    },
+    {
+     "n": "Stra (PD)",
+     "mm": 5.6
+    },
+    {
+     "n": "Passo Monte Croce Comelico (BL)",
+     "mm": 4.8
+    }
+   ]
+  },
+  "7": {
+   "media": 17.5,
+   "giorni": 7,
+   "stazioni": 186,
+   "primo": "2026-09-12",
+   "ultimo": "2026-09-18",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -16,35 +45,6 @@
     {
      "n": "Bibione (VE)",
      "mm": 62.4
-    },
-    {
-     "n": "Marcon loc. Zuccarello (VE)",
-     "mm": 54.8
-    },
-    {
-     "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 53.8
-    },
-    {
-     "n": "Favaro Veneto (VE)",
-     "mm": 53.2
-    }
-   ]
-  },
-  "7": {
-   "media": 17.1,
-   "giorni": 7,
-   "stazioni": 186,
-   "primo": "2026-09-11",
-   "ultimo": "2026-09-17",
-   "top": [
-    {
-     "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 77.8
-    },
-    {
-     "n": "Bibione (VE)",
-     "mm": 62.6
     },
     {
      "n": "Marcon loc. Zuccarello (VE)",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 91.3,
+   "media": 91.2,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-17",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-18",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -77,24 +77,24 @@
     },
     {
      "n": "Eraclea (VE)",
-     "mm": 199.8
+     "mm": 199.6
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 185
+     "mm": 184.8
     },
     {
      "n": "Malga Campobon (San Pietro di Cadore) (BL)",
-     "mm": 182.4
+     "mm": 160
     }
    ]
   },
   "30": {
-   "media": 140.9,
+   "media": 141,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-08-19",
-   "ultimo": "2026-09-17",
+   "primo": "2026-08-20",
+   "ultimo": "2026-09-18",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
