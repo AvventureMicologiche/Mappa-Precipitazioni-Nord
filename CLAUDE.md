@@ -2132,3 +2132,242 @@ In locale (`python -m http.server` o il `launch.json` su 8898), mai sul test:
   si usa puppeteer headless (`prova-tendina-periodo.js` nello scratchpad del 19/9).
 - Dopo una ricolorazione: legenda col colore nuovo e tocco su un pixel di quel
   colore che restituisce il nome giusto (`prova-tocco-conifere.js`).
+
+---
+
+## La barra in basso sul telefono (v10.1, 20 settembre 2026)
+
+Segnalazione di un utente: «da telefono la barra in basso toglie molto spazio
+alla mappa, non sarebbe possibile un menu' a parte oppure ottimizzazione?».
+Misurato a 360x640: la mappa aveva il **33%** dello schermo prima di scegliere
+il periodo e il **37%** dopo. Ora arriva al **61%**.
+
+⚠️ **LA BARRA DELLA SEGNALAZIONE E' LA LEGENDA, non il pannello dei periodi.**
+Appena l'analisi riesce, `showLegendMobile` mette `#time-panel` in
+`display:none` e al suo posto sale `#legend-panel`. Il pannello periodo, sul
+telefono, si vede solo PRIMA della scelta e dopo «Indietro»: la prima mezza
+giornata di lavoro e' andata sul pannello sbagliato.
+
+### Cosa se ne va quando la legenda e' ridotta
+
+Restano titolo, scala e «Indietro»; se ne vanno condivisione, statistiche,
+vetrina e righe di provenienza.
+
+| modo | intera | ridotta | mappa a 360x640 |
+|---|---|---|---|
+| pioggia | 278 px | **103** | 36% → **61%** |
+| boschi | 245 px | **102** | 41% → **61%** |
+| radar | 289 px | **151** | 34% → **55%** |
+
+⚠️ **Gli avvisi rossi NON sono nell'elenco e non ci devono finire** (ieri, stime,
+archivio GitHub, ritardo OSMER): stanno in questo pannello proprio perche' il
+pannello periodo sotto e' spento e nessuno li leggerebbe. Verificato accendendone
+uno a forza con la legenda ridotta.
+
+### La regola dello stato (dettata dall'utente dopo la prova dal telefono)
+
+Lo stato «ridotta» e' **di SESSIONE e legato alla FUNZIONE**. Niente
+`localStorage`: chiudendo il sito si riparte grandi.
+
+- si parte sempre grandi, qualunque analisi sia;
+- ridotta a mano resta ridotta finche' si resta nella stessa funzione:
+  **cambiare periodo non e' cambiare funzione**, e nemmeno aprire la tendina
+  «Confronta»;
+- **ogni passaggio fra date, mappa forestale e radar riparte grande**, in tutti e
+  due i versi, anche tornando alle date con «Indietro»: il contenuto del pannello
+  cambia da cima a fondo e uno gia' ridotto nasconderebbe roba mai vista (chi
+  entra nei boschi ridotto non saprebbe nemmeno che i nove colori ci sono).
+
+⚠️ **L'osservatore guarda QUALE funzione e' attiva, non `document.body.className`
+intero.** Sul body cambiano anche `bo-tendina` (che si accende APRENDO LA
+TENDINA), `senza-pallini` e `bo-lontano-on`: col confronto sulla stringa, aprire
+«Confronta» riapriva il pannello da solo.
+
+⚠️ Il legame con la funzione e' scritto anche in `funzRidotta`, non solo
+nell'azzeramento all'evento: la classe sul body e `showLegendMobile` non
+arrivano in un ordine garantito, e senza quello si vedeva un lampeggiamento.
+
+### La maniglia, e perche' non basta il trattino grigio
+
+⚠️ **Il trattino grigio da solo non lo legge nessuno, e la prova e' in casa**: il
+pannello periodo ne ha uno identico dal primo giorno, e la segnalazione arriva da
+un utente che non sapeva di poter chiudere. Quindi accanto alla freccia c'e' una
+PAROLA — «riduci» da intera, «mostra tutto» da ridotta dentro una pasticca con
+bordo, cioe' con la faccia di un tasto. Costa 7 px, ne restituisce 175.
+
+⚠️ **La maniglia sta in una riga SUA, non nella riga del titolo**: la testata
+cambia contenuto da un modo all'altro, e col radar lo spazio riservato li' dentro
+spingeva «Invia link» fuori dallo schermo.
+
+**La riduzione automatica dopo 8 secondi e' una DIMOSTRAZIONE**, le prime tre
+volte (`legMiniVolte`) e solo nel modo pioggia, dove quello che sparisce e'
+secondario. Faceva due mestieri insieme — guadagnare spazio e far vedere che il
+pannello si muove — e col tasto scritto in chiaro il secondo e' gia' fatto.
+⚠️ Con la regola della sessione si vede **una volta per ogni ingresso in una
+funzione**, non tre di fila: la prima analisi riduce, e cambiando data resta
+ridotta.
+
+### Il pannello periodo: 287 → 241 px
+
+I sei periodi su **una riga sola** (`.tp-periodi` + `display:contents` sui due
+`.tp-grid3`), con «7 gg» al posto di «7 giorni» solo sul telefono, con la coppia
+di span alla `.bo-nota .bo-lunga/.bo-corta`. Provato fino a **320 px**: nessuna
+scritta va a capo. Da chiuso la striscia scrive il periodo scelto.
+⚠️ La striscia si ricostruisce da `dataset.type`/`dataset.val`, **non da
+`textContent`**: dentro il tasto ci sono due etichette e una e' nascosta col CSS,
+quindi textContent scriverebbe «7 giornigg».
+⚠️ **Il ripristino automatico non e' piu' appeso a `resize`**: sul telefono un
+resize arriva a ogni comparsa della barra degli indirizzi, quindi chi chiudeva il
+pannello a mano se lo ritrovava aperto al primo scorrimento della pagina.
+
+### Il ricentro, che e' la meta' del lavoro
+
+A ogni apertura e chiusura la regione si rimette al centro della striscia
+visibile con `centraRegioneInStriscia`. **La mappa sta DIETRO al pannello** (il
+div e' alto tutto lo schermo), quindi senza ricentro lo spazio guadagnato
+sarebbe tutto mare: misurato sulla Liguria, la latitudine passa da 43,72 a 44,20
+riducendo. Se l'utente ha spostato la mappa a mano (`_vistaUtente`, la stessa
+spia dello scatto) **non si tocca niente**: provato con pinch e trascinamento
+veri, zoom e centro invariati.
+⚠️ **Il pannello periodo dimagrito ha allargato le regioni da solo**: la funzione
+si misura il pannello a ogni chiamata, quindi non c'era niente da ritarare.
+Misurato su otto regioni, scarto dal centro 0-5 px e zoom +0,25/+0,5 su sei
+(Toscana 6,25 → 6,75, Sicilia 6,5 → 7); Liguria ed Emilia invariate perche' sono
+gia' al 90-92% della larghezza.
+
+### La nuvoletta della tendina rubava il gesto
+
+`.bo-tend-guida` aveva `pointer-events:none`: dito e mouse le passavano
+ATTRAVERSO e arrivavano alla mappa, che si spostava mentre la tendina restava
+ferma. Ed e' il punto dove viene istintivo appoggiare il dito, visto che c'e'
+scritto «Trascina la barra».
+⚠️ **Col mouse funzionava e col dito no**: `fermaGuida` STACCAVA la nuvoletta dal
+documento al primo tocco, e **un dito partito su un elemento orfano non consegna
+piu' i `touchmove` ai gestori su `document`** — 0 px di spostamento col dito
+contro 100 col mouse. Ora si nasconde (`style.display='none'`) invece di sparire,
+e `guida()` la riaccende: verificato che torni alle prime 4 aperture e alla
+quinta no.
+⚠️ **Partendo dalla nuvoletta il gesto e' RELATIVO** (`scarto`): il pomello e'
+largo 38 px e prenderlo di lato sposta la linea al massimo di 19, ma la nuvoletta
+e' larga 141 e per un angolo la barra sarebbe schizzata di 70 px prima di
+seguire il dito.
+
+### Come si collauda
+
+Tutto in locale (`launch.json` su 8898) con puppeteer headless e **tocchi veri**:
+- `prova-regola-sessione.js` — gli undici passaggi della regola, uno per uno.
+- `prova-nuvoletta-trascina.js` — trascina dall'angolo piu' scomodo della
+  nuvoletta, col dito e col mouse, e controlla che la MAPPA non si muova.
+- `prova-8secondi.js` — cosa succede se si tocca durante la dimostrazione.
+  ⚠️ I gesti devono essere veri: `setZoom` da codice non accende `_vistaUtente` e
+  la prova dice il contrario del vero. Il pinch si fa con `Input.dispatchTouchEvent`
+  a due dita.
+- `inq-pannello-periodo.js` — l'inquadratura col pannello periodo aperto,
+  proiettando i vertici veri del confine; `BASE=<url>` per confrontare col sito
+  vivo.
+- `prova-maniglia-desktop.js` / `prova-periodi-desktop.js` — PC e tablet devono
+  restare identici (maniglia 0x0 a 1440, 768 e 601 px).
+
+⚠️ **Il confronto fra i due `index.html` si fa in Python, non in shell**: `sed` di
+Git Bash scrivendo nello scratchpad spoglia i CRLF, e il diff dice «25.425 righe
+diverse» cioe' tutto. Le righe davvero diverse erano 29 nel test e 434 in prod.
+
+### Allineamento test/prod fatto quel giorno
+
+⚠️ **Le uniche due righe davvero del test sono `og:image` e `twitter:image`**:
+tutti gli URL dei dati sono identici, perche' il test legge dal repo di
+produzione. Quindi `index.html` si copia intero e si rimettono quelle due.
+⚠️ **NON si allineano le 1.045 pagine funghi, le 114 di zona e le 23 di regione**:
+li' il TEST e' avanti (ha la riga «Ricordati» committata dal 18/9), e copiare
+prod → test la cancellerebbe. Si guarda dentro i COMMIT, non i file sul disco.
+⚠️ **L'esito di un push si legge da `$?`, non da una pipe**: `if git push | tail -3`
+legge lo stato di `tail`, che riesce sempre, e il ciclo dichiara «riuscito» su un
+push rifiutato. Sul test capita davvero, perche' i cron scrivono in `data/` mentre
+il nostro invio dura minuti (`pubblica-test.sh` nello scratchpad, sei tentativi).
+
+---
+
+## La vetrina si configura da un file di dati (20 settembre 2026)
+
+Richiesta dell'utente: «fai la vetrina file di dati cosi' non spendiamo piu'
+deploy al cambio vetrina».
+
+**IL CONTO, che e' tutta la ragione:** `data/` sta nella regola ignore di
+Netlify, quindi **un commit li' dentro NON fa partire un deploy**. Cambiare il
+video in vetrina passa da **~15 crediti a ZERO**. Con un'uscita a settimana sono
+~750 crediti l'anno risparmiati su un piano da 1.000 al mese, e soprattutto
+nessuna attesa: si modifica `data/vetrina.json`, si committa, e nel giro di
+qualche minuto (raw tiene la sua copia 5 minuti) il sito mostra la vetrina nuova.
+
+### Come si cambia vetrina, adesso
+
+1. si apre `data/vetrina.json`;
+2. si aggiunge una voce in `vetrine` e si mette la sua chiave in `sorteggio`;
+3. commit e push. **Nessun deploy, nessun credito.**
+
+Il file ha in cima un campo `_leggimi` con le istruzioni, cosi' chi lo apre fra
+sei mesi non deve cercarle altrove. `sorteggio` vuoto = niente vetrina, resta la
+scheda «Iscriviti». `mostra` vale `alterna` (usa il sorteggio), una chiave
+qualsiasi (inchioda quella), o `''` (spegne tutto). `da` e `fino` accendono e
+spengono da soli all'ora giusta.
+
+### ⚠️ ANCHE LE COPERTINE STANNO IN `data/vetrine/`
+
+La prima versione lasciava i `.jpg` nella RADICE, e cosi' il risparmio valeva
+solo per i cambi senza immagine nuova. Sua domanda, mezz'ora dopo: «se metto
+l'immagine devo cmq usare 15 crediti?». Si', e quindi **il lavoro non serviva al
+caso che conta**: un video nuovo porta sempre una copertina nuova.
+
+Le undici copertine sono state spostate in `data/vetrine/` (`git mv`, 444 KB) e
+`index.html` le legge da li'. **Adesso un video nuovo costa ZERO crediti,
+copertina compresa.** Unico punto di codice toccato: `urlCopertina(V.copertina)`
+nel `background-image` della scheda.
+
+⚠️ **Si leggono da RAW, non dal nostro dominio**: la copia su Netlify si aggiorna
+solo ai deploy, e una copertina appena aggiunta li' non ci sarebbe ancora. Se raw
+non risponde si ripiega su `/data/vetrine/`, che ha le copertine fino all'ultimo
+deploy — provato servendo un 503 da raw: la scheda passa all'indirizzo locale da
+sola. ⚠️ Un `background-image` non ha `onerror`: l'immagine si precarica con un
+`new Image()` a parte e si cambia solo se fallisce.
+
+⚠️ Un valore di `copertina` che contiene una barra o comincia per `http` si usa
+com'e': serve a puntare altrove senza toccare il codice.
+
+### Le cose da sapere
+
+⚠️ **La configurazione incorporata in `index.html` RESTA, ed e' il ripiego.** Se
+il file non si scarica — GitHub giu', rete a pezzi, JSON scritto male — il sito
+fa esattamente quello che faceva prima. Una vetrina che non parte non deve mai
+diventare una pagina rotta. Provate tutte e quattro le strade: file servito
+(«da data/vetrina.json»), 404, JSON troncato, e nessuna risposta — **in tutti e
+quattro i casi la scheda esce identica, 183 px**, e la console dice quale strada
+ha preso.
+
+⚠️ **L'indirizzo e' quello di PRODUZIONE anche nel repo di test**, come per
+`letture.json`: cosi' i due `index.html` restano identici e la vetrina e' una
+sola per tutt'e due i siti. Cadendo sotto `raw.../main/data/` eredita gratis la
+riserva su Netlify gia' scritta per i file dei giorni — ⚠️ quella copia pero' e'
+ferma all'ultimo DEPLOY, quindi se cambi la vetrina senza pubblicare niente la
+riserva serve quella vecchia; vale solo quando GitHub e' irraggiungibile.
+
+⚠️ **Il tetto e' 1,2 s.** Oltre quello si monta il ripiego: la scheda del canale
+non e' la mappa e non deve far aspettare nessuno.
+
+⚠️ **Niente salti di impaginazione**, e non e' fortuna: `#channel-logo` e'
+`position:absolute` sopra la mappa, quindi cambiando altezza non sposta niente.
+Misurato tre volte per parte: locale 0,0099 costante, produzione 0,0099 con un
+picco a 0,0772. Sul telefono la pillola sta dentro la legenda, che compare
+secondi dopo: CLS 0,0007 sia col file immediato sia con 900 ms di ritardo.
+
+⚠️ **La configurazione si e' estratta DAL CODICE, non ribattuta a mano**
+(`estrai-vetrine.js` nello scratchpad): nove vetrine con tutti i loro campi, e a
+mano una virgola sbagliata non la vede nessuno finche' la vetrina non sparisce.
+
+⚠️ **`ganciopx` NON si tira a indovinare**: si misura sulla colonna da 199 px del
+computer, se no il gancio va a capo. E' scritto anche nel `_leggimi`.
+
+**Collaudo** (`prova-vetrina-file.js`, `prova-vetrina-cambio.js`,
+`prova-vetrina-telefono.js` nello scratchpad del 20/9): le quattro strade; poi
+cinque configurazioni diverse servite al volo — vetrina di oggi, sorteggio
+spostato sulla guida, un video inventato, sorteggio vuoto e vetrina scaduta — e
+la scheda cambia di conseguenza senza toccare `index.html`.

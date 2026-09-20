@@ -10653,6 +10653,9 @@ function loadDefaultMarkers(){
   // scade il 7 settembre la terna si riduce da sola a guida + Iscriviti
   // senza che nessuno pubblichi niente.
   var MOSTRA='alterna';
+  // L'elenco di chi partecipa al sorteggio. Era un letterale in mezzo al
+  // codice: ora e' una variabile, cosi' il file di dati puo' sostituirlo.
+  var ELENCO=['update'];
 
   var VETRINE={};
   VETRINE.guida={
@@ -10940,6 +10943,10 @@ function loadDefaultMarkers(){
     gancioP: 'Aggiornamento mappa:<br>tutte le novità',
     canale: 'Avventure Micologiche'
   };
+  /* ⚠️ DA QUI IN GIU' E' UNA FUNZIONE, e prende la configurazione da fuori
+     (20/9/2026). I tre parametri ombreggiano apposta le variabili qui sopra:
+     quelle restano il RIPIEGO, questi sono quello che arriva dal file. */
+  function costruisci(MOSTRA, VETRINE, ELENCO){
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
     // Solo le vetrine ancora in corso partecipano: quando il video scade,
@@ -10948,7 +10955,7 @@ function loadDefaultMarkers(){
     var ora=Date.now(), scelte=[];
     // 16/9/2026: in gara il solo post delle novita', al posto del lungo dei 25 giorni.
     // 19/9/2026: al suo posto lo Short «update mappa» (v10).
-    ['update'].forEach(function(k){
+    ELENCO.forEach(function(k){
       var v=VETRINE[k]; if(!v) return;
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
@@ -11037,14 +11044,14 @@ function loadDefaultMarkers(){
       box.title='Guarda il video nuovo';
       box.setAttribute('onclick',tracc('vetrina-desktop'));
       box.innerHTML='<div class="v-alto">'
-        +'<div class="v-cop" style="background-image:url('+V.copertina+')"></div>'
+        +'<div class="v-cop" style="background-image:url(&quot;'+urlCopertina(V.copertina)+'&quot;)"></div>'
         +'<div class="v-dx">'
           +'<div class="v-occhio">'+ytPieno+' '+V.occhiello+'</div>'
           +'<div class="v-gancio'+(V.gancio2?'':' v-uno')+'"'+(V.ganciopx?' style="font-size:'+V.ganciopx+'px"':'')+'><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
           +'<div class="v-canale"><img src="archie-avatar.png" alt="">'+V.canale+'</div>'
         +'</div></div>'
         +'<div class="v-btn">'+V.bottone+'</div>';
-
+      copertinaRipiego(box.querySelector('.v-cop'), V.copertina);
     }
 
     // Pillola telefono. Senza social alternativi resta quella di sempre: un
@@ -11088,6 +11095,89 @@ function loadDefaultMarkers(){
       pill.replaceWith(nuova);
     }
   }catch(e){}
+  }   /* ── fine di costruisci ─────────────────────────────────────────── */
+
+  /* ════════════ LA VETRINA SI CONFIGURA DA UN FILE DI DATI ════════════
+     20/9/2026, richiesta dell'utente: «fai la vetrina file di dati cosi' non
+     spendiamo piu' deploy al cambio vetrina».
+
+     ⚠️ IL PERCHE' E' UN CONTO: `data/` sta nella regola ignore di Netlify,
+     quindi un commit li' dentro NON fa partire un deploy. Cambiare il video in
+     vetrina passa da ~15 crediti a ZERO, e su un piano da 1.000 al mese, con
+     un'uscita a settimana, sono ~60 crediti l'anno risparmiati e soprattutto
+     nessuna attesa: si modifica il file, si committa, e nel giro di qualche
+     minuto (raw tiene la sua copia 5 minuti) il sito mostra la vetrina nuova.
+
+     ⚠️ LA CONFIGURAZIONE QUI SOPRA RESTA, ED E' IL RIPIEGO. Se il file non si
+     scarica — GitHub giu', rete a pezzi, JSON scritto male — il sito fa
+     esattamente quello che faceva prima. Una vetrina che non parte non deve
+     mai diventare una pagina rotta.
+
+     ⚠️ L'INDIRIZZO E' QUELLO DI PRODUZIONE anche nel repo di test, come per
+     `letture.json`: cosi' i due index.html restano identici e la vetrina e'
+     una sola per tutt'e due i siti. E cadendo sotto `raw.../main/data/`
+     eredita gratis la riserva su Netlify gia' scritta per i file dei giorni
+     (⚠️ quella copia pero' e' ferma all'ultimo DEPLOY: se cambi la vetrina
+     senza pubblicare niente, la riserva serve la vetrina vecchia — ma serve
+     solo quando GitHub e' irraggiungibile).
+
+     ⚠️ IL TETTO E' 1,2 s. Oltre quello si monta il ripiego e basta: la scheda
+     del canale non e' la mappa, e non deve far aspettare nessuno. Se il file
+     arriva dopo, pazienza: si vedra' al caricamento successivo, invece di far
+     saltare la pagina sotto gli occhi di chi sta gia' leggendo. */
+  /* ⚠️ ANCHE LE COPERTINE STANNO IN `data/`, e senza questo pezzo tutto il
+     lavoro sulla vetrina da file non serviva al caso che conta (20/9/2026,
+     domanda sua: «se metto l'immagine devo cmq usare 15 crediti?» — si', e
+     quindi il risparmio valeva solo per i cambi senza immagine nuova).
+     Un video nuovo porta una copertina nuova: finche' quel .jpg stava nella
+     RADICE faceva partire il deploy lo stesso. Spostate in `data/vetrine/`,
+     che e' nella regola ignore, **un video nuovo costa ZERO crediti**.
+     ⚠️ Si leggono da raw e non dal nostro dominio: la copia su Netlify si
+     aggiorna solo ai deploy, e una copertina appena aggiunta li' non ci
+     sarebbe ancora. Se raw non risponde si ripiega sul nostro `/data/vetrine/`,
+     che ha le copertine fino all'ultimo deploy.
+     ⚠️ Un valore che contiene una barra o comincia per http si usa com'e':
+     serve a poter puntare altrove senza toccare il codice. */
+  var COPERTINE_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/vetrine/';
+  var COPERTINE_QUI='/data/vetrine/';
+  function urlCopertina(c){ return (!c || /^https?:|\//.test(c)) ? c : COPERTINE_RAW+c; }
+  /* La prova che l'immagine c'e' davvero: un `background-image` non ha
+     `onerror`, quindi si precarica a parte e si cambia solo se fallisce. */
+  function copertinaRipiego(el, c){
+    if(!el || !c || /^https?:|\//.test(c)) return;
+    try{
+      var im=new Image();
+      im.onerror=function(){ el.style.backgroundImage='url("'+COPERTINE_QUI+c+'")'; };
+      im.src=COPERTINE_RAW+c;
+    }catch(e){}
+  }
+  var URL_VETRINA='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/vetrina.json';
+  var TETTO_VETRINA=1200;
+  var RIPIEGO={mostra:MOSTRA, vetrine:VETRINE, sorteggio:ELENCO};
+  var montata=false;
+  function monta(cfg, da){
+    if(montata) return;
+    montata=true;
+    try{
+      costruisci(cfg.mostra||'alterna', cfg.vetrine||{}, cfg.sorteggio||[]);
+      if(window.console&&console.info) console.info('[vetrina] '+da);
+    }catch(e){ if(window.console&&console.warn) console.warn('[vetrina] montaggio fallito', e); }
+  }
+  var attesa=setTimeout(function(){ monta(RIPIEGO,'ripiego: il file non e\' arrivato in tempo'); },TETTO_VETRINA);
+  try{
+    fetch(URL_VETRINA).then(function(r){
+      return r.ok ? r.json() : null;
+    }).then(function(j){
+      clearTimeout(attesa);
+      // ⚠️ Si controlla che ci sia DAVVERO la roba dentro: un file troncato o
+      // un 404 travestito da pagina non deve spegnere la vetrina.
+      if(j && j.vetrine && typeof j.vetrine==='object') monta(j,'da data/vetrina.json');
+      else monta(RIPIEGO,'ripiego: file senza vetrine');
+    }).catch(function(){
+      clearTimeout(attesa);
+      monta(RIPIEGO,'ripiego: file non raggiungibile');
+    });
+  }catch(e){ clearTimeout(attesa); monta(RIPIEGO,'ripiego: fetch non disponibile'); }
 })();
 </script>
 
