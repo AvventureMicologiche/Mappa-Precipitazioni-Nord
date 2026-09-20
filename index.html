@@ -896,6 +896,15 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   #channel-pill .cp-t{color:#fff;font-size:13.5px;font-weight:700;line-height:1.25;flex:1;}
   #channel-pill .cp-t small{display:block;font-weight:400;font-size:10.5px;opacity:.85;margin-top:1px;}
   #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
+  /* LA COPERTINA AL POSTO DELL'AVATAR nella pillola della vetrina
+     (20/9/2026). Il telefono e' il 90% del traffico e la copertina la
+     vedeva solo il computer.
+     ⚠️ 56 e non di piu': a 64 px il titolo va su DUE righe e la pillola
+     passa da 61 a 78 px, cioe' si riprende 17 px di mappa appena liberati
+     con la barra in basso. Misurato: il limite e' 60, 56 tiene il margine
+     per i font diversi dei telefoni veri. Altezza pillola invariata a
+     360x640 e 393x760. */
+  #channel-pill img.cp-cop{width:56px;height:32px;border-radius:6px;border:0;}
 
   /* ── SCELTA DEL SOCIAL (25/8/2026) ──
      Regole usate SOLO quando la vetrina ha un video pubblicato anche altrove:
@@ -11069,6 +11078,8 @@ function loadDefaultMarkers(){
         // \u26A0\uFE0F `gancioP`: l'a capo DECISO per la pillola (14/9/2026). Senza, la
         // riga va a capo dove capita e lascia una parola sola sotto (\u00ABabeti\u00BB).
         t.innerHTML=(V.gancioP||V.gancio)+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small>';
+        var im=pill.querySelector('img');
+        if(im && V.copertina){ im.src=urlCopertina(V.copertina); im.className='cp-cop'; im.alt=''; }
         pill.href=V.link;
         pill.setAttribute('onclick',tracc('vetrina-mobile'));
       }
@@ -11088,7 +11099,7 @@ function loadDefaultMarkers(){
       nuova.className='cp-social';
       nuova.innerHTML=
         '<a class="cp-alto" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile').replace(/"/g,'&quot;')+'">'
-        +'<img src="archie-avatar.png" alt="Archie">'
+        +(V.copertina ? '<img class="cp-cop" src="'+urlCopertina(V.copertina)+'" alt="">' : '<img src="archie-avatar.png" alt="Archie">')
         +'<div class="cp-t">'+(V.gancioP||V.gancio)+'<small>\u25B6 '+V.occhielloP+' \u00B7 '+V.canale+'</small></div>'
         +'</a>'
         +'<div class="cp-riga">'+riga+'</div>';

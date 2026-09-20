@@ -2333,6 +2333,29 @@ sola. ⚠️ Un `background-image` non ha `onerror`: l'immagine si precarica con
 ⚠️ Un valore di `copertina` che contiene una barra o comincia per `http` si usa
 com'e': serve a puntare altrove senza toccare il codice.
 
+⚠️ **Le copertine vecchie in `data/vetrine/` NON si cancellano** anche quando
+`vetrina.json` non le usa piu': le usa la configurazione incorporata in
+`index.html`, che e' il ripiego. Cancellarle vuol dire che il giorno in cui il
+file non si scarica la scheda esce senza immagine. Il 20/9 e' stato tolto solo
+`vetrina-video.jpg`, che non era citato da nessuna parte.
+
+### La copertina anche sul TELEFONO (20 settembre 2026)
+
+Fino a quel giorno la pillola del telefono mostrava l'avatar di Archie e la
+copertina la vedeva **solo il computer, cioe' il 10% del traffico**. Adesso, se
+la vetrina ha una copertina, quella prende il posto dell'avatar (l'avatar resta
+dappertutto nel resto del sito). Vale per tutt'e due le forme della pillola,
+quella semplice e quella con i tre bottoni social.
+
+⚠️ **56x32 e non di piu', ed e' un numero misurato.** A 64 px il titolo va su
+DUE righe e la pillola passa da 61 a **78 px**: 17 px di mappa ripresi indietro
+il giorno dopo averli liberati con la barra in basso. Il limite vero e' 60; 56
+tiene il margine per i font dei telefoni veri. Provato a 360x640 e 393x760:
+altezza invariata, niente sbordi.
+
+⚠️ A quella misura l'«EP. 1» stampato dentro la miniatura e' piccolo: il numero
+che si legge e' quello nel titolo, non quello in copertina.
+
 ### Le cose da sapere
 
 ⚠️ **La configurazione incorporata in `index.html` RESTA, ed e' il ripiego.** Se
