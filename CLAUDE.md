@@ -1990,12 +1990,68 @@ famiglie che rispondono a due ricerche diverse, e non si mescolano:
 
 ---
 
-## La mappa boschi (v10, 19 settembre 2026)
+## La mappa boschi (v10.2, 21 settembre 2026)
 
 Un **modo** della mappa, come il radar: tasto «🌲 Mappa boschi» nel pannello,
 heatmap e pallini spenti, sopra la mappa il retino delle **carte forestali
-ufficiali** in nove colori. In produzione dal 16/9 con nove regioni; dalla v10
-sono **21, cioe' tutta Italia**. Nata il 15/9 dal confronto con ilcercafunghi.it.
+ufficiali** in **dieci** colori. In produzione dal 16/9 con nove regioni; dalla
+v10 sono **21, cioe' tutta Italia**. Nata il 15/9 dal confronto con
+ilcercafunghi.it.
+
+### 🔵 IL DECIMO COLORE: «carpino nero, orniello e aceri» (21 settembre 2026)
+
+Nato da una domanda sua sulla Toscana. Gli orno-ostrieti finivano in «altri
+boschi», e in **Toscana e Campania erano piu' di META' del grigio** (52,6% e
+60,1%): toccando una macchia grigia li', quasi sempre sotto c'era questo.
+**Diciotto regioni su 21** ce l'hanno nella loro carta. Grigio complessivo
+**-35%**, Marche da 46,1% a 15,7%.
+
+⚠️ **Non e' il carpino BIANCO**: querco-carpineti e «boschi di carpino bianco»
+restano nei querceti. Quello sta in pianura umida ed e' un altro albero.
+
+⚠️ **IL NOME DICE «E ACERI» PERCHE' IL DATO DICE COSI'.** Chiesti gli ettari a
+ISPRA: nelle Marche l'**89%** e in Campania il **100%** dell'azzurro viene dal
+codice MISTO «boschi xerici a ornielli, carpini e aceri», non dal codice puro
+`41.81`. In Toscana e Umbria e' il contrario (91-92% puro). Chiamarlo solo
+«carpino nero e orniello» prometteva piu' precisione di quella che il dato ha:
+stessa regola di «conifere non precisate».
+
+⚠️ **La dimensione e' della fonte, non nostra**: ISPRA dice che nelle Marche gli
+orno-ostrieti sono il **32,0%** del bosco, le nostre tessere dicono 31,8%.
+
+### ⚠️ IL CONTROLLO A TAPPETO, E PERCHE' ESISTE
+
+Il 21/9 il primo giro aveva dichiarato «13 regioni». **Una sola domanda sua
+(«mettimi la Lombardia zona Bergamo-Brescia») ha fatto saltare fuori altre
+cinque regioni** che ce l'avevano e finivano nel grigio. Il censimento cercava
+le PAROLE dentro il nostro codice: cieco dove ci sono solo sigle (`OS` in
+Piemonte e Liguria), numeri (Abruzzo 41-43) o id di livello (Lombardia).
+
+**La regola che ne esce: si interroga la FONTE, non la nostra tabella.** Gli
+attrezzi stanno in `audit-boschi\` (cartella di lavoro, non nel repo):
+`audit-ispra.py`, `audit-arcgis.py`, `audit-shapefile.py`, `audit-wfs*.py`,
+`sonda-piemonte2.py`, `audit-sicilia.py`. Esito su tutte e 21: ISPRA 7/7
+complete, Veneto 18/18, Trentino 54/54, Emilia 48/48, Friuli 21/21, Alto Adige
+86/86, Lazio 16/16, Liguria 18/18 (52.044 poligoni letti a pagine: ⚠️ GeoServer
+tronca a 5.000), Lombardia 47/47, Abruzzo 33/33, Puglia 20/20, Basilicata 44/44,
+Valle d'Aosta 17/17.
+
+⚠️ **PIEMONTE: mancava la categoria `OV`** (Alneti di ontano verde) e quelle
+aree **non venivano disegnate affatto**, buchi trasparenti: ~1,1% del bosco
+piemontese, 3,3% in Val Sesia, e su un blocco alpino la superficie disegnata
+passa da 11,1% a 22,3%. Trovata chiedendo al WMS di disegnare **tutto cio' che
+NON e' nella nostra tabella**: e' la sonda da riusare. Messa in «altri boschi»
+come gli alneti e per la ragione delle mughete.
+
+⚠️ **APERTO, SICILIA**: il codice `06070202ZY` («non definito») e' mappato a
+`None`, quindi NON si disegna, ed e' il **32,8% dei poligoni campionati** (6
+riquadri, ⚠️ troncati a 500 per riquadro, quindi stima). E' la stessa forma del
+difetto piemontese ma c'era da prima. Per deciderlo serve la tabella dei nomi
+siciliana (`V_06070202`), che quel server non lascia interrogare. Da fare.
+
+⚠️ **Valle d'Aosta, unica mappata per COLORE**: i 17 titoli del server
+combaciano ancora uno a uno. I pixel di bordo fuori legenda vanno al colore piu'
+vicino entro 35; quelli davvero scartati sono l'**1,45%**, misurato.
 
 ### Dove sta la roba
 
