@@ -1457,19 +1457,26 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
        quanto costava la sola maniglia senza la parola. */
     margin:-10px 0 0;padding:0;min-height:24px;cursor:pointer;
   }
-  .leg-handle-bar{width:36px;height:4px;background:#ccc;border-radius:2px;}
+  /* ⚠️ LA PASTICCA STA AL CENTRO E PRENDE IL POSTO DELLA BARRETTA
+     (21/9/2026, segnalato da lui con due schermate). Prima stava a destra in
+     `position:absolute`, e da ridotta finiva ESATTAMENTE sopra «Indietro»:
+     misurati ZERO px di aria fra le due, sulla stessa colonna. In piu' da
+     grande «riduci» era testo nudo e da ridotta diventava una pasticca col
+     bordo, cioe' le due facce dello stesso comando non si somigliavano.
+     Adesso: una faccia sola nei due stati, al centro, e «Indietro» resta a
+     destra. Non e' una questione di margini, non si possono PIU' incrociare
+     per nessuna lunghezza del titolo.
+     ⚠️ Il fondo e' PIENO e senza bordo apposta: «Indietro» e' bianco col
+     bordo blu, e due pasticche uguali una sopra l'altra si confonderebbero.
+     ⚠️ Costa ZERO px: la riga era alta 24 e la pasticca e' alta 24. */
+  .leg-handle-bar{display:none;}
   .leg-azione{
-    position:absolute;right:0;top:50%;margin-top:-11px;height:22px;
     display:flex;align-items:center;gap:5px;color:#1b3f6e;
+    background:#e8eef7;border:0;border-radius:999px;padding:0 11px;height:24px;
   }
-  .leg-azione-txt{font-size:12px;font-weight:600;line-height:1;}
+  .leg-azione-txt{font-size:12.5px;font-weight:700;line-height:1;}
   .leg-chevron{font-size:12px;line-height:1;transition:transform .28s cubic-bezier(.4,0,.2,1);}
   #legend-panel.leg-mini .leg-chevron{transform:rotate(180deg);}
-  #legend-panel.leg-mini .leg-azione{
-    background:#f0f4fb;border:1px solid #c2d1e8;border-radius:20px;
-    padding:0 10px;height:24px;margin-top:-12px;
-  }
-  #legend-panel.leg-mini .leg-azione-txt{font-size:12.5px;font-weight:700;}
 
   /* Cosa se ne va quando e' ridotta, modo per modo. La regola e' una sola:
      resta quello che serve a LEGGERE la mappa e a uscire; se ne vanno
@@ -9960,44 +9967,27 @@ if(_btnShot){
      nell'azzeramento all'evento: cosi' se un giorno l'ordine degli eventi
      cambia (la classe sul body e showLegendMobile non arrivano in un ordine
      garantito) lo stato resta giusto lo stesso, senza lampeggiamenti. */
-  var ridotta=false, funzRidotta=null, riapertaAMano=false;
+  var ridotta=false, funzRidotta=null;
   function funzione(){
     var c=document.body.classList;
     return c.contains('modo-boschi') ? 'boschi' : c.contains('modo-radar') ? 'radar' : 'date';
   }
   function ridottaOra(){ return ridotta && funzRidotta===funzione(); }
-  /* ⏱ LA RIDUZIONE AUTOMATICA E' UNA DIMOSTRAZIONE, NON UN COMPORTAMENTO.
-     Otto secondi, e SOLO LE PRIME TRE VOLTE (deciso dall'utente il 20/9/2026
-     provando sul test: «col tasto riduci ben visibile non so se ha senso»).
-     Faceva due mestieri insieme — guadagnare spazio e far vedere che il
-     pannello si muove — e col tasto «riduci» scritto in chiaro il secondo e'
-     gia' fatto: quello che restava era una cosa che si muove sotto le dita a
-     ogni analisi, per sempre. Tre volte bastano a mostrare che si puo' fare e
-     quanto spazio si guadagna; dopo non si muove piu' niente da solo e chi
-     vuole la mappa grande tocca «riduci», che ormai ha visto.
-     Stesso meccanismo della nuvoletta della tendina (`boTendVolte`, 4 volte).
-     ⚠️ La dimostrazione vale SOLO nel modo pioggia: li' sparisce roba
-     secondaria (statistiche, condivisione, vetrina), mentre nei boschi
-     sparirebbero i nove colori, cioe' la legenda stessa, e nel radar la sola
-     riga della fonte. A 0, o con le tre volte consumate, resta solo il tasto.
-     ⚠️ Ogni secondo qui dentro e' esposizione della vetrina del canale: se un
-     giorno i clic sui social calano, il numero da guardare e' questo. */
-  var RIDUCI_DOPO=8000, DIMO_VOLTE=3, CHIAVE_VOLTE='legMiniVolte';
-  function volteDimo(){ try{ return parseInt(localStorage.getItem(CHIAVE_VOLTE),10)||0; }catch(e){ return DIMO_VOLTE; } }
-  function contaDimo(){ try{ localStorage.setItem(CHIAVE_VOLTE,String(volteDimo()+1)); }catch(e){} }
-  function inModo(){ var c=document.body.classList; return c.contains('modo-boschi')||c.contains('modo-radar'); }
+  /* ⏱ LA RIDUZIONE AUTOMATICA E' STATA TOLTA (21/9/2026). C'era dal 20/9:
+     otto secondi, solo le prime tre volte per telefono, solo sulle date.
+     Faceva due mestieri, guadagnare spazio e far vedere che il pannello si
+     muove, e col tasto «riduci» scritto in chiaro il secondo era gia' fatto:
+     restava una cosa che si muove sotto le dita mentre uno guarda la mappa.
+     I numeri di un giorno solo (GA4 `legenda_mobile`, 20-21/9): 67 persone
+     hanno ridotto il pannello DA SOLE, quindi il tasto si trova senza che
+     nessuno lo dimostri, ed e' la ragione per cui la dimostrazione poteva
+     andarsene. ⚠️ Le riaperture NON erano misurabili come si deve, perche' la
+     riduzione automatica non mandava nessun evento: se un giorno si volesse
+     rimettere una cosa del genere, l'evento va mandato ANCHE sul passaggio
+     automatico, se no i due casi restano mescolati.
+     ⚠️ Resta `legMiniVolte` nel `localStorage` di chi c'e' passato: non si
+     legge piu' e non fa danno, non vale un giro di pulizia. */
   function segna(v){ ridotta=!!v; funzRidotta=v?funzione():null; }
-  var timer=null;
-  function fermaTimer(){ if(timer){ clearTimeout(timer); timer=null; } }
-  // Il pannello sta davvero a schermo? Si misura, non si guarda una classe:
-  // nei modi boschi e radar lo alza il CSS e `leg-visible` non c'e'.
-  function aSchermo(){
-    var st=getComputedStyle(leg);
-    if(st.display==='none'||st.visibility==='hidden') return false;
-    var r=leg.getBoundingClientRect();
-    return r.height>0 && r.top<window.innerHeight-10;
-  }
-
   // Stesso ragionamento del pannello periodo: la mappa sta DIETRO, quindi
   // cambiare l'altezza della barra senza ricentrare regala mare, non terra.
   function ricentra(){
@@ -10020,46 +10010,19 @@ if(_btnShot){
     if(a) a.title=v?'Rivedi tutto il pannello':'Riduci il pannello e allarga la mappa';
     if(muovi) ricentra();
   }
-  // Chiamata da showLegendMobile, cioe' a ogni ANALISI NUOVA.
-  //  · si riapre com'era DENTRO QUESTA FUNZIONE: chi ha ridotto e cambia solo
-  //    il periodo la ritrova ridotta, ed e' la richiesta dell'utente;
-  //  · se e' grande e non si e' mai espresso, le prime tre volte scende da
-  //    sola dopo 8 s (la dimostrazione).
-  // ⚠️ Chi l'ha RIAPERTA a mano in questa sessione ha detto «la voglio
-  //    intera»: a quello non si dimostra piu' niente fino alla visita dopo.
+  // Chiamata da showLegendMobile, cioe' a ogni ANALISI NUOVA: si riapre
+  // com'era. Chi ha ridotto e cambia solo il periodo la ritrova ridotta, ed e'
+  // la richiesta dell'utente. Niente si muove piu' da solo.
   window._legApplicaRicordo=function(){
-    fermaTimer();
     if(!isMobile()){ leg.classList.remove('leg-mini'); return; }
-    var giu=ridottaOra();
-    mini(giu,false);
-    if(giu || riapertaAMano) return;
-    if(funzione()!=='date') return;            // la dimostrazione solo sulle date
-    if(!RIDUCI_DOPO || volteDimo()>=DIMO_VOLTE) return;   // dimostrazione gia' fatta
-    timer=setTimeout(function(){
-      timer=null;
-      if(!isMobile()) return;
-      /* ⚠️ «Aperta» NON vuol dire `leg-visible`. Quella classe la mette
-         showLegendMobile per l'analisi di pioggia; nel modo boschi e nel modo
-         radar il pannello lo alza il CSS (`.modo-boschi #legend-panel{transform:
-         translateY(0)}`) e la classe non c'e'. Si guarda se sta a schermo. */
-      if(!aSchermo()) return;
-      if(funzione()!=='date') return;    // nel frattempo e' entrato nei boschi o nel radar
-      contaDimo();
-      segna(true);
-      mini(true,true);
-    },RIDUCI_DOPO);
+    mini(ridottaOra(),false);
   };
 
   hdr.addEventListener('click',function(e){
     if(!isMobile()) return;
     // I tasti e i comandi della testata («Immagine», «Copia link», «Indietro»,
     // «⇆ Confronta con piogge») fanno il loro mestiere: solo il resto apre e chiude.
-    // ⚠️ E il conto degli 8 secondi si ferma SOLO se il tocco apre o chiude
-    // davvero. Fermandolo prima di questo controllo, chi toccava «Invia link»
-    // spegneva la riduzione automatica per tutta l'analisi senza volerlo
-    // (misurato il 20/9/2026: il pannello restava a 278 px per sempre).
     if(e.target.closest && e.target.closest('button,a,.bo-tend-btn,.rd-btn')) return;
-    fermaTimer();
     scambia();
   });
 
@@ -10069,7 +10032,7 @@ if(_btnShot){
   var man=document.getElementById('leg-handle');
   if(man) man.addEventListener('click',function(){
     if(!isMobile()) return;
-    fermaTimer(); scambia();
+    scambia();
   });
 
   function scambia(){
@@ -10078,7 +10041,6 @@ if(_btnShot){
     // Riaperta a mano = «la voglio intera»: niente piu' dimostrazioni in questa
     // sessione. Non vale al contrario: chi la riduce puo' rivederla dopo un
     // cambio di funzione, che e' proprio il momento in cui riparte grande.
-    if(!v) riapertaAMano=true;
     mini(v,true);
     try{ gtag('event','legenda_mobile',{stato:(v?'ridotta':'intera')+'-'+funzione()}); }catch(e){}
   }
@@ -10104,8 +10066,7 @@ if(_btnShot){
      dove ne basta uno, ed e' lo sfarfallio gia' visto col radar il 6/9. */
   var funzPrima=funzione();
   window._legModoCambiato=function(){
-    fermaTimer();
-    segna(false); riapertaAMano=false;   // funzione nuova: si riparte da zero
+    segna(false);                        // funzione nuova: si riparte da zero
     if(isMobile()) mini(false,false);
   };
   try{

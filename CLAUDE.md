@@ -2192,20 +2192,46 @@ arrivano in un ordine garantito, e senza quello si vedeva un lampeggiamento.
 ⚠️ **Il trattino grigio da solo non lo legge nessuno, e la prova e' in casa**: il
 pannello periodo ne ha uno identico dal primo giorno, e la segnalazione arriva da
 un utente che non sapeva di poter chiudere. Quindi accanto alla freccia c'e' una
-PAROLA — «riduci» da intera, «mostra tutto» da ridotta dentro una pasticca con
-bordo, cioe' con la faccia di un tasto. Costa 7 px, ne restituisce 175.
+PAROLA — «riduci» da intera, «mostra tutto» da ridotta. Costa 7 px, ne
+restituisce 175.
+
+⚠️ **LA PASTICCA STA AL CENTRO, AL POSTO DELLA BARRETTA** (21/9/2026). Prima
+stava a destra in `position:absolute`, e da ridotta finiva **esattamente sopra
+«Indietro»: zero px di aria, stessa colonna**. Segnalato da lui con due
+schermate, e misurato. In piu' da grande era testo nudo e da ridotta una
+pasticca col bordo: le due facce dello stesso comando non si somigliavano.
+Adesso e' **una faccia sola nei due stati**, al centro, e «Indietro» resta a
+destra: non si possono piu' incrociare per nessuna lunghezza del titolo. Non e'
+una questione di margini, e' la posizione. Costa **zero px** (la riga era alta
+24, la pasticca e' alta 24).
+⚠️ Il fondo e' **pieno e senza bordo** apposta: «Indietro» e' bianco col bordo
+blu, e due pasticche uguali una sopra l'altra si confonderebbero.
 
 ⚠️ **La maniglia sta in una riga SUA, non nella riga del titolo**: la testata
 cambia contenuto da un modo all'altro, e col radar lo spazio riservato li' dentro
 spingeva «Invia link» fuori dallo schermo.
 
-**La riduzione automatica dopo 8 secondi e' una DIMOSTRAZIONE**, le prime tre
-volte (`legMiniVolte`) e solo nel modo pioggia, dove quello che sparisce e'
-secondario. Faceva due mestieri insieme — guadagnare spazio e far vedere che il
-pannello si muove — e col tasto scritto in chiaro il secondo e' gia' fatto.
-⚠️ Con la regola della sessione si vede **una volta per ogni ingresso in una
-funzione**, non tre di fila: la prima analisi riduce, e cambiando data resta
-ridotta.
+### ⏱ LA RIDUZIONE AUTOMATICA E' STATA TOLTA (21 settembre 2026)
+
+C'era vissuta un giorno: otto secondi, solo le prime tre volte per telefono
+(`legMiniVolte`), solo nel modo pioggia. Faceva due mestieri insieme, guadagnare
+spazio e far vedere che il pannello si muove, e col tasto «riduci» scritto in
+chiaro il secondo era gia' fatto: restava una cosa che si muove sotto le dita
+mentre uno guarda la mappa.
+
+**I numeri che l'hanno chiusa** (GA4 `legenda_mobile`, dalle 15:55 del 20/9 alle
+7:45 del 21/9): **67 persone hanno ridotto il pannello da sole** (55 il primo
+pomeriggio-sera su 383 utenti da telefono, 12 la mattina dopo su 41). Il tasto si
+trova senza che nessuno lo dimostri.
+
+⚠️ **Le riaperture non erano misurabili come si deve**: la riduzione automatica
+non mandava nessun evento, quindi «intera» mescolava chi riapriva quello che
+aveva ridotto lui e chi riapriva perche' gliel'aveva chiuso la dimostrazione. Se
+un giorno si rimette una cosa che agisce da sola, **l'evento va mandato anche sul
+passaggio automatico**, se no i due casi restano attaccati.
+
+⚠️ `legMiniVolte` resta nel `localStorage` di chi c'e' passato: non si legge piu'
+e non fa danno.
 
 ### Il pannello periodo: 287 → 241 px
 
@@ -2258,7 +2284,9 @@ Tutto in locale (`launch.json` su 8898) con puppeteer headless e **tocchi veri**
 - `prova-regola-sessione.js` — gli undici passaggi della regola, uno per uno.
 - `prova-nuvoletta-trascina.js` — trascina dall'angolo piu' scomodo della
   nuvoletta, col dito e col mouse, e controlla che la MAPPA non si muova.
-- `prova-8secondi.js` — cosa succede se si tocca durante la dimostrazione.
+- `prova-senza-8s.js` — i sei passaggi dopo aver tolto la riduzione automatica:
+  dodici secondi fermi senza che si muova niente, tocco, cambio periodo, dentro e
+  fuori dai boschi. (`prova-8secondi.js` e' di quando la dimostrazione c'era.)
   ⚠️ I gesti devono essere veri: `setZoom` da codice non accende `_vistaUtente` e
   la prova dice il contrario del vero. Il pinch si fa con `Input.dispatchTouchEvent`
   a due dita.
