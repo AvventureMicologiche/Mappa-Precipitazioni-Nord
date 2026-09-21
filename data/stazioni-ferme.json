@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-09-14",
+  "aggiornato": "2026-09-21",
   "finestra": 45,
   "ferme": [
     {
@@ -8,13 +8,6 @@
       "regione": "lombardia",
       "perc": 0,
       "dal": "2026-09-14"
-    },
-    {
-      "chiave": "toscana/TOS03001965",
-      "nome": "Gabbro",
-      "regione": "toscana",
-      "perc": 0,
-      "dal": "2026-08-24"
     },
     {
       "chiave": "meteohub-sardegna/39.83719_9.47661",
@@ -38,6 +31,13 @@
       "dal": "2026-08-21"
     },
     {
+      "chiave": "meteohub-calabria/37.98750_15.72861",
+      "nome": "Montebello Ionico",
+      "regione": "meteohub-calabria",
+      "perc": 0.8,
+      "dal": "2026-09-21"
+    },
+    {
       "chiave": "francia-provenza/83075001",
       "nome": "Les Mayons",
       "regione": "francia-provenza",
@@ -48,8 +48,29 @@
       "chiave": "meteohub-umbria/42.79042_12.11868",
       "nome": "Cassa Molino di Bagni",
       "regione": "meteohub-umbria",
-      "perc": 5.1,
+      "perc": 5.8,
       "dal": "2026-09-14"
+    },
+    {
+      "chiave": "meteohub-calabria/38.98528_16.62083",
+      "nome": "Sellia Superiore",
+      "regione": "meteohub-calabria",
+      "perc": 6,
+      "dal": "2026-09-21"
+    },
+    {
+      "chiave": "meteohub-sicilia/37.16944_13.74111",
+      "nome": "Palma alla Foce",
+      "regione": "meteohub-sicilia",
+      "perc": 8.7,
+      "dal": "2026-09-21"
+    },
+    {
+      "chiave": "toscana/TOS03001965",
+      "nome": "Gabbro",
+      "regione": "toscana",
+      "perc": 14.4,
+      "dal": "2026-08-24"
     }
   ]
 }
