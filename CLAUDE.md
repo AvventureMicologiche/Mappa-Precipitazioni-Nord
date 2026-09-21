@@ -2411,6 +2411,27 @@ il nostro invio dura minuti (`pubblica-test.sh` nello scratchpad, sei tentativi)
 Richiesta dell'utente: «fai la vetrina file di dati cosi' non spendiamo piu'
 deploy al cambio vetrina».
 
+⚠️ **LA REGOLA IGNORE ANNULLA LA BUILD, MA LA FILA SE LA FA LO STESSO**
+(21/9/2026). Il 21/9 un deploy vero ha aspettato **43 minuti** in coda con la
+scritta «enqueued: awaiting capacity». Contati i commit delle 24 ore precedenti:
+**93 in produzione e 36 sul test, tutti dentro `data/`, contro 1 solo di roba
+vera**. Ognuno mette in fila una build che poi viene annullata: non costa
+crediti, ma occupa la coda. ⚠️ **E la capacita' e' DI SQUADRA, non di progetto**:
+un solo slot in parallelo per prod e test insieme, quindi si contendono la fila.
+
+**Rimedio: `[skip netlify]` nel messaggio di commit dei collector**, che li fa
+saltare del tutto senza entrare in coda (documentato da Netlify; le modifiche
+saltate vengono pubblicate dal primo commit vero successivo, quindi non si perde
+niente). Messo su 23 workflow di produzione e 12 del test.
+⚠️ **NON `[skip ci]`**: quello lo legge anche GitHub Actions e rischierebbe di
+spegnere i collector.
+⚠️ **`rinnova-pagine.yml` NON ce l'ha e non deve averlo**: scrive `funghi/` e le
+sitemap, cioe' pagine vere, e deve pubblicare. `anteprime.yml` non serve, spinge
+sul ramo `anteprime`.
+⚠️ **La soluzione sbagliata era comprare capacita'**: Netlify offre un container
+in piu' a 40 dollari al mese. Sarebbe stato pagare una corsia per traffico che
+non doveva esserci.
+
 **IL CONTO, che e' tutta la ragione:** `data/` sta nella regola ignore di
 Netlify, quindi **un commit li' dentro NON fa partire un deploy**. Cambiare il
 video in vetrina passa da **~15 crediti a ZERO**. Con un'uscita a settimana sono

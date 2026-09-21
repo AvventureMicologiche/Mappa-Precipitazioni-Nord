@@ -133,7 +133,7 @@ jobs:
           # Il registro dei fermi nasce al primo lunedì: prima di allora non
           # esiste, e `git add` su un file che non c'è farebbe fallire il passo.
           if [ -f data/stazioni-ferme.json ]; then git add data/stazioni-ferme.json; fi
-          git diff --staged --quiet || git commit -m "alert-fonti $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "alert-fonti $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then ok=1; break; fi

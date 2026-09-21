@@ -47,7 +47,7 @@ jobs:
           git config user.email "bot@bot.com"
           mkdir -p data/altoadige
           git add data/altoadige/
-          git diff --staged --quiet || git commit -m "altoadige $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "altoadige $(date -u +%Y-%m-%d) [skip netlify]"
           for i in 1 2 3 4 5; do
             git pull --rebase origin main && git push && break
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
