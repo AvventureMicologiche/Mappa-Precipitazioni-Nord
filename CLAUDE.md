@@ -2069,12 +2069,21 @@ perdeva una voce sola invece di due.
 **Il rimedio e' triplo, perche' da solo nessuno bastava:**
 1. il limite e' `leg.offsetParent.clientHeight`, cioe' la mappa; se non basta il
    pannello si accorcia e scorre invece di tagliare;
-2. sotto i 780 px di finestra la legenda dei boschi va su **tre colonne** e il
-   pannello si allarga a 660 (⚠️ **solo `body.modo-boschi`**: pioggia e radar non
-   hanno la griglia e allargarli non serviva a niente);
+2. sotto i 780 px di finestra la legenda dei boschi ha le righe **piu' fitte e
+   un filo piu' piccole**: 219 -> 203 px naturali, e alla sua misura le voci
+   visibili senza scorrere passano da 6 a 8 su 10;
 3. un `ResizeObserver` sul pannello, perche' **cresce dopo** il posizionamento
    (il radar quando arrivano le durate, i boschi con `indice.json`): a 30 ms era
    ancora corto e il tetto si calcolava su un numero vecchio.
+
+⚠️ **TRE COLONNE: PROVATA, PUBBLICATA E TOLTA NEL GIRO DI UN'ORA.** Per far
+stare dieci voci in quattro righe il pannello andava allargato a 660 px, e lui
+l'ha bocciata appena vista: «si allarga a destra e copre troppo la mappa». Ed e'
+giusto: **sulla mappa lo spazio ORIZZONTALE vale piu' di quello verticale**,
+perche' e' quello che fa vedere il territorio. Stringere di piu' in verticale
+(via la riga della fonte, meno imbottitura) porta il naturale a 170 px ma **non
+aggiunge nemmeno una voce visibile**, perche' lo spazio utile e' 157: quindi ci
+si ferma, e la riga della fonte resta, che e' l'attribuzione della licenza.
 
 ⚠️ **Il tetto si calcola sull'altezza NATURALE**: `max-height` si azzera prima di
 misurare. Senza, il conto si fa su un numero che dipende da se stesso e al

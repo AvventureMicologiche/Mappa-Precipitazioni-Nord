@@ -4245,8 +4245,7 @@ function positionPanels(){
     leg.style.left = '10px';
     /* ⚠️ la larghezza la decide il CSS quando la finestra e' bassa (tre
        colonne): qui si scrive solo se il CSS non l'ha gia' allargato. */
-    leg.style.width = (window.innerHeight <= 780 && window.innerWidth >= 901
-                       && document.body.classList.contains('modo-boschi')) ? '' : '400px';
+    leg.style.width = '400px';
     /* Se lo spazio non basta comunque, il pannello si accorcia e scorre: meglio
        una legenda da scorrere che due voci invisibili. Il 110 e' il minimo per
        non ridurlo a una fessura. */
@@ -11908,19 +11907,25 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 @media(min-width:901px){.modo-boschi .leg-header{justify-content:flex-start}}
 .bo-tit{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#1b3f6e;margin:2px 0 6px}
 .bo-griglia{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:12.5px;color:#33404f}
-/* ⚠️ FINESTRA BASSA: LEGENDA SU TRE COLONNE (21/9/2026). Con dieci voci su
-   due colonne il pannello e' alto 219 px, e su un monitor 1920x1080 con
-   Windows al 125% la finestra e' 702 px CSS: la mappa e' alta 618 e ne
-   taglia due. Su tre colonne sono quattro righe invece di cinque, 197 px,
-   e alla sua misura si vedono tutte e dieci. Il pannello si allarga a 660:
-   c'e' spazio, e l'etichetta piu' lunga («carpino nero, orniello e aceri»)
-   non va a capo. Sopra i 780 px di finestra resta com'era, due colonne. */
+/* ⚠️ FINESTRA BASSA: SI STRINGE IN VERTICALE, NON SI ALLARGA (21/9/2026).
+   Righe piu' fitte e un filo piu' piccole solo nella legenda dei boschi e solo
+   sotto i 780 px di finestra: il pannello passa da 219 a 203 px naturali e alla
+   sua misura (1536x702) le voci visibili senza scorrere passano da 6 a 8 su 10.
+   Stringere ancora (via la riga della fonte, meno imbottitura) porta il
+   naturale a 170 ma NON aggiunge nemmeno una voce visibile, perche' lo spazio
+   utile e' 157: quindi non si tocca altro, e la riga della fonte resta, che e'
+   l'attribuzione della licenza. */
 @media (min-width:901px) and (max-height:780px){
-  /* ⚠️ SOLO NEI BOSCHI: la pioggia e il radar non hanno la griglia, e
-     allargarli a 660 px li cambierebbe senza guadagnarci niente. */
-  body.modo-boschi #legend-panel{width:660px !important;}
-  body.modo-boschi #legend-panel .bo-griglia{grid-template-columns:repeat(3,1fr);}
+  body.modo-boschi #legend-panel .bo-griglia{gap:0 12px;font-size:12px;}
 }
+/* ⚠️ TRE COLONNE SU FINESTRA BASSA: PROVATA E TOLTA (21/9/2026).
+   Con dieci voci su due colonne il pannello e' alto 219 px e su una finestra
+   da 702 px CSS non ci sta: su tre colonne diventava 197 e si vedeva tutto.
+   Ma per farcele stare il pannello andava allargato a 660 px, e lui l'ha
+   bocciata subito guardandola: «si allarga a destra e copre troppo la
+   mappa». Ed e' giusto: sulla mappa lo spazio ORIZZONTALE vale piu' di
+   quello verticale, perche' e' quello che fa vedere il territorio. Il
+   pannello resta a 400 px e due colonne; se non ci sta, scorre. */
 .bo-riga{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .bo-sw{width:13px;height:13px;border-radius:3px;flex:none}
 /* le carte usate e quelle che mancano si devono leggere (16/9/2026, sua
