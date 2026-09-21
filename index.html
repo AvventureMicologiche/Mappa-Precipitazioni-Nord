@@ -4241,6 +4241,18 @@ function positionPanels(){
       legTop = Math.max(tpBottom + GAP, maxBottom - legH);
     }
     if(legTop < 0) legTop = 10;
+    /* ⚠️ LA ROTELLINA SULLA LEGENDA DEVE SCORRERE LA LEGENDA, NON ZOOMARE
+       LA MAPPA (21/9/2026, segnalato da lui: «se sono col cursore sulla legenda
+       e scorro, lui muove la mappa»). Il pannello vive DENTRO il contenitore
+       Leaflet, che si prende la rotellina prima che arrivi alla barra di
+       scorrimento. Stessa cura gia' usata per la casella di ricerca e per la
+       tendina dei boschi. Si mette una volta sola: `_scrollFermato` evita di
+       riattaccare l'ascoltatore a ogni riposizionamento. */
+    if(!leg._scrollFermato && window.L && L.DomEvent){
+      L.DomEvent.disableScrollPropagation(leg);
+      L.DomEvent.disableClickPropagation(leg);
+      leg._scrollFermato = true;
+    }
     leg.style.top = legTop + 'px';
     leg.style.left = '10px';
     /* ⚠️ la larghezza la decide il CSS quando la finestra e' bassa (tre
@@ -11272,12 +11284,23 @@ function loadDefaultMarkers(){
    un paese e poi accendeva il radar perdeva la puntina. E col radar serve piu'
    che mai, perche' li' si guarda una regione intera. */
 .modo-radar #map .loc-pin path{fill-opacity:1 !important}
-/* col radar acceso non pulsa niente: sono richiami per scegliere la regione */
+/* ⚠️ COL RADAR **O COI BOSCHI** ACCESI NON PULSA NIENTE: quelle sono
+   chiamate a scegliere la regione e il periodo, e chi sta guardando la mappa
+   forestale ha gia' scelto cosa vuole vedere. La regola c'era dal 31/8 ma solo
+   per il radar: i boschi sono arrivati dopo e nessuno ce li ha aggiunti
+   (segnalato da lui il 21/9/2026: «se ho selezionato la mappa forestale perche'
+   pulsano le date?»). Si tengono le due liste separate e non un selettore solo,
+   perche' si leggono meglio. */
 .modo-radar path.conf-pulse,
 .modo-radar .panel-pulse,
 .modo-radar .panel-pulse-ring,
 .modo-radar #loc-input.loc-chiama,
-.modo-radar #geo-btn.loc-chiama{animation:none !important}
+.modo-radar #geo-btn.loc-chiama,
+.modo-boschi path.conf-pulse,
+.modo-boschi .panel-pulse,
+.modo-boschi .panel-pulse-ring,
+.modo-boschi #loc-input.loc-chiama,
+.modo-boschi #geo-btn.loc-chiama{animation:none !important}
 /* il pannello legenda esiste solo con un'analisi: in modo radar serve sempre */
 /* ⚠️ Sparisce SOLO il riquadro di destra del desktop (`#channel-logo`, 157 px
    prima delle date e 0 dopo): quello copre la mappa. La PILLOLA del telefono

@@ -2089,6 +2089,25 @@ si ferma, e la riga della fonte resta, che e' l'attribuzione della licenza.
 misurare. Senza, il conto si fa su un numero che dipende da se stesso e al
 secondo giro si annulla da solo (lo ha fatto venire fuori l'osservatore).
 
+### Altri due difetti della legenda, trovati da lui lo stesso giorno
+
+⚠️ **LA ROTELLINA SULLA LEGENDA ZOOMAVA LA MAPPA.** Il pannello vive dentro il
+contenitore Leaflet, che si prende la rotellina prima che arrivi alla barra di
+scorrimento: misurato, girando la rotella sulla legenda lo zoom passava da 8,5 a
+7,25 e la legenda non scorreva di un pixel. Rimedio: `disableScrollPropagation`
++ `disableClickPropagation` sul pannello, la stessa cura gia' usata per la
+casella di ricerca (22/8) e per la tendina dei boschi. Si mette una volta sola
+(`_scrollFermato`), se no si riattacca a ogni riposizionamento.
+⚠️ Controllato che non rompa i comandi DENTRO la legenda: «Confronta con piogge»
+e' uno `<span role=button>` e non un `<button>`, ed e' proprio il caso a rischio;
+si apre identico a prima. Sul telefono la maniglia funziona in tutti e sei i
+passaggi.
+
+⚠️ **LE DATE PULSAVANO COI BOSCHI ACCESI.** La regola che spegne il richiamo
+c'era dal 31/8 **ma solo per il radar**: i boschi sono arrivati dopo e nessuno ce
+li ha aggiunti. Una riga di CSS. ⚠️ Verificato che il pulsare resti quando serve
+davvero, cioe' regione scelta, nessun periodo e nessuna modalita' accesa.
+
 **Collaudo**: `prova-tre-modi.js` (6 misure x 3 modalita' = 18 combinazioni,
 tutte dentro la mappa) e `prova-telefono-legenda.js` (360x640 e 393x760
 identici a prima: la regola parte da 901 px).
