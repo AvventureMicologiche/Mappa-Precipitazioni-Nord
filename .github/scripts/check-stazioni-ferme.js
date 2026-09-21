@@ -115,6 +115,34 @@ function regioni() {
 // ── Somma dei 45 giorni, regione per regione ────────────────────────────────
 const giorni = giorniFinestra();
 const stazioni = [];   // { regione, id, nome, prov, quota, lat, lon, tot, giorni }
+/**
+ * ⚠️ LE STAZIONI GIA' ESCLUSE NON SI CONTROLLANO (21/9/2026).
+ * Il controllo legge i FILE dei dati, ma l'esclusione di un pluviometro guasto
+ * vive in `index.html` (`MH_ESCLUSE`): i suoi zeri falsi restano nei file e il
+ * controllo li ritrova ogni lunedi'. Il 21/9 ha risegnalato Sellia Superiore,
+ * che era fuori dal 10/9: attenzione sprecata, e il rischio di dare per nuovo
+ * un guasto gia' noto. Stessa funzione di `check-mnw-sud.js`, che questa
+ * regola ce l'ha dal 20/8/2026.
+ */
+function escluse() {
+  const fuori = {};
+  try {
+    const html = fs.readFileSync(path.join(__dirname, '..', '..', 'index.html'), 'utf8');
+    const blocco = (html.match(/var\s+MH_ESCLUSE\s*=\s*\{([\s\S]*?)\n\};/) || [])[1];
+    if (!blocco) return fuori;
+    for (const riga of blocco.split('\n')) {
+      const reg = (riga.match(/([a-z]+)\s*:\s*\{/) || [])[1];
+      if (!reg) continue;
+      const nomi = riga.match(/'([^']+)'\s*:\s*true/g) || [];
+      fuori[reg] = fuori[reg] || {};
+      for (const x of nomi) fuori[reg][x.match(/'([^']+)'/)[1]] = true;
+    }
+  } catch (e) { console.warn('Warn: MH_ESCLUSE non letta (' + e.message + ')'); }
+  return fuori;
+}
+const ESCLUSE = escluse();
+let saltateEscluse = 0;
+
 let filiLetti = 0, filiStima = 0;
 
 for (const reg of regioni()) {
@@ -131,6 +159,11 @@ for (const reg of regioni()) {
     for (const s of (j.stations || [])) {
       if (typeof s.mm !== 'number' || typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
       const k = String(s.id);
+      /* ⚠️ In MH_ESCLUSE le regioni si chiamano «calabria», qui le cartelle
+         si chiamano «meteohub-calabria»: senza togliere il prefisso il filtro
+         non trova niente e le gia' escluse tornano nell'elenco ogni lunedi'. */
+      const chiaveReg = reg.replace(/^meteohub-/, '');
+      if (ESCLUSE[chiaveReg] && ESCLUSE[chiaveReg][k]) { if (!acc.has(k)) saltateEscluse++; acc.set(k, null); continue; }
       let a = acc.get(k);
       if (!a) { a = { regione: reg, id: k, nome: s.n, prov: s.p, quota: s.q, lat: s.lat, lon: s.lon, tot: 0, giorni: 0, per: new Array(giorni.length).fill(null) }; acc.set(k, a); }
       a.per[gi] = s.mm;
@@ -140,7 +173,7 @@ for (const reg of regioni()) {
       a.lat = s.lat; a.lon = s.lon;
     }
   }
-  for (const a of acc.values()) stazioni.push(a);
+  for (const a of acc.values()) if (a) stazioni.push(a);
 }
 
 // Solo chi ha consegnato con regolarità puo' essere giudicato: gli altri sono
