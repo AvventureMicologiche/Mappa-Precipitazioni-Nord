@@ -4209,27 +4209,75 @@ function positionPanels(){
   // time-panel: GAP sotto region-panel
   tp.style.top=(rpBottom+GAP)+'px';
 
-  // legend-panel: posiziona sempre visibile nel viewport
+  /* ⚠️ IL LIMITE E' IL FONDO DELLA MAPPA, NON `window.innerHeight`
+     (21/9/2026, segnalato da lui con una schermata: «perche' con questo pc la
+     legenda finisce fuori?»). Il pannello e' `position:absolute` DENTRO `#map`,
+     che ha `overflow:hidden`: quando la finestra e' bassa la mappa e' piu' corta
+     della finestra (c'e' il pie' di pagina sotto) e taglia il pannello. Col
+     riferimento sbagliato il conto tornava sempre e non si vedeva niente.
+     Misurato sul suo caso, 1536x702 px CSS (monitor 1920x1080 con Windows al
+     125%): mappa alta 618, pannello alto 219 a partire da 451 dentro la mappa,
+     cioe' 52 px fuori. Sparivano DUE voci intere della legenda.
+     Sopra i ~745 px di finestra non succede; sotto i ~720 si mangia l'ultima
+     riga. Non l'ha causato il decimo colore: il pannello e' alto uguale, prima
+     si perdeva una voce sola invece di due. */
   if(leg.style.display!=='none'){
     var tpBottom = tp.offsetTop + tp.offsetHeight;
     var legTop = tpBottom + GAP;
+    /* ⚠️ SI MISURA L'ALTEZZA NATURALE, non quella gia' tagliata da un giro
+       precedente: se no il conto si fa su un numero che dipende da se stesso e
+       al secondo giro il tetto si annulla da solo (visto il 21/9 sui boschi a
+       1024x700, quando l'osservatore ha cominciato a richiamare questa
+       funzione). Azzerare prima di leggere la rende ripetibile. */
+    leg.style.maxHeight = '';
     var legH = leg.offsetHeight;
-    // Margine extra per taskbar Windows e bordi browser
-    var maxBottom = window.innerHeight - 30;
-    // Se non ci sta, ancorala al fondo con margine
+    /* `clientHeight` del contenitore che lo ospita: e' quello che taglia. Il
+       -10 e' il margine sotto, come il 10 a sinistra. */
+    var conten = leg.offsetParent ? leg.offsetParent.clientHeight : window.innerHeight;
+    var maxBottom = conten - 10;
     if(legTop + legH > maxBottom){
-      legTop = maxBottom - legH;
+      /* Prima si prova ad alzarlo, ma MAI sopra il pannello periodo: se no
+         finisce sotto i tasti dei giorni e si perde comunque. */
+      legTop = Math.max(tpBottom + GAP, maxBottom - legH);
     }
     if(legTop < 0) legTop = 10;
     leg.style.top = legTop + 'px';
     leg.style.left = '10px';
-    leg.style.width = '400px';
+    /* ⚠️ la larghezza la decide il CSS quando la finestra e' bassa (tre
+       colonne): qui si scrive solo se il CSS non l'ha gia' allargato. */
+    leg.style.width = (window.innerHeight <= 780 && window.innerWidth >= 901
+                       && document.body.classList.contains('modo-boschi')) ? '' : '400px';
+    /* Se lo spazio non basta comunque, il pannello si accorcia e scorre: meglio
+       una legenda da scorrere che due voci invisibili. Il 110 e' il minimo per
+       non ridurlo a una fessura. */
+    var spazio = maxBottom - legTop;
+    leg.style.maxHeight = (legH > spazio ? Math.max(110, spazio) + 'px' : '');
   }
 }
 
 function positionLegend(){
   positionPanels();
   setTimeout(positionPanels, 30);
+  /* ⚠️ IL PANNELLO CRESCE DOPO (21/9/2026): il radar riempie la sua legenda
+     quando arrivano le durate, i boschi quando arriva `indice.json`. Misurato a
+     30 ms il pannello e' ancora corto, il tetto d'altezza viene calcolato su un
+     numero vecchio e poi sborda (visto sul radar a 1024x700, +10 px: c'era gia'
+     prima di questa modifica). Invece di indovinare un ritardo piu' lungo si
+     guarda quando cambia davvero, e si riposiziona; il confronto con l'ultima
+     altezza vista evita il ciclo infinito, perche' positionPanels scrive
+     `max-height` e quello fa scattare di nuovo l'osservatore. */
+  try{
+    var leg=document.getElementById('legend-panel');
+    if(leg && window.ResizeObserver && !leg._osserva){
+      var ultima=-1;
+      leg._osserva=new ResizeObserver(function(){
+        var h=leg.offsetHeight;
+        if(Math.abs(h-ultima)<2) return;
+        ultima=h; positionPanels();
+      });
+      leg._osserva.observe(leg);
+    }
+  }catch(e){}
 }
 
 function showLegendMobile(){
@@ -11860,6 +11908,19 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 @media(min-width:901px){.modo-boschi .leg-header{justify-content:flex-start}}
 .bo-tit{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#1b3f6e;margin:2px 0 6px}
 .bo-griglia{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:12.5px;color:#33404f}
+/* ⚠️ FINESTRA BASSA: LEGENDA SU TRE COLONNE (21/9/2026). Con dieci voci su
+   due colonne il pannello e' alto 219 px, e su un monitor 1920x1080 con
+   Windows al 125% la finestra e' 702 px CSS: la mappa e' alta 618 e ne
+   taglia due. Su tre colonne sono quattro righe invece di cinque, 197 px,
+   e alla sua misura si vedono tutte e dieci. Il pannello si allarga a 660:
+   c'e' spazio, e l'etichetta piu' lunga («carpino nero, orniello e aceri»)
+   non va a capo. Sopra i 780 px di finestra resta com'era, due colonne. */
+@media (min-width:901px) and (max-height:780px){
+  /* ⚠️ SOLO NEI BOSCHI: la pioggia e il radar non hanno la griglia, e
+     allargarli a 660 px li cambierebbe senza guadagnarci niente. */
+  body.modo-boschi #legend-panel{width:660px !important;}
+  body.modo-boschi #legend-panel .bo-griglia{grid-template-columns:repeat(3,1fr);}
+}
 .bo-riga{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .bo-sw{width:13px;height:13px;border-radius:3px;flex:none}
 /* le carte usate e quelle che mancano si devono leggere (16/9/2026, sua

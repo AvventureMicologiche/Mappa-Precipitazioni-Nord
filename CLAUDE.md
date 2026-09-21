@@ -2049,6 +2049,41 @@ riquadri, ⚠️ troncati a 500 per riquadro, quindi stima). E' la stessa forma 
 difetto piemontese ma c'era da prima. Per deciderlo serve la tabella dei nomi
 siciliana (`V_06070202`), che quel server non lascia interrogare. Da fare.
 
+### ⚠️ LA LEGENDA TAGLIATA SU FINESTRA BASSA (21 settembre 2026)
+
+Sua schermata: «perche' con questo pc la legenda finisce fuori?». Monitor
+1920x1080 con **Windows al 125%** = finestra **1536x702 px CSS**. Sparivano due
+voci intere.
+
+⚠️ **IL LIMITE E' IL FONDO DELLA MAPPA, NON `window.innerHeight`.** Il pannello
+e' `position:absolute` dentro `#map`, che ha `overflow:hidden`. Quando la
+finestra e' bassa la mappa e' piu' corta della finestra (sotto c'e' il pie' di
+pagina) e taglia. `positionPanels` controllava la finestra, quindi il conto
+tornava sempre e non si vedeva niente: alla sua misura mappa alta 618, pannello
+219 a partire da 451, **52 px fuori**. In produzione sbordava in **sei casi su
+nove** fra le misure provate, fino a 71 px.
+
+Non l'ha causato il decimo colore: il pannello e' alto uguale con nove voci, si
+perdeva una voce sola invece di due.
+
+**Il rimedio e' triplo, perche' da solo nessuno bastava:**
+1. il limite e' `leg.offsetParent.clientHeight`, cioe' la mappa; se non basta il
+   pannello si accorcia e scorre invece di tagliare;
+2. sotto i 780 px di finestra la legenda dei boschi va su **tre colonne** e il
+   pannello si allarga a 660 (⚠️ **solo `body.modo-boschi`**: pioggia e radar non
+   hanno la griglia e allargarli non serviva a niente);
+3. un `ResizeObserver` sul pannello, perche' **cresce dopo** il posizionamento
+   (il radar quando arrivano le durate, i boschi con `indice.json`): a 30 ms era
+   ancora corto e il tetto si calcolava su un numero vecchio.
+
+⚠️ **Il tetto si calcola sull'altezza NATURALE**: `max-height` si azzera prima di
+misurare. Senza, il conto si fa su un numero che dipende da se stesso e al
+secondo giro si annulla da solo (lo ha fatto venire fuori l'osservatore).
+
+**Collaudo**: `prova-tre-modi.js` (6 misure x 3 modalita' = 18 combinazioni,
+tutte dentro la mappa) e `prova-telefono-legenda.js` (360x640 e 393x760
+identici a prima: la regola parte da 901 px).
+
 ⚠️ **Valle d'Aosta, unica mappata per COLORE**: i 17 titoli del server
 combaciano ancora uno a uno. I pixel di bordo fuori legenda vanno al colore piu'
 vicino entro 35; quelli davvero scartati sono l'**1,45%**, misurato.
