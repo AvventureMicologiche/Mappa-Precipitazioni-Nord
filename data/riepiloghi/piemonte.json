@@ -1,24 +1,16 @@
 {
  "regione": "piemonte",
- "generato": "2026-09-21T15:53:05.011Z",
+ "generato": "2026-09-22T08:41:27.542Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 277,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-20",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-21",
    "top": [
     {
-     "n": "ALBANO VERCELLESE (Vercelli)",
-     "mm": 0.2
-    },
-    {
-     "n": "AVIGLIANA (Torino)",
-     "mm": 0.2
-    },
-    {
-     "n": "ALPE DEVERO (Provincia del verbano cusio os)",
+     "n": "SANTENA BANNA (Torino)",
      "mm": 0.2
     },
     {
@@ -26,7 +18,15 @@
      "mm": 0.2
     },
     {
-     "n": "UPEGA (Cuneo)",
+     "n": "BERGALLI (Cuneo)",
+     "mm": 0.2
+    },
+    {
+     "n": "VARALLO POMBIA (Novara)",
+     "mm": 0.2
+    },
+    {
+     "n": "VIU' CENTRALE FUCINE (Torino)",
      "mm": 0.2
     }
    ]
@@ -35,8 +35,8 @@
    "media": 7.8,
    "giorni": 7,
    "stazioni": 280,
-   "primo": "2026-09-14",
-   "ultimo": "2026-09-20",
+   "primo": "2026-09-15",
+   "ultimo": "2026-09-21",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -64,12 +64,12 @@
    "media": 30.1,
    "giorni": 20,
    "stazioni": 284,
-   "primo": "2026-09-01",
-   "ultimo": "2026-09-20",
+   "primo": "2026-09-02",
+   "ultimo": "2026-09-21",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
-     "mm": 137.1
+     "mm": 137.3
     },
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 61.8,
+   "media": 61.6,
    "giorni": 30,
    "stazioni": 287,
-   "primo": "2026-08-22",
-   "ultimo": "2026-09-20",
+   "primo": "2026-08-23",
+   "ultimo": "2026-09-21",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -102,11 +102,11 @@
     },
     {
      "n": "UNCHIO TROBASO (Provincia del verbano cusio os)",
-     "mm": 187.6
+     "mm": 187.4
     },
     {
      "n": "CANDOGLIA TOCE (Provincia del verbano cusio ossola)",
-     "mm": 175.2
+     "mm": 175
     },
     {
      "n": "OMEGNA LAGO D'ORTA (Provincia del verbano cusio ossola)",
@@ -114,7 +114,7 @@
     },
     {
      "n": "FOBELLO (Vercelli)",
-     "mm": 164.3
+     "mm": 164.1
     }
    ]
   }
