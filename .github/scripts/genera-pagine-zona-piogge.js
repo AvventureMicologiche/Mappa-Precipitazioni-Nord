@@ -43,6 +43,19 @@ const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json')
 
 const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
+// ⚠️ L'ANTEPRIMA DELLA MAPPA, dal ramo `anteprime` (22/9/2026, sua richiesta:
+// «ce l'abbiamo, usiamolo»). Era l'unica famiglia di pagine senza: regione,
+// zone funghi e paesi ce l'hanno tutte, queste no.
+// Non si genera niente di nuovo: e' la STESSA immagine della regione di casa,
+// che anteprime.yml riscrive ogni giorno. Quindi zero lavoro in piu' e zero
+// crediti Netlify — le immagini non stanno nel sito ma su un ramo a se', e le
+// serve raw.githubusercontent.
+// ⚠️ IL BOTTONE E' `.cta`, NON `.vai-mappa`. La zona funghi usa `.vai-mappa`
+// perche' quella classe sta nel foglio della famiglia funghi; queste pagine
+// prendono lo stile dalla PAGINA REGIONE, dove `.vai-mappa` non esiste e
+// sarebbe rimasta testo nudo. `.cta` in quel foglio c'e' gia' ed e' la stessa
+// che usano i tre riquadri qui sopra: un bottone solo, niente CSS nuovo.
+const ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime';
 const GA_ID = 'G-9R7MXXS0V4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 
@@ -174,6 +187,17 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], [nomeReg, `${SITO}/${casa.k
 ${righe}
 </tbody>
 </table>
+
+<h2>Ecco cosa vedi sulla mappa</h2>
+<p class="nota" style="margin-top:0">L'anteprima è la mappa ${casa.prep} ${esc(nomeReg)}, regione intera, aggiornata ogni giorno. Il link apre la mappa già inquadrata ${esc(z.dove)}.</p>
+<a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}&amp;z=10&amp;c=${z.lat},${z.lon}" style="display:block;text-decoration:none;"
+   onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-anteprima'})}catch(e){}">
+  <img src="${ANTEPRIME}/${casa.k}.jpg"
+       alt="La mappa delle piogge ${casa.prep} ${esc(nomeReg)}"
+       width="1600" height="1000" loading="lazy"
+       style="width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);">
+  <span class="cta" style="margin:14px 0 2px">Apri la mappa ${esc(z.dove)} · ultimi 20 giorni →</span>
+</a>
 
 <h2>Sta piovendo adesso?</h2>
 <p>Questa pagina conta i millimetri dei giorni <b>già chiusi</b>: la giornata di oggi è
