@@ -261,10 +261,12 @@ rigaStagione() + '\n' +
 'per un periodo scelto da te, <a href="' + SITO + '/?r=' + REGS + '&amp;g=20&amp;' + PIN +
    '" style="color:var(--blu)">apri ' + esc(z.n) + ' sulla mappa</a>.</div>\n\n' +
 '<div class="patto">\n' +
-'  <p><b>Cosa NON trovi qui:</b> una previsione di quanti funghi ci saranno. Attendibile non la\n' +
-'  fa nessuno, e noi non ce la inventiamo.</p>\n' +
-'  <p><b>Cosa trovi:</b> quanta acqua è caduta ' + esc(z.dove) + ', pluviometro per pluviometro, con la\n' +
-'  data. Il bosco poi lo conosci tu meglio di qualunque sito.</p>\n' +
+'  <p><b>A cosa serve:</b> a pianificare le tue uscite. Quanta acqua è caduta ' + esc(z.dove) + 
+', pluviometro per pluviometro e con la data, misurata a terra, non stimata.' +
+(haBoschi(casa.k) ? ' Che boschi ci sono, tipo per tipo.' : '') +
+' E la diretta radar, se vuoi sapere se sta piovendo adesso. Il posto esatto, poi, lo sai tu meglio di qualunque sito.</p>\n' +
+'  <p>Non è una previsione di quanti funghi ci saranno: attendibile non la fa\n' +
+'  nessuno, e noi non ce la inventiamo.</p>\n' +
 '  <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi\n' +
 '  valgono regole proprie.</p>\n' +
 '</div>\n\n' +
