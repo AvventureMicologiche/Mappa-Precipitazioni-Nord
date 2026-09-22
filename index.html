@@ -4102,6 +4102,42 @@ function evidenziaMarker(m){
 // un clic sulla mappa, e non deve ne' aprire una stazione ne' chiudere niente.
 var SOPRA_LA_MAPPA='#st-history,#legend-panel,#time-panel,#region-panel,#reg-sheet,#map-hint-panel,.leaflet-control';
 
+/* ═══ «PORTAMI QUI» — 22/9/2026 ═══════════════════════════════════════════
+   Il pezzo di HTML del tasto, con le coordinate del punto TOCCATO.
+   ⚠️ Sta qui e non dentro il blocco dei boschi perche' serve a tutt'e due, e
+   quel blocco e' un <script> separato che NON vede le funzioni di qui (e'
+   scritto nel CLAUDE.md, «le funzioni del sito non sono globali»). Per questo
+   e' esposta su window, come _fitRegioni e _centraStriscia.
+   ⚠️ Sei decimali sono ~11 cm: oltre e' finta precisione. Quattro nella riga
+   che si legge, che ne vale ~11 metri ed e' gia' piu' di quanto serva a uno
+   che deve arrivarci.
+   ⚠️ L'indirizzo con `api=1` e la SOLA destinazione e' quello che funziona
+   dappertutto: sul computer apre la pagina, su Android l'app, su iPhone l'app
+   se c'e'. Mettere anche l'origine vorrebbe dire scrivere la posizione di chi
+   guarda dentro un indirizzo che finisce nella cronologia. */
+/* ⚠️ IL SEGNAPOSTO E' NOSTRO, NON QUELLO DI GOOGLE (22/9/2026). Lui aveva
+   chiesto «il simbolo di Google Maps, cosi' e' piu' chiaro»: la goccia a
+   quattro colori e' un marchio registrato, e riprodurla per conto nostro
+   apre una questione che non vale un'icona. La stessa chiarezza si ottiene
+   SCRIVENDOLO — «apre Google Maps» sotto il tasto — che e' un uso del nome
+   per dire dove si va, e quello si puo' fare. Se un giorno si volesse
+   l'icona vera, si scarica dalle linee guida del marchio di Google e si
+   seguono le loro regole, non si ridisegna a occhio. */
+var PIN='<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"'
+  +' style="vertical-align:-2px;margin-right:5px"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75'
+  +' 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+
+function vaiQui(ll,da){
+  if(!ll||ll.lat==null||ll.lng==null) return '';
+  var p=ll.lat.toFixed(6)+','+ll.lng.toFixed(6);
+  return '<a class="bo-nuv-vai" target="_blank" rel="noopener"'
+       + ' href="https://www.google.com/maps/dir/?api=1&amp;destination='+encodeURIComponent(p)+'"'
+       + ' onclick="try{gtag(\'event\',\'portami_qui\',{da:\''+(da||'mappa')+'\'})}catch(e){}">'
+       + PIN+'Portami qui con Google Maps</a>'
+       + '<div class="bo-nuv-co">'+ll.lat.toFixed(4)+', '+ll.lng.toFixed(4)+'</div>';
+}
+window._vaiQui=vaiQui;
+
 map.on('click',function(e){
   if(Date.now()-histOpenedAt<400) return;
   // ⚠️ Rete di sicurezza oltre a disableClickPropagation: quella va messa a
@@ -12057,6 +12093,29 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 .bo-nuv-riga{display:flex;align-items:center;gap:7px}
 .bo-nuv-sub{font-size:12px;color:#5a6b7d}
 .bo-nuv-riga + .bo-nuv-sub{margin-top:2px;padding-left:20px}
+/* «Portami qui» dentro la nuvoletta del tocco (22/9/2026). Il punto e' QUELLO
+   CHE HAI TOCCATO, non un pluviometro: e' li' che uno vuole andare, perche' ha
+   scelto guardando la pioggia e il bosco. Il pluviometro puo' stare nella
+   piazza del paese. */
+/* ⚠️ IL TASTO STA SOTTO IL BOSCO, E ZITTO (22/9/2026, sua correzione: «sovrasta
+   troppo il tipo di bosco, che è l'utilità principale, dovrebbe essere
+   l'inverso»). Prima era una pasticca verde piena e si mangiava la nuvoletta.
+   Adesso e' una riga di testo: il nome dell'albero resta la cosa grossa, il
+   «Portami qui» e' un rimando, che e' quello che deve essere. */
+.bo-nuv-vai{display:inline-block;margin-top:7px;color:#2e6b45 !important;
+  text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap;
+  background:#eef6f1;border:1px solid #cfe3d7;border-radius:7px;padding:4px 9px}
+.bo-nuv-vai:hover,.bo-nuv-vai:focus{background:#e0efe6;border-color:#9fc9b1;color:#245437 !important}
+.bo-nuv-vai:active{background:#d3e7db}
+.bo-nuv-co{font-size:10.5px;color:#8b98a8;margin-top:3px;
+  font-variant-numeric:tabular-nums}
+/* La crocetta di Leaflet cadeva SOPRA il nome del bosco: il contenuto si
+   sposta a sinistra quel tanto che basta, e la crocetta si allarga un po'
+   perche' col dito una x di 12 px non si prende. */
+.bo-nuv .leaflet-popup-content{margin-right:22px}
+.bo-nuv .leaflet-popup-close-button{width:24px;height:24px;font-size:18px;
+  padding:3px 4px 0 0;color:#7a889a}
+.bo-nuv .leaflet-popup-close-button:hover{color:#1f2d3d}
 /* con la tendina la pioggia torna, ma solo a sinistra della linea (la taglia il JS) */
 .modo-boschi.bo-tendina #map .leaflet-overlay-pane canvas{display:block !important}
 /* e con lei la sua scala dei millimetri, se no la meta' pioggia non si legge */
@@ -12334,7 +12393,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
      guarda intorno per qualche pixel: sul telefono il dito e' grosso e un
      «qui non c'e' bosco» a due metri da una faggeta sembrerebbe un difetto. */
   var TOCCO=window.matchMedia && matchMedia('(hover:none) and (pointer:coarse)').matches;
-  var nuvola=null;
+  var nuvola=null, nuvTimer=null;   // nuvTimer: la chiusura da sola delle nuvolette vuote
 
   function hexRgb(h){ h=h.replace('#',''); return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]; }
 
@@ -12403,8 +12462,31 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     else if(r.esito==='lontano') html='<div class="bo-nuv-sub">Avvicinati per leggere i boschi</div>';
     else if(r.esito==='attesa') html='<div class="bo-nuv-sub">Un attimo, la mappa si sta caricando</div>';
     else html='<div class="bo-nuv-sub">Qui la carta non segna bosco</div>';
-    if(!nuvola) nuvola=L.popup({className:'bo-nuv',closeButton:false,autoPan:false,offset:[0,-4]});
+    /* ⚠️ «PORTAMI QUI» PORTA AL PUNTO TOCCATO, NON AL PLUVIOMETRO (22/9/2026,
+       sua correzione: «cosa gliene frega del pluviometro, che magari sta nella
+       piazza del paese?»). E' il senso di tutto il sito messo in un tasto: uno
+       guarda dov'e' piovuto, guarda che bosco c'e', tocca il punto che gli
+       piace e ci va. Il pluviometro serve a SAPERE, non e' la destinazione.
+       Sta qui dentro e non altrove perche' questa nuvoletta esiste gia' e dice
+       gia' che albero c'e' sotto il dito: mancava solo come arrivarci.
+       ⚠️ La posizione di chi guarda non entra nel link: c'e' la sola
+       destinazione, la strada la calcola Google col suo punto di partenza. */
+    html+=(window._vaiQui?window._vaiQui(e.latlng,'boschi'):'');
+    /* ⚠️ LA NUVOLETTA ADESSO SI CHIUDE (22/9/2026, suo fastidio: «resta acceso,
+       tu non puoi toglierlo, e sul mare dice lo stesso che non ci sono boschi»).
+       Due rimedi insieme, e tutt'e due servono:
+       · la crocetta, perche' chiuderla deve essere possibile SEMPRE e subito;
+       · un tempo, ma SOLO quando la nuvoletta non ha niente da dire (mare,
+         «avvicinati», «un attimo»). ⚠️ Le altre NON si chiudono da sole,
+         perche' adesso portano «Portami qui»: un tasto che sparisce mentre
+         qualcuno ci sta allungando il dito e' peggio di una nuvoletta di
+         troppo. Quelle le chiude la crocetta o il tocco dopo. */
+    if(!nuvola) nuvola=L.popup({className:'bo-nuv',closeButton:true,autoPan:false,offset:[0,-4]});
+    if(nuvTimer){ clearTimeout(nuvTimer); nuvTimer=null; }
     nuvola.setLatLng(e.latlng).setContent(html).openOn(map());
+    if(r.esito!=='si'&&r.esito!=='intorno'){
+      nuvTimer=setTimeout(function(){ try{ map().closePopup(nuvola); }catch(_){} nuvTimer=null; },4000);
+    }
     try{ gtag('event','click_boschi',{stato:'tocco',esito:r.esito,gruppo:r.gruppo||''}); }catch(_){}
   }
 
