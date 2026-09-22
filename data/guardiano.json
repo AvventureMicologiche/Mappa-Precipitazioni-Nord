@@ -382,8 +382,20 @@
       "quando": "2026-09-21T16:27:57.443Z",
       "inRitardo": [],
       "lanciati": []
+    },
+    {
+      "quando": "2026-09-22T12:06:38.507Z",
+      "inRitardo": [],
+      "lanciati": [],
+      "mancanti": [
+        {
+          "dir": "meteohub-friuli",
+          "giorno": "2026-09-21",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-09-21T16:27:57.443Z",
-  "riassunto": "0 giri con qualcosa in ritardo su 75"
+  "aggiornato": "2026-09-22T12:06:38.507Z",
+  "riassunto": "0 giri con qualcosa ri-lanciato su 76 · 1 con qualche giorno mancante · 0 con un buco di 2+ giorni"
 }
