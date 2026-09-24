@@ -2740,6 +2740,10 @@ var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+/* ⚠️ Esposto perche' il modulo dei boschi e' uno <script> SEPARATO e non vede
+   le funzioni di qui: in modo boschi scambia il fondo con uno SENZA NOMI, per
+   poterli rimettere sopra il rilievo. Stesso motivo di _mapDebug e _vaiQui. */
+window._baseTiles=baseTiles;
 
 /**
  * Esegue `cb` quando la mappa ha davvero DISEGNATO le tile della vista attuale.
@@ -4111,10 +4115,13 @@ var SOPRA_LA_MAPPA='#st-history,#legend-panel,#time-panel,#region-panel,#reg-she
    ⚠️ Sei decimali sono ~11 cm: oltre e' finta precisione. Quattro nella riga
    che si legge, che ne vale ~11 metri ed e' gia' piu' di quanto serva a uno
    che deve arrivarci.
-   ⚠️ L'indirizzo con `api=1` e la SOLA destinazione e' quello che funziona
-   dappertutto: sul computer apre la pagina, su Android l'app, su iPhone l'app
-   se c'e'. Mettere anche l'origine vorrebbe dire scrivere la posizione di chi
-   guarda dentro un indirizzo che finisce nella cronologia. */
+   ⚠️ APRE SUL PUNTO, NON SULLE INDICAZIONI (23/9/2026, sua correzione):
+   `maps/search/?api=1&query=lat,lon` apre la mappa centrata li' con lo spillo,
+   e poi decide lui se salvare il posto, guardare il satellite o farsi portare.
+   Il suo motivo, ed e' giusto: «dare noi le indicazioni vai li', che poi e' un
+   posto impervio o un burrone, non mi pare intelligente». L'evento GA passa da
+   `portami_qui` (un giorno di vita) a `apri_maps`, che dice quello che fa.
+   ⚠️ La posizione di chi guarda non entra comunque nell'indirizzo. */
 /* ⚠️ IL SEGNAPOSTO E' NOSTRO, NON QUELLO DI GOOGLE (22/9/2026). Lui aveva
    chiesto «il simbolo di Google Maps, cosi' e' piu' chiaro»: la goccia a
    quattro colori e' un marchio registrato, e riprodurla per conto nostro
@@ -4131,9 +4138,9 @@ function vaiQui(ll,da){
   if(!ll||ll.lat==null||ll.lng==null) return '';
   var p=ll.lat.toFixed(6)+','+ll.lng.toFixed(6);
   return '<a class="bo-nuv-vai" target="_blank" rel="noopener"'
-       + ' href="https://www.google.com/maps/dir/?api=1&amp;destination='+encodeURIComponent(p)+'"'
-       + ' onclick="try{gtag(\'event\',\'portami_qui\',{da:\''+(da||'mappa')+'\'})}catch(e){}">'
-       + PIN+'Portami qui con Google Maps</a>'
+       + ' href="https://www.google.com/maps/search/?api=1&amp;query='+encodeURIComponent(p)+'"'
+       + ' onclick="try{gtag(\'event\',\'apri_maps\',{da:\''+(da||'mappa')+'\'})}catch(e){}">'
+       + PIN+'Apri su Google Maps</a>'
        + '<div class="bo-nuv-co">'+ll.lat.toFixed(4)+', '+ll.lng.toFixed(4)+'</div>';
 }
 window._vaiQui=vaiQui;
@@ -9449,15 +9456,55 @@ function captureMapBlob(scala){
     // sfondo (il colore del contenitore mappa, visibile dove non c'è tile)
     ctx.fillStyle=getComputedStyle(mapEl).backgroundColor||'#e8ecf1';
     ctx.fillRect(0,0,mr.width,mr.height+hdrH);
+    /* 0) IL RILIEVO PRIMA DI TUTTO (24/9/2026). A schermo sta SOTTO le tessere
+       di OSM, che ci si fondono sopra in `multiply`; la foto lo disegnava
+       invece sopra, come uno strato qualsiasi, e usciva una mappa diversa da
+       quella che uno vede.
+       ⚠️ SU UN FOGLIO A PARTE, TRASPARENTE. A schermo la fusione avviene
+       dentro il piano della mappa, dove sotto le tessere non c'e' niente: il
+       grigio di fondo di Leaflet NON entra nel conto (misurato: dove non c'e'
+       rilievo i pixel sono identici con e senza fusione). Fondendo OSM
+       direttamente sopra il fondo, la foto usciva scura del 13%. */
+    var pRil=mapEl.querySelector('.leaflet-bo-rilievo-pane');
+    var tpEl=mapEl.querySelector('.leaflet-tile-pane');
+    var fondiOsm=!!(pRil && tpEl && getComputedStyle(tpEl).mixBlendMode==='multiply');
+    /* LA TENDINA ANCHE NELLA FOTO (24/9/2026): a schermo la pioggia sta a
+       sinistra della linea, boschi e rilievo a destra. La foto disegnava tutti
+       e tre su tutta la larghezza. `tx` e' la linea in px dal bordo sinistro
+       della mappa, che nello scatto e' anche x=0. */
+    var tx=window._tendinaX?window._tendinaX():null;
+    var soloDx=function(c){ if(tx==null) return; c.beginPath(); c.rect(tx,-1e5,2e5,2e5); c.clip(); };
+    var soloSx=function(c){ if(tx==null) return; c.beginPath(); c.rect(-1e5,-1e5,1e5+tx,2e5); c.clip(); };
+    var fg=null, fctx=ctx;
+    if(fondiOsm){
+      fg=document.createElement('canvas'); fg.width=out.width; fg.height=out.height;
+      fctx=fg.getContext('2d'); fctx.setTransform(ctx.getTransform());
+      fctx.save(); soloDx(fctx);
+      fctx.globalAlpha=+(getComputedStyle(pRil).opacity)||1;
+      [].slice.call(pRil.querySelectorAll('img.leaflet-tile')).forEach(function(t){
+        if(!t.complete||!t.naturalWidth||!visibile(t)) return;
+        var r=rel(t); try{ fctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
+      });
+      fctx.restore();
+    }
     // 1) tile della mappa base
     var tiles=mapEl.querySelectorAll('.leaflet-tile');
     for(var i=0;i<tiles.length;i++){
       var t=tiles[i];
       if(!t.complete||!t.naturalWidth||!visibile(t)) continue;
       if(t.closest('.leaflet-boschi-pane')) continue;   // il retino dei boschi va sopra la pioggia, piu' giu'
+      if(t.closest('.leaflet-bo-rilievo-pane')) continue;   // gia' sul foglio, sotto
       var r=rel(t);
-      try{ ctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
+      // solo OSM si fonde col rilievo, sul foglio; il radar e gli altri strati vanno sopra, normali
+      if(fondiOsm && tpEl.contains(t)){
+        fctx.globalCompositeOperation='multiply';
+        try{ fctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
+      } else {
+        if(fg){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(fg,0,0); ctx.restore(); fg=null; }
+        try{ ctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
+      }
     }
+    if(fg){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(fg,0,0); ctx.restore(); }
     // 2) confini, heatmap e marker NELL'ORDINE DI SOVRAPPOSIZIONE DELLA PAGINA:
     // il canvas della heat ha z-index 200 dentro l'overlay pane, quindi copre i
     // confini (che essendo sotto risultano più chiari); i marker stanno sopra
@@ -9474,11 +9521,11 @@ function captureMapBlob(scala){
     return raster(svgOverlay).then(function(sotto){
       sotto.forEach(function(d){ if(d.im){ try{ ctx.drawImage(d.im,d.r.x,d.r.y,d.r.w,d.r.h); }catch(e){} } });
       var heat=mapEl.querySelector('.leaflet-overlay-pane canvas');
-      if(heat&&visibile(heat)){ var rh=rel(heat); try{ ctx.drawImage(heat,rh.x,rh.y,rh.w,rh.h); }catch(e){} }
+      if(heat&&visibile(heat)){ var rh=rel(heat); ctx.save(); soloSx(ctx); try{ ctx.drawImage(heat,rh.x,rh.y,rh.w,rh.h); }catch(e){} ctx.restore(); }
       // retino «Tipi di bosco» (15/9/2026): sopra la pioggia, sotto i pallini, come a schermo
       var bt=window._boschiTessere?window._boschiTessere():[];
       if(bt.length){
-        ctx.save(); ctx.globalAlpha=window._boschiOpacita||1;
+        ctx.save(); soloDx(ctx); ctx.globalAlpha=window._boschiOpacita||1;
         bt.forEach(function(t){
           if(!t.complete||!t.naturalWidth) return;
           var rb=rel(t); try{ ctx.drawImage(t,rb.x,rb.y,rb.w,rb.h); }catch(e){}
@@ -12088,10 +12135,18 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 .bo-tend-btn{flex:none;font-size:12.5px;font-weight:700;color:#1b3f6e;background:#eef3fb;border:1px solid #c9d6ea;border-radius:14px;padding:3px 11px;cursor:pointer;white-space:nowrap;user-select:none}
 .bo-tend-btn:hover{background:#dfe8f6}
 .bo-tendina .bo-tend-btn{background:#1b3f6e;color:#fff;border-color:#1b3f6e}
-.bo-nuv .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.bo-nuv .leaflet-popup-content{margin:8px 12px;font-size:13.5px;color:#1f2d3d;line-height:1.35}
+/* ⚠️ LA NUVOLETTA E' SCURA, COME NEL MOCKUP APPROVATO (23/9/2026, sua
+   correzione: «se approviamo il mockup mi aspetto che poi usi quei colori»).
+   Il tasto verde del mockup e' stato scelto SU QUESTO fondo: messo su una
+   nuvoletta chiara non e' piu' la stessa scelta. Colori presi uno per uno da
+   mockup-orientamento/insieme.html: fondo #1e1e1e, righe #aaa e #ddd, tasto
+   A verde #2f6f4f (contrasto 5,99). */
+.bo-nuv .leaflet-popup-content-wrapper{background:#1e1e1e;color:#fff;border-radius:8px;
+  box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.bo-nuv .leaflet-popup-tip{background:#1e1e1e}
+.bo-nuv .leaflet-popup-content{margin:8px 12px;font-size:13.5px;color:#fff;line-height:1.35}
 .bo-nuv-riga{display:flex;align-items:center;gap:7px}
-.bo-nuv-sub{font-size:12px;color:#5a6b7d}
+.bo-nuv-sub{font-size:12px;color:#aaa}
 .bo-nuv-riga + .bo-nuv-sub{margin-top:2px;padding-left:20px}
 /* «Portami qui» dentro la nuvoletta del tocco (22/9/2026). Il punto e' QUELLO
    CHE HAI TOCCATO, non un pluviometro: e' li' che uno vuole andare, perche' ha
@@ -12102,20 +12157,30 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
    l'inverso»). Prima era una pasticca verde piena e si mangiava la nuvoletta.
    Adesso e' una riga di testo: il nome dell'albero resta la cosa grossa, il
    «Portami qui» e' un rimando, che e' quello che deve essere. */
-.bo-nuv-vai{display:inline-block;margin-top:7px;color:#2e6b45 !important;
-  text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap;
-  background:#eef6f1;border:1px solid #cfe3d7;border-radius:7px;padding:4px 9px}
-.bo-nuv-vai:hover,.bo-nuv-vai:focus{background:#e0efe6;border-color:#9fc9b1;color:#245437 !important}
-.bo-nuv-vai:active{background:#d3e7db}
-.bo-nuv-co{font-size:10.5px;color:#8b98a8;margin-top:3px;
+/* 23/9: il tasto torna pieno, ma col testo di 12 px e stretto sul proprio
+   testo come nel mockup, cosi' il nome del bosco resta la cosa grossa. */
+.bo-nuv-vai{display:block;width:fit-content;margin:7px auto 0;color:#fff !important;
+  text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap;text-align:center;
+  background:#2f6f4f;border:1px solid transparent;border-radius:6px;padding:6px 12px}
+.bo-nuv-vai:hover,.bo-nuv-vai:focus{filter:brightness(1.12)}
+.bo-nuv-vai:active{filter:brightness(.92)}
+.bo-nuv-dato{display:flex;justify-content:space-between;gap:14px;font-size:12px;
+  color:#aaa;margin-top:3px}
+.bo-nuv-dato b{color:#ddd;font-weight:600;text-align:right}
+.bo-nuv-coda{font-size:11px;color:#8e8e8e;text-align:right;margin-top:-1px}
+.bo-nuv-co{font-size:10.5px;color:#8e8e8e;margin-top:3px;text-align:center;
   font-variant-numeric:tabular-nums}
 /* La crocetta di Leaflet cadeva SOPRA il nome del bosco: il contenuto si
    sposta a sinistra quel tanto che basta, e la crocetta si allarga un po'
    perche' col dito una x di 12 px non si prende. */
 .bo-nuv .leaflet-popup-content{margin-right:22px}
 .bo-nuv .leaflet-popup-close-button{width:24px;height:24px;font-size:18px;
-  padding:3px 4px 0 0;color:#7a889a}
-.bo-nuv .leaflet-popup-close-button:hover{color:#1f2d3d}
+  padding:3px 4px 0 0;color:#aaa !important}
+/* ⚠️ `!important` perche' `.leaflet-container a.leaflet-popup-close-button`
+   di Leaflet e' piu' specifico e la lasciava #757575, grigio su quasi nero. */
+.bo-nuv .leaflet-popup-close-button:hover{color:#fff !important}
+/* nuvoletta aperta SOTTO il punto (mettiInVista): la punta va sopra, girata */
+.bo-nuv-sotto .leaflet-popup-tip-container{top:-20px;transform:rotate(180deg)}
 /* con la tendina la pioggia torna, ma solo a sinistra della linea (la taglia il JS) */
 .modo-boschi.bo-tendina #map .leaflet-overlay-pane canvas{display:block !important}
 /* e con lei la sua scala dei millimetri, se no la meta' pioggia non si legge */
@@ -12177,7 +12242,25 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   // Lombardia): le fa `tessere-boschi.py` fondendo le carte regionali, cosi'
   // ai confini fra due regioni non ci sono tessere doppie. Quali regioni ci
   // sono dentro lo dice indice.json, e la legenda lo dichiara.
-  var BASE='tessere-boschi/italia/', OPACITA=0.7;
+  /* ⚠️ LE TESSERE STANNO IN UN REPO A PARTE, servite da jsDelivr (23/9/2026).
+     Sono dato DERIVATO e si rigenerano INTERE: nel repo del sito ogni giro
+     lasciava dentro .git, per sempre, un'altra copia di tutte e 31.482 — in tre
+     generazioni 233 MB, quasi meta' della storia. Di la' si tiene UN COMMIT
+     SOLO e si sovrascrive, quindi ridipingere tutto torna a costare zero.
+     E si va pure piu' veloce: 0,35 s a caldo contro gli 0,80 di Netlify.
+     ⚠️ `indice.json` si carica da BASE, quindi cambiando questa riga si sposta
+     anche l'indice: il test si ritrova i dieci colori senza copiare 190 MB. */
+  /* ⚠️ L'INDIRIZZO PORTA IL COMMIT, MAI `@main` (23/9/2026). Con `@main`
+     jsDelivr tiene la copia al bordo DODICI ORE: dopo una rigenerazione il
+     sito vedeva ancora l'indice vecchio (solo i livelli 11-13) e il rilievo
+     compariva solo zoomando. Un commit invece non cambia mai, e jsDelivr lo
+     serve «immutable» per un anno. A ogni rigenerazione delle tessere:
+     push forzato di la', poi QUI il codice nuovo (`git rev-parse HEAD`
+     nel repo delle tessere). Le vecchie copie spariscono da sole. */
+  var TESSERE_COMMIT='4f1c4bea745030425cb6a0f45af1757bff05155b';
+  var TESSERE='https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@'+TESSERE_COMMIT+'/';
+  var BASE=TESSERE+'boschi/', OPACITA=0.7;
+  var RILIEVO=TESSERE+'rilievo/', TERRENO=TESSERE+'terreno/', Z_TERRENO=12;
   var strato=null, acceso=false, indice=null, esistono={}, titoloVecchio=null, displayVecchio=null;
   var VUOTA='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
   /* ⚠️ «MAPPA BOSCHI» E NON «MAPPA FORESTALE»: misurato a 360 px, il nome
@@ -12202,7 +12285,12 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     });
     // ⚠️ i crediti NON stanno sullo strato: li gestisce aggiornaCrediti() secondo
     // le regioni scelte (con sei fonti tutte insieme occupavano tre righe sopra la mappa)
-    return new Tessere('',{pane:'boschi',opacity:OPACITA,minZoom:indice.z_min,maxNativeZoom:indice.z_max,maxZoom:19});
+    /* ⚠️ crossOrigin E' OBBLIGATORIO da quando le tessere stanno su jsDelivr
+       (23/9/2026). Senza, il browser le mostra ma ne vieta la lettura:
+       pixelTessera() falliva in silenzio e la nuvoletta diceva SEMPRE «si sta
+       caricando», anche con tutte le tessere a schermo. jsDelivr risponde
+       `access-control-allow-origin: *`, quindi basta chiederle cosi'. */
+    return new Tessere('',{pane:'boschi',opacity:OPACITA,minZoom:indice.z_min,maxNativeZoom:indice.z_max,maxZoom:19,crossOrigin:'anonymous'});
   }
 
   var creditoBoschi=null;
@@ -12211,11 +12299,14 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     if(creditoBoschi){ ac.removeAttribution(creditoBoschi); creditoBoschi=null; }
     if(!acceso) return;
     var rk=(window._regioniAttive?window._regioniAttive():[]).filter(function(k){ return indice.regioni[k]; });
-    if(!rk.length) return;
-    creditoBoschi='boschi: '+rk.map(function(k){
+    /* ⚠️ IL RILIEVO VA CITATO (24/9/2026): TINITALY e' CC BY 4.0, e il rilievo
+       sta acceso in tutto il modo boschi, anche dove la carta dei boschi non
+       c'e'. Citazione presa dal DOI, non scritta a memoria. */
+    var ril='rilievo: <a href="https://doi.org/10.13127/tinitaly/1.1" target="_blank" rel="noopener">TINITALY 1.1, INGV</a> (CC BY 4.0)';
+    creditoBoschi=(rk.length ? 'boschi: '+rk.map(function(k){
       var r=indice.regioni[k];
       return '<a href="'+r.link+'" target="_blank" rel="noopener">'+r.fonte+'</a> ('+r.licenza+')';
-    }).join(', ');
+    }).join(', ')+', ' : '')+ril;
     ac.addAttribution(creditoBoschi);
   }
 
@@ -12294,6 +12385,145 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function riposiziona(){ setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30); }
 
 
+  /* ═══════════ IL RILIEVO (23/9/2026) ═══════════
+     Cotto in tessere z5-13 da TINITALY a 10 m, e messo SOTTO le tessere di
+     OSM, che si fondono in `multiply`.
+     ⚠️ Perche' sotto e non sopra: il nero del testo moltiplicato per qualunque
+     cosa RESTA NERO, quindi i nomi di OSM non si toccano; il rilievo si vede
+     attraverso il bianco e i colori chiari. Cosi' non serve cambiare la mappa
+     di base, e dove il rilievo non c'e' — Svizzera, Francia, Austria,
+     Slovenia, e le pianure dove non c'e' niente da ombreggiare — resta la
+     mappa normale invece di un fondo vuoto.
+     Il primo tentativo metteva un fondo grigio senza nomi per poterli
+     rimettere sopra: risolveva la leggibilita' e rompeva quattro altre cose
+     (laghi grigi, estero vuoto, nomi di un altro carattere, cinque strati da
+     scaricare invece di due). */
+  var rilievo=null, sottoOn=false;
+
+  /* ⚠️ LE TESSERE DI RILIEVO NON CI SONO DAPPERTUTTO: dove il terreno e'
+     piatto non c'e' niente da ombreggiare e il generatore le salta, ed e'
+     circa un terzo del totale. Senza indice sarebbero 404 a raffica. Per ogni
+     livello, x -> gli INTERVALLI di y che esistono: le y sono quasi sempre
+     contigue, e il file sta in 23 kB invece di 444. */
+  var indRil=null;
+  function cercaY(iv,y){
+    for(var i=0;i<iv.length;i++){
+      var v=iv[i];
+      if(typeof v==='number'){ if(v===y) return true; }
+      else if(y>=v[0] && y<=v[1]) return true;
+    }
+    return false;
+  }
+  function rilievoEsiste(c){
+    if(!indRil) return true;            // finche' non e' arrivato, si prova
+    var pz=indRil[c.z]; if(!pz) return false;
+    var iv=pz[c.x]; return !!iv && cercaY(iv,c.y);
+  }
+
+  function creaRilievo(){
+    var m=map();
+    /* ⚠️ Il pane sta a 190, SOTTO il tilePane che Leaflet mette a 200. */
+    if(!m.getPane('bo-rilievo')){
+      m.createPane('bo-rilievo');
+      m.getPane('bo-rilievo').style.zIndex=190;
+      m.getPane('bo-rilievo').style.pointerEvents='none';
+    }
+    fetch(RILIEVO+'indice.json').then(function(r){ return r.json(); })
+      /* ⚠️ MAI rilievo.redraw() (24/9/2026): il redraw di Leaflet 1.9.4 NON
+         arrotonda lo zoom, e con lo zoom a quarti del sito (7,25, 11,25) lo
+         strato restava agganciato a tessere di zoom 11,25, che non esistono:
+         niente rilievo fino allo zoom successivo. Succedeva soprattutto sul
+         telefono, quando l'indice arrivava a strato gia' in mappa. Togliere e
+         rimettere lo strato passa da onAdd, che arrotonda. */
+      .then(function(j){ indRil=j; var m=map(); if(rilievo && m.hasLayer(rilievo)){ m.removeLayer(rilievo); rilievo.addTo(m); } })
+      .catch(function(){ indRil=null; });
+    var Ril=L.TileLayer.extend({
+      getTileUrl:function(c){ return rilievoEsiste(c) ? RILIEVO+c.z+'/'+c.x+'/'+c.y+'.png' : VUOTA; }
+    });
+    // crossOrigin come le tessere dei boschi: vengono da jsDelivr, e senza lo scatto dell'immagine non le potrebbe copiare
+    rilievo=new Ril('',{pane:'bo-rilievo',minZoom:5,maxNativeZoom:13,maxZoom:19,errorTileUrl:VUOTA,crossOrigin:'anonymous'});
+  }
+
+  function rilievoOn(){
+    var m=map();
+    if(!rilievo) creaRilievo();
+    rilievo.addTo(m);
+    m.getPane('tilePane').style.mixBlendMode='multiply';
+    sottoOn=true;
+  }
+  /* ⚠️ IL RILIEVO SOLO COI BOSCHI, MAI SOTTO LA PIOGGIA (24/9/2026). Provato
+     sempre acceso, a tre forze: la pioggia e' opaca al 70%, e un versante in
+     ombra sotto ne scurisce il colore, cioe' fa sembrare PIU' millimetri. Lui:
+     «se c'e' trasparenza resta sempre piu' scuro». Non c'e' forza giusta: la
+     mappa della pioggia serve a leggere il colore, e il colore deve dire solo
+     la pioggia. Non riproporlo. */
+  function rilievoOff(){
+    var m=map();
+    if(rilievo && m.hasLayer(rilievo)) m.removeLayer(rilievo);
+    if(sottoOn){ m.getPane('tilePane').style.mixBlendMode='normal'; sottoOn=false; }
+  }
+
+  /* ═══ IL TERRENO SOTTO IL DITO: quota e versante ═══
+     La quota sta nei canali R e G della tessera (mai nell'ALFA: il canvas
+     premoltiplica e la rileggeresti sbagliata). Il versante si misura su
+     250 m e non sulla gobba davanti al piede: a chi cerca funghi interessa il
+     fianco della valle. Otto direzioni, perche' su un diagonale «nord» e
+     «ovest» sono tutt'e due mezze bugie. */
+  var PASSO_V=250, cacheQ={};
+  function tesseraQ(x,y){
+    var k=x+'/'+y;
+    if(cacheQ[k]) return cacheQ[k];
+    cacheQ[k]=new Promise(function(ok){
+      var im=new Image(); im.crossOrigin='anonymous';
+      im.onload=function(){
+        var c=document.createElement('canvas'); c.width=c.height=256;
+        var g=c.getContext('2d',{willReadFrequently:true});
+        g.drawImage(im,0,0);
+        try{
+          var d=g.getImageData(0,0,256,256).data, q=new Float32Array(65536);
+          for(var i=0,j=0;i<d.length;i+=4,j++){ var v=d[i]*256+d[i+1]-1000; q[j]= v<=-999?NaN:v; }
+          ok(q);
+        }catch(_){ ok(null); }
+      };
+      im.onerror=function(){ ok(null); };
+      im.src=TERRENO+Z_TERRENO+'/'+x+'/'+y+'.webp';
+    });
+    return cacheQ[k];
+  }
+  function dovePx(lat,lon,z){
+    var n=Math.pow(2,z), r=lat*Math.PI/180;
+    var X=(lon+180)/360*n, Y=(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n;
+    return {x:Math.floor(X),y:Math.floor(Y),
+            px:Math.min(255,Math.floor((X-Math.floor(X))*256)),
+            py:Math.min(255,Math.floor((Y-Math.floor(Y))*256))};
+  }
+  function quotaIn(lat,lon){
+    var d=dovePx(lat,lon,Z_TERRENO);
+    return tesseraQ(d.x,d.y).then(function(q){
+      if(!q) return null;
+      var v=q[d.py*256+d.px];
+      return isNaN(v)?null:v;
+    });
+  }
+  var R8=['nord','nord-est','est','sud-est','sud','sud-ovest','ovest','nord-ovest'];
+  var CODA8={'nord':'in ombra, tiene l\u2019umido','nord-est':'poco sole, tiene l\u2019umido',
+             'est':'sole del mattino','sud-est':'sole del mattino, asciuga',
+             'sud':'al sole, asciuga prima','sud-ovest':'al sole, asciuga prima',
+             'ovest':'sole del pomeriggio','nord-ovest':'poco sole, tiene l\u2019umido'};
+  function versanteIn(lat,lon){
+    var dla=PASSO_V/111320, dlo=PASSO_V/(111320*Math.cos(lat*Math.PI/180));
+    return Promise.all([quotaIn(lat+dla,lon),quotaIn(lat-dla,lon),
+                        quotaIn(lat,lon+dlo),quotaIn(lat,lon-dlo)]).then(function(q){
+      if(q.some(function(v){ return v===null; })) return null;
+      var dzN=(q[0]-q[1])/(2*PASSO_V), dzE=(q[2]-q[3])/(2*PASSO_V);
+      var pend=Math.atan(Math.hypot(dzE,dzN))*180/Math.PI;
+      if(pend<6) return {pend:pend,dir:'pianeggiante',coda:''};
+      var az=(Math.atan2(-dzE,-dzN)*180/Math.PI+360)%360;
+      var d=R8[Math.floor(((az+22.5)%360)/45)];
+      return {pend:pend,dir:d,coda:CODA8[d]};
+    });
+  }
+
   function entra(){
     var m=map(); if(!m||acceso) return;
     /* ⚠️ SENZA REGIONE NON SI ENTRA (16/9/2026, segnalato dall'utente): il modo
@@ -12315,6 +12545,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       document.body.classList.add('modo-boschi');
       if(!strato) strato=creaStrato();
       strato.addTo(m);
+      rilievoOn();   // solo coi boschi: sotto la pioggia ne falserebbe il colore
       el('btn-boschi').innerHTML='✕ Chiudi mappa';
       var t=el('leg-title');
       if(t){ if(titoloVecchio==null) titoloVecchio=t.textContent; t.textContent='Mappa forestale'; }
@@ -12372,6 +12603,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     acceso=false; window._boschiAcceso=false;
     document.body.classList.remove('modo-boschi','bo-lontano-on');
     if(strato) map().removeLayer(strato);
+    rilievoOff();
     aggiornaCrediti();
     el('btn-boschi').innerHTML=ETICHETTA;
     var t=el('leg-title');
@@ -12388,12 +12620,14 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
      Un tocco dice il tipo di bosco in quel punto. Non chiede niente a nessuno:
      legge il COLORE della nostra tessera sotto il dito e lo riporta al gruppo
      della legenda. Le tessere sono PNG a tavolozza coi colori di indice.gruppi,
-     servite dal nostro dominio, quindi il canvas le puo' leggere.
+     servite da jsDelivr con `access-control-allow-origin: *`: il canvas le
+     puo' leggere SOLO perche' lo strato le chiede con crossOrigin (vedi
+     creaStrato).
      ⚠️ Dove il dito cade in un buco del mosaico (un prato in mezzo al bosco) si
      guarda intorno per qualche pixel: sul telefono il dito e' grosso e un
      «qui non c'e' bosco» a due metri da una faggeta sembrerebbe un difetto. */
   var TOCCO=window.matchMedia && matchMedia('(hover:none) and (pointer:coarse)').matches;
-  var nuvola=null, nuvTimer=null;   // nuvTimer: la chiusura da sola delle nuvolette vuote
+  var nuvola=null, nuvTimer=null, nSeq=0;   // nuvTimer: la chiusura da sola delle nuvolette vuote
 
   function hexRgb(h){ h=h.replace('#',''); return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]; }
 
@@ -12471,7 +12705,28 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        gia' che albero c'e' sotto il dito: mancava solo come arrivarci.
        ⚠️ La posizione di chi guarda non entra nel link: c'e' la sola
        destinazione, la strada la calcola Google col suo punto di partenza. */
+    /* ⚠️ Quota e versante arrivano DOPO: la tessera del terreno va scaricata.
+       La nuvoletta si apre subito col bosco (che e' gia' in mano) e le due
+       righe si riempiono quando il dato c'e'. Un id per volta, perche' nel
+       frattempo l'utente puo' averne aperta un'altra. */
+    var idQ='bo-q'+(++nSeq), idV='bo-v'+nSeq;
+    html+='<div class="bo-nuv-dato"><span>Quota</span><b id="'+idQ+'">…</b></div>'
+        + '<div class="bo-nuv-dato"><span>Versante</span><b id="'+idV+'">…</b></div>'
+        + '<div class="bo-nuv-dato"><span>Pendenza</span><b id="'+idV+'p">…</b></div>'
+        + '<div class="bo-nuv-coda" id="'+idV+'c"></div>';   // il commento sotto la pendenza (24/9, sua richiesta)
     html+=(window._vaiQui?window._vaiQui(e.latlng,'boschi'):'');
+    (function(la,lo,iq,iv){
+      quotaIn(la,lo).then(function(q){
+        var n=document.getElementById(iq); if(n) n.textContent = q===null?'—':('~ '+Math.round(q)+' m slm');
+      });
+      versanteIn(la,lo).then(function(v){
+        var n=document.getElementById(iv), c=document.getElementById(iv+'c'), pd=document.getElementById(iv+'p');
+        if(n) n.textContent = !v?'—':(v.dir==='pianeggiante'?'pianeggiante':('a '+v.dir));
+        if(c) c.textContent = v&&v.coda?v.coda:'';
+        // 24/9/2026, sua richiesta: la pendenza su una riga sua, anche in piano
+        if(pd) pd.textContent = !v?'—':(v.pend.toFixed(0)+'\u00b0');
+      });
+    })(e.latlng.lat,e.latlng.lng,idQ,idV);
     /* ⚠️ LA NUVOLETTA ADESSO SI CHIUDE (22/9/2026, suo fastidio: «resta acceso,
        tu non puoi toglierlo, e sul mare dice lo stesso che non ci sono boschi»).
        Due rimedi insieme, e tutt'e due servono:
@@ -12483,11 +12738,71 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
          troppo. Quelle le chiude la crocetta o il tocco dopo. */
     if(!nuvola) nuvola=L.popup({className:'bo-nuv',closeButton:true,autoPan:false,offset:[0,-4]});
     if(nuvTimer){ clearTimeout(nuvTimer); nuvTimer=null; }
+    nuvola.options.offset=[0,-4];
     nuvola.setLatLng(e.latlng).setContent(html).openOn(map());
+    mettiInVista();
     if(r.esito!=='si'&&r.esito!=='intorno'){
       nuvTimer=setTimeout(function(){ try{ map().closePopup(nuvola); }catch(_){} nuvTimer=null; },4000);
     }
     try{ gtag('event','click_boschi',{stato:'tocco',esito:r.esito,gruppo:r.gruppo||''}); }catch(_){}
+  }
+
+  /* ⚠️ LA NUVOLETTA DEVE CADERE NELLA MAPPA SCOPERTA (23/9/2026, suo rilievo
+     dal telefono: «non si vede»). Si apriva sempre SOPRA il punto, e sul
+     telefono sopra c'e' il pannello delle regioni: la nuvoletta finiva sotto.
+     Non si misura pannello per pannello: si guarda lungo la verticale del dito
+     fin dove la mappa e' davvero scoperta, sopra e sotto, con
+     elementFromPoint. Poi, in quest'ordine:
+       1. ci sta sopra   -> sopra, com'era;
+       2. ci sta sotto   -> sotto, con la punta girata in su;
+       3. non ci sta     -> la mappa scorre quel tanto che basta.
+     La mappa si muove solo come ultima risorsa: il punto l'ha scelto lui. */
+  function mettiInVista(){
+    var m=map(), c=nuvola&&nuvola.getElement&&nuvola.getElement(); if(!c) return;
+    L.DomUtil.removeClass(c,'bo-nuv-sotto');
+    var mc=m.getContainer(), mb=mc.getBoundingClientRect();
+    var p=m.latLngToContainerPoint(nuvola.getLatLng());
+    var X=mb.left+p.x, Y=mb.top+p.y;
+    /* ⚠️ ANCHE AI LATI (24/9/2026, sua foto dal telefono: un bosco sul bordo
+       destro, la nuvoletta usciva dallo schermo). Leaflet la centra sul punto;
+       se un lato esce, la mappa dovra' scorrere di `dx` verso l'interno. Il
+       conto sopra/sotto si fa gia' dove la nuvoletta ARRIVERA', perche' i
+       pannelli e la casella di ricerca stanno fermi mentre la mappa scorre. */
+    var W=c.offsetWidth, BORDO_LAT=8, dx=0;
+    if(X-W/2 < mb.left+BORDO_LAT) dx=(mb.left+BORDO_LAT)-(X-W/2);
+    else if(X+W/2 > mb.right-BORDO_LAT) dx=(mb.right-BORDO_LAT)-(X+W/2);
+    X+=dx;
+    /* ⚠️ NON basta «sta dentro #map»: sul telefono la LEGENDA e' figlia di #map
+       e la contava come mappa scoperta. Vale solo cio' che sta nei piani
+       disegnati di Leaflet (tessere, pioggia, e la nuvoletta stessa). */
+    var piani=m.getPane('mapPane');
+    /* ⚠️ TUTTA LA LARGHEZZA, NON SOLO LA VERTICALE DEL DITO (24/9/2026, sua
+       foto dal PC): la nuvoletta e' larga ~250 px, e la casella «Cerca
+       localita'» ne copriva il lato destro mentre sotto il dito era tutto
+       scoperto. Si guarda a sinistra, al centro e a destra. */
+    var mezza=Math.max(0,c.offsetWidth/2-6);
+    var xs=[X-mezza,X,X+mezza].map(function(x){ return Math.min(mb.right-2,Math.max(mb.left+2,x)); });
+    function scoperto(y){
+      return xs.every(function(x){
+        var el=document.elementFromPoint(x,y);
+        return !!el && (el===mc || piani.contains(el));
+      });
+    }
+    var su=Y, giu=Y, PASSO=4;
+    while(su-PASSO>mb.top && scoperto(su-PASSO)) su-=PASSO;
+    while(giu+PASSO<mb.bottom && scoperto(giu+PASSO)) giu+=PASSO;
+    var H=c.offsetHeight, PUNTA=20, MARGINE=24;   // MARGINE: la riga «sole del mattino…» arriva dopo e allunga di ~17 px
+    var dy=0;
+    if(Y-su >= H+PUNTA+MARGINE){                  // 1. sopra: com'e'
+    } else if(giu-Y >= H+PUNTA+MARGINE){          // 2. sotto
+      nuvola.options.offset=[0,H+2*PUNTA];
+      nuvola.update();
+      L.DomUtil.addClass(nuvola.getElement(),'bo-nuv-sotto');
+    } else {                                      // 3. si porta il punto piu' in basso
+      dy=Math.max(0,(su+H+PUNTA+MARGINE)-Y);
+    }
+    // un solo movimento per lato e altezza; panBy sposta la VISTA, il contenuto va al contrario
+    if(dx||dy) m.panBy([-dx,-dy],{animate:true});
   }
 
   /* ═══ LA TENDINA PIOGGIA | BOSCHI (18/9/2026, idea presa da stratumatlas.world) ═══
@@ -12606,10 +12921,15 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function taglia(){
     var m=map(), pane=m&&m.getPane('boschi'); if(!pane) return;
     var c=heatCanvas();
-    if(!tendinaOn){ pane.style.clip=''; if(c) c.style.clip=''; return; }
+    /* ⚠️ il RILIEVO si taglia come i boschi (24/9/2026, sua scelta): nella meta'
+       pioggia della tendina scuriva il colore nelle ombre, cioe' faceva sembrare
+       piu' millimetri. Stesso piano dei boschi, stesso taglio. */
+    var pr=m.getPane('bo-rilievo');
+    if(!tendinaOn){ pane.style.clip=''; if(pr) pr.style.clip=''; if(c) c.style.clip=''; return; }
     var W=m.getSize().x; if(hx==null) hx=W/2; hx=Math.max(8,Math.min(W-8,hx));
     var lp=m.containerPointToLayerPoint([hx,0]);
     pane.style.clip='rect(-100000px,100000px,100000px,'+Math.round(lp.x)+'px)';
+    if(pr) pr.style.clip=pane.style.clip;
     if(c){
       var rc=c.getBoundingClientRect(), rm=m.getContainer().getBoundingClientRect();
       var k=rc.width?(c.offsetWidth/rc.width):1;
@@ -12802,6 +13122,8 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       return [].slice.call(map().getPane('boschi').querySelectorAll('img.leaflet-tile'));
     };
     window._boschiOpacita=OPACITA;
+    // per lo scatto: dove passa la linea della tendina (px dal bordo sinistro della mappa), o null
+    window._tendinaX=function(){ return (acceso&&tendinaOn&&hx!=null)?hx:null; };
     /* Dal link si aspetta che il sito abbia spuntato le regioni di ?r=, come fa
        il radar: con la guardia qui sopra, entrare prima voleva dire l'avviso
        «Prima scegli la regione» su un link giusto. Tetto 15 secondi, poi niente. */
