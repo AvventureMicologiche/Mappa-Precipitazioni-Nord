@@ -23,10 +23,14 @@ if(/(^|\.)avventuremicologiche\.it$/.test(location.hostname))gtag("config","G-9R
 :root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;--verde:#2e7d32;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
-header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:nowrap;}
 header a{color:#fff;text-decoration:none;}
-header .logo{font-weight:600;font-size:15px;}
-header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;}
+header .logo{font-weight:600;font-size:15px;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;flex:none;}
+/* ⚠️ 25/9/2026, sua schermata da Android: sotto i ~430 px logo e tasto rosso
+   non ci stavano sulla stessa riga e il tasto andava a capo, raddoppiando la
+   testata. Sul telefono via «· piogge» e «Canale»: resta «▶ YouTube». */
+@media(max-width:440px){header{padding:10px 12px;gap:8px;} header .logo span,header .yt .yt-l{display:none;}}
 main{max-width:860px;margin:0 auto;padding:22px 16px 40px;}
 h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
 h2{color:var(--blu-scuro);font-size:21px;margin:32px 0 8px;}
@@ -258,7 +262,7 @@ nav.altre a{color:var(--blu);}
 <header>
   <a href="https://precipitazioni.avventuremicologiche.it/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
   <a class="yt" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'zona-toscana'})}catch(e){}">▶ Canale YouTube</a>
+     onclick="try{gtag('event','click_youtube',{pulsante:'zona-toscana'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 
 <main>
@@ -332,7 +336,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-d-orcia/">dove ha piovuto in Val d'Orcia</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 75 giorni di misura, i 6 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 76 giorni di misura, i 6 pluviometri
 della Val d'Orcia hanno contato
 <b>219 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Spineta</b> con
 256 mm, il più asciutto Castiglione d'Orcia con 187.
@@ -343,6 +347,8 @@ valgono regole proprie.</p>
 <p>Dati di SIR Toscana via il nostro archivio. Il bosco entro 3 km è calcolato su dati
 OpenStreetMap, licenza ODbL.</p>
 </div>
+<p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'zona-fondo-toscana'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 
 <h2 style="margin-top:30px">Le altre zone della Toscana</h2>
 <nav class="altre"><p><a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/alpe-di-poti/">Alpe di Poti</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/alpi-apuane/">Alpi Apuane</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/calvana/">Calvana</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/candalla/">Candalla</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/casentino/">Casentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/colline-livornesi/">Colline Livornesi</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/colline-metallifere/">Colline Metallifere</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/colline-metallifere-grossetane/">Colline Metallifere grossetane</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/garfagnana/">Garfagnana</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/lunigiana/">Lunigiana</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/media-valle-del-serchio/">Media Valle del Serchio</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/monte-pisano/">Monte Pisano</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/mugello/">Mugello</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/stretti-di-giaredo/">Stretti di Giaredo</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-di-luce/">Val di Luce</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-di-magra/">Val di Magra</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-di-merse/">Val di Merse</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valdarno/">Valdarno</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valdelsa/">Valdelsa</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valdinievole/">Valdinievole</a></p></nav>

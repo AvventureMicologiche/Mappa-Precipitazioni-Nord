@@ -129,7 +129,7 @@ ${STILE}
 <body>
 <header>
   <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ Canale YouTube</a>
+  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 <main>
 

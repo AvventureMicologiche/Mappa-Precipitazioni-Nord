@@ -131,6 +131,27 @@ function riepilogo(r, giorni, fuori) {
   };
 }
 
+// ── LA SERIE GIORNO PER GIORNO (25/9/2026) ──────────────────────────────────
+// Le pagine piogge nello schema «prima i dati» disegnano le barre degli ultimi
+// 30 giorni, come le pagine funghi. Qui si scrive la MEDIA dei pluviometri
+// giorno per giorno, dall'ultimo giorno completo all'indietro: serie[0] e'
+// quel giorno. Un giorno senza file e' null, non zero: un buco non e' una
+// giornata asciutta.
+const GIORNI_SERIE = 30;
+function mediaGiorno(r, g, fuori) {
+  let t = 0, n = 0, qualcosa = false;
+  for (const dir of r.dirs) {
+    const staz = leggi(dir, g);
+    if (!staz) continue;
+    qualcosa = true;
+    for (const s of staz) {
+      if (s.mm == null || fuori.has(dir + ':' + s.id)) continue;
+      t += s.mm; n++;
+    }
+  }
+  return qualcosa && n ? Math.round(t / n * 10) / 10 : null;
+}
+
 const oggi = oggiItalia();
 const giorni = giorniIndietro(oggi, FINESTRA);
 fs.mkdirSync(USCITA, { recursive: true });
@@ -212,7 +233,12 @@ const conteggio = (cPrima.cartelle > cIeri.cartelle) ? cPrima : cIeri;
 fs.writeFileSync(path.join(USCITA, 'letture.json'), JSON.stringify(conteggio, null, 1) + '\n', 'utf8');
 console.log(`  letture: ${conteggio.stazioni} pluviometri in ${conteggio.cartelle} cartelle il ${conteggio.giorno}\n`);
 
-let scritti = 0, saltati = [];
+// ⚠️ Le regioni si CALCOLANO qui ma si SCRIVONO dopo le zone (25/9/2026): il
+// file di regione porta anche l'elenco delle sue zone coi loro numeri, per la
+// lista «zona per zona» della pagina, e quei numeri escono dal giro delle zone.
+// Cosi' la pagina regione resta a UNA richiesta.
+const perRegione = {};
+const saltati = [];
 for (const r of REGIONI) {
   const fuori = gemelleDaScartare(r.dirs, giorni);
   const periodi = {};
@@ -231,17 +257,9 @@ for (const r of REGIONI) {
   // fidarsi del riepilogo, e il 30 aggiunto il 13/9 non deve cambiare chi viene
   // saltato.
   if (!periodi['20']) { saltati.push(r.k); continue; }
-  const dest = path.join(USCITA, r.k + '.json');
-  const testo = JSON.stringify({ regione: r.k, generato: new Date().toISOString(), periodi }, null, 1) + '\n';
-  const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
-  // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
-  // riscrive, cosi' un run in piu' non produce un commit di sole date.
-  const uguale = prima && prima.replace(/"generato":[^,]+,/, '') === testo.replace(/"generato":[^,]+,/, '');
-  if (!uguale) { fs.writeFileSync(dest, testo, 'utf8'); scritti++; }
-  const p20 = periodi['20'];
-  console.log(`  ${r.k.padEnd(12)} ${String(p20.stazioni).padStart(4)} staz.  ${String(Math.round(p20.media)).padStart(3)} mm/20gg  ${p20.primo}→${p20.ultimo}${uguale ? '  (invariato)' : ''}`);
+  const serie = giorni.slice(da, da + GIORNI_SERIE).map(g => mediaGiorno(r, g, fuori));
+  perRegione[r.k] = { periodi, serie };
 }
-console.log(`\n${scritti} riepiloghi scritti su ${REGIONI.length}${saltati.length ? ', SALTATI (nessun dato): ' + saltati.join(', ') : ''}`);
 
 // ── LE ZONE: i riepiloghi delle pagine «dove ha piovuto» di zona (13/9/2026) ──
 //
@@ -285,6 +303,8 @@ function datiRegione(k) {
 const uno = x => Math.round(x * 10) / 10;
 
 let zScritte = 0, zSaltate = [];
+const zonePer = {};
+for (const r of REGIONI) if (perRegione[r.k]) zonePer[r.k] = [];
 for (const z of ZONE) {
   const ids = z.posti.filter(id => regDi[id]);
   const regs = [...new Set(ids.map(id => regDi[id]))];
@@ -321,11 +341,46 @@ for (const z of ZONE) {
   }
   if (!periodi['7']) { zSaltate.push(z.n); continue; }
 
+  // La serie della zona: media dei suoi pluviometri giorno per giorno (25/9).
+  const serie = [];
+  for (let i = da; i < da + GIORNI_SERIE; i++) {
+    let t = 0, n = 0;
+    for (const id of ids) {
+      const v = datiRegione(regDi[id]).mm[i].get(id);
+      if (v != null) { t += v; n++; }
+    }
+    serie.push(n ? uno(t / n) : null);
+  }
+
   const dest = path.join(USCITA_ZONE, slug(z.n) + '.json');
   const testo = JSON.stringify({ zona: z.n, generato: new Date().toISOString(),
-    ultimoGiorno: giorni[da], periodi, posti: valori }) + '\n';
+    ultimoGiorno: giorni[da], periodi, posti: valori, serie }) + '\n';
   const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
   const uguale = prima && prima.replace(/"generato":"[^"]+",/, '') === testo.replace(/"generato":"[^"]+",/, '');
   if (!uguale) { fs.writeFileSync(dest, testo, 'utf8'); zScritte++; }
+
+  // ⚠️ Nella lista della regione vanno gli STESSI numeri della pagina di zona:
+  // chi clicca deve trovare il numero che ha appena letto (la lezione delle 41
+  // zone su 114 che non tornavano, 13/9/2026).
+  if (zonePer[z.reg]) zonePer[z.reg].push({ s: slug(z.n), n: z.n, ultimo: giorni[da],
+    m1: (periodi['1'] || {}).media ?? null, m7: periodi['7'].media, m30: (periodi['30'] || {}).media ?? null });
 }
 console.log(`${zScritte} riepiloghi di zona scritti su ${ZONE.length}${zSaltate.length ? ', SALTATE: ' + zSaltate.join(', ') : ''}`);
+
+// ── ORA LE REGIONI, con dentro le loro zone ─────────────────────────────────
+let scritti = 0;
+for (const r of REGIONI) {
+  const x = perRegione[r.k];
+  if (!x) continue;
+  const dest = path.join(USCITA, r.k + '.json');
+  const testo = JSON.stringify({ regione: r.k, generato: new Date().toISOString(),
+    periodi: x.periodi, serie: x.serie, zone: zonePer[r.k] || [] }, null, 1) + '\n';
+  const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
+  // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
+  // riscrive, cosi' un run in piu' non produce un commit di sole date.
+  const uguale = prima && prima.replace(/"generato":[^,]+,/, '') === testo.replace(/"generato":[^,]+,/, '');
+  if (!uguale) { fs.writeFileSync(dest, testo, 'utf8'); scritti++; }
+  const p20 = x.periodi['20'];
+  console.log(`  ${r.k.padEnd(12)} ${String(p20.stazioni).padStart(4)} staz.  ${String(Math.round(p20.media)).padStart(3)} mm/20gg  ${p20.primo}→${p20.ultimo}${uguale ? '  (invariato)' : ''}`);
+}
+console.log(`\n${scritti} riepiloghi scritti su ${REGIONI.length}${saltati.length ? ', SALTATI (nessun dato): ' + saltati.join(', ') : ''}`);

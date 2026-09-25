@@ -23,10 +23,14 @@ if(/(^|\.)avventuremicologiche\.it$/.test(location.hostname))gtag('config','G-9R
 :root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;--verde:#2e7d32;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
-header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:nowrap;}
 header a{color:#fff;text-decoration:none;}
-header .logo{font-weight:600;font-size:15px;}
-header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;}
+header .logo{font-weight:600;font-size:15px;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;flex:none;}
+/* ⚠️ 25/9/2026, sua schermata da Android: sotto i ~430 px logo e tasto rosso
+   non ci stavano sulla stessa riga e il tasto andava a capo, raddoppiando la
+   testata. Sul telefono via «· piogge» e «Canale»: resta «▶ YouTube». */
+@media(max-width:440px){header{padding:10px 12px;gap:8px;} header .logo span,header .yt .yt-l{display:none;}}
 main{max-width:860px;margin:0 auto;padding:22px 16px 40px;}
 h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
 h2{color:var(--blu-scuro);font-size:21px;margin:32px 0 8px;}
@@ -275,7 +279,7 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <header>
   <a href="https://precipitazioni.avventuremicologiche.it/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
   <a class="yt" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'localita-emilia'})}catch(e){}">▶ Canale YouTube</a>
+     onclick="try{gtag('event','click_youtube',{pulsante:'localita-emilia'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 
 <main>
@@ -366,7 +370,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/emilia/">dove ha piovuto in Emilia-Romagna</a>.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da giugno 2026 a settembre 2026</b>, in 111 giorni di misura, ha contato <b>186 mm</b> di pioggia in <b>17 giornate</b> bagnate. Nelle altre 94 non è caduto niente, o così poco da non contare.
+<p><b>da giugno 2026 a settembre 2026</b>, in 112 giorni di misura, ha contato <b>186 mm</b> di pioggia in <b>17 giornate</b> bagnate. Nelle altre 95 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>26 luglio 2026</b>, con
 <b>35,1 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>luglio 2026</b> con
@@ -378,6 +382,8 @@ valgono regole proprie.</p>
 <p>Dati di ARPAE Emilia-Romagna via il nostro archivio. Il bosco entro 3 km è calcolato su dati
 OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 </div>
+<p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'localita-fondo-emilia'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 
 <h2 style="margin-top:30px">Quanto ha piovuto? Trova un'altra località</h2>
 <nav class="altre" id="altri"><p class="nota">Sto leggendo l'elenco…</p></nav>

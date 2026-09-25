@@ -139,10 +139,14 @@ ${briciolaJson([
 :root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;--verde:#2e7d32;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
-header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:nowrap;}
 header a{color:#fff;text-decoration:none;}
-header .logo{font-weight:600;font-size:15px;}
-header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;}
+header .logo{font-weight:600;font-size:15px;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;flex:none;}
+/* ⚠️ 25/9/2026, sua schermata da Android: sotto i ~430 px logo e tasto rosso
+   non ci stavano sulla stessa riga e il tasto andava a capo, raddoppiando la
+   testata. Sul telefono via «· piogge» e «Canale»: resta «▶ YouTube». */
+@media(max-width:440px){header{padding:10px 12px;gap:8px;} header .logo span,header .yt .yt-l{display:none;}}
 main{max-width:860px;margin:0 auto;padding:22px 16px 40px;}
 h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
 h2{color:var(--blu-scuro);font-size:21px;margin:32px 0 8px;}
@@ -268,7 +272,7 @@ ${STILE_NUOVO}
 <body>
 <header>
   <a href="https://precipitazioni.avventuremicologiche.it/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ Canale YouTube</a>
+  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 <main>
 

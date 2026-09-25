@@ -227,7 +227,7 @@ nav.altre a{color:var(--blu);}
 <header>
   <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
   <a class="yt" href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'zona-${casa.k}'})}catch(e){}">▶ Canale YouTube</a>
+     onclick="try{gtag('event','click_youtube',{pulsante:'zona-${casa.k}'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 
 <main>
@@ -306,6 +306,8 @@ valgono regole proprie.</p>
 <p>Dati di ${esc(elenco(agenzie))} via il nostro archivio. Il bosco entro 3 km è calcolato su dati
 OpenStreetMap, licenza ODbL.</p>
 </div>
+<p style="margin:22px 0 4px;"><a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'zona-fondo-${casa.k}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 
 <h2 style="margin-top:30px">Le altre zone ${esc(casa.prep === 'in' ? 'della ' + nomeReg : casa.prep + ' ' + nomeReg)}</h2>
 <nav class="altre"><p>${
