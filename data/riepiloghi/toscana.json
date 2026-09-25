@@ -1,20 +1,24 @@
 {
  "regione": "toscana",
- "generato": "2026-09-24T08:36:57.020Z",
+ "generato": "2026-09-25T08:58:18.069Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 378,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-23",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Pian della Fioba (MS)",
-     "mm": 6.9
+     "mm": 0.8
     },
     {
      "n": "Orto di Donna (LU)",
+     "mm": 0.4
+    },
+    {
+     "n": "Roccalbegna (GR)",
      "mm": 0.4
     },
     {
@@ -24,39 +28,35 @@
     {
      "n": "Ferrone (FI)",
      "mm": 0.2
-    },
-    {
-     "n": "Turbone (FI)",
-     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 23,
+   "media": 9.2,
    "giorni": 7,
    "stazioni": 378,
-   "primo": "2026-09-17",
-   "ultimo": "2026-09-23",
+   "primo": "2026-09-18",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Empoli (FI)",
-     "mm": 157
+     "mm": 78.5
     },
     {
-     "n": "Bocca di Serchio (PI)",
-     "mm": 118.9
+     "n": "Remole (FI)",
+     "mm": 62
     },
     {
-     "n": "Fornacino (PI)",
-     "mm": 100.8
+     "n": "Siena Poggio al Vento (SI)",
+     "mm": 61.9
     },
     {
-     "n": "Monteboro (FI)",
-     "mm": 100.6
+     "n": "Montespertoli (FI)",
+     "mm": 58
     },
     {
-     "n": "Ponte Tavole (LU)",
-     "mm": 92.5
+     "n": "Palazzuolo sul Senio (FI)",
+     "mm": 57.4
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 76.8,
    "giorni": 20,
    "stazioni": 378,
-   "primo": "2026-09-04",
-   "ultimo": "2026-09-23",
+   "primo": "2026-09-05",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Empoli (FI)",
@@ -90,31 +90,31 @@
    ]
   },
   "30": {
-   "media": 94.2,
+   "media": 79.6,
    "giorni": 30,
    "stazioni": 378,
-   "primo": "2026-08-25",
-   "ultimo": "2026-09-23",
+   "primo": "2026-08-26",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Sorano Meteo (GR)",
-     "mm": 287.9
-    },
-    {
-     "n": "Pian di Scò (AR)",
-     "mm": 209.1
-    },
-    {
-     "n": "Fornovolasco (LU)",
-     "mm": 207.2
+     "mm": 238.2
     },
     {
      "n": "Empoli (FI)",
-     "mm": 204.9
+     "mm": 196.2
     },
     {
-     "n": "Monte Oliveto (SI)",
-     "mm": 200.6
+     "n": "Fornovolasco (LU)",
+     "mm": 195.3
+    },
+    {
+     "n": "Pian di Scò (AR)",
+     "mm": 193.8
+    },
+    {
+     "n": "Sambuca (FI)",
+     "mm": 179
     }
    ]
   }
