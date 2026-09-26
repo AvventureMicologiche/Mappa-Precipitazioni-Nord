@@ -1,79 +1,83 @@
 {
  "regione": "lazio",
- "generato": "2026-09-25T10:25:19.485Z",
+ "generato": "2026-09-26T08:44:24.665Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.5,
    "giorni": 1,
-   "stazioni": 208,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "stazioni": 209,
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Borgo S.Maria",
-     "mm": 4.5
+     "n": "Ponza",
+     "mm": 20.1
     },
     {
-     "n": "Tor Vergata",
-     "mm": 4.3
+     "n": "S.Angelo Theodice",
+     "mm": 15.8
     },
     {
-     "n": "Roma Flaminio",
-     "mm": 2.8
+     "n": "Amatrice",
+     "mm": 14.2
     },
     {
-     "n": "Lanuvio",
-     "mm": 2.4
+     "n": "Frosinone",
+     "mm": 9.7
     },
     {
-     "n": "Falcognana",
-     "mm": 1.8
+     "n": "Micigliano",
+     "mm": 4.8
     }
    ]
   },
   "7": {
-   "media": 8.6,
+   "media": 4.8,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Roma Nord",
-     "mm": 71.5
+     "n": "Pomezia",
+     "mm": 46.4
     },
     {
-     "n": "Roma Flaminio",
-     "mm": 57.5
+     "n": "Tor Vergata",
+     "mm": 35.7
     },
     {
-     "n": "Monte Mario",
-     "mm": 51.4
+     "n": "Falcognana",
+     "mm": 35.1
     },
     {
-     "n": "Acqua Acetosa",
-     "mm": 50.5
+     "n": "Gaeta",
+     "mm": 30.4
     },
     {
-     "n": "Aniene a Ponte Salario",
-     "mm": 50.5
+     "n": "S.Angelo Theodice",
+     "mm": 26.8
     }
    ]
   },
   "20": {
-   "media": 50.2,
+   "media": 50.7,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Tor Vergata",
-     "mm": 155.8
+     "mm": 156
     },
     {
      "n": "Rota",
      "mm": 126.7
+    },
+    {
+     "n": "Falcognana",
+     "mm": 119.1
     },
     {
      "n": "Roma Nord",
@@ -82,27 +86,27 @@
     {
      "n": "Frascati",
      "mm": 116.5
-    },
-    {
-     "n": "Falcognana",
-     "mm": 116.2
     }
    ]
   },
   "30": {
-   "media": 50.3,
+   "media": 50.8,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Tor Vergata",
-     "mm": 155.8
+     "mm": 156
     },
     {
      "n": "Rota",
      "mm": 126.7
+    },
+    {
+     "n": "Falcognana",
+     "mm": 119.1
     },
     {
      "n": "Roma Nord",
@@ -111,15 +115,12 @@
     {
      "n": "Frascati",
      "mm": 116.5
-    },
-    {
-     "n": "Falcognana",
-     "mm": 116.2
     }
    ]
   }
  },
  "serie": [
+  0.5,
   0.1,
   0,
   0,
@@ -148,65 +149,64 @@
   0.1,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 8.7,
-   "m30": 38.1
+   "m7": 8.4,
+   "m30": 38
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 11.1,
-   "m30": 39.1
+   "m7": 11,
+   "m30": 39
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 5.3,
-   "m30": 28
+   "ultimo": "2026-09-25",
+   "m1": 0.1,
+   "m7": 3.2,
+   "m30": 28.2
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 9.8,
-   "m30": 37.2
+   "ultimo": "2026-09-25",
+   "m1": 1.5,
+   "m7": 8.6,
+   "m30": 38.7
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 3.3,
-   "m30": 9
+   "m7": 3.1,
+   "m30": 8.9
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 10.4,
-   "m30": 34.8
+   "ultimo": "2026-09-25",
+   "m1": 3.2,
+   "m7": 11.8,
+   "m30": 38.1
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 11.1,
-   "m30": 27.7
+   "ultimo": "2026-09-25",
+   "m1": 0.7,
+   "m7": 11.7,
+   "m30": 28.3
   }
  ]
 }

@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-09-25T10:25:19.487Z",
+ "generato": "2026-09-26T08:44:24.666Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 3.2,
    "giorni": 1,
-   "stazioni": 426,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "stazioni": 411,
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Pagliara",
-     "mm": 1.4
+     "n": "Modica",
+     "mm": 42.2
     },
     {
-     "n": "Caltagirone",
-     "mm": 1
+     "n": "Ragusa SP25",
+     "mm": 32.5
     },
     {
-     "n": "Mazara SP62",
-     "mm": 0.6
+     "n": "Borgo Schiro'",
+     "mm": 31.2
     },
     {
-     "n": "Aragona",
-     "mm": 0.6
+     "n": "Partinico SIAS",
+     "mm": 30.6
     },
     {
-     "n": "Caronia Pomiere SIAS",
-     "mm": 0.4
+     "n": "Grisi'",
+     "mm": 30.5
     }
    ]
   },
   "7": {
-   "media": 29.8,
+   "media": 31,
    "giorni": 7,
    "stazioni": 432,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Riposto SIAS",
-     "mm": 177.2
+     "mm": 198.6
     },
     {
      "n": "Lavinaio",
-     "mm": 157.4
+     "mm": 158.2
     },
     {
      "n": "Agrigento Scibica SIAS",
-     "mm": 153
+     "mm": 153.4
     },
     {
      "n": "Linera",
-     "mm": 142.4
+     "mm": 140.2
     },
     {
      "n": "Aci San Filippo",
-     "mm": 138.6
+     "mm": 140.2
     }
    ]
   },
   "20": {
-   "media": 43,
+   "media": 46.1,
    "giorni": 20,
    "stazioni": 435,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Riposto SIAS",
-     "mm": 180.2
-    },
-    {
-     "n": "Messina SP44",
-     "mm": 172.9
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 171.1
+     "mm": 201.6
     },
     {
      "n": "Santa Rosalia Diga R2",
-     "mm": 166.7
+     "mm": 190.3
+    },
+    {
+     "n": "Messina SP44",
+     "mm": 177.1
+    },
+    {
+     "n": "Lavinaio",
+     "mm": 172.1
     },
     {
      "n": "Agrigento Scibica SIAS",
-     "mm": 164.8
+     "mm": 165.2
     }
    ]
   },
   "30": {
-   "media": 43.1,
+   "media": 46.1,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Riposto SIAS",
-     "mm": 186.8
-    },
-    {
-     "n": "Messina SP44",
-     "mm": 172.9
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 171.1
+     "mm": 208.2
     },
     {
      "n": "Santa Rosalia Diga R2",
-     "mm": 166.7
+     "mm": 190.3
+    },
+    {
+     "n": "Messina SP44",
+     "mm": 177.1
+    },
+    {
+     "n": "Lavinaio",
+     "mm": 172.1
     },
     {
      "n": "Agrigento Scibica SIAS",
-     "mm": 164.8
+     "mm": 165.2
     }
    ]
   }
  },
  "serie": [
+  3.2,
   0,
   3,
   4.3,
@@ -148,25 +149,24 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-09-24",
-   "m1": 0.1,
-   "m7": 31.2,
-   "m30": 49.3
+   "ultimo": "2026-09-25",
+   "m1": 1.9,
+   "m7": 32.9,
+   "m30": 51.2
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-09-24",
-   "m1": 0.1,
-   "m7": 38.5,
-   "m30": 42.1
+   "ultimo": "2026-09-25",
+   "m1": 8.7,
+   "m7": 46.7,
+   "m30": 50.9
   }
  ]
 }

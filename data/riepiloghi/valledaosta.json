@@ -1,32 +1,32 @@
 {
  "regione": "valledaosta",
- "generato": "2026-09-25T10:25:19.480Z",
+ "generato": "2026-09-26T08:44:24.664Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 0.5
-    },
-    {
-     "n": "Aosta - Mont-Fleury",
      "mm": 0.2
     },
     {
-     "n": "Champorcher - Rifugio Dondena",
-     "mm": 0.1
-    },
-    {
-     "n": "Gressoney-la-Trinité - Diga Gabiet",
-     "mm": 0.1
-    },
-    {
      "n": "La Thuile - Les Granges",
+     "mm": 0
+    },
+    {
+     "n": "Aosta - Mont-Fleury",
+     "mm": 0
+    },
+    {
+     "n": "Etroubles - Chevrière",
+     "mm": 0
+    },
+    {
+     "n": "Cogne - Gimillan",
      "mm": 0
     }
    ]
@@ -35,27 +35,27 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Champorcher - Rifugio Dondena",
-     "mm": 1
+     "mm": 0.9
     },
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 0.7
-    },
-    {
-     "n": "Lillianes - Granges",
-     "mm": 0.4
+     "mm": 0.9
     },
     {
      "n": "Aosta - Mont-Fleury",
      "mm": 0.2
     },
     {
-     "n": "Arvier - Chamençon",
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "mm": 0.2
+    },
+    {
+     "n": "Gressoney-la-Trinité - Diga Gabiet",
      "mm": 0.2
     }
    ]
@@ -64,12 +64,12 @@
    "media": 17.9,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 45.4
+     "mm": 45.6
     },
     {
      "n": "Roisan - Preyl",
@@ -93,12 +93,12 @@
    "media": 33.5,
    "giorni": 30,
    "stazioni": 70,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 71
+     "mm": 71.2
     },
     {
      "n": "La Thuile - La Grande Tête",
@@ -128,6 +128,7 @@
   0,
   0,
   0,
+  0,
   0.4,
   0,
   0,
@@ -148,22 +149,21 @@
   0.2,
   0,
   14.5,
-  0,
-  0.1
+  0
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 0.1,
-   "m30": 13.7
+   "m7": 0,
+   "m30": 13.1
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
    "m7": 0,
    "m30": 16.9
@@ -171,7 +171,7 @@
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
    "m7": 0,
    "m30": 41.5
@@ -179,10 +179,10 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
    "m7": 0,
-   "m30": 19.3
+   "m30": 18.8
   }
  ]
 }

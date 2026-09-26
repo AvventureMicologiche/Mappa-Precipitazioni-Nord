@@ -1,62 +1,62 @@
 {
  "regione": "trentino",
- "generato": "2026-09-25T10:25:19.483Z",
+ "generato": "2026-09-26T08:44:24.665Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
+    {
+     "n": "Telve (Pontarso)",
+     "mm": 0.2
+    },
+    {
+     "n": "Lavarone (Chiesa)",
+     "mm": 0.2
+    },
     {
      "n": "Val di Breguzzo (Ponte Arno')",
      "mm": 0.2
     },
     {
-     "n": "Tione",
+     "n": "Mezzolombardo (Maso Delle Part)",
      "mm": 0.2
     },
     {
-     "n": "Passo Sommo",
+     "n": "Grigno",
      "mm": 0.2
-    },
-    {
-     "n": "Val Sella (Montagnola)",
-     "mm": 0.2
-    },
-    {
-     "n": "Centa San Nicolo'",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 2,
+   "media": 0.2,
    "giorni": 7,
    "stazioni": 103,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
+     "n": "Passo Sommo",
+     "mm": 1
+    },
+    {
      "n": "Val Sella (Montagnola)",
-     "mm": 12.2
+     "mm": 1
     },
     {
-     "n": "Pinzolo",
-     "mm": 8.2
+     "n": "Val di Breguzzo (Ponte Arno')",
+     "mm": 0.8
     },
     {
-     "n": "Giustino (frana)",
-     "mm": 7.6
+     "n": "Dos Del Sabion (Monte Grual)",
+     "mm": 0.8
     },
     {
-     "n": "Pinzolo (Malga Zeledria)",
-     "mm": 7
-    },
-    {
-     "n": "Careser (Diga)",
-     "mm": 6.4
+     "n": "San Martino di Castrozza",
+     "mm": 0.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 106.2,
    "giorni": 20,
    "stazioni": 103,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 110.5,
+   "media": 110.4,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Tremalzo",
-     "mm": 165.2
+     "mm": 165
     },
     {
      "n": "Ronchi Valsugana (Malga Casapinello)",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Monte Bondone (Viote)",
-     "mm": 159.8
+     "mm": 159.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,56 +149,55 @@
   0,
   1.1,
   3.4,
-  0,
-  0.1
+  0
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0.1,
-   "m7": 0.5,
-   "m30": 147.5
+   "m7": 0.2,
+   "m30": 147.6
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 2.8,
-   "m30": 110.5
+   "m7": 0.2,
+   "m30": 110.4
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 0.8,
+   "m7": 0.3,
    "m30": 137.5
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 2.2,
-   "m30": 58.9
+   "m7": 0.1,
+   "m30": 58.8
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0.1,
-   "m7": 1.7,
-   "m30": 109
+   "m7": 0.5,
+   "m30": 108.9
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0.1,
    "m30": 116.5
   }
  ]

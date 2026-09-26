@@ -1,125 +1,126 @@
 {
  "regione": "calabria",
- "generato": "2026-09-25T10:25:19.487Z",
+ "generato": "2026-09-26T08:44:24.666Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 7.3,
    "giorni": 1,
    "stazioni": 140,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Cecita",
-     "mm": 0.2
+     "n": "Belvedere Marittimo",
+     "mm": 50.8
     },
     {
-     "n": "Gambarie",
-     "mm": 0.2
+     "n": "Montalto Uffugo",
+     "mm": 39.2
     },
     {
-     "n": "Serrarossa",
-     "mm": 0.2
+     "n": "Amantea",
+     "mm": 38.2
     },
     {
-     "n": "Cardeto",
-     "mm": 0.2
+     "n": "Cetraro Superiore",
+     "mm": 28.6
     },
     {
-     "n": "Mongiana P.",
-     "mm": 0.2
+     "n": "Cosenza 118",
+     "mm": 27.4
     }
    ]
   },
   "7": {
-   "media": 20.7,
+   "media": 27.9,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 108.8
+     "mm": 110.4
     },
     {
      "n": "Reggio Calabria - Catona",
-     "mm": 106.4
+     "mm": 108.8
     },
     {
      "n": "Scilla - Villaggio del Pino",
-     "mm": 94.6
+     "mm": 96.4
     },
     {
      "n": "Pizzoni",
-     "mm": 84.8
+     "mm": 87
     },
     {
      "n": "San Nicola da Crissa",
-     "mm": 82
+     "mm": 84.6
     }
    ]
   },
   "20": {
-   "media": 43.2,
+   "media": 50.4,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 130.8
+     "mm": 132.2
     },
     {
      "n": "Reggio Calabria - Catona",
-     "mm": 123.6
+     "mm": 126
     },
     {
      "n": "Scilla - Villaggio del Pino",
-     "mm": 120.2
+     "mm": 122
     },
     {
      "n": "Pizzoni",
-     "mm": 118
+     "mm": 120.2
     },
     {
      "n": "Staiti",
-     "mm": 115.8
+     "mm": 116.6
     }
    ]
   },
   "30": {
-   "media": 45,
+   "media": 52.3,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 131
+     "mm": 132.6
     },
     {
      "n": "Reggio Calabria - Catona",
-     "mm": 123.6
+     "mm": 126
     },
     {
      "n": "Scilla - Villaggio del Pino",
-     "mm": 120.2
+     "mm": 122
     },
     {
      "n": "Pizzoni",
-     "mm": 118
+     "mm": 120.2
     },
     {
      "n": "Staiti",
-     "mm": 115.8
+     "mm": 116.6
     }
    ]
   }
  },
  "serie": [
+  7.3,
   0,
   1.5,
   6.7,
@@ -148,25 +149,24 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 21.3,
-   "m30": 51.2
+   "ultimo": "2026-09-25",
+   "m1": 6.1,
+   "m7": 27.3,
+   "m30": 57.4
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-09-24",
-   "m1": 0,
-   "m7": 20.7,
-   "m30": 54
+   "ultimo": "2026-09-25",
+   "m1": 15.5,
+   "m7": 36.1,
+   "m30": 69.5
   }
  ]
 }

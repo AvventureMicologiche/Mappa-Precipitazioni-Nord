@@ -1,24 +1,16 @@
 {
  "regione": "lombardia",
- "generato": "2026-09-25T10:25:19.478Z",
+ "generato": "2026-09-26T08:44:24.664Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 254,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "stazioni": 253,
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Caiolo (SO)",
-     "mm": 0.2
-    },
-    {
-     "n": "Arcisate (VA)",
-     "mm": 0.2
-    },
-    {
-     "n": "Bagolino SP669 (BS)",
+     "n": "Olgiate Comasco v.Repubblica (CO)",
      "mm": 0.2
     },
     {
@@ -26,37 +18,45 @@
      "mm": 0.2
     },
     {
+     "n": "Tirano eliporto (SO)",
+     "mm": 0.2
+    },
+    {
      "n": "Magasa Malga Corva (BS)",
      "mm": 0.2
+    },
+    {
+     "n": "Sondalo Le Prese (SO)",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 5.3,
+   "media": 0.1,
    "giorni": 7,
    "stazioni": 254,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Angera v.le Repubblica (VA)",
-     "mm": 54.8
+     "n": "Olgiate Comasco v.Repubblica (CO)",
+     "mm": 2.2
     },
     {
-     "n": "Ispra JRC (VA)",
-     "mm": 26.8
+     "n": "Porto Ceresio campo sportivo (VA)",
+     "mm": 1.4
     },
     {
-     "n": "Paderno Dugnano Palazzolo Parco Borghetto (MI)",
-     "mm": 22.6
+     "n": "Caiolo (SO)",
+     "mm": 0.8
     },
     {
-     "n": "Busto Arsizio  Accam (VA)",
-     "mm": 21.8
+     "n": "Lurago Marinone (CO)",
+     "mm": 0.8
     },
     {
-     "n": "Valganna Mondonico (VA)",
-     "mm": 21.4
+     "n": "Sormano rifugio Alpetto (CO)",
+     "mm": 0.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 93.2,
    "giorni": 20,
    "stazioni": 254,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Rota d'Imagna (BG)",
@@ -93,8 +93,8 @@
    "media": 106.3,
    "giorni": 30,
    "stazioni": 254,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Rota d'Imagna (BG)",
@@ -125,6 +125,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   5.2,
   12.6,
@@ -148,121 +149,120 @@
   0,
   1.2,
   11.8,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-grigna",
    "n": "Val Grigna",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 2.5,
+   "m7": 0,
    "m30": 129.3
   },
   {
    "s": "valle-sabbia",
    "n": "Valle Sabbia",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 0.3,
+   "m7": 0.1,
    "m30": 130.7
   },
   {
    "s": "val-trompia",
    "n": "Val Trompia",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 2.3,
-   "m30": 140.3
+   "m7": 0.1,
+   "m30": 140.2
   },
   {
    "s": "val-brembana",
    "n": "Val Brembana",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 5.2,
-   "m30": 171.3
+   "m7": 0.3,
+   "m30": 171.2
   },
   {
    "s": "val-sedornia",
    "n": "Val Sedornia",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 1.8,
-   "m30": 141.3
+   "m7": 0.1,
+   "m30": 141.2
   },
   {
    "s": "val-cavargna",
    "n": "Val Cavargna",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 8.7,
+   "m7": 0,
    "m30": 99.5
   },
   {
    "s": "val-serina",
    "n": "Val Serina",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 3.5,
+   "m7": 0.1,
    "m30": 121.9
   },
   {
    "s": "valmalenco",
    "n": "Valmalenco",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 5.9,
-   "m30": 81.5
+   "m7": 0.2,
+   "m30": 81.4
   },
   {
    "s": "valsassina",
    "n": "Valsassina",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 1,
-   "m30": 81.6
+   "m7": 0.1,
+   "m30": 81.5
   },
   {
    "s": "monte-san-giorgio",
    "n": "Monte San Giorgio",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0.1,
-   "m7": 14.8,
+   "m7": 0.5,
    "m30": 76.8
   },
   {
    "s": "valle-dei-ratti",
    "n": "Valle dei Ratti",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 6,
+   "m7": 0.2,
    "m30": 128.9
   },
   {
    "s": "val-paisco",
    "n": "Val Paisco",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 3.9,
-   "m30": 148.6
+   "m7": 0.1,
+   "m30": 148.5
   },
   {
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 11.3,
-   "m30": 117.6
+   "m7": 0.3,
+   "m30": 117.5
   },
   {
    "s": "val-veddasca",
    "n": "Val Veddasca",
-   "ultimo": "2026-09-24",
+   "ultimo": "2026-09-25",
    "m1": 0,
-   "m7": 11.2,
-   "m30": 49.7
+   "m7": 0.1,
+   "m30": 49.4
   }
  ]
 }
