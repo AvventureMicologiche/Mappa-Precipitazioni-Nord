@@ -38,6 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
+const { JS_AGGIORNATO } = require('./lib-pagina-funghi.js');
 // ⚠️ `slug` si chiama qui `slugDaNome`: dentro pagina() c'e' gia' un parametro
 // che si chiama slug ed e' una STRINGA. Importandola col suo nome la funzione
 // veniva coperta e usciva «slug is not a function» solo a generazione avviata,
@@ -184,9 +185,14 @@ function pagina(r, posto, slug, sl) {
     `Funghi ${DOVE} oggi: stanno nascendo?`,
     `Funghi ${DOVE} oggi`,
   ].find(t => t.length <= 62) || `Funghi ${DOVE}`;
+  // ⚠️ 26/9/2026: «METEO FUNGHI» E «CRESCITA» (Search Console: le ricerche
+  // sono «funghi X oggi», «meteo funghi X», «crescita funghi X»; il titolo
+  // copre solo la prima). Il titolo non si tocca, lo ha deciso lui. Niente
+  // millimetri qui: la pagina si rigenera ogni tre mesi, il verdetto e' del browser.
   const DESCR = [
-    `Stanno nascendo funghi ${DOVE}? Le piogge degli ultimi 25 giorni, giorno per giorno, dal pluviometro di ${CORTA} a ${quota} metri. Aggiornato ogni mattina.`,
-    `Stanno nascendo funghi ${DOVE}? Le piogge degli ultimi 25 giorni, giorno per giorno, misurate dal pluviometro. Aggiornato ogni mattina.`,
+    `Meteo funghi ${nomePosto}: quanta pioggia è caduta negli ultimi 20 giorni, dal pluviometro di ${CORTA} a ${quota} metri, e il verdetto per la crescita dei funghi.`,
+    `Meteo funghi ${nomePosto}: quanta pioggia è caduta negli ultimi 20 giorni, misurata dal pluviometro, e il verdetto per la crescita dei funghi.`,
+    `Meteo funghi ${nomePosto}: la pioggia degli ultimi 20 giorni e il verdetto per la crescita dei funghi.`,
   ].find(t => t.length <= 158) || `Funghi ${DOVE} oggi: le piogge degli ultimi 25 giorni.`;
   const ZONA = ZONA_DI[ID];
   const PIOGGE_URL = ZONA ? `${SITO}/zone/${slugDaNome(ZONA.n)}/` : `${SITO}/${REG}/`;
@@ -316,6 +322,7 @@ ${/* ⚠️ 24/9/2026, SCHEMA DETTATO DA LUI: prima i dati (ha piovuto abbastanz
      Il titolo tiene davanti «Funghi <posto> oggi», che e' la forma che la
      gente cerca davvero (Search Console, 90 giorni), e aggiunge la domanda. */''}
 <h1>Funghi ${esc(DOVE)} oggi: stanno nascendo?</h1>
+<p class="breve" style="margin-top:-2px">Meteo funghi ${esc(nomePosto)}: la pioggia vera del pluviometro, per capire la crescita dei funghi.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
@@ -425,6 +432,7 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
   var BASE = LOCALE ? '/data/'
     : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
   var GIORNI = 25;
+${JS_AGGIORNATO}
 
   var MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
   var GS=['dom','lun','mar','mer','gio','ven','sab'];
@@ -467,7 +475,7 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
     .then(function(r){ return r.ok ? r.json() : null; })
     .catch(function(){ return null; })
     .then(function(j){
-      if (j && fresco(j) && j.serie[ID]) { disegna(j); return; }
+      if (j && fresco(j) && j.serie[ID]) { disegna(j); scriviAggiornato(j.generato); return; }
       guasto();
     })
     .catch(function(){ guasto(); });

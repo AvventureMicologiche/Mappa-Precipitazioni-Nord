@@ -57,7 +57,7 @@ const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola } = require('./lib-clima.js');
 // 24/9/2026: grafica e codice di pagina comuni con le pagine di regione
-const { STILE_NUOVO, JS_COMUNE } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO } = require('./lib-pagina-funghi.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -112,9 +112,16 @@ function pagina(z) {
     'Funghi ' + z.dove + ' oggi: stanno nascendo?',
     'Funghi ' + z.dove + ' oggi',
   ].find(t => t.length <= 62) || ('Funghi ' + z.dove).slice(0, 62);
+  // ⚠️ 26/9/2026: «METEO FUNGHI» E «CRESCITA» (Search Console: le ricerche
+  // sono «funghi X oggi», «meteo funghi X», «crescita funghi X»; il titolo
+  // copre solo la prima). Il titolo non si tocca, lo ha deciso lui: le altre
+  // due forme vanno nella descrizione e nella riga sotto il titolo. Nella
+  // descrizione niente millimetri: la pagina si rigenera ogni tre mesi e un
+  // numero cotto qui sarebbe vecchio; il verdetto lo scrive il browser.
   const DESCR = [
-    'Stanno nascendo funghi ' + z.dove + '? Le piogge degli ultimi 25 giorni, giorno per giorno, da ' + z.posti.length + ' pluviometri da bosco. Aggiornato ogni mattina.',
-    'Stanno nascendo funghi ' + z.dove + '? Le piogge degli ultimi 25 giorni da ' + z.posti.length + ' pluviometri da bosco.',
+    'Meteo funghi ' + z.n + ': quanta pioggia è caduta negli ultimi 20 giorni, da ' + z.posti.length + ' pluviometri da bosco, e il verdetto per la crescita dei funghi. Aggiornato ogni mattina.',
+    'Meteo funghi ' + z.n + ': la pioggia degli ultimi 20 giorni da ' + z.posti.length + ' pluviometri da bosco e il verdetto per la crescita dei funghi.',
+    'Meteo funghi ' + z.n + ': la pioggia degli ultimi 20 giorni e il verdetto per la crescita dei funghi.',
   ].find(t => t.length <= 158) || ('Funghi ' + z.dove + ' oggi: le piogge degli ultimi 25 giorni.');
 
   const modello = path.join(RADICE, 'funghi', casa.k, 'index.html');
@@ -234,6 +241,7 @@ nav.altre a{color:var(--blu);}
 <p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${casa.k}/" style="color:var(--blu)">${esc(nomeReg)}</a></p>
 
 <h1>Funghi ${esc(z.dove)} oggi: stanno nascendo?</h1>
+<p class="breve" style="margin-top:-2px">Meteo funghi ${esc(z.n)}: la pioggia vera ${z.posti.length > 1 ? 'di ' + z.posti.length + ' pluviometri da bosco' : 'del pluviometro'}, per capire la crescita dei funghi.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
@@ -338,6 +346,7 @@ OpenStreetMap, licenza ODbL.</p>
   var BASE = LOCALE ? "/data/"
     : "https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/";
 ${JS_COMUNE}
+${JS_AGGIORNATO}
 
   function fresco(j){
     if(!j || !j.generato || !j.serie || !j.oggi) return false;
@@ -353,8 +362,9 @@ ${JS_COMUNE}
   })).then(function(js){
     var buoni = js.filter(function(j){ return j && fresco(j); });
     if (buoni.length !== REGIONI.length) return guasto();
-    var serie = {}, serieT = {}, oggi = null;
+    var serie = {}, serieT = {}, oggi = null, gen = null;
     buoni.forEach(function(j){
+      if (!gen || j.generato < gen) gen = j.generato;   // la data della parte PIU VECCHIA
       Object.keys(j.serie).forEach(function(id){ serie[id] = j.serie[id]; });
       Object.keys(j.serieT || {}).forEach(function(id){ serieT[id] = j.serieT[id]; });
       if (!oggi || j.oggi < oggi) oggi = j.oggi;
@@ -362,6 +372,7 @@ ${JS_COMUNE}
     var righe = POSTI.filter(function(p){ return serie[p[0]]; });
     if (righe.length < 2) return guasto();
     disegna(serie, serieT, oggi, righe);
+    scriviAggiornato(gen);
   }).catch(function(){ guasto(); });
 
   function guasto(){
