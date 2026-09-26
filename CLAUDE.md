@@ -2146,7 +2146,32 @@ vicino entro 35; quelli davvero scartati sono l'**1,45%**, misurato.
 | pinete | `#e7298a` |
 | robinieti | `#66a61e` |
 | conifere non precisate | `#7a5cc8` |
+| carpino, orniello e aceri | `#2e9bd6` |
+| pioppi, salici, ontani e frassini | `#f7a1c4` |
 | altri boschi | `#8c8c8c` |
+
+⚠️ **UNDICESIMO COLORE, 26/9/2026: «pioppi, salici, ontani e frassini»** (rosa
+chiaro, scelto da lui sul Ticino fra giallo, rosa, lilla e turchese: il giallo
+si fondeva coi querceti). Voci ripariali di TUTTE le 21 carte (ISPRA 44.*,
+Piemonte SP e AN, Lombardia 5/7/27/39, Puglia 3115, Basilicata 136-140...).
+NON ci vanno: ontano verde, Alnus cordata, pioppo tremulo, forre,
+aceri-frassineti di monte, pioppeti coltivati, le «Alnete» di Veneto e Friuli.
+Nel centro-sud il rosa e' 70% pioppi. In Italia e' il 3,3% del bosco.
+- Il carpino ha perso «nero» nel nome (sua scelta): la legenda sta su TRE
+  colonne a 11 px in 4 righe, e «carpino, orniello e aceri» entra nella terza.
+  E' sempre il carpino NERO (Ostrya); il bianco resta nei querceti.
+- ⚠️ **Tessere su un RAMO del repo Tessere** (`boschi-di-fiume`, commit
+  `2a8b052b`), non su main col push forzato: main resta `4f1c4bea` finche' non
+  si fa la pulizia del repo (irreversibile, da chiedere).
+- ⚠️ **PUGLIA: il suo ArcGIS in affanno restituisce immagini VUOTE senza
+  errore.** Riscaricata intera perdeva il 25% del bosco. Rifatta partendo
+  dalla cache vecchia col rosa sopra (`puglia-fiume-sopra.py` nel banco).
+  **Dopo ogni riscarico si confronta la copertura regione per regione** con la
+  cache precedente (`cache-boschi\_<reg>-prima-dell-undicesimo`).
+- Il riscarico ha chiuso un **buco nel Lazio orientale** (Monti Lucretili):
+  +3,5% di bosco nel Lazio, 17 tessere nuove.
+- Quote per regione (riconosciuto / conifere n.p. / grigio):
+  `audit-boschi\quote-per-regione.py`. Italia 82,4 / 3,6 / 14,1.
 
 - ⚠️ **«abetaie e peccete», MAI «abetine»** (decisione dell'utente, 16/9).
 - ⚠️ **«pinete» solo se la carta dice pino.** Una conifera senza specie va in
