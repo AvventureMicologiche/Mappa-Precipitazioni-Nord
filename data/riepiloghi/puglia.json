@@ -1,32 +1,32 @@
 {
  "regione": "puglia",
- "generato": "2026-09-25T10:25:19.486Z",
+ "generato": "2026-09-26T13:44:42.029Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 123,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-23",
+   "stazioni": 129,
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-24",
    "top": [
-    {
-     "n": "Brindisi",
-     "mm": 1.2
-    },
     {
      "n": "Monopoli",
      "mm": 0
     },
     {
-     "n": "Gravina in Puglia",
+     "n": "Montursi (Gioia del Colle)",
      "mm": 0
     },
     {
-     "n": "Andria",
+     "n": "Poliba Sede Taranto",
      "mm": 0
     },
     {
-     "n": "Taranto",
+     "n": "Montemesola",
+     "mm": 0
+    },
+    {
+     "n": "S.M. di Leuca",
      "mm": 0
     }
    ]
@@ -35,8 +35,8 @@
    "media": 9.4,
    "giorni": 7,
    "stazioni": 129,
-   "primo": "2026-09-17",
-   "ultimo": "2026-09-23",
+   "primo": "2026-09-18",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Polignano",
@@ -64,8 +64,8 @@
    "media": 15.9,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-09-04",
-   "ultimo": "2026-09-23",
+   "primo": "2026-09-05",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Cerignola",
@@ -93,8 +93,8 @@
    "media": 16.7,
    "giorni": 30,
    "stazioni": 130,
-   "primo": "2026-08-25",
-   "ultimo": "2026-09-23",
+   "primo": "2026-08-26",
+   "ultimo": "2026-09-24",
    "top": [
     {
      "n": "Cerignola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.3,
   0,
@@ -147,7 +148,6 @@
   0,
   0,
   0.1,
-  0,
   0,
   0
  ],
