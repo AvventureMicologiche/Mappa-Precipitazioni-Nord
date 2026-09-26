@@ -256,7 +256,7 @@ ${rigaStagione()}
 <p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
 <div id="finestra"></div>
 
-<h2>Com'è andata intorno? Apri le mappe</h2>
+<h2>Dove ha piovuto di più ${esc(z.dove)}? Guardalo sulla mappa</h2>
 <div class="tasti">
   <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">13-20 gg fa</a>
   <a href="${SITO}/?r=${REGS}&amp;g=1&amp;${PIN_A}">Ieri</a>

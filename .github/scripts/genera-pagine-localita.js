@@ -338,7 +338,7 @@ ${rigaStagione()}
 <div id="finestra"></div>
 <div id="intensita"></div>
 
-<h2>Com'è andata intorno? Apri le mappe</h2>
+<h2>Dove ha piovuto di più intorno ${esc(DOVE)}? Guardalo sulla mappa</h2>
 <div class="tasti" id="tasti">
   <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}">13-20 gg fa</a>
   <a href="${SITO}/?r=${REGS}&amp;g=1&amp;${PIN}">Ieri</a>
