@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val Neva? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=20&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=1&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=7&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=20&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=30&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=20&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-neva-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Liguria, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=20&amp;pl=44.1291,8.1109&amp;pn=Val%20Neva&amp;pz=1&amp;z=10&amp;c=44.1291,8.1109" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-neva-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/liguria.jpg" alt="La mappa delle piogge in Liguria"
@@ -340,7 +341,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-neva/">dove ha piovuto in Val Neva</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a settembre 2026, in 91 giorni di misura, i 9 pluviometri
+<p>Da giugno 2026 a settembre 2026, in 92 giorni di misura, i 9 pluviometri
 della Val Neva hanno contato
 <b>153 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Alto - Madonna del lago</b> con
 234 mm, il più asciutto Castelvecchio di R. B. con 92.

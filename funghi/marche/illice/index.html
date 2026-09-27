@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a Illice? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=20&amp;pl=42.9052,13.4068&amp;pn=Illice">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=1&amp;pl=42.9052,13.4068&amp;pn=Illice">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=7&amp;pl=42.9052,13.4068&amp;pn=Illice">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=20&amp;pl=42.9052,13.4068&amp;pn=Illice">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=30&amp;pl=42.9052,13.4068&amp;pn=Illice">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;pl=42.9052,13.4068&amp;pn=Illice&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=marche,umbria&amp;g=20&amp;pl=42.9052,13.4068&amp;pn=Illice">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;pl=42.9052,13.4068&amp;pn=Illice&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-marche-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni nelle Marche, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-marche-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/marche.jpg"
@@ -371,7 +372,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/marche/">dove ha piovuto nelle Marche</a>.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da luglio 2026 a settembre 2026</b>, in 73 giorni di misura, ha contato <b>106 mm</b> di pioggia in <b>13 giornate</b> bagnate. Nelle altre 60 non è caduto niente, o così poco da non contare.
+<p><b>da luglio 2026 a settembre 2026</b>, in 74 giorni di misura, ha contato <b>106 mm</b> di pioggia in <b>13 giornate</b> bagnate. Nelle altre 61 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>26 luglio 2026</b>, con
 <b>19,8 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con

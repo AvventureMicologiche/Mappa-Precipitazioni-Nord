@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a San Zeno? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=20&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=1&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=7&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=20&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=30&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana&amp;g=20&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=44.0211,11.8803&amp;pn=San%20Zeno&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-emilia-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Emilia-Romagna, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-emilia-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/emilia.jpg"
@@ -373,7 +374,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 in Romagna toscana: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/romagna-toscana/">guarda tutta la zona</a>,
 con i suoi 14 pluviometri insieme.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da giugno 2026 a settembre 2026</b>, in 113 giorni di misura, ha contato <b>177 mm</b> di pioggia in <b>15 giornate</b> bagnate. Nelle altre 98 non è caduto niente, o così poco da non contare.
+<p><b>da giugno 2026 a settembre 2026</b>, in 114 giorni di misura, ha contato <b>177 mm</b> di pioggia in <b>15 giornate</b> bagnate. Nelle altre 99 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>10 settembre 2026</b>, con
 <b>31,9 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con

@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val Serina? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=20&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=1&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=7&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=20&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=30&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=20&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-serina-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Lombardia, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=20&amp;pl=45.87019,9.72999&amp;pn=Val%20Serina&amp;pz=1&amp;z=10&amp;c=45.87019,9.72999" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-serina-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia.jpg" alt="La mappa delle piogge in Lombardia"
@@ -334,7 +335,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-serina/">dove ha piovuto in Val Serina</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da gennaio 2026 a settembre 2026, in 265 giorni di misura, i 3 pluviometri
+<p>Da gennaio 2026 a settembre 2026, in 266 giorni di misura, i 3 pluviometri
 della Val Serina hanno contato
 <b>1.039 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Oltre il Colle Zambla</b> con
 1.205 mm, il più asciutto Cene Ponte con 896.

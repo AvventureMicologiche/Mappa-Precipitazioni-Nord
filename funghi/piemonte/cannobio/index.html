@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a Cannobio? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=20&amp;pl=46.0656,8.6914&amp;pn=Cannobio">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=1&amp;pl=46.0656,8.6914&amp;pn=Cannobio">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=7&amp;pl=46.0656,8.6914&amp;pn=Cannobio">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=20&amp;pl=46.0656,8.6914&amp;pn=Cannobio">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=30&amp;pl=46.0656,8.6914&amp;pn=Cannobio">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;pl=46.0656,8.6914&amp;pn=Cannobio&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,svizzera,lombardia&amp;g=20&amp;pl=46.0656,8.6914&amp;pn=Cannobio">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;pl=46.0656,8.6914&amp;pn=Cannobio&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-piemonte-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Piemonte, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-piemonte-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/piemonte.jpg"
@@ -377,7 +378,7 @@ con i suoi 3 pluviometri insieme.</p>
 Il giorno più bagnato è stato il <b>20 agosto 2026</b>, con
 <b>97,9 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
-263 mm. Su 15 pluviometri
+263 mm. Su 14 pluviometri
 da bosco del Piemonte con lo stesso periodo alle spalle, questo è il <b>2º</b>
 per acqua caduta.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi

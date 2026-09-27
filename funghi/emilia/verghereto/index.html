@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a Verghereto? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=20&amp;pl=43.7942,12.0047&amp;pn=Verghereto">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=1&amp;pl=43.7942,12.0047&amp;pn=Verghereto">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=7&amp;pl=43.7942,12.0047&amp;pn=Verghereto">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=20&amp;pl=43.7942,12.0047&amp;pn=Verghereto">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=30&amp;pl=43.7942,12.0047&amp;pn=Verghereto">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=43.7942,12.0047&amp;pn=Verghereto&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia,toscana,marche&amp;g=20&amp;pl=43.7942,12.0047&amp;pn=Verghereto">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=43.7942,12.0047&amp;pn=Verghereto&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-emilia-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Emilia-Romagna, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-emilia-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/emilia.jpg"
@@ -373,7 +374,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 nel Casentino: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/casentino/">guarda tutta la zona</a>,
 con i suoi 6 pluviometri insieme.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da giugno 2026 a settembre 2026</b>, in 108 giorni di misura, ha contato <b>195 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 88 non è caduto niente, o così poco da non contare.
+<p><b>da giugno 2026 a settembre 2026</b>, in 109 giorni di misura, ha contato <b>195 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 89 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>26 luglio 2026</b>, con
 <b>35,5 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>luglio 2026</b> con

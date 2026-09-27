@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val Settimana? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=20&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=1&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=7&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=20&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=30&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=20&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-settimana-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Friuli, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,veneto&amp;g=20&amp;pl=46.34472,12.57861&amp;pn=Val%20Settimana&amp;pz=1&amp;z=10&amp;c=46.34472,12.57861" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-settimana-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/friuli.jpg" alt="La mappa delle piogge in Friuli"
@@ -338,7 +339,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-settimana/">dove ha piovuto in Val Settimana</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 60 giorni di misura, i 6 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 61 giorni di misura, i 6 pluviometri
 della Val Settimana che leggiamo dallo stesso giorno hanno contato
 <b>255 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Pala Barzana</b> con
 314 mm, il più asciutto Andreis con 221.

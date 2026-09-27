@@ -257,16 +257,17 @@ ${rigaStagione()}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più ${esc(z.dove)}? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">13-20 gg fa</a>
   <a href="${SITO}/?r=${REGS}&amp;g=1&amp;${PIN_A}">Ieri</a>
   <a href="${SITO}/?r=${REGS}&amp;g=7&amp;${PIN_A}">Ultimi 7 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Ultimi 20 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=30&amp;${PIN_A}">Ultimi 30 gg</a>
-  <a href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
+  <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni ${casa.prep} ${esc(nomeReg)}, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-20gg'})}catch(e){}">
   <img class="img-mappa" src="${ANTEPRIME}/${casa.k}.jpg" alt="La mappa delle piogge ${casa.prep} ${esc(nomeReg)}"

@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val di Taro? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=1&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=7&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=30&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-taro-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Emilia-Romagna, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;g=20&amp;pl=44.69,10.09&amp;pn=Val%20di%20Taro&amp;pz=1&amp;z=10&amp;c=44.69,10.09" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-taro-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/emilia.jpg" alt="La mappa delle piogge in Emilia-Romagna"
@@ -336,7 +337,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-taro/">dove ha piovuto in Val di Taro</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a settembre 2026, in 102 giorni di misura, i 5 pluviometri
+<p>Da giugno 2026 a settembre 2026, in 103 giorni di misura, i 5 pluviometri
 della Val di Taro hanno contato
 <b>167 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Pessola</b> con
 230 mm, il più asciutto Ravarano con 124.

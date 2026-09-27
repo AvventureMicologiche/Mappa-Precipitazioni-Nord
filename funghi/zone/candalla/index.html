@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Candalla? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=20&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=1&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=7&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=20&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=30&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=20&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-candalla-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Toscana, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=20&amp;pl=43.95723,10.32405&amp;pn=Candalla&amp;pz=1&amp;z=10&amp;c=43.95723,10.32405" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-candalla-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/toscana.jpg" alt="La mappa delle piogge in Toscana"
@@ -342,7 +343,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/candalla/">dove ha piovuto in Candalla</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 71 giorni di misura, i 11 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 72 giorni di misura, i 11 pluviometri
 della Candalla hanno contato
 <b>257 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Fornovolasco</b> con
 392 mm, il più asciutto Chiatri con 137.

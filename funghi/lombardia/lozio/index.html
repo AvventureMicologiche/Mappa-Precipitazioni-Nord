@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a Lozio? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=20&amp;pl=45.9858,10.2598&amp;pn=Lozio">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=1&amp;pl=45.9858,10.2598&amp;pn=Lozio">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=7&amp;pl=45.9858,10.2598&amp;pn=Lozio">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=20&amp;pl=45.9858,10.2598&amp;pn=Lozio">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=30&amp;pl=45.9858,10.2598&amp;pn=Lozio">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.9858,10.2598&amp;pn=Lozio&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=20&amp;pl=45.9858,10.2598&amp;pn=Lozio">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.9858,10.2598&amp;pn=Lozio&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-lombardia-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Lombardia, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-lombardia-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia.jpg"
@@ -371,7 +372,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/lombardia/">dove ha piovuto in Lombardia</a>.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da gennaio 2026 a settembre 2026</b>, in 268 giorni di misura, ha contato <b>926 mm</b> di pioggia in <b>79 giornate</b> bagnate. Nelle altre 189 non è caduto niente, o così poco da non contare.
+<p><b>da gennaio 2026 a settembre 2026</b>, in 269 giorni di misura, ha contato <b>926 mm</b> di pioggia in <b>79 giornate</b> bagnate. Nelle altre 190 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>2 giugno 2026</b>, con
 <b>78,0 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>giugno 2026</b> con

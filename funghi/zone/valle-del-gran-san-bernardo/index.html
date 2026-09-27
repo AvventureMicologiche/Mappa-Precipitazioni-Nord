@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Valle del Gran San Bernardo? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=20&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=1&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=7&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=20&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=30&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=20&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-valle-del-gran-san-bernardo-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Valle d'Aosta, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta,svizzera&amp;g=20&amp;pl=45.817,7.233&amp;pn=Valle%20del%20Gran%20San%20Bernardo&amp;pz=1&amp;z=10&amp;c=45.817,7.233" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-valle-del-gran-san-bernardo-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/valledaosta.jpg" alt="La mappa delle piogge in Valle d'Aosta"
@@ -334,7 +335,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/valle-del-gran-san-bernardo/">dove ha piovuto in Valle del Gran San Bernardo</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 72 giorni di misura, i 3 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 73 giorni di misura, i 3 pluviometri
 della Valle del Gran San Bernardo hanno contato
 <b>142 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Etroubles - Chevrière</b> con
 171 mm, il più asciutto Valpelline - Chosoz con 118.

@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val di Non? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=20&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=1&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=7&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=20&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=30&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=20&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=trentino&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-non-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Trentino, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=trentino,altoadige&amp;g=20&amp;pl=46.36667,11.03333&amp;pn=Val%20di%20Non&amp;pz=1&amp;z=10&amp;c=46.36667,11.03333" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-non-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/trentino.jpg" alt="La mappa delle piogge in Trentino"
@@ -335,7 +336,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-non/">dove ha piovuto in Val di Non</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a settembre 2026, in 106 giorni di misura, i 4 pluviometri
+<p>Da giugno 2026 a settembre 2026, in 107 giorni di misura, i 4 pluviometri
 della Val di Non hanno contato
 <b>296 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Tres</b> con
 338 mm, il più asciutto Rumo (Lanza) con 266.

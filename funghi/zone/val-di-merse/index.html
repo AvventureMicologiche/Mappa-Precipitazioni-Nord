@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Val di Merse? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=20&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=1&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=7&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=20&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=30&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=20&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-merse-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Toscana, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;g=20&amp;pl=43.19437,11.20227&amp;pn=Val%20di%20Merse&amp;pz=1&amp;z=10&amp;c=43.19437,11.20227" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-val-di-merse-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/toscana.jpg" alt="La mappa delle piogge in Toscana"
@@ -335,7 +336,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-merse/">dove ha piovuto in Val di Merse</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 77 giorni di misura, i 4 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 78 giorni di misura, i 4 pluviometri
 della Val di Merse hanno contato
 <b>143 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Pari</b> con
 199 mm, il più asciutto Montalcinello con 75.

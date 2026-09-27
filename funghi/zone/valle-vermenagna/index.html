@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Valle Vermenagna? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=20&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=1&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=7&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=20&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=30&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=20&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-valle-vermenagna-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Piemonte, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte,francia-provenza,liguria&amp;g=20&amp;pl=44.24,7.54&amp;pn=Valle%20Vermenagna&amp;pz=1&amp;z=10&amp;c=44.24,7.54" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-valle-vermenagna-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/piemonte.jpg" alt="La mappa delle piogge in Piemonte"
@@ -336,7 +337,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/valle-vermenagna/">dove ha piovuto in Valle Vermenagna</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a settembre 2026, in 97 giorni di misura, i 5 pluviometri
+<p>Da giugno 2026 a settembre 2026, in 98 giorni di misura, i 5 pluviometri
 della Valle Vermenagna hanno contato
 <b>145 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Borello</b> con
 237 mm, il più asciutto Roccaforte Mondovi' con 73.

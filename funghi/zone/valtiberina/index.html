@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più in Valtiberina? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=20&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=1&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=7&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=20&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=30&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=20&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-valtiberina-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Umbria, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=20&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1&amp;z=10&amp;c=43.55,12.2" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-valtiberina-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/umbria.jpg" alt="La mappa delle piogge in Umbria"
@@ -341,7 +342,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/valtiberina/">dove ha piovuto in Valtiberina</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 72 giorni di misura, i 9 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 73 giorni di misura, i 9 pluviometri
 della Valtiberina che leggiamo dallo stesso giorno hanno contato
 <b>200 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Monte Nerone</b> con
 231 mm, il più asciutto Pianello di Cagli con 148.

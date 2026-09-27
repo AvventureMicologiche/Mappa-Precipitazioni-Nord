@@ -286,16 +286,17 @@ nav.altre a{color:var(--blu);}
 <div id="finestra"></div>
 
 <h2>Dove ha piovuto di più sui Nebrodi? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=1&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=7&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=30&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-nebrodi-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Sicilia, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.9,14.58333&amp;pn=Nebrodi&amp;pz=1&amp;z=10&amp;c=37.9,14.58333" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'zona-nebrodi-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/sicilia.jpg" alt="La mappa delle piogge in Sicilia"
@@ -334,7 +335,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/nebrodi/">dove ha piovuto sui Nebrodi</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a settembre 2026, in 69 giorni di misura, i 3 pluviometri
+<p>Da luglio 2026 a settembre 2026, in 70 giorni di misura, i 3 pluviometri
 dei Nebrodi hanno contato
 <b>70 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Miraglia</b> con
 86 mm, il più asciutto Maniace Alta con 56.

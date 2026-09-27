@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a Timau? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=20&amp;pl=46.5764,13.0069&amp;pn=Timau">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=1&amp;pl=46.5764,13.0069&amp;pn=Timau">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=7&amp;pl=46.5764,13.0069&amp;pn=Timau">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=20&amp;pl=46.5764,13.0069&amp;pn=Timau">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=30&amp;pl=46.5764,13.0069&amp;pn=Timau">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;pl=46.5764,13.0069&amp;pn=Timau&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=20&amp;pl=46.5764,13.0069&amp;pn=Timau">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;pl=46.5764,13.0069&amp;pn=Timau&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-friuli-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Friuli, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-friuli-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/friuli.jpg"

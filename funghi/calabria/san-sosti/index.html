@@ -305,16 +305,17 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 <div id="intensita"></div>
 
 <h2>Dove ha piovuto di più intorno a San Sosti? Guardalo sulla mappa</h2>
+<style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=20&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=1&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=7&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=20&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=30&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">Ultimi 30 gg</a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti&amp;radar=ora"
+  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=20&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti">Range crescita funghi 13-20 gg fa</a>
+  <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;pl=39.6611,16.0278&amp;pn=San%20Sosti&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-calabria-radar'})}catch(e){}">📡 Radar adesso</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Calabria, stazione per stazione.</p>
+<p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;g=20" id="lnk-pioggia"
    onclick="try{gtag('event','apri_mappa',{da:'localita-calabria-20gg'})}catch(e){}">
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/calabria.jpg"
@@ -371,7 +372,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/calabria/">dove ha piovuto in Calabria</a>.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>da luglio 2026 a settembre 2026</b>, in 69 giorni di misura, ha contato <b>106 mm</b> di pioggia in <b>10 giornate</b> bagnate. Nelle altre 59 non è caduto niente, o così poco da non contare.
+<p><b>da luglio 2026 a settembre 2026</b>, in 70 giorni di misura, ha contato <b>106 mm</b> di pioggia in <b>10 giornate</b> bagnate. Nelle altre 60 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>12 agosto 2026</b>, con
 <b>26,2 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>agosto 2026</b> con
