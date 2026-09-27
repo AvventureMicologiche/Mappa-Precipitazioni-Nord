@@ -1,71 +1,71 @@
 {
  "regione": "slovenia",
- "generato": "2026-09-26T11:46:53.745Z",
+ "generato": "2026-09-27T12:26:44.071Z",
  "periodi": {
   "1": {
-   "media": 1.4,
+   "media": 0,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-25",
+   "ultimo": "2026-09-25",
    "top": [
     {
-     "n": "Osilnica",
-     "mm": 15.9
+     "n": "Ajdovščina - Dolenje",
+     "mm": 3.9
     },
     {
-     "n": "Babno Polje",
-     "mm": 11.8
+     "n": "Kanin",
+     "mm": 0.5
     },
     {
-     "n": "Črnomelj - Dobliče",
-     "mm": 7.1
+     "n": "Nanos",
+     "mm": 0.2
     },
     {
-     "n": "Kočevje",
-     "mm": 4.4
+     "n": "Iskrba",
+     "mm": 0.1
     },
     {
-     "n": "Marinča vas",
-     "mm": 4
+     "n": "Zgornja Radovna",
+     "mm": 0.1
     }
    ]
   },
   "7": {
-   "media": 4.7,
+   "media": 2.7,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-18",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-19",
+   "ultimo": "2026-09-25",
    "top": [
-    {
-     "n": "Ajdovščina - Dolenje",
-     "mm": 68.1
-    },
     {
      "n": "Metlika",
      "mm": 22
     },
     {
      "n": "Kočevje",
-     "mm": 21
-    },
-    {
-     "n": "Jelendol",
-     "mm": 20.5
+     "mm": 20.8
     },
     {
      "n": "Osilnica",
-     "mm": 17.5
+     "mm": 17.2
+    },
+    {
+     "n": "Kočevske Poljane",
+     "mm": 14
+    },
+    {
+     "n": "Bohinjska Češnjica",
+     "mm": 11.9
     }
    ]
   },
   "20": {
-   "media": 115.4,
+   "media": 113.7,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-05",
-   "ultimo": "2026-09-24",
+   "primo": "2026-09-06",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Zadlog",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Ajdovščina - Dolenje",
-     "mm": 194.2
+     "mm": 198.1
     },
     {
      "n": "Portorož - letališče",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 125.5,
+   "media": 125.4,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-08-26",
-   "ultimo": "2026-09-24",
+   "primo": "2026-08-27",
+   "ultimo": "2026-09-25",
    "top": [
     {
      "n": "Bovec - letališče",
@@ -109,17 +109,18 @@
      "mm": 208.6
     },
     {
-     "n": "Kredarica",
-     "mm": 203.9
+     "n": "Ajdovščina - Dolenje",
+     "mm": 205.7
     },
     {
-     "n": "Breginj",
-     "mm": 203.7
+     "n": "Kredarica",
+     "mm": 203.9
     }
    ]
   }
  },
  "serie": [
+  0,
   1.4,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   2.9,
   2,
-  0,
-  0.1
+  0
  ],
  "zone": []
 }
