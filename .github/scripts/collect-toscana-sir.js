@@ -252,9 +252,14 @@ async function main() {
       if (!perId[p[0]] || args.length > perId[p[0]].length) perId[p[0]] = p;
     }
     const num = v => { const x = parseFloat(stripHtml(v)); return isNaN(x) ? null : x; };
+    // a === b (27/9/2026): minima e massima identiche su un giorno intero sono un
+    // termometro bloccato, non un dato. SIR pubblica cosi' i sensori spenti (0/0:
+    // Firenzuola dal 10/8, 49 giorni su 49; Croce Arcana dal 29/8) e quelli
+    // incantati (Croce Arcana 10,3/10,3 il 12/9). Senza, il grafico disegnava una
+    // linea piatta a zero, e una futura spia delle gelate le avrebbe prese per vere.
     const coppia = (mn, mx) => {
       const a = num(mn), b = num(mx);
-      if (a === null || b === null || a < -45 || b > 50 || a > b) return null;
+      if (a === null || b === null || a < -45 || b > 50 || a >= b) return null;
       return [Math.round(a * 10) / 10, Math.round(b * 10) / 10];
     };
     const tOggi = {}, tIeri = {};
