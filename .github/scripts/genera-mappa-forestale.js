@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Le pagine «MAPPA FORESTALE» (28/9/2026): /mappa-forestale/ (la generale, fatta
+ * Le pagine «MAPPA FORESTALE» (27/9/2026): /mappa-forestale/ (la generale, fatta
  * come un geoportale delle carte forestali), /mappa-forestale/<regione>/ (21) e
  * /mappa-forestale/zone/<zona>/ (114).
  *
@@ -123,7 +123,7 @@ function della(z) {
 const pulito = n => n && n.length < 28 && !/\d/.test(n) && !/\b[A-Z]{3,}\b/.test(n) && !/ - /.test(n);
 const ordina = tipi => Object.entries(tipi).sort((a, b) => (a[0] === 'altri boschi') - (b[0] === 'altri boschi') || b[1] - a[1]);
 const principali = (tipi, n = 3, soglia = 5) => Object.entries(tipi).filter(([t, v]) => t !== 'altri boschi' && v >= soglia).sort((a, b) => b[1] - a[1]).slice(0, n);
-// ⚠️ ZONE SENZA PAGINA FORESTALE (sua decisione, 28/9): la Valle Sabbia e' quasi
+// ⚠️ ZONE SENZA PAGINA FORESTALE (sua decisione, 27/9): la Valle Sabbia e' quasi
 // tutta grigia, un buco della carta forestale lombarda (DUSAF), e una pagina
 // «che bosco c'e'» con la risposta «non si sa» non serve a nessuno.
 const ESCLUSE = new Set(['Valle Sabbia']);
@@ -205,7 +205,7 @@ function didascalia(tipi, dove) {
   return `${dove}: ` + (p.length ? p.join(', ') : 'i boschi colorati per tipo');
 }
 // la didascalia descrive il bosco intorno al PUNTO dello scorcio, non la media della
-// regione (Puglia, 28/9: «querceti e pinete» sotto una foto tutta faggete della Foresta Umbra)
+// regione (Puglia, 27/9: «querceti e pinete» sotto una foto tutta faggete della Foresta Umbra)
 const tipiDelPunto = (S, riserva) => { const p = S && Object.values(D.paesi).find(x => x.n === S.paese); return p ? p.tipi : riserva; };
 const scriviFile = (rel, testo) => {
   const f = path.join(RADICE, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, testo, 'utf8');

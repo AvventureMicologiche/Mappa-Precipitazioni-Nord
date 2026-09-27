@@ -136,20 +136,20 @@ function scriviSitemap(SITO, RADICE) {
     }
   }
 
-  // Le pagine «MAPPA FORESTALE», dal 28/9/2026 (genera-mappa-forestale.js): la
+  // Le pagine «MAPPA FORESTALE», dal 27/9/2026 (genera-mappa-forestale.js): la
   // generale a 0.8 come una porta, le regioni a 0.7, le zone a 0.6. Si leggono
   // dalle cartelle come tutto il resto. `lastmod` fisso: cambiano quando si
   // rifanno le tessere, non coi dati del giorno.
   const MF = path.join(RADICE, 'mappa-forestale');
   if (c_e(path.join('mappa-forestale', 'index.html'))) {
-    fam.forestale.push({ loc: SITO + '/mappa-forestale/', lastmod: '2026-09-28', freq: 'monthly', pri: '0.8' });
+    fam.forestale.push({ loc: SITO + '/mappa-forestale/', lastmod: '2026-09-27', freq: 'monthly', pri: '0.8' });
     for (const d of fs.readdirSync(MF).sort()) {
       if (d !== 'zone' && c_e(path.join('mappa-forestale', d, 'index.html')))
-        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: '2026-09-28', freq: 'monthly', pri: '0.7' });
+        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: '2026-09-27', freq: 'monthly', pri: '0.7' });
     }
     if (fs.existsSync(path.join(MF, 'zone'))) for (const d of fs.readdirSync(path.join(MF, 'zone')).sort()) {
       if (c_e(path.join('mappa-forestale', 'zone', d, 'index.html')))
-        fam.forestale.push({ loc: `${SITO}/mappa-forestale/zone/${d}/`, lastmod: '2026-09-28', freq: 'monthly', pri: '0.6' });
+        fam.forestale.push({ loc: `${SITO}/mappa-forestale/zone/${d}/`, lastmod: '2026-09-27', freq: 'monthly', pri: '0.6' });
     }
   }
 
