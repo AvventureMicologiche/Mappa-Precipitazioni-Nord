@@ -1,6 +1,6 @@
 {
  "regione": "puglia",
- "generato": "2026-09-27T09:24:49.041Z",
+ "generato": "2026-09-27T14:41:11.946Z",
  "periodi": {
   "1": {
    "media": 0.1,
@@ -32,12 +32,16 @@
    ]
   },
   "7": {
-   "media": 1.3,
+   "media": 2.9,
    "giorni": 7,
    "stazioni": 129,
    "primo": "2026-09-20",
    "ultimo": "2026-09-26",
    "top": [
+    {
+     "n": "Avetrana",
+     "mm": 15.5
+    },
     {
      "n": "Montemesola",
      "mm": 13.2
@@ -53,44 +57,40 @@
     {
      "n": "Monopoli",
      "mm": 10.8
-    },
-    {
-     "n": "Avetrana",
-     "mm": 10.8
     }
    ]
   },
   "20": {
-   "media": 16.3,
+   "media": 18,
    "giorni": 20,
    "stazioni": 129,
    "primo": "2026-09-07",
    "ultimo": "2026-09-26",
    "top": [
     {
+     "n": "Cerignola",
+     "mm": 69.3
+    },
+    {
      "n": "Fonte Rosa",
      "mm": 68.5
     },
     {
-     "n": "Cerignola",
-     "mm": 68.4
-    },
-    {
      "n": "Spinazzola",
-     "mm": 63.4
+     "mm": 64.7
     },
     {
      "n": "Maglie",
-     "mm": 55.6
+     "mm": 57.7
     },
     {
-     "n": "Manduria",
-     "mm": 55.4
+     "n": "Presicce",
+     "mm": 57.6
     }
    ]
   },
   "30": {
-   "media": 17.1,
+   "media": 18.7,
    "giorni": 30,
    "stazioni": 130,
    "primo": "2026-08-28",
@@ -98,7 +98,7 @@
    "top": [
     {
      "n": "Cerignola",
-     "mm": 70
+     "mm": 70.9
     },
     {
      "n": "Fonte Rosa",
@@ -106,22 +106,22 @@
     },
     {
      "n": "Spinazzola",
-     "mm": 63.4
-    },
-    {
-     "n": "Manduria",
-     "mm": 55.6
+     "mm": 64.7
     },
     {
      "n": "Maglie",
-     "mm": 55.6
+     "mm": 57.7
+    },
+    {
+     "n": "Presicce",
+     "mm": 57.6
     }
    ]
   }
  },
  "serie": [
   0.1,
-  2.6,
+  1.9,
   0,
   0,
   0.3,
