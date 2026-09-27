@@ -1,54 +1,46 @@
 {
  "regione": "marche",
- "generato": "2026-09-26T08:44:24.665Z",
+ "generato": "2026-09-27T09:24:49.041Z",
  "periodi": {
   "1": {
-   "media": 5.5,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 107,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "stazioni": 108,
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "Chienti 2",
-     "mm": 24.8
+     "n": "Pintura di Bolognola",
+     "mm": 0.5
     },
     {
-     "n": "Svarchi",
-     "mm": 20.4
+     "n": "Sassotetto",
+     "mm": 0.4
     },
     {
-     "n": "Fiumesino",
-     "mm": 20.2
+     "n": "Monte Bove Sud",
+     "mm": 0.3
     },
     {
-     "n": "Baraccola",
-     "mm": 19.2
+     "n": "Potenza 1",
+     "mm": 0.2
     },
     {
-     "n": "Rotella",
-     "mm": 18.8
+     "n": "Cesano",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 6.7,
+   "media": 5.5,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "Baraccola",
-     "mm": 37.6
-    },
-    {
-     "n": "Monte Paganuccio",
-     "mm": 25.6
-    },
-    {
      "n": "Chienti 2",
-     "mm": 25.4
+     "mm": 25.2
     },
     {
      "n": "Svarchi",
@@ -57,6 +49,14 @@
     {
      "n": "Fiumesino",
      "mm": 20.4
+    },
+    {
+     "n": "Baraccola",
+     "mm": 19.8
+    },
+    {
+     "n": "Rotella",
+     "mm": 19.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 63.4,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Macerata Montalbano",
@@ -93,8 +93,8 @@
    "media": 63.8,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Macerata Montalbano",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   5.5,
   0,
   0,
@@ -148,32 +149,31 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
-   "m7": 2.4,
+   "m7": 0.2,
    "m30": 73.9
   },
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-09-25",
-   "m1": 5.2,
-   "m7": 5.9,
-   "m30": 42.1
+   "ultimo": "2026-09-26",
+   "m1": 0.2,
+   "m7": 5.3,
+   "m30": 42.2
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-09-25",
-   "m1": 8.1,
-   "m7": 8.3,
+   "ultimo": "2026-09-26",
+   "m1": 0,
+   "m7": 8.1,
    "m30": 30.2
   }
  ]

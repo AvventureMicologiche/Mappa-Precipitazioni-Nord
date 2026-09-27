@@ -1,13 +1,42 @@
 {
  "regione": "umbria",
- "generato": "2026-09-26T08:44:24.665Z",
+ "generato": "2026-09-27T09:24:49.041Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 77,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "stazioni": 78,
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
+   "top": [
+    {
+     "n": "La Bolsella",
+     "mm": 0
+    },
+    {
+     "n": "Forca Canapine",
+     "mm": 0
+    },
+    {
+     "n": "Monte Cucco",
+     "mm": 0
+    },
+    {
+     "n": "Armenzano",
+     "mm": 0
+    },
+    {
+     "n": "Tresa",
+     "mm": 0
+    }
+   ]
+  },
+  "7": {
+   "media": 0.5,
+   "giorni": 7,
+   "stazioni": 78,
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Forca Canapine",
@@ -15,11 +44,11 @@
     },
     {
      "n": "Forsivo",
-     "mm": 6.4
+     "mm": 7.2
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 4.6
+     "mm": 4.8
     },
     {
      "n": "Armenzano",
@@ -31,41 +60,12 @@
     }
    ]
   },
-  "7": {
-   "media": 3,
-   "giorni": 7,
-   "stazioni": 78,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
-   "top": [
-    {
-     "n": "Terni",
-     "mm": 35.6
-    },
-    {
-     "n": "S.Gemini",
-     "mm": 20
-    },
-    {
-     "n": "S.Gemini",
-     "mm": 20
-    },
-    {
-     "n": "Narni Scalo",
-     "mm": 14.4
-    },
-    {
-     "n": "Vallo di Nera",
-     "mm": 13.4
-    }
-   ]
-  },
   "20": {
    "media": 46.3,
    "giorni": 20,
    "stazioni": 79,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Scheggia",
@@ -93,8 +93,8 @@
    "media": 46.4,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.4,
   0,
   0,
@@ -148,32 +149,31 @@
   0.1,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-09-25",
-   "m1": 0.1,
-   "m7": 5.4,
+   "ultimo": "2026-09-26",
+   "m1": 0,
+   "m7": 2.6,
    "m30": 79.6
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-09-25",
-   "m1": 3.2,
-   "m7": 9.5,
+   "ultimo": "2026-09-26",
+   "m1": 0,
+   "m7": 3.5,
    "m30": 34.3
   },
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 48.3
   }
  ]

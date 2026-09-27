@@ -1,62 +1,62 @@
 {
  "regione": "piemonte",
- "generato": "2026-09-26T08:44:24.664Z",
+ "generato": "2026-09-27T09:24:49.039Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 281,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "stazioni": 280,
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "MOROZZO (Cuneo)",
-     "mm": 1.6
+     "n": "MONTE BERLINO (Cuneo)",
+     "mm": 0.2
     },
     {
-     "n": "MONDOVI' (Cuneo)",
-     "mm": 1.2
+     "n": "CALDIROLA (Alessandria)",
+     "mm": 0.2
     },
     {
-     "n": "VARISELLA (Torino)",
-     "mm": 1
+     "n": "LIMONE PANCANI (Cuneo)",
+     "mm": 0.2
     },
     {
-     "n": "PAMPARATO (Cuneo)",
-     "mm": 0.6
+     "n": "ACQUI TERME (Alessandria)",
+     "mm": 0
     },
     {
-     "n": "VIOLA (Cuneo)",
-     "mm": 0.6
+     "n": "PRALORMO (Torino)",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0.5,
+   "media": 0.2,
    "giorni": 7,
    "stazioni": 282,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
-    {
-     "n": "VILLANOVA SOLARO (Cuneo)",
-     "mm": 15.1
-    },
-    {
-     "n": "POIRINO BANNA (Torino)",
-     "mm": 10
-    },
-    {
-     "n": "PAESANA (Cuneo)",
-     "mm": 7
-    },
-    {
-     "n": "BROSSASCO (Cuneo)",
-     "mm": 6.4
-    },
     {
      "n": "BOBBIO PELLICE (Torino)",
      "mm": 5.6
+    },
+    {
+     "n": "SAN DAMIANO MACRA (Cuneo)",
+     "mm": 4
+    },
+    {
+     "n": "VACCERA (Torino)",
+     "mm": 3
+    },
+    {
+     "n": "CRISSOLO PO (Cuneo)",
+     "mm": 3
+    },
+    {
+     "n": "BARGE (Cuneo)",
+     "mm": 2.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 30.2,
    "giorni": 20,
    "stazioni": 285,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 41.4,
+   "media": 41.1,
    "giorni": 30,
    "stazioni": 286,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.2,
@@ -148,14 +149,13 @@
   0.1,
   0,
   0,
-  11.4,
-  0.4
+  11.4
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 59.8
@@ -163,7 +163,7 @@
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 37.1
@@ -171,23 +171,23 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-09-25",
-   "m1": 0.1,
+   "ultimo": "2026-09-26",
+   "m1": 0,
    "m7": 0.4,
-   "m30": 21.8
+   "m30": 21.3
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-09-25",
-   "m1": 0.1,
+   "ultimo": "2026-09-26",
+   "m1": 0,
    "m7": 0.1,
    "m30": 43.8
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 39.3
@@ -195,39 +195,39 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
-   "m7": 5.6,
-   "m30": 62.2
+   "m7": 0.6,
+   "m30": 62
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-09-25",
-   "m1": 0.1,
-   "m7": 0.5,
+   "ultimo": "2026-09-26",
+   "m1": 0,
+   "m7": 0.4,
    "m30": 53.5
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 59.1
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-09-25",
-   "m1": 0.1,
+   "ultimo": "2026-09-26",
+   "m1": 0,
    "m7": 0.6,
-   "m30": 48.2
+   "m30": 47.9
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 34.6

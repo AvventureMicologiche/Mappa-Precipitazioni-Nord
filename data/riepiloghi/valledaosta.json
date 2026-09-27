@@ -1,32 +1,32 @@
 {
  "regione": "valledaosta",
- "generato": "2026-09-26T13:44:42.026Z",
+ "generato": "2026-09-27T09:24:49.039Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 0.2
-    },
-    {
-     "n": "Etroubles - Chevrière",
-     "mm": 0
-    },
-    {
-     "n": "Cogne - Gimillan",
-     "mm": 0
+     "mm": 0.1
     },
     {
      "n": "La Thuile - Les Granges",
      "mm": 0
     },
     {
+     "n": "Etroubles - Chevrière",
+     "mm": 0
+    },
+    {
      "n": "Aosta - Mont-Fleury",
+     "mm": 0
+    },
+    {
+     "n": "Cogne - Gimillan",
      "mm": 0
     }
    ]
@@ -35,15 +35,15 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "Champorcher - Rifugio Dondena",
-     "mm": 0.9
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 1
     },
     {
-     "n": "Courmayeur - Lex Blanche",
+     "n": "Champorcher - Rifugio Dondena",
      "mm": 0.9
     },
     {
@@ -64,12 +64,12 @@
    "media": 17.9,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 45.6
+     "mm": 45.7
     },
     {
      "n": "Roisan - Preyl",
@@ -93,12 +93,12 @@
    "media": 33.5,
    "giorni": 30,
    "stazioni": 70,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 71.2
+     "mm": 71.3
     },
     {
      "n": "La Thuile - La Grande Tête",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Valtournenche - Grandes Murailles",
-     "mm": 61.8
+     "mm": 61.6
     },
     {
      "n": "Roisan - Preyl",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   1.2,
   0.2,
   0,
-  14.5,
-  0
+  14.5
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 13.1
@@ -163,7 +163,7 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 16.9
@@ -171,7 +171,7 @@
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 41.5
@@ -179,7 +179,7 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 18.8

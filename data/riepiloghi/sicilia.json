@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-09-26T08:44:24.666Z",
+ "generato": "2026-09-27T09:24:49.042Z",
  "periodi": {
   "1": {
-   "media": 3.2,
+   "media": 2.3,
    "giorni": 1,
-   "stazioni": 411,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "stazioni": 422,
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "Modica",
-     "mm": 42.2
+     "n": "San Gregorio",
+     "mm": 114
     },
     {
-     "n": "Ragusa SP25",
-     "mm": 32.5
+     "n": "Aci Castello",
+     "mm": 99
     },
     {
-     "n": "Borgo Schiro'",
-     "mm": 31.2
+     "n": "Siracusa SIAS",
+     "mm": 77.8
     },
     {
-     "n": "Partinico SIAS",
-     "mm": 30.6
+     "n": "Cassibile",
+     "mm": 66.7
     },
     {
-     "n": "Grisi'",
-     "mm": 30.5
+     "n": "Augusta SIAS",
+     "mm": 54.2
     }
    ]
   },
   "7": {
-   "media": 31,
+   "media": 19.9,
    "giorni": 7,
    "stazioni": 432,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
     {
-     "n": "Riposto SIAS",
-     "mm": 198.6
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 158.2
-    },
-    {
-     "n": "Agrigento Scibica SIAS",
-     "mm": 153.4
-    },
-    {
-     "n": "Linera",
-     "mm": 140.2
+     "n": "Aci Castello",
+     "mm": 215.6
     },
     {
      "n": "Aci San Filippo",
-     "mm": 140.2
+     "mm": 186.5
+    },
+    {
+     "n": "Riposto SIAS",
+     "mm": 185.6
+    },
+    {
+     "n": "San Gregorio",
+     "mm": 156.1
+    },
+    {
+     "n": "Lavinaio",
+     "mm": 150
     }
    ]
   },
   "20": {
-   "media": 46.1,
+   "media": 48.3,
    "giorni": 20,
    "stazioni": 435,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
+    {
+     "n": "Aci Castello",
+     "mm": 225.4
+    },
     {
      "n": "Riposto SIAS",
      "mm": 201.6
     },
     {
+     "n": "Aci San Filippo",
+     "mm": 199.7
+    },
+    {
      "n": "Santa Rosalia Diga R2",
-     "mm": 190.3
+     "mm": 197.8
     },
     {
      "n": "Messina SP44",
      "mm": 177.1
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 172.1
-    },
-    {
-     "n": "Agrigento Scibica SIAS",
-     "mm": 165.2
     }
    ]
   },
   "30": {
-   "media": 46.1,
+   "media": 48.3,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
+    {
+     "n": "Aci Castello",
+     "mm": 225.4
+    },
     {
      "n": "Riposto SIAS",
      "mm": 208.2
     },
     {
+     "n": "Aci San Filippo",
+     "mm": 199.7
+    },
+    {
      "n": "Santa Rosalia Diga R2",
-     "mm": 190.3
+     "mm": 197.8
     },
     {
      "n": "Messina SP44",
      "mm": 177.1
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 172.1
-    },
-    {
-     "n": "Agrigento Scibica SIAS",
-     "mm": 165.2
     }
    ]
   }
  },
  "serie": [
+  2.3,
   3.2,
   0,
   3,
@@ -148,24 +149,23 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-09-25",
-   "m1": 1.9,
-   "m7": 32.9,
-   "m30": 51.2
+   "ultimo": "2026-09-26",
+   "m1": 0.1,
+   "m7": 20.5,
+   "m30": 51.3
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-09-25",
-   "m1": 8.7,
-   "m7": 46.7,
+   "ultimo": "2026-09-26",
+   "m1": 0,
+   "m7": 34.6,
    "m30": 50.9
   }
  ]

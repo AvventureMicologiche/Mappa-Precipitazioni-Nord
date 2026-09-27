@@ -1,32 +1,32 @@
 {
  "regione": "altoadige",
- "generato": "2026-09-26T08:44:24.665Z",
+ "generato": "2026-09-27T09:24:49.041Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-09-25",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-26",
+   "ultimo": "2026-09-26",
    "top": [
-    {
-     "n": "Ridanna",
-     "mm": 0.1
-    },
-    {
-     "n": "Predoi",
-     "mm": 0.1
-    },
-    {
-     "n": "Riva di Tures",
-     "mm": 0.1
-    },
     {
      "n": "Vallelunga Grub",
      "mm": 0
     },
     {
      "n": "S. Valentino alla Muta",
+     "mm": 0
+    },
+    {
+     "n": "Monte Maria",
+     "mm": 0
+    },
+    {
+     "n": "Solda",
+     "mm": 0
+    },
+    {
+     "n": "Lasa Oris",
      "mm": 0
     }
    ]
@@ -35,8 +35,8 @@
    "media": 0.8,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-09-19",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-20",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "Predoi",
@@ -44,11 +44,11 @@
     },
     {
      "n": "Riva di Tures",
-     "mm": 7.4
+     "mm": 7.3
     },
     {
      "n": "Val di Vizze San Giacomo",
-     "mm": 6.2
+     "mm": 6.1
     },
     {
      "n": "Anterselva di Sopra",
@@ -64,8 +64,8 @@
    "media": 57.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-06",
-   "ultimo": "2026-09-25",
+   "primo": "2026-09-07",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "S. Martino in Passiria",
@@ -93,8 +93,8 @@
    "media": 72.1,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-08-27",
-   "ultimo": "2026-09-25",
+   "primo": "2026-08-28",
+   "ultimo": "2026-09-26",
    "top": [
     {
      "n": "S. Martino in Passiria",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.8,
   0,
@@ -148,14 +149,13 @@
   5.3,
   0.1,
   4.1,
-  2.2,
-  0
+  2.2
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0.1,
    "m30": 77.3
@@ -163,7 +163,7 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-09-25",
+   "ultimo": "2026-09-26",
    "m1": 0,
    "m7": 0,
    "m30": 93
