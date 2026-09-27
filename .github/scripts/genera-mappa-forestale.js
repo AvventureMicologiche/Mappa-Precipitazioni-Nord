@@ -198,6 +198,12 @@ const PIEDE = `</main>
 </body>
 </html>
 `;
+// «Vieni a trovarci su YouTube» in fondo, come sulle pagine funghi (27/9/2026, sua
+// richiesta: le pagine forestali avevano solo il tasto della testata). Evento GA
+// «forestale-fondo-<pagina>», per contarli a parte.
+const youtube = id => `<p style="margin:22px 0 4px;"><a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+   onclick="try{gtag('event','click_youtube',{pulsante:'forestale-fondo-${id}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
+`;
 const tit = (...v) => v.find(t => t.length <= 62) || v[v.length - 1];
 const des = (...v) => v.find(t => t.length <= 158) || v[v.length - 1];
 function didascalia(tipi, dove) {
@@ -262,6 +268,7 @@ ${Z.slice().sort((a, b) => a.n.localeCompare(b.n, 'it')).map(z => `<li>${zlink(z
 <h2>Le altre regioni</h2>
 <nav class="altre"><p>${REG.filter(x => x.k !== r.k).map(x => `<a href="${SITO}/mappa-forestale/${x.k}/">${esc(x.nome)}</a>`).join(' · ')}</p></nav>
 
+${youtube(r.k)}
 <div class="pioggia">
 <h2>E la pioggia? Sulla stessa mappa</h2>
 <p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: i pluviometri ${esc(r.del)}, con la pioggia vera giorno per giorno. Scegli un periodo e vedi i colori della pioggia, poi con <b>⇆ Confronta con piogge</b> li metti accanto ai boschi.</p>
@@ -316,6 +323,7 @@ ${usi(T, 'qui', { funghi: zfunghi ? `<a href="${SITO}/funghi/zone/${s}/">funghi 
 <nav class="altre"><p>${zoneDi(z.reg).filter(x => x.n !== z.n).sort((a, b) => a.n.localeCompare(b.n, 'it')).map(zlink).join(' · ') || '—'}</p></nav>
 <p><a href="${SITO}/mappa-forestale/${r.k}/">‹ Mappa forestale ${esc(r.del)}</a></p>
 
+${youtube('zona-' + s)}
 <div class="pioggia">
 <h2>E la pioggia? Sulla stessa mappa</h2>
 <p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: ${z.posti.length} pluviometri intorno alla zona, con la pioggia vera giorno per giorno. Con <b>⇆ Confronta con piogge</b> metti accanto boschi e pioggia.</p>
@@ -356,6 +364,7 @@ ${usi(I, 'in Italia', { funghi: `<a href="${SITO}/funghi/">piogge per funghi</a>
 <h2>Come si usa</h2>
 <p>Apri la mappa, avvicinati e <b>tocca un bosco</b>: la nuvoletta ti dice il tipo, la quota, il versante e la pendenza, e lo apri su Google Maps. Ai confini fra due regioni le carte si uniscono senza cuciture.</p>
 
+${youtube('italia')}
 <div class="pioggia">
 <h2>E la pioggia? Sulla stessa mappa</h2>
 <p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: oltre 5.000 pluviometri in Italia e nei paesi vicini, con la pioggia vera giorno per giorno. Con <b>⇆ Confronta con piogge</b> metti accanto boschi e pioggia.</p>
