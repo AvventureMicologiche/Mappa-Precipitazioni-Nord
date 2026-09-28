@@ -2043,11 +2043,16 @@ passa da 11,1% a 22,3%. Trovata chiedendo al WMS di disegnare **tutto cio' che
 NON e' nella nostra tabella**: e' la sonda da riusare. Messa in «altri boschi»
 come gli alneti e per la ragione delle mughete.
 
-⚠️ **APERTO, SICILIA**: il codice `06070202ZY` («non definito») e' mappato a
-`None`, quindi NON si disegna, ed e' il **32,8% dei poligoni campionati** (6
-riquadri, ⚠️ troncati a 500 per riquadro, quindi stima). E' la stessa forma del
-difetto piemontese ma c'era da prima. Per deciderlo serve la tabella dei nomi
-siciliana (`V_06070202`), che quel server non lascia interrogare. Da fare.
+✅ **SICILIA, CHIUSO il 22/9/2026 e non si riapre.** Il codice `06070202ZY`
+(«non definito») resta mappato a `None` ed e' GIUSTO cosi'. Il «32,8% dei
+poligoni» era un conto troncato (l'ArcGIS siciliano da' al massimo 500 poligoni
+per richiesta, e sei riquadri da 500 sono la firma del taglio). E `ZY` non e'
+bosco: la carta ha anche la classe inventariale, e i «non definito» stanno solo
+in 05 prati-pascoli-incolti (95%), 04 aree prive di soprassuolo e 01
+arboricoltura; il server conferma **zero** poligoni di bosco, bosco rado o
+arbusteti col tipo non definito. Disegnarli dipingerebbe di bosco i pascoli.
+Controprova: le tessere disegnano 5.267 km², l'Inventario Forestale regionale
+dichiara 5.156 (+2,2%). Attrezzo: `audit-boschi\sicilia-che-cosa-e-zy.py`.
 
 ### ⚠️ LA LEGENDA TAGLIATA SU FINESTRA BASSA (21 settembre 2026)
 
@@ -2156,6 +2161,11 @@ si fondeva coi querceti). Voci ripariali di TUTTE le 21 carte (ISPRA 44.*,
 Piemonte SP e AN, Lombardia 5/7/27/39, Puglia 3115, Basilicata 136-140...).
 NON ci vanno: ontano verde, Alnus cordata, pioppo tremulo, forre,
 aceri-frassineti di monte, pioppeti coltivati, le «Alnete» di Veneto e Friuli.
+⚠️ **Le Alnete restano nel grigio, DECISO il 28/9/2026 (suo), non riproporlo**:
+quelle due carte mettono nella stessa voce l'ontano verde (arbusto d'alta quota,
+grigio dappertutto) e l'ontano nero/bianco dei fiumi, e dalla voce non si
+separano. Scartata la separazione per quota (riscarico + tessere, un deploy):
+col rosa si colorerebbero da fiume gli ontani verdi di montagna.
 Nel centro-sud il rosa e' 70% pioppi. In Italia e' il 3,3% del bosco.
 - Il carpino ha perso «nero» nel nome (sua scelta): la legenda sta su TRE
   colonne a 11 px in 4 righe, e «carpino, orniello e aceri» entra nella terza.
