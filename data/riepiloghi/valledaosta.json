@@ -1,24 +1,24 @@
 {
  "regione": "valledaosta",
- "generato": "2026-09-27T14:41:11.944Z",
+ "generato": "2026-09-28T10:01:12.792Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Courmayeur - Lex Blanche",
+     "n": "Champorcher - Rifugio Dondena",
      "mm": 0.1
     },
     {
-     "n": "Aosta - Mont-Fleury",
+     "n": "La Thuile - Les Granges",
      "mm": 0
     },
     {
-     "n": "La Thuile - Les Granges",
+     "n": "Aosta - Mont-Fleury",
      "mm": 0
     },
     {
@@ -35,15 +35,15 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Courmayeur - Lex Blanche",
+     "n": "Champorcher - Rifugio Dondena",
      "mm": 1
     },
     {
-     "n": "Champorcher - Rifugio Dondena",
+     "n": "Courmayeur - Lex Blanche",
      "mm": 0.9
     },
     {
@@ -61,65 +61,66 @@
    ]
   },
   "20": {
-   "media": 17.9,
+   "media": 17.6,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
+   "top": [
+    {
+     "n": "Roisan - Preyl",
+     "mm": 44.4
+    },
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 42.1
+    },
+    {
+     "n": "La Thuile - La Grande Tête",
+     "mm": 41.4
+    },
+    {
+     "n": "Morgex - Lavancher",
+     "mm": 39.2
+    },
+    {
+     "n": "Bionaz - Place Moulin",
+     "mm": 33.5
+    }
+   ]
+  },
+  "30": {
+   "media": 19,
+   "giorni": 30,
+   "stazioni": 70,
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 45.7
+     "mm": 61.1
+    },
+    {
+     "n": "La Thuile - La Grande Tête",
+     "mm": 53.4
     },
     {
      "n": "Roisan - Preyl",
      "mm": 44.8
     },
     {
-     "n": "La Thuile - La Grande Tête",
-     "mm": 42.6
-    },
-    {
      "n": "Morgex - Lavancher",
-     "mm": 41.5
+     "mm": 43.5
     },
     {
-     "n": "Bionaz - Place Moulin",
-     "mm": 34.1
-    }
-   ]
-  },
-  "30": {
-   "media": 33.5,
-   "giorni": 30,
-   "stazioni": 70,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
-   "top": [
-    {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 71.3
-    },
-    {
-     "n": "La Thuile - La Grande Tête",
-     "mm": 70
-    },
-    {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 61.6
-    },
-    {
-     "n": "Roisan - Preyl",
-     "mm": 58
-    },
-    {
-     "n": "Morgex - Lavancher",
-     "mm": 54.8
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "mm": 36.3
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,41 +149,40 @@
   0,
   1.2,
   0.2,
-  0,
-  14.5
+  0
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 13.1
+   "m30": 8.9
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 16.9
+   "m30": 9.3
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 41.5
+   "m30": 24.3
   },
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 18.8
+   "m30": 12.2
   }
  ]
 }

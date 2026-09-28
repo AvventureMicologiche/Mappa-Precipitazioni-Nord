@@ -1,32 +1,32 @@
 {
  "regione": "emilia",
- "generato": "2026-09-27T09:24:49.040Z",
+ "generato": "2026-09-28T10:01:12.792Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 330,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Bedonia (Parma)",
+     "n": "Marra (Parma)",
      "mm": 0.2
     },
     {
-     "n": "S. Stefano d'Aveto (Genova)",
+     "n": "Cabanne (Genova)",
      "mm": 0.2
     },
     {
-     "n": "Palazzuolo sul Senio (Firenze)",
+     "n": "Loco Carchelli (Genova)",
      "mm": 0.2
     },
     {
-     "n": "Lago Ballano (Parma)",
+     "n": "Copparo (Ferrara)",
      "mm": 0.2
     },
     {
-     "n": "Frassineto (Parma)",
+     "n": "Ottone (Piacenza)",
      "mm": 0.2
     }
    ]
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 334,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Morciano (Rimini)",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Conca 2 (—)",
-     "mm": 4
+     "mm": 3.8
     },
     {
      "n": "Alfonsine (Ravenna)",
@@ -61,15 +61,15 @@
    ]
   },
   "20": {
-   "media": 46.6,
+   "media": 46.7,
    "giorni": 20,
-   "stazioni": 338,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "stazioni": 337,
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Cabanne (Genova)",
-     "mm": 369.6
+     "mm": 369.8
     },
     {
      "n": "Barbagelata (Genova)",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 48.1,
+   "media": 47.5,
    "giorni": 30,
    "stazioni": 339,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Cabanne (Genova)",
-     "mm": 370.4
+     "mm": 370.6
     },
     {
      "n": "Barbagelata (Genova)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.1,
   0,
@@ -148,22 +149,21 @@
   0.5,
   0,
   0,
-  0,
-  0.6
+  0
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
-   "m7": 0.1,
-   "m30": 42.9
+   "m7": 0,
+   "m30": 39.5
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0.2,
    "m30": 51.6
@@ -171,39 +171,39 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-09-26",
-   "m1": 0,
-   "m7": 0.4,
-   "m30": 83.7
+   "ultimo": "2026-09-27",
+   "m1": 0.1,
+   "m7": 0.3,
+   "m30": 82.1
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 71.7
+   "m30": 68.6
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 60.6
+   "m30": 58.5
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 83.2
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0.1,
    "m30": 43.7

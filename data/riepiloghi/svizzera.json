@@ -1,33 +1,33 @@
 {
  "regione": "svizzera",
- "generato": "2026-09-27T09:24:49.042Z",
+ "generato": "2026-09-28T10:01:12.796Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Trient (VS)",
+     "n": "Fusio (TI)",
      "mm": 0.2
+    },
+    {
+     "n": "Poschiavo / Robbia (GR)",
+     "mm": 0.1
     },
     {
      "n": "Simplon-Dorf (VS)",
      "mm": 0.1
     },
     {
-     "n": "Cossonay (VD)",
+     "n": "Brusio (GR)",
      "mm": 0.1
     },
     {
-     "n": "Thusis (GR)",
+     "n": "Bricola (VS)",
      "mm": 0.1
-    },
-    {
-     "n": "Adelboden (BE)",
-     "mm": 0
     }
    ]
   },
@@ -35,15 +35,15 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Jeizinen (VS)",
-     "mm": 0.4
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 0.5
     },
     {
-     "n": "Preonzo - Alpe Roscioro (TI)",
+     "n": "Jeizinen (VS)",
      "mm": 0.4
     },
     {
@@ -51,21 +51,21 @@
      "mm": 0.3
     },
     {
-     "n": "Cossonay (VD)",
+     "n": "Simplon-Dorf (VS)",
      "mm": 0.3
     },
     {
-     "n": "Stöckalp (OW)",
+     "n": "Cossonay (VD)",
      "mm": 0.3
     }
    ]
   },
   "20": {
-   "media": 30.5,
+   "media": 30,
    "giorni": 20,
    "stazioni": 310,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 47.2,
+   "media": 33.3,
    "giorni": 30,
    "stazioni": 310,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Stabio (TI)",
-     "mm": 113.5
-    },
-    {
-     "n": "Isole di Brissago (TI)",
-     "mm": 109.3
+     "mm": 108.4
     },
     {
      "n": "Alpe di Neggia (TI)",
-     "mm": 108.8
+     "mm": 97.4
+    },
+    {
+     "n": "Mendrisio (TI)",
+     "mm": 97
     },
     {
      "n": "Magadino / Cadenazzo (TI)",
-     "mm": 105.9
+     "mm": 96
     },
     {
-     "n": "Soglio (GR)",
-     "mm": 105.6
+     "n": "Cabbio (TI)",
+     "mm": 92.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   2.3,
   0.3,
-  0,
-  14
+  0
  ],
  "zone": []
 }

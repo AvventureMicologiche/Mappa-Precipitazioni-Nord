@@ -1,13 +1,13 @@
 {
  "regione": "altoadige",
- "generato": "2026-09-27T09:24:49.041Z",
+ "generato": "2026-09-28T10:01:12.793Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -35,8 +35,8 @@
    "media": 0.8,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Predoi",
@@ -61,65 +61,66 @@
    ]
   },
   "20": {
-   "media": 57.8,
+   "media": 55.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "S. Martino in Passiria",
-     "mm": 113.7
+     "mm": 111.4
     },
     {
      "n": "Nova Levante",
-     "mm": 90.7
-    },
-    {
-     "n": "Fleres",
-     "mm": 88.1
+     "mm": 89.8
     },
     {
      "n": "Passo di Costalunga",
-     "mm": 86.3
+     "mm": 85.1
     },
     {
      "n": "Redagno",
-     "mm": 81.5
+     "mm": 80.7
+    },
+    {
+     "n": "Selva di V. Gardena",
+     "mm": 79.3
     }
    ]
   },
   "30": {
-   "media": 72.1,
+   "media": 69.8,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "S. Martino in Passiria",
-     "mm": 128.4
+     "n": "Bressanone",
+     "mm": 123.2
     },
     {
-     "n": "Bressanone",
-     "mm": 124
+     "n": "S. Martino in Passiria",
+     "mm": 122.4
     },
     {
      "n": "Selva di V. Gardena",
-     "mm": 112.8
+     "mm": 109.6
     },
     {
      "n": "Barbiano Colma",
-     "mm": 107.8
+     "mm": 107
     },
     {
      "n": "Funes",
-     "mm": 102.8
+     "mm": 101.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.8,
@@ -148,25 +149,24 @@
   1.8,
   5.3,
   0.1,
-  4.1,
-  2.2
+  4.1
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
-   "m7": 0.1,
-   "m30": 77.3
+   "m7": 0,
+   "m30": 75.7
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 0,
-   "m30": 93
+   "m30": 92.1
   }
  ]
 }

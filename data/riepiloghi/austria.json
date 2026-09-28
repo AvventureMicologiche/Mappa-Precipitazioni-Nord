@@ -1,13 +1,13 @@
 {
  "regione": "austria",
- "generato": "2026-09-27T09:24:49.042Z",
+ "generato": "2026-09-28T10:01:12.796Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 268,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "stazioni": 269,
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Aflenz (Steiermark)",
@@ -32,11 +32,11 @@
    ]
   },
   "7": {
-   "media": 7.4,
+   "media": 7.2,
    "giorni": 7,
    "stazioni": 270,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 33.8
+     "mm": 32.8
     },
     {
      "n": "Rauris (Salzburg)",
@@ -61,15 +61,15 @@
    ]
   },
   "20": {
-   "media": 61.3,
+   "media": 59.9,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 152.8
+     "mm": 148.5
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
@@ -77,24 +77,24 @@
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 129.4
+     "mm": 123
     },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
      "mm": 121.6
     },
     {
-     "n": "Feldkirchen (Kärnten)",
-     "mm": 115.4
+     "n": "Schmittenhöhe (Salzburg)",
+     "mm": 111.6
     }
    ]
   },
   "30": {
-   "media": 79.7,
+   "media": 76.7,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 169.2
+     "mm": 167
     },
     {
      "n": "St.Johann im Pongau (Salzburg)",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 158.6
+     "mm": 158.4
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   5.7,
@@ -148,8 +149,7 @@
   0.7,
   8.4,
   0.2,
-  2.5,
-  3.1
+  2.5
  ],
  "zone": []
 }

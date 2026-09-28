@@ -1,16 +1,16 @@
 {
  "regione": "campania",
- "generato": "2026-09-27T09:24:49.041Z",
+ "generato": "2026-09-28T10:01:12.795Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 179,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Montella METEO",
+     "n": "Perito-Ostigliano",
      "mm": 0.2
     },
     {
@@ -32,11 +32,11 @@
    ]
   },
   "7": {
-   "media": 14.8,
+   "media": 13.9,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Agerola",
@@ -64,8 +64,8 @@
    "media": 31.1,
    "giorni": 20,
    "stazioni": 179,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Agerola",
@@ -93,8 +93,8 @@
    "media": 32.3,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Agerola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   14.9,
   0,
@@ -148,14 +149,13 @@
   0,
   0.2,
   0.3,
-  0,
   0
  ],
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 71.7,
    "m30": 81.7
@@ -163,15 +163,15 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
-   "m7": 34.9,
+   "m7": 32.8,
    "m30": 56.1
   },
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
    "m7": 5.4,
    "m30": 25.7
@@ -179,9 +179,9 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-09-26",
+   "ultimo": "2026-09-27",
    "m1": 0,
-   "m7": 20.8,
+   "m7": 20.6,
    "m30": 52.9
   }
  ]

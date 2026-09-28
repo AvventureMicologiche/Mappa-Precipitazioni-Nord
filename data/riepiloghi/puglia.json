@@ -1,62 +1,62 @@
 {
  "regione": "puglia",
- "generato": "2026-09-27T14:41:11.946Z",
+ "generato": "2026-09-28T10:01:12.795Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 124,
-   "primo": "2026-09-26",
-   "ultimo": "2026-09-26",
+   "stazioni": 128,
+   "primo": "2026-09-27",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Galatina",
-     "mm": 4.6
+     "n": "Monopoli",
+     "mm": 0
     },
     {
-     "n": "Corigliano d'Otranto",
-     "mm": 2.6
+     "n": "Gravina in Puglia",
+     "mm": 0
     },
     {
-     "n": "Nardo",
-     "mm": 2.2
+     "n": "Brindisi",
+     "mm": 0
     },
     {
-     "n": "Melendugno",
-     "mm": 1.6
+     "n": "Andria",
+     "mm": 0
     },
     {
-     "n": "Collepasso",
-     "mm": 1.6
+     "n": "Foggia Istituto Agrario",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 2.9,
+   "media": 2.3,
    "giorni": 7,
    "stazioni": 129,
-   "primo": "2026-09-20",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-21",
+   "ultimo": "2026-09-27",
    "top": [
     {
-     "n": "Avetrana",
-     "mm": 15.5
+     "n": "Serracapriola",
+     "mm": 8.3
     },
     {
-     "n": "Montemesola",
-     "mm": 13.2
+     "n": "Turi",
+     "mm": 6.7
     },
     {
-     "n": "Polignano",
-     "mm": 11.8
+     "n": "Alberona",
+     "mm": 6.4
     },
     {
-     "n": "Poliba Sede Taranto",
-     "mm": 11.1
+     "n": "Galatina",
+     "mm": 6.4
     },
     {
-     "n": "Monopoli",
-     "mm": 10.8
+     "n": "Mass.Monteruga",
+     "mm": 6.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 18,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-09-07",
-   "ultimo": "2026-09-26",
+   "primo": "2026-09-08",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Cerignola",
@@ -93,8 +93,8 @@
    "media": 18.7,
    "giorni": 30,
    "stazioni": 130,
-   "primo": "2026-08-28",
-   "ultimo": "2026-09-26",
+   "primo": "2026-08-29",
+   "ultimo": "2026-09-27",
    "top": [
     {
      "n": "Cerignola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.1,
   1.9,
   0,
@@ -148,8 +149,7 @@
   0,
   0.6,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": []
 }
