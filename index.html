@@ -312,6 +312,33 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   color:#fff;font-size:15px;font-weight:700;padding:12px 14px;
   box-shadow:0 3px 14px rgba(0,0,0,.12);white-space:nowrap;text-align:center;box-sizing:border-box;}
+/* ⚠️ LA CASELLA DI RICERCA DENTRO IL CARTELLO BLU (28/9/2026). «In tanti mi
+   chiedono perche' non c'e' inserisci localita'»: in alto a destra, bianca
+   sulla mappa e sopra la vetrina rossa, non la vedeva nessuno. Adesso sta
+   dentro il cartello che spiega come si parte, e le due strade si leggono
+   insieme. Quando al posto del cartello compare «↩ Indietro» la casella
+   TORNA in alto a destra (locCollocaCasella): sotto «Indietro» non si
+   aggiunge niente e la legenda dei boschi non perde un pixel.
+   ⚠️ z-index 1002: l'elenco dei paesi si apre sotto il cartello e deve
+   passare SOPRA il pannello dei periodi. */
+#map-hint-panel .mh-t,#map-hint-panel .mh-o{display:block;}
+#map-hint-panel .mh-t{font-size:18px;}
+#map-hint-panel .mh-o{font-size:16px;font-weight:600;opacity:.92;margin-top:2px;}
+#hint-cerca-slot:empty{display:none;}
+#hint-cerca-slot{margin-top:9px;text-align:left;white-space:normal;font-weight:400;}
+#map-hint-panel.con-cerca{z-index:1002;}
+#hint-cerca-slot #novita-box{position:static;width:auto;}
+#hint-cerca-slot #loc-input{border-color:#fff;}
+/* Dentro il cartello il respiro e' un ANELLO BIANCO: il bordo blu della
+   chiamata di sempre, sul fondo blu, non si vedrebbe. Pulsa finche' non
+   scegli una regione o un paese (28/9/2026, sua richiesta); mentre scrivi
+   si ferma, e se esci senza scegliere riparte. */
+#hint-cerca-slot #loc-input.loc-chiama{animation:loc-cartello-pulsa 1.7s ease-in-out infinite;}
+#hint-cerca-slot #loc-input.loc-chiama:focus{animation:none;}
+@keyframes loc-cartello-pulsa{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}
+  50%{box-shadow:0 0 0 3px rgba(255,255,255,.75),0 0 8px 2px rgba(255,255,255,.4);}}
+@media(prefers-reduced-motion:reduce){#hint-cerca-slot #loc-input.loc-chiama{animation:none;}}
 /* IL CARTELLO BLU ACCANTO ALLA CASELLA (22/8/2026). Da desktop si parte in
    due modi, cliccando le regioni o cercando un paese, e il pannello di
    sinistra ne raccontava uno solo. Il secondo NON si spiega da sinistra con
@@ -1852,7 +1879,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <span>🖱 Clicca sulla mappa e seleziona le regioni (max 3)</span>
         </div>
         <!-- Mobile: select dropdown -->
-        <button id="reg-apri" type="button">Tocca qui per scegliere la regione ▼</button>
+        <button id="reg-apri" type="button">🔍 Cerca il paese o scegli la regione ▼</button>
         <div id="vic-riga"></div>
         <select id="region-select" class="region-select-mobile">
           <option value="">Tocca qui per scegliere la regione ▼</option>
@@ -1942,7 +1969,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
       </div>
     </div>
 
-    <div id="map-hint-panel">🖱 Clicca fino a 3 regioni sulla mappa</div>
+    <div id="map-hint-panel"><span class="mh-t">🖱 Clicca fino a 3 regioni sulla mappa</span><span class="mh-o">oppure cerca la tua località</span><div id="hint-cerca-slot"></div></div>
     <button id="btn-reset-regions" type="button">↩ Indietro</button>
 
     <div id="time-panel">
@@ -7244,6 +7271,7 @@ function updateGuidePulse(){
     hint.classList.remove('panel-pulse-ring'); // pulsazione disattivata (28/7): il pannello resta fisso
   }
   if(back) back.style.display=showBack?'block':'none';
+  if(typeof window.locCollocaCasella==='function') window.locCollocaCasella(); // la casella segue il cartello blu (sta in un altro blocco di script)
   tp.classList.toggle('panel-pulse', nSel>0 && !hasPeriod);
   if(typeof positionPanels==='function') positionPanels(); // il pannello periodo si riaggancia a quello visibile
 }
@@ -7856,6 +7884,7 @@ function fitMapToPunto(lat, lon, tacca) {
    altro modo di sparire. */
 var _locInAttesa = null;
 function locVai(p, _giro) {
+  if (typeof locFermaChiamata === 'function') locFermaChiamata();   // ha scelto un paese
   if (!p) return;
   if (isLoading) {
     if ((_giro || 0) > 40) return;                 // ~16 s e poi si lascia perdere
@@ -7992,7 +8021,10 @@ function locMostraRecenti() {
   // fase, e il respiro sfalsato si legge come due cose scollegate.
   var gb = document.getElementById('geo-btn');
   if (gb) gb.classList.add('loc-chiama');
-  inp.addEventListener('focus', locFermaChiamata);   // l'ha vista: basta chiamare
+  // Sul telefono basta il fuoco (l'ha vista). Sul PC no: la casella nel
+  // cartello blu pulsa finche' non scegli davvero (28/9/2026), e si spegne
+  // in locVai o alla prima regione cliccata (updateGuidePulse).
+  inp.addEventListener('focus', function(){ if (window.innerWidth <= 900) locFermaChiamata(); });
   // ⚠️ L'elenco dei paesi parte al TOCCO, non alla prima lettera: sono due file
   // di testo, e su una rete lenta chi scriveva subito non vedeva nessuna riga.
   // locCarica() tiene la sua promessa, quindi chiamarla due volte non costa.
@@ -8926,6 +8958,8 @@ function collocaCanale(){
   var nb = document.getElementById('novita-box'), cl = document.getElementById('channel-logo');
   if(!nb || !cl) return;
   if(window.innerWidth <= 900 || getComputedStyle(nb).display === 'none'){ cl.style.top = ''; return; }
+  // La casella e' dentro il cartello blu a sinistra: la vetrina sale al suo posto.
+  if(nb.closest('#map-hint-panel')){ cl.style.top = '52px'; return; }
   var m = document.getElementById('map');
   if(!m) return;
   var giu = nb.getBoundingClientRect().bottom - m.getBoundingClientRect().top + 10;
@@ -8956,14 +8990,22 @@ function locCollocaCasella(){
   var box=document.getElementById('novita-box'), slot=document.getElementById('reg-cerca-slot');
   if(!box||!slot) return;
   if(!_locCasa){ _locCasa=box.parentElement; _locDopo=box.nextSibling; }
+  // Sul PC la casella sta dentro il cartello blu finche' il cartello si vede;
+  // quando al suo posto c'e' «↩ Indietro» torna in alto a destra (28/9/2026).
+  var hint=document.getElementById('map-hint-panel'), hslot=document.getElementById('hint-cerca-slot');
+  var nelCartello = window.innerWidth>900 && hint && hslot && hint.style.display==='block';
   if(window.innerWidth<=900){
     if(box.parentElement!==slot) slot.appendChild(box);
+  } else if(nelCartello){
+    if(box.parentElement!==hslot) hslot.appendChild(box);
   } else if(box.parentElement!==_locCasa){
     _locCasa.insertBefore(box,_locDopo);
   }
+  if(hint) hint.classList.toggle('con-cerca', !!nelCartello);
   if(typeof collocaCanale === 'function') collocaCanale();
 }
 window.addEventListener('resize', locCollocaCasella);
+window.locCollocaCasella = locCollocaCasella;
 /* ⚠️ I NOMI DEI PAESI SI SCARICANO A MAPPA GIA' FATTA (27/8/2026): 367 KB
    presi quando non danno fastidio a nessuno, cosi' chi tocca la casella li
    trova gia' li' invece di aspettarli. La griglia da 1,4 MB NON parte qui:
@@ -8988,7 +9030,7 @@ function regEtichetta(){
   var sel=document.getElementById('region-select'), b=document.getElementById('reg-apri');
   if(!sel||!b) return;
   var o=sel.options[sel.selectedIndex];
-  b.textContent=(o&&o.value)?o.textContent:'Tocca qui per scegliere la regione ▼';
+  b.textContent=(o&&o.value)?o.textContent:'🔍 Cerca il paese o scegli la regione ▼';
 }
 function regApri(){
   var sh=document.getElementById('reg-sheet'); if(!sh) return;
