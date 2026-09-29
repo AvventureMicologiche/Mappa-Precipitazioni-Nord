@@ -1,32 +1,32 @@
 {
  "regione": "friuli",
- "generato": "2026-09-28T10:01:12.793Z",
+ "generato": "2026-09-29T10:00:18.395Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 131,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "stazioni": 139,
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
+    {
+     "n": "Val Ugovizza",
+     "mm": 0.4
+    },
+    {
+     "n": "Barcis",
+     "mm": 0.2
+    },
     {
      "n": "Cave del Predil",
      "mm": 0.2
     },
     {
-     "n": "Tarvisio",
+     "n": "Enemonzo",
      "mm": 0.2
     },
     {
-     "n": "Forni Avoltri",
-     "mm": 0.2
-    },
-    {
-     "n": "Ponte Sambo",
-     "mm": 0.2
-    },
-    {
-     "n": "Ravascletto",
+     "n": "Fusine Alpe del Lago",
      "mm": 0.2
     }
    ]
@@ -35,8 +35,8 @@
    "media": 0.2,
    "giorni": 7,
    "stazioni": 143,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Cave del Predil",
@@ -48,11 +48,11 @@
     },
     {
      "n": "Sella Nevea",
-     "mm": 1.8
+     "mm": 2
     },
     {
-     "n": "Sella di Sompdogna",
-     "mm": 1.4
+     "n": "Val Ugovizza",
+     "mm": 1.6
     },
     {
      "n": "Passo Pramollo",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 120.3,
+   "media": 121.9,
    "giorni": 20,
-   "stazioni": 145,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "stazioni": 143,
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Lignano Sabbiadoro",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 135.2,
+   "media": 130.9,
    "giorni": 30,
    "stazioni": 145,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Lignano Sabbiadoro",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Gorgo",
-     "mm": 269.8
+     "mm": 269.6
     },
     {
      "n": "Torviscosa",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,89 +149,88 @@
   2,
   4.6,
   2.4,
-  0,
-  4.4
+  0
  ],
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
-   "m30": 129.2
+   "m30": 109.3
   },
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0.1,
-   "m30": 118.1
+   "m30": 115.6
   },
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-09-27",
-   "m1": null,
+   "ultimo": "2026-09-28",
+   "m1": 0,
    "m7": 0.6,
-   "m30": 99.7
+   "m30": 97.4
   },
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0.1,
-   "m30": 113.2
+   "m30": 109.8
   },
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0.1,
-   "m7": 1.2,
-   "m30": 149.2
+   "m7": 1.3,
+   "m30": 142.8
   },
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-09-27",
-   "m1": 0.1,
+   "ultimo": "2026-09-28",
+   "m1": 0,
    "m7": 0.6,
-   "m30": 126.8
+   "m30": 122.1
   },
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
-   "m30": 139.4
+   "m30": 129.1
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-09-27",
-   "m1": 0.1,
+   "ultimo": "2026-09-28",
+   "m1": 0,
    "m7": 0.5,
-   "m30": 147.1
+   "m30": 143.6
   },
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-09-27",
-   "m1": 0.1,
+   "ultimo": "2026-09-28",
+   "m1": 0,
    "m7": 0.1,
-   "m30": 191.1
+   "m30": 156.2
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0.1,
-   "m30": 123.5
+   "m30": 115.4
   }
  ]
 }

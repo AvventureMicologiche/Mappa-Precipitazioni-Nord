@@ -1,13 +1,13 @@
 {
  "regione": "altoadige",
- "generato": "2026-09-28T10:01:12.793Z",
+ "generato": "2026-09-29T10:00:18.395Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -35,8 +35,8 @@
    "media": 0.8,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Predoi",
@@ -61,15 +61,15 @@
    ]
   },
   "20": {
-   "media": 55.8,
+   "media": 54.5,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "S. Martino in Passiria",
-     "mm": 111.4
+     "mm": 109.6
     },
     {
      "n": "Nova Levante",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 69.8,
+   "media": 65.7,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Bressanone",
-     "mm": 123.2
-    },
-    {
-     "n": "S. Martino in Passiria",
      "mm": 122.4
     },
     {
-     "n": "Selva di V. Gardena",
-     "mm": 109.6
+     "n": "S. Martino in Passiria",
+     "mm": 122.3
     },
     {
      "n": "Barbiano Colma",
-     "mm": 107
+     "mm": 99.6
     },
     {
-     "n": "Funes",
-     "mm": 101.2
+     "n": "Selva di V. Gardena",
+     "mm": 91.8
+    },
+    {
+     "n": "Fleres",
+     "mm": 91.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,25 +149,24 @@
   0.7,
   1.8,
   5.3,
-  0.1,
-  4.1
+  0.1
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
-   "m30": 75.7
+   "m30": 60.7
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
-   "m30": 92.1
+   "m30": 78.5
   }
  ]
 }

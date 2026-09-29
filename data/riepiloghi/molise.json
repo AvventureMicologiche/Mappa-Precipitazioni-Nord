@@ -1,13 +1,13 @@
 {
  "regione": "molise",
- "generato": "2026-09-28T10:01:12.794Z",
+ "generato": "2026-09-29T10:00:18.396Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 27,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Trivento PLUVIO",
@@ -35,8 +35,8 @@
    "media": 1.9,
    "giorni": 7,
    "stazioni": 27,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Palata",
@@ -61,31 +61,31 @@
    ]
   },
   "20": {
-   "media": 26.8,
+   "media": 22.4,
    "giorni": 20,
    "stazioni": 27,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
-    {
-     "n": "Ponte Venticinque Archi",
-     "mm": 72
-    },
     {
      "n": "Vandra a Fornelli",
      "mm": 69.3
     },
     {
      "n": "Forli' del Sannio",
-     "mm": 63.2
+     "mm": 61.4
+    },
+    {
+     "n": "Ponte Venticinque Archi",
+     "mm": 56.2
     },
     {
      "n": "Pietrabbondante",
-     "mm": 42.2
+     "mm": 40.2
     },
     {
-     "n": "Trigno a Bagnoli del Trigno",
-     "mm": 38.7
+     "n": "Termoli",
+     "mm": 35.7
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 27.8,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Ponte Venticinque Archi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   1.8,
@@ -148,8 +149,7 @@
   0,
   0,
   0.5,
-  0.6,
-  0
+  0.6
  ],
  "zone": []
 }

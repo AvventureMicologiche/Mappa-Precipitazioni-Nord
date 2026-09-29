@@ -1,20 +1,24 @@
 {
  "regione": "basilicata",
- "generato": "2026-09-28T10:01:12.795Z",
+ "generato": "2026-09-29T10:00:18.397Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 62,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
-     "n": "M.te Vulture",
-     "mm": 1.4
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 0.4
     },
     {
-     "n": "S.Nicola",
+     "n": "Laurenzana",
+     "mm": 0.4
+    },
+    {
+     "n": "Castelsaraceno",
      "mm": 0.2
     },
     {
@@ -24,10 +28,6 @@
     {
      "n": "F.Melandro S.Angelo Le Fratte",
      "mm": 0
-    },
-    {
-     "n": "Tricarico",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 7.2,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Sinni SS106",
@@ -61,24 +61,12 @@
    ]
   },
   "20": {
-   "media": 25.2,
+   "media": 21.2,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
-    {
-     "n": "Marsico Nuovo",
-     "mm": 70.6
-    },
-    {
-     "n": "Potenza",
-     "mm": 69
-    },
-    {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 64.2
-    },
     {
      "n": "Maratea",
      "mm": 61.1
@@ -86,6 +74,18 @@
     {
      "n": "Venosa ETG",
      "mm": 53.8
+    },
+    {
+     "n": "Sinni SS106",
+     "mm": 48.8
+    },
+    {
+     "n": "Venosa",
+     "mm": 47.4
+    },
+    {
+     "n": "Forenza",
+     "mm": 42.2
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 29,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Marsico Nuovo",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Abriola a Sellata Pierfaone",
-     "mm": 64.2
+     "mm": 64.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   8.3,
@@ -148,7 +149,6 @@
   1.8,
   0.6,
   1.4,
-  0,
   0
  ],
  "zone": []

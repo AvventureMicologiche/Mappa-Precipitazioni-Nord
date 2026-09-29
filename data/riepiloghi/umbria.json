@@ -1,13 +1,13 @@
 {
  "regione": "umbria",
- "generato": "2026-09-28T10:01:12.794Z",
+ "generato": "2026-09-29T10:00:18.396Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 78,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "La Bolsella",
@@ -35,8 +35,8 @@
    "media": 0.5,
    "giorni": 7,
    "stazioni": 78,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Forca Canapine",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 46.3,
+   "media": 46.2,
    "giorni": 20,
    "stazioni": 79,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Scheggia",
@@ -93,8 +93,8 @@
    "media": 46.4,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Scheggia",
-     "mm": 98.2
+     "mm": 96.4
     },
     {
      "n": "Montelovesco",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.4,
@@ -148,22 +149,21 @@
   0,
   0,
   0.1,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0.2,
    "m30": 79.6
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 3.4,
    "m30": 34.3
@@ -171,7 +171,7 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
    "m30": 48.3

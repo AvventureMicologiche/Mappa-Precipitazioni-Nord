@@ -1,33 +1,33 @@
 {
  "regione": "sardegna",
- "generato": "2026-09-28T10:01:12.795Z",
+ "generato": "2026-09-29T10:00:18.397Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 93,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
-     "n": "Sa Pianedda",
-     "mm": 0.4
+     "n": "Monte Santa Vittoria",
+     "mm": 0.6
+    },
+    {
+     "n": "Serpeddi' Meteo",
+     "mm": 0.2
     },
     {
      "n": "Punta Sebera",
      "mm": 0.2
     },
     {
-     "n": "Mamone",
+     "n": "Lula",
      "mm": 0.2
     },
     {
-     "n": "Minni Minni",
+     "n": "Monte Novo",
      "mm": 0.2
-    },
-    {
-     "n": "Orosei",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 2.1,
    "giorni": 7,
    "stazioni": 93,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "S. Nicolò Gerrei - Pranu Sangun",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Minni Minni",
-     "mm": 48
+     "mm": 47.8
     },
     {
      "n": "San Priamo",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 8.7,
+   "media": 8.5,
    "giorni": 20,
    "stazioni": 93,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -93,8 +93,8 @@
    "media": 9.1,
    "giorni": 30,
    "stazioni": 93,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   0.2,
   1.1,
   0.7,
@@ -148,8 +149,7 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": []
 }

@@ -1,16 +1,16 @@
 {
  "regione": "svizzera",
- "generato": "2026-09-28T17:38:25.713Z",
+ "generato": "2026-09-29T10:00:18.398Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
-     "n": "Fusio (TI)",
+     "n": "Alpe di Neggia (TI)",
      "mm": 0.2
     },
     {
@@ -18,15 +18,15 @@
      "mm": 0.1
     },
     {
-     "n": "Bricola (VS)",
-     "mm": 0.1
-    },
-    {
-     "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 0.1
-    },
-    {
      "n": "Adelboden (BE)",
+     "mm": 0
+    },
+    {
+     "n": "Aigle (VD)",
+     "mm": 0
+    },
+    {
+     "n": "Altdorf (UR)",
      "mm": 0
     }
    ]
@@ -35,8 +35,8 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 30,
+   "media": 26.9,
    "giorni": 20,
    "stazioni": 310,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -73,28 +73,28 @@
     },
     {
      "n": "Alpe di Neggia (TI)",
-     "mm": 97.4
+     "mm": 97.2
     },
     {
      "n": "Mendrisio (TI)",
-     "mm": 97
+     "mm": 96.8
     },
     {
      "n": "Magadino / Cadenazzo (TI)",
-     "mm": 96
+     "mm": 93.4
     },
     {
      "n": "Cabbio (TI)",
-     "mm": 92.6
+     "mm": 92.4
     }
    ]
   },
   "30": {
-   "media": 33.3,
+   "media": 33.2,
    "giorni": 30,
    "stazioni": 310,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Alpe di Neggia (TI)",
-     "mm": 97.4
+     "mm": 97.6
     },
     {
      "n": "Mendrisio (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   0,
   2.3,
-  0.3,
-  0
+  0.3
  ],
  "zone": []
 }

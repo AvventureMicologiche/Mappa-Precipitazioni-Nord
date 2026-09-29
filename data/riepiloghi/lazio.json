@@ -1,14 +1,22 @@
 {
  "regione": "lazio",
- "generato": "2026-09-28T10:01:12.794Z",
+ "generato": "2026-09-29T10:00:18.396Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 208,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "stazioni": 207,
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
+    {
+     "n": "Posta",
+     "mm": 0.2
+    },
+    {
+     "n": "Osteria di Castro",
+     "mm": 0.2
+    },
     {
      "n": "Monte Terminillo",
      "mm": 0
@@ -20,14 +28,6 @@
     {
      "n": "Torrita Tiberina",
      "mm": 0
-    },
-    {
-     "n": "Barbarano",
-     "mm": 0
-    },
-    {
-     "n": "Roma Monte Mario",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.6,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Ponza",
@@ -64,8 +64,8 @@
    "media": 50.5,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Tor Vergata",
@@ -93,8 +93,8 @@
    "media": 50.8,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Tor Vergata",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.5,
@@ -148,14 +149,13 @@
   0,
   0,
   0,
-  0.1,
-  0
+  0.1
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
    "m30": 38
@@ -163,7 +163,7 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
    "m30": 38.9
@@ -171,7 +171,7 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0.1,
    "m30": 28.2
@@ -179,15 +179,15 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-09-27",
-   "m1": 0,
+   "ultimo": "2026-09-28",
+   "m1": 0.1,
    "m7": 1.5,
    "m30": 38.7
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0,
    "m30": 8.9
@@ -195,7 +195,7 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 3.2,
    "m30": 38.1
@@ -203,7 +203,7 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-09-27",
+   "ultimo": "2026-09-28",
    "m1": 0,
    "m7": 0.7,
    "m30": 28.3

@@ -1,54 +1,54 @@
 {
  "regione": "sicilia",
- "generato": "2026-09-28T10:01:12.795Z",
+ "generato": "2026-09-29T10:00:18.397Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 424,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "stazioni": 425,
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Marsala SIAS",
-     "mm": 2
+     "mm": 2.2
     },
     {
-     "n": "Imera Merid. a Ponte Besaro",
+     "n": "Caronia Pomiere SIAS",
      "mm": 0.4
     },
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 0.2
+     "n": "Palazzolo Acreide SIAS",
+     "mm": 0.4
     },
     {
-     "n": "Anapo a San nicola R2",
-     "mm": 0.2
+     "n": "Biviere di Cesaro'",
+     "mm": 0.4
     },
     {
-     "n": "Rubino Diga R2",
-     "mm": 0.2
+     "n": "Santa Margherita",
+     "mm": 0.3
     }
    ]
   },
   "7": {
-   "media": 14.6,
+   "media": 12.4,
    "giorni": 7,
-   "stazioni": 431,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "stazioni": 430,
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Aci Castello",
-     "mm": 215.6
+     "mm": 215.4
     },
     {
      "n": "Aci San Filippo",
-     "mm": 186.5
+     "mm": 186.3
     },
     {
      "n": "Riposto SIAS",
-     "mm": 185.6
+     "mm": 185.4
     },
     {
      "n": "San Gregorio",
@@ -56,7 +56,7 @@
     },
     {
      "n": "Lavinaio",
-     "mm": 150
+     "mm": 145.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 48.3,
    "giorni": 20,
    "stazioni": 435,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Aci Castello",
@@ -93,8 +93,8 @@
    "media": 48.3,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Aci Castello",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   2.3,
   3.2,
@@ -148,24 +149,23 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-09-27",
-   "m1": 0,
-   "m7": 6.3,
-   "m30": 51.3
+   "ultimo": "2026-09-28",
+   "m1": 0.1,
+   "m7": 2.9,
+   "m30": 51.4
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-09-27",
-   "m1": 0,
-   "m7": 11.4,
+   "ultimo": "2026-09-28",
+   "m1": 0.1,
+   "m7": 11.1,
    "m30": 50.9
   }
  ]
