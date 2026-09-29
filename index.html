@@ -8993,7 +8993,7 @@ function locCollocaCasella(){
   // Sul PC la casella sta dentro il cartello blu finche' il cartello si vede;
   // quando al suo posto c'e' «↩ Indietro» torna in alto a destra (28/9/2026).
   var hint=document.getElementById('map-hint-panel'), hslot=document.getElementById('hint-cerca-slot');
-  var nelCartello = window.innerWidth>900 && hint && hslot && hint.style.display==='block';
+  var nelCartello = window.innerWidth>900 && hint && hslot && hint.style.display==='block' && getComputedStyle(hint).display!=='none';
   if(window.innerWidth<=900){
     if(box.parentElement!==slot) slot.appendChild(box);
   } else if(nelCartello){
@@ -9006,6 +9006,8 @@ function locCollocaCasella(){
 }
 window.addEventListener('resize', locCollocaCasella);
 window.locCollocaCasella = locCollocaCasella;
+// entrando e uscendo dai boschi il cartello si nasconde e ricompare: la casella lo segue
+try{ new MutationObserver(function(){ locCollocaCasella(); }).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
 /* ⚠️ I NOMI DEI PAESI SI SCARICANO A MAPPA GIA' FATTA (27/8/2026): 367 KB
    presi quando non danno fastidio a nessuno, cosi' chi tocca la casella li
    trova gia' li' invece di aspettarli. La griglia da 1,4 MB NON parte qui:
@@ -12475,7 +12477,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   .modo-boschi #time-panel{display:none !important}
   .modo-boschi #legend-panel{transform:translateY(0) !important}
 }
-@media(min-width:901px){.modo-boschi #btn-reset-regions{display:block !important}}
+@media(min-width:901px){.modo-boschi #btn-reset-regions{display:block !important}
+  /* nei boschi c'e' «Indietro»: il cartello «Clicca fino a 3 regioni» gli stava SOTTO, e si vedeva in
+     trasparenza (e nell'immagine condivisa) come una scritta fantasma (29/9) */
+  .modo-boschi #map-hint-panel{display:none !important}}
 /* col radar acceso le tessere non c'entrano */
 .modo-radar .leaflet-boschi-pane{display:none !important}
 /* Tocco sul bosco e tendina pioggia | boschi (18/9/2026) */
@@ -12881,18 +12886,22 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       createTile:function(c,done){
         var cv=document.createElement('canvas'); cv.width=cv.height=256;
         var url=this.getTileUrl(c);
-        if(url===VUOTA){ setTimeout(function(){ done(null,cv); },0); return cv; }
+        /* ⚠️ cv.complete (29/9, suo: «zoomando le tessere dei boschi arrivano col rimorchio»). Al cambio
+           di livello TileLayer._abortLoading butta via le tessere vecchie con `!tile.complete`: pensato per
+           le <img>, un canvas non ha `complete` e venivano buttate TUTTE, anche quelle pronte, lasciando
+           un buco finche' non arrivavano le nuove. Misurato: 17 istanti su 128 coi boschi spariti, 0 dopo. */
+        if(url===VUOTA){ cv.complete=true; setTimeout(function(){ done(null,cv); },0); return cv; }
         var im=new Image(); im.crossOrigin='anonymous';
         im.onload=function(){
           cv.width=cv.height=im.naturalWidth||256;
           var g=cv.getContext('2d'); g.drawImage(im,0,0);   // senza willReadFrequently: lo terrebbe in CPU e la mappa scorre a scatti
-          cv._c={z:c.z,x:c.x,y:c.y};
+          cv._c={z:c.z,x:c.x,y:c.y}; cv.complete=true;
           // col filtro la tessera aspetta la sua quota (se no comparirebbe intera e poi tagliata);
           // senza, compare subito e il profilo si fa dopo, a mappa ferma (codaProfilo)
           if(filtroAttivo()) quoteTessera(c.z,c.x,c.y).then(function(q){ leggi(cv); if(cv._orig && !cv._idx) prepara(cv,q); pianificaIsto(); return applicaQuota(cv); }).then(function(){ done(null,cv); });
           else { done(null,cv); codaProfilo(); }
         };
-        im.onerror=function(){ done(null,cv); };
+        im.onerror=function(){ cv.complete=true; done(null,cv); };
         im.src=url;
         return cv;
       }
@@ -12904,7 +12913,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
        pixelTessera() falliva in silenzio e la nuvoletta diceva SEMPRE «si sta
        caricando», anche con tutte le tessere a schermo. jsDelivr risponde
        `access-control-allow-origin: *`, quindi basta chiederle cosi'. */
-    return new Tessere('',{pane:'boschi',opacity:OPACITA,minZoom:indice.z_min,maxNativeZoom:indice.z_max,maxZoom:19,crossOrigin:'anonymous'});
+    /* keepBuffer 4 (29/9, suo: «le tessere dei boschi arrivano in ritardo, col rimorchio»): Leaflet
+       tiene pronte due file di tessere in piu' oltre il bordo, cosi' trascinando la mappa i boschi
+       ci sono gia'. Le tessere sono PNG leggeri, a tavolozza. */
+    return new Tessere('',{pane:'boschi',opacity:OPACITA,minZoom:indice.z_min,maxNativeZoom:indice.z_max,maxZoom:19,crossOrigin:'anonymous',keepBuffer:4});
   }
 
   var creditoBoschi=null;
@@ -14243,6 +14255,27 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     accorcia();
   }).observe(tag,{childList:true,characterData:true,subtree:true});
   window.addEventListener('resize', function(){ setTimeout(accorcia,120); });
+})();
+</script>
+<script>
+/* ⚠️ SUL TELEFONO IL DITO SUI PANNELLI SPOSTAVA LA MAPPA SOTTO (29/9/2026, visto da
+   lui: «se scorro sul pannello si muove la mappa»). Misurato: trascinando sui colori
+   della legenda o sulla sua testata la mappa si spostava. I pannelli stanno DENTRO
+   #map e il primo tocco arrivava a Leaflet, che partiva col trascinamento. Sul PC
+   c'e' gia' disableClickPropagation in positionPanels, che pero' sul telefono esce
+   subito. Si ferma solo l'INIZIO del tocco: il resto (touchmove) serve alla tendina
+   e ai cursori, che lo ascoltano su document. */
+(function(){
+  ['legend-panel','time-panel'].forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    ['touchstart','pointerdown'].forEach(function(ev){
+      el.addEventListener(ev,function(e){
+        if(window.innerWidth>900) return;
+        if(ev==='pointerdown' && e.pointerType==='mouse') return;
+        e.stopPropagation();
+      },{passive:true});
+    });
+  });
 })();
 </script>
 </body>
