@@ -10,16 +10,28 @@
   "La copertina e' un .jpg in data/vetrine/ (dal 20/9/2026): mettilo li' e committalo, ANCHE QUELLO e' gratis. Nel campo 'copertina' va scritto solo il nome del file. Se invece contiene una barra o comincia per http si usa com'e'.",
   "Se questo file non si scarica o e' scritto male, index.html usa la configurazione incorporata e il sito funziona come prima."
  ],
- "mostra": "guida",
+ "mostra": "alterna",
  "sorteggio": [
-  "rilievi",
-  "rilievi2",
-  "video",
-  "lungo16",
-  "lungo20",
-  "lungo25"
+  "guida",
+  "tartufo"
  ],
  "vetrine": {
+  "tartufo": {
+   "fino": "2027-12-31T23:59:59+01:00",
+   "link": "https://www.facebook.com/share/v/1DUVGPLkDh/",
+   "id": "fb-1DUVGPLkDh",
+   "facebook": "",
+   "instagram": "",
+   "copertina": "vetrina-tartufo-song.jpg",
+   "occhiello": "Song",
+   "occhielloP": "Song su Facebook",
+   "bottone": "GUARDA IL VIDEO",
+   "gancio1": "Domani apre il tartufo",
+   "gancio2": "buona stagione a tutti",
+   "canale": "Avventure Micologiche",
+   "ganciopx": 18.5,
+   "gancioP": "[SONG] Domani apre il tartufo:<br>buona stagione a tutti"
+  },
   "guida": {
    "fino": "2027-12-31T23:59:59+01:00",
    "link": "https://youtu.be/xK2fd58rt60",
