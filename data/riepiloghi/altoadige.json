@@ -1,14 +1,18 @@
 {
  "regione": "altoadige",
- "generato": "2026-09-29T10:00:18.395Z",
+ "generato": "2026-09-30T09:52:08.634Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
+    {
+     "n": "Nova Levante",
+     "mm": 0.1
+    },
     {
      "n": "Vallelunga Grub",
      "mm": 0
@@ -24,10 +28,6 @@
     {
      "n": "Solda",
      "mm": 0
-    },
-    {
-     "n": "Lasa Oris",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.8,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Predoi",
@@ -61,40 +61,40 @@
    ]
   },
   "20": {
-   "media": 54.5,
+   "media": 34.1,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "S. Martino in Passiria",
-     "mm": 109.6
-    },
-    {
-     "n": "Nova Levante",
-     "mm": 89.8
-    },
-    {
      "n": "Passo di Costalunga",
-     "mm": 85.1
-    },
-    {
-     "n": "Redagno",
-     "mm": 80.7
+     "mm": 60.9
     },
     {
      "n": "Selva di V. Gardena",
-     "mm": 79.3
+     "mm": 56.5
+    },
+    {
+     "n": "Nova Levante",
+     "mm": 52.2
+    },
+    {
+     "n": "Sesto",
+     "mm": 50.6
+    },
+    {
+     "n": "Redagno",
+     "mm": 49.9
     }
    ]
   },
   "30": {
-   "media": 65.7,
+   "media": 65.6,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Bressanone",
@@ -124,6 +124,7 @@
   0,
   0,
   0,
+  0,
   0.8,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0.7,
   1.8,
-  5.3,
-  0.1
+  5.3
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0,
    "m30": 60.7
@@ -163,7 +163,7 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0,
    "m30": 78.5

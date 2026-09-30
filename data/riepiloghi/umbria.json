@@ -1,13 +1,13 @@
 {
  "regione": "umbria",
- "generato": "2026-09-29T10:00:18.396Z",
+ "generato": "2026-09-30T09:52:08.634Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 78,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "stazioni": 77,
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "La Bolsella",
@@ -35,8 +35,8 @@
    "media": 0.5,
    "giorni": 7,
    "stazioni": 78,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Forca Canapine",
@@ -61,31 +61,31 @@
    ]
   },
   "20": {
-   "media": 46.2,
+   "media": 44.2,
    "giorni": 20,
    "stazioni": 79,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
-    {
-     "n": "Scheggia",
-     "mm": 96.4
-    },
     {
      "n": "Montelovesco",
      "mm": 95.2
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 94.8
     },
     {
      "n": "Pierantonio",
      "mm": 89
     },
     {
-     "n": "Monte Cucco",
-     "mm": 88.4
+     "n": "Todi",
+     "mm": 81.8
+    },
+    {
+     "n": "Bocca Serriola",
+     "mm": 79.4
+    },
+    {
+     "n": "Scheggia",
+     "mm": 76.4
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 46.4,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   0.4,
   0,
   0,
@@ -148,22 +149,21 @@
   0,
   0,
   0,
-  0.1,
-  0
+  0.1
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
-   "m7": 0.2,
-   "m30": 79.6
+   "m7": 0.1,
+   "m30": 75.6
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 3.4,
    "m30": 34.3
@@ -171,7 +171,7 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0,
    "m30": 48.3

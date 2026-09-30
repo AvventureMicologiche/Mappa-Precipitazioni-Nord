@@ -1,13 +1,13 @@
 {
  "regione": "austria",
- "generato": "2026-09-29T10:00:18.398Z",
+ "generato": "2026-09-30T09:52:08.636Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 269,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "stazioni": 268,
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Aflenz (Steiermark)",
@@ -32,15 +32,15 @@
    ]
   },
   "7": {
-   "media": 6.1,
+   "media": 5.7,
    "giorni": 7,
    "stazioni": 269,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
-     "mm": 30.7
+     "mm": 30.6
     },
     {
      "n": "Rauris (Salzburg)",
@@ -55,50 +55,50 @@
      "mm": 27
     },
     {
-     "n": "Mooslandl (Steiermark)",
-     "mm": 25.2
+     "n": "Ramsau am Dachstein (Steiermark)",
+     "mm": 24.2
     }
    ]
   },
   "20": {
-   "media": 59.7,
+   "media": 50.6,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 148.5
+     "mm": 122
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 138.5
+     "mm": 121.2
     },
     {
-     "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 123
+     "n": "Feistritz ob Bleiburg (Kärnten)",
+     "mm": 105.6
+    },
+    {
+     "n": "Bad Eisenkappel (Kärnten)",
+     "mm": 105.3
     },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
-     "mm": 121.6
-    },
-    {
-     "n": "Schmittenhöhe (Salzburg)",
-     "mm": 111.6
+     "mm": 105
     }
    ]
   },
   "30": {
-   "media": 74.2,
+   "media": 73.9,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 191.6
+     "mm": 189.1
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
-     "mm": 152.5
+     "mm": 152.2
     },
     {
      "n": "St. Veit im Pongau (Salzburg)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0.4,
   1.6,
   0.7,
-  8.4,
-  0.2
+  8.4
  ],
  "zone": []
 }

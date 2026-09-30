@@ -1,46 +1,50 @@
 {
  "regione": "marche",
- "generato": "2026-09-29T10:00:18.396Z",
+ "generato": "2026-09-30T09:52:08.634Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 108,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Monte Bove Sud",
-     "mm": 0.8
-    },
-    {
      "n": "Sassotetto",
+     "mm": 15.5
+    },
+    {
+     "n": "Svarchi",
      "mm": 0.4
     },
     {
-     "n": "Sant Angelo in Vado",
+     "n": "Ripatransone",
      "mm": 0.4
     },
     {
-     "n": "Cantiano",
-     "mm": 0.4
+     "n": "Urbino",
+     "mm": 0.2
     },
     {
-     "n": "Mozzano",
+     "n": "Pintura di Bolognola",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 5.4,
+   "media": 5.6,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
+     "n": "Sassotetto",
+     "mm": 25.7
+    },
+    {
      "n": "Chienti 2",
-     "mm": 25.2
+     "mm": 25.4
     },
     {
      "n": "Svarchi",
@@ -52,56 +56,52 @@
     },
     {
      "n": "Baraccola",
-     "mm": 19.8
-    },
-    {
-     "n": "Rotella",
-     "mm": 19.4
+     "mm": 20
     }
    ]
   },
   "20": {
-   "media": 62.6,
+   "media": 48.9,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Macerata Montalbano",
-     "mm": 132.6
-    },
-    {
-     "n": "Fossombrone",
-     "mm": 132.6
-    },
-    {
      "n": "Piobbico",
-     "mm": 125.4
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 117.6
+     "mm": 97.4
     },
     {
      "n": "Cantiano",
-     "mm": 115.4
+     "mm": 97.2
+    },
+    {
+     "n": "Cagli Civita",
+     "mm": 97.2
+    },
+    {
+     "n": "Macerata Montalbano",
+     "mm": 94.6
+    },
+    {
+     "n": "Conca 2",
+     "mm": 92
     }
    ]
   },
   "30": {
-   "media": 63.9,
+   "media": 64,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Macerata Montalbano",
-     "mm": 132.6
+     "n": "Fossombrone",
+     "mm": 132.8
     },
     {
-     "n": "Fossombrone",
+     "n": "Macerata Montalbano",
      "mm": 132.6
     },
     {
@@ -109,17 +109,18 @@
      "mm": 125.4
     },
     {
-     "n": "Cantiano",
+     "n": "Monte Petrano",
      "mm": 117.6
     },
     {
-     "n": "Monte Petrano",
-     "mm": 117.6
+     "n": "Cantiano",
+     "mm": 116.4
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.1,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0.1,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0.1,
    "m30": 73.9
@@ -163,15 +163,15 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-09-28",
-   "m1": 0.1,
-   "m7": 5.3,
-   "m30": 42.2
+   "ultimo": "2026-09-29",
+   "m1": 2.7,
+   "m7": 7.3,
+   "m30": 44.1
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 8.1,
    "m30": 30.2

@@ -1,71 +1,71 @@
 {
  "regione": "calabria",
- "generato": "2026-09-29T10:00:18.397Z",
+ "generato": "2026-09-30T09:52:08.635Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 140,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "stazioni": 139,
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Cecita",
+     "n": "Spineto",
+     "mm": 0.2
+    },
+    {
+     "n": "Mongiana P.",
+     "mm": 0.2
+    },
+    {
+     "n": "Canolo Nuovo",
+     "mm": 0.2
+    },
+    {
+     "n": "Laino Borgo",
      "mm": 0.2
     },
     {
      "n": "Nocelle-Arvo",
      "mm": 0
-    },
-    {
-     "n": "Monte Curcio-Camigl.",
-     "mm": 0
-    },
-    {
-     "n": "Gambarie",
-     "mm": 0
-    },
-    {
-     "n": "Albidona",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 15.7,
+   "media": 9,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Reggio Calabria - Catona",
-     "mm": 87.8
-    },
-    {
-     "n": "San Nicola da Crissa",
-     "mm": 81.4
-    },
-    {
-     "n": "Monte Scrisi",
-     "mm": 71
-    },
-    {
-     "n": "Scilla",
-     "mm": 66.8
+     "n": "Belvedere Marittimo",
+     "mm": 50.8
     },
     {
      "n": "Gambarie",
-     "mm": 56
+     "mm": 48.6
+    },
+    {
+     "n": "Montalto Uffugo",
+     "mm": 39.2
+    },
+    {
+     "n": "Amantea",
+     "mm": 38.2
+    },
+    {
+     "n": "Cetraro Superiore",
+     "mm": 28.6
     }
    ]
   },
   "20": {
-   "media": 50.3,
+   "media": 49.7,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Monte Scrisi",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Staiti",
-     "mm": 116.6
+     "mm": 116.4
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 52.5,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Monte Scrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.2,
@@ -148,25 +149,24 @@
   1.4,
   0.3,
   0.1,
-  0,
   0
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
-   "m7": 19.5,
+   "m7": 8.4,
    "m30": 59.5
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-09-28",
-   "m1": 0,
+   "ultimo": "2026-09-29",
+   "m1": 0.1,
    "m7": 15.7,
-   "m30": 69.6
+   "m30": 69.3
   }
  ]
 }

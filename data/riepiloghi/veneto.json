@@ -1,33 +1,33 @@
 {
  "regione": "veneto",
- "generato": "2026-09-29T15:48:55.877Z",
+ "generato": "2026-09-30T09:52:08.633Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-09-28",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-29",
+   "ultimo": "2026-09-29",
    "top": [
     {
-     "n": "Roncade (TV)",
-     "mm": 0.4
+     "n": "Portogruaro - Lison (VE)",
+     "mm": 2.4
     },
     {
-     "n": "Domegge di Cadore (BL)",
-     "mm": 0.2
+     "n": "Vazzola - Tezze (TV)",
+     "mm": 2
     },
     {
-     "n": "Castana (VI)",
-     "mm": 0.2
+     "n": "Rosa' (VI)",
+     "mm": 1
     },
     {
-     "n": "Cansiglio - Tramedere (BL)",
-     "mm": 0.2
+     "n": "Fossalta di Portogruaro (VE)",
+     "mm": 1
     },
     {
-     "n": "Campagna Lupia - Valle Averto (VE)",
-     "mm": 0.2
+     "n": "Maser (TV)",
+     "mm": 0.6
     }
    ]
   },
@@ -35,66 +35,66 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-09-22",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-23",
+   "ultimo": "2026-09-29",
    "top": [
     {
+     "n": "Portogruaro - Lison (VE)",
+     "mm": 2.4
+    },
+    {
+     "n": "Vazzola - Tezze (TV)",
+     "mm": 2
+    },
+    {
      "n": "Sella Ciampigotto (BL)",
-     "mm": 1.2
+     "mm": 1.4
     },
     {
      "n": "Sorga' (VR)",
      "mm": 1.2
     },
     {
-     "n": "Cansiglio - Tramedere (BL)",
-     "mm": 0.8
-    },
-    {
-     "n": "Pian del Crep (Val di Zoldo) (BL)",
-     "mm": 0.6
-    },
-    {
-     "n": "Belluno - aeroporto (BL)",
-     "mm": 0.6
+     "n": "Rosa' (VI)",
+     "mm": 1
     }
    ]
   },
   "20": {
-   "media": 86.3,
+   "media": 62.7,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-09",
-   "ultimo": "2026-09-28",
+   "primo": "2026-09-10",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 290.8
+     "mm": 269.2
     },
     {
      "n": "Bibione (VE)",
-     "mm": 263.8
+     "mm": 255.2
     },
     {
      "n": "Eraclea (VE)",
-     "mm": 199.6
+     "mm": 182.4
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 185.2
+     "mm": 171.4
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 146.4
+     "mm": 131
     }
    ]
   },
   "30": {
-   "media": 91.8,
+   "media": 91.9,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-08-30",
-   "ultimo": "2026-09-28",
+   "primo": "2026-08-31",
+   "ultimo": "2026-09-29",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 185.4
+     "mm": 185.6
     },
     {
      "n": "Malga Campobon (San Pietro di Cadore) (BL)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,15 +149,14 @@
   0,
   0.4,
   1.7,
-  1.5,
-  0
+  1.5
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-09-28",
-   "m1": 0.1,
+   "ultimo": "2026-09-29",
+   "m1": 0,
    "m7": 0.2,
    "m30": 118.6
   },
@@ -171,15 +171,15 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-09-28",
-   "m1": 0,
-   "m7": 0,
+   "ultimo": "2026-09-29",
+   "m1": 0.1,
+   "m7": 0.1,
    "m30": 136.4
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0,
    "m30": 108
@@ -187,23 +187,23 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-09-28",
-   "m1": 0.1,
+   "ultimo": "2026-09-29",
+   "m1": 0,
    "m7": 0.1,
    "m30": 93.5
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-09-28",
-   "m1": 0.1,
+   "ultimo": "2026-09-29",
+   "m1": 0,
    "m7": 0.2,
    "m30": 120.3
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-09-28",
+   "ultimo": "2026-09-29",
    "m1": 0,
    "m7": 0.1,
    "m30": 110.7
