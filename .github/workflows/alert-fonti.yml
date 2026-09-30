@@ -124,6 +124,39 @@ jobs:
           [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
           echo "Mail inviata."
 
+      # ── Terzo inquilino: la PIOGGIA DOPPIA (30/9/2026) ────────────────────
+      # Tutti i giorni, tutte le regioni: stazioni con lo stesso valore in due
+      # giorni consecutivi, la firma della pioggia trascinata sul giorno dopo
+      # (bug #17/#18/#19). Non legge fonti esterne e non tocca dati.
+      # Vedi .github/scripts/check-doppioni.js
+      - name: Controlla la pioggia doppia
+        id: doppioni
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: node .github/scripts/check-doppioni.js
+        continue-on-error: true
+
+      - name: Manda la mail della pioggia doppia
+        if: steps.doppioni.outputs.mail == 'true'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ -z "$MAIL_USER" ] || [ -z "$MAIL_PASS" ] || [ -z "$MAIL_TO" ]; then
+            echo "::error::Mancano i secret MAIL_USER / MAIL_PASS / MAIL_TO: la mail non parte."
+            exit 1
+          fi
+          ok=0
+          for i in 1 2 3; do
+            if curl --silent --show-error --ssl-reqd                  --url 'smtps://smtp.gmail.com:465'                  --user "$MAIL_USER:$MAIL_PASS"                  --mail-from "$MAIL_USER"                  --mail-rcpt "$MAIL_TO"                  --upload-file doppioni-mail.eml; then ok=1; break; fi
+            echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
+            sleep 20
+          done
+          [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
+          echo "Mail inviata."
+
       - name: Commit del registro
         if: steps.check.outputs.registro == 'true' || steps.ferme.outputs.registro == 'true'
         run: |
