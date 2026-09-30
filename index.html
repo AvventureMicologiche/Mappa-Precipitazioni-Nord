@@ -325,6 +325,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
 #map-hint-panel .mh-t{font-size:18px;}
 #map-hint-panel .mh-o{font-size:16px;font-weight:600;opacity:.92;margin-top:2px;}
 #hint-cerca-slot:empty{display:none;}
+body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:none !important}
 #hint-cerca-slot{margin-top:9px;text-align:left;white-space:normal;font-weight:400;}
 #map-hint-panel.con-cerca{z-index:1002;}
 #hint-cerca-slot #novita-box{position:static;width:auto;}
@@ -1550,7 +1551,9 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   #legend-panel.leg-mini #channel-pill,
   #legend-panel.leg-mini .bo-griglia,
   #legend-panel.leg-mini .bo-nota,
-  #legend-panel.leg-mini .rd-nota{display:none !important;}
+  #legend-panel.leg-mini .rd-nota,
+  #legend-panel.leg-mini .bo-sat,
+  #legend-panel.leg-mini .bq{display:none !important;}   /* boschi ridotti: restano solo i 4 tasti (29/9, suo) */
   /* Ridotta, titolo e «Indietro» stanno in riga: il titolo lascia la larghezza
      piena e si accorcia coi puntini se il periodo ha un nome lungo. */
   #legend-panel.leg-mini .leg-header{flex-wrap:nowrap;margin-bottom:2px;}
@@ -2045,6 +2048,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
           <div class="cd-lbl">Data fine</div>
           <input type="date" class="cd-inp" id="cd-to">
           <button class="cd-go" id="cd-apply">Applica</button>
+          <div id="cd-msg" role="alert" style="display:none;color:#c0392b;font-size:13px;font-weight:600;margin-top:6px;line-height:1.3"></div>
         </div>
       </div>
     </div>
@@ -3141,7 +3145,7 @@ function drawGrid(){
   var small=drawGrid._small||(drawGrid._small=document.createElement('canvas'));
   small.width=nx; small.height=ny;
   var sc=small.getContext('2d'); var img=sc.createImageData(nx,ny); var px=img.data;
-  var a=Math.round(heatOpacity*255);
+  var a=Math.round((window._satOn?0.80:heatOpacity)*255);   // sopra la foto satellitare 0,80 (scelto da lui il 28/9)
   for(var k=0;k<gridPoints.length;k++){var q=gridPoints[k];
     if(q.mm<MIN_MM_DISPLAY) continue;
     var fa=a; if(q.mm<5.0){fa=Math.round(a*(q.mm-MIN_MM_DISPLAY)/(5.0-MIN_MM_DISPLAY));}   // sfumatura 2->5
@@ -4326,8 +4330,12 @@ function positionPanels(){
      Sopra i ~745 px di finestra non succede; sotto i ~720 si mangia l'ultima
      riga. Non l'ha causato il decimo colore: il pannello e' alto uguale, prima
      si perdeva una voce sola invece di due. */
-  if(leg.style.display!=='none'){
-    var tpBottom = tp.offsetTop + tp.offsetHeight;
+  /* ⚠️ lo stile CALCOLATO, non quello in linea (29/9/2026, collaudo): col radar la legenda e' mostrata
+     dal CSS (!important) mentre in linea resta `none`, e qui si saltava tutto. Sui PC bassi usciva
+     dal fondo della mappa: 53-81 px a 1366x657, via la scala dei colori e l'ora. */
+  if(getComputedStyle(leg).display!=='none'){
+    // nei boschi il pannello delle date e' nascosto (29/9): la legenda sale sotto «Indietro»
+    var tpBottom = _vis(tp) ? tp.offsetTop + tp.offsetHeight : rpBottom;
     var legTop = tpBottom + GAP;
     /* ⚠️ SI MISURA L'ALTEZZA NATURALE, non quella gia' tagliata da un giro
        precedente: se no il conto si fa su un numero che dipende da se stesso e
@@ -4459,6 +4467,8 @@ function centraRegioneInStriscia(){
      ne basta uno, ed e' proprio lo sfarfallio segnalato. */
   if(document.body.classList.contains('modo-radar')) return;
   if(_vistaDaLink) return;   // la vista arriva da un link condiviso: comanda quella
+  // «Confronta piogge» ha appena rimesso la vista dell'utente (29/9): per un paio di secondi non si ricentra
+  if(window._fermaCentraFino && Date.now()<window._fermaCentraFino) return;
   if(typeof getActiveRegions!=='function') return;
   var rks=getActiveRegions(); if(!rks.length) return;
   var mEl=document.getElementById('map'); if(!mEl) return;
@@ -6757,7 +6767,19 @@ var MH_ESCLUSE={
   // una goccia. L'ALTRA «Agira», a 4,4 km, ne fa 61,2 negli ultimi 45 giorni
   // ed e' sana. Ne restano 3 entro 10 km. Trovata dal controllo del lunedi'
   // il 31/8/2026, chiusa il 10/9.
-  sicilia:{'37.65500_14.52833':true}
+  // Trinita' Diga R2 (TP), 37.69194/12.75222, e Riesi_DRPC (CL), 37.29722/14.07111, escluse
+  // il 30/9/2026 dal controllo del lunedi' (29/9): MORTE CON UNA DATA. Trinita': ultima
+  // pioggia il 27/7 (1,4 mm), poi ZERO in agosto e settembre mentre i cinque vicini fanno
+  // 29,8 mm (Modione a Santa Teresa 30 mm a 8,6 km, Castelvetrano SIAS 30 a 10,2). Riesi
+  // DRPC: 21,8 mm il 13/8 e poi piu' niente, vicini a 26,8 (Riesi SIAS a 2,9 km ne fa 8,
+  // Milingiana Sottana 40 a 11,8). Nei 120 giorni prima misuravano (22,8 e 45,2 mm).
+  sicilia:{'37.65500_14.52833':true,'37.69194_12.75222':true,'37.29722_14.07111':true},
+  // Benevento METEO (BN), 41.11500/14.82500, esclusa il 30/9/2026: MORTA CON UNA DATA.
+  // Misurava (60,9 mm in agosto, ultima pioggia 9,6 mm il 12/8), poi ZERO in tutto
+  // settembre mentre Paduli a 3,9 km ne fa 66 e Benevento a 4,8 km 55. Gragnano (NA),
+  // segnalata insieme, NON e' esclusa: e' viva (0,4 mm il 25/9) ma sorda, un decimo di
+  // Pimonte a 2 km; per la regola del 21/8 le sorde restano in mappa.
+  campania:{'41.11500_14.82500':true}
   // ── RIENTRATA il 10/9/2026: Poggio San Vicino (MC, 43.36842_13.07953) ────
   // Esclusa il 21/8/2026 perche' faceva 0,0 mm in 37 giorni. Ha ripreso a
   // misurare quello stesso giorno: 21,8 mm il 21/8, 36,4 il 25/8, 18,0 il
@@ -9007,7 +9029,12 @@ function locCollocaCasella(){
 window.addEventListener('resize', locCollocaCasella);
 window.locCollocaCasella = locCollocaCasella;
 // entrando e uscendo dai boschi il cartello si nasconde e ricompare: la casella lo segue
-try{ new MutationObserver(function(){ locCollocaCasella(); }).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
+try{ new MutationObserver(function(){ locCollocaCasella();
+  /* a ogni cambio di modo (radar, boschi) i pannelli del PC si rimettono in colonna (29/9/2026, collaudo:
+     entrando nel radar la legenda restava in cima, sopra «Indietro», fino al primo ridimensionamento) */
+  // positionLegend e non positionPanels: mette anche l'osservatore che la segue quando cresce (le durate del radar)
+  if(window.innerWidth>900 && typeof positionLegend==='function') setTimeout(positionLegend,30);
+}).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
 /* ⚠️ I NOMI DEI PAESI SI SCARICANO A MAPPA GIA' FATTA (27/8/2026): 367 KB
    presi quando non danno fastidio a nessuno, cosi' chi tocca la casella li
    trova gia' li' invece di aspettarli. La griglia da 1,4 MB NON parte qui:
@@ -9376,11 +9403,16 @@ document.getElementById('cd-apply').addEventListener('click',function(){
   }
   var from=document.getElementById('cd-from').value;
   var to=document.getElementById('cd-to').value;
-  if(!from||!to){alert('Seleziona entrambe le date');return;}
-  if(from>to){alert('Data inizio deve essere prima della data fine');return;}
+  /* L'avviso sta SOTTO «Applica», in rosso, e non in una finestra del browser (29/9/2026, collaudo:
+     l'alert era l'unico messaggio del sito fatto cosi', e sul telefono copriva tutto). */
+  var cdMsg=document.getElementById('cd-msg');
+  var avvisa=function(t){ if(cdMsg){ cdMsg.textContent='⚠️ '+t; cdMsg.style.display='block'; } else alert(t); };
+  if(cdMsg){ cdMsg.style.display='none'; cdMsg.textContent=''; }
+  if(!from||!to){avvisa('Scegli tutte e due le date');return;}
+  if(from>to){avvisa('La data di inizio deve venire prima della data di fine');return;}
   // Limite massimo 12 mesi
   var diffMs=new Date(to+'T23:59:59').getTime()-new Date(from+'T00:00:00').getTime();
-  if(diffMs>365*24*3600000){alert('Il periodo massimo selezionabile è 12 mesi');return;}
+  if(diffMs>365*24*3600000){avvisa('Il periodo massimo selezionabile è 12 mesi');return;}
   // Limite storico dinamico per regioni con dati misti
   var MIXED_REGIONS2=['liguria','piemonte','veneto','emilia','toscana'];
   var activeRegs2=getActiveRegions();
@@ -9393,16 +9425,16 @@ document.getElementById('cd-apply').addEventListener('click',function(){
     var minDt2=new Date(Math.max(minMs2, new Date('2026-05-15').getTime()));
     var minDate2=fmtISOLocal(minDt2);
     if(from<minDate2){
-      alert('Per questa regione i dati affidabili partono dal '+ggmmaaaa(minDate2)+'. La finestra si amplia di 1 giorno al giorno.');
+      avvisa('Per questa regione i dati affidabili partono dal '+ggmmaaaa(minDate2)+'. La finestra si amplia di 1 giorno al giorno.');
       return;
     }
   } else {
-    if(from<'2021-01-01'){alert('I dati ARPA sono disponibili dal 1 gennaio 2021');return;}
+    if(from<'2021-01-01'){avvisa('I dati ARPA sono disponibili dal 1 gennaio 2021');return;}
   }
-  document.getElementById('custom-box').style.display='none';
-  // Blocca se la data fine è oggi o futura
+  // Blocca se la data fine è oggi o futura (prima di chiudere il riquadro: l'avviso sta li' dentro)
   var ieriStr=fmtISOLocal(new Date(new Date().setDate(new Date().getDate()-1)));
-  if(to>ieriStr){alert('I dati di oggi non sono ancora disponibili. La data massima è ieri ('+ggmmaaaa(ieriStr)+').');return;}
+  if(to>ieriStr){avvisa('I dati di oggi non sono ancora disponibili. La data massima è ieri ('+ggmmaaaa(ieriStr)+').');return;}
+  document.getElementById('custom-box').style.display='none';
   var pastDate=new Date(from+'T00:00:00');
   var nowDate=new Date(to+'T23:59:59');
   var d=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};
@@ -9482,6 +9514,7 @@ function buildShareUrl(){
   // area. Lo zoom viaggia grezzo.
   if(window._radarModo) p.set('radar', window._radarModo);
   if(window._boschiAcceso) p.set('boschi', '1');   // retino «Tipi di bosco», 15/9/2026
+  if(window._satOn) p.set('sat', '1');   // Mappa|Satellite (29/9/2026): chi apre il link vede la foto
   if(window._boschiAcceso && window._quotaFascia && window._quotaFascia()) p.set('quota', window._quotaFascia());   // filtro di altitudine
   return location.origin+location.pathname+'?'+p.toString();
 }
@@ -9509,6 +9542,8 @@ window._centraStriscia=centraRegioneInStriscia;
    comanda lui: centraRegioneInStriscia non guarda _vistaUtente e lo
    riporterebbe sulla regione intera ogni volta che tocca la striscia. */
 window._vistaUtenteAttiva=function(){ return !!_vistaUtente; };
+// «Confronta piogge» rimette la vista dell'utente dopo l'analisi, che la spia l'aveva spenta (29/9/2026)
+window._segnaVistaUtente=function(){ _vistaUtente=true; };
 /* Per la Mappa boschi (16/9/2026): chi arriva da una pagina di paese col link
    `boschi=1`, o ha cercato un paese e poi preme il tasto, deve vedere i boschi
    INTORNO AL PAESE e non la regione intera. Restituisce false se un paese non
@@ -9555,6 +9590,9 @@ function _imgDaSvg(svg,w,h){
 }
 function captureMapBlob(scala){
   try{ map.stop(); }catch(e){}
+  /* in-scatto (29/9, sua schermata): la casella di ricerca dentro il cartello blu, nascosta nella
+     foto, lasciava un buco. Si toglie PRIMA di misurare i pannelli, cosi' vetro e ombre combaciano. */
+  document.body.classList.add('in-scatto'); try{ positionPanels(); }catch(e){}
   // Lo screen deve contenere TUTTA l'analisi, non la porzione che capita nella
   // finestra: su schermi bassi (o con tante regioni insieme) il contenuto
   // sborda e l'immagine usciva tagliata sopra e sotto — successo il 30/7/2026
@@ -9725,7 +9763,7 @@ function captureMapBlob(scala){
     // ricerca non dice niente. Il paese cercato resta: il suo nome e' scritto
     // sulla mappa accanto alla puntina rossa.
     var pannelli=[].slice.call(mapEl.children).filter(function(el){
-      return el.id!=='novita-box' && !el.classList.contains('leaflet-pane') && !el.classList.contains('leaflet-control-container') && visibile(el);
+      return el.id!=='novita-box' && el.id!=='sat-btn' && !el.classList.contains('leaflet-pane') && !el.classList.contains('leaflet-control-container') && visibile(el);
     }).concat([].slice.call(mapEl.querySelectorAll('.leaflet-control-container .leaflet-control')).filter(visibile))
       // L'header è fuori da #map ma va nello scatto: rel() lo porta a y=0
       .concat(hdrEl&&visibile(hdrEl)?[hdrEl]:[]);
@@ -9750,6 +9788,12 @@ function captureMapBlob(scala){
         onclone:function(doc){
           [].slice.call(doc.querySelectorAll('.leaflet-pane')).forEach(function(el){ el.style.display='none'; });
           var nb=doc.getElementById('novita-box'); if(nb) nb.style.visibility='hidden';
+          // il riquadro Mappa|Satellite non va nello scatto; i crediti della foto SI' (obbligatori)
+          var sb=doc.getElementById('sat-btn'); if(sb) sb.style.visibility='hidden';
+          // la manopola del retino html2canvas la disegna come una casella di testo: nello scatto non serve
+          // i tasti dei boschi restano nella foto (29/9, suo); solo il cursore della manopola, che
+          // html2canvas disegna come una casella di testo, diventa invisibile senza lasciare buchi
+          [].slice.call(doc.querySelectorAll('.bo-sat input')).forEach(function(el){ el.style.visibility='hidden'; });
           doc.body.style.background='none';
           var mw=doc.getElementById('map-wrap'); if(mw) mw.style.background='none';
           var mp=doc.getElementById('map'); if(mp) mp.style.background='none';
@@ -9868,9 +9912,11 @@ function captureMapBlob(scala){
     // Vista dell'utente com'era prima dell'eventuale adattamento — sia in
     // successo sia in errore, altrimenti la mappa resta "saltata".
     if(vistaPrec){ try{ map.setView(vistaPrec.c,vistaPrec.z,{animate:false}); }catch(e){} }
+    document.body.classList.remove('in-scatto'); try{ positionPanels(); }catch(e){}
     return blob;
   },function(err){
     if(vistaPrec){ try{ map.setView(vistaPrec.c,vistaPrec.z,{animate:false}); }catch(e){} }
+    document.body.classList.remove('in-scatto'); try{ positionPanels(); }catch(e){}
     throw err;
   });
 }
@@ -10165,7 +10211,9 @@ if(_btnShot){
     }
   }
   if(!r||!da||!a) return;
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(da)||!/^\d{4}-\d{2}-\d{2}$/.test(a)||da>a) return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(da)||!/^\d{4}-\d{2}-\d{2}$/.test(a)) return;
+  // date invertite (link scritto a mano): si scambiano, invece di aprire una pagina vuota senza dire niente (29/9/2026)
+  if(da>a){ var _tmp=da; da=a; a=_tmp; }
   // Alias per i link già in circolazione: prima del 3/8/2026 la Svizzera in
   // mappa era il solo Ticino (regione 'ticino'). Quei link devono continuare
   // ad aprirsi: si mappano sulla regione 'svizzera' che lo contiene.
@@ -10816,6 +10864,18 @@ function drawDefaultMarkers(stazioni,cfg){
       mk.on('mouseout',function(){mk.setStyle({radius:5,weight:1.5,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
       mk.on('touchstart',function(e){var t=e.originalEvent.touches[0];showDef(t.clientX,t.clientY);e.originalEvent.stopPropagation();});
       mk.on('touchend',function(e){e.originalEvent.stopPropagation();});
+      /* ⚠️ IL CLIC SUL PALLINO VALE COME IL CLIC SULLA REGIONE (29/9/2026, collaudo): prima del
+         periodo i pallini bianchi coprono il 43% della regione e al clic non facevano niente, quindi
+         per togliere una regione bisognava centrare lo spazio fra un pallino e l'altro. Solo sul PC
+         (li' si sceglie cliccando la mappa), e non coi boschi o col radar. */
+      mk.on('click',function(e){
+        if(window.innerWidth<=900 || window._boschiAcceso || document.body.classList.contains('modo-radar')) return;
+        var rk=null; Object.keys(REGIONS).forEach(function(k){ if(REGIONS[k]===cfg && document.getElementById('chk-'+k)) rk=k; });
+        if(!rk) return;
+        L.DomEvent.stopPropagation(e);
+        if(histEl.style.display==='block'&&Date.now()-histOpenedAt>=400){ closeStationHistory(); return; }
+        hideTooltip(); toggleRegionFromMap(rk);
+      });
     }(m,s));
   });
 }
@@ -11591,7 +11651,8 @@ function loadDefaultMarkers(){
 /* ⚠️ Il «new» e' uno pseudo-elemento, non testo dentro il tasto: cosi'
    sopravvive all'innerHTML che cambia entrando in modo radar, e sparisce da
    solo quando il tasto diventa «Chiudi radar». */
-#btn-radar::after,#btn-boschi::after{content:'new';position:absolute;top:-6px;right:-4px;
+/* «new» (29/9, suo): tolto dal radar, messo sul Satellite dei boschi */
+#btn-boschi::after,#bo-sat-btn::after{content:'new';position:absolute;top:-6px;right:-4px;
   background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;
   padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none}
 .modo-radar #btn-radar::after{display:none}
@@ -11642,6 +11703,99 @@ function loadDefaultMarkers(){
 .modo-radar .grad-l,
 .modo-radar .stats-row,
 .modo-radar #btn-shot{display:none !important}
+/* MAPPA | SATELLITE (29/9/2026): il riquadro come su Google, con l'anteprima dell'altra mappa */
+#sat-btn{position:absolute;z-index:1000;right:10px;bottom:28px;width:64px;height:64px;padding:0;border:2px solid #fff;border-radius:9px;
+  box-shadow:0 2px 8px rgba(0,0,0,.35);background:#9fb5c9 center/cover no-repeat;cursor:pointer;overflow:hidden}
+#sat-btn span{position:absolute;left:0;right:0;bottom:0;padding:12px 2px 4px;text-align:center;color:#fff;
+  font:700 11px/1 inherit;font-family:inherit;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.7))}
+#sat-btn:hover{box-shadow:0 2px 10px rgba(0,0,0,.5)}
+/* I crediti sul PC arrivavano fino a meta' mappa (29/9, suo): stanno in un terzo
+   della larghezza, allineati a destra, e vanno a capo */
+/* CONFINI SUL SATELLITE (29/9, suo: «li hai fatti in blu, si perdono nella foto»). Il blu
+   dei confini (#1b3f6e scelti, #4a6c9b gli altri) sta scritto sul tracciato: il CSS lo
+   batte, quindi col satellite diventano BIANCHI senza toccare il disegno. I pallini sono
+   #333 e non si toccano. Il respiro (confPulse) anima stroke-opacity e resta. */
+.sat-on #map .leaflet-overlay-pane path[stroke="#1b3f6e"],.sat-on #map .leaflet-overlay-pane path[stroke="#4a6c9b"]{stroke:#fff;stroke-opacity:.9}
+.sat-on #map .leaflet-overlay-pane path[fill="#1b3f6e"]{fill:#fff}
+@media(min-width:901px){#map .leaflet-control-attribution{max-width:34vw;white-space:normal;text-align:right;line-height:1.35;font-size:10.5px}}
+@media(max-width:900px){#sat-btn{bottom:auto;top:52px;right:8px;width:54px;height:54px}#sat-btn span{font-size:10px;padding-bottom:3px}}
+.bo-sat{display:none;align-items:center;gap:7px;margin:0 0 6px;font-size:11.5px;color:#1b3f6e}
+.sat-on .bo-sat{display:flex}
+/* ═══ BOSCHI E SATELLITE, VERSIONE PULITA (29/9/2026, sua) ═══
+   - il riquadro Satellite c'e' SOLO nei boschi (sotto la pioggia non serve: tessere Esri risparmiate);
+   - nei boschi il pannello delle date sparisce: per tornare alla pioggia c'e' «💧 Piogge», stesso zoom;
+   - «Confronta con piogge» senza un'analisi fa ricomparire il pannello delle date (bo-scegli-date). */
+#sat-btn{display:none !important}
+body.modo-boschi #time-panel{display:none !important}
+.bo-azioni{display:flex;gap:8px;margin:0 0 7px}
+.bo-az{flex:1;text-align:center;font-size:13px;font-weight:700;border-radius:14px;padding:6px 10px;cursor:pointer;white-space:nowrap;user-select:none;
+  color:#1b3f6e;background:#eef3fb;border:1px solid #c9d6ea}
+.bo-az:hover{background:#dfe8f6}
+.bo-az-piogge{color:#fff;background:#1b3f6e;border-color:#1b3f6e}
+.bo-az-piogge:hover{background:#234f8a}
+.sat-on .bo-az-sat{color:#fff;background:#2f6b2f;border-color:#2f6b2f}
+/* ═══ PC: i tasti dei boschi in ordine (29/9) ═══ tutti uguali: stessa altezza, stesso stile, divisi a parti uguali.
+   Dal 30/9 (suo: «satellite e confronta salgono, gli altri sotto») «Confronta piogge» e «Satellite» stanno nella
+   riga dei comandi DAVANTI a Immagine e Copia link, che va a capo: 2x2. In .bo-azioni resta «Torna alle piogge». */
+@media(min-width:901px){
+  body.conf-pc:not(.modo-boschi) #legend-panel .leg-header .bo-tend-btn,
+  body.conf-pc:not(.modo-boschi) #legend-panel .leg-header .bo-az-sat{display:none}
+  body.modo-boschi #legend-panel .leg-header{display:flex;gap:8px;margin-bottom:8px}
+  body.conf-pc.modo-boschi #legend-panel .leg-header{flex-wrap:wrap}
+  body.conf-pc.modo-boschi #legend-panel .leg-header #btn-shot,body.conf-pc.modo-boschi #legend-panel .leg-header #btn-share,
+  body.conf-pc.modo-boschi #legend-panel .leg-header .bo-tend-btn,body.conf-pc.modo-boschi #legend-panel .leg-header .bo-az-sat{
+    flex:1 1 calc(50% - 4px);max-width:calc(50% - 4px)}
+  body.modo-boschi.sat-on #legend-panel .leg-header .bo-az-sat{color:#fff;background:#2f6b2f;border-color:#2f6b2f}
+  body.modo-boschi #legend-panel .leg-header #btn-shot,body.modo-boschi #legend-panel .leg-header #btn-share,
+  body.modo-boschi #legend-panel .leg-header .bo-tend-btn,body.modo-boschi #legend-panel .leg-header .bo-az,body.modo-boschi .bo-azioni .bo-az{
+    flex:1 1 0;min-width:0;margin:0;height:34px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+    font:600 12.5px/1 inherit;font-family:inherit;color:#1b3f6e;background:#eef3fb;border:1px solid #c9d6ea;border-radius:9px;padding:0 5px;white-space:nowrap;cursor:pointer}
+  body.modo-boschi #legend-panel .leg-header #btn-shot:hover,body.modo-boschi #legend-panel .leg-header #btn-share:hover,
+  body.modo-boschi #legend-panel .leg-header .bo-tend-btn:hover,body.modo-boschi #legend-panel .leg-header .bo-az:hover,body.modo-boschi .bo-azioni .bo-az:hover{background:#dfe8f6}
+  body.modo-boschi.bo-tendina #legend-panel .leg-header .bo-tend-btn{color:#fff;background:#1b3f6e;border-color:#1b3f6e}
+  body.modo-boschi.sat-on .bo-azioni .bo-az-sat{color:#fff;background:#2f6b2f;border-color:#2f6b2f}
+  body.modo-boschi .bo-azioni{margin-bottom:8px;flex-wrap:wrap}
+  body.modo-boschi .bo-azioni .bo-tend-btn{flex:1 1 0;min-width:0;margin:0;height:34px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+    font:600 12.5px/1 inherit;font-family:inherit;color:#1b3f6e;background:#eef3fb;border:1px solid #c9d6ea;border-radius:9px;padding:0 5px;white-space:nowrap;cursor:pointer}
+  body.modo-boschi.bo-tendina .bo-azioni .bo-tend-btn{color:#fff;background:#1b3f6e;border-color:#1b3f6e}
+  body.modo-boschi .bo-azioni .bo-az-piogge{flex:1 1 100%;color:#fff;background:#1b3f6e;border-color:#1b3f6e}
+  body.modo-boschi .bo-azioni .bo-az-piogge:hover{background:#234f8a}
+  body.conf-pc.modo-boschi .bo-tit-riga{display:block}
+  /* ordine: le due righe di tasti, la manopola, poi il titolo attaccato ai colori */
+  body.modo-boschi #bo-leg{display:flex;flex-direction:column}
+  body.modo-boschi #bo-leg > *{order:5}
+  body.modo-boschi #bo-leg > .bo-azioni{order:1}
+  body.modo-boschi #bo-leg > .bo-sat{order:2}
+  body.modo-boschi #bo-leg > .bo-tit-riga{order:3}
+}
+/* telefono stretto: quattro tasti in riga, caratteri e margini un filo piu' piccoli */
+@media(max-width:380px){
+  body.conf-c.modo-boschi #legend-panel .leg-header{gap:4px !important}
+  body.conf-c.modo-boschi #btn-shot{padding-left:5px !important;padding-right:5px !important}
+  body.conf-c.modo-boschi #btn-shot:after{font-size:11.5px}
+  body.conf-c.modo-boschi #legend-panel .leg-header .bo-tend-btn,body.conf-c.modo-boschi #legend-panel .leg-header .bo-az-sat.in-riga,
+  body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn{font-size:11.5px !important;padding-left:5px !important;padding-right:5px !important}
+}
+/* sul telefono, nella riga Condividi | Confronta | Satellite | Indietro */
+#bo-sat-btn{position:relative;overflow:visible !important}
+.sat-on #bo-sat-btn::after{display:none}
+#legend-panel .leg-header .bo-az-sat.in-riga{flex:1;font-size:12.5px;padding:0 6px;border-radius:9px;display:flex;align-items:center;justify-content:center;min-height:34px}
+/* ⚠️ fuori dai boschi «Satellite» non c'e' (29/9, sua schermata: passato dai boschi, «Indietro» e un
+   periodo nuovo, il tasto restava nella riga dei comandi della pioggia). Come «Confronta piogge». */
+body.conf-c:not(.modo-boschi) #legend-panel .leg-header .bo-az-sat.in-riga{display:none}
+@media(max-width:900px){.bo-az-piogge{display:none}}   /* sul telefono c'e' gia' «Indietro» */
+/* «Confronta» senza un'analisi dietro: il pannello delle date ricompare sopra la legenda dei boschi */
+body.modo-boschi.bo-scegli-date #time-panel{display:block !important}
+/* nomi nostri sul satellite: bianchi, ombra morbida invece del bordo nero spesso */
+.nome-paese{white-space:nowrap;pointer-events:none}
+/* niente pallino: si confondeva coi pallini bianchi dei pluviometri */
+.nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;   /* sopra il punto: un pluviometro in paese non copre il nome */
+  color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;
+  text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
+.bo-sat span{font-weight:600;white-space:nowrap}
+.bo-sat input{flex:1;min-width:0;accent-color:#1b3f6e}
+.bo-sat b{min-width:32px;text-align:right}
+.bo-sat .bo-az-nascondi{flex:none;font-size:12px;padding:4px 10px}
 /* il velo azzurro della regione si mangerebbe le macchie di pioggia */
 .modo-radar #map path{fill-opacity:0 !important}
 .modo-radar path.conf-pulse{stroke-opacity:1 !important;stroke-width:2.6px}
@@ -12471,6 +12625,9 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 .modo-boschi .grad,
 .modo-boschi .grad-l,
 .modo-boschi .stats-row{display:none !important}
+/* l'avviso «dati di ieri non pervenuti» nella mappa dei boschi non serve (30/9/2026, suo): parla
+   della pioggia, che qui non si vede. Torna con «Confronta piogge», dove la pioggia c'e'. */
+.modo-boschi:not(.bo-tendina) #ieri-notice{display:none !important}
 /* il pannello legenda esiste solo con un'analisi: col modo acceso serve sempre */
 .modo-boschi #legend-panel{display:block !important}
 @media(max-width:900px){
@@ -12480,7 +12637,9 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 @media(min-width:901px){.modo-boschi #btn-reset-regions{display:block !important}
   /* nei boschi c'e' «Indietro»: il cartello «Clicca fino a 3 regioni» gli stava SOTTO, e si vedeva in
      trasparenza (e nell'immagine condivisa) come una scritta fantasma (29/9) */
-  .modo-boschi #map-hint-panel{display:none !important}}
+  .modo-boschi #map-hint-panel{display:none !important}
+  /* stessa cosa col RADAR aperto senza un periodo (29/9, collaudo): il cartello copriva «↩ Indietro» */
+  .modo-radar #map-hint-panel{display:none !important}}
 /* col radar acceso le tessere non c'entrano */
 .modo-radar .leaflet-boschi-pane{display:none !important}
 /* Tocco sul bosco e tendina pioggia | boschi (18/9/2026) */
@@ -12575,6 +12734,64 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
      etichette vanno accanto al pomello */
   .bo-tend-et{top:calc(30% - 52px)}
 }
+/* ═══ TELEFONO, BOSCHI: quattro tasti uguali su DUE righe (29/9, suo: «se fai quadrati tanto vale due righe») ═══
+   Satellite | Indietro   /   Condividi | Confronta piogge (ordine del 30/9, suo: «satellite e indietro sopra»).
+   Stessa larghezza, icona e parola in riga. L'ordine e' `order`, il DOM resta Condividi, Confronta, Satellite, Indietro. */
+@media(max-width:900px){
+  body.conf-c.modo-boschi #legend-panel .leg-header{flex-wrap:wrap !important;gap:6px !important;align-items:stretch !important}
+  body.conf-c.modo-boschi #legend-panel .leg-header #btn-shot,
+  body.conf-c.modo-boschi #legend-panel .leg-header .tessera.tessera.tessera,
+  body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn{
+    flex:1 1 calc(50% - 3px) !important;min-width:0 !important;max-width:calc(50% - 3px) !important;width:auto !important;height:34px !important;margin:0 !important;padding:0 6px !important;box-sizing:border-box !important;
+    display:flex !important;flex-direction:row !important;align-items:center !important;justify-content:center !important;gap:6px;
+    border-radius:9px !important;border:1px solid #c9d6ea !important;background:#eef3fb !important;color:#1b3f6e !important;
+    font:600 13px/1 inherit !important;font-family:inherit !important;text-align:center !important;white-space:nowrap !important;letter-spacing:0 !important}
+  body.conf-c.modo-boschi #legend-panel .leg-header .tessera i{font-style:normal;font-size:15px;line-height:1}
+  body.conf-c.modo-boschi #btn-shot{font-size:0 !important}
+  body.conf-c.modo-boschi #btn-shot:after{content:'\1F4E4  Condividi';font-size:13px}
+  body.conf-c.modo-boschi #btn-shot:disabled:after{content:'\23F3  Preparo\2026'}
+  body.conf-c.modo-boschi #btn-shot.pronta:after{content:'\1F446  Tocca per inviare'}
+  body.conf-c.modo-boschi #btn-shot.ok:after{content:'\2713  Inviata'}
+  body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn{font-size:0 !important}
+  body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn:after{content:'\2190  Indietro';font-size:13px}
+  body.conf-c.modo-boschi #legend-panel .leg-header .bo-az-sat.in-riga{order:1}
+  body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn{order:2}
+  body.conf-c.modo-boschi #legend-panel .leg-header #btn-shot{order:3}
+  body.conf-c.modo-boschi #legend-panel .leg-header .bo-tend-btn{order:4}
+  body.conf-c.modo-boschi.bo-tendina #legend-panel .leg-header .bo-tend-btn.tessera.tessera.tessera{background:#1b3f6e !important;color:#fff !important;border-color:#1b3f6e !important}
+  body.conf-c.modo-boschi.sat-on #legend-panel .leg-header .bo-az-sat.tessera.tessera.tessera{background:#2f6b2f !important;color:#fff !important;border-color:#2f6b2f !important}
+}
+/* ═══ TELEFONO PIU' COMPATTO IN ALTO E IN BASSO (29/9/2026, sua richiesta con la schermata della
+   Lombardia nei boschi: «non sono soddisfatto di quanto poco spazio ha la mappa»).
+   IN ALTO, in proporzione e in TUTTE le viste: intestazione 46 -> 38 px, barra della regione
+   42 -> 34, pastiglie delle confinanti 31 -> 27. I tocchi restano comodi: nessun tasto sotto i 27 px
+   di altezza e le larghezze non cambiano. IN BASSO: i tasti del pannello 34/33 -> 30 px.
+   ⚠️ 38 px dell'intestazione stanno scritti anche in #reg-sheet e #region-panel (top): se cambia
+   l'uno cambiano gli altri. */
+@media(max-width:900px){
+  html body header{height:38px !important;padding:0 10px !important;gap:8px}
+  html body header > .hdr-l > a:first-child{width:24px !important;height:24px !important}
+  html body header .hdr-l > span{font-size:15px !important}
+  html body #hdr-yt{padding:4px 8px;font-size:11.5px}
+  html body #reg-sheet{top:38px}
+  html body #region-panel{top:38px !important;padding:4px 8px 5px !important}
+  html body #reg-apri{font-size:15px;padding:6px 10px;letter-spacing:.2px}
+  html body #vic-riga.c{padding:4px 2px 0}
+  html body .vic-chip{font-size:13px;padding:5px 10px;border-radius:14px}
+  html body .vic-chip.pari{font-size:12.5px;padding:6px 5px}
+  html body .vic-nota{font-size:14px}
+  /* in basso: pioggia e radar (tre tasti) */
+  html body #legend-panel .leg-header #btn-shot,html body #legend-panel .leg-header #btn-share{padding-top:4px;padding-bottom:4px;min-height:30px;box-sizing:border-box}
+  html body #legend-panel:not(.leg-mini) .leg-header #leg-back-btn{padding-top:4px;padding-bottom:4px;min-height:30px;box-sizing:border-box}
+  /* in basso: boschi (quattro tasti su due righe) */
+  html body.conf-c.modo-boschi #legend-panel .leg-header #btn-shot,
+  html body.conf-c.modo-boschi #legend-panel .leg-header .tessera.tessera.tessera,
+  html body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn{height:30px !important;min-height:0 !important}
+  html body.conf-c.modo-boschi #legend-panel .leg-header{gap:5px !important}
+}
+@media(max-width:375px){
+  html body #reg-apri{font-size:14.5px;letter-spacing:0}
+}
 </style>
 <script>
 /* ═══════════════════════════════════════════════════════════════
@@ -12618,12 +12835,15 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
      nel repo delle tessere). Le vecchie copie spariscono da sole. */
   var TESSERE_COMMIT='90a532e7a3f95e6cde1fc4fd0ee6fc658ffb2f6d';   // ramo boschi-di-fiume, con le quote z5-11 del filtro di altitudine (27/9/2026)
   var TESSERE='https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@'+TESSERE_COMMIT+'/';
-  var BASE=TESSERE+'boschi/', OPACITA=0.7;
+  var BASE=TESSERE+'boschi/', OPACITA=0.7, satRetino=0.35;   /* 35%: standard scelto da lui il 29/9 (prima 55%) */   // satRetino: la manopola del retino sopra la foto satellitare
   var RILIEVO=TESSERE+'rilievo/', TERRENO=TESSERE+'terreno/', Z_TERRENO=12;
   /* ═══ FILTRO DI ALTITUDINE (27/9/2026) ═══ */
   var QUOTA_BASSE=TESSERE+'terreno/', Q_TOT=[0,2300], Q_PASSO=50, quotaMin=0, quotaMax=2300;
   (function(){ var m=(new URLSearchParams(location.search).get('quota')||'').match(/^(\d+)-(\d+)$/);
-    if(m){ quotaMin=+m[1]; quotaMax=+m[2]; } })();
+    // solo una fascia sensata (29/9/2026, collaudo: «quota=5000-100» veniva presa com'era, 0% dei boschi)
+    if(m){ var a=Math.max(Q_TOT[0],Math.min(Q_TOT[1],+m[1])), b=Math.max(Q_TOT[0],Math.min(Q_TOT[1],+m[2]));
+           if(a>b){ var t=a; a=b; b=t; }
+           if(b-a>=Q_PASSO){ quotaMin=Math.round(a/Q_PASSO)*Q_PASSO; quotaMax=Math.round(b/Q_PASSO)*Q_PASSO; } } })();
   function filtroAttivo(){ return quotaMin>Q_TOT[0] || quotaMax<Q_TOT[1]; }
   /* ⚠️ LE 66 TESSERE DI BOSCO SENZA QUOTA (28/9/2026): sulla costa e sui confini
      TINITALY non arriva, la tessera di quota non esiste e chiederla dava 404.
@@ -12902,8 +13122,19 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
           else { done(null,cv); codaProfilo(); }
         };
         im.onerror=function(){ cv.complete=true; done(null,cv); };
-        im.src=url;
+        im.src=url; cv._im=im;
         return cv;
+      },
+      /* ⚠️ ANNULLARE I DOWNLOAD DEI LIVELLI SALTATI (30/9/2026, suo: «con la rotella veloce le tessere
+         arrivano in ritardo»). Per le <img> Leaflet ferma il download mettendo src vuoto; un canvas non
+         ha src, e l'Image nascosta dentro continuava a scaricare tessere di un livello gia' abbandonato
+         (misurato: 21-28 su 85 a giro di rotella, un quarto del traffico dei boschi buttato, e su 4G
+         rubava banda alle tessere buone). Qui si spegne l'Image prima che Leaflet tolga la tessera. */
+      _abortLoading:function(){
+        var z=this._tileZoom;
+        for(var k in this._tiles){ var t=this._tiles[k], e=t&&t.el;
+          if(e && t.coords.z!==z && !e.complete && e._im){ e._im.onload=e._im.onerror=null; e._im.src=''; e._im=null; } }
+        L.TileLayer.prototype._abortLoading.call(this);
       }
     });
     // ⚠️ i crediti NON stanno sullo strato: li gestisce aggiornaCrediti() secondo
@@ -12929,11 +13160,14 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
        sta acceso in tutto il modo boschi, anche dove la carta dei boschi non
        c'e'. Citazione presa dal DOI, non scritta a memoria. */
     var ril='rilievo: <a href="https://doi.org/10.13127/tinitaly/1.1" target="_blank" rel="noopener">TINITALY 1.1, INGV</a> (CC BY 4.0)';
-    creditoBoschi=(rk.length ? 'boschi: '+rk.map(function(k){
+    var parti=[];
+    if(rk.length) parti.push('boschi: '+rk.map(function(k){
       var r=indice.regioni[k];
       return '<a href="'+r.link+'" target="_blank" rel="noopener">'+r.fonte+'</a> ('+r.licenza+')';
-    }).join(', ')+', ' : '')+ril;
-    ac.addAttribution(creditoBoschi);
+    }).join(', '));
+    if(!window._satOn) parti.push(ril);   // col satellite il rilievo e' spento: non si cita
+    creditoBoschi=parti.join(', ');
+    if(creditoBoschi) ac.addAttribution(creditoBoschi); else creditoBoschi=null;
   }
 
   /* La nota in fondo alla legenda segue le regioni SCELTE: per ognuna la sua
@@ -12981,13 +13215,28 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     return gr.slice().sort(function(a,b){ return pos(a)-pos(b); });
   }
 
+  /* Etichetta del confronto in un posto solo: «⇆ Confronta piogge» (29/9, sua scelta; «Confronta»
+     da solo non si capiva, «Pioggia e boschi» scartato). */
+  function scriviTend(aperta){
+    var b=el('bo-tend-btn'); if(!b) return;
+    if(b.classList.contains('tessera')) b.innerHTML=aperta?'<i>✕</i><span>Chiudi</span>':'<i>⇆</i><span>Confronta piogge</span>';
+    else b.textContent=aperta?'✕ Chiudi':'⇆ Confronta piogge';
+  }
   function legenda(){
     var box=el('bo-leg'); if(!box||!indice) return;
     /* ⚠️ IL TASTO STA NELLA RIGA DEL TITOLO: su una riga a parte il pannello del
        telefono cresceva di 33 px (287 -> 320), tutti tolti alla mappa. Niente
        scritta «tocca un bosco»: deciso dall'utente, «se ne accorgeranno navigando». */
     box.innerHTML='<div class="bo-tit-riga"><div class="bo-tit">Legenda boschi</div>'
-      +'<span class="bo-tend-btn" id="bo-tend-btn" role="button" title="Pioggia a sinistra, boschi a destra">⇆ Confronta con piogge</span></div>'
+      +'<span class="bo-tend-btn" id="bo-tend-btn" role="button" title="Pioggia a sinistra, boschi a destra">⇆ Confronta con piogge</span>'
+      +'</div>'
+      // la manopola del retino si vede solo col satellite acceso (.sat-on)
+      // Satellite nel pannello (29/9, suo: il riquadro in basso a destra non lo vedeva nessuno)
+      +'<div class="bo-azioni"><span class="bo-az bo-az-sat" id="bo-sat-btn" role="button">'+(window._satOn?'🗺 Torna alla mappa':'🛰 Satellite')+'</span>'
+      +'<span class="bo-az bo-az-piogge" id="bo-piogge" role="button" title="Torna alla mappa della pioggia, stessa zona">💧 Torna alle piogge</span></div>'
+      +'<div class="bo-sat"><span>Intensità boschi</span><input type="range" id="bo-sat-op" min="0" max="100" step="5" value="'+Math.round(satRetino*100)+'"><b id="bo-sat-val">'+Math.round(satRetino*100)+'%</b>'
+      // «solo satellite» in un tocco: il retino va a 0 e torna dov'era (29/9, suo)
+      +'<span class="bo-az bo-az-nascondi" id="bo-nascondi" role="button">'+(satRetino>0?'Nascondi boschi':'Mostra boschi')+'</span></div>'
       +'<div class="bo-griglia">'+ordinaLegenda(indice.gruppi).map(function(g){
         return '<div class="bo-riga'+(BO_LUNGHE.indexOf(g[0])>=0?' lunga':'')+'"><span class="bo-sw" style="background:'+g[1]+';opacity:'+OPACITA+'"></span>'+g[0]+'</div>';
       }).join('')+'</div>'
@@ -12999,6 +13248,24 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       // legenda ha gia' troppo poco spazio). L'invito sta in guida, fonti e social.
       +'<div class="bo-nota" id="bo-fonti"></div>';
     barraQuota();
+    var so=el('bo-sat-op');
+    function retino(v){ satRetino=v; if(so) so.value=Math.round(v*100); var t=el('bo-sat-val'); if(t) t.textContent=Math.round(v*100)+'%';
+      var n=el('bo-nascondi'); if(n) n.textContent=v>0?'Nascondi boschi':'Mostra boschi';
+      if(window._boschiSetOpacita) window._boschiSetOpacita(); }
+    var bn=el('bo-nascondi'), prima=0.35;
+    if(bn) bn.addEventListener('click',function(){ if(satRetino>0){ prima=satRetino; retino(0); } else retino(prima||0.35); });
+    /* ⚠️ Sul telefono il dito sulla manopola arrivava a Leaflet e spostava la mappa
+       (29/9/2026, visto da lui). Si ferma qui ogni evento di tocco e di puntatore. */
+    if(so) ['touchstart','touchmove','pointerdown','pointermove','mousedown'].forEach(function(ev){
+      so.parentNode.addEventListener(ev,function(e){ e.stopPropagation(); },{passive:true});
+    });
+    if(so) so.addEventListener('input',function(){
+      retino((+so.value)/100);
+    });
+    var bs=el('bo-sat-btn');
+    if(bs) bs.addEventListener('click',function(){ if(window._satToggle) window._satToggle(); });
+    var bp=el('bo-piogge');
+    if(bp) bp.addEventListener('click',function(){ esci(); });   // esci() non tocca la vista: stesso zoom
     var tb=el('bo-tend-btn');
     if(tb) tb.addEventListener('click',function(){
       if(tendinaOn){ tendinaVia(true); return; }
@@ -13009,6 +13276,16 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
        «Indietro» (27/9, suo). Bocciati: nella riga di «riduci» («sembra forzato
        li' dentro»), sulla mappa sopra il pannello, «⇆ Piogge». La classe conf-c
        resta perche' il CSS del telefono e' scritto su di lei. */
+    /* PC (29/9, suo: «troppi bottoni, ognuno diverso, niente ordine»): righe di tasti uguali.
+       Dal 30/9 (suo: «satellite e confronta salgono, gli altri sotto»): «Confronta piogge» e «Satellite»
+       entrano nella riga dei comandi davanti a «Immagine», che va a capo con «Copia link» (griglia 2x2, CSS
+       conf-pc). In .bo-azioni resta solo «Torna alle piogge», a tutta larghezza. Fuori dai boschi i due
+       tasti si nascondono da CSS, come sul telefono. */
+    if(tb && innerWidth>900){
+      var hdrP=document.querySelector('#legend-panel .leg-header'), shotP=el('btn-shot'), sbP=el('bo-sat-btn');
+      if(hdrP && shotP){ hdrP.insertBefore(tb,shotP); if(sbP) hdrP.insertBefore(sbP,shotP);
+        document.body.classList.add('conf-pc'); scriviTend(false); }
+    }
     if(tb && innerWidth<=900){
       tb.addEventListener('click',function(e){ e.stopPropagation(); });
       document.body.classList.add('conf-c');
@@ -13017,6 +13294,13 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       // «Invia foto» + «Invia link» diventano un solo «Condividi» (la foto porta gia' il link)
       var hdr=document.querySelector('#legend-panel .leg-header'), bk=el('leg-back-btn');
       tb.innerHTML='\u21c6 Confronta piogge'; if(hdr&&bk) hdr.insertBefore(tb,bk);
+      /* PROVA 29/9: sul telefono anche «Satellite» sta nella riga dei comandi, invece di una riga sua
+         (risparmia ~38 px). Etichette corte: «⇆ Confronta» e «🛰 Satellite»/«🗺 Mappa». */
+      var sb=el('bo-sat-btn');
+      if(sb && hdr && bk){ sb.classList.add('in-riga','tessera'); sb.innerHTML=window._satOn?'<i>🗺</i><span>Mappa</span>':'<i>🛰</i><span>Satellite</span>';
+        hdr.insertBefore(sb,bk); tb.classList.add('tessera'); scriviTend(false);
+        sb.addEventListener('click',function(e){ e.stopPropagation(); }); }
+      var az=document.querySelector('#bo-leg .bo-azioni'); if(az) az.style.display='none';
     }
     notaFonti();
   }
@@ -13134,6 +13418,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     var k=x+'/'+y;
     if(cacheQ[k]) return cacheQ[k];
     if(QUOTA_MANCA[Z_TERRENO+'/'+x+'/'+y]) return (cacheQ[k]=Promise.resolve(null));   // costa e confini: la quota non c'e'
+    // in mare non c'e' ne' bosco ne' quota: senza questo, un tocco sull'acqua dava un 404 in console (29/9/2026)
+    for(var _e in esistono){ if(!esistono[Z_TERRENO+'/'+x+'/'+y]) return (cacheQ[k]=Promise.resolve(null)); break; }
     cacheQ[k]=new Promise(function(ok){
       var im=new Image(); im.crossOrigin='anonymous';
       im.onload=function(){
@@ -13171,6 +13457,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
              'est':'sole del mattino','sud-est':'sole del mattino, asciuga',
              'sud':'al sole, asciuga prima','sud-ovest':'al sole, asciuga prima',
              'ovest':'sole del pomeriggio','nord-ovest':'poco sole, tiene l\u2019umido'};
+  // per la sezione satellite (mockup 29/9): quota e versante di un punto qualsiasi
+  window._terrenoQui=function(lat,lon){ return Promise.all([quotaIn(lat,lon),versanteIn(lat,lon)]); };
   function versanteIn(lat,lon){
     var dla=PASSO_V/111320, dlo=PASSO_V/(111320*Math.cos(lat*Math.PI/180));
     return Promise.all([quotaIn(lat+dla,lon),quotaIn(lat-dla,lon),
@@ -13205,9 +13493,11 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       acceso=true; window._boschiAcceso=true;
       document.body.classList.add('modo-boschi');
       if(!strato) strato=creaStrato();
+      if(window._boschiSetOpacita) window._boschiSetOpacita();   // col satellite acceso il retino parte dalla manopola
       strato.addTo(m);
-      rilievoOn();   // solo coi boschi: sotto la pioggia ne falserebbe il colore
+      if(!window._satOn) rilievoOn();   // solo coi boschi, e non sotto la foto satellitare (coperto, e rallenta)
       el('btn-boschi').innerHTML='✕ Chiudi mappa';
+
       var t=el('leg-title');
       if(t){ if(titoloVecchio==null) titoloVecchio=t.textContent; t.textContent='Mappa forestale'; }
       if(typeof showLegendMobile==='function' && window.innerWidth<=900){ try{ showLegendMobile(); }catch(e){} }
@@ -13239,7 +13529,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
          alto di quello dei cumulati) le regioni alte uscivano un quarto di
          livello piu' piccole (Toscana, Piemonte). Stessa mappa, stessa vista. */
       var tieniVista = (window.innerWidth<=900 && analisiInCorso())
-        || !!(window._vistaDaLinkAttiva && window._vistaDaLinkAttiva());   // la vista arriva da un link: comanda quella (28/9/2026)
+        || !!(window._vistaDaLinkAttiva && window._vistaDaLinkAttiva())   // la vista arriva da un link: comanda quella (28/9/2026)
+        || (window._boschiTieni && m.getZoom()>=7)
+        || m.getZoom()>=10;   // anche dal tasto del pannello: se l'utente e' gia' vicino, non si torna alla regione intera   // dalla barra Pioggia|Boschi|Solo: lo zoom dell'utente resta (29/9, suo)
+      window._boschiTieni=false;
       if(!sulPaese && !tieniVista && rk.length && typeof window._fitRegioni==='function'){
         try{ window._fitRegioni(rk); }catch(e){}
         /* ⚠️ SUL TELEFONO LA STESSA CENTRATURA DELLA PIOGGIA (16/9/2026): il fit
@@ -13267,7 +13560,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     acceso=false; window._boschiAcceso=false;
     if(demoAnim){ cancelAnimationFrame(demoAnim); demoAnim=null; document.body.classList.remove('bq-demo'); }
     quotaMin=Q_TOT[0]; quotaMax=Q_TOT[1]; document.body.classList.remove('bq-on'); try{ disegnaQuota(); }catch(_){}   // filtro di altitudine: uscendo si torna a «tutte»
-    document.body.classList.remove('modo-boschi','bo-lontano-on');
+    document.body.classList.remove('modo-boschi','bo-lontano-on','bo-scegli-date');
     if(strato) map().removeLayer(strato);
     rilievoOff();
     aggiornaCrediti();
@@ -13490,6 +13783,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   function tieniVistaTel(){ return window.innerWidth<=900 && analisiInCorso(); }
   function centraTel(){
     if(window.innerWidth>900 || typeof window._centraStriscia!=='function') return;
+    /* ⚠️ SE L'UTENTE HA ZOOMATO COL DITO NON SI RICENTRA (29/9/2026, collaudo sul telefono: aprendo
+       «Confronta piogge» la vista passava da 10,75 a 7,25, e chiudendolo tornava la regione intera).
+       Stessa regola di «riduci»: la vista scelta a mano comanda. */
+    if(window._vistaUtenteAttiva && window._vistaUtenteAttiva()) return;
     setTimeout(window._centraStriscia,420); setTimeout(window._centraStriscia,1500);
   }
 
@@ -13543,14 +13840,43 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     // in rosso come «Prima scegli la regione»: e' un passo che manca (sua richiesta, 18/9)
     a.className='error'; a.textContent=t;
   }
+  /* ⚠️ LA VISTA DELL'UTENTE SOPRAVVIVE AL CONFRONTO (29/9/2026, suo: «e' giusto che quando faccio
+     confronta piogge cambia zoom?»). Senza un'analisi dietro, «Confronta piogge» fa scegliere il
+     periodo, e l'analisi a fine calcolo reinquadra la regione intera: sul PC da 9,75 a 8,25. Zoom e
+     centro si fotografano al clic e si rimettono prima di rientrare nei boschi; `_boschiTieni` fa si'
+     che entra() non li rifaccia, `_fermaCentraFino` che il telefono non ricentri nella striscia. */
+  var vistaConfronto=null;
+  function rimettiVista(){
+    var v=vistaConfronto, m=map(); vistaConfronto=null; if(!v||!m) return;
+    try{ m.stop(); m.setView(v.c,v.z,{animate:false}); }catch(e){}
+    // la nuova analisi spegne la spia della vista dell'utente: se era sua, torna sua (29/9/2026)
+    if(v.vu && window._segnaVistaUtente) window._segnaVistaUtente();
+    window._boschiTieni=true;
+    window._fermaCentraFino=Date.now()+2500;
+  }
   // dopo il clic su un periodo: si aspetta l'analisi NUOVA e si rientra nei boschi
   function rientraDopo(prima){
-    var io=++confrontoAtteso, giri=0;
+    var io=++confrontoAtteso, giri=0, conPeriodo=0;
     var att=setInterval(function(){
       if(io!==confrontoAtteso){ clearInterval(att); return; }
-      if(periodoDi() && periodoDi()!==prima && pioggiaPronta()){
+      /* ⚠️ SETTIMANA ASCIUTTA (29/9/2026): con 0,1 mm di media la pioggia e' quasi tutta
+         trasparente, pioggiaPronta() non diceva mai si' e dopo 40 s si rinunciava: niente
+         ritorno nei boschi. Ora basta l'analisi finita (✅) col periodo nuovo: si aspetta la
+         pioggia disegnata, ma al massimo un secondo. */
+      var st=el('tp-status'), finita=!!st && st.textContent.indexOf('✅')===0;
+      var nuovo=!!periodoDi() && periodoDi()!==prima && finita;
+      if(nuovo) conPeriodo++;
+      if(nuovo && (pioggiaPronta() || conPeriodo>=5)){
         clearInterval(att);
+        var v=vistaConfronto;
+        rimettiVista();
+        /* ⚠️ SATELLITE E ALTITUDINE TORNANO COM'ERANO (29/9/2026, collaudo): per scegliere il periodo
+           si esce dai boschi, e uscendo il satellite si spegne e il filtro torna a «tutte». Chi aveva
+           la foto e 900-1.650 m rientrava sulla cartina e con tutte le quote. */
+        if(v && v.q){ quotaMin=v.q[0]; quotaMax=v.q[1]; document.body.classList.toggle('bq-on',filtroAttivo()); }
         if(!acceso) entra();
+        if(v && v.q) setTimeout(function(){ try{ disegnaQuota(); rifaiQuota(); }catch(_){} },600);
+        if(v && v.sat) setTimeout(function(){ if(acceso && !window._satOn && window._satToggle) window._satToggle(); },450);
         setTimeout(function(){ if(acceso && !tendinaOn && io===confrontoAtteso) tendinaSu(); },350);
       }
       else if(++giri>200){ clearInterval(att); voglioConfronto=false; }   // 40 secondi
@@ -13558,9 +13884,13 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   }
   function scegliPeriodo(){
     voglioConfronto=true; confrontoAtteso++;
+    var m0=map(); vistaConfronto=m0?{c:m0.getCenter(),z:m0.getZoom(),
+      vu:!!(window._vistaUtenteAttiva && window._vistaUtenteAttiva()),
+      sat:!!window._satOn, q:filtroAttivo()?[quotaMin,quotaMax]:null}:null;
     // sul telefono i tasti del periodo stanno nel pannello che il modo nasconde:
     // si esce dai boschi e il sito rimette il pannello del periodo
     if(window.innerWidth<=900) esci();
+    else { document.body.classList.add('bo-scegli-date'); riposiziona(); }   // PC: le date tornano a vista
     avviso('👉 Scegli il periodo di pioggia da confrontare coi boschi');
   }
   document.addEventListener('click',function(e){
@@ -13576,7 +13906,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       if(voglioConfronto) rientraDopo(periodoDi());
       return;
     }
-    if(e.target.closest('#btn-radar,#btn-boschi,#leg-back-btn,#btn-reset-regions')){ voglioConfronto=false; confrontoAtteso++; }
+    if(e.target.closest('#btn-radar,#btn-boschi,#leg-back-btn,#btn-reset-regions,#bo-piogge')){ voglioConfronto=false; confrontoAtteso++; document.body.classList.remove('bo-scegli-date'); }
   },true);
   // cambiare regione dal pannello annulla l'attesa
   document.addEventListener('change',function(e){
@@ -13658,7 +13988,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     }
     m.getContainer().appendChild(maniglia);
     etichettaPioggia();
-    var b=el('bo-tend-btn'); if(b) b.textContent='✕ Chiudi';
+    scriviTend(true);
     taglia();
     centraTel();
     if(aperturaNuova){ aperturaNuova=false; if(volteGuida()<GUIDA_VOLTE){ contaGuida(); guida(); } }
@@ -13719,7 +14049,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     fermaGuida(false);
     tendinaOn=false; document.body.classList.remove('bo-tendina');
     if(maniglia&&maniglia.parentNode) maniglia.parentNode.removeChild(maniglia);
-    var b=el('bo-tend-btn'); if(b) b.textContent='⇆ Confronta con piogge';
+    scriviTend(false);
     taglia();
     if(acceso) centraTel();
   }
@@ -13781,6 +14111,16 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       return [].slice.call(map().getPane('boschi').querySelectorAll('.leaflet-tile'));
     };
     window._boschiOpacita=OPACITA;
+    // MAPPA | SATELLITE (29/9/2026): sopra la foto il retino ha la sua manopola, sulla cartina resta OPACITA
+    window._boschiSat=function(){
+      window._boschiSetOpacita();
+      if(acceso){ if(window._satOn) rilievoOff(); else rilievoOn(); aggiornaCrediti(); }
+    };
+    window._boschiSetOpacita=function(){
+      var v=window._satOn?satRetino:OPACITA;
+      if(strato) strato.setOpacity(v);
+      window._boschiOpacita=v;
+    };
     window._quotaFascia=function(){ return filtroAttivo() ? quotaMin+'-'+quotaMax : null; };
     // per lo scatto: dove passa la linea della tendina (px dal bordo sinistro della mappa), o null
     window._tendinaX=function(){ return (acceso&&tendinaOn&&hx!=null)?hx:null; };
@@ -13918,7 +14258,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       if(b[0][0]<la1)la1=b[0][0]; if(b[1][0]>la2)la2=b[1][0];
       if(b[0][1]<lo1)lo1=b[0][1]; if(b[1][1]>lo2)lo2=b[1][1]; });
     if(!c) return null;
-    var W=innerWidth-60, H=(innerHeight-46)-140;
+    var _hh=(document.querySelector('header')||{}).offsetHeight||46;   // l'intestazione non e' piu' sempre 46 px (29/9/2026)
+    var W=innerWidth-60, H=(innerHeight-_hh)-140;
     var dx=Math.abs(pxx(lo2)-pxx(lo1)), dy=Math.abs(pyy(la1)-pyy(la2));
     if(!dx||!dy) return null;
     return Math.min(Math.log2(W/dx), Math.log2(H/dy));
@@ -14258,14 +14599,189 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 })();
 </script>
 <script>
-/* ⚠️ SUL TELEFONO IL DITO SUI PANNELLI SPOSTAVA LA MAPPA SOTTO (29/9/2026, visto da
-   lui: «se scorro sul pannello si muove la mappa»). Misurato: trascinando sui colori
-   della legenda o sulla sua testata la mappa si spostava. I pannelli stanno DENTRO
-   #map e il primo tocco arrivava a Leaflet, che partiva col trascinamento. Sul PC
-   c'e' gia' disableClickPropagation in positionPanels, che pero' sul telefono esce
-   subito. Si ferma solo l'INIZIO del tocco: il resto (touchmove) serve alla tendina
-   e ai cursori, che lo ascoltano su document. */
+/* ═══════════ MAPPA | SATELLITE (29/9/2026) ═══════════
+   Lo switch come su Google: un riquadro con l'anteprima dell'altra mappa.
+   Sul PC in basso a destra, sul telefono in alto a destra sotto la barra
+   delle regioni.
+   ⚠️ UNA FONTE SOLA PER TUTTO QUELLO CHE SI VEDE (sua regola: «fare meta' e
+   meta' e' brutto»). Le ortofoto delle Regioni sono migliori in alcune zone
+   ma finiscono ai confini: la foto deve coprire tutta la mappa, Europa e
+   Nord Africa compresi, quindi e' Esri World Imagery dappertutto.
+   ⚠️ SOLO SUL TEST: questo e' l'indirizzo DIRETTO di Esri, che funziona ma
+   per le condizioni d'uso non e' in regola (vuole un account). Prima della
+   produzione va sostituito col servizio a chiave dell'account gratuito
+   ArcGIS Location Platform (2 milioni di tessere al mese, niente carta:
+   oltre il tetto si ferma, non addebita). Basta cambiare SAT_FOTO e SAT_NOMI.
+   Cosa cambia con la foto accesa:
+   - la pioggia passa da 0,70 a 0,80 di opacita' (scelto da lui il 28/9):
+     drawGrid legge window._satOn;
+   - nei boschi il retino ha la sua manopola (window._boschiSetOpacita);
+   - i nomi dei paesi arrivano da uno strato di sole etichette SOPRA la
+     pioggia e il retino, SOTTO i pallini;
+   - lo scatto di «Immagine» e «Condividi» PORTA la foto, e il link porta
+     sat=1 (sua scelta 29/9, sapendo che per Esri far girare le foto e' zona
+     grigia): nello scatto restano i crediti Esri, sparisce il riquadro;
+   - LENTEZZA (29/9, misurata sul telefono in 4G: salto 0,6 s con la cartina,
+     1,1 s col satellite, richieste 71 contro 159): sotto la foto non si
+     scaricano piu' ne' la cartina OSM (tolta dalla mappa, ma solo dopo il suo
+     primo «load»: quandoMappaDisegnata lo aspetta) ne' il rilievo dei boschi.
+   Niente memoria: ogni visita parte dalla cartina (sua regola 29/9). Un link con sat=1
+   la accende, ma solo se porta anche boschi=1. */
 (function(){
+  var SAT_FOTO='https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=AAPTasR-h9fs0ra4WGWkS_scuow..PfyWRixgy2bU4q4L_xFWwxQH8YrVUnFpJFrW78wY_K72YLdviK5mAeSydBEk66vKIwvvowq2oQERMiN_iLMZxI_bI35DHJQ2Kq2GhIBqtgkKUm_cumAnMUoc_t8aNZ_sTL-EQViE0u0sdlMgMrvFKc5IRSYFy6MCE4fJ8EbE5BRae930oAWEbSlekZea3-2chpfwPsuEnxeX1m4HW2UGD0faHCNPYcdHE-AHoM1ox042-adkcZy4hAworYmCGu81zdrbY3s.AT1_VCr3FrpK';   // servizio A CHIAVE (prod): account ArcGIS Location Platform, chiave con referrer, scade 29/9/2027
+  // «Alternate» e non «World_Boundaries_and_Places»: quello scrive ogni capoluogo DUE volte,
+  // la citta' col pallino e la provincia omonima (Asti, Cuneo, Pavia...: visto da lui il 29/9)
+  var SAT_NOMI='https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer/tile/{z}/{y}/{x}';
+  // foto + nomi in un credito solo: al posto di quello di OSM, che col satellite non c'e'
+  // ⚠️ SPENTO di base (29/9 notte, lui: «il satellite e' lento quando zoomo»): con quattro strati a
+  // zoom diversi, passando da uno all'altro la foto sparisce finche' non arriva la nuova (niente tessere
+  // vecchie ingrandite a fare da ponte), e al 13 sul telefono in 4G ci metteva il doppio (1,2 s contro
+  // 0,6). Uno strato solo e' piu' fluido; i riquadri sfocati al 12-13 sono di Esri. ?satfine=1 per provarlo.
+  var SAT_FINE=new URLSearchParams(location.search).get('satfine')==='1';
+  var SAT_NOMI_VICINO='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}';
+  // i nomi sono nostri (29/9, sua scelta: «stonano i nomi di Esri»): si cita solo la foto
+  var CREDITI='Foto &copy; <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Vantor, Earthstar Geographics; nomi esteri &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';   // ODbL
+  var ANTE_SAT='https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/8/93/135?token=AAPTasR-h9fs0ra4WGWkS_scuow..PfyWRixgy2bU4q4L_xFWwxQH8YrVUnFpJFrW78wY_K72YLdviK5mAeSydBEk66vKIwvvowq2oQERMiN_iLMZxI_bI35DHJQ2Kq2GhIBqtgkKUm_cumAnMUoc_t8aNZ_sTL-EQViE0u0sdlMgMrvFKc5IRSYFy6MCE4fJ8EbE5BRae930oAWEbSlekZea3-2chpfwPsuEnxeX1m4HW2UGD0faHCNPYcdHE-AHoM1ox042-adkcZy4hAworYmCGu81zdrbY3s.AT1_VCr3FrpK';
+  var ANTE_MAPPA='https://a.tile.openstreetmap.org/8/135/93.png';
+  var on=false, strati=null, btn=null, osmPronto=false;
+  /* La cartina OSM sotto la foto non si vede: si toglie, cosi' non si scarica.
+     Ma solo dopo il suo primo «load», che quandoMappaDisegnata aspetta. */
+  function osmVia(){
+    var bt=window._baseTiles, mp=m(); if(!bt||!mp) return;
+    if(osmPronto){ if(mp.hasLayer(bt)) mp.removeLayer(bt); return; }
+    // ⚠️ setTimeout: toglierla DENTRO il «load» fa esplodere Leaflet, che dopo l'evento
+    // finisce di sistemare l'ultima tessera e cerca una mappa che non c'e' piu'
+    bt.once('load',function(){ osmPronto=true; setTimeout(function(){ if(on&&mp.hasLayer(bt)) mp.removeLayer(bt); },0); });
+  }
+  function osmTorna(){ var bt=window._baseTiles, mp=m(); if(bt&&mp&&!mp.hasLayer(bt)) bt.addTo(mp); }
+  function m(){ return window._mapDebug; }
+  function crea(){
+    var mp=m();
+    /* ⚠️ Gli strati della foto hanno minZoom 12,5 e 13,5: senza limiti propri la mappa li prende dagli
+       strati, e togliendoli (tornando alla pioggia) Leaflet la spingeva allo zoom 13,5 (29/9, misurato:
+       da 12 a 13,5). Si fissano 0-19, gli stessi della cartina OSM: per il resto non cambia niente. */
+    if(mp.options.minZoom===undefined) mp.options.minZoom=0;
+    if(mp.options.maxZoom===undefined) mp.options.maxZoom=19;
+    mp.createPane('sat-foto'); mp.getPane('sat-foto').style.zIndex=201; mp.getPane('sat-foto').style.pointerEvents='none';
+    mp.createPane('sat-nomi'); mp.getPane('sat-nomi').style.zIndex=455; mp.getPane('sat-nomi').style.pointerEvents='none';
+    strati=[
+      /* ⚠️ AGLI ZOOM 12 E 13 LA FOTO ESRI E' UN MOSAICO (29/9, visto da lui sul lago d'Iseo):
+         riquadri di voli diversi, alcuni sfocati. Dal 14 e' uniforme. Li' si caricano le tessere
+         del 14 rimpicciolite: al 13 quattro per tessera (tileSize 128, zoomOffset 1), al 12
+         sedici (tileSize 64, zoomOffset 2). Prova locale: ?satfine=0 torna alle tessere normali.
+         ⚠️ minZoom/maxZoom di un GridLayer si confrontano con lo zoom VERO (a quarti), mentre
+         le tessere seguono lo zoom ARROTONDATO: i limiti vanno a 11,25 / 11,5-12,25 / 12,5-13,25 /
+         13,5, se no a 12,75 non c'e' nessuno strato (visto: mappa grigia). */
+    ].concat(SAT_FINE ? [
+      L.tileLayer(SAT_FOTO,{pane:'sat-foto',maxZoom:12.25,crossOrigin:'anonymous'}),
+      // al 12 le tessere del 14 erano SEDICI per tessera: fino a 627 a schermo, e sul suo PC la
+      // foto non arrivava (mappa grigia coi boschi sopra). Tolto: al 12 si resta sulle tessere di Esri.
+      L.tileLayer(SAT_FOTO,{pane:'sat-foto',minZoom:12.5,maxZoom:13.25,tileSize:128,zoomOffset:1,crossOrigin:'anonymous'}),
+      L.tileLayer(SAT_FOTO,{pane:'sat-foto',minZoom:13.5,maxZoom:19,maxNativeZoom:19,crossOrigin:'anonymous'})
+    ] : [
+      L.tileLayer(SAT_FOTO,{pane:'sat-foto',maxZoom:19,maxNativeZoom:19,crossOrigin:'anonymous'})
+    ]).concat([
+      // i nomi NON sono di Esri: li scriviamo noi a ogni zoom (modulo «NOMI NOSTRI» in fondo)
+    ]);
+  }
+  function disegnaTasto(){
+    var pb=document.getElementById('bo-sat-btn');
+    if(pb){ if(pb.classList.contains('tessera')) pb.innerHTML=on?'<i>🗺</i><span>Mappa</span>':'<i>🛰</i><span>Satellite</span>';
+            else pb.textContent=on?'🗺 Torna alla mappa':'🛰 Satellite'; }
+    if(!btn) return;
+    btn.style.backgroundImage='url("'+(on?ANTE_MAPPA:ANTE_SAT)+'")';
+    btn.querySelector('span').textContent=on?'Mappa':'Satellite';
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.title=on?'Torna alla mappa':'Vedi le foto dal satellite';
+  }
+  function ridisegnaPioggia(){ try{ m().fire('moveend'); }catch(e){} }
+  function accendi(salva){
+    var mp=m(); if(!mp) return;
+    if(!strati) crea();
+    strati.forEach(function(s){ if(!mp.hasLayer(s)) s.addTo(mp); });
+    if(mp.attributionControl) mp.attributionControl.addAttribution(CREDITI);
+    on=true; window._satOn=true; document.body.classList.add('sat-on');
+    osmVia();
+    if(window._boschiSat) window._boschiSat();
+    setTimeout(posiziona,50);
+    disegnaTasto(); ridisegnaPioggia();
+    if(salva){ try{ sessionStorage.setItem('mappaSat','1'); }catch(e){}
+               try{ gtag('event','mappa_satellite',{stato:'on'}); }catch(e){} }
+  }
+  function spegni(salva){
+    var mp=m(); if(!mp) return;
+    if(strati) strati.forEach(function(s){ if(mp.hasLayer(s)) mp.removeLayer(s); });
+    if(mp.attributionControl) mp.attributionControl.removeAttribution(CREDITI);
+    on=false; window._satOn=false; document.body.classList.remove('sat-on');
+    osmTorna();
+    if(window._boschiSat) window._boschiSat();
+    setTimeout(posiziona,50);
+    disegnaTasto(); ridisegnaPioggia();
+    if(salva){ try{ sessionStorage.setItem('mappaSat','0'); }catch(e){}
+               try{ gtag('event','mappa_satellite',{stato:'off'}); }catch(e){} }
+  }
+  /* Sul telefono il riquadro sta sotto la barra delle regioni, che cambia
+     altezza (pastiglie delle confinanti): si misura, non si scrive un numero. */
+  function posiziona(){
+    if(!btn) return;
+    if(window.innerWidth>900){
+      // sul PC sta sopra i crediti, che vanno a capo e cambiano altezza
+      var at=document.querySelector('#map .leaflet-control-attribution');
+      btn.style.top=''; btn.style.bottom=((at?at.offsetHeight:18)+10)+'px'; return;
+    }
+    var mp=document.getElementById('map'), rp=document.getElementById('region-panel');
+    var giu=8;
+    if(rp && getComputedStyle(rp).display!=='none'){
+      var r=rp.getBoundingClientRect(); if(r.height>0) giu=Math.round(r.bottom-mp.getBoundingClientRect().top+8);
+    }
+    btn.style.top=giu+'px';
+  }
+  function avvia(){
+    var mp=m(), el=document.getElementById('map');
+    if(!mp||!el){ setTimeout(avvia,200); return; }
+    btn=document.createElement('button');
+    btn.type='button'; btn.id='sat-btn'; btn.innerHTML='<span></span>';
+    el.appendChild(btn);
+    if(window.L && L.DomEvent){ L.DomEvent.disableClickPropagation(btn); L.DomEvent.disableScrollPropagation(btn); }
+    /* ⚠️ IL SATELLITE SOLO CON «SOLO» O «BOSCHI» (29/9, sua regola per risparmiare tessere Esri):
+       sotto la pioggia non serve. Premuto dalla pioggia porta a «Solo satellite». */
+    btn.addEventListener('click',function(){
+      if(on){ spegni(true); return; }
+      accendi(true);
+    });
+    window._satSpegni=function(){ if(on) spegni(true); };
+    window._satToggle=function(){ on?spegni(true):accendi(true); };
+    disegnaTasto(); posiziona();
+    window.addEventListener('resize',posiziona);
+    setTimeout(posiziona,600); setTimeout(posiziona,2000);
+    // fuori dai boschi il satellite non resta acceso: si torna alla pioggia sulla cartina
+    try{ new MutationObserver(function(){ posiziona(); if(on && !document.body.classList.contains('modo-boschi')) spegni(true); })
+           .observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
+    var bt=window._baseTiles;
+    // ⚠️ «pronta» vuol dire TUTTE le tessere arrivate: togliere uno strato mentre carica
+    // fa esplodere Leaflet 1.9.4 al primo arrivo (_tileReady su una mappa null)
+    if(bt){ var tt=bt._tiles?Object.keys(bt._tiles).map(function(k){ return bt._tiles[k]; }):[];
+            if(tt.length && tt.every(function(t){ return t.loaded; })) osmPronto=true; else bt.once('load',function(){ osmPronto=true; }); }
+    // i crediti cambiano coi modi (boschi, radar, regioni): il riquadro li segue
+    try{ var at0=document.querySelector('#map .leaflet-control-attribution'); if(at0) new MutationObserver(posiziona).observe(at0,{childList:true,subtree:true,characterData:true}); }catch(e){}
+    // ogni sessione parte dalla CARTINA (sua regola 29/9): niente memoria. Un link con sat=1 accende
+    // il satellite solo se porta anche i boschi (sotto la pioggia il satellite non si usa)
+    var qq=new URLSearchParams(location.search);
+    var q=new URLSearchParams(location.search).get('sat');
+    if(q==='1' && qq.get('boschi')==='1'){ var t0=Date.now(), aspetta=setInterval(function(){
+      if(document.body.classList.contains('modo-boschi')){ clearInterval(aspetta); accendi(false); }
+      else if(Date.now()-t0>20000) clearInterval(aspetta); },250); }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+
+  /* ⚠️ SUL TELEFONO IL DITO SUI PANNELLI SPOSTAVA LA MAPPA SOTTO (29/9/2026, visto da
+     lui: «se scorro sul pannello si muove la mappa»). Misurato: trascinando sui colori
+     della legenda o sulla sua testata la mappa si spostava, col satellite e senza,
+     quindi c'era gia' in produzione. I pannelli stanno DENTRO #map e il primo tocco
+     arrivava a Leaflet, che partiva col trascinamento. Sul PC c'e' gia'
+     disableClickPropagation in positionPanels, che pero' sul telefono esce subito.
+     Si ferma solo l'INIZIO del tocco: il resto (touchmove) serve alla tendina e ai
+     cursori, che lo ascoltano su document. */
   ['legend-panel','time-panel'].forEach(function(id){
     var el=document.getElementById(id); if(!el) return;
     ['touchstart','pointerdown'].forEach(function(ev){
@@ -14276,6 +14792,236 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       },{passive:true});
     });
   });
+})();
+</script>
+<script>
+/* ═══ NOMI NOSTRI SUL SATELLITE (29/9/2026, PROVA LOCALE) ═══
+   Da vicino (zoom 11 e oltre) i nomi dei paesi li scriviamo noi, dall'elenco
+   dei comuni della casella di ricerca (data/elenco-paesi.txt: nome, lat, lon,
+   abitanti). Perche': le scritte di Esri hanno una grandezza fissa e da vicino
+   restano piccole, e lui non vuole il bordo nero spesso. Qui scegliamo noi
+   grandezza e stile.
+   - Precedenza ai paesi piu' grandi; una scritta che si sovrapporrebbe a una
+     gia' messa si salta (si misura col canvas, non a occhio).
+   - Soglia di abitanti per zoom, cosi' da lontano restano i centri.
+   - Solo Italia (l'elenco e' quello): fino a zoom 10 restano i nomi Esri, che
+     coprono anche l'estero. */
+(function(){
+  var ELENCO=null, gruppo=null, timer=null, misura=null, piccoliChiesti=false;
+  /* ESTERO (29/9): due file da OpenStreetMap (ODbL), preparati una volta con
+     costruisci.py nello scratchpad: data/nomi-esteri-grandi.txt (oltre 2.000 abitanti
+     + le citta' d'Europa, 255 KB) si carica col satellite; data/nomi-esteri-piccoli.txt
+     (1,4 MB) solo quando si guarda l'estero da zoom 12 in su. Formato nome|lat|lon|abitanti,
+     nome italiano dove OSM ce l'ha (Nizza, Ginevra, Lubiana). */
+  function leggi(url,dove){
+    return fetch(url).then(function(r){ return r.ok?r.text():''; }).then(function(t){
+      t.split('\n').forEach(function(r){ var p=r.split('|'); if(p.length<4) return;
+        dove.push({n:p[0],lat:+p[1],lon:+p[2],pop:+p[3]||0,e:1}); });   // e: estero
+    }).catch(function(){});
+  }
+  function ordina(){ ELENCO.sort(function(a,b){ return b.pop-a.pop; }); }
+  function forsePiccoli(){
+    var mp=m(); if(piccoliChiesti||!ELENCO||!mp||mp.getZoom()<10) return;   // 29/9: dal 10, non dal 12 (suo: piu' nomi all'estero)
+    // si chiede solo se nello schermo c'e' estero: il centro fuori dall'Italia (rettangolo largo)
+    // basta che UN angolo dello schermo (o il centro) stia fuori dall'Italia
+    var bb=mp.getBounds(), punti=[mp.getCenter(),bb.getNorthWest(),bb.getNorthEast(),bb.getSouthWest(),bb.getSouthEast()];
+    var fuori=punti.some(function(c){ return !(c.lat>36.5&&c.lat<47.1&&c.lng>6.6&&c.lng<18.6) || c.lng<7.5 || (c.lat>46.4&&c.lng>12.9) || (c.lat>46.6); });
+    if(!fuori) return;
+    piccoliChiesti=true; var add=[];
+    leggi('/data/nomi-esteri-piccoli.txt',add).then(function(){ ELENCO=ELENCO.concat(add); ordina(); pianifica(); });
+  }
+  var SOGLIA={5:500000,6:250000,7:120000,8:50000,9:20000,10:8000,11:2500,12:700,13:200,14:0};   // 29/9: meno fitti, suo   // bassa apposta: in montagna i comuni sono piccoli            // abitanti minimi per zoom (13 e oltre: tutti)
+  var CORPO={5:12,6:12,7:12,8:12,9:12,10:12,11:12,12:13,13:14,14:15,15:16};   // grandezza del testo in px
+  function m(){ return window._mapDebug; }
+  function carica(){
+    if(ELENCO) return Promise.resolve(ELENCO);
+    return fetch('/data/elenco-paesi.txt').then(function(r){ return r.text(); }).then(function(t){
+      ELENCO=[];
+      t.split('\n').forEach(function(r){
+        var p=r.split('|'); if(p.length<6) return;
+        if((p[6]||'').trim()==='z') return;          // le zone non sono paesi
+        ELENCO.push({n:p[0],lat:+p[1],lon:+p[2],pop:+p[5]||0});
+      });
+      return leggi('/data/nomi-esteri-grandi.txt',ELENCO).then(function(){ ordina(); return ELENCO; });
+    });
+  }
+  function larghezza(testo,px){
+    if(!misura) misura=document.createElement('canvas').getContext('2d');
+    misura.font='600 '+px+'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    return misura.measureText(testo).width;
+  }
+  function disegna(){
+    var mp=m(); if(!mp||!gruppo) return;
+    gruppo.clearLayers();
+    var z=Math.floor(mp.getZoom());
+    if(!document.body.classList.contains('sat-on') || !ELENCO) return;
+    forsePiccoli();
+    var zz=Math.max(5,z), soglia=SOGLIA[Math.min(zz,14)], px=CORPO[Math.min(zz,15)];
+    var b=mp.getBounds().pad(0.05), occupato=[], messi=0;
+    for(var i=0;i<ELENCO.length && messi<260;i++){
+      var p=ELENCO[i];
+      // all'estero soglia di un quinto (29/9, suo): li' non ci sono i nostri pluviometri e i nomi
+      // sono l'unico riferimento. Niente break: estero e Italia hanno soglie diverse.
+      if(p.pop < (p.e ? soglia/5 : soglia)) { if(p.pop < soglia/5) break; continue; }
+      if(!b.contains([p.lat,p.lon])) continue;
+      var pt=mp.latLngToContainerPoint([p.lat,p.lon]);
+      var w=larghezza(p.n,px)+44, h=px+20;   // aria attorno a ogni nome: niente muro di scritte
+      var box={x1:pt.x-w/2,y1:pt.y-h-5,x2:pt.x+w/2,y2:pt.y-5};   // nome centrato sul paese
+      var urta=false;
+      for(var k=0;k<occupato.length;k++){ var o=occupato[k];
+        if(box.x1<o.x2 && box.x2>o.x1 && box.y1<o.y2 && box.y2>o.y1){ urta=true; break; } }
+      if(urta) continue;
+      occupato.push(box); messi++;
+      L.marker([p.lat,p.lon],{pane:'sat-nomi',interactive:false,keyboard:false,
+        icon:L.divIcon({className:'nome-paese',iconSize:[0,0],iconAnchor:[0,0],
+          html:'<span style="font-size:'+px+'px">'+p.n.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>'})}).addTo(gruppo);
+    }
+  }
+  function pianifica(){ clearTimeout(timer); timer=setTimeout(disegna,60); }
+  function avvia(){
+    var mp=m();
+    if(!mp||!mp.getPane('sat-nomi')){ setTimeout(avvia,400); return; }
+    gruppo=L.layerGroup().addTo(mp);
+    mp.on('moveend zoomend',pianifica);
+    new MutationObserver(function(){
+      if(document.body.classList.contains('sat-on')) carica().then(pianifica); else pianifica();
+    }).observe(document.body,{attributes:true,attributeFilter:['class']});
+    if(document.body.classList.contains('sat-on')) carica().then(pianifica);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
+<!-- ═══ FINESTRA «NOVITÀ» ALLA PRIMA APERTURA (30/9/2026, sua richiesta; rifatta due volte la stessa notte) ═══
+     Quattro pagine, una per novita', ognuna con un filmato RIPRESO DAL SITO VERO (novita/*.mp4, registrati con
+     registra-novita.js nel banco di lavoro, a misura di telefono, zoom a STACCHI nitidi) a tutta larghezza e,
+     SOPRA il filmato (suo: «uno o guarda sopra o sotto», legge e poi guarda), le scritte grandi da slogan: il titolo fisso e
+     una didascalia che cambia a tempo coi «marchi» del filmato (secondi in cui succede qualcosa, montati da
+     build-novita.py leggendo <nome>-tempi.json).
+     Ordine (suo): satellite per primo, la novita' piu' importante; poi tocca un bosco, filtro, e per ultima
+     quota e versante su una montagna vera. Il filmato parte da solo, gira UNA volta e, finito, si passa DA SOLI
+     alla pagina dopo (suo: «non fare che si ferma»); sull'ultima ci si ferma sull'ultimo fotogramma e «Vai alla
+     mappa» pulsa. Un tocco sul filmato lo fa ripartire. «Indietro» per rivedere la pagina prima. Compare UNA volta sola: X, velo, Esc o «Vai alla mappa» segnano `novitaVista`
+     in localStorage. Per rivederla: /?novita=1 (rimando in /guida/). Per non averla mai: /?novita=0.
+     Non compare a chi arriva con un link (regione, date, paese), dentro un iframe, e finche' la mappa non ha
+     finito di caricare. ⚠️ Quando le novita' cambiano si alza VERSIONE. -->
+<style>
+#nv-velo{position:fixed;inset:0;z-index:12000;background:rgba(8,20,36,.7);display:none;align-items:center;justify-content:center;padding:10px;box-sizing:border-box}
+#nv-velo.su{display:flex}
+#nv-box{position:relative;background:#fff;border-radius:18px;width:100%;max-width:430px;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);
+  display:flex;flex-direction:column;box-shadow:0 14px 44px rgba(0,0,0,.45);color:#1b3f6e;overflow:hidden}
+/* il riquadro del filmato ha la misura del filmato (640x868) gia' prima che arrivi: niente righe vuote sopra o sotto */
+#nv-film{position:relative;background:#0b1a2b;flex:0 1 auto;min-height:0;aspect-ratio:640/860;max-height:calc(100dvh - 20px - 215px);overflow:hidden;cursor:pointer;line-height:0}
+#nv-film video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%;background:#0b1a2b}   /* taglia gli ultimi 8 px in alto: l'orlo chiaro della barra delle regioni */
+#nv-film video.via{display:none}
+#nv-alto{padding:12px 14px 0;display:flex;align-items:center;gap:10px;flex:none}
+#nv-tag{background:#e12b2b;color:#fff;font-size:16px;font-weight:800;letter-spacing:.09em;border-radius:8px;padding:6px 12px;line-height:1.2;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#nv-conta{margin-left:auto;font-size:14px;color:#6a7a8c;font-weight:700;white-space:nowrap}
+#nv-x{background:#eef3fb;border:0;width:38px;height:38px;border-radius:50%;font-size:26px;line-height:38px;color:#1b3f6e;cursor:pointer;padding:0;font-family:inherit;text-align:center}
+#nv-x:hover{background:#dfe8f6}
+#nv-testo{padding:8px 16px 10px;flex:none}
+#nv-tit{margin:0 0 4px;font-size:25px;line-height:1.1;font-weight:800;color:#1b3f6e}
+#nv-dida{margin:0;font-size:19px;line-height:1.25;font-weight:600;color:#2a4a72;min-height:2.7em;animation:nvDida .35s ease-out}
+@keyframes nvDida{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+/* la didascalia su una TARGA BLU (30/9, sua scelta fra tre stili: «un po' anonime», la targa e' la piu' leggibile) */
+#nv-dida span{display:inline-block;background:#1b3f6e;color:#fff;padding:9px 15px;border-radius:12px;font-weight:800;font-size:20px;line-height:1.2;box-shadow:0 3px 10px rgba(27,63,110,.3)}
+#nv-piede{display:flex;align-items:center;gap:10px;padding:8px 14px 12px;flex:none;background:#fff}
+#nv-punti{display:flex;gap:7px;margin-right:auto}
+#nv-punti i{width:9px;height:9px;border-radius:50%;background:#c9d6ea;display:block}
+#nv-punti i.on{background:#1b3f6e}
+#nv-dietro{background:#eef3fb;color:#1b3f6e;border:1px solid #c9d6ea;border-radius:12px;font-weight:700;font-size:15px;line-height:1;font-family:inherit;padding:14px 14px;cursor:pointer}
+#nv-dietro:hover{background:#dfe8f6}
+#nv-dietro[disabled]{visibility:hidden}
+#nv-avanti{background:#1b3f6e;color:#fff;border:0;border-radius:12px;font-weight:800;font-size:16px;line-height:1;font-family:inherit;padding:14px 20px;cursor:pointer;min-width:150px}
+#nv-avanti:hover{background:#234f8a}
+#nv-avanti.pulsa{animation:nvPulsa 1.3s ease-in-out infinite}
+@keyframes nvPulsa{0%,100%{box-shadow:0 0 0 0 rgba(27,63,110,.55)}50%{box-shadow:0 0 0 9px rgba(27,63,110,0)}}
+@media(max-width:900px){ #nv-box{max-width:none} #nv-tit{font-size:24px} #nv-dida{font-size:18.5px} }
+@media(max-height:660px){ #nv-tit{font-size:21px} #nv-dida{min-height:2.4em} #nv-dida span{font-size:17px;padding:7px 12px} #nv-avanti{padding:12px 16px;font-size:15px;min-width:130px} #nv-dietro{padding:12px 12px;font-size:14px} #nv-testo{padding-top:4px;padding-bottom:6px} #nv-film{max-height:calc(100dvh - 20px - 190px)} }
+</style>
+<script>
+(function(){
+  var VERSIONE='2026-09-30', CHIAVE='novitaVista';
+  // d = didascalie: [secondo, testo]; il secondo viene dai marchi della registrazione (build-novita.py)
+  var PAGINE=[
+    {t:'Boschi dal satellite', f:'novita/satellite-a', d:[[0, "Premi Satellite"], [2.5, "Regola i colori dei boschi, o toglili"], [7.25, "Zoom al massimo"], [9.27, "Risoluzione altissima: case, alberi, sentieri"], [11.69, "Come Google Maps, in molte zone più dettagliato"], [14.1, "E il tasto per Google Maps c’è sempre"]]},
+    {t:'Tocca un bosco', f:'novita/boschi', d:[[0, "Zoom sui boschi"], [3.24, "Tocca un punto"], [4.31, "Ti dice che bosco è"]]},
+    {t:'Filtra per altitudine', f:'novita/filtro', d:[[0, "Trascina la freccia in su"], [2.11, "Via i castagneti: restano faggi e abeti"], [4.26, "Più su: via anche i faggi, restano gli abeti"], [7.52, "Riallarga: ricompaiono tutti"]]},
+    {t:'Quota, versante, pendenza', f:'novita/nuvoletta', d:[[0, "Un lariceto a 1.850 metri, Alpe di Siusi"], [1.5, "Tocca"], [2.57, "Quota, versante e pendenza"], [5.17, "Un tasto e sei su Google Maps"]]}
+  ];
+  var AVANZA_DOPO=1200;   // ms fermi sull'ultimo fotogramma prima di passare da soli alla pagina dopo
+  var avanzaT=null;
+  var velo=null, idx=0, vids=[], elTit, elDida, elConta, elPunti, elAvanti, elDietro, elFilm;
+  function forzata(){ return /[?&]novita=1(&|$)/.test(location.search); }
+  function vietata(){ return /[?&]novita=0(&|$)/.test(location.search); }
+  function vista(){ try{ return localStorage.getItem(CHIAVE)===VERSIONE; }catch(e){ return false; } }
+  function segna(){ try{ localStorage.setItem(CHIAVE,VERSIONE); }catch(e){} }
+  function ga(az,pg){ try{ gtag('event','novita_finestra',{azione:az,pagina:pg}); }catch(e){} }
+  function costruisci(){
+    velo=document.createElement('div'); velo.id='nv-velo';
+    velo.innerHTML='<div id="nv-box" role="dialog" aria-modal="true" aria-labelledby="nv-tit">'
+      +'<div id="nv-alto"><span id="nv-tag">NOVITÀ</span><span id="nv-conta"></span><button id="nv-x" type="button" aria-label="Chiudi">×</button></div>'
+      +'<div id="nv-testo"><h2 id="nv-tit"></h2><p id="nv-dida"></p></div>'
+      +'<div id="nv-film"></div>'
+      +'<div id="nv-piede"><span id="nv-punti"></span><button id="nv-dietro" type="button">← Indietro</button><button id="nv-avanti" type="button"></button></div></div>';
+    document.body.appendChild(velo);
+    elTit=document.getElementById('nv-tit'); elDida=document.getElementById('nv-dida'); elConta=document.getElementById('nv-conta');
+    elPunti=document.getElementById('nv-punti'); elAvanti=document.getElementById('nv-avanti'); elDietro=document.getElementById('nv-dietro'); elFilm=document.getElementById('nv-film');
+    PAGINE.forEach(function(pg,i){
+      var v=document.createElement('video');
+      v.muted=true; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('muted','');
+      v.preload='none'; v.poster=pg.f+'.jpg'; v.setAttribute('aria-label',pg.t); v.className='via';
+      v.addEventListener('timeupdate',function(){ if(i===idx) didascalia(v.currentTime); });
+      /* finito il filmato si va avanti DA SOLI (suo, 30/9: «non fare che si ferma se uno non tocca Continua»);
+         sull'ultima pagina ci si ferma sull'ultimo fotogramma e «Vai alla mappa» pulsa */
+      v.addEventListener('ended',function(){ if(i!==idx) return;
+        if(idx<PAGINE.length-1){ clearTimeout(avanzaT); avanzaT=setTimeout(function(){ if(velo.classList.contains('su')&&idx===i) avanti(true); },AVANZA_DOPO); }
+        else elAvanti.classList.add('pulsa'); });
+      elFilm.insertBefore(v,elFilm.firstChild); vids.push(v);
+      var p=document.createElement('i'); elPunti.appendChild(p);
+    });
+    document.getElementById('nv-x').addEventListener('click',function(e){ e.stopPropagation(); chiudi('chiusa'); });
+    elAvanti.addEventListener('click',avanti);
+    elDietro.addEventListener('click',indietro);
+    elFilm.addEventListener('click',function(){ riparti(); });   // un tocco sul filmato: da capo
+    velo.addEventListener('click',function(e){ if(e.target===velo) chiudi('chiusa'); });
+  }
+  function didascalia(t){
+    var d=PAGINE[idx].d, s=d[0][1];
+    for(var k=0;k<d.length;k++) if(t>=d[k][0]) s=d[k][1];
+    if(elDida.textContent!==s){ elDida.textContent=''; var sp=document.createElement('span'); sp.textContent=s; elDida.appendChild(sp); elDida.style.animation='none'; void elDida.offsetWidth; elDida.style.animation=''; }
+  }
+  function riparti(){ var v=vids[idx]; clearTimeout(avanzaT); elAvanti.classList.remove('pulsa'); try{ v.currentTime=0; }catch(e){} var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); didascalia(0); }
+  function mostra(i){
+    idx=i; var pg=PAGINE[i];
+    elTit.textContent=pg.t; elConta.textContent=(i+1)+' di '+PAGINE.length;
+    [].forEach.call(elPunti.children,function(p,k){ p.className=k===i?'on':''; });
+    elAvanti.textContent= i<PAGINE.length-1 ? 'Continua →' : 'Vai alla mappa';
+    elAvanti.classList.remove('pulsa');
+    if(i>0) elDietro.removeAttribute('disabled'); else elDietro.setAttribute('disabled','');
+    vids.forEach(function(v,k){
+      if(k===i){ v.classList.remove('via'); if(!v.getAttribute('src')){ v.src=pg.f+'.mp4'; v.load(); } riparti(); }
+      else { v.classList.add('via'); try{ v.pause(); }catch(e){} }
+    });
+  }
+  function tasto(e){ if(e.key==='Escape') chiudi('chiusa'); else if(e.key==='ArrowRight') avanti(); else if(e.key==='ArrowLeft') indietro(); }
+  function avanti(daSolo){ clearTimeout(avanzaT); if(idx<PAGINE.length-1){ mostra(idx+1); ga(daSolo===true?'auto':'pagina',idx+1); } else chiudi('finita'); }
+  function indietro(){ clearTimeout(avanzaT); if(idx>0){ mostra(idx-1); ga('indietro',idx+1); } }
+  function chiudi(come){
+    clearTimeout(avanzaT); velo.classList.remove('su'); vids.forEach(function(v){ try{ v.pause(); }catch(e){} });
+    segna(); ga(come,idx+1); document.removeEventListener('keydown',tasto);
+  }
+  function apri(){ if(!velo) costruisci(); velo.classList.add('su'); mostra(0); ga('aperta',1); document.addEventListener('keydown',tasto); }
+  window._novitaApri=apri;   // per la guida e per le prove
+  function pronta(){ var sp=document.getElementById('map-spinner'); return !!window._mapDebug && (!sp || getComputedStyle(sp).display==='none'); }
+  function avvia(){
+    if(vietata()) return;
+    try{ if(window.top!==window) return; }catch(e){}
+    var pagina=location.pathname; if(!(pagina==='/'||/\/index\.html$/.test(pagina))) return;
+    if(!forzata()){ if(vista()) return; if(location.search && location.search!=='?') return; }
+    var t0=Date.now();
+    (function aspetta(){ if(pronta()||Date.now()-t0>8000) setTimeout(apri,900); else setTimeout(aspetta,300); })();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
 </script>
 </body>
