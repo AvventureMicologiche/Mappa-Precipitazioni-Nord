@@ -1,13 +1,13 @@
 {
  "regione": "slovenia",
- "generato": "2026-09-29T13:19:21.715Z",
+ "generato": "2026-09-30T13:00:14.676Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-09-27",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-28",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Rateče",
@@ -35,8 +35,8 @@
    "media": 1.4,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-21",
-   "ultimo": "2026-09-27",
+   "primo": "2026-09-22",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Osilnica",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 113.3,
+   "media": 114.2,
    "giorni": 20,
-   "stazioni": 115,
-   "primo": "2026-09-08",
-   "ultimo": "2026-09-27",
+   "stazioni": 114,
+   "primo": "2026-09-09",
+   "ultimo": "2026-09-28",
    "top": [
     {
      "n": "Zadlog",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 123.3,
+   "media": 120.5,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-08-29",
-   "ultimo": "2026-09-27",
+   "primo": "2026-08-30",
+   "ultimo": "2026-09-28",
    "top": [
-    {
-     "n": "Bovec - letališče",
-     "mm": 221.7
-    },
-    {
-     "n": "Krn",
-     "mm": 207.1
-    },
     {
      "n": "Zadlog",
      "mm": 204.8
     },
     {
-     "n": "Kredarica",
-     "mm": 202.4
+     "n": "Bovec - letališče",
+     "mm": 199
     },
     {
-     "n": "Breginj",
-     "mm": 202
+     "n": "Ajdovščina - Dolenje",
+     "mm": 194.2
+    },
+    {
+     "n": "Portorož - letališče",
+     "mm": 192.3
+    },
+    {
+     "n": "Vodice (Ajdovščina)",
+     "mm": 189.1
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   2.9,
   0.7,
   1.2,
-  0,
-  2.9
+  0
  ],
  "zone": []
 }
