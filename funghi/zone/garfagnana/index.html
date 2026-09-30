@@ -554,7 +554,7 @@ OpenStreetMap, licenza ODbL.</p>
   }
 
   function link(dal, al){
-    return MAPPA + "?r=" + REGS + "&da=" + dal + "&a=" + al
+    return MAPPA + "?r=" + REGS + "&da=" + dal + "&a=" + al + "&s=p"
       + "&pl=" + LAT.toFixed(4) + "," + LON.toFixed(4) + "&pn=" + encodeURIComponent(ZONA) + "&pz=1"
       + "&z=10&c=" + LAT.toFixed(4) + "," + LON.toFixed(4);
   }

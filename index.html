@@ -10234,7 +10234,12 @@ if(_btnShot){
   if(typeof refreshSelectorStyles==='function') refreshSelectorStyles();
   // s=i = link arrivato insieme alla foto (tasto Immagine): evento a parte, cosi'
   // si misura per la prima volta quante aperture portano le foto (18/8/2026).
-  try{gtag('event',q.get('s')==='i'?'open_shared_image':'open_shared_map',{regioni:keys.join(',')})}catch(e){}
+  // s=p = link dai tasti delle NOSTRE pagine (regione, funghi, paese, zona) col
+  // periodo gia' scelto (30/9/2026). Prima contavano come «link condivisi»: il
+  // 23-29/9 erano 713 persone su 896, tutte arrivate da Google su una pagina,
+  // e il passaparola vero non si vedeva piu'. Evento a parte, open_from_page.
+  var _sq=q.get('s');
+  try{gtag('event',_sq==='i'?'open_shared_image':(_sq==='p'?'open_from_page':'open_shared_map'),{regioni:keys.join(',')})}catch(e){}
   var pastDate=new Date(da+'T00:00:00');
   var nowDate=new Date(a+'T23:59:59');
   var dfmt=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};

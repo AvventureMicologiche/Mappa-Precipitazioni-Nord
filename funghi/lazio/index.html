@@ -508,7 +508,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Lazio.</p>
         s.push(n ? uno(t / n) : 0); sT.push(m ? [uno(a / m), uno(b / m)] : null);
       }
       var o = j.oggi, daG = iso(menoDa(o,20)), aG = iso(menoDa(o,13)), ieri = iso(menoDa(o,1));
-      var lk = function(dal, al){ return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al; };
+      var lk = function(dal, al){ return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al + '&s=p'; };
       scriviVerdetto(s, o, lk(daG, ieri), 'in media, negli ultimi 20 giorni');
       var ax = scriviBarre(s, o);
       scriviFinestra(s, o, null, 'in media');
@@ -649,7 +649,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Lazio.</p>
 
     var daG = menoDaI(oggiISO,20), aG = menoDaI(oggiISO,13), a20 = menoDaI(oggiISO,1);
     function link(r, dal, al){
-      return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al
+      return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al + '&s=p'
         + (r ? '&z=11&c=' + r.lat.toFixed(4) + ',' + r.lon.toFixed(4) : '');
     }
     function luogo(r){ return r.sig ? esc(r.sig) : ''; }

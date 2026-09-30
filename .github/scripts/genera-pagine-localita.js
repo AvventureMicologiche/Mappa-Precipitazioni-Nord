@@ -493,7 +493,7 @@ ${JS_AGGIORNATO}
   }
 
   function link(dal, al){
-    return MAPPA + '?r=' + REGS + '&da=' + dal + '&a=' + al
+    return MAPPA + '?r=' + REGS + '&da=' + dal + '&a=' + al + '&s=p'
       + '&pl=' + LAT.toFixed(4) + ',' + LON.toFixed(4) + '&pn=' + encodeURIComponent(POSTO)
       + '&z=11&c=' + LAT.toFixed(4) + ',' + LON.toFixed(4);
   }

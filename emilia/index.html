@@ -282,7 +282,7 @@ temperatura, vento e umidità.</p>
     if(s===iso(giornoFa(1))) return 'Ieri';
     return GIORNI[daIso(s).getDay()]+' '+lungo(s);
   }
-  function link(da,a){ return SITO+'/?r='+K+'&da='+da+'&a='+a; }
+  function link(da,a){ return SITO+'/?r='+K+'&da='+da+'&a='+a+'&s=p'; }
   // «dal 18 al 24 settembre»: il mese una volta sola, l'apostrofo davanti a 1, 8, 11
   function dalAl(a,b){ var pa=a.split('-'), pb=b.split('-'), da=+pa[2], db=+pb[2];
     var ap=function(n){ return n===1||n===8||n===11; };
