@@ -1,6 +1,6 @@
 {
  "regione": "lombardia",
- "generato": "2026-10-01T10:19:43.337Z",
+ "generato": "2026-10-01T11:11:57.296Z",
  "periodi": {
   "1": {
    "media": 0,
@@ -11,23 +11,23 @@
    "top": [
     {
      "n": "Valbondione (BG)",
-     "mm": 2
+     "mm": 2.2
+    },
+    {
+     "n": "Sellero Zinvill S1 (BS)",
+     "mm": 1.2
     },
     {
      "n": "Edolo Pantano d`Avio (BS)",
      "mm": 1
     },
     {
+     "n": "Ponte in Valtellina Lago Reguzzo (SO)",
+     "mm": 1
+    },
+    {
      "n": "Aprica (SO)",
      "mm": 0.6
-    },
-    {
-     "n": "Santa Margherita di Staffora Casanova (PV)",
-     "mm": 0.4
-    },
-    {
-     "n": "Santa Margherita di Staffora Passo del Giovà (PV)",
-     "mm": 0.2
     }
    ]
   },
@@ -40,7 +40,7 @@
    "top": [
     {
      "n": "Valbondione (BG)",
-     "mm": 2
+     "mm": 2.2
     },
     {
      "n": "Busto Arsizio  Accam (VA)",
@@ -51,12 +51,12 @@
      "mm": 1.2
     },
     {
-     "n": "Edolo Pantano d`Avio (BS)",
-     "mm": 1
+     "n": "Sellero Zinvill S1 (BS)",
+     "mm": 1.2
     },
     {
-     "n": "Sormano rifugio Alpetto (CO)",
-     "mm": 0.8
+     "n": "Edolo Pantano d`Avio (BS)",
+     "mm": 1
     }
    ]
   },
@@ -244,9 +244,9 @@
    "s": "val-paisco",
    "n": "Val Paisco",
    "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0,
-   "m30": 124.5
+   "m1": 0.5,
+   "m7": 0.5,
+   "m30": 124.9
   },
   {
    "s": "valle-san-giacomo",
