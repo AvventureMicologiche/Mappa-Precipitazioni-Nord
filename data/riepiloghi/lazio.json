@@ -1,24 +1,20 @@
 {
  "regione": "lazio",
- "generato": "2026-09-30T09:52:08.635Z",
+ "generato": "2026-10-01T10:19:43.339Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 208,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "stazioni": 209,
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Sgurgola",
-     "mm": 0.3
-    },
-    {
-     "n": "Supino",
+     "n": "Barbarano",
      "mm": 0.2
     },
     {
-     "n": "Ceccano rlazio",
+     "n": "Melfa ad Atina",
      "mm": 0.2
     },
     {
@@ -28,6 +24,10 @@
     {
      "n": "Campaegli",
      "mm": 0
+    },
+    {
+     "n": "Torrita Tiberina",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.6,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Ponza",
@@ -61,31 +61,31 @@
    ]
   },
   "20": {
-   "media": 50.3,
+   "media": 14,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Tor Vergata",
-     "mm": 156
-    },
-    {
-     "n": "Rota",
-     "mm": 126.7
-    },
-    {
-     "n": "Falcognana",
-     "mm": 119.1
-    },
-    {
      "n": "Roma Nord",
-     "mm": 119.1
+     "mm": 74.5
     },
     {
-     "n": "Frascati",
-     "mm": 116.5
+     "n": "Roma Flaminio",
+     "mm": 62.8
+    },
+    {
+     "n": "San Biagio Saracinisco",
+     "mm": 60.2
+    },
+    {
+     "n": "Monte Mario",
+     "mm": 59.2
+    },
+    {
+     "n": "Cervaro",
+     "mm": 58.6
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 50.7,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Tor Vergata",
@@ -124,6 +124,7 @@
   0,
   0,
   0,
+  0,
   0.5,
   0.1,
   0,
@@ -148,14 +149,13 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 38
@@ -163,7 +163,7 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 38.5
@@ -171,7 +171,7 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.1,
    "m30": 28.2
@@ -179,7 +179,7 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 1.5,
    "m30": 38.7
@@ -187,7 +187,7 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 8.9
@@ -195,7 +195,7 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 3.2,
    "m30": 38.1
@@ -203,7 +203,7 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.7,
    "m30": 28.3

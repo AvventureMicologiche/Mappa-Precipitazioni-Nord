@@ -1,101 +1,105 @@
 {
  "regione": "puglia",
- "generato": "2026-09-30T09:52:08.635Z",
+ "generato": "2026-10-01T10:19:43.340Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 125,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "stazioni": 122,
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Monopoli",
-     "mm": 0
+     "n": "Presicce",
+     "mm": 16.6
     },
     {
-     "n": "Gravina in Puglia",
-     "mm": 0
+     "n": "Ruffano",
+     "mm": 5
     },
     {
-     "n": "Brindisi",
-     "mm": 0
+     "n": "Maglie",
+     "mm": 4.8
     },
     {
-     "n": "Andria",
-     "mm": 0
+     "n": "Monteleone di Puglia",
+     "mm": 0.2
     },
     {
-     "n": "Taranto",
-     "mm": 0
+     "n": "Orsara di Puglia",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 2,
+   "media": 2.2,
    "giorni": 7,
    "stazioni": 129,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
+    {
+     "n": "Presicce",
+     "mm": 19.4
+    },
     {
      "n": "Serracapriola",
      "mm": 8.3
     },
     {
+     "n": "Maglie",
+     "mm": 7.7
+    },
+    {
+     "n": "Ruffano",
+     "mm": 7.6
+    },
+    {
      "n": "Galatina",
      "mm": 6.4
-    },
-    {
-     "n": "Mass.Monteruga",
-     "mm": 6.2
-    },
-    {
-     "n": "Fortore a Ripalta",
-     "mm": 6.2
-    },
-    {
-     "n": "Carpino",
-     "mm": 6.1
     }
    ]
   },
   "20": {
-   "media": 17.2,
+   "media": 17,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
+     "n": "Presicce",
+     "mm": 74.2
+    },
+    {
      "n": "Cerignola",
-     "mm": 69.3
-    },
-    {
-     "n": "Fonte Rosa",
-     "mm": 68.5
-    },
-    {
-     "n": "Spinazzola",
-     "mm": 64.7
+     "mm": 66.7
     },
     {
      "n": "Maglie",
-     "mm": 57.7
+     "mm": 62.5
     },
     {
-     "n": "Presicce",
-     "mm": 57.6
+     "n": "Spinazzola",
+     "mm": 58.1
+    },
+    {
+     "n": "Manduria",
+     "mm": 56.9
     }
    ]
   },
   "30": {
-   "media": 18.7,
+   "media": 18.3,
    "giorni": 30,
    "stazioni": 130,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
+    {
+     "n": "Presicce",
+     "mm": 74.2
+    },
     {
      "n": "Cerignola",
      "mm": 70.9
@@ -110,16 +114,13 @@
     },
     {
      "n": "Maglie",
-     "mm": 57.7
-    },
-    {
-     "n": "Presicce",
-     "mm": 57.6
+     "mm": 62.5
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   0.1,
   0.1,
-  0,
-  0.6
+  0
  ],
  "zone": []
 }

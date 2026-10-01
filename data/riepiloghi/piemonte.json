@@ -1,91 +1,91 @@
 {
  "regione": "piemonte",
- "generato": "2026-09-30T09:52:08.632Z",
+ "generato": "2026-10-01T10:19:43.337Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 281,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "LAGO AGNEL (Torino)",
-     "mm": 0.2
-    },
-    {
-     "n": "COLLE BERCIA (Torino)",
-     "mm": 0.2
-    },
-    {
-     "n": "CLOT DELLA SOMA (Torino)",
-     "mm": 0.2
+     "n": "MACUGNAGA RIFUGIO ZAMBONI (Provincia del verbano cusio os)",
+     "mm": 2.4
     },
     {
      "n": "BOCCHETTA DELLE PISSE (Vercelli)",
-     "mm": 0.2
+     "mm": 1.6
     },
     {
-     "n": "LIMONE PANCANI (Cuneo)",
-     "mm": 0.2
+     "n": "LAGO AGNEL (Torino)",
+     "mm": 1.2
+    },
+    {
+     "n": "LAGO DIETRO LA TORRE (Torino)",
+     "mm": 1.2
+    },
+    {
+     "n": "LAVAGNINA LAGO (Alessandria)",
+     "mm": 1.2
     }
    ]
   },
   "7": {
-   "media": 0.2,
+   "media": 0.1,
    "giorni": 7,
    "stazioni": 282,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "BOBBIO PELLICE (Torino)",
-     "mm": 5.6
+     "n": "MACUGNAGA RIFUGIO ZAMBONI (Provincia del verbano cusio os)",
+     "mm": 2.4
     },
     {
-     "n": "SAN DAMIANO MACRA (Cuneo)",
-     "mm": 4
+     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
+     "mm": 1.6
     },
     {
-     "n": "CRISSOLO PO (Cuneo)",
-     "mm": 3
+     "n": "MOROZZO (Cuneo)",
+     "mm": 1.6
     },
     {
-     "n": "VACCERA (Torino)",
-     "mm": 2.8
+     "n": "VARISELLA (Torino)",
+     "mm": 1.4
     },
     {
-     "n": "CARCOFORO (Vercelli)",
-     "mm": 2.6
+     "n": "LAGO AGNEL (Torino)",
+     "mm": 1.2
     }
    ]
   },
   "20": {
-   "media": 15.5,
+   "media": 9.2,
    "giorni": 20,
    "stazioni": 285,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
-     "mm": 87.8
-    },
-    {
-     "n": "PIANI DI CARREGA (Alessandria)",
-     "mm": 87.5
+     "mm": 87.6
     },
     {
      "n": "BALDISSERO D'ALBA (Cuneo)",
      "mm": 69.4
     },
     {
-     "n": "MOMBASIGLIO MONGIA (Cuneo)",
-     "mm": 68.5
+     "n": "VALDILANA (Biella)",
+     "mm": 62.9
     },
     {
-     "n": "BRA (Cuneo)",
-     "mm": 64.7
+     "n": "OMEGNA LAGO D'ORTA (Provincia del verbano cusio ossola)",
+     "mm": 61.3
+    },
+    {
+     "n": "BORGOMANERO (Novara)",
+     "mm": 57.2
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 30.2,
    "giorni": 30,
    "stazioni": 286,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 51
@@ -163,7 +163,7 @@
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 32.7
@@ -171,63 +171,63 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
-   "m7": 0.4,
+   "m7": 0.1,
    "m30": 11.9
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-09-29",
-   "m1": 0,
+   "ultimo": "2026-09-30",
+   "m1": 0.1,
    "m7": 0.1,
    "m30": 33.4
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-09-29",
-   "m1": 0,
-   "m7": 0,
-   "m30": 36.7
+   "ultimo": "2026-09-30",
+   "m1": 0.3,
+   "m7": 0.3,
+   "m30": 37
   },
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
-   "m7": 0.6,
+   "m7": 0,
    "m30": 56.1
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
-   "m7": 0.4,
+   "m7": 0.1,
    "m30": 48
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
-   "m30": 48.6
+   "m30": 48.3
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-09-29",
-   "m1": 0,
-   "m7": 0.6,
-   "m30": 32.3
+   "ultimo": "2026-09-30",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 32.4
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 15.1

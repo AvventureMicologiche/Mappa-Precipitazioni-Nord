@@ -1,33 +1,33 @@
 {
  "regione": "trentino",
- "generato": "2026-09-30T09:52:08.634Z",
+ "generato": "2026-10-01T10:19:43.339Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Trento (Liceo Galilei)",
-     "mm": 0.4
+     "n": "Daone (Malga Bissina)",
+     "mm": 0.6
     },
     {
-     "n": "Lavarone (Chiesa)",
+     "n": "Val Genova (Malga Caret)",
      "mm": 0.2
     },
     {
-     "n": "Passo Rolle",
-     "mm": 0.2
+     "n": "Centa San Nicolo'",
+     "mm": 0
     },
     {
-     "n": "Tremalzo",
-     "mm": 0.2
+     "n": "Levico (Terme)",
+     "mm": 0
     },
     {
-     "n": "Monte Bondone (Viote)",
-     "mm": 0.2
+     "n": "Telve (Pontarso)",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Val di Breguzzo (Ponte Arno')",
@@ -61,40 +61,40 @@
    ]
   },
   "20": {
-   "media": 54.7,
+   "media": 14.6,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Passo Brocon",
-     "mm": 106.8
+     "n": "Paganella (Malga Terlago)",
+     "mm": 32.2
     },
     {
-     "n": "Passo Rolle",
-     "mm": 81.2
+     "n": "Capriana",
+     "mm": 30.8
     },
     {
-     "n": "Ronchi Valsugana (Malga Casapinello)",
-     "mm": 76.8
+     "n": "Dos Del Sabion (Monte Grual)",
+     "mm": 30.6
     },
     {
-     "n": "Cermis (Casere)",
-     "mm": 76.8
+     "n": "Giustino (frana)",
+     "mm": 27.8
     },
     {
-     "n": "Val D'Ambiez",
-     "mm": 74.8
+     "n": "Folgaria",
+     "mm": 27.2
     }
    ]
   },
   "30": {
-   "media": 106,
+   "media": 105.9,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -129,6 +129,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   0.1,
   1.8,
@@ -148,14 +149,13 @@
   0,
   0,
   0.5,
-  0.1,
   0.1
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.2,
    "m30": 143.1
@@ -163,7 +163,7 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 109.9
@@ -171,15 +171,15 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-09-29",
-   "m1": 0.1,
+   "ultimo": "2026-09-30",
+   "m1": 0,
    "m7": 0.2,
    "m30": 135.4
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 52.8
@@ -187,7 +187,7 @@
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.3,
    "m30": 103.2
@@ -195,8 +195,8 @@
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-09-29",
-   "m1": 0.1,
+   "ultimo": "2026-09-30",
+   "m1": 0,
    "m7": 0.1,
    "m30": 113.1
   }

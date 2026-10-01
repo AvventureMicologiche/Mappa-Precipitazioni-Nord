@@ -1,33 +1,33 @@
 {
  "regione": "veneto",
- "generato": "2026-09-30T10:45:27.054Z",
+ "generato": "2026-10-01T10:19:43.338Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Perarolo (BL)",
-     "mm": 0.2
+     "n": "Montegalda (VI)",
+     "mm": 1.2
     },
     {
-     "n": "Santo Stefano di Cadore (BL)",
-     "mm": 0.2
+     "n": "Villafranca di Verona (VR)",
+     "mm": 1
     },
     {
-     "n": "Crespadoro (VI)",
-     "mm": 0.2
+     "n": "Castelnuovo del Garda (VR)",
+     "mm": 1
     },
     {
-     "n": "Cavallino Treporti (VE)",
-     "mm": 0.2
+     "n": "Montebelluna loc. Contea (TV)",
+     "mm": 1
     },
     {
-     "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 0.2
+     "n": "Verona - Santa Caterina (VR)",
+     "mm": 0.8
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Sella Ciampigotto (BL)",
@@ -47,54 +47,54 @@
      "mm": 1.2
     },
     {
-     "n": "Cansiglio - Tramedere (BL)",
-     "mm": 0.8
+     "n": "Montegalda (VI)",
+     "mm": 1.2
     },
     {
-     "n": "Pian del Crep (Val di Zoldo) (BL)",
-     "mm": 0.6
+     "n": "Villafranca di Verona (VR)",
+     "mm": 1
     },
     {
-     "n": "Soffranco (BL)",
-     "mm": 0.6
+     "n": "Castelnuovo del Garda (VR)",
+     "mm": 1
     }
    ]
   },
   "20": {
-   "media": 62.6,
+   "media": 18.4,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 269.2
+     "mm": 77.8
     },
     {
      "n": "Bibione (VE)",
-     "mm": 255.2
+     "mm": 63
     },
     {
-     "n": "Eraclea (VE)",
-     "mm": 182.4
+     "n": "Marcon loc. Zuccarello (VE)",
+     "mm": 55.4
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 171.4
+     "mm": 55
     },
     {
-     "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 131
+     "n": "Favaro Veneto (VE)",
+     "mm": 53.2
     }
    ]
   },
   "30": {
-   "media": 91.8,
+   "media": 90.3,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Bibione (VE)",
-     "mm": 263.8
+     "mm": 264
     },
     {
      "n": "Eraclea (VE)",
@@ -113,13 +113,14 @@
      "mm": 185.6
     },
     {
-     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
-     "mm": 160.2
+     "n": "Sant'Antonio Tortal (BL)",
+     "mm": 148.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0,
   0.4,
-  1.7,
-  1.5
+  1.7
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.2,
    "m30": 118.6
@@ -163,23 +163,23 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.2,
-   "m30": 115.6
+   "m30": 109.8
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-09-29",
-   "m1": 0.1,
+   "ultimo": "2026-09-30",
+   "m1": 0,
    "m7": 0.1,
-   "m30": 136.4
+   "m30": 126.9
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 108
@@ -187,7 +187,7 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.1,
    "m30": 93.5
@@ -195,18 +195,18 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-09-29",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 120.3
+   "ultimo": "2026-09-30",
+   "m1": 0.1,
+   "m7": 0.3,
+   "m30": 120.5
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.1,
-   "m30": 110.7
+   "m30": 105.5
   }
  ]
 }

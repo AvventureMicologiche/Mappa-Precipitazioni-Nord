@@ -1,32 +1,32 @@
 {
  "regione": "emilia",
- "generato": "2026-09-30T10:45:27.054Z",
+ "generato": "2026-10-01T10:19:43.338Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 332,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "stazioni": 328,
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Alberino (Bologna)",
-     "mm": 0.2
+     "n": "Lago Scaffaiolo (Modena)",
+     "mm": 2.8
     },
     {
-     "n": "Bedonia (Parma)",
-     "mm": 0.2
+     "n": "Ponte Vico (Ravenna)",
+     "mm": 0.4
     },
     {
-     "n": "Lagdei (Parma)",
+     "n": "Riglio (Piacenza)",
+     "mm": 0.4
+    },
+    {
+     "n": "Malalbergo (Bologna)",
      "mm": 0.2
     },
     {
      "n": "Marra (Parma)",
-     "mm": 0.2
-    },
-    {
-     "n": "Montriolo (Forlì-Cesena)",
      "mm": 0.2
     }
    ]
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 335,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Morciano (Rimini)",
@@ -44,61 +44,61 @@
     },
     {
      "n": "Conca 2 (—)",
-     "mm": 4.2
+     "mm": 4.4
+    },
+    {
+     "n": "Lago Scaffaiolo (Modena)",
+     "mm": 3
     },
     {
      "n": "Alfonsine (Ravenna)",
-     "mm": 2.7
+     "mm": 2.5
     },
     {
      "n": "Monte Colombo (Rimini)",
      "mm": 2.3
-    },
-    {
-     "n": "Cattolica (Rimini)",
-     "mm": 2.1
     }
    ]
   },
   "20": {
-   "media": 33.9,
+   "media": 14.9,
    "giorni": 20,
    "stazioni": 338,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
-     "n": "Barbagelata (Genova)",
-     "mm": 136.4
-    },
-    {
-     "n": "Cabanne (Genova)",
-     "mm": 120
+     "n": "Conca 2 (—)",
+     "mm": 78.4
     },
     {
      "n": "Nociveglia (Parma)",
-     "mm": 117.4
+     "mm": 74.1
+    },
+    {
+     "n": "Corniolo (Forlì-Cesena)",
+     "mm": 73.1
+    },
+    {
+     "n": "Farfanaro (Parma)",
+     "mm": 69.9
     },
     {
      "n": "Casalporino (Parma)",
-     "mm": 116.2
-    },
-    {
-     "n": "Diga del Brugneto (Genova)",
-     "mm": 116
+     "mm": 68.8
     }
    ]
   },
   "30": {
-   "media": 47.4,
+   "media": 47.5,
    "giorni": 30,
-   "stazioni": 340,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "stazioni": 339,
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Cabanne (Genova)",
-     "mm": 370.8
+     "mm": 370.6
     },
     {
      "n": "Barbagelata (Genova)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,22 +149,21 @@
   0,
   0,
   0.6,
-  0.5,
-  0
+  0.5
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-09-29",
-   "m1": 0,
-   "m7": 0,
-   "m30": 39.5
+   "ultimo": "2026-09-30",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 39.6
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.2,
    "m30": 51.6
@@ -171,7 +171,7 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0.4,
    "m30": 82.2
@@ -179,7 +179,7 @@
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 68.6
@@ -187,7 +187,7 @@
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 58.5
@@ -195,7 +195,7 @@
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
    "m7": 0,
    "m30": 82.2
@@ -203,9 +203,9 @@
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-09-29",
+   "ultimo": "2026-09-30",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 43.7
   }
  ]

@@ -1,14 +1,22 @@
 {
  "regione": "molise",
- "generato": "2026-09-30T09:52:08.635Z",
+ "generato": "2026-10-01T10:19:43.340Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 27,
-   "primo": "2026-09-29",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-30",
+   "ultimo": "2026-09-30",
    "top": [
+    {
+     "n": "Castelmauro",
+     "mm": 0.2
+    },
+    {
+     "n": "Mafalda",
+     "mm": 0.2
+    },
     {
      "n": "Trivento PLUVIO",
      "mm": 0
@@ -20,14 +28,6 @@
     {
      "n": "Capracotta",
      "mm": 0
-    },
-    {
-     "n": "Campitello Matese Rmolise SP",
-     "mm": 0
-    },
-    {
-     "n": "Ponte Liscione",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 1.8,
    "giorni": 7,
    "stazioni": 27,
-   "primo": "2026-09-23",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-24",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Palata",
@@ -61,23 +61,23 @@
    ]
   },
   "20": {
-   "media": 21.8,
+   "media": 19.5,
    "giorni": 20,
    "stazioni": 27,
-   "primo": "2026-09-10",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-11",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Vandra a Fornelli",
-     "mm": 69.1
+     "mm": 65.1
     },
     {
      "n": "Forli' del Sannio",
-     "mm": 61.4
+     "mm": 57.6
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 56
+     "mm": 46.2
     },
     {
      "n": "Termoli",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Pietrabbondante",
-     "mm": 33.8
+     "mm": 31.8
     }
    ]
   },
   "30": {
-   "media": 27.2,
+   "media": 26.8,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-08-31",
-   "ultimo": "2026-09-29",
+   "primo": "2026-09-01",
+   "ultimo": "2026-09-30",
    "top": [
     {
      "n": "Ponte Venticinque Archi",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Pietrabbondante",
-     "mm": 42.4
+     "mm": 42.2
     },
     {
      "n": "Trigno a Bagnoli del Trigno",
-     "mm": 38.9
+     "mm": 38.7
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   0,
   0,
-  0,
-  0.5
+  0
  ],
  "zone": []
 }
