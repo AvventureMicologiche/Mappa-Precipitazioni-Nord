@@ -11452,6 +11452,11 @@ function loadDefaultMarkers(){
     if(!(_ora <= new Date(V.fino).getTime())) return;
 
     var ytPieno='<svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>';
+    // ⚠️ Il link principale non porta sempre a YouTube (1/10/2026): la song del
+    // tartufo del 30/9 era un video Facebook e la scheda mostrava lo stesso il
+    // logo YouTube. Il logo segue la destinazione vera di V.link.
+    var suFb=/facebook\.com|fb\.watch/.test(V.link||'');
+    if(suFb) ytPieno='<svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#1877F2" d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0022 12z"/></svg>';
 
     // L'onclick e' un attributo scritto nel markup: va SOSTITUITO, non aggiunto,
     // altrimenti a ogni clic partirebbero due eventi.
@@ -11513,7 +11518,9 @@ function loadDefaultMarkers(){
       // lo stesso id — cosi' tutto il CSS gia' scritto continua a valere — e
       // dentro ci vanno i link veri: il gancio verso YouTube e i tre bottoni.
       var yt='<svg width="14" height="10" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polygon points="10,4 10,26 32,15" fill="#fff"/></svg>';
-      var riga='<a class="s-yt" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-youtube').replace(/"/g,'&quot;')+'">'+yt+'YouTube</a>';
+      var riga=suFb
+        ? '<a class="s-fb" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-facebook').replace(/"/g,'&quot;')+'"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0022 12z"/></svg>Facebook</a>'
+        : '<a class="s-yt" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-youtube').replace(/"/g,'&quot;')+'">'+yt+'YouTube</a>';
       altri.forEach(function(s){
         riga+='<a class="'+s.cl+'" href="'+s.url+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile-'+s.ga).replace(/"/g,'&quot;')+'">'+s.svg+s.nome+'</a>';
       });
