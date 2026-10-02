@@ -11,6 +11,15 @@ const path  = require('path');
 const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'veneto');
 const MAX_DAYS  = 730;
 const BASE_URL  = 'https://meteo.arpa.veneto.it/meteo/dati_meteo/xml';
+// ⚠️ CERTIFICATO DI ARPA VENETO (2/10/2026). Dal 30/9 il loro server presenta il
+// certificato nuovo (Actalis «Organization Validated» 2025) insieme all'intermedio
+// SBAGLIATO («Domain Validated»): i browser rimediano scaricandosi quello giusto,
+// Node no, e dal 1/10 alle 12:52 ogni giro falliva con «unable to verify the first
+// certificate». Qui si aggiungono l'intermedio giusto e la radice Actalis 2025 con
+// firma incrociata (actalis-ov-2025.pem, scade nel 2030/2035). La verifica resta
+// ACCESA: non si spegne mai il controllo, si completa la catena. Se ARPA sistema il
+// server non cambia niente.
+const CA = [...require('tls').rootCertificates, fs.readFileSync(path.join(__dirname, 'actalis-ov-2025.pem'), 'utf8')];
 
 function getItalyOffset(date) {
   // Calcola offset italiano basato sul calendario (non getTimezoneOffset che è 0 su server UTC)
@@ -34,6 +43,7 @@ function getTargetDate() {
 function fetchURL(url) {
   return new Promise((resolve, reject) => {
     https.get(url, {
+      ca: CA,
       headers: { 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'Mozilla/5.0' }
     }, (res) => {
       let chunks = [];
