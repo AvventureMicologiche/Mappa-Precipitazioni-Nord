@@ -11666,7 +11666,12 @@ function loadDefaultMarkers(){
 /* «new» (29/9, suo): tolto dal radar, messo sul Satellite dei boschi */
 #btn-boschi::after,#bo-sat-btn::after{content:'new';position:absolute;top:-6px;right:-4px;
   background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;
-  padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none}
+  padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;
+  animation:newPulsa 1.6s ease-in-out infinite}
+/* il «new» pulsa (2/10/2026, suo): si gonfia appena e manda un alone rosso */
+@keyframes newPulsa{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(225,43,43,.6)}
+  50%{transform:scale(1.18);box-shadow:0 0 0 5px rgba(225,43,43,0)}}
+@media (prefers-reduced-motion:reduce){#btn-boschi::after,#bo-sat-btn::after{animation:none}}
 .modo-radar #btn-radar::after{display:none}
 /* anche la Mappa boschi (16/9/2026, sua richiesta: «lascialo su entrambi»);
    sparisce quando il tasto diventa «Chiudi mappa», come quello del radar */
@@ -14967,7 +14972,14 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   function vietata(){ return /[?&]novita=0(&|$)/.test(location.search); }
   function vista(){ try{ return localStorage.getItem(CHIAVE)===VERSIONE; }catch(e){ return false; } }
   function segna(){ try{ localStorage.setItem(CHIAVE,VERSIONE); }catch(e){} }
-  function ga(az,pg){ try{ gtag('event','novita_finestra',{azione:az,pagina:pg}); }catch(e){} }
+  /* RIMANDATA (2/10/2026, suo: «se non gliel'abbiamo fatta vedere la prima volta la deve vedere la seconda»):
+     chi arriva con qualcosa nell'indirizzo (pagine nostre s=p, link condivisi, date) non la vede subito,
+     ma si segna l'ora; alla visita dopo, da dove che arrivi, si apre. 30' di distanza = una visita nuova,
+     cosi' chi torna avanti e indietro tra una nostra pagina e la mappa non se la trova a meta' giro. */
+  var CHIAVE_RIM='novitaRimandata', RIM_DOPO=30*60*1000, rimandata=false;
+  function rimandoMaturo(){ try{ var v=localStorage.getItem(CHIAVE_RIM); if(!v) return false; var p=v.split('|'); return p[0]===VERSIONE && Date.now()-(+p[1])>=RIM_DOPO; }catch(e){ return false; } }
+  function rimanda(){ try{ var v=localStorage.getItem(CHIAVE_RIM); if(!v || v.split('|')[0]!==VERSIONE) localStorage.setItem(CHIAVE_RIM,VERSIONE+'|'+Date.now()); }catch(e){} }
+  function ga(az,pg){ try{ gtag('event','novita_finestra',{azione:az,pagina:pg,rimandata:rimandata?'si':'no'}); }catch(e){} }
   function costruisci(){
     velo=document.createElement('div'); velo.id='nv-velo';
     velo.innerHTML='<div id="nv-box" role="dialog" aria-modal="true" aria-labelledby="nv-tit">'
@@ -15029,7 +15041,11 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     if(vietata()) return;
     try{ if(window.top!==window) return; }catch(e){}
     var pagina=location.pathname; if(!(pagina==='/'||/\/index\.html$/.test(pagina))) return;
-    if(!forzata()){ if(vista()) return; if(location.search && location.search!=='?') return; }
+    if(!forzata()){
+      if(vista()) return;
+      if(location.search && location.search!=='?'){ if(rimandoMaturo()) rimandata=true; else { rimanda(); return; } }
+      else if(rimandoMaturo()) rimandata=true;
+    }
     var t0=Date.now();
     (function aspetta(){ if(pronta()||Date.now()-t0>8000) setTimeout(apri,900); else setTimeout(aspetta,300); })();
   }
