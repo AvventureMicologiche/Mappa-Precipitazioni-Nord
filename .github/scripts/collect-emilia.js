@@ -71,6 +71,12 @@ function estraiMeteo(day) {
              (fx != null && fx >= 0 && fx < 90) ? Math.round(fx * 3.6 * 10) / 10 : null];
   if (un != null && ux != null && un >= 0 && ux <= 100 && un <= ux)
     out.u = [Math.round(un), Math.round(ux)];
+  // Direzione del vento (2/10/2026): `direzione_vento_prevalente_giornaliera_10m`,
+  // il SETTORE PREVALENTE gia' calcolato da ARPAE in gradi a 8 settori (45, 90 …
+  // 360 = nord). Non e' la nostra media vettoriale e non puo' dire "variabile":
+  // e' il dato dell'ente, si riporta com'e' (360 → 0).
+  const dd = num(day.direzione_vento_prevalente_giornaliera_10m);
+  if (out.w && dd != null && dd >= 0 && dd <= 360) out.wd = Math.round(dd) % 360;
   return out;
 }
 

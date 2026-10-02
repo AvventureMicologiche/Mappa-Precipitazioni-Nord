@@ -46,6 +46,7 @@
 const https = require('https');
 const fs    = require('fs');
 const { creaOre, segna, intensita } = require('./lib-intensita.js');
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const path  = require('path');
 
 const DATA_DIR = path.join(__dirname, '../..', 'data', 'svizzera');
@@ -146,6 +147,7 @@ function parseHourly(buf) {
   const iTn = head.indexOf('tre200hn'), iTx = head.indexOf('tre200hx');
   const iFf = head.indexOf('fkl010h0'), iFx = head.indexOf('fkl010h1');
   const iU  = head.indexOf('ure200h0');   // umidità relativa % media oraria (18/8/2026)
+  const iDd = head.indexOf('dkl010h0');   // direzione del vento, gradi (2/10/2026)
   const num = (c, i) => {
     if (i < 0) return null;
     const raw = c[i];
@@ -162,7 +164,7 @@ function parseHourly(buf) {
     if (raw === '' || raw === undefined) continue;
     const v = parseFloat(raw);
     if (isNaN(v) || v < 0) continue;
-    out.push([t, v, num(c, iTn), num(c, iTx), num(c, iFf), num(c, iFx), num(c, iU)]);
+    out.push([t, v, num(c, iTn), num(c, iTx), num(c, iFf), num(c, iFx), num(c, iU), num(c, iDd)]);
   }
   return out;
 }
@@ -240,7 +242,8 @@ async function collectStation(st, windows, maxEnd) {
     let ffSum = 0, nFF = 0, fxMax = -Infinity, nFX = 0;
     let umin = Infinity, umax = -Infinity, nU = 0;
     const secchielli = creaOre();   // intensita' (12/9/2026)
-    for (const [t, v, tn, tx, ff, fx, u] of rows) {
+    const dir = creaDir();          // direzione del vento (2/10/2026), pesata su ff
+    for (const [t, v, tn, tx, ff, fx, u, dd] of rows) {
       if (!(t > w.start && t <= w.end)) continue;
       sum += v; n++;
       segna(secchielli, t, v);
@@ -250,6 +253,7 @@ async function collectStation(st, windows, maxEnd) {
       if (ff != null && ff >= 0 && ff < 60) { ffSum += ff; nFF++; }
       if (fx != null && fx >= 0 && fx < 90) { if (fx > fxMax) fxMax = fx; nFX++; }
       if (u != null && u >= 0 && u <= 100) { if (u < umin) umin = u; if (u > umax) umax = u; nU++; }
+      if (dd != null && ff != null && ff >= 0 && ff < 60) segnaDir(dir, t, dd, ff);
     }
     if (n >= MIN_ORE) {
       const mm = Math.round(sum * 10) / 10;
@@ -263,6 +267,8 @@ async function collectStation(st, windows, maxEnd) {
         if (nU >= MIN_ORE && umax > -Infinity) rec.u = [Math.round(umin), Math.round(umax)];
         const inte = intensita(secchielli);
         if (inte) rec.i = inte;
+        const wd = direzione(dir);
+        if (wd !== null) rec.wd = wd;
         res[w.dateStr] = rec;
       }
     }
@@ -355,6 +361,7 @@ async function main() {
         if (r.w) rec.w = r.w;
         if (r.u) rec.u = r.u;
         if (r.i) rec.i = r.i;
+        if (r.wd !== undefined) rec.wd = r.wd;   // ⚠️ il record si ricostruisce campo per campo: senza questa riga wd sparisce
         perDay[dateStr].push(rec);
       }
     }

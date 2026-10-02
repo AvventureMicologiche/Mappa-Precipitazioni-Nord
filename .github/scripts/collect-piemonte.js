@@ -44,6 +44,7 @@
 const fs   = require('fs');
 const path = require('path');
 const { creaOre, segna, intensita } = require('./lib-intensita.js');
+const { creaDir, segnaDir, direzione, daSettore } = require('./lib-direzione.js');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'piemonte');
 const MAX_DAYS = 730;
@@ -122,11 +123,13 @@ function aggregaMeteoPie(records) {
   records.forEach(m => {
     const id = m.station_code;
     if (!id) return;
-    const a = acc[id] = acc[id] || { tmin: Infinity, tmax: -Infinity, nT: 0, ffSum: 0, nFF: 0, fxMax: -Infinity, nFX: 0, umin: Infinity, umax: -Infinity, nU: 0 };
+    const a = acc[id] = acc[id] || { tmin: Infinity, tmax: -Infinity, nT: 0, ffSum: 0, nFF: 0, fxMax: -Infinity, nFX: 0, umin: Infinity, umax: -Infinity, nU: 0, dir: creaDir() };
     const t = parseFloat(m.air_temperature);
     if (!isNaN(t) && t >= -45 && t <= 50) { if (t < a.tmin) a.tmin = t; if (t > a.tmax) a.tmax = t; a.nT++; }
     const ff = parseFloat(m.wind);
     if (!isNaN(ff) && ff >= 0 && ff < 216) { a.ffSum += ff; a.nFF++; }
+    // Direzione del vento (2/10/2026): `wind_direction` in gradi negli stessi record, pesata su `wind`.
+    if (!isNaN(ff) && ff >= 0 && ff < 216) segnaDir(a.dir, m.date || a.nFF, (m.wind_direction == null || m.wind_direction === '') ? null : parseFloat(m.wind_direction), ff);
     const fx = parseFloat(m.gust_of_wind);
     if (!isNaN(fx) && fx >= 0 && fx < 324) { if (fx > a.fxMax) a.fxMax = fx; a.nFX++; }
     // Umidità relativa (18/8/2026): campo `humidity` (%) negli stessi record.
@@ -143,7 +146,9 @@ function aggregaMeteoPie(records) {
              a.nFX > 0 ? Math.round(a.fxMax * 10) / 10 : null];
     if (a.nU >= MIN_ORE_METEO && a.umax > -Infinity)
       m.u = [Math.round(a.umin), Math.round(a.umax)];
-    if (m.t || m.w || m.u) out[id] = m;
+    const wd = direzione(a.dir);
+    if (wd !== null) m.wd = wd;
+    if (m.t || m.w || m.u || m.wd !== undefined) out[id] = m;
   });
   return out;
 }
@@ -229,7 +234,7 @@ async function fetchUfficialeGiorno(day) {
     (j.results || []).forEach(r => {
       const pm = (r.fk_id_punto_misura_meteo || '').replace(/\/$/, '').split('/').pop();
       if (!pm) return;
-      out[pm] = { ptot: r.ptot, tmin: r.tmin, tmax: r.tmax, vmedia: r.vmedia, vraffica: r.vraffica, umin: r.umin, umax: r.umax };
+      out[pm] = { ptot: r.ptot, tmin: r.tmin, tmax: r.tmax, vmedia: r.vmedia, vraffica: r.vraffica, umin: r.umin, umax: r.umax, dir: r.settore_prevalente };
       n++;
     });
     url = j.next || null;
@@ -273,6 +278,7 @@ function consolida(day, stations, anag, uff) {
       if (u.tmin != null && u.tmax != null) rec.t = [u.tmin, u.tmax];
       if (u.vmedia != null) rec.w = [Math.round(u.vmedia * 36) / 10, u.vraffica != null ? Math.round(u.vraffica * 36) / 10 : null];
       if (u.umin != null && u.umax != null) rec.u = [Math.round(u.umin), Math.round(u.umax)];
+      if (daSettore(u.dir) !== null) rec.wd = daSettore(u.dir);   // settore prevalente ufficiale
       stations.push(rec); byId[id] = rec;
       stat.aggiunte++;
       stat.dettagli.push(`+ ${a.n} (${id}) ptot=${ptot}`);
@@ -306,6 +312,7 @@ function consolida(day, stations, anag, uff) {
     if (!mine.t && u.tmin != null && u.tmax != null) { mine.t = [u.tmin, u.tmax]; tw = true; }
     if (!mine.w && u.vmedia != null) { mine.w = [Math.round(u.vmedia * 36) / 10, u.vraffica != null ? Math.round(u.vraffica * 36) / 10 : null]; tw = true; }
     if (!mine.u && u.umin != null && u.umax != null) { mine.u = [Math.round(u.umin), Math.round(u.umax)]; tw = true; }
+    if (mine.wd === undefined && daSettore(u.dir) !== null) { mine.wd = daSettore(u.dir); tw = true; }
     if (tw) stat.tw++;
   });
   return { stations, stat };
@@ -326,6 +333,7 @@ function mergePerOre(nuove, esistenti) {
     if (!m.w && prev.w) m.w = prev.w;
     if (!m.u && prev.u) m.u = prev.u;
     if (!m.i && prev.i) m.i = prev.i;
+    if (m.wd === undefined && prev.wd !== undefined) m.wd = prev.wd;
     return m;
   });
   // stazioni che erano nel vecchio file e nel nuovo realtime non ci sono (es. aggiunte dall'ufficiale)

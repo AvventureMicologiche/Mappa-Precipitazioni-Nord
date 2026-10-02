@@ -2601,3 +2601,47 @@ computer, se no il gancio va a capo. E' scritto anche nel `_leggimi`.
 cinque configurazioni diverse servite al volo — vetrina di oggi, sorteggio
 spostato sulla guida, un video inventato, sorteggio vuoto e vetrina scaduta — e
 la scheda cambia di conseguenza senza toccare `index.html`.
+
+
+---
+
+## La direzione del vento: campo `wd` (2 ottobre 2026)
+
+Dal 2/10 i collector salvano anche DA DOVE viene il vento, accanto a
+`w:[media,raffica]`. Sul sito non si vede ancora: il disegno scelto e' la
+freccia sotto il grafico del vento (A) piu' «da NE» nel riquadro del pallino (C),
+mockup in `mockup-direzione-vento\` nel banco di lavoro. Lo storico parte dal 2/10.
+
+**Il campo.** `wd: 45` = gradi di PROVENIENZA, 0-359 (0 tramontana, 45 grecale,
+90 levante, 135 scirocco, 180 ostro, 225 libeccio, 270 ponente, 315 maestrale).
+`wd: "V"` = variabile. Assente = meno di 20 ore lette o calma piatta.
+
+**La ricetta sta in `lib-direzione.js`**, come l'intensita' in `lib-intensita.js`:
+media VETTORIALE pesata sulla velocita' (metodo OMM), ore piene >= 20,
+«variabile» se la costanza (lunghezza della somma / somma delle lunghezze) e'
+sotto 0,3.
+- ⚠️ **Mai la media dei gradi**: 350 e 10 fanno 180, cioe' l'opposto.
+- ⚠️ **Le ore di calma contano come ore lette** anche se la rete lascia vuota la
+  direzione: ARPA Piemonte scrive `wind: 0, wind_direction: null`, e senza
+  questa regola 38 stazioni piemontesi su 80 perdevano la direzione del giorno.
+
+**Chi ce l'ha, misurato il 2/10 sull'API vera** (stazioni con `wd` su quelle col vento):
+Austria 260/260 (`dd`), Svizzera 132/132 (`dkl010h0`), Slovenia 51/52 (var 23),
+Piemonte 69/70 (`wind_direction` + `settore_prevalente` ufficiale dove manca),
+Veneto 113/113 (sensore `DVENTO`), OSMER 24/25, VdA 44/44 (prid 11), Trentino
+40/40 (`direction_value`), Emilia 44/45 (settore prevalente ARPAE: mai "V"),
+Toscana 141/141 (MeteoHub `B11001`, vedi sotto). Millimetri invariati ovunque.
+- ⚠️ **Francia e Liguria NON provate in locale**: la Francia vuole la chiave
+  Meteo-France, OMIRL dal PC di lavoro non rispondeva. Il codice e' scritto per
+  non scrivere niente se la colonna/serie non c'e'. **Da controllare al primo giro.**
+- **Fuori, perche' costano richieste in piu'**: Lombardia (1 query Socrata al
+  giorno), Ticino OASI (~5 chiamate), Alto Adige (~83 chiamate a giro), le reti
+  MeteoHub del centro-sud (1 richiesta per rete al giorno).
+
+**⚠️ TOSCANA: IL CAMPIONATORE CFR E' MORTO DAL 26/8, e nessuno se n'era accorto.**
+`toscana-vento.yml` gira «ogni ora», ma dal 26/8 lo scheduler di GitHub lo fa
+partire 4-8 volte al giorno: nessuna stazione arriva a 20 letture, `w` non si
+calcola mai, e TUTTO il vento toscano viene dalla rete di sicurezza MeteoHub
+(`ventoMeteoHub` in `collect-toscana-sir.js`). La direzione si prende quindi da
+li' (`B11001`, una richiesta in piu' al giorno). Il campionatore salva comunque
+la direzione nei campioni, ma da solo non basta. Da decidere se spegnerlo.

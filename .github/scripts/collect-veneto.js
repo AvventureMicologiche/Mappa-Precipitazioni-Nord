@@ -7,6 +7,7 @@ const https = require('https');
 const zlib  = require('zlib');
 const fs    = require('fs');
 const path  = require('path');
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 
 const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'veneto');
 const MAX_DAYS  = 730;
@@ -112,11 +113,19 @@ function totalePrecGiorno(sens, prefix) {
 const MIN_ORE_METEO = 20;
 function estraiMeteoVen(xml, prefix) {
   const out = {};
+  // Direzione del vento (2/10/2026): sensore DVENTO, gradi, stessi istanti di
+  // VVENTO. Si accoppiano per ISTANTE e si pesano sulla velocita'.
+  const velIst = {}, dirIst = {};
   const sReg = /<SENSORE>([\s\S]*?)<\/SENSORE>/g;
   let sm;
   while ((sm = sReg.exec(xml)) !== null) {
     const sens = sm[1];
     const type = getTag(sens, 'TYPE');
+    if (type === 'DVENTO') {
+      const r = /<DATI ISTANTE="(\d{12})"><VM>([\d.]+)<\/VM><\/DATI>/g; let x;
+      while ((x = r.exec(sens)) !== null) if (x[1].startsWith(prefix)) dirIst[x[1]] = parseFloat(x[2]);
+      continue;
+    }
     if (type !== 'TEMP' && type !== 'VVENTO' && type !== 'UMID') continue;   // UMID: umidita' relativa a 2m, % (dal 18/8/2026)
     const dReg = /<DATI ISTANTE="(\d{12})"><VM>(-?[\d.]+)<\/VM><\/DATI>/g;
     let dm;
@@ -130,6 +139,7 @@ function estraiMeteoVen(xml, prefix) {
       if (type === 'UMID' && (v < 0 || v > 100)) continue;
       vals.push(v);
       ore.add(dm[1].slice(8, 10));
+      if (type === 'VVENTO') velIst[dm[1]] = v;
     }
     if (ore.size < MIN_ORE_METEO) continue;
     if (type === 'TEMP')
@@ -151,6 +161,10 @@ function estraiMeteoVen(xml, prefix) {
       if (h) out.wh = parseInt(h[1], 10);
     }
   }
+  const dir = creaDir();
+  for (const ist of Object.keys(velIst)) segnaDir(dir, ist.slice(8, 10), dirIst[ist] !== undefined ? dirIst[ist] : null, velIst[ist]);
+  const wd = direzione(dir);
+  if (wd !== null && out.w) out.wd = wd;
   return out;
 }
 

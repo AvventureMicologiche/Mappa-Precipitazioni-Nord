@@ -47,6 +47,7 @@ const IGRO_URL      = 'https://www.sir.toscana.it/monitoraggio/stazioni.php?type
 // Restituisce { TOS…: [media_kmh, raffica_kmh|null] } per le sole stazioni
 // passate in `elenco`. Completezza: >= 20 ore distinte, come tutte le altre reti.
 const MH_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 async function ventoMeteoHub(dateStr, elenco) {
   const off = getItalyOffset(new Date(dateStr + 'T12:00:00Z'));
   const start = new Date(new Date(dateStr + 'T00:00:00Z').getTime() - off * 3600000);
@@ -71,7 +72,7 @@ async function ventoMeteoHub(dateStr, elenco) {
       if (!best) continue;
       const vals = best.val.filter(v => v.ref > fr(start) && v.ref <= fr(end) && typeof v.val === 'number');
       if (!vals.length) continue;
-      out.push({ lat: st.lat, lon: st.lon, v: vals.map(x => x.val),
+      out.push({ lat: st.lat, lon: st.lon, v: vals.map(x => x.val), ref: vals.map(x => x.ref),
                  ore: new Set(vals.map(x => x.ref.slice(11, 13))).size });
     }
     return out;
@@ -79,8 +80,14 @@ async function ventoMeteoHub(dateStr, elenco) {
   const medi = await prendi('B11002');
   let raff = [];
   try { raff = await prendi('B11041'); } catch (e) { /* poche stazioni, non blocca */ }
+  // Direzione del vento (2/10/2026): B11001, gradi, stessi istanti di B11002.
+  // ⚠️ Dal 26/8 il campionatore CFR raccoglie 4-8 letture al giorno invece di 24
+  // (lo scheduler di GitHub salta i cron orari), quindi il vento toscano viene
+  // tutto da qui: e la direzione si prende qui.
+  let dirz = [];
+  try { dirz = await prendi('B11001'); } catch (e) { /* senza direzione resta il vento */ }
   const vicino = (arr, s) => arr.find(o => Math.abs(o.lat - s.lat) < 0.0054 && Math.abs(o.lon - s.lon) < 0.0077);
-  const out = {};
+  const out = {}, outWd = {};
   for (const s of elenco) {
     const m = vicino(medi, s);
     if (!m || m.ore < 20) continue;
@@ -91,8 +98,18 @@ async function ventoMeteoHub(dateStr, elenco) {
     const gu = g ? g.v.filter(v => v >= 0 && v < 90) : [];
     out[s.id] = [Math.round(media * 3.6 * 10) / 10,
                  gu.length ? Math.round(Math.max(...gu) * 3.6 * 10) / 10 : null];
+    const d = vicino(dirz, s);
+    if (d) {
+      const perRef = {};
+      d.ref.forEach((r, i) => { perRef[r] = d.v[i]; });
+      const acc = creaDir();
+      m.ref.forEach((r, i) => { const v = m.v[i]; if (v >= 0 && v < 60) segnaDir(acc, r.slice(11, 13), perRef[r] !== undefined ? perRef[r] : null, v); });
+      const wd = direzione(acc);
+      if (wd !== null) outWd[s.id] = wd;
+    }
   }
-  return out;
+  // ⚠️ La forma di ritorno era la sola mappa del vento: chi la usa legge `.w`.
+  return { w: out, wd: outWd };
 }
 
 function getItalyOffset(date) {
@@ -341,7 +358,9 @@ async function main() {
     // tocca mai questi file, cosi' i due workflow non si pestano i push.
     try {
       const fv = path.join(DATA_DIR, '..', 'toscana-vento', `${ieriStr}.json`);
-      const wIeri = fs.existsSync(fv) ? ((JSON.parse(fs.readFileSync(fv, 'utf8')) || {}).w || {}) : {};
+      const docV = fs.existsSync(fv) ? (JSON.parse(fs.readFileSync(fv, 'utf8')) || {}) : {};
+      const wIeri = docV.w || {};
+      const wdIeri = docV.wd || {};   // direzione del vento (2/10/2026), stesso campionatore
       const nCampionatore = Object.keys(wIeri).length;
       const file = path.join(DATA_DIR, `${ieriStr}.json`);
       if (fs.existsSync(file)) {
@@ -356,15 +375,15 @@ async function main() {
         // VALIDATO il 19/8 sulle ore in comune di oggi: 272 confronti, scarto
         // medio 1,41 km/h, spiegato dal confronto fra istanti diversi dentro la
         // stessa ora (il vento e' raffichato). Unita': m/s in entrambe le fonti.
-        let daMH = {};
+        let daMH = {}, daMHwd = {};
         try {
           const mancanti = (j.stations || []).filter(s => !wIeri[s.id]);
-          if (mancanti.length) daMH = await ventoMeteoHub(ieriStr, mancanti);
+          if (mancanti.length) { const r = await ventoMeteoHub(ieriStr, mancanti); daMH = r.w; daMHwd = r.wd; }
         } catch (e) { console.warn('  Warn: rete di sicurezza MeteoHub saltata: ' + e.message); }
         let nC = 0, nM = 0;
         (j.stations || []).forEach(s => {
-          if (wIeri[s.id]) { s.w = wIeri[s.id]; nC++; }
-          else if (daMH[s.id]) { s.w = daMH[s.id]; nM++; }
+          if (wIeri[s.id]) { s.w = wIeri[s.id]; nC++; if (wdIeri[s.id] !== undefined) s.wd = wdIeri[s.id]; }
+          else if (daMH[s.id]) { s.w = daMH[s.id]; nM++; if (daMHwd[s.id] !== undefined) s.wd = daMHwd[s.id]; }
         });
         if (nC + nM > 0) fs.writeFileSync(file, JSON.stringify(j));
         console.log(`  Meteo w su ieri: ${nC} dal campionatore CFR (su ${nCampionatore} disponibili), ${nM} dalla rete di sicurezza MeteoHub`);

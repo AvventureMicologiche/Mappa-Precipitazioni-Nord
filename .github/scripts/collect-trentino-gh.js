@@ -74,6 +74,7 @@ function fetchText(url) {
 // quarti d'ora su 96, sotto la soglia di attenzione. Tutto dentro un try:
 // un guasto qui non tocca la pioggia.
 const LAST_URL = 'https://dati.meteotrentino.it/service.asmx/getLastDataOfMeteoStation?codice=';
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const MIN_ORE_METEO = 20;
 function serieGiorno(xml, blocco, tagVal, giorno) {
   const m = xml.match(new RegExp('<' + blocco + '>([\\s\\S]*?)</' + blocco + '>'));
@@ -88,7 +89,7 @@ function serieGiorno(xml, blocco, tagVal, giorno) {
     const g = loc.getUTCFullYear() + '-' + String(loc.getUTCMonth() + 1).padStart(2, '0') + '-' + String(loc.getUTCDate()).padStart(2, '0');
     if (g !== giorno) continue;
     const v = parseFloat(r[2]);
-    if (!isNaN(v)) out.push({ hh: loc.getUTCHours(), v });
+    if (!isNaN(v)) out.push({ hh: loc.getUTCHours(), v, t: r[1] });
   }
   return out;
 }
@@ -110,6 +111,14 @@ async function arricchisciMeteoIeri(giorno, file) {
           s.w = [Math.round(ws.reduce((a, r) => a + r.v, 0) / ws.length * 3.6 * 10) / 10,
                  gu.length ? Math.round(Math.max(...gu.map(r => r.v)) * 3.6 * 10) / 10 : null];
           conW++;
+          // Direzione del vento (2/10/2026): `direction_value` nella stessa wind_list,
+          // gradi; si accoppia con la velocita' per marca temporale.
+          const dd = {};
+          serieGiorno(xml, 'wind_list', 'direction_value', giorno).forEach(r => { dd[r.t] = r.v; });
+          const dir = creaDir();
+          ws.forEach(r => segnaDir(dir, r.hh, dd[r.t] !== undefined ? dd[r.t] : null, r.v));
+          const wd = direzione(dir);
+          if (wd !== null) s.wd = wd;
         }
       } catch (e) { /* stazione singola: pioggia intatta */ }
     }));

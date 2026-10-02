@@ -21,6 +21,7 @@ const { creaOre, segna, intensita } = require('./lib-intensita.js');
 const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'liguria');
 const MAX_DAYS  = 730;
 const OMIRL_BASE = 'https://omirl.regione.liguria.it/Omirl/rest';
+const { creaDir, segnaDir, direzione, daSettore } = require('./lib-direzione.js');
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
@@ -116,7 +117,7 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
   var codsT = termo.map(function(s) { return s.shortCode; }).filter(function(c) { return byId[c]; });
   var codsV = vento.map(function(s) { return s.shortCode; }).filter(function(c) { return byId[c]; });
   var codsU = igro.map(function(s) { return s.shortCode; }).filter(function(c) { return byId[c]; });
-  var conT = 0, conW = 0, conU = 0;
+  var conT = 0, conW = 0, conU = 0, conD = 0;
 
   for (var i = 0; i < codsT.length; i += 10) {
     var batch = codsT.slice(i, i + 10);
@@ -149,11 +150,30 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
         if (!vv.length) return null;
         var rr = valoriIn(raf, dayStartMs, dayEndMs, 0, 324);
         var media = vv.reduce(function(a, v) { return a + v; }, 0) / vv.length;
-        return { code: code, w: [Math.round(media * 10) / 10,
+        // Direzione del vento (2/10/2026): la serie «Wind Direction» dello stesso chart,
+        // cercata per NOME (l'ordine delle serie non e' garantito) e accoppiata alla
+        // velocita' per marca temporale. Accetta gradi o sigle di settore (N, NNE...).
+        // ⚠️ Scritta il 2/10 con OMIRL irraggiungibile dal PC di lavoro: verificata solo
+        // al primo giro su GitHub. Se la serie non c'e', semplicemente niente wd.
+        var wd = null;
+        try {
+          var sd = ds.filter(function(x) { return /dir/i.test(x.name || ''); })[0];
+          if (sd && Array.isArray(sd.data)) {
+            var perTs = {};
+            sd.data.forEach(function(p) { if (p && p[1] != null) perTs[p[0]] = daSettore(p[1]); });
+            var acc = creaDir();
+            vel.forEach(function(p) {
+              if (!(p[0] >= dayStartMs && p[0] < dayEndMs) || p[1] == null || p[1] < 0 || p[1] > 216) return;
+              segnaDir(acc, Math.floor((p[0] - dayStartMs) / 3600000), perTs[p[0]] != null ? perTs[p[0]] : null, p[1]);
+            });
+            wd = direzione(acc);
+          }
+        } catch (e) { wd = null; }
+        return { code: code, wd: wd, w: [Math.round(media * 10) / 10,
                                  rr.length ? Math.round(Math.max.apply(null, rr) * 10) / 10 : null] };
       }).catch(function() { return null; });
     }));
-    resV.forEach(function(r) { if (r) { byId[r.code].w = r.w; conW++; } });
+    resV.forEach(function(r) { if (r) { byId[r.code].w = r.w; conW++; if (r.wd !== null && r.wd !== undefined) { byId[r.code].wd = r.wd; conD++; } } });
     await new Promise(function(r) { setTimeout(r, 400); });
   }
   // Umidità relativa: /charts/{code}/Igro, UNA serie («Umidità Relativa») ogni 30', in %.
@@ -172,7 +192,7 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
     resU.forEach(function(r) { if (r) { byId[r.code].u = r.u; conU++; } });
     await new Promise(function(r) { setTimeout(r, 400); });
   }
-  console.log('  Meteo t/w/u: ' + conT + ' stazioni con temperatura, ' + conW + ' col vento, ' + conU + ' con umidità');
+  console.log('  Meteo t/w/u: ' + conT + ' stazioni con temperatura, ' + conW + ' col vento (' + conD + ' con la direzione), ' + conU + ' con umidità');
 }
 
 async function main() {

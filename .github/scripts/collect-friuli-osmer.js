@@ -30,6 +30,7 @@
 const https = require('https');
 const fs    = require('fs');
 const { creaOre, segna, intensita } = require('./lib-intensita.js');
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const path  = require('path');
 
 const HOST     = 'www.meteo.fvg.it';
@@ -126,6 +127,8 @@ function parseHourly(bodyStr) {
   const vmc = header.findIndex(c => /vento med/i.test(c));
   const vxc = header.findIndex(c => /vento max/i.test(c));
   const uc  = header.findIndex(c => /umidit/i.test(c));   // "Umidita' %" (dal 18/8/2026)
+  // "Direzione Vento °N" (2/10/2026); c'e' anche "Direzione Vento max", che e' della raffica e non si usa
+  const dc  = header.findIndex(c => /direz/i.test(c) && !/max/i.test(c));
   const num = (c, i) => {
     if (i < 0 || c.length <= i) return null;
     const v = c[i];
@@ -150,6 +153,8 @@ function parseHourly(bodyStr) {
     if (vx !== null && vx >= 0 && vx < 324) rec.vx = vx;
     const u = num(c, uc);
     if (u !== null && u >= 0 && u <= 100) rec.u = u;
+    const d = num(c, dc);
+    if (d !== null && d >= 0 && d <= 360) rec.dd = d;
     if (rec.mm !== undefined || rec.t !== undefined || rec.vm !== undefined || rec.u !== undefined) hours[h] = rec;
   }
   return hours;
@@ -209,16 +214,18 @@ function localDayIntensita(prevHours, curHours, offset) {
 function localDayMeteo(prevHours, curHours, offset) {
   const B = 24 - offset;
   const temps = [], vm = [], vx = [], um = [];
-  const raccogli = (hours, h) => {
+  const dir = creaDir();   // direzione del vento (2/10/2026), pesata su vm
+  const raccogli = (hours, h, chiave) => {
     const r = hours && hours[h];
     if (!r) return;
+    if (r.vm != null) segnaDir(dir, chiave, r.dd != null ? r.dd : null, r.vm);
     if (r.t  != null) temps.push(r.t);
     if (r.u  != null) um.push(r.u);
     if (r.vm != null) vm.push(r.vm);
     if (r.vx != null) vx.push(r.vx);
   };
-  for (let h = B + 1; h <= 24; h++) raccogli(prevHours, h);
-  for (let h = 1; h <= B; h++)      raccogli(curHours, h);
+  for (let h = B + 1; h <= 24; h++) raccogli(prevHours, h, 'p' + h);
+  for (let h = 1; h <= B; h++)      raccogli(curHours, h, 'c' + h);
   const out = {};
   if (temps.length >= MIN_ORE)
     out.t = [Math.round(Math.min(...temps) * 10) / 10, Math.round(Math.max(...temps) * 10) / 10];
@@ -227,6 +234,8 @@ function localDayMeteo(prevHours, curHours, offset) {
              vx.length ? Math.round(Math.max(...vx) * 10) / 10 : null];
   if (um.length >= MIN_ORE)
     out.u = [Math.round(Math.min(...um)), Math.round(Math.max(...um))];
+  const wd = direzione(dir);
+  if (wd !== null && out.w) out.wd = wd;
   return out;
 }
 
