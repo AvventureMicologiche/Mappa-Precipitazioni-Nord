@@ -12,8 +12,14 @@ on:
   # Minuto 40: lontano dal :15 dei run Toscana e dagli altri cron del repo.
   # GitHub ritarda i cron di 0-60 minuti; la dedup e' sull'ora di lettura della
   # pagina, non su quella del run, quindi un run in ritardo non duplica niente.
-  schedule:
-    - cron: '40 * * * *'
+  # ⚠️ SPENTO IL 2/10/2026 (decisione dell'utente). Dal 26/8 lo scheduler di
+  # GitHub lo faceva partire 4-8 volte al giorno invece di 24: nessuna stazione
+  # arrivava alle 20 letture, `w` non si calcolava mai, e il vento toscano
+  # veniva gia' tutto dalla rete di sicurezza MeteoHub (ventoMeteoHub in
+  # collect-toscana-sir.js), che porta anche la direzione. Resta lanciabile a
+  # mano; per riaccenderlo si tolgono i # dalle due righe qui sotto.
+  # schedule:
+  #   - cron: '40 * * * *'
 permissions:
   contents: write
 jobs:

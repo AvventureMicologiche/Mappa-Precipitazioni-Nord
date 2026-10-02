@@ -2631,9 +2631,9 @@ Piemonte 69/70 (`wind_direction` + `settore_prevalente` ufficiale dove manca),
 Veneto 113/113 (sensore `DVENTO`), OSMER 24/25, VdA 44/44 (prid 11), Trentino
 40/40 (`direction_value`), Emilia 44/45 (settore prevalente ARPAE: mai "V"),
 Toscana 141/141 (MeteoHub `B11001`, vedi sotto). Millimetri invariati ovunque.
-- ⚠️ **Francia e Liguria NON provate in locale**: la Francia vuole la chiave
-  Meteo-France, OMIRL dal PC di lavoro non rispondeva. Il codice e' scritto per
-  non scrivere niente se la colonna/serie non c'e'. **Da controllare al primo giro.**
+- **Francia e Liguria** non si potevano provare in locale (chiave Meteo-France;
+  OMIRL irraggiungibile dal PC di lavoro): verificate al primo giro lanciato a
+  mano il 2/10, Francia 654/654 (`dd`), Liguria 46/46 (serie «Wind Direction»).
 - **Fuori, perche' costano richieste in piu'**: Lombardia (1 query Socrata al
   giorno), Ticino OASI (~5 chiamate), Alto Adige (~83 chiamate a giro), le reti
   MeteoHub del centro-sud (1 richiesta per rete al giorno).
@@ -2644,4 +2644,7 @@ partire 4-8 volte al giorno: nessuna stazione arriva a 20 letture, `w` non si
 calcola mai, e TUTTO il vento toscano viene dalla rete di sicurezza MeteoHub
 (`ventoMeteoHub` in `collect-toscana-sir.js`). La direzione si prende quindi da
 li' (`B11001`, una richiesta in piu' al giorno). Il campionatore salva comunque
-la direzione nei campioni, ma da solo non basta. Da decidere se spegnerlo.
+la direzione nei campioni, ma da solo non basta. **Spento il 2/10/2026**
+(cron commentato in `toscana-vento.yml`, resta lanciabile a mano): i suoi file
+in `data/toscana-vento/` restano come archivio, il collector se non li trova
+prende tutto da MeteoHub.
