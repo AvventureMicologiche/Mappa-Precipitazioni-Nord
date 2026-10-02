@@ -2634,9 +2634,15 @@ Toscana 141/141 (MeteoHub `B11001`, vedi sotto). Millimetri invariati ovunque.
 - **Francia e Liguria** non si potevano provare in locale (chiave Meteo-France;
   OMIRL irraggiungibile dal PC di lavoro): verificate al primo giro lanciato a
   mano il 2/10, Francia 654/654 (`dd`), Liguria 46/46 (serie «Wind Direction»).
-- **Fuori, perche' costano richieste in piu'**: Lombardia (1 query Socrata al
-  giorno), Ticino OASI (~5 chiamate), Alto Adige (~83 chiamate a giro), le reti
-  MeteoHub del centro-sud (1 richiesta per rete al giorno).
+- **Aggiunte lo stesso 2/10, con una richiesta in piu'**: Lombardia (sensori
+  «Direzione Vento», 155: UNA query in piu' per giorno coi valori GREZZI di
+  direzione e velocita' a 10', perche' l'avg orario di Socrata sarebbe la media
+  dei gradi; 129 stazioni su 155 coppie il 1/10) e MeteoHub (prodotto `B11001`,
+  una query per rete e giorno; Sicilia 83/108, Marche 10/11; 25 stazioni
+  siciliane la direzione non la pubblicano). ⚠️ Socrata risponde 429 alle
+  raffiche: provando a ripetizione dal PC il limite scatta, nei giri veri no.
+- **Fuori**: Ticino OASI (~5 chiamate, ~7 stazioni, rende poco) e Alto Adige
+  (~83 chiamate a giro su un server che rifiuta gia' le raffiche).
 
 **⚠️ TOSCANA: IL CAMPIONATORE CFR E' MORTO DAL 26/8, e nessuno se n'era accorto.**
 `toscana-vento.yml` gira «ogni ora», ma dal 26/8 lo scheduler di GitHub lo fa

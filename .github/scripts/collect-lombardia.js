@@ -18,6 +18,7 @@
 const https = require('https');
 const fs    = require('fs');
 const { creaOre, segna, intensita } = require('./lib-intensita.js');
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const path  = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'lombardia');
@@ -156,6 +157,40 @@ async function fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz) {
   return out;
 }
 
+/**
+ * DIREZIONE DEL VENTO (2/10/2026). Sensori «Direzione Vento» (155, gradi a 10').
+ * ⚠️ NON si usa l'avg(valore) orario di Socrata: e' la media dei GRADI, e 350° e
+ * 10° fanno 180°, cioe' l'opposto. Si chiedono i valori GREZZI di direzione e
+ * velocita' (`idoperatore 1`, la media dei 10'; il 3 e' la raffica) in UNA query
+ * per giorno, e la media vettoriale pesata sulla velocita' la fa lib-direzione.js.
+ * ~45.000 righe (310 sensori x 144), sotto il tetto di 80.000.
+ */
+let DIR_BY_STAZ = null;   // idstazione -> idsensore direzione, riempito in main()
+async function fetchDirezioneDay(dateStr, windByStaz) {
+  if (!DIR_BY_STAZ || !windByStaz) return {};
+  const coppie = Object.keys(DIR_BY_STAZ).filter(st => windByStaz[st]);
+  if (!coppie.length) return {};
+  const ids = [];
+  coppie.forEach(st => { ids.push(DIR_BY_STAZ[st], windByStaz[st]); });
+  const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND idoperatore='1' AND valore > -50 AND idsensore in (${ids.map(i => `'${i}'`).join(',')})`);
+  const rows = await getJSON(`/resource/647i-nhxk.json?$select=${encodeURIComponent('idsensore,data,valore')}&$where=${where}&$limit=80000`);
+  const perSens = {};
+  rows.forEach(r => { (perSens[r.idsensore] = perSens[r.idsensore] || {})[r.data] = parseFloat(r.valore); });
+  const out = {};
+  coppie.forEach(st => {
+    const dir = perSens[DIR_BY_STAZ[st]] || {}, vel = perSens[windByStaz[st]] || {};
+    const acc = creaDir();
+    Object.keys(vel).forEach(t => {
+      const v = vel[t];
+      if (!(v >= 0 && v < 60)) return;
+      segnaDir(acc, t.slice(11, 13), dir[t] !== undefined ? dir[t] : null, v);
+    });
+    const wd = direzione(acc);
+    if (wd !== null) out[st] = wd;
+  });
+  return out;
+}
+
 /** Totale giornaliero per sensore per il giorno dateStr (YYYY-MM-DD). */
 async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
   const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND valore >= '0'`);
@@ -176,6 +211,11 @@ async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
   if (tempByStaz) {
     try { meteo = await fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz); }
     catch (e) { console.warn(`  Warn meteo ${dateStr}: ${e.message}`); }
+    try {
+      await sleep(1000);   // Socrata limita le raffiche di richieste (429): un respiro prima della query in piu'
+      const wd = await fetchDirezioneDay(dateStr, windByStaz);
+      Object.keys(wd).forEach(st => { if (meteo[st] && meteo[st].w) meteo[st].wd = wd[st]; });
+    } catch (e) { console.warn(`  Warn direzione ${dateStr}: ${e.message}`); }
   }
   const stations = [];
   rows.forEach(r => {
@@ -222,6 +262,7 @@ async function main() {
     tempByStaz = await fetchSensoriMeteo('Temperatura');
     windByStaz = await fetchSensoriMeteo('Velocità Vento');
     umidByStaz = await fetchSensoriMeteo('Umidità Relativa');
+    try { DIR_BY_STAZ = await fetchSensoriMeteo('Direzione Vento'); } catch (e) { console.warn('  Warn anagrafe direzione: ' + e.message); }
     console.log(`  Sensori meteo: ${Object.keys(tempByStaz).length} temperatura, ${Object.keys(windByStaz).length} vento, ${Object.keys(umidByStaz).length} umidità`);
   } catch (e) { console.warn('  Warn anagrafe meteo: ' + e.message); }
 

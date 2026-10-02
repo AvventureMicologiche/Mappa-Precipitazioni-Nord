@@ -149,6 +149,7 @@ function utcWindowForItalianDay(dateStr) {
 // per B13011); completezza in ORE COPERTE ≥ MIN_ORE_METEO. Tutto in un try:
 // un guasto delle query meteo non tocca mai la pioggia.
 const MIN_ORE_METEO = 20;
+const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 async function collectMeteoHub(netCfg, w) {
   const out = {};   // id → {t?, w?}
   const fetchProd = async prod => {
@@ -191,6 +192,23 @@ async function collectMeteoHub(netCfg, w) {
     (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,
                                    gu.length ? Math.round(Math.max(...gu) * 3.6 * 10) / 10 : null];
   });
+  // Direzione del vento (2/10/2026): prodotto B11001 (gradi), una query in piu' per
+  // rete/giorno. Si accoppia a B11002 per marca temporale e si fa la media
+  // vettoriale pesata sulla velocita' (lib-direzione.js). In un try suo: se manca,
+  // restano vento, temperatura e umidita'.
+  try {
+    await sleep(500);
+    const dirz = await fetchProd('B11001');
+    Object.keys(dirz).forEach(id => {
+      if (!out[id] || !out[id].w || !vento[id]) return;
+      const perRef = {};
+      dirz[id].forEach(v => { perRef[v.ref] = v.val; });
+      const acc = creaDir();
+      vento[id].forEach(v => { if (v.val >= 0 && v.val < 60) segnaDir(acc, (v.ref || '').slice(11, 13), perRef[v.ref] !== undefined ? perRef[v.ref] : null, v.val); });
+      const wd = direzione(acc);
+      if (wd !== null) out[id].wd = wd;
+    });
+  } catch (e) { console.warn(`  Warn direzione ${netCfg.net}: ${e.message}`); }
   // Umidità relativa (18/8/2026): prodotto B13003 (%), una query in più per rete/giorno.
   await sleep(500);
   const umid = await fetchProd('B13003');
