@@ -1,18 +1,14 @@
 {
  "regione": "emilia",
- "generato": "2026-10-02T09:56:52.717Z",
+ "generato": "2026-10-02T10:44:53.703Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 327,
+   "stazioni": 329,
    "primo": "2026-10-01",
    "ultimo": "2026-10-01",
    "top": [
-    {
-     "n": "Civitella (Forlì-Cesena)",
-     "mm": 1.5
-    },
     {
      "n": "Ottone (Piacenza)",
      "mm": 0.8
@@ -27,6 +23,10 @@
     },
     {
      "n": "Lago Ballano (Parma)",
+     "mm": 0.6
+    },
+    {
+     "n": "Trebbia Valsigiara (Piacenza)",
      "mm": 0.6
     }
    ]
@@ -196,9 +196,9 @@
    "s": "romagna-toscana",
    "n": "Romagna toscana",
    "ultimo": "2026-10-01",
-   "m1": 0.1,
-   "m7": 0.2,
-   "m30": 82.3
+   "m1": 0,
+   "m7": 0.1,
+   "m30": 82.2
   },
   {
    "s": "val-d-enza",
