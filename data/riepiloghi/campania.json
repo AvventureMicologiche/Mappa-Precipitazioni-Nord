@@ -1,20 +1,16 @@
 {
  "regione": "campania",
- "generato": "2026-10-01T10:19:43.340Z",
+ "generato": "2026-10-02T09:56:52.719Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 176,
-   "primo": "2026-09-30",
-   "ultimo": "2026-09-30",
+   "stazioni": 177,
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-01",
    "top": [
     {
-     "n": "Savignano Irpino",
-     "mm": 0.2
-    },
-    {
-     "n": "Perito-Ostigliano",
+     "n": "Corleto Monforte-Savuco Serra Nu",
      "mm": 0.2
     },
     {
@@ -28,6 +24,10 @@
     {
      "n": "Torre Orsaia METEO",
      "mm": 0
+    },
+    {
+     "n": "Cellole METEO",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 13.7,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Agerola",
@@ -61,27 +61,27 @@
    ]
   },
   "20": {
-   "media": 26.3,
+   "media": 23.9,
    "giorni": 20,
    "stazioni": 179,
-   "primo": "2026-09-11",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Agerola",
-     "mm": 96.3
-    },
-    {
-     "n": "Agerola METEO",
-     "mm": 87.6
+     "mm": 92.5
     },
     {
      "n": "Pimonte",
-     "mm": 84.2
+     "mm": 83.4
+    },
+    {
+     "n": "Agerola METEO",
+     "mm": 83.2
     },
     {
      "n": "Monteforte Irpino",
-     "mm": 81.7
+     "mm": 81.5
     },
     {
      "n": "Forino",
@@ -93,8 +93,8 @@
    "media": 31.8,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-09-01",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-02",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Agerola",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Forino",
-     "mm": 83.3
+     "mm": 80.7
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0,
   0.4,
-  0.2,
-  0
+  0.2
  ],
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 71.7,
    "m30": 81.5
@@ -163,7 +163,7 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 32.8,
    "m30": 56.2
@@ -171,7 +171,7 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 5.4,
    "m30": 25.6
@@ -179,10 +179,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 16.1,
-   "m30": 52.9
+   "m30": 51.8
   }
  ]
 }

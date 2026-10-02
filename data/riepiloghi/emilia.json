@@ -1,33 +1,33 @@
 {
  "regione": "emilia",
- "generato": "2026-10-01T11:11:57.296Z",
+ "generato": "2026-10-02T09:56:52.717Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 328,
-   "primo": "2026-09-30",
-   "ultimo": "2026-09-30",
+   "stazioni": 327,
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-01",
    "top": [
     {
-     "n": "Ponte Vico (Ravenna)",
-     "mm": 0.4
+     "n": "Civitella (Forlì-Cesena)",
+     "mm": 1.5
     },
     {
-     "n": "Riglio (Piacenza)",
-     "mm": 0.4
+     "n": "Ottone (Piacenza)",
+     "mm": 0.8
     },
     {
-     "n": "Malalbergo (Bologna)",
-     "mm": 0.2
+     "n": "Pievepelago (Modena)",
+     "mm": 0.6
     },
     {
-     "n": "Marra (Parma)",
-     "mm": 0.2
+     "n": "Doccia di Fiumalbo (Modena)",
+     "mm": 0.6
     },
     {
-     "n": "Maiano (Rimini)",
-     "mm": 0.2
+     "n": "Lago Ballano (Parma)",
+     "mm": 0.6
     }
    ]
   },
@@ -35,49 +35,45 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 335,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-01",
    "top": [
-    {
-     "n": "Morciano (Rimini)",
-     "mm": 4.6
-    },
     {
      "n": "Conca 2 (—)",
      "mm": 4.4
     },
     {
+     "n": "Morciano (Rimini)",
+     "mm": 3.4
+    },
+    {
      "n": "Alfonsine (Ravenna)",
-     "mm": 2.5
+     "mm": 2.9
     },
     {
      "n": "Monte Colombo (Rimini)",
      "mm": 2.3
     },
     {
-     "n": "Cattolica (Rimini)",
-     "mm": 2.1
+     "n": "S. Marino (—)",
+     "mm": 1.6
     }
    ]
   },
   "20": {
-   "media": 14.9,
+   "media": 13.6,
    "giorni": 20,
-   "stazioni": 338,
-   "primo": "2026-09-11",
-   "ultimo": "2026-09-30",
+   "stazioni": 337,
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Conca 2 (—)",
-     "mm": 78.4
+     "mm": 78
     },
     {
      "n": "Nociveglia (Parma)",
-     "mm": 74.1
-    },
-    {
-     "n": "Corniolo (Forlì-Cesena)",
-     "mm": 73.1
+     "mm": 73.9
     },
     {
      "n": "Farfanaro (Parma)",
@@ -86,15 +82,19 @@
     {
      "n": "Casalporino (Parma)",
      "mm": 68.8
+    },
+    {
+     "n": "Monte Colombo (Rimini)",
+     "mm": 64
     }
    ]
   },
   "30": {
-   "media": 47.5,
+   "media": 47.1,
    "giorni": 30,
    "stazioni": 339,
-   "primo": "2026-09-01",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-02",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Cabanne (Genova)",
@@ -110,7 +110,7 @@
     },
     {
      "n": "S. Stefano d'Aveto (Genova)",
-     "mm": 189.3
+     "mm": 189.5
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,62 +149,61 @@
   0,
   0,
   0,
-  0.6,
-  0.5
+  0.6
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-09-30",
-   "m1": 0.1,
+   "ultimo": "2026-10-01",
+   "m1": 0,
    "m7": 0.1,
    "m30": 39.6
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 51.6
+   "ultimo": "2026-10-01",
+   "m1": 0.3,
+   "m7": 0.4,
+   "m30": 51.9
   },
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0.4,
-   "m30": 82.2
+   "ultimo": "2026-10-01",
+   "m1": 0.3,
+   "m7": 0.6,
+   "m30": 82.4
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0,
-   "m30": 68.6
+   "ultimo": "2026-10-01",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 68.7
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0,
-   "m30": 58.5
+   "ultimo": "2026-10-01",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 57.3
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-09-30",
-   "m1": 0,
-   "m7": 0,
-   "m30": 82.2
+   "ultimo": "2026-10-01",
+   "m1": 0.1,
+   "m7": 0.2,
+   "m30": 82.3
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0,
    "m30": 43.7

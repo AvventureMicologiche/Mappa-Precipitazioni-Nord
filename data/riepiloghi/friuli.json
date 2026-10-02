@@ -1,16 +1,20 @@
 {
  "regione": "friuli",
- "generato": "2026-10-01T11:11:57.297Z",
+ "generato": "2026-10-02T09:56:52.718Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 142,
-   "primo": "2026-09-30",
-   "ultimo": "2026-09-30",
+   "stazioni": 139,
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-01",
    "top": [
     {
-     "n": "Gorgo",
+     "n": "Gorizia Aeroporto",
+     "mm": 0.2
+    },
+    {
+     "n": "Sella Nevea",
      "mm": 0.2
     },
     {
@@ -24,77 +28,73 @@
     {
      "n": "Brugnera",
      "mm": 0
-    },
-    {
-     "n": "Capriva del Friuli",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0.2,
+   "media": 0.1,
    "giorni": 7,
    "stazioni": 143,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Sella Nevea",
-     "mm": 2.2
+     "mm": 1.2
     },
     {
      "n": "Cave del Predil",
-     "mm": 2
-    },
-    {
-     "n": "Passo Predil",
-     "mm": 2
+     "mm": 1
     },
     {
      "n": "Val Ugovizza",
-     "mm": 1.8
+     "mm": 1
     },
     {
-     "n": "Passo Pramollo",
-     "mm": 1.6
+     "n": "Claut Tre Pini",
+     "mm": 0.8
+    },
+    {
+     "n": "Pontebba",
+     "mm": 0.8
     }
    ]
   },
   "20": {
-   "media": 23.5,
+   "media": 17.8,
    "giorni": 20,
    "stazioni": 143,
-   "primo": "2026-09-11",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Gorgo",
      "mm": 63.2
     },
     {
-     "n": "Muggia Pluvio",
-     "mm": 62.3
-    },
-    {
-     "n": "Muggia TP",
-     "mm": 62.3
-    },
-    {
      "n": "Lignano Sabbiadoro",
-     "mm": 57.3
+     "mm": 57.1
     },
     {
      "n": "Lignano Sabbiadoro PCR",
-     "mm": 57.3
+     "mm": 57.1
+    },
+    {
+     "n": "Ariis - ETPI FVG",
+     "mm": 51
+    },
+    {
+     "n": "Palazzolo dello Stella",
+     "mm": 47.6
     }
    ]
   },
   "30": {
-   "media": 128.5,
+   "media": 123.9,
    "giorni": 30,
    "stazioni": 145,
-   "primo": "2026-09-01",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-02",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Lignano Sabbiadoro",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Palazzolo dello Stella",
-     "mm": 205.7
+     "mm": 199.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,89 +149,88 @@
   0.2,
   0,
   0,
-  2,
-  4.6
+  2
  ],
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0,
-   "m30": 103.2
+   "m30": 100
   },
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 109.1
+   "m30": 101.7
   },
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
-   "m7": 0.7,
-   "m30": 93.8
+   "m7": 0.2,
+   "m30": 82.1
   },
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 103.1
+   "m30": 101.8
   },
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
-   "m7": 1.3,
-   "m30": 140.6
+   "m7": 0.6,
+   "m30": 131.3
   },
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
-   "m7": 0.6,
-   "m30": 119.9
+   "m7": 0.2,
+   "m30": 109.5
   },
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0,
-   "m30": 127.2
+   "m30": 122.9
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
-   "m7": 0.5,
-   "m30": 136.1
+   "m7": 0.1,
+   "m30": 129.1
   },
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 155.1
+   "m30": 154.3
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 109.5
+   "m30": 97.1
   }
  ]
 }

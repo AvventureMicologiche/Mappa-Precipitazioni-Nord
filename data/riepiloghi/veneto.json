@@ -1,46 +1,46 @@
 {
  "regione": "veneto",
- "generato": "2026-10-01T10:19:43.338Z",
+ "generato": "2026-10-02T09:56:52.718Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-09-30",
-   "ultimo": "2026-09-30",
+   "stazioni": 183,
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-01",
    "top": [
     {
-     "n": "Montegalda (VI)",
-     "mm": 1.2
+     "n": "Villorba (TV)",
+     "mm": 2.4
     },
     {
-     "n": "Villafranca di Verona (VR)",
+     "n": "Buttapietra (VR)",
      "mm": 1
     },
     {
-     "n": "Castelnuovo del Garda (VR)",
+     "n": "Breganze (VI)",
      "mm": 1
     },
     {
-     "n": "Montebelluna loc. Contea (TV)",
+     "n": "Valeggio sul Mincio (VR)",
      "mm": 1
     },
     {
-     "n": "Verona - Santa Caterina (VR)",
-     "mm": 0.8
+     "n": "Colognola ai Colli (VR)",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-09-24",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-01",
    "top": [
     {
-     "n": "Sella Ciampigotto (BL)",
-     "mm": 1.4
+     "n": "Villorba (TV)",
+     "mm": 2.4
     },
     {
      "n": "Sorga' (VR)",
@@ -55,17 +55,17 @@
      "mm": 1
     },
     {
-     "n": "Castelnuovo del Garda (VR)",
+     "n": "Buttapietra (VR)",
      "mm": 1
     }
    ]
   },
   "20": {
-   "media": 18.4,
+   "media": 18.2,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-11",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Bibione (VE)",
-     "mm": 63
+     "mm": 62.8
     },
     {
      "n": "Marcon loc. Zuccarello (VE)",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 55
+     "mm": 55.2
     },
     {
      "n": "Favaro Veneto (VE)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 90.3,
+   "media": 88.7,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-01",
-   "ultimo": "2026-09-30",
+   "primo": "2026-09-02",
+   "ultimo": "2026-10-01",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
-     "mm": 185.6
+     "mm": 185.8
     },
     {
-     "n": "Sant'Antonio Tortal (BL)",
-     "mm": 148.6
+     "n": "Pian del Crep (Val di Zoldo) (BL)",
+     "mm": 148.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   0,
   0,
   0,
-  0.4,
-  1.7
+  0.4
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.2,
    "m30": 118.6
@@ -163,23 +163,23 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.2,
-   "m30": 109.8
+   "m30": 103.7
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 126.9
+   "m30": 120
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0,
    "m30": 108
@@ -187,7 +187,7 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
    "m30": 93.5
@@ -195,18 +195,18 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-09-30",
-   "m1": 0.1,
+   "ultimo": "2026-10-01",
+   "m1": 0,
    "m7": 0.3,
-   "m30": 120.5
+   "m30": 119.3
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-09-30",
+   "ultimo": "2026-10-01",
    "m1": 0,
    "m7": 0.1,
-   "m30": 105.5
+   "m30": 99.8
   }
  ]
 }
