@@ -1,71 +1,71 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-02T15:46:42.706Z",
+ "generato": "2026-10-03T09:18:42.496Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 282,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-01",
+   "stazioni": 280,
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-02",
    "top": [
     {
+     "n": "FORMAZZA (Provincia del verbano cusio os)",
+     "mm": 2.4
+    },
+    {
      "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 9.4
-    },
-    {
-     "n": "BELLINO (Cuneo)",
-     "mm": 6.2
-    },
-    {
-     "n": "COLLE BERCIA (Torino)",
-     "mm": 5.6
+     "mm": 1.6
     },
     {
      "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 5.2
+     "mm": 1
     },
     {
-     "n": "SAN SICARIO (Torino)",
-     "mm": 5
+     "n": "ALPE VEGLIA (Provincia del verbano cusio os)",
+     "mm": 0.8
+    },
+    {
+     "n": "PONZONE BRIC BERTON (Alessandria)",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 0.8,
+   "media": 0.7,
    "giorni": 7,
-   "stazioni": 284,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-01",
+   "stazioni": 283,
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 9.4
+     "mm": 11
     },
     {
      "n": "BELLINO (Cuneo)",
      "mm": 6.4
     },
     {
+     "n": "COLLE DELL'AGNELLO (Cuneo)",
+     "mm": 6.2
+    },
+    {
      "n": "COLLE BERCIA (Torino)",
-     "mm": 5.6
+     "mm": 5.8
     },
     {
      "n": "PIAN GIASSET (Cuneo)",
-     "mm": 5.2
-    },
-    {
-     "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 5.2
+     "mm": 5
     }
    ]
   },
   "20": {
-   "media": 8.7,
+   "media": 8.6,
    "giorni": 20,
    "stazioni": 285,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-01",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -93,8 +93,8 @@
    "media": 30.9,
    "giorni": 30,
    "stazioni": 286,
-   "primo": "2026-09-02",
-   "ultimo": "2026-10-01",
+   "primo": "2026-09-03",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,7 +120,8 @@
   }
  },
  "serie": [
-  0.7,
+  0,
+  0.6,
   0.1,
   0,
   0,
@@ -148,22 +149,21 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-01",
-   "m1": 0.3,
+   "ultimo": "2026-10-02",
+   "m1": 0.1,
    "m7": 0.3,
-   "m30": 51.3
+   "m30": 51.4
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0,
    "m30": 32.7
@@ -171,23 +171,23 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-01",
-   "m1": 0.1,
-   "m7": 0.2,
+   "ultimo": "2026-10-02",
+   "m1": 0,
+   "m7": 0.1,
    "m30": 12
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-01",
-   "m1": 0.6,
-   "m7": 0.7,
+   "ultimo": "2026-10-02",
+   "m1": 0,
+   "m7": 0.6,
    "m30": 34
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.3,
    "m30": 37
@@ -195,23 +195,23 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-01",
-   "m1": 0.9,
+   "ultimo": "2026-10-02",
+   "m1": 0,
    "m7": 0.9,
    "m30": 57.1
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 48
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0,
    "m30": 48.3
@@ -219,18 +219,18 @@
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-01",
-   "m1": 2,
+   "ultimo": "2026-10-02",
+   "m1": 0,
    "m7": 2.1,
    "m30": 34.3
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-01",
-   "m1": 0.9,
-   "m7": 0.9,
-   "m30": 16
+   "ultimo": "2026-10-02",
+   "m1": 0.1,
+   "m7": 0.8,
+   "m30": 15.9
   }
  ]
 }

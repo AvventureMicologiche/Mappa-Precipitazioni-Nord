@@ -1,71 +1,71 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-02T09:56:52.720Z",
+ "generato": "2026-10-03T09:18:42.498Z",
  "periodi": {
   "1": {
-   "media": 4.5,
+   "media": 2.2,
    "giorni": 1,
-   "stazioni": 309,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-01",
+   "stazioni": 310,
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-02",
    "top": [
     {
-     "n": "Mervelier (JU)",
-     "mm": 27.5
+     "n": "Bad Ragaz (SG)",
+     "mm": 17.6
     },
     {
-     "n": "Delémont (JU)",
-     "mm": 26.6
+     "n": "Eggersriet (SG)",
+     "mm": 17.6
     },
     {
-     "n": "Schüpfheim (LU)",
-     "mm": 23.9
+     "n": "Wartau (SG)",
+     "mm": 17.3
     },
     {
-     "n": "Bern / Zollikofen (BE)",
-     "mm": 22.7
+     "n": "Innerthal (SZ)",
+     "mm": 15.9
     },
     {
-     "n": "Lausanne (VD)",
-     "mm": 22
+     "n": "Göschenen (UR)",
+     "mm": 15.8
     }
    ]
   },
   "7": {
-   "media": 4.5,
+   "media": 6.7,
    "giorni": 7,
-   "stazioni": 310,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-01",
+   "stazioni": 311,
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "Mervelier (JU)",
-     "mm": 27.5
+     "mm": 29.1
     },
     {
      "n": "Delémont (JU)",
-     "mm": 26.6
+     "mm": 26.8
     },
     {
      "n": "Schüpfheim (LU)",
+     "mm": 25.3
+    },
+    {
+     "n": "Innerthal (SZ)",
      "mm": 23.9
     },
     {
-     "n": "Bern / Zollikofen (BE)",
-     "mm": 22.7
-    },
-    {
-     "n": "Lausanne (VD)",
-     "mm": 22
+     "n": "Belp (BE)",
+     "mm": 23.1
     }
    ]
   },
   "20": {
-   "media": 15.1,
+   "media": 17.2,
    "giorni": 20,
-   "stazioni": 310,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-01",
+   "stazioni": 311,
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Flühli, LU (LU)",
-     "mm": 45.7
+     "mm": 47.7
     }
    ]
   },
   "30": {
-   "media": 35.1,
+   "media": 37.2,
    "giorni": 30,
-   "stazioni": 310,
-   "primo": "2026-09-02",
-   "ultimo": "2026-10-01",
+   "stazioni": 311,
+   "primo": "2026-09-03",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  2.2,
   4.5,
   0,
   0,
@@ -147,7 +148,6 @@
   0.5,
   0,
   0.1,
-  0,
   0,
   0
  ],

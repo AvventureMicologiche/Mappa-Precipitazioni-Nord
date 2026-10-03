@@ -1,20 +1,24 @@
 {
  "regione": "friuli",
- "generato": "2026-10-02T09:56:52.718Z",
+ "generato": "2026-10-03T09:18:42.496Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 139,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-01",
+   "stazioni": 140,
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-02",
    "top": [
     {
-     "n": "Gorizia Aeroporto",
+     "n": "Cave del Predil",
      "mm": 0.2
     },
     {
-     "n": "Sella Nevea",
+     "n": "Tarvisio",
+     "mm": 0.2
+    },
+    {
+     "n": "Chiusaforte",
      "mm": 0.2
     },
     {
@@ -24,10 +28,6 @@
     {
      "n": "Bicinicco",
      "mm": 0
-    },
-    {
-     "n": "Brugnera",
-     "mm": 0
     }
    ]
   },
@@ -35,28 +35,28 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 143,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-01",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-02",
    "top": [
-    {
-     "n": "Sella Nevea",
-     "mm": 1.2
-    },
     {
      "n": "Cave del Predil",
      "mm": 1
     },
     {
-     "n": "Val Ugovizza",
+     "n": "Sella Nevea",
      "mm": 1
     },
     {
-     "n": "Claut Tre Pini",
+     "n": "Val Ugovizza",
      "mm": 0.8
     },
     {
-     "n": "Pontebba",
-     "mm": 0.8
+     "n": "Claut Tre Pini",
+     "mm": 0.6
+    },
+    {
+     "n": "Piancavallo",
+     "mm": 0.4
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 17.8,
    "giorni": 20,
    "stazioni": 143,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-01",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "Gorgo",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 123.9,
+   "media": 121.9,
    "giorni": 30,
    "stazioni": 145,
-   "primo": "2026-09-02",
-   "ultimo": "2026-10-01",
+   "primo": "2026-09-03",
+   "ultimo": "2026-10-02",
    "top": [
     {
      "n": "Lignano Sabbiadoro",
@@ -127,6 +127,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   0,
   0,
@@ -148,89 +149,88 @@
   0,
   0.2,
   0,
-  0,
-  2
+  0
  ],
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0,
-   "m30": 100
+   "m30": 94.9
   },
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.1,
-   "m30": 101.7
+   "m30": 101.4
   },
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
-   "m7": 0.2,
-   "m30": 82.1
+   "m7": 0.1,
+   "m30": 80.1
   },
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.1,
-   "m30": 101.8
+   "m30": 100.8
   },
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-10-01",
-   "m1": 0,
-   "m7": 0.6,
-   "m30": 131.3
+   "ultimo": "2026-10-02",
+   "m1": 0.1,
+   "m7": 0.5,
+   "m30": 117.7
   },
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.2,
-   "m30": 109.5
+   "m30": 106.2
   },
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-10-01",
-   "m1": 0,
-   "m7": 0,
-   "m30": 122.9
+   "ultimo": "2026-10-02",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 119.2
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.1,
-   "m30": 129.1
+   "m30": 112
   },
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.1,
-   "m30": 154.3
+   "m30": 152.5
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-10-01",
+   "ultimo": "2026-10-02",
    "m1": 0,
    "m7": 0.1,
-   "m30": 97.1
+   "m30": 92.7
   }
  ]
 }
