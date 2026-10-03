@@ -45,6 +45,10 @@ jobs:
       # questo senza rete, 0,4 secondi, 19 JSON da 33 KB in tutto.
       - name: Genera i numeri delle pagine funghi
         run: node .github/scripts/genera-funghi.js
+      # Le minime e massime di IERI verificate coi vicini, per il tasto «🌡 Temp. ieri» della
+      # mappa (3/10/2026): anche questo senza rete, legge i file del giorno gia' nel checkout.
+      - name: Genera le temperature di ieri
+        run: node .github/scripts/genera-temperature-ieri.js
       # ⚠️ `data/` e' nella regola ignore di netlify.toml: questo commit NON fa
       # partire nessun deploy, come per i collector. Se un giorno i riepiloghi
       # si spostassero fuori da `data/`, ogni giro comincerebbe a costare ~15
@@ -53,7 +57,7 @@ jobs:
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          git add data/riepiloghi/ data/funghi/
+          git add data/riepiloghi/ data/funghi/ data/temperature-ieri.json
           git diff --staged --quiet || git commit -m "riepiloghi pagine regione e funghi $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do
