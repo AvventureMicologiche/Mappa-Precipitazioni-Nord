@@ -8998,7 +8998,11 @@ function collocaCanale(){
   if(!nb || !cl) return;
   if(window.innerWidth <= 900 || getComputedStyle(nb).display === 'none'){ cl.style.top = ''; return; }
   // La casella e' dentro il cartello blu a sinistra: la vetrina sale al suo posto.
-  if(nb.closest('#map-hint-panel')){ cl.style.top = '52px'; return; }
+  // ⚠️ ALLA STESSA ALTEZZA DEL CARTELLO, letta dal cartello (3/10/2026, sua
+  // richiesta): coi 52 px fissi stava 48 px piu' in alto e i due riquadri non
+  // erano allineati. Se il cartello si sposta, la vetrina lo segue.
+  var hp = nb.closest('#map-hint-panel');
+  if(hp){ cl.style.top = hp.offsetTop + 'px'; return; }
   var m = document.getElementById('map');
   if(!m) return;
   var giu = nb.getBoundingClientRect().bottom - m.getBoundingClientRect().top + 10;
