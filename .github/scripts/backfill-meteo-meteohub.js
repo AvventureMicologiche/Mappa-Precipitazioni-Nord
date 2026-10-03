@@ -91,7 +91,11 @@ async function collectMeteoHub(net, w) {
 
   const temp = await fetchProd('B12101');
   Object.keys(temp).forEach(id => {
-    const vals = temp[id].map(v => v.val > 100 ? v.val - 273.15 : v.val).filter(v => v >= -45 && v <= 50);
+    // falsi zeri: stessa regola di collect-meteohub.js (3/10/2026), le due devono restare uguali
+    const kelvin = temp[id].filter(v => v.val > 100).length > temp[id].length / 2;
+    if (temp[id].every(v => v.val === 0)) return;   // tutta zeri: termometro muto, trattino
+    const vals = temp[id].filter(v => !kelvin || v.val > 100)
+      .map(v => v.val > 100 ? v.val - 273.15 : v.val).filter(v => v >= -45 && v <= 50);
     if (vals.length && oreDi(temp[id]) >= MIN_ORE)
       (out[id] = out[id] || {}).t = [Math.round(Math.min(...vals) * 10) / 10,
                                      Math.round(Math.max(...vals) * 10) / 10];

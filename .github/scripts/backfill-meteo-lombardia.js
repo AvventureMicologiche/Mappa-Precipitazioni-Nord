@@ -74,7 +74,9 @@ async function meteoDay(dateStr, tempByStaz, windByStaz) {
     const oreMax = perSens[id]['3'] || [];   // il MASSIMO: la raffica
     if (ore.length < MIN_ORE) return;
     if (tempSens[id]) {
-      const mins = ore.map(o => parseFloat(o.mn)).filter(v => v >= -45 && v <= 50);
+      // falsi zeri: stessa regola di collect-lombardia.js (3/10/2026), le due devono restare uguali
+      const mins = ore.filter(o => !(parseFloat(o.mn) === 0 && parseFloat(o.med) > 3))
+        .map(o => parseFloat(o.mn)).filter(v => v >= -45 && v <= 50);
       const maxs = ore.map(o => parseFloat(o.mx)).filter(v => v >= -45 && v <= 50);
       if (mins.length >= MIN_ORE && maxs.length) {
         const st = tempSens[id];

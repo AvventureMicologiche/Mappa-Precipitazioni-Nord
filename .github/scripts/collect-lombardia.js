@@ -123,7 +123,13 @@ async function fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz) {
     const oreMax = perSens[id]['3'] || [];   // il MASSIMO: la raffica
     if (ore.length < MIN_ORE_METEO) return;
     if (tempSens[id]) {
-      const mins = ore.map(o => parseFloat(o.mn)).filter(v => v >= -45 && v <= 50);
+      // ⚠️ FALSI ZERI (3/10/2026): Socrata a volte ha UNA lettura a 0,0 in mezzo a
+      // letture vere (Valdisotto Arginone 30/9: 0,0 alle 21:30, tutte le altre
+      // sopra i 10°, e ARPA la segna «VA»). Un'ora con la minima esattamente 0 e
+      // la media sopra i 3° non esiste: la minima di quell'ora si scarta (la
+      // massima resta). 10 minime false in agosto-settembre.
+      const mins = ore.filter(o => !(parseFloat(o.mn) === 0 && parseFloat(o.med) > 3))
+        .map(o => parseFloat(o.mn)).filter(v => v >= -45 && v <= 50);
       const maxs = ore.map(o => parseFloat(o.mx)).filter(v => v >= -45 && v <= 50);
       if (mins.length >= MIN_ORE_METEO && maxs.length) {
         const st = tempSens[id];

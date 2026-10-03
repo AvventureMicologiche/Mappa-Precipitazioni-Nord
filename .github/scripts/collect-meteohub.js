@@ -176,7 +176,16 @@ async function collectMeteoHub(netCfg, w) {
 
   const temp = await fetchProd('B12101');
   Object.keys(temp).forEach(id => {
-    const vals = temp[id].map(v => v.val > 100 ? v.val - 273.15 : v.val).filter(v => v >= -45 && v <= 50);
+    // ⚠️ FALSI ZERI (3/10/2026): in una serie in KELVIN uno 0 grezzo non e' una
+    // temperatura (0 K), e' un dato non pervenuto. Con la sola conversione
+    // `v>100 ? v-273.15 : v` passava come 0 °C: Benevento 0 / 29,2° a 234 m il
+    // 30/9, 226 minime false in agosto-settembre sulle reti MeteoHub. Se la serie
+    // e' in kelvin (la maggioranza dei valori sopra 100) si scarta tutto cio' che
+    // sta sotto: senza minima valida resta il trattino, non lo zero.
+    const kelvin = temp[id].filter(v => v.val > 100).length > temp[id].length / 2;
+    if (temp[id].every(v => v.val === 0)) return;   // tutta zeri: termometro muto, trattino
+    const vals = temp[id].filter(v => !kelvin || v.val > 100)
+      .map(v => v.val > 100 ? v.val - 273.15 : v.val).filter(v => v >= -45 && v <= 50);
     if (vals.length && oreDi(temp[id]) >= MIN_ORE_METEO)
       (out[id] = out[id] || {}).t = [Math.round(Math.min(...vals) * 10) / 10,
                                      Math.round(Math.max(...vals) * 10) / 10];
