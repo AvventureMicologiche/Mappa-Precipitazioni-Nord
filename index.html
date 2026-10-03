@@ -15367,6 +15367,9 @@ body.tq-on #loc-input.loc-chiama,body.tq-on #geo-btn.loc-chiama{animation:none !
     ['pointerdown','pointerup','touchstart','touchend','mousedown','mouseup','click','dblclick','wheel'].forEach(function(ev){ btn.addEventListener(ev,function(e){ e.stopPropagation(); }); });
     btn.addEventListener('click',function(){
       var mp=m();
+      // senza regione si dice come fanno tutti gli altri tasti (3/10, suo: «come sempre»)
+      var att=window._regioniAttive?window._regioniAttive():[];
+      if(!on && !att.length){ var st=document.getElementById('tp-status'); if(st){ st.textContent='⚠️ Seleziona prima una regione!'; st.className='error'; } return; }
       on=!on; disegnaTasto();
       try{ gtag('event','temperature_ieri',{stato:on?'on':'off'}); }catch(e){}
       // da lontano ci si avvicina (sua scelta «a»), al centro dei pallini della regione e non della
