@@ -8,18 +8,14 @@
   "'da' (facoltativo) e 'fino' accendono e spengono la vetrina all'ora giusta da soli, senza toccare niente.",
   "'ganciopx' NON si tira a indovinare: si misura sulla colonna da 199 px del computer, se no il gancio va a capo.",
   "La copertina e' un .jpg in data/vetrine/ (dal 20/9/2026): mettilo li' e committalo, ANCHE QUELLO e' gratis. Nel campo 'copertina' va scritto solo il nome del file. Se invece contiene una barra o comincia per http si usa com'e'.",
-  "Se questo file non si scarica o e' scritto male, index.html usa la configurazione incorporata e il sito funziona come prima."
+  "Se questo file non si scarica o e' scritto male, index.html usa la configurazione incorporata e il sito funziona come prima.",
+  "'tipo': 'gioco' (dal 4/10/2026) per una vetrina che non porta a un video: al posto del logo YouTube compare una coppa. Senza 'tipo' e' un video."
  ],
  "mostra": "alterna",
  "sorteggio": [
   "guida",
   "tartufo2026",
-  "tartufo2026",
-  "tartufo",
-  "video",
-  "lungo16",
-  "lungo20",
-  "lungo25"
+  "quiz"
  ],
  "vetrine": {
   "tartufo2026": {
@@ -221,6 +217,24 @@
    "ganciopx": 21.5,
    "gancioP": "Novità:<br>altimetrie ed esposizioni",
    "canale": "Avventure Micologiche"
+  },
+  "quiz": {
+   "tipo": "gioco",
+   "da": "2026-10-04T00:00:00+02:00",
+   "fino": "2027-12-31T23:59:59+01:00",
+   "link": "https://avventuremicologiche.it/esame-tartufi/",
+   "id": "quiz-tartufi",
+   "facebook": "",
+   "instagram": "",
+   "copertina": "vetrina-quiz-tartufi.jpg",
+   "occhiello": "Gioco",
+   "occhielloP": "Gioco",
+   "bottone": "GIOCA E SCALA LA CLASSIFICA",
+   "gancio1": "Quiz esame tartufi:",
+   "gancio2": "caccia al tesserino",
+   "canale": "Avventure Micologiche",
+   "ganciopx": 19,
+   "gancioP": "Quiz esame tartufi:<br>caccia al tesserino"
   }
  }
 }

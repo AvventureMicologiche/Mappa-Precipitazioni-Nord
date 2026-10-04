@@ -2513,6 +2513,8 @@ qualche minuto (raw tiene la sua copia 5 minuti) il sito mostra la vetrina nuova
 2. si aggiunge una voce in `vetrine` e si mette la sua chiave in `sorteggio`;
 3. commit e push. **Nessun deploy, nessun credito.**
 
+**Vetrina che non porta a un video (dal 4/10/2026)**: `"tipo": "gioco"` nella voce (la prima è il quiz esame tartufi, `avventuremicologiche.it/esame-tartufi/`). Al posto del logo YouTube una coppa: accanto all'occhiello sul computer, 🏆 nella riga piccola e bottone giallo con la coppa nella pillola del telefono; il title dice «Gioca». Senza `tipo` resta un video. L'evento GA resta `click_youtube` col campo `vetrina` (stessa regola dei link Facebook).
+
 Il file ha in cima un campo `_leggimi` con le istruzioni, cosi' chi lo apre fra
 sei mesi non deve cercarle altrove. `sorteggio` vuoto = niente vetrina, resta la
 scheda «Iscriviti». `mostra` vale `alterna` (usa il sorteggio), una chiave
