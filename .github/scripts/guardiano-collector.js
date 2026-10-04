@@ -90,6 +90,9 @@ const FMT_IT = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',
 });
 const giornoIT = (d) => FMT_IT.format(d);
+const oraIT = (d) => Number(new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/Rome', hour: '2-digit', hourCycle: 'h23',
+}).format(d));
 
 // ⚠️ IL GIORNO SI CONTA DA `adesso`, NON DA `Date.now()` (raddrizzato il
 // 22/9/2026). Prima l'ora finta di `ORA=` spostava il conto dei cron ma NON il
@@ -251,10 +254,42 @@ function controllaRiepiloghi(adesso) {
     const ore = (adesso - new Date(j.generato)) / 3600000;
     if (piuVecchio === null || ore > piuVecchio.ore) piuVecchio = { file: f, ore };
   }
-  if (!piuVecchio || piuVecchio.ore < RIEPILOGHI_ORE) return null;
-  const t = quandoGirava(WF_RIEPILOGHI, adesso);
-  if (t && t.alProssimo < PROSSIMO_MIN) return null;
-  return { wf: WF_RIEPILOGHI, ore: Math.round(piuVecchio.ore), file: piuVecchio.file };
+  if (piuVecchio && piuVecchio.ore >= RIEPILOGHI_ORE) {
+    const t = quandoGirava(WF_RIEPILOGHI, adesso);
+    if (!(t && t.alProssimo < PROSSIMO_MIN))
+      return { wf: WF_RIEPILOGHI, motivo: `vecchi di ${Math.round(piuVecchio.ore)} h (${piuVecchio.file})` };
+  }
+
+  /* ⚠️ LE 30 ORE NON BASTANO DOPO UNA NOTTE SALTATA (4/10/2026). Il 3->4/10
+     GitHub non ha fatto partire niente dalle 22:13 UTC: alle 6 i riepiloghi
+     del giorno prima avevano ~19 ore, «freschi» per la regola qui sopra, e
+     pagine regione e temperature di ieri restavano su altroieri fino al
+     pomeriggio. Da qui due regole in piu', che non aspettano il prossimo cron
+     (aspettarlo e' proprio la scommessa che si perde) e non costano niente:
+     un riepilogo rifatto senza novita' non riscrive nulla.
+     1) Dalle 6 italiane il file delle temperature deve avere IERI: se no, si
+        rilancia. E' il segnale che il giro del mattino non c'e' stato.
+     2) Se il giro precedente del guardiano (entro due ore) ha ri-lanciato
+        dei collector, si rilancia: i riepiloghi devono contenere anche i
+        dati arrivati nel frattempo. Una volta sola: il giro dopo trova fra i
+        lanciati solo i riepiloghi e si ferma. */
+  if (oraIT(adesso) >= 6) {
+    let g = null;
+    try { g = JSON.parse(fs.readFileSync(path.join(DATA, 'temperature-ieri.json'), 'utf8')).giorno; } catch (e) {}
+    const ieri = giorniFa(adesso, 1);
+    if (g !== ieri) return { wf: WF_RIEPILOGHI, motivo: `temperature-ieri ha ${g || 'niente'} invece di ${ieri}` };
+  }
+  const prec = ultimoGiro();
+  const daPrec = prec ? (adesso - new Date(prec.quando)) / 60000 : -1;
+  if (daPrec >= 0 && daPrec <= 120
+      && (prec.lanciati || []).some(wf => wf !== WF_RIEPILOGHI))
+    return { wf: WF_RIEPILOGHI, motivo: `il giro delle ${prec.quando.slice(11, 16)} UTC ha ri-lanciato ${prec.lanciati.join(', ')}` };
+  return null;
+}
+
+function ultimoGiro() {
+  try { const r = JSON.parse(fs.readFileSync(REGISTRO, 'utf8')); return (r.giri || []).slice(-1)[0] || null; }
+  catch (e) { return null; }
 }
 
 /* ── Il lancio ──────────────────────────────────────────────────── */
@@ -303,7 +338,7 @@ function main() {
                 (r.buco >= 2 ? ` e i ${r.buco - 1} giorni prima — GUASTO, non ritardo` : '') +
                 `. ${r.wf}, ultimo giro ${r.daUltimo}' fa, prossimo fra ${r.alProssimo}'`);
   }
-  if (riep) console.log(`⏳ Riepiloghi vecchi di ${riep.ore} h (${riep.file})`);
+  if (riep) console.log(`⏳ Riepiloghi: ${riep.motivo}`);
 
   // Dedup per workflow: le 13 cartelle francesi e le 11 di MeteoHub sono un
   // lancio solo. Senza questo, una piattaforma giu' produrrebbe 13 dispatch.

@@ -27,6 +27,12 @@ on:
     - cron: '15 9 * * *'
 permissions:
   contents: write
+# ⚠️ IN FILA, MAI DUE INSIEME (4/10/2026): dal 4/10 il guardiano li rilancia
+# anche fuori orario (sveglia Cloudflare), e due giri paralleli riscrivono gli
+# stessi file: il secondo andrebbe in conflitto al rebase del push.
+concurrency:
+  group: riepiloghi
+  cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest
