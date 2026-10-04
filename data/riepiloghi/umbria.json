@@ -1,13 +1,13 @@
 {
  "regione": "umbria",
- "generato": "2026-10-03T09:18:42.497Z",
+ "generato": "2026-10-04T06:45:25.364Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 77,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "La Bolsella",
@@ -35,8 +35,8 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 78,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Scheggia",
@@ -64,8 +64,8 @@
    "media": 14.6,
    "giorni": 20,
    "stazioni": 79,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Montelovesco",
@@ -93,8 +93,8 @@
    "media": 46.3,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Scheggia",
@@ -127,6 +127,7 @@
   0,
   0,
   0,
+  0,
   0.4,
   0,
   0,
@@ -148,22 +149,21 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
-   "m7": 0,
-   "m30": 75.2
+   "m7": 0.1,
+   "m30": 75.1
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 34.3
@@ -171,7 +171,7 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 48.3

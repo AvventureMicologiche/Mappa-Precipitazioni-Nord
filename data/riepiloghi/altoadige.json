@@ -1,25 +1,21 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-03T09:18:42.497Z",
+ "generato": "2026-10-04T06:45:25.364Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Vallelunga Grub",
-     "mm": 1
+     "mm": 0
     },
     {
      "n": "S. Valentino alla Muta",
-     "mm": 0.2
-    },
-    {
-     "n": "Senales Vernago",
-     "mm": 0.2
+     "mm": 0
     },
     {
      "n": "Monte Maria",
@@ -28,6 +24,10 @@
     {
      "n": "Solda",
      "mm": 0
+    },
+    {
+     "n": "Lasa Oris",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -64,8 +64,8 @@
    "media": 10.5,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Predoi",
@@ -93,8 +93,8 @@
    "media": 57.9,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "S. Martino in Passiria",
@@ -128,6 +128,7 @@
   0,
   0,
   0,
+  0,
   0.8,
   0,
   0,
@@ -148,14 +149,13 @@
   2.1,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 60.7
@@ -163,7 +163,7 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 78.1

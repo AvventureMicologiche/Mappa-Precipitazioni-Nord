@@ -1,33 +1,33 @@
 {
  "regione": "trentino",
- "generato": "2026-10-03T09:18:42.497Z",
+ "generato": "2026-10-04T06:45:25.364Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Pradalago (Rifugio Viviani)",
      "mm": 0.2
     },
     {
-     "n": "Centa San Nicolo'",
-     "mm": 0
+     "n": "Val di Breguzzo (Ponte Arno')",
+     "mm": 0.2
     },
     {
-     "n": "Levico (Terme)",
-     "mm": 0
+     "n": "Tione",
+     "mm": 0.2
     },
     {
-     "n": "Telve (Pontarso)",
-     "mm": 0
+     "n": "Passo Tonale",
+     "mm": 0.2
     },
     {
-     "n": "Bieno",
-     "mm": 0
+     "n": "Dos Del Sabion (Monte Grual)",
+     "mm": 0.2
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Daone (Malga Bissina)",
@@ -44,19 +44,19 @@
     },
     {
      "n": "Dos Del Sabion (Monte Grual)",
-     "mm": 0.6
-    },
-    {
-     "n": "Grigno (Barricata)",
-     "mm": 0.6
-    },
-    {
-     "n": "Lavarone (Chiesa)",
-     "mm": 0.4
+     "mm": 0.8
     },
     {
      "n": "Pradalago (Rifugio Viviani)",
-     "mm": 0.4
+     "mm": 0.6
+    },
+    {
+     "n": "Val di Breguzzo (Ponte Arno')",
+     "mm": 0.6
+    },
+    {
+     "n": "Passo Tonale",
+     "mm": 0.6
     }
    ]
   },
@@ -64,12 +64,12 @@
    "media": 14.4,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Paganella (Malga Terlago)",
-     "mm": 32.2
+     "mm": 32
     },
     {
      "n": "Capriana",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Passo Tonale",
-     "mm": 26.6
+     "mm": 26.8
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 105.3,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -132,6 +132,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   0.1,
   1.8,
@@ -148,14 +149,13 @@
   3.2,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.1,
    "m30": 142.6
@@ -163,7 +163,7 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 109.7
@@ -171,7 +171,7 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.1,
    "m30": 135.4
@@ -179,7 +179,7 @@
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 52.8
@@ -187,15 +187,15 @@
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-02",
-   "m1": 0,
-   "m7": 0.2,
+   "ultimo": "2026-10-03",
+   "m1": 0.1,
+   "m7": 0.3,
    "m30": 102.5
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.1,
    "m30": 113.1

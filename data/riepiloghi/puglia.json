@@ -1,62 +1,62 @@
 {
  "regione": "puglia",
- "generato": "2026-10-03T09:18:42.498Z",
+ "generato": "2026-10-04T06:45:25.365Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 118,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "stazioni": 122,
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
-     "n": "Montursi (Gioia del Colle)",
-     "mm": 0.4
-    },
-    {
      "n": "Vico del Gargano",
-     "mm": 0.4
+     "mm": 0.2
     },
     {
-     "n": "Martina Franca",
-     "mm": 0.4
+     "n": "Celenza Valfortore",
+     "mm": 0.2
     },
     {
-     "n": "Noci",
-     "mm": 0.4
+     "n": "Monteleone di Puglia",
+     "mm": 0.2
     },
     {
-     "n": "Altamura",
+     "n": "Bosco Umbra",
+     "mm": 0.2
+    },
+    {
+     "n": "Volturara Appula",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 0.4,
+   "media": 0.3,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Presicce",
      "mm": 16.6
     },
     {
-     "n": "Maglie",
-     "mm": 5.6
-    },
-    {
      "n": "Ruffano",
-     "mm": 5.2
+     "mm": 5
     },
     {
-     "n": "Galatina",
-     "mm": 4.6
+     "n": "Maglie",
+     "mm": 4.8
     },
     {
-     "n": "Corigliano d'Otranto",
-     "mm": 2.6
+     "n": "Montursi (Gioia del Colle)",
+     "mm": 0.6
+    },
+    {
+     "n": "Vico del Gargano",
+     "mm": 0.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 13.2,
    "giorni": 20,
    "stazioni": 130,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Presicce",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 18.2,
+   "media": 18.1,
    "giorni": 30,
    "stazioni": 130,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Presicce",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Cerignola",
-     "mm": 70.9
+     "mm": 69.3
     },
     {
      "n": "Fonte Rosa",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.2,
@@ -148,8 +149,7 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": []
 }

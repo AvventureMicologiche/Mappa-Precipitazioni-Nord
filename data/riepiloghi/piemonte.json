@@ -1,33 +1,33 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-03T09:18:42.496Z",
+ "generato": "2026-10-04T06:45:25.363Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 280,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
-     "n": "FORMAZZA (Provincia del verbano cusio os)",
-     "mm": 2.4
-    },
-    {
      "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 1.6
+     "mm": 1.2
     },
     {
      "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 1
-    },
-    {
-     "n": "ALPE VEGLIA (Provincia del verbano cusio os)",
      "mm": 0.8
     },
     {
-     "n": "PONZONE BRIC BERTON (Alessandria)",
-     "mm": 0.6
+     "n": "VACCERA (Torino)",
+     "mm": 0.4
+    },
+    {
+     "n": "S. GIACOMO DEMONTE (Cuneo)",
+     "mm": 0.4
+    },
+    {
+     "n": "ELVA (Cuneo)",
+     "mm": 0.4
     }
    ]
   },
@@ -35,37 +35,37 @@
    "media": 0.7,
    "giorni": 7,
    "stazioni": 283,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 11
-    },
-    {
-     "n": "BELLINO (Cuneo)",
-     "mm": 6.4
+     "mm": 12.2
     },
     {
      "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 6.2
+     "mm": 7
+    },
+    {
+     "n": "BELLINO (Cuneo)",
+     "mm": 6.6
     },
     {
      "n": "COLLE BERCIA (Torino)",
-     "mm": 5.8
+     "mm": 6
     },
     {
      "n": "PIAN GIASSET (Cuneo)",
-     "mm": 5
+     "mm": 5.4
     }
    ]
   },
   "20": {
    "media": 8.6,
    "giorni": 20,
-   "stazioni": 285,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "stazioni": 284,
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 30.9,
+   "media": 31,
    "giorni": 30,
-   "stazioni": 286,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "stazioni": 285,
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.6,
   0.1,
@@ -148,22 +149,21 @@
   0.3,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-02",
-   "m1": 0.1,
+   "ultimo": "2026-10-03",
+   "m1": 0,
    "m7": 0.3,
    "m30": 51.4
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 32.7
@@ -171,7 +171,7 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.1,
    "m30": 12
@@ -179,7 +179,7 @@
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.6,
    "m30": 34
@@ -187,7 +187,7 @@
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0.3,
    "m30": 37
@@ -195,15 +195,15 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-02",
-   "m1": 0,
-   "m7": 0.9,
+   "ultimo": "2026-10-03",
+   "m1": 0.1,
+   "m7": 1,
    "m30": 57.1
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 48
@@ -211,7 +211,7 @@
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-02",
+   "ultimo": "2026-10-03",
    "m1": 0,
    "m7": 0,
    "m30": 48.3
@@ -219,16 +219,16 @@
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-02",
-   "m1": 0,
+   "ultimo": "2026-10-03",
+   "m1": 0.1,
    "m7": 2.1,
-   "m30": 34.3
+   "m30": 34.4
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-02",
-   "m1": 0.1,
+   "ultimo": "2026-10-03",
+   "m1": 0,
    "m7": 0.8,
    "m30": 15.9
   }
