@@ -1,33 +1,33 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-03T09:18:42.498Z",
+ "generato": "2026-10-04T09:33:25.459Z",
  "periodi": {
   "1": {
-   "media": 2.2,
+   "media": 0,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-02",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-03",
    "top": [
     {
-     "n": "Bad Ragaz (SG)",
-     "mm": 17.6
+     "n": "Isérables (VS)",
+     "mm": 0.8
     },
     {
-     "n": "Eggersriet (SG)",
-     "mm": 17.6
+     "n": "Les Marécottes (VS)",
+     "mm": 0.7
     },
     {
-     "n": "Wartau (SG)",
-     "mm": 17.3
+     "n": "Ergisch (VS)",
+     "mm": 0.6
     },
     {
-     "n": "Innerthal (SZ)",
-     "mm": 15.9
+     "n": "Clusanfe (VS)",
+     "mm": 0.4
     },
     {
-     "n": "Göschenen (UR)",
-     "mm": 15.8
+     "n": "Visperterminen (VS)",
+     "mm": 0.4
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 6.7,
    "giorni": 7,
    "stazioni": 311,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Mervelier (JU)",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 17.2,
+   "media": 16.4,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Flühli, LU (LU)",
-     "mm": 47.7
+     "mm": 45.5
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 37.2,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-03",
-   "ultimo": "2026-10-02",
+   "primo": "2026-09-04",
+   "ultimo": "2026-10-03",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   2.2,
   4.5,
   0,
@@ -148,7 +149,6 @@
   0.5,
   0,
   0.1,
-  0,
   0
  ],
  "zone": []
