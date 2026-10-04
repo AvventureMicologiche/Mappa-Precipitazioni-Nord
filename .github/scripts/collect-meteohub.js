@@ -184,8 +184,16 @@ async function collectMeteoHub(netCfg, w) {
     // sta sotto: senza minima valida resta il trattino, non lo zero.
     const kelvin = temp[id].filter(v => v.val > 100).length > temp[id].length / 2;
     if (temp[id].every(v => v.val === 0)) return;   // tutta zeri: termometro muto, trattino
-    const vals = temp[id].filter(v => !kelvin || v.val > 100)
-      .map(v => v.val > 100 ? v.val - 273.15 : v.val).filter(v => v >= -45 && v <= 50);
+    // ⚠️ SBALZI ISOLATI (4/10/2026): Favarella e Imera (Sicilia, 1/10) avevano UNA lettura a 0,0 °C
+    // in kelvin (273,15) fra letture sopra i 15°: un valore valido per forma, falso per sostanza.
+    // Una lettura che si stacca di oltre 10° sia dalla precedente sia dalla successiva non e' una
+    // temperatura vera (fra due letture passano 10-60 minuti): si scarta. Vale per ogni sbalzo,
+    // non solo lo zero.
+    const serie = temp[id].filter(v => !kelvin || v.val > 100)
+      .map(v => ({ ref: v.ref || '', c: v.val > 100 ? v.val - 273.15 : v.val })).filter(v => v.c >= -45 && v.c <= 50)
+      .sort((a, b) => (a.ref < b.ref ? -1 : a.ref > b.ref ? 1 : 0));
+    const vals = serie.filter((v, i) => !(i > 0 && i < serie.length - 1
+      && Math.abs(v.c - serie[i - 1].c) > 10 && Math.abs(v.c - serie[i + 1].c) > 10)).map(v => v.c);
     if (vals.length && oreDi(temp[id]) >= MIN_ORE_METEO)
       (out[id] = out[id] || {}).t = [Math.round(Math.min(...vals) * 10) / 10,
                                      Math.round(Math.max(...vals) * 10) / 10];
