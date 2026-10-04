@@ -622,8 +622,24 @@
       "inRitardo": [],
       "lanciati": [],
       "mancanti": []
+    },
+    {
+      "quando": "2026-10-04T09:29:52.202Z",
+      "inRitardo": [
+        "slovenia"
+      ],
+      "lanciati": [
+        "slovenia.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "slovenia",
+          "giorno": "2026-10-02",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-03T14:43:01.148Z",
-  "riassunto": "1 giri con qualcosa ri-lanciato su 111 · 3 con qualche giorno mancante · 0 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-04T09:29:52.202Z",
+  "riassunto": "2 giri con qualcosa ri-lanciato su 112 · 4 con qualche giorno mancante · 0 con un buco di 2+ giorni"
 }
