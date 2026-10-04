@@ -72,3 +72,22 @@ jobs:
             sleep 10
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
+      # Le temperature IMPOSSIBILI (4/10/2026): minima o massima a piu' di 15 gradi dalla
+      # mediana dei vicini -> la giornata perde `t` e nel grafico c'e' il trattino. Ripassa gli
+      # ultimi 3 giorni, cosi' prende anche i file che un collector ha riscritto dopo.
+      # ⚠️ DOPO il push dei riepiloghi e con un commit SUO: tocca i file del giorno, che i
+      # collector riscrivono, e un conflitto al rebase qui non deve costare i riepiloghi.
+      # Se il push non riesce si lascia perdere: il giro dopo ripassa gli stessi giorni.
+      - name: Togli le temperature impossibili
+        continue-on-error: true
+        run: |
+          node .github/scripts/pulisci-temperature.js
+          git add -u data/
+          git diff --staged --quiet && exit 0
+          git commit -m "temperature impossibili $(date -u +%Y-%m-%d) [skip netlify]"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push delle temperature non riuscito: ci ripensa il giro dopo"
