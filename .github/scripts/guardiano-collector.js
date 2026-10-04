@@ -271,8 +271,9 @@ function controllaRiepiloghi(adesso) {
         rilancia. E' il segnale che il giro del mattino non c'e' stato.
      2) Se il giro precedente del guardiano (entro due ore) ha ri-lanciato
         dei collector, si rilancia: i riepiloghi devono contenere anche i
-        dati arrivati nel frattempo. Una volta sola: il giro dopo trova fra i
-        lanciati solo i riepiloghi e si ferma. */
+        dati arrivati nel frattempo. Mai due giri di fila: se il precedente
+        ha gia' rilanciato i riepiloghi si salta (la Slovenia, ri-lanciata a
+        ogni giro finche' ARSO non pubblica, li rifarebbe ogni mezz'ora). */
   if (oraIT(adesso) >= 6) {
     let g = null;
     try { g = JSON.parse(fs.readFileSync(path.join(DATA, 'temperature-ieri.json'), 'utf8')).giorno; } catch (e) {}
@@ -282,6 +283,7 @@ function controllaRiepiloghi(adesso) {
   const prec = ultimoGiro();
   const daPrec = prec ? (adesso - new Date(prec.quando)) / 60000 : -1;
   if (daPrec >= 0 && daPrec <= 120
+      && !(prec.lanciati || []).includes(WF_RIEPILOGHI)
       && (prec.lanciati || []).some(wf => wf !== WF_RIEPILOGHI))
     return { wf: WF_RIEPILOGHI, motivo: `il giro delle ${prec.quando.slice(11, 16)} UTC ha ri-lanciato ${prec.lanciati.join(', ')}` };
   return null;
