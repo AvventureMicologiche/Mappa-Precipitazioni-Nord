@@ -1,32 +1,32 @@
 {
  "regione": "austria",
- "generato": "2026-10-04T06:45:25.366Z",
+ "generato": "2026-10-05T04:00:56.281Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 266,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "stazioni": 265,
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
+    {
+     "n": "Ischgl-Idalpe (Tirol)",
+     "mm": 1.7
+    },
+    {
+     "n": "Weiz (Steiermark)",
+     "mm": 0.9
+    },
+    {
+     "n": "Nauders (Tirol)",
+     "mm": 0.3
+    },
     {
      "n": "Aflenz (Steiermark)",
      "mm": 0
     },
     {
      "n": "Aigen im Ennstal (Steiermark)",
-     "mm": 0
-    },
-    {
-     "n": "Allentsteig (Niederösterreich)",
-     "mm": 0
-    },
-    {
-     "n": "Amstetten (Niederösterreich)",
-     "mm": 0
-    },
-    {
-     "n": "Bad Aussee (Steiermark)",
      "mm": 0
     }
    ]
@@ -35,15 +35,15 @@
    "media": 0.6,
    "giorni": 7,
    "stazioni": 269,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
      "mm": 13.7
     },
     {
-     "n": "Ehrwald (Vorarlberg)",
+     "n": "Ehrwald (Tirol)",
      "mm": 9.7
     },
     {
@@ -55,37 +55,37 @@
      "mm": 8.6
     },
     {
-     "n": "Reutte (Tirol)",
-     "mm": 7.5
+     "n": "Ischgl-Idalpe (Tirol)",
+     "mm": 8
     }
    ]
   },
   "20": {
-   "media": 29,
+   "media": 22.9,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 90.5
-    },
-    {
-     "n": "Rudolfshütte (Salzburg)",
-     "mm": 85.9
-    },
-    {
-     "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
-     "mm": 80.7
-    },
-    {
-     "n": "Waidhofen an der Ybbs (Niederösterreich)",
-     "mm": 77.9
+     "mm": 73.2
     },
     {
      "n": "Schmittenhöhe (Salzburg)",
-     "mm": 73.8
+     "mm": 62.5
+    },
+    {
+     "n": "Abtenau (Salzburg)",
+     "mm": 60.2
+    },
+    {
+     "n": "St.Johann im Pongau (Salzburg)",
+     "mm": 59.4
+    },
+    {
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 58.8
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 63.5,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
@@ -102,11 +102,11 @@
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 150.4
+     "mm": 150.3
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 130
+     "mm": 129.9
     },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.5,
   0,
@@ -148,8 +149,7 @@
   0.2,
   1.4,
   0,
-  1.7,
-  0
+  1.7
  ],
  "zone": []
 }

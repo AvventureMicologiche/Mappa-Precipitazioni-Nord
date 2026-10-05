@@ -1,32 +1,32 @@
 {
  "regione": "trentino",
- "generato": "2026-10-04T06:45:25.364Z",
+ "generato": "2026-10-05T04:00:56.279Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
     {
-     "n": "Pradalago (Rifugio Viviani)",
+     "n": "Pinzolo",
      "mm": 0.2
     },
     {
-     "n": "Val di Breguzzo (Ponte Arno')",
+     "n": "Daone (Pracul)",
      "mm": 0.2
     },
     {
-     "n": "Tione",
+     "n": "Val Sella (Montagnola)",
      "mm": 0.2
     },
     {
-     "n": "Passo Tonale",
+     "n": "Val Genova (Malga Caret)",
      "mm": 0.2
     },
     {
-     "n": "Dos Del Sabion (Monte Grual)",
+     "n": "Pinzolo (Malga Zeledria)",
      "mm": 0.2
     }
    ]
@@ -35,15 +35,11 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Daone (Malga Bissina)",
-     "mm": 0.8
-    },
-    {
-     "n": "Dos Del Sabion (Monte Grual)",
      "mm": 0.8
     },
     {
@@ -51,11 +47,15 @@
      "mm": 0.6
     },
     {
-     "n": "Val di Breguzzo (Ponte Arno')",
+     "n": "Dos Del Sabion (Monte Grual)",
      "mm": 0.6
     },
     {
-     "n": "Passo Tonale",
+     "n": "Grigno (Barricata)",
+     "mm": 0.6
+    },
+    {
+     "n": "Val Sella (Montagnola)",
      "mm": 0.6
     }
    ]
@@ -64,8 +64,8 @@
    "media": 14.4,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Paganella (Malga Terlago)",
@@ -93,8 +93,8 @@
    "media": 105.3,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -133,6 +133,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   0.1,
   1.8,
@@ -148,7 +149,6 @@
   0.5,
   3.2,
   0,
-  0,
   0
  ],
  "zone": [
@@ -163,7 +163,7 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 109.7
@@ -171,7 +171,7 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 135.4
@@ -179,7 +179,7 @@
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 52.8
@@ -187,15 +187,15 @@
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-03",
-   "m1": 0.1,
-   "m7": 0.3,
+   "ultimo": "2026-10-04",
+   "m1": 0,
+   "m7": 0.2,
    "m30": 102.5
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 113.1

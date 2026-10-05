@@ -1,46 +1,50 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-04T06:45:25.363Z",
+ "generato": "2026-10-05T04:00:56.278Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 280,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
     {
-     "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 1.2
+     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
+     "mm": 3.4
     },
     {
-     "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 0.8
+     "n": "ALPE VEGLIA (Provincia del verbano cusio os)",
+     "mm": 2
     },
     {
-     "n": "VACCERA (Torino)",
-     "mm": 0.4
+     "n": "CARCOFORO (Vercelli)",
+     "mm": 0.2
     },
     {
-     "n": "S. GIACOMO DEMONTE (Cuneo)",
-     "mm": 0.4
+     "n": "CERESOLE VILLA (Torino)",
+     "mm": 0.2
     },
     {
-     "n": "ELVA (Cuneo)",
-     "mm": 0.4
+     "n": "VARALLO POMBIA (Novara)",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 0.7,
+   "media": 0.8,
    "giorni": 7,
    "stazioni": 283,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "ACCEGLIO COLLET (Cuneo)",
      "mm": 12.2
+    },
+    {
+     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
+     "mm": 7
     },
     {
      "n": "COLLE DELL'AGNELLO (Cuneo)",
@@ -53,19 +57,15 @@
     {
      "n": "COLLE BERCIA (Torino)",
      "mm": 6
-    },
-    {
-     "n": "PIAN GIASSET (Cuneo)",
-     "mm": 5.4
     }
    ]
   },
   "20": {
-   "media": 8.6,
+   "media": 8.7,
    "giorni": 20,
    "stazioni": 284,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -93,8 +93,8 @@
    "media": 31,
    "giorni": 30,
    "stazioni": 285,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.6,
@@ -148,14 +149,13 @@
   1.2,
   0.3,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.3,
    "m30": 51.4
@@ -163,7 +163,7 @@
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 32.7
@@ -171,7 +171,7 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 12
@@ -179,7 +179,7 @@
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.6,
    "m30": 34
@@ -187,7 +187,7 @@
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.3,
    "m30": 37
@@ -195,15 +195,15 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-03",
-   "m1": 0.1,
+   "ultimo": "2026-10-04",
+   "m1": 0,
    "m7": 1,
    "m30": 57.1
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 48
@@ -211,7 +211,7 @@
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 48.3
@@ -219,15 +219,15 @@
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-03",
-   "m1": 0.1,
+   "ultimo": "2026-10-04",
+   "m1": 0,
    "m7": 2.1,
    "m30": 34.4
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0.8,
    "m30": 15.9
