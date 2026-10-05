@@ -16,6 +16,14 @@ on:
     # Run dopo la mezzanotte locale: l'API pubblica l'aggregato di un giorno solo
     # a giornata conclusa, questo lo raccoglie prima del primo run del mattino
     - cron: '30 22 * * *'
+# ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
+# workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
+# file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca e
+# riparte dai suoi dati. GitHub tiene al massimo UN giro in attesa: se ne arriva un terzo,
+# quello in attesa (identico) viene sostituito, quello in corso non si tocca mai.
+concurrency:
+  group: trentino
+  cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest

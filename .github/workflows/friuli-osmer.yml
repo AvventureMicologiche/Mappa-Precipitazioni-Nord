@@ -22,6 +22,14 @@ on:
     - cron: '35 20 * * *'
 permissions:
   contents: write
+# ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
+# workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
+# file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca e
+# riparte dai suoi dati. GitHub tiene al massimo UN giro in attesa: se ne arriva un terzo,
+# quello in attesa (identico) viene sostituito, quello in corso non si tocca mai.
+concurrency:
+  group: friuli-osmer
+  cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest

@@ -58,6 +58,15 @@ const LANCIA = process.env.LANCIA === '1';
 // due ore: sotto le 2h30 si ri-lancerebbero workflow che stanno solo
 // arrivando tardi, cioe' si farebbe rumore invece che riparazione.
 const MARGINE_MIN = 150;
+// ⚠️ AL MATTINO IL MARGINE E' CORTO (5/10/2026). Il margine lungo e' nato per i giri
+// che GitHub fa partire IN RITARDO; ma nelle notti storte GitHub i giri li SALTA, e
+// aspettare 2h30 un giro che non arrivera' voleva dire dati alle 7 o alle 9 invece che
+// alle 6 (5/10: MeteoHub e Svizzera saltati alle 4:20, il guardiano delle 6:00 e delle
+// 6:30 li ha lasciati stare). Dalle 5 alle 9 italiane chi si alza per andare a funghi
+// deve trovare ieri: si ri-lancia dopo 30'. Doppioni non ce ne sono: dal 5/10 ogni
+// collector ha `concurrency` e un secondo giro aspetta in fila che il primo finisca.
+const MARGINE_MATTINO_MIN = 30;
+const margineAdesso = (adesso) => (oraIT(adesso) >= 5 && oraIT(adesso) < 9) ? MARGINE_MATTINO_MIN : MARGINE_MIN;
 
 // Se il prossimo giro programmato e' dietro l'angolo si lascia stare: fra
 // poco ci pensa lui. Finestra STRETTA apposta — con un giro su tre che salta,
@@ -224,8 +233,9 @@ function controllaCartelle(adesso) {
        conto sugli ultimi venti giri: lo saltava 14 volte su 20. Il 20/9 il
        terzo giro ha mancato la soglia per SETTE MINUTI. */
     const guasto = buco >= 2;
-    if (!guasto && t.daUltimo < MARGINE_MIN) {
-      spiega(`l'ultimo giro e' di ${Math.round(t.daUltimo)}' fa, sotto il margine di ${MARGINE_MIN}'`);
+    const margine = margineAdesso(adesso);
+    if (!guasto && t.daUltimo < margine) {
+      spiega(`l'ultimo giro e' di ${Math.round(t.daUltimo)}' fa, sotto il margine di ${margine}'`);
       continue;
     }
     if (!guasto && t.alProssimo < PROSSIMO_MIN) {
@@ -308,7 +318,7 @@ function main() {
   // tarature (margine, tetto) senza aspettare l'ora giusta del giorno.
   const adesso = process.env.ORA ? new Date(process.env.ORA) : new Date();
   console.log(`Guardiano — ${adesso.toISOString()}  (giorno italiano ${giornoIT(adesso)})`);
-  console.log(`margine ${MARGINE_MIN}'  ·  prossimo ${PROSSIMO_MIN}'  ·  tetto ${MAX_LANCI}`);
+  console.log(`margine ${margineAdesso(adesso)}'  ·  prossimo ${PROSSIMO_MIN}'  ·  tetto ${MAX_LANCI}`);
   console.log(LANCIA ? 'modo: LANCIA' : 'modo: guardo e basta (LANCIA=1 per agire)');
   console.log('');
 
