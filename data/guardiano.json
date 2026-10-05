@@ -673,8 +673,104 @@
       "inRitardo": [],
       "lanciati": [],
       "mancanti": []
+    },
+    {
+      "quando": "2026-10-05T04:00:31.053Z",
+      "inRitardo": [
+        "lombardia",
+        "ticino",
+        "slovenia"
+      ],
+      "lanciati": [
+        "lombardia.yml",
+        "ticino.yml",
+        "slovenia.yml",
+        "riepiloghi.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "emilia",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "lombardia",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "ticino",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "svizzera",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "slovenia",
+          "giorno": "2026-10-03",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-friuli",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-marche",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-umbria",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-lazio",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-molise",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-campania",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-puglia",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-basilicata",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-calabria",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-sicilia",
+          "giorno": "2026-10-04",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-sardegna",
+          "giorno": "2026-10-04",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-04T15:20:33.427Z",
-  "riassunto": "3 giri con qualcosa ri-lanciato su 116 · 5 con qualche giorno mancante · 0 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-05T04:00:31.053Z",
+  "riassunto": "4 giri con qualcosa ri-lanciato su 117 · 6 con qualche giorno mancante · 0 con un buco di 2+ giorni"
 }
