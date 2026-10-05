@@ -39,9 +39,10 @@ const TABELLA = [
   ['23:10', ['altoadige.yml'], 0],
   ['23:25', ['toscana.yml'], 0],
   ['23:40', ['toscana.yml', 'altoadige.yml'], 0],
-  // ── il giorno appena chiuso, per chi lo pubblica subito
-  ['00:45', ['austria.yml', 'francia.yml', 'valledaosta-cf.yml', 'trentino.yml', 'lombardia.yml',
-             'liguria.yml', 'piemonte.yml', 'veneto.yml', 'svizzera.yml', 'ticino.yml'], 30],
+  // ── il giorno appena chiuso, per chi lo pubblica subito. Solo queste quattro (5/10):
+  // le altre le rifà comunque il giro delle 4:30, e un giro in più alle 0:45 era solo
+  // carico in più sulle fonti (la Liguria fa ~440 richieste a giro).
+  ['00:45', ['austria.yml', 'francia.yml', 'valledaosta-cf.yml', 'trentino.yml'], 30],
   // ── il giro principale del mattino, e una seconda passata
   ['04:30', MATTINO, 45],
   ['05:15', ['riepiloghi.yml'], 20],
