@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-09-28",
+  "aggiornato": "2026-10-05",
   "finestra": 45,
   "ferme": [
     {
@@ -10,52 +10,59 @@
       "dal": "2026-09-14"
     },
     {
-      "chiave": "meteohub-campania/41.11500_14.82500",
-      "nome": "Benevento METEO",
+      "chiave": "meteohub-sicilia/37.74639_12.82722",
+      "nome": "Buturro",
+      "regione": "meteohub-sicilia",
+      "perc": 0,
+      "dal": "2026-10-05"
+    },
+    {
+      "chiave": "meteohub-sicilia/37.76556_15.05944",
+      "nome": "Citelli",
+      "regione": "meteohub-sicilia",
+      "perc": 0,
+      "dal": "2026-10-05"
+    },
+    {
+      "chiave": "toscana/TOS11000079",
+      "nome": "Argentario",
+      "regione": "toscana",
+      "perc": 0,
+      "dal": "2026-10-05"
+    },
+    {
+      "chiave": "toscana/TOS01001151",
+      "nome": "Cantagallo",
+      "regione": "toscana",
+      "perc": 5.2,
+      "dal": "2026-10-05"
+    },
+    {
+      "chiave": "meteohub-campania/40.63024_14.38699",
+      "nome": "Sorrento",
       "regione": "meteohub-campania",
-      "perc": 0,
-      "dal": "2026-09-28"
+      "perc": 8,
+      "dal": "2026-10-05"
     },
     {
-      "chiave": "meteohub-sicilia/37.69194_12.75222",
-      "nome": "Trinit� Diga R2",
-      "regione": "meteohub-sicilia",
-      "perc": 0,
-      "dal": "2026-09-28"
-    },
-    {
-      "chiave": "meteohub-sicilia/37.29722_14.07111",
-      "nome": "Riesi_DRPC",
-      "regione": "meteohub-sicilia",
-      "perc": 0,
-      "dal": "2026-09-28"
+      "chiave": "meteohub-campania/40.60639_14.36278",
+      "nome": "Massa Lubrense",
+      "regione": "meteohub-campania",
+      "perc": 10.6,
+      "dal": "2026-10-05"
     },
     {
       "chiave": "meteohub-campania/40.68889_14.51444",
       "nome": "Gragnano",
       "regione": "meteohub-campania",
-      "perc": 9.8,
-      "dal": "2026-09-28"
-    },
-    {
-      "chiave": "meteohub-sicilia/37.16944_13.74111",
-      "nome": "Palma alla Foce",
-      "regione": "meteohub-sicilia",
-      "perc": 13.4,
-      "dal": "2026-09-21"
-    },
-    {
-      "chiave": "francia-occitania/34317001",
-      "nome": "La Vacquerie",
-      "regione": "francia-occitania",
-      "perc": 13.8,
+      "perc": 11.2,
       "dal": "2026-09-28"
     },
     {
       "chiave": "toscana/TOS03001965",
       "nome": "Gabbro",
       "regione": "toscana",
-      "perc": 14.4,
+      "perc": 13.7,
       "dal": "2026-08-24"
     }
   ]
