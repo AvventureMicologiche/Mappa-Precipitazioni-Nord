@@ -29,6 +29,7 @@ on:
     - cron: '43 9 * * *'
 permissions:
   contents: write
+  actions: read     # check-orologio.js legge l'elenco dei run (5/10/2026)
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -151,6 +152,45 @@ jobs:
           ok=0
           for i in 1 2 3; do
             if curl --silent --show-error --ssl-reqd                  --url 'smtps://smtp.gmail.com:465'                  --user "$MAIL_USER:$MAIL_PASS"                  --mail-from "$MAIL_USER"                  --mail-rcpt "$MAIL_TO"                  --upload-file doppioni-mail.eml; then ok=1; break; fi
+            echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
+            sleep 20
+          done
+          [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
+          echo "Mail inviata."
+
+      # ── Quarto inquilino: l'OROLOGIO SU CLOUDFLARE (5/10/2026) ────────────
+      # Il worker «sveglia-guardiano» lancia chiusure serali e giro del mattino.
+      # Se si ferma, i cron di GitHub fanno da riserva ma in silenzio: qui si
+      # controlla che ieri sera e stamattina abbia lanciato davvero.
+      # Vedi .github/scripts/check-orologio.js
+      - name: Controlla l'orologio su Cloudflare
+        id: orologio
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: node .github/scripts/check-orologio.js
+        continue-on-error: true
+
+      - name: Manda la mail dell'orologio
+        if: steps.orologio.outputs.mail == 'true'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ -z "$MAIL_USER" ] || [ -z "$MAIL_PASS" ] || [ -z "$MAIL_TO" ]; then
+            echo "::error::Mancano i secret MAIL_USER / MAIL_PASS / MAIL_TO: la mail non parte."
+            exit 1
+          fi
+          ok=0
+          for i in 1 2 3; do
+            if curl --silent --show-error --ssl-reqd \
+                 --url 'smtps://smtp.gmail.com:465' \
+                 --user "$MAIL_USER:$MAIL_PASS" \
+                 --mail-from "$MAIL_USER" \
+                 --mail-rcpt "$MAIL_TO" \
+                 --upload-file orologio-mail.eml; then ok=1; break; fi
             echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
             sleep 20
           done
