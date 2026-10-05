@@ -1,42 +1,42 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-04T09:33:25.459Z",
+ "generato": "2026-10-05T05:08:04.314Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
     {
-     "n": "Isérables (VS)",
-     "mm": 0.8
+     "n": "Gsteig, Gstaad (BE)",
+     "mm": 13.9
     },
     {
-     "n": "Les Marécottes (VS)",
-     "mm": 0.7
+     "n": "Bruchji (VS)",
+     "mm": 4.7
     },
     {
-     "n": "Ergisch (VS)",
-     "mm": 0.6
+     "n": "Diga Luzzone (TI)",
+     "mm": 2.8
     },
     {
-     "n": "Clusanfe (VS)",
-     "mm": 0.4
+     "n": "La Fouly (VS)",
+     "mm": 2.6
     },
     {
-     "n": "Visperterminen (VS)",
-     "mm": 0.4
+     "n": "Saleina (VS)",
+     "mm": 1.9
     }
    ]
   },
   "7": {
-   "media": 6.7,
+   "media": 6.9,
    "giorni": 7,
    "stazioni": 311,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Mervelier (JU)",
@@ -44,7 +44,11 @@
     },
     {
      "n": "Delémont (JU)",
-     "mm": 26.8
+     "mm": 27
+    },
+    {
+     "n": "Gsteig, Gstaad (BE)",
+     "mm": 26.4
     },
     {
      "n": "Schüpfheim (LU)",
@@ -53,19 +57,15 @@
     {
      "n": "Innerthal (SZ)",
      "mm": 23.9
-    },
-    {
-     "n": "Belp (BE)",
-     "mm": 23.1
     }
    ]
   },
   "20": {
-   "media": 16.4,
+   "media": 14.6,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Flühli, LU (LU)",
-     "mm": 45.5
+     "mm": 40.6
     }
    ]
   },
   "30": {
-   "media": 37.2,
+   "media": 37.4,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Stabio (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   2.2,
   4.5,
@@ -148,8 +149,7 @@
   3.1,
   0.5,
   0,
-  0.1,
-  0
+  0.1
  ],
  "zone": []
 }

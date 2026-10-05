@@ -1,61 +1,61 @@
 {
  "regione": "marche",
- "generato": "2026-10-04T06:45:25.365Z",
+ "generato": "2026-10-05T05:08:04.313Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 108,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Pintura di Bolognola",
-     "mm": 1
-    },
-    {
-     "n": "Sassotetto",
-     "mm": 0.9
+     "mm": 1.5
     },
     {
      "n": "Monte Bove Sud",
-     "mm": 0.6
+     "mm": 0.8
     },
     {
-     "n": "Ussita",
+     "n": "Sassotetto",
+     "mm": 0.5
+    },
+    {
+     "n": "Camponocecchio",
      "mm": 0.2
     },
     {
-     "n": "Sant Angelo in Vado",
+     "n": "Potenza 1",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 0.6,
+   "media": 0.7,
    "giorni": 7,
    "stazioni": 108,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Sassotetto",
-     "mm": 18.3
+     "mm": 18.2
     },
     {
      "n": "Monte Bove Sud",
-     "mm": 4.1
+     "mm": 4.5
     },
     {
      "n": "Pintura di Bolognola",
-     "mm": 2.5
+     "mm": 3.9
     },
     {
-     "n": "Sant Angelo in Vado",
+     "n": "Svarchi",
      "mm": 1.4
     },
     {
-     "n": "Baraccola",
+     "n": "Sant Angelo in Vado",
      "mm": 1.4
     }
    ]
@@ -64,8 +64,8 @@
    "media": 32.5,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Macerata Montalbano",
@@ -93,8 +93,8 @@
    "media": 64.1,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Fossombrone",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Piobbico",
-     "mm": 125.6
+     "mm": 125.8
     },
     {
      "n": "Monte Petrano",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0.1,
@@ -148,8 +149,7 @@
   0.8,
   0,
   0,
-  0,
-  0.1
+  0
  ],
  "zone": [
   {
@@ -163,15 +163,15 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0.4,
-   "m7": 3.7,
-   "m30": 43.4
+   "m7": 4,
+   "m30": 43.5
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0,
    "m7": 0,
    "m30": 30.2

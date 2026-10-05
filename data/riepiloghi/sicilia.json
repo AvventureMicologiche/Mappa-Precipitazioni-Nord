@@ -1,33 +1,33 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-04T06:45:25.365Z",
+ "generato": "2026-10-05T05:08:04.314Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 423,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-03",
+   "stazioni": 424,
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-04",
    "top": [
     {
-     "n": "Caltagirone SP227",
-     "mm": 16.6
+     "n": "Caronia Pomiere SIAS",
+     "mm": 0.4
     },
     {
-     "n": "Santo Pietro",
-     "mm": 6.2
+     "n": "Monte Colla",
+     "mm": 0.4
     },
     {
-     "n": "Comiso",
-     "mm": 6
+     "n": "Intraleo",
+     "mm": 0.2
     },
     {
-     "n": "Ragoleto Diga R2",
-     "mm": 5.9
+     "n": "Miraglia",
+     "mm": 0.2
     },
     {
      "n": "Ippari a Scoglitti",
-     "mm": 5.4
+     "mm": 0.2
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.7,
    "giorni": 7,
    "stazioni": 428,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Milicia SP16",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 43.2,
+   "media": 40.6,
    "giorni": 20,
-   "stazioni": 435,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-03",
+   "stazioni": 434,
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Aci Castello",
@@ -81,7 +81,7 @@
     },
     {
      "n": "San Gregorio",
-     "mm": 166.1
+     "mm": 165.9
     },
     {
      "n": "Lavinaio",
@@ -93,8 +93,8 @@
    "media": 49,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-09-04",
-   "ultimo": "2026-10-03",
+   "primo": "2026-09-05",
+   "ultimo": "2026-10-04",
    "top": [
     {
      "n": "Aci Castello",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.2,
   0.1,
   0.1,
@@ -148,25 +149,24 @@
   0,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-03",
-   "m1": 0.1,
+   "ultimo": "2026-10-04",
+   "m1": 0,
    "m7": 0.6,
    "m30": 51.9
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-03",
+   "ultimo": "2026-10-04",
    "m1": 0.1,
-   "m7": 0.1,
-   "m30": 51
+   "m7": 0.2,
+   "m30": 51.1
   }
  ]
 }
