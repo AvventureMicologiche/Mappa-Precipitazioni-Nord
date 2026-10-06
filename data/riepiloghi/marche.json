@@ -1,71 +1,71 @@
 {
  "regione": "marche",
- "generato": "2026-10-05T10:42:02.961Z",
+ "generato": "2026-10-06T03:16:13.156Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 108,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Pintura di Bolognola",
-     "mm": 1.5
+     "n": "Monte Paganuccio",
+     "mm": 3.4
     },
     {
-     "n": "Monte Bove Sud",
-     "mm": 0.8
-    },
-    {
-     "n": "Sassotetto",
-     "mm": 0.5
-    },
-    {
-     "n": "Camponocecchio",
-     "mm": 0.2
-    },
-    {
-     "n": "Potenza 1",
-     "mm": 0.2
-    }
-   ]
-  },
-  "7": {
-   "media": 0.7,
-   "giorni": 7,
-   "stazioni": 108,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
-   "top": [
-    {
-     "n": "Sassotetto",
-     "mm": 18.2
-    },
-    {
-     "n": "Monte Bove Sud",
-     "mm": 4.5
-    },
-    {
-     "n": "Pintura di Bolognola",
-     "mm": 3.9
-    },
-    {
-     "n": "Svarchi",
-     "mm": 1.4
+     "n": "Cagli Civita",
+     "mm": 2.2
     },
     {
      "n": "Sant Angelo in Vado",
      "mm": 1.4
+    },
+    {
+     "n": "Bronzo",
+     "mm": 1.4
+    },
+    {
+     "n": "Potenza 1",
+     "mm": 1.2
+    }
+   ]
+  },
+  "7": {
+   "media": 0.8,
+   "giorni": 7,
+   "stazioni": 108,
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
+   "top": [
+    {
+     "n": "Sassotetto",
+     "mm": 17.9
+    },
+    {
+     "n": "Pintura di Bolognola",
+     "mm": 5
+    },
+    {
+     "n": "Monte Bove Sud",
+     "mm": 3.8
+    },
+    {
+     "n": "Monte Paganuccio",
+     "mm": 3.6
+    },
+    {
+     "n": "Cagli Civita",
+     "mm": 2.8
     }
    ]
   },
   "20": {
-   "media": 32.5,
+   "media": 32.7,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Macerata Montalbano",
@@ -77,28 +77,28 @@
     },
     {
      "n": "Tavoleto",
-     "mm": 73.6
-    },
-    {
-     "n": "Piobbico",
-     "mm": 70
+     "mm": 74.6
     },
     {
      "n": "Monte Paganuccio",
-     "mm": 67.4
+     "mm": 70.8
+    },
+    {
+     "n": "Piobbico",
+     "mm": 70.4
     }
    ]
   },
   "30": {
-   "media": 64.1,
+   "media": 64.3,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Fossombrone",
-     "mm": 133.2
+     "mm": 133.6
     },
     {
      "n": "Macerata Montalbano",
@@ -106,20 +106,21 @@
     },
     {
      "n": "Piobbico",
-     "mm": 125.8
+     "mm": 126.2
     },
     {
      "n": "Monte Petrano",
-     "mm": 117.8
+     "mm": 118.4
     },
     {
      "n": "Cantiano",
-     "mm": 116.4
+     "mm": 116.6
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.1,
   0,
   0,
@@ -148,30 +149,29 @@
   14.2,
   0.8,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0.1,
-   "m7": 0.2,
-   "m30": 74.1
+   "m7": 0.3,
+   "m30": 74.2
   },
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-04",
-   "m1": 0.4,
-   "m7": 4,
+   "ultimo": "2026-10-05",
+   "m1": 0.2,
+   "m7": 4.1,
    "m30": 43.5
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 30.2

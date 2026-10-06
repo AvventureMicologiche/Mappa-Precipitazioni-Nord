@@ -1,42 +1,42 @@
 {
  "regione": "lazio",
- "generato": "2026-10-05T05:08:04.313Z",
+ "generato": "2026-10-06T03:16:13.156Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.4,
    "giorni": 1,
    "stazioni": 209,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Norma",
-     "mm": 6.1
+     "n": "Fiora a Montalto di Castro",
+     "mm": 5.4
     },
     {
-     "n": "Vetralla Rlazio",
-     "mm": 2.4
+     "n": "Torrente Tafone",
+     "mm": 4.8
     },
     {
-     "n": "Campaegli",
-     "mm": 0.2
+     "n": "Montalto di Castro meteo",
+     "mm": 4
     },
     {
-     "n": "Barbarano",
-     "mm": 0.2
+     "n": "Mignone SS Aurelia",
+     "mm": 3.8
     },
     {
-     "n": "Manziana",
-     "mm": 0.2
+     "n": "Marta a Tarquinia",
+     "mm": 3.4
     }
    ]
   },
   "7": {
-   "media": 0.5,
+   "media": 0.9,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Palombara Sabina",
@@ -44,28 +44,28 @@
     },
     {
      "n": "Pianetto",
-     "mm": 11.7
+     "mm": 14.5
     },
     {
      "n": "Viterbo",
-     "mm": 9.9
+     "mm": 11.9
     },
     {
      "n": "Paglia a Proceno",
-     "mm": 8.8
+     "mm": 10
     },
     {
      "n": "Valentano",
-     "mm": 7.4
+     "mm": 9.8
     }
    ]
   },
   "20": {
-   "media": 9.8,
+   "media": 10.2,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Roma Nord",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 51.2,
+   "media": 51.6,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Tor Vergata",
@@ -102,7 +102,11 @@
     },
     {
      "n": "Rota",
-     "mm": 126.7
+     "mm": 128.5
+    },
+    {
+     "n": "Pianetto",
+     "mm": 120
     },
     {
      "n": "Falcognana",
@@ -111,15 +115,12 @@
     {
      "n": "Roma Nord",
      "mm": 119.1
-    },
-    {
-     "n": "Pianetto",
-     "mm": 117.2
     }
    ]
   }
  },
  "serie": [
+  0.4,
   0,
   0.2,
   0,
@@ -148,14 +149,13 @@
   0.2,
   0,
   0.2,
-  0,
   0
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 38
@@ -163,7 +163,7 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 38.5
@@ -171,7 +171,7 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 28.2
@@ -179,15 +179,15 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 38.7
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0.9,
    "m30": 9.8
@@ -195,7 +195,7 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 38.1
@@ -203,7 +203,7 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 28.3

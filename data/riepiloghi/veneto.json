@@ -1,71 +1,71 @@
 {
  "regione": "veneto",
- "generato": "2026-10-05T18:24:43.125Z",
+ "generato": "2026-10-06T03:16:13.155Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "stazioni": 184,
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Campagna Lupia - Valle Averto (VE)",
-     "mm": 0.2
+     "n": "Vicenza - Sant'Agostino (VI)",
+     "mm": 11.6
     },
     {
-     "n": "Santa Giustina Bellunese (BL)",
-     "mm": 0.2
+     "n": "Dolce' (VR)",
+     "mm": 2
     },
     {
-     "n": "Podestagno (Cortina d'Ampezzo) (BL)",
-     "mm": 0
+     "n": "San Pietro in Cariano (VR)",
+     "mm": 1.6
     },
     {
-     "n": "Faloria (BL)",
-     "mm": 0
+     "n": "Marano di Valpolicella (VR)",
+     "mm": 1.4
     },
     {
      "n": "Sospirolo (BL)",
-     "mm": 0
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Montegalda (VI)",
-     "mm": 1.2
+     "n": "Vicenza - Sant'Agostino (VI)",
+     "mm": 11.8
     },
     {
-     "n": "Villafranca di Verona (VR)",
-     "mm": 1
+     "n": "Dolce' (VR)",
+     "mm": 2
     },
     {
      "n": "Castelnuovo del Garda (VR)",
-     "mm": 1
+     "mm": 2
     },
     {
-     "n": "Montebelluna loc. Contea (TV)",
-     "mm": 1
+     "n": "San Pietro in Cariano (VR)",
+     "mm": 1.6
     },
     {
-     "n": "Conegliano (TV)",
-     "mm": 0.8
+     "n": "Marano di Valpolicella (VR)",
+     "mm": 1.4
     }
    ]
   },
   "20": {
-   "media": 18.1,
+   "media": 18.2,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 88.2,
+   "media": 88.3,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   0,
@@ -148,30 +149,29 @@
   23.7,
   0.1,
   1.7,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0.1,
    "m30": 118.6
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 103.4
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0.1,
    "m30": 119.3
@@ -179,31 +179,31 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0,
-   "m30": 108
+   "ultimo": "2026-10-05",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 108.2
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 93.5
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0.1,
    "m30": 119.3
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 94.4

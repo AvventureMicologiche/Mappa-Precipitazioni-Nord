@@ -1,71 +1,71 @@
 {
  "regione": "umbria",
- "generato": "2026-10-05T05:08:04.313Z",
+ "generato": "2026-10-06T03:16:13.156Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 77,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Monte Cucco",
-     "mm": 0.2
+     "n": "Ripalvella",
+     "mm": 1.6
     },
     {
-     "n": "La Bolsella",
-     "mm": 0
+     "n": "Pistrino",
+     "mm": 1
     },
     {
-     "n": "Forca Canapine",
-     "mm": 0
+     "n": "Campogrande",
+     "mm": 1
     },
     {
-     "n": "Armenzano",
-     "mm": 0
+     "n": "Amelia",
+     "mm": 0.8
     },
     {
-     "n": "Tresa",
-     "mm": 0
+     "n": "S.Savino",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 7,
-   "stazioni": 78,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
+   "stazioni": 77,
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Scheggia",
-     "mm": 0.4
+     "n": "Ripalvella",
+     "mm": 1.6
     },
     {
-     "n": "Monte Cucco",
-     "mm": 0.2
+     "n": "Pistrino",
+     "mm": 1
     },
     {
-     "n": "Trestina",
-     "mm": 0.2
+     "n": "Campogrande",
+     "mm": 1
     },
     {
-     "n": "Branca",
-     "mm": 0.2
+     "n": "Amelia",
+     "mm": 0.8
     },
     {
-     "n": "La Bolsella",
-     "mm": 0
+     "n": "S.Savino",
+     "mm": 0.8
     }
    ]
   },
   "20": {
-   "media": 14.6,
+   "media": 15,
    "giorni": 20,
-   "stazioni": 79,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "stazioni": 78,
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Montelovesco",
@@ -73,11 +73,11 @@
     },
     {
      "n": "Pierantonio",
-     "mm": 52.2
+     "mm": 52.4
     },
     {
      "n": "Bocca Serriola",
-     "mm": 46.5
+     "mm": 47
     },
     {
      "n": "Castagnacupa",
@@ -85,41 +85,42 @@
     },
     {
      "n": "Scheggia",
-     "mm": 44.8
+     "mm": 45
     }
    ]
   },
   "30": {
-   "media": 46.3,
+   "media": 46.5,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Scheggia",
-     "mm": 96.8
+     "mm": 97
+    },
+    {
+     "n": "Bocca Serriola",
+     "mm": 95.3
     },
     {
      "n": "Montelovesco",
      "mm": 95.2
     },
     {
-     "n": "Bocca Serriola",
-     "mm": 94.8
-    },
-    {
      "n": "Pierantonio",
-     "mm": 89
+     "mm": 89.2
     },
     {
      "n": "Monte Cucco",
-     "mm": 88.6
+     "mm": 89
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   0,
@@ -148,22 +149,21 @@
   2,
   0.1,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 75
+   "ultimo": "2026-10-05",
+   "m1": 0.5,
+   "m7": 0.5,
+   "m30": 75.5
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 34.3
@@ -171,10 +171,10 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0,
-   "m30": 48.3
+   "ultimo": "2026-10-05",
+   "m1": 0.8,
+   "m7": 0.8,
+   "m30": 49.1
   }
  ]
 }

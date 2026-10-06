@@ -1,71 +1,71 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-05T10:42:02.960Z",
+ "generato": "2026-10-06T03:16:13.154Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 280,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "stazioni": 278,
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
-     "mm": 5
+     "n": "ARVOGNO (Provincia del verbano cusio os)",
+     "mm": 5.6
     },
     {
-     "n": "ALPE VEGLIA (Provincia del verbano cusio os)",
-     "mm": 2.4
+     "n": "BELLINO (Cuneo)",
+     "mm": 5.1
     },
     {
-     "n": "MACUGNAGA RIFUGIO ZAMBONI (Provincia del verbano cusio os)",
-     "mm": 2.2
+     "n": "COLLE DELL'AGNELLO (Cuneo)",
+     "mm": 4.6
     },
     {
-     "n": "ALPE DEVERO (Provincia del verbano cusio os)",
-     "mm": 0.2
+     "n": "ELVA (Cuneo)",
+     "mm": 3.4
     },
     {
-     "n": "CARCOFORO (Vercelli)",
-     "mm": 0.2
+     "n": "LARECCHIO (Provincia del verbano cusio os)",
+     "mm": 3.2
     }
    ]
   },
   "7": {
-   "media": 0.8,
+   "media": 0.9,
    "giorni": 7,
    "stazioni": 283,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "ACCEGLIO COLLET (Cuneo)",
-     "mm": 12.2
-    },
-    {
-     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
-     "mm": 8.6
-    },
-    {
-     "n": "COLLE DELL'AGNELLO (Cuneo)",
-     "mm": 7
+     "mm": 13.8
     },
     {
      "n": "BELLINO (Cuneo)",
-     "mm": 6.6
+     "mm": 11.7
     },
     {
-     "n": "COLLE BERCIA (Torino)",
-     "mm": 6
+     "n": "COLLE DELL'AGNELLO (Cuneo)",
+     "mm": 11.6
+    },
+    {
+     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
+     "mm": 10.2
+    },
+    {
+     "n": "PONTECHIANALE (Cuneo)",
+     "mm": 6.8
     }
    ]
   },
   "20": {
-   "media": 8.7,
+   "media": 8.8,
    "giorni": 20,
    "stazioni": 284,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 31,
+   "media": 31.2,
    "giorni": 30,
    "stazioni": 285,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "SANTENA BANNA (Torino)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,14 +149,13 @@
   14.1,
   1.2,
   0.3,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0.3,
    "m30": 51.4
@@ -163,7 +163,7 @@
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 32.7
@@ -171,23 +171,23 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 12
+   "ultimo": "2026-10-05",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 12.2
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0.6,
+   "ultimo": "2026-10-05",
+   "m1": 0.1,
+   "m7": 0.7,
    "m30": 34
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0.3,
    "m30": 37
@@ -195,7 +195,7 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 1,
    "m30": 57.1
@@ -203,7 +203,7 @@
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0,
    "m30": 48
@@ -211,15 +211,15 @@
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-04",
-   "m1": 0,
-   "m7": 0,
-   "m30": 48.3
+   "ultimo": "2026-10-05",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 48.5
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 2.1,
    "m30": 34.4
@@ -227,7 +227,7 @@
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-04",
+   "ultimo": "2026-10-05",
    "m1": 0,
    "m7": 0.8,
    "m30": 15.9

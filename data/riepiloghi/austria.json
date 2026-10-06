@@ -1,71 +1,71 @@
 {
  "regione": "austria",
- "generato": "2026-10-05T15:16:14.604Z",
+ "generato": "2026-10-06T03:16:13.157Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 2.2,
    "giorni": 1,
-   "stazioni": 269,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-04",
+   "stazioni": 265,
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-05",
    "top": [
     {
-     "n": "Ischgl-Idalpe (Tirol)",
-     "mm": 1.7
+     "n": "Innsbruck Universität (Tirol)",
+     "mm": 26.5
     },
     {
-     "n": "Weiz (Steiermark)",
-     "mm": 0.9
+     "n": "Schoppernau (Vorarlberg)",
+     "mm": 25.5
     },
     {
-     "n": "Nauders (Tirol)",
-     "mm": 0.3
+     "n": "Langen am Arlberg (Vorarlberg)",
+     "mm": 22.2
     },
     {
-     "n": "Gaschurn (Vorarlberg)",
-     "mm": 0.1
+     "n": "Galzig (Tirol)",
+     "mm": 21.8
     },
     {
-     "n": "Aflenz (Steiermark)",
-     "mm": 0
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 21.6
     }
    ]
   },
   "7": {
-   "media": 0.6,
+   "media": 2.7,
    "giorni": 7,
    "stazioni": 269,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
-     "mm": 13.7
+     "mm": 29.9
     },
     {
-     "n": "Ehrwald (Tirol)",
-     "mm": 9.7
+     "n": "Langen am Arlberg (Vorarlberg)",
+     "mm": 28.4
     },
     {
-     "n": "Landeck (Tirol)",
-     "mm": 9.1
+     "n": "Schoppernau (Vorarlberg)",
+     "mm": 27.7
+    },
+    {
+     "n": "Innsbruck Universität (Tirol)",
+     "mm": 26.5
     },
     {
      "n": "Imst (Tirol)",
-     "mm": 8.6
-    },
-    {
-     "n": "Ischgl-Idalpe (Tirol)",
-     "mm": 8
+     "mm": 25.2
     }
    ]
   },
   "20": {
-   "media": 22.9,
+   "media": 25,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
@@ -76,50 +76,51 @@
      "mm": 62.5
     },
     {
+     "n": "Achenkirch (Tirol)",
+     "mm": 61.2
+    },
+    {
      "n": "Abtenau (Salzburg)",
-     "mm": 60.2
+     "mm": 60.3
     },
     {
      "n": "St.Johann im Pongau (Salzburg)",
      "mm": 59.4
-    },
-    {
-     "n": "Rudolfshütte (Salzburg)",
-     "mm": 58.8
     }
    ]
   },
   "30": {
-   "media": 63.5,
+   "media": 64,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-05",
-   "ultimo": "2026-10-04",
+   "primo": "2026-09-06",
+   "ultimo": "2026-10-05",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 154.5
+     "mm": 152.8
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 150.3
+     "mm": 138.5
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
-     "mm": 129.9
+     "mm": 129.4
     },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
-     "mm": 125.4
+     "mm": 121.6
     },
     {
-     "n": "Micheldorf (Oberösterreich)",
-     "mm": 118.8
+     "n": "Feldkirchen (Kärnten)",
+     "mm": 115.4
     }
    ]
   }
  },
  "serie": [
+  2.2,
   0,
   0,
   0.5,
@@ -148,8 +149,7 @@
   9.1,
   0.2,
   1.4,
-  0,
-  1.7
+  0
  ],
  "zone": []
 }
