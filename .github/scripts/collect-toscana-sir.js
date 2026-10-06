@@ -260,6 +260,23 @@ async function main() {
   // Nei run di chiusura serali la protezione glitch NON si applica: lo 0 a fine giornata
   // è un dato reale, e preservare il valore precedente congelerebbe la pioggia di ieri
   // trascinata dai run del mattino (bug #17, vedi commento in testa al file).
+  // ⚠️ UNA CHIUSURA TARDIVA NON RISCRIVE UN GIORNO GIA' CHIUSO IN ORARIO (6/10/2026).
+  // Dal 5/10 le chiusure le lancia l'orologio su Cloudflare alle 22:40-23:40, e GitHub
+  // tiene i suoi tre cron come riserva. La prima notte GitHub li ha fatti partire alle
+  // 3:17-3:46: con closingLate hanno riscritto il file del 5/10, chiuso bene alle 23:40,
+  // con la finestra Δ24h spostata di quasi quattro ore. Se il file di ieri porta un
+  // `collected` fra le 22:00 e mezzanotte italiane di quel giorno e' gia' chiuso in
+  // orario: il giro tardivo non tocca i millimetri (il passo t/u di ieri resta).
+  let giaChiusoInOrario = false;
+  if (closingLate && fs.existsSync(outFile)) {
+    try {
+      const ex = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      if (ex.date === dateStr && ex.collected && !ex.closing_late) {
+        const c = new Date(ex.collected), cIt = new Date(c.getTime() + getItalyOffset(c) * 3600000);
+        if (cIt.toISOString().slice(0, 10) === dateStr && cIt.getUTCHours() >= 22) giaChiusoInOrario = true;   // getter UTC: fmtDate usa quelli locali e in Italia slitterebbe
+      }
+    } catch (e) {}
+  }
   let finalStations = stations;
   if (fs.existsSync(outFile)) {
     try {
@@ -287,6 +304,9 @@ async function main() {
 
   // closing_late: la spia. Se il giro di chiusura e' arrivato dopo mezzanotte lo si scrive nel
   // file, cosi' si vede senza andare a leggere i log di GitHub.
+  if (giaChiusoInOrario) {
+    console.log(`  ⏭ ${dateStr} risulta gia' chiuso in orario (collected ${JSON.parse(fs.readFileSync(outFile, 'utf8')).collected}): il giro tardivo non riscrive i millimetri`);
+  } else {
   fs.writeFileSync(outFile, JSON.stringify(Object.assign({
     date:      dateStr,
     collected: new Date().toISOString(),
@@ -294,6 +314,7 @@ async function main() {
     count:     finalStations.length
   }, closingLate ? { closing_late: nowRun.toISOString() } : {}, { stations: finalStations })));
   console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
+  }
 
   // ── Temperatura (dall'11/8/2026 — grafici stazione) ────────────────
   // La pagina SIR type=termo pubblica min/max di OGGI (progressivi, i run
