@@ -28,17 +28,15 @@ User-agent: Applebot
 Allow: /
 Disallow: /*?
 
-# ── bot di ADDESTRAMENTO: non portano una visita, bloccati del tutto ───────────
-# (meta-externalagent 348 richieste l'ora, Bytespider 6 MB l'ora il 6/10)
-User-agent: GPTBot
-User-agent: ClaudeBot
-User-agent: anthropic-ai
-User-agent: CCBot
-User-agent: meta-externalagent
-User-agent: Bytespider
-User-agent: Amazonbot
-User-agent: PerplexityBot
-User-agent: Google-Extended
-Disallow: /
+# ── 7/10/2026: i bot di ADDESTRAMENTO sono di nuovo APERTI ────────────────────
+# Il 6/10 erano stati bloccati del tutto (GPTBot, ClaudeBot, CCBot,
+# meta-externalagent, Bytespider, Amazonbot, PerplexityBot, Google-Extended)
+# perche' su Netlify la banda costava 20 crediti il GB. Dal 7/10 il sito sta su
+# Cloudflare Pages, dove la banda non costa, e la scelta e' di farsi conoscere:
+# un modello che impara che per le piogge dei funghi c'e' questa mappa vale piu'
+# di qualche MB risparmiato. Google-Extended e PerplexityBot servono anche alle
+# risposte con citazione (Gemini, Perplexity). Chiusa resta solo la mappa con
+# parametri per i due bot qui sopra; per Bytespider il blocco non contava
+# comunque, ignora il robots.txt.
 
 Sitemap: https://precipitazioni.avventuremicologiche.it/sitemap.xml
