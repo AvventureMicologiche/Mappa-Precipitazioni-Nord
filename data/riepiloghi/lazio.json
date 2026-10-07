@@ -1,71 +1,71 @@
 {
  "regione": "lazio",
- "generato": "2026-10-06T03:16:13.156Z",
+ "generato": "2026-10-07T03:16:12.323Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 2.3,
    "giorni": 1,
    "stazioni": 209,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Fiora a Montalto di Castro",
-     "mm": 5.4
+     "n": "Sabaudia",
+     "mm": 41.7
     },
     {
-     "n": "Torrente Tafone",
-     "mm": 4.8
+     "n": "Anzio",
+     "mm": 36.6
     },
     {
-     "n": "Montalto di Castro meteo",
-     "mm": 4
+     "n": "Gaeta",
+     "mm": 21.6
     },
     {
-     "n": "Mignone SS Aurelia",
-     "mm": 3.8
+     "n": "Rio Cassano",
+     "mm": 20.9
     },
     {
-     "n": "Marta a Tarquinia",
-     "mm": 3.4
+     "n": "Itri",
+     "mm": 20
     }
    ]
   },
   "7": {
-   "media": 0.9,
+   "media": 3.2,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
+    {
+     "n": "Sabaudia",
+     "mm": 41.7
+    },
     {
      "n": "Palombara Sabina",
      "mm": 38.9
     },
     {
-     "n": "Pianetto",
-     "mm": 14.5
+     "n": "Anzio",
+     "mm": 36.6
     },
     {
-     "n": "Viterbo",
-     "mm": 11.9
+     "n": "Gaeta",
+     "mm": 21.6
     },
     {
-     "n": "Paglia a Proceno",
-     "mm": 10
-    },
-    {
-     "n": "Valentano",
-     "mm": 9.8
+     "n": "Rio Cassano",
+     "mm": 20.9
     }
    ]
   },
   "20": {
-   "media": 10.2,
+   "media": 12.5,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Roma Nord",
@@ -76,33 +76,33 @@
      "mm": 57.5
     },
     {
+     "n": "Pomezia",
+     "mm": 52.2
+    },
+    {
+     "n": "Gaeta",
+     "mm": 52
+    },
+    {
      "n": "Monte Mario",
      "mm": 51.4
-    },
-    {
-     "n": "Acqua Acetosa",
-     "mm": 50.5
-    },
-    {
-     "n": "Aniene a Ponte Salario",
-     "mm": 50.5
     }
    ]
   },
   "30": {
-   "media": 51.6,
+   "media": 53.9,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Tor Vergata",
-     "mm": 156
+     "mm": 157.4
     },
     {
      "n": "Rota",
-     "mm": 128.5
+     "mm": 129.9
     },
     {
      "n": "Pianetto",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  2.3,
   0.4,
   0,
   0.2,
@@ -148,22 +149,21 @@
   36.6,
   0.2,
   0,
-  0.2,
-  0
+  0.2
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 38
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
+   "m7": 0.2,
+   "m30": 38.2
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
    "m7": 0,
    "m30": 38.5
@@ -171,42 +171,42 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 28.2
+   "ultimo": "2026-10-06",
+   "m1": 1.6,
+   "m7": 1.6,
+   "m30": 29.8
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 38.7
+   "ultimo": "2026-10-06",
+   "m1": 1.4,
+   "m7": 1.4,
+   "m30": 40.1
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.9,
-   "m30": 9.8
+   "ultimo": "2026-10-06",
+   "m1": 0.3,
+   "m7": 1.2,
+   "m30": 10.1
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 38.1
+   "ultimo": "2026-10-06",
+   "m1": 2.1,
+   "m7": 2.1,
+   "m30": 40.1
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 28.3
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 28.5
   }
  ]
 }

@@ -1,46 +1,54 @@
 {
  "regione": "trentino",
- "generato": "2026-10-06T03:16:13.156Z",
+ "generato": "2026-10-07T03:16:12.322Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Bresimo (Malga Bordolona)",
-     "mm": 8
+     "n": "Pian Palu' (Malga Giumella)",
+     "mm": 11
     },
     {
-     "n": "Castelfondo (Malga Castrin)",
-     "mm": 4
+     "n": "Careser (Diga)",
+     "mm": 3.6
     },
     {
-     "n": "Passo Mendola",
-     "mm": 3.8
+     "n": "Passo Tonale",
+     "mm": 1.6
     },
     {
-     "n": "Fondo",
-     "mm": 3
+     "n": "Dos Del Sabion (Monte Grual)",
+     "mm": 1.6
     },
     {
-     "n": "Val D'Ambiez",
-     "mm": 2.8
+     "n": "Male'",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 0.5,
+   "media": 0.7,
    "giorni": 7,
    "stazioni": 103,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
+    {
+     "n": "Pian Palu' (Malga Giumella)",
+     "mm": 11
+    },
     {
      "n": "Bresimo (Malga Bordolona)",
      "mm": 8
+    },
+    {
+     "n": "Careser (Diga)",
+     "mm": 6
     },
     {
      "n": "Castelfondo (Malga Castrin)",
@@ -49,52 +57,44 @@
     {
      "n": "Passo Mendola",
      "mm": 3.8
-    },
-    {
-     "n": "Pradalago (Rifugio Viviani)",
-     "mm": 3
-    },
-    {
-     "n": "Fondo",
-     "mm": 3
     }
    ]
   },
   "20": {
-   "media": 14.8,
+   "media": 12.1,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
-    {
-     "n": "Paganella (Malga Terlago)",
-     "mm": 32
-    },
-    {
-     "n": "Capriana",
-     "mm": 31
-    },
-    {
-     "n": "Dos Del Sabion (Monte Grual)",
-     "mm": 30
-    },
-    {
-     "n": "Passo Tonale",
-     "mm": 27.4
-    },
     {
      "n": "Folgaria",
      "mm": 27
+    },
+    {
+     "n": "Paganella (Malga Terlago)",
+     "mm": 26.4
+    },
+    {
+     "n": "Storo",
+     "mm": 25.8
+    },
+    {
+     "n": "Val Sella (Montagnola)",
+     "mm": 24.2
+    },
+    {
+     "n": "Pian Palu' (Malga Giumella)",
+     "mm": 23.2
     }
    ]
   },
   "30": {
-   "media": 105.7,
+   "media": 105.9,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Storo",
-     "mm": 169.8
+     "mm": 170
     },
     {
      "n": "Tremalzo",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0.4,
   0,
   0,
@@ -148,22 +149,21 @@
   40.9,
   47.7,
   0.5,
-  3.2,
-  0
+  3.2
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-05",
-   "m1": 2.2,
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
    "m7": 2.2,
    "m30": 144.8
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
    "m7": 0,
    "m30": 109.7
@@ -171,33 +171,33 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 135.4
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-05",
-   "m1": 1.7,
-   "m7": 1.7,
-   "m30": 54.5
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
+   "m7": 1.8,
+   "m30": 54.6
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-05",
-   "m1": 0.5,
-   "m7": 0.7,
-   "m30": 102.9
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 0.9,
+   "m30": 103.1
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 113.1
   }
  ]

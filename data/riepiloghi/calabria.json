@@ -1,16 +1,16 @@
 {
  "regione": "calabria",
- "generato": "2026-10-06T03:16:13.157Z",
+ "generato": "2026-10-07T03:16:12.324Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 140,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Laino Borgo",
+     "n": "Spineto",
      "mm": 0.2
     },
     {
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Serrarossa",
@@ -47,25 +47,25 @@
      "mm": 1
     },
     {
-     "n": "Mongiana P.",
-     "mm": 0.6
-    },
-    {
      "n": "Nocelle-Arvo",
      "mm": 0.4
     },
     {
      "n": "Oriolo",
      "mm": 0.4
+    },
+    {
+     "n": "Spineto",
+     "mm": 0.4
     }
    ]
   },
   "20": {
-   "media": 28.5,
+   "media": 28.3,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Monte Scrisi",
@@ -93,12 +93,12 @@
    "media": 50.7,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 132.2
+     "mm": 132
     },
     {
      "n": "Reggio Calabria - Catona",
@@ -129,6 +129,7 @@
   0,
   0,
   0,
+  0,
   0.2,
   7.3,
   0,
@@ -148,14 +149,13 @@
   0,
   0.6,
   0.3,
-  0,
   0
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
    "m7": 0.1,
    "m30": 58.1
@@ -163,8 +163,8 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-05",
-   "m1": 0,
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
    "m7": 0.3,
    "m30": 64.4
   }

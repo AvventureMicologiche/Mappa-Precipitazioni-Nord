@@ -1,116 +1,116 @@
 {
  "regione": "liguria",
- "generato": "2026-10-06T03:16:13.155Z",
+ "generato": "2026-10-07T03:16:12.321Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 1.2,
    "giorni": 1,
-   "stazioni": 198,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "stazioni": 197,
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Calice Ligure - Ca Rosse (Calice Ligure)",
-     "mm": 35.6
+     "n": "Statale (Ne)",
+     "mm": 24.8
     },
     {
-     "n": "Albenga - Isolabella (Albenga)",
-     "mm": 18
+     "n": "Loco Carchelli (Rovegno)",
+     "mm": 20.6
     },
     {
-     "n": "Verzi Loano (Loano)",
-     "mm": 16.6
+     "n": "Casoni di Suvero (Zignago)",
+     "mm": 19.8
     },
     {
-     "n": "Carpe - Case Garoni (Toirano)",
-     "mm": 13.4
+     "n": "Sero' di Zignago (Zignago)",
+     "mm": 12.4
     },
     {
-     "n": "Ellera - Foglietto (Albisola Superiore)",
-     "mm": 13.4
+     "n": "Brugneto Diga (Torriglia)",
+     "mm": 11.4
     }
    ]
   },
   "7": {
-   "media": 1.2,
+   "media": 2.3,
    "giorni": 7,
    "stazioni": 198,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Calice Ligure - Ca Rosse (Calice Ligure)",
-     "mm": 36
+     "mm": 36.4
+    },
+    {
+     "n": "Statale (Ne)",
+     "mm": 24.8
+    },
+    {
+     "n": "Loco Carchelli (Rovegno)",
+     "mm": 21.4
+    },
+    {
+     "n": "Casoni di Suvero (Zignago)",
+     "mm": 19.8
     },
     {
      "n": "Albenga - Isolabella (Albenga)",
-     "mm": 18
-    },
-    {
-     "n": "Verzi Loano (Loano)",
-     "mm": 17.6
-    },
-    {
-     "n": "Genova - Pontedecimo (Genova)",
-     "mm": 15.2
-    },
-    {
-     "n": "Ellera - Foglietto (Albisola Superiore)",
-     "mm": 14.8
+     "mm": 19.6
     }
    ]
   },
   "20": {
-   "media": 21.8,
+   "media": 21.3,
    "giorni": 20,
    "stazioni": 198,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Fiorino (Genova)",
-     "mm": 222.4
+     "n": "Sciarborasca (Cogoleto)",
+     "mm": 175.2
     },
     {
-     "n": "Sciarborasca (Cogoleto)",
-     "mm": 191
+     "n": "Fiorino (Genova)",
+     "mm": 172.2
     },
     {
      "n": "Lerca (Cogoleto)",
-     "mm": 125.2
+     "mm": 116.8
     },
     {
-     "n": "Passo del Turchino (Mele)",
-     "mm": 96.4
+     "n": "La Spezia - Fabiano (La Spezia)",
+     "mm": 73.2
     },
     {
-     "n": "Mele (Mele)",
-     "mm": 76
+     "n": "Viganego (Bargagli)",
+     "mm": 70.8
     }
    ]
   },
   "30": {
-   "media": 73.3,
+   "media": 74.5,
    "giorni": 30,
    "stazioni": 198,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Cabanne (Rezzoaglio)",
-     "mm": 331.2
+     "mm": 332
     },
     {
      "n": "Barbagelata (Lorsica)",
-     "mm": 307.1
+     "mm": 307.7
     },
     {
      "n": "Amborzasco (Santo Stefano d'Aveto)",
-     "mm": 276
+     "mm": 286.8
     },
     {
      "n": "Ognio (Neirone)",
-     "mm": 266.2
+     "mm": 266.8
     },
     {
      "n": "Croce Orero (Orero)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  1.2,
   0.7,
   0,
   0,
@@ -148,30 +149,29 @@
   13.4,
   37.9,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-dei-campassi",
    "n": "Valle dei Campassi",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.7,
-   "m30": 91.4
+   "ultimo": "2026-10-06",
+   "m1": 3.7,
+   "m7": 4.4,
+   "m30": 95.2
   },
   {
    "s": "val-bormida",
    "n": "Val Bormida",
-   "ultimo": "2026-10-05",
-   "m1": 0.1,
-   "m7": 1.3,
-   "m30": 26.4
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 1.6,
+   "m30": 26.6
   },
   {
    "s": "val-varenna",
    "n": "Val Varenna",
-   "ultimo": "2026-10-05",
+   "ultimo": "2026-10-06",
    "m1": 0,
    "m7": 1.5,
    "m30": 58.1
@@ -179,74 +179,74 @@
   {
    "s": "val-neva",
    "n": "Val Neva",
-   "ultimo": "2026-10-05",
-   "m1": 0.3,
-   "m7": 0.7,
-   "m30": 3.7
+   "ultimo": "2026-10-06",
+   "m1": 1.7,
+   "m7": 2.4,
+   "m30": 5.4
   },
   {
    "s": "terra-brigasca",
    "n": "Terra brigasca",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 2.7
+   "ultimo": "2026-10-06",
+   "m1": 2.1,
+   "m7": 2.3,
+   "m30": 4.8
   },
   {
    "s": "riviera-di-levante",
    "n": "Riviera di Levante",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 246.8
+   "ultimo": "2026-10-06",
+   "m1": 0.6,
+   "m7": 0.6,
+   "m30": 247.4
   },
   {
    "s": "val-bisagno",
    "n": "Val Bisagno",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 170.7
+   "ultimo": "2026-10-06",
+   "m1": 2.5,
+   "m7": 2.5,
+   "m30": 173.2
   },
   {
    "s": "val-cichero",
    "n": "Val Cichero",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 180
+   "ultimo": "2026-10-06",
+   "m1": 4.5,
+   "m7": 4.5,
+   "m30": 184.5
   },
   {
    "s": "val-di-vara",
    "n": "Val di Vara",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 89.3
+   "ultimo": "2026-10-06",
+   "m1": 7.2,
+   "m7": 7.2,
+   "m30": 96.4
   },
   {
    "s": "val-d-aveto",
    "n": "Val d'Aveto",
-   "ultimo": "2026-10-05",
-   "m1": 0.1,
-   "m7": 0.4,
-   "m30": 278.8
+   "ultimo": "2026-10-06",
+   "m1": 0.8,
+   "m7": 1.1,
+   "m30": 279.6
   },
   {
    "s": "val-varatella",
    "n": "Val Varatella",
-   "ultimo": "2026-10-05",
-   "m1": 6.3,
-   "m7": 7.6,
-   "m30": 14.7
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 7.8,
+   "m30": 14.9
   },
   {
    "s": "val-roia",
    "n": "Val Roia",
-   "ultimo": "2026-10-05",
-   "m1": 0.4,
-   "m7": 0.7,
-   "m30": 1.4
+   "ultimo": "2026-10-06",
+   "m1": 1.2,
+   "m7": 1.9,
+   "m30": 2.6
   }
  ]
 }

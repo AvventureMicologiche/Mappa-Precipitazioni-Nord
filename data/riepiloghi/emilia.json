@@ -1,71 +1,71 @@
 {
  "regione": "emilia",
- "generato": "2026-10-06T03:16:13.155Z",
+ "generato": "2026-10-07T03:16:12.321Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.5,
    "giorni": 1,
-   "stazioni": 327,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "stazioni": 301,
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Case Bonini (Piacenza)",
-     "mm": 2
+     "n": "Loco Carchelli (Genova)",
+     "mm": 20.6
     },
     {
-     "n": "Cafragna (Parma)",
-     "mm": 2
+     "n": "Pracchia (Pistoia)",
+     "mm": 12.1
     },
     {
-     "n": "Neviano Arduini (Parma)",
-     "mm": 1.8
+     "n": "Monteacuto delle Alpi (Bologna)",
+     "mm": 11.5
     },
     {
-     "n": "Varano Marchesi (Parma)",
-     "mm": 1.6
+     "n": "Diga del Brugneto (Genova)",
+     "mm": 11.4
     },
     {
-     "n": "Pieve di Cusignano (Parma)",
-     "mm": 1.6
+     "n": "Corniolo (Forlì-Cesena)",
+     "mm": 6.8
     }
    ]
   },
   "7": {
-   "media": 0.1,
+   "media": 0.6,
    "giorni": 7,
    "stazioni": 332,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Case Bonini (Piacenza)",
-     "mm": 2.2
+     "n": "Loco Carchelli (Genova)",
+     "mm": 21.2
     },
     {
-     "n": "Cafragna (Parma)",
-     "mm": 2
+     "n": "Pracchia (Pistoia)",
+     "mm": 12.1
     },
     {
-     "n": "Neviano Arduini (Parma)",
-     "mm": 1.8
+     "n": "Diga del Brugneto (Genova)",
+     "mm": 11.6
     },
     {
-     "n": "Varano Marchesi (Parma)",
-     "mm": 1.6
+     "n": "Monteacuto delle Alpi (Bologna)",
+     "mm": 11.5
     },
     {
-     "n": "Pieve di Cusignano (Parma)",
-     "mm": 1.6
+     "n": "Corniolo (Forlì-Cesena)",
+     "mm": 6.8
     }
    ]
   },
   "20": {
-   "media": 13.4,
+   "media": 13.8,
    "giorni": 20,
    "stazioni": 335,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Conca 2 (—)",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Nociveglia (Parma)",
-     "mm": 73.7
+     "mm": 73.9
     },
     {
      "n": "Farfanaro (Parma)",
@@ -81,45 +81,46 @@
     },
     {
      "n": "Casalporino (Parma)",
-     "mm": 68.8
+     "mm": 69.2
     },
     {
      "n": "Selva Ferriere (Piacenza)",
-     "mm": 63.7
+     "mm": 63.9
     }
    ]
   },
   "30": {
-   "media": 46.6,
+   "media": 47,
    "giorni": 30,
    "stazioni": 339,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Cabanne (Genova)",
-     "mm": 370.8
+     "mm": 371.6
     },
     {
      "n": "Barbagelata (Genova)",
-     "mm": 326.7
+     "mm": 327.3
     },
     {
      "n": "Casalporino (Parma)",
-     "mm": 230.8
+     "mm": 231.2
     },
     {
      "n": "S. Stefano d'Aveto (Genova)",
-     "mm": 189.3
+     "mm": 194.1
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
-     "mm": 184.2
+     "mm": 184.4
     }
    ]
   }
  },
  "serie": [
+  0.5,
   0.1,
   0,
   0,
@@ -148,65 +149,64 @@
   20.3,
   13.1,
   0.3,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-05",
-   "m1": 0.1,
-   "m7": 0.2,
-   "m30": 39.7
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 0.4,
+   "m30": 39.9
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-05",
-   "m1": 0.1,
-   "m7": 0.5,
-   "m30": 50.9
+   "ultimo": "2026-10-06",
+   "m1": 0.8,
+   "m7": 1.1,
+   "m30": 51.6
   },
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-05",
-   "m1": 0.1,
-   "m7": 0.6,
-   "m30": 82.6
+   "ultimo": "2026-10-06",
+   "m1": 5.6,
+   "m7": 6.2,
+   "m30": 88.1
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-05",
-   "m1": 0.2,
+   "ultimo": "2026-10-06",
+   "m1": 0,
    "m7": 0.3,
    "m30": 68.4
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-05",
-   "m1": 0.2,
+   "ultimo": "2026-10-06",
+   "m1": 0,
    "m7": 0.4,
    "m30": 54.3
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 82.3
+   "ultimo": "2026-10-06",
+   "m1": 0.2,
+   "m7": 0.3,
+   "m30": 82.4
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0,
-   "m30": 43.7
+   "ultimo": "2026-10-06",
+   "m1": 0.7,
+   "m7": 0.7,
+   "m30": 44.4
   }
  ]
 }

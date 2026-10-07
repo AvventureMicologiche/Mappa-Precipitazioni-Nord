@@ -1,100 +1,100 @@
 {
  "regione": "austria",
- "generato": "2026-10-06T10:35:13.896Z",
+ "generato": "2026-10-07T03:16:12.325Z",
  "periodi": {
   "1": {
-   "media": 2.3,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 269,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "stazioni": 267,
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Innsbruck Universität (Tirol)",
-     "mm": 26.5
-    },
-    {
-     "n": "Schoppernau (Vorarlberg)",
-     "mm": 25.5
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 16.1
     },
     {
      "n": "Langen am Arlberg (Vorarlberg)",
-     "mm": 23.8
+     "mm": 10.1
     },
     {
-     "n": "Warth (Vorarlberg)",
-     "mm": 22.3
+     "n": "Galtür (Tirol)",
+     "mm": 10
+    },
+    {
+     "n": "Ischgl-Idalpe (Tirol)",
+     "mm": 6
     },
     {
      "n": "Galzig (Tirol)",
-     "mm": 21.8
+     "mm": 4.2
     }
    ]
   },
   "7": {
-   "media": 2.9,
+   "media": 3.1,
    "giorni": 7,
    "stazioni": 269,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Laterns-Gapfohl (Vorarlberg)",
-     "mm": 31.8
+     "n": "Langen am Arlberg (Vorarlberg)",
+     "mm": 40.1
     },
     {
-     "n": "Langen am Arlberg (Vorarlberg)",
-     "mm": 30
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 39.6
+    },
+    {
+     "n": "Galtür (Tirol)",
+     "mm": 33.2
+    },
+    {
+     "n": "Laterns-Gapfohl (Vorarlberg)",
+     "mm": 32
     },
     {
      "n": "Schoppernau (Vorarlberg)",
-     "mm": 27.7
-    },
-    {
-     "n": "Innsbruck Universität (Tirol)",
-     "mm": 26.5
-    },
-    {
-     "n": "Imst (Tirol)",
-     "mm": 25.2
+     "mm": 31.1
     }
    ]
   },
   "20": {
-   "media": 25.2,
+   "media": 16.8,
    "giorni": 20,
    "stazioni": 270,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 50.2
+    },
+    {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 73.2
+     "mm": 48.6
+    },
+    {
+     "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
+     "mm": 45.4
+    },
+    {
+     "n": "Langen am Arlberg (Vorarlberg)",
+     "mm": 43
     },
     {
      "n": "Schmittenhöhe (Salzburg)",
-     "mm": 62.5
-    },
-    {
-     "n": "Achenkirch (Tirol)",
-     "mm": 61.2
-    },
-    {
-     "n": "Abtenau (Salzburg)",
-     "mm": 60.3
-    },
-    {
-     "n": "St.Johann im Pongau (Salzburg)",
-     "mm": 59.4
+     "mm": 42.7
     }
    ]
   },
   "30": {
-   "media": 64.2,
+   "media": 64.4,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   2.3,
   0,
   0,
@@ -148,8 +149,7 @@
   13,
   9.1,
   0.2,
-  1.4,
-  0
+  1.4
  ],
  "zone": []
 }
