@@ -1,125 +1,126 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-06T11:58:39.092Z",
+ "generato": "2026-10-07T04:31:33.014Z",
  "periodi": {
   "1": {
-   "media": 0.9,
+   "media": 1.3,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Weissfluhjoch (GR)",
-     "mm": 16.4
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 40
     },
     {
-     "n": "Klosters (GR)",
-     "mm": 13.2
+     "n": "Magadino / Cadenazzo (TI)",
+     "mm": 22.2
     },
     {
-     "n": "St. Antönien (GR)",
-     "mm": 11
+     "n": "Isole di Brissago (TI)",
+     "mm": 18.2
     },
     {
-     "n": "Starkenbach (SG)",
-     "mm": 10.6
+     "n": "Verbano - Porto Ronco (TI)",
+     "mm": 17.8
     },
     {
-     "n": "Davos (GR)",
-     "mm": 10.3
+     "n": "Sonvico (TI)",
+     "mm": 17.6
     }
    ]
   },
   "7": {
-   "media": 7.8,
+   "media": 9.1,
    "giorni": 7,
    "stazioni": 311,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
+    {
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 43.8
+    },
+    {
+     "n": "Weissfluhjoch (GR)",
+     "mm": 33
+    },
+    {
+     "n": "Davos (GR)",
+     "mm": 29.9
+    },
     {
      "n": "Mervelier (JU)",
      "mm": 29.1
     },
     {
-     "n": "Weissfluhjoch (GR)",
-     "mm": 28.1
-    },
-    {
      "n": "Innerthal (SZ)",
      "mm": 27.5
-    },
-    {
-     "n": "Delémont (JU)",
-     "mm": 27
-    },
-    {
-     "n": "Gsteig, Gstaad (BE)",
-     "mm": 26.4
     }
    ]
   },
   "20": {
-   "media": 15.5,
+   "media": 11.1,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Stabio (TI)",
-     "mm": 94.6
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 53.1
     },
     {
-     "n": "Mendrisio (TI)",
-     "mm": 77
+     "n": "Stabio (TI)",
+     "mm": 51.7
+    },
+    {
+     "n": "Magadino / Cadenazzo (TI)",
+     "mm": 49.5
     },
     {
      "n": "Cabbio (TI)",
-     "mm": 65
+     "mm": 40.4
     },
     {
-     "n": "Novazzano (TI)",
-     "mm": 60
-    },
-    {
-     "n": "Weissfluhjoch (GR)",
-     "mm": 45.2
+     "n": "Mendrisio (TI)",
+     "mm": 37.4
     }
    ]
   },
   "30": {
-   "media": 38.2,
+   "media": 39.5,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
+    {
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 121.5
+    },
+    {
+     "n": "Magadino / Cadenazzo (TI)",
+     "mm": 118.2
+    },
+    {
+     "n": "Alpe di Neggia (TI)",
+     "mm": 114.6
+    },
     {
      "n": "Stabio (TI)",
      "mm": 108.4
     },
     {
-     "n": "Alpe di Neggia (TI)",
-     "mm": 97.6
-    },
-    {
-     "n": "Mendrisio (TI)",
-     "mm": 97
-    },
-    {
-     "n": "Magadino / Cadenazzo (TI)",
-     "mm": 96
-    },
-    {
-     "n": "Cabbio (TI)",
-     "mm": 92.6
+     "n": "Isole di Brissago (TI)",
+     "mm": 104.4
     }
    ]
   }
  },
  "serie": [
+  1.3,
   0.9,
   0.1,
   0,
@@ -148,8 +149,7 @@
   1,
   15.2,
   3.1,
-  0.5,
-  0
+  0.5
  ],
  "zone": []
 }
