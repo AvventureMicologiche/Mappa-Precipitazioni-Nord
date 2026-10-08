@@ -460,7 +460,9 @@
       "stazioniViste": 84,
       "stazioniAttese": 424,
       "rilevato": "2026-10-07",
-      "stato": "aperto"
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-10-08",
+      "stazioniCoperte": 345
     },
     {
       "rete": "molise",
@@ -471,7 +473,27 @@
       "stazioniAttese": 27,
       "rilevato": "2026-10-07",
       "stato": "aperto"
+    },
+    {
+      "rete": "sicilia",
+      "data": "2026-10-07",
+      "tipo": "parziale",
+      "lieve": false,
+      "stazioniViste": 84,
+      "stazioniAttese": 424,
+      "rilevato": "2026-10-08",
+      "stato": "aperto"
+    },
+    {
+      "rete": "molise",
+      "data": "2026-10-07",
+      "tipo": "parziale",
+      "lieve": true,
+      "stazioniViste": 23,
+      "stazioniAttese": 27,
+      "rilevato": "2026-10-08",
+      "stato": "aperto"
     }
   ],
-  "aggiornato": "2026-10-07T15:45:09.344Z"
+  "aggiornato": "2026-10-08T15:50:29.950Z"
 }
