@@ -1,9 +1,9 @@
 {
  "regione": "lombardia",
- "generato": "2026-10-08T03:16:11.479Z",
+ "generato": "2026-10-08T10:47:26.192Z",
  "periodi": {
   "1": {
-   "media": 8,
+   "media": 8.6,
    "giorni": 1,
    "stazioni": 253,
    "primo": "2026-10-07",
@@ -11,57 +11,57 @@
    "top": [
     {
      "n": "Castronno (VA)",
-     "mm": 40
+     "mm": 40.4
+    },
+    {
+     "n": "Mozzanica v.Donizetti (BG)",
+     "mm": 39.6
     },
     {
      "n": "Varese v.Appiani (VA)",
-     "mm": 37.2
+     "mm": 37.4
+    },
+    {
+     "n": "Porto Valtravaglia San Michele (VA)",
+     "mm": 32.8
     },
     {
      "n": "Busto Arsizio v.Rossini (VA)",
      "mm": 32.4
-    },
-    {
-     "n": "Mozzanica v.Donizetti (BG)",
-     "mm": 31.8
-    },
-    {
-     "n": "Porto Ceresio campo sportivo (VA)",
-     "mm": 31.6
     }
    ]
   },
   "7": {
-   "media": 11.8,
+   "media": 12.4,
    "giorni": 7,
    "stazioni": 254,
    "primo": "2026-10-01",
    "ultimo": "2026-10-07",
    "top": [
     {
+     "n": "Oltre il Colle Zambla (BG)",
+     "mm": 44.2
+    },
+    {
      "n": "Luino v. Piero Chiara (VA)",
-     "mm": 41
+     "mm": 44.2
     },
     {
      "n": "Castronno (VA)",
-     "mm": 40
+     "mm": 40.4
     },
     {
-     "n": "Oltre il Colle Zambla (BG)",
-     "mm": 39.4
+     "n": "Mozzanica v.Donizetti (BG)",
+     "mm": 39.6
     },
     {
-     "n": "Varese v.Appiani (VA)",
-     "mm": 37.2
-    },
-    {
-     "n": "Valganna Mondonico (VA)",
-     "mm": 36.3
+     "n": "Porto Valtravaglia San Michele (VA)",
+     "mm": 39.6
     }
    ]
   },
   "20": {
-   "media": 17.2,
+   "media": 17.8,
    "giorni": 20,
    "stazioni": 254,
    "primo": "2026-09-18",
@@ -69,28 +69,28 @@
    "top": [
     {
      "n": "Angera v.le Repubblica (VA)",
-     "mm": 71
-    },
-    {
-     "n": "Valganna Mondonico (VA)",
-     "mm": 57.7
+     "mm": 71.8
     },
     {
      "n": "Porto Valtravaglia San Michele (VA)",
-     "mm": 54.2
+     "mm": 59.2
+    },
+    {
+     "n": "Valganna Mondonico (VA)",
+     "mm": 58.5
     },
     {
      "n": "Luino v. Piero Chiara (VA)",
-     "mm": 53
+     "mm": 56.2
     },
     {
      "n": "Castronno (VA)",
-     "mm": 49.6
+     "mm": 50
     }
    ]
   },
   "30": {
-   "media": 104.9,
+   "media": 105.5,
    "giorni": 30,
    "stazioni": 254,
    "primo": "2026-09-08",
@@ -98,29 +98,29 @@
    "top": [
     {
      "n": "Rota d'Imagna (BG)",
-     "mm": 224.2
+     "mm": 224.8
     },
     {
      "n": "Osnago (LC)",
-     "mm": 216.2
-    },
-    {
-     "n": "Bosisio Parini Imbarcadero (LC)",
-     "mm": 204
-    },
-    {
-     "n": "Lesmo Peregallo (MB)",
-     "mm": 204
+     "mm": 216.8
     },
     {
      "n": "Vilminore di Scalve Presolana (BG)",
-     "mm": 203.2
+     "mm": 207
+    },
+    {
+     "n": "Bosisio Parini Imbarcadero (LC)",
+     "mm": 204.8
+    },
+    {
+     "n": "Lesmo Peregallo (MB)",
+     "mm": 204.2
     }
    ]
   }
  },
  "serie": [
-  8,
+  8.6,
   2.7,
   1,
   0,
@@ -156,81 +156,81 @@
    "s": "val-grigna",
    "n": "Val Grigna",
    "ultimo": "2026-10-07",
-   "m1": 3.8,
-   "m7": 3.8,
-   "m30": 127.4
+   "m1": 3.9,
+   "m7": 3.9,
+   "m30": 127.5
   },
   {
    "s": "valle-sabbia",
    "n": "Valle Sabbia",
    "ultimo": "2026-10-07",
-   "m1": 1.9,
-   "m7": 2.9,
-   "m30": 126.9
+   "m1": 2,
+   "m7": 3,
+   "m30": 127
   },
   {
    "s": "val-trompia",
    "n": "Val Trompia",
    "ultimo": "2026-10-07",
-   "m1": 5.2,
-   "m7": 6.5,
-   "m30": 135.2
+   "m1": 5.3,
+   "m7": 6.6,
+   "m30": 135.3
   },
   {
    "s": "val-brembana",
    "n": "Val Brembana",
    "ultimo": "2026-10-07",
-   "m1": 9.1,
-   "m7": 9.9,
-   "m30": 167.5
+   "m1": 10.6,
+   "m7": 11.5,
+   "m30": 169
   },
   {
    "s": "val-sedornia",
    "n": "Val Sedornia",
    "ultimo": "2026-10-07",
-   "m1": 8.8,
-   "m7": 16.1,
-   "m30": 135
+   "m1": 10.1,
+   "m7": 17.4,
+   "m30": 136.2
   },
   {
    "s": "val-cavargna",
    "n": "Val Cavargna",
    "ultimo": "2026-10-07",
-   "m1": 14.1,
-   "m7": 25.7,
-   "m30": 105.3
+   "m1": 14.5,
+   "m7": 26.2,
+   "m30": 105.8
   },
   {
    "s": "val-serina",
    "n": "Val Serina",
    "ultimo": "2026-10-07",
-   "m1": 10.3,
-   "m7": 19.1,
-   "m30": 135
+   "m1": 13.2,
+   "m7": 22.1,
+   "m30": 137.9
   },
   {
    "s": "valmalenco",
    "n": "Valmalenco",
    "ultimo": "2026-10-07",
-   "m1": 2.6,
-   "m7": 17.7,
-   "m30": 83.4
+   "m1": 2.8,
+   "m7": 17.9,
+   "m30": 83.6
   },
   {
    "s": "valsassina",
    "n": "Valsassina",
    "ultimo": "2026-10-07",
-   "m1": 8.9,
-   "m7": 14.4,
-   "m30": 92
+   "m1": 9,
+   "m7": 14.5,
+   "m30": 92.1
   },
   {
    "s": "monte-san-giorgio",
    "n": "Monte San Giorgio",
    "ultimo": "2026-10-07",
-   "m1": 29.1,
-   "m7": 33.6,
-   "m30": 96.7
+   "m1": 31.6,
+   "m7": 36.1,
+   "m30": 99.2
   },
   {
    "s": "valle-dei-ratti",
@@ -244,25 +244,25 @@
    "s": "val-paisco",
    "n": "Val Paisco",
    "ultimo": "2026-10-07",
-   "m1": 2.9,
-   "m7": 12.9,
-   "m30": 137.7
+   "m1": 3.2,
+   "m7": 13.2,
+   "m30": 138
   },
   {
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
    "ultimo": "2026-10-07",
-   "m1": 7.1,
-   "m7": 14.4,
-   "m30": 78.8
+   "m1": 7.2,
+   "m7": 14.5,
+   "m30": 78.9
   },
   {
    "s": "val-veddasca",
    "n": "Val Veddasca",
    "ultimo": "2026-10-07",
-   "m1": 21.6,
-   "m7": 37.3,
-   "m30": 60.2
+   "m1": 23.1,
+   "m7": 38.8,
+   "m30": 61.2
   }
  ]
 }
