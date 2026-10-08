@@ -1,125 +1,126 @@
 {
  "regione": "lazio",
- "generato": "2026-10-07T03:16:12.323Z",
+ "generato": "2026-10-08T03:16:11.483Z",
  "periodi": {
   "1": {
-   "media": 2.3,
+   "media": 11.5,
    "giorni": 1,
    "stazioni": 209,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Sabaudia",
-     "mm": 41.7
+     "n": "Collegio Romano",
+     "mm": 36.5
     },
     {
-     "n": "Anzio",
-     "mm": 36.6
+     "n": "Roma Macao",
+     "mm": 33.3
     },
     {
-     "n": "Gaeta",
-     "mm": 21.6
+     "n": "Tevere a Porta Portese",
+     "mm": 31.9
     },
     {
-     "n": "Rio Cassano",
-     "mm": 20.9
+     "n": "Via Marchi",
+     "mm": 30.6
     },
     {
-     "n": "Itri",
-     "mm": 20
+     "n": "Latina",
+     "mm": 30.3
     }
    ]
   },
   "7": {
-   "media": 3.2,
+   "media": 14.6,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Sabaudia",
-     "mm": 41.7
-    },
-    {
      "n": "Palombara Sabina",
-     "mm": 38.9
+     "mm": 52.9
     },
     {
      "n": "Anzio",
-     "mm": 36.6
+     "mm": 48.6
     },
     {
-     "n": "Gaeta",
-     "mm": 21.6
+     "n": "Latina",
+     "mm": 45.1
     },
     {
-     "n": "Rio Cassano",
-     "mm": 20.9
+     "n": "Sabaudia",
+     "mm": 41.9
+    },
+    {
+     "n": "Collegio Romano",
+     "mm": 36.5
     }
    ]
   },
   "20": {
-   "media": 12.5,
+   "media": 23.7,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Roma Nord",
-     "mm": 71.5
-    },
-    {
-     "n": "Roma Flaminio",
-     "mm": 57.5
+     "mm": 92.4
     },
     {
      "n": "Pomezia",
-     "mm": 52.2
+     "mm": 73.3
     },
     {
-     "n": "Gaeta",
-     "mm": 52
+     "n": "Acqua Acetosa",
+     "mm": 71.4
     },
     {
-     "n": "Monte Mario",
-     "mm": 51.4
+     "n": "Aniene a Ponte Salario",
+     "mm": 70.6
+    },
+    {
+     "n": "Roma Flaminio",
+     "mm": 69.3
     }
    ]
   },
   "30": {
-   "media": 53.9,
+   "media": 65.1,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Tor Vergata",
-     "mm": 157.4
-    },
-    {
-     "n": "Rota",
-     "mm": 129.9
-    },
-    {
-     "n": "Pianetto",
-     "mm": 120
+     "mm": 175.3
     },
     {
      "n": "Falcognana",
-     "mm": 119.1
+     "mm": 148.5
+    },
+    {
+     "n": "Frascati",
+     "mm": 141.8
     },
     {
      "n": "Roma Nord",
-     "mm": 119.1
+     "mm": 140
+    },
+    {
+     "n": "Rota",
+     "mm": 139.9
     }
    ]
   }
  },
  "serie": [
+  11.5,
   2.3,
   0.4,
   0,
@@ -148,65 +149,64 @@
   4,
   36.6,
   0.2,
-  0,
-  0.2
+  0
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-06",
-   "m1": 0.1,
-   "m7": 0.2,
-   "m30": 38.2
+   "ultimo": "2026-10-07",
+   "m1": 8.3,
+   "m7": 8.5,
+   "m30": 46.5
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-06",
-   "m1": 0,
-   "m7": 0,
-   "m30": 38.5
+   "ultimo": "2026-10-07",
+   "m1": 12.7,
+   "m7": 12.7,
+   "m30": 51.2
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-06",
-   "m1": 1.6,
-   "m7": 1.6,
-   "m30": 29.8
+   "ultimo": "2026-10-07",
+   "m1": 9.1,
+   "m7": 10.7,
+   "m30": 38.8
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-06",
-   "m1": 1.4,
-   "m7": 1.4,
-   "m30": 40.1
+   "ultimo": "2026-10-07",
+   "m1": 4.9,
+   "m7": 6.3,
+   "m30": 45
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-06",
-   "m1": 0.3,
-   "m7": 1.2,
-   "m30": 10.1
+   "ultimo": "2026-10-07",
+   "m1": 6.4,
+   "m7": 7.6,
+   "m30": 16.5
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-06",
-   "m1": 2.1,
-   "m7": 2.1,
-   "m30": 40.1
+   "ultimo": "2026-10-07",
+   "m1": 8.9,
+   "m7": 11,
+   "m30": 49
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-06",
-   "m1": 0.2,
-   "m7": 0.2,
-   "m30": 28.5
+   "ultimo": "2026-10-07",
+   "m1": 7.5,
+   "m7": 7.7,
+   "m30": 36
   }
  ]
 }

@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-10-07T03:16:12.324Z",
+ "generato": "2026-10-08T03:16:11.483Z",
  "periodi": {
   "1": {
-   "media": 1.3,
+   "media": 0.4,
    "giorni": 1,
-   "stazioni": 179,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "stazioni": 178,
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Monte Epomeo (Ischia)",
-     "mm": 88
+     "n": "Rocca d'Evandro METEO",
+     "mm": 3.5
+    },
+    {
+     "n": "Perito-Ostigliano",
+     "mm": 3.2
     },
     {
      "n": "Forio",
-     "mm": 52.6
+     "mm": 3.2
     },
     {
-     "n": "Piano Liguori",
-     "mm": 46.6
+     "n": "S.Bartolomeo METEO",
+     "mm": 2.6
     },
     {
-     "n": "Ischia",
-     "mm": 33.2
-    },
-    {
-     "n": "Castel Volturno",
-     "mm": 4.4
+     "n": "S.Castrese",
+     "mm": 2.6
     }
    ]
   },
   "7": {
-   "media": 1.3,
+   "media": 1.8,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 88
+     "mm": 90.4
     },
     {
      "n": "Forio",
-     "mm": 52.6
+     "mm": 55.8
     },
     {
      "n": "Piano Liguori",
-     "mm": 46.6
+     "mm": 49.2
     },
     {
      "n": "Ischia",
-     "mm": 33.2
+     "mm": 35.6
     },
     {
      "n": "Castel Volturno",
-     "mm": 4.4
+     "mm": 4.8
     }
    ]
   },
   "20": {
-   "media": 23.7,
+   "media": 24,
    "giorni": 20,
    "stazioni": 179,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 122.4
+     "mm": 124.8
     },
     {
      "n": "Piano Liguori",
-     "mm": 107.8
+     "mm": 110.4
     },
     {
      "n": "Forio",
-     "mm": 104.6
+     "mm": 107.8
     },
     {
      "n": "Ischia",
-     "mm": 93.6
+     "mm": 96
     },
     {
      "n": "Agerola",
-     "mm": 92.5
+     "mm": 93.3
     }
    ]
   },
   "30": {
-   "media": 32.5,
+   "media": 32.9,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 125.8
+     "mm": 128.2
     },
     {
      "n": "Piano Liguori",
-     "mm": 114.2
+     "mm": 116.8
     },
     {
      "n": "Forio",
-     "mm": 106.4
+     "mm": 109.6
     },
     {
      "n": "Ischia",
-     "mm": 98.8
+     "mm": 101.2
     },
     {
      "n": "Agerola",
-     "mm": 96.7
+     "mm": 97.5
     }
    ]
   }
  },
  "serie": [
+  0.4,
   1.3,
   0,
   0,
@@ -148,22 +149,21 @@
   2.5,
   0.7,
   0,
-  4.2,
-  0
+  4.2
  ],
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-06",
-   "m1": 0,
-   "m7": 0,
-   "m30": 81.5
+   "ultimo": "2026-10-07",
+   "m1": 0.5,
+   "m7": 0.5,
+   "m30": 81.9
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-06",
+   "ultimo": "2026-10-07",
    "m1": 0,
    "m7": 0,
    "m30": 42.5
@@ -171,15 +171,15 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-06",
-   "m1": 0,
-   "m7": 0,
-   "m30": 25.6
+   "ultimo": "2026-10-07",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 25.7
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-06",
+   "ultimo": "2026-10-07",
    "m1": 0,
    "m7": 0,
    "m30": 51.8

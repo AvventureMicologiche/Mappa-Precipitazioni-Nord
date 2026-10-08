@@ -1,71 +1,71 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-07T03:16:12.324Z",
+ "generato": "2026-10-08T03:16:11.484Z",
  "periodi": {
   "1": {
-   "media": 4.7,
+   "media": 0.9,
    "giorni": 1,
    "stazioni": 93,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Stintino",
-     "mm": 22.2
+     "mm": 24.8
     },
     {
-     "n": "Siniscola",
-     "mm": 20.6
+     "n": "La Maddalena",
+     "mm": 14.6
     },
     {
-     "n": "Monte Petrosu",
-     "mm": 19
+     "n": "Mannu di Porto Torres",
+     "mm": 10.4
     },
     {
-     "n": "San Michele",
-     "mm": 16
+     "n": "Sassari",
+     "mm": 10
     },
     {
-     "n": "Monti",
-     "mm": 16
+     "n": "Porto Torres",
+     "mm": 9.4
     }
    ]
   },
   "7": {
-   "media": 6.3,
+   "media": 7.2,
    "giorni": 7,
    "stazioni": 93,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
+     "n": "Stintino",
+     "mm": 47
+    },
+    {
      "n": "Sa Pianedda",
-     "mm": 23.8
+     "mm": 24
     },
     {
      "n": "Siniscola",
      "mm": 23.2
     },
     {
-     "n": "Stintino",
-     "mm": 22.2
+     "n": "Mannu di Porto Torres",
+     "mm": 21.2
     },
     {
      "n": "S. Nicolò Gerrei - Pranu Sangun",
      "mm": 19.6
-    },
-    {
-     "n": "Monte Petrosu",
-     "mm": 19
     }
    ]
   },
   "20": {
-   "media": 13.8,
+   "media": 14.4,
    "giorni": 20,
    "stazioni": 93,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -81,20 +81,20 @@
     },
     {
      "n": "Minni Minni",
-     "mm": 61.4
+     "mm": 61.6
     },
     {
-     "n": "Bau Mandara",
-     "mm": 51.2
+     "n": "Mandas",
+     "mm": 49.4
     }
    ]
   },
   "30": {
-   "media": 15.4,
+   "media": 16,
    "giorni": 30,
    "stazioni": 93,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Minni Minni",
-     "mm": 61.4
+     "mm": 61.6
     },
     {
      "n": "Bau Mandara",
-     "mm": 53.8
+     "mm": 53
     }
    ]
   }
  },
  "serie": [
+  0.9,
   4.7,
   1.5,
   0.1,
@@ -148,8 +149,7 @@
   0,
   0.9,
   0,
-  0.2,
-  0.3
+  0.2
  ],
  "zone": []
 }

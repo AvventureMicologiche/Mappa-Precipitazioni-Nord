@@ -1,71 +1,71 @@
 {
  "regione": "puglia",
- "generato": "2026-10-07T03:16:12.324Z",
+ "generato": "2026-10-08T03:16:11.483Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 1.4,
    "giorni": 1,
-   "stazioni": 123,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "stazioni": 122,
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Vignacastrisi",
-     "mm": 0.2
+     "n": "Mottola",
+     "mm": 40
     },
     {
-     "n": "Monopoli",
-     "mm": 0
+     "n": "Montemesola",
+     "mm": 21.1
     },
     {
-     "n": "Gravina in Puglia",
-     "mm": 0
+     "n": "Statte",
+     "mm": 14.8
     },
     {
-     "n": "Brindisi",
-     "mm": 0
+     "n": "Ceglie Messapica",
+     "mm": 14.8
     },
     {
-     "n": "Andria",
-     "mm": 0
+     "n": "Talsano",
+     "mm": 14.4
     }
    ]
   },
   "7": {
-   "media": 0.3,
+   "media": 1.3,
    "giorni": 7,
    "stazioni": 129,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Presicce",
-     "mm": 16.6
+     "n": "Mottola",
+     "mm": 40
     },
     {
-     "n": "Ruffano",
-     "mm": 5
+     "n": "Montemesola",
+     "mm": 21.1
     },
     {
-     "n": "Maglie",
-     "mm": 4.8
+     "n": "Statte",
+     "mm": 14.8
     },
     {
-     "n": "Vico del Gargano",
-     "mm": 0.8
+     "n": "Ceglie Messapica",
+     "mm": 14.8
     },
     {
-     "n": "Montursi (Gioia del Colle)",
-     "mm": 0.6
+     "n": "Talsano",
+     "mm": 14.4
     }
    ]
   },
   "20": {
-   "media": 11.6,
+   "media": 12.7,
    "giorni": 20,
-   "stazioni": 130,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "stazioni": 131,
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Polignano",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 18.1,
+   "media": 19.2,
    "giorni": 30,
-   "stazioni": 130,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "stazioni": 131,
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Presicce",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  1.4,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   0.7,
   0.5,
   0.4,
-  0.4,
-  0
+  0.4
  ],
  "zone": []
 }

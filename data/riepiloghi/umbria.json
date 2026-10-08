@@ -1,125 +1,126 @@
 {
  "regione": "umbria",
- "generato": "2026-10-07T03:16:12.323Z",
+ "generato": "2026-10-08T03:16:11.482Z",
  "periodi": {
   "1": {
-   "media": 1.3,
+   "media": 5.5,
    "giorni": 1,
    "stazioni": 77,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Monte Cucco",
-     "mm": 6.2
+     "n": "Strada Prov.302",
+     "mm": 25
     },
     {
-     "n": "Perugia Sede",
-     "mm": 6
+     "n": "Ponticelli",
+     "mm": 19.4
     },
     {
-     "n": "Torre dell'Olmo",
-     "mm": 4
+     "n": "Petrelle",
+     "mm": 19
     },
     {
-     "n": "Orvieto Scalo",
-     "mm": 3.2
+     "n": "Castiglione del Lago",
+     "mm": 18.6
     },
     {
-     "n": "Ponte Adunata",
-     "mm": 3.2
+     "n": "Moiano",
+     "mm": 15.2
     }
    ]
   },
   "7": {
-   "media": 1.5,
+   "media": 7,
    "giorni": 7,
    "stazioni": 77,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Monte Cucco",
-     "mm": 6.8
+     "n": "Strada Prov.302",
+     "mm": 25
     },
     {
-     "n": "Perugia Sede",
-     "mm": 6
+     "n": "Ponticelli",
+     "mm": 20.2
     },
     {
-     "n": "Torre dell'Olmo",
-     "mm": 4.2
+     "n": "Castiglione del Lago",
+     "mm": 19.4
     },
     {
-     "n": "Orvieto Scalo",
-     "mm": 3.6
+     "n": "Petrelle",
+     "mm": 19.4
     },
     {
-     "n": "Ponte Adunata",
-     "mm": 3.6
+     "n": "Campogrande",
+     "mm": 16.4
     }
    ]
   },
   "20": {
-   "media": 16.2,
+   "media": 16.7,
    "giorni": 20,
    "stazioni": 78,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Montelovesco",
-     "mm": 54.4
-    },
-    {
-     "n": "Pierantonio",
-     "mm": 54.2
-    },
-    {
-     "n": "Monte Cucco",
-     "mm": 48.6
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 47.6
-    },
-    {
      "n": "Castagnacupa",
-     "mm": 47.2
+     "mm": 50.2
+    },
+    {
+     "n": "Strada Prov.302",
+     "mm": 47
+    },
+    {
+     "n": "Narni Scalo",
+     "mm": 46.4
+    },
+    {
+     "n": "S.Gemini",
+     "mm": 41.6
+    },
+    {
+     "n": "S.Gemini",
+     "mm": 41.6
     }
    ]
   },
   "30": {
-   "media": 47.8,
+   "media": 53.1,
    "giorni": 30,
    "stazioni": 79,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Scheggia",
-     "mm": 98.8
-    },
-    {
-     "n": "Montelovesco",
-     "mm": 96.2
-    },
-    {
      "n": "Bocca Serriola",
-     "mm": 95.9
+     "mm": 106.3
+    },
+    {
+     "n": "Scheggia",
+     "mm": 104.6
     },
     {
      "n": "Monte Cucco",
-     "mm": 95.2
+     "mm": 101.4
+    },
+    {
+     "n": "Montelovesco",
+     "mm": 100.8
     },
     {
      "n": "Pierantonio",
-     "mm": 91
+     "mm": 95.8
     }
    ]
   }
  },
  "serie": [
+  5.5,
   1.3,
   0.2,
   0,
@@ -148,33 +149,32 @@
   0.5,
   29.2,
   2,
-  0.1,
-  0
+  0.1
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-06",
-   "m1": 2.1,
-   "m7": 2.6,
-   "m30": 77.3
+   "ultimo": "2026-10-07",
+   "m1": 7.6,
+   "m7": 9.9,
+   "m30": 84.9
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-06",
-   "m1": 0.9,
-   "m7": 0.9,
-   "m30": 35.1
+   "ultimo": "2026-10-07",
+   "m1": 3,
+   "m7": 3.8,
+   "m30": 38.1
   },
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-06",
-   "m1": 1.2,
-   "m7": 2,
-   "m30": 50.3
+   "ultimo": "2026-10-07",
+   "m1": 7.9,
+   "m7": 9.8,
+   "m30": 58.1
   }
  ]
 }

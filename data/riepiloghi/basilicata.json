@@ -1,14 +1,18 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-07T03:16:12.324Z",
+ "generato": "2026-10-08T03:16:11.483Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 60,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "stazioni": 61,
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
+    {
+     "n": "Castellaneta",
+     "mm": 9.2
+    },
     {
      "n": "Anzi",
      "mm": 0
@@ -24,20 +28,20 @@
     {
      "n": "Salandra",
      "mm": 0
-    },
-    {
-     "n": "Rotonda",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
+    {
+     "n": "Castellaneta",
+     "mm": 9.2
+    },
     {
      "n": "Grumento-Ponte La Marmora",
      "mm": 0.2
@@ -47,25 +51,21 @@
      "mm": 0.2
     },
     {
-     "n": "Melfi",
-     "mm": 0.2
-    },
-    {
-     "n": "Pescopagano",
-     "mm": 0.2
-    },
-    {
      "n": "S.Nicola",
+     "mm": 0.2
+    },
+    {
+     "n": "Forenza",
      "mm": 0.2
     }
    ]
   },
   "20": {
-   "media": 13.8,
+   "media": 13.9,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Venosa ETG",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 25.2,
+   "media": 25.4,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Marsico Nuovo",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   1.2,
   0.2,
   1.1,
-  4.1,
-  0
+  4.1
  ],
  "zone": []
 }

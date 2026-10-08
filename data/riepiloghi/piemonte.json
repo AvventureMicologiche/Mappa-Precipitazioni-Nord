@@ -1,125 +1,126 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-07T15:48:50.126Z",
+ "generato": "2026-10-08T03:16:11.480Z",
  "periodi": {
   "1": {
-   "media": 1.5,
+   "media": 14.5,
    "giorni": 1,
-   "stazioni": 279,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "stazioni": 278,
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "BOVES (Cuneo)",
-     "mm": 28.6
+     "n": "SAMBUGHETTO (Provincia del verbano cusio os)",
+     "mm": 57.8
     },
     {
-     "n": "PRADEBONI (Cuneo)",
-     "mm": 21.9
+     "n": "CANDOGLIA TOCE (Provincia del verbano cusio ossola)",
+     "mm": 50.6
     },
     {
-     "n": "NIQUIDETTO (Torino)",
-     "mm": 15.7
+     "n": "MOTTARONE - BAITA CAI (Provincia del verbano cusio os)",
+     "mm": 50.2
     },
     {
-     "n": "MONTE CARZA (Provincia del verbano cusio os)",
-     "mm": 15.7
+     "n": "VARALLO (Vercelli)",
+     "mm": 48.6
     },
     {
-     "n": "LIMONE PANCANI (Cuneo)",
-     "mm": 15.2
+     "n": "BIELMONTE (Biella)",
+     "mm": 48.4
     }
    ]
   },
   "7": {
-   "media": 2.4,
+   "media": 16.6,
    "giorni": 7,
-   "stazioni": 283,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "stazioni": 282,
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "BOVES (Cuneo)",
-     "mm": 31
+     "n": "SAMBUGHETTO (Provincia del verbano cusio os)",
+     "mm": 59.6
     },
     {
-     "n": "PRADEBONI (Cuneo)",
-     "mm": 22.7
+     "n": "CANDOGLIA TOCE (Provincia del verbano cusio ossola)",
+     "mm": 56
     },
     {
-     "n": "MONTE CARZA (Provincia del verbano cusio os)",
-     "mm": 18.1
+     "n": "MOTTARONE - BAITA CAI (Provincia del verbano cusio os)",
+     "mm": 51.6
     },
     {
-     "n": "BOCCHETTA DELLE PISSE (Vercelli)",
-     "mm": 17.8
+     "n": "VARALLO (Vercelli)",
+     "mm": 50.6
     },
     {
-     "n": "NIQUIDETTO (Torino)",
-     "mm": 17.3
+     "n": "CICOGNA (Provincia del verbano cusio os)",
+     "mm": 50.2
     }
    ]
   },
   "20": {
-   "media": 8.2,
+   "media": 21.3,
    "giorni": 20,
    "stazioni": 284,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "BALDISSERO D'ALBA (Cuneo)",
-     "mm": 69.8
+     "n": "MONTE MESMA (Novara)",
+     "mm": 78.3
     },
     {
      "n": "BORGOMANERO (Novara)",
-     "mm": 56.2
+     "mm": 75.6
     },
     {
-     "n": "MONTE MESMA (Novara)",
-     "mm": 52
+     "n": "MOTTARONE - BAITA CAI (Provincia del verbano cusio os)",
+     "mm": 71.8
+    },
+    {
+     "n": "BALDISSERO D'ALBA (Cuneo)",
+     "mm": 64.9
     },
     {
      "n": "PARUZZARO (Novara)",
-     "mm": 48
-    },
-    {
-     "n": "BARGE (Cuneo)",
-     "mm": 43.8
+     "mm": 63.4
     }
    ]
   },
   "30": {
-   "media": 32.6,
+   "media": 46.4,
    "giorni": 30,
    "stazioni": 285,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "SANTENA BANNA (Torino)",
-     "mm": 137.3
+     "n": "SOMERARO (Provincia del verbano cusio os)",
+     "mm": 148.6
     },
     {
-     "n": "SOMERARO (Provincia del verbano cusio os)",
-     "mm": 112.6
+     "n": "SANTENA BANNA (Torino)",
+     "mm": 148.5
     },
     {
      "n": "VILLANOVA SOLARO (Cuneo)",
-     "mm": 110.5
-    },
-    {
-     "n": "RIVOLI LA PEROSA (Torino)",
-     "mm": 109.8
+     "mm": 116.1
     },
     {
      "n": "CORIO (Torino)",
-     "mm": 102.7
+     "mm": 115.5
+    },
+    {
+     "n": "RIVOLI LA PEROSA (Torino)",
+     "mm": 115
     }
    ]
   }
  },
  "serie": [
+  14.5,
   1.5,
   0.1,
   0,
@@ -148,89 +149,88 @@
   1.2,
   6.7,
   14.1,
-  1.2,
-  0.3
+  1.2
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-06",
-   "m1": 2.3,
-   "m7": 2.7,
-   "m30": 53.7
+   "ultimo": "2026-10-07",
+   "m1": 18.5,
+   "m7": 21.2,
+   "m30": 72.2
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-06",
-   "m1": 0.7,
-   "m7": 0.7,
-   "m30": 33.3
+   "ultimo": "2026-10-07",
+   "m1": 29.9,
+   "m7": 30.6,
+   "m30": 63.3
   },
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-06",
-   "m1": 8.1,
-   "m7": 8.4,
-   "m30": 20.3
+   "ultimo": "2026-10-07",
+   "m1": 13,
+   "m7": 21.4,
+   "m30": 33.2
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-06",
-   "m1": 3.3,
-   "m7": 4,
-   "m30": 37.3
+   "ultimo": "2026-10-07",
+   "m1": 13.9,
+   "m7": 17.8,
+   "m30": 51.2
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-06",
-   "m1": 0,
-   "m7": 0.3,
-   "m30": 37
+   "ultimo": "2026-10-07",
+   "m1": 4.9,
+   "m7": 4.9,
+   "m30": 41.9
   },
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-06",
-   "m1": 0.1,
-   "m7": 1.1,
-   "m30": 57.3
+   "ultimo": "2026-10-07",
+   "m1": 4.7,
+   "m7": 5.8,
+   "m30": 56.9
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-06",
-   "m1": 2.7,
-   "m7": 2.7,
-   "m30": 50.7
+   "ultimo": "2026-10-07",
+   "m1": 41.3,
+   "m7": 44,
+   "m30": 90.9
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-06",
-   "m1": 3.8,
-   "m7": 3.9,
-   "m30": 52.2
+   "ultimo": "2026-10-07",
+   "m1": 33.2,
+   "m7": 37.1,
+   "m30": 85.4
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-06",
-   "m1": 0.7,
-   "m7": 2.9,
-   "m30": 35.1
+   "ultimo": "2026-10-07",
+   "m1": 9,
+   "m7": 11.7,
+   "m30": 44.1
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-06",
-   "m1": 0,
-   "m7": 0.8,
-   "m30": 15.9
+   "ultimo": "2026-10-07",
+   "m1": 12.1,
+   "m7": 12.9,
+   "m30": 28.1
   }
  ]
 }
