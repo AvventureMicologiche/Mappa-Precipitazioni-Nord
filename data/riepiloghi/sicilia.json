@@ -1,42 +1,42 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-06T03:16:13.157Z",
+ "generato": "2026-10-08T15:53:38.458Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 423,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-05",
+   "stazioni": 429,
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-06",
    "top": [
     {
-     "n": "Anapo a San nicola R2",
-     "mm": 0.2
+     "n": "Palermo SIAS",
+     "mm": 6.6
     },
     {
-     "n": "Case Granvilla",
-     "mm": 0.2
+     "n": "Caronia Buzza SIAS",
+     "mm": 6.4
     },
     {
-     "n": "Monterosso Almo SP11",
-     "mm": 0.2
+     "n": "Caronia Pomiere SIAS",
+     "mm": 4.8
     },
     {
-     "n": "Sperlinga SP19",
-     "mm": 0.2
+     "n": "Castelbuono SIAS",
+     "mm": 4
     },
     {
-     "n": "Casteltermini",
-     "mm": 0.2
+     "n": "Pettineo SIAS",
+     "mm": 2.6
     }
    ]
   },
   "7": {
-   "media": 0.7,
+   "media": 0.6,
    "giorni": 7,
-   "stazioni": 428,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-05",
+   "stazioni": 429,
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Milicia SP16",
@@ -51,25 +51,25 @@
      "mm": 16.6
     },
     {
-     "n": "Modica",
-     "mm": 15.7
+     "n": "Palermo SIAS",
+     "mm": 6.6
     },
     {
-     "n": "Noto SP56",
-     "mm": 13.2
+     "n": "Caronia Buzza SIAS",
+     "mm": 6.4
     }
    ]
   },
   "20": {
-   "media": 36.2,
+   "media": 35.9,
    "giorni": 20,
-   "stazioni": 434,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-05",
+   "stazioni": 433,
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Aci Castello",
-     "mm": 219.4
+     "mm": 219.7
     },
     {
      "n": "Riposto SIAS",
@@ -77,28 +77,28 @@
     },
     {
      "n": "Aci San Filippo",
-     "mm": 190.9
+     "mm": 190.6
     },
     {
      "n": "San Gregorio",
-     "mm": 163.9
+     "mm": 163.2
     },
     {
      "n": "Lavinaio",
-     "mm": 160.2
+     "mm": 160.9
     }
    ]
   },
   "30": {
-   "media": 49,
+   "media": 49.1,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-09-06",
-   "ultimo": "2026-10-05",
+   "primo": "2026-09-07",
+   "ultimo": "2026-10-06",
    "top": [
     {
      "n": "Aci Castello",
-     "mm": 225.4
+     "mm": 225.7
     },
     {
      "n": "Santa Rosalia Diga R2",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Aci San Filippo",
-     "mm": 199.7
+     "mm": 200
     },
     {
      "n": "Messina SP44",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   0.2,
@@ -148,25 +149,24 @@
   0.2,
   0.2,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.5,
-   "m30": 51.9
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
+   "m7": 0.4,
+   "m30": 52
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-05",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 51.1
+   "ultimo": "2026-10-06",
+   "m1": 0.1,
+   "m7": 0.3,
+   "m30": 51.2
   }
  ]
 }
