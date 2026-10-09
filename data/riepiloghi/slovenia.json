@@ -1,125 +1,126 @@
 {
  "regione": "slovenia",
- "generato": "2026-10-08T05:32:05.784Z",
+ "generato": "2026-10-09T04:30:53.030Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 1.2,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Kubed",
-     "mm": 0.4
+     "n": "Koper",
+     "mm": 11.9
+    },
+    {
+     "n": "Kneške Ravne",
+     "mm": 8.7
+    },
+    {
+     "n": "Tolmin - Volče",
+     "mm": 7.4
     },
     {
      "n": "Koper Luka",
-     "mm": 0.2
+     "mm": 6.6
     },
     {
-     "n": "Koper",
-     "mm": 0.1
-    },
-    {
-     "n": "Rateče",
-     "mm": 0
-    },
-    {
-     "n": "Črnomelj - Dobliče",
-     "mm": 0
+     "n": "Zgornja Sorica",
+     "mm": 6.2
     }
    ]
   },
   "7": {
-   "media": 0,
+   "media": 1.2,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-07",
    "top": [
     {
-     "n": "Kubed",
-     "mm": 0.4
+     "n": "Koper",
+     "mm": 12
+    },
+    {
+     "n": "Kneške Ravne",
+     "mm": 8.7
+    },
+    {
+     "n": "Tolmin - Volče",
+     "mm": 7.4
     },
     {
      "n": "Koper Luka",
-     "mm": 0.2
+     "mm": 6.8
     },
     {
-     "n": "Kredarica",
-     "mm": 0.1
-    },
-    {
-     "n": "Koper",
-     "mm": 0.1
-    },
-    {
-     "n": "Rateče",
-     "mm": 0
+     "n": "Zgornja Sorica",
+     "mm": 6.2
     }
    ]
   },
   "20": {
-   "media": 20.9,
+   "media": 5.9,
    "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Ajdovščina - Dolenje",
-     "mm": 85.2
-    },
-    {
-     "n": "Portorož - letališče",
-     "mm": 53.5
+     "mm": 70.8
     },
     {
      "n": "Metlika",
-     "mm": 48.7
+     "mm": 22
     },
     {
-     "n": "Planina pod Golico",
-     "mm": 40.3
+     "n": "Jelendol",
+     "mm": 21.3
     },
     {
      "n": "Kočevje",
-     "mm": 40
+     "mm": 21
+    },
+    {
+     "n": "Portorož - letališče",
+     "mm": 20.5
     }
    ]
   },
   "30": {
-   "media": 113.7,
+   "media": 114.4,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-08",
+   "ultimo": "2026-10-07",
    "top": [
     {
      "n": "Zadlog",
-     "mm": 204.8
-    },
-    {
-     "n": "Ajdovščina - Dolenje",
-     "mm": 194.2
+     "mm": 207.8
     },
     {
      "n": "Portorož - letališče",
-     "mm": 192.3
+     "mm": 197.3
+    },
+    {
+     "n": "Ajdovščina - Dolenje",
+     "mm": 196.9
     },
     {
      "n": "Vodice (Ajdovščina)",
-     "mm": 189.1
+     "mm": 190.5
     },
     {
      "n": "Idrija",
-     "mm": 187
+     "mm": 188.8
     }
    ]
   }
  },
  "serie": [
+  1.2,
   0,
   0,
   0,
@@ -148,8 +149,7 @@
   18.6,
   64.2,
   9.5,
-  0,
-  0.4
+  0
  ],
  "zone": []
 }
