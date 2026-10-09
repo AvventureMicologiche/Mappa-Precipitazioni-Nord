@@ -1,42 +1,42 @@
 {
  "regione": "calabria",
- "generato": "2026-10-08T03:16:11.484Z",
+ "generato": "2026-10-09T03:15:33.558Z",
  "periodi": {
   "1": {
-   "media": 1.4,
+   "media": 2,
    "giorni": 1,
    "stazioni": 140,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Salica",
-     "mm": 57.8
+     "n": "S.Nicola dell'Alto",
+     "mm": 36.4
     },
     {
-     "n": "Bova Superiore",
-     "mm": 32.8
+     "n": "Canolo Nuovo",
+     "mm": 17.8
     },
     {
-     "n": "Soveria Simeri",
-     "mm": 30
+     "n": "Rosario",
+     "mm": 17
     },
     {
-     "n": "Cropani",
-     "mm": 14.2
+     "n": "Allai",
+     "mm": 15.6
     },
     {
-     "n": "Cutro",
-     "mm": 12
+     "n": "Limina",
+     "mm": 14.8
     }
    ]
   },
   "7": {
-   "media": 1.5,
+   "media": 3.4,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Salica",
@@ -44,40 +44,40 @@
     },
     {
      "n": "Bova Superiore",
-     "mm": 32.8
+     "mm": 44
+    },
+    {
+     "n": "S.Nicola dell'Alto",
+     "mm": 36.4
     },
     {
      "n": "Soveria Simeri",
      "mm": 30
     },
     {
-     "n": "Cropani",
-     "mm": 14.2
-    },
-    {
-     "n": "Cutro",
-     "mm": 12
+     "n": "Canolo Nuovo",
+     "mm": 17.8
     }
    ]
   },
   "20": {
-   "media": 29.7,
+   "media": 31.6,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 110.4
+     "mm": 111
     },
     {
      "n": "Reggio Calabria - Catona",
-     "mm": 108.8
+     "mm": 110.8
     },
     {
      "n": "Scilla - Villaggio del Pino",
-     "mm": 96.4
+     "mm": 97.2
     },
     {
      "n": "Pizzoni",
@@ -90,27 +90,27 @@
    ]
   },
   "30": {
-   "media": 52.1,
+   "media": 53.8,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-09-08",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Monte Scrisi",
-     "mm": 132
-    },
-    {
-     "n": "Reggio Calabria - Catona",
-     "mm": 126
-    },
-    {
-     "n": "Scilla - Villaggio del Pino",
-     "mm": 122
+     "mm": 132.6
     },
     {
      "n": "Staiti",
-     "mm": 121.8
+     "mm": 131.2
+    },
+    {
+     "n": "Reggio Calabria - Catona",
+     "mm": 128
+    },
+    {
+     "n": "Scilla - Villaggio del Pino",
+     "mm": 122.8
     },
     {
      "n": "Pizzoni",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  2,
   1.4,
   0,
   0,
@@ -148,25 +149,24 @@
   10.6,
   1.2,
   0,
-  0.6,
-  0.3
+  0.6
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-07",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 58.1
+   "ultimo": "2026-10-08",
+   "m1": 3.6,
+   "m7": 3.7,
+   "m30": 61.7
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-07",
-   "m1": 0,
+   "ultimo": "2026-10-08",
+   "m1": 0.1,
    "m7": 0.3,
-   "m30": 64.4
+   "m30": 62.6
   }
  ]
 }

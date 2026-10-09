@@ -1,79 +1,83 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-08T15:53:38.458Z",
+ "generato": "2026-10-09T03:15:33.558Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 3.3,
    "giorni": 1,
-   "stazioni": 429,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-06",
+   "stazioni": 416,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Palermo SIAS",
-     "mm": 6.6
+     "n": "Palermo Abela",
+     "mm": 471.2
     },
     {
-     "n": "Caronia Buzza SIAS",
-     "mm": 6.4
+     "n": "Montalbano Elicona",
+     "mm": 39.8
     },
     {
-     "n": "Caronia Pomiere SIAS",
-     "mm": 4.8
+     "n": "Mastrostefano",
+     "mm": 38.6
     },
     {
-     "n": "Castelbuono SIAS",
-     "mm": 4
+     "n": "Tortorici Pagliara",
+     "mm": 34.7
     },
     {
-     "n": "Pettineo SIAS",
-     "mm": 2.6
+     "n": "San Piero Patti",
+     "mm": 32.1
     }
    ]
   },
   "7": {
-   "media": 0.6,
+   "media": 3.7,
    "giorni": 7,
-   "stazioni": 429,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-06",
+   "stazioni": 430,
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Milicia SP16",
-     "mm": 30.5
+     "n": "Palermo Abela",
+     "mm": 471.2
     },
     {
-     "n": "Ragusa SIAS",
-     "mm": 25.6
+     "n": "Montalbano Elicona",
+     "mm": 39.9
     },
     {
-     "n": "Caltagirone SP227",
-     "mm": 16.6
+     "n": "Mastrostefano",
+     "mm": 38.6
     },
     {
-     "n": "Palermo SIAS",
-     "mm": 6.6
+     "n": "Tortorici Pagliara",
+     "mm": 34.7
     },
     {
-     "n": "Caronia Buzza SIAS",
-     "mm": 6.4
+     "n": "San Piero Patti",
+     "mm": 32.1
     }
    ]
   },
   "20": {
-   "media": 35.9,
+   "media": 37.2,
    "giorni": 20,
-   "stazioni": 433,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-06",
+   "stazioni": 434,
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
+    {
+     "n": "Palermo Abela",
+     "mm": 503
+    },
     {
      "n": "Aci Castello",
      "mm": 219.7
     },
     {
      "n": "Riposto SIAS",
-     "mm": 198.6
+     "mm": 199
     },
     {
      "n": "Aci San Filippo",
@@ -82,20 +86,20 @@
     {
      "n": "San Gregorio",
      "mm": 163.2
-    },
-    {
-     "n": "Lavinaio",
-     "mm": 160.9
     }
    ]
   },
   "30": {
-   "media": 49.1,
+   "media": 52.3,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-09-07",
-   "ultimo": "2026-10-06",
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
+    {
+     "n": "Palermo Abela",
+     "mm": 537.5
+    },
     {
      "n": "Aci Castello",
      "mm": 225.7
@@ -106,20 +110,18 @@
     },
     {
      "n": "Riposto SIAS",
-     "mm": 201.6
+     "mm": 202
     },
     {
      "n": "Aci San Filippo",
      "mm": 200
-    },
-    {
-     "n": "Messina SP44",
-     "mm": 177.1
     }
    ]
   }
  },
  "serie": [
+  3.3,
+  0,
   0.2,
   0,
   0,
@@ -147,26 +149,24 @@
   1.4,
   1,
   0.2,
-  0.2,
-  0,
-  0
+  0.2
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-06",
-   "m1": 0.1,
-   "m7": 0.4,
-   "m30": 52
+   "ultimo": "2026-10-08",
+   "m1": 8.4,
+   "m7": 8.7,
+   "m30": 60.4
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-06",
-   "m1": 0.1,
-   "m7": 0.3,
-   "m30": 51.2
+   "ultimo": "2026-10-08",
+   "m1": 3.6,
+   "m7": 3.9,
+   "m30": 54.8
   }
  ]
 }

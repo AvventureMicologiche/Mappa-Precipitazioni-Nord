@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-10-08T03:16:11.483Z",
+ "generato": "2026-10-09T03:15:33.558Z",
  "periodi": {
   "1": {
-   "media": 1.4,
+   "media": 12.6,
    "giorni": 1,
-   "stazioni": 115,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-07",
+   "stazioni": 110,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Biscubio",
-     "mm": 9.2
+     "n": "Monte Petrano",
+     "mm": 120.4
     },
     {
-     "n": "Frontino",
-     "mm": 9
+     "n": "Pianello di Cagli",
+     "mm": 97.6
     },
     {
-     "n": "Carpegna",
-     "mm": 8.2
+     "n": "Cagli Civita",
+     "mm": 85.2
     },
     {
-     "n": "Sant Angelo in Vado",
-     "mm": 7.6
+     "n": "Fonte Avellana",
+     "mm": 62.2
     },
     {
-     "n": "Pergola",
-     "mm": 7.2
+     "n": "Monte Nerone",
+     "mm": 52.9
     }
    ]
   },
   "7": {
-   "media": 5,
+   "media": 16.9,
    "giorni": 7,
    "stazioni": 115,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Sorti",
-     "mm": 20.9
+     "n": "Monte Petrano",
+     "mm": 127.4
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 103.6
+    },
+    {
+     "n": "Cagli Civita",
+     "mm": 91.6
     },
     {
      "n": "Monte Nerone",
-     "mm": 20.2
+     "mm": 73.1
     },
     {
-     "n": "Spindoli",
-     "mm": 13.4
-    },
-    {
-     "n": "Poggio San Vicino",
-     "mm": 13.2
-    },
-    {
-     "n": "Camponocecchio",
-     "mm": 12.4
+     "n": "Fonte Avellana",
+     "mm": 69
     }
    ]
   },
   "20": {
-   "media": 23.6,
+   "media": 24,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Conca 2",
-     "mm": 72.6
+     "n": "Monte Petrano",
+     "mm": 128.8
     },
     {
-     "n": "Tavoleto",
-     "mm": 58.6
+     "n": "Pianello di Cagli",
+     "mm": 104.8
     },
     {
-     "n": "Appignano",
-     "mm": 55
+     "n": "Cagli Civita",
+     "mm": 95.8
     },
     {
-     "n": "Monte Paganuccio",
-     "mm": 53.4
+     "n": "Monte Nerone",
+     "mm": 77
     },
     {
-     "n": "Sassotetto",
-     "mm": 49.3
+     "n": "Fonte Avellana",
+     "mm": 69.2
     }
    ]
   },
   "30": {
-   "media": 68.7,
+   "media": 79.9,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-09-08",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Macerata Montalbano",
-     "mm": 136
+     "n": "Monte Petrano",
+     "mm": 245
     },
     {
-     "n": "Fossombrone",
-     "mm": 135.4
+     "n": "Cagli Civita",
+     "mm": 202.8
     },
     {
      "n": "Piobbico",
-     "mm": 133.2
+     "mm": 174.4
     },
     {
-     "n": "Monte Petrano",
-     "mm": 124.6
+     "n": "Pianello di Cagli",
+     "mm": 174.4
     },
     {
      "n": "Cantiano",
-     "mm": 121.8
+     "mm": 164.8
     }
    ]
   }
  },
  "serie": [
+  12.6,
   1.4,
   3.1,
   0.2,
@@ -148,33 +149,32 @@
   0.3,
   0.6,
   16.2,
-  14.2,
-  0.8
+  14.2
  ],
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-07",
-   "m1": 5,
-   "m7": 5.4,
-   "m30": 79.4
+   "ultimo": "2026-10-08",
+   "m1": 17,
+   "m7": 22.4,
+   "m30": 96
   },
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-07",
-   "m1": 0.3,
-   "m7": 5.3,
-   "m30": 47.1
+   "ultimo": "2026-10-08",
+   "m1": 2.2,
+   "m7": 6.7,
+   "m30": 47.9
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-07",
-   "m1": 2.7,
-   "m7": 4.3,
-   "m30": 34.5
+   "ultimo": "2026-10-08",
+   "m1": 8.4,
+   "m7": 12.8,
+   "m30": 42.9
   }
  ]
 }

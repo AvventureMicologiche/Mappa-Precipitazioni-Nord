@@ -1,125 +1,126 @@
 {
  "regione": "trentino",
- "generato": "2026-10-08T11:37:50.619Z",
+ "generato": "2026-10-09T03:15:33.552Z",
  "periodi": {
   "1": {
-   "media": 2.8,
+   "media": 13,
    "giorni": 1,
-   "stazioni": 104,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-07",
+   "stazioni": 103,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Val D'Ambiez",
-     "mm": 10.4
+     "mm": 32.2
     },
     {
-     "n": "Passo Pian Delle Fugazze",
-     "mm": 9
+     "n": "Pradalago (Rifugio Viviani)",
+     "mm": 24.2
     },
     {
-     "n": "Zuclo (Malga Casinot)",
-     "mm": 8.4
+     "n": "Tremalzo",
+     "mm": 24
     },
     {
-     "n": "Monte Bondone (Viote)",
-     "mm": 7
+     "n": "Passo Costalunga",
+     "mm": 22.2
     },
     {
-     "n": "Paganella (Malga Terlago)",
-     "mm": 7
+     "n": "Daone (Malga Bissina)",
+     "mm": 21
     }
    ]
   },
   "7": {
-   "media": 3.4,
+   "media": 16.3,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Val D'Ambiez",
-     "mm": 13.2
+     "mm": 45.4
     },
     {
-     "n": "Pian Palu' (Malga Giumella)",
-     "mm": 12.2
+     "n": "Pradalago (Rifugio Viviani)",
+     "mm": 31.4
     },
     {
-     "n": "Passo Pian Delle Fugazze",
-     "mm": 9.2
-    },
-    {
-     "n": "Bresimo (Malga Bordolona)",
-     "mm": 8.8
+     "n": "Tremalzo",
+     "mm": 31
     },
     {
      "n": "Zuclo (Malga Casinot)",
-     "mm": 8.4
+     "mm": 28.6
+    },
+    {
+     "n": "Daone (Malga Bissina)",
+     "mm": 27.8
     }
    ]
   },
   "20": {
-   "media": 5.5,
+   "media": 16.6,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Val D'Ambiez",
-     "mm": 16.8
+     "mm": 45.4
     },
     {
-     "n": "Pian Palu' (Malga Giumella)",
-     "mm": 15.6
+     "n": "Pradalago (Rifugio Viviani)",
+     "mm": 32
     },
     {
-     "n": "Val Sella (Montagnola)",
-     "mm": 14.8
+     "n": "Tremalzo",
+     "mm": 31.4
     },
     {
-     "n": "Bresimo (Malga Bordolona)",
-     "mm": 13.2
+     "n": "Zuclo (Malga Casinot)",
+     "mm": 28.8
     },
     {
-     "n": "Careser (Diga)",
-     "mm": 12.8
+     "n": "Daone (Malga Bissina)",
+     "mm": 28.8
     }
    ]
   },
   "30": {
-   "media": 105.5,
+   "media": 117.9,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-08",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Bezzecca (Spessa)",
-     "mm": 187.8
+     "mm": 202.4
     },
     {
      "n": "Storo",
-     "mm": 176.2
+     "mm": 192.6
     },
     {
      "n": "Tremalzo",
-     "mm": 166.8
-    },
-    {
-     "n": "Ronchi Valsugana (Malga Casapinello)",
-     "mm": 164
+     "mm": 190
     },
     {
      "n": "Monte Bondone (Viote)",
-     "mm": 158
+     "mm": 174.4
+    },
+    {
+     "n": "Val D'Ambiez",
+     "mm": 173.2
     }
    ]
   }
  },
  "serie": [
+  13,
   2.8,
   0.2,
   0.4,
@@ -148,57 +149,56 @@
   0,
   0.2,
   40.9,
-  47.7,
-  0.5
+  47.7
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-07",
-   "m1": 5.9,
-   "m7": 8.1,
-   "m30": 150.7
+   "ultimo": "2026-10-08",
+   "m1": 14.7,
+   "m7": 22.8,
+   "m30": 164
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-07",
-   "m1": 2.8,
-   "m7": 2.8,
-   "m30": 111.8
+   "ultimo": "2026-10-08",
+   "m1": 12.9,
+   "m7": 15.7,
+   "m30": 124.6
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-07",
-   "m1": 3.2,
-   "m7": 3.2,
-   "m30": 133.5
+   "ultimo": "2026-10-08",
+   "m1": 9.2,
+   "m7": 12.4,
+   "m30": 142.7
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-07",
-   "m1": 0.9,
-   "m7": 2.7,
-   "m30": 53.5
+   "ultimo": "2026-10-08",
+   "m1": 11.6,
+   "m7": 14.3,
+   "m30": 65
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-07",
-   "m1": 4.7,
-   "m7": 5.4,
-   "m30": 95
+   "ultimo": "2026-10-08",
+   "m1": 12.4,
+   "m7": 14.7,
+   "m30": 104
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-07",
-   "m1": 4.3,
-   "m7": 4.3,
-   "m30": 113.1
+   "ultimo": "2026-10-08",
+   "m1": 13.7,
+   "m7": 18,
+   "m30": 126.7
   }
  ]
 }

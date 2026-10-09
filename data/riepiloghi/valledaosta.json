@@ -1,125 +1,126 @@
 {
  "regione": "valledaosta",
- "generato": "2026-10-08T03:16:11.480Z",
+ "generato": "2026-10-09T03:15:33.551Z",
  "periodi": {
   "1": {
-   "media": 9.8,
+   "media": 5.9,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 24.4
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 25.7
     },
     {
-     "n": "Champorcher - Rifugio Dondena",
+     "n": "Courmayeur - Ferrachet",
      "mm": 23
     },
     {
-     "n": "Donnas - Clapey",
-     "mm": 22
-    },
-    {
-     "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 21.8
-    },
-    {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 21.1
+     "mm": 18.1
+    },
+    {
+     "n": "La Thuile - La Grande Tête",
+     "mm": 15.8
+    },
+    {
+     "n": "Morgex - Lavancher",
+     "mm": 14.6
     }
    ]
   },
   "7": {
-   "media": 12,
+   "media": 16.7,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 32.2
-    },
-    {
      "n": "Courmayeur - Ferrachet",
-     "mm": 29
+     "mm": 45.9
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 27.7
+     "mm": 41.5
+    },
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 41.3
+    },
+    {
+     "n": "Valtournenche - Grandes Murailles",
+     "mm": 40.2
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 25.9
-    },
-    {
-     "n": "Valtournenche - Breuil Cervinia",
-     "mm": 25.4
+     "mm": 36.8
     }
    ]
   },
   "20": {
-   "media": 12.3,
+   "media": 18.2,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 33.2
+     "n": "Courmayeur - Ferrachet",
+     "mm": 53.3
     },
     {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 30.3
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 49
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 28.6
+     "mm": 46.7
     },
     {
-     "n": "Champorcher - Rifugio Dondena",
-     "mm": 27.2
+     "n": "Valtournenche - Grandes Murailles",
+     "mm": 45
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 26.7
+     "mm": 41
     }
    ]
   },
   "30": {
-   "media": 29.9,
+   "media": 27.7,
    "giorni": 30,
    "stazioni": 69,
-   "primo": "2026-09-08",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 64.8
-    },
-    {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 64.4
+     "mm": 68.6
     },
     {
-     "n": "La Thuile - La Grande Tête",
-     "mm": 63
+     "n": "Valtournenche - Grandes Murailles",
+     "mm": 64
     },
     {
-     "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 58.5
+     "n": "Courmayeur - Ferrachet",
+     "mm": 62.9
     },
     {
-     "n": "Bionaz - Place Moulin",
-     "mm": 57.4
+     "n": "Morgex - Lavancher",
+     "mm": 58.3
+    },
+    {
+     "n": "Courmayeur - Mont de la Saxe",
+     "mm": 56.8
     }
    ]
   }
  },
  "serie": [
+  5.9,
   9.8,
   0.4,
   0,
@@ -148,41 +149,40 @@
   0,
   0,
   4.1,
-  5.1,
-  8
+  5.1
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-10-07",
-   "m1": 15.1,
-   "m7": 15.3,
-   "m30": 24.3
+   "ultimo": "2026-10-08",
+   "m1": 1.8,
+   "m7": 17.1,
+   "m30": 23.9
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-10-07",
-   "m1": 4.8,
-   "m7": 4.9,
-   "m30": 14.8
+   "ultimo": "2026-10-08",
+   "m1": 2.5,
+   "m7": 7.5,
+   "m30": 12.1
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-10-07",
-   "m1": 4.4,
-   "m7": 4.9,
-   "m30": 28.7
+   "ultimo": "2026-10-08",
+   "m1": 8,
+   "m7": 12.5,
+   "m30": 29
   },
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-10-07",
-   "m1": 10.7,
-   "m7": 11.1,
-   "m30": 23.2
+   "ultimo": "2026-10-08",
+   "m1": 2.5,
+   "m7": 13.6,
+   "m30": 22.6
   }
  ]
 }
