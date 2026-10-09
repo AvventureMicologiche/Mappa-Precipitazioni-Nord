@@ -482,7 +482,9 @@
       "stazioniViste": 84,
       "stazioniAttese": 424,
       "rilevato": "2026-10-08",
-      "stato": "aperto"
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-10-09",
+      "stazioniCoperte": 346
     },
     {
       "rete": "molise",
@@ -493,7 +495,17 @@
       "stazioniAttese": 27,
       "rilevato": "2026-10-08",
       "stato": "aperto"
+    },
+    {
+      "rete": "molise",
+      "data": "2026-10-08",
+      "tipo": "parziale",
+      "lieve": true,
+      "stazioniViste": 23,
+      "stazioniAttese": 27,
+      "rilevato": "2026-10-09",
+      "stato": "aperto"
     }
   ],
-  "aggiornato": "2026-10-08T15:50:29.950Z"
+  "aggiornato": "2026-10-09T15:33:00.632Z"
 }
