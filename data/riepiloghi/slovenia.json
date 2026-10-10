@@ -1,125 +1,126 @@
 {
  "regione": "slovenia",
- "generato": "2026-10-09T04:30:53.030Z",
+ "generato": "2026-10-10T04:30:51.343Z",
  "periodi": {
   "1": {
-   "media": 1.2,
+   "media": 30,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Koper",
-     "mm": 11.9
+     "n": "OTLICA - EKOLOSKA",
+     "mm": 193
     },
     {
-     "n": "Kneške Ravne",
-     "mm": 8.7
+     "n": "Zadlog",
+     "mm": 178.9
     },
     {
-     "n": "Tolmin - Volče",
-     "mm": 7.4
+     "n": "Ajdovščina - Dolenje",
+     "mm": 127.7
     },
     {
-     "n": "Koper Luka",
-     "mm": 6.6
+     "n": "Idrija",
+     "mm": 111.2
     },
     {
-     "n": "Zgornja Sorica",
-     "mm": 6.2
+     "n": "Vodice (Ajdovščina)",
+     "mm": 106
     }
    ]
   },
   "7": {
-   "media": 1.2,
+   "media": 31.2,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-07",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-08",
    "top": [
     {
-     "n": "Koper",
-     "mm": 12
+     "n": "OTLICA - EKOLOSKA",
+     "mm": 196.2
     },
     {
-     "n": "Kneške Ravne",
-     "mm": 8.7
+     "n": "Zadlog",
+     "mm": 181.9
     },
     {
-     "n": "Tolmin - Volče",
-     "mm": 7.4
+     "n": "Ajdovščina - Dolenje",
+     "mm": 130.4
     },
     {
-     "n": "Koper Luka",
-     "mm": 6.8
+     "n": "Idrija",
+     "mm": 113
     },
     {
-     "n": "Zgornja Sorica",
-     "mm": 6.2
+     "n": "Vodice (Ajdovščina)",
+     "mm": 107.4
     }
    ]
   },
   "20": {
-   "media": 5.9,
+   "media": 33.9,
    "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-07",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-08",
    "top": [
     {
+     "n": "OTLICA - EKOLOSKA",
+     "mm": 196.2
+    },
+    {
+     "n": "Zadlog",
+     "mm": 182.1
+    },
+    {
      "n": "Ajdovščina - Dolenje",
-     "mm": 70.8
+     "mm": 130.5
     },
     {
-     "n": "Metlika",
-     "mm": 22
+     "n": "Idrija",
+     "mm": 113.4
     },
     {
-     "n": "Jelendol",
-     "mm": 21.3
-    },
-    {
-     "n": "Kočevje",
-     "mm": 21
-    },
-    {
-     "n": "Portorož - letališče",
-     "mm": 20.5
+     "n": "Vodice (Ajdovščina)",
+     "mm": 107.5
     }
    ]
   },
   "30": {
-   "media": 114.4,
+   "media": 145.4,
    "giorni": 30,
-   "stazioni": 115,
-   "primo": "2026-09-08",
-   "ultimo": "2026-10-07",
+   "stazioni": 114,
+   "primo": "2026-09-09",
+   "ultimo": "2026-10-08",
    "top": [
     {
      "n": "Zadlog",
-     "mm": 207.8
+     "mm": 386.7
     },
     {
-     "n": "Portorož - letališče",
-     "mm": 197.3
+     "n": "OTLICA - EKOLOSKA",
+     "mm": 375.1
     },
     {
      "n": "Ajdovščina - Dolenje",
-     "mm": 196.9
-    },
-    {
-     "n": "Vodice (Ajdovščina)",
-     "mm": 190.5
+     "mm": 324.6
     },
     {
      "n": "Idrija",
-     "mm": 188.8
+     "mm": 300
+    },
+    {
+     "n": "Vodice (Ajdovščina)",
+     "mm": 296.5
     }
    ]
   }
  },
  "serie": [
+  30,
   1.2,
   0,
   0,
@@ -148,8 +149,7 @@
   0,
   18.6,
   64.2,
-  9.5,
-  0
+  9.5
  ],
  "zone": []
 }
