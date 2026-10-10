@@ -1,125 +1,126 @@
 {
  "regione": "emilia",
- "generato": "2026-10-09T13:45:52.100Z",
+ "generato": "2026-10-10T03:15:28.385Z",
  "periodi": {
   "1": {
-   "media": 9.6,
+   "media": 2,
    "giorni": 1,
-   "stazioni": 326,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "stazioni": 330,
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Lago Ballano (Parma)",
-     "mm": 114.2
+     "n": "S. Pietro in Vincoli (Ravenna)",
+     "mm": 23
     },
     {
-     "n": "Barbagelata (Genova)",
-     "mm": 107
+     "n": "Forlì Urbana (Forlì-Cesena)",
+     "mm": 22.7
     },
     {
-     "n": "Lago Scaffaiolo (Modena)",
-     "mm": 90.7
+     "n": "Vergato (Bologna)",
+     "mm": 22.5
     },
     {
-     "n": "Cabanne (Genova)",
-     "mm": 86.4
+     "n": "Coccolia (Ravenna)",
+     "mm": 21.6
     },
     {
-     "n": "Loco Carchelli (Genova)",
-     "mm": 59.8
+     "n": "S. Maria Nova (Forlì-Cesena)",
+     "mm": 19.5
     }
    ]
   },
   "7": {
-   "media": 18.4,
+   "media": 20.2,
    "giorni": 7,
-   "stazioni": 334,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
+   "stazioni": 336,
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 142.4
+     "mm": 143.2
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 136.8
+     "mm": 139.6
     },
     {
      "n": "Barbagelata (Genova)",
-     "mm": 119
+     "mm": 120.4
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 99.4
+     "mm": 103.2
     },
     {
      "n": "Diga del Brugneto (Genova)",
-     "mm": 90
+     "mm": 90.2
     }
    ]
   },
   "20": {
-   "media": 19.2,
+   "media": 20.3,
    "giorni": 20,
    "stazioni": 337,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 143.6
+     "mm": 144.4
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 137.4
+     "mm": 140.2
     },
     {
      "n": "Barbagelata (Genova)",
-     "mm": 119
+     "mm": 120.4
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 101.6
+     "mm": 105.2
     },
     {
      "n": "Diga del Brugneto (Genova)",
-     "mm": 90.4
+     "mm": 90.6
     }
    ]
   },
   "30": {
-   "media": 64.2,
+   "media": 53.7,
    "giorni": 30,
    "stazioni": 340,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Cabanne (Genova)",
-     "mm": 469.6
+     "n": "Barbagelata (Genova)",
+     "mm": 256.8
     },
     {
-     "n": "Barbagelata (Genova)",
-     "mm": 445.7
+     "n": "Cabanne (Genova)",
+     "mm": 223.2
+    },
+    {
+     "n": "Diga del Brugneto (Genova)",
+     "mm": 206.2
+    },
+    {
+     "n": "Lago Ballano (Parma)",
+     "mm": 184.6
     },
     {
      "n": "Casalporino (Parma)",
-     "mm": 281.6
-    },
-    {
-     "n": "Casoni di Santa Maria di Taro (Parma)",
-     "mm": 265.9
-    },
-    {
-     "n": "S. Stefano d'Aveto (Genova)",
-     "mm": 246.6
+     "mm": 167.2
     }
    ]
   }
  },
  "serie": [
+  2,
   9.6,
   8.5,
   0.5,
@@ -148,65 +149,64 @@
   0,
   0.3,
   1.4,
-  20.3,
-  13.1
+  20.3
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-08",
-   "m1": 4.1,
-   "m7": 9.8,
-   "m30": 49.4
+   "ultimo": "2026-10-09",
+   "m1": 0.3,
+   "m7": 10.1,
+   "m30": 26.8
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-08",
-   "m1": 42.3,
-   "m7": 65.9,
-   "m30": 116.7
+   "ultimo": "2026-10-09",
+   "m1": 2.1,
+   "m7": 67.9,
+   "m30": 92.4
   },
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-08",
-   "m1": 36.1,
-   "m7": 47.8,
-   "m30": 130
+   "ultimo": "2026-10-09",
+   "m1": 2.5,
+   "m7": 50.2,
+   "m30": 110.9
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-08",
-   "m1": 5.6,
-   "m7": 10.5,
-   "m30": 78.7
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 10.6,
+   "m30": 67.4
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-08",
-   "m1": 3.7,
+   "ultimo": "2026-10-09",
+   "m1": 0,
    "m7": 19.1,
-   "m30": 73.1
+   "m30": 60.3
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-08",
-   "m1": 12.1,
-   "m7": 15.9,
-   "m30": 93.6
+   "ultimo": "2026-10-09",
+   "m1": 6.8,
+   "m7": 22.7,
+   "m30": 89.9
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-08",
-   "m1": 16.6,
-   "m7": 36.3,
-   "m30": 80
+   "ultimo": "2026-10-09",
+   "m1": 3.8,
+   "m7": 40.1,
+   "m30": 65.5
   }
  ]
 }

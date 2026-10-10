@@ -1,125 +1,126 @@
 {
  "regione": "friuli",
- "generato": "2026-10-09T03:15:33.552Z",
+ "generato": "2026-10-10T03:15:28.386Z",
  "periodi": {
   "1": {
-   "media": 15.5,
+   "media": 5,
    "giorni": 1,
-   "stazioni": 142,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "stazioni": 140,
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "San Pelagio",
-     "mm": 92.6
+     "n": "Lignano Sabbiadoro",
+     "mm": 52.7
+    },
+    {
+     "n": "Lignano Sabbiadoro PCR",
+     "mm": 52.7
     },
     {
      "n": "Prosecco",
-     "mm": 65.9
+     "mm": 32.9
     },
     {
-     "n": "Sgonico-Zgonik",
-     "mm": 61.4
+     "n": "Montemaggiore",
+     "mm": 29.7
     },
     {
-     "n": "Grado Marea",
-     "mm": 56
-    },
-    {
-     "n": "Trieste Ist. Nautico",
-     "mm": 53.8
+     "n": "Cividale T.P.",
+     "mm": 29.2
     }
    ]
   },
   "7": {
-   "media": 16.4,
+   "media": 21.2,
    "giorni": 7,
-   "stazioni": 143,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
+   "stazioni": 144,
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "San Pelagio",
-     "mm": 94.8
+     "mm": 102.6
     },
     {
      "n": "Prosecco",
-     "mm": 69.3
-    },
-    {
-     "n": "Grado Marea",
-     "mm": 68
+     "mm": 102.2
     },
     {
      "n": "Sgonico-Zgonik",
-     "mm": 65
+     "mm": 83.4
     },
     {
      "n": "Trieste Ist. Nautico",
-     "mm": 59.8
+     "mm": 81.8
+    },
+    {
+     "n": "Trieste molo F.lli Bandiera",
+     "mm": 74.6
     }
    ]
   },
   "20": {
-   "media": 16.8,
+   "media": 21.5,
    "giorni": 20,
-   "stazioni": 143,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "stazioni": 144,
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "San Pelagio",
-     "mm": 94.8
+     "mm": 102.6
     },
     {
      "n": "Prosecco",
-     "mm": 69.5
-    },
-    {
-     "n": "Grado Marea",
-     "mm": 68.2
+     "mm": 102.2
     },
     {
      "n": "Sgonico-Zgonik",
-     "mm": 65
+     "mm": 83.4
     },
     {
      "n": "Trieste Ist. Nautico",
-     "mm": 60
+     "mm": 82
+    },
+    {
+     "n": "Trieste molo F.lli Bandiera",
+     "mm": 75
     }
    ]
   },
   "30": {
-   "media": 138.4,
+   "media": 122.4,
    "giorni": 30,
-   "stazioni": 143,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "stazioni": 144,
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Lignano Sabbiadoro",
-     "mm": 329.3
+     "mm": 362.5
     },
     {
      "n": "Lignano Sabbiadoro PCR",
-     "mm": 324.2
+     "mm": 357.4
     },
     {
      "n": "Gorgo",
-     "mm": 282.5
+     "mm": 266.9
+    },
+    {
+     "n": "Prosecco",
+     "mm": 235.1
     },
     {
      "n": "San Pelagio",
-     "mm": 236.8
-    },
-    {
-     "n": "Torviscosa",
-     "mm": 228.4
+     "mm": 222.6
     }
    ]
   }
  },
  "serie": [
+  5,
   15.5,
   1,
   0,
@@ -148,89 +149,88 @@
   0,
   0,
   6.2,
-  81.2,
-  20.7
+  81.2
  ],
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-10-08",
-   "m1": 17.4,
-   "m7": 17.8,
-   "m30": 110.7
+   "ultimo": "2026-10-09",
+   "m1": 0.6,
+   "m7": 18.4,
+   "m30": 100.6
   },
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-10-08",
-   "m1": 9,
-   "m7": 9,
-   "m30": 109.1
+   "ultimo": "2026-10-09",
+   "m1": 0.5,
+   "m7": 9.6,
+   "m30": 75.2
   },
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-10-08",
-   "m1": 13,
-   "m7": 13.7,
-   "m30": 87.1
+   "ultimo": "2026-10-09",
+   "m1": 0.5,
+   "m7": 14.2,
+   "m30": 75.4
   },
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-10-08",
-   "m1": 18.9,
-   "m7": 18.9,
-   "m30": 118.9
+   "ultimo": "2026-10-09",
+   "m1": 0.6,
+   "m7": 19.5,
+   "m30": 90.5
   },
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-10-08",
-   "m1": 12.3,
-   "m7": 12.4,
-   "m30": 122.4
+   "ultimo": "2026-10-09",
+   "m1": 2.2,
+   "m7": 14.5,
+   "m30": 108.7
   },
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-10-08",
-   "m1": 15.8,
-   "m7": 15.8,
-   "m30": 119
+   "ultimo": "2026-10-09",
+   "m1": 1.9,
+   "m7": 17.7,
+   "m30": 104.6
   },
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-10-08",
-   "m1": 15.3,
-   "m7": 15.8,
-   "m30": 132.5
+   "ultimo": "2026-10-09",
+   "m1": 3.1,
+   "m7": 18.8,
+   "m30": 120.5
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-10-08",
-   "m1": 7.1,
-   "m7": 7.1,
-   "m30": 106.7
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 7.2,
+   "m30": 85.3
   },
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-10-08",
-   "m1": 15.6,
-   "m7": 15.7,
-   "m30": 167.1
+   "ultimo": "2026-10-09",
+   "m1": 6.7,
+   "m7": 20.7,
+   "m30": 151.6
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-10-08",
-   "m1": 10.1,
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
    "m7": 10.1,
-   "m30": 94.7
+   "m30": 81
   }
  ]
 }

@@ -1,125 +1,126 @@
 {
  "regione": "liguria",
- "generato": "2026-10-09T11:31:34.237Z",
+ "generato": "2026-10-10T03:15:28.385Z",
  "periodi": {
   "1": {
-   "media": 22.5,
+   "media": 2,
    "giorni": 1,
    "stazioni": 198,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Pratomollo (Borzonasca)",
-     "mm": 87.2
+     "n": "Sesta Godano (Sesta Godano)",
+     "mm": 28.6
     },
     {
      "n": "Barbagelata (Lorsica)",
-     "mm": 86.6
+     "mm": 22
     },
     {
-     "n": "Cabanne (Rezzoaglio)",
-     "mm": 86
+     "n": "Varese Ligure (Varese Ligure)",
+     "mm": 15.8
     },
     {
-     "n": "Borzone (Borzonasca)",
-     "mm": 81.4
+     "n": "Cembrano (Maissana)",
+     "mm": 13
     },
     {
-     "n": "Minucciano (Minucciano)",
-     "mm": 78.6
+     "n": "Piampaludo (Sassello)",
+     "mm": 11.8
     }
    ]
   },
   "7": {
-   "media": 49.5,
+   "media": 51.5,
    "giorni": 7,
    "stazioni": 198,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
+     "n": "Barbagelata (Lorsica)",
+     "mm": 120.4
+    },
+    {
      "n": "Pratomollo (Borzonasca)",
-     "mm": 106.2
+     "mm": 108.6
     },
     {
      "n": "Villafranca - Fornoli (Villafranca in Lunigiana)",
-     "mm": 105.6
+     "mm": 106.6
+    },
+    {
+     "n": "Minucciano (Minucciano)",
+     "mm": 106
     },
     {
      "n": "Monterosso (Monterosso al Mare)",
-     "mm": 101.2
-    },
-    {
-     "n": "Marinella di Sarzana (Sarzana)",
-     "mm": 100.6
-    },
-    {
-     "n": "Ricco' del Golfo (Riccò del Golfo di Spezia)",
-     "mm": 99.8
+     "mm": 103.4
     }
    ]
   },
   "20": {
-   "media": 50.2,
+   "media": 52.1,
    "giorni": 20,
    "stazioni": 198,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
    "top": [
     {
+     "n": "Barbagelata (Lorsica)",
+     "mm": 120.4
+    },
+    {
      "n": "Pratomollo (Borzonasca)",
-     "mm": 106.8
+     "mm": 109
     },
     {
      "n": "Villafranca - Fornoli (Villafranca in Lunigiana)",
-     "mm": 106.4
+     "mm": 107.4
     },
     {
-     "n": "Monterosso (Monterosso al Mare)",
-     "mm": 101.2
+     "n": "Minucciano (Minucciano)",
+     "mm": 106
     },
     {
      "n": "Cabanne (Rezzoaglio)",
-     "mm": 100.6
-    },
-    {
-     "n": "Marinella di Sarzana (Sarzana)",
-     "mm": 100.6
+     "mm": 105
     }
    ]
   },
   "30": {
-   "media": 122,
+   "media": 86.1,
    "giorni": 30,
    "stazioni": 198,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Cabanne (Rezzoaglio)",
-     "mm": 429
-    },
-    {
      "n": "Barbagelata (Lorsica)",
-     "mm": 405.5
+     "mm": 256.5
     },
     {
-     "n": "Amborzasco (Santo Stefano d'Aveto)",
-     "mm": 340.6
+     "n": "Fiorino (Genova)",
+     "mm": 248.4
+    },
+    {
+     "n": "Sciarborasca (Cogoleto)",
+     "mm": 216.2
+    },
+    {
+     "n": "Cabanne (Rezzoaglio)",
+     "mm": 214
     },
     {
      "n": "Pratomollo (Borzonasca)",
-     "mm": 332.6
-    },
-    {
-     "n": "Croce Orero (Orero)",
-     "mm": 311.6
+     "mm": 203.2
     }
    ]
   }
  },
  "serie": [
+  2,
   22.5,
   25,
   1.2,
@@ -148,105 +149,104 @@
   0,
   0,
   0.1,
-  13.4,
-  37.9
+  13.4
  ],
  "zone": [
   {
    "s": "valle-dei-campassi",
    "n": "Valle dei Campassi",
-   "ultimo": "2026-10-08",
-   "m1": 27.4,
-   "m7": 44.1,
-   "m30": 135.4
+   "ultimo": "2026-10-09",
+   "m1": 1.7,
+   "m7": 45.7,
+   "m30": 115.7
   },
   {
    "s": "val-bormida",
    "n": "Val Bormida",
-   "ultimo": "2026-10-08",
-   "m1": 15.4,
-   "m7": 34.5,
-   "m30": 60.7
+   "ultimo": "2026-10-09",
+   "m1": 0.5,
+   "m7": 34.9,
+   "m30": 51.8
   },
   {
    "s": "val-varenna",
    "n": "Val Varenna",
-   "ultimo": "2026-10-08",
-   "m1": 25.3,
-   "m7": 38.8,
-   "m30": 96.2
+   "ultimo": "2026-10-09",
+   "m1": 2.3,
+   "m7": 40.5,
+   "m30": 71.1
   },
   {
    "s": "val-neva",
    "n": "Val Neva",
-   "ultimo": "2026-10-08",
-   "m1": 9.2,
-   "m7": 40.3,
-   "m30": 43.6
+   "ultimo": "2026-10-09",
+   "m1": 0.8,
+   "m7": 41,
+   "m30": 44.1
   },
   {
    "s": "terra-brigasca",
    "n": "Terra brigasca",
-   "ultimo": "2026-10-08",
-   "m1": 5.8,
-   "m7": 39.4,
-   "m30": 42
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 39.5,
+   "m30": 41.5
   },
   {
    "s": "riviera-di-levante",
    "n": "Riviera di Levante",
-   "ultimo": "2026-10-08",
-   "m1": 47.3,
-   "m7": 60.9,
-   "m30": 307.7
+   "ultimo": "2026-10-09",
+   "m1": 14.1,
+   "m7": 74.9,
+   "m30": 187.4
   },
   {
    "s": "val-bisagno",
    "n": "Val Bisagno",
-   "ultimo": "2026-10-08",
-   "m1": 19.7,
-   "m7": 36.3,
-   "m30": 207
+   "ultimo": "2026-10-09",
+   "m1": 2.3,
+   "m7": 38.6,
+   "m30": 152.7
   },
   {
    "s": "val-cichero",
    "n": "Val Cichero",
-   "ultimo": "2026-10-08",
-   "m1": 53.5,
-   "m7": 75.4,
-   "m30": 255.4
+   "ultimo": "2026-10-09",
+   "m1": 3.5,
+   "m7": 78.9,
+   "m30": 149.3
   },
   {
    "s": "val-di-vara",
    "n": "Val di Vara",
-   "ultimo": "2026-10-08",
-   "m1": 40.9,
-   "m7": 84,
-   "m30": 173.3
+   "ultimo": "2026-10-09",
+   "m1": 1.8,
+   "m7": 85.8,
+   "m30": 117.3
   },
   {
    "s": "val-d-aveto",
    "n": "Val d'Aveto",
-   "ultimo": "2026-10-08",
-   "m1": 86.6,
-   "m7": 102.3,
-   "m30": 380.8
+   "ultimo": "2026-10-09",
+   "m1": 3.5,
+   "m7": 105.8,
+   "m30": 208.6
   },
   {
    "s": "val-varatella",
    "n": "Val Varatella",
-   "ultimo": "2026-10-08",
-   "m1": 8.9,
-   "m7": 51.4,
+   "ultimo": "2026-10-09",
+   "m1": 0,
+   "m7": 51.5,
    "m30": 59.8
   },
   {
    "s": "val-roia",
    "n": "Val Roia",
-   "ultimo": "2026-10-08",
-   "m1": 2.7,
-   "m7": 40.2,
-   "m30": 41.2
+   "ultimo": "2026-10-09",
+   "m1": 0.2,
+   "m7": 40.4,
+   "m30": 41
   }
  ]
 }

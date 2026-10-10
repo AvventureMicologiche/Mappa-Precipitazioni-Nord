@@ -1,125 +1,126 @@
 {
  "regione": "lombardia",
- "generato": "2026-10-09T10:46:11.151Z",
+ "generato": "2026-10-10T03:15:28.385Z",
  "periodi": {
   "1": {
-   "media": 19.5,
+   "media": 1.6,
    "giorni": 1,
    "stazioni": 252,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Lodi v. X Maggio (LO)",
-     "mm": 75.6
+     "n": "Lanzada Passo Marinelli (SO)",
+     "mm": 23.4
     },
     {
-     "n": "Vilminore di Scalve Presolana (BG)",
-     "mm": 71.8
+     "n": "Cantù Asnago (CO)",
+     "mm": 21.2
     },
     {
-     "n": "Azzone Dezzo di Scalve (BG)",
-     "mm": 68.2
+     "n": "Montevecchia cascina Butto (LC)",
+     "mm": 18.6
     },
     {
-     "n": "Valbondione (BG)",
-     "mm": 64.2
+     "n": "Vertemate con Minoprio serre (CO)",
+     "mm": 15.8
     },
     {
-     "n": "Gerola Alta Pescegallo (SO)",
-     "mm": 56.4
+     "n": "Misinto (MB)",
+     "mm": 13.6
     }
    ]
   },
   "7": {
-   "media": 31.7,
+   "media": 33.3,
    "giorni": 7,
    "stazioni": 254,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
-   "top": [
-    {
-     "n": "Vilminore di Scalve Presolana (BG)",
-     "mm": 100.8
-    },
-    {
-     "n": "Clusone SP 671 (BG)",
-     "mm": 88.8
-    },
-    {
-     "n": "Oltre il Colle Zambla (BG)",
-     "mm": 86.4
-    },
-    {
-     "n": "Lodi v. X Maggio (LO)",
-     "mm": 83.4
-    },
-    {
-     "n": "Gerola Alta Pescegallo (SO)",
-     "mm": 82.6
-    }
-   ]
-  },
-  "20": {
-   "media": 31.9,
-   "giorni": 20,
-   "stazioni": 254,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Vilminore di Scalve Presolana (BG)",
      "mm": 101.2
     },
     {
+     "n": "Oltre il Colle Zambla (BG)",
+     "mm": 91
+    },
+    {
+     "n": "Clusone SP 671 (BG)",
+     "mm": 89
+    },
+    {
+     "n": "Lodi v. X Maggio (LO)",
+     "mm": 83.6
+    },
+    {
+     "n": "Gerola Alta Pescegallo (SO)",
+     "mm": 83
+    }
+   ]
+  },
+  "20": {
+   "media": 33.5,
+   "giorni": 20,
+   "stazioni": 254,
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
+   "top": [
+    {
+     "n": "Vilminore di Scalve Presolana (BG)",
+     "mm": 101.4
+    },
+    {
+     "n": "Oltre il Colle Zambla (BG)",
+     "mm": 91
+    },
+    {
      "n": "Clusone SP 671 (BG)",
      "mm": 89.2
     },
     {
-     "n": "Oltre il Colle Zambla (BG)",
-     "mm": 86.6
-    },
-    {
      "n": "Lodi v. X Maggio (LO)",
-     "mm": 83.4
+     "mm": 83.6
     },
     {
      "n": "Gerola Alta Pescegallo (SO)",
-     "mm": 82.6
+     "mm": 83
     }
    ]
   },
   "30": {
-   "media": 121,
+   "media": 80.3,
    "giorni": 30,
    "stazioni": 254,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
+     "n": "Bosisio Parini Imbarcadero (LC)",
+     "mm": 165.6
+    },
+    {
+     "n": "Canzo (CO)",
+     "mm": 163.2
+    },
+    {
      "n": "Vilminore di Scalve Presolana (BG)",
-     "mm": 256.2
+     "mm": 162.8
     },
     {
-     "n": "Rota d'Imagna (BG)",
-     "mm": 248
+     "n": "Valmadrera v.Pozzi (LC)",
+     "mm": 154.6
     },
     {
-     "n": "Osnago (LC)",
-     "mm": 234.8
-    },
-    {
-     "n": "San Giovanni Bianco Cornalita (BG)",
-     "mm": 231
-    },
-    {
-     "n": "Fuipiano Valle Imagna Pagafone (BG)",
-     "mm": 223.5
+     "n": "Clusone SP 671 (BG)",
+     "mm": 154.4
     }
    ]
   }
  },
  "serie": [
+  1.6,
   19.5,
   8.6,
   2.7,
@@ -148,121 +149,120 @@
   0,
   0,
   0.2,
-  20.4,
-  42.6
+  20.4
  ],
  "zone": [
   {
    "s": "val-grigna",
    "n": "Val Grigna",
-   "ultimo": "2026-10-08",
-   "m1": 11.5,
-   "m7": 15.4,
-   "m30": 135.8
+   "ultimo": "2026-10-09",
+   "m1": 2.9,
+   "m7": 18.3,
+   "m30": 80.7
   },
   {
    "s": "valle-sabbia",
    "n": "Valle Sabbia",
-   "ultimo": "2026-10-08",
-   "m1": 16.7,
-   "m7": 19.7,
-   "m30": 143.5
+   "ultimo": "2026-10-09",
+   "m1": 1.6,
+   "m7": 21.3,
+   "m30": 89.6
   },
   {
    "s": "val-trompia",
    "n": "Val Trompia",
-   "ultimo": "2026-10-08",
-   "m1": 12.7,
-   "m7": 19.3,
-   "m30": 148
+   "ultimo": "2026-10-09",
+   "m1": 1.9,
+   "m7": 21.2,
+   "m30": 83.4
   },
   {
    "s": "val-brembana",
    "n": "Val Brembana",
-   "ultimo": "2026-10-08",
-   "m1": 35.7,
-   "m7": 47.1,
-   "m30": 204.7
+   "ultimo": "2026-10-09",
+   "m1": 3.2,
+   "m7": 50.3,
+   "m30": 123.5
   },
   {
    "s": "val-sedornia",
    "n": "Val Sedornia",
-   "ultimo": "2026-10-08",
-   "m1": 49.9,
-   "m7": 67.3,
-   "m30": 170.6
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 67.4,
+   "m30": 110.1
   },
   {
    "s": "val-cavargna",
    "n": "Val Cavargna",
-   "ultimo": "2026-10-08",
-   "m1": 28.1,
-   "m7": 54.2,
-   "m30": 112.4
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 54.3,
+   "m30": 76.1
   },
   {
    "s": "val-serina",
    "n": "Val Serina",
-   "ultimo": "2026-10-08",
-   "m1": 36.8,
-   "m7": 58.9,
-   "m30": 174.7
+   "ultimo": "2026-10-09",
+   "m1": 6.9,
+   "m7": 65.8,
+   "m30": 121.3
   },
   {
    "s": "valmalenco",
    "n": "Valmalenco",
-   "ultimo": "2026-10-08",
-   "m1": 29.8,
-   "m7": 47.7,
-   "m30": 110.8
+   "ultimo": "2026-10-09",
+   "m1": 0.4,
+   "m7": 47.6,
+   "m30": 83.4
   },
   {
    "s": "valsassina",
    "n": "Valsassina",
-   "ultimo": "2026-10-08",
-   "m1": 28.5,
-   "m7": 42.9,
-   "m30": 105.3
+   "ultimo": "2026-10-09",
+   "m1": 0.1,
+   "m7": 43,
+   "m30": 67.6
   },
   {
    "s": "monte-san-giorgio",
    "n": "Monte San Giorgio",
-   "ultimo": "2026-10-08",
-   "m1": 15.2,
-   "m7": 51.3,
-   "m30": 114.4
+   "ultimo": "2026-10-09",
+   "m1": 0.4,
+   "m7": 51.7,
+   "m30": 87.6
   },
   {
    "s": "valle-dei-ratti",
    "n": "Valle dei Ratti",
-   "ultimo": "2026-10-08",
-   "m1": 27.1,
+   "ultimo": "2026-10-09",
+   "m1": 0,
    "m7": 36.9,
-   "m30": 125.7
+   "m30": 63.7
   },
   {
    "s": "val-paisco",
    "n": "Val Paisco",
-   "ultimo": "2026-10-08",
-   "m1": 31.9,
-   "m7": 45,
-   "m30": 149.1
+   "ultimo": "2026-10-09",
+   "m1": 0.4,
+   "m7": 45.4,
+   "m30": 97.2
   },
   {
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
-   "ultimo": "2026-10-08",
-   "m1": 24.9,
+   "ultimo": "2026-10-09",
+   "m1": 0,
    "m7": 39.3,
-   "m30": 96.4
+   "m30": 69.4
   },
   {
    "s": "val-veddasca",
    "n": "Val Veddasca",
-   "ultimo": "2026-10-08",
-   "m1": 19.1,
+   "ultimo": "2026-10-09",
+   "m1": 0,
    "m7": 57.9,
-   "m30": 74
+   "m30": 52.7
   }
  ]
 }

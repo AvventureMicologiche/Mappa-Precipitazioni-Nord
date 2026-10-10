@@ -1,125 +1,126 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-09T03:15:33.558Z",
+ "generato": "2026-10-10T03:15:28.387Z",
  "periodi": {
   "1": {
-   "media": 7.3,
+   "media": 11,
    "giorni": 1,
    "stazioni": 60,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Tramutola",
-     "mm": 22.8
+     "n": "Lagonegro",
+     "mm": 45.8
     },
     {
-     "n": "Laurenzana",
-     "mm": 17.3
+     "n": "Rotonda",
+     "mm": 35.9
+    },
+    {
+     "n": "Castelsaraceno",
+     "mm": 23.6
     },
     {
      "n": "Grumento-Ponte La Marmora",
-     "mm": 17
+     "mm": 23.4
     },
     {
-     "n": "Lagonegro",
-     "mm": 16.8
-    },
-    {
-     "n": "Montescaglioso",
-     "mm": 16.6
+     "n": "Episcopia-Pizzutello",
+     "mm": 23.2
     }
    ]
   },
   "7": {
-   "media": 7.2,
+   "media": 17.8,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Castellaneta",
-     "mm": 24.8
+     "n": "Lagonegro",
+     "mm": 62.6
     },
     {
-     "n": "Tramutola",
-     "mm": 22.8
-    },
-    {
-     "n": "Laurenzana",
-     "mm": 17.3
+     "n": "Rotonda",
+     "mm": 48.7
     },
     {
      "n": "Grumento-Ponte La Marmora",
-     "mm": 17.2
+     "mm": 40.6
     },
     {
-     "n": "Lagonegro",
-     "mm": 16.8
+     "n": "Tramutola",
+     "mm": 38.3
+    },
+    {
+     "n": "Marsico Nuovo",
+     "mm": 32
     }
    ]
   },
   "20": {
-   "media": 17.8,
+   "media": 27,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Tramutola",
-     "mm": 46.8
-    },
-    {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 42.1
-    },
-    {
      "n": "Lagonegro",
-     "mm": 42.1
+     "mm": 87.9
+    },
+    {
+     "n": "Tramutola",
+     "mm": 62.3
+    },
+    {
+     "n": "Rotonda",
+     "mm": 60.7
     },
     {
      "n": "Grumento-Ponte La Marmora",
-     "mm": 32.4
+     "mm": 55.8
     },
     {
-     "n": "Laurenzana",
-     "mm": 30.9
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 53.7
     }
    ]
   },
   "30": {
-   "media": 28.4,
+   "media": 37.9,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Maratea",
-     "mm": 64.9
-    },
-    {
      "n": "Lagonegro",
-     "mm": 56.3
+     "mm": 102.1
     },
     {
-     "n": "Venosa ETG",
-     "mm": 55.6
+     "n": "Maratea",
+     "mm": 85.4
     },
     {
-     "n": "Venosa",
-     "mm": 49
+     "n": "Rotonda",
+     "mm": 66.1
     },
     {
      "n": "Tramutola",
-     "mm": 48.9
+     "mm": 64.4
+    },
+    {
+     "n": "Anzi",
+     "mm": 63.6
     }
    ]
   }
  },
  "serie": [
+  11,
   7.3,
   0.2,
   0,
@@ -148,8 +149,7 @@
   0,
   4.1,
   1.2,
-  0.2,
-  1.1
+  0.2
  ],
  "zone": []
 }

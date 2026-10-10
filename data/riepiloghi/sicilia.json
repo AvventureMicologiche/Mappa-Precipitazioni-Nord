@@ -1,104 +1,108 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-09T16:09:56.257Z",
+ "generato": "2026-10-10T03:15:28.387Z",
  "periodi": {
   "1": {
-   "media": 3.3,
+   "media": 5.3,
    "giorni": 1,
-   "stazioni": 416,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-08",
+   "stazioni": 418,
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-09",
    "top": [
     {
-     "n": "Palermo Abela",
-     "mm": 471.2
+     "n": "Monterosso Almo SP11",
+     "mm": 362.5
     },
     {
-     "n": "Montalbano Elicona",
-     "mm": 39.8
+     "n": "San Giovanni Diga R2",
+     "mm": 78.3
     },
     {
-     "n": "Mastrostefano",
-     "mm": 38.6
+     "n": "Canicattì SIAS",
+     "mm": 70.4
     },
     {
-     "n": "Tortorici Pagliara",
-     "mm": 34.7
+     "n": "Muxaro SS118",
+     "mm": 58.5
     },
     {
-     "n": "San Piero Patti",
-     "mm": 32.1
+     "n": "Aragona",
+     "mm": 57.2
     }
    ]
   },
   "7": {
-   "media": 4.1,
+   "media": 9.1,
    "giorni": 7,
-   "stazioni": 430,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-08",
+   "stazioni": 431,
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Palermo Abela",
      "mm": 471.2
     },
     {
-     "n": "Montalbano Elicona",
-     "mm": 39.9
+     "n": "Monterosso Almo SP11",
+     "mm": 363
     },
     {
-     "n": "Mastrostefano",
-     "mm": 38.6
+     "n": "San Giovanni Diga R2",
+     "mm": 78.5
     },
     {
-     "n": "Tortorici Pagliara",
-     "mm": 34.7
+     "n": "Canicattì SIAS",
+     "mm": 70.4
     },
     {
-     "n": "San Piero Patti",
-     "mm": 32.1
+     "n": "Muxaro SS118",
+     "mm": 58.8
     }
    ]
   },
   "20": {
-   "media": 37.5,
+   "media": 29.4,
    "giorni": 20,
    "stazioni": 434,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Palermo Abela",
-     "mm": 503
+     "mm": 489.1
+    },
+    {
+     "n": "Monterosso Almo SP11",
+     "mm": 408.2
     },
     {
      "n": "Aci Castello",
-     "mm": 222
-    },
-    {
-     "n": "Riposto SIAS",
-     "mm": 199
+     "mm": 218.2
     },
     {
      "n": "Aci San Filippo",
-     "mm": 192.9
+     "mm": 189.1
     },
     {
-     "n": "Lavinaio",
-     "mm": 166.2
+     "n": "Riposto SIAS",
+     "mm": 186.8
     }
    ]
   },
   "30": {
-   "media": 52.7,
+   "media": 57.6,
    "giorni": 30,
    "stazioni": 435,
-   "primo": "2026-09-09",
-   "ultimo": "2026-10-08",
+   "primo": "2026-09-10",
+   "ultimo": "2026-10-09",
    "top": [
     {
      "n": "Palermo Abela",
      "mm": 537.5
+    },
+    {
+     "n": "Monterosso Almo SP11",
+     "mm": 497.8
     },
     {
      "n": "Aci Castello",
@@ -106,20 +110,17 @@
     },
     {
      "n": "Santa Rosalia Diga R2",
-     "mm": 206.6
-    },
-    {
-     "n": "Aci San Filippo",
-     "mm": 202.3
+     "mm": 207
     },
     {
      "n": "Riposto SIAS",
-     "mm": 202
+     "mm": 202.8
     }
    ]
   }
  },
  "serie": [
+  5.3,
   3.3,
   0.4,
   0.2,
@@ -148,25 +149,24 @@
   3.1,
   1.4,
   1,
-  0.2,
   0.2
  ],
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-08",
-   "m1": 8.4,
-   "m7": 8.7,
-   "m30": 60.4
+   "ultimo": "2026-10-09",
+   "m1": 5.4,
+   "m7": 14,
+   "m30": 65.8
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-08",
-   "m1": 3.6,
-   "m7": 3.9,
-   "m30": 54.8
+   "ultimo": "2026-10-09",
+   "m1": 2.6,
+   "m7": 6.5,
+   "m30": 54.9
   }
  ]
 }
