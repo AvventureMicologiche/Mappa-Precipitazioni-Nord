@@ -1,0 +1,72 @@
+name: Pagine regione cotte, ogni mattina
+# ── PERCHE' (11/10/2026) ───────────────────────────────────────────────────
+# Le 17 pagine regione «sane» hanno i numeri di ieri scritti nell'HTML, con
+# titolo e descrizione per Google («Pluviometria Toscana: dove ha piovuto ieri,
+# 10 ottobre»). Senza questo giro l'HTML resterebbe fermo al giorno in cui le
+# abbiamo pubblicate a mano. Qui: dopo ogni giro dei riepiloghi si rigenerano,
+# e SOLO SE sono cambiate si committano e si pubblicano su Cloudflare Pages.
+# I giri dei riepiloghi sono cinque, ma «ieri» avanza una volta al giorno:
+# in pratica una o due pubblicazioni al giorno (Pages gratuito: 500 al mese).
+#
+# ⚠️ PUBBLICA TUTTO MAIN. Pages pubblica il sito intero a ogni deploy: quello
+# che sta su main al momento del giro va in linea. Il lavoro non pronto non si
+# spinge su main (si tiene in locale o sul test), come gia' si fa.
+#
+# ⚠️ Il token Cloudflare (CLOUDFLARE_API_TOKEN, permesso «Cloudflare Pages:
+# Modifica» e basta) lo ha creato lui e sta nei secret del repo. Senza, il
+# passo di pubblicazione fallisce e lo dice: le pagine restano committate e
+# vanno su al primo deploy fatto a mano.
+on:
+  workflow_run:
+    workflows: ['Riepiloghi delle pagine regione e delle pagine funghi']
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: pagine-regione
+  cancel-in-progress: false
+jobs:
+  run:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Rigenera le pagine cotte
+        run: SOLO=cotte node .github/scripts/genera-pagine-regione.js
+      - name: Cambiate?
+        id: diff
+        run: |
+          if git diff --quiet -- '*/index.html'; then
+            echo "cambiate=no" >> "$GITHUB_OUTPUT"; echo "Pagine invariate: niente da pubblicare."
+          else
+            echo "cambiate=si" >> "$GITHUB_OUTPUT"; git diff --stat -- '*/index.html'
+          fi
+      - name: Commit e push
+        if: steps.diff.outputs.cambiate == 'si'
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add -- '*/index.html'
+          git commit -m "pagine regione cotte $(date -u +%Y-%m-%d) [skip netlify]"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then ok=1; break; fi
+            echo "Push fallito (tentativo $i/5), riprovo fra 10 s..."
+            sleep 10
+          done
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
+      - name: Pubblica su Cloudflare Pages
+        if: steps.diff.outputs.cambiate == 'si' || github.event_name == 'workflow_dispatch'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 71126919175cd19d3ba3af31a9a7d22a
+        run: |
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "Manca il secret CLOUDFLARE_API_TOKEN"; exit 1; }
+          node .github/scripts/pubblica-pages.js "$GITHUB_WORKSPACE" avventurepluvio

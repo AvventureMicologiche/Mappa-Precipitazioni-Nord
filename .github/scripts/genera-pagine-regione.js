@@ -826,7 +826,8 @@ if (require.main === module) {
   if (senza.length) { console.error('⚠️ manca il genitivo in GEN per: ' + senza.join(', ')); process.exit(1); }
   // SOLO=toscana,liguria rigenera solo quelle (prove, e il giro del mattino
   // che tocca le sole pagine regione): niente sitemap ne' mappa del sito.
-  const solo = (process.env.SOLO || '').split(',').filter(Boolean);
+  // SOLO=cotte = le regioni della lista COTTE: e' quello che usa il giro del mattino.
+  const solo = process.env.SOLO === 'cotte' ? COTTE : (process.env.SOLO || '').split(',').filter(Boolean);
   REGIONI.filter(r => !solo.length || solo.includes(r.k)).forEach(r => {
     const html = pagina(r, radice);
     scrivi(path.join(radice, r.k, 'index.html'), html, true);
