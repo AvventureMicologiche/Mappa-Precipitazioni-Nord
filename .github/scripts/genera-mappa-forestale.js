@@ -34,6 +34,7 @@
  *   node .github/scripts/genera-mappa-forestale.js
  */
 const fs = require('fs');
+const { YT_BTN } = require('./lib-pagina-funghi.js');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { slug } = require('./lib-nomi.js');
@@ -184,7 +185,7 @@ window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);
 gtag("js",new Date());
 if(/(^|\\.)avventuremicologiche\\.it$/.test(location.hostname))gtag("config","G-9R7MXXS0V4");
 </script>
-<style>${STILE}${STILE_MF}</style>
+<style>${STILE}${STILE_MF}${YT_BTN}</style>
 </head>
 <body>
 <header>
@@ -203,7 +204,7 @@ const PIEDE = `</main>
 // «Vieni a trovarci su YouTube» in fondo, come sulle pagine funghi (27/9/2026, sua
 // richiesta: le pagine forestali avevano solo il tasto della testata). Evento GA
 // «forestale-fondo-<pagina>», per contarli a parte.
-const youtube = id => `<p style="margin:22px 0 4px;"><a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+const youtube = id => `<p style="margin:22px 0 4px;"><a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
    onclick="try{gtag('event','click_youtube',{pulsante:'forestale-fondo-${id}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 `;
 const tit = (...v) => v.find(t => t.length <= 62) || v[v.length - 1];

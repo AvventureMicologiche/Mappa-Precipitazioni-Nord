@@ -282,6 +282,15 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia img{width:100%;height:auto;border-radius:8px;border:1px solid var(--bordo);display:block;}
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
+/* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
+.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
+.yt-btn svg{width:26px;height:18px;flex:none;}
+.yt-btn svg rect{fill:#fff;}
+.yt-btn svg polygon{fill:#e12b2b;}
+.yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
+.yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 </style>
 </head>
 <body>
@@ -332,7 +341,7 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 <nav class="altre"><p><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/valle-del-gran-san-bernardo/">Valle del Gran San Bernardo</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/valle-di-champorcher/">Valle di Champorcher</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/vallone-di-champdepraz/">Vallone di Champdepraz</a></p></nav>
 <p><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/valledaosta/">‹ Mappa forestale della Valle d'Aosta</a></p>
 
-<p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" style="color:#e12b2b;font-weight:600;display:inline-flex;align-items:center;gap:7px;text-decoration:none;"
+<p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
    onclick="try{gtag('event','click_youtube',{pulsante:'forestale-fondo-zona-vallone-di-san-grato'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 
 <div class="pioggia">

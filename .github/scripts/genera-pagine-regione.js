@@ -518,9 +518,9 @@ a 2 km di risoluzione, e serve a vedere dove piove adesso; i millimetri di quest
 <p>Il colore mostra i millimetri cumulati nel periodo che scegli: più è acceso, più acqua è caduta. Ogni pallino è
 un pluviometro: cliccandolo trovi quota, grafico della pioggia degli ultimi 30 giorni e, dove ci sono i sensori,
 temperatura, vento e umidità.</p>
-<p><a href="${SITO}/guida/" onclick="try{gtag('event','click_guida',{pulsante:'pagina-${r.k}'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni</a> ·
-<a href="${CANALE}" target="_blank" rel="noopener" style="color:#e12b2b"
-   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}-fondo'})}catch(e){}">▶ Vieni a trovarci su YouTube</a></p>
+<p><a href="${SITO}/guida/" onclick="try{gtag('event','click_guida',{pulsante:'pagina-${r.k}'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni</a></p>
+<p style="margin:22px 0 4px;"><a href="${CANALE}" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}-fondo'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
 </div>
 </main>
 

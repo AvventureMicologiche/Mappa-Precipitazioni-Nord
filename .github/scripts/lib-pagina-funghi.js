@@ -237,6 +237,20 @@ const JS_AGGIORNATO = aggiornato.toString()
    ⚠️ La chiave «BOTTONI IN RILIEVO» nel commento la usa chi lo inserisce nelle
    pagine gia' fatte senza rigenerarle (per non toccare i numeri d'archivio):
    se c'e' gia', non lo rimette. */
+/* Il bottone rosso «Vieni a trovarci su YouTube» in fondo alle pagine (11/10/2026,
+   sua richiesta: «solo bottone rosso 3D», niente schede col video). Il logo
+   nel bottone si rovescia: rettangolo bianco, triangolo rosso. Sta anche da
+   solo (YT_BTN) per le pagine della mappa forestale, che RILIEVO non lo hanno. */
+const YT_BTN = `/* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
+.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
+.yt-btn svg{width:26px;height:18px;flex:none;}
+.yt-btn svg rect{fill:#fff;}
+.yt-btn svg polygon{fill:#e12b2b;}
+.yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
+.yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
+`;
 const RILIEVO = `/* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
 .capo-btns{gap:12px;margin-top:15px;}
 .capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
@@ -265,6 +279,6 @@ const RILIEVO = `/* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
 .verdetto .dett{font-size:15px;opacity:.85;}
 @media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
   .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
-`;
+` + YT_BTN;
 
-module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO };
+module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, YT_BTN };
