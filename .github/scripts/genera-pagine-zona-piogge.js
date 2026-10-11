@@ -309,9 +309,12 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
       + '<div class="top">' + dett + '</div>'
       + '<div class="dett">Media di ' + d.stazioni + ' pluviometri della zona.</div>'
       + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutti i pluviometri: questa è l’ultima giornata intera.</div>')
-      + '<div class="capo-btns"><a class="capo-btn" href="' + link(d.ultimo, d.ultimo) + '"'
-      + ' onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'zona-piogge-' + ZONA + '-ieri-box\\'})}catch(e){}">Vedi '
-      + (t === 'Ieri' ? 'ieri' : 'quel giorno') + ' sulla mappa</a></div></div>';
+      // 11/10/2026: lo stesso bottone a due righe delle pagine regione (.ieri-btn,
+      // che arriva con lo stile copiato dalla pagina regione)
+      + '<div class="capo-btns"><a class="ieri-btn" href="' + link(d.ultimo, d.ultimo) + '"'
+      + ' onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'zona-piogge-' + ZONA + '-ieri-box\\'})}catch(e){}">'
+      + '<b>Apri la mappa ' + (t === 'Ieri' ? 'di ieri' : 'di quel giorno') + '</b><i>→</i>'
+      + '<small>la pioggia in tutte le località</small></a></div></div>';
   }
 
   function scriviBarre(s, ultimo){

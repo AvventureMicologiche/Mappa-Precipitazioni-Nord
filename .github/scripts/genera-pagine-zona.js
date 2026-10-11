@@ -57,7 +57,7 @@ const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola } = require('./lib-clima.js');
 // 24/9/2026: grafica e codice di pagina comuni con le pagine di regione
-const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO } = require('./lib-pagina-funghi.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -227,7 +227,7 @@ nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;fon
 nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
-</style>
+${RILIEVO}</style>
 </head>
 <body>
 

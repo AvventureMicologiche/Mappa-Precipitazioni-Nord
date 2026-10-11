@@ -130,7 +130,52 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 /* Sulle pagine piogge l'etichetta sta SOPRA la sua barra, non in cima al
    grafico: con 30 barre strette, in cima non si capiva di chi fosse. */
 .gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
-.verdetto .dett{font-size:14px;opacity:.75;}
+/* ── IL BOTTONE DI IERI, versione V2 (11/10/2026, sua scelta fra tre) ──
+   Guardando la pagina dal PC: «le scritte cosi' piccole fanno schifo, i
+   bottoni non sembrano bottoni». Fondo pieno, ombra profonda con un bordo
+   sotto come un tasto, e la freccia in un tondo: il segno che si tocca.
+   Gli altri bottoni (previsioni, tasti dei periodi, «Apri la mappa» delle
+   schede, scritte del riquadro) stanno nel blocco COMUNE RILIEVO di
+   lib-pagina-funghi.js, uguale per tutte le pagine: qui sotto, in fondo. */
+.ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
+  text-decoration:none;background:#fff;color:#10263f;padding:14px 16px 15px 20px;border-radius:14px;line-height:1.35;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 6px 0 #7f97b6,0 12px 22px rgba(0,0,0,.38);
+  transition:transform .08s,box-shadow .08s;}
+.ieri-btn b{font-size:19px;font-weight:700;}
+.ieri-btn small{font-size:15px;font-weight:500;color:#3f5672;}
+.ieri-btn i{grid-row:1/span 2;grid-column:2;font-style:normal;width:40px;height:40px;border-radius:50%;
+  background:#2a5490;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 0 #183a68;}
+.ieri-btn:hover{background:#f3f7fc;}
+.ieri-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+@media(max-width:480px){.ieri-btn b{font-size:17.5px;}.ieri-btn small{font-size:14px;}}
+/* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
+.capo-btns{gap:12px;margin-top:15px;}
+.capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 5px 0 #7f97b6,0 10px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s;}
+.capo-btn:hover{background:#f3f7fc;}
+.capo-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+.banda-prev:active{transform:translateY(4px);box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;background:var(--blu);color:#fff;font-size:16px;font-weight:700;
+  padding:11px 14px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
 
 .bric{font-size:14px;color:#666;margin-bottom:6px;}
 .bric a{color:var(--blu);}
@@ -324,9 +369,12 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
       + '<div class="top">' + dett + '</div>'
       + '<div class="dett">Media di ' + d.stazioni + ' pluviometri della zona.</div>'
       + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutti i pluviometri: questa è l’ultima giornata intera.</div>')
-      + '<div class="capo-btns"><a class="capo-btn" href="' + link(d.ultimo, d.ultimo) + '"'
-      + ' onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-piogge-' + ZONA + '-ieri-box\'})}catch(e){}">Vedi '
-      + (t === 'Ieri' ? 'ieri' : 'quel giorno') + ' sulla mappa</a></div></div>';
+      // 11/10/2026: lo stesso bottone a due righe delle pagine regione (.ieri-btn,
+      // che arriva con lo stile copiato dalla pagina regione)
+      + '<div class="capo-btns"><a class="ieri-btn" href="' + link(d.ultimo, d.ultimo) + '"'
+      + ' onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-piogge-' + ZONA + '-ieri-box\'})}catch(e){}">'
+      + '<b>Apri la mappa ' + (t === 'Ieri' ? 'di ieri' : 'di quel giorno') + '</b><i>→</i>'
+      + '<small>la pioggia in tutte le località</small></a></div></div>';
   }
 
   function scriviBarre(s, ultimo){

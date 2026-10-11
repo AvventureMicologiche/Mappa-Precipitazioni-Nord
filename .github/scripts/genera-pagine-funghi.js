@@ -41,7 +41,7 @@ const { REGIONI, navAltre, briciolaJson } = require('./genera-pagine-regione.js'
 const { LOCALITA, bello, slug, slugRegione } = require('./lib-nomi.js');
 const { rigaStagione } = require('./lib-stagione.js');
 // 24/9/2026: verdetto, barre e finestra comuni con le pagine di zona
-const { STILE_NUOVO, JS_COMUNE } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, RILIEVO } = require('./lib-pagina-funghi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -267,7 +267,7 @@ nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2p
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
 ${STILE_NUOVO}
-</style>
+${RILIEVO}</style>
 </head>
 <body>
 <header>

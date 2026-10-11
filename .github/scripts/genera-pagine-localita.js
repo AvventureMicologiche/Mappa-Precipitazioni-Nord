@@ -38,7 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
-const { JS_AGGIORNATO } = require('./lib-pagina-funghi.js');
+const { JS_AGGIORNATO, RILIEVO } = require('./lib-pagina-funghi.js');
 // ⚠️ `slug` si chiama qui `slugDaNome`: dentro pagina() c'e' gia' un parametro
 // che si chiama slug ed e' una STRINGA. Importandola col suo nome la funzione
 // veniva coperta e usciva «slug is not a function» solo a generazione avviata,
@@ -304,7 +304,7 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 .noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
-</style>
+${RILIEVO}</style>
 </head>
 <body>
 

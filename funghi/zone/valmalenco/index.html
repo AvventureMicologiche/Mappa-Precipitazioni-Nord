@@ -269,6 +269,34 @@ nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;fon
 nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
+/* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
+.capo-btns{gap:12px;margin-top:15px;}
+.capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 5px 0 #7f97b6,0 10px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s;}
+.capo-btn:hover{background:#f3f7fc;}
+.capo-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+.banda-prev:active{transform:translateY(4px);box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;background:var(--blu);color:#fff;font-size:16px;font-weight:700;
+  padding:11px 14px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
 </style>
 </head>
 <body>
