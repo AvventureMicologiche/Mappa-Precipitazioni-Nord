@@ -1,42 +1,42 @@
 {
  "regione": "trentino",
- "generato": "2026-10-10T06:30:56.472Z",
+ "generato": "2026-10-11T03:15:29.944Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-09",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-10",
    "top": [
     {
-     "n": "Daone (Malga Bissina)",
-     "mm": 3
+     "n": "Mori (Loppio)",
+     "mm": 10.6
     },
     {
-     "n": "Storo",
-     "mm": 2.6
+     "n": "Brentonico (Santa Caterina)",
+     "mm": 6.2
     },
     {
-     "n": "Daone (Pracul)",
-     "mm": 2.6
+     "n": "San Lorenzo In Banale (Pergoletti)",
+     "mm": 1.8
     },
     {
-     "n": "Passo Pian Delle Fugazze",
-     "mm": 2.6
+     "n": "Passo Tonale",
+     "mm": 1.6
     },
     {
-     "n": "Pieve Di Bono",
-     "mm": 2
+     "n": "Rumo (Lanza)",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 16.8,
+   "media": 17.1,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-09",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-10",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -55,17 +55,17 @@
      "mm": 30.8
     },
     {
-     "n": "Zuclo (Malga Casinot)",
+     "n": "Mori (Loppio)",
      "mm": 29.6
     }
    ]
   },
   "20": {
-   "media": 17,
+   "media": 17.2,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-09",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-10",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Tremalzo",
-     "mm": 32.6
+     "mm": 32.4
     },
     {
      "n": "Pradalago (Rifugio Viviani)",
@@ -84,42 +84,43 @@
      "mm": 31.6
     },
     {
-     "n": "Zuclo (Malga Casinot)",
+     "n": "Mori (Loppio)",
      "mm": 29.6
     }
    ]
   },
   "30": {
-   "media": 71.5,
+   "media": 31.7,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-10",
-   "ultimo": "2026-10-09",
+   "primo": "2026-09-11",
+   "ultimo": "2026-10-10",
    "top": [
     {
-     "n": "Passo Brocon",
-     "mm": 129
-    },
-    {
      "n": "Val D'Ambiez",
-     "mm": 120.8
-    },
-    {
-     "n": "Passo Rolle",
-     "mm": 102.2
-    },
-    {
-     "n": "Pradalago (Rifugio Viviani)",
-     "mm": 98.6
+     "mm": 70.2
     },
     {
      "n": "Paganella (Malga Terlago)",
-     "mm": 98
+     "mm": 58
+    },
+    {
+     "n": "Pradalago (Rifugio Viviani)",
+     "mm": 56
+    },
+    {
+     "n": "Daone (Malga Bissina)",
+     "mm": 54.2
+    },
+    {
+     "n": "Storo",
+     "mm": 52.4
     }
    ]
   }
  },
  "serie": [
+  0.3,
   0.4,
   12.9,
   2.8,
@@ -148,57 +149,56 @@
   0,
   0,
   0,
-  0.2,
-  40.9
+  0.2
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-09",
-   "m1": 2.9,
-   "m7": 25.7,
-   "m30": 88.1
+   "ultimo": "2026-10-10",
+   "m1": 0.1,
+   "m7": 25.9,
+   "m30": 42.4
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-09",
-   "m1": 0.8,
-   "m7": 16.5,
-   "m30": 81.5
+   "ultimo": "2026-10-10",
+   "m1": 0.1,
+   "m7": 16.6,
+   "m30": 25.5
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-09",
-   "m1": 0.1,
-   "m7": 12.5,
-   "m30": 71.8
+   "ultimo": "2026-10-10",
+   "m1": 0,
+   "m7": 12.6,
+   "m30": 29.9
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-09",
-   "m1": 0.1,
-   "m7": 14.4,
-   "m30": 46.7
+   "ultimo": "2026-10-10",
+   "m1": 0.3,
+   "m7": 14.7,
+   "m30": 28.5
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-09",
-   "m1": 1.3,
-   "m7": 15.7,
-   "m30": 60.6
+   "ultimo": "2026-10-10",
+   "m1": 0,
+   "m7": 15.6,
+   "m30": 24.9
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-09",
-   "m1": 0.1,
-   "m7": 18.1,
-   "m30": 66.8
+   "ultimo": "2026-10-10",
+   "m1": 0.7,
+   "m7": 18.8,
+   "m30": 27.7
   }
  ]
 }
