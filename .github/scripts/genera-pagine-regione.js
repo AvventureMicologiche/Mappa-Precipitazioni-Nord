@@ -50,6 +50,8 @@ const { scriviSitemap } = require('./genera-sitemap.js');
 const { slug } = require('./lib-nomi.js');
 // 25/9/2026: le barre, il riquadro in cima e i tasti delle pagine funghi
 const { STILE_NUOVO } = require('./lib-pagina-funghi.js');
+// 11/10/2026: i numeri cotti nella pagina, con la STESSA funzione del browser
+const { numeriRegione } = require('./lib-numeri-regione.js');
 // Le zone, per l'elenco «dove ha piovuto, zona per zona» (13/9/2026): ogni
 // regione rimanda alle pagine piogge delle sue zone, che senza questi link
 // sarebbero orfane.
@@ -192,7 +194,73 @@ function navAltre(tipo) {
 </nav>`;
 }
 
-function pagina(r){
+/* ── LA PAGINA «COTTA» (11/10/2026) ──────────────────────────────────────────
+   Se c'e' un riepilogo FRESCO (scritto da meno di 36 ore, la stessa regola
+   del browser) la pagina esce coi numeri gia' dentro: riquadro di ieri,
+   barre, i tre periodi, le zone in ordine, e titolo e descrizione con la data
+   e i millimetri. Senza riepilogo esce il guscio di prima, identico.
+   ⚠️ Il giro che la rigenera deve partire DOPO genera-riepiloghi.js. */
+function oggiItalia() {
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+}
+function riepilogoFresco(radice, k) {
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(radice, 'data', 'riepiloghi', k + '.json'), 'utf8'));
+    const eta = Date.now() - new Date(j.generato).getTime();
+    if (j.periodi && j.periodi['7'] && j.periodi['20'] && eta >= 0 && eta < 36 * 3600 * 1000) return j;
+  } catch (e) { /* niente riepilogo: guscio */ }
+  return null;
+}
+// «10 ottobre», «1° …» no: le date dei titoli come le scrive la pagina
+const MESI_L = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+const lungoIso = s => { const p = s.split('-'); return (+p[2]) + ' ' + MESI_L[+p[1] - 1]; };
+// «a Terrinca» ma «ad Alberschwende»
+const aDi = n => (/^[aA]/.test(n) ? 'ad ' : 'a ') + n;
+const virgola = n => (Math.round(n * 10) / 10).toFixed(1).replace('.', ',');
+const attr = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+// Titolo e descrizione coi numeri. «Pluviometria <regione>» resta IN TESTA:
+// e' la parola che porta quasi meta' delle apparizioni. Stessi tetti di
+// prima, 62 e 158 caratteri, provando forme sempre piu' corte.
+function titoloCotto(r, j, N) {
+  const nome = r.nomeTitolo || r.nome, quando = lungoIso(N.ultimo);
+  const qui = N.ieri ? `ieri, ${quando}` : `il ${quando}`;
+  return [`Pluviometria ${nome}: dove ha piovuto ${qui}`, `Pluviometria ${nome}: pioggia di ${N.ieri ? 'ieri, ' : ''}${quando}`]
+    .find(t => t.length <= 62) || null;
+}
+function descrCotta(r, j, N) {
+  const ag = r.agenziaCorta || r.agenzia, d1 = j.periodi['1'], d7 = j.periodi['7'];
+  const quando = (N.ieri ? 'Ieri ' : 'Il ') + lungoIso(N.ultimo);
+  const t1 = d1 && d1.top && d1.top[0], t7 = d7.top && d7.top[0];
+  const primo = !d1 || !d1.giorni ? null
+    : t1 && t1.mm >= 1 ? `${quando}: ${virgola(t1.mm)} mm ${aDi(t1.n)}.`
+    : `${quando}: giornata ${t1 && t1.mm > 0 ? 'quasi ' : ''}asciutta ${r.prep} ${r.nome}.`;
+  const sette = `Ultimi 7 giorni: ${virgola(d7.media)} mm di media su ${d7.stazioni} pluviometri ${ag}`;
+  const forme = [
+    [primo, sette + (t7 && t7.mm >= 1 ? `, ${Math.round(t7.mm)} mm ${aDi(t7.n)}.` : '.')],
+    [primo, sette + '.'],
+    [primo, `Ultimi 7 giorni: ${virgola(d7.media)} mm di media.`],
+    [primo],
+  ];
+  for (const f of forme) { const t = f.filter(Boolean).join(' '); if (t.length <= 158) return t; }
+  return null;
+}
+
+// ⚠️ SOLO LE REGIONI SANE (11/10/2026, sua scelta). Restano col guscio quelle
+// che nel mese hanno avuto problemi veri: Basilicata (6 buchi MeteoHub in un
+// mese), Molise (5, e 28 pluviometri), Puglia (4, e il guasto POLARIS), Sicilia
+// (6-7/10 a 84 stazioni su 424, coperte con stime), Slovenia (36 ore di
+// ritardo: «ieri» non ce l'ha mai), Svizzera (riepilogo fermo a due giorni
+// prima, da capire). L'Abruzzo una pagina non ce l'ha. Una regione si aggiunge
+// o si toglie da qui e basta.
+const COTTE = ['lombardia','piemonte','valledaosta','liguria','emilia','veneto','friuli','trentino',
+  'altoadige','toscana','austria','marche','umbria','campania','calabria','sardegna','lazio'];
+
+function pagina(r, radice){
+  const rip = radice && COTTE.includes(r.k) ? riepilogoFresco(radice, r.k) : null;
+  const N = rip ? numeriRegione(rip, oggiItalia(), r.k, SITO) : null;
+  // il valore cotto se c'e', se no quello del guscio
+  const cotto = (fn, guscio) => N ? fn() : guscio;
   // ⚠️ TITOLO E DESCRIZIONE rifatti il 23/8/2026 sui dati di Search Console, e
   // qui dentro devono restare uguali a quelli pubblicati: la pagina Liguria era
   // vista 70 volte per «mappa pluviometri liguria» e cliccata zero, e la parola
@@ -239,8 +307,8 @@ function pagina(r){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${titoloTag}</title>
-<meta name="description" content="${descr}">
+<title>${attr((N && titoloCotto(r, rip, N)) || titoloTag)}</title>
+<meta name="description" content="${attr((N && descrCotta(r, rip, N)) || descr)}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da ${r.staz} pluviometri di ${r.agenzia}.">
@@ -316,7 +384,56 @@ ${STILE_NUOVO}
 /* Sulle pagine piogge l'etichetta sta SOPRA la sua barra, non in cima al
    grafico: con 30 barre strette, in cima non si capiva di chi fosse. */
 .gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
-.verdetto .dett{font-size:14px;opacity:.75;}
+/* ── I BOTTONI IN RILIEVO, versione V2 (11/10/2026, sua scelta fra tre) ──
+   Guardando la pagina dal PC: «le scritte cosi' piccole fanno schifo, i
+   bottoni non sembrano bottoni». Fondo pieno, ombra profonda con un bordo
+   sotto come un tasto, e la freccia in un tondo: il segno che si tocca, che
+   si capisce anche senza leggere. Il bottone delle previsioni prende lo
+   stesso rilievo, cosi' i due si somigliano. ⚠️ .banda-prev sta in
+   STILE_NUOVO, condiviso con le pagine funghi: qui si ritocca SOLO per le
+   pagine regione. */
+.ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
+  text-decoration:none;background:#fff;color:#10263f;padding:14px 16px 15px 20px;border-radius:14px;line-height:1.35;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 6px 0 #7f97b6,0 12px 22px rgba(0,0,0,.38);
+  transition:transform .08s,box-shadow .08s;}
+.ieri-btn b{font-size:19px;font-weight:700;}
+.ieri-btn small{font-size:15px;font-weight:500;color:#3f5672;}
+.ieri-btn i{grid-row:1/span 2;grid-column:2;font-style:normal;width:40px;height:40px;border-radius:50%;
+  background:#2a5490;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 0 #183a68;}
+.ieri-btn:hover{background:#f3f7fc;}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);
+  transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+/* premuto: il tasto si abbassa e l'ombra si accorcia */
+.ieri-btn:active,.banda-prev:active{transform:translateY(4px);}
+.ieri-btn:active{box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev:active{box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+/* Gli altri tasti della pagina, stesso rilievo (11/10/2026): la griglia
+   «Ieri / Ultimi 7 gg / ...» e il «Apri la mappa» di ogni scheda, che era un
+   link di testo e diventa un bottone pieno. Sul fondo bianco l'ombra e' piu'
+   leggera che dentro il riquadro blu. */
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;
+  background:var(--blu);color:#fff;font-size:16px;font-weight:700;padding:11px 14px 12px;border-radius:12px;
+  box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+@media(max-width:480px){.tasti a{font-size:15px;}}
+/* le scritte del riquadro di ieri, piu' grandi */
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.ieri-btn b,.banda-prev b{font-size:17.5px;}.ieri-btn small,.banda-prev span{font-size:14px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
 </style>
 </head>
 <body>
@@ -333,42 +450,42 @@ ${STILE_NUOVO}
      24/9 (deciso da lui guardando Santo Stefano d'Aveto): in cima la risposta
      alla domanda del titolo, cioe' IERI, poi le barre, poi i periodi, le zone,
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa"${N ? ' style="display:none"></div>' : '>Sto leggendo i pluviometri…</div>'}
+<div id="verdetto">${cotto(() => N.verdetto, '')}</div>
 <a class="banda-prev" href="${SITO}/?r=${r.k}&amp;m=prev"
    onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-banda-previsioni'})}catch(e){}">
   <span class="ic">☀️</span><span><b>Che tempo farà ${r.prep} ${r.nome}</b><span>Previsioni per i prossimi 7 giorni</span></span><span class="fr">→</span></a>
 
 <h2>La pioggia degli ultimi 30 giorni</h2>
-<div id="grafico"></div>
+<div id="grafico">${cotto(() => N.grafico, '')}</div>
 
 <h2>Dove ha piovuto di più</h2>
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">${cotto(() => N.periodi['7'].media || '', '<span class="attesa">…</span>')}</div>
+    <div id="rip7-top">${cotto(() => N.periodi['7'].top || '', '')}</div>
+    <p class="nota" id="rip7-date">${cotto(() => N.periodi['7'].date || '', '')}</p>
     <!-- ⚠️ L'indirizzo scritto qui deve GIA' portare alla regione (23/8/2026):
          lo script in fondo lo riscrive con le date esatte, ma solo dopo che i
          dati sono arrivati. Il parametro g sono i giorni: la mappa li fa date. -->
-    <a class="vai" id="cta7" href="${SITO}/?r=${r.k}&amp;g=7"
+    <a class="vai" id="cta7" href="${cotto(() => attr(N.tasti['cta7']), `${SITO}/?r=${r.k}&amp;g=7`)}"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimi 20 giorni</h3>
-    <div class="numerone" id="rip20-media"><span class="attesa">…</span></div>
-    <div id="rip20-top"></div>
-    <p class="nota" id="rip20-date"></p>
-    <a class="vai" id="cta20" href="${SITO}/?r=${r.k}&amp;g=20"
+    <div class="numerone" id="rip20-media">${cotto(() => N.periodi['20'].media || '', '<span class="attesa">…</span>')}</div>
+    <div id="rip20-top">${cotto(() => N.periodi['20'].top || '', '')}</div>
+    <p class="nota" id="rip20-date">${cotto(() => N.periodi['20'].date || '', '')}</p>
+    <a class="vai" id="cta20" href="${cotto(() => attr(N.tasti['cta20']), `${SITO}/?r=${r.k}&amp;g=20`)}"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-20gg'})}catch(e){}">Apri la mappa →</a>
   </div>
-  <div class="card" id="card30">
+  <div class="card" id="card30"${N && N.periodi['30'].nascondi ? ' style="display:none"' : ''}>
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
-    <a class="vai" id="cta30" href="${SITO}/?r=${r.k}&amp;g=30"
+    <div class="numerone" id="rip30-media">${cotto(() => N.periodi['30'].media || '', '<span class="attesa">…</span>')}</div>
+    <div id="rip30-top">${cotto(() => N.periodi['30'].top || '', '')}</div>
+    <p class="nota" id="rip30-date">${cotto(() => N.periodi['30'].date || '', '')}</p>
+    <a class="vai" id="cta30" href="${cotto(() => attr(N.tasti['cta30']), `${SITO}/?r=${r.k}&amp;g=30`)}"
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
 </div>
@@ -377,25 +494,29 @@ ${(() => {
   // riempie i millimetri e riordina le righe spostando i nodi.
   const zz = ZONE.filter(z => z.reg === r.k).sort((a, b) => a.n.localeCompare(b.n, 'it'));
   if (!zz.length) return '';
+  // cotta: dal valore piu' alto, le zone senza numero in fondo (come il browser)
+  const zv = z => N && N.zone[slug(z.n)];
+  if (N) zz.sort((a, b) => { const va = zv(a), vb = zv(b);
+    if (!va || va.val == null) return 1; if (!vb || vb.val == null) return -1; return vb.val - va.val; });
   return `
 <h2>Dove ha piovuto, zona per zona</h2>
 <p class="nota" style="margin-top:0" id="zone-nota">Negli ultimi 7 giorni, media dei pluviometri di ogni zona. Ogni nome porta alla sua pagina.</p>
 <ol class="zone-dove" id="zone">
-${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${z.n}</a><span class="zmm"></span></li>`).join('\n')}
+${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${z.n}</a><span class="zmm">${zv(z) ? zv(z).html : ''}</span></li>`).join('\n')}
 </ol>
 `;
 })()}
 <h2>Mappa pluviometrica ${gen}: guardala in dettaglio</h2>
 <div class="tasti">
-  <a class="forte" id="t1" href="${SITO}/?r=${r.k}&amp;g=1"
+  <a class="forte" id="t1" href="${cotto(() => attr(N.tasti['t1']), `${SITO}/?r=${r.k}&amp;g=1`)}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-1gg'})}catch(e){}">Ieri</a>
-  <a id="t7" href="${SITO}/?r=${r.k}&amp;g=7"
+  <a id="t7" href="${cotto(() => attr(N.tasti['t7']), `${SITO}/?r=${r.k}&amp;g=7`)}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-7gg'})}catch(e){}">Ultimi 7 gg</a>
-  <a id="t15" href="${SITO}/?r=${r.k}&amp;g=15"
+  <a id="t15" href="${cotto(() => attr(N.tasti['t15']), `${SITO}/?r=${r.k}&amp;g=15`)}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-15gg'})}catch(e){}">Ultimi 15 gg</a>
-  <a id="t20" href="${SITO}/?r=${r.k}&amp;g=20"
+  <a id="t20" href="${cotto(() => attr(N.tasti['t20']), `${SITO}/?r=${r.k}&amp;g=20`)}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-20gg'})}catch(e){}">Ultimi 20 gg</a>
-  <a id="t30" href="${SITO}/?r=${r.k}&amp;g=30"
+  <a id="t30" href="${cotto(() => attr(N.tasti['t30']), `${SITO}/?r=${r.k}&amp;g=30`)}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-30gg'})}catch(e){}">Ultimi 30 gg</a>
   <a href="${SITO}/?r=${r.k}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-radar'})}catch(e){}">📡 Radar adesso</a>
@@ -403,7 +524,7 @@ ${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">La pioggia degli ultimi 20 giorni ${r.prep} ${r.nome}, pluviometro per pluviometro.</p>
-<a href="${SITO}/?r=${r.k}&amp;g=20" id="lnk-img" style="display:block;text-decoration:none;"
+<a href="${cotto(() => attr(N.tasti['lnk-img']), `${SITO}/?r=${r.k}&amp;g=20`)}" id="lnk-img" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-anteprima'})}catch(e){}">
   <img class="img-mappa" src="${ANTEPRIME}/${r.k}.jpg" alt="La mappa delle piogge ${r.prep} ${r.nome}: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"></a>
@@ -483,91 +604,34 @@ ${navAltre('regione')}
   }
   tasti(iso(giornoFa(1)));
 
-  // ── IERI, in cima: la risposta alla domanda del titolo ──
-  function scriviIeri(d){
-    var box=document.getElementById('verdetto');
-    if(!d||!d.giorni){ box.innerHTML=''; return; }
-    var t=nomeGiorno(d.ultimo), top=(d.top||[]).filter(function(s){ return s.mm>=1; }).slice(0,3), dett;
-    if(top.length){
-      dett='Dove ha piovuto di più: '+top.map(function(s){ return '<b>'+esc(s.n)+'</b> '+num(s.mm)+' mm'; }).join(', ')+'.';
-    }else if(d.top&&d.top.length&&d.top[0].mm>0){
-      dett='Giornata quasi asciutta: il massimo è stato '+num(d.top[0].mm)+' mm a '+esc(d.top[0].n)+'.';
-    }else{
-      dett='Giornata asciutta: nessun pluviometro ha misurato pioggia.';
-    }
-    box.innerHTML='<div class="verdetto">'
-      +'<div class="si">'+(t==='Ieri'?'Ieri, '+lungo(d.ultimo):t)+'</div>'
-      +'<div class="gr">'+mm(d.media)+' mm<small>di media</small></div>'
-      +'<div class="top">'+dett+'</div>'
-      +'<div class="dett">Media di '+d.stazioni+' pluviometri.</div>'
-      +(t==='Ieri'?'':'<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>')
-      +'<div class="capo-btns"><a class="capo-btn" href="'+link(d.ultimo,d.ultimo)+'"'
-      +' onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'pagina-'+K+'-ieri-box\\'})}catch(e){}">Vedi '+(t==='Ieri'?'ieri':'quel giorno')+' sulla mappa</a></div></div>';
-  }
-
-  // ── Le 30 barre, l'ultimo giorno a destra. Gli ultimi 7 in blu pieno ──
-  function scriviBarre(s, ultimo){
-    var el=document.getElementById('grafico');
-    if(!s||!s.length){ el.innerHTML='<p class="nota">Il grafico giorno per giorno arriva col prossimo aggiornamento.</p>'; return; }
-    var n=Math.min(NG,s.length), max=1, barre='', ax='';
-    for(var q=0;q<n;q++) max=Math.max(max,s[q]||0);
-    // Le etichette si danno dalla barra piu' alta in giu', saltando le vicine
-    // di una gia' etichettata: cosi' la piu' alta il suo numero ce l'ha sempre.
-    var cand=[], lab={};
-    for(var c=1;c<=n;c++) if(s[c-1]!=null && s[c-1]>=1 && s[c-1]>=max*0.2) cand.push(c);
-    cand.sort(function(a,b){ return s[b-1]-s[a-1]; })
-      .forEach(function(c){ if(!lab[c-1]&&!lab[c+1]) lab[c]=1; });
-    for(var i=n;i>=1;i--){
-      var v=s[i-1], d=menoDa(ultimo,i-1), cl=i<=7?' dentro':'';
-      barre+='<div class="b'+cl+'" title="'+lungo(iso(d))+': '+(v==null?'nessun dato':num(v)+' mm')+'">'+(lab[i]?'<b>'+mm(v)+'</b>':'')
-        +'<i style="height:'+(v==null?0:Math.max(2,Math.round(v/max*86)))+'%"></i></div>';
-      ax+='<span>'+((i===n||i===1||i%5===0)?(d.getDate()+'/'+(d.getMonth()+1)):'')+'</span>';
-    }
-    el.innerHTML='<div class="gg">'+barre+'</div><div class="gg-x">'+ax+'</div>'
-      +'<p class="gg-leg"><i style="background:var(--blu)"></i>ultimi 7 giorni &nbsp; '
-      +'<i style="background:#b9cbe2"></i>i giorni prima &nbsp;·&nbsp; media dei pluviometri della regione, in mm</p>';
-  }
-
-  function scriviPeriodo(k, d){
-    var el=document.getElementById('rip'+k+'-media');
-    if(!d||!d.giorni){ el.innerHTML='<span class="attesa">dati non disponibili al momento</span>'; return; }
-    el.innerHTML=Math.round(d.media)+' mm <small>di media</small>';
-    var cont=document.getElementById('rip'+k+'-top');
-    if(!d.top||!d.top.length||d.top[0].mm<1){
-      cont.innerHTML='<p class="nota">Periodo quasi asciutto in tutta la regione.</p>';
-    }else{
-      var ol=document.createElement('ol'); ol.className='top-staz';
-      d.top.forEach(function(s){ var li=document.createElement('li'); li.textContent=s.n+' — '+num(s.mm)+' mm'; ol.appendChild(li); });
-      cont.innerHTML=''; cont.appendChild(ol);
-    }
-    // Le giornate si dicono solo se ne manca qualcuna: se no e' il titolo ripetuto.
-    document.getElementById('rip'+k+'-date').textContent=dalAl(d.primo,d.ultimo)
-      +(d.giorni<+k?', '+d.giorni+' giornate di dati':'')+'.';
-  }
-
-  // Le zone: si riempiono i numeri e si RIORDINANO le righe spostando i nodi,
-  // cosi' i link cotti nell'HTML restano quelli che Google legge.
-  function scriviZone(zone){
-    var ol=document.getElementById('zone'); if(!ol||!zone||!zone.length) return;
-    var per={}; zone.forEach(function(z){ per[z.s]=z; });
-    var li=[].slice.call(ol.querySelectorAll('li[data-z]'));
-    li.forEach(function(x){ var z=per[x.getAttribute('data-z')]; x.valore=z?z.m7:null;
-      if(z) x.querySelector('.zmm').innerHTML=mm(z.m7)+' mm'+(z.m1!=null?'<small>ieri '+mm(z.m1)+'</small>':''); });
-    li.sort(function(a,b){ if(a.valore==null) return 1; if(b.valore==null) return -1; return b.valore-a.valore; })
-      .forEach(function(x){ ol.appendChild(x); });
-  }
+  // ⚠️ 11/10/2026: IL DISEGNO DEI NUMERI sta in lib-numeri-regione.js ed e'
+  // la STESSA funzione con cui il generatore cuoce la pagina ogni mattina: qui
+  // la copia il generatore. Se i numeri cambiano faccia, si cambia la' e basta.
+  ${numeriRegione.toString()}
 
   function disegna(j){
     document.getElementById('attesa').style.display='none';
-    var p=j.periodi, ultimo=(p['1']||p['7']).ultimo;
-    tasti(ultimo);
-    scriviIeri(p['1']);
-    scriviBarre(j.serie, ultimo);
-    scriviPeriodo('7',p['7']); scriviPeriodo('20',p['20']);
-    // ⚠️ Un riepilogo scritto PRIMA del 13/9 il mese non ce l'ha: si nasconde
-    // la scheda invece di dire «dati non disponibili», che sarebbe falso.
-    if(p['30']) scriviPeriodo('30',p['30']); else document.getElementById('card30').style.display='none';
-    scriviZone(j.zone);
+    var N=numeriRegione(j, iso(new Date()), K, SITO);
+    Object.keys(N.tasti).forEach(function(id){ var el=document.getElementById(id); if(el) el.href=N.tasti[id]; });
+    document.getElementById('verdetto').innerHTML=N.verdetto;
+    document.getElementById('grafico').innerHTML=N.grafico;
+    ['7','20','30'].forEach(function(k){
+      var x=N.periodi[k];
+      if(x.nascondi){ var c=document.getElementById('card'+k); if(c) c.style.display='none'; return; }
+      document.getElementById('rip'+k+'-media').innerHTML=x.media;
+      document.getElementById('rip'+k+'-top').innerHTML=x.top;
+      document.getElementById('rip'+k+'-date').textContent=x.date;
+    });
+    // Le zone: si riempiono i numeri e si RIORDINANO le righe spostando i nodi,
+    // cosi' i link cotti nell'HTML restano quelli che Google legge.
+    var ol=document.getElementById('zone');
+    if(ol&&j.zone&&j.zone.length){
+      var li=[].slice.call(ol.querySelectorAll('li[data-z]'));
+      li.forEach(function(x){ var z=N.zone[x.getAttribute('data-z')]; x.valore=z?z.val:null;
+        if(z) x.querySelector('.zmm').innerHTML=z.html; });
+      li.sort(function(a,b){ if(a.valore==null) return 1; if(b.valore==null) return -1; return b.valore-a.valore; })
+        .forEach(function(x){ ol.appendChild(x); });
+    }
   }
 
   // ── RIPIEGO: i giorni uno per uno, come faceva la pagina fino al 24/8/2026 ──
@@ -760,10 +824,16 @@ if (require.main === module) {
   const radice = path.resolve(__dirname, '..', '..');
   const senza = REGIONI.filter(r => !GEN[r.k]).map(r => r.k);
   if (senza.length) { console.error('⚠️ manca il genitivo in GEN per: ' + senza.join(', ')); process.exit(1); }
-  REGIONI.forEach(r => {
-    scrivi(path.join(radice, r.k, 'index.html'), pagina(r), true);
-    console.log(`  /${r.k}/  ${r.nome} — ${r.staz} staz., ${r.dirs.join('+')}`);
+  // SOLO=toscana,liguria rigenera solo quelle (prove, e il giro del mattino
+  // che tocca le sole pagine regione): niente sitemap ne' mappa del sito.
+  const solo = (process.env.SOLO || '').split(',').filter(Boolean);
+  REGIONI.filter(r => !solo.length || solo.includes(r.k)).forEach(r => {
+    const html = pagina(r, radice);
+    scrivi(path.join(radice, r.k, 'index.html'), html, true);
+    const cotta = /<div id="attesa" style="display:none">/.test(html);
+    console.log(`  /${r.k}/  ${r.nome} — ${r.staz} staz., ${r.dirs.join('+')}${cotta ? ' · cotta' : COTTE.includes(r.k) ? ' · guscio (riepilogo assente o vecchio)' : ' · guscio (fuori da COTTE)'}`);
   });
+  if (solo.length) process.exit(0);
   mappaDelSito(radice);
   const voci = scriviSitemap(SITO, radice);
   console.log(`\n${REGIONI.length} pagine scritte, sitemap.xml con ${voci} indirizzi.`);
