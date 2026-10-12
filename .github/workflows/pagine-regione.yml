@@ -32,6 +32,7 @@ on:
         default: 'sempre'
 permissions:
   contents: write
+  actions: write   # per lanciare anteprime.yml, vedi l'ultimo passo
 concurrency:
   group: pagine-regione
   cancel-in-progress: false
@@ -80,3 +81,14 @@ jobs:
         run: |
           [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "Manca il secret CLOUDFLARE_API_TOKEN"; exit 1; }
           node .github/scripts/pubblica-pages.js "$GITHUB_WORKSPACE" avventurepluvio
+      # Le anteprime (la foto della mappa a 20 giorni nelle pagine regione) si rifanno
+      # quando le pagine cambiano, cioe' quando arriva il giorno nuovo (12/10/2026).
+      # ⚠️ Il loro cron delle 05:40 UTC GitHub lo fa partire ~6 ore tardi tutti i giorni
+      # (4-11/10: fra le 11:16 e le 12:38 UTC): fino alle 14 italiane la foto restava
+      # su altroieri sotto un testo gia' a ieri. Il cron resta come riserva.
+      # Gira su GitHub e scrive sul ramo `anteprime`: niente Pages, zero crediti.
+      - name: Lancia le anteprime
+        if: ${{ !cancelled() && steps.diff.outputs.cambiate == 'si' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run anteprime.yml -R "$GITHUB_REPOSITORY"

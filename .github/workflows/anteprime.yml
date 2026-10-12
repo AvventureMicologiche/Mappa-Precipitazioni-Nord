@@ -29,9 +29,17 @@ on:
     # da capo a ogni giro, quindi girare piu' spesso NON fa crescere il peso:
     # costa solo 4 minuti di macchina, e zero crediti Netlify (il ramo non si
     # pubblica, le immagini le serve raw.githubusercontent).
+    # ⚠️ Dal 12/10/2026 le lancia SOPRATTUTTO pagine-regione.yml, appena le pagine
+    # cotte cambiano (~7:20 italiane): questo cron GitHub lo fa partire ~6 ore tardi
+    # e resta come riserva.
     - cron: '40 5 * * *'
 permissions:
   contents: write
+# In fila, mai due insieme (12/10/2026): ora parte anche da pagine-regione.yml e
+# ogni giro riscrive il ramo col --force, quindi l'ultimo che finisce vince.
+concurrency:
+  group: anteprime
+  cancel-in-progress: false
 env:
   OUT: ${{ github.workspace }}/../anteprime-out
 jobs:
