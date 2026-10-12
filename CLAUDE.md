@@ -991,6 +991,39 @@ collector a mano) e il collector conta i suoi due giorni di ritardo a partire da
 oggi, quindi lo scrive col giro del mattino. **Il guardiano l'ha segnalata solo
 all'orario in cui era giusto segnalarla**, non a quello vero.
 
+### 5. I campi che spariscono — `check-campi.js`, dentro `alert-fonti.yml` (dal 12 ottobre 2026)
+
+Gli altri pezzi guardano se i file ARRIVANO, se la pioggia e' COPIATA e se le
+stazioni sono FERME. Questo guarda se dentro un file arrivato **manca a un
+tratto un campo**. Nasce dalla Liguria: dalla sera del 9/10/2026 OMIRL ha
+pubblicato la direzione del vento per 5 stazioni invece di 46, per tre giorni,
+senza un solo errore nei giri. L'ha vista lui per caso, e il 9/10 era ormai
+fuori dalle ~69 ore di OMIRL: e' servita una riparazione mirata del solo `wd`.
+
+- **Ogni giorno, tutte le reti**: ieri e l'altro ieri (un giro saltato non fa
+  perdere niente), conteggio di stazioni, `t`, `w`, `wd`, `u` contro la
+  **mediana dei 14 giorni prima** (almeno 7 validi). Suona **sotto il 60%**, e
+  solo dove quel campo arriva ad almeno 5 stazioni.
+- ⚠️ **L'intensita' `i` NON si guarda**: si scrive solo da 0,5 mm, nei giorni
+  asciutti e' vuota per forza.
+- ⚠️ **Salta i file con `gapfill` e `repaired`, anche nella mediana.** MeteoHub
+  completa i giorni a posteriori con stazioni che hanno solo la pioggia: sono
+  buchi gia' dichiarati, e da soli facevano **19 falsi allarmi su 26**.
+- **La misura, 20/8-11/10/2026: 5 casi, tutti veri.** Alto Adige `u` 1/9 (0
+  contro 55), Sardegna `t`/`w` 7/9 (19 contro 93), Friuli `w`/`u` 11-14/9 (14
+  contro 36), Liguria `wd` 9-11/10 (5 contro 47). Sui file liguri com'erano il
+  10/10 alle 10 avrebbe suonato quella mattina, in tempo per un rilancio.
+- La mail dice rete, campo e quanti contro quanti, e come rilanciare il
+  collector con `date_override` finche' la fonte tiene i dati. Niente registro
+  e niente commit: un buco di piu' giorni manda la mail due mattine di fila, un
+  campo sparito per sempre si zittisce in circa una settimana, quando la
+  mediana si adegua.
+- **Legge solo i nostri file, non tocca un dato.** Prova in locale:
+  `node .github/scripts/check-campi.js`, `GIORNO=2026-09-07` per un giorno
+  passato, `DATA_DIR=<cartella>` per i file di un altro momento (si estraggono
+  con `git archive <commit> data/<regione>`).
+- Sul repo di test non c'e': li' l'allarme fonti e' spento.
+
 ## Check periodico dati
 Ogni ~5 giorni verificare:
 1. Confronto stazioni al confine tra regioni confinanti (stessa pioggia?) — **automatizzato dal 4 agosto 2026: `node .github/scripts/check-confini.js <confine>`**, `--lista` per i nomi (svizzera, emilia-piemonte, emilia-liguria, toscana-emilia, lombardia-trentino). Vedi la sezione dedicata più sotto.
