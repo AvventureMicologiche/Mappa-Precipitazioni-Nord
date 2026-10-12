@@ -27,6 +27,7 @@ on:
     - cron: '15 9 * * *'
 permissions:
   contents: write
+  actions: write   # per lanciare pagine-regione.yml, vedi l'ultimo passo
 # ⚠️ IN FILA, MAI DUE INSIEME (4/10/2026): dal 4/10 il guardiano li rilancia
 # anche fuori orario (sveglia Cloudflare), e due giri paralleli riscrivono gli
 # stessi file: il secondo andrebbe in conflitto al rebase del push.
@@ -91,3 +92,13 @@ jobs:
             sleep 10
           done
           echo "Push delle temperature non riuscito: ci ripensa il giro dopo"
+      # Le pagine regione cotte si rigenerano dopo OGNI giro dei riepiloghi (12/10/2026).
+      # ⚠️ Le lancia questo passo e non un `workflow_run` in pagine-regione.yml: i giri
+      # rilanciati dal guardiano nascono dal GITHUB_TOKEN, e GitHub non crea run dagli
+      # eventi di quel token (il 12/10 i giri delle 6:30 e 7:30 non le hanno fatte
+      # partire). workflow_dispatch e' l'eccezione documentata, come nel guardiano.
+      # Pubblicano su Pages solo se le pagine sono cambiate.
+      - name: Lancia le pagine regione cotte
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pagine-regione.yml -R "$GITHUB_REPOSITORY" -f pubblica=se-cambiate

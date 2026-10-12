@@ -16,11 +16,20 @@ name: Pagine regione cotte, ogni mattina
 # Modifica» e basta) lo ha creato lui e sta nei secret del repo. Senza, il
 # passo di pubblicazione fallisce e lo dice: le pagine restano committate e
 # vanno su al primo deploy fatto a mano.
+#
+# ⚠️ NIENTE `workflow_run` (tolto il 12/10/2026). Partiva solo dopo i giri dei
+# riepiloghi lanciati dall'orologio Cloudflare o dai cron: quelli rilanciati
+# dal guardiano nascono dal GITHUB_TOKEN, e GitHub non crea run dagli eventi di
+# quel token. Il 12/10 i giri delle 6:30 e 7:30 non hanno fatto partire niente,
+# cioe' proprio i giri di recupero. Ora ci lancia l'ultimo passo di
+# riepiloghi.yml con `gh workflow run ... -f pubblica=se-cambiate`.
 on:
-  workflow_run:
-    workflows: ['Riepiloghi delle pagine regione e delle pagine funghi']
-    types: [completed]
   workflow_dispatch:
+    inputs:
+      pubblica:
+        description: 'sempre = pubblica anche a pagine invariate; se-cambiate = solo se cambiate (cosi lancia riepiloghi.yml)'
+        required: false
+        default: 'sempre'
 permissions:
   contents: write
 concurrency:
@@ -28,7 +37,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   run:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -63,7 +71,9 @@ jobs:
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
       - name: Pubblica su Cloudflare Pages
-        if: steps.diff.outputs.cambiate == 'si' || github.event_name == 'workflow_dispatch'
+        # Lanciato a mano pubblica sempre; da riepiloghi.yml solo se cambiate:
+        # i giri dei riepiloghi sono 7-10 al giorno e Pages gratuito ne regge 500 al mese.
+        if: steps.diff.outputs.cambiate == 'si' || inputs.pubblica != 'se-cambiate'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 71126919175cd19d3ba3af31a9a7d22a
