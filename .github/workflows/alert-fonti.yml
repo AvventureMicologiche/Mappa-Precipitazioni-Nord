@@ -197,6 +197,46 @@ jobs:
           [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
           echo "Mail inviata."
 
+      # ── Quinto inquilino: i CAMPI CHE SPARISCONO (12/10/2026) ─────────────
+      # Tutti i giorni, tutte le reti: un campo (stazioni, temperatura, vento,
+      # direzione, umidità) che crolla sotto il 60% della mediana dei 14 giorni
+      # prima, col file che arriva lo stesso. Caso Liguria 9-11/10/2026: la
+      # direzione del vento da 46 a 5 stazioni, nessun errore, vista dopo tre
+      # giorni. Non legge fonti esterne e non tocca dati.
+      # Vedi .github/scripts/check-campi.js
+      - name: Controlla i campi spariti
+        id: campi
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: node .github/scripts/check-campi.js
+        continue-on-error: true
+
+      - name: Manda la mail dei campi spariti
+        if: steps.campi.outputs.mail == 'true'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ -z "$MAIL_USER" ] || [ -z "$MAIL_PASS" ] || [ -z "$MAIL_TO" ]; then
+            echo "::error::Mancano i secret MAIL_USER / MAIL_PASS / MAIL_TO: la mail non parte."
+            exit 1
+          fi
+          ok=0
+          for i in 1 2 3; do
+            if curl --silent --show-error --ssl-reqd \
+                 --url 'smtps://smtp.gmail.com:465' \
+                 --user "$MAIL_USER:$MAIL_PASS" \
+                 --mail-from "$MAIL_USER" \
+                 --mail-rcpt "$MAIL_TO" \
+                 --upload-file campi-mail.eml; then ok=1; break; fi
+            echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
+            sleep 20
+          done
+          [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
+          echo "Mail inviata."
+
       - name: Commit del registro
         if: steps.check.outputs.registro == 'true' || steps.ferme.outputs.registro == 'true'
         run: |
