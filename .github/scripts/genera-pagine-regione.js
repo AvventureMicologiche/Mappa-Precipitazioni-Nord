@@ -111,7 +111,7 @@ const REGIONI = [
   { k:'molise',      nome:'Molise',                 prep:'in',   dirs:['meteohub-molise'],      agenzia:'MeteoHub',              url:'', staz:'circa 25',  geo:'dal Matese al basso Molise' },
   { k:'campania',    nome:'Campania',               prep:'in',   dirs:['meteohub-campania'],    agenzia:'MeteoHub',              url:'', staz:'oltre 150',        geo:'dal Cilento al Matese' },
   { k:'puglia',      nome:'Puglia',                 prep:'in',   dirs:['meteohub-puglia'],      agenzia:'MeteoHub',              url:'', staz:'oltre 120',        geo:'dal Gargano al Salento' },
-  { k:'basilicata',  nome:'Basilicata',             prep:'in',   dirs:['meteohub-basilicata'],  agenzia:'MeteoHub',              url:'', staz:'circa 50',         geo:'dal Pollino alle Murge lucane' },
+  { k:'basilicata',  nome:'Basilicata',             prep:'in',   dirs:['meteohub-basilicata'],  agenzia:'MeteoHub',              url:'', staz:'circa 60',         geo:'dal Pollino alle Murge lucane' },
   { k:'calabria',    nome:'Calabria',               prep:'in',   dirs:['meteohub-calabria'],    agenzia:'MeteoHub',              url:'', staz:'circa 140',        geo:"dal Pollino all'Aspromonte" },
   { k:'sicilia',     nome:'Sicilia',                prep:'in',   dirs:['meteohub-sicilia'],     agenzia:'MeteoHub',              url:'', staz:'oltre 400',        geo:"dall'Etna alle Madonie" },
   { k:'sardegna',    nome:'Sardegna',               prep:'in',   dirs:['meteohub-sardegna'],    agenzia:'MeteoHub',              url:'', staz:'oltre 90',         geo:'dalla Gallura al Sulcis' },
@@ -249,6 +249,50 @@ function titoloCotto(r, j, N) {
   return [`Pluviometria ${nome}: dove ha piovuto ${qui}`, `Pluviometria ${nome}: pioggia di ${N.ieri ? 'ieri, ' : ''}${quando}`]
     .find(t => t.length <= 62) || null;
 }
+// ── «MAPPA» NEL TITOLO (12/10/2026, sua scelta) ──
+// Search Console 13/9-11/10: «pluviometria toscana» 13.451 viste e 1,1% di
+// clic in sesta posizione, sotto CFR, SIR e la Panoramica AI che dicono tutti
+// solo «Pluviometria». Le ricerche con «mappa» cliccano il 20-33%, «ultimo
+// mese» l'11%. Quindi le parole che gli ufficiali non hanno: mappa, quanti
+// pluviometri, 30 giorni. RESTANO col titolo di ieri le tre che cliccano gia'
+// bene (10-18%) e fanno da confronto: la misura vera e' la Toscana, l'unica con
+// numeri abbastanza grandi. Tetto 64: la forma lunga della Toscana fa 64.
+const TITOLO_IERI = new Set(['lazio', 'umbria', 'liguria']);
+function titoloMappa(r, n) {
+  const nome = r.nomeTitolo || r.nome;
+  return [`Pluviometria ${nome}: mappa di ${n} pluviometri, ieri e 30 giorni`,
+          `Pluviometria ${nome}: mappa di ${n} pluviometri, 30 giorni`,
+          `Pluviometria ${nome}: mappa di ${n} pluviometri`].find(t => t.length <= 64) || `Pluviometria ${nome}: mappa dei pluviometri`;
+}
+// La descrizione: Google spesso la ignora e compone dal testo della pagina, ma
+// quando la usa deve dire subito cosa c'e' (la mappa) e poi i numeri del giorno.
+// ARPA Piemonte scrive i nomi in maiuscolo («COLLE DELL'AGNELLO (Cuneo)»): nella
+// riga grigia di Google si leggono come un grido. Solo dove non c'e' nemmeno
+// una minuscola, e lasciando minuscole le preposizioni dentro il nome.
+const bello = s => s.toLowerCase()
+  .replace(/(^|[\s(\-'])([a-zà-ü])/g, (m, a, c) => a + c.toUpperCase())
+  .replace(/(\s)(Di|Del|Dello|Della|Dei|Degli|Delle|Dell'|D'|Al|Allo|Alla|Sul|Sulla|In|La|Le|Lo)(?=[\s'A-Z])/g, (m, a, p) => a + p.toLowerCase());
+// il nome e la provincia fra parentesi si guardano a parte: «COLLE DELL'AGNELLO (Cuneo)»
+const nomeBello = n => {
+  const m = String(n).match(/^(.*?)(?:\s*\(([^)]*)\))?$/); let base = m[1], prov = m[2];
+  if (!/[a-zà-ü]/.test(base)) base = bello(base);
+  if (prov && prov.length > 2 && !/[a-zà-ü]/.test(prov)) prov = bello(prov);
+  return base + (prov != null ? ' (' + prov + ')' : '');
+};
+function descrMappa(r, j, N, n) {
+  const ag = r.agenziaCorta || r.agenzia;
+  const di = /^Provincia/.test(ag) ? 'della ' : /^Centro/.test(ag) ? 'del ' : '';
+  const apre = `Mappa di ${n} pluviometri ${di}${ag} aggiornata ogni mattina.`;
+  const coda = 'Tocca un paese e vedi il grafico.';
+  if (!N) return [`${apre} Quanto ha piovuto ieri e negli ultimi 7, 20 e 30 giorni. ${coda}`, `${apre} Ieri e ultimi 30 giorni. ${coda}`, apre].find(t => t.length <= 158);
+  const d1 = j.periodi['1'], d7 = j.periodi['7'], t1 = d1 && d1.top && d1.top[0], t7 = d7 && d7.top && d7.top[0];
+  const quando = N.ieri ? 'Ieri' : 'Il ' + lungoIso(N.ultimo);
+  const uno = !d1 || !d1.giorni ? null : t1 && t1.mm >= 1 ? `${quando} ${virgola(t1.mm)} mm ${aDi(nomeBello(t1.n))}` : `${quando} giornata ${t1 && t1.mm > 0 ? 'quasi ' : ''}asciutta`;
+  const sette = t7 && t7.mm >= 1 ? `in 7 giorni ${Math.round(t7.mm)} mm ${aDi(nomeBello(t7.n))}` : null;
+  const numeri = [uno, sette].filter(Boolean).join(', ');
+  const forme = [`${apre} ${numeri}. ${coda}`, `${apre} ${numeri}.`, `${apre} ${uno ? uno + '.' : ''} ${coda}`, apre];
+  return forme.map(t => t.replace(/\s+/g, ' ').replace(/ \./g, '.').trim()).find(t => t.length <= 158);
+}
 function descrCotta(r, j, N) {
   const ag = r.agenziaCorta || r.agenzia, d1 = j.periodi['1'], d7 = j.periodi['7'];
   const quando = (N.ieri ? 'Ieri ' : 'Il ') + lungoIso(N.ultimo);
@@ -328,8 +372,8 @@ function pagina(r, radice){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${attr((N && titoloCotto(r, rip, N)) || titoloTag)}</title>
-<meta name="description" content="${attr((N && descrCotta(r, rip, N)) || descr)}">
+<title>${attr(TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? rip.periodi['7'].stazioni : r.staz))}</title>
+<meta name="description" content="${attr(TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? rip.periodi['7'].stazioni : r.staz))}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da ${r.staz} pluviometri di ${r.agenzia}.">
