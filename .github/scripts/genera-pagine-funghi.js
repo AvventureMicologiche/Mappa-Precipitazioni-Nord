@@ -399,9 +399,9 @@ valgono regole proprie.</p>
 <p>Dati di ${r.agenzia} via il nostro archivio. Il bosco è calcolato su dati OpenStreetMap, licenza ODbL.
 La provincia viene dai confini provinciali ISTAT.</p>
 </div>
-${/* Il quiz tartufi accanto a YouTube (12/10/2026): solo nelle regioni del quiz, e qui
-     il bottone YouTube in fondo non c'era, quindi arriva la coppia intera. */ ''}${QUIZ_REGIONI[r.k] ? coppiaQuiz(r.k, `<a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
-   onclick="try{gtag('event','click_youtube',{pulsante:'funghi-fondo-${r.k}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `funghi-fondo-${r.k}`) + '\n' : ''}
+${/* Il bottone YouTube in fondo (12/10/2026): qui prima non c'era, ora c'e' in tutte,
+     in coppia col quiz tartufi nelle regioni che il quiz ha (coppiaQuiz). */ ''}${coppiaQuiz(r.k, `<a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'funghi-fondo-${r.k}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `funghi-fondo-${r.k}`) + '\n'}
 ${LOCALITA.includes(r.k) ? `
 ${/* ⚠️ Il titolo dice «quanto ha piovuto» perche' sono le parole con cui la
      gente cerca davvero («quanto ha piovuto a Imperia»), e questa e' una
