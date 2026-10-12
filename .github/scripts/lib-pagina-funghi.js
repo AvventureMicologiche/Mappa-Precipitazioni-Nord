@@ -281,4 +281,34 @@ const RILIEVO = `/* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
   .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
 ` + YT_BTN;
 
-module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, YT_BTN };
+/* ── IL QUIZ ESAME TARTUFI ACCANTO A YOUTUBE (12/10/2026, sua scelta) ─────────
+   Solo nelle regioni che il quiz ha: bottone giallo ACCANTO a «Vieni a trovarci
+   su YouTube», simmetrico (celle uguali, 53 px: lui, «devi ricordarti sempre le
+   simmetrie»). Sta qui perche' lo usano le pagine regione, funghi, zone e paesi:
+   una regione nuova nel quiz = una riga in QUIZ_REGIONI, e al primo giro le
+   pagine che si rigenerano lo prendono da sole. Le pagine funghi che NON si
+   rigenerano l'hanno avuto con uno script d'inserimento (banco, 12/10). */
+const QUIZ = 'https://avventuremicologiche.it/esame-tartufi/';
+const QUIZ_REGIONI = { toscana: 'Toscana', lazio: 'Lazio', marche: 'Marche', campania: 'Campania' };
+const QUIZ_CSS = `
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+.coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
+.coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
+.coppia-btn svg{width:26px;flex:none;}
+.quiz-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#F9C93E,#EDA40C);color:#3d1f04 !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 0 #a06a08,0 9px 18px rgba(150,95,10,.32);transition:transform .08s,box-shadow .08s;}
+.quiz-btn:hover{background:linear-gradient(180deg,#FBD150,#F0AC1A);}
+.quiz-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #a06a08,0 4px 8px rgba(150,95,10,.3);}
+@media(max-width:560px){.coppia-btn{grid-template-columns:1fr;}}
+`;
+const COPPA_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#7A3A08" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v3H8v-3h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3zm-1 4v1a2 2 0 0 0 2 2V7zm12 0v3a2 2 0 0 0 2-2V7z"/></svg>';
+// Il bottone YouTube (ytA = il suo <a>) da solo, o in coppia col quiz della regione k.
+// `pulsante` e' il valore dell'evento GA click_quiz, come quello di click_youtube.
+const coppiaQuiz = (k, ytA, pulsante) => QUIZ_REGIONI[k]
+  ? `<div class="coppia-btn">${ytA}
+<a href="${QUIZ}${k}/" target="_blank" rel="noopener" class="quiz-btn"
+   onclick="try{gtag('event','click_quiz',{pulsante:'${pulsante}'})}catch(e){}">${COPPA_SVG}Quiz esame tartufi ${QUIZ_REGIONI[k]}</a></div>`
+  : `<p style="margin:22px 0 4px;">${ytA}</p>`;
+
+module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, YT_BTN, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz };

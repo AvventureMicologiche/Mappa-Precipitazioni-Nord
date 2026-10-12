@@ -49,7 +49,7 @@ const path = require('path');
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { slug } = require('./lib-nomi.js');
 // 25/9/2026: le barre, il riquadro in cima e i tasti delle pagine funghi
-const { STILE_NUOVO, RILIEVO } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
 // 11/10/2026: i numeri cotti nella pagina, con la STESSA funzione del browser
 const { numeriRegione } = require('./lib-numeri-regione.js');
 // Le zone, per l'elenco «dove ha piovuto, zona per zona» (13/9/2026): ogni
@@ -61,27 +61,9 @@ const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const GA_ID = 'G-9R7MXXS0V4';
 const VIDEO_FAQ = 'https://youtu.be/fvsBZJ_Ylf4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
-// ── IL QUIZ ESAME TARTUFI IN FONDO ALLA PAGINA (12/10/2026, sua scelta) ──
-// Solo nelle regioni che il quiz ha: un bottone giallo ACCANTO a «Vieni a
-// trovarci su YouTube», simmetrico (celle uguali, stessa altezza: lui, «devi
-// ricordarti sempre le simmetrie»). Bocciato il banner in alto sotto le
-// previsioni. Il testo e' corto apposta: «Quiz esame tartufi Campania» sta su
-// una riga come quello del canale. Regione nuova nel quiz = una riga qui.
-const QUIZ = 'https://avventuremicologiche.it/esame-tartufi/';
-const QUIZ_REGIONI = { toscana: 'Toscana', lazio: 'Lazio', marche: 'Marche', campania: 'Campania' };
-const QUIZ_CSS = `
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
-.coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
-.coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
-.coppia-btn svg{width:26px;flex:none;}
-.quiz-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#F9C93E,#EDA40C);color:#3d1f04 !important;
-  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 0 #a06a08,0 9px 18px rgba(150,95,10,.32);transition:transform .08s,box-shadow .08s;}
-.quiz-btn:hover{background:linear-gradient(180deg,#FBD150,#F0AC1A);}
-.quiz-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #a06a08,0 4px 8px rgba(150,95,10,.3);}
-@media(max-width:560px){.coppia-btn{grid-template-columns:1fr;}}
-`;
-const COPPA_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#7A3A08" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v3H8v-3h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3zm-1 4v1a2 2 0 0 0 2 2V7zm12 0v3a2 2 0 0 0 2-2V7z"/></svg>';
+// Il bottone del quiz esame tartufi accanto a YouTube (12/10/2026): costanti e
+// markup stanno in lib-pagina-funghi.js (QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz),
+// gli stessi delle pagine funghi, zone e paesi.
 const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
 
 // Le anteprime della mappa stanno su un RAMO A SE', `anteprime`, coi file alla
@@ -584,10 +566,8 @@ a 2 km di risoluzione, e serve a vedere dove piove adesso; i millimetri di quest
 un pluviometro: cliccandolo trovi quota, grafico della pioggia degli ultimi 30 giorni e, dove ci sono i sensori,
 temperatura, vento e umidità.</p>
 <p><a href="${SITO}/guida/" onclick="try{gtag('event','click_guida',{pulsante:'pagina-${r.k}'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni</a></p>
-${QUIZ_REGIONI[r.k] ? '<div class="coppia-btn">' : '<p style="margin:22px 0 4px;">'}<a href="${CANALE}" target="_blank" rel="noopener" class="yt-btn"
-   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}-fondo'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>${QUIZ_REGIONI[r.k] ? `
-<a href="${QUIZ}${r.k}/" target="_blank" rel="noopener" class="quiz-btn"
-   onclick="try{gtag('event','click_quiz',{pulsante:'pagina-${r.k}-fondo'})}catch(e){}">${COPPA_SVG}Quiz esame tartufi ${QUIZ_REGIONI[r.k]}</a></div>` : '</p>'}
+${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}-fondo'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `pagina-${r.k}-fondo`)}
 </div>
 </main>
 

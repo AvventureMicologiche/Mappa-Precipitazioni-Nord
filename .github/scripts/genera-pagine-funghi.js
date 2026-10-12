@@ -41,7 +41,7 @@ const { REGIONI, navAltre, briciolaJson } = require('./genera-pagine-regione.js'
 const { LOCALITA, bello, slug, slugRegione } = require('./lib-nomi.js');
 const { rigaStagione } = require('./lib-stagione.js');
 // 24/9/2026: verdetto, barre e finestra comuni con le pagine di zona
-const { STILE_NUOVO, JS_COMUNE, RILIEVO } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -267,7 +267,7 @@ nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2p
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
 ${STILE_NUOVO}
-${RILIEVO}</style>
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}</style>
 </head>
 <body>
 <header>
@@ -399,7 +399,9 @@ valgono regole proprie.</p>
 <p>Dati di ${r.agenzia} via il nostro archivio. Il bosco è calcolato su dati OpenStreetMap, licenza ODbL.
 La provincia viene dai confini provinciali ISTAT.</p>
 </div>
-
+${/* Il quiz tartufi accanto a YouTube (12/10/2026): solo nelle regioni del quiz, e qui
+     il bottone YouTube in fondo non c'era, quindi arriva la coppia intera. */ ''}${QUIZ_REGIONI[r.k] ? coppiaQuiz(r.k, `<a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'funghi-fondo-${r.k}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `funghi-fondo-${r.k}`) + '\n' : ''}
 ${LOCALITA.includes(r.k) ? `
 ${/* ⚠️ Il titolo dice «quanto ha piovuto» perche' sono le parole con cui la
      gente cerca davvero («quanto ha piovuto a Imperia»), e questa e' una

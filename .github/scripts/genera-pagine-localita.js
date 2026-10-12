@@ -38,7 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
-const { JS_AGGIORNATO, RILIEVO } = require('./lib-pagina-funghi.js');
+const { JS_AGGIORNATO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
 // ⚠️ `slug` si chiama qui `slugDaNome`: dentro pagina() c'e' gia' un parametro
 // che si chiama slug ed e' una STRINGA. Importandola col suo nome la funzione
 // veniva coperta e usciva «slug is not a function» solo a generazione avviata,
@@ -304,7 +304,7 @@ nav.altre .io{font-weight:700;color:var(--blu-scuro);}
 .noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
-${RILIEVO}</style>
+${RILIEVO}${QUIZ_REGIONI[REG] ? QUIZ_CSS : ''}</style>
 </head>
 <body>
 
@@ -413,8 +413,8 @@ valgono regole proprie.</p>
 <p>Dati di ${esc(AGENZIA)} via il nostro archivio. Il bosco entro 3 km è calcolato su dati
 OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 </div>
-<p style="margin:22px 0 4px;"><a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
-   onclick="try{gtag('event','click_youtube',{pulsante:'localita-fondo-${REG}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
+${coppiaQuiz(REG, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'localita-fondo-${REG}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `localita-fondo-${REG}`)}
 
 <h2 style="margin-top:30px">Quanto ha piovuto? Trova un'altra località</h2>
 <nav class="altre" id="altri"><p class="nota">Sto leggendo l'elenco…</p></nav>
