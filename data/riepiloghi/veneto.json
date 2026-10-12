@@ -1,42 +1,42 @@
 {
  "regione": "veneto",
- "generato": "2026-10-11T03:15:29.943Z",
+ "generato": "2026-10-12T03:15:30.278Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 1.1,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-10",
+   "stazioni": 185,
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-11",
    "top": [
     {
-     "n": "San Pietro in Cariano (VR)",
-     "mm": 5
+     "n": "Dolce' (VR)",
+     "mm": 18.8
     },
     {
-     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
-     "mm": 4.8
+     "n": "Marano di Valpolicella (VR)",
+     "mm": 18.2
     },
     {
-     "n": "Pian del Crep (Val di Zoldo) (BL)",
-     "mm": 4
+     "n": "Bardolino - Calmasino (VR)",
+     "mm": 14
     },
     {
-     "n": "Soffranco (BL)",
-     "mm": 2
+     "n": "Caprino Veronese - Platano (VR)",
+     "mm": 11
     },
     {
-     "n": "Rovina di Cancia (Q1690) (BL)",
-     "mm": 2
+     "n": "Domegge di Cadore (BL)",
+     "mm": 9.6
     }
    ]
   },
   "7": {
-   "media": 13.7,
+   "media": 14.8,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Ospedaletto Euganeo (PD)",
-     "mm": 43.2
+     "mm": 43.4
     },
     {
      "n": "Faedo (Cinto Euganeo) (PD)",
@@ -56,16 +56,16 @@
     },
     {
      "n": "Balduina (Sant'Urbano) (PD)",
-     "mm": 38.2
+     "mm": 38.4
     }
    ]
   },
   "20": {
-   "media": 13.9,
+   "media": 15,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -73,28 +73,28 @@
     },
     {
      "n": "Ospedaletto Euganeo (PD)",
-     "mm": 43.2
+     "mm": 43.4
     },
     {
      "n": "Faedo (Cinto Euganeo) (PD)",
      "mm": 41.2
     },
     {
-     "n": "Lugugnana (Portogruaro) (VE)",
+     "n": "Balduina (Sant'Urbano) (PD)",
      "mm": 38.8
     },
     {
-     "n": "Balduina (Sant'Urbano) (PD)",
-     "mm": 38.6
+     "n": "Lugugnana (Portogruaro) (VE)",
+     "mm": 38.8
     }
    ]
   },
   "30": {
-   "media": 32.1,
+   "media": 33,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-11",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -102,24 +102,25 @@
     },
     {
      "n": "Bibione (VE)",
-     "mm": 97.4
+     "mm": 97.2
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 89.6
+     "mm": 89.8
+    },
+    {
+     "n": "Eraclea (VE)",
+     "mm": 82.2
     },
     {
      "n": "Galzignano - Ca' Demia (PD)",
      "mm": 79.6
-    },
-    {
-     "n": "Eraclea (VE)",
-     "mm": 79
     }
    ]
   }
  },
  "serie": [
+  1.1,
   0.2,
   2.2,
   9.6,
@@ -148,65 +149,64 @@
   0,
   0.1,
   0,
-  0,
-  0.3
+  0
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-10",
-   "m1": 0.1,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 20.9,
-   "m30": 42.8
+   "m30": 42.7
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-10",
+   "ultimo": "2026-10-11",
    "m1": 0.1,
    "m7": 8.2,
-   "m30": 27.7
+   "m30": 26
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-10",
-   "m1": 1,
-   "m7": 5.1,
-   "m30": 17.3
+   "ultimo": "2026-10-11",
+   "m1": 1.7,
+   "m7": 6.8,
+   "m30": 17.5
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-10",
-   "m1": 0,
-   "m7": 28.2,
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
+   "m7": 28.3,
    "m30": 44.7
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-10",
-   "m1": 0,
-   "m7": 8.5,
-   "m30": 22.4
+   "ultimo": "2026-10-11",
+   "m1": 0.3,
+   "m7": 8.8,
+   "m30": 22.5
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-10",
+   "ultimo": "2026-10-11",
    "m1": 0,
    "m7": 6.2,
-   "m30": 25.9
+   "m30": 25.6
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-10",
-   "m1": 0.9,
-   "m7": 8.1,
-   "m30": 24.3
+   "ultimo": "2026-10-11",
+   "m1": 0.2,
+   "m7": 8.3,
+   "m30": 23.7
   }
  ]
 }

@@ -1,42 +1,42 @@
 {
  "regione": "lazio",
- "generato": "2026-10-11T03:15:29.945Z",
+ "generato": "2026-10-12T03:15:30.280Z",
  "periodi": {
   "1": {
-   "media": 9.1,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 208,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-11",
    "top": [
     {
-     "n": "SS.Cosma e Damiano",
-     "mm": 52.5
+     "n": "Cittareale",
+     "mm": 6.3
     },
     {
-     "n": "Spigno Saturnia",
-     "mm": 48.7
+     "n": "Rivodutri",
+     "mm": 2.6
     },
     {
-     "n": "Sabaudia",
-     "mm": 45.1
+     "n": "Micigliano",
+     "mm": 2.6
     },
     {
-     "n": "Sezze",
-     "mm": 44.9
+     "n": "Posta",
+     "mm": 2.6
     },
     {
-     "n": "S.Apollinare",
-     "mm": 36.9
+     "n": "Colle la Croce",
+     "mm": 2.4
     }
    ]
   },
   "7": {
-   "media": 63.6,
+   "media": 63.7,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Sabaudia",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Gaeta",
-     "mm": 204
+     "mm": 204.2
     },
     {
      "n": "Anzio",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 64.7,
+   "media": 64.9,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Sabaudia",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Gaeta",
-     "mm": 204.1
+     "mm": 204.3
     },
     {
      "n": "Anzio",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 78.1,
+   "media": 74.3,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-11",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Gaeta",
-     "mm": 241.5
-    },
-    {
-     "n": "Latina",
-     "mm": 215.7
+     "mm": 234.6
     },
     {
      "n": "Sabaudia",
-     "mm": 214.1
+     "mm": 210.6
     },
     {
      "n": "Anzio",
      "mm": 209.4
     },
     {
+     "n": "Latina",
+     "mm": 203.3
+    },
+    {
      "n": "Roma Nord",
-     "mm": 195.4
+     "mm": 192.4
     }
    ]
   }
  },
  "serie": [
+  0.2,
   9.1,
   13.9,
   26.6,
@@ -148,65 +149,64 @@
   0,
   0.4,
   0,
-  0.3,
-  4
+  0.3
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-10",
-   "m1": 10.4,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 51.4,
-   "m30": 68.2
+   "m30": 60.3
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-10",
-   "m1": 11.9,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 56.9,
-   "m30": 73
+   "m30": 68.2
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-10",
-   "m1": 3.2,
-   "m7": 33.9,
-   "m30": 40.9
+   "ultimo": "2026-10-11",
+   "m1": 0.7,
+   "m7": 34.6,
+   "m30": 40.1
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-10",
-   "m1": 0.4,
-   "m7": 39.7,
-   "m30": 54.1
+   "ultimo": "2026-10-11",
+   "m1": 3.5,
+   "m7": 43.2,
+   "m30": 55.2
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-10",
-   "m1": 14.9,
-   "m7": 77.5,
-   "m30": 84.9
+   "ultimo": "2026-10-11",
+   "m1": 0.3,
+   "m7": 77.7,
+   "m30": 82.3
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-10",
-   "m1": 1.3,
-   "m7": 34.9,
-   "m30": 50.2
+   "ultimo": "2026-10-11",
+   "m1": 2.2,
+   "m7": 37.1,
+   "m30": 51
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-10",
-   "m1": 12.3,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 44.5,
-   "m30": 57.9
+   "m30": 56.3
   }
  ]
 }

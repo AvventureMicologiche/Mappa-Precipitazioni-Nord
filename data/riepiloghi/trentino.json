@@ -1,42 +1,42 @@
 {
  "regione": "trentino",
- "generato": "2026-10-11T03:15:29.944Z",
+ "generato": "2026-10-12T03:15:30.278Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 103,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-11",
    "top": [
     {
-     "n": "Mori (Loppio)",
-     "mm": 10.6
+     "n": "Canazei (Gries)",
+     "mm": 2.2
     },
     {
-     "n": "Brentonico (Santa Caterina)",
-     "mm": 6.2
+     "n": "Pian Fedaia (Diga)",
+     "mm": 1.4
     },
     {
-     "n": "San Lorenzo In Banale (Pergoletti)",
-     "mm": 1.8
+     "n": "Lavarone (Chiesa)",
+     "mm": 0.2
     },
     {
-     "n": "Passo Tonale",
-     "mm": 1.6
+     "n": "Male'",
+     "mm": 0.2
     },
     {
-     "n": "Rumo (Lanza)",
-     "mm": 1
+     "n": "Tres",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 17.1,
+   "media": 17.2,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 17.2,
+   "media": 17.3,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 31.7,
+   "media": 31.6,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-11",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -106,11 +106,11 @@
     },
     {
      "n": "Pradalago (Rifugio Viviani)",
-     "mm": 56
+     "mm": 54.6
     },
     {
      "n": "Daone (Malga Bissina)",
-     "mm": 54.2
+     "mm": 54
     },
     {
      "n": "Storo",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.3,
   0.4,
   12.9,
@@ -148,56 +149,55 @@
   0,
   0,
   0,
-  0,
-  0.2
+  0
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-10",
-   "m1": 0.1,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 25.9,
-   "m30": 42.4
+   "m30": 42.3
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-10",
-   "m1": 0.1,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 16.6,
-   "m30": 25.5
+   "m30": 25.4
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-10",
-   "m1": 0,
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
    "m7": 12.6,
-   "m30": 29.9
+   "m30": 29.8
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-10",
-   "m1": 0.3,
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
    "m7": 14.7,
-   "m30": 28.5
+   "m30": 28.4
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-10",
-   "m1": 0,
-   "m7": 15.6,
-   "m30": 24.9
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
+   "m7": 15.7,
+   "m30": 24.8
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-10",
-   "m1": 0.7,
-   "m7": 18.8,
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
+   "m7": 18.9,
    "m30": 27.7
   }
  ]

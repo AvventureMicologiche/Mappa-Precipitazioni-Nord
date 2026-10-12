@@ -1,42 +1,42 @@
 {
  "regione": "campania",
- "generato": "2026-10-11T03:15:29.945Z",
+ "generato": "2026-10-12T03:15:30.280Z",
  "periodi": {
   "1": {
-   "media": 30.9,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 176,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-10",
+   "stazioni": 177,
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-11",
    "top": [
     {
-     "n": "Cava Casa Riceri",
-     "mm": 95.9
+     "n": "Battipaglia",
+     "mm": 1.8
     },
     {
-     "n": "Omignano Scalo",
-     "mm": 94.1
+     "n": "Ceraso-Isca Vivaio Forestale",
+     "mm": 1.8
     },
     {
-     "n": "Cetara (Serbatoio comunale)",
-     "mm": 88.5
+     "n": "Capri",
+     "mm": 1.4
     },
     {
-     "n": "Ischia",
-     "mm": 87.4
+     "n": "Bagnoli Irpino",
+     "mm": 1
     },
     {
-     "n": "Castel Volturno",
-     "mm": 84.4
+     "n": "Gioi Cilento",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 85.6,
+   "media": 85.8,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-10",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -52,20 +52,20 @@
     },
     {
      "n": "Castel Volturno",
-     "mm": 229.4
+     "mm": 229.6
     },
     {
      "n": "Piano Liguori",
-     "mm": 228.6
+     "mm": 228.8
     }
    ]
   },
   "20": {
-   "media": 99.5,
+   "media": 99.6,
    "giorni": 20,
    "stazioni": 179,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -77,7 +77,7 @@
     },
     {
      "n": "Piano Liguori",
-     "mm": 249.2
+     "mm": 249.4
     },
     {
      "n": "Forio",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Castel Volturno",
-     "mm": 232.8
+     "mm": 233
     }
    ]
   },
   "30": {
-   "media": 111.9,
+   "media": 109.7,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-09-11",
-   "ultimo": "2026-10-10",
+   "primo": "2026-09-12",
+   "ultimo": "2026-10-11",
    "top": [
     {
      "n": "Ischia",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Piano Liguori",
-     "mm": 289.8
+     "mm": 290
     },
     {
      "n": "Castel Volturno",
-     "mm": 242.8
+     "mm": 237.8
     }
    ]
   }
  },
  "serie": [
+  0.2,
   30.9,
   29.8,
   24.6,
@@ -148,41 +149,40 @@
   0.1,
   0,
   0,
-  1.4,
-  2.5
+  1.4
  ],
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-10",
-   "m1": 44,
+   "ultimo": "2026-10-11",
+   "m1": 0,
    "m7": 105.7,
-   "m30": 186.2
+   "m30": 184.3
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-10",
-   "m1": 33.9,
-   "m7": 63.6,
-   "m30": 99.3
+   "ultimo": "2026-10-11",
+   "m1": 0.9,
+   "m7": 64.5,
+   "m30": 99.7
   },
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-10",
-   "m1": 17.1,
-   "m7": 103.3,
-   "m30": 125.5
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
+   "m7": 103.5,
+   "m30": 121.2
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-10",
-   "m1": 21.9,
-   "m7": 103.6,
-   "m30": 148.4
+   "ultimo": "2026-10-11",
+   "m1": 0.1,
+   "m7": 103.7,
+   "m30": 146.6
   }
  ]
 }
