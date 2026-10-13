@@ -1,125 +1,126 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-12T03:15:30.280Z",
+ "generato": "2026-10-13T03:15:30.279Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 11.8,
    "giorni": 1,
    "stazioni": 62,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Matera",
-     "mm": 0.6
+     "n": "Lavello",
+     "mm": 37.2
     },
     {
-     "n": "Avigliano",
-     "mm": 0.6
+     "n": "Lagopesole",
+     "mm": 33.3
     },
     {
-     "n": "Brienza",
-     "mm": 0.4
+     "n": "Lagonegro",
+     "mm": 30.8
     },
     {
-     "n": "Picerno",
-     "mm": 0.4
+     "n": "Venosa ETG",
+     "mm": 23.4
     },
     {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 0.4
+     "n": "Palazzo S.Gervasio",
+     "mm": 22.4
     }
    ]
   },
   "7": {
-   "media": 33.7,
+   "media": 45.5,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 92.1
-    },
-    {
-     "n": "Rotonda",
-     "mm": 72.1
+     "mm": 122.9
     },
     {
      "n": "Castelsaraceno",
-     "mm": 63.7
+     "mm": 79.2
+    },
+    {
+     "n": "Rotonda",
+     "mm": 78.5
     },
     {
      "n": "Castrocucco",
-     "mm": 63.3
+     "mm": 78
     },
     {
-     "n": "Tramutola",
-     "mm": 61.1
+     "n": "Grumento-Ponte La Marmora",
+     "mm": 70.8
     }
    ]
   },
   "20": {
-   "media": 40.9,
+   "media": 52.3,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 104.2
-    },
-    {
-     "n": "Rotonda",
-     "mm": 81.9
+     "mm": 135
     },
     {
      "n": "Castrocucco",
-     "mm": 74.1
+     "mm": 88.8
     },
     {
-     "n": "Castelsaraceno",
-     "mm": 70.5
+     "n": "Rotonda",
+     "mm": 88.3
     },
     {
      "n": "Maratea",
-     "mm": 69.5
+     "mm": 86.1
+    },
+    {
+     "n": "Castelsaraceno",
+     "mm": 86
     }
    ]
   },
   "30": {
-   "media": 52.6,
+   "media": 60.2,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 131.6
-    },
-    {
-     "n": "Maratea",
-     "mm": 110.4
+     "mm": 152
     },
     {
      "n": "Castelsaraceno",
-     "mm": 89.5
-    },
-    {
-     "n": "Rotonda",
-     "mm": 88.9
+     "mm": 99.7
     },
     {
      "n": "Tramutola",
-     "mm": 87.2
+     "mm": 94.5
+    },
+    {
+     "n": "Venosa ETG",
+     "mm": 93.4
+    },
+    {
+     "n": "Lavello",
+     "mm": 93.1
     }
    ]
   }
  },
  "serie": [
+  11.8,
   0.1,
   15.8,
   11,
@@ -148,8 +149,7 @@
   0,
   0.9,
   0,
-  0,
-  4.1
+  0
  ],
  "zone": []
 }

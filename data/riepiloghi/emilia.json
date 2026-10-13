@@ -1,50 +1,50 @@
 {
  "regione": "emilia",
- "generato": "2026-10-12T03:15:30.278Z",
+ "generato": "2026-10-13T03:15:30.277Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 2.3,
    "giorni": 1,
-   "stazioni": 327,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "stazioni": 328,
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
+     "n": "Albareto (Modena)",
+     "mm": 20.4
+    },
+    {
+     "n": "Ponte Chiavica (Ravenna)",
+     "mm": 18
+    },
+    {
      "n": "Guagnino (Ferrara)",
-     "mm": 8.2
+     "mm": 16.9
+    },
+    {
+     "n": "Saludecio (Rimini)",
+     "mm": 15.2
     },
     {
      "n": "Monzuno (Bologna)",
-     "mm": 7.1
-    },
-    {
-     "n": "S. Agata Bolognese (Bologna)",
-     "mm": 6.6
-    },
-    {
-     "n": "Cassa Dosolo (Bologna)",
-     "mm": 4.6
-    },
-    {
-     "n": "Medelana (Ferrara)",
-     "mm": 4
+     "mm": 14.8
     }
    ]
   },
   "7": {
-   "media": 20.4,
+   "media": 22.6,
    "giorni": 7,
    "stazioni": 336,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 143.2
+     "mm": 143
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 139.6
+     "mm": 140.8
     },
     {
      "n": "Barbagelata (Genova)",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 103
+     "mm": 103.2
     },
     {
      "n": "Diga del Brugneto (Genova)",
@@ -61,19 +61,19 @@
    ]
   },
   "20": {
-   "media": 20.5,
+   "media": 22.8,
    "giorni": 20,
    "stazioni": 337,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 144.2
+     "mm": 144.4
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 140
+     "mm": 141.2
     },
     {
      "n": "Barbagelata (Genova)",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 105
+     "mm": 105.2
     },
     {
      "n": "Diga del Brugneto (Genova)",
@@ -90,19 +90,19 @@
    ]
   },
   "30": {
-   "media": 33.8,
+   "media": 35.8,
    "giorni": 30,
-   "stazioni": 339,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "stazioni": 338,
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 151.8
+     "mm": 152
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 147.4
+     "mm": 148.6
     },
     {
      "n": "Barbagelata (Genova)",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 129
+     "mm": 129.2
     },
     {
      "n": "Casalporino (Parma)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  2.3,
   0.2,
   0.1,
   2,
@@ -148,65 +149,64 @@
   0,
   0,
   0,
-  0,
-  0.3
+  0
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-11",
-   "m1": 0.1,
-   "m7": 10.2,
-   "m30": 16.4
+   "ultimo": "2026-10-12",
+   "m1": 0,
+   "m7": 10.1,
+   "m30": 16.3
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 68.1,
-   "m30": 78.6
+   "ultimo": "2026-10-12",
+   "m1": 0.2,
+   "m7": 68.2,
+   "m30": 78.5
   },
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-11",
-   "m1": 0.2,
-   "m7": 50.3,
-   "m30": 65.6
+   "ultimo": "2026-10-12",
+   "m1": 0,
+   "m7": 50.2,
+   "m30": 65.5
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-11",
-   "m1": 0.1,
-   "m7": 10.8,
+   "ultimo": "2026-10-12",
+   "m1": 0,
+   "m7": 10.5,
    "m30": 37.9
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-11",
+   "ultimo": "2026-10-12",
    "m1": 0,
-   "m7": 19.1,
+   "m7": 18.9,
    "m30": 46.8
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 22.8,
-   "m30": 48.7
+   "ultimo": "2026-10-12",
+   "m1": 3.5,
+   "m7": 26,
+   "m30": 49.8
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 40.2,
-   "m30": 44.9
+   "ultimo": "2026-10-12",
+   "m1": 1.5,
+   "m7": 41.7,
+   "m30": 46.3
   }
  ]
 }

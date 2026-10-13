@@ -1,46 +1,46 @@
 {
  "regione": "valledaosta",
- "generato": "2026-10-12T19:00:20.045Z",
+ "generato": "2026-10-13T03:15:30.276Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Gressoney-la-Trinité - D'Ejola",
-     "mm": 1
+     "n": "Aosta - Mont-Fleury",
+     "mm": 4
+    },
+    {
+     "n": "Cogne - Gimillan",
+     "mm": 4
+    },
+    {
+     "n": "Etroubles - Chevrière",
+     "mm": 4
     },
     {
      "n": "La Thuile - Les Granges",
      "mm": 0
     },
     {
-     "n": "Aosta - Mont-Fleury",
-     "mm": 0
-    },
-    {
      "n": "Donnas - Clapey",
-     "mm": 0
-    },
-    {
-     "n": "Etroubles - Chevrière",
      "mm": 0
     }
    ]
   },
   "7": {
-   "media": 16.2,
+   "media": 16.4,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 47.6
+     "mm": 47.2
     },
     {
      "n": "Courmayeur - Lex Blanche",
@@ -56,16 +56,16 @@
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 34.6
+     "mm": 34.5
     }
    ]
   },
   "20": {
-   "media": 18.4,
+   "media": 18.5,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 52.1
+     "mm": 52
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 18.8,
+   "media": 18.9,
    "giorni": 30,
    "stazioni": 69,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0,
   0.2,
   0,
@@ -148,14 +149,13 @@
   0.4,
   0,
   0,
-  0,
   0
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-10-11",
+   "ultimo": "2026-10-12",
    "m1": 0,
    "m7": 17.2,
    "m30": 17.5
@@ -163,7 +163,7 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-10-11",
+   "ultimo": "2026-10-12",
    "m1": 0,
    "m7": 7.3,
    "m30": 8.1
@@ -171,15 +171,15 @@
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 12.4,
-   "m30": 12.9
+   "ultimo": "2026-10-12",
+   "m1": 1.3,
+   "m7": 13.7,
+   "m30": 14.2
   },
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-10-11",
+   "ultimo": "2026-10-12",
    "m1": 0,
    "m7": 13.6,
    "m30": 14.1

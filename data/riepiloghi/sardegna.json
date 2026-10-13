@@ -1,42 +1,42 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-12T03:15:30.281Z",
+ "generato": "2026-10-13T03:15:30.280Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0.6,
    "giorni": 1,
    "stazioni": 93,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Mannu di Porto Torres",
+     "n": "Vallermosa",
+     "mm": 7.8
+    },
+    {
+     "n": "Abbasanta",
+     "mm": 7
+    },
+    {
+     "n": "San Michele",
+     "mm": 6.8
+    },
+    {
+     "n": "Villasor",
      "mm": 4.6
     },
     {
-     "n": "Coghinas",
-     "mm": 2.2
-    },
-    {
-     "n": "Villa Verde",
-     "mm": 2
-    },
-    {
-     "n": "Pianu",
-     "mm": 2
-    },
-    {
-     "n": "Bauladu",
-     "mm": 1.8
+     "n": "Iglesias",
+     "mm": 3.4
     }
    ]
   },
   "7": {
-   "media": 27.8,
+   "media": 26.9,
    "giorni": 7,
    "stazioni": 93,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Stintino",
@@ -47,30 +47,26 @@
      "mm": 84.2
     },
     {
+     "n": "San Michele",
+     "mm": 74.8
+    },
+    {
      "n": "Mannu di Porto Torres",
      "mm": 71.2
     },
     {
-     "n": "San Michele",
-     "mm": 68
-    },
-    {
-     "n": "Villanova Monteleone",
-     "mm": 63.6
+     "n": "Iglesias",
+     "mm": 63
     }
    ]
   },
   "20": {
-   "media": 30,
+   "media": 29.9,
    "giorni": 20,
    "stazioni": 93,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
-    {
-     "n": "S. Nicolò Gerrei - Pranu Sangun",
-     "mm": 110.7
-    },
     {
      "n": "Stintino",
      "mm": 86.8
@@ -80,21 +76,25 @@
      "mm": 84.4
     },
     {
+     "n": "San Michele",
+     "mm": 75.2
+    },
+    {
      "n": "Mannu di Porto Torres",
      "mm": 71.2
     },
     {
-     "n": "San Michele",
-     "mm": 68.4
+     "n": "Iglesias",
+     "mm": 64.4
     }
    ]
   },
   "30": {
-   "media": 35.5,
+   "media": 36.1,
    "giorni": 30,
    "stazioni": 93,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -102,7 +102,7 @@
     },
     {
      "n": "S. Nicolò Gerrei - Pranu San",
-     "mm": 110.7
+     "mm": 111.1
     },
     {
      "n": "Badu Crabolu",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.6,
   0.2,
   3.2,
   2.9,
@@ -146,7 +147,6 @@
   0.7,
   0.4,
   0.1,
-  0,
   0,
   0,
   0

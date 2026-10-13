@@ -1,46 +1,46 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-12T12:28:18.296Z",
+ "generato": "2026-10-13T03:15:30.280Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 310,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "stazioni": 308,
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Braunwald (GL)",
-     "mm": 1.3
+     "n": "Novazzano (TI)",
+     "mm": 0.2
     },
     {
-     "n": "Elm (GL)",
-     "mm": 0.7
+     "n": "Scuol (GR)",
+     "mm": 0.1
     },
     {
-     "n": "Malbun (FL)",
-     "mm": 0.6
+     "n": "Cossonay (VD)",
+     "mm": 0.1
     },
     {
-     "n": "Bristen (UR)",
-     "mm": 0.4
+     "n": "Oberiberg (SZ)",
+     "mm": 0.1
     },
     {
-     "n": "Innerthal (SZ)",
-     "mm": 0.4
+     "n": "Starkenbach (SG)",
+     "mm": 0.1
     }
    ]
   },
   "7": {
-   "media": 28.5,
+   "media": 27.6,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 101.5
+     "mm": 98
     },
     {
      "n": "Chironico Cala (TI)",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Säntis (AI)",
-     "mm": 86.1
+     "mm": 79.2
     },
     {
      "n": "Isone (TI)",
@@ -64,12 +64,12 @@
    "media": 35.3,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 102.3
+     "mm": 102.2
     },
     {
      "n": "Säntis (AI)",
@@ -93,8 +93,8 @@
    "media": 45.8,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   4.8,
   0.3,
@@ -148,8 +149,7 @@
   5.7,
   0,
   1.9,
-  0.9,
-  0
+  0.9
  ],
  "zone": []
 }

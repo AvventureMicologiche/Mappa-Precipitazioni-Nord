@@ -1,125 +1,126 @@
 {
  "regione": "veneto",
- "generato": "2026-10-12T12:28:18.294Z",
+ "generato": "2026-10-13T03:15:30.277Z",
  "periodi": {
   "1": {
-   "media": 1.1,
+   "media": 3.6,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Dolce' (VR)",
-     "mm": 18.8
+     "n": "Chioggia - Sant'Anna (VE)",
+     "mm": 49.2
     },
     {
-     "n": "Marano di Valpolicella (VR)",
-     "mm": 18.2
+     "n": "Rosolina - Po di Tramontana (RO)",
+     "mm": 43.2
     },
     {
-     "n": "Bardolino - Calmasino (VR)",
-     "mm": 14
+     "n": "Pettorazza Grimani loc. Botti Barbarighe (RO)",
+     "mm": 31
     },
     {
-     "n": "Caprino Veronese - Platano (VR)",
-     "mm": 11
+     "n": "Grantorto (PD)",
+     "mm": 26
     },
     {
-     "n": "Domegge di Cadore (BL)",
-     "mm": 9.6
+     "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
+     "mm": 22.2
     }
    ]
   },
   "7": {
-   "media": 14.8,
+   "media": 18.4,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
-     "mm": 61.2
+     "mm": 72.6
+    },
+    {
+     "n": "Chioggia - Sant'Anna (VE)",
+     "mm": 58.4
+    },
+    {
+     "n": "Rosolina - Po di Tramontana (RO)",
+     "mm": 52.2
+    },
+    {
+     "n": "Castelnuovo del Garda (VR)",
+     "mm": 49.6
     },
     {
      "n": "Ospedaletto Euganeo (PD)",
-     "mm": 43.4
-    },
-    {
-     "n": "Faedo (Cinto Euganeo) (PD)",
-     "mm": 41.2
-    },
-    {
-     "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 38.8
-    },
-    {
-     "n": "Balduina (Sant'Urbano) (PD)",
-     "mm": 38.4
+     "mm": 43.6
     }
    ]
   },
   "20": {
-   "media": 15,
+   "media": 18.6,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
-     "mm": 61.2
+     "mm": 72.6
     },
     {
-     "n": "Ospedaletto Euganeo (PD)",
-     "mm": 43.4
+     "n": "Chioggia - Sant'Anna (VE)",
+     "mm": 59
     },
     {
-     "n": "Faedo (Cinto Euganeo) (PD)",
-     "mm": 41.2
+     "n": "Rosolina - Po di Tramontana (RO)",
+     "mm": 52.4
     },
     {
-     "n": "Balduina (Sant'Urbano) (PD)",
-     "mm": 38.8
+     "n": "Castelnuovo del Garda (VR)",
+     "mm": 51.6
     },
     {
-     "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 38.8
+     "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
+     "mm": 44
     }
    ]
   },
   "30": {
-   "media": 33,
+   "media": 36.5,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 116.6
+     "mm": 119.8
     },
     {
      "n": "Bibione (VE)",
-     "mm": 97.2
+     "mm": 99.4
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 89.8
-    },
-    {
-     "n": "Eraclea (VE)",
-     "mm": 82.2
+     "mm": 91.4
     },
     {
      "n": "Galzignano - Ca' Demia (PD)",
-     "mm": 79.6
+     "mm": 91
+    },
+    {
+     "n": "Grantorto (PD)",
+     "mm": 88.8
     }
    ]
   }
  },
  "serie": [
+  3.6,
   1.1,
   0.2,
   2.2,
@@ -148,65 +149,64 @@
   0,
   0,
   0.1,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 20.9,
-   "m30": 42.7
+   "ultimo": "2026-10-12",
+   "m1": 0.5,
+   "m7": 21.4,
+   "m30": 43.1
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-11",
-   "m1": 0.1,
-   "m7": 8.2,
-   "m30": 26
+   "ultimo": "2026-10-12",
+   "m1": 0.8,
+   "m7": 9,
+   "m30": 26.8
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-11",
-   "m1": 1.7,
-   "m7": 6.8,
-   "m30": 17.5
+   "ultimo": "2026-10-12",
+   "m1": 0.2,
+   "m7": 6.9,
+   "m30": 17.6
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-11",
-   "m1": 0.1,
-   "m7": 28.3,
-   "m30": 44.7
+   "ultimo": "2026-10-12",
+   "m1": 1.9,
+   "m7": 29.9,
+   "m30": 46.5
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-11",
-   "m1": 0.3,
+   "ultimo": "2026-10-12",
+   "m1": 0,
    "m7": 8.8,
-   "m30": 22.5
+   "m30": 22.4
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-11",
-   "m1": 0,
-   "m7": 6.2,
+   "ultimo": "2026-10-12",
+   "m1": 0.1,
+   "m7": 6.3,
    "m30": 25.6
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-11",
-   "m1": 0.2,
-   "m7": 8.3,
-   "m30": 23.7
+   "ultimo": "2026-10-12",
+   "m1": 1.8,
+   "m7": 10,
+   "m30": 25.5
   }
  ]
 }

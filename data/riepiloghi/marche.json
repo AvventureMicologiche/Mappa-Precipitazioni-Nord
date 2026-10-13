@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-10-12T03:15:30.279Z",
+ "generato": "2026-10-13T03:15:30.278Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 10.2,
    "giorni": 1,
-   "stazioni": 115,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-11",
+   "stazioni": 114,
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-12",
    "top": [
     {
-     "n": "Ancona Regione",
-     "mm": 7.8
+     "n": "Potenza 1",
+     "mm": 34.4
     },
     {
-     "n": "Marina di Montemarciano",
-     "mm": 6
+     "n": "Rotella",
+     "mm": 28
+    },
+    {
+     "n": "Macerata Montalbano",
+     "mm": 26.6
     },
     {
      "n": "Baraccola",
-     "mm": 5.6
+     "mm": 25.8
     },
     {
-     "n": "Ancona Torrette",
-     "mm": 4.6
-    },
-    {
-     "n": "Ripatransone",
-     "mm": 4.4
+     "n": "Tesino",
+     "mm": 25.8
     }
    ]
   },
   "7": {
-   "media": 31.1,
+   "media": 41,
    "giorni": 7,
    "stazioni": 115,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-11",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 128.4
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 106.4
+     "mm": 138.4
     },
     {
      "n": "Loro Piceno",
-     "mm": 96.8
+     "mm": 115.4
     },
     {
-     "n": "Cagli Civita",
-     "mm": 91.4
+     "n": "Pianello di Cagli",
+     "mm": 110.8
     },
     {
      "n": "Sant Angelo in Pontano",
-     "mm": 90.8
+     "mm": 110.2
+    },
+    {
+     "n": "Cagli Civita",
+     "mm": 91.6
     }
    ]
   },
   "20": {
-   "media": 37,
+   "media": 47.1,
    "giorni": 20,
    "stazioni": 115,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 129.8
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 107.4
+     "mm": 140.2
     },
     {
      "n": "Loro Piceno",
-     "mm": 104.6
+     "mm": 123.2
     },
     {
      "n": "Sant Angelo in Pontano",
-     "mm": 100.8
+     "mm": 120.2
     },
     {
-     "n": "Cagli Civita",
-     "mm": 93.8
+     "n": "Pianello di Cagli",
+     "mm": 112.2
+    },
+    {
+     "n": "Fiumesino",
+     "mm": 109.2
     }
    ]
   },
   "30": {
-   "media": 64,
+   "media": 73.8,
    "giorni": 30,
    "stazioni": 115,
-   "primo": "2026-09-12",
-   "ultimo": "2026-10-11",
+   "primo": "2026-09-13",
+   "ultimo": "2026-10-12",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 174.2
+     "mm": 184.6
     },
     {
      "n": "Cagli Civita",
-     "mm": 157
+     "mm": 159.4
     },
     {
-     "n": "Pianello di Cagli",
-     "mm": 135.6
+     "n": "Macerata Montalbano",
+     "mm": 149.4
     },
     {
      "n": "Loro Piceno",
-     "mm": 127.6
+     "mm": 146.2
     },
     {
      "n": "Sant Angelo in Pontano",
-     "mm": 124.2
+     "mm": 143.6
     }
    ]
   }
  },
  "serie": [
+  10.2,
   0.7,
   9.8,
   4,
@@ -148,33 +149,32 @@
   0.1,
   0.1,
   0,
-  0,
-  0.3
+  0
  ],
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-11",
-   "m1": 0.1,
-   "m7": 29.7,
-   "m30": 67.7
+   "ultimo": "2026-10-12",
+   "m1": 5.1,
+   "m7": 34.6,
+   "m30": 72.8
   },
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-11",
-   "m1": 0.3,
-   "m7": 18.9,
-   "m30": 41.9
+   "ultimo": "2026-10-12",
+   "m1": 3.8,
+   "m7": 22.5,
+   "m30": 45.4
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-11",
-   "m1": 1.3,
-   "m7": 23.3,
-   "m30": 41.2
+   "ultimo": "2026-10-12",
+   "m1": 5.7,
+   "m7": 29,
+   "m30": 46.9
   }
  ]
 }
