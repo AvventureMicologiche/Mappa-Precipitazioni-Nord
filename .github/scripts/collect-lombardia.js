@@ -45,6 +45,8 @@ function getJSON(pathQ, retries = 3) {
         let data = '';
         res.on('data', c => data += c);
         res.on('end', () => {
+          // 429 = Socrata rifiuta le raffiche: si riprova piu' volte e con pause piu' lunghe (13/10/2026)
+          if (res.statusCode === 429 && n < Math.max(retries, 5)) return setTimeout(() => attempt(n+1), 10000*n);
           if (res.statusCode !== 200) { if (n < retries) return setTimeout(() => attempt(n+1), 4000*n); return reject(new Error(`HTTP ${res.statusCode}`)); }
           try { resolve(JSON.parse(data)); } catch(e) { if (n < retries) return setTimeout(() => attempt(n+1), 4000*n); reject(new Error('JSON: '+e.message)); }
         });
@@ -213,15 +215,15 @@ async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
   });
   const rows = Object.keys(perSensore).map(id => ({ idsensore: id, s: perSensore[id].s }));
   // t/w in un try: un guasto della query meteo non tocca mai la pioggia
-  let meteo = {};
+  let meteo = {}, meteoKo = false, direzioneKo = false;
   if (tempByStaz) {
     try { meteo = await fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz); }
-    catch (e) { console.warn(`  Warn meteo ${dateStr}: ${e.message}`); }
+    catch (e) { meteoKo = true; console.warn(`  Warn meteo ${dateStr}: ${e.message}`); }
     try {
       await sleep(1000);   // Socrata limita le raffiche di richieste (429): un respiro prima della query in piu'
       const wd = await fetchDirezioneDay(dateStr, windByStaz);
       Object.keys(wd).forEach(st => { if (meteo[st] && meteo[st].w) meteo[st].wd = wd[st]; });
-    } catch (e) { console.warn(`  Warn direzione ${dateStr}: ${e.message}`); }
+    } catch (e) { direzioneKo = true; console.warn(`  Warn direzione ${dateStr}: ${e.message}`); }
   }
   const stations = [];
   rows.forEach(r => {
@@ -235,6 +237,7 @@ async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
     if (meta.st && meteo[meta.st]) Object.assign(rec, meteo[meta.st]);
     stations.push(rec);
   });
+  stations.meteoKo = meteoKo; stations.direzioneKo = direzioneKo;   // li legge writeDay
   return stations;
 }
 
@@ -248,6 +251,19 @@ function writeDay(dateStr, stations) {
       if (prev.stations && prev.stations.length > stations.length * 1.2) {
         console.warn(`  ${dateStr}: esistente ha ${prev.stations.length} sensori vs ${stations.length}, non sovrascrivo`);
         return false;
+      }
+      /* ⚠️ QUERY METEO FALLITA = SI TENGONO I VALORI GIA' NEL FILE (13/10/2026). Se Socrata rifiutava (429) la
+         sola query di temperatura/vento/umidita', il file si riscriveva con la pioggia e basta e cancellava quello
+         che i giri prima avevano salvato: l'11/10 e' passato da 231 stazioni con la temperatura a 0 all'ultimo
+         giro utile, e l'ha visto check-campi. Ora, stazione per stazione, i campi della query fallita si
+         riprendono dal file esistente dello stesso giorno. */
+      const campi = (stations.meteoKo ? ['t', 'w', 'u', 'wd'] : []).concat(stations.direzioneKo && !stations.meteoKo ? ['wd'] : []);
+      if (campi.length && prev.stations) {
+        const vecchi = {}; prev.stations.forEach(s => { vecchi[s.id] = s; });
+        let ripresi = 0;
+        stations.forEach(s => { const v = vecchi[s.id]; if (!v) return; let preso = false;
+          campi.forEach(k => { if (s[k] == null && v[k] != null) { s[k] = v[k]; preso = true; } }); if (preso) ripresi++; });
+        console.warn(`  ${dateStr}: query ${stations.meteoKo ? 'meteo' : 'direzione'} fallita, ${campi.join('/')} ripresi dal file per ${ripresi} stazioni`);
       }
     } catch(e) {}
   }
