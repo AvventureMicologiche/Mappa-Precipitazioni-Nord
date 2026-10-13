@@ -28,6 +28,8 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    env:
+      SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}   # app token Socrata (13/10/2026): meno 429
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
