@@ -90,7 +90,8 @@ let h = '# Generato da pubblica-pages.js (equivalente di netlify.toml).\n' +
   '/data/*\n  Access-Control-Allow-Origin: *\n\n' +
   '# Cache 30 giorni su quello che non cambia indirizzo quando cambia (index.html NO).\n';
 for (const g of geojson) h += `/${g}\n  Cache-Control: public, max-age=2592000\n  Access-Control-Allow-Origin: *\n\n`;
-for (const d of ['/data/vetrine/*', '/tessere-boschi/*', '/novita/*']) h += `${d}\n  Cache-Control: public, max-age=2592000\n\n`;
+// /lib/* (13/10/2026): Leaflet copiato da unpkg, la versione sta nel percorso (lib/leaflet/1.9.4/), quindi si tiene a lungo
+for (const d of ['/data/vetrine/*', '/tessere-boschi/*', '/novita/*', '/lib/*']) h += `${d}\n  Cache-Control: public, max-age=2592000\n\n`;
 fs.writeFileSync(path.join(OUT, '_headers'), h);
 
 const nFile = (function conta(d) { let n = 0; for (const e of fs.readdirSync(d, { withFileTypes: true })) n += e.isDirectory() ? conta(path.join(d, e.name)) : 1; return n; })(OUT);
