@@ -1,12 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-09-23T12:20:03.343Z",
-      "inRitardo": [],
-      "lanciati": [],
-      "mancanti": []
-    },
-    {
       "quando": "2026-09-23T13:53:11.803Z",
       "inRitardo": [],
       "lanciati": [],
@@ -1321,8 +1315,16 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-10-14T04:31:19.188Z",
+      "inRitardo": [],
+      "lanciati": [
+        "riepiloghi.yml"
+      ],
+      "mancanti": []
     }
   ],
-  "aggiornato": "2026-10-14T04:01:19.001Z",
+  "aggiornato": "2026-10-14T04:31:19.188Z",
   "riassunto": "32 giri con qualcosa ri-lanciato su 120 · 35 con qualche giorno mancante · 15 con un buco di 2+ giorni"
 }
