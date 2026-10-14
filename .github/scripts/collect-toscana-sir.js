@@ -50,6 +50,7 @@ const SIR_MAPPA_URL = 'https://www.sir.toscana.it/open_layers/ajax_stations.php?
 // passate in `elenco`. Completezza: >= 20 ore distinte, come tutte le altre reti.
 const MH_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
+const { correggiZeri } = require('./lib-quota-terreno.js');
 async function ventoMeteoHub(dateStr, elenco) {
   const off = getItalyOffset(new Date(dateStr + 'T12:00:00Z'));
   const start = new Date(new Date(dateStr + 'T00:00:00Z').getTime() - off * 3600000);
@@ -251,6 +252,14 @@ async function main() {
 
   console.log(`  Stazioni con dati completi (lat/lon + pioggia): ${stations.length}`);
   if (stations.length < 10) throw new Error(`Troppo poche stazioni: ${stations.length}`);
+
+  // ⚠️ QUOTA 0 DICHIARATA DAL SIR SU STAZIONI DI COLLINA (14/10/2026). Il SIR scrive
+  // 0 m per Bulera (PI) e Ponte Orgia (SI), che per il terreno stanno a 183 e 184 m:
+  // il sito stampava «0 m slm». Sopra i 20 m di terreno lo 0 non e' «sul mare» e si
+  // usa la quota del terreno col ~ (qt:1). Livorno Mareografo, Viareggio, Bocca di
+  // Serchio e Orbetello per il terreno stanno fra 0 e 4 m e restano a 0. La quota
+  // dichiarata, quando c'e', non si tocca mai. Vedi lib-quota-terreno.js.
+  await correggiZeri(stations);
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
 

@@ -287,6 +287,7 @@ async function collectDay(netCfg, dateStr) {
     const meteo = await collectMeteoHub(netCfg, w);
     out.forEach(rec => { if (meteo[rec.id]) Object.assign(rec, meteo[rec.id]); });
   } catch (e) { console.warn(`  Warn meteo ${netCfg.net}: ${e.message}`); }
+  await completaQuote(out);   // stazioni nuove, non ancora in quote-terreno.json (14/10/2026)
   return out;
 }
 
@@ -298,20 +299,11 @@ async function collectDay(netCfg, dateStr) {
    legge per mostrare il ~ davanti al numero.
    ⚠️ Se il file manca la quota resta `null`, cioe' «non lo sappiamo»: MAI 0,
    che vuol dire «sul mare» ed e' un'affermazione falsa.
-   ⚠️ RESTA DA RISOLVERE: la strada giusta e' l'anagrafica vera dell'ente. */
-let _quoteTerreno = null;
-function quotaTerreno(id) {
-  if (_quoteTerreno === null) {
-    _quoteTerreno = {};
-    try {
-      const j = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'quote-terreno.json'), 'utf8'));
-      for (const rete of Object.values(j.reti || {})) Object.assign(_quoteTerreno, rete);
-      console.log(`  quote dal terreno: ${Object.keys(_quoteTerreno).length} stazioni note`);
-    } catch (e) { console.warn(`  Warn quote-terreno.json: ${e.message}`); }
-  }
-  const q = _quoteTerreno[id];
-  return typeof q === 'number' ? Math.max(0, Math.round(q)) : null;
-}
+   ✅ 14/10/2026: misurata contro la quota dichiarata su 1.848 stazioni del
+   nord, scarto mediano 5 m: la quota vera dell'ente non serve piu' cercarla.
+   Le stazioni che nel file non ci sono (comparse dopo) la chiedono a giro in
+   corso: `completaQuote` in fondo a collectDay, vedi lib-quota-terreno.js. */
+const { quotaNota: quotaTerreno, completaQuote } = require('./lib-quota-terreno.js');
 
 /** Stazioni REALI (non stimate) presenti in un file già scritto. */
 function realiInFile(j) {

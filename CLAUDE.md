@@ -1163,6 +1163,25 @@ nessun errore.
 ### Stato dopo la riparazione
 1.439.756 stazioni-giorno, **zero senza quota**, 152.549 col contrassegno del
 terreno. Gli unici zeri rimasti sono le stazioni sul mare elencate sopra.
+
+### 4. Il «~» e' affidabile, e le stazioni nuove lo prendono da sole (14/10/2026)
+- **Misura**: quota del terreno contro quota DICHIARATA su 1.848 stazioni di 9
+  reti del nord. Scarto mediano **5 m**, 90% entro 26 m, nessuna oltre 200 m,
+  nessuno sbilanciamento. Il «RESTA DA RISOLVERE» qui sopra e' chiuso: l'anagrafica
+  vera delle reti del sud non serve cercarla.
+- **`lib-quota-terreno.js`**: `completaQuote` (MeteoHub, OSMER) chiede il terreno a
+  giro in corso per le stazioni che non sono in `quote-terreno.json`; prima
+  restavano «—» per settimane (Capua dal 12/9, Giovinazzo, Deliceto).
+  `correggiZeri` (Toscana): uno 0 dichiarato dal SIR con il terreno sopra i 20 m
+  diventa la quota del terreno col ~ (Bulera 183 m, Ponte Orgia 184 m, a «0 m slm»
+  da maggio). Livorno Mareografo, Viareggio, Bocca di Serchio e Orbetello restano 0.
+- ⚠️ **La libreria NON scrive `quote-terreno.json`**: tre workflow diversi sullo
+  stesso file si scontrerebbero nel push. Le nuove chiedono a ogni giro; ogni tanto
+  si rilancia `quote-terreno.js` a mano (ora fa anche gli zeri toscani).
+- ⚠️ Tetto 15 s, al primo errore si spegne per tutto il giro, la pioggia non la
+  tocca mai. Prova a mano: `TERRENO_SPENTO=1`.
+- Storico: `ripara-quote-storiche.js terreno` e il modo nuovo `zeri`, 193 file,
+  solo `q`/`qt`.
 ⚠️ ~~Nota a margine: sul Piemonte i pallini di partenza prendono la quota
 dall'anagrafica del realtime, che per Acqui Terme dice 156 m mentre la banca
 dati ufficiale dice 217. Due numeri ARPA diversi per la stessa stazione.~~

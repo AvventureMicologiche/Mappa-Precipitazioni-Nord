@@ -1,7 +1,7 @@
 {
- "_nota": "ALTEZZA DEL TERRENO nel punto della stazione, NON la quota dichiarata dall'ente: queste reti l'altitudine non la pubblicano. Ripiego onesto, DA RISOLVERE trovando l'anagrafica vera. Il sito la mostra col ~ davanti.",
+ "_nota": "ALTEZZA DEL TERRENO nel punto della stazione, NON la quota dichiarata dall'ente: queste reti l'altitudine non la pubblicano (toscana: solo le stazioni che il SIR dichiara a 0 m). Misurata il 14/10/2026 contro 1.848 quote dichiarate: scarto mediano 5 m, 90% entro 26 m. Il sito la mostra col ~ davanti.",
  "_fonte": "Open-Meteo Elevation API (Copernicus DEM GLO-90)",
- "_aggiornato": "2026-08-26",
+ "_aggiornato": "2026-10-14",
  "reti": {
   "friuli-osmer": {
    "osmer_BIC": 34,
@@ -430,7 +430,8 @@
    "40.73194_13.87917": 353,
    "40.71083_13.95000": 321,
    "40.74028_13.94722": 19,
-   "40.91767_15.17500": 711
+   "40.91767_15.17500": 711,
+   "41.10889_14.20833": 27
   },
   "meteohub-friuli": {
    "46.51697_12.86492": 572,
@@ -1064,7 +1065,9 @@
    "40.89705_16.84247": 302,
    "40.95900_16.57217": 420,
    "41.43350_15.20400": 364,
-   "41.71017_15.95383": 679
+   "41.71017_15.95383": 679,
+   "41.09750_16.61717": 154,
+   "41.21967_15.38683": 531
   },
   "meteohub-sardegna": {
    "40.37667_9.67583": 75,
@@ -1686,6 +1689,14 @@
   "piemonte": {
    "349": 1831,
    "S2581": 1279
+  },
+  "toscana": {
+   "TOS01005981": 0,
+   "TOS02004091": 4,
+   "TOS02004369": 4,
+   "TOS03005379": 183,
+   "TOS03005707": 184,
+   "TOS11000508": -2
   }
  }
 }
