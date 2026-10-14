@@ -1,79 +1,79 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-13T12:38:18.793Z",
+ "generato": "2026-10-14T04:31:40.145Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Novazzano (TI)",
-     "mm": 0.2
+     "n": "Säntis (AI)",
+     "mm": 9.5
     },
     {
-     "n": "Scuol (GR)",
-     "mm": 0.1
+     "n": "Weissfluhjoch (GR)",
+     "mm": 4.7
     },
     {
-     "n": "Cossonay (VD)",
-     "mm": 0.1
+     "n": "Pilatus (OW)",
+     "mm": 2.4
     },
     {
-     "n": "Starkenbach (SG)",
-     "mm": 0.1
+     "n": "Chasseral (BE)",
+     "mm": 1.9
     },
     {
-     "n": "Jeizinen (VS)",
-     "mm": 0.1
+     "n": "Altenrhein (SG)",
+     "mm": 1.5
     }
    ]
   },
   "7": {
-   "media": 27.6,
+   "media": 26.4,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 98
-    },
-    {
      "n": "Chironico Cala (TI)",
-     "mm": 94.6
+     "mm": 93.8
     },
     {
      "n": "Säntis (AI)",
-     "mm": 79.2
-    },
-    {
-     "n": "Isone (TI)",
-     "mm": 70.6
+     "mm": 88.7
     },
     {
      "n": "Clusanfe (VS)",
-     "mm": 70.5
+     "mm": 70.2
+    },
+    {
+     "n": "Rossberg (SZ)",
+     "mm": 69.3
+    },
+    {
+     "n": "Chironico (TI)",
+     "mm": 62.8
     }
    ]
   },
   "20": {
-   "media": 35.3,
+   "media": 35.5,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 102.2
+     "n": "Säntis (AI)",
+     "mm": 104.1
     },
     {
-     "n": "Säntis (AI)",
-     "mm": 94.6
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 102.3
     },
     {
      "n": "Chironico Cala (TI)",
@@ -85,20 +85,20 @@
     },
     {
      "n": "Rossberg (SZ)",
-     "mm": 79.8
+     "mm": 80.7
     }
    ]
   },
   "30": {
-   "media": 45.8,
+   "media": 45.1,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 130.9
+     "mm": 131
     },
     {
      "n": "Stabio (TI)",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Säntis (AI)",
-     "mm": 121.7
+     "mm": 128.2
     },
     {
      "n": "Mendrisio (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.2,
   0,
   0,
   4.8,
@@ -148,8 +149,7 @@
   0.7,
   5.7,
   0,
-  1.9,
-  0.9
+  1.9
  ],
  "zone": []
 }
