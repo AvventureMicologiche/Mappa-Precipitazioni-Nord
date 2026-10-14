@@ -1,62 +1,62 @@
 {
  "regione": "campania",
- "generato": "2026-10-13T03:15:30.279Z",
+ "generato": "2026-10-14T03:16:22.541Z",
  "periodi": {
   "1": {
-   "media": 9.2,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 176,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-12",
+   "stazioni": 178,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Sicignano",
-     "mm": 39.2
+     "n": "Colle Sannita",
+     "mm": 2
     },
     {
-     "n": "S.Mauro la Bruca",
-     "mm": 32.6
+     "n": "Battipaglia",
+     "mm": 1
     },
     {
-     "n": "Alfano",
-     "mm": 32.5
+     "n": "Bagnoli Irpino",
+     "mm": 0.8
     },
     {
-     "n": "Gioi Cilento",
-     "mm": 31.8
+     "n": "Montesano sulla Marcellana",
+     "mm": 0.6
     },
     {
-     "n": "S.Salvatore Telesino METEO",
-     "mm": 28.3
+     "n": "Castelfranco in Miscano",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 94.8,
+   "media": 93.5,
    "giorni": 7,
    "stazioni": 179,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Monte Epomeo (Ischia)",
-     "mm": 292.8
-    },
-    {
      "n": "Ischia",
-     "mm": 279.6
-    },
-    {
-     "n": "Forio",
-     "mm": 256
-    },
-    {
-     "n": "Piano Liguori",
-     "mm": 232.4
+     "mm": 246.4
     },
     {
      "n": "Castel Volturno",
-     "mm": 231.6
+     "mm": 227.2
+    },
+    {
+     "n": "Monte Epomeo (Ischia)",
+     "mm": 204.8
+    },
+    {
+     "n": "Forio",
+     "mm": 203.4
+    },
+    {
+     "n": "Cellole METEO",
+     "mm": 189.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 108.6,
    "giorni": 20,
    "stazioni": 179,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -93,8 +93,8 @@
    "media": 117.3,
    "giorni": 30,
    "stazioni": 179,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Ischia",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   9.2,
   0.2,
   30.9,
@@ -148,40 +149,39 @@
   0.1,
   0,
   0.1,
-  0,
   0
  ],
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-12",
-   "m1": 16,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 121.7,
    "m30": 200.3
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-12",
-   "m1": 13.2,
+   "ultimo": "2026-10-13",
+   "m1": 0.1,
    "m7": 77.7,
-   "m30": 112.9
+   "m30": 113
   },
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-12",
-   "m1": 3.1,
-   "m7": 106.5,
-   "m30": 124.2
+   "ultimo": "2026-10-13",
+   "m1": 0.1,
+   "m7": 106.6,
+   "m30": 124.3
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-12",
-   "m1": 3,
-   "m7": 106.6,
+   "ultimo": "2026-10-13",
+   "m1": 0.1,
+   "m7": 106.7,
    "m30": 136.8
   }
  ]

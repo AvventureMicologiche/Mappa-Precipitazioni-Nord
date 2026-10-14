@@ -1,125 +1,126 @@
 {
  "regione": "austria",
- "generato": "2026-10-13T10:50:24.824Z",
+ "generato": "2026-10-14T03:16:22.543Z",
  "periodi": {
   "1": {
    "media": 0.7,
    "giorni": 1,
-   "stazioni": 267,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-12",
+   "stazioni": 268,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Bad Bleiberg (Kärnten)",
-     "mm": 12.7
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 6.1
     },
     {
-     "n": "Bad Eisenkappel (Kärnten)",
-     "mm": 10.6
+     "n": "Achenkirch (Tirol)",
+     "mm": 5.7
     },
     {
-     "n": "Deutschlandsberg (Steiermark)",
-     "mm": 10.6
+     "n": "Schoppernau (Vorarlberg)",
+     "mm": 5.5
     },
     {
-     "n": "Villach Stadt (Kärnten)",
-     "mm": 10.3
+     "n": "Brenner (Tirol)",
+     "mm": 5.2
     },
     {
-     "n": "Hermagor (Kärnten)",
-     "mm": 9.9
+     "n": "Schmittenhöhe (Salzburg)",
+     "mm": 5.1
     }
    ]
   },
   "7": {
-   "media": 12.1,
+   "media": 12.5,
    "giorni": 7,
    "stazioni": 269,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
-     "mm": 80.2
+     "mm": 81.3
     },
     {
      "n": "Bregenz (Vorarlberg)",
-     "mm": 79.1
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
-     "mm": 68.2
+     "mm": 80.5
     },
     {
      "n": "Dornbirn (Vorarlberg)",
-     "mm": 60.1
+     "mm": 61.2
     },
     {
      "n": "Rohrspitz (Vorarlberg)",
-     "mm": 59.7
+     "mm": 60.9
+    },
+    {
+     "n": "Laterns-Gapfohl (Vorarlberg)",
+     "mm": 57
     }
    ]
   },
   "20": {
-   "media": 20.6,
+   "media": 21.4,
    "giorni": 20,
    "stazioni": 269,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
-     "mm": 102.1
+     "mm": 103.2
     },
     {
      "n": "Schröcken (Vorarlberg)",
-     "mm": 91.7
-    },
-    {
-     "n": "Bregenz (Vorarlberg)",
-     "mm": 87.1
+     "mm": 96.4
     },
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
-     "mm": 85.8
+     "mm": 89
+    },
+    {
+     "n": "Bregenz (Vorarlberg)",
+     "mm": 88.5
     },
     {
      "n": "Dornbirn (Vorarlberg)",
-     "mm": 76.7
+     "mm": 77.8
     }
    ]
   },
   "30": {
-   "media": 45.5,
+   "media": 44,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 148.3
-    },
-    {
-     "n": "Alberschwende (Vorarlberg)",
-     "mm": 129.1
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
-     "mm": 124.5
+     "mm": 135.6
     },
     {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 121.2
+     "mm": 125.6
+    },
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 125.1
+    },
+    {
+     "n": "Alberschwende (Vorarlberg)",
+     "mm": 124.8
     },
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
-     "mm": 120.6
+     "mm": 116.9
     }
    ]
   }
  },
  "serie": [
+  0.7,
   0.7,
   0.8,
   3.6,
@@ -148,8 +149,7 @@
   5,
   8.7,
   0,
-  6.1,
-  2.2
+  6.1
  ],
  "zone": []
 }

@@ -1,125 +1,126 @@
 {
  "regione": "calabria",
- "generato": "2026-10-13T03:15:30.279Z",
+ "generato": "2026-10-14T03:16:22.542Z",
  "periodi": {
   "1": {
-   "media": 12.1,
+   "media": 4.2,
    "giorni": 1,
    "stazioni": 140,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Canolo Nuovo",
-     "mm": 61.8
+     "n": "Lamezia",
+     "mm": 20.6
     },
     {
-     "n": "Cittanova",
-     "mm": 61.2
+     "n": "Bagnara Calabra",
+     "mm": 17.2
     },
     {
-     "n": "Molochio",
-     "mm": 38.4
+     "n": "Capo Vaticano",
+     "mm": 16.6
     },
     {
-     "n": "Domanico",
-     "mm": 37
+     "n": "S.Cristina d'Aspr.",
+     "mm": 15.2
     },
     {
-     "n": "Filadelfia",
-     "mm": 35.2
+     "n": "Mileto",
+     "mm": 15.2
     }
    ]
   },
   "7": {
-   "media": 76.5,
+   "media": 80.7,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 196.6
+     "mm": 205
     },
     {
      "n": "Punta Stilo",
-     "mm": 172.8
+     "mm": 179.2
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 171.4
+     "mm": 172.2
     },
     {
      "n": "Allai",
-     "mm": 155.4
+     "mm": 156.2
     },
     {
-     "n": "Staiti",
-     "mm": 153.4
+     "n": "Bovalino Marina",
+     "mm": 156
     }
    ]
   },
   "20": {
-   "media": 85.6,
+   "media": 88.3,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 203.6
-    },
-    {
-     "n": "Roccaforte del Greco",
-     "mm": 178.4
+     "mm": 211.8
     },
     {
      "n": "Punta Stilo",
-     "mm": 175.6
+     "mm": 182
+    },
+    {
+     "n": "Roccaforte del Greco",
+     "mm": 172.8
+    },
+    {
+     "n": "Bovalino Marina",
+     "mm": 158.4
     },
     {
      "n": "Allai",
-     "mm": 159.6
-    },
-    {
-     "n": "Staiti",
-     "mm": 158.6
+     "mm": 156.8
     }
    ]
   },
   "30": {
-   "media": 114.5,
+   "media": 114,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Staiti",
-     "mm": 242
+     "mm": 238.2
     },
     {
      "n": "Allai",
-     "mm": 221.2
+     "mm": 221.6
     },
     {
      "n": "Canolo Nuovo",
-     "mm": 215.4
+     "mm": 218
     },
     {
      "n": "San Nicola da Crissa",
-     "mm": 206.8
+     "mm": 210.6
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 202.2
+     "mm": 202.4
     }
    ]
   }
  },
  "serie": [
+  4.2,
   12.1,
   2.9,
   54.8,
@@ -148,25 +149,24 @@
   0,
   0.2,
   4.4,
-  0.3,
-  4.7
+  0.3
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-12",
-   "m1": 15,
-   "m7": 102.1,
-   "m30": 149.6
+   "ultimo": "2026-10-13",
+   "m1": 8,
+   "m7": 110.1,
+   "m30": 144
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-12",
-   "m1": 8.3,
-   "m7": 56.9,
-   "m30": 97.3
+   "ultimo": "2026-10-13",
+   "m1": 2.3,
+   "m7": 59.2,
+   "m30": 99.6
   }
  ]
 }

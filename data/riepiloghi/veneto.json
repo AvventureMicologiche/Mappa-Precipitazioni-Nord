@@ -1,42 +1,42 @@
 {
  "regione": "veneto",
- "generato": "2026-10-13T12:12:05.363Z",
+ "generato": "2026-10-14T03:16:22.539Z",
  "periodi": {
   "1": {
-   "media": 3.5,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-12",
+   "stazioni": 184,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-13",
    "top": [
     {
-     "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 49.2
-    },
-    {
-     "n": "Rosolina - Po di Tramontana (RO)",
-     "mm": 43.2
-    },
-    {
-     "n": "Pettorazza Grimani loc. Botti Barbarighe (RO)",
-     "mm": 31
-    },
-    {
-     "n": "Grantorto (PD)",
-     "mm": 26
-    },
-    {
      "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
-     "mm": 22.2
+     "mm": 3
+    },
+    {
+     "n": "Montecchio Precalcino (VI)",
+     "mm": 1.6
+    },
+    {
+     "n": "Porto Tolle - Pradon (RO)",
+     "mm": 1.2
+    },
+    {
+     "n": "Noventa di Piave - Grassaga (VE)",
+     "mm": 1
+    },
+    {
+     "n": "Ponte di Piave (TV)",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 18.3,
+   "media": 18.4,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-12",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 58.4
+     "mm": 58.8
     },
     {
      "n": "Rosolina - Po di Tramontana (RO)",
@@ -55,17 +55,17 @@
      "mm": 49.6
     },
     {
-     "n": "Ospedaletto Euganeo (PD)",
-     "mm": 43.6
+     "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
+     "mm": 46.4
     }
    ]
   },
   "20": {
-   "media": 18.5,
+   "media": 18.6,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 59
+     "mm": 59.4
     },
     {
      "n": "Rosolina - Po di Tramontana (RO)",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
-     "mm": 44
+     "mm": 47
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 36.5,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-13",
-   "ultimo": "2026-10-12",
+   "primo": "2026-09-14",
+   "ultimo": "2026-10-13",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   3.5,
   1.1,
   0.2,
@@ -148,46 +149,45 @@
   16.7,
   0,
   0,
-  0.1,
-  0
+  0.1
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-12",
-   "m1": 0.5,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 21.4,
    "m30": 43.1
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-12",
-   "m1": 0.6,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 8.8,
    "m30": 26.5
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-12",
-   "m1": 0.2,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 6.9,
    "m30": 17.6
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-12",
-   "m1": 1.9,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 29.9,
    "m30": 46.5
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-12",
+   "ultimo": "2026-10-13",
    "m1": 0,
    "m7": 8.8,
    "m30": 22.4
@@ -195,18 +195,18 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-12",
-   "m1": 0.1,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 6.3,
    "m30": 25.6
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-12",
-   "m1": 1.8,
+   "ultimo": "2026-10-13",
+   "m1": 0,
    "m7": 10,
-   "m30": 25.5
+   "m30": 25.4
   }
  ]
 }
