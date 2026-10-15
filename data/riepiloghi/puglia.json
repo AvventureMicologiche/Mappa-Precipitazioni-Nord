@@ -1,42 +1,42 @@
 {
  "regione": "puglia",
- "generato": "2026-10-14T03:16:22.542Z",
+ "generato": "2026-10-15T03:16:15.094Z",
  "periodi": {
   "1": {
-   "media": 1.6,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 128,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "stazioni": 124,
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Monopoli",
-     "mm": 11.5
+     "mm": 0
     },
     {
-     "n": "Barletta",
-     "mm": 9.4
+     "n": "Gravina in Puglia",
+     "mm": 0
     },
     {
-     "n": "Ceglie Messapica",
-     "mm": 9
+     "n": "Brindisi",
+     "mm": 0
     },
     {
-     "n": "Castel del Monte",
-     "mm": 8.7
+     "n": "Andria",
+     "mm": 0
     },
     {
-     "n": "Fasano",
-     "mm": 8.6
+     "n": "Foggia Istituto Agrario",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 51.1,
+   "media": 49.8,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -64,8 +64,8 @@
    "media": 52.9,
    "giorni": 20,
    "stazioni": 131,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -93,8 +93,8 @@
    "media": 63.8,
    "giorni": 30,
    "stazioni": 131,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   1.6,
   8.8,
   8.7,
@@ -148,8 +149,7 @@
   1.6,
   0,
   1.5,
-  0.7,
-  0
+  0.7
  ],
  "zone": []
 }

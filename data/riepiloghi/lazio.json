@@ -1,71 +1,71 @@
 {
  "regione": "lazio",
- "generato": "2026-10-14T03:16:22.541Z",
+ "generato": "2026-10-15T03:16:15.093Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 208,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Borgorose",
+     "n": "Osteria di Castro",
      "mm": 0.2
     },
     {
-     "n": "Amatrice",
-     "mm": 0.2
+     "n": "Monte Terminillo",
+     "mm": 0
     },
     {
-     "n": "Aniene a Subiaco",
-     "mm": 0.2
+     "n": "Campaegli",
+     "mm": 0
     },
     {
-     "n": "Melfa ad Atina",
-     "mm": 0.2
+     "n": "Torrita Tiberina",
+     "mm": 0
     },
     {
-     "n": "Liri a Ceprano",
-     "mm": 0.2
+     "n": "Barbarano",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 62.1,
+   "media": 50.9,
    "giorni": 7,
-   "stazioni": 209,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "stazioni": 208,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Gaeta",
-     "mm": 186
-    },
-    {
-     "n": "Latina",
-     "mm": 185.3
-    },
-    {
-     "n": "Anzio",
-     "mm": 165.3
+     "mm": 185.2
     },
     {
      "n": "Sabaudia",
-     "mm": 163.1
+     "mm": 162.9
+    },
+    {
+     "n": "Latina",
+     "mm": 155
+    },
+    {
+     "n": "Anzio",
+     "mm": 153.3
     },
     {
      "n": "SS.Cosma e Damiano",
-     "mm": 149.8
+     "mm": 146.2
     }
    ]
   },
   "20": {
-   "media": 65.9,
+   "media": 65.8,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Gaeta",
@@ -77,24 +77,24 @@
     },
     {
      "n": "Anzio",
-     "mm": 202.5
+     "mm": 202.1
     },
     {
      "n": "Latina",
-     "mm": 200.5
+     "mm": 200.1
     },
     {
      "n": "Borgo Montello",
-     "mm": 158.3
+     "mm": 157.9
     }
    ]
   },
   "30": {
-   "media": 74.9,
+   "media": 74.6,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Gaeta",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   1,
   0.2,
@@ -148,64 +149,63 @@
   4.3,
   0.2,
   0,
-  0,
-  0.4
+  0
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 53.2,
-   "m30": 62.2
+   "m7": 44.9,
+   "m30": 62.1
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 60,
+   "m7": 47.3,
    "m30": 71.3
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 33,
+   "m7": 24,
    "m30": 40.1
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-13",
-   "m1": 0.1,
-   "m7": 43.4,
+   "ultimo": "2026-10-14",
+   "m1": 0,
+   "m7": 38.5,
    "m30": 56.8
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 77.4,
-   "m30": 82.3
+   "m7": 71,
+   "m30": 82.2
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 38.7,
+   "m7": 29.8,
    "m30": 54.6
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 47,
+   "m7": 39.5,
    "m30": 59
   }
  ]

@@ -1,71 +1,71 @@
 {
  "regione": "molise",
- "generato": "2026-10-14T03:16:22.541Z",
+ "generato": "2026-10-15T03:16:15.093Z",
  "periodi": {
   "1": {
-   "media": 0.8,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 28,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Lucito Biferno",
-     "mm": 4.8
+     "n": "Trigno a Bagnoli del Trigno",
+     "mm": 1.7
     },
     {
-     "n": "Trigno a Bagnoli del Trigno",
-     "mm": 4.2
+     "n": "Castelmauro",
+     "mm": 1.2
     },
     {
      "n": "Campobasso",
-     "mm": 2.8
+     "mm": 0
     },
     {
-     "n": "Palata",
-     "mm": 2.6
+     "n": "Trivento PLUVIO",
+     "mm": 0
     },
     {
      "n": "Campochiaro",
-     "mm": 1.6
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 36.2,
+   "media": 35.5,
    "giorni": 7,
    "stazioni": 28,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 115.4
+     "mm": 113.4
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 74.2
+     "mm": 70.2
     },
     {
      "n": "Termoli",
      "mm": 61.3
     },
     {
-     "n": "Isernia",
-     "mm": 60.2
-    },
-    {
      "n": "Lucito Biferno",
      "mm": 56.3
+    },
+    {
+     "n": "Isernia",
+     "mm": 56.2
     }
    ]
   },
   "20": {
-   "media": 37.9,
+   "media": 38,
    "giorni": 20,
    "stazioni": 28,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 49.8,
+   "media": 49,
    "giorni": 30,
    "stazioni": 28,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 126.5
+     "mm": 124.5
     },
     {
      "n": "Ponte Venticinque Archi",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Isernia",
-     "mm": 74.2
+     "mm": 73.8
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0.8,
   6.3,
   0.9,
@@ -148,8 +149,7 @@
   8.1,
   0.6,
   0,
-  0.1,
-  0.9
+  0.1
  ],
  "zone": []
 }

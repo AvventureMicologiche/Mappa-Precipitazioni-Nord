@@ -1,42 +1,42 @@
 {
  "regione": "calabria",
- "generato": "2026-10-14T03:16:22.542Z",
+ "generato": "2026-10-15T03:16:15.094Z",
  "periodi": {
   "1": {
-   "media": 4.2,
+   "media": 0,
    "giorni": 1,
    "stazioni": 140,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Lamezia",
-     "mm": 20.6
+     "n": "Cenadi - Serralta",
+     "mm": 2.4
     },
     {
-     "n": "Bagnara Calabra",
-     "mm": 17.2
+     "n": "Roseto Capo Spulico",
+     "mm": 1
     },
     {
-     "n": "Capo Vaticano",
-     "mm": 16.6
+     "n": "Allai",
+     "mm": 1
     },
     {
-     "n": "S.Cristina d'Aspr.",
-     "mm": 15.2
+     "n": "Crucoli",
+     "mm": 0.4
     },
     {
-     "n": "Mileto",
-     "mm": 15.2
+     "n": "Monte Curcio-Camigl.",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 80.7,
+   "media": 79.3,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Canolo Nuovo",
@@ -48,14 +48,14 @@
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 172.2
-    },
-    {
-     "n": "Allai",
-     "mm": 156.2
+     "mm": 171.8
     },
     {
      "n": "Bovalino Marina",
+     "mm": 156
+    },
+    {
+     "n": "Allai",
      "mm": 156
     }
    ]
@@ -64,8 +64,8 @@
    "media": 88.3,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Canolo Nuovo",
@@ -85,24 +85,24 @@
     },
     {
      "n": "Allai",
-     "mm": 156.8
+     "mm": 157.8
     }
    ]
   },
   "30": {
-   "media": 114,
+   "media": 113.7,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Staiti",
-     "mm": 238.2
+     "mm": 237.8
     },
     {
      "n": "Allai",
-     "mm": 221.6
+     "mm": 222.2
     },
     {
      "n": "Canolo Nuovo",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   4.2,
   12.1,
   2.9,
@@ -148,25 +149,24 @@
   0.1,
   0,
   0.2,
-  4.4,
-  0.3
+  4.4
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-13",
-   "m1": 8,
-   "m7": 110.1,
-   "m30": 144
+   "ultimo": "2026-10-14",
+   "m1": 0.3,
+   "m7": 110.4,
+   "m30": 143.1
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-13",
-   "m1": 2.3,
-   "m7": 59.2,
-   "m30": 99.6
+   "ultimo": "2026-10-14",
+   "m1": 0.1,
+   "m7": 59.3,
+   "m30": 99.5
   }
  ]
 }

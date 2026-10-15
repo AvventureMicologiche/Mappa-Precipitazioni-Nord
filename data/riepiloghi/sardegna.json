@@ -1,71 +1,71 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-14T03:16:22.542Z",
+ "generato": "2026-10-15T03:16:15.094Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 93,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "stazioni": 91,
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Osilo",
+     "n": "Monte Rasu",
      "mm": 0.2
     },
     {
-     "n": "Badu Crabolu",
+     "n": "Lula",
      "mm": 0.2
     },
     {
-     "n": "Mannu di Porto Torres",
+     "n": "Orune",
      "mm": 0.2
     },
     {
-     "n": "Coghinas",
+     "n": "Porto Pino",
      "mm": 0.2
     },
     {
-     "n": "Torralba",
+     "n": "Pianu",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 22.2,
+   "media": 21.2,
    "giorni": 7,
    "stazioni": 93,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Badu Crabolu",
-     "mm": 79.6
-    },
-    {
-     "n": "Stintino",
-     "mm": 64.6
+     "mm": 79.4
     },
     {
      "n": "Flumentepido",
      "mm": 62.8
     },
     {
-     "n": "Mannu di Porto Torres",
-     "mm": 60.6
-    },
-    {
      "n": "San Michele",
      "mm": 58.8
+    },
+    {
+     "n": "Villanova Monteleone",
+     "mm": 58.6
+    },
+    {
+     "n": "Pozzomaggiore",
+     "mm": 51.6
     }
    ]
   },
   "20": {
-   "media": 28.8,
+   "media": 28.6,
    "giorni": 20,
    "stazioni": 93,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Stintino",
@@ -84,8 +84,8 @@
      "mm": 71.4
     },
     {
-     "n": "Iglesias",
-     "mm": 64.4
+     "n": "Villanova Monteleone",
+     "mm": 64
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 36.1,
    "giorni": 30,
    "stazioni": 93,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.6,
   0.2,
@@ -148,7 +149,6 @@
   0.7,
   0.4,
   0.1,
-  0,
   0
  ],
  "zone": []

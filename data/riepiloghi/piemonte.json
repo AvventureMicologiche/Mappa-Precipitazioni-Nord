@@ -1,62 +1,62 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-14T03:16:22.538Z",
+ "generato": "2026-10-15T03:16:15.090Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 278,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "DIGA LA PIASTRA (Cuneo)",
-     "mm": 0.8
-    },
-    {
-     "n": "NIQUIDETTO (Torino)",
+     "n": "VARISELLA (Torino)",
      "mm": 0.4
     },
     {
-     "n": "VACCERA (Torino)",
-     "mm": 0.4
-    },
-    {
-     "n": "ACQUI TERME (Alessandria)",
+     "n": "PERLO (Cuneo)",
      "mm": 0.2
     },
     {
-     "n": "COLLE SAN BERNARDO (Cuneo)",
+     "n": "NIZZA MONFERRATO (ASTI)",
+     "mm": 0.2
+    },
+    {
+     "n": "CASTELLETTO UZZONE (Cuneo)",
+     "mm": 0.2
+    },
+    {
+     "n": "BERGALLI (Cuneo)",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 38.3,
+   "media": 24.1,
    "giorni": 7,
-   "stazioni": 283,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "stazioni": 282,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "MONTALDO SCARAMPI (ASTI)",
-     "mm": 98.1
-    },
-    {
-     "n": "BOBBIO PELLICE (Torino)",
-     "mm": 92.1
+     "mm": 86.1
     },
     {
      "n": "CAPANNE MARCAROLO (Alessandria)",
-     "mm": 91.2
+     "mm": 84
+    },
+    {
+     "n": "BOBBIO PELLICE (Torino)",
+     "mm": 82.7
     },
     {
      "n": "PIAN GIASSET (Cuneo)",
-     "mm": 83
+     "mm": 75
     },
     {
-     "n": "CHIAVES (Torino)",
-     "mm": 80.5
+     "n": "CRISSOLO PO (Cuneo)",
+     "mm": 72.5
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 40.6,
    "giorni": 20,
    "stazioni": 284,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "MONTALDO SCARAMPI (ASTI)",
@@ -93,8 +93,8 @@
    "media": 48.5,
    "giorni": 30,
    "stazioni": 284,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "SOMERARO (Provincia del verbano cusio os)",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   5.5,
   18.7,
@@ -148,88 +149,87 @@
   4.4,
   1.1,
   2.2,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-13",
-   "m1": 0.1,
-   "m7": 47.9,
+   "ultimo": "2026-10-14",
+   "m1": 0,
+   "m7": 31.8,
    "m30": 67.6
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 36.4,
+   "m7": 6.4,
    "m30": 66.1
   },
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 41.4,
+   "m7": 28.4,
    "m30": 53.9
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-13",
-   "m1": 0,
-   "m7": 48.3,
+   "ultimo": "2026-10-14",
+   "m1": 0.1,
+   "m7": 34.5,
    "m30": 64.8
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 29.5,
+   "m7": 24.6,
    "m30": 35.8
   },
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 51.5,
+   "m7": 46.8,
    "m30": 81.3
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 53.9,
+   "m7": 12.7,
    "m30": 74.9
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 48.4,
+   "m7": 15.3,
    "m30": 85.9
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-13",
-   "m1": 0.1,
-   "m7": 55.7,
+   "ultimo": "2026-10-14",
+   "m1": 0,
+   "m7": 46.8,
    "m30": 63.5
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 31.1,
+   "m7": 19,
    "m30": 35.8
   }
  ]

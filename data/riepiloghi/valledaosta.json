@@ -1,28 +1,28 @@
 {
  "regione": "valledaosta",
- "generato": "2026-10-14T14:29:50.786Z",
+ "generato": "2026-10-15T03:16:15.091Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 69,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
+    {
+     "n": "La Thuile - Les Granges",
+     "mm": 4
+    },
+    {
+     "n": "Donnas - Clapey",
+     "mm": 4
+    },
     {
      "n": "Courmayeur - Ferrachet",
      "mm": 0.1
     },
     {
-     "n": "La Thuile - Les Granges",
-     "mm": 0
-    },
-    {
      "n": "Aosta - Mont-Fleury",
-     "mm": 0
-    },
-    {
-     "n": "Etroubles - Chevrière",
      "mm": 0
     },
     {
@@ -32,48 +32,48 @@
    ]
   },
   "7": {
-   "media": 15.8,
+   "media": 6.1,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 46.3
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 28.9
     },
     {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 44.1
+     "n": "Courmayeur - Ferrachet",
+     "mm": 27.3
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 39.4
+     "mm": 18.3
     },
     {
-     "n": "Valtournenche - Grandes Murailles",
-     "mm": 36.4
+     "n": "La Thuile - La Grande Tête",
+     "mm": 16.4
     },
     {
-     "n": "Courmayeur - Dolonne",
-     "mm": 34
+     "n": "Morgex - Lavancher",
+     "mm": 14.8
     }
    ]
   },
   "20": {
-   "media": 18.3,
+   "media": 18.4,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 57
+     "mm": 57.1
     },
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 52
+     "mm": 51.5
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 18.7,
+   "media": 18.8,
    "giorni": 30,
    "stazioni": 69,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 58.5
+     "mm": 58.6
     },
     {
      "n": "Courmayeur - Lex Blanche",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,40 +149,39 @@
   0,
   0,
   0.4,
-  0,
   0
  ],
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 16.9,
+   "m7": 1.9,
    "m30": 17.5
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 7.3,
+   "m7": 2.5,
    "m30": 8.1
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 12.4,
+   "m7": 8,
    "m30": 12.9
   },
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-10-13",
+   "ultimo": "2026-10-14",
    "m1": 0,
-   "m7": 13.3,
+   "m7": 2.5,
    "m30": 14.1
   }
  ]
