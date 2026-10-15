@@ -301,7 +301,11 @@ function descrCotta(r, j, N) {
 // prima, da capire). L'Abruzzo una pagina non ce l'ha. Una regione si aggiunge
 // o si toglie da qui e basta.
 const COTTE = ['lombardia','piemonte','valledaosta','liguria','emilia','veneto','friuli','trentino',
-  'altoadige','toscana','austria','marche','umbria','campania','calabria','sardegna','lazio'];
+  'altoadige','toscana','austria','marche','umbria','campania','calabria','sardegna','lazio',
+  // 15/10/2026: entrano anche queste cinque, i loro riepiloghi sono freschi tutti i
+  // giorni. Fuori resta solo la SLOVENIA: ARSO pubblica con ~34 ore di ritardo e per
+  // lei «ieri» non esiste mai.
+  'svizzera','puglia','sicilia','basilicata','molise'];
 
 function pagina(r, radice){
   const rip = radice && COTTE.includes(r.k) ? riepilogoFresco(radice, r.k) : null;
