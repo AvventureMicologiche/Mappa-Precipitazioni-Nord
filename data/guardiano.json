@@ -1,12 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-09-28T18:09:33.601Z",
-      "inRitardo": [],
-      "lanciati": [],
-      "mancanti": []
-    },
-    {
       "quando": "2026-09-29T13:25:44.390Z",
       "inRitardo": [],
       "lanciati": [],
@@ -1333,8 +1327,24 @@
       "inRitardo": [],
       "lanciati": [],
       "mancanti": []
+    },
+    {
+      "quando": "2026-10-16T04:01:21.203Z",
+      "inRitardo": [
+        "slovenia"
+      ],
+      "lanciati": [
+        "slovenia.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "slovenia",
+          "giorno": "2026-10-14",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-15T14:59:23.344Z",
-  "riassunto": "33 giri con qualcosa ri-lanciato su 120 · 36 con qualche giorno mancante · 15 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-16T04:01:21.203Z",
+  "riassunto": "34 giri con qualcosa ri-lanciato su 120 · 37 con qualche giorno mancante · 15 con un buco di 2+ giorni"
 }
