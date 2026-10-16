@@ -1,62 +1,62 @@
 {
  "regione": "veneto",
- "generato": "2026-10-15T14:09:14.002Z",
+ "generato": "2026-10-16T03:16:19.257Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Faloria (BL)",
+     "n": "Bassano del Grappa (VI)",
+     "mm": 1
+    },
+    {
+     "n": "Roncade (TV)",
      "mm": 0.4
     },
     {
-     "n": "Santo Stefano di Cadore (BL)",
-     "mm": 0.4
+     "n": "Castana (VI)",
+     "mm": 0.2
     },
     {
-     "n": "Passo Monte Croce Comelico (BL)",
-     "mm": 0.4
+     "n": "Domegge di Cadore (BL)",
+     "mm": 0.2
     },
     {
-     "n": "Costalta (BL)",
-     "mm": 0.4
-    },
-    {
-     "n": "Casamazzagno (BL)",
-     "mm": 0.4
+     "n": "Villanova (Borca di Cadore) (BL)",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 16.6,
+   "media": 7.2,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Galzignano - Ca' Demia (PD)",
-     "mm": 70.2
-    },
-    {
      "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 57.6
+     "mm": 49.8
     },
     {
-     "n": "Rosolina - Po di Tramontana (RO)",
-     "mm": 50.6
+     "n": "Galzignano - Ca' Demia (PD)",
+     "mm": 47.6
     },
     {
      "n": "Castelnuovo del Garda (VR)",
-     "mm": 47.2
+     "mm": 44
     },
     {
-     "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 42
+     "n": "Rosolina - Po di Tramontana (RO)",
+     "mm": 43.4
+    },
+    {
+     "n": "Pettorazza Grimani loc. Botti Barbarighe (RO)",
+     "mm": 34.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 18.5,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -93,8 +93,8 @@
    "media": 36.5,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
@@ -102,11 +102,11 @@
     },
     {
      "n": "Bibione (VE)",
-     "mm": 99.4
+     "mm": 99.6
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 91.4
+     "mm": 91.6
     },
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Grantorto (PD)",
-     "mm": 88.8
+     "mm": 89
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   3.5,
@@ -148,64 +149,63 @@
   0,
   1.1,
   16.7,
-  0,
   0
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0.1,
-   "m7": 17.2,
-   "m30": 43.1
+   "m7": 2.8,
+   "m30": 43.2
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 8.8,
-   "m30": 26.2
+   "m7": 0.9,
+   "m30": 26.1
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-14",
-   "m1": 0.4,
-   "m7": 7.3,
-   "m30": 17.7
+   "ultimo": "2026-10-15",
+   "m1": 0,
+   "m7": 3.6,
+   "m30": 17.6
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 20.8,
-   "m30": 46.5
+   "m7": 7.5,
+   "m30": 46.6
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 8.2,
+   "m7": 0.3,
    "m30": 22.2
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-14",
-   "m1": 0,
-   "m7": 6.3,
-   "m30": 25.4
+   "ultimo": "2026-10-15",
+   "m1": 0.1,
+   "m7": 0.2,
+   "m30": 25.5
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 10.1,
+   "m7": 3.1,
    "m30": 25.3
   }
  ]

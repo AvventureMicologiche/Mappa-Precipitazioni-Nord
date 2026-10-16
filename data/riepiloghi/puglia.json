@@ -1,14 +1,22 @@
 {
  "regione": "puglia",
- "generato": "2026-10-15T03:16:15.094Z",
+ "generato": "2026-10-16T03:16:19.259Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 124,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "stazioni": 122,
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
+    {
+     "n": "F. Ofanto - S.Samuele di Cafiero",
+     "mm": 0.2
+    },
+    {
+     "n": "Loconia",
+     "mm": 0.2
+    },
     {
      "n": "Monopoli",
      "mm": 0
@@ -20,27 +28,48 @@
     {
      "n": "Brindisi",
      "mm": 0
-    },
-    {
-     "n": "Andria",
-     "mm": 0
-    },
-    {
-     "n": "Foggia Istituto Agrario",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 49.8,
+   "media": 38.6,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
+   "top": [
+    {
+     "n": "Galatina",
+     "mm": 96.4
+    },
+    {
+     "n": "S.Pietro Vernotico",
+     "mm": 92.1
+    },
+    {
+     "n": "Brindisi",
+     "mm": 90.8
+    },
+    {
+     "n": "Vignacastrisi",
+     "mm": 89.8
+    },
+    {
+     "n": "Vico del Gargano",
+     "mm": 87.4
+    }
+   ]
+  },
+  "20": {
+   "media": 51.1,
+   "giorni": 20,
+   "stazioni": 131,
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 194.4
+     "mm": 195.2
     },
     {
      "n": "S.M. di Leuca",
@@ -48,57 +77,28 @@
     },
     {
      "n": "Nardo",
-     "mm": 148
+     "mm": 150.2
     },
     {
      "n": "Galatina",
-     "mm": 122.4
-    },
-    {
-     "n": "Ruffano",
-     "mm": 111.9
-    }
-   ]
-  },
-  "20": {
-   "media": 52.9,
-   "giorni": 20,
-   "stazioni": 131,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
-   "top": [
-    {
-     "n": "Vignacastrisi",
-     "mm": 199.6
-    },
-    {
-     "n": "S.M. di Leuca",
-     "mm": 189.6
-    },
-    {
-     "n": "Nardo",
-     "mm": 152.1
-    },
-    {
-     "n": "Galatina",
-     "mm": 128.8
+     "mm": 127
     },
     {
      "n": "Presicce",
-     "mm": 124.4
+     "mm": 121.6
     }
    ]
   },
   "30": {
-   "media": 63.8,
+   "media": 63.1,
    "giorni": 30,
    "stazioni": 131,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 219
+     "mm": 216.4
     },
     {
      "n": "S.M. di Leuca",
@@ -106,11 +106,11 @@
     },
     {
      "n": "Presicce",
-     "mm": 171
+     "mm": 169.4
     },
     {
      "n": "Nardo",
-     "mm": 160.3
+     "mm": 158.9
     },
     {
      "n": "Brindisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   1.6,
   8.8,
@@ -148,8 +149,7 @@
   7,
   1.6,
   0,
-  1.5,
-  0.7
+  1.5
  ],
  "zone": []
 }

@@ -1,62 +1,62 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-15T03:16:15.092Z",
+ "generato": "2026-10-16T03:16:19.258Z",
  "periodi": {
   "1": {
-   "media": 0.6,
+   "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Val di Vizze San Giacomo",
-     "mm": 8.3
+     "n": "Fleres",
+     "mm": 0.2
     },
     {
-     "n": "Predoi",
-     "mm": 4.6
+     "n": "Renon Siffian",
+     "mm": 0.2
     },
     {
-     "n": "Anterselva di Sopra",
-     "mm": 4.4
+     "n": "Vallelunga Grub",
+     "mm": 0
     },
     {
-     "n": "Riva di Tures",
-     "mm": 2.6
+     "n": "S. Valentino alla Muta",
+     "mm": 0
     },
     {
-     "n": "Selva dei Molini",
-     "mm": 2.2
+     "n": "Monte Maria",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 11.1,
+   "media": 2.1,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Passo di Costalunga",
-     "mm": 20.9
-    },
-    {
-     "n": "Monte Maria",
-     "mm": 20
-    },
-    {
      "n": "Val di Vizze San Giacomo",
-     "mm": 19.6
+     "mm": 14.7
     },
     {
-     "n": "Fleres",
-     "mm": 18.9
+     "n": "Barbiano Colma",
+     "mm": 9.8
     },
     {
-     "n": "Vallelunga Grub",
-     "mm": 18.7
+     "n": "Funes",
+     "mm": 7.7
+    },
+    {
+     "n": "Predoi",
+     "mm": 7.5
+    },
+    {
+     "n": "Selva di V. Gardena",
+     "mm": 5.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 13.6,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Fleres",
-     "mm": 26.9
+     "mm": 27.1
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 23.3,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.6,
   0.2,
   0.2,
@@ -148,24 +149,23 @@
   0,
   2.3,
   5.4,
-  1.2,
-  0
+  1.2
  ],
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 9,
+   "m7": 0,
    "m30": 22.4
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-14",
-   "m1": 0,
-   "m7": 12.8,
+   "ultimo": "2026-10-15",
+   "m1": 0.1,
+   "m7": 0.1,
    "m30": 23.6
   }
  ]

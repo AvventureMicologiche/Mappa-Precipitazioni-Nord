@@ -1,14 +1,26 @@
 {
  "regione": "umbria",
- "generato": "2026-10-15T03:16:15.093Z",
+ "generato": "2026-10-16T03:16:19.258Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 77,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
+    {
+     "n": "Moiano",
+     "mm": 0.2
+    },
+    {
+     "n": "Trestina",
+     "mm": 0.2
+    },
+    {
+     "n": "Cascia",
+     "mm": 0.2
+    },
     {
      "n": "La Bolsella",
      "mm": 0
@@ -16,56 +28,44 @@
     {
      "n": "Forca Canapine",
      "mm": 0
-    },
-    {
-     "n": "Monte Cucco",
-     "mm": 0
-    },
-    {
-     "n": "Armenzano",
-     "mm": 0
-    },
-    {
-     "n": "Tresa",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 19,
+   "media": 3.8,
    "giorni": 7,
    "stazioni": 77,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "S.Benedetto Vecchio",
-     "mm": 71.6
+     "n": "Ancaiano",
+     "mm": 14
     },
     {
-     "n": "Bocca Serriola",
-     "mm": 65.2
-    },
-    {
-     "n": "Pieve di Saddi",
-     "mm": 59
+     "n": "Piediluco",
+     "mm": 13.6
     },
     {
      "n": "Citta'di Castello",
-     "mm": 57.4
+     "mm": 13
     },
     {
-     "n": "Cerbara",
-     "mm": 43.6
+     "n": "Norcia",
+     "mm": 11.2
+    },
+    {
+     "n": "Cascia",
+     "mm": 10.8
     }
    ]
   },
   "20": {
-   "media": 26.2,
+   "media": 25.7,
    "giorni": 20,
    "stazioni": 78,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "S.Benedetto Vecchio",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Bocca Serriola",
-     "mm": 76.8
+     "mm": 76.7
     },
     {
      "n": "Pieve di Saddi",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 40,
+   "media": 40.5,
    "giorni": 30,
-   "stazioni": 79,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "stazioni": 78,
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.9,
@@ -148,32 +149,31 @@
   2.5,
   6.8,
   4.9,
-  0,
   0
  ],
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 56.9,
+   "m7": 13.2,
    "m30": 104.2
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-14",
-   "m1": 0,
-   "m7": 15.2,
+   "ultimo": "2026-10-15",
+   "m1": 0.1,
+   "m7": 9.4,
    "m30": 34.3
   },
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-14",
+   "ultimo": "2026-10-15",
    "m1": 0,
-   "m7": 14.5,
+   "m7": 1,
    "m30": 27.8
   }
  ]

@@ -1,62 +1,62 @@
 {
  "regione": "austria",
- "generato": "2026-10-15T14:09:14.005Z",
+ "generato": "2026-10-16T03:16:19.260Z",
  "periodi": {
   "1": {
-   "media": 3.4,
+   "media": 0,
    "giorni": 1,
    "stazioni": 268,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Feuerkogel (Oberösterreich)",
-     "mm": 27.6
+     "n": "Weiz (Steiermark)",
+     "mm": 0.6
     },
     {
-     "n": "Bad Aussee (Steiermark)",
-     "mm": 22.2
+     "n": "Aflenz (Steiermark)",
+     "mm": 0
     },
     {
-     "n": "Bad Ischl (Oberösterreich)",
-     "mm": 20.6
+     "n": "Aigen im Ennstal (Steiermark)",
+     "mm": 0
     },
     {
-     "n": "Unterach am Attersee (Oberösterreich)",
-     "mm": 20.4
+     "n": "Allentsteig (Niederösterreich)",
+     "mm": 0
     },
     {
-     "n": "St.Wolfgang (Oberösterreich)",
-     "mm": 19.5
+     "n": "Amstetten (Niederösterreich)",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 16,
+   "media": 9.6,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
    "top": [
     {
+     "n": "Feuerkogel (Oberösterreich)",
+     "mm": 40.5
+    },
+    {
      "n": "Bregenz (Vorarlberg)",
-     "mm": 89.4
+     "mm": 38.8
+    },
+    {
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 36
     },
     {
      "n": "Alberschwende (Vorarlberg)",
-     "mm": 88.3
-    },
-    {
-     "n": "Feuerkogel (Oberösterreich)",
-     "mm": 72.7
-    },
-    {
-     "n": "Rohrspitz (Vorarlberg)",
-     "mm": 65
+     "mm": 33.9
     },
     {
      "n": "Sulzberg (Vorarlberg)",
-     "mm": 63.9
+     "mm": 32.4
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 19.1,
    "giorni": 20,
    "stazioni": 269,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -93,8 +93,8 @@
    "media": 41.3,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   3.4,
   0.8,
   0.7,
@@ -148,8 +149,7 @@
   0.2,
   1.1,
   5,
-  8.7,
-  0
+  8.7
  ],
  "zone": []
 }
