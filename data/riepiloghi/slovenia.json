@@ -1,42 +1,71 @@
 {
  "regione": "slovenia",
- "generato": "2026-10-16T03:16:19.260Z",
+ "generato": "2026-10-16T04:31:40.137Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-14",
    "top": [
     {
-     "n": "Predel",
-     "mm": 0.1
+     "n": "Kredarica",
+     "mm": 0.4
     },
     {
-     "n": "Rateče",
-     "mm": 0
+     "n": "Uršlja gora",
+     "mm": 0.4
     },
     {
-     "n": "Črnomelj - Dobliče",
-     "mm": 0
+     "n": "Sotinski breg",
+     "mm": 0.3
     },
     {
-     "n": "Rudno polje (Pokljuka)",
-     "mm": 0
+     "n": "Krvavec",
+     "mm": 0.3
     },
     {
-     "n": "Portorož - letališče",
-     "mm": 0
+     "n": "Rogla",
+     "mm": 0.3
     }
    ]
   },
   "7": {
-   "media": 51.3,
+   "media": 50,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-13",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-14",
+   "top": [
+    {
+     "n": "OTLICA - EKOLOSKA",
+     "mm": 213.7
+    },
+    {
+     "n": "Zadlog",
+     "mm": 209.5
+    },
+    {
+     "n": "Vodice (Ajdovščina)",
+     "mm": 140.3
+    },
+    {
+     "n": "Idrija",
+     "mm": 134.2
+    },
+    {
+     "n": "Ajdovščina - Dolenje",
+     "mm": 133.7
+    }
+   ]
+  },
+  "20": {
+   "media": 51.2,
+   "giorni": 20,
+   "stazioni": 114,
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "OTLICA - EKOLOSKA",
@@ -60,72 +89,44 @@
     }
    ]
   },
-  "20": {
-   "media": 52.7,
-   "giorni": 20,
-   "stazioni": 114,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-13",
-   "top": [
-    {
-     "n": "OTLICA - EKOLOSKA",
-     "mm": 216.9
-    },
-    {
-     "n": "Zadlog",
-     "mm": 212.7
-    },
-    {
-     "n": "Vodice (Ajdovščina)",
-     "mm": 141.8
-    },
-    {
-     "n": "Ajdovščina - Dolenje",
-     "mm": 136.5
-    },
-    {
-     "n": "Idrija",
-     "mm": 136.4
-    }
-   ]
-  },
   "30": {
-   "media": 73.4,
+   "media": 72.1,
    "giorni": 30,
    "stazioni": 114,
-   "primo": "2026-09-14",
-   "ultimo": "2026-10-13",
+   "primo": "2026-09-15",
+   "ultimo": "2026-10-14",
    "top": [
     {
      "n": "OTLICA - EKOLOSKA",
-     "mm": 235.3
+     "mm": 234.8
     },
     {
      "n": "Zadlog",
-     "mm": 231.7
+     "mm": 230.3
     },
     {
      "n": "Ajdovščina - Dolenje",
-     "mm": 221.7
+     "mm": 221.6
     },
     {
      "n": "Vodice (Ajdovščina)",
-     "mm": 170.8
+     "mm": 169.9
     },
     {
      "n": "Idrija",
-     "mm": 157.3
+     "mm": 155
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0,
   8.8,
   0.6,
   2.3,
   8.5,
-  30,
+  29.8,
   1.2,
   0,
   0,
@@ -148,8 +149,7 @@
   2,
   16.1,
   0,
-  0,
-  1.2
+  0
  ],
  "zone": []
 }

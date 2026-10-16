@@ -1,62 +1,62 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-16T03:16:19.260Z",
+ "generato": "2026-10-16T04:31:40.136Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-15",
    "top": [
     {
-     "n": "Säntis (AI)",
-     "mm": 12.9
+     "n": "Bellelay (BE)",
+     "mm": 1.2
     },
     {
-     "n": "Weissfluhjoch (GR)",
-     "mm": 5.6
+     "n": "Napf (BE)",
+     "mm": 0.3
     },
     {
-     "n": "Leibstadt (AG)",
-     "mm": 4.5
+     "n": "Fahy (JU)",
+     "mm": 0.2
     },
     {
-     "n": "Altenrhein (SG)",
-     "mm": 4
+     "n": "Salen-Reutenen (TG)",
+     "mm": 0.2
     },
     {
-     "n": "Hörnli (ZH)",
-     "mm": 3.8
+     "n": "Zürich / Kloten (ZH)",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 22.7,
+   "media": 5.7,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Säntis (AI)",
-     "mm": 101.6
+     "mm": 49.1
     },
     {
-     "n": "Rossberg (SZ)",
-     "mm": 69.6
+     "n": "Barmelweid (AG)",
+     "mm": 25.3
     },
     {
-     "n": "Clusanfe (VS)",
-     "mm": 64.6
+     "n": "Siebnen (SZ)",
+     "mm": 24
     },
     {
      "n": "Starkenbach (SG)",
-     "mm": 62.9
+     "mm": 23.1
     },
     {
-     "n": "Le Moléson / Les Joux (FR)",
-     "mm": 56.9
+     "n": "Lachen / Galgenen (SZ)",
+     "mm": 23
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 35.8,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Säntis (AI)",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 102.2
+     "mm": 102.1
     },
     {
      "n": "Chironico Cala (TI)",
@@ -93,8 +93,8 @@
    "media": 43.5,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-16",
+   "ultimo": "2026-10-15",
    "top": [
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.3,
   0.2,
   0,
@@ -148,8 +149,7 @@
   0,
   1.3,
   0.7,
-  5.7,
-  0
+  5.7
  ],
  "zone": []
 }
