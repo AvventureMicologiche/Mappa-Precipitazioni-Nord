@@ -1,42 +1,42 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-16T13:56:28.564Z",
+ "generato": "2026-10-17T04:30:52.242Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 310,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Bellelay (BE)",
-     "mm": 1.2
+     "n": "Zweisimmen (BE)",
+     "mm": 1.1
     },
     {
-     "n": "Salen-Reutenen (TG)",
-     "mm": 0.2
+     "n": "Flühli, LU (LU)",
+     "mm": 0.3
     },
     {
      "n": "Zürich / Kloten (ZH)",
      "mm": 0.2
     },
     {
-     "n": "Napf (BE)",
+     "n": "Schaffhausen (SH)",
      "mm": 0.2
     },
     {
-     "n": "Zürich / Fluntern (ZH)",
+     "n": "Bristen (UR)",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 5.7,
+   "media": 5.4,
    "giorni": 7,
    "stazioni": 310,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Säntis (AI)",
@@ -44,19 +44,19 @@
     },
     {
      "n": "Barmelweid (AG)",
-     "mm": 25.3
-    },
-    {
-     "n": "Siebnen (SZ)",
-     "mm": 24
+     "mm": 24.7
     },
     {
      "n": "Starkenbach (SG)",
-     "mm": 23.1
+     "mm": 22.9
+    },
+    {
+     "n": "Siebnen (SZ)",
+     "mm": 22.9
     },
     {
      "n": "Lachen / Galgenen (SZ)",
-     "mm": 23
+     "mm": 22.5
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 35.8,
    "giorni": 20,
    "stazioni": 311,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Säntis (AI)",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 43.5,
+   "media": 37.8,
    "giorni": 30,
    "stazioni": 311,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Preonzo - Alpe Roscioro (TI)",
-     "mm": 131
-    },
-    {
-     "n": "Stabio (TI)",
-     "mm": 129.8
-    },
-    {
      "n": "Säntis (AI)",
-     "mm": 123.8
+     "mm": 117.1
     },
     {
-     "n": "Mendrisio (TI)",
-     "mm": 111
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "mm": 111.3
     },
     {
      "n": "Chironico Cala (TI)",
-     "mm": 100.5
+     "mm": 98.8
+    },
+    {
+     "n": "Isone (TI)",
+     "mm": 89
+    },
+    {
+     "n": "Clusanfe (VS)",
+     "mm": 88.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0.3,
   0.2,
@@ -148,8 +149,7 @@
   0,
   0,
   1.3,
-  0.7,
-  5.7
+  0.7
  ],
  "zone": []
 }
