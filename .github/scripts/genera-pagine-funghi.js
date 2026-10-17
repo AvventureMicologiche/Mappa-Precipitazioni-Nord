@@ -271,7 +271,7 @@ ${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}</style>
 </head>
 <body>
 <header>
-  <a href="https://precipitazioni.avventuremicologiche.it/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
+  <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
   <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ <span class="yt-l">Canale </span>YouTube</a>
 </header>
 <main>
@@ -355,7 +355,7 @@ aprendola.</p>
 <div id="meteo"></div>
 
 <h2>Ecco cosa vedi sulla mappa</h2>
-<a href="https://precipitazioni.avventuremicologiche.it/?r=${r.k}" style="display:block;text-decoration:none;"
+<a href="${SITO}/?r=${r.k}" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-anteprima'})}catch(e){}">
   <img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/${r.k}.jpg"
        alt="La mappa delle piogge ${r.prep} ${nome}: le zone più bagnate, stazione per stazione"
@@ -449,7 +449,7 @@ ${navAltre('funghi')}
   var LOCALE = /^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/.test(location.hostname);
   var BASE = LOCALE ? '/data/'
     : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
-  var MAPPA = 'https://precipitazioni.avventuremicologiche.it/';
+  var MAPPA = '${SITO}/';
   var QUANTI = 15, FORTE = 30;
 ${JS_COMUNE}
 
