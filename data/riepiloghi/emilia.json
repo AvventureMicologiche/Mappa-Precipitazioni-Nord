@@ -1,6 +1,6 @@
 {
  "regione": "emilia",
- "generato": "2026-10-17T12:33:27.773Z",
+ "generato": "2026-10-17T18:05:41.037Z",
  "periodi": {
   "1": {
    "media": 0.1,
@@ -34,7 +34,7 @@
   "7": {
    "media": 2.8,
    "giorni": 7,
-   "stazioni": 323,
+   "stazioni": 316,
    "primo": "2026-10-10",
    "ultimo": "2026-10-16",
    "top": [
@@ -47,23 +47,23 @@
      "mm": 21.9
     },
     {
-     "n": "Albareto (Modena)",
-     "mm": 20.6
-    },
-    {
      "n": "Ponte Chiavica (Ravenna)",
      "mm": 18
     },
     {
      "n": "Saludecio (Rimini)",
      "mm": 15.2
+    },
+    {
+     "n": "Bazzano (Bologna)",
+     "mm": 13.9
     }
    ]
   },
   "20": {
-   "media": 21.6,
+   "media": 22.1,
    "giorni": 20,
-   "stazioni": 326,
+   "stazioni": 316,
    "primo": "2026-09-27",
    "ultimo": "2026-10-16",
    "top": [
@@ -90,9 +90,9 @@
    ]
   },
   "30": {
-   "media": 34.6,
+   "media": 35.2,
    "giorni": 30,
-   "stazioni": 327,
+   "stazioni": 320,
    "primo": "2026-09-17",
    "ultimo": "2026-10-16",
    "top": [
@@ -159,7 +159,10 @@
    "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 0.3,
-   "m30": 16.5
+   "m30": 16.5,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "alta-val-d-enza",
@@ -167,7 +170,10 @@
    "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 0.6,
-   "m30": 78.5
+   "m30": 78.5,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-trebbia",
@@ -175,7 +181,10 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.3,
-   "m30": 65.5
+   "m30": 65.5,
+   "p1": false,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-nure",
@@ -183,7 +192,10 @@
    "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 0.4,
-   "m30": 38
+   "m30": 38,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-di-taro",
@@ -191,7 +203,10 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.1,
-   "m30": 46.9
+   "m30": 46.9,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "romagna-toscana",
@@ -199,7 +214,10 @@
    "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 3.6,
-   "m30": 52.1
+   "m30": 52.1,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-d-enza",
@@ -207,7 +225,10 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 1.9,
-   "m30": 46.5
+   "m30": 46.5,
+   "p1": false,
+   "p7": true,
+   "p30": true
   }
  ]
 }

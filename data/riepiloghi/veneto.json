@@ -1,6 +1,6 @@
 {
  "regione": "veneto",
- "generato": "2026-10-17T12:33:27.773Z",
+ "generato": "2026-10-17T18:05:41.037Z",
  "periodi": {
   "1": {
    "media": 0,
@@ -159,7 +159,10 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.7,
-   "m30": 43.2
+   "m30": 43.2,
+   "p1": false,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-gallina",
@@ -167,23 +170,32 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.8,
-   "m30": 26.1
+   "m30": 28.5,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "comelico",
    "n": "Comelico",
    "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 3.3,
-   "m30": 17.6
+   "m7": 3.1,
+   "m30": 17.7,
+   "p1": false,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
    "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 2,
-   "m30": 46.6
+   "m7": 1.7,
+   "m30": 45.3,
+   "p1": false,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "colli-asolani",
@@ -191,7 +203,10 @@
    "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.3,
-   "m30": 22.1
+   "m30": 22.1,
+   "p1": false,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "valbelluna",
@@ -199,15 +214,21 @@
    "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 0.2,
-   "m30": 25.4
+   "m30": 25.4,
+   "p1": true,
+   "p7": true,
+   "p30": true
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
    "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 2.9,
-   "m30": 25.3
+   "m7": 2.8,
+   "m30": 25.2,
+   "p1": false,
+   "p7": true,
+   "p30": true
   }
  ]
 }

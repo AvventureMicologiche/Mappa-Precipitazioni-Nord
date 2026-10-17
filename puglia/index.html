@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pluviometria Puglia: mappa di 130 pluviometri, ieri e 30 giorni</title>
-<meta name="description" content="Mappa di 130 pluviometri MeteoHub aggiornata ogni mattina. Ieri 1,6 mm a Latiano, in 7 giorni 81 mm a Vico del Gargano. Tocca un paese e vedi il grafico.">
+<title>Pluviometria Puglia: mappa di 127 pluviometri, ieri e 30 giorni</title>
+<meta name="description" content="Mappa di 127 pluviometri MeteoHub aggiornata ogni mattina. Ieri 1,6 mm a Latiano, in 7 giorni 81 mm a Vico del Gargano. Tocca un paese e vedi il grafico.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/puglia/">
 <meta property="og:title" content="Dove ha piovuto in Puglia: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 120 pluviometri di MeteoHub.">
@@ -233,7 +233,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
   </div>
   <div class="card">
     <h3>Ultimi 20 giorni</h3>
-    <div class="numerone" id="rip20-media">51 mm <small>di media</small></div>
+    <div class="numerone" id="rip20-media">52 mm <small>di media</small></div>
     <div id="rip20-top"><ol class="top-staz"><li>Vignacastrisi — 194,6 mm</li><li>S.M. di Leuca — 186,8 mm</li><li>Nardo — 148,0 mm</li><li>Galatina — 122,4 mm</li><li>Presicce — 121,6 mm</li></ol></div>
     <p class="nota" id="rip20-date">Dal 27 settembre al 16 ottobre.</p>
     <a class="vai" id="cta20" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;da=2026-09-27&amp;a=2026-10-16&amp;s=p"
@@ -241,7 +241,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
   </div>
   <div class="card" id="card30">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media">62 mm <small>di media</small></div>
+    <div class="numerone" id="rip30-media">63 mm <small>di media</small></div>
     <div id="rip30-top"><ol class="top-staz"><li>Vignacastrisi — 199,6 mm</li><li>S.M. di Leuca — 196,9 mm</li><li>Presicce — 156,6 mm</li><li>Nardo — 152,1 mm</li><li>Brindisi — 151,3 mm</li></ol></div>
     <p class="nota" id="rip30-date">Dal 17 settembre al 16 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;da=2026-09-17&amp;a=2026-10-16&amp;s=p"
@@ -460,7 +460,10 @@ temperatura, vento e umidità.</p>
   // ── Le zone: valore dei 7 giorni (per l'ordine) e testo della casella ──
   out.zone = {};
   (j.zone || []).forEach(function (z) {
-    out.zone[z.s] = { val: z.m7, html: mm(z.m7) + ' mm' + (z.m1 != null ? '<small>ieri ' + mm(z.m1) + '</small>' : '') };
+    // «meno di 0,1» anche qui (18/10/2026): prima la lista diceva «ieri 0» in 20 zone dove la pagina
+    // di zona, per lo stesso giorno, diceva «meno di 0,1 mm». Le spie p1/p7 le scrive il riepilogo.
+    var zmm = function (v, piovuto) { return Math.round(v * 10) === 0 && piovuto ? '<small style="margin:0 .3em 0 0">meno di</small>0,1' : mm(v); };
+    out.zone[z.s] = { val: z.m7, html: zmm(z.m7, z.p7) + ' mm' + (z.m1 != null ? '<small>ieri ' + (Math.round(z.m1 * 10) === 0 && z.p1 ? 'meno di 0,1' : mm(z.m1)) + '</small>' : '') };
   });
 
   return out;

@@ -244,7 +244,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
   </div>
   <div class="card">
     <h3>Ultimi 20 giorni</h3>
-    <div class="numerone" id="rip20-media">42 mm <small>di media</small></div>
+    <div class="numerone" id="rip20-media">43 mm <small>di media</small></div>
     <div id="rip20-top"><ol class="top-staz"><li>Monte Petrano — 139,8 mm</li><li>Loro Piceno — 116,0 mm</li><li>Pianello di Cagli — 112,2 mm</li><li>Sant Angelo in Pontano — 110,2 mm</li><li>Cagli Civita — 95,4 mm</li></ol></div>
     <p class="nota" id="rip20-date">Dal 27 settembre al 16 ottobre.</p>
     <a class="vai" id="cta20" href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;da=2026-09-27&amp;a=2026-10-16&amp;s=p"
@@ -252,7 +252,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
   </div>
   <div class="card" id="card30">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media">74 mm <small>di media</small></div>
+    <div class="numerone" id="rip30-media">75 mm <small>di media</small></div>
     <div id="rip30-top"><ol class="top-staz"><li>Monte Petrano — 185,0 mm</li><li>Cagli Civita — 159,6 mm</li><li>Macerata Montalbano — 149,6 mm</li><li>Loro Piceno — 146,4 mm</li><li>Sant Angelo in Pontano — 143,4 mm</li></ol></div>
     <p class="nota" id="rip30-date">Dal 17 settembre al 16 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;da=2026-09-17&amp;a=2026-10-16&amp;s=p"
@@ -481,7 +481,10 @@ temperatura, vento e umidità.</p>
   // ── Le zone: valore dei 7 giorni (per l'ordine) e testo della casella ──
   out.zone = {};
   (j.zone || []).forEach(function (z) {
-    out.zone[z.s] = { val: z.m7, html: mm(z.m7) + ' mm' + (z.m1 != null ? '<small>ieri ' + mm(z.m1) + '</small>' : '') };
+    // «meno di 0,1» anche qui (18/10/2026): prima la lista diceva «ieri 0» in 20 zone dove la pagina
+    // di zona, per lo stesso giorno, diceva «meno di 0,1 mm». Le spie p1/p7 le scrive il riepilogo.
+    var zmm = function (v, piovuto) { return Math.round(v * 10) === 0 && piovuto ? '<small style="margin:0 .3em 0 0">meno di</small>0,1' : mm(v); };
+    out.zone[z.s] = { val: z.m7, html: zmm(z.m7, z.p7) + ' mm' + (z.m1 != null ? '<small>ieri ' + (Math.round(z.m1 * 10) === 0 && z.p1 ? 'meno di 0,1' : mm(z.m1)) + '</small>' : '') };
   });
 
   return out;
