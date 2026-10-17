@@ -57,7 +57,7 @@ const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola } = require('./lib-clima.js');
 // 24/9/2026: grafica e codice di pagina comuni con le pagine di regione
-const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello } = require('./lib-pagina-funghi.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -130,7 +130,7 @@ function pagina(z) {
     process.exit(1);
   }
   const m = fs.readFileSync(modello, 'utf8');
-  const STILE = m.slice(m.indexOf('<style>') + 7, m.indexOf('</style>'));
+  const STILE = stileDelModello(m);   // senza RILIEVO e QUIZ_CSS: si aggiungono in fondo
 
   // L'anagrafe dei soli posti della zona, cotta dentro: sono da 3 a 21 righe,
   // cioe' meno di un chilobyte. Il file dei giorni porta i numeri.
@@ -336,7 +336,7 @@ ${coppiaQuiz(casa.k, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel
   <a href="${SITO}/">Mappa delle piogge</a> ·
   <a href="${SITO}/${casa.k}/">Dove ha piovuto ${casa.prep} ${esc(nomeReg)}</a> ·
   <a href="${SITO}/funghi/${casa.k}/">Piogge per funghi ${casa.prep} ${esc(nomeReg)}</a> ·
-  <a href="${SITO}/fonti.html">tutte le fonti e licenze</a><br>
+  <a href="${SITO}/fonti">tutte le fonti e licenze</a><br>
   La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
 </footer>
 
@@ -368,14 +368,17 @@ ${JS_AGGIORNATO}
   })).then(function(js){
     var buoni = js.filter(function(j){ return j && fresco(j); });
     if (buoni.length !== REGIONI.length) return guasto();
-    var serie = {}, serieT = {}, oggi = null, gen = null;
+    var serie = {}, serieT = {}, sospesi = {}, oggi = null, gen = null;
     buoni.forEach(function(j){
       if (!gen || j.generato < gen) gen = j.generato;   // la data della parte PIU VECCHIA
       Object.keys(j.serie).forEach(function(id){ serie[id] = j.serie[id]; });
       Object.keys(j.serieT || {}).forEach(function(id){ serieT[id] = j.serieT[id]; });
+      Object.keys(j.sospesi || {}).forEach(function(id){ sospesi[id] = 1; });
       if (!oggi || j.oggi < oggi) oggi = j.oggi;
     });
-    var righe = POSTI.filter(function(p){ return serie[p[0]]; });
+    /* 17/10/2026: i pluviometri sospesi (la mappa li esclude perche' misurano
+       male, lib-escluse.js) non entrano nella media: in tabella restano col «—» */
+    var righe = POSTI.filter(function(p){ return serie[p[0]] && !sospesi[p[0]]; });
     if (righe.length < 2) return guasto();
     disegna(serie, serieT, oggi, righe);
     scriviAggiornato(gen);
@@ -425,7 +428,13 @@ ${JS_AGGIORNATO}
     /* ⚠️ La tabella e GIA NELL HTML coi link: qui si riempiono le caselle e si
        RIORDINA dal piu bagnato spostando le righe, senza innerHTML. */
     var dati = {};
-    righe.forEach(function(p){ var ss = serie[p[0]]; dati[p[0]] = { mm: somma(ss,20,13), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
+    /* 17/10/2026: assente non e' zero. Un pluviometro col dato in meno del 60%
+       dei giorni (sui 25 o sulla finestra 13-20) resta senza numeri, «—» e in
+       fondo: coi giorni mancanti contati asciutti sembrerebbe il piu' asciutto. */
+    function conD(ss, da, a){ var c = 0; for (var n = da; n >= a; n--) if (ss[n-1] != null) c++; return c; }
+    righe.forEach(function(p){ var ss = serie[p[0]];
+      if (conD(ss,GIORNI,1) < GIORNI*0.6 || conD(ss,20,13) < 8*0.6) return;
+      dati[p[0]] = { mm: somma(ss,20,13), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
     var corpo = document.getElementById("tabella");
     var trs = [].slice.call(corpo.querySelectorAll("tr[data-id]"));
     var mx = 1; Object.keys(dati).forEach(function(id){ mx = Math.max(mx, dati[id].mm); });

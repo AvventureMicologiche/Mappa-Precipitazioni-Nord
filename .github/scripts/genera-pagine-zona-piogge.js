@@ -247,7 +247,7 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
 
 <footer>
   Dati: ${esc(elenco(agenzie))} ·
-  <a href="${SITO}/fonti.html">tutte le fonti e licenze</a> ·
+  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="${SITO}/guida/">guida alla mappa</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a>
 </footer>

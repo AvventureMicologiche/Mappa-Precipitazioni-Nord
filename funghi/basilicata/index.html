@@ -160,7 +160,7 @@ nav.altre a{color:var(--blu);}
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
 .gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
 .gg .b.dentro i{background:var(--blu);}
-.gg .b b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
   font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
 .gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
 .gg-x span{flex:1;text-align:center;}
@@ -359,7 +359,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Basilicata.</p>
 
 
 <h2 style="margin-top:30px">Tutta la pioggia in Basilicata</h2>
-<p>Questa pagina guarda solo i pluviometri in mezzo al bosco. Per la regione intera, pianura compresa, c'è <a href="https://precipitazioni.avventuremicologiche.it/basilicata/">dove ha piovuto in Basilicata</a>: circa 50 pluviometri di MeteoHub.</p>
+<p>Questa pagina guarda solo i pluviometri in mezzo al bosco. Per la regione intera, pianura compresa, c'è <a href="https://precipitazioni.avventuremicologiche.it/basilicata/">dove ha piovuto in Basilicata</a>: circa 60 pluviometri di MeteoHub.</p>
 
 <nav class="altre">
   <b>Dove ha piovuto: tutti i pluviometri, pianura compresa</b>
@@ -441,13 +441,20 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Basilicata.</p>
 
   /* le 25 barre, ieri a destra; restituisce le ascisse per i grafici sotto */
   function scriviBarre(s, oggi){
-    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "", ult = null;
+    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "";
+    /* 17/10/2026: i numeri si danno dalla barra PIU' ALTA in giu', saltando le
+       vicine di una gia' numerata (come le pagine delle piogge). Prima andavano
+       in ordine di data: a Pieve Santo Stefano il 7/10 (5,9) prendeva il numero
+       e l'8/10 (23,9), accanto, restava senza, e il 5,9 sembrava suo. Il numero
+       sta sopra la SUA barra (CSS .gg .b b), per questo la piu' alta arriva all'86%. */
+    var cand = [], lab = {};
+    for (var c = 1; c <= GIORNI; c++) if ((s[c-1] || 0) >= 1 && (s[c-1] || 0) >= max*0.2) cand.push(c);
+    cand.sort(function (a, b) { return s[b-1] - s[a-1]; })
+      .forEach(function (c) { if (!lab[c-1] && !lab[c+1]) lab[c] = 1; });
     for (var i = GIORNI; i >= 1; i--) {
       var v = s[i-1] || 0, d = menoDa(oggi, i), cl = (i >= 13 && i <= 20) ? " dentro" : "";
-      var et = v >= max*0.2 && (ult === null || ult - i >= 2);
-      if (et) ult = i;
-      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (et ? "<b>" + num(v) + "</b>" : "")
-        + "<i style=\"height:" + Math.max(2, Math.round(v/max*100)) + "%\"></i></div>";
+      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (lab[i] ? "<b>" + num(v) + "</b>" : "")
+        + "<i style=\"height:" + Math.max(2, Math.round(v/max*86)) + "%\"></i></div>";
       ax += "<span>" + ((i === GIORNI || i === 1 || i % 5 === 0) ? (d.getDate() + "/" + (d.getMonth()+1)) : "") + "</span>";
     }
     document.getElementById("grafico").innerHTML = "<div class=\"gg\">" + barre + "</div><div class=\"gg-x\">" + ax + "</div>"

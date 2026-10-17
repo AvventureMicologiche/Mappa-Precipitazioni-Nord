@@ -20,7 +20,7 @@ const STILE_NUOVO = `
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
 .gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
 .gg .b.dentro i{background:var(--blu);}
-.gg .b b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
   font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
 .gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
 .gg-x span{flex:1;text-align:center;}
@@ -122,13 +122,20 @@ function comune() {
 
   /* le 25 barre, ieri a destra; restituisce le ascisse per i grafici sotto */
   function scriviBarre(s, oggi){
-    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "", ult = null;
+    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "";
+    /* 17/10/2026: i numeri si danno dalla barra PIU' ALTA in giu', saltando le
+       vicine di una gia' numerata (come le pagine delle piogge). Prima andavano
+       in ordine di data: a Pieve Santo Stefano il 7/10 (5,9) prendeva il numero
+       e l'8/10 (23,9), accanto, restava senza, e il 5,9 sembrava suo. Il numero
+       sta sopra la SUA barra (CSS .gg .b b), per questo la piu' alta arriva all'86%. */
+    var cand = [], lab = {};
+    for (var c = 1; c <= GIORNI; c++) if ((s[c-1] || 0) >= 1 && (s[c-1] || 0) >= max*0.2) cand.push(c);
+    cand.sort(function (a, b) { return s[b-1] - s[a-1]; })
+      .forEach(function (c) { if (!lab[c-1] && !lab[c+1]) lab[c] = 1; });
     for (var i = GIORNI; i >= 1; i--) {
       var v = s[i-1] || 0, d = menoDa(oggi, i), cl = (i >= 13 && i <= 20) ? " dentro" : "";
-      var et = v >= max*0.2 && (ult === null || ult - i >= 2);
-      if (et) ult = i;
-      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (et ? "<b>" + num(v) + "</b>" : "")
-        + "<i style=\"height:" + Math.max(2, Math.round(v/max*100)) + "%\"></i></div>";
+      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (lab[i] ? "<b>" + num(v) + "</b>" : "")
+        + "<i style=\"height:" + Math.max(2, Math.round(v/max*86)) + "%\"></i></div>";
       ax += "<span>" + ((i === GIORNI || i === 1 || i % 5 === 0) ? (d.getDate() + "/" + (d.getMonth()+1)) : "") + "</span>";
     }
     document.getElementById("grafico").innerHTML = "<div class=\"gg\">" + barre + "</div><div class=\"gg-x\">" + ax + "</div>"
@@ -311,4 +318,14 @@ const coppiaQuiz = (k, ytA, pulsante) => QUIZ_REGIONI[k]
    onclick="try{gtag('event','click_quiz',{pulsante:'${pulsante}'})}catch(e){}">${COPPA_SVG}Quiz esame tartufi ${QUIZ_REGIONI[k]}</a></div>`
   : `<p style="margin:22px 0 4px;">${ytA}</p>`;
 
-module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, YT_BTN, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz };
+/* Lo stile di una pagina gia' fatta, da usare come base per un'altra (17/10/2026).
+   ⚠️ Paesi, zone, indice funghi e mappa forestale copiano il <style> di una pagina
+   funghi, che dall'11-12/10 contiene gia' RILIEVO (con YT_BTN in coda) e QUIZ_CSS;
+   poi li aggiungevano di nuovo, e rigenerando il blocco usciva DOPPIO (visto il 17/10
+   sulle 911 pagine di paese). Qui si tolgono: chi li vuole li aggiunge da se'. */
+function stileDelModello(html) {
+  const s = html.slice(html.indexOf('<style>') + 7, html.indexOf('</style>'));
+  return s.split(RILIEVO).join('').split(YT_BTN).join('').split(QUIZ_CSS).join('');
+}
+
+module.exports = { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, YT_BTN, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello };

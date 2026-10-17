@@ -62,7 +62,10 @@ jobs:
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          git add -- '*/index.html'
+          # 17/10/2026: anche le due sitemap. La data delle pagine cotte e' quella
+          # dei numeri dentro (genera-sitemap.js), quindi cambia con loro; senza
+          # questa riga il giro le riscriveva e le buttava via.
+          git add -- '*/index.html' sitemap.xml sitemap-mappa.xml
           git commit -m "pagine regione cotte $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do

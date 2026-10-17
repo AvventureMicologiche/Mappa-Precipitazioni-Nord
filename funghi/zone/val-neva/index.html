@@ -155,7 +155,7 @@ nav.altre a{color:var(--blu);}
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
 .gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
 .gg .b.dentro i{background:var(--blu);}
-.gg .b b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
   font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
 .gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
 .gg-x span{flex:1;text-align:center;}
@@ -213,7 +213,7 @@ nav.altre a{color:var(--blu);}
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
 .gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
 .gg .b.dentro i{background:var(--blu);}
-.gg .b b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
   font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
 .gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
 .gg-x span{flex:1;text-align:center;}
@@ -397,10 +397,10 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-neva/">dove ha piovuto in Val Neva</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a ottobre 2026, in 102 giorni di misura, i 9 pluviometri
+<p>Da giugno 2026 a ottobre 2026, in 112 giorni di misura, i 9 pluviometri
 della Val Neva hanno contato
-<b>155 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Alto - Madonna del lago</b> con
-238 mm, il più asciutto Castelvecchio di R. B. con 94.
+<b>195 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Alto - Madonna del lago</b> con
+275 mm, il più asciutto Ponte di Nava Tanaro con 121.
 La giornata più piovosa è stata il <b>21 agosto 2026</b> a Ranzo,
 con <b>64,2 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -419,7 +419,7 @@ OpenStreetMap, licenza ODbL.</p>
   <a href="https://precipitazioni.avventuremicologiche.it/">Mappa delle piogge</a> ·
   <a href="https://precipitazioni.avventuremicologiche.it/liguria/">Dove ha piovuto in Liguria</a> ·
   <a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/">Piogge per funghi in Liguria</a> ·
-  <a href="https://precipitazioni.avventuremicologiche.it/fonti.html">tutte le fonti e licenze</a><br>
+  <a href="https://precipitazioni.avventuremicologiche.it/fonti">tutte le fonti e licenze</a><br>
   La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
 </footer>
 
@@ -482,13 +482,20 @@ OpenStreetMap, licenza ODbL.</p>
 
   /* le 25 barre, ieri a destra; restituisce le ascisse per i grafici sotto */
   function scriviBarre(s, oggi){
-    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "", ult = null;
+    var max = Math.max.apply(null, s.concat([1])), barre = "", ax = "";
+    /* 17/10/2026: i numeri si danno dalla barra PIU' ALTA in giu', saltando le
+       vicine di una gia' numerata (come le pagine delle piogge). Prima andavano
+       in ordine di data: a Pieve Santo Stefano il 7/10 (5,9) prendeva il numero
+       e l'8/10 (23,9), accanto, restava senza, e il 5,9 sembrava suo. Il numero
+       sta sopra la SUA barra (CSS .gg .b b), per questo la piu' alta arriva all'86%. */
+    var cand = [], lab = {};
+    for (var c = 1; c <= GIORNI; c++) if ((s[c-1] || 0) >= 1 && (s[c-1] || 0) >= max*0.2) cand.push(c);
+    cand.sort(function (a, b) { return s[b-1] - s[a-1]; })
+      .forEach(function (c) { if (!lab[c-1] && !lab[c+1]) lab[c] = 1; });
     for (var i = GIORNI; i >= 1; i--) {
       var v = s[i-1] || 0, d = menoDa(oggi, i), cl = (i >= 13 && i <= 20) ? " dentro" : "";
-      var et = v >= max*0.2 && (ult === null || ult - i >= 2);
-      if (et) ult = i;
-      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (et ? "<b>" + num(v) + "</b>" : "")
-        + "<i style=\"height:" + Math.max(2, Math.round(v/max*100)) + "%\"></i></div>";
+      barre += "<div class=\"b" + cl + "\" title=\"" + gg(iso(d)) + ": " + num(v) + " mm\">" + (lab[i] ? "<b>" + num(v) + "</b>" : "")
+        + "<i style=\"height:" + Math.max(2, Math.round(v/max*86)) + "%\"></i></div>";
       ax += "<span>" + ((i === GIORNI || i === 1 || i % 5 === 0) ? (d.getDate() + "/" + (d.getMonth()+1)) : "") + "</span>";
     }
     document.getElementById("grafico").innerHTML = "<div class=\"gg\">" + barre + "</div><div class=\"gg-x\">" + ax + "</div>"
@@ -582,14 +589,17 @@ OpenStreetMap, licenza ODbL.</p>
   })).then(function(js){
     var buoni = js.filter(function(j){ return j && fresco(j); });
     if (buoni.length !== REGIONI.length) return guasto();
-    var serie = {}, serieT = {}, oggi = null, gen = null;
+    var serie = {}, serieT = {}, sospesi = {}, oggi = null, gen = null;
     buoni.forEach(function(j){
       if (!gen || j.generato < gen) gen = j.generato;   // la data della parte PIU VECCHIA
       Object.keys(j.serie).forEach(function(id){ serie[id] = j.serie[id]; });
       Object.keys(j.serieT || {}).forEach(function(id){ serieT[id] = j.serieT[id]; });
+      Object.keys(j.sospesi || {}).forEach(function(id){ sospesi[id] = 1; });
       if (!oggi || j.oggi < oggi) oggi = j.oggi;
     });
-    var righe = POSTI.filter(function(p){ return serie[p[0]]; });
+    /* 17/10/2026: i pluviometri sospesi (la mappa li esclude perche' misurano
+       male, lib-escluse.js) non entrano nella media: in tabella restano col «—» */
+    var righe = POSTI.filter(function(p){ return serie[p[0]] && !sospesi[p[0]]; });
     if (righe.length < 2) return guasto();
     disegna(serie, serieT, oggi, righe);
     scriviAggiornato(gen);
@@ -639,7 +649,13 @@ OpenStreetMap, licenza ODbL.</p>
     /* ⚠️ La tabella e GIA NELL HTML coi link: qui si riempiono le caselle e si
        RIORDINA dal piu bagnato spostando le righe, senza innerHTML. */
     var dati = {};
-    righe.forEach(function(p){ var ss = serie[p[0]]; dati[p[0]] = { mm: somma(ss,20,13), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
+    /* 17/10/2026: assente non e' zero. Un pluviometro col dato in meno del 60%
+       dei giorni (sui 25 o sulla finestra 13-20) resta senza numeri, «—» e in
+       fondo: coi giorni mancanti contati asciutti sembrerebbe il piu' asciutto. */
+    function conD(ss, da, a){ var c = 0; for (var n = da; n >= a; n--) if (ss[n-1] != null) c++; return c; }
+    righe.forEach(function(p){ var ss = serie[p[0]];
+      if (conD(ss,GIORNI,1) < GIORNI*0.6 || conD(ss,20,13) < 8*0.6) return;
+      dati[p[0]] = { mm: somma(ss,20,13), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
     var corpo = document.getElementById("tabella");
     var trs = [].slice.call(corpo.querySelectorAll("tr[data-id]"));
     var mx = 1; Object.keys(dati).forEach(function(id){ mx = Math.max(mx, dati[id].mm); });

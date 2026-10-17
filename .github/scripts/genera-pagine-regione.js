@@ -578,7 +578,7 @@ ${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-
 <footer>
 ${navAltre('regione')}
   Dati: ${fonteFooter} ·
-  <a href="${SITO}/fonti.html">tutte le fonti e licenze</a> ·
+  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
   La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
 </footer>
