@@ -1,11 +1,11 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-17T03:15:34.994Z",
+ "generato": "2026-10-17T12:33:27.796Z",
  "periodi": {
   "1": {
    "media": 0.1,
    "giorni": 1,
-   "stazioni": 422,
+   "stazioni": 418,
    "primo": "2026-10-16",
    "ultimo": "2026-10-16",
    "top": [
@@ -32,9 +32,9 @@
    ]
   },
   "7": {
-   "media": 29,
+   "media": 29.1,
    "giorni": 7,
-   "stazioni": 430,
+   "stazioni": 426,
    "primo": "2026-10-10",
    "ultimo": "2026-10-16",
    "top": [
@@ -61,20 +61,12 @@
    ]
   },
   "20": {
-   "media": 38.3,
+   "media": 36.6,
    "giorni": 20,
-   "stazioni": 434,
+   "stazioni": 430,
    "primo": "2026-09-27",
    "ultimo": "2026-10-16",
    "top": [
-    {
-     "n": "Palermo Abela",
-     "mm": 506.4
-    },
-    {
-     "n": "Monterosso Almo SP11",
-     "mm": 378.2
-    },
     {
      "n": "Calvaruso",
      "mm": 171.3
@@ -86,24 +78,24 @@
     {
      "n": "Pollina",
      "mm": 125
+    },
+    {
+     "n": "Messina SP50Bis",
+     "mm": 124.5
+    },
+    {
+     "n": "Monforte San Giorgio",
+     "mm": 124.1
     }
    ]
   },
   "30": {
-   "media": 73,
+   "media": 71.6,
    "giorni": 30,
-   "stazioni": 435,
+   "stazioni": 431,
    "primo": "2026-09-17",
    "ultimo": "2026-10-16",
    "top": [
-    {
-     "n": "Palermo Abela",
-     "mm": 555.9
-    },
-    {
-     "n": "Monterosso Almo SP11",
-     "mm": 427
-    },
     {
      "n": "Aci Castello",
      "mm": 243.9
@@ -115,6 +107,14 @@
     {
      "n": "Messina SP44",
      "mm": 213.3
+    },
+    {
+     "n": "Aci San Filippo",
+     "mm": 212.2
+    },
+    {
+     "n": "Calvaruso",
+     "mm": 209.6
     }
    ]
   }
@@ -125,10 +125,10 @@
   0,
   3.2,
   3.4,
-  3.7,
-  20.6,
-  5.3,
-  3.3,
+  3.8,
+  20.7,
+  4.5,
+  2.2,
   0.4,
   0.2,
   0,
@@ -141,16 +141,17 @@
   0,
   0,
   2.3,
-  3.2,
+  3.3,
   0,
   3,
   4.3,
-  2.2,
+  2.3,
   5.6,
-  14.3,
+  14.4,
   1.9,
   0
  ],
+ "serieDa": "2026-10-16",
  "zone": [
   {
    "s": "valle-del-fitalia",

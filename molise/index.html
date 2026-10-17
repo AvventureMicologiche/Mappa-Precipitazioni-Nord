@@ -115,6 +115,8 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 .fin .c b{font-size:13px;color:var(--blu-scuro);margin-bottom:3px;}
 .fin-x{display:flex;gap:6px;font-size:12px;color:#6b7a8d;}
 .fin-x span{flex:1;text-align:center;line-height:1.25;}
+.gg .b.nodato i,.fin .c.nodato i{background:none;border:1px dashed #9fb3cc;border-bottom:0;height:14%;}
+.fin .c.nodato b{color:#8a97a6;font-weight:400;}
 .img-mappa{width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);margin-top:10px;}
 .tasti{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
 .tasti a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;color:var(--blu-scuro);
@@ -208,7 +210,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
      alla domanda del titolo, cioe' IERI, poi le barre, poi i periodi, le zone,
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
 <div id="attesa" style="display:none"></div>
-<div id="verdetto"><div class="verdetto"><div class="si">Ieri, 16 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,8 mm a Castelmauro.</div><div class="dett">Media di 28 pluviometri.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;da=2026-10-16&amp;a=2026-10-16&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-molise-ieri-box'})}catch(e){}"><b>Apri la mappa di ieri</b><i>→</i><small>la pioggia in tutte le località</small></a></div></div></div>
+<div id="verdetto"><div class="verdetto"><div class="si">Ieri, 16 ottobre</div><div class="gr"><small style="margin:0 .3em 0 0">meno di</small>0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,8 mm a Castelmauro.</div><div class="dett">Media di 28 pluviometri.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;da=2026-10-16&amp;a=2026-10-16&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-molise-ieri-box'})}catch(e){}"><b>Apri la mappa di ieri</b><i>→</i><small>la pioggia in tutte le località</small></a></div></div></div>
 <a class="banda-prev" href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;m=prev"
    onclick="try{gtag('event','apri_mappa',{da:'pagina-molise-banda-previsioni'})}catch(e){}">
   <span class="ic">☀️</span><span><b>Che tempo farà in Molise</b><span>Previsioni per i prossimi 7 giorni</span></span><span class="fr">→</span></a>
@@ -361,6 +363,9 @@ temperatura, vento e umidità.</p>
   function num(n) { return (Math.round(n * 10) / 10).toFixed(1).replace('.', ','); }
   // Sotto i 10 mm il decimale conta (0,4 non e' zero), sopra no.
   function mm(n) { return n === 0 ? '0' : n < 10 ? num(n) : String(Math.round(n)); }
+  // La media grande: «meno di 0,1» se arrotondata fa zero ma qualcuno ha misurato
+  // pioggia (Garfagnana 16/10/2026: 0,03 mm, Renaio 0,4); «0» solo se e' asciutto vero.
+  function mediaMm(d) { return Math.round(d.media * 10) === 0 && d.top && d.top.length && d.top[0].mm > 0 ? '<small style="margin:0 .3em 0 0">meno di</small>0,1' : mm(d.media); }
   function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
   function link(da, a) { return SITO + '/?r=' + K + '&da=' + da + '&a=' + a + '&s=p'; }
   // «dal 18 al 24 settembre»: il mese una volta sola, l'apostrofo davanti a 1, 8, 11
@@ -391,7 +396,7 @@ temperatura, vento e umidità.</p>
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
     out.verdetto = '<div class="verdetto">'
       + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
-      + '<div class="gr">' + mm(d.media) + ' mm<small>di media</small></div>'
+      + '<div class="gr">' + mediaMm(d) + ' mm<small>di media</small></div>'
       + '<div class="top">' + dett + '</div>'
       + '<div class="dett">Media di ' + d.stazioni + ' pluviometri.</div>'
       + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>')
@@ -417,7 +422,7 @@ temperatura, vento e umidità.</p>
     cand.sort(function (a, b) { return s[b - 1] - s[a - 1]; })
       .forEach(function (c) { if (!lab[c - 1] && !lab[c + 1]) lab[c] = 1; });
     for (i = n; i >= 1; i--) {
-      var v = s[i - 1], g = menoDa(ultimo, i - 1), cl = i <= 7 ? ' dentro' : '';
+      var v = s[i - 1], g = menoDa(j.serieDa || ultimo, i - 1), cl = i <= 7 ? ' dentro' : '';   // 17/10/2026: la data della serie la dice il riepilogo
       barre += '<div class="b' + cl + '" title="' + lungo(iso(g)) + ': ' + (v == null ? 'nessun dato' : num(v) + ' mm') + '">' + (lab[i] ? '<b>' + mm(v) + '</b>' : '')
         + '<i style="height:' + (v == null ? 0 : Math.max(2, Math.round(v / max * 86))) + '%"></i></div>';
       ax += '<span>' + ((i === n || i === 1 || i % 5 === 0) ? (g.getDate() + '/' + (g.getMonth() + 1)) : '') + '</span>';
@@ -439,10 +444,10 @@ temperatura, vento e umidità.</p>
     if (!d.top || !d.top.length || d.top[0].mm < 1) top = '<p class="nota">Periodo quasi asciutto in tutta la regione.</p>';
     else top = '<ol class="top-staz">' + d.top.map(function (s) { return '<li>' + esc(s.n) + ' — ' + num(s.mm) + ' mm</li>'; }).join('') + '</ol>';
     out.periodi[k] = {
-      media: Math.round(d.media) + ' mm <small>di media</small>',
+      media: mediaMm(d) + ' mm <small>di media</small>',   // 17/10/2026: anche qui il decimale sotto i 10 mm (prima «1 mm» dove la zona diceva 0,8)
       top: top,
       // Le giornate si dicono solo se ne manca qualcuna: se no e' il titolo ripetuto.
-      date: dalAl(d.primo, d.ultimo) + (d.giorni < +k ? ', ' + d.giorni + ' giornate di dati' : '') + '.',
+      date: dalAl(d.primo, d.ultimo) + (d.giorni < +k ? ', ' + d.giorni + (d.giorni === 1 ? ' giornata di dati' : ' giornate di dati') : '') + '.',
     };
   });
 

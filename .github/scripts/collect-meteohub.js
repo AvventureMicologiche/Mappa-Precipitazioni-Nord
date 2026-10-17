@@ -48,10 +48,14 @@ const DATA_ROOT = path.join(__dirname, '../..', 'data');
 //    generico rischierebbe di rovinare un nome che contiene «u00» per caso.
 const ACCENTATE = { c0:'À', c8:'È', cc:'Ì', d2:'Ò', d9:'Ù',
                     e0:'à', e8:'è', e9:'é', ec:'ì', f2:'ò', f9:'ù' };
+// Nomi che arrivano col carattere ROTTO (U+FFFD, la lettera e' persa a monte e non
+// si puo' ricostruire da sola): si correggono uno per uno (17/10/2026).
+const NOMI_CORRETTI = { 'Trinit� Diga R2': 'Trinità Diga R2' };
 function ripulisciNome(s) {
   // il (?<!\\) protegge gli escape SCRITTI BENE, che vanno lasciati stare
-  return String(s).replace(/(?<!\\)u00([0-9a-fA-F]{2})/g,
+  const n = String(s).replace(/(?<!\\)u00([0-9a-fA-F]{2})/g,
     (intero, hex) => ACCENTATE[hex.toLowerCase()] || intero);
+  return NOMI_CORRETTI[n] || n;
 }
 
 const NETWORKS = [
@@ -336,7 +340,39 @@ function tipicoReali(dir, giorni) {
   return v[Math.floor(v.length / 2)];
 }
 
+/* ⚠️ PICCHI FALSI (17/10/2026). L'8/10/2026 Palermo Abela ha consegnato 471,2 mm
+   («18 ore di pioggia», con 34° di massima e il 32% di umidita'), mentre UIR e
+   SIAS a 2 km, Chiavelli e Partanna segnavano 0,0: nessuna notizia di nubifragi,
+   previsioni di sole. Finiva in testa alla Sicilia a 20 e 30 giorni.
+   Regola SEVERA apposta, suo ok: una bomba d'acqua vera fa differenze enormi in
+   pochi km, ma lascia sempre qualcosa ai bordi. Si toglie il pluviometro dal
+   giorno (assente, non zero: la mappa somma `mm||0`) solo se ha almeno PICCO_MM
+   nel giorno E i vicini sono TUTTI sotto PICCO_ASCIUTTO mm, contando:
+     - almeno 2 vicini entro 5 km (Abela: UIR e SIAS a 2 km), oppure
+     - almeno 3 vicini entro 15 km (Monterosso Almo SP11, 9/10: 362,5 mm con
+       Palazzolo Acreide a 8 km, Case Granvilla, Ferla e Noto tutti a 0; il
+       giorno dopo pioveva su tutti e lui segnava 15 contro 12-47, cioe' sano).
+   Sui 60 giorni di tutte le reti (17/10) prende solo questi due; l'alluvione
+   delle Cevenne del 30/9 (300 mm, vicini 150-335) non la tocca. */
+const PICCO_MM = 200, PICCO_ASCIUTTO = 1;
+const PICCO_CERCHI = [[5, 2], [15, 3]];   // [km, vicini minimi]
+function togliPicchiFalsi(stations, dateStr) {
+  const km = (a, b) => Math.hypot(a.lat - b.lat, (a.lon - b.lon) * Math.cos(a.lat * Math.PI / 180)) * 111.2;
+  return stations.filter(s => {
+    if (!(s.mm >= PICCO_MM) || s.lat == null || s.lon == null) return true;
+    for (const [r, minimi] of PICCO_CERCHI) {
+      const vicini = stations.filter(x => x !== s && x.lat != null && x.mm != null && km(s, x) <= r);
+      if (vicini.length >= minimi && vicini.every(x => x.mm < PICCO_ASCIUTTO)) {
+        console.warn(`  ⚠️ ${dateStr}: ${s.n} ${s.mm} mm con ${vicini.length} vicini entro ${r} km tutti sotto ${PICCO_ASCIUTTO} mm: picco falso, tolto dal giorno`);
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
 function writeDay(dir, dateStr, stations, net, soglia, src) {
+  stations = togliPicchiFalsi(stations, dateStr);
   if (stations.length < 10) {
     console.warn(`  ${dateStr}: solo ${stations.length} stazioni, salto la scrittura`);
     return false;
