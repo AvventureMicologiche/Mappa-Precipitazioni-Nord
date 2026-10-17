@@ -1,62 +1,62 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-16T03:16:19.260Z",
+ "generato": "2026-10-17T03:15:34.995Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 91,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-14",
+   "stazioni": 93,
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Monte Rasu",
+     "n": "Ossoni",
+     "mm": 0.4
+    },
+    {
+     "n": "Pozzomaggiore",
+     "mm": 0.4
+    },
+    {
+     "n": "Martis",
+     "mm": 0.4
+    },
+    {
+     "n": "Osilo",
      "mm": 0.2
     },
     {
-     "n": "Lula",
-     "mm": 0.2
-    },
-    {
-     "n": "Orune",
-     "mm": 0.2
-    },
-    {
-     "n": "Porto Pino",
-     "mm": 0.2
-    },
-    {
-     "n": "Pianu",
+     "n": "Badu Crabolu",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 21.2,
+   "media": 4.1,
    "giorni": 7,
    "stazioni": 93,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-14",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Badu Crabolu",
-     "mm": 79.4
-    },
-    {
-     "n": "Flumentepido",
-     "mm": 62.8
+     "n": "Santa Maria di Neapolis",
+     "mm": 35.2
     },
     {
      "n": "San Michele",
-     "mm": 58.8
+     "mm": 24.6
     },
     {
-     "n": "Villanova Monteleone",
-     "mm": 58.6
+     "n": "Abbasanta",
+     "mm": 20.4
     },
     {
-     "n": "Pozzomaggiore",
-     "mm": 51.6
+     "n": "Is Cannoneris",
+     "mm": 16.8
+    },
+    {
+     "n": "Villa Verde",
+     "mm": 15.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 28.6,
    "giorni": 20,
    "stazioni": 93,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Stintino",
@@ -77,15 +77,15 @@
     },
     {
      "n": "San Michele",
-     "mm": 75.2
+     "mm": 75
     },
     {
      "n": "Mannu di Porto Torres",
-     "mm": 71.4
+     "mm": 71.6
     },
     {
      "n": "Villanova Monteleone",
-     "mm": 64
+     "mm": 63.8
     }
    ]
   },
@@ -93,20 +93,20 @@
    "media": 36.1,
    "giorni": 30,
    "stazioni": 93,
-   "primo": "2026-09-15",
-   "ultimo": "2026-10-14",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Pozzomaggiore",
-     "mm": 145.8
+     "mm": 146.2
     },
     {
-     "n": "S. Nicolò Gerrei - Pranu San",
+     "n": "S. Nicolò Gerrei - Pranu Sangun",
      "mm": 111.1
     },
     {
      "n": "Badu Crabolu",
-     "mm": 98.4
+     "mm": 98.6
     },
     {
      "n": "Stintino",
@@ -120,6 +120,8 @@
   }
  },
  "serie": [
+  0.1,
+  0,
   0,
   0,
   0.6,
@@ -147,9 +149,7 @@
   3.5,
   0.8,
   0.7,
-  0.4,
-  0.1,
-  0
+  0.4
  ],
  "zone": []
 }

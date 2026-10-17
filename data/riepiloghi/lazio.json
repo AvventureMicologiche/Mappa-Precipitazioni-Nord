@@ -1,16 +1,16 @@
 {
  "regione": "lazio",
- "generato": "2026-10-16T03:16:19.259Z",
+ "generato": "2026-10-17T03:15:34.994Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 209,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "stazioni": 208,
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Fosso di Pantanello ad Ostia",
+     "n": "Osteria di Castro",
      "mm": 0.2
     },
     {
@@ -32,31 +32,31 @@
    ]
   },
   "7": {
-   "media": 24.2,
+   "media": 10.3,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
+     "n": "SS.Cosma e Damiano",
+     "mm": 57
+    },
+    {
+     "n": "Spigno Saturnia",
+     "mm": 49.9
+    },
+    {
+     "n": "Piedimonte San Germano",
+     "mm": 49.7
+    },
+    {
      "n": "Sabaudia",
-     "mm": 119.8
-    },
-    {
-     "n": "Anzio",
-     "mm": 114.2
-    },
-    {
-     "n": "Latina",
-     "mm": 96.3
-    },
-    {
-     "n": "Borgo Montello",
-     "mm": 88.8
+     "mm": 45.1
     },
     {
      "n": "Sezze",
-     "mm": 88.6
+     "mm": 44.9
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 65.3,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Gaeta",
@@ -93,8 +93,8 @@
    "media": 74.6,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Gaeta",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   1,
   0.2,
   9.1,
@@ -148,64 +149,63 @@
   0.1,
   4.1,
   4.3,
-  0.2,
-  0
+  0.2
  ],
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 20.3,
+   "m7": 12.4,
    "m30": 62.1
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 23.5,
+   "m7": 15,
    "m30": 71.3
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 14.8,
+   "m7": 4,
    "m30": 40.1
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 14.1,
-   "m30": 56.8
+   "m7": 5.4,
+   "m30": 56.7
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 37.3,
+   "m7": 15.2,
    "m30": 82.2
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 13.4,
+   "m7": 7.2,
    "m30": 54.6
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 23.8,
+   "m7": 15,
    "m30": 59
   }
  ]

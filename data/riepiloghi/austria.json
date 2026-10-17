@@ -1,18 +1,14 @@
 {
  "regione": "austria",
- "generato": "2026-10-16T03:16:19.260Z",
+ "generato": "2026-10-17T03:15:34.995Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 268,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
-    {
-     "n": "Weiz (Steiermark)",
-     "mm": 0.6
-    },
     {
      "n": "Aflenz (Steiermark)",
      "mm": 0
@@ -28,27 +24,27 @@
     {
      "n": "Amstetten (Niederösterreich)",
      "mm": 0
+    },
+    {
+     "n": "Bad Aussee (Steiermark)",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 9.6,
+   "media": 9.3,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Feuerkogel (Oberösterreich)",
-     "mm": 40.5
-    },
-    {
      "n": "Bregenz (Vorarlberg)",
-     "mm": 38.8
+     "mm": 38.6
     },
     {
-     "n": "Rudolfshütte (Salzburg)",
-     "mm": 36
+     "n": "Feuerkogel (Oberösterreich)",
+     "mm": 37.9
     },
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -56,7 +52,11 @@
     },
     {
      "n": "Sulzberg (Vorarlberg)",
-     "mm": 32.4
+     "mm": 32
+    },
+    {
+     "n": "Rudolfshütte (Salzburg)",
+     "mm": 31.9
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 19.1,
    "giorni": 20,
    "stazioni": 269,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 41.3,
+   "media": 32.7,
    "giorni": 30,
    "stazioni": 270,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
-     "mm": 145.9
-    },
-    {
-     "n": "Alberschwende (Vorarlberg)",
-     "mm": 126.8
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
      "mm": 121.3
     },
     {
+     "n": "Alberschwende (Vorarlberg)",
+     "mm": 112.8
+    },
+    {
      "n": "Rudolfshütte (Salzburg)",
-     "mm": 114.4
+     "mm": 105.8
+    },
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "mm": 103.7
     },
     {
      "n": "Bregenz (Vorarlberg)",
-     "mm": 104.3
+     "mm": 98.1
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   3.4,
   0.8,
@@ -148,8 +149,7 @@
   0.1,
   0.2,
   1.1,
-  5,
-  8.7
+  5
  ],
  "zone": []
 }

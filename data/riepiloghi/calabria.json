@@ -1,75 +1,75 @@
 {
  "regione": "calabria",
- "generato": "2026-10-16T03:16:19.260Z",
+ "generato": "2026-10-17T03:15:34.994Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.7,
    "giorni": 1,
-   "stazioni": 139,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "stazioni": 140,
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Roseto Capo Spulico",
-     "mm": 0.8
+     "n": "Cardeto",
+     "mm": 24.8
     },
     {
-     "n": "Monte Curcio-Camigl.",
-     "mm": 0.2
+     "n": "Gambarie",
+     "mm": 14.4
     },
     {
-     "n": "Serra S.Bruno",
-     "mm": 0.2
+     "n": "Plati'",
+     "mm": 8.4
     },
     {
-     "n": "Mongiana P.",
-     "mm": 0.2
+     "n": "Sinopoli",
+     "mm": 6.2
     },
     {
-     "n": "Nocelle-Arvo",
-     "mm": 0
+     "n": "Canolo Nuovo",
+     "mm": 6
     }
    ]
   },
   "7": {
-   "media": 77.4,
+   "media": 74.4,
    "giorni": 7,
    "stazioni": 140,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 187.2
-    },
-    {
-     "n": "Punta Stilo",
-     "mm": 179.2
+     "mm": 191.6
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 166.6
-    },
-    {
-     "n": "Bovalino Marina",
      "mm": 155.2
     },
     {
-     "n": "Cassari",
-     "mm": 150
+     "n": "Cardeto",
+     "mm": 153.6
+    },
+    {
+     "n": "Bovalino Marina",
+     "mm": 143.2
+    },
+    {
+     "n": "Allai",
+     "mm": 141.4
     }
    ]
   },
   "20": {
-   "media": 81.1,
+   "media": 81.6,
    "giorni": 20,
    "stazioni": 140,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 205.4
+     "mm": 211.2
     },
     {
      "n": "Punta Stilo",
@@ -77,49 +77,50 @@
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 172.4
+     "mm": 177.8
+    },
+    {
+     "n": "Cardeto",
+     "mm": 162.2
     },
     {
      "n": "Allai",
-     "mm": 157.4
-    },
-    {
-     "n": "Bovalino Marina",
-     "mm": 156
+     "mm": 158.4
     }
    ]
   },
   "30": {
-   "media": 109.3,
+   "media": 109.8,
    "giorni": 30,
    "stazioni": 140,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
+     "n": "Canolo Nuovo",
+     "mm": 221
+    },
+    {
      "n": "Allai",
-     "mm": 216.8
+     "mm": 217.8
     },
     {
      "n": "Staiti",
      "mm": 216.6
     },
     {
-     "n": "Canolo Nuovo",
-     "mm": 215.2
+     "n": "Cardeto",
+     "mm": 216.4
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 201.8
-    },
-    {
-     "n": "San Nicola da Crissa",
-     "mm": 200
+     "mm": 207.2
     }
    ]
   }
  },
  "serie": [
+  0.7,
   0,
   0,
   4.2,
@@ -148,25 +149,24 @@
   7,
   2.8,
   0.1,
-  0,
-  0.2
+  0
  ],
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 106.9,
-   "m30": 140.3
+   "ultimo": "2026-10-16",
+   "m1": 0.8,
+   "m7": 99.9,
+   "m30": 141
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 59.3,
-   "m30": 96.3
+   "m30": 96.1
   }
  ]
 }

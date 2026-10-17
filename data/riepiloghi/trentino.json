@@ -1,62 +1,62 @@
 {
  "regione": "trentino",
- "generato": "2026-10-16T03:16:19.258Z",
+ "generato": "2026-10-17T03:15:34.993Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 104,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Telve (Pontarso)",
+     "n": "Centa San Nicolo'",
      "mm": 0.2
     },
     {
-     "n": "Lavarone (Chiesa)",
+     "n": "Storo",
      "mm": 0.2
     },
     {
-     "n": "Tres",
+     "n": "Bezzecca (Spessa)",
      "mm": 0.2
     },
     {
-     "n": "Pinzolo",
+     "n": "Mezzolombardo (Maso Delle Part)",
      "mm": 0.2
     },
     {
-     "n": "Tione",
+     "n": "Pergine Valsugana",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 1,
+   "media": 0.6,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Mori (Loppio)",
-     "mm": 11
+     "mm": 10.6
     },
     {
      "n": "Brentonico (Santa Caterina)",
-     "mm": 6.6
+     "mm": 6.2
     },
     {
      "n": "Predazzo",
-     "mm": 3.8
+     "mm": 3.6
     },
     {
      "n": "Spormaggiore",
-     "mm": 3.8
+     "mm": 3.4
     },
     {
      "n": "Pian Fedaia (Diga)",
-     "mm": 3.2
+     "mm": 3
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 17.4,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Val D'Ambiez",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 31.7,
+   "media": 28.8,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Val D'Ambiez",
-     "mm": 70
-    },
-    {
-     "n": "Paganella (Malga Terlago)",
-     "mm": 57.8
-    },
-    {
-     "n": "Pradalago (Rifugio Viviani)",
-     "mm": 54.2
-    },
-    {
-     "n": "Daone (Malga Bissina)",
-     "mm": 53.8
+     "mm": 61.6
     },
     {
      "n": "Storo",
-     "mm": 52.4
+     "mm": 52.6
+    },
+    {
+     "n": "Paganella (Malga Terlago)",
+     "mm": 52.2
+    },
+    {
+     "n": "Daone (Malga Bissina)",
+     "mm": 48
+    },
+    {
+     "n": "Pradalago (Rifugio Viviani)",
+     "mm": 44.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,57 +149,56 @@
   0.1,
   0.1,
   1.8,
-  9.5,
-  2.9
+  9.5
  ],
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0.1,
-   "m7": 3.2,
-   "m30": 42.5
+   "m7": 0.4,
+   "m30": 42.6
   },
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 0.9,
-   "m30": 25.4
+   "ultimo": "2026-10-16",
+   "m1": 0,
+   "m7": 0.1,
+   "m30": 25.2
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 0.3,
-   "m30": 29.8
+   "m7": 0.2,
+   "m30": 29.7
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 0.5,
-   "m30": 28.4
+   "ultimo": "2026-10-16",
+   "m1": 0,
+   "m7": 0.4,
+   "m30": 21.8
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 1.2,
-   "m30": 25
+   "ultimo": "2026-10-16",
+   "m1": 0,
+   "m7": 0.2,
+   "m30": 24.1
   },
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-15",
-   "m1": 0,
+   "ultimo": "2026-10-16",
+   "m1": 0.1,
    "m7": 0.9,
-   "m30": 27.7
+   "m30": 27.5
   }
  ]
 }

@@ -1,62 +1,62 @@
 {
  "regione": "emilia",
- "generato": "2026-10-16T03:16:19.257Z",
+ "generato": "2026-10-17T03:15:34.992Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 306,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "stazioni": 330,
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Marra (Parma)",
+     "n": "Canocchia Botte monte (Bologna)",
+     "mm": 1.6
+    },
+    {
+     "n": "Dosso (Ferrara)",
+     "mm": 0.6
+    },
+    {
+     "n": "Lago Pratignano (Modena)",
      "mm": 0.4
     },
     {
-     "n": "Ponte Vico (Ravenna)",
+     "n": "Guagnino (Ferrara)",
      "mm": 0.4
     },
     {
-     "n": "Diga di Ridracoli (Forlì-Cesena)",
+     "n": "Corte Centrale (Ferrara)",
      "mm": 0.4
-    },
-    {
-     "n": "S. Pietro in Vincoli (Ravenna)",
-     "mm": 0.2
-    },
-    {
-     "n": "Pavullo (Modena)",
-     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 4.6,
+   "media": 2.7,
    "giorni": 7,
    "stazioni": 335,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
-    {
-     "n": "Vergato (Bologna)",
-     "mm": 30.3
-    },
     {
      "n": "Guagnino (Ferrara)",
      "mm": 25.7
     },
     {
      "n": "Monzuno (Bologna)",
-     "mm": 24.5
+     "mm": 21.9
     },
     {
-     "n": "S. Pietro in Vincoli (Ravenna)",
-     "mm": 23.6
+     "n": "Albareto (Modena)",
+     "mm": 20.6
     },
     {
-     "n": "Forlì Urbana (Forlì-Cesena)",
-     "mm": 23.5
+     "n": "Ponte Chiavica (Ravenna)",
+     "mm": 18
+    },
+    {
+     "n": "Saludecio (Rimini)",
+     "mm": 15.2
     }
    ]
   },
@@ -64,12 +64,12 @@
    "media": 22.8,
    "giorni": 20,
    "stazioni": 338,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 144.6
+     "mm": 144.4
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 105.2
+     "mm": 105
     },
     {
      "n": "Diga del Brugneto (Genova)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 35.8,
+   "media": 35.9,
    "giorni": 30,
    "stazioni": 339,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
@@ -106,11 +106,11 @@
     },
     {
      "n": "Barbagelata (Genova)",
-     "mm": 132.5
+     "mm": 131.9
     },
     {
      "n": "Cabanne (Genova)",
-     "mm": 129.2
+     "mm": 128.6
     },
     {
      "n": "Casalporino (Parma)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0.1,
@@ -148,64 +149,63 @@
   0,
   0.8,
   4.6,
-  8.1,
-  0
+  8.1
  ],
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0.1,
-   "m7": 0.5,
-   "m30": 16.4
+   "m7": 0.3,
+   "m30": 16.5
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-15",
-   "m1": 0,
-   "m7": 2.6,
+   "ultimo": "2026-10-16",
+   "m1": 0.1,
+   "m7": 0.6,
    "m30": 78.5
   },
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 2.8,
+   "m7": 0.3,
    "m30": 65.5
   },
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-15",
-   "m1": 0,
+   "ultimo": "2026-10-16",
+   "m1": 0.1,
    "m7": 0.4,
-   "m30": 37.9
+   "m30": 38
   },
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.1,
-   "m30": 46.8
+   "m30": 46.9
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-15",
-   "m1": 0,
-   "m7": 10.3,
-   "m30": 53.8
+   "ultimo": "2026-10-16",
+   "m1": 0.1,
+   "m7": 3.5,
+   "m30": 53.9
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 5.7,
+   "ultimo": "2026-10-16",
+   "m1": 0,
+   "m7": 1.9,
    "m30": 46.5
   }
  ]

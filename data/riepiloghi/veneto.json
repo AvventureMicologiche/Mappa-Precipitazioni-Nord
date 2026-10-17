@@ -1,71 +1,71 @@
 {
  "regione": "veneto",
- "generato": "2026-10-16T13:56:28.562Z",
+ "generato": "2026-10-17T03:15:34.992Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-15",
+   "stazioni": 176,
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-16",
    "top": [
     {
-     "n": "Roncade (TV)",
+     "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
      "mm": 0.4
     },
     {
-     "n": "Castana (VI)",
+     "n": "Sant'Antonio Tortal (BL)",
      "mm": 0.2
     },
     {
-     "n": "Domegge di Cadore (BL)",
+     "n": "Sospirolo (BL)",
      "mm": 0.2
     },
     {
-     "n": "Villanova (Borca di Cadore) (BL)",
+     "n": "Perarolo (BL)",
      "mm": 0.2
     },
     {
-     "n": "Auronzo (BL)",
+     "n": "Crespadoro (VI)",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 7.2,
+   "media": 5,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-15",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Chioggia - Sant'Anna (VE)",
      "mm": 49.8
     },
     {
-     "n": "Galzignano - Ca' Demia (PD)",
-     "mm": 47.6
-    },
-    {
-     "n": "Castelnuovo del Garda (VR)",
-     "mm": 44
-    },
-    {
      "n": "Rosolina - Po di Tramontana (RO)",
-     "mm": 43.4
+     "mm": 43.6
     },
     {
      "n": "Pettorazza Grimani loc. Botti Barbarighe (RO)",
-     "mm": 34.8
+     "mm": 31.6
+    },
+    {
+     "n": "Castelnuovo del Garda (VR)",
+     "mm": 29.6
+    },
+    {
+     "n": "Grantorto (PD)",
+     "mm": 26.6
     }
    ]
   },
   "20": {
-   "media": 18.5,
+   "media": 18.6,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -73,19 +73,19 @@
     },
     {
      "n": "Chioggia - Sant'Anna (VE)",
-     "mm": 59.4
+     "mm": 59.6
     },
     {
      "n": "Rosolina - Po di Tramontana (RO)",
-     "mm": 52.4
+     "mm": 52.6
     },
     {
      "n": "Castelnuovo del Garda (VR)",
-     "mm": 51.6
+     "mm": 51.8
     },
     {
      "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
-     "mm": 44
+     "mm": 44.4
     }
    ]
   },
@@ -93,12 +93,12 @@
    "media": 36.5,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-16",
-   "ultimo": "2026-10-15",
+   "primo": "2026-09-17",
+   "ultimo": "2026-10-16",
    "top": [
     {
      "n": "Lugugnana (Portogruaro) (VE)",
-     "mm": 119.8
+     "mm": 120
     },
     {
      "n": "Bibione (VE)",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
-     "mm": 91.6
+     "mm": 91.8
     },
     {
      "n": "Galzignano - Ca' Demia (PD)",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Grantorto (PD)",
-     "mm": 89
+     "mm": 89.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,64 +149,63 @@
   0,
   0,
   1.1,
-  16.7,
-  0
+  16.7
  ],
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-15",
-   "m1": 0.1,
-   "m7": 2.8,
+   "ultimo": "2026-10-16",
+   "m1": 0,
+   "m7": 0.7,
    "m30": 43.2
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 0.9,
+   "m7": 0.8,
    "m30": 26.1
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 3.6,
+   "m7": 3.3,
    "m30": 17.6
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 7.5,
+   "m7": 2,
    "m30": 46.6
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
    "m7": 0.3,
-   "m30": 22.2
+   "m30": 22.1
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0.1,
    "m7": 0.2,
-   "m30": 25.5
+   "m30": 25.4
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-15",
+   "ultimo": "2026-10-16",
    "m1": 0,
-   "m7": 3.1,
+   "m7": 2.9,
    "m30": 25.3
   }
  ]
