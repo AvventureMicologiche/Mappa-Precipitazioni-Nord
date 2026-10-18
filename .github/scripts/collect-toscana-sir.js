@@ -52,9 +52,10 @@ const MH_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const { correggiZeri } = require('./lib-quota-terreno.js');
 async function ventoMeteoHub(dateStr, elenco) {
-  const off = getItalyOffset(new Date(dateStr + 'T12:00:00Z'));
-  const start = new Date(new Date(dateStr + 'T00:00:00Z').getTime() - off * 3600000);
-  const end   = new Date(start.getTime() + 24 * 3600000);
+  // ⚠️ Da lib-giorno-italiano (18/10/2026): il giorno dura 23 o 25 ore al cambio d'ora.
+  const f = require('./lib-giorno-italiano.js').finestraGiorno(dateStr);
+  const start = new Date(f.start);
+  const end   = new Date(f.end);
   const fq = d => d.toISOString().substring(0, 16).replace('T', ' ');
   const fr = d => d.toISOString().substring(0, 19);
   const prendi = async prod => {

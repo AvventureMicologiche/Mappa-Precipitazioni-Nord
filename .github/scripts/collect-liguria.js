@@ -211,10 +211,13 @@ async function main() {
   console.log('  Stazioni in Liguria: ' + stations.length);
 
   // Step 2: calcola boundaries giorno target in UTC
-  var offset = getItalyOffset(new Date());
-  var dayStart = new Date(yesterdayDate + 'T00:00:00Z');
-  dayStart.setUTCHours(dayStart.getUTCHours() - offset);
-  var dayEnd = new Date(dayStart.getTime() + 24 * 3600000);
+  // ⚠️ IL FUSO E' QUELLO DEL GIORNO RACCOLTO, non di adesso (18/10/2026). Prima si
+  // prendeva getItalyOffset(new Date()): domenica 25/10, gia' in ora solare, il giro
+  // che rilegge sabato 24 lo avrebbe spostato di un'ora. E la fine e' la mezzanotte
+  // del giorno dopo, non «inizio + 24 ore»: al cambio d'ora il giorno dura 23 o 25 ore.
+  var fin = require('./lib-giorno-italiano.js').finestraGiorno(yesterdayDate);
+  var dayStart = new Date(fin.start);
+  var dayEnd = new Date(fin.end);
   var dayStartMs = dayStart.getTime();
   var dayEndMs = dayEnd.getTime();
   console.log('  Finestra UTC: ' + dayStart.toISOString() + ' -> ' + dayEnd.toISOString());

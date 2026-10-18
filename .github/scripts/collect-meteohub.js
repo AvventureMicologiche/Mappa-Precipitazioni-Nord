@@ -136,10 +136,12 @@ async function fetchJSON(url, retries = 3) {
 }
 
 /** Finestra UTC del giorno di calendario italiano dateStr (YYYY-MM-DD). */
+// ⚠️ Da lib-giorno-italiano (18/10/2026): prima il fuso era quello di mezzogiorno
+// e la finestra durava sempre 24 ore, e il 25/10 l'ora 00-01 non finiva da nessuna parte.
 function utcWindowForItalianDay(dateStr) {
-  const offset = getItalyOffset(new Date(dateStr + 'T12:00:00Z'));
-  const start = new Date(new Date(dateStr + 'T00:00:00Z').getTime() - offset * 3600000);
-  const end   = new Date(start.getTime() + 24 * 3600000);
+  const f = require('./lib-giorno-italiano.js').finestraGiorno(dateStr);
+  const start = new Date(f.start);
+  const end   = new Date(f.end);
   const fmtQ   = d => d.toISOString().substring(0, 16).replace('T', ' '); // "YYYY-MM-DD HH:MM"
   const fmtRef = d => d.toISOString().substring(0, 19);                   // confronto stringa coi ref
   return { qFrom: fmtQ(start), qTo: fmtQ(end), refFrom: fmtRef(start), refTo: fmtRef(end) };
