@@ -96,11 +96,21 @@ header{background:#1b3f6e;color:#fff;padding:0 12px;height:46px;
 h1{font-size:14px;font-weight:600;white-space:nowrap}
 .hdr-sub{font-size:9px;opacity:.6;white-space:nowrap}
 
-#badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+/* ⚠️ #badge NON STA PIU' A META' HEADER (18/10/2026). Era centrato in posizione
+   assoluta, e dall'8/10 a meta' header c'e' il tasto doppio «Storico piogge |
+   Previsioni»: fino a 900 px (e fino a 1180 con tre regioni) la scritta copriva
+   «Previsioni» e ne mangiava il tocco. Adesso e' il figlio di mezzo dell'header
+   (space-between), quindi sta nel posto libero fra il tasto doppio e i social e
+   non puo' coprire niente; se li' non ci sta intera, setBadge le mette .stretto
+   e non si vede, come gia' sotto i 600 px (stazioni e fonte restano in legenda). */
+#badge{flex:0 1 auto;min-width:0;overflow:hidden;
   font-size:9px;padding:2px 8px;border-radius:10px;
   background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
   white-space:nowrap;}
 #badge:empty{display:none;}
+/* fuori dal flusso, non solo invisibile: nascosta ma in fila avrebbe ancora preso
+   bordo, padding e uno spazio fra gli elementi (26 px misurati a 601) */
+#badge.stretto{position:absolute;visibility:hidden;}
 #hdr-yt{display:none;}
 .hdr-socials{display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .hdr-soc{color:#fff;display:flex;line-height:0;text-decoration:none;opacity:.9;transition:opacity .15s;}
@@ -3367,7 +3377,21 @@ function setBadge(testo){
   if(b) b.textContent=testo||'';
   var p=document.querySelector('.hdr-paesi');
   if(p) p.style.display=testo?'none':'';
+  badgeCiSta();
 }
+// Una scritta tagliata a meta' («368 stazioni · SIR To») non serve: o intera o
+// niente. Lo spazio si misura fra i due blocchi dell'header, che stanno ai lati
+// sia con la scritta in fila sia senza; la scritta vuole la sua larghezza piena
+// (scrollWidth + bordo) piu' i due spazi fra gli elementi. Si rimisura quando
+// cambia la finestra o il blocco di sinistra (il tasto doppio arriva dopo).
+function badgeCiSta(){
+  var b=document.getElementById('badge'), h=b&&b.parentNode; if(!b||!h) return;
+  var sx=h.querySelector('.hdr-l'), dx=h.querySelector('.hdr-r'); if(!sx||!dx) return;
+  var gap=parseFloat(getComputedStyle(h).columnGap)||0;
+  var libero=dx.getBoundingClientRect().left-sx.getBoundingClientRect().right;
+  b.classList.toggle('stretto', b.scrollWidth+2+2*gap>libero);
+}
+try{ var _roB=new ResizeObserver(badgeCiSta); _roB.observe(document.querySelector('header')); _roB.observe(document.querySelector('header .hdr-l')); }catch(e){}
 // ── Riserva per l'archivio dati (17/8/2026) ──────────────────────────────
 // Tutti i file giornalieri arrivano da raw.githubusercontent.com. Il 17/8/2026
 // GitHub ha risposto 429 a tutti per ore e la mappa e' rimasta muta: l'unico
@@ -9681,7 +9705,12 @@ document.getElementById('region-select').addEventListener('change', function(){
   }
   clearMarkers();
   expandRegion(rk).forEach(function(r){ setRegionBorder(r, function(){ addDefaultMarkersForRegion(r); }); });
-  if(currentPast&&currentNow) loadData(currentPast, currentNow, currentLabel);
+  // ⚠️ isLoading=false PRIMA di ricaricare (18/10/2026), come fanno le caselle e
+  // «Piogge per funghi». Senza, una regione scelta mentre l'analisi di prima stava
+  // ancora caricando veniva ignorata da loadData (`if(isLoading) return`): in alto
+  // «Toscana», in legenda le 251 stazioni della Lombardia. Il caricamento vecchio
+  // lo scarta il controllo su loadSessionId.
+  if(currentPast&&currentNow){ isLoading=false; loadData(currentPast, currentNow, currentLabel); }
   // Apri time panel su mobile/tablet dopo selezione regione
   if(window.innerWidth<=900){
     var tp=document.getElementById('time-panel');
@@ -11408,6 +11437,11 @@ function addDefaultMarkersForRegion(regionKey){
   drawDefaultMarkers(stazioni,cfg);
 }
 function drawDefaultMarkers(stazioni,cfg){
+  // ⚠️ CON UN PERIODO SCELTO I PALLINI DI PARTENZA NON SI DISEGNANO (18/10/2026).
+  // Arrivano da un fetch e possono atterrare DOPO il clearMarkers di loadData: si
+  // posavano sotto quelli dell'analisi (736 pallini per 368 stazioni in Toscana),
+  // bianchi col riquadro «Scegli un periodo». L'analisi i pallini li disegna da se'.
+  if(currentPast&&currentNow) return;
   // Tetto 400, allineato a quello dei dati (alzato da 150 il 27/8/2026: a 150
   // si nascondeva il 44% della Liguria, Santo Stefano d'Aveto compresa). Qui era
   // rimasto 150 e non si notava, perche' le liste a mano erano corte; con le
