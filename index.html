@@ -10778,6 +10778,8 @@ if(_btnShot){
       // change sull'ultima: il gestore di sempre disegna i confini e valida
       document.getElementById('chk-'+_kk[_kk.length-1]).dispatchEvent(new Event('change'));
       _daRicerca=false;
+      // radar + zoom e centro: li usa il radar al posto della sua inquadratura (vedi inquadra(), 18/10/2026)
+      if(_conRadar && _vistaL) window._radarVistaLink={z:_zL,c:[_cL[0],_cL[1]],rk:getSelectedValues().slice().sort().join(',')};
       /* Chi arriva da «Apri la mappa in Lombardia» si aspetta di VEDERE la
          Lombardia, non l'Italia con una regione spuntata: si inquadra subito,
          senza aspettare il click del periodo. Col segnaposto il bersaglio e'
@@ -12889,7 +12891,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
      e la lascia fare a chi di dovere. */
   function esci(ripristina){
     if(!acceso) return;
-    acceso=false; sorveglia(false); pulisci(); ultimoBuono=null; window._radarModo=null;
+    acceso=false; sorveglia(false); pulisci(); ultimoBuono=null; window._radarModo=null; window._radarVistaLink=null;
     document.body.classList.remove('modo-radar');
     el('btn-radar').innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Radar pioggia';
     heat(true); pallini(true);
@@ -12937,6 +12939,17 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function inquadra(){
     var m=map(); if(!m) return;
     var rk=regioniAttive(); if(!rk.length) return;
+    /* ⚠️ UN LINK COL RADAR E LA SUA VISTA (18/10/2026, quarto check): i «📡 Radar
+       adesso» delle 116 pagine forestali portano z=11 e il centro della zona, e
+       si aprivano sulla regione intera. Se il link ha zoom e centro, comanda
+       quella vista, finche' le regioni restano quelle del link: cambiata la
+       regione, si torna all'inquadratura del radar. Una vista sola, niente
+       sfarfallio (il motivo per cui qui non si inquadrava dal link). */
+    var vl=window._radarVistaLink;
+    if(vl){
+      if(vl.rk===rk.slice().sort().join(',')){ m.setView(vl.c,vl.z,{animate:false}); return; }
+      window._radarVistaLink=null;
+    }
     /* ⚠️ SI PARTE DALL'INQUADRATURA DEL SITO, NON DA UN FIT SUI PALLINI
        (rifatto il 31/8/2026). Prima misuravo da solo il riquadro dei pallini
        e toglievo delle tacche: ma quella base non c'entra niente con
@@ -14906,10 +14919,31 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     /* Dal link si aspetta che il sito abbia spuntato le regioni di ?r=, come fa
        il radar: con la guardia qui sopra, entrare prima voleva dire l'avviso
        «Prima scegli la regione» su un link giusto. Tetto 15 secondi, poi niente. */
-    if(new URLSearchParams(location.search).get('boschi')==='1'){
+    /* ⚠️ E SE IL LINK LA REGIONE NON CE L'HA (18/10/2026, quarto check): il bottone
+       «Apri la mappa forestale d'Italia» di /mappa-forestale/ porta a /?boschi=1. Prima
+       si aspettavano 15 secondi in silenzio e poi niente: la cartina, senza un perche'.
+       Adesso si dice quello che dice il tasto («Prima scegli la regione», sua scelta:
+       niente regione messa d'ufficio) e si aspetta: scelta la regione, i boschi si
+       accendono da soli. */
+    var _qb=new URLSearchParams(location.search);
+    if(_qb.get('boschi')==='1'){
+      var senzaR=!_qb.get('r'), avvisato=false;
       var giri=0, att=setInterval(function(){
         var rk=window._regioniAttive?window._regioniAttive():[];
-        if(rk.length){ clearInterval(att); entra(); }
+        if(rk.length){
+          clearInterval(att);
+          var a0=el('tp-status'); if(avvisato&&a0&&a0.textContent.indexOf('Prima scegli')>-1){ a0.textContent=''; a0.className=''; }
+          entra();
+        }
+        else if(senzaR){
+          ++giri;
+          if(!avvisato && giri>5){   // un secondo: la mappa e' pronta
+            avvisato=true;
+            if(window.innerWidth<=900&&window._chiediRegione) window._chiediRegione();
+            else { var a=el('tp-status'); if(a){ a.className='error'; a.textContent='⚠️ Prima scegli la regione'; } }
+          }
+          if(giri>3000) clearInterval(att);   // dieci minuti, poi si smette di aspettare
+        }
         else if(++giri>75) clearInterval(att);
       },200);
     }
