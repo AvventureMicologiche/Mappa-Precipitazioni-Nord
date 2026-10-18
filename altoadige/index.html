@@ -7,7 +7,7 @@
 <meta name="description" content="Mappa di 57 pluviometri della Provincia di Bolzano aggiornata ogni mattina. Ieri giornata asciutta, in 7 giorni 12 mm a Val di Vizze San Giacomo.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/altoadige/">
 <meta property="og:title" content="Dove ha piovuto in Alto Adige: ieri e negli ultimi giorni">
-<meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 50 pluviometri di Provincia autonoma di Bolzano.">
+<meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 50 pluviometri della Provincia autonoma di Bolzano.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/altoadige/">
 <meta property="og:type" content="website">
@@ -203,7 +203,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 </header>
 <main>
 <h1>Dove ha piovuto in Alto Adige</h1>
-<p class="sotto"><b>Pluviometria dell'Alto Adige</b>: i dati di oltre 50 pluviometri di Provincia autonoma di Bolzano, ieri e nell'ultimo mese, dalla Val Venosta alle Dolomiti.</p>
+<p class="sotto"><b>Pluviometria dell'Alto Adige</b>: i dati di oltre 50 pluviometri della Provincia autonoma di Bolzano, ieri e nell'ultimo mese, dalla Val Venosta alle Dolomiti.</p>
 
 <!-- ⚠️ 25/9/2026: LO SCHEMA «PRIMA I DATI», lo stesso delle pagine funghi del
      24/9 (deciso da lui guardando Santo Stefano d'Aveto): in cima la risposta
@@ -288,7 +288,7 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
-<p>I millimetri li misurano <b>oltre 50 pluviometri di Provincia autonoma di Bolzano</b>, strumenti a terra, non stime da modello.
+<p>I millimetri li misurano <b>oltre 50 pluviometri della Provincia autonoma di Bolzano</b>, strumenti a terra, non stime da modello.
 I numeri in cima sono la media dei pluviometri della regione, giorno per giorno; sotto, i più bagnati di ogni periodo.
 La giornata di oggi non è contata perché i pluviometri la stanno ancora misurando.</p>
 <h2>La pioggia in corso: la diretta radar</h2>
@@ -404,8 +404,8 @@ temperatura, vento e umidità.</p>
   if (!d || !d.giorni) out.verdetto = '';
   else {
     var t = nomeGiorno(d.ultimo), top = (d.top || []).filter(function (s) { return s.mm >= 1; }).slice(0, 3), dett;
-    if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + num(s.mm) + ' mm'; }).join(', ') + '.';
-    else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm a ' + esc(d.top[0].n) + '.';
+    if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm'; }).join(', ') + '.';
+    else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm a ' + esc(d.top[0].n) + (/\.$/.test(d.top[0].n) ? '' : '.');   // «T.P.» non prende un altro punto (18/10/2026)
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
     out.verdetto = '<div class="verdetto">'
       + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
@@ -455,7 +455,7 @@ temperatura, vento e umidità.</p>
     if (!d || !d.giorni) { out.periodi[k] = { media: '<span class="attesa">dati non disponibili al momento</span>', top: '', date: '' }; return; }
     var top;
     if (!d.top || !d.top.length || d.top[0].mm < 1) top = '<p class="nota">Periodo quasi asciutto in tutta la regione.</p>';
-    else top = '<ol class="top-staz">' + d.top.map(function (s) { return '<li>' + esc(s.n) + ' — ' + num(s.mm) + ' mm</li>'; }).join('') + '</ol>';
+    else top = '<ol class="top-staz">' + d.top.map(function (s) { return '<li>' + esc(s.n) + ' — ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm</li>'; }).join('') + '</ol>';   // lo zero vero e' «0» (18/10/2026)
     out.periodi[k] = {
       media: mediaMm(d) + ' mm <small>di media</small>',   // 17/10/2026: anche qui il decimale sotto i 10 mm (prima «1 mm» dove la zona diceva 0,8)
       top: top,

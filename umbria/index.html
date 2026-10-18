@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pluviometria Umbria: dove ha piovuto ieri, 17 ottobre</title>
-<meta name="description" content="Ieri 17 ottobre: giornata quasi asciutta in Umbria. Ultimi 7 giorni: 1,4 mm di media su 76 pluviometri MeteoHub, 9 mm a Branca.">
+<meta name="description" content="Ieri 17 ottobre: giornata quasi asciutta in Umbria. Ultimi 7 giorni: 1,4 mm di media su 76 pluviometri MeteoHub, 9,2 mm a Branca.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/umbria/">
 <meta property="og:title" content="Dove ha piovuto in Umbria: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 70 pluviometri di MeteoHub.">
@@ -405,8 +405,8 @@ temperatura, vento e umidità.</p>
   if (!d || !d.giorni) out.verdetto = '';
   else {
     var t = nomeGiorno(d.ultimo), top = (d.top || []).filter(function (s) { return s.mm >= 1; }).slice(0, 3), dett;
-    if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + num(s.mm) + ' mm'; }).join(', ') + '.';
-    else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm a ' + esc(d.top[0].n) + '.';
+    if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm'; }).join(', ') + '.';
+    else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm a ' + esc(d.top[0].n) + (/\.$/.test(d.top[0].n) ? '' : '.');   // «T.P.» non prende un altro punto (18/10/2026)
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
     out.verdetto = '<div class="verdetto">'
       + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
@@ -456,7 +456,7 @@ temperatura, vento e umidità.</p>
     if (!d || !d.giorni) { out.periodi[k] = { media: '<span class="attesa">dati non disponibili al momento</span>', top: '', date: '' }; return; }
     var top;
     if (!d.top || !d.top.length || d.top[0].mm < 1) top = '<p class="nota">Periodo quasi asciutto in tutta la regione.</p>';
-    else top = '<ol class="top-staz">' + d.top.map(function (s) { return '<li>' + esc(s.n) + ' — ' + num(s.mm) + ' mm</li>'; }).join('') + '</ol>';
+    else top = '<ol class="top-staz">' + d.top.map(function (s) { return '<li>' + esc(s.n) + ' — ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm</li>'; }).join('') + '</ol>';   // lo zero vero e' «0» (18/10/2026)
     out.periodi[k] = {
       media: mediaMm(d) + ' mm <small>di media</small>',   // 17/10/2026: anche qui il decimale sotto i 10 mm (prima «1 mm» dove la zona diceva 0,8)
       top: top,
