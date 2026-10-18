@@ -10,19 +10,19 @@
   "La copertina e' un .jpg in data/vetrine/ (dal 20/9/2026): mettilo li' e committalo, ANCHE QUELLO e' gratis. Nel campo 'copertina' va scritto solo il nome del file. Se invece contiene una barra o comincia per http si usa com'e'.",
   "Se questo file non si scarica o e' scritto male, index.html usa la configurazione incorporata e il sito funziona come prima.",
   "'tipo': 'gioco' (dal 4/10/2026) per una vetrina che non porta a un video: al posto del logo YouTube compare una coppa. Senza 'tipo' e' un video.",
-  "VETRINE SOCIAL (18/10/2026): \"tipo\":\"social\" con \"social\":\"yt\"|\"fb\"|\"ig\". index.html colora occhiello, bottone, bollino e segno col colore di quel social e mette il suo logo; a sinistra la foto di Archie (archie-youtube/facebook/instagram.jpg), diversa per social. Nel sorteggio una chiave ripetuta pesa di piu: il quiz sta tre volte, cioe esce una volta su quattro."
+  "VETRINE SOCIAL (18/10/2026): \"tipo\":\"social\" con \"social\":\"yt\"|\"fb\"|\"ig\". index.html colora occhiello, bottone, bollino e segno col colore di quel social e mette il suo logo; a sinistra la foto di Archie (archie-youtube/facebook/instagram.jpg), diversa per social. Nel sorteggio una chiave ripetuta pesa di piu: il quiz sta tre volte, cioe esce una volta su quattro. L'ORDINE CONTA (18/10/2026): dopo la prima vetrina, a caso, ogni analisi passa alla SUCCESSIVA dell'elenco, quindi i tre quiz stanno intercalati (uno ogni tre social) e non tutti in fila, se no uscirebbero tre volte di seguito."
  ],
  "mostra": "alterna",
  "sorteggio": [
   "quiz",
-  "quiz",
-  "quiz",
   "social-yt-colpa",
   "social-fb-colpa",
   "social-ig-colpa",
+  "quiz",
   "social-yt-gratis",
   "social-fb-gratis",
   "social-ig-gratis",
+  "quiz",
   "social-yt-piace",
   "social-fb-piace",
   "social-ig-piace"
