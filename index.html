@@ -4432,6 +4432,12 @@ map.on('click',function(e){
   // successo con la X il 27/8). Qui si guarda da DOVE arriva il clic.
   var _t=e&&e.originalEvent&&e.originalEvent.target;
   if(_t&&_t.closest&&_t.closest(SOPRA_LA_MAPPA)) return;
+  /* ⚠️ E UN CLIC IL CUI BERSAGLIO NON E' PIU' NELLA PAGINA NON E' UN CLIC SULLA MAPPA (18/10/2026, sua
+     segnalazione con Ovada nelle previsioni). Un pannello che si ridisegna DENTRO il suo gestore (i giorni
+     della scheda delle previsioni) stacca il bottone toccato prima che il clic arrivi qui: closest() non
+     trova piu' il pannello, il segno di disableClickPropagation nemmeno, e si apriva il pluviometro piu'
+     vicino a quel punto. La mappa, le tessere e i pallini non si staccano mai durante un clic. */
+  if(_t&&_t.nodeType===1&&!document.documentElement.contains(_t)) return;
   var m=stazioneVicina(e&&e.containerPoint);
   if(m){
     var ev=e.originalEvent||{};
@@ -4469,7 +4475,13 @@ function addMarkers(dati,sorted){
     // Il ritardo evita di partire con le richieste mentre si attraversa la
     // mappa; i file giorno restano in cache, quindi dalla seconda stazione
     // in poi l'apertura è immediata.
+    /* ⚠️ COL DITO IL PASSAGGIO DEL MOUSE NON ESISTE (18/10/2026, sua segnalazione con Ovada nelle
+       previsioni). Il telefono tiene il punto dell'ultimo tocco come un mouse fermo: se un pannello si
+       sposta e sotto quel punto resta un pallino (la scheda delle previsioni che si accorcia cambiando
+       giorno), arriva un «mouseover» e dopo 160 ms si apriva da sola la scheda del pluviometro. Al
+       telefono la scheda si apre solo col tocco vero (il 'click' qui sotto). */
     m.on('mouseover',function(e){
+      if(TAP_DITO) return;
       if(histHideT)clearTimeout(histHideT);
       this.setStyle({radius:8,weight:2,color:'#000'});
       if(histPinned) return;
@@ -4478,6 +4490,7 @@ function addMarkers(dati,sorted){
       histHoverT=setTimeout(function(){openStationHistory(s,rank,cx,cy);},160);
     });
     m.on('mouseout',function(){
+      if(TAP_DITO) return;   // vedi mouseover: col dito niente passaggi finti
       this.setStyle({radius:5,weight:1.5,color:'#333'});
       if(histHoverT)clearTimeout(histHoverT);
       if(histPinned) return;
@@ -11514,8 +11527,9 @@ function drawDefaultMarkers(stazioni,cfg){
         posTooltip(cx,cy);
         tooltip.style.display='block';
       }
-      mk.on('mouseover',function(e){showDef(e.originalEvent.clientX,e.originalEvent.clientY);});
-      mk.on('mousemove',function(e){posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
+      // col dito il riquadro lo apre il touchstart qui sotto: niente passaggi del mouse finti (18/10/2026)
+      mk.on('mouseover',function(e){if(TAP_DITO)return;showDef(e.originalEvent.clientX,e.originalEvent.clientY);});
+      mk.on('mousemove',function(e){if(TAP_DITO)return;posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
       mk.on('mouseout',function(){mk.setStyle({radius:5,weight:1.5,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
       mk.on('touchstart',function(e){var t=e.originalEvent.touches[0];showDef(t.clientX,t.clientY);e.originalEvent.stopPropagation();});
       mk.on('touchend',function(e){e.originalEvent.stopPropagation();});
@@ -16556,10 +16570,11 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     cb.addEventListener('click',function(){ if(window._regApri) window._regApri(); var li=el('loc-input'); if(li){ try{ li.focus(); }catch(e){} } ga('casella'); });
     try{ if(window.ResizeObserver) new ResizeObserver(function(){ if(window.posizionaChipFonte) window.posizionaChipFonte(); }).observe(cb); }catch(e){}
     if(window.L){ L.DomEvent.disableClickPropagation(pan); L.DomEvent.disableScrollPropagation(pan); L.DomEvent.disableClickPropagation(det); L.DomEvent.disableScrollPropagation(det); }
-    el('pv-gg').addEventListener('click',function(e){ var c=e.target.closest('.pv-gg'); if(c) scegliGiorno(+c.dataset.i);
+    el('pv-gg').addEventListener('click',function(e){ e.stopPropagation(); var c=e.target.closest('.pv-gg'); if(c) scegliGiorno(+c.dataset.i);
       // toccando l'invito: sul telefono si apre la tendina, sul computer il cursore va nella casella
       if(e.target.closest('.avviso')&&document.body.classList.contains('pv-vuoto')){ try{ if(tel()){ if(window._regApri) window._regApri(); } else { var li=el('loc-input'); if(li) li.focus(); } }catch(x){} } });
     det.addEventListener('click',function(e){
+      e.stopPropagation();   // il clic resta qui: ridisegnando, il bottone si stacca e la mappa lo prendeva per suo (18/10/2026)
       var c=e.target.closest('.pv-gg'); if(c){ scegliGiorno(+c.dataset.i); return; }
       if(e.target.closest('.x')){ togliPassi(true); chiudiDettaglio(); return; }
       if(e.target.closest('.b')){ storicoQui(); return; }
