@@ -1,20 +1,16 @@
 {
  "regione": "umbria",
- "generato": "2026-10-17T18:05:41.040Z",
+ "generato": "2026-10-18T03:15:32.959Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 76,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Monte Cucco",
-     "mm": 0.2
-    },
-    {
-     "n": "Pistrino",
+     "n": "Vallo di Nera",
      "mm": 0.2
     },
     {
@@ -22,41 +18,45 @@
      "mm": 0.2
     },
     {
+     "n": "Trestina",
+     "mm": 0.2
+    },
+    {
      "n": "Branca",
      "mm": 0.2
     },
     {
-     "n": "Norcia",
+     "n": "Carestello Meteo",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 1.7,
+   "media": 1.4,
    "giorni": 7,
    "stazioni": 76,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Cascia",
-     "mm": 9.6
-    },
-    {
      "n": "Branca",
-     "mm": 9.4
+     "mm": 9.2
     },
     {
-     "n": "Norcia",
-     "mm": 8.4
+     "n": "Cascia",
+     "mm": 7.6
     },
     {
      "n": "Carestello Meteo",
-     "mm": 7.4
+     "mm": 6.8
     },
     {
      "n": "Monte Cucco",
-     "mm": 6.8
+     "mm": 5.8
+    },
+    {
+     "n": "Forsivo",
+     "mm": 5
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 26.4,
    "giorni": 20,
    "stazioni": 76,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "S.Benedetto Vecchio",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 41.6,
+   "media": 36.5,
    "giorni": 30,
    "stazioni": 76,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Bocca Serriola",
-     "mm": 123.2
-    },
-    {
      "n": "S.Benedetto Vecchio",
-     "mm": 113
+     "mm": 87.4
     },
     {
      "n": "Strada Prov.302",
-     "mm": 98.4
+     "mm": 81.6
     },
     {
-     "n": "Citta'di Castello",
-     "mm": 94.6
+     "n": "Bocca Serriola",
+     "mm": 80.2
     },
     {
      "n": "Pieve di Saddi",
-     "mm": 93.6
+     "mm": 75.2
+    },
+    {
+     "n": "Pierantonio",
+     "mm": 71.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0,
   0,
   2.5,
-  7,
-  5.1
+  7
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 2.5,
-   "m30": 113.9,
+   "m7": 2.1,
+   "m30": 83.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,20 +167,20 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-16",
-   "m1": 0,
-   "m7": 5.2,
-   "m30": 34.3,
-   "p1": false,
+   "ultimo": "2026-10-17",
+   "m1": 0.1,
+   "m7": 4.4,
+   "m30": 34.4,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0.1,
    "m30": 27.8,
    "p1": false,
    "p7": true,

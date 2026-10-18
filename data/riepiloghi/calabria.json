@@ -1,71 +1,71 @@
 {
  "regione": "calabria",
- "generato": "2026-10-17T18:05:41.051Z",
+ "generato": "2026-10-18T03:15:32.960Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 138,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Cardeto",
-     "mm": 24.8
+     "n": "Sant'Alessio in Aspromonte",
+     "mm": 7.2
     },
     {
-     "n": "Gambarie",
-     "mm": 14.4
+     "n": "Monte Scrisi",
+     "mm": 3.8
     },
     {
-     "n": "Plati'",
-     "mm": 8.4
+     "n": "Arasi'",
+     "mm": 1.8
     },
     {
-     "n": "Sinopoli",
-     "mm": 6.2
+     "n": "Scilla",
+     "mm": 1
     },
     {
-     "n": "Canolo Nuovo",
-     "mm": 6
+     "n": "Ardore",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 75,
+   "media": 20.3,
    "giorni": 7,
    "stazioni": 138,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 191.6
+     "mm": 89
     },
     {
-     "n": "Roccaforte del Greco",
-     "mm": 155.2
+     "n": "Cittanova",
+     "mm": 84.6
     },
     {
-     "n": "Cardeto",
-     "mm": 153.6
+     "n": "Sinopoli",
+     "mm": 61.8
     },
     {
-     "n": "Bovalino Marina",
-     "mm": 143.2
+     "n": "Filadelfia",
+     "mm": 54.8
     },
     {
-     "n": "Allai",
-     "mm": 141.4
+     "n": "S.Cristina d'Aspr.",
+     "mm": 51.2
     }
    ]
   },
   "20": {
-   "media": 82.3,
+   "media": 82.4,
    "giorni": 20,
    "stazioni": 138,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Canolo Nuovo",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Cardeto",
-     "mm": 162.2
+     "mm": 162.6
     },
     {
      "n": "Allai",
@@ -90,26 +90,26 @@
    ]
   },
   "30": {
-   "media": 110.8,
+   "media": 110.9,
    "giorni": 30,
    "stazioni": 138,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 221
+     "mm": 220.8
     },
     {
      "n": "Allai",
-     "mm": 217.8
-    },
-    {
-     "n": "Staiti",
-     "mm": 216.6
+     "mm": 217.6
     },
     {
      "n": "Cardeto",
+     "mm": 216.8
+    },
+    {
+     "n": "Staiti",
      "mm": 216.4
     },
     {
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.7,
   0,
   0,
@@ -148,17 +149,16 @@
   2.6,
   7.1,
   2.9,
-  0.1,
-  0
+  0.1
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-16",
-   "m1": 0.8,
-   "m7": 99.9,
+   "ultimo": "2026-10-17",
+   "m1": 0.1,
+   "m7": 32.7,
    "m30": 141,
    "p1": true,
    "p7": true,
@@ -167,11 +167,11 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-16",
-   "m1": 0.1,
-   "m7": 59.3,
+   "ultimo": "2026-10-17",
+   "m1": 0,
+   "m7": 11.9,
    "m30": 96.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

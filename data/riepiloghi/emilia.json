@@ -1,46 +1,46 @@
 {
  "regione": "emilia",
- "generato": "2026-10-17T18:05:41.037Z",
+ "generato": "2026-10-18T03:15:32.958Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 319,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Dosso (Ferrara)",
+     "n": "Nociveglia (Parma)",
+     "mm": 1
+    },
+    {
+     "n": "Bedonia (Parma)",
+     "mm": 0.8
+    },
+    {
+     "n": "Montegroppo (Parma)",
+     "mm": 0.8
+    },
+    {
+     "n": "Casalporino (Parma)",
+     "mm": 0.8
+    },
+    {
+     "n": "Casoni di Santa Maria di Taro (Parma)",
      "mm": 0.6
-    },
-    {
-     "n": "Lago Pratignano (Modena)",
-     "mm": 0.4
-    },
-    {
-     "n": "Guagnino (Ferrara)",
-     "mm": 0.4
-    },
-    {
-     "n": "Gaibanella (Ferrara)",
-     "mm": 0.4
-    },
-    {
-     "n": "BAGAGLIONE (Ferrara)",
-     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 2.8,
+   "media": 2.7,
    "giorni": 7,
    "stazioni": 316,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Guagnino (Ferrara)",
-     "mm": 25.7
+     "mm": 25.9
     },
     {
      "n": "Monzuno (Bologna)",
@@ -52,11 +52,11 @@
     },
     {
      "n": "Saludecio (Rimini)",
-     "mm": 15.2
+     "mm": 15.4
     },
     {
      "n": "Bazzano (Bologna)",
-     "mm": 13.9
+     "mm": 13.7
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 22.1,
    "giorni": 20,
    "stazioni": 316,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
@@ -73,11 +73,11 @@
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 141.2
+     "mm": 141.6
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
-     "mm": 87.7
+     "mm": 88.3
     },
     {
      "n": "Lagdei (Parma)",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 35.2,
+   "media": 27.5,
    "giorni": 30,
-   "stazioni": 320,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "stazioni": 318,
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
-     "mm": 152
+     "mm": 144.8
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
-     "mm": 148.8
+     "mm": 142.6
     },
     {
-     "n": "Casalporino (Parma)",
-     "mm": 119.8
+     "n": "Casoni di Santa Maria di Taro (Parma)",
+     "mm": 88.3
     },
     {
-     "n": "Nociveglia (Parma)",
-     "mm": 106.5
+     "n": "Lagdei (Parma)",
+     "mm": 87
     },
     {
-     "n": "Selva Ferriere (Piacenza)",
-     "mm": 104.8
+     "n": "Monteacuto delle Alpi (Bologna)",
+     "mm": 79.9
     }
    ]
   }
  },
  "serie": [
+  0,
   0.1,
   0,
   0,
@@ -148,29 +149,28 @@
   0,
   0,
   0.9,
-  4.6,
-  7.9
+  4.6
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-16",
-   "m1": 0.1,
+   "ultimo": "2026-10-17",
+   "m1": 0,
    "m7": 0.3,
-   "m30": 16.5,
-   "p1": true,
+   "m30": 10.6,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-16",
-   "m1": 0.1,
-   "m7": 0.6,
-   "m30": 78.5,
+   "ultimo": "2026-10-17",
+   "m1": 0,
+   "m7": 0.5,
+   "m30": 70.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
    "m7": 0.3,
-   "m30": 65.5,
+   "m30": 51.6,
    "p1": false,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-16",
-   "m1": 0.1,
-   "m7": 0.4,
-   "m30": 38,
+   "ultimo": "2026-10-17",
+   "m1": 0,
+   "m7": 0.3,
+   "m30": 11.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,21 +200,21 @@
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
    "m7": 0.1,
-   "m30": 46.9,
-   "p1": true,
+   "m30": 19.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0.1,
    "m7": 3.6,
-   "m30": 52.1,
+   "m30": 41.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -222,10 +222,10 @@
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 1.9,
-   "m30": 46.5,
+   "m7": 1.7,
+   "m30": 42.1,
    "p1": false,
    "p7": true,
    "p30": true

@@ -1,13 +1,13 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-17T18:05:41.039Z",
+ "generato": "2026-10-18T03:15:32.959Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -32,15 +32,15 @@
    ]
   },
   "7": {
-   "media": 2.1,
+   "media": 1.5,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
-     "mm": 14.7
+     "mm": 12.3
     },
     {
      "n": "Barbiano Colma",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Predoi",
-     "mm": 7.5
+     "mm": 6.3
     },
     {
      "n": "Anterselva di Sopra",
@@ -64,8 +64,8 @@
    "media": 13.6,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 22.1,
+   "media": 16.7,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
-     "mm": 47.1
+     "mm": 42.5
     },
     {
      "n": "Solda",
-     "mm": 39.9
+     "mm": 36.4
     },
     {
      "n": "Vallelunga Grub",
-     "mm": 39
+     "mm": 35.8
+    },
+    {
+     "n": "Monte Maria",
+     "mm": 32
     },
     {
      "n": "Predoi",
-     "mm": 38.5
-    },
-    {
-     "n": "Passo di Costalunga",
-     "mm": 35.9
+     "mm": 31.3
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.6,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  2.3,
-  5.4
+  2.3
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
    "m7": 0,
-   "m30": 20.8,
+   "m30": 13.6,
    "p1": false,
    "p7": false,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
    "m7": 0.1,
-   "m30": 23.6,
+   "m30": 15.7,
    "p1": false,
    "p7": true,
    "p30": true

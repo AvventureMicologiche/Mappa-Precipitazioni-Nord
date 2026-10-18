@@ -1,62 +1,62 @@
 {
  "regione": "puglia",
- "generato": "2026-10-17T17:55:31.625Z",
+ "generato": "2026-10-18T03:15:32.959Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 125,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "stazioni": 129,
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Latiano",
-     "mm": 1.6
+     "n": "Loconia",
+     "mm": 0.4
+    },
+    {
+     "n": "Celenza Valfortore",
+     "mm": 0.2
+    },
+    {
+     "n": "F. Ofanto - S.Samuele di Cafiero",
+     "mm": 0.2
+    },
+    {
+     "n": "Spinazzola",
+     "mm": 0.2
     },
     {
      "n": "Gravina in Puglia",
-     "mm": 0
-    },
-    {
-     "n": "Brindisi",
-     "mm": 0
-    },
-    {
-     "n": "Andria",
-     "mm": 0
-    },
-    {
-     "n": "Taranto",
      "mm": 0
     }
    ]
   },
   "7": {
-   "media": 27,
+   "media": 18.8,
    "giorni": 7,
-   "stazioni": 127,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "stazioni": 128,
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Vico del Gargano",
-     "mm": 81.4
+     "mm": 79.6
     },
     {
      "n": "Bari Ufficio Idrografico",
-     "mm": 75.1
-    },
-    {
-     "n": "Bari Osservatorio",
-     "mm": 68.2
-    },
-    {
-     "n": "Nardo",
-     "mm": 60.4
+     "mm": 73.1
     },
     {
      "n": "Ostuni",
-     "mm": 59.4
+     "mm": 57.6
+    },
+    {
+     "n": "Foggia Osservatorio",
+     "mm": 52.7
+    },
+    {
+     "n": "Vieste",
+     "mm": 51.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 51.9,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 63.2,
+   "media": 63.1,
    "giorni": 30,
    "stazioni": 128,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   1.6,
   8.8,
   8.7,
@@ -148,9 +149,8 @@
   0,
   0.6,
   7,
-  1.6,
-  0
+  1.6
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": []
 }

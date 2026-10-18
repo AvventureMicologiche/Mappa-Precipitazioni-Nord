@@ -1,62 +1,62 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-17T12:33:27.796Z",
+ "generato": "2026-10-18T03:15:32.959Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 60,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "stazioni": 62,
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "M.te Vulture",
-     "mm": 0.8
+     "mm": 0.2
+    },
+    {
+     "n": "Ripacandida",
+     "mm": 0.2
+    },
+    {
+     "n": "Pescopagano",
+     "mm": 0.2
+    },
+    {
+     "n": "S.Nicola",
+     "mm": 0.2
     },
     {
      "n": "Anzi",
-     "mm": 0
-    },
-    {
-     "n": "F.Melandro S.Angelo Le Fratte",
-     "mm": 0
-    },
-    {
-     "n": "Tricarico",
-     "mm": 0
-    },
-    {
-     "n": "Salandra",
      "mm": 0
     }
    ]
   },
   "7": {
-   "media": 28,
+   "media": 12.2,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Lagonegro",
-     "mm": 60.3
-    },
-    {
-     "n": "Castrocucco",
-     "mm": 52.1
-    },
-    {
-     "n": "Castelsaraceno",
-     "mm": 51.7
-    },
-    {
-     "n": "Maratea",
-     "mm": 45.3
+     "n": "Lavello",
+     "mm": 37.2
     },
     {
      "n": "Lagopesole",
-     "mm": 44.1
+     "mm": 33.5
+    },
+    {
+     "n": "Lagonegro",
+     "mm": 31
+    },
+    {
+     "n": "M.te Vulture",
+     "mm": 24.4
+    },
+    {
+     "n": "Palazzo S.Gervasio",
+     "mm": 24.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 45.8,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Lagonegro",
@@ -93,8 +93,8 @@
    "media": 59.5,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Lagonegro",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.1,
   0,
@@ -148,9 +149,8 @@
   0,
   2.1,
   1.4,
-  3.3,
-  0
+  3.3
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": []
 }

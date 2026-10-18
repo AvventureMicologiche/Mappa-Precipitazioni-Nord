@@ -1,62 +1,62 @@
 {
  "regione": "lazio",
- "generato": "2026-10-17T18:05:41.041Z",
+ "generato": "2026-10-18T03:15:32.959Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 208,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "Osteria di Castro",
+     "n": "Turano a Rocca Sinibalda",
      "mm": 0.2
     },
     {
-     "n": "Monte Terminillo",
-     "mm": 0
+     "n": "Aniene a Marano Equo",
+     "mm": 0.2
     },
     {
-     "n": "Campaegli",
-     "mm": 0
+     "n": "Ripi",
+     "mm": 0.2
     },
     {
-     "n": "Torrita Tiberina",
-     "mm": 0
+     "n": "Ceccano rlazio",
+     "mm": 0.2
     },
     {
-     "n": "Barbarano",
-     "mm": 0
+     "n": "Roma Sud",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 10.4,
+   "media": 1.2,
    "giorni": 7,
    "stazioni": 208,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-16",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-17",
    "top": [
     {
-     "n": "SS.Cosma e Damiano",
-     "mm": 57
-    },
-    {
-     "n": "Spigno Saturnia",
-     "mm": 49.9
-    },
-    {
      "n": "Piedimonte San Germano",
-     "mm": 49.7
+     "mm": 18.8
     },
     {
-     "n": "Sabaudia",
-     "mm": 45.1
+     "n": "San Biagio Saracinisco",
+     "mm": 17.4
     },
     {
-     "n": "Sezze",
-     "mm": 44.9
+     "n": "Vallecorsa",
+     "mm": 15.6
+    },
+    {
+     "n": "Liri a Ceprano",
+     "mm": 11.6
+    },
+    {
+     "n": "Campoli Appennino",
+     "mm": 10.3
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 65.3,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Gaeta",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 74.6,
+   "media": 74.4,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-17",
-   "ultimo": "2026-10-16",
+   "primo": "2026-09-18",
+   "ultimo": "2026-10-17",
    "top": [
     {
      "n": "Gaeta",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Anzio",
-     "mm": 209.4
+     "mm": 204.9
     },
     {
      "n": "Latina",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,29 +149,28 @@
   0,
   0.1,
   4.1,
-  4.3,
-  0.2
+  4.3
  ],
- "serieDa": "2026-10-16",
+ "serieDa": "2026-10-17",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 12.4,
-   "m30": 62.1,
-   "p1": false,
+   "m7": 2.1,
+   "m30": 62.2,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 15,
-   "m30": 71.3,
+   "m7": 3.1,
+   "m30": 71.1,
    "p1": false,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 4,
-   "m30": 40.1,
+   "m7": 0.7,
+   "m30": 40,
    "p1": false,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 5.4,
-   "m30": 56.7,
+   "m7": 5.1,
+   "m30": 56.2,
    "p1": false,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 15.2,
-   "m30": 82.2,
+   "m7": 0.3,
+   "m30": 81.9,
    "p1": false,
    "p7": true,
    "p30": true
@@ -211,10 +211,10 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-16",
+   "ultimo": "2026-10-17",
    "m1": 0,
-   "m7": 7.2,
-   "m30": 54.6,
+   "m7": 5.9,
+   "m30": 54.4,
    "p1": false,
    "p7": true,
    "p30": true
@@ -222,11 +222,11 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-16",
-   "m1": 0,
-   "m7": 15,
+   "ultimo": "2026-10-17",
+   "m1": 0.1,
+   "m7": 2.8,
    "m30": 59,
-   "p1": false,
+   "p1": true,
    "p7": true,
    "p30": true
   }
