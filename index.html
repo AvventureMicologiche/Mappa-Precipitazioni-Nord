@@ -10870,7 +10870,10 @@ if(_btnShot){
   // periodo gia' scelto (30/9/2026). Prima contavano come «link condivisi»: il
   // 23-29/9 erano 713 persone su 896, tutte arrivate da Google su una pagina,
   // e il passaparola vero non si vedeva piu'. Evento a parte, open_from_page.
-  var _sq=q.get('s');
+  // ⚠️ E `g=` SENZA `s` VALE `s=p` (18/10/2026, quarto check): i tasti dei periodi di paesi, zone e
+  // mappa forestale scrivono g= senza s=p (7.970 link) e finivano fra i link condivisi. g= lo scrivono
+  // SOLO le nostre pagine: «Copia link» e la foto scrivono sempre da/a, mai g.
+  var _sq=q.get('s')||(q.get('g')?'p':null);
   try{gtag('event',_sq==='i'?'open_shared_image':(_sq==='p'?'open_from_page':'open_shared_map'),{regioni:keys.join(',')})}catch(e){}
   var pastDate=new Date(da+'T00:00:00');
   var nowDate=new Date(a+'T23:59:59');
@@ -16401,6 +16404,7 @@ body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-i
 #pv-det .rows{overflow:auto;flex:1;min-height:0}
 #pv-det .r{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr 1fr;align-items:center;padding:0 12px;height:24px;font:600 12px/1 inherit;color:#222;border-bottom:1px solid #f1f4f8}
 #pv-det .r:nth-child(even){background:#f7f9fc}
+#pv-det .sep{padding:5px 12px 4px;font:700 10px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1b3f6e;text-transform:uppercase;letter-spacing:.4px;background:#eef3fa;border-top:1px solid #d6e0ee;border-bottom:1px solid #d6e0ee}   /* «domani» dentro la tabella di oggi la sera (18/10/2026) */
 #pv-det .r .h{color:#1b3f6e;font-weight:800;white-space:nowrap}
 #pv-det .r .ic{font-size:15px}
 #pv-det .r span:nth-child(n+3){text-align:center}
@@ -16439,7 +16443,11 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-fumetto small{display:block;font-weight:400;opacity:.85;margin-top:2px;font-size:12.5px}
   body:not(.reg-bloccato) #pv-fumetto.su{display:block}
   #pv-pan .fo{padding:0 12px;text-align:center}
-  #pv-det{top:76px;right:0;left:0;bottom:0;width:auto;max-height:none;border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
+  /* ⚠️ ALTA QUANTO IL CONTENUTO, attaccata in basso (18/10/2026). Era fissata da 76 px al fondo: con
+     poche righe (la sera di oggi, i giorni a fasce di 6 ore) restavano 160-350 px bianchi prima di
+     «Storico piogge qui». Il tetto e' lo stesso di prima; con tante righe si scorre come sempre. */
+  #pv-det{top:auto;right:0;left:0;bottom:0;width:auto;max-height:calc(100% - 76px);border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
+  #pv-det .rows{flex:0 1 auto}
   .modo-prev.pv-det-aperto .fonte-tag{display:none !important}
   #pv-det .hd .x{font:700 12.5px/1 inherit;color:#1b3f6e;background:#eef3fa;border:1.5px solid #9db4d6;border-radius:999px;padding:7px 12px;align-self:flex-start;white-space:nowrap}
   #pv-det .hd .x::after{content:' Chiudi'}
@@ -16776,7 +16784,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var ft=el('fonte-tag'); if(ft&&acceso) ft.textContent='Previsioni modello ECMWF via MET Norway'+(agg?' · agg. '+fmtOra(agg):'');
     // sul computer, finche' non si tocca niente, a destra sta un cenno piccolo; la tabella arriva col primo tocco
     if(!tel()&&!punto) cenno();
-    else if(punto) renderDet();
+    else if(punto){ renderDet(); if(tel()) tieniInVista(); }   // telefono: la scheda cambia altezza col giorno (18/10/2026)
     lontano();
   }
   function scegliGiorno(i){ giorno=i; disegna(); ga('giorno',{giorno:i}); }
@@ -16786,10 +16794,22 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   }
   function lontano(){ try{ document.body.classList.toggle('pv-lontano', acceso && map().getZoom()<7.6); }catch(e){} }
   /* quando si apre la tabella, la targhetta toccata non deve finirci sotto: si scorre di quel tanto */
+  // telefono: dove finisce la barra della regione, in px dalla cima della mappa (0 se non c'e')
+  function sopraTel(){
+    var rp=el('region-panel'), mb=el('map').getBoundingClientRect(), rr=rp&&getComputedStyle(rp).display!=='none'?rp.getBoundingClientRect():null;
+    return rr&&rr.height>10?Math.max(0,rr.bottom-mb.top):0;
+  }
   function tieniInVista(){
-    if(tel()||!punto) return;
+    if(!punto) return;
     var m=map(), det=el('pv-det'); if(!m||!det||!det.classList.contains('vivo')) return;
     var pt=m.latLngToContainerPoint([punto.lat,punto.lon]), mb=el('map').getBoundingClientRect(), dr=det.getBoundingClientRect();
+    /* telefono (18/10/2026): la scheda adesso e' alta quanto il contenuto e sopra si vede la mappa; se il
+       posto finisce sotto la scheda si porta a meta' della striscia libera */
+    if(tel()){
+      var sopra=sopraTel(), libero=dr.top-mb.top;
+      if(libero-sopra>80 && (pt.y>libero-30 || pt.y<sopra)) m.panBy([0,pt.y-(sopra+libero)/2],{animate:true});
+      return;
+    }
     var limite=dr.left-mb.left-60;
     if(pt.x>limite) m.panBy([pt.x-limite,0],{animate:true});
   }
@@ -16799,8 +16819,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     passo('det');
     punto={n:c.n,lat:c.lat,lon:c.lon,q:c.q==null?null:c.q};
     document.body.classList.add('pv-det-aperto');
-    if(tel()){ try{ var rp=el('region-panel'), mb=el('map').getBoundingClientRect(), rr=rp&&getComputedStyle(rp).display!=='none'?rp.getBoundingClientRect():null;
-      el('pv-det').style.top=(rr&&rr.height>10?Math.max(0,rr.bottom-mb.top):0)+'px'; }catch(e){} }
+    // telefono: la barra della regione fa da tetto. ⚠️ Come ALTEZZA MASSIMA, non come top (18/10/2026): col top
+    // la scheda andava sempre da sotto la barra al fondo, anche con 4 righe, e restava il vuoto bianco
+    if(tel()){ try{ var _t=sopraTel(); el('pv-det').style.top=''; el('pv-det').style.maxHeight='calc(100% - '+_t+'px)'; }catch(e){} }
     var k=c.lat.toFixed(3)+','+c.lon.toFixed(3);
     var det=el('pv-det'); det.className='vivo';
     var pan0=el('pv-pan'); if(pan0) pan0.classList.remove('con-cenno');
@@ -16826,14 +16847,27 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var gb=j.giorni||[]; if(!gb.length) return;
     var gi=Math.min(giorno,gb.length-1), e=gb[gi], g=e.g, d=giornoData(g);
     var ore=(j.ore||[]).filter(function(o){ return o.g===g; });
-    var righe=ore.map(function(o){
+    function riga(o){
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10, pc=o.pc;
       return '<div class="r"><span class="h">'+h+'</span><span class="ic">'+icona(o.s)+'</span><span>'+Math.round(o.t)+'°</span>'
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+' mm')+'</span>'
         +'<span class="pc'+(pc==null?'':pc<10?' z':pc>=60?' alta':'')+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+' km/h</span></div>';
-    }).join('');
-    el('pv-det').innerHTML='<div class="hd"><div class="nm">'+punto.n+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0'):'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+(e.pc!=null?' · ☔ '+(e.pc>0?'fino '+(/^(8|1$|1[1]$)/.test(String(e.pc))?'all\'':'al ')+e.pc+'%':'0%'):'')+'</div></div><button class="x" aria-label="Chiudi">×</button></div>'
+    }
+    var righe=ore.map(riga).join('');
+    /* ⚠️ LA SERA OGGI CONTINUA CON DOMANI (18/10/2026). Alle 19 di oggi restavano 5 ore e sotto il vuoto:
+       con meno di 8 ore si aggiungono le prime di domani fino a 12 righe, dopo una riga «domani». La sera
+       si guarda la notte e la mattina dopo. Solo su «oggi»: gli altri giorni restano interi e da soli. */
+    var fino='';
+    if(gi===0 && ore.length && ore.length<8 && gb[1]){
+      var dom=(j.ore||[]).filter(function(o){ return o.g===gb[1].g; }).slice(0,12-ore.length);
+      if(dom.length){
+        var dd=giornoData(gb[1].g), ul=dom[dom.length-1];
+        righe+='<div class="sep">domani · '+GI[dd.getDay()]+' '+dd.getDate()+' '+MESI[dd.getMonth()]+'</div>'+dom.map(riga).join('');
+        fino=' e domani fino alle '+String((ul.h+(ul.h6?6:1))%24).padStart(2,'0');
+      }
+    }
+    el('pv-det').innerHTML='<div class="hd"><div class="nm">'+punto.n+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0')+fino:'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+(e.pc!=null?' · ☔ '+(e.pc>0?'fino '+(/^(8|1$|1[1]$)/.test(String(e.pc))?'all\'':'al ')+e.pc+'%':'0%'):'')+'</div></div><button class="x" aria-label="Chiudi">×</button></div>'
       +'<div class="gg-r">'+gb.map(function(x,i){ return chip(x,i,i===gi,true); }).join('')+'</div>'
       +(righe?'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>'
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
