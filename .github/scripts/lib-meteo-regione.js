@@ -75,6 +75,10 @@ header{position:relative;flex-wrap:nowrap;}
 .mk-tutte{display:block;width:100%;margin:10px 0 0;padding:10px;border:1px solid #c5d4e6;border-radius:10px;background:#fff;color:#1b3f6e;font:700 15px system-ui,sans-serif;cursor:pointer;}
 .mk-citta-n{font-size:13.5px;color:#5f738c;margin:10px 0 0;}
 .mk-sopra{font-size:14.5px;color:#4a6180;margin:2px 0 8px;font-weight:600;}
+.mk-boschi{background:#eef6ef;border:1px solid #cfe3d2;border-radius:14px;padding:4px 16px 16px;margin:18px 0 6px;}
+.mk-boschi h2{margin-top:14px;color:#1d4a2a;}
+.mk-boschi-p{font-size:15px;color:#3d5a45;margin:2px 0 10px;}
+.mk-boschi .mk-tuo input{border-color:#2f6b3d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6b3d' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E");}
 .mk-citta-n a{color:#1b3f6e;font-weight:700;}
 @media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
 .gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
@@ -86,12 +90,22 @@ header{position:relative;flex-wrap:nowrap;}
 
 // il blocco «Che tempo farà», scritto nella pagina (niente salti al caricamento); le citta' le riempie il codice
 // (20/10/2026) le pagine di zona lo chiamano con titolo e attesa loro: «Che tempo farà in Garfagnana», «dei paesi»
-function meteoHtml(r, titolo, attesa) {
+function meteoHtml(r, titolo, attesa, id) {
   const estera = ESTERE.includes(r.k);
-  return `<section class="mk-meteo" id="meteo">
+  return `<section class="mk-meteo" id="${id || 'meteo'}">
 <h2>${titolo || `Che tempo farà ${r.prep} ${r.nome}`}</h2>
 ${estera ? '' : `<div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
 `}<div class="mk-citta"><p class="mk-attesa">${attesa || 'Sto leggendo le previsioni delle città…'}</p></div>
+</section>`;
+}
+
+// «Trova i boschi» (20/10/2026, pagine funghi, sua idea: «non solo il tempo ma cercare i boschi»): una casella per
+// qualsiasi paese o frazione d'Italia che apre SUBITO la mappa boschi su quel posto. La riempie meteoClient (OPZ.boschi).
+function boschiHtml(titolo, id) {
+  return `<section class="mk-boschi" id="${id || 'mk-boschi'}">
+<h2>${titolo}</h2>
+<p class="mk-boschi-p">Scrivi il paese: si apre la mappa dei boschi su quel posto, faggete, castagneti, querceti e abetaie colorati per tipo, col satellite a un tocco.</p>
+<div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca i boschi di un paese o di una frazione" placeholder="Il paese dei tuoi boschi"><div class="mk-drop"></div></div>
 </section>`;
 }
 
@@ -100,6 +114,9 @@ ${estera ? '' : `<div class="mk-tuo"><input type="search" autocomplete="off" ari
    OPZ (20/10/2026, pagine di zona): senza, e' la pagina regione di sempre. Con: ga = prefisso degli eventi,
    area = la domanda all'API (zona=<slug>), riepilogo = il file del grafico, i testi «paesi» al posto di «citta'» e
    sopra = la riga sopra la tabella («I paesi della Garfagnana e dei dintorni»: un paese di confine non sembra un errore).
+   Pagine funghi (20/10/2026): id = l'id del blocco «Che tempo farà» (li' #meteo e' gia' il grafico delle temperature),
+   grafico: false = niente giorni previsti nel grafico (regola: niente previsioni di crescita), boschi = l'id del
+   blocco «Trova i boschi» (boschiHtml).
    I paesi arrivano gia' in ordine (per abitanti) e ognuno porta la SUA regione (r): una zona sta su due regioni. */
 function meteoClient(K, NOME, SITO, ADESSO, OPZ) {
   OPZ = OPZ || {};
@@ -230,9 +247,11 @@ function meteoClient(K, NOME, SITO, ADESSO, OPZ) {
   }
 
   /* ═══ 3. «CHE TEMPO FARÀ»: la casella e le citta' ═══ */
-  var blocco = document.getElementById('meteo');
+  var blocco = document.getElementById(OPZ.id || 'meteo');
   var tuo = blocco && blocco.querySelector('.mk-tuo input');
   if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/?r=' + x.reg + '&m=prev' + pl(x), 'cerca-meteo'); });
+  var bosco = OPZ.boschi && document.getElementById(OPZ.boschi), bin = bosco && bosco.querySelector('.mk-tuo input');
+  if (bin) casella(bin, bosco.querySelector('.mk-tuo .mk-drop'), function (x) { bin.blur(); vai(SITO + '/?r=' + x.reg + '&boschi=1' + pl(x), 'cerca-boschi'); });
   function disegnaCitta(j) {
     var box = blocco && blocco.querySelector('.mk-citta'); if (!box) return;
     var cc = (j && j.capoluoghi || []).filter(function (c) { return c.giorni && c.giorni.length >= 3; });
@@ -297,11 +316,11 @@ function meteoClient(K, NOME, SITO, ADESSO, OPZ) {
   }
 
   var citta = fetch(API + '?' + AREA).then(function (r) { return r.json(); }).then(daOggi).catch(function () { return null; });   // da oggi in poi (bug 11)
-  var riepilogo = fetch(BASE + RIEP).then(function (r) { return r.json(); }).catch(function () { return null; });
+  var riepilogo = OPZ.grafico === false ? null : fetch(BASE + RIEP).then(function (r) { return r.json(); }).catch(function () { return null; });
   citta.then(function (j) { return carica().catch(function () {}).then(function () { disegnaCitta(j); }); });
   // il grafico e' gia' cotto nell'HTML, ma la pagina lo RIDISEGNA quando arriva il suo riepilogo:
   // per qualche secondo si ricontrolla e si rimettono i giorni previsti se sono spariti
-  Promise.all([citta, riepilogo]).then(function (x) {
+  if (OPZ.grafico !== false) Promise.all([citta, riepilogo]).then(function (x) {
     var F = previsti(x[0]), t0 = Date.now();
     (function aspetta() {
       if (document.querySelector('#grafico .gg') && !document.querySelector('#grafico .mk-fut')) grafico(x[1], F);
@@ -310,4 +329,4 @@ function meteoClient(K, NOME, SITO, ADESSO, OPZ) {
   });
 }
 
-module.exports = { METEO_CSS, meteoHtml, meteoClient, ESTERE };
+module.exports = { METEO_CSS, meteoHtml, boschiHtml, meteoClient, ESTERE };
