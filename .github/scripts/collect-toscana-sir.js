@@ -375,10 +375,18 @@ async function main() {
       if (n > 0) fs.writeFileSync(file, JSON.stringify(j));
       return n;
     };
-    const nOggi = applica(outFile, tOggi);
-    const ieriStr = fmtDate(new Date(new Date(dateStr + 'T12:00:00Z').getTime() - 24 * 3600000));
-    const nIeri = applica(path.join(DATA_DIR, `${ieriStr}.json`), tIeri);
-    console.log(`  Meteo t: ${nOggi} stazioni su oggi, ${nIeri} su ieri (${ieriStr})`);
+    // ⚠️ LE COLONNE DEL SIR SONO DELL'OROLOGIO (19/10/2026, quinto check, bug 1). «Oggi» e «ieri» della
+    // pagina sono quelli di adesso, non del giorno che il giro sta chiudendo. Un giro di chiusura dopo
+    // mezzanotte (closingLate) chiude IERI, ma prima scriveva «oggi» del SIR (il giorno nuovo, prime ore)
+    // sul file di ieri e «ieri» del SIR sul file di due giorni fa: dal 29/9 ogni giorno toscano aveva
+    // temperatura e umidita' del giorno dopo (Licciana Nardi 13/10 = Liguria 14/10, 17 gemelle su 17).
+    // Ora ogni colonna va al giorno vero dell'orologio; di giorno non cambia niente.
+    const sirOggi = fmtDate(italyNow);
+    const sirIeri = fmtDate(new Date(italyNow.getTime() - 24 * 3600000));
+    const nOggi = applica(path.join(DATA_DIR, `${sirOggi}.json`), tOggi);
+    const ieriStr = fmtDate(new Date(new Date(dateStr + 'T12:00:00Z').getTime() - 24 * 3600000));   // per il vento, come prima
+    const nIeri = applica(path.join(DATA_DIR, `${sirIeri}.json`), tIeri);
+    console.log(`  Meteo t: ${nOggi} stazioni su ${sirOggi}, ${nIeri} su ${sirIeri}`);
     // Umidità relativa (18/8/2026): pagina type=igro, STESSE colonne della termo
     // ([8]/[10] min-max oggi, [12]/[14] min-max ieri; verificato: «Vara» 61/96 oggi,
     // 65/100 ieri), in %. Stessa estrazione per stringhe quotate.
@@ -413,8 +421,8 @@ async function main() {
         if (n > 0) fs.writeFileSync(file, JSON.stringify(j));
         return n;
       };
-      const nUo = applicaU(outFile, uOggi);
-      const nUi = applicaU(path.join(DATA_DIR, `${ieriStr}.json`), uIeri);
+      const nUo = applicaU(path.join(DATA_DIR, `${sirOggi}.json`), uOggi);   // stesse date dell'orologio, vedi sopra
+      const nUi = applicaU(path.join(DATA_DIR, `${sirIeri}.json`), uIeri);
       console.log(`  Meteo u: ${nUo} stazioni su oggi, ${nUi} su ieri`);
     } catch (e) { console.warn('  Warn: umidità SIR saltata: ' + e.message); }
     // Vento (19/8/2026): il SIR non lo pubblica, lo campiona ogni ora
