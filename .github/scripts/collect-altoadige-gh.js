@@ -24,6 +24,7 @@
 const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'altoadige');
 const API_URL  = 'https://static-meteo.provincia.bz.it/stations-data/website/valley.json';
@@ -269,6 +270,9 @@ async function main() {
         existing.stations.forEach(s => {
           if (!newIds.has(s.id) && s.mm > 0) finalStations.push(s);
         });
+        // ⚠️ (19/10/2026, quinto check, bug 6) il record nuovo ha solo la pioggia: senza questa riga t/w/u del
+        // giorno sparivano fino a che raccogliMeteo, qui sotto, non riusciva a rimetterli (lib-tieni-meteo.js)
+        tieniMeteo(finalStations, existing.stations);
         console.log('  Merge MAX con file esistente applicato');
       }
     } catch(e) {

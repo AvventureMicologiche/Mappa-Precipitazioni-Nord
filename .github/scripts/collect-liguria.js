@@ -22,6 +22,7 @@ const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'liguria');
 const MAX_DAYS  = 730;
 const OMIRL_BASE = 'https://omirl.regione.liguria.it/Omirl/rest';
 const { creaDir, segnaDir, direzione, daSettore } = require('./lib-direzione.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
@@ -321,6 +322,11 @@ async function main() {
   if (fs.existsSync(outFile)) {
     try {
       var vecchio = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      // ⚠️ E PER LE PRESENTI SI TENGONO t/w/u/wd che a questo giro mancano (19/10/2026, quinto check, bug 6):
+      // se cadevano gli elenchi OMIRL (/stations/Termo, Vento, Igro) saltava tutta la parte meteo, e se cadeva
+      // il grafico di una stazione perdeva i campi lei; il file si riscriveva con la sola pioggia
+      var ripresi = tieniMeteo(output, vecchio.stations || []);
+      if (ripresi) console.log('  t/w/u/wd mancanti a questo giro, ripresi dal file per ' + ripresi + ' stazioni');
       var presenti = {};
       output.forEach(function(s) { presenti[s.id] = true; });
       (vecchio.stations || []).forEach(function(s) {

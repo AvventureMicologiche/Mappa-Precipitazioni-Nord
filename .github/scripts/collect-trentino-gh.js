@@ -75,7 +75,16 @@ function fetchText(url) {
 // un guasto qui non tocca la pioggia.
 const LAST_URL = 'https://dati.meteotrentino.it/service.asmx/getLastDataOfMeteoStation?codice=';
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 const MIN_ORE_METEO = 20;
+// ⚠️ (19/10/2026, quinto check, bug 6) il file di ieri si riscrive DA CAPO a ogni giro con pioggia e temperatura, e
+// u/w/wd li rimette solo dopo arricchisciMeteoIeri, una chiamata per stazione: se quella cadeva (tutta o per una
+// stazione) il file restava senza, e l'ultimo giro che tocca un giorno decideva per sempre. Prima di scrivere si
+// riprendono dal file dello stesso giorno i campi che mancano (lib-tieni-meteo.js); i valori freschi vincono sempre.
+function tieniDalFile(file, stations) {
+  try { if (!fs.existsSync(file)) return; const n = tieniMeteo(stations, JSON.parse(fs.readFileSync(file, 'utf8')).stations);
+    if (n) console.log(`  t/w/u/wd ripresi dal file per ${n} stazioni`); } catch (e) {}
+}
 function serieGiorno(xml, blocco, tagVal, giorno) {
   const m = xml.match(new RegExp('<' + blocco + '>([\\s\\S]*?)</' + blocco + '>'));
   if (!m) return [];
@@ -218,6 +227,7 @@ async function main() {
   } else {
 
   const outFile = path.join(DATA_DIR, `${dateStr}.json`);
+  tieniDalFile(outFile, stations);
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),
@@ -250,6 +260,7 @@ async function main() {
         }).filter(Boolean);
         if (_yStations.length >= 10) {
           const _yFile = path.join(DATA_DIR, `${_yDate}.json`);
+          tieniDalFile(_yFile, _yStations);
           fs.writeFileSync(_yFile, JSON.stringify({ date: _yDate, collected: new Date().toISOString(), source: 'meteotrentino', count: _yStations.length, stations: _yStations }));
           console.log(`Aggiornato ieri: ${_yFile} (${_yStations.length} stazioni)`);
         }

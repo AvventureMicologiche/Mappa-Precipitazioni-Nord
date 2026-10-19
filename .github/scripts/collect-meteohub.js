@@ -156,6 +156,7 @@ function utcWindowForItalianDay(dateStr) {
 // un guasto delle query meteo non tocca mai la pioggia.
 const MIN_ORE_METEO = 20;
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 async function collectMeteoHub(netCfg, w) {
   const out = {};   // id → {t?, w?}
   const fetchProd = async prod => {
@@ -179,8 +180,12 @@ async function collectMeteoHub(netCfg, w) {
     return perId;
   };
   const oreDi = vals => new Set(vals.map(v => (v.ref || '').slice(11, 13))).size;
+  // ⚠️ OGNI QUERY PER CONTO SUO (19/10/2026, quinto check, bug 6). Prima stavano tutte in UN try (quello di
+  // collectDay): se cadeva l'umidita' si perdevano anche temperatura e vento gia' arrivati. Ora una query che
+  // cade da' null, si salta solo il suo campo, e writeDay lo riprende dal file del giorno (lib-tieni-meteo.js).
+  const prendi = async prod => { try { return await fetchProd(prod); } catch (e) { console.warn(`  Warn ${prod} ${netCfg.net}: ${e.message}`); return null; } };
 
-  const temp = await fetchProd('B12101');
+  const temp = (await prendi('B12101')) || {};
   Object.keys(temp).forEach(id => {
     // ⚠️ FALSI ZERI (3/10/2026): in una serie in KELVIN uno 0 grezzo non e' una
     // temperatura (0 K), e' un dato non pervenuto. Con la sola conversione
@@ -210,8 +215,10 @@ async function collectMeteoHub(netCfg, w) {
                                      Math.round(Math.max(...vals) * 10) / 10];
   });
   await sleep(500);
-  const vento = await fetchProd('B11002');
-  const raffica = await fetchProd('B11041');
+  // senza la raffica il vento non si scrive: [media, null] cancellerebbe la raffica gia' salvata in w[1]
+  const ventoRaw = await prendi('B11002');
+  const raffica = await prendi('B11041');
+  const vento = ventoRaw && raffica ? ventoRaw : {};
   Object.keys(vento).forEach(id => {
     const vals = vento[id].map(v => v.val).filter(v => v >= 0 && v < 60);
     if (!vals.length || oreDi(vento[id]) < MIN_ORE_METEO) return;
@@ -239,7 +246,7 @@ async function collectMeteoHub(netCfg, w) {
   } catch (e) { console.warn(`  Warn direzione ${netCfg.net}: ${e.message}`); }
   // Umidità relativa (18/8/2026): prodotto B13003 (%), una query in più per rete/giorno.
   await sleep(500);
-  const umid = await fetchProd('B13003');
+  const umid = (await prendi('B13003')) || {};
   Object.keys(umid).forEach(id => {
     const vals = umid[id].map(v => v.val).filter(v => v >= 0 && v <= 100);
     if (vals.length && oreDi(umid[id]) >= MIN_ORE_METEO)
@@ -400,6 +407,11 @@ function writeDay(dir, dateStr, stations, net, soglia, src) {
       console.log(`  ${dateStr}: dato reale tornato (${stations.length} stazioni), sostituisco le stime`);
     }
   }
+  // t/w/u/wd che a questo giro mancano si riprendono dal file dello stesso giorno (bug 6, 19/10/2026):
+  // prima il file si riscriveva da capo e una query meteo caduta cancellava i giri precedenti
+  const prima = leggiFile(outFile);
+  const ripresi = prima ? tieniMeteo(stations, prima.stations) : 0;
+  if (ripresi) console.log(`  ${dateStr}: t/w/u/wd ripresi dal file per ${ripresi} stazioni`);
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),

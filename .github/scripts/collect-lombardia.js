@@ -19,6 +19,7 @@ const https = require('https');
 const fs    = require('fs');
 const { creaOre, segna, intensita } = require('./lib-intensita.js');
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 const path  = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'lombardia');
@@ -261,15 +262,12 @@ function writeDay(dateStr, stations) {
          sola query di temperatura/vento/umidita', il file si riscriveva con la pioggia e basta e cancellava quello
          che i giri prima avevano salvato: l'11/10 e' passato da 231 stazioni con la temperatura a 0 all'ultimo
          giro utile, e l'ha visto check-campi. Ora, stazione per stazione, i campi della query fallita si
-         riprendono dal file esistente dello stesso giorno. */
-      const campi = (stations.meteoKo ? ['t', 'w', 'u', 'wd'] : []).concat(stations.direzioneKo && !stations.meteoKo ? ['wd'] : []);
-      if (campi.length && prev.stations) {
-        const vecchi = {}; prev.stations.forEach(s => { vecchi[s.id] = s; });
-        let ripresi = 0;
-        stations.forEach(s => { const v = vecchi[s.id]; if (!v) return; let preso = false;
-          campi.forEach(k => { if (s[k] == null && v[k] != null) { s[k] = v[k]; preso = true; } }); if (preso) ripresi++; });
-        console.warn(`  ${dateStr}: query ${stations.meteoKo ? 'meteo' : 'direzione'} fallita, ${campi.join('/')} ripresi dal file per ${ripresi} stazioni`);
-      }
+         riprendono dal file esistente dello stesso giorno.
+         ⚠️ DAL 19/10/2026 (quinto check, bug 6) VALE SEMPRE, non solo con la query fallita: se cadeva l'ANAGRAFE
+         dei sensori meteo o della direzione la query non partiva nemmeno, nessun errore, e i campi sparivano lo
+         stesso (6/10: 122 direzioni perse l'8/10 alle 17:51, mai tornate). Regola in lib-tieni-meteo.js. */
+      const ripresi = tieniMeteo(stations, prev.stations);
+      if (ripresi) console.warn(`  ${dateStr}: t/w/u/wd mancanti a questo giro (${stations.meteoKo ? 'query meteo fallita' : stations.direzioneKo ? 'query direzione fallita' : 'nessun errore'}), ripresi dal file per ${ripresi} stazioni`);
     } catch(e) {}
   }
   fs.writeFileSync(outFile, JSON.stringify({ date: dateStr, collected: new Date().toISOString(), source: 'arpa-lombardia-socrata', count: stations.length, stations }));

@@ -51,6 +51,7 @@ const SIR_MAPPA_URL = 'https://www.sir.toscana.it/open_layers/ajax_stations.php?
 const MH_URL = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const { correggiZeri } = require('./lib-quota-terreno.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 async function ventoMeteoHub(dateStr, elenco) {
   // ⚠️ Da lib-giorno-italiano (18/10/2026): il giorno dura 23 o 25 ore al cambio d'ora.
   const f = require('./lib-giorno-italiano.js').finestraGiorno(dateStr);
@@ -303,6 +304,9 @@ async function main() {
         existing.stations.forEach(s => {
           if (!newIds.has(s.id) && s.mm > 0) finalStations.push(s);
         });
+        // ⚠️ (19/10/2026, quinto check, bug 6) il record nuovo ha solo la pioggia: t/u/w/wd del file restano finche'
+        // i passi qui sotto (pagina termo, igro, vento) non li riscrivono freschi; prima sparivano se uno cadeva
+        tieniMeteo(finalStations, existing.stations);
         console.log(isClosing
           ? '  Merge (run di chiusura: ultima lettura vince, 0 inclusi) applicato'
           : '  Merge (ultima lettura vince, protezione glitch 0) applicato');

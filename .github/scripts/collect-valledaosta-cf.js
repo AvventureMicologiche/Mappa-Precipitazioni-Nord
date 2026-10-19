@@ -37,6 +37,7 @@ const path  = require('path');
 const HOST     = 'presidi2.regione.vda.it';
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'valledaosta-cf');
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
+const { tieniMeteo } = require('./lib-tieni-meteo.js');
 const PRID_PIOGGIA = 93;
 const GIORNI_FINESTRA = 7;   // ieri + auto-riparazione della settimana
 // Temperatura e vento (11/8/2026 — grafici stazione): stessa piattaforma,
@@ -238,6 +239,11 @@ async function main() {
     const stations = dayMap[dStr];
     if (stations.length < 10) { console.warn(`  ${dStr}: solo ${stations.length} stazioni, salto`); continue; }
     const outFile = path.join(DATA_DIR, `${dStr}.json`);
+    // ⚠️ (19/10/2026, quinto check, bug 6) ogni giorno della finestra si riscrive a ogni giro, e il meteo di una
+    // stazione arriva da una seconda chiamata che, se cade, la lascia senza t/w/u/wd: decideva l'ultima chiamata
+    // andata male. I campi che mancano a questo giro si riprendono dal file dello stesso giorno.
+    try { if (fs.existsSync(outFile)) { const n = tieniMeteo(stations, JSON.parse(fs.readFileSync(outFile, 'utf8')).stations);
+      if (n) console.log(`  ${dStr}: t/w/u/wd ripresi dal file per ${n} stazioni`); } } catch (e) {}
     fs.writeFileSync(outFile, JSON.stringify({
       date: dStr, collected: new Date().toISOString(),
       source: 'cf-valledaosta', count: stations.length, stations

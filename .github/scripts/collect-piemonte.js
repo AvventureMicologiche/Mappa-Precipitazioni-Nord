@@ -53,6 +53,8 @@ const OFF_BASE = 'https://utility.arpa.piemonte.it/meteoidro';
 const RICALCOLA_GIORNI = 3;          // D-1..D-3 dal realtime + ufficiale
 const DRY_RUN = !!process.env.DRY_RUN;
 const SOGLIA_SOST_MM = 1;            // sostituisci solo se |nostro-ufficiale| > 1 mm e h<24
+const MAX_ORA_MM = 150;              // un'ora sopra questo e' un guasto, non pioggia: si scarta l'ora (bug 4, 19/10/2026)
+const SOGLIA_UFF_SEMPRE_MM = 300;    // giorno eccezionale: vince l'ufficiale anche con h=24 (bug 4, 19/10/2026)
 
 function getItalyOffset(date) {
   const year = date.getUTCFullYear();
@@ -164,6 +166,10 @@ function buildDay(records, stIndex, quote) {
     if (!id) return;
     const v = parseFloat(m.cum_rain_1h);
     if (isNaN(v) || v < 0) return;
+    // ⚠️ IL GUASTO SI CERCA NELL'ORA, NON NEL GIORNO (19/10/2026, quinto check, bug 4). Un'ora sopra
+    // MAX_ORA_MM non e' pioggia: si scarta lei sola e non conta fra le ore, cosi' il giorno resta con h<24
+    // e l'ufficiale lo sostituisce appena esce (consolida). Vedi sotto il vecchio tetto dei 300 mm.
+    if (v > MAX_ORA_MM) { console.warn(`  ora scartata: ${id} ${m.date} cum_rain_1h=${v}`); return; }
     rain[id] = (rain[id] || 0) + v;
     ore[id] = (ore[id] || 0) + 1;
     if (!secchielli[id]) secchielli[id] = creaOre();
@@ -178,14 +184,19 @@ function buildDay(records, stIndex, quote) {
     const lon = parseFloat(s.lng || s.lon);
     if (isNaN(lat) || isNaN(lon)) return;
     if (lat < 43.8 || lat > 46.5 || lon < 6.6 || lon > 9.3) return;
-    let mm = Math.round(rain[id] * 10) / 10;
-    if (mm > 300) mm = 0;
+    /* ⚠️ NIENTE TETTO SUL GIORNO (19/10/2026, quinto check, bug 4). Qui c'era `if (mm > 300) mm = 0`
+       (3/5/2026, filtro generico): il giorno piu' bagnato diventava ASCIUTTO, e con h=24 l'ufficiale non lo
+       riparava piu'. Alla fonte, il 2/10/2020 (tempesta Alex) 16 pluviometri su 297 sopra i 300 mm: Limone
+       Pancani 553, Sambughetto 511, Piedicavallo 477, Candoglia 472, Oropa 427. Sarebbero stati i 16 punti
+       asciutti nel cuore dell'alluvione. I guasti si fermano ora per ora (MAX_ORA_MM, sopra) e un giorno sopra
+       SOGLIA_UFF_SEMPRE_MM lo rivede comunque l'ufficiale (consolida). */
+    const mm = Math.round(rain[id] * 10) / 10;
     const rec = {
       id, n: s.name || id,
       lat: Math.round(lat * 10000) / 10000,
       lon: Math.round(lon * 10000) / 10000,
       q: (quote && quote[id] != null) ? quote[id] : (parseInt(s.altitude || 0) || 0),
-      p: s.province || '—',
+      p: provinciaPulita(s.province) || '—',
       mm,
       h: Math.min(24, ore[id])
     };
@@ -211,7 +222,7 @@ async function fetchAnagraficaUfficiale() {
       out[id] = {
         q: (s.quota_stazione != null) ? Math.round(s.quota_stazione) : null,
         lat: s.latitudine_n_wgs84_d, lon: s.longitudine_e_wgs84_d,
-        n: s.denominazione, p: s.sigla_prov ? ('PROVINCIA DI ' + provinciaEstesa(s.sigla_prov)) : '—',
+        n: s.denominazione, p: s.sigla_prov ? provinciaPulita('PROVINCIA DI ' + provinciaEstesa(s.sigla_prov)) : '—',
         pm: (s.fk_id_punto_misura_meteo || '').replace(/\/$/, '').split('/').pop()  // PIE-xxxxxx-900
       };
     });
@@ -222,6 +233,13 @@ async function fetchAnagraficaUfficiale() {
 function provinciaEstesa(sigla) {
   return { TO: 'TORINO', CN: 'CUNEO', AL: 'ALESSANDRIA', AT: 'ASTI', BI: 'BIELLA',
            NO: 'NOVARA', VC: 'VERCELLI', VB: 'VERBANO-CUSIO-OSSOLA' }[sigla] || sigla;
+}
+/* ⚠️ IL VERBANO-CUSIO-OSSOLA HA UN NOME SOLO (19/10/2026, quinto check, bug 8). L'anagrafe del realtime tronca il
+   campo a 30 caratteri e scrive «PROVINCIA DEL VERBANO CUSIO OS» (29 stazioni su 32; 3 hanno la forma intera),
+   l'ufficiale qui sopra darebbe «PROVINCIA DI VERBANO-CUSIO-OSSOLA»: tre scritture per la stessa provincia, e
+   la pagina /piemonte/ stampava «Sambughetto (Provincia del verbano cusio os)». */
+function provinciaPulita(p) {
+  return p && /VERBANO/i.test(p) ? 'PROVINCIA DEL VERBANO-CUSIO-OSSOLA' : p;
 }
 
 /** giorno → { PIE-xxxxxx-900: {ptot,tmin,tmax,vmedia,vraffica} } (solo righe con almeno un dato). */
@@ -292,7 +310,9 @@ function consolida(day, stations, anag, uff) {
     if (ptot != null) {
       const diff = Math.abs((mine.mm || 0) - ptot);
       if (diff <= SOGLIA_SOST_MM) stat.uguali++;
-      else if ((mine.h || 0) < 24) {
+      // sopra SOGLIA_UFF_SEMPRE_MM vince l'ufficiale anche col realtime completo: in un giorno eccezionale
+      // si vuole il numero validato da ARPA (bug 4, 19/10/2026)
+      else if ((mine.h || 0) < 24 || (mine.mm || 0) > SOGLIA_UFF_SEMPRE_MM) {
         stat.dettagli.push(`~ ${mine.n} (${id}) h=${mine.h} nostro=${mine.mm} → ufficiale=${ptot}`);
         mine.mm = ptot; mine.src = 'arpa-ufficiale';
         // ⚠️ L'intensita' veniva dal realtime INCOMPLETO (h<24) che qui stiamo
