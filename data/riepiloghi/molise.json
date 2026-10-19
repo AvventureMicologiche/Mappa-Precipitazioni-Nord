@@ -1,46 +1,46 @@
 {
  "regione": "molise",
- "generato": "2026-10-18T03:15:32.959Z",
+ "generato": "2026-10-19T03:15:35.138Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 28,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-17",
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-18",
    "top": [
     {
+     "n": "Ponte Venticinque Archi",
+     "mm": 0.2
+    },
+    {
      "n": "Castelmauro",
-     "mm": 0.4
+     "mm": 0.2
     },
     {
      "n": "Campobasso",
-     "mm": 0.2
-    },
-    {
-     "n": "Trigno a Pescolanciano",
-     "mm": 0.2
-    },
-    {
-     "n": "Tappino a Gambatesa",
-     "mm": 0.2
+     "mm": 0
     },
     {
      "n": "Trivento PLUVIO",
+     "mm": 0
+    },
+    {
+     "n": "Campochiaro",
      "mm": 0
     }
    ]
   },
   "7": {
-   "media": 8.3,
+   "media": 7.3,
    "giorni": 7,
    "stazioni": 28,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-17",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Termoli",
-     "mm": 42.3
+     "mm": 28.9
     },
     {
      "n": "Campitello Matese Rmolise SP",
@@ -48,15 +48,15 @@
     },
     {
      "n": "Bonefro",
-     "mm": 24.4
+     "mm": 24
     },
     {
      "n": "Lucito Biferno",
-     "mm": 22.8
+     "mm": 15.9
     },
     {
-     "n": "Palata",
-     "mm": 10.7
+     "n": "Vandra a Fornelli",
+     "mm": 9.7
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 36.4,
    "giorni": 20,
    "stazioni": 28,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 74.2
+     "mm": 74.4
     },
     {
      "n": "Termoli",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 48.4,
+   "media": 40.3,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 124.3
+     "mm": 121.7
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 100.6
+     "mm": 79.4
     },
     {
-     "n": "Vandra a Fornelli",
-     "mm": 87.4
+     "n": "Termoli",
+     "mm": 66.7
     },
     {
      "n": "Isernia",
-     "mm": 73.8
+     "mm": 65
     },
     {
-     "n": "Lucito Biferno",
-     "mm": 68.6
+     "n": "Fornelli",
+     "mm": 60
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,9 +149,8 @@
   0.1,
   0,
   0,
-  2.5,
-  8.1
+  2.5
  ],
- "serieDa": "2026-10-17",
+ "serieDa": "2026-10-18",
  "zone": []
 }

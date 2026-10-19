@@ -1,42 +1,42 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-18T03:15:32.959Z",
+ "generato": "2026-10-19T03:15:35.138Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 62,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-17",
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-18",
    "top": [
     {
-     "n": "M.te Vulture",
-     "mm": 0.2
-    },
-    {
-     "n": "Ripacandida",
-     "mm": 0.2
-    },
-    {
-     "n": "Pescopagano",
-     "mm": 0.2
-    },
-    {
-     "n": "S.Nicola",
+     "n": "T. Atella - P.te SS381",
      "mm": 0.2
     },
     {
      "n": "Anzi",
      "mm": 0
+    },
+    {
+     "n": "F.Melandro S.Angelo Le Fratte",
+     "mm": 0
+    },
+    {
+     "n": "Tricarico",
+     "mm": 0
+    },
+    {
+     "n": "Salandra",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 12.2,
+   "media": 12.1,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-17",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Lavello",
@@ -44,19 +44,19 @@
     },
     {
      "n": "Lagopesole",
-     "mm": 33.5
+     "mm": 33.3
     },
     {
      "n": "Lagonegro",
-     "mm": 31
+     "mm": 30.8
     },
     {
      "n": "M.te Vulture",
-     "mm": 24.4
+     "mm": 24.2
     },
     {
      "n": "Palazzo S.Gervasio",
-     "mm": 24.2
+     "mm": 24
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 45.8,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Lagonegro",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Castelsaraceno",
-     "mm": 79.4
+     "mm": 79.2
     },
     {
      "n": "Rotonda",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 59.5,
+   "media": 56.4,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Lagonegro",
      "mm": 148.2
     },
     {
-     "n": "Castelsaraceno",
-     "mm": 95.3
-    },
-    {
      "n": "Tramutola",
-     "mm": 94.3
+     "mm": 94.1
     },
     {
-     "n": "Venosa ETG",
-     "mm": 93.6
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 91.4
     },
     {
-     "n": "Lavello",
-     "mm": 92.7
+     "n": "Rotonda",
+     "mm": 90.7
+    },
+    {
+     "n": "Castrocucco",
+     "mm": 90
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.1,
@@ -148,9 +149,8 @@
   0.5,
   0,
   2.1,
-  1.4,
-  3.3
+  1.4
  ],
- "serieDa": "2026-10-17",
+ "serieDa": "2026-10-18",
  "zone": []
 }

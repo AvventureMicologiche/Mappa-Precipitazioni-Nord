@@ -1,71 +1,71 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-18T03:15:32.960Z",
+ "generato": "2026-10-19T03:15:35.139Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 1.5,
    "giorni": 1,
-   "stazioni": 412,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-17",
+   "stazioni": 414,
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-18",
    "top": [
     {
-     "n": "Valguarnera Caropepe",
-     "mm": 29.9
+     "n": "Mazzarrone SIAS",
+     "mm": 74.2
     },
     {
-     "n": "Misilmeri SIAS",
-     "mm": 17
+     "n": "Ispica SIAS",
+     "mm": 45.2
     },
     {
-     "n": "Noto SP56",
-     "mm": 12.3
+     "n": "Caltagirone SP227",
+     "mm": 44.1
     },
     {
-     "n": "Aidone SIAS",
-     "mm": 9.6
+     "n": "Pachino SIAS",
+     "mm": 42.2
     },
     {
-     "n": "Milingiana Sottana",
-     "mm": 8.9
+     "n": "Graniti",
+     "mm": 37.6
     }
    ]
   },
   "7": {
-   "media": 10.7,
+   "media": 8.5,
    "giorni": 7,
-   "stazioni": 406,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-17",
+   "stazioni": 411,
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-18",
    "top": [
     {
-     "n": "Calvaruso",
-     "mm": 101.5
+     "n": "Mazzarrone SIAS",
+     "mm": 74.2
     },
     {
-     "n": "Pollina",
-     "mm": 96.2
+     "n": "San Fratello Forestale",
+     "mm": 56.9
     },
     {
-     "n": "San Mauro Castelverde",
-     "mm": 82.9
+     "n": "Monforte San Giorgio",
+     "mm": 54.9
     },
     {
-     "n": "Colle Chiesa",
-     "mm": 82.3
+     "n": "Biviere di Cesaro'",
+     "mm": 54.5
     },
     {
-     "n": "Castelbuono SIAS",
-     "mm": 67.2
+     "n": "Cesarò Monte Soro SIAS",
+     "mm": 54
     }
    ]
   },
   "20": {
-   "media": 37.6,
+   "media": 39.2,
    "giorni": 20,
    "stazioni": 419,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Calvaruso",
@@ -76,12 +76,12 @@
      "mm": 142.4
     },
     {
-     "n": "Pollina",
-     "mm": 125
+     "n": "Messina SP50Bis",
+     "mm": 125.3
     },
     {
-     "n": "Messina SP50Bis",
-     "mm": 124.5
+     "n": "Pollina",
+     "mm": 125
     },
     {
      "n": "Monforte San Giorgio",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 73.3,
+   "media": 72.8,
    "giorni": 30,
    "stazioni": 420,
-   "primo": "2026-09-18",
-   "ultimo": "2026-10-17",
+   "primo": "2026-09-19",
+   "ultimo": "2026-10-18",
    "top": [
     {
      "n": "Aci Castello",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  1.5,
   0.4,
   0.1,
   0,
@@ -148,18 +149,17 @@
   4.3,
   2.3,
   5.6,
-  14.4,
-  1.9
+  14.4
  ],
- "serieDa": "2026-10-17",
+ "serieDa": "2026-10-18",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-17",
+   "ultimo": "2026-10-18",
    "m1": 0.1,
-   "m7": 42.6,
-   "m30": 119.8,
+   "m7": 35.8,
+   "m30": 119.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,11 +167,11 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-17",
-   "m1": 0,
-   "m7": 43.1,
-   "m30": 128,
-   "p1": false,
+   "ultimo": "2026-10-18",
+   "m1": 0.1,
+   "m7": 39.9,
+   "m30": 127.6,
+   "p1": true,
    "p7": true,
    "p30": true
   }
