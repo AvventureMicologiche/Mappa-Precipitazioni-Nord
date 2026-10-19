@@ -92,7 +92,12 @@ async function collectMeteoHub(net, w) {
   const temp = await fetchProd('B12101');
   Object.keys(temp).forEach(id => {
     // falsi zeri: stessa regola di collect-meteohub.js (3/10/2026), le due devono restare uguali
-    const kelvin = temp[id].filter(v => v.val > 100).length > temp[id].length / 2;
+    // ⚠️ BASTA UNA LETTURA SOPRA 100 (19/10/2026), non la maggioranza: il 12/10 MeteoHub ha
+    // mandato zeri MINUTO PER MINUTO per un'ora e mezza su 15 stazioni siciliane (87 zeri contro
+    // 51 letture vere a mezz'ora), gli zeri erano la maggioranza, la serie passava per gradi e
+    // diventavano 0 °C (Mistretta 0 / 35,3; 25 minime false in ottobre). Una serie in gradi
+    // non arriva mai a 100, quindi una lettura sopra basta a dire che e' in kelvin.
+    const kelvin = temp[id].some(v => v.val > 100);
     if (temp[id].every(v => v.val === 0)) return;   // tutta zeri: termometro muto, trattino
     // ⚠️ SBALZI ISOLATI (4/10/2026): Favarella e Imera (Sicilia, 1/10) avevano UNA lettura a 0,0 °C
     // in kelvin (273,15) fra letture sopra i 15°: un valore valido per forma, falso per sostanza.

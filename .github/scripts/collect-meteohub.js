@@ -186,9 +186,14 @@ async function collectMeteoHub(netCfg, w) {
     // temperatura (0 K), e' un dato non pervenuto. Con la sola conversione
     // `v>100 ? v-273.15 : v` passava come 0 °C: Benevento 0 / 29,2° a 234 m il
     // 30/9, 226 minime false in agosto-settembre sulle reti MeteoHub. Se la serie
-    // e' in kelvin (la maggioranza dei valori sopra 100) si scarta tutto cio' che
+    // e' in kelvin (almeno una lettura sopra 100, vedi sotto) si scarta tutto cio' che
     // sta sotto: senza minima valida resta il trattino, non lo zero.
-    const kelvin = temp[id].filter(v => v.val > 100).length > temp[id].length / 2;
+    // ⚠️ BASTA UNA LETTURA SOPRA 100 (19/10/2026), non la maggioranza: il 12/10 MeteoHub ha
+    // mandato zeri MINUTO PER MINUTO per un'ora e mezza su 15 stazioni siciliane (87 zeri contro
+    // 51 letture vere a mezz'ora), gli zeri erano la maggioranza, la serie passava per gradi e
+    // diventavano 0 °C (Mistretta 0 / 35,3; 25 minime false in ottobre). Una serie in gradi
+    // non arriva mai a 100, quindi una lettura sopra basta a dire che e' in kelvin.
+    const kelvin = temp[id].some(v => v.val > 100);
     if (temp[id].every(v => v.val === 0)) return;   // tutta zeri: termometro muto, trattino
     // ⚠️ SBALZI ISOLATI (4/10/2026): Favarella e Imera (Sicilia, 1/10) avevano UNA lettura a 0,0 °C
     // in kelvin (273,15) fra letture sopra i 15°: un valore valido per forma, falso per sostanza.
