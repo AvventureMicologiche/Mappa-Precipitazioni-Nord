@@ -57,7 +57,30 @@ jobs:
           else
             echo "cambiate=si" >> "$GITHUB_OUTPUT"; git diff --stat -- '*/index.html'
           fi
+      # ⚠️ PRIMA SI PUBBLICA, POI SI COMMITTA (19/10/2026, quinto check, bug 13). Prima era il contrario: se il
+      # deploy falliva le pagine restavano committate, e al giro dopo risultavano «invariate» rispetto a main;
+      # lanciato dai riepiloghi con se-cambiate il giro non pubblicava piu', e il sito restava indietro fino al
+      # giorno dopo o a una pubblicazione a mano. Ora un deploy fallito ferma il giro PRIMA del commit: al giro
+      # dopo le pagine sono ancora «cambiate» e si ripubblica da solo. Se fallisse il push dopo un deploy
+      # riuscito, il giro dopo ripubblica pagine gia' in linea: un deploy in piu', innocuo.
+      - name: Pubblica su Cloudflare Pages
+        # Lanciato a mano pubblica sempre; da riepiloghi.yml solo se cambiate:
+        # i giri dei riepiloghi sono 7-10 al giorno e Pages gratuito ne regge 500 al mese.
+        if: steps.diff.outputs.cambiate == 'si' || inputs.pubblica != 'se-cambiate'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 71126919175cd19d3ba3af31a9a7d22a
+        run: |
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "Manca il secret CLOUDFLARE_API_TOKEN"; exit 1; }
+          # tre tentativi (19/10/2026, bug 13): un errore passeggero di Cloudflare non deve lasciare il sito indietro
+          for i in 1 2 3; do
+            if node .github/scripts/pubblica-pages.js "$GITHUB_WORKSPACE" avventurepluvio; then exit 0; fi
+            echo "Pubblicazione fallita (tentativo $i/3)"
+            [ "$i" = "3" ] || sleep 30
+          done
+          echo "Pubblicazione fallita dopo 3 tentativi: niente commit, il prossimo giro riprova da solo"; exit 1
       - name: Commit e push
+        # solo dopo una pubblicazione riuscita (o non chiesta): un `if` senza success()/always() lo sottintende
         if: steps.diff.outputs.cambiate == 'si'
         run: |
           git config user.name "bot"
@@ -74,16 +97,6 @@ jobs:
             sleep 10
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
-      - name: Pubblica su Cloudflare Pages
-        # Lanciato a mano pubblica sempre; da riepiloghi.yml solo se cambiate:
-        # i giri dei riepiloghi sono 7-10 al giorno e Pages gratuito ne regge 500 al mese.
-        if: steps.diff.outputs.cambiate == 'si' || inputs.pubblica != 'se-cambiate'
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: 71126919175cd19d3ba3af31a9a7d22a
-        run: |
-          [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "Manca il secret CLOUDFLARE_API_TOKEN"; exit 1; }
-          node .github/scripts/pubblica-pages.js "$GITHUB_WORKSPACE" avventurepluvio
       # Le anteprime (la foto della mappa a 20 giorni nelle pagine regione) si rifanno
       # quando le pagine cambiano, cioe' quando arriva il giorno nuovo (12/10/2026).
       # ⚠️ Il loro cron delle 05:40 UTC GitHub lo fa partire ~6 ore tardi tutti i giorni
@@ -91,7 +104,9 @@ jobs:
       # su altroieri sotto un testo gia' a ieri. Il cron resta come riserva.
       # Gira su GitHub e scrive sul ramo `anteprime`: niente Pages, zero crediti.
       - name: Lancia le anteprime
-        if: ${{ !cancelled() && steps.diff.outputs.cambiate == 'si' }}
+        # solo se pubblicazione e commit sono riusciti (19/10/2026, bug 13): prima `!cancelled()`, che con l'ordine
+        # nuovo avrebbe fatto le foto di pagine rimaste fuori linea
+        if: steps.diff.outputs.cambiate == 'si'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run anteprime.yml -R "$GITHUB_REPOSITORY"

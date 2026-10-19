@@ -15,7 +15,11 @@ on:
     - cron: '20 20 * * *'
     # Run dopo la mezzanotte locale: l'API pubblica l'aggregato di un giorno solo
     # a giornata conclusa, questo lo raccoglie prima del primo run del mattino
-    - cron: '30 22 * * *'
+    # ⚠️ +1 ORA IL 19/10/2026 (quinto check, bug 14): GitHub conta in UTC e non conosce l'ora legale. Alle 22:30 UTC
+    # questo giro cadeva alle 00:30 d'estate ma alle 23:30 d'inverno, PRIMA della mezzanotte italiana, e non
+    # chiudeva piu' il giorno. Alle 23:30 UTC cade alle 00:30 d'inverno e alle 01:30 d'estate: sempre dopo
+    # mezzanotte. E' la RISERVA: il giorno lo chiude l'orologio su Cloudflare alle 00:45 italiane (sveglia-guardiano.js).
+    - cron: '30 23 * * *'
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
 # workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
 # file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca e
@@ -55,8 +59,11 @@ jobs:
           git config user.email "bot@bot.com"
           git add data/trentino/
           git diff --staged --quiet || git commit -m "trentino $(date -u +%Y-%m-%d) [skip netlify]"
+          ok=0
           for i in 1 2 3 4 5; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
             sleep 10
           done
+          # ⚠️ (19/10/2026, quinto check, bug 18) senza questa riga 5 push falliti finivano VERDI
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }

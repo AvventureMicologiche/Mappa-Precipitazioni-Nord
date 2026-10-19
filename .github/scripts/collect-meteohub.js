@@ -51,6 +51,19 @@ const ACCENTATE = { c0:'À', c8:'È', cc:'Ì', d2:'Ò', d9:'Ù',
 // Nomi che arrivano col carattere ROTTO (U+FFFD, la lettera e' persa a monte e non
 // si puo' ricostruire da sola): si correggono uno per uno (17/10/2026).
 const NOMI_CORRETTI = { 'Trinit� Diga R2': 'Trinità Diga R2' };
+// ⚠️ DUE STAZIONI ALLO STESSO PUNTO (19/10/2026, quinto check, bug 18). Nel Lazio MeteoHub pubblica
+// alle stesse coordinate un idrometro e una stazione meteo («Tevere a Ripetta» e «Cassiodoro»), e
+// il nostro id e' fatto con le sole coordinate: ogni giorno entra quella con la serie completa e il
+// nome cambiava da un giorno all'altro (mai due nello stesso file). Il nome si fissa per id, con
+// quello che compare piu' spesso nello storico (80-101 giorni contro 1-22).
+const NOMI_FISSI = {
+  '41.99972_12.49139': 'Tevere a Castelgiubileo',   // anche «Fosso Cremera a Labaro»
+  '41.93194_12.57611': 'Roma Est',                  // anche «Aniene a Ponte Mammolo»
+  '42.40667_11.88111': 'Tuscania',                  // anche «Marta a Piantata»
+  '41.94889_12.49139': 'Acqua Acetosa',             // anche «Tevere a Foro Italico»
+  '41.91500_12.47444': 'Cassiodoro',                // anche «Tevere a Ripetta»
+  '41.83028_12.49139': 'Roma EUR',                  // anche «Eur»
+};
 function ripulisciNome(s) {
   // il (?<!\\) protegge gli escape SCRITTI BENE, che vanno lasciati stare
   const n = String(s).replace(/(?<!\\)u00([0-9a-fA-F]{2})/g,
@@ -155,6 +168,13 @@ function utcWindowForItalianDay(dateStr) {
 // per B13011); completezza in ORE COPERTE ≥ MIN_ORE_METEO. Tutto in un try:
 // un guasto delle query meteo non tocca mai la pioggia.
 const MIN_ORE_METEO = 20;
+/* ⚠️ VENTO MEDIO: TETTO A 40 m/s, NON 60 (19/10/2026, quinto check, bug 9). San Vito Lo Capo (15-17/10) e
+   Manfredonia (16-17/10) hanno avuto l'anemometro bloccato su un gradino piatto di 41-52 m/s (150-185 km/h) per ore,
+   con i vicini a 2-12 km/h: nei file 157,1 / 107,8 / 95,8 km/h di MEDIA del giorno. 60 m/s (216 km/h) non fermava
+   niente. Una media di 10 minuti sopra i 144 km/h in Italia non si misura nemmeno nei medicane; il vento medio
+   giornaliero piu' forte di tutto l'archivio (209.700 stazioni-giorno) e' 74,4 km/h in cima al Mont Aigoual.
+   La raffica (B11041) resta a 90. Stesso tetto in collect-toscana-sir.js e backfill-meteo-meteohub.js. */
+const VENTO_MAX_MS = 40;
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const { tieniMeteo } = require('./lib-tieni-meteo.js');
 async function collectMeteoHub(netCfg, w) {
@@ -220,8 +240,11 @@ async function collectMeteoHub(netCfg, w) {
   const raffica = await prendi('B11041');
   const vento = ventoRaw && raffica ? ventoRaw : {};
   Object.keys(vento).forEach(id => {
-    const vals = vento[id].map(v => v.val).filter(v => v >= 0 && v < 60);
-    if (!vals.length || oreDi(vento[id]) < MIN_ORE_METEO) return;
+    // ⚠️ le ore si contano sulle letture BUONE (19/10/2026, bug 9): con l'anemometro bloccato a 45 m/s tutto il giorno
+    // le ore lette erano 24 anche se nessuna lettura era buona
+    const buone = vento[id].filter(v => v.val >= 0 && v.val < VENTO_MAX_MS);
+    const vals = buone.map(v => v.val);
+    if (!vals.length || oreDi(buone) < MIN_ORE_METEO) return;
     const media = vals.reduce((a, v) => a + v, 0) / vals.length;
     const gu = (raffica[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
     (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,
@@ -239,7 +262,7 @@ async function collectMeteoHub(netCfg, w) {
       const perRef = {};
       dirz[id].forEach(v => { perRef[v.ref] = v.val; });
       const acc = creaDir();
-      vento[id].forEach(v => { if (v.val >= 0 && v.val < 60) segnaDir(acc, (v.ref || '').slice(11, 13), perRef[v.ref] !== undefined ? perRef[v.ref] : null, v.val); });
+      vento[id].forEach(v => { if (v.val >= 0 && v.val < VENTO_MAX_MS) segnaDir(acc, (v.ref || '').slice(11, 13), perRef[v.ref] !== undefined ? perRef[v.ref] : null, v.val); });
       const wd = direzione(acc);
       if (wd !== null) out[id].wd = wd;
     });
@@ -281,8 +304,8 @@ async function collectDay(netCfg, dateStr) {
     let mm = vals.reduce((a, v) => a + v.val, 0);
     mm = Math.round(mm * 10) / 10;
     if (mm < 0 || mm > 500) continue;
-    const nome = ripulisciNome(((entry.stat.details || []).find(x => x.var === 'B01019') || {}).val || '—');
     const idStaz = `${stat.lat.toFixed(5)}_${stat.lon.toFixed(5)}`;
+    const nome = NOMI_FISSI[idStaz] || ripulisciNome(((entry.stat.details || []).find(x => x.var === 'B01019') || {}).val || '—');
     const qTer = quotaTerreno(idStaz);
     const rec = {
       id:  idStaz,
@@ -385,6 +408,31 @@ function togliPicchiFalsi(stations, dateStr) {
   });
 }
 
+/* ⚠️ VENTI FALSI (19/10/2026, quinto check, bug 9). La seconda rete dopo VENTO_MAX_MS, come i picchi falsi della
+   pioggia: un anemometro bloccato su un gradino piu' basso del tetto passerebbe. Il vento vero, anche forte, si vede
+   sui vicini; quello di San Vito Lo Capo (157,1 km/h il 16/10) aveva intorno 3-8 km/h. Si toglie il vento della
+   stazione (w e wd, solo quel giorno) se la media e' >= VENTO_FALSO_KMH, ha almeno VENTO_FALSO_VICINI vicini col
+   vento entro VENTO_FALSO_KM e il piu' ventoso di loro sta sotto 1/VENTO_FALSO_RAPPORTO del suo valore.
+   Provata sullo storico MeteoHub dal 1/8/2026: prende i 4 giorni guasti di San Vito e Manfredonia e nient'altro.
+   Solo MeteoHub: vette e capi delle altre reti (Mont Aigoual 74 km/h) il vento forte ce l'hanno davvero.
+   Gira in writeDay DOPO tieniMeteo, cosi' toglie anche un valore falso ripreso dal file del giorno. */
+const VENTO_FALSO_KMH = 30, VENTO_FALSO_KM = 35, VENTO_FALSO_VICINI = 3, VENTO_FALSO_RAPPORTO = 4;
+function togliVentiFalsi(stations, dateStr) {
+  const km = (a, b) => Math.hypot(a.lat - b.lat, (a.lon - b.lon) * Math.cos(a.lat * Math.PI / 180)) * 111.2;
+  const conW = stations.filter(s => s.w && s.w[0] != null && s.lat != null && s.lon != null);
+  const falsi = conW.filter(s => {
+    if (!(s.w[0] >= VENTO_FALSO_KMH)) return false;
+    const vicini = conW.filter(x => x !== s && km(s, x) <= VENTO_FALSO_KM);
+    if (vicini.length < VENTO_FALSO_VICINI) return false;
+    const mx = Math.max(...vicini.map(x => x.w[0]));
+    if (mx * VENTO_FALSO_RAPPORTO >= s.w[0]) return false;
+    console.warn(`  ⚠️ ${dateStr}: ${s.n} vento medio ${s.w[0]} km/h con ${vicini.length} vicini entro ${VENTO_FALSO_KM} km, il piu' ventoso a ${mx}: anemometro guasto, vento tolto dal giorno`);
+    return true;
+  });
+  falsi.forEach(s => { delete s.w; delete s.wd; });   // tutti decisi prima di togliere: un vicino non cambia il giudizio di un altro
+  return falsi.length;
+}
+
 function writeDay(dir, dateStr, stations, net, soglia, src) {
   stations = togliPicchiFalsi(stations, dateStr);
   if (stations.length < 10) {
@@ -412,6 +460,7 @@ function writeDay(dir, dateStr, stations, net, soglia, src) {
   const prima = leggiFile(outFile);
   const ripresi = prima ? tieniMeteo(stations, prima.stations) : 0;
   if (ripresi) console.log(`  ${dateStr}: t/w/u/wd ripresi dal file per ${ripresi} stazioni`);
+  togliVentiFalsi(stations, dateStr);   // dopo tieniMeteo (bug 9, 19/10/2026)
   fs.writeFileSync(outFile, JSON.stringify({
     date:      dateStr,
     collected: new Date().toISOString(),

@@ -96,8 +96,10 @@ async function ventoMeteoHub(dateStr, elenco) {
   for (const s of elenco) {
     const m = vicino(medi, s);
     if (!m || m.ore < 20) continue;
-    const buoni = m.v.filter(v => v >= 0 && v < 60);          // m/s, sanity come le altre reti
-    if (!buoni.length) continue;
+    // m/s; tetto a 40 e ore contate sulle letture buone (19/10/2026, bug 9: anemometri MeteoHub bloccati a 41-52 m/s,
+    // vedi VENTO_MAX_MS in collect-meteohub.js)
+    const buoni = m.v.filter(v => v >= 0 && v < 40);
+    if (!buoni.length || new Set(m.ref.filter((r, i) => m.v[i] >= 0 && m.v[i] < 40).map(r => r.slice(11, 13))).size < 20) continue;
     const media = buoni.reduce((a, v) => a + v, 0) / buoni.length;
     const g = vicino(raff, s);
     const gu = g ? g.v.filter(v => v >= 0 && v < 90) : [];
@@ -108,7 +110,7 @@ async function ventoMeteoHub(dateStr, elenco) {
       const perRef = {};
       d.ref.forEach((r, i) => { perRef[r] = d.v[i]; });
       const acc = creaDir();
-      m.ref.forEach((r, i) => { const v = m.v[i]; if (v >= 0 && v < 60) segnaDir(acc, r.slice(11, 13), perRef[r] !== undefined ? perRef[r] : null, v); });
+      m.ref.forEach((r, i) => { const v = m.v[i]; if (v >= 0 && v < 40) segnaDir(acc, r.slice(11, 13), perRef[r] !== undefined ? perRef[r] : null, v); });
       const wd = direzione(acc);
       if (wd !== null) outWd[s.id] = wd;
     }
@@ -183,7 +185,10 @@ async function main() {
   const nowRun = process.env.NOW_OVERRIDE ? new Date(process.env.NOW_OVERRIDE) : new Date();
   const italyNow = new Date(nowRun.getTime() + getItalyOffset(nowRun) * 3600000);
   const italyHour = italyNow.getUTCHours();
-  const isClosing = process.env.CLOSING === '1' || italyHour >= 22;
+  // ⚠️ CLOSING=1 VALE SOLO DALLE 22 (o dopo mezzanotte, la chiusura tardiva qui sotto) (19/10/2026, quinto check,
+  // bug 14): i cron di GitHub sono in UTC e d'inverno arrivano un'ora prima; un giro alle 21:40 italiane con
+  // CLOSING=1 toglieva la protezione glitch-0 con piu' di due ore ancora da contare.
+  const isClosing = italyHour >= 22 || (process.env.CLOSING === '1' && italyHour < 12);
   // ⚠️ GIRO DI CHIUSURA DOPO MEZZANOTTE (30/9/2026, bug #17 di ritorno). Dal 26/8/2026 lo
   // scheduler di GitHub fa partire i tre cron di chiusura (20:40, 21:00, 21:20 UTC) con due
   // ore e mezza di ritardo: atterravano alle 00:30-01:50 italiane. «Oggi in Italia» era gia'

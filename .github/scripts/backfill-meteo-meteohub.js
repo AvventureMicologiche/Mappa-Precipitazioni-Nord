@@ -117,8 +117,10 @@ async function collectMeteoHub(net, w) {
   const vento = await fetchProd('B11002');
   const raffica = await fetchProd('B11041');
   Object.keys(vento).forEach(id => {
-    const vals = vento[id].map(v => v.val).filter(v => v >= 0 && v < 60);
-    if (!vals.length || oreDi(vento[id]) < MIN_ORE) return;
+    // tetto a 40 m/s e ore contate sulle letture buone, come collect-meteohub.js (19/10/2026, bug 9)
+    const buone = vento[id].filter(v => v.val >= 0 && v.val < 40);
+    const vals = buone.map(v => v.val);
+    if (!vals.length || oreDi(buone) < MIN_ORE) return;
     const media = vals.reduce((a, v) => a + v, 0) / vals.length;
     const gu = (raffica[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
     (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,

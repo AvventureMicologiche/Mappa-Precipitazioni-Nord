@@ -287,7 +287,10 @@ async function main() {
         const dir = creaDir();          // direzione del vento (2/10/2026), pesata su ff
         for (const [ts, v, tlo, thi, ff, fx, ulo, uhi, dd] of ore[id]) {
           if (!(ts > w.start && ts <= w.end)) continue;
-          if (isFinite(v)) { sum += v; n++; segna(secchielli, ts, v); }
+          // ⚠️ un rr1 NEGATIVO vale 0 (19/10/2026, quinto check, bug 15): il tempo reale ne manda ogni tanto e la somma
+          // usciva sotto il vero con la punta sopra il totale (Vichy-Charmeil 7/10: 1,5 mm con punta 1,6, all'archivio
+          // ufficiale un'ora sola da 1,6 e nessun negativo; Luxeuil 16/9: 0,3 contro 0,6). L'ora resta contata come letta.
+          if (isFinite(v)) { const vv = Math.max(0, v); sum += vv; n++; segna(secchielli, ts, vv); }
           // sanity come Austria/Svizzera: fuori da [-45,50] °C o medio ≥60 m/s = glitch
           if (tlo != null && tlo >= -45 && tlo <= 50) { if (tlo < tmin) tmin = tlo; nT++; }
           if (thi != null && thi >= -45 && thi <= 50) { if (thi > tmax) tmax = thi; }

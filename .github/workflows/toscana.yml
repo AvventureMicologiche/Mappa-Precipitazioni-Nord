@@ -13,13 +13,17 @@ on:
     - cron: '15 12 * * *'
     - cron: '15 16 * * *'
     - cron: '15 20 * * *'
-    - cron: '40 20 * * *'
+    # ⚠️ CHIUSURE SPOSTATE DI 20 MINUTI IL 19/10/2026 (quinto check, bug 14): erano 20:40/21:00/21:20 UTC, cioe'
+    # 22:40-23:20 d'estate ma 21:40-22:20 d'inverno, e la prima «chiudeva» la giornata con piu' di due ore ancora
+    # da contare. Alle 21:00/21:20/21:40 UTC cadono alle 23:00-23:40 d'estate e alle 22:00-22:40 d'inverno: sempre
+    # dopo le 22 e prima di mezzanotte. Le chiusure vere le lancia l'orologio su Cloudflare in ora italiana.
     - cron: '0 21 * * *'
     - cron: '20 21 * * *'
+    - cron: '40 21 * * *'
 env:
   # I 3 cron di chiusura serale disattivano la protezione glitch-0 nel collector
   # (bug #17): a fine giornata uno 0 da SIR è un dato reale, non un glitch.
-  CLOSING: ${{ (github.event.schedule == '40 20 * * *' || github.event.schedule == '0 21 * * *' || github.event.schedule == '20 21 * * *') && '1' || '' }}
+  CLOSING: ${{ (github.event.schedule == '0 21 * * *' || github.event.schedule == '20 21 * * *' || github.event.schedule == '40 21 * * *') && '1' || '' }}
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
 # workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
 # file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca e
@@ -59,8 +63,11 @@ jobs:
           git config user.email "bot@bot.com"
           git add data/toscana/
           git diff --staged --quiet || git commit -m "toscana $(date -u +%Y-%m-%d) [skip netlify]"
+          ok=0
           for i in 1 2 3 4 5; do
-            git pull --rebase origin main && git push && break
+            if git pull --rebase origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
             sleep 10
           done
+          # ⚠️ (19/10/2026, quinto check, bug 18) senza questa riga 5 push falliti finivano VERDI
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }

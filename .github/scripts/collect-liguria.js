@@ -109,6 +109,20 @@ function senzaZeriFinti(v) {
   if (noZero.length === v.length || !noZero.length) return v;
   return Math.min.apply(null, noZero) > 5 ? noZero : v;
 }
+/* ⚠️ E LO ZERO ISOLATO SI TOGLIE SEMPRE (19/10/2026, quinto check, bug 10). La regola qui sopra vale solo con le
+   notti miti: OMIRL scrive ogni giorno alle 02:00 in punto uno 0 esatto su un gruppo di stazioni (81 in 15 giorni,
+   Rovegno 10,2 → 0 → 9,9), e quando la minima vera scende sotto i 5 °C lo zero restava e diventava la minima:
+   Cabanne 0 / 19,8 il 5/10 (vera 4,5), 13 e 14/10, S. Stefano d'Aveto il 13/10. Qui si guarda la SERIE: uno 0 esatto
+   con la lettura prima e quella dopo entrambe presenti e lontane almeno 1,5 °C dallo zero non e' una temperatura
+   (in 15 minuti non si scende di quattro gradi e si risale). Uno zero vero di una notte di gelo ha intorno 0,4 o
+   -0,3 e resta. Gli zeri attaccati ai buchi della serie li tiene d'occhio la regola di sopra. */
+function senzaZeriIsolati(punti) {
+  return punti.filter(function(p, i) {
+    if (p[1] !== 0) return true;
+    var a = punti[i - 1] && punti[i - 1][1], b = punti[i + 1] && punti[i + 1][1];
+    return !(a != null && b != null && Math.abs(a) >= 1.5 && Math.abs(b) >= 1.5);
+  });
+}
 
 /** Aggiunge t/w ai record del giorno (byId: shortCode → record del file). */
 async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
@@ -128,7 +142,7 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
         // serie 0 = media 30', 1 = minima, 2 = massima
         var med = (ds[0] && ds[0].data) || [], mn = (ds[1] && ds[1].data) || [], mx = (ds[2] && ds[2].data) || [];
         if (oreCoperte(med, dayStartMs, dayEndMs) < MIN_ORE_METEO) return null;
-        var mins = senzaZeriFinti(valoriIn(mn.length ? mn : med, dayStartMs, dayEndMs, -45, 50));
+        var mins = senzaZeriFinti(valoriIn(senzaZeriIsolati(mn.length ? mn : med), dayStartMs, dayEndMs, -45, 50));
         var maxs = valoriIn(mx.length ? mx : med, dayStartMs, dayEndMs, -45, 50);
         if (!mins.length || !maxs.length) return null;
         return { code: code, t: [Math.round(Math.min.apply(null, mins) * 10) / 10,

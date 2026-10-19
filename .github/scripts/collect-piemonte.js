@@ -352,7 +352,9 @@ function mergePerOre(nuove, esistenti) {
     if (!m.t && prev.t) m.t = prev.t;
     if (!m.w && prev.w) m.w = prev.w;
     if (!m.u && prev.u) m.u = prev.u;
-    if (!m.i && prev.i) m.i = prev.i;
+    // ⚠️ l'intensita' NON si eredita (19/10/2026, quinto check, bug 15): segue il calcolo nuovo, fatto su almeno le
+    // stesse ore. Ereditata, restava quella di prima quando ARPA correggeva le ore: Montaldo Scarampi 10/9, 2,3 mm
+    // diventati 0,2 il 13/9 (sotto 0,5 l'intensita' non si scrive) con «punta 2,1» rimasta.
     if (m.wd === undefined && prev.wd !== undefined) m.wd = prev.wd;
     return m;
   });
