@@ -1,20 +1,20 @@
 {
  "regione": "molise",
- "generato": "2026-10-19T05:31:01.281Z",
+ "generato": "2026-10-20T03:15:36.068Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 28,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Castelmauro",
-     "mm": 0.2
+     "mm": 0.4
     },
     {
-     "n": "Ponte Venticinque Archi",
+     "n": "Isernia",
      "mm": 0.2
     },
     {
@@ -32,31 +32,31 @@
    ]
   },
   "7": {
-   "media": 7.3,
+   "media": 1.1,
    "giorni": 7,
    "stazioni": 28,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Termoli",
-     "mm": 28.9
+     "n": "Trigno a Bagnoli del Trigno",
+     "mm": 5.9
     },
     {
-     "n": "Campitello Matese Rmolise SP",
-     "mm": 27.5
-    },
-    {
-     "n": "Bonefro",
-     "mm": 24
+     "n": "Castelmauro",
+     "mm": 5
     },
     {
      "n": "Lucito Biferno",
-     "mm": 15.9
+     "mm": 4.8
     },
     {
-     "n": "Vandra a Fornelli",
-     "mm": 9.7
+     "n": "Campobasso",
+     "mm": 3
+    },
+    {
+     "n": "Palata",
+     "mm": 2.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 36.4,
    "giorni": 20,
    "stazioni": 28,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Isernia",
-     "mm": 60.2
+     "mm": 60.4
     },
     {
      "n": "Lucito Biferno",
@@ -90,19 +90,19 @@
    ]
   },
   "30": {
-   "media": 40.3,
+   "media": 37.8,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 121.7
+     "mm": 116.6
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 79.4
+     "mm": 74.4
     },
     {
      "n": "Termoli",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Isernia",
-     "mm": 65
+     "mm": 60.8
     },
     {
-     "n": "Fornelli",
-     "mm": 60
+     "n": "Lucito Biferno",
+     "mm": 58.7
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   0.1,
   0,
-  0,
-  2.5
+  0
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": []
 }

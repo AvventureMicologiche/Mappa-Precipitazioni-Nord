@@ -1,13 +1,42 @@
 {
  "regione": "lazio",
- "generato": "2026-10-19T03:15:35.138Z",
+ "generato": "2026-10-20T03:15:36.068Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 208,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "stazioni": 209,
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
+   "top": [
+    {
+     "n": "Ischia di Castro",
+     "mm": 0.4
+    },
+    {
+     "n": "Paglia a Proceno",
+     "mm": 0.4
+    },
+    {
+     "n": "Allumiere",
+     "mm": 0.2
+    },
+    {
+     "n": "Bagnoregio",
+     "mm": 0.2
+    },
+    {
+     "n": "Barbarano",
+     "mm": 0.2
+    }
+   ]
+  },
+  "7": {
+   "media": 0.1,
+   "giorni": 7,
+   "stazioni": 209,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Pomezia",
@@ -19,44 +48,15 @@
     },
     {
      "n": "Fosso di Pantanello ad Ostia",
-     "mm": 2.5
+     "mm": 2.9
     },
     {
      "n": "Pianetto",
-     "mm": 1.2
+     "mm": 1.4
     },
     {
-     "n": "Ostia",
-     "mm": 0.4
-    }
-   ]
-  },
-  "7": {
-   "media": 1.1,
-   "giorni": 7,
-   "stazioni": 208,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
-   "top": [
-    {
-     "n": "Piedimonte San Germano",
-     "mm": 18.6
-    },
-    {
-     "n": "San Biagio Saracinisco",
-     "mm": 17.2
-    },
-    {
-     "n": "Vallecorsa",
-     "mm": 15.6
-    },
-    {
-     "n": "Liri a Ceprano",
-     "mm": 11.4
-    },
-    {
-     "n": "Campoli Appennino",
-     "mm": 10.3
+     "n": "Ceccano rlazio",
+     "mm": 0.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 65.4,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Gaeta",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 70.2,
+   "media": 66.1,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Gaeta",
-     "mm": 238
+     "mm": 207.7
     },
     {
      "n": "Sabaudia",
-     "mm": 210.6
+     "mm": 206.2
     },
     {
      "n": "Anzio",
-     "mm": 204.9
+     "mm": 202.5
     },
     {
      "n": "Latina",
-     "mm": 203.3
+     "mm": 200.5
     },
     {
-     "n": "SS.Cosma e Damiano",
-     "mm": 169.4
+     "n": "Borgo Montello",
+     "mm": 158.3
     }
    ]
   }
  },
  "serie": [
+  0,
   0.1,
   0,
   0,
@@ -148,40 +149,39 @@
   0,
   0,
   0,
-  0.1,
-  4.1
+  0.1
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 2,
-   "m30": 61.8,
-   "p1": false,
+   "m7": 0.1,
+   "m30": 53.6,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 3.1,
-   "m30": 71,
-   "p1": false,
+   "m7": 0.1,
+   "m30": 60,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
    "m7": 0,
-   "m30": 37.8,
+   "m30": 34.8,
    "p1": false,
    "p7": false,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0.1,
-   "m7": 1.7,
-   "m30": 53.5,
+   "m7": 0.2,
+   "m30": 46.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
    "m7": 0,
-   "m30": 81.7,
+   "m30": 78.6,
    "p1": false,
    "p7": false,
    "p30": true
@@ -211,22 +211,22 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 3.7,
-   "m30": 52.6,
+   "m7": 0,
+   "m30": 44,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-18",
-   "m1": 0,
-   "m7": 2.8,
-   "m30": 59,
-   "p1": false,
+   "ultimo": "2026-10-19",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 48.1,
+   "p1": true,
    "p7": true,
    "p30": true
   }

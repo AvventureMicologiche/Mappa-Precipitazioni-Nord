@@ -1,81 +1,81 @@
 {
  "regione": "emilia",
- "generato": "2026-10-19T13:37:31.515Z",
+ "generato": "2026-10-20T03:15:36.066Z",
  "periodi": {
   "1": {
-   "media": 2.8,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 309,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "stazioni": 308,
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
-    {
-     "n": "Valdena (Parma)",
-     "nb": "Valdena",
-     "mm": 48.2
-    },
-    {
-     "n": "Montegroppo (Parma)",
-     "nb": "Montegroppo",
-     "mm": 38.9
-    },
-    {
-     "n": "Albareto Parma (Parma)",
-     "nb": "Albareto Parma",
-     "mm": 33.3
-    },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 29.9
+     "mm": 8.8
     },
     {
      "n": "Tarsogno (Parma)",
      "nb": "Tarsogno",
-     "mm": 27.7
+     "mm": 4.2
+    },
+    {
+     "n": "Selva Ferriere (Piacenza)",
+     "nb": "Selva Ferriere",
+     "mm": 3.2
+    },
+    {
+     "n": "Casalporino (Parma)",
+     "nb": "Casalporino",
+     "mm": 2.6
+    },
+    {
+     "n": "Salsominore (Piacenza)",
+     "nb": "Salsominore",
+     "mm": 2.6
     }
    ]
   },
   "7": {
-   "media": 5.4,
+   "media": 3.3,
    "giorni": 7,
    "stazioni": 306,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Valdena (Parma)",
      "nb": "Valdena",
-     "mm": 48.6
+     "mm": 48.8
     },
     {
      "n": "Montegroppo (Parma)",
      "nb": "Montegroppo",
-     "mm": 40.5
-    },
-    {
-     "n": "Albareto Parma (Parma)",
-     "nb": "Albareto Parma",
-     "mm": 33.7
+     "mm": 42.5
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 30.9
+     "mm": 39.7
+    },
+    {
+     "n": "Albareto Parma (Parma)",
+     "nb": "Albareto Parma",
+     "mm": 35.1
     },
     {
      "n": "Tarsogno (Parma)",
      "nb": "Tarsogno",
-     "mm": 28.5
+     "mm": 32.7
     }
    ]
   },
   "20": {
-   "media": 25.2,
+   "media": 25.3,
    "giorni": 20,
-   "stazioni": 305,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "stazioni": 306,
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
@@ -90,26 +90,26 @@
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 118.2
+     "mm": 127
+    },
+    {
+     "n": "Tarsogno (Parma)",
+     "nb": "Tarsogno",
+     "mm": 106.4
     },
     {
      "n": "Valdena (Parma)",
      "nb": "Valdena",
-     "mm": 102.8
-    },
-    {
-     "n": "Lagdei (Parma)",
-     "nb": "Lagdei",
-     "mm": 102.7
+     "mm": 103
     }
    ]
   },
   "30": {
-   "media": 25.9,
+   "media": 25.2,
    "giorni": 30,
-   "stazioni": 308,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "stazioni": 309,
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
@@ -124,22 +124,23 @@
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 118.2
+     "mm": 127
+    },
+    {
+     "n": "Tarsogno (Parma)",
+     "nb": "Tarsogno",
+     "mm": 106.4
     },
     {
      "n": "Lagdei (Parma)",
      "nb": "Lagdei",
-     "mm": 103.3
-    },
-    {
-     "n": "Valdena (Parma)",
-     "nb": "Valdena",
-     "mm": 102.8
+     "mm": 103.1
     }
    ]
   }
  },
  "serie": [
+  0.2,
   2.8,
   0,
   0,
@@ -168,18 +169,17 @@
   0,
   0,
   0,
-  0,
-  0.8
+  0
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-10-18",
-   "m1": 7.7,
-   "m7": 7.9,
-   "m30": 18.3,
+   "ultimo": "2026-10-19",
+   "m1": 1.8,
+   "m7": 9.7,
+   "m30": 20.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,9 +187,9 @@
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-10-18",
-   "m1": 8.7,
-   "m7": 9.1,
+   "ultimo": "2026-10-19",
+   "m1": 0,
+   "m7": 9,
    "m30": 77.9,
    "p1": true,
    "p7": true,
@@ -198,10 +198,10 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-10-18",
-   "m1": 15.3,
-   "m7": 15.4,
-   "m30": 66.8,
+   "ultimo": "2026-10-19",
+   "m1": 2.8,
+   "m7": 18.3,
+   "m30": 69.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-10-18",
-   "m1": 8.7,
-   "m7": 8.9,
-   "m30": 19.1,
+   "ultimo": "2026-10-19",
+   "m1": 0.6,
+   "m7": 9.5,
+   "m30": 19.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-10-18",
-   "m1": 12.2,
-   "m7": 12.3,
-   "m30": 31.6,
+   "ultimo": "2026-10-19",
+   "m1": 0.1,
+   "m7": 12.4,
+   "m30": 31.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,20 +231,20 @@
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 3.6,
-   "m30": 34.9,
-   "p1": false,
+   "m7": 0.3,
+   "m30": 26.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-10-18",
-   "m1": 3.2,
-   "m7": 4.9,
+   "ultimo": "2026-10-19",
+   "m1": 0.1,
+   "m7": 3.5,
    "m30": 45.3,
    "p1": true,
    "p7": true,

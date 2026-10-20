@@ -1,71 +1,71 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-19T05:31:01.282Z",
+ "generato": "2026-10-20T03:15:36.069Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 2.5,
    "giorni": 1,
    "stazioni": 92,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Santa Lucia di Capoterra",
-     "mm": 10.6
+     "mm": 45.2
     },
     {
-     "n": "Minni Minni",
-     "mm": 6.8
+     "n": "Villasor",
+     "mm": 44.8
     },
     {
-     "n": "Abbasanta",
-     "mm": 0.2
+     "n": "Siniscola",
+     "mm": 17.6
     },
     {
-     "n": "Alghero",
-     "mm": 0.2
+     "n": "Baunei",
+     "mm": 16
     },
     {
-     "n": "Badu Crabolu",
-     "mm": 0.2
+     "n": "Lanusei",
+     "mm": 13.4
     }
    ]
   },
   "7": {
-   "media": 1,
+   "media": 2.9,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Santa Lucia di Capoterra",
-     "mm": 11.6
+     "mm": 55.8
     },
     {
-     "n": "Vallermosa",
-     "mm": 7.8
+     "n": "Villasor",
+     "mm": 45
     },
     {
-     "n": "Abbasanta",
-     "mm": 7.4
+     "n": "Siniscola",
+     "mm": 17.6
     },
     {
-     "n": "Minni Minni",
-     "mm": 7.2
+     "n": "Baunei",
+     "mm": 16
     },
     {
-     "n": "San Michele",
-     "mm": 6.8
+     "n": "Lanusei",
+     "mm": 13.4
     }
    ]
   },
   "20": {
-   "media": 29.2,
+   "media": 31.6,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Stintino",
@@ -76,25 +76,25 @@
      "mm": 84.8
     },
     {
+     "n": "Villasor",
+     "mm": 77.6
+    },
+    {
      "n": "San Michele",
-     "mm": 75
+     "mm": 74.8
     },
     {
      "n": "Mannu di Porto Torres",
      "mm": 71.8
-    },
-    {
-     "n": "Villanova Monteleone",
-     "mm": 64
     }
    ]
   },
   "30": {
-   "media": 35.7,
+   "media": 37.4,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Pozzomaggiore",
@@ -113,13 +113,14 @@
      "mm": 86.8
     },
     {
-     "n": "Montresta",
-     "mm": 76.4
+     "n": "Villasor",
+     "mm": 78.4
     }
    ]
   }
  },
  "serie": [
+  2.5,
   0.2,
   0.1,
   0.1,
@@ -148,9 +149,8 @@
   1.2,
   0.7,
   0.1,
-  3.6,
-  0.8
+  3.6
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": []
 }

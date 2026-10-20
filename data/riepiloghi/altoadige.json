@@ -1,42 +1,42 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-19T05:31:01.271Z",
+ "generato": "2026-10-20T03:15:36.067Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Salorno",
-     "mm": 3.1
+     "n": "Alta Val Martello",
+     "mm": 0
     },
     {
-     "n": "Ora",
-     "mm": 1.7
+     "n": "Anterselva di Sopra",
+     "mm": 0
     },
     {
-     "n": "Laimburg",
-     "mm": 1.3
+     "n": "Barbiano Colma",
+     "mm": 0
     },
     {
-     "n": "Redagno",
-     "mm": 1.2
+     "n": "Bolzano",
+     "mm": 0
     },
     {
-     "n": "Bronzolo",
-     "mm": 0.8
+     "n": "Bressanone",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 1.2,
+   "media": 1.1,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
@@ -51,12 +51,12 @@
      "mm": 5.5
     },
     {
-     "n": "Selva di V. Gardena",
-     "mm": 5.5
-    },
-    {
      "n": "Riva di Tures",
      "mm": 4.7
+    },
+    {
+     "n": "Salorno",
+     "mm": 3.3
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 13.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -93,12 +93,12 @@
    "media": 14.6,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
-     "mm": 36
+     "mm": 35.9
     },
     {
      "n": "Vallelunga Grub",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Solda",
-     "mm": 31.7
+     "mm": 31.6
     },
     {
      "n": "Predoi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.2,
   0,
   0,
@@ -148,26 +149,25 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-18",
-   "m1": 1.1,
+   "ultimo": "2026-10-19",
+   "m1": 0,
    "m7": 1.1,
-   "m30": 13.3,
-   "p1": true,
+   "m30": 13.2,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
    "m7": 0.1,
    "m30": 13.8,

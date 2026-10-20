@@ -1,16 +1,20 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-19T05:31:01.281Z",
+ "generato": "2026-10-20T03:15:36.069Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 62,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "T. Atella - P.te SS381",
+     "n": "Melfi",
+     "mm": 0.2
+    },
+    {
+     "n": "S.Nicola",
      "mm": 0.2
     },
     {
@@ -24,39 +28,35 @@
     {
      "n": "Anzi",
      "mm": 0
-    },
-    {
-     "n": "Avigliano",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 12.1,
+   "media": 0.3,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Lavello",
-     "mm": 37.2
-    },
-    {
-     "n": "Lagopesole",
-     "mm": 33.3
-    },
-    {
-     "n": "Lagonegro",
-     "mm": 30.8
-    },
-    {
      "n": "M.te Vulture",
-     "mm": 24.2
+     "mm": 8.2
     },
     {
      "n": "Palazzo S.Gervasio",
-     "mm": 24
+     "mm": 1.6
+    },
+    {
+     "n": "Bradano Ponte Colonna",
+     "mm": 0.8
+    },
+    {
+     "n": "Irsina",
+     "mm": 0.8
+    },
+    {
+     "n": "Grassano",
+     "mm": 0.6
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 45.8,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Lagonegro",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 56.4,
+   "media": 55.1,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Lagonegro",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Rotonda",
-     "mm": 90.7
+     "mm": 90.5
     },
     {
      "n": "Castrocucco",
-     "mm": 90
+     "mm": 89.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   0.5,
   0,
-  2.1,
-  1.4
+  2.1
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": []
 }

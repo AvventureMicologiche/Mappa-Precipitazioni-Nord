@@ -1,62 +1,62 @@
 {
  "regione": "campania",
- "generato": "2026-10-19T09:09:21.378Z",
+ "generato": "2026-10-20T03:15:36.068Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 173,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Bagnoli Irpino",
+     "n": "Cellole METEO",
      "mm": 0.2
     },
     {
-     "n": "Cusano Mutri",
+     "n": "Ceraso-Isca Vivaio Forestale",
      "mm": 0.2
     },
     {
-     "n": "Melito Irpino",
+     "n": "Pellezzano",
      "mm": 0.2
     },
     {
-     "n": "Quattroventi",
+     "n": "Pietramelara",
      "mm": 0.2
     },
     {
-     "n": "Agerola",
-     "mm": 0
+     "n": "Rofrano-Fistole Faraone",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 9.1,
+   "media": 0.1,
    "giorni": 7,
-   "stazioni": 173,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "stazioni": 172,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Sicignano",
-     "mm": 39.2
+     "n": "Colle Sannita",
+     "mm": 2
     },
     {
-     "n": "S.Mauro la Bruca",
-     "mm": 32.8
+     "n": "Bagnoli Irpino",
+     "mm": 1.6
     },
     {
-     "n": "Alfano",
-     "mm": 32.5
+     "n": "Battipaglia",
+     "mm": 1.4
     },
     {
-     "n": "Gioi Cilento",
-     "mm": 31.8
+     "n": "Ceraso-Isca Vivaio Forestale",
+     "mm": 0.8
     },
     {
-     "n": "San Salvatore Telesino METEO",
-     "mm": 28.3
+     "n": "S.Angelo d'Alife",
+     "mm": 0.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 95.9,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 116.7,
+   "media": 111.5,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 324.4
+     "mm": 300.8
     },
     {
      "n": "Ischia",
-     "mm": 308.6
+     "mm": 293.8
     },
     {
      "n": "Forio",
-     "mm": 280
+     "mm": 261.2
     },
     {
      "n": "Piano Liguori",
-     "mm": 277.6
+     "mm": 253.2
     },
     {
      "n": "Castel Volturno",
-     "mm": 239.8
+     "mm": 235
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,40 +149,39 @@
   0,
   0,
   0.2,
-  0.9,
-  5.3
+  0.9
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 16,
-   "m30": 199.4,
+   "m7": 0,
+   "m30": 193.4,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-18",
-   "m1": 0,
-   "m7": 13.2,
-   "m30": 113,
-   "p1": false,
+   "ultimo": "2026-10-19",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 112.8,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 3.1,
-   "m30": 122.9,
+   "m7": 0.1,
+   "m30": 112,
    "p1": false,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0,
-   "m7": 3,
-   "m30": 133.7,
+   "m7": 0.1,
+   "m30": 127.5,
    "p1": false,
    "p7": true,
    "p30": true

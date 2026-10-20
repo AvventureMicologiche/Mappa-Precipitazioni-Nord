@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-19T09:09:21.379Z",
+ "generato": "2026-10-20T03:15:36.069Z",
  "periodi": {
   "1": {
-   "media": 1.5,
+   "media": 4.1,
    "giorni": 1,
-   "stazioni": 413,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-18",
+   "stazioni": 412,
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Mazzarrone SIAS",
-     "mm": 74.2
+     "n": "Letojanni",
+     "mm": 120
     },
     {
-     "n": "Ispica SIAS",
-     "mm": 45.2
+     "n": "Piedimonte Etneo",
+     "mm": 104
     },
     {
-     "n": "Caltagirone SP227",
-     "mm": 44.1
+     "n": "Forza d'Agro'",
+     "mm": 88.2
     },
     {
-     "n": "Pachino SIAS",
-     "mm": 42.2
+     "n": "Casalvecchio Siculo",
+     "mm": 79.5
     },
     {
-     "n": "Graniti",
-     "mm": 37.6
+     "n": "Mandanici",
+     "mm": 64.5
     }
    ]
   },
   "7": {
-   "media": 8.5,
+   "media": 9.2,
    "giorni": 7,
-   "stazioni": 410,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-18",
+   "stazioni": 412,
+   "primo": "2026-10-13",
+   "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Mazzarrone SIAS",
-     "mm": 74.2
+     "n": "Letojanni",
+     "mm": 145.7
     },
     {
-     "n": "San Fratello Forestale",
-     "mm": 56.9
+     "n": "Piedimonte Etneo",
+     "mm": 106.2
     },
     {
-     "n": "Monforte San Giorgio",
-     "mm": 54.9
+     "n": "Melia",
+     "mm": 105.7
     },
     {
-     "n": "Biviere di Cesaro'",
-     "mm": 54.5
+     "n": "Casalvecchio Siculo",
+     "mm": 97.8
     },
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 54
+     "n": "Forza d'Agro'",
+     "mm": 97.8
     }
    ]
   },
   "20": {
-   "media": 39.3,
+   "media": 43.2,
    "giorni": 20,
-   "stazioni": 418,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-18",
+   "stazioni": 416,
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-19",
    "top": [
+    {
+     "n": "Letojanni",
+     "mm": 202.6
+    },
+    {
+     "n": "Forza d'Agro'",
+     "mm": 175.5
+    },
     {
      "n": "Calvaruso",
      "mm": 171.3
     },
     {
-     "n": "Messina SS113",
-     "mm": 142.4
+     "n": "Melia",
+     "mm": 168.2
     },
     {
-     "n": "Messina SP50Bis",
-     "mm": 125.3
-    },
-    {
-     "n": "Pollina",
-     "mm": 125
-    },
-    {
-     "n": "Monforte San Giorgio",
-     "mm": 124.1
+     "n": "Casalvecchio Siculo",
+     "mm": 165
     }
    ]
   },
   "30": {
-   "media": 73,
+   "media": 63.2,
    "giorni": 30,
-   "stazioni": 419,
-   "primo": "2026-09-19",
-   "ultimo": "2026-10-18",
+   "stazioni": 420,
+   "primo": "2026-09-20",
+   "ultimo": "2026-10-19",
    "top": [
     {
      "n": "Aci Castello",
-     "mm": 243.9
-    },
-    {
-     "n": "Riposto SIAS",
-     "mm": 220.2
+     "mm": 247.3
     },
     {
      "n": "Aci San Filippo",
-     "mm": 213.4
+     "mm": 218
     },
     {
-     "n": "Messina SP44",
-     "mm": 213.3
+     "n": "San Gregorio",
+     "mm": 211.5
     },
     {
      "n": "Calvaruso",
-     "mm": 209.6
+     "mm": 209
+    },
+    {
+     "n": "Riposto SIAS",
+     "mm": 207.8
     }
    ]
   }
  },
  "serie": [
+  4.1,
   1.5,
   0.4,
   0.1,
@@ -148,18 +149,17 @@
   3,
   4.3,
   2.3,
-  5.6,
-  14.4
+  5.6
  ],
- "serieDa": "2026-10-18",
+ "serieDa": "2026-10-19",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-18",
+   "ultimo": "2026-10-19",
    "m1": 0.1,
-   "m7": 35.8,
-   "m30": 119.7,
+   "m7": 11,
+   "m30": 107.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,11 +167,11 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-18",
-   "m1": 0.1,
-   "m7": 39.9,
-   "m30": 127.6,
-   "p1": true,
+   "ultimo": "2026-10-19",
+   "m1": 0,
+   "m7": 13.8,
+   "m30": 115.5,
+   "p1": false,
    "p7": true,
    "p30": true
   }
