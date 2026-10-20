@@ -4,6 +4,7 @@
 //
 //   /api/previsioni?lat=46.171&lon=9.871&q=307     → un punto: 7 giorni + ore (1 h per ~2,5 giorni, poi fasce di 6 h con h6:true)
 //   /api/previsioni?capoluoghi=lombardia            → i capoluoghi dell'area, solo i 7 giorni
+//   /api/previsioni?posti=toscana/tendola/MS,...    → i posti della classifica dell'indice /funghi/, nell'ordine dato
 //
 // Fonti: MET Norway Locationforecast 2.0 (CC BY 4.0) per tempo, gradi, mm, vento;
 // Open-Meteo solo per la probabilita' di pioggia (MET non la da' in Italia). Staccabile: PROB=false.
@@ -30,6 +31,14 @@ export async function onRequestGet({ request, env }) {
     if (u.searchParams.has('paese') && !paese) return rispondi({ errore: 'paese' }, cors, 404);
     // ?zonedi=toscana: le zone dei funghi di una regione, una riga per zona (data/zone-regioni.json, lo scrive
     // genera-pagine-funghi.js), per le pagine regione funghi (20/10/2026)
+    // ?posti=toscana/tendola/MS,liguria/statale/GE,...: l'indice /funghi/ (20/10/2026). La classifica cambia ogni giorno e
+    // i file pubblicati col sito no: l'elenco lo manda la pagina (letto da data/funghi/italia.json), qui per ogni posto si
+    // prende il punto del pluviometro alla sua quota (la riga «qui» di data/paesi-localita/<reg>.json), nello stesso ordine
+    if (u.searchParams.has('posti')) {
+      const d = await perPosti(u.searchParams.get('posti'), env, request);
+      const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
+      return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
+    }
     const zona = u.searchParams.get('zona'), zonedi = u.searchParams.get('zonedi');
     const area = paese ? paese[2] : zona || zonedi || u.searchParams.get('capoluoghi');
     if (area) {
@@ -147,6 +156,11 @@ async function perArea(area, env, request, file) {
      altre aspettano in fila, ma il tetto di 8 s di MET (AbortSignal.timeout) parte quando la fetch viene CHIESTA, non
      quando parte. Con le 21 zone della Toscana (?zonedi=) rispondevano sempre le prime 6 e le altre 15 scadevano in
      fila; in locale (wrangler) il limite non c'e' e andava. A gruppi, il tempo di ognuna parte quando parte davvero. */
+  return previsioniDi(citta, area, request, cache, chiave);
+}
+
+// le previsioni di un elenco di punti, a gruppi di 6, con la stessa cache delle aree (perArea e perPosti)
+async function previsioniDi(citta, area, request, cache, chiave) {
   const uno = async p => {
     try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg }) }; }
     catch (e) { return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, errore: String(e && e.message || e) }; }
@@ -157,6 +171,32 @@ async function perArea(area, env, request, file) {
   if (!ris.some(x => x.giorni)) dati.errore = 'nessuna citta\' risponde';   // MET giu': errore in cima, vedi onRequestGet (bug 5)
   if (!ris.some(x => x.errore)) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=1800', 'Date': new Date().toUTCString() } }));
   return dati;
+}
+
+// ── i posti della classifica dell'indice /funghi/ (20/10/2026): al massimo 20, ognuno <reg>/<slug>[/<sigla>] ──
+// Ogni regione e' un file solo (data/paesi-localita/<reg>.json), letto una volta anche se ha piu' posti: con 20 posti
+// di 5 regioni sono 5 letture + 20 punti, sotto il tetto di 50 sottorichieste.
+async function perPosti(testo, env, request) {
+  const voci = String(testo || '').split(',').filter(Boolean);
+  if (!voci.length || voci.length > 20) return { errore: 'posti' };
+  const pezzi = voci.map(v => /^([a-z]{4,12})\/([a-z0-9-]{2,80})(?:\/([A-Z]{1,3}))?$/.exec(v));
+  if (pezzi.some(x => !x)) return { errore: 'posti' };
+  const chiave = new Request(`https://cache.previsioni/posti?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&p=${encodeURIComponent(voci.join(','))}`);
+  const cache = caches.default;
+  const c = await cache.match(chiave); if (c) return c.json();
+  const file = {};
+  for (const reg of [...new Set(pezzi.map(x => x[1]))]) {
+    const fr = await env.ASSETS.fetch(new URL('/data/paesi-localita/' + reg + '.json', request.url));
+    file[reg] = fr.ok ? await fr.json() : {};
+  }
+  // un posto senza file o senza la riga del pluviometro si salta: meglio 19 righe che una risposta d'errore
+  const citta = pezzi.map(([, reg, slug, sg]) => {
+    const p = ((file[reg] || {})[slug] || [])[0];
+    if (!p || !p.qui) return null;
+    return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, r: p.r || reg, sotto: [sg, p.q ? p.q + ' m' : ''].filter(Boolean).join(', ') };
+  }).filter(Boolean);
+  if (!citta.length) return { errore: 'posti sconosciuti' };
+  return previsioniDi(citta, 'posti', request, cache, chiave);
 }
 
 // ⚠️ UN formattatore solo, creato una volta: crearlo a ogni ora della previsione costava decine di ms di CPU
