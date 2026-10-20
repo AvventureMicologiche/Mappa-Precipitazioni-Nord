@@ -1,53 +1,48 @@
 {
  "regione": "veneto",
- "generato": "2026-10-20T03:15:36.066Z",
+ "generato": "2026-10-20T09:39:03.247Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 185,
+   "stazioni": 186,
    "primo": "2026-10-19",
    "ultimo": "2026-10-19",
    "top": [
     {
-     "n": "Ponte di Piave (TV)",
-     "nb": "Ponte di Piave",
-     "mm": 9.4
+     "n": "Follina (TV)",
+     "nb": "Follina",
+     "mm": 0.8
     },
     {
-     "n": "Venezia - Istituto Cavanis (VE)",
-     "nb": "Venezia - Istituto Cavanis",
-     "mm": 1.4
+     "n": "Pila - Porto Peschereccio (Porto Tolle) (RO)",
+     "nb": "Pila - Porto Peschereccio (Porto Tolle)",
+     "mm": 0.4
     },
     {
-     "n": "Lugugnana (Portogruaro) (VE)",
-     "nb": "Lugugnana (Portogruaro)",
-     "mm": 1.2
+     "n": "Agna (PD)",
+     "nb": "Agna",
+     "mm": 0.2
     },
     {
-     "n": "Lusia (RO)",
-     "nb": "Lusia",
-     "mm": 1.2
+     "n": "Agordo (BL)",
+     "nb": "Agordo",
+     "mm": 0.2
     },
     {
-     "n": "Masi (PD)",
-     "nb": "Masi",
-     "mm": 1.2
+     "n": "Bibione (VE)",
+     "nb": "Bibione",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 0.5,
+   "media": 0.4,
    "giorni": 7,
    "stazioni": 186,
    "primo": "2026-10-13",
    "ultimo": "2026-10-19",
    "top": [
-    {
-     "n": "Ponte di Piave (TV)",
-     "nb": "Ponte di Piave",
-     "mm": 9.4
-    },
     {
      "n": "Caprino Veronese - Platano (VR)",
      "nb": "Caprino Veronese - Platano",
@@ -66,6 +61,11 @@
     {
      "n": "Dolce' (VR)",
      "nb": "Dolce'",
+     "mm": 5
+    },
+    {
+     "n": "Valeggio sul Mincio (VR)",
+     "nb": "Valeggio sul Mincio",
      "mm": 5
     }
    ]
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 19.1,
+   "media": 19,
    "giorni": 30,
    "stazioni": 186,
    "primo": "2026-09-20",
@@ -140,7 +140,7 @@
   }
  },
  "serie": [
-  0.1,
+  0,
   0.3,
   0,
   0,
