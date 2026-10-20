@@ -90,6 +90,8 @@ jobs:
             git checkout -q FETCH_HEAD -- . || true
           fi
           cp "$OUT"/*.jpg .
+          # la mappa pulita per la striscia delle pagine funghi (20/10/2026): webp + json, se ci sono
+          cp "$OUT"/*-mappa.webp "$OUT"/*-mappa.json . 2>/dev/null || true
           git add -A
           git commit -q -m "anteprime mappa $(date -u +%Y-%m-%d)"
           # --force perche' ogni giro riscrive il ramo da capo: e' voluto, e'

@@ -2739,6 +2739,23 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   del file (`paesi-zone` e `paesi-localita` davano tutti e due «pa»).
 - **Quiz tartufi**: dal 20/10 anche Lombardia, Piemonte, Liguria ed Emilia (`QUIZ_REGIONI` in
   `lib-pagina-funghi.js`); l'Emilia ha indirizzo (`QUIZ_SLUG`: emilia-romagna) ed etichetta corta sue.
+- **Le 19 regioni funghi (20/10)**: «Che tempo farà nelle zone dei funghi della X», una riga per zona al CENTRO della
+  zona e alla QUOTA MEDIANA dei suoi pluviometri («a 1040 m», campo `sotto`), nell'ordine dell'elenco «Le zone dove
+  andare» (`OPZ.ordine = 'zone-dove'`, meteoClient aspetta che la pagina lo riordini). `data/zone-regioni.json` lo
+  scrive `genera-pagine-funghi.js`, lo legge `/api/previsioni?zonedi=<reg>`. Senza zone (Puglia, Basilicata,
+  Sardegna): le citta'. ⚠️ Il foglio delle regioni funghi e' il modello di paesi e zone: `METEO_CSS` sta IN FONDO, cosi'
+  `stileDelModello` lo taglia, e toglie anche `STRISCIA_CSS`.
+- **La mappa nella scheda in cima (20/10, tutte le pagine funghi)**: `lib-striscia.js`. Il bottone «Vedi sulla mappa»
+  diventa due riquadri «💧 Guarda la pioggia / ultimi 20 giorni» e «🌲 Guarda i boschi / tipo per tipo», ritagliati
+  nel browser da UNA immagine per regione: `<reg>-mappa.webp` + `<reg>-mappa.json` (zoom e pixel mondo dell'angolo,
+  EPSG:3857). Pioggia: le scrive `genera-anteprime.js` a ogni giro sul ramo `anteprime`; boschi: fisse in
+  `tessere-boschi/anteprime/`, si rifanno a mano con `BOSCHI=1 SITO=http://localhost:8788/ OUT=tessere-boschi/anteprime
+  node .github/scripts/genera-anteprime.js <regioni>` quando cambiano le tessere. In locale la pioggia si legge da
+  `/_anteprime-prova/` (in .git/info/exclude). Ingrandimento massimo 1,1 (oltre, nelle regioni grandi, sgrana).
+- **Il bottone del radar (20/10)**: in `meteoClient`, sotto la tabella di «Che tempo farà», al posto della riga
+  piccola. Blu pieno col pallino che pulsa se un posto della tabella ha >= 1 mm OGGI («Oggi è prevista pioggia X /
+  guardala arrivare col radar piogge»), se no «📡 Dove sta piovendo adesso / guarda il radar piogge». Porta al primo
+  `main a[href*="radar=ora"]` della pagina, se no a `/<regione>/adesso/`.
 
 ## Sesto check (20/10/2026)
 
