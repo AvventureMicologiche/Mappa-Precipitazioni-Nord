@@ -2759,6 +2759,12 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   scatta a ogni giro con `scattaIeri` e `anteprime.yml` copia sul ramo), con la sua scritta sull'etichetta gialla.
   Solo la pioggia, niente boschi (suo: «in alto solo la mappa piogge»). La mappa di un giorno e' piu' sbiadita di
   quella dei 20 giorni: nei giorni asciutti e' quasi solo cartina coi pallini, ed e' il dato vero.
+- **Mappa forestale (138 pagine, 20/10)**: `genera-mappa-forestale.js` ha ricerca in testata, «🌲 Trova i boschi»
+  dopo lo scorcio, «Che tempo farà» dopo «Che boschi ci sono» (regioni: zone dei funghi alla loro quota con
+  `zonedi=`, o le citta' dove le zone non ci sono; zone: i paesi con `zona=`; tipi di bosco e indice: niente meteo),
+  quiz accanto a YouTube (`youtube(id, k)` → `coppiaQuiz`), ed EVENTI GA4 `apri_mappa` da `forestale-<pagina>-<pezzo>`
+  con un ascoltatore unico sui link `/?…` (prima nessun evento: in GA4 risultavano «0» aperture). `zone-regioni.json`
+  e' in ordine alfabetico; le regioni funghi lo riordinano da se'. Anche le pagine «adesso» hanno il quiz.
 - **Il bottone del radar (20/10)**: in `meteoClient`, sotto la tabella di «Che tempo farà», al posto della riga
   piccola. Blu pieno col pallino che pulsa se un posto della tabella ha >= 1 mm OGGI («Oggi è prevista pioggia X /
   guardala arrivare col radar piogge»), se no «📡 Dove sta piovendo adesso / guarda il radar piogge». Porta al primo
