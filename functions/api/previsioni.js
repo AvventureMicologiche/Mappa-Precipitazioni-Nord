@@ -79,7 +79,12 @@ function rispondi(dati, h, status = 200, maxAge = 0) {
 }
 
 // ── un punto: MET (tutto) + Open-Meteo (solo la %) ──
-async function perPunto(lat, lon, q, request, conOre, conProb) {
+/* ⚠️ senzaCache (20/10/2026): nelle chiamate a gruppi (zone, regioni, posti dell'indice) la cache si tiene una volta
+   sola per tutto il gruppo (perArea/perPosti), non punto per punto. Cloudflare da' al massimo 50 SOTTORICHIESTE per
+   chiamata e la Cache API conta: un punto a freddo costava 3 (match, MET, put), e con 20 posti dopo il dodicesimo
+   arrivava «Too many subrequests» (misurato online con 20 posti mai chiesti: 12 su 20). Era lo stesso tetto che a
+   freddo lasciava senza previsioni le ultime zone della Toscana (21 zone, 64 sottorichieste). Cosi' un punto ne costa 1. */
+async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache) {
   if (conProb === undefined) conProb = true;
   // cella di ~1 km: la cache vale per chiunque guardi lo stesso posto
   const la = lat.toFixed(2), lo = lon.toFixed(2), qq = q == null ? '' : String(Math.round(q / 10) * 10);
@@ -87,7 +92,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb) {
   // piu', se no per fino a un'ora la previsione cominciava con ieri e il sito la chiamava «oggi»
   const chiave = new Request(`https://cache.previsioni/punto?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&lat=${la}&lon=${lo}&q=${qq}&ore=${conOre ? 1 : 0}&pr=${conProb ? 1 : 0}`);
   const cache = caches.default;
-  const c = await cache.match(chiave);
+  const c = senzaCache ? null : await cache.match(chiave);
   if (c) return { dati: await c.json(), maxAge: restante(c) };
 
   /* ⚠️ LA % SI AGGANCIA PER ISTANTE, IN UTC (19/10/2026, quinto check, bug 12). Prima si chiedeva Open-Meteo in ora
@@ -132,7 +137,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb) {
   // ⚠️ senza la % (Open-Meteo non ha risposto) si tiene solo 2 minuti: prima restava in cache fino a un'ora e la
   // colonna «PROB.» usciva vuota per tutti (Mantova, foto della guida, 8/10)
   if (PROB && conProb && !Object.keys(pr).length) maxAge = 120;
-  await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${maxAge}`, 'Date': new Date().toUTCString() } }));
+  if (!senzaCache) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${maxAge}`, 'Date': new Date().toUTCString() } }));
   return { dati, maxAge };
 }
 
@@ -162,7 +167,7 @@ async function perArea(area, env, request, file) {
 // le previsioni di un elenco di punti, a gruppi di 6, con la stessa cache delle aree (perArea e perPosti)
 async function previsioniDi(citta, area, request, cache, chiave) {
   const uno = async p => {
-    try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg }) }; }
+    try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false, true); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg }) }; }
     catch (e) { return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, errore: String(e && e.message || e) }; }
   };
   const ris = [];
@@ -175,7 +180,7 @@ async function previsioniDi(citta, area, request, cache, chiave) {
 
 // ── i posti della classifica dell'indice /funghi/ (20/10/2026): al massimo 20, ognuno <reg>/<slug>[/<sigla>] ──
 // Ogni regione e' un file solo (data/paesi-localita/<reg>.json), letto una volta anche se ha piu' posti: con 20 posti
-// di 5 regioni sono 5 letture + 20 punti, sotto il tetto di 50 sottorichieste.
+// di 5 regioni sono 5 letture + 20 punti + 2 di cache, sotto il tetto di 50 sottorichieste (vedi perPunto, senzaCache).
 async function perPosti(testo, env, request) {
   const voci = String(testo || '').split(',').filter(Boolean);
   if (!voci.length || voci.length > 20) return { errore: 'posti' };
