@@ -23,9 +23,12 @@ permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
 # workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
-# file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca e
-# riparte dai suoi dati. GitHub tiene al massimo UN giro in attesa: se ne arriva un terzo,
-# quello in attesa (identico) viene sostituito, quello in corso non si tocca mai.
+# file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca.
+# GitHub tiene al massimo UN giro in attesa: se ne arriva un terzo, quello in attesa
+# (identico) viene sostituito, quello in corso non si tocca mai.
+# ⚠️ (19/10/2026, sesto check) NON era vero che il secondo «riparte dai dati del primo»:
+# un giro in fila fa il checkout dello SHA fissato quando e' nato, non della punta di main,
+# e il suo commit andava in conflitto. Ora riparte dalla punta grazie a `ref: main`.
 concurrency:
   group: svizzera
   cancel-in-progress: false
@@ -34,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
@@ -44,13 +49,14 @@ jobs:
           DATE_OVERRIDE: ${{ inputs.date_override }}
         continue-on-error: true
       - name: Retry 1
+        id: retry1
         if: steps.collect.outcome == 'failure'
         run: sleep 30 && node .github/scripts/collect-svizzera-meteoswiss.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
         continue-on-error: true
       - name: Retry 2
-        if: steps.collect.outcome == 'failure'
+        if: steps.collect.outcome == 'failure' && steps.retry1.outcome == 'failure'
         run: sleep 60 && node .github/scripts/collect-svizzera-meteoswiss.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
@@ -65,6 +71,7 @@ jobs:
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }

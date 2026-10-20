@@ -42,6 +42,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
@@ -64,6 +66,7 @@ jobs:
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
           # ⚠️ (19/10/2026, quinto check, bug 18) senza questa riga 5 push falliti finivano VERDI

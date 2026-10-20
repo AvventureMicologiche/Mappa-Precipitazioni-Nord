@@ -50,12 +50,21 @@ const ACCENTATE = { c0:'À', c8:'È', cc:'Ì', d2:'Ò', d9:'Ù',
                     e0:'à', e8:'è', e9:'é', ec:'ì', f2:'ò', f9:'ù' };
 // Nomi che arrivano col carattere ROTTO (U+FFFD, la lettera e' persa a monte e non
 // si puo' ricostruire da sola): si correggono uno per uno (17/10/2026).
-const NOMI_CORRETTI = { 'Trinit� Diga R2': 'Trinità Diga R2' };
+// ⚠️ Fino al 15/9 la stessa stazione arrivava anche con l'escape rotto «ufffd» in lettere (20/10/2026,
+// sesto check, bug 18): la regola delle accentate non la prende, e serve la chiave a parte. Stesso giro:
+// la Sardegna ha avuto fino al 15/9 il nome TAGLIATO «Pranu San», dal 16/9 MeteoHub manda quello intero.
+const NOMI_CORRETTI = {
+  'Trinit� Diga R2': 'Trinità Diga R2',
+  'Trinitufffd Diga R2': 'Trinità Diga R2',
+  'S. Nicolò Gerrei - Pranu San': 'S. Nicolò Gerrei - Pranu Sangun',
+};
 // ⚠️ DUE STAZIONI ALLO STESSO PUNTO (19/10/2026, quinto check, bug 18). Nel Lazio MeteoHub pubblica
 // alle stesse coordinate un idrometro e una stazione meteo («Tevere a Ripetta» e «Cassiodoro»), e
 // il nostro id e' fatto con le sole coordinate: ogni giorno entra quella con la serie completa e il
 // nome cambiava da un giorno all'altro (mai due nello stesso file). Il nome si fissa per id, con
 // quello che compare piu' spesso nello storico (80-101 giorni contro 1-22).
+// La tabella e' per id e vale per TUTTE le reti (collectDay la guarda prima del nome di MeteoHub):
+// dal 20/10/2026 (sesto check, bug 19) c'e' anche la Puglia.
 const NOMI_FISSI = {
   '41.99972_12.49139': 'Tevere a Castelgiubileo',   // anche «Fosso Cremera a Labaro»
   '41.93194_12.57611': 'Roma Est',                  // anche «Aniene a Ponte Mammolo»
@@ -63,6 +72,7 @@ const NOMI_FISSI = {
   '41.94889_12.49139': 'Acqua Acetosa',             // anche «Tevere a Foro Italico»
   '41.91500_12.47444': 'Cassiodoro',                // anche «Tevere a Ripetta»
   '41.83028_12.49139': 'Roma EUR',                  // anche «Eur»
+  '41.82300_15.24067': 'Fortore a Ripalta',         // Puglia, anche «Fiume Fortore a Ponte Ripalta» (4 giorni)
 };
 function ripulisciNome(s) {
   // il (?<!\\) protegge gli escape SCRITTI BENE, che vanno lasciati stare

@@ -65,7 +65,7 @@ const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-r
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
-const { cartelleDi, cartelleConRete, regioneDati } = require('./lib-posti.js');   // posti con la rete di un'altra regione (bug 17)
+const { cartelleDi, cartelleConRete, regioneDati, retiDei } = require('./lib-posti.js');   // posti con la rete di un'altra regione (bug 17)
 const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
 const { escluse, escluso } = require('./lib-escluse.js');
 const ESCLUSE = escluse(path.join(__dirname, '..', '..'));
@@ -104,7 +104,10 @@ function pagina(z) {
   // pluviometri dall'altra parte (la Garfagnana ne ha di Emilia e Liguria).
   // Stesso criterio della ricerca per localita' del sito, vedi lib-vicine.
   const REGS = perLink(casa.k, z.lat, z.lon);
-  const agenzie = [...new Set(regioni.map(k => {
+  // ⚠️ L'ENTE E' QUELLO DELLE RETI, non delle regioni dei paesi (20/10/2026, sesto check, bug 3): in Val di
+  // Magra Bagnone sta in Toscana ma il pluviometro e' di OMIRL (ottavo campo, retiDei in lib-posti.js).
+  const reti = retiDei(ids.map(id => [REG_DI[id], POSTI[REG_DI[id]].find(x => x[0] === id)]));
+  const agenzie = [...new Set(reti.map(k => {
     const r = REGIONI.find(x => x.k === k);
     return r ? (r.agenziaCorta || r.agenzia.replace(/\s*\(.*\)$/, '')) : null;
   }).filter(Boolean))];

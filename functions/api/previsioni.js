@@ -36,7 +36,10 @@ export async function onRequestGet({ request, env }) {
     if (!(u.searchParams.get('lat') || '').trim() || !(u.searchParams.get('lon') || '').trim()) return rispondi({ errore: 'lat/lon mancanti' }, cors, 400);
     const lat = +u.searchParams.get('lat'), lon = +u.searchParams.get('lon'), q = u.searchParams.get('q');
     if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return rispondi({ errore: 'lat/lon non validi' }, cors, 400);
-    const r = await perPunto(lat, lon, q == null || q === '' ? null : Math.round(+q), request, true);
+    // ⚠️ (20/10/2026, sesto check, bug 16) una quota che non e' un numero («q=abc») passava come altitude=NaN e MET
+    // rispondeva errore → 502: adesso vale come assente, e MET usa il suo terreno. Vuota o di soli spazi idem (+'' = 0).
+    const qn = q == null || !q.trim() ? NaN : +q;
+    const r = await perPunto(lat, lon, isFinite(qn) ? Math.round(qn) : null, request, true);
     return rispondi(r.dati, cors, r.dati.errore ? 502 : 200, r.maxAge);
   } catch (e) {
     return rispondi({ errore: String(e && e.message || e) }, cors, 502);

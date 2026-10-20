@@ -94,6 +94,7 @@ jobs:
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), riprovo fra 10 s..."
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }

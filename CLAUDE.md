@@ -2709,3 +2709,56 @@ la direzione nei campioni, ma da solo non basta. **Spento il 2/10/2026**
 (cron commentato in `toscana-vento.yml`, resta lanciabile a mano): i suoi file
 in `data/toscana-vento/` restano come archivio, il collector se non li trova
 prende tutto da MeteoHub.
+
+---
+
+## Zone piogge e zone funghi anche meteo (19-20 ottobre 2026)
+
+Le 114 zone piogge (`/zone/<slug>/`) e le 114 zone funghi (`/funghi/zone/<slug>/`) usano lo stesso codice nel
+browser delle pagine regione: `meteoClient` di `lib-meteo-regione.js`, copiato nella pagina con `toString()` e
+chiamato con un quinto parametro `OPZ` (senza `OPZ` e' la pagina regione di sempre). ⚠️ Quel codice gira nel
+browser: solo ES5, niente frecce, `let`, `const` o backtick.
+- **I paesi di «Che tempo farà»**: `data/paesi-zone.json`, scritto da `genera-pagine-zona-piogge.js` (fino a 12 per
+  zona: i comuni dei pluviometri e quelli dentro l'area dei pluviometri prima, poi i paesi vicini della regione).
+  La Function li legge con `/api/previsioni?zona=<slug>` dai file del SITO (`env.ASSETS`): vanno online solo con
+  la pubblicazione. Regola sua: «meglio un paese in piu', anche fuori zona, che uno in meno», e la pagina scrive
+  «I paesi della X e dei dintorni». Limite noto: in Lunigiana Pontremoli e Fivizzano restano fuori.
+- **Zone funghi**: in piu' «🌲 Trova i boschi» (`boschiHtml`, casella che apre `?boschi=1` sul posto), il blocco
+  meteo ha l'id `mk-meteo` (li' `#meteo` e' il grafico delle temperature) e `OPZ.grafico=false`: **niente giorni
+  previsti nel grafico dei funghi** (impronta etica: niente previsioni di crescita).
+- **«Apri la mappa di ieri» piu' grande** (`IERI_GRANDE` in `genera-pagine-regione.js`, PRIMA di `METEO_CSS`: le
+  zone piogge copiano il foglio della regione e lo tagliano all'inizio del blocco meteo, cosi' lo ereditano). Non
+  sta in `STILE_IERI`, che usano anche le pagine «adesso».
+- `SOLO=<slug>` rigenera una zona sola (campioni), senza toccare la sitemap.
+
+## Sesto check (20/10/2026)
+
+Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
+correggere. In produzione col commit di codice del 20/10 e uno separato `[skip netlify]` per i dati riparati.
+- **Workflow, i due difetti che contavano** (25 file): il «Retry 2» partiva anche quando il «Retry 1» era riuscito e,
+  fallendo, faceva saltare il commit: **137 giri persi** (Veneto 56, Trentino 45, VdA 14). Ora parte solo se sono
+  falliti tutti e due (`id: retry1`). E un giro messo in fila dalla `concurrency` ripartiva dallo SHA fissato quando
+  era nato, non dalla punta di main, e il push andava in conflitto (Alto Adige 19/10, Slovenia 4/10, MeteoHub 18/10):
+  ora `ref: main` nel checkout di tutti e `git rebase --abort` nel ciclo dei tentativi.
+- **Ente giusto** sui 5 posti con la rete di un'altra regione (Bagnone, Casoni di Suvero, Alto, Romagnese, Valverde)
+  e sulle zone che li contengono: `regioneDati` per il paese, `retiDei` (lib-posti.js) per zone e regioni. E' la
+  citazione obbligatoria della licenza. Trovato insieme: `genera-pagine-localita.js` tagliava il posto a 7 campi,
+  quindi l'ottavo (la rete) non arrivava mai.
+- **genera-funghi.js e il ripiego della pagina** contano i giorni buoni solo sulle cartelle della regione: se SIR si
+  ferma, la classifica non esce piu' «fresca» con 2 paesi liguri su 169.
+- **Mappa (index.html)**: le date chieste restano a parte da quelle tagliate dall'inizio dei dati (cambiando regione
+  non resta il periodo accorciato); `TICINO_HIST_FROM` (le stazioni OASI fuori dai periodi prima del 18/3/2026,
+  MeteoSvizzera resta dal 7/8/2025); i link condivisi senza il tetto fisso dei 365 giorni (resta il tetto sulla
+  durata); `isoPiu()` = un giorno di CALENDARIO (al cambio d'ora +24 h sbaglia); Abruzzo ora per ora dall'01:00 alle
+  00:00 del giorno dopo (il valore delle ore H e' la pioggia dell'ora prima), senza zeri inventati e col filtro di
+  copertura; il «~» della quota non dipende piu' dall'ordine di arrivo dei file.
+- **lib-meteo-regione.js**: «domani» di calendario, elenco dei comuni che si ritenta dopo un errore, tabella delle
+  zone disegnata senza aspettare l'elenco, media delle previsioni per data. **previsioni.js**: `q` non numerico =
+  assente (prima 502).
+- **MeteoHub**: nomi riparati (Trinita' 119 file, Pranu Sangun 119, Fortore 4), `qt` copiato dal registro dei buchi
+  (1.267 stazioni in 8 file), e un valore che Open-Meteo non da' non diventa piu' 0 mm.
+- Minori: link della mappa forestale alle regioni nuove; `stileDelModello` taglia il blocco meteo (se no la mappa
+  forestale, rigenerata, prendeva 6 KB e spostava il tasto YouTube); province «Asti» e niente «(F)»; il rinnovo
+  trimestrale rigenera e committa anche le zone piogge e `paesi-zone.json`.
+- NON toccati, per scelta: i pallini di partenza col «ieri» a −24 h (innocui), il badge «OASI Ticino» quando OASI e'
+  saltata, il −48 h dell'avviso delle stime.
