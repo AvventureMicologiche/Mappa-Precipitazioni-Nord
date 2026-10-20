@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pluviometria Svizzera: mappa di 309 pluviometri, 30 giorni</title>
-<meta name="description" content="Mappa di 309 pluviometri MeteoSvizzera aggiornata ogni mattina. Ieri 38,5 mm a Chironico Cala, in 7 giorni 43 mm a Mervelier.">
+<meta name="description" content="Mappa di 309 pluviometri MeteoSvizzera aggiornata ogni mattina. Il 18 ottobre 38,5 mm a Chironico Cala, in 7 giorni 43 mm a Mervelier.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/svizzera/">
 <meta property="og:title" content="Dove ha piovuto in Svizzera: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 300 pluviometri di MeteoSvizzera e OASI Ticino.">
@@ -257,6 +257,10 @@ header{position:relative;flex-wrap:nowrap;}
 .mk-tutte{display:block;width:100%;margin:10px 0 0;padding:10px;border:1px solid #c5d4e6;border-radius:10px;background:#fff;color:#1b3f6e;font:700 15px system-ui,sans-serif;cursor:pointer;}
 .mk-citta-n{font-size:13.5px;color:#5f738c;margin:10px 0 0;}
 .mk-sopra{font-size:14.5px;color:#4a6180;margin:2px 0 8px;font-weight:600;}
+.mk-boschi{background:#eef6ef;border:1px solid #cfe3d2;border-radius:14px;padding:4px 16px 16px;margin:18px 0 6px;}
+.mk-boschi h2{margin-top:14px;color:#1d4a2a;}
+.mk-boschi-p{font-size:15px;color:#3d5a45;margin:2px 0 10px;}
+.mk-boschi .mk-tuo input{border-color:#2f6b3d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6b3d' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E");}
 .mk-citta-n a{color:#1b3f6e;font-weight:700;}
 @media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
 .gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
@@ -281,7 +285,7 @@ header{position:relative;flex-wrap:nowrap;}
      alla domanda del titolo, cioe' IERI, poi le barre, poi i periodi, le zone,
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
 <div id="attesa" style="display:none"></div>
-<div id="verdetto"><div class="verdetto"><div class="si">Ieri, 18 ottobre</div><div class="gr">5,1 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Chironico Cala (TI)</b> 38,5 mm, <b>Camedo Paese (TI)</b> 38,0 mm, <b>Campo Valle Maggia (TI)</b> 36,0 mm.</div><div class="dett">Media di 308 pluviometri.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;da=2026-10-18&amp;a=2026-10-18&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-ieri-box'})}catch(e){}"><b>Apri la mappa di ieri</b><i>→</i><small>la pioggia in tutte le località</small></a></div><div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;m=prev" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;radar=ora" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-radar'})}catch(e){}"><span>📡</span>Radar</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-boschi'})}catch(e){}"><span>🌲</span>Boschi</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;boschi=1&amp;sat=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-satellite'})}catch(e){}"><span>🛰</span>Satellite</a></div></div></div>
+<div id="verdetto"><div class="verdetto"><div class="si">Domenica 18 ottobre</div><div class="gr">5,1 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Chironico Cala (TI)</b> 38,5 mm, <b>Camedo Paese (TI)</b> 38,0 mm, <b>Campo Valle Maggia (TI)</b> 36,0 mm.</div><div class="dett">Media di 308 pluviometri.</div><div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;da=2026-10-18&amp;a=2026-10-18&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-ieri-box'})}catch(e){}"><b>Mappa di quel giorno</b><i>→</i><small>la pioggia in tutte le località</small></a></div><div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;m=prev" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;radar=ora" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-radar'})}catch(e){}"><span>📡</span>Radar</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-boschi'})}catch(e){}"><span>🌲</span>Boschi</a><a href="https://precipitazioni.avventuremicologiche.it/?r=svizzera&amp;boschi=1&amp;sat=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-svizzera-porta-satellite'})}catch(e){}"><span>🛰</span>Satellite</a></div></div></div>
 <!-- 19/10/2026: al posto della striscia blu «Che tempo farà», il blocco meteo (lib-meteo-regione.js):
      la casella per il proprio paese, che apre la mappa delle previsioni, e le città principali. -->
 <section class="mk-meteo" id="meteo">
@@ -788,9 +792,11 @@ temperatura, vento e umidità.</p>
   }
 
   /* ═══ 3. «CHE TEMPO FARÀ»: la casella e le citta' ═══ */
-  var blocco = document.getElementById('meteo');
+  var blocco = document.getElementById(OPZ.id || 'meteo');
   var tuo = blocco && blocco.querySelector('.mk-tuo input');
   if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/?r=' + x.reg + '&m=prev' + pl(x), 'cerca-meteo'); });
+  var bosco = OPZ.boschi && document.getElementById(OPZ.boschi), bin = bosco && bosco.querySelector('.mk-tuo input');
+  if (bin) casella(bin, bosco.querySelector('.mk-tuo .mk-drop'), function (x) { bin.blur(); vai(SITO + '/?r=' + x.reg + '&boschi=1' + pl(x), 'cerca-boschi'); });
   function disegnaCitta(j) {
     var box = blocco && blocco.querySelector('.mk-citta'); if (!box) return;
     var cc = (j && j.capoluoghi || []).filter(function (c) { return c.giorni && c.giorni.length >= 3; });
@@ -855,11 +861,11 @@ temperatura, vento e umidità.</p>
   }
 
   var citta = fetch(API + '?' + AREA).then(function (r) { return r.json(); }).then(daOggi).catch(function () { return null; });   // da oggi in poi (bug 11)
-  var riepilogo = fetch(BASE + RIEP).then(function (r) { return r.json(); }).catch(function () { return null; });
+  var riepilogo = OPZ.grafico === false ? null : fetch(BASE + RIEP).then(function (r) { return r.json(); }).catch(function () { return null; });
   citta.then(function (j) { return carica().catch(function () {}).then(function () { disegnaCitta(j); }); });
   // il grafico e' gia' cotto nell'HTML, ma la pagina lo RIDISEGNA quando arriva il suo riepilogo:
   // per qualche secondo si ricontrolla e si rimettono i giorni previsti se sono spariti
-  Promise.all([citta, riepilogo]).then(function (x) {
+  if (OPZ.grafico !== false) Promise.all([citta, riepilogo]).then(function (x) {
     var F = previsti(x[0]), t0 = Date.now();
     (function aspetta() {
       if (document.querySelector('#grafico .gg') && !document.querySelector('#grafico .mk-fut')) grafico(x[1], F);
