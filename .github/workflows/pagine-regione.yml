@@ -85,14 +85,20 @@ jobs:
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          # 17/10/2026: anche le due sitemap. La data delle pagine cotte e' quella
+          # 17/10/2026: anche le sitemap. La data delle pagine cotte e' quella
           # dei numeri dentro (genera-sitemap.js), quindi cambia con loro; senza
           # questa riga il giro le riscriveva e le buttava via.
-          git add -- '*/index.html' sitemap.xml sitemap-mappa.xml
+          # ⚠️ TUTTE E SETTE (20/10/2026, settimo check, bug 1): scriviSitemap le riscrive tutte, e prima se ne
+          # aggiungevano due. Se una delle altre cambiava (una data toccata a mano in pagine-lastmod.json) restava una
+          # modifica non aggiunta, `git pull --rebase` rifiutava di partire 5 volte su 5 e il giro, rosso, ripubblicava
+          # senza mai salvare. Ora si aggiungono tutte, e --autostash fa partire il rebase anche se resta altro, che
+          # si dichiara nel registro del giro.
+          git add -- '*/index.html' 'sitemap*.xml'
+          git diff --quiet || { echo "⚠️ file modificati NON aggiunti al commit:"; git status --short; }
           git commit -m "pagine regione cotte $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push; then ok=1; break; fi
+            if git pull --rebase --autostash origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), riprovo fra 10 s..."
             git rebase --abort 2>/dev/null || true
             sleep 10

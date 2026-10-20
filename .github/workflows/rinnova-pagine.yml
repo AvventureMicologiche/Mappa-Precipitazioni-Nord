@@ -42,12 +42,16 @@ jobs:
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
-          git add funghi/ zone/ data/paesi-zone.json sitemap.xml sitemap-mappa.xml sitemap-funghi.xml sitemap-localita.xml sitemap-zone.xml sitemap-zone-piogge.xml .github/scripts/pagine-lastmod.json
+          # ⚠️ anche data/paesi-localita/ (i paesi di «Che tempo farà» delle pagine paese, dal 20/10/2026) e TUTTE le
+          # sitemap (settimo check, bug 2): prima mancavano, una pagina paese nuova restava senza i suoi paesi
+          # («Le previsioni dei paesi non rispondono») e una modifica non aggiunta bloccava il rebase del rinnovo intero
+          git add funghi/ zone/ data/paesi-zone.json data/paesi-localita/ 'sitemap*.xml' .github/scripts/pagine-lastmod.json
+          git diff --quiet || { echo "⚠️ file modificati NON aggiunti al commit:"; git status --short; }
           git diff --staged --quiet && { echo "Niente da committare."; exit 0; }
           git commit -m "rinnovo stagionale delle pagine di paese e di zona $(date -u +%Y-%m-%d)"
           ok=0
           for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push; then ok=1; break; fi
+            if git pull --rebase --autostash origin main && git push; then ok=1; break; fi
             echo "Push fallito (tentativo $i/5), retry tra 10s..."
             git rebase --abort 2>/dev/null || true
             sleep 10

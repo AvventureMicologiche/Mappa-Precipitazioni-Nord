@@ -37,6 +37,12 @@ on:
     - cron: '25 14 * * *'
 permissions:
   contents: write
+# un giro alla volta (20/10/2026, settimo check, bug 9): era l'unico collector senza. Il guardiano lo puo' rilanciare
+# mentre gira quello delle 08:25/16:25 partito tardi, e i due riscrivono gli stessi file D-2..D-9: il secondo andava
+# in conflitto al rebase e diventava rosso. Cosi' il secondo aspetta in fila.
+concurrency:
+  group: slovenia
+  cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest

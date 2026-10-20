@@ -12,6 +12,7 @@
  */
 const fs   = require('fs');
 const path = require('path');
+const { togliVentiFalsi } = require('./lib-venti-falsi.js');   // lo stesso filtro del collector (settimo check, bug 11)
 
 const BASE_URL  = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const DATA_ROOT = path.join(__dirname, '../..', 'data');
@@ -153,6 +154,7 @@ async function main() {
           if (m.w) s.w = m.w;
           toccate++;
         });
+        if (toccate > 0) togliVentiFalsi(data.stations, g);   // come il collector: dopo aver messo i venti nuovi
         if (toccate > 0) { fs.writeFileSync(f, JSON.stringify(data)); fileOk++; stazGiorno += toccate; }
       } catch (e) { console.warn(`  Warn ${netCfg.net} ${g}: ${e.message}`); }
       await sleep(600);

@@ -36,6 +36,11 @@ on:
 permissions:
   contents: write
   actions: write
+# un giro alla volta (20/10/2026, settimo check, bug 9): tre cron e i lanci da Cloudflare ogni mezz'ora potevano
+# accavallarsi, con doppi rilanci e conflitto su data/guardiano.json. Il secondo aspetta in fila.
+concurrency:
+  group: guardiano
+  cancel-in-progress: false
 
 jobs:
   run:

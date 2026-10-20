@@ -245,10 +245,13 @@ async function collectMeteoHub(netCfg, w) {
                                      Math.round(Math.max(...vals) * 10) / 10];
   });
   await sleep(500);
-  // senza la raffica il vento non si scrive: [media, null] cancellerebbe la raffica gia' salvata in w[1]
+  /* SENZA LA RAFFICA il vento si scrive lo stesso, ma «provvisorio» (wp, 20/10/2026, settimo check, bug 10): prima si
+     buttava tutto, e al primo salvataggio del giorno il file restava senza vento e direzione fino al giro dopo. Il
+     segno wp lo legge writeDay: dove il file del giorno ha gia' un vento (con la sua raffica) si tiene quello, perche'
+     [media, null] cancellerebbe la raffica gia' salvata; dove non c'e' niente si scrive [media, null]. */
   const ventoRaw = await prendi('B11002');
   const raffica = await prendi('B11041');
-  const vento = ventoRaw && raffica ? ventoRaw : {};
+  const vento = ventoRaw || {}, senzaRaffica = !raffica;
   Object.keys(vento).forEach(id => {
     // ⚠️ le ore si contano sulle letture BUONE (19/10/2026, bug 9): con l'anemometro bloccato a 45 m/s tutto il giorno
     // le ore lette erano 24 anche se nessuna lettura era buona
@@ -256,9 +259,10 @@ async function collectMeteoHub(netCfg, w) {
     const vals = buone.map(v => v.val);
     if (!vals.length || oreDi(buone) < MIN_ORE_METEO) return;
     const media = vals.reduce((a, v) => a + v, 0) / vals.length;
-    const gu = (raffica[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
+    const gu = ((raffica || {})[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
     (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,
                                    gu.length ? Math.round(Math.max(...gu) * 3.6 * 10) / 10 : null];
+    if (senzaRaffica) out[id].wp = 1;
   });
   // Direzione del vento (2/10/2026): prodotto B11001 (gradi), una query in piu' per
   // rete/giorno. Si accoppia a B11002 per marca temporale e si fa la media
@@ -418,30 +422,9 @@ function togliPicchiFalsi(stations, dateStr) {
   });
 }
 
-/* ⚠️ VENTI FALSI (19/10/2026, quinto check, bug 9). La seconda rete dopo VENTO_MAX_MS, come i picchi falsi della
-   pioggia: un anemometro bloccato su un gradino piu' basso del tetto passerebbe. Il vento vero, anche forte, si vede
-   sui vicini; quello di San Vito Lo Capo (157,1 km/h il 16/10) aveva intorno 3-8 km/h. Si toglie il vento della
-   stazione (w e wd, solo quel giorno) se la media e' >= VENTO_FALSO_KMH, ha almeno VENTO_FALSO_VICINI vicini col
-   vento entro VENTO_FALSO_KM e il piu' ventoso di loro sta sotto 1/VENTO_FALSO_RAPPORTO del suo valore.
-   Provata sullo storico MeteoHub dal 1/8/2026: prende i 4 giorni guasti di San Vito e Manfredonia e nient'altro.
-   Solo MeteoHub: vette e capi delle altre reti (Mont Aigoual 74 km/h) il vento forte ce l'hanno davvero.
-   Gira in writeDay DOPO tieniMeteo, cosi' toglie anche un valore falso ripreso dal file del giorno. */
-const VENTO_FALSO_KMH = 30, VENTO_FALSO_KM = 35, VENTO_FALSO_VICINI = 3, VENTO_FALSO_RAPPORTO = 4;
-function togliVentiFalsi(stations, dateStr) {
-  const km = (a, b) => Math.hypot(a.lat - b.lat, (a.lon - b.lon) * Math.cos(a.lat * Math.PI / 180)) * 111.2;
-  const conW = stations.filter(s => s.w && s.w[0] != null && s.lat != null && s.lon != null);
-  const falsi = conW.filter(s => {
-    if (!(s.w[0] >= VENTO_FALSO_KMH)) return false;
-    const vicini = conW.filter(x => x !== s && km(s, x) <= VENTO_FALSO_KM);
-    if (vicini.length < VENTO_FALSO_VICINI) return false;
-    const mx = Math.max(...vicini.map(x => x.w[0]));
-    if (mx * VENTO_FALSO_RAPPORTO >= s.w[0]) return false;
-    console.warn(`  ⚠️ ${dateStr}: ${s.n} vento medio ${s.w[0]} km/h con ${vicini.length} vicini entro ${VENTO_FALSO_KM} km, il piu' ventoso a ${mx}: anemometro guasto, vento tolto dal giorno`);
-    return true;
-  });
-  falsi.forEach(s => { delete s.w; delete s.wd; });   // tutti decisi prima di togliere: un vicino non cambia il giudizio di un altro
-  return falsi.length;
-}
+// ⚠️ VENTI FALSI (19/10/2026, quinto check, bug 9): la regola sta in lib-venti-falsi.js dal 20/10/2026 (settimo check,
+// bug 11), perche' la usa anche backfill-meteo-meteohub.js. Gira in writeDay DOPO tieniMeteo.
+const { togliVentiFalsi } = require('./lib-venti-falsi.js');
 
 function writeDay(dir, dateStr, stations, net, soglia, src) {
   stations = togliPicchiFalsi(stations, dateStr);
@@ -468,6 +451,9 @@ function writeDay(dir, dateStr, stations, net, soglia, src) {
   // t/w/u/wd che a questo giro mancano si riprendono dal file dello stesso giorno (bug 6, 19/10/2026):
   // prima il file si riscriveva da capo e una query meteo caduta cancellava i giri precedenti
   const prima = leggiFile(outFile);
+  // il vento «provvisorio» (senza raffica, bug 10 del settimo check): dove il file ha gia' un vento si tiene quello
+  const conVento = {}; ((prima && prima.stations) || []).forEach(s => { if (s.w) conVento[s.id] = 1; });
+  stations.forEach(s => { if (!s.wp) return; delete s.wp; if (conVento[s.id]) { delete s.w; delete s.wd; } });
   const ripresi = prima ? tieniMeteo(stations, prima.stations) : 0;
   if (ripresi) console.log(`  ${dateStr}: t/w/u/wd ripresi dal file per ${ripresi} stazioni`);
   togliVentiFalsi(stations, dateStr);   // dopo tieniMeteo (bug 9, 19/10/2026)
