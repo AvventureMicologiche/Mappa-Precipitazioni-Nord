@@ -384,6 +384,7 @@ header{position:relative;flex-wrap:nowrap;}
 .mk-boschi{background:#eef6ef;border:1px solid #cfe3d2;border-radius:14px;padding:4px 16px 16px;margin:18px 0 6px;}
 .mk-boschi h2{margin-top:14px;color:#1d4a2a;}
 .mk-boschi-p{font-size:15px;color:#3d5a45;margin:2px 0 10px;}
+@media(max-width:400px){.mk-boschi .mk-tuo input::placeholder{font-size:15px;}}   /* la frase sta intera anche a 360 px */
 .mk-boschi .mk-tuo input{border-color:#2f6b3d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6b3d' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E");}
 .mk-citta-n a{color:#1b3f6e;font-weight:700;}
 @media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
@@ -419,7 +420,7 @@ header{position:relative;flex-wrap:nowrap;}
 <section class="mk-boschi" id="mk-boschi">
 <h2>🌲 Trova i boschi sulle Colline Metallifere e dintorni</h2>
 <p class="mk-boschi-p">Scrivi il paese: si apre la mappa dei boschi su quel posto, faggete, castagneti, querceti e abetaie colorati per tipo, col satellite a un tocco.</p>
-<div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca i boschi di un paese o di una frazione" placeholder="Il paese dei tuoi boschi"><div class="mk-drop"></div></div>
+<div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca i boschi di un paese o di una frazione" placeholder="Cerca una località, vedi i boschi"><div class="mk-drop"></div></div>
 </section>
 <section class="mk-meteo" id="mk-meteo">
 <h2>Che tempo farà sulle Colline Metallifere</h2>
@@ -496,7 +497,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/colline-metallifere/">dove ha piovuto sulle Colline Metallifere</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a ottobre 2026, in 99 giorni di misura, i 11 pluviometri
+<p>Da luglio 2026 a ottobre 2026, in 100 giorni di misura, i 11 pluviometri
 delle Colline Metallifere che leggiamo dallo stesso giorno hanno contato
 <b>176 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Sassetta</b> con
 202 mm, il più asciutto Orciatico con 135.
