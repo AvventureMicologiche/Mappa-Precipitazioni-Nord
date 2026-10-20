@@ -2730,6 +2730,15 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   zone piogge copiano il foglio della regione e lo tagliano all'inizio del blocco meteo, cosi' lo ereditano). Non
   sta in `STILE_IERI`, che usano anche le pagine «adesso».
 - `SOLO=<slug>` rigenera una zona sola (campioni), senza toccare la sitemap.
+- **Le 908 pagine paese (20/10/2026)** hanno gli stessi pezzi delle zone funghi (cerca in testata, «Trova i boschi»,
+  «Che tempo farà» al posto della striscia blu, grafico senza giorni previsti). Prima riga della tabella = il punto
+  del PLUVIOMETRO alla sua quota («al pluviometro», campo `qui`), poi fino a 7 comuni entro 12 km (20 km se ne
+  restano meno di 5). I paesi stanno in `data/paesi-localita/<regione>.json` (UN FILE PER REGIONE: tutto in uno
+  sarebbe ~600 KB contro i 10 ms di CPU della Function), letti da `/api/previsioni?paese=<reg>/<slug>`.
+  `genera-pagine-localita.js` accetta `SOLO=<reg>/<slug>`. Nella Function la chiave di cache usa il nome INTERO
+  del file (`paesi-zone` e `paesi-localita` davano tutti e due «pa»).
+- **Quiz tartufi**: dal 20/10 anche Lombardia, Piemonte, Liguria ed Emilia (`QUIZ_REGIONI` in
+  `lib-pagina-funghi.js`); l'Emilia ha indirizzo (`QUIZ_SLUG`: emilia-romagna) ed etichetta corta sue.
 
 ## Sesto check (20/10/2026)
 
