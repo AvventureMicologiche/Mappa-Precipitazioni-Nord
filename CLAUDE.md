@@ -2753,6 +2753,12 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   `tessere-boschi/anteprime/`, si rifanno a mano con `BOSCHI=1 SITO=http://localhost:8788/ OUT=tessere-boschi/anteprime
   node .github/scripts/genera-anteprime.js <regioni>` quando cambiano le tessere. In locale la pioggia si legge da
   `/_anteprime-prova/` (in .git/info/exclude). Ingrandimento massimo 1,1 (oltre, nelle regioni grandi, sgrana).
+  Etichette GIALLE all'85% su tutte (`OPZ.colore`, di partenza `giallo`; sua scelta sul confronto col blu scuro).
+- **Pagine PIOGGE (regioni 23 e zone 114, 20/10)**: la stessa libreria con `ieri: true, modo: 'bottone'`: il bottone
+  «Apri la mappa di ieri» DIVENTA la mappa della pioggia di IERI (`<reg>-ieri.webp/json`, che `genera-anteprime.js`
+  scatta a ogni giro con `scattaIeri` e `anteprime.yml` copia sul ramo), con la sua scritta sull'etichetta gialla.
+  Solo la pioggia, niente boschi (suo: «in alto solo la mappa piogge»). La mappa di un giorno e' piu' sbiadita di
+  quella dei 20 giorni: nei giorni asciutti e' quasi solo cartina coi pallini, ed e' il dato vero.
 - **Il bottone del radar (20/10)**: in `meteoClient`, sotto la tabella di «Che tempo farà», al posto della riga
   piccola. Blu pieno col pallino che pulsa se un posto della tabella ha >= 1 mm OGGI («Oggi è prevista pioggia X /
   guardala arrivare col radar piogge»), se no «📡 Dove sta piovendo adesso / guarda il radar piogge». Porta al primo
