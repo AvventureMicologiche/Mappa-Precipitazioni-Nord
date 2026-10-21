@@ -1847,11 +1847,12 @@ di marzo, giugno, settembre e dicembre). Rigenera funghi -> paese -> zona, e se
 qualcosa e' cambiato davvero sposta la data in `pagine-lastmod.json` **solo per
 le famiglie toccate**, rifa' la sitemap, committa e spinge.
 
-⚠️ **QUESTO GIRO COSTA ~15 CREDITI NETLIFY**, perche' `funghi/` sta nella radice
-e non nella regola ignore come `data/` e `.github/`. Quattro giri = 60 crediti
-l'anno, il 6% del piano. E' esattamente il motivo per cui il ritratto contiene
-l'archivio e non i millimetri di ieri: quelli sarebbero un deploy al giorno,
-450 crediti al mese.
+⚠️ ~~QUESTO GIRO COSTA ~15 CREDITI NETLIFY~~ (vero fino al 7/10/2026). Dal trasloco
+su Cloudflare Pages pubblicare e' gratis e il push NON pubblica da solo: le pagine
+rinnovate vanno online col giro `pagine-regione.yml` del mattino dopo, che pubblica
+tutto main (ottavo check, punto C, 21/10/2026), o subito con `pubblica-pages.js`.
+Il ritratto contiene l'archivio e non i millimetri di ieri per la stessa ragione di
+prima: quelli vorrebbero una pubblicazione al giorno.
 
 ⚠️ **Le quattro date della sitemap sono uscite dal codice** e stanno in
 `.github/scripts/pagine-lastmod.json`, cosi' il rinnovo puo' aggiornarle senza

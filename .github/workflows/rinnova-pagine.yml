@@ -8,8 +8,10 @@ on:
     # giorno piu' bagnato, il mese piu' piovoso). Quei numeri non scadono —
     # ogni frase dichiara il suo periodo — ma invecchiano come utilita': a
     # ogni stagione l'archivio e' piu' lungo e il ritratto dice di piu'.
-    # ⚠️ Dal 7/10/2026 il sito e' su Cloudflare Pages: il push NON pubblica
-    # niente, si pubblica a mano con pubblica-pages.js. I millimetri di ieri
+    # ⚠️ Dal 7/10/2026 il sito e' su Cloudflare Pages: il push del rinnovo non pubblica da solo, ma il giro
+    # pagine-regione.yml del mattino dopo pubblica TUTTO main, quindi le pagine rinnovate (e data/paesi-*.json,
+    # che la Function legge dai file del sito) vanno online entro un giorno (ottavo check, punto C, 21/10/2026).
+    # Per averle subito si lancia pubblica-pages.js a mano. I millimetri di ieri
     # restano comunque nel javascript della pagina: cuocerli vorrebbe dire una
     # pubblicazione al giorno.
     # ⚠️ Il minuto e' scelto libero: alle 11 UTC partono solo i :45 e i :50.
@@ -34,10 +36,10 @@ jobs:
       # le famiglie che sono cambiate davvero.
       - name: Rigenera le pagine
         run: node .github/scripts/rinnova-pagine.js
-      # Il commit NON pubblica (Cloudflare Pages si pubblica a mano, dal 7/10/2026):
-      # dopo il rinnovo va lanciato pubblica-pages.js. Se non e' cambiato niente
-      # non si committa. ⚠️ data/paesi-zone.json va online solo con la
-      # pubblicazione: la Function lo legge dai file del sito, non da GitHub.
+      # Il commit non pubblica da solo: va online col giro pagine-regione.yml del mattino dopo, che pubblica tutto
+      # main (per averlo subito: pubblica-pages.js a mano). Se non e' cambiato niente non si committa.
+      # ⚠️ data/paesi-zone.json e data/paesi-localita/ vanno online solo con la pubblicazione: la Function li legge
+      # dai file del sito, non da GitHub.
       - name: Commit e push
         run: |
           git config user.name "bot"
