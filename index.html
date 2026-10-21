@@ -3267,7 +3267,17 @@ function drawGrid(){
     var r1=r0+1; while(r1<ny && yb[r1+1]-yb[r0]<=64) r1++;
     if(yb[r1]>=0 && yb[r0]<=size.y){
       var dy=Math.round(yb[r0]), dh=Math.round(yb[r1])-dy;
-      if(dh>0) heatCtx.drawImage(small,0,r0,nx,r1-r0,pNW.x,dy,pSE.x-pNW.x,dh);
+      /* ⚠️ UNA RIGA IN PIU' SOPRA E SOTTO, RITAGLIATA (21/10/2026). Ritagliando la sorgente alle sole righe della
+         fascia, Safari (iPhone compreso) non sfuma oltre il bordo del ritaglio: a ogni giuntura c'era un gradino e
+         ad alto zoom la heatmap era a strisce orizzontali piatte. Chrome invece legge anche oltre e non si vedeva.
+         Provato su Safari vero (Mac di GitHub, ramo prova-safari): strisce col disegno di prima, sfumato con questo;
+         su Chrome identico riga per riga. Il ritaglio sta dentro il save() esterno del confine e si somma a quello. */
+      if(dh>0){
+        var s0=Math.max(r0-1,0), s1=Math.min(r1+1,ny);
+        heatCtx.save(); heatCtx.beginPath(); heatCtx.rect(pNW.x,dy,pSE.x-pNW.x,dh); heatCtx.clip();
+        heatCtx.drawImage(small,0,s0,nx,s1-s0,pNW.x,yb[s0],pSE.x-pNW.x,yb[s1]-yb[s0]);
+        heatCtx.restore();
+      }
     }
     r0=r1;
   }
