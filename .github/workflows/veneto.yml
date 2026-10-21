@@ -24,9 +24,14 @@ on:
 concurrency:
   group: veneto
   cancel-in-progress: false
+permissions:
+  contents: write
 jobs:
   run:
     runs-on: ubuntu-latest
+    # tetto (21/10/2026): una fonte che non risponde non tiene appeso il giro per 6 ore;
+    # il giro piu' lungo misurato e' di 9 minuti
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
         with:

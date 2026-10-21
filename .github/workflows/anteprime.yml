@@ -47,7 +47,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
+      # `ref: main` (21/10/2026): un giro rimasto in fila legge i riepiloghi della punta, non
+      # quelli di quando e' nato, e la data di «ieri» non resta indietro
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: '22'

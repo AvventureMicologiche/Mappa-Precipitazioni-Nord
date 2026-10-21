@@ -19,12 +19,20 @@
  * cosi' ripassa anche sui file che un collector ha riscritto dopo).
  * Storico: DA=2025-08-01 A=2026-10-03 node pulisci-temperature.js
  * Prova senza scrivere: PROVA=1
+ *
+ * SOLO=meteohub- (21/10/2026): giudica con TUTTI i vicini ma tocca solo le cartelle che
+ * cominciano cosi'. Lo lancia meteohub.yml prima del suo commit: MeteoHub riscriveva a ogni
+ * giro la minima impossibile (Baunei 19/10, −12,8°), questo passo la toglieva, e il file e'
+ * stato riscritto 22 volte in due giorni, con la temperatura sbagliata in mezzo per ore e i
+ * due commit a pestarsi nel push. Le altre cartelle restano intatte: il workflow aggiunge solo
+ * data/meteohub-*, e un file toccato fuori lascerebbe l'albero sporco al `git pull --rebase`.
  */
 const fs = require('fs');
 const path = require('path');
 
 const DATA = path.join(__dirname, '..', '..', 'data');
 const KM = 25, VICINI_MIN = 3, SOGLIA = 15, GRADIENTE = -0.0065;
+const SOLO = process.env.SOLO || '';
 
 function giornoItalia(indietro) {
   const oggi = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
@@ -91,13 +99,16 @@ function pulisci(giorno) {
     if (Math.abs(s.mx - attMx) > SOGLIA || Math.abs(s.mn - attMn) > SOGLIA) via.push({ s, attMn, attMx });
   }
   const toccati = new Set();
+  let tolte = 0;
   for (const { s, attMn, attMx } of via) {
+    if (SOLO && s.dir.indexOf(SOLO) !== 0) continue;
+    tolte++;
     console.log(`${giorno} ${s.dir} ${s.s.id} ${s.s.n}: [${s.mn}, ${s.mx}] contro [${attMn.toFixed(1)}, ${attMx.toFixed(1)}] -> tolta`);
     delete s.s.t;
     toccati.add(s.f);
   }
   if (!process.env.PROVA) for (const f of toccati) fs.writeFileSync(f, JSON.stringify(file[f]));
-  return via.length;
+  return tolte;
 }
 
 let tot = 0;

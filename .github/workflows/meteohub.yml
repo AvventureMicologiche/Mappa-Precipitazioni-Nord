@@ -37,6 +37,9 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    # tetto (21/10/2026): una fonte che non risponde non tiene appeso il giro per 6 ore;
+    # il giro piu' lungo misurato e' di 9 minuti
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
         with:
@@ -71,6 +74,13 @@ jobs:
           SOLO_RETE: ${{ inputs.solo_rete }}
           MH_USER: ${{ secrets.MH_USER }}
           MH_PASS: ${{ secrets.MH_PASS }}
+      # Le temperature impossibili si tolgono QUI, prima del commit (21/10/2026): prima le toglieva
+      # solo riepiloghi.yml, e MeteoHub a ogni giro le rimetteva (Baunei 19/10, 22 riscritture in
+      # due giorni). Stessa regola, giudica con i vicini di tutte le reti, tocca solo data/meteohub-*.
+      # Zero rete, pochi secondi; se fallisce si committa lo stesso, ci ripassano i riepiloghi.
+      - name: Togli le temperature impossibili
+        continue-on-error: true
+        run: GIORNI=11 SOLO=meteohub- node .github/scripts/pulisci-temperature.js
       - name: Commit e push
         run: |
           git config user.name "bot"

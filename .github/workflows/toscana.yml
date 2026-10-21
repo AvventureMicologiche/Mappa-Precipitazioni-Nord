@@ -35,9 +35,14 @@ env:
 concurrency:
   group: toscana
   cancel-in-progress: false
+permissions:
+  contents: write
 jobs:
   run:
     runs-on: ubuntu-latest
+    # tetto (21/10/2026): se il giro delle 22:15 restasse appeso 6 ore, le chiusure di Cloudflare
+    # si cancellerebbero in coda e il giorno non si chiuderebbe piu'. Il giro dura meno di un minuto.
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
         with:

@@ -60,7 +60,8 @@ function fetchURL(url) {
         else if (enc === 'deflate') zlib.inflate(buf, decompress);
         else zlib.gunzip(buf, decompress);
       });
-    }).on('error', reject);
+    }).on('error', reject)
+      .setTimeout(30000, function () { this.destroy(new Error('nessuna risposta in 30 s')); });
   });
 }
 

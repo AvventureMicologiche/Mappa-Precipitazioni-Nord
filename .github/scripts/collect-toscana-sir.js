@@ -147,7 +147,8 @@ function fetchRaw(url) {
         if (res.statusCode !== 200) reject(new Error(`HTTP ${res.statusCode}`));
         else resolve(data);
       });
-    }).on('error', reject);
+    }).on('error', reject)
+      .setTimeout(30000, function () { this.destroy(new Error('nessuna risposta in 30 s')); });
   });
 }
 

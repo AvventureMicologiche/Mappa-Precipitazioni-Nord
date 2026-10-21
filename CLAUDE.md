@@ -2802,3 +2802,25 @@ correggere. In produzione col commit di codice del 20/10 e uno separato `[skip n
   trimestrale rigenera e committa anche le zone piogge e `paesi-zone.json`.
 - NON toccati, per scelta: i pallini di partenza col «ieri» a −24 h (innocui), il badge «OASI Ticino» quando OASI e'
   saltata, il −48 h dell'avviso delle stime.
+
+## «Da guardare» del settimo e ottavo check (21/10/2026)
+
+Tredici punti rimasti aperti, studiati in sola lettura da una sessione cloud (resoconto `da-guardare-rapporto.md` sul
+ramo `da-guardare`), verificati sul codice e decisi con lui. Corretti:
+- **Tempo massimo su giri e richieste.** Nessun collector aveva `timeout-minutes`: un giro appeso restava li' 6 ore.
+  Per la Toscana era l'unico modo di perdere un giorno per sempre: se il giro delle 22:15 si appende, le chiusure di
+  Cloudflare (senza `CLOSING`) si cancellano in fila, l'ultima parte verso le 4 e scrive sul giorno nuovo. Ora 20 minuti
+  sui collector e sui due gaps, **10 sulla Toscana** (misurati gli ultimi 100 giri di ognuno: il piu' lungo 8,6 minuti,
+  la Toscana sotto il minuto). E 30 s senza risposta sulle sei `https.get` che non ne avevano (Emilia, Trentino x2,
+  Veneto, Alto Adige, richiesta principale al SIR), con `.setTimeout(30000, …destroy)` dopo `.on('error', reject)`.
+- **`permissions: contents: write`** nei sette collector che non l'avevano, e `ref: main` nel checkout di
+  `anteprime.yml`: i 17 collector adesso sono uguali.
+- **Le temperature impossibili si tolgono anche dentro `meteohub.yml`**, prima del commit (`pulisci-temperature.js` con
+  `SOLO=meteohub-`: giudica con tutti i vicini, tocca solo quelle cartelle). MeteoHub rimetteva a ogni giro la minima che
+  `riepiloghi.yml` toglieva (Baunei 19/10, −12,8°: 22 riscritture in due giorni, ed era la prima causa dei conflitti di
+  push fra giri).
+Lasciati, con lui: Piemonte sopra 300 mm in giorno UTC, registro di alert-fonti se la mail fallisce, date senza anno
+(PRIMA DI GENNAIO), `loadOpenMeteo` morto, frase del pluviometro assente sulle pagine paese (tutti «quando si passa da
+quel file»); id doppi Bormio/Panocchia, `CLOSING` da Cloudflare (lo copre il tetto), coperture parziali di
+meteohub-gaps, testata del telefono, punto delle migliaia e «~» delle pagine paese. La heatmap a fasce su Safari va
+guardata su un iPhone (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).

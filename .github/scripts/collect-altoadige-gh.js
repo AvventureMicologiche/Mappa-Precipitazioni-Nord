@@ -60,7 +60,8 @@ function fetchJSON(url) {
           catch(e) { reject(new Error('JSON parse error: ' + e.message)); }
         }
       });
-    }).on('error', reject);
+    }).on('error', reject)
+      .setTimeout(30000, function () { this.destroy(new Error('nessuna risposta in 30 s')); });
   });
 }
 
