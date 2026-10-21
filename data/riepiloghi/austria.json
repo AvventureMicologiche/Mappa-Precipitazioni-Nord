@@ -1,52 +1,52 @@
 {
  "regione": "austria",
- "generato": "2026-10-20T03:15:36.070Z",
+ "generato": "2026-10-21T03:15:37.633Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 268,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "stazioni": 265,
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Gaschurn (Vorarlberg)",
-     "nb": "Gaschurn",
+     "n": "Villacher Alpe (Kärnten)",
+     "nb": "Villacher Alpe",
+     "mm": 0.5
+    },
+    {
+     "n": "Loibl Tunnel (Kärnten)",
+     "nb": "Loibl Tunnel",
+     "mm": 0.3
+    },
+    {
+     "n": "Fraxern (Vorarlberg)",
+     "nb": "Fraxern",
+     "mm": 0.2
+    },
+    {
+     "n": "Laterns-Gapfohl (Vorarlberg)",
+     "nb": "Laterns-Gapfohl",
+     "mm": 0.2
+    },
+    {
+     "n": "Arriach (Kärnten)",
+     "nb": "Arriach",
      "mm": 0.1
-    },
-    {
-     "n": "Sulzberg (Vorarlberg)",
-     "nb": "Sulzberg",
-     "mm": 0.1
-    },
-    {
-     "n": "Abtenau (Salzburg)",
-     "nb": "Abtenau",
-     "mm": 0
-    },
-    {
-     "n": "Achenkirch (Tirol)",
-     "nb": "Achenkirch",
-     "mm": 0
-    },
-    {
-     "n": "Aflenz (Steiermark)",
-     "nb": "Aflenz",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 4.6,
+   "media": 3.8,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Feuerkogel (Oberösterreich)",
      "nb": "Feuerkogel",
-     "mm": 28.6
+     "mm": 27.7
     },
     {
      "n": "Gallspach (Oberösterreich)",
@@ -56,17 +56,17 @@
     {
      "n": "Bad Aussee (Steiermark)",
      "nb": "Bad Aussee",
-     "mm": 22.8
+     "mm": 22.2
     },
     {
-     "n": "Rudolfshütte (Salzburg)",
-     "nb": "Rudolfshütte",
-     "mm": 22
+     "n": "Bad Ischl (Oberösterreich)",
+     "nb": "Bad Ischl",
+     "mm": 20.6
     },
     {
-     "n": "Salzburg Freisaal (Salzburg)",
-     "nb": "Salzburg Freisaal",
-     "mm": 21.6
+     "n": "Unterach am Attersee (Oberösterreich)",
+     "nb": "Unterach am Attersee",
+     "mm": 20.4
     }
    ]
   },
@@ -74,8 +74,8 @@
    "media": 19.6,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -85,7 +85,7 @@
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 103.6
+     "mm": 103.7
     },
     {
      "n": "Schröcken (Vorarlberg)",
@@ -95,21 +95,21 @@
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
      "nb": "Laterns-Gapfohl",
-     "mm": 93
+     "mm": 93.2
     },
     {
      "n": "Dornbirn (Vorarlberg)",
      "nb": "Dornbirn",
-     "mm": 87
+     "mm": 87.1
     }
    ]
   },
   "30": {
-   "media": 27,
+   "media": 26.9,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -119,12 +119,12 @@
     {
      "n": "Feuerkogel (Oberösterreich)",
      "nb": "Feuerkogel",
-     "mm": 106.6
+     "mm": 105.6
     },
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 103.6
+     "mm": 103.7
     },
     {
      "n": "Schröcken (Vorarlberg)",
@@ -134,12 +134,13 @@
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
      "nb": "Laterns-Gapfohl",
-     "mm": 93
+     "mm": 93.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0.1,
   0.4,
@@ -168,9 +169,8 @@
   5.7,
   0,
   0.4,
-  1.2,
-  0.1
+  1.2
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": []
 }

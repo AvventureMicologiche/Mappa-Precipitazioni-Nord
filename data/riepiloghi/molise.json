@@ -1,20 +1,16 @@
 {
  "regione": "molise",
- "generato": "2026-10-20T03:15:36.068Z",
+ "generato": "2026-10-21T03:15:37.632Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 28,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Castelmauro",
-     "mm": 0.4
-    },
-    {
-     "n": "Isernia",
      "mm": 0.2
     },
     {
@@ -28,35 +24,39 @@
     {
      "n": "Campobasso",
      "mm": 0
+    },
+    {
+     "n": "Campochiaro",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 1.1,
+   "media": 0.3,
    "giorni": 7,
    "stazioni": 28,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Trigno a Bagnoli del Trigno",
-     "mm": 5.9
-    },
-    {
      "n": "Castelmauro",
-     "mm": 5
+     "mm": 4.2
     },
     {
-     "n": "Lucito Biferno",
-     "mm": 4.8
+     "n": "Trigno a Bagnoli del Trigno",
+     "mm": 1.7
+    },
+    {
+     "n": "Trigno a Pescolanciano",
+     "mm": 0.4
     },
     {
      "n": "Campobasso",
-     "mm": 3
+     "mm": 0.2
     },
     {
-     "n": "Palata",
-     "mm": 2.6
+     "n": "Isernia",
+     "mm": 0.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 36.4,
    "giorni": 20,
    "stazioni": 28,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -93,12 +93,12 @@
    "media": 37.8,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 116.6
+     "mm": 116.4
     },
     {
      "n": "Ponte Venticinque Archi",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Isernia",
-     "mm": 60.8
+     "mm": 60.6
     },
     {
      "n": "Lucito Biferno",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0.1,
-  0,
   0
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": []
 }

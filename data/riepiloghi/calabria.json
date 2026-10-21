@@ -1,125 +1,126 @@
 {
  "regione": "calabria",
- "generato": "2026-10-20T03:15:36.069Z",
+ "generato": "2026-10-21T03:15:37.633Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 1.9,
    "giorni": 1,
-   "stazioni": 138,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "stazioni": 139,
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Roseto Capo Spulico",
-     "mm": 0.6
+     "n": "S.Agata del Bianco",
+     "mm": 34.4
     },
     {
-     "n": "Serrarossa",
-     "mm": 0.4
+     "n": "San Luca",
+     "mm": 32.6
     },
     {
-     "n": "Albidona",
-     "mm": 0.2
+     "n": "Canolo Nuovo",
+     "mm": 21.8
     },
     {
-     "n": "Allai",
-     "mm": 0.2
+     "n": "Antonimina",
+     "mm": 20.2
     },
     {
-     "n": "Cardeto",
-     "mm": 0.2
+     "n": "Petrona'",
+     "mm": 14
     }
    ]
   },
   "7": {
-   "media": 5.2,
+   "media": 2.9,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
+     "n": "San Luca",
+     "mm": 36.8
+    },
+    {
+     "n": "S.Agata del Bianco",
+     "mm": 36.4
+    },
+    {
+     "n": "Canolo Nuovo",
+     "mm": 27.8
+    },
+    {
      "n": "Cardeto",
-     "mm": 30.8
+     "mm": 26.4
     },
     {
-     "n": "Sinopoli",
-     "mm": 21.4
-    },
-    {
-     "n": "Gambarie",
-     "mm": 20.6
-    },
-    {
-     "n": "Lamezia",
-     "mm": 20.6
-    },
-    {
-     "n": "Bagnara Calabra",
-     "mm": 18.8
+     "n": "Antonimina",
+     "mm": 23.6
     }
    ]
   },
   "20": {
-   "media": 82.3,
+   "media": 84.2,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 211
+     "mm": 232.8
+    },
+    {
+     "n": "Roccaforte del Greco",
+     "mm": 182.6
     },
     {
      "n": "Punta Stilo",
      "mm": 179.2
     },
     {
-     "n": "Roccaforte del Greco",
-     "mm": 177.8
-    },
-    {
-     "n": "Cardeto",
-     "mm": 162.8
+     "n": "S.Agata del Bianco",
+     "mm": 172
     },
     {
      "n": "Allai",
-     "mm": 158.8
+     "mm": 165.8
     }
    ]
   },
   "30": {
-   "media": 107.8,
+   "media": 102.6,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 220.4
-    },
-    {
-     "n": "Cardeto",
-     "mm": 212.2
-    },
-    {
-     "n": "Staiti",
-     "mm": 208.6
-    },
-    {
-     "n": "Allai",
-     "mm": 203.2
+     "mm": 241.8
     },
     {
      "n": "San Nicola da Crissa",
-     "mm": 200
+     "mm": 198.2
+    },
+    {
+     "n": "Roccaforte del Greco",
+     "mm": 194.2
+    },
+    {
+     "n": "Cardeto",
+     "mm": 193.6
+    },
+    {
+     "n": "Punta Stilo",
+     "mm": 189.6
     }
    ]
   }
  },
  "serie": [
+  1.9,
   0,
   0,
   0.1,
@@ -148,18 +149,17 @@
   0,
   1.5,
   6.7,
-  2.6,
-  7
+  2.6
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-19",
-   "m1": 0.1,
-   "m7": 9.4,
-   "m30": 140.1,
+   "ultimo": "2026-10-20",
+   "m1": 3.1,
+   "m7": 4.5,
+   "m30": 136.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-19",
-   "m1": 0.1,
-   "m7": 2.7,
-   "m30": 94.1,
+   "ultimo": "2026-10-20",
+   "m1": 0.3,
+   "m7": 0.7,
+   "m30": 76.1,
    "p1": true,
    "p7": true,
    "p30": true

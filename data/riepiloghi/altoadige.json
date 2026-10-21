@@ -1,33 +1,33 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-20T03:15:36.067Z",
+ "generato": "2026-10-21T03:15:37.631Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
+     "n": "Ultimo Fontana Bianca",
+     "mm": 4.8
+    },
+    {
+     "n": "Santa Valburga",
+     "mm": 2.2
+    },
+    {
      "n": "Alta Val Martello",
-     "mm": 0
+     "mm": 0.9
     },
     {
-     "n": "Anterselva di Sopra",
-     "mm": 0
+     "n": "Redagno",
+     "mm": 0.9
     },
     {
-     "n": "Barbiano Colma",
-     "mm": 0
-    },
-    {
-     "n": "Bolzano",
-     "mm": 0
-    },
-    {
-     "n": "Bressanone",
-     "mm": 0
+     "n": "Salorno",
+     "mm": 0.9
     }
    ]
   },
@@ -35,37 +35,37 @@
    "media": 1.1,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
-     "mm": 12.3
+     "mm": 8.3
     },
     {
-     "n": "Predoi",
-     "mm": 6.3
-    },
-    {
-     "n": "Anterselva di Sopra",
+     "n": "Ultimo Fontana Bianca",
      "mm": 5.5
     },
     {
-     "n": "Riva di Tures",
-     "mm": 4.7
+     "n": "Predoi",
+     "mm": 4.6
+    },
+    {
+     "n": "Anterselva di Sopra",
+     "mm": 4.4
     },
     {
      "n": "Salorno",
-     "mm": 3.3
+     "mm": 4
     }
    ]
   },
   "20": {
-   "media": 13.8,
+   "media": 14.2,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Vallelunga Grub",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Solda",
-     "mm": 31.6
+     "mm": 32
     },
     {
      "n": "Val di Vizze San Giacomo",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Fleres",
-     "mm": 27.1
+     "mm": 27.2
     }
    ]
   },
   "30": {
-   "media": 14.6,
+   "media": 14.9,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Val di Vizze San Giacomo",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Solda",
-     "mm": 31.6
+     "mm": 32
     },
     {
      "n": "Predoi",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Fleres",
-     "mm": 29.5
+     "mm": 29.6
     }
    ]
   }
  },
  "serie": [
+  0.3,
   0,
   0.2,
   0,
@@ -148,30 +149,29 @@
   0.8,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-19",
-   "m1": 0,
-   "m7": 1.1,
-   "m30": 13.2,
-   "p1": false,
+   "ultimo": "2026-10-20",
+   "m1": 1.5,
+   "m7": 2.6,
+   "m30": 14.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-19",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 13.8,
-   "p1": false,
+   "ultimo": "2026-10-20",
+   "m1": 0.4,
+   "m7": 0.4,
+   "m30": 14.2,
+   "p1": true,
    "p7": true,
    "p30": true
   }

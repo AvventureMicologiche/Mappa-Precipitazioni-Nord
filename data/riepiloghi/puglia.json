@@ -1,24 +1,24 @@
 {
  "regione": "puglia",
- "generato": "2026-10-20T03:15:36.069Z",
+ "generato": "2026-10-21T03:15:37.632Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 129,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "stazioni": 127,
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Loconia",
-     "mm": 0.4
-    },
-    {
-     "n": "Bosco Umbra",
-     "mm": 0.2
+     "mm": 0.6
     },
     {
      "n": "F. Ofanto - S.Samuele di Cafiero",
+     "mm": 0.2
+    },
+    {
+     "n": "Locorotondo",
      "mm": 0.2
     },
     {
@@ -26,46 +26,46 @@
      "mm": 0.2
     },
     {
-     "n": "Acquaviva delle Fonti",
-     "mm": 0
+     "n": "Montursi (Gioia del Colle)",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 1.6,
+   "media": 0,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Monopoli",
-     "mm": 11.5
+     "n": "Loconia",
+     "mm": 1.8
     },
     {
-     "n": "Barletta",
-     "mm": 9.4
+     "n": "Latiano",
+     "mm": 1.6
     },
     {
-     "n": "Ceglie Messapica",
-     "mm": 9
+     "n": "F. Ofanto - S.Samuele di Cafiero",
+     "mm": 0.8
     },
     {
-     "n": "Castel del Monte",
-     "mm": 8.7
+     "n": "Martina Franca",
+     "mm": 0.4
     },
     {
-     "n": "Fasano",
-     "mm": 8.6
+     "n": "Bosco Umbra",
+     "mm": 0.2
     }
    ]
   },
   "20": {
-   "media": 51.7,
+   "media": 51.5,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -84,17 +84,17 @@
      "mm": 122.4
     },
     {
-     "n": "Presicce",
-     "mm": 121.6
+     "n": "Ruffano",
+     "mm": 111.9
     }
    ]
   },
   "30": {
-   "media": 55,
+   "media": 54.4,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -102,7 +102,7 @@
     },
     {
      "n": "S.M. di Leuca",
-     "mm": 196.9
+     "mm": 189.6
     },
     {
      "n": "Nardo",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Presicce",
-     "mm": 127.2
+     "mm": 124.4
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0.3,
-  0,
-  0.6
+  0
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": []
 }

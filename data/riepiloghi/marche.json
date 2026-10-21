@@ -1,100 +1,71 @@
 {
  "regione": "marche",
- "generato": "2026-10-20T03:15:36.068Z",
+ "generato": "2026-10-21T03:15:37.632Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 113,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Chienti 2",
-     "mm": 0.4
+     "n": "Fonte Avellana",
+     "mm": 2.4
     },
     {
-     "n": "Recanati",
-     "mm": 0.4
+     "n": "Cantiano",
+     "mm": 1.8
     },
     {
-     "n": "Rostighello",
-     "mm": 0.4
+     "n": "Monte Petrano",
+     "mm": 1.4
     },
     {
-     "n": "Rotella",
-     "mm": 0.4
+     "n": "Cagli Civita",
+     "mm": 1
     },
     {
-     "n": "Svarchi",
-     "mm": 0.4
+     "n": "Piobbico",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 0.7,
+   "media": 0.8,
    "giorni": 7,
    "stazioni": 113,
-   "primo": "2026-10-13",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-14",
+   "ultimo": "2026-10-20",
    "top": [
     {
-     "n": "Sassotetto",
-     "mm": 3.1
+     "n": "Cantiano",
+     "mm": 3
     },
     {
-     "n": "Jesi",
-     "mm": 2.6
+     "n": "Sassotetto",
+     "mm": 2.8
+    },
+    {
+     "n": "Fonte Avellana",
+     "mm": 2.4
     },
     {
      "n": "Sant Angelo in Vado",
+     "mm": 2
+    },
+    {
+     "n": "Biscubio",
      "mm": 1.8
-    },
-    {
-     "n": "Amandola",
-     "mm": 1.6
-    },
-    {
-     "n": "Rostighello",
-     "mm": 1.6
     }
    ]
   },
   "20": {
-   "media": 42.8,
+   "media": 42.9,
    "giorni": 20,
    "stazioni": 112,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-19",
-   "top": [
-    {
-     "n": "Monte Petrano",
-     "mm": 139.8
-    },
-    {
-     "n": "Loro Piceno",
-     "mm": 116.2
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 112.2
-    },
-    {
-     "n": "Sant Angelo in Pontano",
-     "mm": 110.2
-    },
-    {
-     "n": "Cagli Civita",
-     "mm": 95.4
-    }
-   ]
-  },
-  "30": {
-   "media": 49.1,
-   "giorni": 30,
-   "stazioni": 106,
-   "primo": "2026-09-20",
-   "ultimo": "2026-10-19",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-20",
    "top": [
     {
      "n": "Monte Petrano",
@@ -102,7 +73,36 @@
     },
     {
      "n": "Loro Piceno",
-     "mm": 123.8
+     "mm": 116.2
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 112.6
+    },
+    {
+     "n": "Sant Angelo in Pontano",
+     "mm": 110.2
+    },
+    {
+     "n": "Cagli Civita",
+     "mm": 96.2
+    }
+   ]
+  },
+  "30": {
+   "media": 49.3,
+   "giorni": 30,
+   "stazioni": 106,
+   "primo": "2026-09-21",
+   "ultimo": "2026-10-20",
+   "top": [
+    {
+     "n": "Monte Petrano",
+     "mm": 142.4
+    },
+    {
+     "n": "Loro Piceno",
+     "mm": 124
     },
     {
      "n": "Sant Angelo in Pontano",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Pianello di Cagli",
-     "mm": 113
+     "mm": 113.4
     },
     {
      "n": "Fiumesino",
-     "mm": 110.2
+     "mm": 110.4
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.1,
   0.1,
   0.1,
@@ -148,18 +149,17 @@
   0,
   0,
   0.1,
-  0.1,
   0.1
  ],
- "serieDa": "2026-10-19",
+ "serieDa": "2026-10-20",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-19",
-   "m1": 0.1,
-   "m7": 0.4,
-   "m30": 35.5,
+   "ultimo": "2026-10-20",
+   "m1": 1.6,
+   "m7": 1.9,
+   "m30": 36.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,9 +167,9 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-19",
-   "m1": 0,
-   "m7": 0.9,
+   "ultimo": "2026-10-20",
+   "m1": 0.2,
+   "m7": 0.8,
    "m30": 34.3,
    "p1": true,
    "p7": true,
@@ -178,12 +178,12 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-19",
+   "ultimo": "2026-10-20",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 37.2,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   }
  ]
