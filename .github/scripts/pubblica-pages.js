@@ -35,7 +35,9 @@ const OUT = path.join(REPO, '_pages');
 const TETTO_FILE = 19500; // Pages: 20.000 per deploy, con un po' di margine
 
 // ── cosa NON si pubblica ──
-const CARTELLE_FUORI = new Set(['.git', '.github', '.netlify', '.claude', 'netlify', 'prove', '_pages', 'node_modules', 'functions', '.wrangler']);
+// 22/10/2026: fuori anche `_anteprime-prova` (le mappe di prova che le pagine leggono solo in locale, escluse da git con
+// .git/info/exclude): pubblicando dal PC finivano sul sito vero.
+const CARTELLE_FUORI = new Set(['.git', '.github', '.netlify', '.claude', 'netlify', 'prove', '_pages', 'node_modules', 'functions', '.wrangler', '_anteprime-prova']);
 // 6/10 pomeriggio: fuori anche alert-mail.eml (mail di allarme costruita al volo, e' in .gitignore) e i due file di git.
 const FILE_FUORI = /^(netlify\.toml|.*\.md|backfill-.*\.js|populate-history.*\.js|diagnose-.*\.js|_headers|_redirects|alert-mail\.eml|\.gitattributes|\.gitignore)$/;
 const dentroTessere = rel => rel.startsWith('tessere-boschi' + path.sep + 'italia');

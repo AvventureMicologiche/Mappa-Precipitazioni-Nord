@@ -31,7 +31,33 @@ permissions:
   contents: write
   actions: read     # check-orologio.js legge l'elenco dei run (5/10/2026)
 jobs:
+  # ⚠️ UN GIRO VERO AL GIORNO (22/10/2026). Dal 22/10 la sveglia su Cloudflare lancia questo workflow alle 11:45
+  # italiane, perche' il cron di GitHub partiva fra le 15:30 e le 21:30. Il cron resta come riserva, ma quando
+  # arriva tardi non deve rifare il giro: doppioni e campi spariti non hanno registro e manderebbero la stessa mail
+  # due volte. Quindi il giro del CRON si salta se oggi (giorno italiano) un altro giro e' gia' riuscito.
+  # I lanci a mano partono sempre.
+  gia-fatto:
+    runs-on: ubuntu-latest
+    outputs:
+      salta: ${{ steps.c.outputs.salta }}
+    steps:
+      - id: c
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENTO: ${{ github.event_name }}
+        run: |
+          if [ "$EVENTO" != "schedule" ]; then echo "salta=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          gh api "repos/${{ github.repository }}/actions/workflows/alert-fonti.yml/runs?per_page=20" > runs.json
+          node -e '
+            const g = d => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date(d));
+            const oggi = g(Date.now()), io = String(process.env.GITHUB_RUN_ID);
+            const fatti = require("./runs.json").workflow_runs.filter(r => String(r.id) !== io && r.conclusion === "success" && g(r.created_at) === oggi);
+            console.log(fatti.length ? "oggi gia fatto: run " + fatti.map(r => r.id + " (" + r.event + ")").join(", ") : "oggi non ancora fatto");
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "salta=" + (fatti.length > 0) + "\n");
+          '
   run:
+    needs: gia-fatto
+    if: needs.gia-fatto.outputs.salta != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

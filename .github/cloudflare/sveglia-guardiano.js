@@ -55,6 +55,10 @@ const TABELLA = [
   ['07:30', ['guardiano.yml'], 0],
   ['08:00', ['guardiano.yml'], 0],
   ['08:30', ['guardiano.yml'], 0],
+  // ── l'allarme fonti (22/10/2026): il suo cron di GitHub (9:43 UTC) partiva fra le 15:30 e le 21:30.
+  // 11:45 e non prima: ARPAE completa la giornata entro le 11, e i controlli guardano ieri. Il workflow salta da
+  // se' il giro del cron se oggi uno e' gia' riuscito; qui si salta se GitHub l'ha fatto nelle ultime 10 ore.
+  ['11:45', ['alert-fonti.yml'], 600],
 ];
 
 const H = (env) => ({
