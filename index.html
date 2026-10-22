@@ -15954,7 +15954,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 <script>
 (function(){
   var VERSIONE='2026-10-20', CHIAVE='novitaVista';   // 20/10: la pagina del quiz tartufi, una sola
-  var NV_FINO='2026-10-27';   // ultimo giorno in cui si apre da sola (suo: «una settimana e poi sparisce»); ?novita=1 la mostra sempre
+  var NV_FINO='2026-10-21';   // ultimo giorno in cui si apre da sola; era il 27/10, chiusa prima il 22/10/2026 (suo: «togli quiz»); ?novita=1 la mostra sempre
   function oggiQui(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }   // data del telefono, non UTC
   /* 5/10/2026: i filmati (4-5 MB l'uno) li serve GitHub, non Netlify. In cinque giorni di ottobre
      la finestra ha scaricato 10-15 GB dal sito: a 20 crediti il GB era il grosso dei 600 crediti di banda. */
@@ -16105,11 +16105,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 #tq-btn.vis{display:flex}
 #tq-btn.p-riga{position:relative;top:auto;right:auto;bottom:auto;height:auto;padding:0 7px;justify-content:center;box-shadow:none;border-style:solid;font-size:11.5px;white-space:nowrap;flex-direction:column;gap:1px}
 .rd-coppia.con-tq{grid-template-columns:1fr auto 1fr}
-/* «new» sulle temperature E sulla Mappa boschi (3/10, suo); il 7/10 quello dei boschi e' passato alle Previsioni, questo resta */
-#tq-btn.p-riga::after{content:'new';position:absolute;top:-6px;right:-4px;background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;
-  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out infinite}
-#tq-btn.p-riga.on::after{display:none}
-@media (prefers-reduced-motion:reduce){#tq-btn.p-riga::after{animation:none}}
+/* «new» sulle temperature: messo il 3/10, TOLTO il 22/10/2026 (suo), qui e sull'icona in mappa */
 body.modo-radar .rd-coppia.con-tq,body.modo-boschi .rd-coppia.con-tq{grid-template-columns:1fr 1fr}
 /* sul telefono tre tasti nella riga: «Radar pioggia» e «Mappa boschi» andavano a capo (36→54 px a 360):
    un filo piu' piccoli e stretti, e il termometro sopra la data per prendere meno larghezza */
@@ -16143,11 +16139,7 @@ body.tq-on #loc-input.loc-chiama,body.tq-on #geo-btn.loc-chiama{animation:none !
   border:2px solid rgba(0,0,0,.22);box-shadow:0 1px 5px rgba(0,0,0,.25);font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',sans-serif;color:#1b3f6e}
 #tq-btn.p-mappa svg{width:19px;height:19px}
 #tq-btn.p-mappa.on{background:#1f6fd1;border-color:#1f6fd1;color:#fff}
-/* il «new» resta anche sull'icona (13/10/2026, suo: «lascia il new su temp e satellite»); sparisce con le temperature accese */
-#tq-btn.p-mappa::after{content:'new';position:absolute;top:-7px;right:-6px;background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;
-  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out infinite}
-#tq-btn.p-mappa.on::after{display:none}
-@media (prefers-reduced-motion:reduce){#tq-btn.p-mappa::after{animation:none}}
+/* il «new» dell'icona (13/10) e' stato tolto il 22/10/2026 (suo), insieme a quello della riga */
 /* la riga dello storico: Radar pioggia | Mappa boschi | Satellite, tre tasti uguali (13/10/2026, sua scelta «3») */
 .rd-coppia.con-sat{grid-template-columns:1fr 1fr 1fr}
 body.modo-radar .rd-coppia.con-sat,body.modo-boschi .rd-coppia.con-sat{grid-template-columns:1fr 1fr}
