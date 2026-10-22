@@ -1,12 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-09T06:00:36.176Z",
-      "inRitardo": [],
-      "lanciati": [],
-      "mancanti": []
-    },
-    {
       "quando": "2026-10-09T06:30:34.072Z",
       "inRitardo": [],
       "lanciati": [],
@@ -1206,8 +1200,24 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-10-22T14:07:53.829Z",
+      "inRitardo": [
+        "ticino"
+      ],
+      "lanciati": [
+        "ticino.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "ticino",
+          "giorno": "2026-10-21",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-22T12:32:25.840Z",
-  "riassunto": "39 giri con qualcosa ri-lanciato su 120 · 43 con qualche giorno mancante · 15 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-22T14:07:53.829Z",
+  "riassunto": "40 giri con qualcosa ri-lanciato su 120 · 44 con qualche giorno mancante · 15 con un buco di 2+ giorni"
 }
