@@ -1,125 +1,126 @@
 {
  "regione": "umbria",
- "generato": "2026-10-21T03:15:37.631Z",
+ "generato": "2026-10-22T03:15:28.826Z",
  "periodi": {
   "1": {
-   "media": 2.6,
+   "media": 15.5,
    "giorni": 1,
    "stazioni": 74,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Allerona",
-     "mm": 12.6
+     "n": "Ancaiano",
+     "mm": 50.6
     },
     {
-     "n": "Orvieto",
-     "mm": 12.2
+     "n": "Terni",
+     "mm": 31.6
     },
     {
-     "n": "Corbara",
-     "mm": 11.8
+     "n": "S.Gemini",
+     "mm": 30.6
     },
     {
-     "n": "Melezzole",
-     "mm": 10.8
+     "n": "Castagnacupa",
+     "mm": 29.6
     },
     {
-     "n": "Ponticelli",
-     "mm": 10.4
+     "n": "Castiglione del Lago",
+     "mm": 27.8
     }
    ]
   },
   "7": {
-   "media": 2.7,
+   "media": 18.2,
    "giorni": 7,
    "stazioni": 74,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Allerona",
-     "mm": 12.6
+     "n": "Ancaiano",
+     "mm": 51
     },
     {
-     "n": "Orvieto",
-     "mm": 12.4
+     "n": "S.Gemini",
+     "mm": 32.8
     },
     {
-     "n": "Corbara",
-     "mm": 11.8
+     "n": "Terni",
+     "mm": 32.8
     },
     {
-     "n": "Melezzole",
-     "mm": 11.2
+     "n": "Castagnacupa",
+     "mm": 31.2
     },
     {
-     "n": "Orvieto Scalo",
-     "mm": 10.4
+     "n": "Castiglione del Lago",
+     "mm": 31.2
     }
    ]
   },
   "20": {
-   "media": 29.3,
+   "media": 44.8,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "San Benedetto Vecchio",
-     "mm": 77.8
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 77.2
+     "n": "Petrelle",
+     "mm": 91
     },
     {
      "n": "Pieve di Saddi",
-     "mm": 72.2
+     "mm": 89.2
+    },
+    {
+     "n": "San Benedetto Vecchio",
+     "mm": 87.6
+    },
+    {
+     "n": "Bocca Serriola",
+     "mm": 86.6
     },
     {
      "n": "Citta'di Castello",
-     "mm": 71.4
-    },
-    {
-     "n": "Petrelle",
-     "mm": 65.4
+     "mm": 85.2
     }
    ]
   },
   "30": {
-   "media": 29.8,
+   "media": 45.3,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-20",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "San Benedetto Vecchio",
-     "mm": 77.8
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 77.3
+     "n": "Petrelle",
+     "mm": 91
     },
     {
      "n": "Pieve di Saddi",
-     "mm": 72.2
+     "mm": 89.2
+    },
+    {
+     "n": "San Benedetto Vecchio",
+     "mm": 87.6
+    },
+    {
+     "n": "Bocca Serriola",
+     "mm": 86.7
     },
     {
      "n": "Citta'di Castello",
-     "mm": 71.4
-    },
-    {
-     "n": "Petrelle",
-     "mm": 65.4
+     "mm": 85.2
     }
    ]
   }
  },
  "serie": [
+  15.5,
   2.6,
   0,
   0,
@@ -148,18 +149,17 @@
   0.5,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-20",
+ "serieDa": "2026-10-21",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-20",
-   "m1": 1.1,
-   "m7": 1.3,
-   "m30": 76.4,
+   "ultimo": "2026-10-21",
+   "m1": 9.7,
+   "m7": 11,
+   "m30": 86.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-20",
-   "m1": 0.1,
-   "m7": 0.2,
-   "m30": 22.5,
+   "ultimo": "2026-10-21",
+   "m1": 20.7,
+   "m7": 20.8,
+   "m30": 43.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-20",
-   "m1": 10.5,
-   "m7": 10.8,
-   "m30": 35.1,
+   "ultimo": "2026-10-21",
+   "m1": 12.2,
+   "m7": 23,
+   "m30": 47.3,
    "p1": true,
    "p7": true,
    "p30": true

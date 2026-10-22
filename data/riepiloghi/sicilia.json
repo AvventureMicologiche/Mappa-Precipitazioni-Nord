@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-21T03:15:37.633Z",
+ "generato": "2026-10-22T03:15:28.828Z",
  "periodi": {
   "1": {
-   "media": 5.4,
+   "media": 5.5,
    "giorni": 1,
-   "stazioni": 417,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-20",
+   "stazioni": 406,
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Noto SIAS",
-     "mm": 139.8
+     "n": "Pagliara",
+     "mm": 109
     },
     {
-     "n": "Noto_DRPC",
-     "mm": 128
+     "n": "Casalvecchio Siculo",
+     "mm": 80.6
     },
     {
-     "n": "Tellaro a Villa Tellaro",
-     "mm": 123.8
+     "n": "Allume",
+     "mm": 73.8
     },
     {
-     "n": "Forza d'Agro'",
-     "mm": 116.6
+     "n": "Fiumedinisi SIAS",
+     "mm": 70
     },
     {
-     "n": "Piedimonte Etneo",
-     "mm": 96.9
+     "n": "Scaletta Superiore",
+     "mm": 68.4
     }
    ]
   },
   "7": {
-   "media": 11.5,
+   "media": 16.8,
    "giorni": 7,
    "stazioni": 413,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Letojanni",
-     "mm": 211.2
-    },
-    {
-     "n": "Forza d'Agro'",
-     "mm": 204.8
+     "n": "Pagliara",
+     "mm": 247
     },
     {
      "n": "Piedimonte Etneo",
-     "mm": 202.5
+     "mm": 240.8
     },
     {
-     "n": "Melia",
-     "mm": 165
+     "n": "Forza d'Agro'",
+     "mm": 236
     },
     {
-     "n": "Noto SIAS",
-     "mm": 161.2
+     "n": "Letojanni",
+     "mm": 227.1
+    },
+    {
+     "n": "Casalvecchio Siculo",
+     "mm": 225.1
     }
    ]
   },
   "20": {
-   "media": 48.5,
+   "media": 53.7,
    "giorni": 20,
    "stazioni": 417,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-21",
    "top": [
     {
+     "n": "Pagliara",
+     "mm": 332.4
+    },
+    {
      "n": "Forza d'Agro'",
-     "mm": 292.1
-    },
-    {
-     "n": "Letojanni",
-     "mm": 280.6
-    },
-    {
-     "n": "Melia",
-     "mm": 246.2
-    },
-    {
-     "n": "Piedimonte Etneo",
-     "mm": 235.2
+     "mm": 323.3
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 230
+     "mm": 310.6
+    },
+    {
+     "n": "Letojanni",
+     "mm": 296.5
+    },
+    {
+     "n": "Melia",
+     "mm": 280.2
     }
    ]
   },
   "30": {
-   "media": 63.3,
+   "media": 66.8,
    "giorni": 30,
-   "stazioni": 419,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-20",
+   "stazioni": 416,
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-21",
    "top": [
     {
+     "n": "Pagliara",
+     "mm": 336.4
+    },
+    {
      "n": "Forza d'Agro'",
-     "mm": 293.1
+     "mm": 324.1
+    },
+    {
+     "n": "Casalvecchio Siculo",
+     "mm": 311.8
     },
     {
      "n": "Letojanni",
-     "mm": 282.4
-    },
-    {
-     "n": "Riposto SIAS",
-     "mm": 254.6
+     "mm": 298.3
     },
     {
      "n": "Melia",
-     "mm": 251
-    },
-    {
-     "n": "Aci Castello",
-     "mm": 248.7
+     "mm": 285
     }
    ]
   }
  },
  "serie": [
+  5.5,
   5.4,
   4.1,
   1.5,
@@ -148,18 +149,17 @@
   3.3,
   0,
   3,
-  4.3,
-  2.3
+  4.3
  ],
- "serieDa": "2026-10-20",
+ "serieDa": "2026-10-21",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-20",
-   "m1": 0.3,
-   "m7": 3.8,
-   "m30": 93.4,
+   "ultimo": "2026-10-21",
+   "m1": 0.8,
+   "m7": 4.6,
+   "m30": 90.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-20",
+   "ultimo": "2026-10-21",
    "m1": 0.5,
-   "m7": 0.8,
-   "m30": 92.8,
+   "m7": 1.3,
+   "m30": 93,
    "p1": true,
    "p7": true,
    "p30": true

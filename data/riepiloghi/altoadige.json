@@ -1,125 +1,126 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-21T03:15:37.631Z",
+ "generato": "2026-10-22T03:15:28.826Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 22.6,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Ultimo Fontana Bianca",
-     "mm": 4.8
-    },
-    {
      "n": "Santa Valburga",
-     "mm": 2.2
+     "mm": 76.9
     },
     {
-     "n": "Alta Val Martello",
-     "mm": 0.9
+     "n": "Plata in Passiria",
+     "mm": 46.6
     },
     {
-     "n": "Redagno",
-     "mm": 0.9
+     "n": "Ultimo Fontana Bianca",
+     "mm": 43.9
     },
     {
-     "n": "Salorno",
-     "mm": 0.9
+     "n": "Plan",
+     "mm": 43.6
+    },
+    {
+     "n": "Sesto",
+     "mm": 41
     }
    ]
   },
   "7": {
-   "media": 1.1,
+   "media": 23.2,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Val di Vizze San Giacomo",
-     "mm": 8.3
+     "n": "Santa Valburga",
+     "mm": 79.7
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 5.5
+     "mm": 49.4
     },
     {
-     "n": "Predoi",
-     "mm": 4.6
+     "n": "Plata in Passiria",
+     "mm": 47.3
     },
     {
-     "n": "Anterselva di Sopra",
-     "mm": 4.4
+     "n": "Plan",
+     "mm": 44.5
     },
     {
-     "n": "Salorno",
-     "mm": 4
+     "n": "Sesto",
+     "mm": 41
     }
    ]
   },
   "20": {
-   "media": 14.2,
+   "media": 36.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Vallelunga Grub",
-     "mm": 34.3
-    },
-    {
-     "n": "Solda",
-     "mm": 32
-    },
-    {
-     "n": "Val di Vizze San Giacomo",
-     "mm": 29.8
-    },
-    {
-     "n": "Monte Maria",
-     "mm": 29.5
+     "n": "Santa Valburga",
+     "mm": 85.5
     },
     {
      "n": "Fleres",
-     "mm": 27.2
+     "mm": 66.7
+    },
+    {
+     "n": "Ultimo Fontana Bianca",
+     "mm": 63.1
+    },
+    {
+     "n": "Plata in Passiria",
+     "mm": 63
+    },
+    {
+     "n": "Plan",
+     "mm": 62.4
     }
    ]
   },
   "30": {
-   "media": 14.9,
+   "media": 37.6,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-20",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-21",
    "top": [
     {
-     "n": "Val di Vizze San Giacomo",
-     "mm": 35.9
-    },
-    {
-     "n": "Vallelunga Grub",
-     "mm": 34.4
-    },
-    {
-     "n": "Solda",
-     "mm": 32
-    },
-    {
-     "n": "Predoi",
-     "mm": 30.7
+     "n": "Santa Valburga",
+     "mm": 85.5
     },
     {
      "n": "Fleres",
-     "mm": 29.6
+     "mm": 69.1
+    },
+    {
+     "n": "Plan",
+     "mm": 63.6
+    },
+    {
+     "n": "Plata in Passiria",
+     "mm": 63.4
+    },
+    {
+     "n": "Ultimo Fontana Bianca",
+     "mm": 63.1
     }
    ]
   }
  },
  "serie": [
+  22.6,
   0.3,
   0,
   0.2,
@@ -148,18 +149,17 @@
   0,
   0.8,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-20",
+ "serieDa": "2026-10-21",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-20",
-   "m1": 1.5,
-   "m7": 2.6,
-   "m30": 14.7,
+   "ultimo": "2026-10-21",
+   "m1": 26.7,
+   "m7": 29.3,
+   "m30": 41.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-20",
-   "m1": 0.4,
-   "m7": 0.4,
-   "m30": 14.2,
+   "ultimo": "2026-10-21",
+   "m1": 17.2,
+   "m7": 17.6,
+   "m30": 31.3,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,125 +1,126 @@
 {
  "regione": "trentino",
- "generato": "2026-10-21T14:28:43.081Z",
+ "generato": "2026-10-22T03:15:28.826Z",
  "periodi": {
   "1": {
-   "media": 10.1,
+   "media": 41.4,
    "giorni": 1,
-   "stazioni": 104,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-20",
+   "stazioni": 103,
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-21",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 73
-    },
-    {
-     "n": "Vallarsa (Parrocchia)",
-     "mm": 27.4
+     "mm": 129.8
     },
     {
      "n": "Monte Groste' (Rifugio Graffer)",
-     "mm": 27
+     "mm": 80.6
     },
     {
-     "n": "Daone (Pracul)",
-     "mm": 25.6
+     "n": "Lavarone (Chiesa)",
+     "mm": 80.2
     },
     {
-     "n": "Zuclo (Malga Casinot)",
-     "mm": 23.4
+     "n": "Val Noana (Diga)",
+     "mm": 73.8
+    },
+    {
+     "n": "Val Genova (Malga Caret)",
+     "mm": 70.2
     }
    ]
   },
   "7": {
-   "media": 12.8,
+   "media": 53.8,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-14",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-15",
+   "ultimo": "2026-10-21",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 73.8
+     "mm": 203.6
+    },
+    {
+     "n": "Monte Groste' (Rifugio Graffer)",
+     "mm": 110.4
     },
     {
      "n": "Daone (Pracul)",
-     "mm": 31.6
+     "mm": 98.8
     },
     {
-     "n": "Zuclo (Malga Casinot)",
-     "mm": 31.2
+     "n": "Lavarone (Chiesa)",
+     "mm": 97
     },
     {
-     "n": "Bezzecca (Spessa)",
-     "mm": 30.2
-    },
-    {
-     "n": "Tremalzo",
-     "mm": 30.2
+     "n": "Val D'Ambiez",
+     "mm": 96.8
     }
    ]
   },
   "20": {
-   "media": 30.3,
+   "media": 71.7,
    "giorni": 20,
    "stazioni": 103,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-20",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-21",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 94.2
+     "mm": 224
     },
     {
      "n": "Val D'Ambiez",
-     "mm": 72.8
+     "mm": 142.8
     },
     {
-     "n": "Tremalzo",
-     "mm": 62.4
+     "n": "Monte Groste' (Rifugio Graffer)",
+     "mm": 124.4
     },
     {
-     "n": "Zuclo (Malga Casinot)",
-     "mm": 60.8
+     "n": "Daone (Pracul)",
+     "mm": 119.2
     },
     {
-     "n": "Mori (Loppio)",
-     "mm": 54.8
+     "n": "Daone (Malga Bissina)",
+     "mm": 116.6
     }
    ]
   },
   "30": {
-   "media": 30.4,
+   "media": 71.8,
    "giorni": 30,
    "stazioni": 103,
-   "primo": "2026-09-21",
-   "ultimo": "2026-10-20",
+   "primo": "2026-09-22",
+   "ultimo": "2026-10-21",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 94.2
+     "mm": 224
     },
     {
      "n": "Val D'Ambiez",
-     "mm": 72.8
+     "mm": 142.8
     },
     {
-     "n": "Tremalzo",
-     "mm": 62.6
+     "n": "Monte Groste' (Rifugio Graffer)",
+     "mm": 124.4
     },
     {
-     "n": "Zuclo (Malga Casinot)",
-     "mm": 60.8
+     "n": "Daone (Pracul)",
+     "mm": 119.2
     },
     {
-     "n": "Mori (Loppio)",
-     "mm": 54.8
+     "n": "Daone (Malga Bissina)",
+     "mm": 117.4
     }
    ]
   }
  },
  "serie": [
+  41.4,
   10.1,
   0,
   2.7,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-20",
+ "serieDa": "2026-10-21",
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-20",
-   "m1": 20.2,
-   "m7": 29.3,
-   "m30": 55.4,
+   "ultimo": "2026-10-21",
+   "m1": 32.2,
+   "m7": 61.4,
+   "m30": 87.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-20",
-   "m1": 7.2,
-   "m7": 7.7,
-   "m30": 24.3,
+   "ultimo": "2026-10-21",
+   "m1": 30.2,
+   "m7": 37.9,
+   "m30": 54.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-20",
-   "m1": 12.3,
-   "m7": 14.3,
-   "m30": 27.2,
+   "ultimo": "2026-10-21",
+   "m1": 54.4,
+   "m7": 68.7,
+   "m30": 81.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-20",
-   "m1": 4.5,
-   "m7": 6.5,
-   "m30": 21.2,
+   "ultimo": "2026-10-21",
+   "m1": 38.2,
+   "m7": 44.7,
+   "m30": 59.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-20",
-   "m1": 15.7,
-   "m7": 20.2,
-   "m30": 44.5,
+   "ultimo": "2026-10-21",
+   "m1": 45.9,
+   "m7": 54.6,
+   "m30": 90.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,10 +211,10 @@
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-20",
-   "m1": 12,
-   "m7": 19.7,
-   "m30": 38.7,
+   "ultimo": "2026-10-21",
+   "m1": 29.5,
+   "m7": 49.1,
+   "m30": 68.1,
    "p1": true,
    "p7": true,
    "p30": true
