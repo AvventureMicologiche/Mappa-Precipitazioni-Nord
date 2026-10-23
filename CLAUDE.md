@@ -197,16 +197,22 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Orari:** 2 cron (23:45 e 13:45 UTC) + la sveglia Cloudflare delle 4:30 italiane (erano 6 cron fino al 23/10/2026)
 - **Dati corretti da:** 19 giugno 2026
 - **⚠️ DA GITHUB PASSA DA CLOUDFLARE (dal 23/10/2026).** Dalla sera del 22/10 OMIRL non risponde piu' ai runner di
-  GitHub (timeout gia' su `/stations/Pluvio`), mentre dal PC e da Cloudflare risponde in 0,3 s: blocco per indirizzo
-  di provenienza, motivo non dichiarato. Il workflow passa `OMIRL_TRAMITE` (worker `omirl-tramite.avventuremicologiche.workers.dev`,
-  copia in `.github/cloudflare/omirl-tramite.js`, sorgente in `claudio\cloudflare-omirl\`) e `OMIRL_CHIAVE` (secret su
+  GitHub (timeout gia' su `/stations/Pluvio`), mentre dal PC risponde in 0,3 s. ⚠️ **OMIRL RISPONDE SOLO DALL'ITALIA**,
+  misurato il 23/10 sui centri dati Cloudflare: Roma (FCO) e Milano (MXP) si', Marsiglia (MRS) e Minneapolis (MSP) no,
+  connessione appesa. Il primo giro da GitHub col worker e' fallito proprio cosi': chiamato dagli Stati Uniti, il worker
+  girava a Minneapolis. Rimedio: `[placement] region = "aws:eu-south-1"` nel wrangler.toml, il worker gira SEMPRE vicino
+  a Milano (risposta con `Cf-Placement: remote-MXP`). Scartato un Durable Object con `locationHint: 'weur'`: finiva a
+  Marsiglia. Il workflow passa `OMIRL_TRAMITE` (worker `omirl-tramite.avventuremicologiche.workers.dev`, copia in
+  `.github/cloudflare/omirl-tramite.js` + `omirl-tramite.wrangler.toml`, sorgente in `claudio\cloudflare-omirl\`, si
+  pubblica con `npx wrangler@4 deploy` da li'; `/dove` con la chiave dice da che centro dati esce) e `OMIRL_CHIAVE` (secret su
   GitHub, segreto `CHIAVE` sul worker): il worker gira a OMIRL solo le GET sotto `/Omirl/rest/` con l'intestazione
   `X-Chiave` giusta. **Ogni giro sceglie la strada** (`scegliStrada`): la lista stazioni si chiede prima DIRETTA, e
   solo se non risponde entro 15 s dal worker; il resto del giro va dalla strada vincente e il log dice «Strada: ...».
   Cosi' il giorno che OMIRL sblocca GitHub si torna diretti da soli, e se blocca Cloudflare ma non piu' GitHub il giro
   va lo stesso. Senza le due variabili (dal PC) solo diretto. `OMIRL_DIRETTO=https://10.255.255.1` finge il blocco
   nelle prove. Collaudo 23/10 nei tre casi: diretta (106 s), diretta bloccata → worker (129 s), nessuna strada →
-  uscita 1 in 16 s senza salvare; file del 22/10 identico a quello raccolto dal PC (198 stazioni, 0 mm diversi). Nello stesso giorno, per non ricascarci se il blocco
+  uscita 1 in 16 s senza salvare; file del 22/10 identico a quello raccolto dal PC (198 stazioni, 0 mm diversi).
+  Primo giro vero da GitHub riuscito il 23/10 alle 13:08 (run 39943960414: diretta in timeout, worker, 198 stazioni). Nello stesso giorno, per non ricascarci se il blocco
   era per il carico: giri da 7 a 3 al giorno (la pioggia di ieri dopo il primo giro non cambiava) e 3 richieste alla
   volta invece di 10 (`PARALLELE`): da ~3.800 a ~1.650 richieste al giorno. Se il worker risponde 504, OMIRL non
   risponde nemmeno a Cloudflare: si raccoglie dal PC (`node .github/scripts/collect-liguria.js`, OMIRL tiene ~69 ore).
