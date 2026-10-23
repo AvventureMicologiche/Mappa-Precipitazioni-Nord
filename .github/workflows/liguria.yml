@@ -6,13 +6,14 @@ on:
         description: 'Data da raccogliere (YYYY-MM-DD, lascia vuoto per oggi)'
         required: false
         default: ''
+  # ⚠️ DUE CRON E NON SEI (23/10/2026). Ogni giro riscrive solo IERI, e confrontando le versioni dei file
+  # 19-21/10 la pioggia dopo il primo giro non cambiava (una sola correzione OMIRL di pomeriggio, -8 mm sulla
+  # regione). Sei giri da ~550 richieste piu' la sveglia delle 4:30 facevano ~3.800 richieste al giorno a OMIRL,
+  # che dal 22/10 sera non risponde piu' ai runner GitHub. Restano: la notte (il giorno appena chiuso), la sveglia
+  # Cloudflare delle 4:30 italiane e il pomeriggio per le correzioni. Il guardiano copre i giri saltati.
   schedule:
     - cron: '45 23 * * *'
-    - cron: '45 3 * * *'
-    - cron: '45 7 * * *'
-    - cron: '45 11 * * *'
-    - cron: '45 15 * * *'
-    - cron: '45 19 * * *'
+    - cron: '45 13 * * *'
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
 # workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
 # file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca.
@@ -44,6 +45,8 @@ jobs:
         run: node .github/scripts/collect-liguria.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          OMIRL_TRAMITE: https://omirl-tramite.avventuremicologiche.workers.dev
+          OMIRL_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
         continue-on-error: true
       - name: Retry 1
         id: retry1
@@ -51,12 +54,16 @@ jobs:
         run: sleep 30 && node .github/scripts/collect-liguria.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          OMIRL_TRAMITE: https://omirl-tramite.avventuremicologiche.workers.dev
+          OMIRL_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
         continue-on-error: true
       - name: Retry 2
         if: steps.collect.outcome == 'failure' && steps.retry1.outcome == 'failure'
         run: sleep 60 && node .github/scripts/collect-liguria.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          OMIRL_TRAMITE: https://omirl-tramite.avventuremicologiche.workers.dev
+          OMIRL_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
       - name: Commit e push
         run: |
           git config user.name "bot"

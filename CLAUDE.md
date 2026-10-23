@@ -194,10 +194,24 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Fonte:** OMIRL `omirl.regione.liguria.it/Omirl/rest/charts/{shortCode}/Pluvio`
 - **Collect:** `collect-liguria.js`
 - **Formula:** somma `dataSeries[0]` (incrementi orari) per le ore di ieri (mezzanotte-mezzanotte ora italiana)
-- **Orari:** 6 run/giorno
+- **Orari:** 2 cron (23:45 e 13:45 UTC) + la sveglia Cloudflare delle 4:30 italiane (erano 6 cron fino al 23/10/2026)
 - **Dati corretti da:** 19 giugno 2026
+- **⚠️ DA GITHUB PASSA DA CLOUDFLARE (dal 23/10/2026).** Dalla sera del 22/10 OMIRL non risponde piu' ai runner di
+  GitHub (timeout gia' su `/stations/Pluvio`), mentre dal PC e da Cloudflare risponde in 0,3 s: blocco per indirizzo
+  di provenienza, motivo non dichiarato. Il workflow passa `OMIRL_TRAMITE` (worker `omirl-tramite.avventuremicologiche.workers.dev`,
+  copia in `.github/cloudflare/omirl-tramite.js`, sorgente in `claudio\cloudflare-omirl\`) e `OMIRL_CHIAVE` (secret su
+  GitHub, segreto `CHIAVE` sul worker): il worker gira a OMIRL solo le GET sotto `/Omirl/rest/` con l'intestazione
+  `X-Chiave` giusta. **Ogni giro sceglie la strada** (`scegliStrada`): la lista stazioni si chiede prima DIRETTA, e
+  solo se non risponde entro 15 s dal worker; il resto del giro va dalla strada vincente e il log dice «Strada: ...».
+  Cosi' il giorno che OMIRL sblocca GitHub si torna diretti da soli, e se blocca Cloudflare ma non piu' GitHub il giro
+  va lo stesso. Senza le due variabili (dal PC) solo diretto. `OMIRL_DIRETTO=https://10.255.255.1` finge il blocco
+  nelle prove. Collaudo 23/10 nei tre casi: diretta (106 s), diretta bloccata → worker (129 s), nessuna strada →
+  uscita 1 in 16 s senza salvare; file del 22/10 identico a quello raccolto dal PC (198 stazioni, 0 mm diversi). Nello stesso giorno, per non ricascarci se il blocco
+  era per il carico: giri da 7 a 3 al giorno (la pioggia di ieri dopo il primo giro non cambiava) e 3 richieste alla
+  volta invece di 10 (`PARALLELE`): da ~3.800 a ~1.650 richieste al giorno. Se il worker risponde 504, OMIRL non
+  risponde nemmeno a Cloudflare: si raccoglie dal PC (`node .github/scripts/collect-liguria.js`, OMIRL tiene ~69 ore).
 - **ATTENZIONE CRITICA:** l'endpoint `/stations/Pluvio` restituisce solo l'ultimo valore 15-min. NON usarlo per totali giornalieri — cattura solo ~25% della pioggia. Usare SEMPRE `/charts/{shortCode}/Pluvio` che dà 69 ore di serie temporale oraria.
-- Il collect fa ~199 chiamate API (una per stazione), processate in batch di 10 con retry.
+- Il collect fa ~199 chiamate API (una per stazione), processate a gruppi di `PARALLELE` (3 dal 23/10/2026, prima 10) con retry.
 - **Temperatura/vento (dall'11/8/2026):** stessi shortCode, endpoint `/charts/{code}/Termo` (185 stazioni: serie media/min/max ogni 30', **~15 giorni di storia**) e `/charts/{code}/Vento` (57: velocità+raffica, **GIÀ km/h** — validato contro Open-Meteo, rapporto ~0,9). ~240 chiamate in più per run, stessi batch. Backfill `backfill-meteo-liguria.js` dal 28/7 (il massimo che i charts conservano; UNA chiamata per stazione copre tutti i giorni)
 
 ### Austria (in produzione dal 7 agosto 2026)

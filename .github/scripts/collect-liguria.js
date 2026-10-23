@@ -20,7 +20,20 @@ const { creaOre, segna, intensita } = require('./lib-intensita.js');
 
 const DATA_DIR  = path.join(__dirname, '..', '..', 'data', 'liguria');
 const MAX_DAYS  = 730;
-const OMIRL_BASE = 'https://omirl.regione.liguria.it/Omirl/rest';
+// ⚠️ DUE STRADE PER OMIRL, LA SCEGLIE OGNI GIRO (23/10/2026). Dalla sera del 22/10 OMIRL non risponde piu' ai
+// runner di GitHub (timeout gia' sulla lista stazioni), mentre dal PC e da Cloudflare risponde in 0,3 s. Il workflow
+// passa OMIRL_TRAMITE (il worker omirl-tramite, copia in .github/cloudflare/omirl-tramite.js) e OMIRL_CHIAVE
+// (secret): il worker gira la richiesta a OMIRL tale e quale. La lista stazioni si chiede PRIMA DIRETTA, e solo se
+// non risponde dal tramite (`scegliStrada`): il giorno che OMIRL sblocca GitHub si torna diretti da soli, e il
+// worker resta di riserva. Senza le due variabili, cioe' dal PC, si va solo diretti.
+// OMIRL_DIRETTO serve solo alle prove: un indirizzo che non risponde finge il blocco.
+const OMIRL_DIRETTO = (process.env.OMIRL_DIRETTO || 'https://omirl.regione.liguria.it').replace(/\/$/, '') + '/Omirl/rest';
+const OMIRL_TRAMITE = (process.env.OMIRL_TRAMITE || '').replace(/\/$/, '');
+const OMIRL_CHIAVE  = process.env.OMIRL_CHIAVE || '';
+var OMIRL_BASE = OMIRL_DIRETTO;   // lo cambia scegliStrada
+// Richieste insieme per gruppo (23/10/2026): erano 10, con ~550 grafici a giro e sette giri al giorno. Se il
+// blocco di OMIRL e' per il carico, non ci si ricasca: meno colpi alla volta, stesse pause fra un gruppo e l'altro.
+const PARALLELE = 3;
 const { creaDir, segnaDir, direzione, daSettore } = require('./lib-direzione.js');
 const { tieniMeteo } = require('./lib-tieni-meteo.js');
 
@@ -41,10 +54,18 @@ function getItalyDate(offsetDays) {
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
+    const headers = { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' };
+    const tramite = OMIRL_TRAMITE && url.indexOf(OMIRL_TRAMITE) === 0;
+    if (tramite) headers['X-Chiave'] = OMIRL_CHIAVE;
     const req = https.get(url, {
-      headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' },
+      headers: headers,
       timeout: 15000
     }, (res) => {
+      // 403/404 = il worker ci rifiuta (chiave sbagliata), 504 = OMIRL non risponde nemmeno a lui:
+      // si dice chiaro invece di finire in un «JSON parse error»
+      if (tramite && (res.statusCode === 403 || res.statusCode === 404 || res.statusCode >= 500)) {
+        res.resume(); reject(new Error('tramite Cloudflare: HTTP ' + res.statusCode)); return;
+      }
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => {
@@ -55,6 +76,22 @@ function fetchJSON(url) {
     req.on('error', reject);
     req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
   });
+}
+
+/** Chiede la lista stazioni diretta e, se non risponde, dal tramite; il resto del giro va dalla strada vincente. */
+async function scegliStrada() {
+  try {
+    var lista = await fetchJSON(OMIRL_DIRETTO + '/stations/Pluvio');
+    console.log('  Strada: diretta');
+    return lista;
+  } catch (e) {
+    if (!OMIRL_TRAMITE) throw e;
+    console.log('  Diretta non risponde (' + e.message + '), provo dal tramite Cloudflare');
+  }
+  OMIRL_BASE = OMIRL_TRAMITE + '/Omirl/rest';
+  var listaT = await fetchJSON(OMIRL_BASE + '/stations/Pluvio');
+  console.log('  Strada: tramite Cloudflare');
+  return listaT;
 }
 
 async function fetchWithRetry(url, retries) {
@@ -134,8 +171,8 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
   var codsU = igro.map(function(s) { return s.shortCode; }).filter(function(c) { return byId[c]; });
   var conT = 0, conW = 0, conU = 0, conD = 0;
 
-  for (var i = 0; i < codsT.length; i += 10) {
-    var batch = codsT.slice(i, i + 10);
+  for (var i = 0; i < codsT.length; i += PARALLELE) {
+    var batch = codsT.slice(i, i + PARALLELE);
     var res = await Promise.all(batch.map(function(code) {
       return fetchWithRetry(OMIRL_BASE + '/charts/' + code + '/Termo').then(function(ch) {
         var ds = ch.dataSeries || [];
@@ -153,8 +190,8 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
     await new Promise(function(r) { setTimeout(r, 400); });
   }
 
-  for (var j = 0; j < codsV.length; j += 10) {
-    var batchV = codsV.slice(j, j + 10);
+  for (var j = 0; j < codsV.length; j += PARALLELE) {
+    var batchV = codsV.slice(j, j + PARALLELE);
     var resV = await Promise.all(batchV.map(function(code) {
       return fetchWithRetry(OMIRL_BASE + '/charts/' + code + '/Vento').then(function(ch) {
         var ds = ch.dataSeries || [];
@@ -192,8 +229,8 @@ async function aggiungiMeteoLiguria(byId, dayStartMs, dayEndMs) {
     await new Promise(function(r) { setTimeout(r, 400); });
   }
   // Umidità relativa: /charts/{code}/Igro, UNA serie («Umidità Relativa») ogni 30', in %.
-  for (var k = 0; k < codsU.length; k += 10) {
-    var batchU = codsU.slice(k, k + 10);
+  for (var k = 0; k < codsU.length; k += PARALLELE) {
+    var batchU = codsU.slice(k, k + PARALLELE);
     var resU = await Promise.all(batchU.map(function(code) {
       return fetchWithRetry(OMIRL_BASE + '/charts/' + code + '/Igro').then(function(ch) {
         var ds = ch.dataSeries || [];
@@ -218,7 +255,7 @@ async function main() {
 
   // Step 1: lista stazioni
   console.log('Scarico lista stazioni...');
-  var rawStations = await fetchJSON(OMIRL_BASE + '/stations/Pluvio');
+  var rawStations = await scegliStrada();
   var stations = rawStations.filter(function(s) {
     return s.lat && s.lon && s.name && s.shortCode &&
       s.lat >= 43.7 && s.lat <= 44.8 && s.lon >= 7.4 && s.lon <= 10.3;
@@ -237,13 +274,13 @@ async function main() {
   var dayEndMs = dayEnd.getTime();
   console.log('  Finestra UTC: ' + dayStart.toISOString() + ' -> ' + dayEnd.toISOString());
 
-  // Step 3: fetch charts per ogni stazione (batch di 10)
+  // Step 3: fetch charts per ogni stazione (a gruppi di PARALLELE)
   console.log('  Scarico dati orari per ogni stazione...');
   var ok = 0, fail = 0, withRain = 0;
   var output = [];
 
-  for (var i = 0; i < stations.length; i += 10) {
-    var batch = stations.slice(i, i + 10);
+  for (var i = 0; i < stations.length; i += PARALLELE) {
+    var batch = stations.slice(i, i + PARALLELE);
     var promises = batch.map(function(s) {
       var url = OMIRL_BASE + '/charts/' + s.shortCode + '/Pluvio';
       return fetchWithRetry(url).then(function(chart) {
@@ -302,7 +339,7 @@ async function main() {
       }
     });
     // Pausa tra batch
-    if (i + 10 < stations.length) {
+    if (i + PARALLELE < stations.length) {
       await new Promise(function(r) { setTimeout(r, 500); });
     }
   }
@@ -324,8 +361,8 @@ async function main() {
   // Step 4: salva
   var outFile = path.join(DATA_DIR, yesterdayDate + '.json');
 
-  // ⚠️ SI FONDE COL FILE GIA' SCRITTO. Questo collector gira SEI volte al
-  // giorno (ogni 4 ore) e riscrive il file da zero. Da quando le stazioni
+  // ⚠️ SI FONDE COL FILE GIA' SCRITTO. Questo collector gira piu' volte al
+  // giorno (dal 23/10/2026 due cron e la sveglia delle 4:30; prima sei) e riscrive il file da zero. Da quando le stazioni
   // assenti si saltano invece di valere zero, senza questo passaggio una
   // stazione che a QUESTO giro non risponde perderebbe il valore che un giro
   // precedente aveva gia' raccolto — si sarebbe tappato un buco aprendone un
