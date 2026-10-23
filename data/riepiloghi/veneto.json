@@ -1,86 +1,91 @@
 {
  "regione": "veneto",
- "generato": "2026-10-22T09:39:28.686Z",
+ "generato": "2026-10-23T03:15:25.679Z",
  "periodi": {
   "1": {
-   "media": 32.1,
+   "media": 2.2,
    "giorni": 1,
-   "stazioni": 185,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-21",
+   "stazioni": 186,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Castana (VI)",
-     "nb": "Castana",
-     "mm": 147.2
-    },
-    {
-     "n": "Col Indes (Tambre) (BL)",
-     "nb": "Col Indes (Tambre)",
-     "mm": 142.4
+     "n": "Passo Monte Croce Comelico (BL)",
+     "nb": "Passo Monte Croce Comelico",
+     "mm": 23
     },
     {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
-     "mm": 135.8
+     "mm": 16.6
     },
     {
-     "n": "Santa Giustina Bellunese (BL)",
-     "nb": "Santa Giustina Bellunese",
-     "mm": 126.2
+     "n": "Ponte Rio Cordon (Selva di Cadore) (BL)",
+     "nb": "Ponte Rio Cordon (Selva di Cadore)",
+     "mm": 15.6
     },
     {
-     "n": "Cansiglio - Tramedere (BL)",
-     "nb": "Cansiglio - Tramedere",
-     "mm": 122
+     "n": "Ru de le Roe (Passo Duran) (BL)",
+     "nb": "Ru de le Roe (Passo Duran)",
+     "mm": 15.6
+    },
+    {
+     "n": "Costalta (BL)",
+     "nb": "Costalta",
+     "mm": 14.2
     }
    ]
   },
   "7": {
-   "media": 39.3,
+   "media": 41.5,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 187.7
-    },
-    {
-     "n": "Col Indes (Tambre) (BL)",
-     "nb": "Col Indes (Tambre)",
-     "mm": 146.8
-    },
-    {
-     "n": "Tonezza del Cimone (VI)",
-     "nb": "Tonezza del Cimone",
-     "mm": 145
+     "mm": 187.5
     },
     {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
-     "mm": 144
+     "mm": 160.4
+    },
+    {
+     "n": "Col Indes (Tambre) (BL)",
+     "nb": "Col Indes (Tambre)",
+     "mm": 150.2
+    },
+    {
+     "n": "Tonezza del Cimone (VI)",
+     "nb": "Tonezza del Cimone",
+     "mm": 144.8
     },
     {
      "n": "Santa Giustina Bellunese (BL)",
      "nb": "Santa Giustina Bellunese",
-     "mm": 133.8
+     "mm": 134.2
     }
    ]
   },
   "20": {
-   "media": 57.8,
+   "media": 60,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
      "mm": 202.9
+    },
+    {
+     "n": "Soffranco (BL)",
+     "nb": "Soffranco",
+     "mm": 173.8
     },
     {
      "n": "Staro (Valli del Pasubio) (VI)",
@@ -96,25 +101,25 @@
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
      "mm": 162.6
-    },
-    {
-     "n": "Soffranco (BL)",
-     "nb": "Soffranco",
-     "mm": 157.2
     }
    ]
   },
   "30": {
-   "media": 57.9,
+   "media": 60.1,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-21",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 203.3
+     "mm": 203.1
+    },
+    {
+     "n": "Soffranco (BL)",
+     "nb": "Soffranco",
+     "mm": 174.4
     },
     {
      "n": "Staro (Valli del Pasubio) (VI)",
@@ -130,16 +135,12 @@
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
      "mm": 163
-    },
-    {
-     "n": "Soffranco (BL)",
-     "nb": "Soffranco",
-     "mm": 157.8
     }
    ]
   }
  },
  "serie": [
+  2.2,
   32.1,
   7,
   0,
@@ -168,29 +169,28 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-21",
+ "serieDa": "2026-10-22",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-21",
-   "m1": 100.5,
-   "m7": 129.8,
+   "ultimo": "2026-10-22",
+   "m1": 0,
+   "m7": 129.7,
    "m30": 151.5,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-21",
-   "m1": 121.3,
-   "m7": 125.4,
-   "m30": 138.4,
+   "ultimo": "2026-10-22",
+   "m1": 3.5,
+   "m7": 128.9,
+   "m30": 141.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-21",
-   "m1": 54,
-   "m7": 54.6,
-   "m30": 62,
+   "ultimo": "2026-10-22",
+   "m1": 12.2,
+   "m7": 66.8,
+   "m30": 74.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-21",
-   "m1": 78.1,
-   "m7": 132.2,
-   "m30": 160.8,
+   "ultimo": "2026-10-22",
+   "m1": 0.2,
+   "m7": 132.4,
+   "m30": 161,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-21",
-   "m1": 60.9,
-   "m7": 74.8,
-   "m30": 83.7,
+   "ultimo": "2026-10-22",
+   "m1": 0.2,
+   "m7": 75,
+   "m30": 83.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,10 +231,10 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-21",
-   "m1": 95,
-   "m7": 104.8,
-   "m30": 111.4,
+   "ultimo": "2026-10-22",
+   "m1": 0.1,
+   "m7": 104.9,
+   "m30": 111.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-21",
-   "m1": 51.4,
-   "m7": 52.9,
-   "m30": 63,
+   "ultimo": "2026-10-22",
+   "m1": 7.9,
+   "m7": 60.8,
+   "m30": 71,
    "p1": true,
    "p7": true,
    "p30": true

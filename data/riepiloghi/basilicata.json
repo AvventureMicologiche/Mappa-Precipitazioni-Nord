@@ -1,42 +1,42 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-22T03:15:28.827Z",
+ "generato": "2026-10-23T03:15:25.682Z",
  "periodi": {
   "1": {
-   "media": 19.3,
+   "media": 0.3,
    "giorni": 1,
-   "stazioni": 61,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-21",
+   "stazioni": 62,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Vietri",
-     "mm": 50.7
+     "n": "Maratea",
+     "mm": 5.3
     },
     {
-     "n": "Tramutola",
-     "mm": 49.5
+     "n": "Castrocucco",
+     "mm": 4.2
     },
     {
-     "n": "S.Nicola",
-     "mm": 48.8
-    },
-    {
-     "n": "Picerno",
-     "mm": 38.2
+     "n": "Marsico Nuovo",
+     "mm": 2.4
     },
     {
      "n": "Rotonda",
-     "mm": 37
+     "mm": 2.2
+    },
+    {
+     "n": "Brienza",
+     "mm": 1.4
     }
    ]
   },
   "7": {
-   "media": 19.2,
+   "media": 19.4,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Vietri",
@@ -44,40 +44,40 @@
     },
     {
      "n": "Tramutola",
-     "mm": 49.5
+     "mm": 50.1
     },
     {
      "n": "S.Nicola",
      "mm": 49.2
     },
     {
-     "n": "Picerno",
-     "mm": 38.2
+     "n": "Rotonda",
+     "mm": 39.2
     },
     {
-     "n": "Rotonda",
-     "mm": 37
+     "n": "Picerno",
+     "mm": 38.2
     }
    ]
   },
   "20": {
-   "media": 64.9,
+   "media": 65.2,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 148.5
+     "mm": 149.7
     },
     {
      "n": "Tramutola",
-     "mm": 119.6
+     "mm": 120.2
     },
     {
      "n": "Rotonda",
-     "mm": 115.5
+     "mm": 117.7
     },
     {
      "n": "Castelsaraceno",
@@ -90,27 +90,27 @@
    ]
   },
   "30": {
-   "media": 72.1,
+   "media": 71.9,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-21",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 160.6
-    },
-    {
-     "n": "Tramutola",
-     "mm": 126.4
+     "mm": 161.8
     },
     {
      "n": "Rotonda",
-     "mm": 125.3
+     "mm": 127.5
+    },
+    {
+     "n": "Tramutola",
+     "mm": 127
     },
     {
      "n": "S.Nicola",
-     "mm": 122.8
+     "mm": 121.8
     },
     {
      "n": "Castelsaraceno",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.3,
   19.3,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   8.3,
   0,
-  0,
-  0.5
+  0
  ],
- "serieDa": "2026-10-21",
+ "serieDa": "2026-10-22",
  "zone": []
 }

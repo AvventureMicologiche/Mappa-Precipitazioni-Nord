@@ -1,125 +1,126 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-22T03:15:28.826Z",
+ "generato": "2026-10-23T03:15:25.680Z",
  "periodi": {
   "1": {
-   "media": 22.6,
+   "media": 5,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Santa Valburga",
-     "mm": 76.9
+     "n": "San Vito di Braies",
+     "mm": 25.7
     },
     {
-     "n": "Plata in Passiria",
-     "mm": 46.6
+     "n": "Fleres",
+     "mm": 22.8
     },
     {
-     "n": "Ultimo Fontana Bianca",
-     "mm": 43.9
+     "n": "Monguelfo",
+     "mm": 12.6
     },
     {
-     "n": "Plan",
-     "mm": 43.6
+     "n": "Ora",
+     "mm": 10.3
     },
     {
-     "n": "Sesto",
-     "mm": 41
+     "n": "Pennes",
+     "mm": 10.2
     }
    ]
   },
   "7": {
-   "media": 23.2,
+   "media": 28.2,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Santa Valburga",
-     "mm": 79.7
+     "mm": 83
+    },
+    {
+     "n": "San Vito di Braies",
+     "mm": 66.5
+    },
+    {
+     "n": "Fleres",
+     "mm": 62.4
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 49.4
-    },
-    {
-     "n": "Plata in Passiria",
-     "mm": 47.3
-    },
-    {
-     "n": "Plan",
-     "mm": 44.5
+     "mm": 50.7
     },
     {
      "n": "Sesto",
-     "mm": 41
+     "mm": 49.8
     }
    ]
   },
   "20": {
-   "media": 36.8,
+   "media": 41.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Santa Valburga",
-     "mm": 85.5
+     "n": "Fleres",
+     "mm": 89.5
     },
     {
-     "n": "Fleres",
-     "mm": 66.7
+     "n": "Santa Valburga",
+     "mm": 88.8
+    },
+    {
+     "n": "San Vito di Braies",
+     "mm": 73
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 63.1
-    },
-    {
-     "n": "Plata in Passiria",
-     "mm": 63
+     "mm": 64.4
     },
     {
      "n": "Plan",
-     "mm": 62.4
+     "mm": 63.9
     }
    ]
   },
   "30": {
-   "media": 37.6,
+   "media": 42.6,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-21",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Santa Valburga",
-     "mm": 85.5
+     "n": "Fleres",
+     "mm": 91.9
     },
     {
-     "n": "Fleres",
-     "mm": 69.1
+     "n": "Santa Valburga",
+     "mm": 88.8
+    },
+    {
+     "n": "San Vito di Braies",
+     "mm": 73
     },
     {
      "n": "Plan",
-     "mm": 63.6
-    },
-    {
-     "n": "Plata in Passiria",
-     "mm": 63.4
+     "mm": 65.1
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 63.1
+     "mm": 64.4
     }
    ]
   }
  },
  "serie": [
+  5,
   22.6,
   0.3,
   0,
@@ -148,18 +149,17 @@
   0,
   0,
   0.8,
-  0,
   0
  ],
- "serieDa": "2026-10-21",
+ "serieDa": "2026-10-22",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-21",
-   "m1": 26.7,
-   "m7": 29.3,
-   "m30": 41.3,
+   "ultimo": "2026-10-22",
+   "m1": 6.2,
+   "m7": 35.5,
+   "m30": 47.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-21",
-   "m1": 17.2,
-   "m7": 17.6,
-   "m30": 31.3,
+   "ultimo": "2026-10-22",
+   "m1": 6.3,
+   "m7": 23.8,
+   "m30": 37.6,
    "p1": true,
    "p7": true,
    "p30": true

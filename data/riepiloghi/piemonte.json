@@ -1,47 +1,47 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-22T14:30:12.060Z",
+ "generato": "2026-10-23T03:15:25.678Z",
  "periodi": {
   "1": {
-   "media": 34.5,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 275,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-21",
+   "stazioni": 273,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-22",
    "top": [
     {
-     "n": "Camparient (Biella)",
-     "nb": "Camparient",
-     "mm": 125
+     "n": "Cellio con Breia (Vercelli)",
+     "nb": "Cellio con Breia",
+     "mm": 3.9
     },
     {
-     "n": "Mottarone - Baita Cai (Verbano-Cusio-Ossola)",
-     "nb": "Mottarone - Baita Cai",
-     "mm": 115
+     "n": "Rifugio Gastaldi (Torino)",
+     "nb": "Rifugio Gastaldi",
+     "mm": 2.4
     },
     {
-     "n": "Oropa Santuario (Biella)",
-     "nb": "Oropa Santuario",
-     "mm": 111.8
+     "n": "Carru' Pesio (Cuneo)",
+     "nb": "Carru' Pesio",
+     "mm": 0.6
     },
     {
-     "n": "Piano Audi (Torino)",
-     "nb": "Piano Audi",
-     "mm": 103.6
+     "n": "Formazza (Verbano-Cusio-Ossola)",
+     "nb": "Formazza",
+     "mm": 0.6
     },
     {
-     "n": "Valdilana (Biella)",
-     "nb": "Valdilana",
-     "mm": 101.9
+     "n": "Asti (Asti)",
+     "nb": "Asti",
+     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 83.3,
+   "media": 83.4,
    "giorni": 7,
    "stazioni": 276,
-   "primo": "2026-10-15",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-16",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
@@ -61,7 +61,7 @@
     {
      "n": "Varallo (Vercelli)",
      "nb": "Varallo",
-     "mm": 258.3
+     "mm": 258.1
     },
     {
      "n": "Valdilana (Biella)",
@@ -74,8 +74,8 @@
    "media": 123.7,
    "giorni": 20,
    "stazioni": 276,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-21",
+   "primo": "2026-10-03",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
@@ -108,8 +108,8 @@
    "media": 124.2,
    "giorni": 30,
    "stazioni": 277,
-   "primo": "2026-09-22",
-   "ultimo": "2026-10-21",
+   "primo": "2026-09-23",
+   "ultimo": "2026-10-22",
    "top": [
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.1,
   34.5,
   33,
   5.8,
@@ -168,29 +169,28 @@
   0,
   0,
   0,
-  0.2,
-  0
+  0.2
  ],
- "serieDa": "2026-10-21",
+ "serieDa": "2026-10-22",
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-10-21",
-   "m1": 56.4,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 109.5,
    "m30": 160.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-10-21",
-   "m1": 79.3,
-   "m7": 156.5,
-   "m30": 193.6,
+   "ultimo": "2026-10-22",
+   "m1": 0.8,
+   "m7": 157.4,
+   "m30": 194.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,65 +198,65 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-10-21",
-   "m1": 22.1,
-   "m7": 55.2,
+   "ultimo": "2026-10-22",
+   "m1": 0,
+   "m7": 55.1,
    "m30": 105.3,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-10-21",
-   "m1": 35.2,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 68.6,
    "m30": 98.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-10-21",
-   "m1": 25.2,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 84.6,
    "m30": 114.4,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-10-21",
-   "m1": 13.1,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 47.3,
    "m30": 100.5,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-10-21",
-   "m1": 85.3,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 207.2,
    "m30": 264.3,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-10-21",
-   "m1": 87.9,
+   "ultimo": "2026-10-22",
+   "m1": 0.1,
    "m7": 164.9,
-   "m30": 217.2,
+   "m30": 217.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -264,22 +264,22 @@
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-10-21",
-   "m1": 31.9,
+   "ultimo": "2026-10-22",
+   "m1": 0,
    "m7": 80.5,
    "m30": 139.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-10-21",
-   "m1": 12.5,
-   "m7": 24,
+   "ultimo": "2026-10-22",
+   "m1": 0,
+   "m7": 23.9,
    "m30": 55.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }
