@@ -1,12 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-09T15:35:36.431Z",
-      "inRitardo": [],
-      "lanciati": [],
-      "mancanti": []
-    },
-    {
       "quando": "2026-10-09T16:58:53.486Z",
       "inRitardo": [],
       "lanciati": [],
@@ -1249,8 +1243,32 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-10-23T04:30:24.004Z",
+      "inRitardo": [
+        "liguria",
+        "ticino"
+      ],
+      "lanciati": [
+        "liguria.yml",
+        "ticino.yml",
+        "riepiloghi.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "liguria",
+          "giorno": "2026-10-22",
+          "buco": 1
+        },
+        {
+          "dir": "ticino",
+          "giorno": "2026-10-22",
+          "buco": 2
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-23T04:00:24.152Z",
-  "riassunto": "42 giri con qualcosa ri-lanciato su 120 · 46 con qualche giorno mancante · 16 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-23T04:30:24.004Z",
+  "riassunto": "43 giri con qualcosa ri-lanciato su 120 · 47 con qualche giorno mancante · 17 con un buco di 2+ giorni"
 }
