@@ -2799,6 +2799,36 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   guardala arrivare col radar piogge»), se no «📡 Dove sta piovendo adesso / guarda il radar piogge». Porta al primo
   `main a[href*="radar=ora"]` della pagina, se no a `/<regione>/adesso/`.
 
+## Pagine «Previsioni meteo <zona>» (/meteo/<zona>/, 24/10/2026)
+
+Un TEST deciso dall'utente dopo l'analisi di 3B Meteo e ilMeteo: le ricerche «meteo + valle» le prendono poco, perché
+i grandi ragionano per comune (ilMeteo ha 207 zone, 3B nessuna; delle nostre 114 zone circa 71 non le copre nessuno).
+Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quella funghi: tre titoli per tre domande
+(«Dove ha piovuto in…», «Funghi in… oggi», «Previsioni meteo…»).
+- **Generatore** `.github/scripts/genera-pagine-meteo-zona.js` (`SOLO=<slug>` per una sola, sitemap non toccata). Due
+  gruppi: `ZONE_METEO` (A, le 10 zone più viste in GA4 + Val Brembana, il campione) in `sitemap-meteo.xml`, e
+  `ZONE_METEO_B` (le 20 successive) in `sitemap-meteo-b.xml`, per misurarle a parte in Search Console. Valutazione dopo
+  circa 10 giorni; non aggiungere zone senza aver letto quei numeri.
+- **Cosa c'è** (ogni punto deciso da lui sul campione): casella «Cerca il tuo paese, anche una frazione»; la **scheda del
+  posto ora per ora si apre DA SOLA** sul primo paese della zona e, toccando o cercando un paese, si apre **sempre su
+  OGGI**; «Il punto di stamattina» scritto dai dati; i 7 giorni da toccare (mappa, tabella e titolo seguono); la mappa
+  col **RILIEVO del sito** (TINITALY/INGV, stessa ricetta dei boschi: qui si può, sotto non c'è la heatmap) e le
+  etichette in **pillola bianca su una riga: icona del cielo SEMPRE, minima blu e massima arancio SEMPRE, «💧0,8» solo
+  se piove, poi il nome**, senza sovrapposizioni né uscite dalla mappa, con la lineetta se si spostano; **niente pallini
+  dei pluviometri** sulla mappa (confondevano: stanno nel blocco della pioggia caduta); tabella paese per paese; grafico
+  30 giorni misurati + 7 previsti; ore e fasce di 6 ore che riempiono la riga (notte, mattina, pomeriggio, sera).
+- ⚠️ **Il vento dell'API è in m/s**: la scheda moltiplica per 3,6 (il campione sbagliava).
+- **Link «Previsioni meteo <Zona> →»** nel blocco «Che tempo farà» delle zone piogge e funghi delle zone del test
+  (`linkMeteo()`, chiamato dai due generatori di zona; evento GA4 `apri_meteo_zona`). La pagina ha il suo evento
+  `meteo_zona` (azione) e `apri_mappa` con `da: meteo-<zona>-…`.
+- **Paesi**: `data/paesi-zone.json` di `genera-pagine-zona-piogge.js`, ora con **almeno 8 paesi** (`MIN_PAESI`: sotto,
+  il cerchio si allarga di 3 km fino a 30 nella regione). Quote cotte in `.github/scripts/quote-paesi.json`
+  (`lib-quota-paesi.js`: Open-Meteo Elevation, ripiego tessere terrarium; `QUOTE_RIFAI=1` per rifarle).
+- **Prove in locale**: le previsioni vogliono la Function, quindi `npx wrangler@4 pages dev . --port 8789` nel repo
+  (con `http.server` dicono «non disponibili»). ⚠️ Il server locale tiene in cache le risposte di `/api/previsioni`:
+  cambiando `paesi-zone.json` va fermato (anche i processi workerd) e tolto `.wrangler/state/v3/cache`. Gli attrezzi
+  (campione, prove puppeteer, resoconto della sessione cloud) stanno nel banco, `claudio\mockup-previsioni-zona\`.
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
