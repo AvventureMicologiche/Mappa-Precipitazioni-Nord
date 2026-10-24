@@ -45,7 +45,9 @@ const { coppiaQuiz } = require('./lib-pagina-funghi.js');
 // della zona (non le citta' della regione) e il grafico coi 7 giorni previsti. Il codice nel browser e' lo stesso
 // della regione (lib-meteo-regione.js, con le opzioni di zona): una regola sola, un posto solo.
 const { METEO_CSS, meteoHtml, meteoClient } = require('./lib-meteo-regione.js');
-const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa di ieri nel bottone in cima (20/10/2026)
+const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');
+// il link alle pagine «Previsioni meteo <zona>» (24/10/2026, test su 11 zone): l'elenco sta nel loro generatore
+const { linkMeteo } = require('./genera-pagine-meteo-zona.js');   // la mappa di ieri nel bottone in cima (20/10/2026)
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -260,7 +262,7 @@ ${METEO_CSS}${STRISCIA_CSS}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
 <div id="verdetto"></div>
-${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni dei paesi…')}
+${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni dei paesi…', undefined, linkMeteo(zslug, z.n, 'zona-piogge-' + zslug))}
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
 <div id="grafico"></div>

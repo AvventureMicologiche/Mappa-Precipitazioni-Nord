@@ -105,13 +105,14 @@ header{position:relative;flex-wrap:nowrap;}
 
 // il blocco «Che tempo farà», scritto nella pagina (niente salti al caricamento); le citta' le riempie il codice
 // (20/10/2026) le pagine di zona lo chiamano con titolo e attesa loro: «Che tempo farà in Garfagnana», «dei paesi»
-function meteoHtml(r, titolo, attesa, id) {
+// dopo (24/10/2026): HTML in fondo al blocco, il link «Previsioni meteo <Zona> →» delle zone del test (linkMeteo)
+function meteoHtml(r, titolo, attesa, id, dopo) {
   const estera = ESTERE.includes(r.k);
   return `<section class="mk-meteo" id="${id || 'meteo'}">
 <h2>${titolo || `Che tempo farà ${r.prep} ${r.nome}`}</h2>
 ${estera ? '' : `<div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
 `}<div class="mk-citta"><p class="mk-attesa">${attesa || 'Sto leggendo le previsioni delle città…'}</p></div>
-</section>`;
+${dopo ? dopo + '\n' : ''}</section>`;
 }
 
 // «Trova i boschi» (20/10/2026, pagine funghi, sua idea: «non solo il tempo ma cercare i boschi»): una casella per
