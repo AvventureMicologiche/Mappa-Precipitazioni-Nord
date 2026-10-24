@@ -48,8 +48,24 @@ const { creaDir, segnaDir, direzione, daSettore } = require('./lib-direzione.js'
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'piemonte');
 const MAX_DAYS = 730;
-const API_BASE = 'https://utility.arpa.piemonte.it/api_realtime';
-const OFF_BASE = 'https://utility.arpa.piemonte.it/meteoidro';
+// ⚠️ DUE STRADE PER ARPA PIEMONTE, LA SCEGLIE OGNI GIRO (24/10/2026). Dalla sera del 23/10 ARPA non risponde piu'
+// ai runner di GitHub («fetch failed» gia' sull'anagrafica), dal PC si' in 0,2 s: lo stesso blocco di OMIRL in
+// Liguria, che risponde solo dall'Italia. Il workflow passa TRAMITE_URL (il worker omirl-tramite, fissato a Milano,
+// copia in .github/cloudflare/omirl-tramite.js) e TRAMITE_CHIAVE. L'anagrafica si chiede PRIMA DIRETTA (un solo
+// tentativo, 15 s), e solo se non risponde dal tramite (`scegliStrada`): il giorno che ARPA sblocca GitHub si torna
+// diretti da soli. Senza le due variabili, cioe' dal PC, si va solo diretti. Ogni indirizzo passa da `instrada`,
+// anche i `next` dell'archivio ufficiale, che arrivano con l'host diretto scritto dentro.
+// ARPA_DIRETTO serve solo alle prove: un indirizzo che non risponde finge il blocco.
+const ARPA_HOST = 'https://utility.arpa.piemonte.it';
+const ARPA_DIRETTO = (process.env.ARPA_DIRETTO || ARPA_HOST).replace(/\/$/, '');
+const TRAMITE_URL = (process.env.TRAMITE_URL || '').replace(/\/$/, '');
+const TRAMITE_CHIAVE = process.env.TRAMITE_CHIAVE || '';
+let viaTramite = false;              // lo accende scegliStrada
+const API_BASE = ARPA_HOST + '/api_realtime';
+const OFF_BASE = ARPA_HOST + '/meteoidro';
+function instrada(url) {
+  return url.indexOf(ARPA_HOST) === 0 ? (viaTramite ? TRAMITE_URL : ARPA_DIRETTO) + url.slice(ARPA_HOST.length) : url;
+}
 const RICALCOLA_GIORNI = 3;          // D-1..D-3 dal realtime + ufficiale
 const DRY_RUN = !!process.env.DRY_RUN;
 const SOGLIA_SOST_MM = 1;            // sostituisci solo se |nostro-ufficiale| > 1 mm e h<24
@@ -84,13 +100,13 @@ function addDays(dateStr, n) {
   return d.toISOString().substring(0, 10);
 }
 
-async function fetchJSON(url, retries = 3) {
+async function fetchJSON(url, retries = 3, tetto = 30000) {
+  const headers = { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (mappa-precipitazioni)' };
+  if (viaTramite) headers['X-Chiave'] = TRAMITE_CHIAVE;
+  url = instrada(url);
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url, {
-        headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (mappa-precipitazioni)' },
-        signal: AbortSignal.timeout(30000)
-      });
+      const res = await fetch(url, { headers, signal: AbortSignal.timeout(tetto) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (e) {
@@ -99,6 +115,22 @@ async function fetchJSON(url, retries = 3) {
     }
   }
   throw new Error('fetch fallito dopo ' + retries + ' tentativi');
+}
+
+/** Chiede l'anagrafica diretta e, se non risponde, dal tramite; il resto del giro va dalla strada vincente. */
+async function scegliStrada(via) {
+  try {
+    const anag = await fetchJSON(via, 1, 15000);
+    console.log('  Strada: diretta');
+    return anag;
+  } catch (e) {
+    if (!TRAMITE_URL) throw e;
+    console.log('  Diretta non risponde, provo dal tramite Cloudflare');
+  }
+  viaTramite = true;
+  const anagT = await fetchJSON(via);
+  console.log('  Strada: tramite Cloudflare');
+  return anagT;
 }
 
 // ── Realtime: record orari di un giorno solare italiano ─────────────
@@ -382,7 +414,7 @@ async function main() {
 
   // ── Step 1: anagrafica realtime ─────────────────────────────
   console.log('Carico anagrafica stazioni (realtime)...');
-  const anagRaw = await fetchJSON(API_BASE + '/pie_anag?page_size=10000');
+  const anagRaw = await scegliStrada(API_BASE + '/pie_anag?page_size=10000');
   const stazioni = Array.isArray(anagRaw) ? anagRaw : (anagRaw.data || anagRaw.results || []);
   const stIndex = {};
   stazioni.forEach(s => { if (s.station_code) stIndex[s.station_code] = s; });
