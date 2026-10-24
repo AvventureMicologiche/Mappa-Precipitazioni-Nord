@@ -1,42 +1,42 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-23T03:15:25.682Z",
+ "generato": "2026-10-24T03:15:29.526Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 422,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "stazioni": 423,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
-     "n": "Militello Rosmarino",
-     "mm": 6.8
+     "n": "Casa degli Alpini",
+     "mm": 0.8
     },
     {
      "n": "Rocca Timogna",
-     "mm": 5.2
+     "mm": 0.8
     },
     {
-     "n": "Rimiti",
-     "mm": 4.6
+     "n": "Barcellona",
+     "mm": 0.6
     },
     {
-     "n": "Casa degli Alpini",
-     "mm": 4.2
+     "n": "Camastra",
+     "mm": 0.6
     },
     {
-     "n": "Alcara Li Fusi",
-     "mm": 3.8
+     "n": "Realmonte",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 17.1,
+   "media": 17,
    "giorni": 7,
-   "stazioni": 414,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "stazioni": 415,
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Pagliara",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 53.9,
+   "media": 53.8,
    "giorni": 20,
    "stazioni": 417,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Pagliara",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 62.7,
+   "media": 59.7,
    "giorni": 30,
-   "stazioni": 416,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "stazioni": 417,
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 337.6
+     "mm": 335
     },
     {
      "n": "Forza d'Agro'",
-     "mm": 324.3
+     "mm": 323.9
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 313.8
+     "mm": 312.6
     },
     {
      "n": "Letojanni",
-     "mm": 298.3
+     "mm": 297.7
     },
     {
      "n": "Melia",
-     "mm": 283.8
+     "mm": 282.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0.3,
   5.5,
   5.4,
@@ -148,30 +149,29 @@
   0,
   2.3,
   3.3,
-  0,
-  3
+  0
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-22",
-   "m1": 1.9,
-   "m7": 6.4,
-   "m30": 92.4,
-   "p1": true,
+   "ultimo": "2026-10-23",
+   "m1": 0,
+   "m7": 3.3,
+   "m30": 92,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-22",
-   "m1": 0.6,
-   "m7": 1.9,
-   "m30": 93.4,
-   "p1": true,
+   "ultimo": "2026-10-23",
+   "m1": 0,
+   "m7": 1.7,
+   "m30": 91.4,
+   "p1": false,
    "p7": true,
    "p30": true
   }

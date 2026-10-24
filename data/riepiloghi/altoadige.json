@@ -1,125 +1,126 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-23T03:15:25.680Z",
+ "generato": "2026-10-24T03:15:29.523Z",
  "periodi": {
   "1": {
-   "media": 5,
+   "media": 3.9,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
-     "n": "San Vito di Braies",
-     "mm": 25.7
+     "n": "Funes",
+     "mm": 6.8
     },
     {
-     "n": "Fleres",
-     "mm": 22.8
+     "n": "Selva di V. Gardena",
+     "mm": 6.8
     },
     {
-     "n": "Monguelfo",
-     "mm": 12.6
-    },
-    {
-     "n": "Ora",
-     "mm": 10.3
+     "n": "Fundres",
+     "mm": 6.7
     },
     {
      "n": "Pennes",
-     "mm": 10.2
+     "mm": 5.9
+    },
+    {
+     "n": "Passo di Costalunga",
+     "mm": 5.7
     }
    ]
   },
   "7": {
-   "media": 28.2,
+   "media": 32,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Santa Valburga",
-     "mm": 83
+     "mm": 86.9
     },
     {
      "n": "San Vito di Braies",
-     "mm": 66.5
+     "mm": 69.2
     },
     {
      "n": "Fleres",
-     "mm": 62.4
+     "mm": 65.6
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 50.7
+     "mm": 55.8
     },
     {
      "n": "Sesto",
-     "mm": 49.8
+     "mm": 51.9
     }
    ]
   },
   "20": {
-   "media": 41.8,
+   "media": 45.6,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Fleres",
-     "mm": 89.5
+     "mm": 92.7
     },
     {
      "n": "Santa Valburga",
-     "mm": 88.8
+     "mm": 92.7
     },
     {
      "n": "San Vito di Braies",
-     "mm": 73
+     "mm": 75.7
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 64.4
+     "mm": 69.5
     },
     {
      "n": "Plan",
-     "mm": 63.9
+     "mm": 67.6
     }
    ]
   },
   "30": {
-   "media": 42.6,
+   "media": 46.4,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Fleres",
-     "mm": 91.9
+     "mm": 95.1
     },
     {
      "n": "Santa Valburga",
-     "mm": 88.8
+     "mm": 92.7
     },
     {
      "n": "San Vito di Braies",
-     "mm": 73
-    },
-    {
-     "n": "Plan",
-     "mm": 65.1
+     "mm": 75.7
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 64.4
+     "mm": 69.5
+    },
+    {
+     "n": "Plan",
+     "mm": 68.8
     }
    ]
   }
  },
  "serie": [
+  3.9,
   5,
   22.6,
   0.3,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0.8,
-  0
+  0.8
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-22",
-   "m1": 6.2,
-   "m7": 35.5,
-   "m30": 47.5,
+   "ultimo": "2026-10-23",
+   "m1": 2.5,
+   "m7": 38,
+   "m30": 50.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-22",
-   "m1": 6.3,
-   "m7": 23.8,
-   "m30": 37.6,
+   "ultimo": "2026-10-23",
+   "m1": 5.2,
+   "m7": 29.1,
+   "m30": 42.9,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,81 +1,81 @@
 {
  "regione": "austria",
- "generato": "2026-10-23T03:15:25.683Z",
+ "generato": "2026-10-24T03:15:29.526Z",
  "periodi": {
   "1": {
-   "media": 4.4,
+   "media": 0.9,
    "giorni": 1,
-   "stazioni": 269,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "stazioni": 267,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
-     "n": "Loibl Tunnel (Kärnten)",
-     "nb": "Loibl Tunnel",
-     "mm": 20.3
+     "n": "Krimml (Salzburg)",
+     "nb": "Krimml",
+     "mm": 12.7
     },
     {
-     "n": "Kanzelhöhe (Kärnten)",
-     "nb": "Kanzelhöhe",
-     "mm": 18.8
+     "n": "Salzburg Flughafen (Salzburg)",
+     "nb": "Salzburg Flughafen",
+     "mm": 7.8
     },
     {
-     "n": "Ferlach (Kärnten)",
-     "nb": "Ferlach",
-     "mm": 18.4
+     "n": "Loferer Alm (Salzburg)",
+     "nb": "Loferer Alm",
+     "mm": 7.7
     },
     {
-     "n": "Bad Tatzmannsdorf (Burgenland)",
-     "nb": "Bad Tatzmannsdorf",
-     "mm": 17.8
+     "n": "Hochfilzen (Tirol)",
+     "nb": "Hochfilzen",
+     "mm": 7.6
     },
     {
-     "n": "Villach Stadt (Kärnten)",
-     "nb": "Villach Stadt",
-     "mm": 16.9
+     "n": "Hahnenkamm-Sonnenrast (Tirol)",
+     "nb": "Hahnenkamm-Sonnenrast",
+     "mm": 7.2
     }
    ]
   },
   "7": {
-   "media": 16.2,
+   "media": 17.1,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 94.1
+     "mm": 95.5
     },
     {
      "n": "Kornat (Kärnten)",
      "nb": "Kornat",
-     "mm": 81
+     "mm": 82.2
     },
     {
      "n": "Dellach (Kärnten)",
      "nb": "Dellach",
-     "mm": 79.6
+     "mm": 80.6
     },
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 79.2
+     "mm": 79.8
     },
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 71.2
+     "mm": 72.3
     }
    ]
   },
   "20": {
-   "media": 34.8,
+   "media": 35.7,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -85,12 +85,12 @@
     {
      "n": "Schröcken (Vorarlberg)",
      "nb": "Schröcken",
-     "mm": 127.3
+     "mm": 128.3
     },
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 126.8
+     "mm": 127.9
     },
     {
      "n": "Bregenz (Vorarlberg)",
@@ -100,21 +100,21 @@
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 108.9
+     "mm": 110.3
     }
    ]
   },
   "30": {
-   "media": 41,
+   "media": 42,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 155.5
+     "mm": 156.6
     },
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -124,22 +124,23 @@
     {
      "n": "Schröcken (Vorarlberg)",
      "nb": "Schröcken",
-     "mm": 129.2
+     "mm": 130.2
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
      "nb": "Kolm-Saigurn",
-     "mm": 123.3
+     "mm": 123.4
     },
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
      "nb": "Laterns-Gapfohl",
-     "mm": 119.6
+     "mm": 120.2
     }
    ]
   }
  },
  "serie": [
+  0.9,
   4.4,
   11.3,
   0,
@@ -168,9 +169,8 @@
   0,
   0,
   0,
-  5.7,
-  0
+  5.7
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": []
 }

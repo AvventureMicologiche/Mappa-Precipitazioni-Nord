@@ -1,46 +1,46 @@
 {
  "regione": "puglia",
- "generato": "2026-10-23T03:15:25.682Z",
+ "generato": "2026-10-24T03:15:29.525Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 120,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "stazioni": 121,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
-     "n": "Alberona",
-     "mm": 6.8
-    },
-    {
-     "n": "Pietramontecorvino",
-     "mm": 5
-    },
-    {
      "n": "Torrente Saccione SP142",
-     "mm": 4.6
+     "mm": 6.7
     },
     {
      "n": "Serracapriola",
-     "mm": 4.4
+     "mm": 1.8
     },
     {
-     "n": "Foggia Istituto Agrario",
-     "mm": 2.8
+     "n": "Barletta",
+     "mm": 1.2
+    },
+    {
+     "n": "Lesina",
+     "mm": 0.6
+    },
+    {
+     "n": "Canosa di Puglia",
+     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 19.6,
+   "media": 19.7,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Locorotondo",
-     "mm": 82.9
+     "mm": 83.1
     },
     {
      "n": "Fasano",
@@ -56,16 +56,16 @@
     },
     {
      "n": "Martina Franca",
-     "mm": 69.2
+     "mm": 69.4
     }
    ]
   },
   "20": {
-   "media": 70.7,
+   "media": 70.8,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Martina Franca",
-     "mm": 149.8
+     "mm": 150
     }
    ]
   },
   "30": {
-   "media": 73.3,
+   "media": 73.4,
    "giorni": 30,
    "stazioni": 128,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -114,12 +114,13 @@
     },
     {
      "n": "Martina Franca",
-     "mm": 151.3
+     "mm": 151.5
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0.4,
   20,
   0,
@@ -148,9 +149,8 @@
   0,
   0.1,
   1.9,
-  0,
   0
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": []
 }

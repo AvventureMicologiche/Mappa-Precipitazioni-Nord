@@ -1,42 +1,42 @@
 {
  "regione": "molise",
- "generato": "2026-10-23T03:15:25.681Z",
+ "generato": "2026-10-24T03:15:29.525Z",
  "periodi": {
   "1": {
-   "media": 1.6,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 27,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "stazioni": 28,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Termoli",
-     "mm": 8.8
+     "mm": 3
+    },
+    {
+     "n": "Castelmauro",
+     "mm": 1
+    },
+    {
+     "n": "Pietrabbondante",
+     "mm": 0.6
+    },
+    {
+     "n": "Ponte Liscione",
+     "mm": 0.6
     },
     {
      "n": "Bonefro",
-     "mm": 5.7
-    },
-    {
-     "n": "Ponte Barrea",
-     "mm": 5.7
-    },
-    {
-     "n": "Caprafica",
-     "mm": 5.4
-    },
-    {
-     "n": "Palata",
-     "mm": 5.4
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 31.9,
+   "media": 32.1,
    "giorni": 7,
    "stazioni": 28,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 68.3,
+   "media": 68.5,
    "giorni": 20,
    "stazioni": 28,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 70.1,
+   "media": 70.2,
    "giorni": 30,
-   "stazioni": 27,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "stazioni": 28,
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
@@ -113,13 +113,14 @@
      "mm": 96.1
     },
     {
-     "n": "Isernia",
-     "mm": 94.4
+     "n": "Termoli",
+     "mm": 95.3
     }
    ]
   }
  },
  "serie": [
+  0.2,
   1.6,
   30.3,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   1.8,
-  0,
   0
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": []
 }

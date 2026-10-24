@@ -1,42 +1,42 @@
 {
  "regione": "calabria",
- "generato": "2026-10-23T03:15:25.682Z",
+ "generato": "2026-10-24T03:15:29.525Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 0.3,
    "giorni": 1,
-   "stazioni": 138,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-22",
+   "stazioni": 139,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-23",
    "top": [
     {
-     "n": "Mormanno",
-     "mm": 5.8
+     "n": "Scilla - Piano delle Aquile",
+     "mm": 4.4
     },
     {
-     "n": "Laino Borgo",
-     "mm": 5.4
+     "n": "Gambarie",
+     "mm": 3.8
     },
     {
-     "n": "Tortora",
-     "mm": 5.2
+     "n": "Sant'Alessio in Aspromonte",
+     "mm": 2.8
     },
     {
-     "n": "Papasidero",
-     "mm": 4
+     "n": "Scilla - Villaggio del Pino",
+     "mm": 2.6
     },
     {
-     "n": "San Nicola da Crissa",
-     "mm": 3.6
+     "n": "Scilla - Solano",
+     "mm": 2.2
     }
    ]
   },
   "7": {
-   "media": 17.5,
+   "media": 17.1,
    "giorni": 7,
    "stazioni": 138,
-   "primo": "2026-10-16",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-17",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Cotronei",
@@ -61,15 +61,15 @@
    ]
   },
   "20": {
-   "media": 98.7,
+   "media": 99,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-03",
-   "ultimo": "2026-10-22",
+   "primo": "2026-10-04",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 248.6
+     "mm": 249.2
     },
     {
      "n": "Roccaforte del Greco",
@@ -77,7 +77,7 @@
     },
     {
      "n": "Cardeto",
-     "mm": 206.8
+     "mm": 208.6
     },
     {
      "n": "Cassari",
@@ -90,23 +90,23 @@
    ]
   },
   "30": {
-   "media": 107.8,
+   "media": 106.6,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-09-23",
-   "ultimo": "2026-10-22",
+   "primo": "2026-09-24",
+   "ultimo": "2026-10-23",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 255.6
+     "mm": 256
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 227.2
+     "mm": 220.8
     },
     {
      "n": "Cardeto",
-     "mm": 212.8
+     "mm": 209.2
     },
     {
      "n": "Cassari",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.3,
   0.5,
   14.1,
   1.9,
@@ -148,18 +149,17 @@
   0,
   0.2,
   7.3,
-  0,
-  1.5
+  0
  ],
- "serieDa": "2026-10-22",
+ "serieDa": "2026-10-23",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-22",
-   "m1": 0.7,
-   "m7": 15,
-   "m30": 133.9,
+   "ultimo": "2026-10-23",
+   "m1": 0.5,
+   "m7": 14.7,
+   "m30": 134.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-22",
-   "m1": 0.9,
-   "m7": 9.1,
-   "m30": 84.4,
+   "ultimo": "2026-10-23",
+   "m1": 0.3,
+   "m7": 9.3,
+   "m30": 84.7,
    "p1": true,
    "p7": true,
    "p30": true
