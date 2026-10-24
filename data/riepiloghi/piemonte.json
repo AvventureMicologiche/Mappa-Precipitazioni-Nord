@@ -1,43 +1,43 @@
 {
  "regione": "piemonte",
- "generato": "2026-10-24T03:15:29.521Z",
+ "generato": "2026-10-24T06:30:51.559Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 1.1,
    "giorni": 1,
    "stazioni": 274,
    "primo": "2026-10-23",
    "ultimo": "2026-10-23",
    "top": [
     {
+     "n": "Varallo Sabbia (Vercelli)",
+     "nb": "Varallo Sabbia",
+     "mm": 9.1
+    },
+    {
+     "n": "Limone Pancani (Cuneo)",
+     "nb": "Limone Pancani",
+     "mm": 8.2
+    },
+    {
      "n": "Lago Agnel (Torino)",
      "nb": "Lago Agnel",
-     "mm": 0.6
+     "mm": 7
     },
     {
-     "n": "Macugnaga Rifugio Zamboni (Verbano-Cusio-Ossola)",
-     "nb": "Macugnaga Rifugio Zamboni",
-     "mm": 0.6
+     "n": "Cursolo (Verbano-Cusio-Ossola)",
+     "nb": "Cursolo",
+     "mm": 6.4
     },
     {
-     "n": "Carru' Pesio (Cuneo)",
-     "nb": "Carru' Pesio",
-     "mm": 0.2
-    },
-    {
-     "n": "Acceglio (Cuneo)",
-     "nb": "Acceglio",
-     "mm": 0
-    },
-    {
-     "n": "Acceglio Collet (Cuneo)",
-     "nb": "Acceglio Collet",
-     "mm": 0
+     "n": "Piani di Carrega (Alessandria)",
+     "nb": "Piani di Carrega",
+     "mm": 5.6
     }
    ]
   },
   "7": {
-   "media": 83.9,
+   "media": 85,
    "giorni": 7,
    "stazioni": 274,
    "primo": "2026-10-17",
@@ -46,32 +46,32 @@
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
      "nb": "Sambughetto",
-     "mm": 296.9
+     "mm": 299.5
     },
     {
      "n": "Camparient (Biella)",
      "nb": "Camparient",
-     "mm": 294.9
+     "mm": 296.9
     },
     {
      "n": "Oropa Santuario (Biella)",
      "nb": "Oropa Santuario",
-     "mm": 291
+     "mm": 291.6
     },
     {
      "n": "Varallo (Vercelli)",
      "nb": "Varallo",
-     "mm": 258.1
+     "mm": 260.3
     },
     {
      "n": "Valdilana (Biella)",
      "nb": "Valdilana",
-     "mm": 253.6
+     "mm": 254
     }
    ]
   },
   "20": {
-   "media": 123.7,
+   "media": 124.8,
    "giorni": 20,
    "stazioni": 276,
    "primo": "2026-10-04",
@@ -80,32 +80,32 @@
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
      "nb": "Sambughetto",
-     "mm": 369.3
+     "mm": 371.9
     },
     {
      "n": "Oropa Santuario (Biella)",
      "nb": "Oropa Santuario",
-     "mm": 345.6
+     "mm": 346.2
     },
     {
      "n": "Camparient (Biella)",
      "nb": "Camparient",
-     "mm": 343.1
+     "mm": 345.1
     },
     {
      "n": "Varallo (Vercelli)",
      "nb": "Varallo",
-     "mm": 309.7
+     "mm": 311.9
     },
     {
-     "n": "Valdilana (Biella)",
-     "nb": "Valdilana",
-     "mm": 309
+     "n": "Varallo Sabbia (Vercelli)",
+     "nb": "Varallo Sabbia",
+     "mm": 309.9
     }
    ]
   },
   "30": {
-   "media": 124,
+   "media": 125.1,
    "giorni": 30,
    "stazioni": 277,
    "primo": "2026-09-24",
@@ -114,33 +114,33 @@
     {
      "n": "Sambughetto (Verbano-Cusio-Ossola)",
      "nb": "Sambughetto",
-     "mm": 369.3
+     "mm": 371.9
     },
     {
      "n": "Oropa Santuario (Biella)",
      "nb": "Oropa Santuario",
-     "mm": 345.6
+     "mm": 346.2
     },
     {
      "n": "Camparient (Biella)",
      "nb": "Camparient",
-     "mm": 343.1
+     "mm": 345.1
     },
     {
      "n": "Varallo (Vercelli)",
      "nb": "Varallo",
-     "mm": 309.7
+     "mm": 311.9
     },
     {
-     "n": "Valdilana (Biella)",
-     "nb": "Valdilana",
-     "mm": 309
+     "n": "Varallo Sabbia (Vercelli)",
+     "nb": "Varallo Sabbia",
+     "mm": 309.9
     }
    ]
   }
  },
  "serie": [
-  0,
+  1.1,
   0.1,
   34.5,
   33,
@@ -177,10 +177,10 @@
    "s": "val-d-ala",
    "n": "Val d'Ala",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 109.5,
-   "m30": 160.1,
-   "p1": false,
+   "m1": 0.4,
+   "m7": 109.9,
+   "m30": 160.5,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -199,10 +199,10 @@
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 55.1,
-   "m30": 105.1,
-   "p1": false,
+   "m1": 1.4,
+   "m7": 56.5,
+   "m30": 106.4,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -210,10 +210,10 @@
    "s": "valle-di-viu",
    "n": "Valle di Viù",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 68.6,
-   "m30": 98.1,
-   "p1": false,
+   "m1": 0.6,
+   "m7": 69.2,
+   "m30": 98.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -221,10 +221,10 @@
    "s": "val-borbera",
    "n": "Val Borbera",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 84.5,
-   "m30": 114.4,
-   "p1": false,
+   "m1": 1.2,
+   "m7": 85.7,
+   "m30": 115.6,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -243,10 +243,10 @@
    "s": "val-mastallone",
    "n": "Val Mastallone",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 207.2,
-   "m30": 264,
-   "p1": false,
+   "m1": 4.8,
+   "m7": 212,
+   "m30": 268.8,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -254,10 +254,10 @@
    "s": "val-loana",
    "n": "Val Loana",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 164.9,
-   "m30": 217.3,
-   "p1": false,
+   "m1": 2.5,
+   "m7": 167.4,
+   "m30": 219.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -265,10 +265,10 @@
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 80.5,
-   "m30": 139.2,
-   "p1": false,
+   "m1": 1.3,
+   "m7": 81.8,
+   "m30": 140.4,
+   "p1": true,
    "p7": true,
    "p30": true
   },
@@ -276,10 +276,10 @@
    "s": "val-clarea",
    "n": "Val Clarea",
    "ultimo": "2026-10-23",
-   "m1": 0,
-   "m7": 23.9,
-   "m30": 55.9,
-   "p1": false,
+   "m1": 0.7,
+   "m7": 24.7,
+   "m30": 56.7,
+   "p1": true,
    "p7": true,
    "p30": true
   }
