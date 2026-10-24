@@ -241,17 +241,19 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 .pz-mappa-testa .dove{font-weight:700;color:#0f3d6e}
 #pz-mappa{height:460px;border-radius:12px;border:1px solid #c9d5e1;margin:8px 0 4px;z-index:1}
 .pz-pt{position:relative}
-.pz-pt i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#1a5fa8;border:1.5px solid #fff;box-shadow:0 0 0 1px #1a5fa8}
-/* le etichette, variante F (24/10/2026): tutto su una riga nella pillola bianca */
-.pz-et{position:absolute;left:0;top:0;white-space:nowrap;cursor:pointer;text-align:center;line-height:1.15;transform:translate(-50%,-112%);background:#fff;border-radius:999px;padding:1px 8px 1px 3px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
-.pz-et .v{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:0 3px;color:#0f3d6e}
-.pz-et .v.bagnato{background:#1a5fa8;color:#fff;padding:0 6px 0 3px;margin-left:3px}
-.pz-et .v.poco{color:#1a5fa8;margin-left:2px}
-.pz-et .ic{font-size:16px;line-height:1;vertical-align:-3px;margin-right:2px}
-.pz-et .v .mn{color:#1a5fa8}.pz-et .v .mx{color:#c4501a}
-.pz-et .nm{display:inline;font-size:11.5px;font-weight:700;color:#1f2d3a;margin-left:3px}
-.pz-ln{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none}
-.pz-ln line{stroke:#1f2d3a;stroke-width:1.2;opacity:.75}
+/* ⚠️ L'ETICHETTA STA SUL PAESE (24/10/2026 sera, suo, dopo tre prove bocciate con puntino + etichetta spostata + lineetta:
+   «niente di quello che mi hai proposto funziona, guarda come fanno gli altri»). Come la mappa di 3B Meteo: il
+   riquadro e' CENTRATO sul punto del paese, niente puntino a parte, niente lineette; se due si toccherebbero non se ne
+   sposta nessuna, si NASCONDE il paese meno importante, e ingrandendo la mappa ricompare. */
+.pz-et{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;cursor:pointer;text-align:center;line-height:1.12;background:rgba(255,255,255,.95);border-radius:8px;padding:2px 7px 3px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.pz-et .r1{display:block;font-size:12px;font-weight:800}
+.pz-et .ic{font-size:16px;vertical-align:-3px;margin-right:2px}
+.pz-et .mn{color:#1a5fa8}.pz-et .mx{color:#c4501a}
+.pz-et .gc{color:#1a5fa8;margin-left:3px}.pz-et .gc.bagnato{background:#1a5fa8;color:#fff;border-radius:999px;padding:0 5px 0 2px}
+.pz-et .nm{display:block;font-size:11px;font-weight:700;color:#1f2d3a}
+.pz-et.via{display:none}
+@media (max-width:600px){.pz-et{padding:1px 5px 2px}.pz-et .r1{font-size:11px}.pz-et .ic{font-size:14px}.pz-et .nm{font-size:10px}}
+.pz-zoom{color:#1a5fa8;font-weight:700}
 .pz-scorri{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0}
 table.pz-tab{border-collapse:collapse;min-width:640px;width:100%;font-size:13px}
 table.pz-tab th,table.pz-tab td{padding:6px 4px;border-bottom:1px solid #e6ecf2;text-align:center;white-space:nowrap}
@@ -321,7 +323,7 @@ table.pz-tab td .mm{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 
 <div class="pz-mappa-testa"><span class="dove" id="mappa-giorno"></span></div>
 <div id="pz-mappa"></div>
-<p class="nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
+<p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Paese per paese</h2>
 <p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
@@ -436,7 +438,8 @@ table.pz-tab td .mm{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
-      mappa.fitBounds(L.latLngBounds(PAESI.map(function (c) { return [c.lat, c.lon]; })), { padding: [28, 40], maxZoom: 12 });
+      // il margine e' mezza etichetta per lato: le etichette stanno CENTRATE sul paese, e un paese sul bordo ne avrebbe meta' fuori (e sparirebbe)
+      mappa.fitBounds(L.latLngBounds(PAESI.map(function (c) { return [c.lat, c.lon]; })), { padding: innerWidth <= 600 ? [58, 26] : [80, 34], maxZoom: 12 });
       mappa.on('zoomend', sistemaEtichette);
       // ⚠️ NIENTE PALLINI DEI PLUVIOMETRI su questa mappa (24/10/2026, suo «sì toglili»): la mappa dice solo «che tempo
       // farà nei paesi», e i puntini verdi della pioggia misurata confondevano. I pluviometri stanno nel blocco della
@@ -446,72 +449,31 @@ table.pz-tab td .mm{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
     strato = L.layerGroup().addTo(mappa);
     PAESI.forEach(function (c, n) {
       var g = c.giorni.filter(function (x) { return x.g === SEL; })[0]; if (!g) return;
-      // variante F: icona del cielo e temperature SEMPRE (suo, 24/10), la goccia coi millimetri solo se piove
-      var v = '<span class="ic">' + icona(g.s) + '</span><span class="v"><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span></span>'
-        + (g.mm >= 0.1 ? '<span class="v' + (g.mm >= 1 ? ' bagnato' : ' poco') + '" title="' + mm(g.mm) + ' mm di pioggia">💧' + mm(g.mm) + '</span>' : '');
-      L.marker([c.lat, c.lon], { pane: 'linee', interactive: false, icon: L.divIcon({ className: '', html: '<div class="pz-pt"><svg class="pz-ln" data-n="' + n + '"><line x1="0" y1="0" x2="0" y2="0"/></svg></div>', iconSize: [0, 0] }) }).addTo(strato);
-      L.marker([c.lat, c.lon], { icon: L.divIcon({ className: '', html: '<div class="pz-pt"><i></i><span class="pz-et" data-n="' + n + '">' + v + '<span class="nm">' + esc(c.n) + '</span></span></div>', iconSize: [0, 0] }), zIndexOffset: 1000 })
+      // icona del cielo e temperature SEMPRE (suo, 24/10), la goccia coi millimetri solo se piove; sotto il nome
+      var r1 = '<span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span>'
+        + (g.mm >= 0.1 ? '<span class="gc' + (g.mm >= 1 ? ' bagnato' : '') + '" title="' + mm(g.mm) + ' mm di pioggia">💧' + mm(g.mm) + '</span>' : '') + '</span>';
+      L.marker([c.lat, c.lon], { icon: L.divIcon({ className: '', html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '">' + r1 + '<span class="nm">' + esc(c.n) + '</span></span></div>', iconSize: [0, 0] }), zIndexOffset: 1000 - n })
         .addTo(strato).on('click', function () { apri(posto(c), 'mappa'); });
     });
     sistemaEtichette();
   }
-  /* i nomi sempre visibili: un'etichetta che ne tocca una gia' messa prova sotto, a destra, a sinistra, poi piu' lontano;
-     il puntino resta sul paese, quindi si capisce sempre di chi e' */
+  /* DIRADARE, NON SPOSTARE (24/10/2026 sera, vedi lo stile .pz-et). Le etichette si passano in ordine di importanza
+     (l'ordine dell'elenco dei paesi della zona: prima i comuni dei pluviometri e i piu' grandi); ognuna resta centrata
+     sul suo paese se non tocca quelle gia' tenute e sta dentro la mappa, se no si nasconde. Ingrandendo ricompaiono:
+     si rifa' a ogni zoom. Sotto la mappa si dice quanti paesi sono nascosti. */
   function sistemaEtichette() {
-    var POSTI = [[-50, -112], [-50, 12], [8, -50], [-108, -50], [8, -112], [-108, -112], [8, 12], [-108, 12], [-50, -224], [-50, 124], [60, -50], [-160, -50], [60, -150], [-160, -150], [60, 50], [-160, 50], [-50, -336], [-50, 236], [8, -224], [-108, -224], [8, 124], [-108, 124], [110, -50], [-210, -50]];
-    /* ⚠️ 24/10/2026, generatore: le 24 posizioni del campione bastano in Val Brembana ma non dove i paesi stanno in una
-       fascia stretta (Garfagnana e Lunigiana al telefono: etichette larghe quasi come la mappa, impilate, mentre sopra e
-       sotto c'era posto). Dopo le 24 si prova piu' lontano in VERTICALE, una riga alla volta, fino a 10 righe. */
-    var visti = {}; POSTI.forEach(function (p) { visti[p.join()] = 1; });
-    for (var k = 1; k <= 10; k++) [-50, 8, -108, 60, -160, 110, -210].forEach(function (dx) {
-      [[dx, -112 * k], [dx, 12 + 112 * (k - 1)]].forEach(function (p) { if (!visti[p.join()]) { visti[p.join()] = 1; POSTI.push(p); } });
+    var bordo = $('pz-mappa').getBoundingClientRect(), messi = [], nascosti = 0;
+    var E = [].slice.call(document.querySelectorAll('#pz-mappa .pz-et'));
+    E.forEach(function (l) { l.classList.remove('via'); });
+    E.sort(function (a, b) { return a.getAttribute('data-n') - b.getAttribute('data-n'); }).forEach(function (l) {
+      var r = l.getBoundingClientRect();
+      var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 18;
+      var tocca = messi.some(function (m) { return !(r.right + 3 < m.left || r.left - 3 > m.right || r.bottom + 3 < m.top || r.top - 3 > m.bottom); });
+      if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
-    var bordo = $('pz-mappa').getBoundingClientRect();
-    /* i rettangoli si CALCOLANO (punto del paese + spostamento in % della misura dell'etichetta), non si misurano a ogni
-       prova: cosi' si possono provare piu' ordini senza far ridisegnare la pagina centinaia di volte */
-    var E = [].slice.call(document.querySelectorAll('#pz-mappa .pz-et')).map(function (l) {
-      var o = l.parentNode.getBoundingClientRect(); return { l: l, x: o.left, y: o.top, w: l.offsetWidth, h: l.offsetHeight };
-    });
-    /* ⚠️ un'etichetta larga vicino al bordo (Castelfranco Piandiscò col 💧, 250 px su una mappa di 361 al telefono) non
-       stava dentro con nessuno spostamento della lista: si fa SCIVOLARE di lato quanto basta per restare nella mappa,
-       la lineetta continua a indicare il paese */
-    function dentroX(e, p) {
-      var l = e.x + p[0] / 100 * e.w, min = bordo.left + 4, max = bordo.right - 4 - e.w;
-      if (max < min) return p;
-      return l < min ? [(min - e.x) / e.w * 100, p[1]] : l > max ? [(max - e.x) / e.w * 100, p[1]] : p;
-    }
-    function rett(e, p) { var l = e.x + p[0] / 100 * e.w, t = e.y + p[1] / 100 * e.h; return { left: l, top: t, right: l + e.w, bottom: t + e.h }; }
-    function coperto(r, messi) {   // quanta area copre delle etichette gia' messe, piu' quanta ne esce dalla mappa (0 = posto libero)
-      var fuori = Math.max(0, bordo.left + 4 - r.left) + Math.max(0, r.right - bordo.right + 4) + Math.max(0, bordo.top + 4 - r.top) + Math.max(0, r.bottom - bordo.bottom + 22);
-      return fuori * 400 + messi.reduce(function (a, m) { var w = Math.min(r.right + 2, m.right) - Math.max(r.left - 2, m.left), h = Math.min(r.bottom + 2, m.bottom) - Math.max(r.top - 2, m.top); return a + (w > 0 && h > 0 ? w * h : 0); }, 0);
-    }
-    function piazza(ordine) {
-      var messi = [], costo = 0, scelte = [];
-      E.slice().sort(ordine).forEach(function (e) {
-        var meglio = null;
-        for (var i = 0; i < POSTI.length; i++) {
-          var p = dentroX(e, POSTI[i]), c = coperto(rett(e, p), messi);
-          if (!meglio || c < meglio.c) meglio = { c: c, p: p };
-          if (!c) break;
-        }
-        costo += meglio.c; messi.push(rett(e, meglio.p)); scelte.push({ e: e, p: meglio.p });
-      });
-      return { costo: costo, scelte: scelte };
-    }
-    // prima dall'alto in basso, come il campione; se resta qualcosa che si tocca, anche negli altri tre versi, e vince
-    // il piazzamento che copre meno
-    var ORDINI = [function (a, b) { return a.y - b.y || a.x - b.x; }, function (a, b) { return b.y - a.y || a.x - b.x; },
-                  function (a, b) { return a.x - b.x || a.y - b.y; }, function (a, b) { return b.x - a.x || a.y - b.y; }];
-    var meglio = null;
-    for (var n = 0; n < ORDINI.length && (!meglio || meglio.costo > 0); n++) { var t = piazza(ORDINI[n]); if (!meglio || t.costo < meglio.costo) meglio = t; }
-    meglio.scelte.forEach(function (s) {
-      s.e.l.style.transform = 'translate(' + s.p[0] + '%,' + s.p[1] + '%)';
-      // la lineetta: dal puntino al bordo piu' vicino dell'etichetta, solo se l'etichetta si e' allontanata
-      var r = rett(s.e, s.p), ln = document.querySelector('#pz-mappa .pz-ln[data-n="' + s.e.l.getAttribute('data-n') + '"] line');
-      var x = Math.max(r.left, Math.min(s.e.x, r.right)) - s.e.x, y = Math.max(r.top, Math.min(s.e.y, r.bottom)) - s.e.y;
-      var lungo = Math.sqrt(x * x + y * y) > 9;
-      ln.setAttribute('x2', lungo ? x : 0); ln.setAttribute('y2', lungo ? y : 0);
-    });
+    var nota = $('mappa-nota');
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' + (nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+      + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 
   /* ── la tabella paese per paese ── */
