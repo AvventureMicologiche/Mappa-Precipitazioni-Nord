@@ -665,7 +665,8 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
     'Marche': 'marche', 'Lazio': 'lazio', 'Abruzzo': 'abruzzo', 'Molise': 'molise', 'Campania': 'campania', 'Puglia': 'puglia',
     'Basilicata': 'basilicata', 'Calabria': 'calabria', 'Sicilia': 'sicilia', 'Sardegna': 'sardegna' };
   function frazioni(testo) {
-    return fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(testo) + '&count=10&language=it&countryCode=IT')
+    // dal 25/10/2026 /api/cerca (GeoNames servito dal sito) al posto di Open-Meteo, stessa forma della risposta
+    return fetch(API.replace('/api/previsioni', '/api/cerca') + '?name=' + encodeURIComponent(testo) + '&count=10&language=it&countryCode=IT')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {   // un 429 non e' «nessun posto» (settimo check, bug 8)
         var visti = {};
         return (j.results || []).map(function (x) {
@@ -794,7 +795,10 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
       + (piove ? '<span class="mk-pul"></span><span><b>Oggi è prevista pioggia ' + esc(dove) + '</b><small>guardala arrivare col radar piogge</small></span>'
                : '<span class="mk-ic">📡</span><span><b>Dove sta piovendo adesso</b><small>guarda il radar piogge</small></span>')
       + '<span class="mk-fr">→</span></a>';
-    box.innerHTML = (OPZ.sopra ? '<p class="mk-sopra">' + esc(OPZ.sopra) + '</p>' : '') + '<div class="mk-tab">' + testa + righe + '</div>'
+    // La frase del pluviometro solo se la sua riga c'e' (25/10/2026): se le previsioni non rispondono per quel punto
+    // la riga manca, e «Il pluviometro (1399 m) e i paesi intorno» annunciava una riga che non c'era.
+    var sopra = OPZ.sopraSenzaQui && !cc.some(function (c) { return c.qui; }) ? OPZ.sopraSenzaQui : OPZ.sopra;
+    box.innerHTML = (sopra ? '<p class="mk-sopra">' + esc(sopra) + '</p>' : '') + '<div class="mk-tab">' + testa + righe + '</div>'
       + (cc.length > 6 ? '<button class="mk-tutte">' + (OPZ.tutte || 'Mostra tutte le # città').replace('#', cc.length) + '</button>' : '')
       + '<p class="mk-citta-n">' + (OPZ.tocca || 'Tocca una città per vederla ora per ora sulla mappa') + '</p>' + radar;
     var bt = box.querySelector('.mk-tutte');

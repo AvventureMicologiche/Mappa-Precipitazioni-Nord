@@ -802,7 +802,8 @@ temperatura, vento e umidità.</p>
     'Marche': 'marche', 'Lazio': 'lazio', 'Abruzzo': 'abruzzo', 'Molise': 'molise', 'Campania': 'campania', 'Puglia': 'puglia',
     'Basilicata': 'basilicata', 'Calabria': 'calabria', 'Sicilia': 'sicilia', 'Sardegna': 'sardegna' };
   function frazioni(testo) {
-    return fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(testo) + '&count=10&language=it&countryCode=IT')
+    // dal 25/10/2026 /api/cerca (GeoNames servito dal sito) al posto di Open-Meteo, stessa forma della risposta
+    return fetch(API.replace('/api/previsioni', '/api/cerca') + '?name=' + encodeURIComponent(testo) + '&count=10&language=it&countryCode=IT')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {   // un 429 non e' «nessun posto» (settimo check, bug 8)
         var visti = {};
         return (j.results || []).map(function (x) {

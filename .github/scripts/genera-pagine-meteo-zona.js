@@ -356,7 +356,7 @@ function clientePagina(C) {
     return ARRIVO;
   }
   function frazioni(t) {
-    return fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(t) + '&count=8&language=it&countryCode=IT').then(function (r) { return r.json(); })
+    return fetch('/api/cerca?name=' + encodeURIComponent(t) + '&count=8&language=it&countryCode=IT').then(function (r) { return r.json(); })   // GeoNames dal sito, non piu' Open-Meteo (25/10/2026)
       .then(function (j) { return (j.results || []).map(function (x) { return { n: x.name, lat: x.latitude, lon: x.longitude, quota: x.elevation != null ? Math.round(x.elevation) : null, reg: REG, fraz: 'frazione · ' + (x.admin2 || x.admin1 || '').replace(/^Provincia (di )?/, ''), qn: norm(x.name) }; }); });
   }
   var righe = [], sel = -1, giro = 0;

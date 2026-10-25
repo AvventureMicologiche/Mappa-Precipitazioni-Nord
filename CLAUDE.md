@@ -2918,3 +2918,25 @@ ramo `da-guardare`), verificati sul codice e decisi con lui. Corretti:
 Lasciati, con lui: id doppi Bormio/Panocchia, `CLOSING` da Cloudflare (lo copre il tetto), coperture parziali di
 meteohub-gaps, testata del telefono, punto delle migliaia e «~» delle pagine paese. La heatmap a fasce su Safari va
 guardata su un iPhone (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).
+
+## Togliere Open-Meteo (dal 25/10/2026)
+
+Il piano gratuito di Open-Meteo vieta i siti con pubblicita' o abbonamenti. Deciso il 25/10 di toglierlo pezzo per
+pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente). Stato:
+- **Quote del terreno**: fatto, terrarium (vedi «La quota delle stazioni», punto 5).
+- **Ricerca dei posti**: fatto. `functions/api/cerca.js` risponde come Open-Meteo Geocoding (`results` con name,
+  latitude, longitude, country_code, admin1, admin1_id, admin2, population, feature_code, elevation) leggendo
+  `luoghi/*.tsv`, che fa `.github/scripts/genera-luoghi.js` dai file per paese di GeoNames (IT, CH, AT, FR, SI) e dai
+  loro `alternatenames/<paese>.txt` (banco di lavoro, `geonames\`). Posti abitati e passi, ~189.000; nome in
+  ITALIANO se c'e' (Ginevra, Nizza, «Alta Savoia»), ma si trova anche col nome locale («nice», «genève»). File
+  spezzati sotto i 200 KB (gruppi in `luoghi/divisi.json`, file `-cima` coi 30 piu' abitati per le ricerche corte).
+  Come Open-Meteo: sotto 2 lettere niente, con 2 solo i nomi uguali, da 3 l'inizio del nome. Le quattro caselle
+  (`index.html` CERCA_API, `meteoClient`, `lib/pagina-adesso.js` v5, `genera-pagine-meteo-zona.js`) cambiano solo
+  l'indirizzo. ⚠️ In locale la Function tiene i file in memoria: dopo aver rifatto `luoghi/` va riavviato wrangler.
+  ⚠️ ~1.400 file in piu' nel sito: col tetto di 19.500 di `pubblica-pages.js` ci stanno ancora tutti i giorni di `data/`.
+  Si rifa' un paio di volte l'anno, riscaricando i file da download.geonames.org.
+- **La % delle previsioni RESTA di Open-Meteo** (sua decisione): la sola alternativa con la % ora per ora era calcolarla
+  dai 50 scenari ECMWF (~500 MB a giro, troppo per GitHub); OpenWeather contraddiceva le icone di MET (confronto su 6
+  citta' il 25/10). Il giorno che arriva la pubblicita' si paga il piano Standard (29 €/mese).
+- **Da fare**: il riempimento dei buchi (stime), l'Abruzzo dal vivo, il ripiego della Lombardia, e decidere sulle
+  stime gia' salvate (2.698 file interi, 2.917 stazioni-giorno), meglio chiedendo a Open-Meteo con una mail.

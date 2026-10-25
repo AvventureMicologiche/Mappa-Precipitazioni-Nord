@@ -8008,8 +8008,12 @@ var GEO_FRANCIA = {
   11071621: 'francia-normandia', 11071623: 'francia-occitania',
   2985244:  'francia-provenza'
 };
+/* ⚠️ DAL 25/10/2026 I POSTI LI DA' /api/cerca, NON PIU' OPEN-METEO (il suo piano gratuito vieta i siti con
+   pubblicita'): stessi nomi (GeoNames), stessa forma della risposta, file in luoghi/ fatti da genera-luoghi.js. */
+var CERCA_API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port !== '8788'
+  ? 'http://127.0.0.1:8788/api/cerca' : '/api/cerca';
 function locDaGeocoder(testo) {
-  return fetch('https://geocoding-api.open-meteo.com/v1/search?name=' +
+  return fetch(CERCA_API + '?name=' +
                encodeURIComponent(testo) + '&count=10&language=it')
     .then(function (r) { return r.json(); })
     .then(function (j) {
