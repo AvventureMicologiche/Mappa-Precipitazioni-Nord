@@ -931,7 +931,10 @@ temperatura, vento e umidità.</p>
       + (piove ? '<span class="mk-pul"></span><span><b>Oggi è prevista pioggia ' + esc(dove) + '</b><small>guardala arrivare col radar piogge</small></span>'
                : '<span class="mk-ic">📡</span><span><b>Dove sta piovendo adesso</b><small>guarda il radar piogge</small></span>')
       + '<span class="mk-fr">→</span></a>';
-    box.innerHTML = (OPZ.sopra ? '<p class="mk-sopra">' + esc(OPZ.sopra) + '</p>' : '') + '<div class="mk-tab">' + testa + righe + '</div>'
+    // La frase del pluviometro solo se la sua riga c'e' (25/10/2026): se le previsioni non rispondono per quel punto
+    // la riga manca, e «Il pluviometro (1399 m) e i paesi intorno» annunciava una riga che non c'era.
+    var sopra = OPZ.sopraSenzaQui && !cc.some(function (c) { return c.qui; }) ? OPZ.sopraSenzaQui : OPZ.sopra;
+    box.innerHTML = (sopra ? '<p class="mk-sopra">' + esc(sopra) + '</p>' : '') + '<div class="mk-tab">' + testa + righe + '</div>'
       + (cc.length > 6 ? '<button class="mk-tutte">' + (OPZ.tutte || 'Mostra tutte le # città').replace('#', cc.length) + '</button>' : '')
       + '<p class="mk-citta-n">' + (OPZ.tocca || 'Tocca una città per vederla ora per ora sulla mappa') + '</p>' + radar;
     var bt = box.querySelector('.mk-tutte');
