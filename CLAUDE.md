@@ -1221,6 +1221,21 @@ terreno. Gli unici zeri rimasti sono le stazioni sul mare elencate sopra.
   tocca mai. Prova a mano: `TERRENO_SPENTO=1`.
 - Storico: `ripara-quote-storiche.js terreno` e il modo nuovo `zeri`, 193 file,
   solo `q`/`qt`.
+
+### 5. Dal 25/10/2026 il terreno viene dalle tessere terrarium, non da Open-Meteo
+Deciso il 25/10 di togliere Open-Meteo da tutto il sito (il piano gratuito vieta i siti con pubblicita' o
+abbonamenti): questo e' il primo pezzo. `lib-terrarium.js` legge le **Terrain Tiles di Mapzen** (open data su AWS,
+PNG con la quota nei colori, in Europa EU-DEM: attribuzione in `fonti.html`) allo zoom 12; la usano
+`lib-quota-terreno.js`, `quote-terreno.js` e `lib-quota-paesi.js`.
+- **Misura** su 537 pluviometri del nord con la quota dichiarata: scarto mediano **5 m**, 90% entro 20 m, 2 oltre
+  i 100 m; Open-Meteo sugli stessi 5 m / 26 m / 4. I peggiori sono gli stessi per tutte le fonti (Castione della
+  Presolana, Valtorta), cioe' coordinate della stazione.
+- ⚠️ **TINITALY sarebbe meglio** (3 m / 16 m) ma le nostre tessere sono WebP e Node, senza librerie, il WebP non
+  lo legge: i collector girano con node e basta.
+- **Le quote gia' scritte restano** (`quote-terreno.json`, `quote-paesi.json` con `f:'om'`, i file storici): sono
+  dati del Copernicus DEM. `quote-terreno.js --tutte` e `QUOTE_RIFAI=1` le rifanno da terrarium, se servira'.
+- Tolti lo stesso giorno, perche' morti e con Open-Meteo dentro: i sette `populate-history*.js` e `backfill-*.js`
+  della radice, `netlify/functions/collect-trentino.js`, `check-mnw-sud.js` con `mnw-check.yml`.
 ⚠️ ~~Nota a margine: sul Piemonte i pallini di partenza prendono la quota
 dall'anagrafica del realtime, che per Acqui Terme dice 156 m mentre la banca
 dati ufficiale dice 217. Due numeri ARPA diversi per la stessa stazione.~~
