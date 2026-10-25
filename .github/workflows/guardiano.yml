@@ -13,6 +13,10 @@ name: Guardiano — collector rimasti indietro
 # workflow entro cinque minuti. Il primo tentativo metteva le 08:20, dove ne
 # partono gia' due — mettersi in coda con gli altri e' il modo piu' sicuro di
 # farsi saltare.
+# ⚠️ IL QUARTO, 16:00 UTC (25/10/2026): e' il tentativo delle 17 di una fonte gia' rilanciata tre volte al
+# mattino (TENTATIVI_MATTINA in guardiano-collector.js), poi niente fino al giorno dopo. D'inverno cade alle
+# 17, d'estate alle 18: tutte e due dopo le 17, che e' l'ora che conta per la regola. Cinque minuti prima
+# dell'Emilia (16:05), il primo dei giri del pomeriggio.
 on:
   workflow_dispatch:
     inputs:
@@ -28,6 +32,7 @@ on:
     - cron: '55 6 * * *'
     - cron: '50 8 * * *'
     - cron: '10 10 * * *'
+    - cron: '0 16 * * *'
 
 # ⚠️ actions: write e' quello che permette di ri-lanciare gli altri workflow.
 # workflow_dispatch e' l'ECCEZIONE documentata alla regola «gli eventi

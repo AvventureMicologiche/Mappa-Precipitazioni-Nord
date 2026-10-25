@@ -80,6 +80,16 @@ const PROSSIMO_MIN = 20;
 // mai — cioe' resterebbe codice mai visto girare.
 const MAX_LANCI = Number(process.env.MAX_LANCI || 8);
 
+// ⚠️ UNA FONTE FERMA NON SI RILANCIA ALL'INFINITO (25/10/2026). Il guardiano passa fino a nove volte al
+// giorno e una fonte morta veniva rilanciata a ogni passaggio, riepiloghi compresi: il 25/10 il Ticino (OASI
+// giu' dal 21/10, irraggiungibile anche dal PC) quattro volte fra le 6 e le 7:30, e i riepiloghi ogni ora.
+// Regola sua: tre tentativi al mattino, uno dalle 17, poi niente fino al giorno dopo. Non si perde niente: i
+// giri normali del collector restano tutti (il Ticino ne ha uno verso le 17:30), e se la fonte torna i dati
+// arrivano da li'. Il conto si fa sul registro, in ora italiana. I riepiloghi hanno la loro regola, qui no.
+const TENTATIVI_MATTINA = 3;
+const ORA_SERA = 17;
+const TENTATIVI_SERA = 1;
+
 // Le fonti che dichiarano un ritardo loro: per queste «ieri» non esiste mai.
 // ⚠️ ARSO pubblica con ~34 ore di scarto (vedi CLAUDE.md, scheda Slovenia):
 // senza questa riga il guardiano la troverebbe in ritardo TUTTE le mattine.
@@ -299,6 +309,30 @@ function controllaRiepiloghi(adesso) {
   return null;
 }
 
+// Quante volte un workflow e' gia' stato rilanciato OGGI (giorno italiano), prima e dopo le 17. Si contano
+// solo i giri fino ad `adesso`: con ORA= si prova anche un momento gia' passato.
+function tentativiOggi(wf, adesso) {
+  let giri = [];
+  try { giri = JSON.parse(fs.readFileSync(REGISTRO, 'utf8')).giri || []; } catch (e) { /* registro nuovo */ }
+  const oggi = giornoIT(adesso);
+  const conto = { mattina: 0, sera: 0 };
+  for (const g of giri) {
+    const q = new Date(g.quando);
+    if (!(q <= adesso) || giornoIT(q) !== oggi || !(g.lanciati || []).includes(wf)) continue;
+    conto[oraIT(q) >= ORA_SERA ? 'sera' : 'mattina']++;
+  }
+  return conto;
+}
+
+// null = si puo' lanciare; se no, il perche' da scrivere nel log.
+function fermoPerOggi(wf, adesso) {
+  if (wf === WF_RIEPILOGHI) return null;
+  const t = tentativiOggi(wf, adesso);
+  if (oraIT(adesso) < ORA_SERA)
+    return t.mattina >= TENTATIVI_MATTINA ? `gia' rilanciato ${t.mattina} volte stamattina, riprovo dalle ${ORA_SERA}` : null;
+  return t.sera >= TENTATIVI_SERA ? `gia' rilanciato dopo le ${ORA_SERA}, riprovo domani` : null;
+}
+
 function ultimoGiro() {
   try { const r = JSON.parse(fs.readFileSync(REGISTRO, 'utf8')); return (r.giri || []).slice(-1)[0] || null; }
   catch (e) { return null; }
@@ -364,8 +398,13 @@ function main() {
     return;
   }
 
+  // Le fonti ferme: tre tentativi al mattino, uno dalle 17, poi basta fino a domani (vedi TENTATIVI_MATTINA).
+  const fermi = daLanciare.map(wf => [wf, fermoPerOggi(wf, adesso)]).filter(([, perche]) => perche);
+  for (const [wf, perche] of fermi) console.log(`⏸ ${wf}: ${perche}`);
+  const daProvare = daLanciare.filter(wf => !fermi.some(([f]) => f === wf));
+
   const lanciati = [];
-  for (const wf of daLanciare) {
+  for (const wf of daProvare) {
     if (!LANCIA) { console.log(`   (lancerei ${wf})`); continue; }
     try { lancia(wf); lanciati.push(wf); console.log(`🚀 lanciato ${wf}`); }
     catch (e) { console.log(`❌ ${wf}: ${String(e.message).split('\n')[0]}`); }

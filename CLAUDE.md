@@ -1000,6 +1000,16 @@ non sono una cartella di dati e si giudicano sul campo `generato`.
   tentativo metteva le 08:20, dove ne partono gia' due.
 - **Registro** `data/guardiano.json`: serve a non ripetersi e soprattutto a
   MISURARE quanto spesso capita, **senza nessuna chiamata di rete**.
+- **Una fonte ferma: tre tentativi al mattino, uno dalle 17, poi niente fino
+  al giorno dopo** (dal 25/10/2026, regola sua: `TENTATIVI_MATTINA`,
+  `ORA_SERA`, `TENTATIVI_SERA`). Il conto si fa sul registro, per workflow e in
+  ora italiana; il log dice «⏸ … riprovo dalle 17» o «riprovo domani». Nata dal
+  Ticino del 25/10: OASI giu' dal 21/10 (irraggiungibile anche dal PC), il
+  guardiano lo rilanciava a ogni passaggio, quattro volte fra le 6 e le 7:30, e
+  ogni volta ripartivano anche i riepiloghi. Non si perde niente: i giri normali
+  del collector restano tutti. Per il tentativo delle 17 c'e' un **quarto cron,
+  16:00 UTC** (d'inverno le 17, d'estate le 18). ⚠️ I riepiloghi non hanno il
+  tetto, hanno la loro regola «mai due giri di fila».
 
 **⚠️ IL LIMITE, DETTO CHIARO:** copre il caso «GitHub ha saltato la notte ed e'
 tornato in se' la mattina», che e' il piu' frequente. Non copre «GitHub e' giu'
