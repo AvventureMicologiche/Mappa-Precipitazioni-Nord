@@ -344,7 +344,11 @@ function consolida(day, stations, anag, uff) {
       if (diff <= SOGLIA_SOST_MM) stat.uguali++;
       // sopra SOGLIA_UFF_SEMPRE_MM vince l'ufficiale anche col realtime completo: in un giorno eccezionale
       // si vuole il numero validato da ARPA (bug 4, 19/10/2026)
-      else if ((mine.h || 0) < 24 || (mine.mm || 0) > SOGLIA_UFF_SEMPRE_MM) {
+      // ⚠️ MA SOLO SE CI SMENTISCE (25/10/2026). L'ufficiale conta il giorno in UTC: preso sempre, nel giorno
+      // dell'alluvione perdeva la pioggia fra le 00 e le 02 italiane e prendeva quella del giorno dopo, che il
+      // realtime mette gia' nel file di G+1 (contata due volte). Sotto la meta' del nostro e' un sensore guasto
+      // (140 mm l'ora per 24 ore passa il tetto orario): vince l'ufficiale. Se no si tiene il giorno italiano.
+      else if ((mine.h || 0) < 24 || ((mine.mm || 0) > SOGLIA_UFF_SEMPRE_MM && ptot < (mine.mm || 0) * 0.5)) {
         stat.dettagli.push(`~ ${mine.n} (${id}) h=${mine.h} nostro=${mine.mm} → ufficiale=${ptot}`);
         mine.mm = ptot; mine.src = 'arpa-ufficiale';
         // ⚠️ L'intensita' veniva dal realtime INCOMPLETO (h<24) che qui stiamo

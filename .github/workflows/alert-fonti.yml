@@ -265,8 +265,11 @@ jobs:
           [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
           echo "Mail inviata."
 
+      # ⚠️ !cancelled() (25/10/2026): senza, bastava che fallisse UNA delle cinque mail (anche quella dei campi
+      # spariti, che col registro non c'entra) e il registro non si salvava: il giorno dopo ripartiva «nuovo
+      # allarme» invece del promemoria. La mail persa la segnala GitHub col giro rosso.
       - name: Commit del registro
-        if: steps.check.outputs.registro == 'true' || steps.ferme.outputs.registro == 'true'
+        if: "!cancelled() && (steps.check.outputs.registro == 'true' || steps.ferme.outputs.registro == 'true')"
         run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"

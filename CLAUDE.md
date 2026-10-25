@@ -2887,8 +2887,19 @@ ramo `da-guardare`), verificati sul codice e decisi con lui. Corretti:
   `SOLO=meteohub-`: giudica con tutti i vicini, tocca solo quelle cartelle). MeteoHub rimetteva a ogni giro la minima che
   `riepiloghi.yml` toglieva (Baunei 19/10, −12,8°: 22 riscritture in due giorni, ed era la prima causa dei conflitti di
   push fra giri).
-Lasciati, con lui: Piemonte sopra 300 mm in giorno UTC, registro di alert-fonti se la mail fallisce, date senza anno
-(PRIMA DI GENNAIO), `loadOpenMeteo` morto, frase del pluviometro assente sulle pagine paese (tutti «quando si passa da
-quel file»); id doppi Bormio/Panocchia, `CLOSING` da Cloudflare (lo copre il tetto), coperture parziali di
+**Corretti il 25/10/2026** (erano «quando si passa da quel file»):
+- **Piemonte sopra 300 mm**: l'archivio ufficiale (giorno UTC) vince sul realtime completo solo se ci SMENTISCE, cioe'
+  se da' meno della meta' del nostro (sensore guasto); se no resta il giorno italiano. Provato abbassando per prova la
+  soglia a 10 mm sul 19-21/10: da 91 stazioni complete sostituite a 12. ⚠️ Il prezzo: una pioggia concentrata fra le
+  00 e le 02 italiane sembra un guasto (a 300 mm servono 150 mm in quelle due ore).
+- **Registro di alert-fonti**: il passo del commit ha `!cancelled() &&`, cosi' una mail fallita non lo fa saltare.
+- **Date senza anno**: `periodoBreve(a,b)` in `index.html` per le tre etichette (inizio dati, date scelte, link);
+  l'anno compare su tutte e due le date se una non e' dell'anno in corso («20 dic 2025 → 10 gen 2026», a 360 px su
+  una riga).
+- **`loadOpenMeteo` tolto** (142 righe mai chiamate, che scrivevano 0 mm se Open-Meteo non rispondeva), con
+  `fmtDate` che usava solo lei. Abruzzo e Valle d'Aosta provati dopo.
+- **Frase del pluviometro**: `OPZ.sopraSenzaQui` in `meteoClient`; le pagine paese passano «I paesi intorno», usata
+  se nella tabella non c'e' la riga `qui`. Rigenerate le 908 pagine (cambiano anche i numeri d'archivio).
+Lasciati, con lui: id doppi Bormio/Panocchia, `CLOSING` da Cloudflare (lo copre il tetto), coperture parziali di
 meteohub-gaps, testata del telefono, punto delle migliaia e «~» delle pagine paese. La heatmap a fasce su Safari va
 guardata su un iPhone (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).

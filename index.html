@@ -5012,146 +5012,16 @@ function cacheInit(){
 cacheInit();
 
 // ═══════════════════════════════════════════════════════════════
-// DATA SOURCE: OPEN-METEO
+// ETICHETTA DEL PERIODO
 // ═══════════════════════════════════════════════════════════════
-// Open-Meteo API: gratuita, no CORS, dati orari reali (ERA5/GFS)
-// Endpoint: https://archive-api.open-meteo.com/v1/archive per dati storici
-//           https://api.open-meteo.com/v1/forecast per dati recenti (<7gg)
-
-function fmtDate(d){
-  var p=function(n){return String(n).padStart(2,'0');};
-  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
-}
-
-function loadOpenMeteo(stations,pastDate,nowDate,labelPeriodo,badgePrefix){
-  var msRange=nowDate.getTime()-pastDate.getTime();
-  var days7=7*24*3600000;
-  // Open-Meteo: usa /forecast per ultimi 7 giorni, /archive per storici
-  var useArchive=msRange>days7;
-
-  // Raggruppa stazioni in batch da 10 (limit API)
-  var BATCH=100;
-  var batches=[];
-  for(var i=0;i<stations.length;i+=BATCH){
-    batches.push(stations.slice(i,i+BATCH));
-  }
-
-  var results={};
-  var pending=batches.length;
-
-  function onBatchDone(){
-    pending--;
-    if(pending>0) return;
-    // Assembla output
-    var out=stations.map(function(s){
-      return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,mm:results[s.n]||0};
-    });
-    var fonte=badgePrefix?badgePrefix+' · Open-Meteo':'🌍 Open-Meteo live';
-    render(out,fonte,labelPeriodo);
-  }
-
-  batches.forEach(function(batch){
-    var lats=batch.map(function(s){return s.lat;}).join(',');
-    var lons=batch.map(function(s){return s.lon;}).join(',');
-    var startDate=fmtDate(pastDate);
-    var endDate=fmtDate(nowDate);
-    var days=Math.ceil(msRange/(24*3600000));
-    var isHourly=msRange<2*24*3600000; // periodi < 2 giorni → usa dati orari
-    var cutoff=new Date(new Date().getTime()-6*24*3600000);
-    var urls=[];
-
-    if(isHourly){
-      // Per ore: usa hourly precipitation con past_days=2
-      // così prendiamo le ultime 48h e filtriamo per ora esatta
-      urls.push('https://api.open-meteo.com/v1/forecast'
-        +'?latitude='+lats+'&longitude='+lons
-        +'&hourly=precipitation&timezone=Europe%2FRome'
-        +'&past_days=3&forecast_days=0');
-    } else if(days<=92){
-      urls.push('https://api.open-meteo.com/v1/forecast'
-        +'?latitude='+lats+'&longitude='+lons
-        +'&daily=precipitation_sum&timezone=Europe%2FRome'
-        +'&past_days='+days+'&forecast_days=0');
-    } else if(nowDate<=cutoff){
-      urls.push('https://archive-api.open-meteo.com/v1/archive'
-        +'?latitude='+lats+'&longitude='+lons
-        +'&start_date='+startDate+'&end_date='+endDate
-        +'&daily=precipitation_sum&timezone=Europe%2FRome');
-    } else {
-      urls.push('https://archive-api.open-meteo.com/v1/archive'
-        +'?latitude='+lats+'&longitude='+lons
-        +'&start_date='+startDate+'&end_date='+fmtDate(cutoff)
-        +'&daily=precipitation_sum&timezone=Europe%2FRome');
-      urls.push('https://api.open-meteo.com/v1/forecast'
-        +'?latitude='+lats+'&longitude='+lons
-        +'&daily=precipitation_sum&timezone=Europe%2FRome'
-        +'&past_days=6&forecast_days=0');
-    }
-
-    var pastMs=pastDate.getTime();
-    var nowMs=nowDate.getTime();
-
-    function processOM(data,acc){
-      var arr=Array.isArray(data)?data:[data];
-      arr.forEach(function(loc,i){
-        var st=batch[i]; if(!st) return;
-        if(isHourly){
-          // Open-Meteo restituisce "2026-04-29T06:00" in ora locale Europe/Rome
-          // JavaScript Date() in ora locale:
-          // new Date(2026,3,29,6,0) = 29 apr ore 6:00 ora locale
-          var hourly=loc.hourly; if(!hourly||!hourly.time) return;
-          var total=0;
-          // Converti pastDate/nowDate in stringa locale "YYYY-MM-DDTHH:MM"
-          function toLocalISO(d){
-            var p=function(n){return String(n).padStart(2,'0');};
-            return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())
-              +'T'+p(d.getHours())+':'+p(d.getMinutes());
-          }
-          // Aggiungi 1h di margine per coprire sfasamenti di timezone
-          var pastWithMargin=new Date(pastDate.getTime()-3600000);
-          var nowWithMargin=new Date(nowDate.getTime()+3600000);
-          var pastStr=toLocalISO(pastWithMargin);
-          var nowStr=toLocalISO(nowWithMargin);
-          for(var j=0;j<hourly.time.length;j++){
-            var tStr=hourly.time[j].substring(0,16); // "2026-04-29T06:00"
-            if(tStr>=pastStr&&tStr<=nowStr){
-              var v=parseFloat(hourly.precipitation[j]);
-              if(!isNaN(v)&&v>0) total+=v;
-            }
-          }
-          acc[st.n]=(acc[st.n]||0)+total;
-        } else {
-          // Dati giornalieri: filtra per data stringa
-          var daily=loc.daily; if(!daily||!daily.time) return;
-          for(var j=0;j<daily.time.length;j++){
-            if(daily.time[j]>=startDate&&daily.time[j]<=endDate){
-              var v=parseFloat(daily.precipitation_sum[j]);
-              if(!isNaN(v)&&v>0) acc[st.n]=(acc[st.n]||0)+v;
-            }
-          }
-        }
-      });
-    }
-    var acc={};
-    urls.reduce(function(chain,url){
-      return chain
-        .then(function(){return fetch(url);})
-        .then(function(r){if(!r.ok)throw new Error('OM '+r.status);return r.json();})
-        .then(function(data){processOM(data,acc);});
-    },Promise.resolve())
-    .then(function(){
-      batch.forEach(function(s){
-        var t=acc[s.n]||0;
-        results[s.n]=Math.round(t*10)/10;
-      });
-      onBatchDone();
-    })
-    .catch(function(e){
-      console.warn('Open-Meteo error:',e.message);
-      batch.forEach(function(s){results[s.n]=0;});
-      onBatchDone();
-    });
-  });
+// ⚠️ L'ANNO SOLO QUANDO SERVE (25/10/2026). L'etichetta del periodo («01 set → 30 set») finisce anche nella
+// striscia blu della foto condivisa: senza anno, dal 1° gennaio un periodo di dicembre sembrerebbe dell'anno
+// nuovo. Se una delle due date non e' dell'anno in corso, l'anno va su tutte e due. Qui stava loadOpenMeteo,
+// codice morto che non chiamava nessuno e che, se Open-Meteo non rispondeva, scriveva 0 mm.
+function periodoBreve(a,b){
+  var o={day:'2-digit',month:'short'}, y=new Date().getFullYear();
+  if(a.getFullYear()!==y||b.getFullYear()!==y) o.year='numeric';
+  return a.toLocaleDateString('it-IT',o)+' → '+b.toLocaleDateString('it-IT',o);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -5423,8 +5293,7 @@ function loadData(pastDate,nowDate,labelPeriodo){
   }
   if(fmtISOLocal(pastDate)<_ini.data){
     pastDate=new Date(_ini.data+'T00:00:00');
-    var _dI=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};
-    labelPeriodo=_dI(pastDate)+' → '+_dI(nowDate);
+    labelPeriodo=periodoBreve(pastDate,nowDate);
   }
   /* Una nuova analisi e' una nuova inquadratura anche per chi e' arrivato da un link (18/10/2026).
      `_vistaDaLink` protegge la PRIMA vista del link (il ramo dei link la rialza subito dopo questa
@@ -10141,8 +10010,7 @@ document.getElementById('cd-apply').addEventListener('click',function(){
   document.getElementById('custom-box').style.display='none';
   var pastDate=new Date(from+'T00:00:00');
   var nowDate=new Date(to+'T23:59:59');
-  var d=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};
-  var label=d(pastDate)+' → '+d(nowDate);
+  var label=periodoBreve(pastDate,nowDate);
   setActiveBtn(document.getElementById('btn-custom'));
   loadData(pastDate,nowDate,label);
 });
@@ -11035,12 +10903,11 @@ if(_btnShot){
   try{gtag('event',_sq==='i'?'open_shared_image':(_sq==='p'?'open_from_page':'open_shared_map'),{regioni:keys.join(',')})}catch(e){}
   var pastDate=new Date(da+'T00:00:00');
   var nowDate=new Date(a+'T23:59:59');
-  var dfmt=function(dd){return dd.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});};
   // Se il range del link coincide ancora con un preset del ricevente (aperto
   // lo stesso giorno: "30 giorni", "Ieri", ...) si accendono bottone ed
   // etichetta come nel flusso normale; altrimenti si mostrano le date
   // esplicite (il link congela le date assolute di proposito).
-  var label=dfmt(pastDate)+' → '+dfmt(nowDate), btnMatch=null;
+  var label=periodoBreve(pastDate,nowDate), btnMatch=null;
   if(a===ieriStr){
     if(da===a){ label='Ieri'; btnMatch=document.querySelector('.tp-btn[data-type="ieri"]'); }
     else{
