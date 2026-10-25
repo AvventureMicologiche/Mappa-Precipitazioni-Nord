@@ -2848,7 +2848,12 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   weather.com e Google; 3B e ilMeteo scrivono solo «Prob. prec.») e i millimetri sono scritti «0,8 mm», anche nelle
   etichette della mappa. La pagina chiede `/api/previsioni?zona=<slug>&pr=1`: solo con `pr=1` la Function aggiunge `pc`
   ai giorni dei paesi, con UNA richiesta Open-Meteo per tutti (`probDi`, latitudini e longitudini separate da virgole),
-  così resta sotto i 50 sottorichieste e le 6 connessioni. Le altre pagine che usano `?zona=` non la chiedono.
+  così resta sotto i 50 sottorichieste e le 6 connessioni.
+  **Dal 25/10 sera anche il blocco «Che tempo farà» di tutte le pagine** (`meteoClient` di `lib-meteo-regione.js`:
+  regioni, zone piogge e funghi, paesi, regioni funghi, indice /funghi/, mappa forestale): chiede `&pr=1` per
+  `capoluoghi=`, `zona=`, `paese=`, `zonedi=` e `posti=`, e scrive «💧 X%» sotto ogni giorno (la più alta delle ore).
+  Provato sull'anteprima `prova` coi tetti veri: Toscana con 21 zone e indice con 20 posti, tutte le righe con la %.
+  ⚠️ Open-Meteo conta ogni posto della richiesta: se si arriva al tetto gratuito la % sparisce e il resto va.
   ⚠️ mm e icone sono di MET, la % di Open-Meteo: due modelli, a volte non tornano (5,8 mm con l'8%).
 - **Link «Previsioni meteo <Zona> →»** nel blocco «Che tempo farà» delle zone piogge e funghi delle zone del test
   (`linkMeteo()`, chiamato dai due generatori di zona; evento GA4 `apri_meteo_zona`). La pagina ha il suo evento
