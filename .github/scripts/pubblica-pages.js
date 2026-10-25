@@ -24,13 +24,21 @@
 //     cioe' l'equivalente di netlify.toml;
 //  3. lancia `wrangler pages deploy` sul progetto indicato.
 //
-// uso:  node pubblica-pages.js <cartella repo> <nome progetto Pages> [--solo-cartella]
+// uso:  node pubblica-pages.js <cartella repo> <nome progetto Pages> [--solo-cartella] [--ramo=<nome>]
 //   es. node pubblica-pages.js "D:/video youtube/claudio/claudio pluviometro/Mappa-Precipitazioni-Nord-Test" avventurepluvio-test --solo-cartella
 // --solo-cartella: costruisce _pages/ e si ferma (per provarla con `python -m http.server`).
+// --ramo=<nome> (25/10/2026): ANTEPRIMA, non produzione. Cloudflare la mette su https://<nome>.<progetto>.pages.dev
+//   con dentro la cartella del repo COM'E' ADESSO (anche le modifiche non committate), e il sito vero non cambia.
+//   Prende il posto del sito di test per guardare una modifica dal telefono prima di pubblicarla: e' sempre la
+//   produzione piu' la modifica, quindi non c'e' niente da allineare. Le anteprime Cloudflare non le indicizza
+//   (noindex) e GA non conta (il config parte solo sul dominio vero). Stesso nome = stesso indirizzo, aggiornato.
 const fs = require('fs'), path = require('path'), { execSync } = require('child_process');
 
 const REPO = process.argv[2], PROGETTO = process.argv[3], SOLO = process.argv.includes('--solo-cartella');
-if (!REPO || !PROGETTO) { console.log('uso: node pubblica-pages.js <repo> <progetto> [--solo-cartella]'); process.exit(1); }
+if (!REPO || !PROGETTO) { console.log('uso: node pubblica-pages.js <repo> <progetto> [--solo-cartella] [--ramo=<nome>]'); process.exit(1); }
+// il nome come lo scrive Cloudflare nell'indirizzo: minuscole, cifre e trattini
+const RAMO = ((process.argv.find(a => a.startsWith('--ramo=')) || '').slice(7)).toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+if (process.argv.some(a => a.startsWith('--ramo=')) && (!RAMO || RAMO === 'main')) { console.log('--ramo vuole un nome diverso da «main» (main e\' la produzione)'); process.exit(1); }
 const OUT = path.join(REPO, '_pages');
 const TETTO_FILE = 19500; // Pages: 20.000 per deploy, con un po' di margine
 
@@ -101,12 +109,12 @@ console.log(`_pages/: ${nFile} file (${(byte / 1e6).toFixed(0)} MB), file-giorno
 if (nFile > 20000) { console.log('⚠️ troppi file per Pages (tetto 20.000): fermo.'); process.exit(2); }
 if (SOLO) { console.log('--solo-cartella: mi fermo qui. Prova: cd _pages && python -m http.server 8890'); process.exit(0); }
 
-console.log(`Pubblico su Cloudflare Pages, progetto ${PROGETTO}...`);
+console.log(RAMO ? `Pubblico l'ANTEPRIMA «${RAMO}» del progetto ${PROGETTO} (il sito vero non cambia)...` : `Pubblico su Cloudflare Pages, progetto ${PROGETTO}...`);
 // ⚠️ LE PAGES FUNCTIONS (cartella `functions/` del repo, 7/10/2026) wrangler le cerca nella cartella da cui
 // viene LANCIATO, non in quella pubblicata: con cwd nel banco la funzione non saliva (404). Quindi cwd = repo
 // quando il repo ha `functions/`, e la cache .wrangler/ che lascia li' si toglie subito dopo.
 const conFunzioni = fs.existsSync(path.join(REPO, 'functions'));
-execSync(`npx --yes wrangler@4 pages deploy "${OUT}" --project-name ${PROGETTO} --branch main --commit-dirty=true`, { stdio: 'inherit', cwd: conFunzioni ? REPO : __dirname });
+execSync(`npx --yes wrangler@4 pages deploy "${OUT}" --project-name ${PROGETTO} --branch ${RAMO || 'main'} --commit-dirty=true`, { stdio: 'inherit', cwd: conFunzioni ? REPO : __dirname });
 if (conFunzioni) fs.rmSync(path.join(REPO, '.wrangler'), { recursive: true, force: true });
 fs.rmSync(OUT, { recursive: true, force: true });
-console.log('Fatto, _pages/ rimossa.');
+console.log('Fatto, _pages/ rimossa.' + (RAMO ? ` Anteprima: https://${RAMO}.${PROGETTO}.pages.dev/` : ''));
