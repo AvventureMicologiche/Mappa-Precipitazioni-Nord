@@ -1,42 +1,42 @@
 {
  "regione": "puglia",
- "generato": "2026-10-24T03:15:29.525Z",
+ "generato": "2026-10-25T04:15:28.270Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 3.7,
    "giorni": 1,
-   "stazioni": 121,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-23",
+   "stazioni": 127,
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-24",
    "top": [
     {
-     "n": "Torrente Saccione SP142",
-     "mm": 6.7
+     "n": "Vico del Gargano",
+     "mm": 32.9
     },
     {
-     "n": "Serracapriola",
-     "mm": 1.8
+     "n": "Sannicandro Garganico",
+     "mm": 27.8
     },
     {
-     "n": "Barletta",
-     "mm": 1.2
+     "n": "Peschici",
+     "mm": 26.4
+    },
+    {
+     "n": "Rodi Garganico",
+     "mm": 23.8
     },
     {
      "n": "Lesina",
-     "mm": 0.6
-    },
-    {
-     "n": "Canosa di Puglia",
-     "mm": 0.4
+     "mm": 22.6
     }
    ]
   },
   "7": {
-   "media": 19.7,
+   "media": 23.4,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Locorotondo",
@@ -47,12 +47,12 @@
      "mm": 82.8
     },
     {
-     "n": "Massafra",
-     "mm": 71.6
+     "n": "Monopoli",
+     "mm": 71.8
     },
     {
-     "n": "Monopoli",
-     "mm": 70.8
+     "n": "Massafra",
+     "mm": 71.6
     },
     {
      "n": "Martina Franca",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 70.8,
+   "media": 74.5,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 73.4,
+   "media": 76.7,
    "giorni": 30,
-   "stazioni": 128,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-23",
+   "stazioni": 129,
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  3.7,
   0.1,
   0.4,
   20,
@@ -148,9 +149,8 @@
   0,
   0,
   0.1,
-  1.9,
-  0
+  1.9
  ],
- "serieDa": "2026-10-23",
+ "serieDa": "2026-10-24",
  "zone": []
 }

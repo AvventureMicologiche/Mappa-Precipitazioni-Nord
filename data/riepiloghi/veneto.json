@@ -1,86 +1,91 @@
 {
  "regione": "veneto",
- "generato": "2026-10-24T03:15:29.522Z",
+ "generato": "2026-10-25T04:15:28.267Z",
  "periodi": {
   "1": {
-   "media": 6,
+   "media": 1,
    "giorni": 1,
-   "stazioni": 186,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-23",
+   "stazioni": 185,
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-24",
    "top": [
     {
-     "n": "Bibione (VE)",
-     "nb": "Bibione",
-     "mm": 68.2
+     "n": "Gaiarine (TV)",
+     "nb": "Gaiarine",
+     "mm": 12
     },
     {
-     "n": "Rosa' (VI)",
-     "nb": "Rosa'",
-     "mm": 18.6
+     "n": "Sella Ciampigotto (BL)",
+     "nb": "Sella Ciampigotto",
+     "mm": 9.6
     },
     {
-     "n": "Turcati (Recoaro Terme) (VI)",
-     "nb": "Turcati (Recoaro Terme)",
-     "mm": 16
+     "n": "Perarolo (BL)",
+     "nb": "Perarolo",
+     "mm": 8.6
     },
     {
-     "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
-     "nb": "Rifugio la Guardia (Recoaro Terme)",
-     "mm": 15.6
+     "n": "Valle di Cadore (BL)",
+     "nb": "Valle di Cadore",
+     "mm": 8.2
     },
     {
-     "n": "Valstagna (VI)",
-     "nb": "Valstagna",
-     "mm": 14.9
+     "n": "Domegge di Cadore (BL)",
+     "nb": "Domegge di Cadore",
+     "mm": 8
     }
    ]
   },
   "7": {
-   "media": 47.3,
+   "media": 48.3,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 196.3
+     "mm": 196.5
     },
     {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
-     "mm": 165.2
+     "mm": 166.4
     },
     {
      "n": "Col Indes (Tambre) (BL)",
      "nb": "Col Indes (Tambre)",
-     "mm": 159.6
+     "mm": 162.8
     },
     {
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
-     "mm": 153.4
+     "mm": 153.6
     },
     {
      "n": "Cansiglio - Tramedere (BL)",
      "nb": "Cansiglio - Tramedere",
-     "mm": 142.8
+     "mm": 144.6
     }
    ]
   },
   "20": {
-   "media": 65.8,
+   "media": 66.8,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 211.5
+     "mm": 211.7
+    },
+    {
+     "n": "Soffranco (BL)",
+     "nb": "Soffranco",
+     "mm": 179.8
     },
     {
      "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
@@ -88,33 +93,33 @@
      "mm": 179.6
     },
     {
-     "n": "Soffranco (BL)",
-     "nb": "Soffranco",
-     "mm": 178.6
-    },
-    {
      "n": "Staro (Valli del Pasubio) (VI)",
      "nb": "Staro (Valli del Pasubio)",
-     "mm": 177.7
+     "mm": 178.1
     },
     {
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
-     "mm": 171.2
+     "mm": 171.4
     }
    ]
   },
   "30": {
-   "media": 66,
+   "media": 66.9,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-23",
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 211.9
+     "mm": 212.1
+    },
+    {
+     "n": "Soffranco (BL)",
+     "nb": "Soffranco",
+     "mm": 180.2
     },
     {
      "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
@@ -122,24 +127,20 @@
      "mm": 179.6
     },
     {
-     "n": "Soffranco (BL)",
-     "nb": "Soffranco",
-     "mm": 179.2
-    },
-    {
      "n": "Staro (Valli del Pasubio) (VI)",
      "nb": "Staro (Valli del Pasubio)",
-     "mm": 177.7
+     "mm": 178.1
     },
     {
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
-     "mm": 171.6
+     "mm": 171.8
     }
    ]
   }
  },
  "serie": [
+  1,
   6,
   2.1,
   32.1,
@@ -168,18 +169,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-23",
+ "serieDa": "2026-10-24",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-23",
-   "m1": 8.1,
-   "m7": 137.8,
-   "m30": 159.5,
+   "ultimo": "2026-10-24",
+   "m1": 0.1,
+   "m7": 137.9,
+   "m30": 159.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-23",
-   "m1": 7.2,
-   "m7": 136.1,
-   "m30": 149.1,
+   "ultimo": "2026-10-24",
+   "m1": 3.6,
+   "m7": 139.7,
+   "m30": 152.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-23",
-   "m1": 4.3,
-   "m7": 71.1,
-   "m30": 78.5,
+   "ultimo": "2026-10-24",
+   "m1": 4.6,
+   "m7": 75.6,
+   "m30": 83.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-23",
-   "m1": 12.5,
-   "m7": 144.7,
-   "m30": 173.3,
+   "ultimo": "2026-10-24",
+   "m1": 0.1,
+   "m7": 144.8,
+   "m30": 173.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-23",
-   "m1": 9.7,
+   "ultimo": "2026-10-24",
+   "m1": 0.1,
    "m7": 84.7,
-   "m30": 93.5,
+   "m30": 93.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,10 +231,10 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-23",
-   "m1": 9.7,
-   "m7": 114.5,
-   "m30": 121.2,
+   "ultimo": "2026-10-24",
+   "m1": 1.4,
+   "m7": 115.8,
+   "m30": 122.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-23",
-   "m1": 5.1,
-   "m7": 65.8,
-   "m30": 76,
+   "ultimo": "2026-10-24",
+   "m1": 0.2,
+   "m7": 66,
+   "m30": 76.2,
    "p1": true,
    "p7": true,
    "p30": true

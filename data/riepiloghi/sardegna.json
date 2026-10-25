@@ -1,42 +1,42 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-24T03:15:29.526Z",
+ "generato": "2026-10-25T04:15:28.270Z",
  "periodi": {
   "1": {
-   "media": 0.8,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 92,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-24",
    "top": [
     {
-     "n": "Stintino",
-     "mm": 16.2
-    },
-    {
-     "n": "Coghinas",
-     "mm": 4
-    },
-    {
-     "n": "Campanasissa",
-     "mm": 2.8
+     "n": "Oschiri",
+     "mm": 1
     },
     {
      "n": "Monte Rasu",
-     "mm": 2.8
+     "mm": 0.6
     },
     {
-     "n": "Santa Maria di Neapolis",
-     "mm": 2.8
+     "n": "Pula",
+     "mm": 0.6
+    },
+    {
+     "n": "Monte sa Scova",
+     "mm": 0.4
+    },
+    {
+     "n": "San Michele",
+     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 33.4,
+   "media": 33.3,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-10-17",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-18",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Siniscola",
@@ -52,49 +52,20 @@
     },
     {
      "n": "Santa Lucia di Capoterra",
-     "mm": 77
+     "mm": 77.2
     },
     {
      "n": "Montresta",
-     "mm": 76.2
+     "mm": 76
     }
    ]
   },
   "20": {
-   "media": 62.2,
+   "media": 62.1,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-04",
-   "ultimo": "2026-10-23",
-   "top": [
-    {
-     "n": "Siniscola",
-     "mm": 262.2
-    },
-    {
-     "n": "Baunei",
-     "mm": 177.6
-    },
-    {
-     "n": "Badu Crabolu",
-     "mm": 156.8
-    },
-    {
-     "n": "Stintino",
-     "mm": 143.2
-    },
-    {
-     "n": "Villanova Monteleone",
-     "mm": 138.2
-    }
-   ]
-  },
-  "30": {
-   "media": 62.5,
-   "giorni": 30,
-   "stazioni": 92,
-   "primo": "2026-09-24",
-   "ultimo": "2026-10-23",
+   "primo": "2026-10-05",
+   "ultimo": "2026-10-24",
    "top": [
     {
      "n": "Siniscola",
@@ -114,12 +85,42 @@
     },
     {
      "n": "Villanova Monteleone",
+     "mm": 138.2
+    }
+   ]
+  },
+  "30": {
+   "media": 62.4,
+   "giorni": 30,
+   "stazioni": 92,
+   "primo": "2026-09-25",
+   "ultimo": "2026-10-24",
+   "top": [
+    {
+     "n": "Siniscola",
+     "mm": 262.2
+    },
+    {
+     "n": "Baunei",
+     "mm": 177.6
+    },
+    {
+     "n": "Badu Crabolu",
+     "mm": 157.2
+    },
+    {
+     "n": "Stintino",
+     "mm": 143.2
+    },
+    {
+     "n": "Villanova Monteleone",
      "mm": 138.4
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0.8,
   0,
   8.2,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-10-23",
+ "serieDa": "2026-10-24",
  "zone": []
 }
