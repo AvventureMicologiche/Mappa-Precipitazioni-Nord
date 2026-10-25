@@ -2843,6 +2843,13 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   dei pluviometri** sulla mappa (confondevano: stanno nel blocco della pioggia caduta); tabella paese per paese; grafico
   30 giorni misurati + 7 previsti; ore e fasce di 6 ore che riempiono la riga (notte, mattina, pomeriggio, sera).
 - ⚠️ **Il vento dell'API è in m/s**: la scheda moltiplica per 3,6 (il campione sbagliava).
+- **La % di pioggia dappertutto (25/10/2026, suo)**: 7 giorni (la più alta fra i paesi), tabella, mappa (dal 10%),
+  scheda (ore, fasce, giorni), grafico e «punto di stamattina». **Il segno è la GOCCIA 💧** (sua scelta, come
+  weather.com e Google; 3B e ilMeteo scrivono solo «Prob. prec.») e i millimetri sono scritti «0,8 mm», anche nelle
+  etichette della mappa. La pagina chiede `/api/previsioni?zona=<slug>&pr=1`: solo con `pr=1` la Function aggiunge `pc`
+  ai giorni dei paesi, con UNA richiesta Open-Meteo per tutti (`probDi`, latitudini e longitudini separate da virgole),
+  così resta sotto i 50 sottorichieste e le 6 connessioni. Le altre pagine che usano `?zona=` non la chiedono.
+  ⚠️ mm e icone sono di MET, la % di Open-Meteo: due modelli, a volte non tornano (5,8 mm con l'8%).
 - **Link «Previsioni meteo <Zona> →»** nel blocco «Che tempo farà» delle zone piogge e funghi delle zone del test
   (`linkMeteo()`, chiamato dai due generatori di zona; evento GA4 `apri_meteo_zona`). La pagina ha il suo evento
   `meteo_zona` (azione) e `apri_mappa` con `da: meteo-<zona>-…`.
