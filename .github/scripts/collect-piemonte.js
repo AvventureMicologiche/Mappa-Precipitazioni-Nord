@@ -432,8 +432,16 @@ async function giornoDaMeteoHub(day) {
     if (!a) { fuori++; return; }
     const rec = { id: a.id, n: a.n, lat: a.lat, lon: a.lon, q: a.q, p: a.p, mm: r.mm, h: r.h };
     if (r.i) rec.i = r.i;
-    ['t', 'w', 'u', 'wd'].forEach(k => { if (r[k] !== undefined) rec[k] = r[k]; });
-    if (r.wp) rec.wp = 1;   // vento senza raffica: lo sistema unisciRipiego
+    ['t', 'u'].forEach(k => { if (r[k] !== undefined) rec[k] = r[k]; });
+    // ⚠️ IL VENTO MEDIO DI METEOHUB E' SBAGLIATO SU MOLTE STAZIONI (26/10/2026): su 42 su 72 e' quello di ARPA diviso
+    // per 3,6 (conversione km/h -> m/s fatta due volte a monte; raffica e direzione invece identiche). Il fattore e'
+    // misurato stazione per stazione in tabella (`fv`): 3.6 si moltiplica, 1 giusto, 0 o assente = vento non usato.
+    const fv = a.fv || 0;
+    if (r.w && fv) {
+      rec.w = [Math.round(r.w[0] * fv * 10) / 10, r.w[1]];
+      if (r.wd !== undefined) rec.wd = r.wd;
+      if (r.wp) rec.wp = 1;   // vento senza raffica: lo sistema unisciRipiego
+    }
     rec.src = 'meteohub';
     out.push(rec);
   });
