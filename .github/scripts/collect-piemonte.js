@@ -134,12 +134,21 @@ async function scegliStrada(via) {
 }
 
 // ── Realtime: record orari di un giorno solare italiano ─────────────
+// ⚠️ LA MARCA E' A FINE ORA (26/10/2026, scheda 95). Il record delle 00:00 e' la pioggia fra le 23 e mezzanotte del
+// giorno PRIMA, quello delle 00:00 del giorno dopo e' l'ultima ora di questo (vedi l'archivio ufficiale qui in cima:
+// «record dalle 03:00 di G alle 02:00 di G+1»). Fino al 26/10 si chiedevano i record dalle 00:00 alle 23:59, cioe'
+// il giorno spostato indietro di un'ora: la pioggia fra le 23 e mezzanotte finiva sul giorno dopo. Trovato
+// confrontando con MeteoHub dpcn-piemonte (stessi pluviometri, marca a fine ora): ora per ora identici a sfasamento 0
+// (559 ore bagnate su 560), e sommandoli con la vecchia finestra si ritrovavano i nostri file del 18-21/10 in 864 casi
+// su 875, con la finestra giusta in 191. Adesso si chiede fino alle 00:00 del giorno dopo (l'API ragiona in ora locale
+// e include le due estremita') e si tiene (inizio, fine] con finestraGiorno, che sa dei giorni da 23 e 25 ore.
+const { finestraGiorno } = require('./lib-giorno-italiano.js');
 async function fetchRealtimeDay(day) {
   let all = [];
   let page = 1;
   while (true) {
     const url = API_BASE + '/data_pie?date_from=' + encodeURIComponent(day + 'T00:00')
-      + '&date_to=' + encodeURIComponent(day + 'T23:59')
+      + '&date_to=' + encodeURIComponent(addDays(day, 1) + 'T00:00')
       + '&page=' + page + '&page_size=10000';
     const raw = await fetchJSON(url);
     const records = Array.isArray(raw) ? raw : (raw.data || raw.results || []);
@@ -147,7 +156,8 @@ async function fetchRealtimeDay(day) {
     if (records.length < 10000) break;
     page++;
   }
-  return all;
+  const f = finestraGiorno(day);
+  return all.filter(m => { const t = Date.parse(m.date); return t > f.start && t <= f.end; });
 }
 
 // Temperatura e vento dal realtime (11/8/2026): wind/gust GIÀ in km/h.
