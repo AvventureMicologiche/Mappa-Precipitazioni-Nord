@@ -1,52 +1,57 @@
 {
  "regione": "austria",
- "generato": "2026-10-25T04:15:28.271Z",
+ "generato": "2026-10-26T04:15:31.620Z",
  "periodi": {
   "1": {
-   "media": 4.1,
+   "media": 5.6,
    "giorni": 1,
-   "stazioni": 266,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-24",
+   "stazioni": 264,
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-25",
    "top": [
     {
-     "n": "Hermagor (Kärnten)",
-     "nb": "Hermagor",
-     "mm": 17.8
+     "n": "Tannheim (Tirol)",
+     "nb": "Tannheim",
+     "mm": 39.2
     },
     {
-     "n": "Bad Bleiberg (Kärnten)",
-     "nb": "Bad Bleiberg",
-     "mm": 17.1
+     "n": "Schröcken (Vorarlberg)",
+     "nb": "Schröcken",
+     "mm": 33.7
     },
     {
-     "n": "Bad Gleichenberg (Steiermark)",
-     "nb": "Bad Gleichenberg",
-     "mm": 15.8
+     "n": "Reutte (Tirol)",
+     "nb": "Reutte",
+     "mm": 31.2
     },
     {
-     "n": "Güssing (Burgenland)",
-     "nb": "Güssing",
-     "mm": 15.6
+     "n": "Sulzberg (Vorarlberg)",
+     "nb": "Sulzberg",
+     "mm": 29.7
     },
     {
-     "n": "Kornat (Kärnten)",
-     "nb": "Kornat",
-     "mm": 15.1
+     "n": "Warth (Vorarlberg)",
+     "nb": "Warth",
+     "mm": 28.4
     }
    ]
   },
   "7": {
-   "media": 20.7,
+   "media": 26.2,
    "giorni": 7,
-   "stazioni": 268,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-24",
+   "stazioni": 269,
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
      "mm": 102.6
+    },
+    {
+     "n": "Rudolfshütte (Salzburg)",
+     "nb": "Rudolfshütte",
+     "mm": 100.9
     },
     {
      "n": "Kornat (Kärnten)",
@@ -62,84 +67,80 @@
      "n": "Dellach (Kärnten)",
      "nb": "Dellach",
      "mm": 88.7
-    },
-    {
-     "n": "Rudolfshütte (Salzburg)",
-     "nb": "Rudolfshütte",
-     "mm": 87.2
     }
    ]
   },
   "20": {
-   "media": 39.7,
+   "media": 42.8,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 142.8
-    },
-    {
-     "n": "Alberschwende (Vorarlberg)",
-     "nb": "Alberschwende",
-     "mm": 141.5
+     "mm": 156.5
     },
     {
      "n": "Schröcken (Vorarlberg)",
      "nb": "Schröcken",
-     "mm": 135.6
+     "mm": 147.7
+    },
+    {
+     "n": "Alberschwende (Vorarlberg)",
+     "nb": "Alberschwende",
+     "mm": 145.3
+    },
+    {
+     "n": "Kolm-Saigurn (Salzburg)",
+     "nb": "Kolm-Saigurn",
+     "mm": 123.4
     },
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 118
-    },
-    {
-     "n": "Kötschach-Mauthen (Kärnten)",
-     "nb": "Kötschach-Mauthen",
-     "mm": 117.4
+     "mm": 123.1
     }
    ]
   },
   "30": {
-   "media": 40.3,
+   "media": 45.7,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-24",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-25",
    "top": [
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "nb": "Schröcken",
+     "mm": 171.2
+    },
     {
      "n": "Alberschwende (Vorarlberg)",
      "nb": "Alberschwende",
-     "mm": 147.2
+     "mm": 167.2
     },
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 142.8
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
-     "nb": "Schröcken",
-     "mm": 137.5
+     "mm": 156.5
     },
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
      "nb": "Laterns-Gapfohl",
-     "mm": 125.7
+     "mm": 139.5
     },
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 120.1
+     "mm": 131.1
     }
    ]
   }
  },
  "serie": [
+  5.6,
   4.1,
   0.9,
   4.4,
@@ -168,9 +169,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-24",
+ "serieDa": "2026-10-25",
  "zone": []
 }

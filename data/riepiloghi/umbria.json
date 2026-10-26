@@ -1,42 +1,42 @@
 {
  "regione": "umbria",
- "generato": "2026-10-25T04:15:28.269Z",
+ "generato": "2026-10-26T04:15:31.618Z",
  "periodi": {
   "1": {
-   "media": 3,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 74,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-25",
    "top": [
     {
-     "n": "Bocca Serriola",
-     "mm": 14.9
+     "n": "Allerona",
+     "mm": 0.2
     },
     {
-     "n": "Scheggia",
-     "mm": 8.2
+     "n": "Branca",
+     "mm": 0.2
     },
     {
      "n": "Carestello Meteo",
-     "mm": 7.6
+     "mm": 0.2
     },
     {
-     "n": "Monte Cucco",
-     "mm": 7.4
+     "n": "Cascia",
+     "mm": 0.2
     },
     {
-     "n": "Gubbio",
-     "mm": 7
+     "n": "Citta'di Castello",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 23.3,
+   "media": 23.4,
    "giorni": 7,
    "stazioni": 74,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Ancaiano",
@@ -56,16 +56,45 @@
     },
     {
      "n": "Pornello",
-     "mm": 35.2
+     "mm": 35
     }
    ]
   },
   "20": {
-   "media": 50,
+   "media": 49.9,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-25",
+   "top": [
+    {
+     "n": "Bocca Serriola",
+     "mm": 104.2
+    },
+    {
+     "n": "San Benedetto Vecchio",
+     "mm": 99.2
+    },
+    {
+     "n": "Petrelle",
+     "mm": 95.4
+    },
+    {
+     "n": "Pieve di Saddi",
+     "mm": 95
+    },
+    {
+     "n": "Citta'di Castello",
+     "mm": 92
+    }
+   ]
+  },
+  "30": {
+   "media": 50.1,
+   "giorni": 30,
+   "stazioni": 74,
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -73,7 +102,7 @@
     },
     {
      "n": "San Benedetto Vecchio",
-     "mm": 99
+     "mm": 99.2
     },
     {
      "n": "Petrelle",
@@ -85,41 +114,13 @@
     },
     {
      "n": "Citta'di Castello",
-     "mm": 91.8
-    }
-   ]
-  },
-  "30": {
-   "media": 50.5,
-   "giorni": 30,
-   "stazioni": 74,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-24",
-   "top": [
-    {
-     "n": "Bocca Serriola",
-     "mm": 104.8
-    },
-    {
-     "n": "San Benedetto Vecchio",
-     "mm": 99
-    },
-    {
-     "n": "Petrelle",
-     "mm": 95.4
-    },
-    {
-     "n": "Pieve di Saddi",
-     "mm": 95.2
-    },
-    {
-     "n": "Citta'di Castello",
-     "mm": 91.8
+     "mm": 92
     }
    ]
   }
  },
  "serie": [
+  0.1,
   3,
   1.3,
   0.8,
@@ -148,16 +149,15 @@
   0,
   0,
   0,
-  0,
-  0.5
+  0
  ],
- "serieDa": "2026-10-24",
+ "serieDa": "2026-10-25",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-24",
-   "m1": 6.6,
+   "ultimo": "2026-10-25",
+   "m1": 0.1,
    "m7": 21.5,
    "m30": 97.3,
    "p1": true,
@@ -167,10 +167,10 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-24",
-   "m1": 3.1,
-   "m7": 24.3,
-   "m30": 46.6,
+   "ultimo": "2026-10-25",
+   "m1": 0.2,
+   "m7": 24.6,
+   "m30": 43.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,11 +178,11 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-24",
-   "m1": 2.8,
-   "m7": 30.5,
+   "ultimo": "2026-10-25",
+   "m1": 0,
+   "m7": 30.4,
    "m30": 54.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

@@ -1,43 +1,47 @@
 {
  "regione": "puglia",
- "generato": "2026-10-25T04:15:28.270Z",
+ "generato": "2026-10-26T04:15:31.619Z",
  "periodi": {
   "1": {
-   "media": 3.7,
+   "media": 1.8,
    "giorni": 1,
-   "stazioni": 127,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-24",
+   "stazioni": 130,
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-25",
    "top": [
     {
-     "n": "Vico del Gargano",
-     "mm": 32.9
-    },
-    {
      "n": "Sannicandro Garganico",
-     "mm": 27.8
+     "mm": 48
     },
     {
-     "n": "Peschici",
-     "mm": 26.4
-    },
-    {
-     "n": "Rodi Garganico",
-     "mm": 23.8
+     "n": "Poggio Imperiale",
+     "mm": 22.2
     },
     {
      "n": "Lesina",
-     "mm": 22.6
+     "mm": 20.7
+    },
+    {
+     "n": "Cagnano Varano",
+     "mm": 20
+    },
+    {
+     "n": "Bari Ufficio Idrografico",
+     "mm": 19.2
     }
    ]
   },
   "7": {
-   "media": 23.4,
+   "media": 25.1,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-25",
    "top": [
+    {
+     "n": "Sannicandro Garganico",
+     "mm": 90
+    },
     {
      "n": "Locorotondo",
      "mm": 83.1
@@ -48,32 +52,28 @@
     },
     {
      "n": "Monopoli",
-     "mm": 71.8
+     "mm": 72
     },
     {
      "n": "Massafra",
      "mm": 71.6
-    },
-    {
-     "n": "Martina Franca",
-     "mm": 69.4
     }
    ]
   },
   "20": {
-   "media": 74.5,
+   "media": 76.2,
    "giorni": 20,
-   "stazioni": 129,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-24",
+   "stazioni": 130,
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 197.2
+     "mm": 197.4
     },
     {
      "n": "S.M. di Leuca",
-     "mm": 187.6
+     "mm": 189.2
     },
     {
      "n": "Nardo",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Martina Franca",
-     "mm": 150
+     "mm": 150.6
     }
    ]
   },
@@ -93,33 +93,34 @@
    "media": 76.7,
    "giorni": 30,
    "stazioni": 129,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-24",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 202.2
+     "mm": 198
     },
     {
      "n": "S.M. di Leuca",
-     "mm": 190.4
+     "mm": 189.2
     },
     {
      "n": "Nardo",
-     "mm": 163.9
+     "mm": 162
     },
     {
      "n": "Ostuni",
-     "mm": 160.4
+     "mm": 158.3
     },
     {
      "n": "Martina Franca",
-     "mm": 151.5
+     "mm": 151.2
     }
    ]
   }
  },
  "serie": [
+  1.8,
   3.7,
   0.1,
   0.4,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0.1,
-  1.9
+  0.1
  ],
- "serieDa": "2026-10-24",
+ "serieDa": "2026-10-25",
  "zone": []
 }

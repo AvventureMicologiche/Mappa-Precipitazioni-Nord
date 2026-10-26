@@ -1,42 +1,42 @@
 {
  "regione": "marche",
- "generato": "2026-10-25T04:15:28.269Z",
+ "generato": "2026-10-26T04:15:31.618Z",
  "periodi": {
   "1": {
-   "media": 2.3,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 113,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-24",
+   "stazioni": 112,
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-25",
    "top": [
     {
-     "n": "Cantiano",
-     "mm": 12
+     "n": "Fiumesino",
+     "mm": 4.2
     },
     {
-     "n": "Pianello di Cagli",
-     "mm": 11
+     "n": "Svarchi",
+     "mm": 3.8
     },
     {
-     "n": "Foce Metauro",
-     "mm": 10
+     "n": "Marina di Montemarciano",
+     "mm": 1.8
     },
     {
-     "n": "Monte Nerone",
-     "mm": 9.9
+     "n": "Loreto",
+     "mm": 1.6
     },
     {
-     "n": "Gualdo",
-     "mm": 9
+     "n": "Ancona Regione",
+     "mm": 1.4
     }
    ]
   },
   "7": {
-   "media": 7.9,
+   "media": 8,
    "giorni": 7,
    "stazioni": 113,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Cantiano",
@@ -47,15 +47,15 @@
      "mm": 27.2
     },
     {
+     "n": "Pianello di Cagli",
+     "mm": 26
+    },
+    {
      "n": "Monte Nerone",
      "mm": 25.9
     },
     {
      "n": "Gualdo",
-     "mm": 25.8
-    },
-    {
-     "n": "Pianello di Cagli",
      "mm": 25.8
     }
    ]
@@ -64,16 +64,16 @@
    "media": 49.9,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 161
+     "mm": 160.4
     },
     {
      "n": "Pianello di Cagli",
-     "mm": 137.4
+     "mm": 137.2
     },
     {
      "n": "Loro Piceno",
@@ -85,20 +85,20 @@
     },
     {
      "n": "Monte Nerone",
-     "mm": 109.1
+     "mm": 108.4
     }
    ]
   },
   "30": {
-   "media": 56.1,
+   "media": 51,
    "giorni": 30,
    "stazioni": 112,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-24",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 162.2
+     "mm": 161.4
     },
     {
      "n": "Pianello di Cagli",
@@ -106,20 +106,21 @@
     },
     {
      "n": "Loro Piceno",
-     "mm": 129.6
+     "mm": 122.2
     },
     {
      "n": "Sant Angelo in Pontano",
-     "mm": 127.2
+     "mm": 117.2
     },
     {
-     "n": "Fiumesino",
-     "mm": 112
+     "n": "Monte Nerone",
+     "mm": 109.1
     }
    ]
   }
  },
  "serie": [
+  0.2,
   2.3,
   0.2,
   0.5,
@@ -148,16 +149,15 @@
   0.2,
   0.1,
   0,
-  0,
-  5.6
+  0
  ],
- "serieDa": "2026-10-24",
+ "serieDa": "2026-10-25",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-24",
-   "m1": 2,
+   "ultimo": "2026-10-25",
+   "m1": 0.1,
    "m7": 6.4,
    "m30": 41.6,
    "p1": true,
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-24",
-   "m1": 5.7,
+   "ultimo": "2026-10-25",
+   "m1": 0.2,
    "m7": 17.3,
-   "m30": 49,
+   "m30": 44.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,11 +178,11 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-24",
-   "m1": 0.9,
+   "ultimo": "2026-10-25",
+   "m1": 0,
    "m7": 14.5,
-   "m30": 51.8,
-   "p1": true,
+   "m30": 43.6,
+   "p1": false,
    "p7": true,
    "p30": true
   }

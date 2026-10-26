@@ -1,50 +1,50 @@
 {
  "regione": "campania",
- "generato": "2026-10-25T04:15:28.269Z",
+ "generato": "2026-10-26T04:15:31.619Z",
  "periodi": {
   "1": {
-   "media": 6.9,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 172,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-25",
    "top": [
     {
-     "n": "S.Agata dei Goti",
-     "mm": 37.3
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 7.1
     },
     {
-     "n": "Caserta Vecchia",
-     "mm": 34.6
+     "n": "Albanella Calore",
+     "mm": 5.2
     },
     {
-     "n": "S.Agata dei Goti Isclero",
-     "mm": 33.2
+     "n": "Sala Consilina",
+     "mm": 4.8
     },
     {
-     "n": "Ailano",
-     "mm": 23.6
+     "n": "Sala Consilina Tanagro",
+     "mm": 4.2
     },
     {
-     "n": "Grazzanise",
-     "mm": 23
+     "n": "Silla Sassano",
+     "mm": 2.8
     }
    ]
   },
   "7": {
-   "media": 40.5,
+   "media": 40.6,
    "giorni": 7,
-   "stazioni": 172,
-   "primo": "2026-10-18",
-   "ultimo": "2026-10-24",
+   "stazioni": 173,
+   "primo": "2026-10-19",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Ailano",
-     "mm": 107.6
+     "mm": 107.8
     },
     {
      "n": "Liberi",
-     "mm": 105.5
+     "mm": 105.7
     },
     {
      "n": "Letino",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 135.8,
+   "media": 136.1,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-10-05",
-   "ultimo": "2026-10-24",
+   "primo": "2026-10-06",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -85,41 +85,42 @@
     },
     {
      "n": "Liberi",
-     "mm": 246.8
+     "mm": 247
     }
    ]
   },
   "30": {
-   "media": 149.7,
+   "media": 136.1,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-09-25",
-   "ultimo": "2026-10-24",
+   "primo": "2026-09-26",
+   "ultimo": "2026-10-25",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 317.8
+     "mm": 309.8
     },
     {
      "n": "Ischia",
-     "mm": 310.4
+     "mm": 296.2
     },
     {
      "n": "Forio",
-     "mm": 287.4
+     "mm": 282.2
     },
     {
      "n": "Castel Volturno",
-     "mm": 277.2
+     "mm": 273.8
     },
     {
-     "n": "Piano Liguori",
-     "mm": 262.8
+     "n": "Liberi",
+     "mm": 247
     }
    ]
   }
  },
  "serie": [
+  0.3,
   6.9,
   0.1,
   2,
@@ -148,29 +149,28 @@
   0,
   0,
   0,
-  0,
-  15
+  0
  ],
- "serieDa": "2026-10-24",
+ "serieDa": "2026-10-25",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-24",
-   "m1": 5.2,
+   "ultimo": "2026-10-25",
+   "m1": 0,
    "m7": 37.2,
-   "m30": 230.6,
-   "p1": true,
+   "m30": 159,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-24",
-   "m1": 3.5,
-   "m7": 36.9,
-   "m30": 147.5,
+   "ultimo": "2026-10-25",
+   "m1": 0.1,
+   "m7": 37,
+   "m30": 114.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-24",
-   "m1": 12.6,
-   "m7": 52.6,
-   "m30": 164.7,
+   "ultimo": "2026-10-25",
+   "m1": 0.5,
+   "m7": 53.1,
+   "m30": 159.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,11 +189,11 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-24",
-   "m1": 9.5,
+   "ultimo": "2026-10-25",
+   "m1": 0,
    "m7": 48.2,
-   "m30": 171,
-   "p1": true,
+   "m30": 154.9,
+   "p1": false,
    "p7": true,
    "p30": true
   }
