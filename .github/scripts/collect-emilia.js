@@ -89,7 +89,8 @@ function estraiMeteo(day) {
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+    // timeout nelle opzioni (26/10/2026): senza, finche' la connessione non e' aperta vale il tetto di 5 s dell'agente di Node e i 30 s qui sotto scattano dopo 5
+    https.get(url, { timeout: 30000, headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' } }, (res) => {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => {

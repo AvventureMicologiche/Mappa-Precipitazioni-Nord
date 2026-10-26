@@ -30,7 +30,8 @@ function fmtDate(d) {
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, {
+    // timeout nelle opzioni (26/10/2026): senza, finche' la connessione non e' aperta vale il tetto di 5 s dell'agente di Node e i 30 s qui sotto scattano dopo 5
+    https.get(url, { timeout: 30000,
       headers: {
         'Accept': 'application/json,*/*',
         'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)'
@@ -52,7 +53,8 @@ function fetchJSON(url) {
 
 function fetchText(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)' } }, res => {
+    // timeout nelle opzioni (26/10/2026): senza, finche' la connessione non e' aperta vale il tetto di 5 s dell'agente di Node e i 30 s qui sotto scattano dopo 5
+    https.get(url, { timeout: 30000, headers: { 'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)' } }, res => {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => res.statusCode === 200 ? resolve(data) : reject(new Error(`HTTP ${res.statusCode}`)));
