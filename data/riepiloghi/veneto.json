@@ -1,19 +1,14 @@
 {
  "regione": "veneto",
- "generato": "2026-10-26T04:15:31.617Z",
+ "generato": "2026-10-26T10:32:48.267Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 185,
    "primo": "2026-10-25",
    "ultimo": "2026-10-25",
    "top": [
-    {
-     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
-     "nb": "Malga Campobon (San Pietro di Cadore)",
-     "mm": 3.8
-    },
     {
      "n": "Rovina di Cancia (Q2267) (BL)",
      "nb": "Rovina di Cancia (Q2267)",
@@ -32,6 +27,11 @@
     {
      "n": "Crespadoro (VI)",
      "nb": "Crespadoro",
+     "mm": 0.4
+    },
+    {
+     "n": "Ru de Vaccia (Monte Campoduro) (BL)",
+     "nb": "Ru de Vaccia (Monte Campoduro)",
      "mm": 0.4
     }
    ]
@@ -71,7 +71,7 @@
    ]
   },
   "20": {
-   "media": 66.8,
+   "media": 66.7,
    "giorni": 20,
    "stazioni": 186,
    "primo": "2026-10-06",
@@ -140,7 +140,7 @@
   }
  },
  "serie": [
-  0.1,
+  0,
   1,
   6,
   2.1,
