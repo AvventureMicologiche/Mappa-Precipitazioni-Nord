@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -437,16 +439,16 @@ header{position:relative;flex-wrap:nowrap;}
 </section>
 <h2>Dove sono: regione per regione</h2>
 <p class="breve">Gli ettari di abetaie e peccete di ogni regione, misurati sulla nostra mappa. Accanto, quanto pesano sul bosco della regione.</p>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/altoadige/"><b>Alto Adige</b></a><span class="fr-v">214.400 ha</span></div><div class="fr-b"><i style="width:100%;background:#264b73"></i></div><div class="fr-s">il 60,1% del bosco dell'Alto Adige</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/trentino/"><b>Trentino</b></a><span class="fr-v">158.000 ha</span></div><div class="fr-b"><i style="width:74%;background:#264b73"></i></div><div class="fr-s">il 39,8% del bosco del Trentino</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/lombardia/"><b>Lombardia</b></a><span class="fr-v">76.400 ha</span></div><div class="fr-b"><i style="width:36%;background:#264b73"></i></div><div class="fr-s">il 12,2% del bosco della Lombardia</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/veneto/"><b>Veneto</b></a><span class="fr-v">72.800 ha</span></div><div class="fr-b"><i style="width:34%;background:#264b73"></i></div><div class="fr-s">il 17,3% del bosco del Veneto</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/friuli/"><b>Friuli Venezia Giulia</b></a><span class="fr-v">47.400 ha</span></div><div class="fr-b"><i style="width:22%;background:#264b73"></i></div><div class="fr-s">il 15,1% del bosco del Friuli Venezia Giulia</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/piemonte/"><b>Piemonte</b></a><span class="fr-v">25.100 ha</span></div><div class="fr-b"><i style="width:12%;background:#264b73"></i></div><div class="fr-s">il 2,5% del bosco del Piemonte</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/valledaosta/"><b>Valle d'Aosta</b></a><span class="fr-v">15.300 ha</span></div><div class="fr-b"><i style="width:7%;background:#264b73"></i></div><div class="fr-s">il 15,6% del bosco della Valle d'Aosta</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/emilia/"><b>Emilia-Romagna</b></a><span class="fr-v">7.600 ha</span></div><div class="fr-b"><i style="width:4%;background:#264b73"></i></div><div class="fr-s">l'1,1% del bosco dell'Emilia-Romagna</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/calabria/"><b>Calabria</b></a><span class="fr-v">3.600 ha</span></div><div class="fr-b"><i style="width:2%;background:#264b73"></i></div><div class="fr-s">il 0,6% del bosco della Calabria</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/toscana/"><b>Toscana</b></a><span class="fr-v">1.000 ha</span></div><div class="fr-b"><i style="width:0%;background:#264b73"></i></div><div class="fr-s">il 0,1% del bosco della Toscana</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/altoadige/"><b>Alto Adige</b></a><span class="fr-v">214.300 ha</span></div><div class="fr-b" style="display:flex"><i style="width:100.0%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 60,1% del bosco dell'Alto Adige</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/trentino/"><b>Trentino</b></a><span class="fr-v">158.000 ha</span></div><div class="fr-b" style="display:flex"><i style="width:73.7%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 39,8% del bosco del Trentino</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/lombardia/"><b>Lombardia</b></a><span class="fr-v">76.400 ha</span></div><div class="fr-b" style="display:flex"><i style="width:35.7%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 12,2% del bosco della Lombardia</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/veneto/"><b>Veneto</b></a><span class="fr-v">72.800 ha</span></div><div class="fr-b" style="display:flex"><i style="width:33.9%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 17,3% del bosco del Veneto</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/friuli/"><b>Friuli Venezia Giulia</b></a><span class="fr-v">47.400 ha</span></div><div class="fr-b" style="display:flex"><i style="width:22.1%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 15,1% del bosco del Friuli Venezia Giulia</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/piemonte/"><b>Piemonte</b></a><span class="fr-v">25.100 ha</span></div><div class="fr-b" style="display:flex"><i style="width:11.7%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 2,5% del bosco del Piemonte</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/valledaosta/"><b>Valle d'Aosta</b></a><span class="fr-v">15.300 ha</span></div><div class="fr-b" style="display:flex"><i style="width:7.2%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 15,6% del bosco della Valle d'Aosta</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/emilia/"><b>Emilia-Romagna</b></a><span class="fr-v">7.600 ha</span></div><div class="fr-b" style="display:flex"><i style="width:3.5%;background:#264b73;border-radius:0"></i></div><div class="fr-s">l'1,1% del bosco dell'Emilia-Romagna</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/calabria/"><b>Calabria</b></a><span class="fr-v">3.600 ha</span></div><div class="fr-b" style="display:flex"><i style="width:1.7%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 0,6% del bosco della Calabria</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/toscana/"><b>Toscana</b></a><span class="fr-v">1.000 ha</span></div><div class="fr-b" style="display:flex"><i style="width:0.5%;background:#264b73;border-radius:0"></i></div><div class="fr-s">il 0,1% del bosco della Toscana</div></div>
 
 <h2>A che quota</h2>
 <p class="breve">Quanti ettari di abetaie e peccete ci sono a ogni altitudine, a fasce di 100 metri, in tutta Italia. Il 75% sta fra <b>1.100 e 1.800 metri</b>, e la quota di mezzo è 1.450 m.</p>
@@ -497,7 +499,7 @@ header{position:relative;flex-wrap:nowrap;}
 <li><span class="quota">1368 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/folgarida-alta/"><b>Folgarida Alta</b></a> <span class="pc">· Trentino</span><br><span class="pc"><span class="fr-sw" style="background:#264b73"></span>abetaie e peccete 72% del bosco intorno</span></div></li>
 </ul>
 
-<div class="fonte">I boschi di abete bianco (abetaie) e di abete rosso, o peccio (peccete). I larici hanno un colore loro, giallo, e i pini un altro, fucsia.<br><br>Ogni regione ha la sua carta forestale, con le sue sigle: noi le raggruppiamo negli undici colori della legenda.</div>
+<div class="fonte">I boschi di abete bianco (abetaie) e di abete rosso, o peccio (peccete). I larici hanno un colore loro, giallo, e i pini un altro, fucsia.<br><br>Ogni regione ha la sua carta forestale, con le sue sigle: noi le raggruppiamo nei dodici colori della legenda.</div>
 
 <h2>A chi serve</h2>
 <ul class="usi">
@@ -507,7 +509,7 @@ header{position:relative;flex-wrap:nowrap;}
 </ul>
 
 <h2>Gli altri boschi</h2>
-<nav class="altre"><p><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/">Castagneti</a> · <span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/">Querceti</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/">Tutti i boschi, regione per regione</a></p></nav>
+<nav class="altre"><p><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/">Castagneti</a> · <span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/">Querceti e cerrete</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/">Tutti i boschi, regione per regione</a></p></nav>
 
 <p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
    onclick="try{gtag('event','click_youtube',{pulsante:'forestale-fondo-tipo-abetaie-e-peccete'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>

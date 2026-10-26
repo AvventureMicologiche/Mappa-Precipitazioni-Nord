@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -426,7 +428,7 @@ header{position:relative;flex-wrap:nowrap;}
 <p class="breve" style="margin-top:-2px">La carta forestale della Valle del Fitalia, colorata sopra il rilievo. Tocchi un punto e sai che bosco è, a che quota e su quale versante. Per chi va a funghi, a castagne, a vedere il foliage o a camminare.</p>
 <a class="cta" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;boschi=1&amp;z=12&amp;c=38.0503,14.7637">🌲 Apri la mappa forestale della Valle del Fitalia</a>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;boschi=1&amp;z=12&amp;c=38.0503,14.7637"><img class="img-f" src="scorcio.jpg" alt="La mappa forestale della Valle del Fitalia da vicino, con la nuvoletta di un bosco" width="1200" height="750"></a>
-<p class="nota">Valle del Fitalia, intorno a Trearie: querceti in ocra, conifere non precisate in viola. <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;boschi=1&amp;z=12&amp;c=38.0503,14.7637">Apri la mappa</a> per vedere il resto della zona.</p>
+<p class="nota">Valle del Fitalia, intorno a Trearie: cerrete in bordeaux, conifere non precisate in viola. <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;boschi=1&amp;z=12&amp;c=38.0503,14.7637">Apri la mappa</a> per vedere il resto della zona.</p>
 
 <section class="mk-boschi" id="mk-boschi">
 <h2>🌲 Trova i boschi in Valle del Fitalia e dintorni</h2>
@@ -436,9 +438,9 @@ header{position:relative;flex-wrap:nowrap;}
 <h2>Che boschi ci sono in Valle del Fitalia</h2>
 <p class="breve">Il bosco copre il 79% del territorio intorno ai pluviometri della zona. Ecco come si divide.</p>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#1b9e77"></span><b>faggete</b><span class="fr-v">43,5%</span></div><div class="fr-b"><i style="width:100%;background:#1b9e77"></i></div><div class="fr-s">boschi di faggio, dalla media montagna in su</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">13,9%</span></div><div class="fr-b"><i style="width:32%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, cerro, leccio, sughera e i querco-carpineti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#7a1f3d"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>cerrete</b></a><span class="fr-v">13,8%</span></div><div class="fr-b"><i style="width:32%;background:#7a1f3d"></i></div><div class="fr-s">boschi di cerro, in collina e in media montagna</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#7a5cc8"></span><b>conifere non precisate</b><span class="fr-v">4,5%</span></div><div class="fr-b"><i style="width:10%;background:#7a5cc8"></i></div><div class="fr-s">conifere di cui la carta non dice la specie</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#8c8c8c"></span><b>altri boschi</b><span class="fr-v">37,6%</span></div><div class="fr-b"><i style="width:86%;background:#8c8c8c"></i></div><div class="fr-s">latifoglie miste, arbusteti, macchia e mughete</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#8c8c8c"></span><b>altri boschi</b><span class="fr-v">37,5%</span></div><div class="fr-b"><i style="width:86%;background:#8c8c8c"></i></div><div class="fr-s">latifoglie miste, arbusteti, macchia e mughete</div></div>
 <section class="mk-meteo" id="mk-meteo">
 <h2>Che tempo farà in Valle del Fitalia</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -448,17 +450,17 @@ header{position:relative;flex-wrap:nowrap;}
 <h2>I paesi intorno alla valle</h2>
 <p class="breve">Che bosco c'è entro 3 km da ogni paese, dal più basso al più alto. Il nome porta alla sua pagina con la pioggia per i funghi.</p>
 <ul class="paesi">
-<li><span class="quota">1242 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/case-mangalaviti/"><b>Case Mangalaviti</b></a><br><span class="pc"><span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">63%</span> · <span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">15%</span></span></div></li>
-<li><span class="quota">1273 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/biviere-di-cesaro/"><b>Biviere di Cesaro'</b></a><br><span class="pc"><span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">69%</span> · <span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">10%</span></span></div></li>
-<li><span class="quota">1282 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/trearie/"><b>Trearie</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">16%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">12%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">6%</span></span></div></li>
+<li><span class="quota">1242 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/case-mangalaviti/"><b>Case Mangalaviti</b></a><br><span class="pc"><span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">63%</span> · <span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">14%</span></span></div></li>
+<li><span class="quota">1273 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/biviere-di-cesaro/"><b>Biviere di Cesaro'</b></a><br><span class="pc"><span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">69%</span> · <span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">10%</span></span></div></li>
+<li><span class="quota">1282 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/trearie/"><b>Trearie</b></a><br><span class="pc"><span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">16%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">12%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">6%</span></span></div></li>
 </ul>
 
 <h2>A chi serve</h2>
 <ul class="usi">
-<li><span class="ic">🍄</span><div><b>Funghi</b><br>Porcini e compagni stanno sotto castagni, faggi, querce e abeti: qui sono il 57% del bosco. E con la pioggia degli ultimi giorni sai anche se è il momento: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valle-del-fitalia/">funghi in Valle del Fitalia oggi</a>.</div></li>
+<li><span class="ic">🍄</span><div><b>Funghi</b><br>Porcini e compagni stanno sotto castagni, faggi, querce e abeti: qui sono il 58% del bosco. E con la pioggia degli ultimi giorni sai anche se è il momento: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valle-del-fitalia/">funghi in Valle del Fitalia oggi</a>.</div></li>
 <li><span class="ic">🍂</span><div><b>Foliage d'autunno</b><br>Il giallo e il rosso di ottobre sono delle faggete (43,5%).</div></li>
 <li><span class="ic">🥾</span><div><b>Escursioni e sentieri</b><br>Prima di partire guardi che bosco attraversa il sentiero, a che quota e su quale versante: tocchi un punto sulla mappa e lo apri su Google Maps.</div></li>
-<li><span class="ic">🟤</span><div><b>Tartufi</b><br>Si cercano soprattutto nei querceti (13,9%) e lungo i fiumi, fra pioppi, salici e ontani (0,3%).</div></li>
+<li><span class="ic">🟤</span><div><b>Tartufi</b><br>Si cercano soprattutto fra querce e cerri (14%) e lungo i fiumi, fra pioppi, salici e ontani (0,3%).</div></li>
 </ul>
 
 <h2>Da dove viene la carta</h2>

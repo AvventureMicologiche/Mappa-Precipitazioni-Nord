@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -440,7 +442,7 @@ header{position:relative;flex-wrap:nowrap;}
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/abetaie-e-peccete/"><b>abetaie e peccete</b></a><span class="fr-v">2,5%</span></div><div class="fr-b"><i style="width:7%;background:#264b73"></i></div><div class="fr-s">abete bianco e abete rosso</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/"><b>castagneti</b></a><span class="fr-v">2,2%</span></div><div class="fr-b"><i style="width:6%;background:#d95f02"></i></div><div class="fr-s">castagno e selve da frutto</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#66a61e"></span><b>robinieti</b><span class="fr-v">1,9%</span></div><div class="fr-b"><i style="width:5%;background:#66a61e"></i></div><div class="fr-s">boschi di robinia, in collina e in pianura</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">1%</span></div><div class="fr-b"><i style="width:3%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, cerro, leccio, sughera e i querco-carpineti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">0,9%</span></div><div class="fr-b"><i style="width:2%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, cerro, leccio, sughera e i querco-carpineti</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e7298a"></span><b>pinete</b><span class="fr-v">0,7%</span></div><div class="fr-b"><i style="width:2%;background:#e7298a"></i></div><div class="fr-s">pino silvestre, nero, marittimo, domestico e d'Aleppo</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#8c8c8c"></span><b>altri boschi</b><span class="fr-v">22,4%</span></div><div class="fr-b"><i style="width:61%;background:#8c8c8c"></i></div><div class="fr-s">latifoglie miste, arbusteti, macchia e mughete</div></div>
 <section class="mk-meteo" id="mk-meteo">
@@ -459,7 +461,7 @@ header{position:relative;flex-wrap:nowrap;}
 
 <h2>A chi serve</h2>
 <ul class="usi">
-<li><span class="ic">🍄</span><div><b>Funghi</b><br>Porcini e compagni stanno sotto castagni, faggi, querce e abeti: qui sono il 39% del bosco. E con la pioggia degli ultimi giorni sai anche se è il momento: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-brembana/">funghi in Val Brembana oggi</a>.</div></li>
+<li><span class="ic">🍄</span><div><b>Funghi</b><br>Porcini e compagni stanno sotto castagni, faggi, querce e abeti: qui sono il 38% del bosco. E con la pioggia degli ultimi giorni sai anche se è il momento: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-brembana/">funghi in Val Brembana oggi</a>.</div></li>
 <li><span class="ic">🍂</span><div><b>Foliage d'autunno</b><br>Il giallo e il rosso di ottobre sono delle faggete (32,8%).</div></li>
 <li><span class="ic">🥾</span><div><b>Escursioni e sentieri</b><br>Prima di partire guardi che bosco attraversa il sentiero, a che quota e su quale versante: tocchi un punto sulla mappa e lo apri su Google Maps.</div></li>
 </ul>

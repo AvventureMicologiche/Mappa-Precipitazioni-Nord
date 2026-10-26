@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -452,7 +454,6 @@ header{position:relative;flex-wrap:nowrap;}
 <li><span class="quota">910 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rio-rudan-inadef-dx-briglia/"><b>Rio Rudan INADEF DX briglia</b></a><br><span class="pc"><span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">35%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">32%</span> · <span class="fr-sw" style="background:#e7298a"></span>pinete <span class="pc">17%</span></span></div></li>
 <li><span class="quota">967 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/villanova-borca-di-cadore/"><b>Villanova (Borca di Cadore)</b></a><br><span class="pc"><span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">46%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">22%</span> · <span class="fr-sw" style="background:#e7298a"></span>pinete <span class="pc">16%</span></span></div></li>
 <li><span class="quota">1373 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rovina-di-cancia-borca-di-cadore-q1373/"><b>Rovina di Cancia (Borca di Cadore Q1373)</b></a><br><span class="pc"><span class="fr-sw" style="background:#e7298a"></span>pinete <span class="pc">36%</span> · <span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">24%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">19%</span></span></div></li>
-<li><span class="quota">1373 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rovina-di-cancia-borca-di-cadore-q1373/"><b>Rovina di Cancia (Borca di Cadore Q1373)</b></a><br><span class="pc"><span class="fr-sw" style="background:#e7298a"></span>pinete <span class="pc">36%</span> · <span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">24%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">19%</span></span></div></li>
 <li><span class="quota">1402 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/pescul/"><b>Pescul</b></a><br><span class="pc"><span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">50%</span> · <span class="fr-sw" style="background:#ffe14d"></span>lariceti <span class="pc">39%</span></span></div></li>
 <li><span class="quota">1450 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rio-rudan-inadef-sentiero-cai-230/"><b>Rio Rudan INADEF Sentiero CAI 230</b></a><br><span class="pc"><span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">32%</span> · <span class="fr-sw" style="background:#e7298a"></span>pinete <span class="pc">31%</span> · <span class="fr-sw" style="background:#264b73"></span>abetaie e peccete <span class="pc">21%</span></span></div></li>
 </ul>
@@ -477,7 +478,7 @@ header{position:relative;flex-wrap:nowrap;}
 
 <div class="pioggia">
 <h2>E la pioggia? Sulla stessa mappa</h2>
-<p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: 6 pluviometri intorno alla zona, con la pioggia vera giorno per giorno. Con <b>⇆ Confronta con piogge</b> metti accanto boschi e pioggia.</p>
+<p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: 5 pluviometri intorno alla zona, con la pioggia vera giorno per giorno. Con <b>⇆ Confronta con piogge</b> metti accanto boschi e pioggia.</p>
 <a class="cta" href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=20">💧 Apri la mappa della pioggia: ultimi 20 giorni</a>
 <div class="tasti"><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=1">Ieri</a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=7">Ultimi 7 gg</a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=10">Ultimi 10 gg</a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=15">Ultimi 15 gg</a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;g=30">Ultimi 30 gg</a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;z=11&amp;c=46.46667,12.2&amp;radar=ora">📡 Radar adesso</a></div>
 <a href="https://precipitazioni.avventuremicologiche.it/zone/valle-del-boite/"><img class="img-f" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/veneto.jpg" alt="La pioggia degli ultimi giorni in Veneto" width="1600" height="1000" loading="lazy"></a>

@@ -613,6 +613,14 @@ c'era nessuna fase beta da aspettare.
 ---
 
 ## UI Features
+- **Finestra «Novità» 26/10/2026 (VERSIONE `2026-10-26`, NV_FINO `2026-11-01T21:00`: domenica alle 21, ora del
+  telefono; da questa volta NV_FINO porta anche l'ora)**, sua richiesta: un GRAZIE che spinge il
+  canale, con la novita' delle cerrete. Una pagina, «Mappa dei boschi: arrivano le cerrete», filmato `novita/cerrete.mp4`
+  (9,5 s, suo «se no la gente skippa»: l'inizio del film verticale della home accelerato fino ai boschi sull'Italia intera,
+  poi lo zoom rifatto col bordeaux; montato da `archivio\2026-10-25\monta-cerrete.py` nel banco), tre scritte («Siete
+  tantissimi. Grazie!» · «Novità: le cerrete hanno un colore loro» · «Ti è utile? Sostienici su YouTube») e bottone ROSSO
+  «▶ Iscriviti su YouTube» (`pg.vai.yt`, `?sub_confirmation=1`, evento `click_youtube` pulsante `novita`) accanto a «Vai
+  alla mappa». Tolta la frase «per portarti nei posti giusti» (promette funghi).
 - **Finestra «Novità» 20/10/2026 (VERSIONE `2026-10-20`), sua richiesta: UNA pagina sul quiz tartufi**, «Hai già provato il quiz dei tartufi?» con la targa «Ora anche Lombardia, Piemonte, Emilia-Romagna e Liguria». Immagine FISSA al posto del filmato (`pg.img`, `novita/quiz-regioni.jpg`, scelta della regione presa dal sito del quiz, `object-fit:contain` su sfondo marrone: col ritaglio sparivano le regioni in fondo) e bottone verso fuori (`pg.vai`): «Gioca al quiz →» arancione `#e8891c` che pulsa, apre il quiz in una scheda nuova e chiude la finestra (GA `novita_finestra` azione=`quiz`); anche un tocco sull'immagine apre il quiz. «Vai alla mappa» in secondo piano, i due bottoni in coppia uguali (regola delle simmetrie). **SCADE**: si apre da sola solo fino a `NV_FINO` compreso (`2026-10-27`, una settimana: suo «per un tempo limitato e poi sparisce»), data del telefono; dopo non si apre e non si rimanda, `?novita=1` la mostra sempre. Previsioni e satellite escono dalla finestra (i filmati restano in `novita/`). Patch e 32 prove (calendario spostato compreso): scratchpad della scheda «Quiz tartufi 3», `novita/patch-novita-quiz.py` e `prova-novita-quiz.js`.
 - **Finestra «Novità» RIFATTA il 4/10/2026 (VERSIONE `2026-10-04`)**: DUE pagine, «Temperature di ieri» e «Satellite», e **UNA PER VISITA** (sua idea): alla prima visita solo la prima, a una visita nuova (almeno 30', `RIM_DOPO`) solo la seconda, poi mai più. `novitaVista` vale `VERSIONE|1|<ora>` dopo la prima e `VERSIONE` quando le ha viste tutte; `SEQ` = pagine di quell'apertura. La seconda si apre anche arrivando da un link (ormai conosce la mappa); la prima resta rimandata per chi arriva da link, come dal 2/10. `?novita=1` le mostra tutte di seguito. Filmati corti (`novita/temperature.mp4`, `novita/satellite-corto.mp4`, 786 px, ~3,5 Mbit/s), con una freccia rossa sul tasto e uno zoom CSS che parte dallo schermo intero (suo: «come fanno a sapere dov'è?»): li registra `registra-temperature.js` nel banco di lavoro (la freccia e lo zoom esistono solo nel filmato). I quattro filmati del 30/9 sono tolti. Prova dei 10 casi: `prova-novita-spezzata.js` (scratchpad della scheda 71). Il paragrafo qui sotto è la versione del 30/9.
 - **Finestra «Novità» alla prima apertura** (30/9/2026, in PRODUZIONE dal 30/9 col resto del lavoro del test): modulo in FONDO a `index.html` (`#nv-velo`, z-index 12000). QUATTRO pagine nell'ordine suo: satellite (castagneto di Borzonasca, manopola, zoom 19 = massimo del sito sulle case di Santo Stefano d'Aveto col bosco sotto il dito), tocca un bosco, filtro di altitudine all'Abetone, e per ultima quota/versante/pendenza su un lariceto dell'Alpe di Siusi. Ogni pagina un filmato a tutta larghezza ripreso dal sito vero a misura di telefono (`novita/satellite-a|boschi|filtro|nuvoletta.mp4` + copertine `.jpg`; registrati con `registra-novita.js` nel banco di lavoro `D:/video youtube/claudio/`, fotogrammi a scala 2, zoom a STACCHI nitidi, mai animato: sfocava). Scritte SOPRA il filmato, nella parte bianca (suo: «uno o guarda sopra o sotto», prima legge poi guarda; sovrapposte coprivano legende e frecce), da slogan: titolo fisso e didascalia su TARGA BLU (sua scelta fra tre stili) che cambia coi «marchi» della registrazione (`<nome>-tempi.json`, montati da `build-novita.py` che rigenera il modulo da `novita-modulo.html` e copia i filmati). Finito un filmato si passa DA SOLI alla pagina dopo (1,2 s); sull'ultima ci si ferma sull'ultimo fotogramma e «Vai alla mappa» pulsa; un tocco sul filmato lo fa ripartire; «Indietro» e frecce della tastiera. Compare una volta sola: localStorage `novitaVista` = `VERSIONE` (oggi `2026-09-30`); **quando le novità cambiano si alza VERSIONE** e chi aveva visto le vecchie rivede le nuove. Solo su `/` senza parametri (chi arriva con un link vuole quella mappa), non in iframe, dopo che la mappa è pronta. `?novita=1` la riapre (rimando in `/guida/` sotto «Ultimi aggiornamenti»), `?novita=0` mai. Evento GA `novita_finestra` {azione: aperta/pagina/auto/indietro/chiusa/finita, pagina}. ⚠️ Le prove puppeteer devono segnare `novitaVista` prima di aprire la pagina (lo fa `collaudo-lib.js`), se no la finestra copre tutto.
@@ -2258,6 +2266,7 @@ vicino entro 35; quelli davvero scartati sono l'**1,45%**, misurato.
 | faggete | `#1b9e77` |
 | castagneti | `#d95f02` |
 | querceti | `#e6ab02` |
+| cerrete | `#7a1f3d` |
 | abetaie e peccete | `#264b73` |
 | lariceti | `#ffe14d` |
 | pinete | `#e7298a` |
@@ -2294,6 +2303,28 @@ Nel centro-sud il rosa e' 70% pioppi. In Italia e' il 3,3% del bosco.
   +3,5% di bosco nel Lazio, 17 tessere nuove.
 - Quote per regione (riconosciuto / conifere n.p. / grigio):
   `audit-boschi\quote-per-regione.py`. Italia 82,4 / 3,6 / 14,1.
+
+⚠️ **DODICESIMO COLORE, 25/10/2026: «cerrete»** (bordeaux `#7a1f3d`, scelto da lui: il marrone era troppo
+simile ai castagneti). Nato da una segnalazione sulla carta toscana, che separa le cerrete dai querceti. Gli
+undici colori di prima NON cambiano («sono abituati»). Solo nelle **14 regioni la cui carta le separa**
+(Piemonte, Lombardia, Liguria, Emilia, Toscana, Umbria, Marche, Lazio, Abruzzo, Molise, Campania, Basilicata,
+Calabria, Sicilia; ISPRA 41.741/41.7511/41.7512, «cerro e farnetto» compreso); **la Puglia resta nei querceti**,
+e altrove il cerro sta nei querceti. 1.251.000 ha contro 2.170.000 di querceti.
+- **Dipinte sopra la cache**, non riscaricate: `dipingi-cerrete.py` (banco) mette il bordeaux solo dove la cache
+  e' ocra E la maschera del cerro della carta regionale dice cerro. Cache di prima in `cache-boschi\_<reg>-prima-delle-cerrete`.
+- ⚠️ **I PUNTINI BORDEAUX DOVE IL CERRO NON C'E'** (trovati e corretti la sera stessa). Le tessere si rimpiccioliscono
+  con LANCZOS e poi ogni pixel va al colore piu' vicino: col dodicesimo colore il misto di bordo (abetaie accanto a
+  pinete) finiva a volte sul bordeaux, e in Alto Adige o in Comelico il tocco diceva «cerrete». Ora `finalizza(t, cerr)`
+  in `tessere-boschi.py` sceglie il bordeaux solo dove la frazione di cerrete vere del pixel (maschera del blocco z14
+  ridotta a media semplice) e' >= 25%: fuori dalle cerrete le tessere sono identiche a quelle di prima, pixel per
+  pixel. **Vale per ogni colore nuovo futuro**: un colore aggiunto alla tavolozza «ruba» i misti di bordo degli altri.
+- Legenda a **12 voci su 4 righe** (variante C, sua scelta): in legenda «pioppi, salici e ontani», il nome intero
+  nel `title`, nel tocco e nelle pagine (`BO_CORTI` in index.html).
+- Pagina **«Querceti e cerrete»** allo stesso indirizzo `/mappa-forestale/querceti/` (somma i due tipi, barre a due
+  colori); `tipi-per-le-pagine.py` tiene le cerrete solo nelle 14 regioni (altrove erano pixel di bordo della cache).
+- Repo Tessere: main = `928ee210` (commit unico, push forzato) + `e19f7b19` (il rimedio, 3.148 tessere).
+  ⚠️ **Un commit orfano rimanda TUTTO** (git non trova tessere in comune senza un antenato comune: 712 MB per un
+  cambio di 120), quindi le correzioni dopo si fanno come commit figli. Rilievo e quote sono identici a prima.
 
 - ⚠️ **«abetaie e peccete», MAI «abetine»** (decisione dell'utente, 16/9).
 - ⚠️ **«pinete» solo se la carta dice pino.** Una conifera senza specie va in

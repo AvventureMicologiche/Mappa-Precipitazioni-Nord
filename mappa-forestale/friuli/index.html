@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -423,7 +425,7 @@ header{position:relative;flex-wrap:nowrap;}
 <main>
 <p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> Friuli Venezia Giulia</p>
 <h1>Mappa forestale del Friuli Venezia Giulia: che bosco c'è</h1>
-<p class="breve" style="margin-top:-2px">La carta forestale del Friuli Venezia Giulia in una mappa sola, anche dal telefono: undici colori sopra il rilievo, e tocchi un punto per sapere che bosco è, a che quota e su quale versante. Per chi va a funghi, a castagne, a vedere il foliage o a camminare.</p>
+<p class="breve" style="margin-top:-2px">La carta forestale del Friuli Venezia Giulia in una mappa sola, anche dal telefono: dodici colori sopra il rilievo, e tocchi un punto per sapere che bosco è, a che quota e su quale versante. Per chi va a funghi, a castagne, a vedere il foliage o a camminare.</p>
 <a class="cta" href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;boschi=1">🌲 Apri la mappa forestale del Friuli Venezia Giulia</a>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;boschi=1"><img class="img-f" src="scorcio.jpg" alt="La mappa forestale del Friuli Venezia Giulia da vicino: i boschi colorati per tipo sopra il rilievo, con la nuvoletta di un bosco" width="1200" height="750"></a>
 <p class="nota">Carnia: faggete in verde, pinete in fucsia, carpino, orniello e aceri in azzurro. Tocchi un bosco e la nuvoletta ti dice che cos'è, a che quota, su quale versante. <a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;boschi=1">Apri la mappa</a> per vedere tutta la regione.</p>
@@ -480,7 +482,7 @@ header{position:relative;flex-wrap:nowrap;}
 
 <h2>Da dove viene la carta</h2>
 <div class="fonte"><b>Tipi forestali, Regione Friuli Venezia Giulia</b><br>Licenza CC BY 4.0 · <a href="https://geodati.gov.it/resource/id/r_friuve:m2182-cc-i10191" target="_blank" rel="noopener">scheda ufficiale</a><br>
-<span style="color:#5b6878;font-size:14px">I tipi forestali della carta sono raggruppati negli undici colori della nostra legenda; il rilievo viene da TINITALY (INGV).</span></div>
+<span style="color:#5b6878;font-size:14px">I tipi forestali della carta sono raggruppati nei dodici colori della nostra legenda; il rilievo viene da TINITALY (INGV).</span></div>
 
 <h2>Le altre regioni</h2>
 <nav class="altre"><p><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/valledaosta/">Valle d'Aosta</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/piemonte/">Piemonte</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/lombardia/">Lombardia</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/liguria/">Liguria</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/trentino/">Trentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/altoadige/">Alto Adige</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/veneto/">Veneto</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/emilia/">Emilia-Romagna</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/toscana/">Toscana</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/umbria/">Umbria</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/marche/">Marche</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/lazio/">Lazio</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/abruzzo/">Abruzzo</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/molise/">Molise</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/campania/">Campania</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/puglia/">Puglia</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/basilicata/">Basilicata</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/calabria/">Calabria</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/sicilia/">Sicilia</a> · <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/sardegna/">Sardegna</a></p></nav>

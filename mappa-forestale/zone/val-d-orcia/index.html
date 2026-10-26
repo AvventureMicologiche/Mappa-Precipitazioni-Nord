@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -435,13 +437,14 @@ header{position:relative;flex-wrap:nowrap;}
 </section>
 <h2>Che boschi ci sono in Val d'Orcia</h2>
 <p class="breve">Il bosco copre il 68% del territorio intorno ai pluviometri della zona. Ecco come si divide.</p>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">50,6%</span></div><div class="fr-b"><i style="width:100%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, cerro, leccio, sughera e i querco-carpineti</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#7a5cc8"></span><b>conifere non precisate</b><span class="fr-v">17,3%</span></div><div class="fr-b"><i style="width:34%;background:#7a5cc8"></i></div><div class="fr-s">conifere di cui la carta non dice la specie</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/"><b>castagneti</b></a><span class="fr-v">15,1%</span></div><div class="fr-b"><i style="width:30%;background:#d95f02"></i></div><div class="fr-s">castagno e selve da frutto</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#1b9e77"></span><b>faggete</b><span class="fr-v">7,9%</span></div><div class="fr-b"><i style="width:16%;background:#1b9e77"></i></div><div class="fr-s">boschi di faggio, dalla media montagna in su</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#2e9bd6"></span><b>carpino, orniello e aceri</b><span class="fr-v">4,9%</span></div><div class="fr-b"><i style="width:10%;background:#2e9bd6"></i></div><div class="fr-s">carpino nero e orniello, sui versanti asciutti</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#f7a1c4"></span><b>pioppi, salici, ontani e frassini</b><span class="fr-v">1,7%</span></div><div class="fr-b"><i style="width:3%;background:#f7a1c4"></i></div><div class="fr-s">i boschi lungo fiumi e torrenti</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#8c8c8c"></span><b>altri boschi</b><span class="fr-v">2,2%</span></div><div class="fr-b"><i style="width:4%;background:#8c8c8c"></i></div><div class="fr-s">latifoglie miste, arbusteti, macchia e mughete</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">27,6%</span></div><div class="fr-b"><i style="width:100%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, leccio, sughera e i querco-carpineti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#7a1f3d"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>cerrete</b></a><span class="fr-v">22,8%</span></div><div class="fr-b"><i style="width:83%;background:#7a1f3d"></i></div><div class="fr-s">boschi di cerro, in collina e in media montagna</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#7a5cc8"></span><b>conifere non precisate</b><span class="fr-v">17,8%</span></div><div class="fr-b"><i style="width:64%;background:#7a5cc8"></i></div><div class="fr-s">conifere di cui la carta non dice la specie</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/"><b>castagneti</b></a><span class="fr-v">15,5%</span></div><div class="fr-b"><i style="width:56%;background:#d95f02"></i></div><div class="fr-s">castagno e selve da frutto</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#1b9e77"></span><b>faggete</b><span class="fr-v">7,9%</span></div><div class="fr-b"><i style="width:29%;background:#1b9e77"></i></div><div class="fr-s">boschi di faggio, dalla media montagna in su</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#2e9bd6"></span><b>carpino, orniello e aceri</b><span class="fr-v">5%</span></div><div class="fr-b"><i style="width:18%;background:#2e9bd6"></i></div><div class="fr-s">carpino nero e orniello, sui versanti asciutti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#f7a1c4"></span><b>pioppi, salici, ontani e frassini</b><span class="fr-v">1,7%</span></div><div class="fr-b"><i style="width:6%;background:#f7a1c4"></i></div><div class="fr-s">i boschi lungo fiumi e torrenti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#8c8c8c"></span><b>altri boschi</b><span class="fr-v">1%</span></div><div class="fr-b"><i style="width:4%;background:#8c8c8c"></i></div><div class="fr-s">latifoglie miste, arbusteti, macchia e mughete</div></div>
 <section class="mk-meteo" id="mk-meteo">
 <h2>Che tempo farà in Val d'Orcia</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -452,20 +455,20 @@ header{position:relative;flex-wrap:nowrap;}
 <p class="breve">Che bosco c'è entro 3 km da ogni paese, dal più basso al più alto. Il nome porta alla sua pagina con la pioggia per i funghi.</p>
 <ul class="paesi">
 <li><span class="quota">506 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ripa-d-orcia/"><b>Ripa d'Orcia</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">89%</span> · <span class="fr-sw" style="background:#f7a1c4"></span>pioppi, salici, ontani e frassini <span class="pc">6%</span></span></div></li>
-<li><span class="quota">633 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/spineta/"><b>Spineta</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">72%</span> · <span class="fr-sw" style="background:#2e9bd6"></span>carpino, orniello e aceri <span class="pc">17%</span></span></div></li>
-<li><span class="quota">672 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/castiglione-d-orcia/"><b>Castiglione d'Orcia</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">67%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">26%</span></span></div></li>
-<li><span class="quota">842 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vivo-d-orcia/"><b>Vivo d'Orcia</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">37%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">33%</span> · <span class="fr-sw" style="background:#d95f02"></span>castagneti <span class="pc">13%</span></span></div></li>
-<li><span class="quota">855 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/abbadia-san-salvatore/"><b>Abbadia San Salvatore</b></a><br><span class="pc"><span class="fr-sw" style="background:#d95f02"></span>castagneti <span class="pc">44%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">23%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">15%</span></span></div></li>
+<li><span class="quota">633 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/spineta/"><b>Spineta</b></a><br><span class="pc"><span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">55%</span> · <span class="fr-sw" style="background:#2e9bd6"></span>carpino, orniello e aceri <span class="pc">17%</span> · <span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">17%</span></span></div></li>
+<li><span class="quota">672 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/castiglione-d-orcia/"><b>Castiglione d'Orcia</b></a><br><span class="pc"><span class="fr-sw" style="background:#e6ab02"></span>querceti <span class="pc">44%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">27%</span> · <span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">23%</span></span></div></li>
+<li><span class="quota">842 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vivo-d-orcia/"><b>Vivo d'Orcia</b></a><br><span class="pc"><span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">34%</span> · <span class="fr-sw" style="background:#7a1f3d"></span>cerrete <span class="pc">28%</span> · <span class="fr-sw" style="background:#d95f02"></span>castagneti <span class="pc">13%</span></span></div></li>
+<li><span class="quota">855 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/abbadia-san-salvatore/"><b>Abbadia San Salvatore</b></a><br><span class="pc"><span class="fr-sw" style="background:#d95f02"></span>castagneti <span class="pc">44%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">24%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">15%</span></span></div></li>
 <li><span class="quota">910 m</span><div><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/abbadia-san-salvatore-laghetto-verde-1/"><b>Abbadia San Salvatore - Laghetto Verde 1</b></a><br><span class="pc"><span class="fr-sw" style="background:#d95f02"></span>castagneti <span class="pc">52%</span> · <span class="fr-sw" style="background:#1b9e77"></span>faggete <span class="pc">22%</span> · <span class="fr-sw" style="background:#7a5cc8"></span>conifere non precisate <span class="pc">19%</span></span></div></li>
 </ul>
 
 <h2>A chi serve</h2>
 <ul class="usi">
 <li><span class="ic">🍄</span><div><b>Funghi</b><br>Porcini e compagni stanno sotto castagni, faggi, querce e abeti: qui sono il 74% del bosco. E con la pioggia degli ultimi giorni sai anche se è il momento: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-d-orcia/">funghi in Val d'Orcia oggi</a>.</div></li>
-<li><span class="ic">🌰</span><div><b>Castagne</b><br>I castagneti sono il 15,1% del bosco. Prima di raccogliere assicurati che il bosco sia libero: molti castagneti sono proprietà private.</div></li>
+<li><span class="ic">🌰</span><div><b>Castagne</b><br>I castagneti sono il 15,5% del bosco. Prima di raccogliere assicurati che il bosco sia libero: molti castagneti sono proprietà private.</div></li>
 <li><span class="ic">🍂</span><div><b>Foliage d'autunno</b><br>Il giallo e il rosso di ottobre sono delle faggete (7,9%).</div></li>
 <li><span class="ic">🥾</span><div><b>Escursioni e sentieri</b><br>Prima di partire guardi che bosco attraversa il sentiero, a che quota e su quale versante: tocchi un punto sulla mappa e lo apri su Google Maps.</div></li>
-<li><span class="ic">🟤</span><div><b>Tartufi</b><br>Si cercano soprattutto nei querceti (50,6%) e lungo i fiumi, fra pioppi, salici e ontani (1,7%).</div></li>
+<li><span class="ic">🟤</span><div><b>Tartufi</b><br>Si cercano soprattutto fra querce e cerri (50,4%) e lungo i fiumi, fra pioppi, salici e ontani (1,7%).</div></li>
 </ul>
 
 <h2>Da dove viene la carta</h2>

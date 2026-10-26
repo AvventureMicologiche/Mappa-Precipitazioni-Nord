@@ -13633,7 +13633,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
      serve «immutable» per un anno. A ogni rigenerazione delle tessere:
      push forzato di la', poi QUI il codice nuovo (`git rev-parse HEAD`
      nel repo delle tessere). Le vecchie copie spariscono da sole. */
-  var TESSERE_COMMIT='90a532e7a3f95e6cde1fc4fd0ee6fc658ffb2f6d';   // ramo boschi-di-fiume, con le quote z5-11 del filtro di altitudine (27/9/2026)
+  var TESSERE_COMMIT='e19f7b19852573d067391c5e46b62bf65473b2db';   // main: le cerrete in bordeaux, dodicesimo colore (25/10/2026; rilievo e quote identici a prima)
   var TESSERE='https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@'+TESSERE_COMMIT+'/';
   var BASE=TESSERE+'boschi/', OPACITA=0.7, satRetino=0.30;   /* 30%: standard scelto da lui il 13/10/2026 (prima 35% dal 29/9, e 55%) */   // satRetino: la manopola del retino sopra la foto satellitare
   var RILIEVO=TESSERE+'rilievo/', TERRENO=TESSERE+'terreno/', Z_TERRENO=12;
@@ -14004,14 +14004,18 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   }
 
   /* Ordine della legenda a tre colonne (26/9/2026): le voci medie nella terza
-     colonna, che e' la piu' larga; le due LUNGHE («carpino nero...» e «pioppi,
-     salici...») su due colonne, una riga ciascuna, in fondo. Un gruppo nuovo che
-     qui non c'e' finisce fra le ultime: indice.json resta l'unica fonte dei gruppi. */
-  var BO_ORDINE=['faggete','castagneti','conifere non precisate','querceti','lariceti','abetaie e peccete',
-                 'robinieti','pinete','altri boschi','pioppi, salici, ontani e frassini','carpino, orniello e aceri'];
-  // ⚠️ Quattro righe: «pioppi...» su due colonne e il carpino accanto, nella terza.
-  // Per questo il carpino ha perso «nero» (sua scelta, 26/9): 132 px, la colonna ne ha ~139 a 360.
-  var BO_LUNGHE=['pioppi, salici, ontani e frassini'];
+     colonna, che e' la piu' larga. Un gruppo nuovo che qui non c'e' finisce fra
+     le ultime: indice.json resta l'unica fonte dei gruppi. */
+  /* ⚠️ DODICI VOCI IN QUATTRO RIGHE (25/10/2026, con le cerrete; sua scelta fra «una riga in piu'» e
+     «stessa altezza»). Le cerrete accanto ai querceti; le voci lunghe tutte nella terza colonna, la larga
+     (conifere, abetaie, carpino, pioppi), e «altri boschi» passa nelle strette. «pioppi, salici, ontani e
+     frassini» in legenda e' corto (BO_CORTI): per intero non sta in una colonna. Il nome intero resta nella
+     nuvoletta del tocco e nelle pagine (i frassini sono il 4% di quel colore in Toscana, gli ontani l'11%).
+     Misurato a 360, 393, tablet, 1536x702 e 1440x900: niente tagliato, pannello alto come con undici voci. */
+  var BO_ORDINE=['faggete','castagneti','conifere non precisate','querceti','cerrete','abetaie e peccete',
+                 'lariceti','pinete','carpino, orniello e aceri','robinieti','altri boschi','pioppi, salici, ontani e frassini'];
+  var BO_LUNGHE=[];   // nessuna su due colonne (con undici voci lo era «pioppi...», 26/9)
+  var BO_CORTI={'pioppi, salici, ontani e frassini':'pioppi, salici e ontani'};
   function ordinaLegenda(gr){
     var pos=function(g){ var i=BO_ORDINE.indexOf(g[0]); return i<0 ? BO_ORDINE.length-1.5 : i; };
     return gr.slice().sort(function(a,b){ return pos(a)-pos(b); });
@@ -14040,7 +14044,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       // «solo satellite» in un tocco: il retino va a 0 e torna dov'era (29/9, suo)
       +'<span class="bo-az bo-az-nascondi" id="bo-nascondi" role="button">'+(satRetino>0?'Nascondi boschi':'Mostra boschi')+'</span></div>'
       +'<div class="bo-griglia">'+ordinaLegenda(indice.gruppi).map(function(g){
-        return '<div class="bo-riga'+(BO_LUNGHE.indexOf(g[0])>=0?' lunga':'')+'"><span class="bo-sw" style="background:'+g[1]+';opacity:'+OPACITA+'"></span>'+g[0]+'</div>';
+        return '<div class="bo-riga'+(BO_LUNGHE.indexOf(g[0])>=0?' lunga':'')+'"'+(BO_CORTI[g[0]]?' title="'+g[0]+'"':'')+'><span class="bo-sw" style="background:'+g[1]+';opacity:'+OPACITA+'"></span>'+(BO_CORTI[g[0]]||g[0])+'</div>';
       }).join('')+'</div>'
       +'<div class="bq"><div class="bq-tit"><span>\u26f0 <span id="bq-lab">Filtra per altitudine</span> <em id="bq-val"></em></span><small id="bq-perc"></small></div>'
       +'<div class="bq-area" id="bq-area"><div class="bq-ist" id="bq-ist"></div>'
@@ -15760,11 +15764,16 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 })();
 </script>
 <!-- ═══ FINESTRA «NOVITÀ» ALLA PRIMA APERTURA (30/9/2026, sua richiesta; rifatta due volte la stessa notte) ═══
+     ⚠️ 25/10/2026: UNA pagina, le CERRETE dentro un «grazie» che porta a YouTube (sua idea: «grazie, siamo in continua
+     crescita e siete tantissimi... se non sei iscritto sostienici su YouTube»). Filmato = l'inizio del film della home
+     (verticale, accelerato fino ai boschi sull'Italia intera) piu' lo zoom rifatto con le tessere nuove, MASSIMO 10
+     secondi (suo: «se no la gente skippa»). Bottone ROSSO «▶ Iscriviti su YouTube» (pg.vai con yt:true) in coppia
+     con «Vai alla mappa». Il quiz del 20/10 e' uscito.
      ⚠️ 20/10/2026 (VERSIONE 2026-10-20): UNA pagina sola, il quiz tartufi con le 4 regioni nuove. Immagine fissa
      (pg.img, novita/quiz-regioni.jpg, scelta della regione dal sito del quiz) e bottone arancione «Gioca al quiz →»
      (pg.vai) che apre il quiz in una scheda nuova e chiude la finestra (GA azione=quiz).
-     SCADE: si apre da sola solo fino a NV_FINO compreso (una settimana dalla pubblicazione, suo), poi sparisce
-     senza deploy; ?novita=1 la mostra sempre.
+     SCADE: si apre da sola solo fino a NV_FINO, poi sparisce senza deploy; ?novita=1 la mostra sempre. Dal 26/10/2026
+     NV_FINO ha anche l'ORA ('2026-11-01T21:00', domenica alle 21, suo), confrontata con l'ora del telefono.
      ⚠️ RIFATTA IL 4/10/2026 (VERSIONE 2026-10-04): DUE pagine, temperature di ieri e satellite, filmati
      corti con una freccia sul tasto e uno zoom che parte dallo schermo intero (registra-temperature.js
      nel banco di lavoro). Le quattro pagine del 30/9 qui sotto sono la storia.
@@ -15787,16 +15796,33 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   display:flex;flex-direction:column;box-shadow:0 14px 44px rgba(0,0,0,.45);color:#1b3f6e;overflow:hidden}
 /* il riquadro del filmato ha la misura del filmato (640x868) gia' prima che arrivi: niente righe vuote sopra o sotto */
 #nv-film{position:relative;background:#0b1a2b;flex:0 1 auto;min-height:0;aspect-ratio:640/860;max-height:calc(100dvh - 20px - 215px);overflow:hidden;cursor:pointer;line-height:0}
-#nv-film video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%;background:#0b1a2b}   /* taglia gli ultimi 8 px in alto: l'orlo chiaro della barra delle regioni */
+/* INTERO, non ritagliato (26/10/2026, suo: «l'Italia del nord è in parte coperta»): sugli schermi bassi (PC al 125%,
+   1536x702) il riquadro si accorcia e diventa quasi quadrato, e «cover» ancorato in basso tagliava 142 px in alto al
+   filmato verticale. Le fasce ai lati sono nere come il fondo del filmato. (Prima: cover + 50% 100%, per togliere
+   l'orlo di 8 px dei filmati del 30/9, che non ci sono piu'.) */
+#nv-film video{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 50%;background:#000}
 #nv-film video.via{display:none}
 #nv-film img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 0;background:linear-gradient(#2a1d14,#2e2118)}
 #nv-film img.via{display:none}
 #nv-gioca{display:none;background:#e8891c;color:#fff;border:1px solid #e8891c;border-radius:12px;font-weight:800;font-size:16px;line-height:1;padding:14px 8px;text-decoration:none;box-shadow:0 4px 0 #a85d0c;white-space:nowrap}
 #nv-gioca:hover{background:#f0952a}
 #nv-gioca.pulsa{animation:nvPulsaA 1.3s ease-in-out infinite}
+/* il bottone di YouTube (25/10/2026): lo stesso rosso del bottone in fondo alle pagine */
+#nv-gioca.yt{background:linear-gradient(180deg,#e0262e,#b8141b);border-color:#b8141b;box-shadow:0 4px 0 #7d0d12}
+#nv-gioca.yt:hover{background:linear-gradient(180deg,#e8323a,#c01820)}
+#nv-gioca.yt.pulsa{animation:nvPulsaY 1.3s ease-in-out infinite}
+@keyframes nvPulsaY{0%,100%{box-shadow:0 4px 0 #7d0d12,0 0 0 0 rgba(224,38,46,.6)}50%{box-shadow:0 4px 0 #7d0d12,0 0 0 9px rgba(224,38,46,0)}}
 @keyframes nvPulsaA{0%,100%{box-shadow:0 4px 0 #a85d0c,0 0 0 0 rgba(232,137,28,.6)}50%{box-shadow:0 4px 0 #a85d0c,0 0 0 9px rgba(232,137,28,0)}}
 #nv-avanti.sec{background:#eef3fb;color:#1b3f6e;border:1px solid #c9d6ea;font-weight:700;font-size:15px;min-width:0;padding:14px 8px}
-#nv-piede.coppia #nv-avanti,#nv-piede.coppia #nv-gioca{flex:1 1 0;box-sizing:border-box;height:48px;display:flex;align-items:center;justify-content:center;text-align:center}
+#nv-piede.coppia #nv-avanti,#nv-piede.coppia #nv-gioca{flex:1 1 0;min-width:0;white-space:nowrap;box-sizing:border-box;height:48px;display:flex;align-items:center;justify-content:center;text-align:center}
+/* CELLE UGUALI ANCHE SUL TELEFONO (26/10/2026, suo: a 360 px «Vai alla mappa» andava a capo). «▶ Iscriviti su YouTube»
+   non va a capo e vuole 190 px: sotto i 440 px si prendeva 192 px e lasciava a «Vai alla mappa» 110 (143 a 393 px).
+   Li' il bottone dice «Iscriviti» col logo di YouTube dei bottoni delle pagine (rettangolo bianco, triangolo rosso). */
+#nv-gioca .nv-corto{display:none;align-items:center;gap:8px}
+#nv-gioca .nv-corto svg{width:26px;height:18px;flex:none}
+#nv-gioca .nv-corto svg rect{fill:#fff}
+#nv-gioca .nv-corto svg polygon{fill:#e12b2b}
+@media(max-width:440px){ #nv-gioca .nv-lungo{display:none} #nv-gioca .nv-corto{display:inline-flex} }
 #nv-piede.coppia #nv-punti{display:none}
 #nv-avanti.sec:hover{background:#dfe8f6}
 #nv-alto{padding:12px 14px 0;display:flex;align-items:center;gap:10px;flex:none}
@@ -15822,14 +15848,15 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 #nv-avanti.pulsa{animation:nvPulsa 1.3s ease-in-out infinite}
 @keyframes nvPulsa{0%,100%{box-shadow:0 0 0 0 rgba(27,63,110,.55)}50%{box-shadow:0 0 0 9px rgba(27,63,110,0)}}
 @media(max-width:900px){ #nv-box{max-width:none} #nv-tit{font-size:24px} #nv-dida{font-size:18.5px} }
-@media(prefers-reduced-motion:reduce){ #nv-gioca.pulsa{animation:none} }
+@media(prefers-reduced-motion:reduce){ #nv-gioca.pulsa,#nv-gioca.yt.pulsa{animation:none} }
 @media(max-height:660px){ #nv-tit{font-size:21px} #nv-dida{min-height:2.4em} #nv-dida span{font-size:17px;padding:7px 12px} #nv-avanti{padding:12px 16px;font-size:15px;min-width:130px} #nv-dietro{padding:12px 12px;font-size:14px} #nv-testo{padding-top:4px;padding-bottom:6px} #nv-film{max-height:calc(100dvh - 20px - 190px)} }
 </style>
 <script>
 (function(){
-  var VERSIONE='2026-10-20', CHIAVE='novitaVista';   // 20/10: la pagina del quiz tartufi, una sola
-  var NV_FINO='2026-10-21';   // ultimo giorno in cui si apre da sola; era il 27/10, chiusa prima il 22/10/2026 (suo: «togli quiz»); ?novita=1 la mostra sempre
-  function oggiQui(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }   // data del telefono, non UTC
+  var VERSIONE='2026-10-26', CHIAVE='novitaVista';   // 26/10: le cerrete e il grazie con YouTube (prima, 20/10: il quiz tartufi)
+  var NV_FINO='2026-11-01T21:00';   // si apre da sola fino a domenica 1/11 alle 21 (suo, 26/10/2026); ?novita=1 la mostra sempre
+  function oraQui(){ var d=new Date(), z=function(n){ return ('0'+n).slice(-2); };   // ora del telefono, non UTC
+    return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'T'+z(d.getHours())+':'+z(d.getMinutes()); }
   /* 5/10/2026: i filmati (4-5 MB l'uno) li serve GitHub, non Netlify. In cinque giorni di ottobre
      la finestra ha scaricato 10-15 GB dal sito: a 20 crediti il GB era il grosso dei 600 crediti di banda. */
   var NV_MEDIA=/avventuremicologiche\.it$/.test(location.hostname) ? 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/' : '/';   // test e locale: dal sito stesso (su raw arrivano col push)
@@ -15843,9 +15870,11 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     /* 20/10/2026 (suo): una pagina sola sul quiz, «ora anche le nuove regioni, hai provato a giocare?».
        Escono previsioni e satellite (si possono rimettere: i filmati restano in novita/).
        img = immagine fissa al posto del filmato; vai = bottone verso fuori, in una scheda nuova. */
-    {t:'Hai già provato il quiz dei tartufi?', img:'novita/quiz-regioni.jpg',
-     d:[[0, "Ora anche Lombardia, Piemonte, Emilia-Romagna e Liguria"]],
-     vai:{testo:'Gioca al quiz →', url:'https://avventuremicologiche.it/esame-tartufi/'}}
+    /* 25/10/2026 (suo): le cerrete dentro un grazie, e la spinta a iscriversi. Il quiz del 20/10 e' uscito (l'immagine
+       resta in novita/). vai.yt = bottone rosso di YouTube; vai.ga = l'azione dell'evento novita_finestra. */
+    {t:'Mappa dei boschi: arrivano le cerrete', f:'novita/cerrete',
+     d:[[0, 'Siete tantissimi. Grazie!'], [4.0, 'Novità: le cerrete hanno un colore loro'], [8.4, 'Ti è utile? Sostienici su YouTube']],   // 4,0 = compaiono i boschi, 8,4 = il fermo finale (monta-cerrete.py)
+     vai:{testo:'▶ Iscriviti su YouTube', corto:'Iscriviti', url:'https://www.youtube.com/@avventuremicologiche?sub_confirmation=1', yt:true, ga:'youtube'}}
   ];
   var AVANZA_DOPO=1200;   // ms fermi sull'ultimo fotogramma prima di passare da soli alla pagina dopo
   var avanzaT=null;
@@ -15895,8 +15924,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     document.getElementById('nv-x').addEventListener('click',function(e){ e.stopPropagation(); chiudi('chiusa'); });
     elAvanti.addEventListener('click',avanti);
     elDietro.addEventListener('click',indietro);
-    elFilm.addEventListener('click',function(){ if(PAGINE[idx].vai){ window.open(PAGINE[idx].vai.url,'_blank','noopener'); chiudi('quiz'); } else riparti(); });   // un tocco sul filmato: da capo; sull'immagine del quiz: il quiz
-    document.getElementById('nv-gioca').addEventListener('click',function(){ chiudi('quiz'); });   // il link apre la scheda nuova da solo
+    // un tocco sul filmato: da capo; sull'IMMAGINE di una pagina con vai (il quiz): il suo indirizzo
+    elFilm.addEventListener('click',function(){ var pg=PAGINE[idx]; if(pg.vai&&pg.img){ window.open(pg.vai.url,'_blank','noopener'); chiudi(pg.vai.ga||'quiz'); } else riparti(); });
+    document.getElementById('nv-gioca').addEventListener('click',function(){   // il link apre la scheda nuova da solo
+      var v=PAGINE[idx].vai||{}; if(v.yt){ try{ gtag('event','click_youtube',{pulsante:'novita'}); }catch(e){} } chiudi(v.ga||'quiz'); });
     velo.addEventListener('click',function(e){ if(e.target===velo) chiudi('chiusa'); });
   }
   function didascalia(t){
@@ -15916,7 +15947,14 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     if(q>0) elDietro.removeAttribute('disabled'); else elDietro.setAttribute('disabled','');
     var g=document.getElementById('nv-gioca');
     var piede=document.getElementById('nv-piede');
-    if(pg.vai){ g.textContent=pg.vai.testo; g.href=pg.vai.url; g.style.display='flex'; g.classList.add('pulsa'); elAvanti.classList.add('sec'); elDietro.style.display= q>0 ? '' : 'none'; piede.classList.toggle('coppia', q===0); }
+    if(pg.vai){ g.textContent=pg.vai.testo;
+      if(pg.vai.corto){   // sotto i 440 px la scritta corta (col logo di YouTube se e' il canale): vedi #nv-gioca .nv-corto
+        g.textContent=''; var lu=document.createElement('span'), co=document.createElement('span'), ct=document.createElement('span');
+        lu.className='nv-lungo'; lu.textContent=pg.vai.testo; co.className='nv-corto'; ct.textContent=pg.vai.corto;
+        if(pg.vai.yt) co.innerHTML='<svg viewBox="0 0 42 30" aria-hidden="true"><rect width="42" height="30" rx="6"/><polygon points="16,7 16,23 31,15"/></svg>';
+        co.appendChild(ct); g.appendChild(lu); g.appendChild(co);
+      }
+      g.href=pg.vai.url; g.style.display='flex'; g.classList.add('pulsa'); g.classList.toggle('yt',!!pg.vai.yt); elAvanti.classList.add('sec'); elDietro.style.display= q>0 ? '' : 'none'; piede.classList.toggle('coppia', q===0); }
     else { g.style.display='none'; g.classList.remove('pulsa'); elAvanti.classList.remove('sec'); elDietro.style.display=''; piede.classList.remove('coppia'); }
     vids.forEach(function(v,k){
       if(k===i){ v.classList.remove('via'); if(!v.getAttribute('src')){ v.src=NV_MEDIA+pg.f+'.mp4'; v.load(); } riparti(); }
@@ -15936,7 +15974,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   function pronta(){ var sp=document.getElementById('map-spinner'); return !!window._mapDebug && (!sp || getComputedStyle(sp).display==='none'); }
   function avvia(){
     if(vietata()) return;
-    if(!forzata() && oggiQui()>NV_FINO) return;   // passata la settimana sparisce da sola, senza deploy
+    if(!forzata() && oraQui()>=NV_FINO) return;   // passata la scadenza sparisce da sola, senza deploy
     try{ if(window.top!==window) return; }catch(e){}
     var pagina=location.pathname; if(!(pagina==='/'||/\/index\.html$/.test(pagina))) return;
     if(forzata()) SEQ=PAGINE.map(function(p,i){ return i; });

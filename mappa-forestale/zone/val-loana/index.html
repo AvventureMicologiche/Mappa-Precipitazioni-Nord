@@ -305,7 +305,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .griglia span{position:absolute;left:8px;bottom:8px;background:rgba(15,45,77,.85);color:#fff;font-size:13px;font-weight:700;border-radius:6px;padding:2px 8px;}
 .pioggia{border-top:1px solid var(--bordo);margin-top:26px;padding-top:6px;}
 /* BOTTONE YOUTUBE (lib-pagina-funghi.js) */
-.yt-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+/* A TUTTA RIGA come i bottoni che aprono la mappa (25/10/2026, suo: «fallo largo come quelli che aprono le mappe») */
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
   font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
 .yt-btn svg{width:26px;height:18px;flex:none;}
@@ -314,7 +315,8 @@ ul.paesi .quota{flex:none;width:64px;text-align:right;font-weight:800;color:var(
 .yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
 .yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
 
-/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono */
+/* QUIZ ACCANTO A YOUTUBE: due celle uguali, una sotto l'altra sul telefono (25/10/2026, suo: «dove c'e' il quiz lascia
+   com'e'», solo YouTube da solo va a tutta riga) */
 .coppia-btn{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px;}
 .coppia-btn a{justify-content:center;box-sizing:border-box;min-height:53px;width:100%;}
 .coppia-btn svg{width:26px;flex:none;}
@@ -437,7 +439,7 @@ header{position:relative;flex-wrap:nowrap;}
 <p class="breve">Il bosco copre il 76% del territorio intorno ai pluviometri della zona. Ecco come si divide.</p>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#d95f02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/castagneti/"><b>castagneti</b></a><span class="fr-v">34,5%</span></div><div class="fr-b"><i style="width:100%;background:#d95f02"></i></div><div class="fr-s">castagno e selve da frutto</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#1b9e77"></span><b>faggete</b><span class="fr-v">27,5%</span></div><div class="fr-b"><i style="width:80%;background:#1b9e77"></i></div><div class="fr-s">boschi di faggio, dalla media montagna in su</div></div>
-<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">8,1%</span></div><div class="fr-b"><i style="width:23%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, cerro, leccio, sughera e i querco-carpineti</div></div>
+<div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e6ab02"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/querceti/"><b>querceti</b></a><span class="fr-v">8%</span></div><div class="fr-b"><i style="width:23%;background:#e6ab02"></i></div><div class="fr-s">roverella, rovere, farnia, leccio, sughera e i querco-carpineti</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#264b73"></span><a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/abetaie-e-peccete/"><b>abetaie e peccete</b></a><span class="fr-v">3,9%</span></div><div class="fr-b"><i style="width:11%;background:#264b73"></i></div><div class="fr-s">abete bianco e abete rosso</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#e7298a"></span><b>pinete</b><span class="fr-v">3,7%</span></div><div class="fr-b"><i style="width:11%;background:#e7298a"></i></div><div class="fr-s">pino silvestre, nero, marittimo, domestico e d'Aleppo</div></div>
 <div class="fr"><div class="fr-t"><span class="fr-sw" style="background:#66a61e"></span><b>robinieti</b><span class="fr-v">3,1%</span></div><div class="fr-b"><i style="width:9%;background:#66a61e"></i></div><div class="fr-s">boschi di robinia, in collina e in pianura</div></div>
