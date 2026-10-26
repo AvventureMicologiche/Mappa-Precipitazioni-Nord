@@ -38,7 +38,7 @@
  *  - una sola richiesta copre TUTTE le stazioni insieme (non una per stazione
  *    come Liguria o Svizzera): niente batch da 199 chiamate;
  *  - le query storiche funzionano su tutto l'archivio (dal 1880), quindi
- *    l'auto-riparazione D-3..D-10 è gratis e un run fallito non perde dati;
+ *    l'auto-riparazione D-3..D-30 è gratis e un run fallito non perde dati (D-10 fino al 26/10/2026);
  *  - l'anagrafe pubblica la QUOTA, cosa che Piemonte, OSMER e le reti MeteoHub
  *    non fanno: il filtro dislivello di check-confini.js funziona davvero sul
  *    confine Alto Adige↔Tirolo.
@@ -54,7 +54,7 @@ const path = require('path');
 const DATA_DIR    = path.join(__dirname, '../..', 'data', 'austria');
 const API         = 'https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1h';
 const MIN_ORE     = 20;    // ore valide minime per accettare il totale di un giorno
-const REPAIR_DAYS = 10;    // auto-riparazione fino a D-10 (gratis: l'archivio risponde)
+const REPAIR_DAYS = 30;    // auto-riparazione fino a D-30 (gratis: l'archivio risponde). Era 10 fino al 26/10/2026
 const BATCH       = 120;   // stazioni per richiesta (tiene corta la URL)
 const MIN_STAZ    = 100;   // sotto questa soglia non si scrive: anagrafe sospetta
 const RETENTION   = 730;
@@ -155,11 +155,15 @@ function loadExisting(dateStr) {
   try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return null; }
 }
 
-/** Merge per stazione: il valore nuovo vince, le vecchie senza valore nuovo restano. */
+const eStima = j => !!j && /open-meteo/.test(j.source || '');
+
+/** Merge per stazione: il valore nuovo vince, le vecchie senza valore nuovo restano.
+ *  Mai sopra un file di STIMA (26/10/2026): oggi l'Austria non ne ha, ma se un giorno arrivassero le stazioni stimate
+ *  resterebbero dentro un file che si dichiara `geosphere-at`. Su una stima si riparte da zero. */
 function writeDay(dateStr, fresh) {
   const existing = loadExisting(dateStr);
   const byId = {};
-  if (existing && Array.isArray(existing.stations)) for (const s of existing.stations) byId[s.id] = s;
+  if (existing && Array.isArray(existing.stations) && !eStima(existing)) for (const s of existing.stations) byId[s.id] = s;
   for (const s of fresh) byId[s.id] = s;
   const merged = Object.values(byId);
   if (merged.length < MIN_STAZ) {
@@ -207,7 +211,7 @@ async function main() {
       const dateStr = fmtDate(new Date(todayNoon - i * 24 * 3600000));
       if (i <= 2) { targets.push(dateStr); continue; }
       const ex = loadExisting(dateStr);
-      if (!ex || (ex.count || 0) < MIN_STAZ) targets.push(dateStr);  // riparazione
+      if (!ex || (ex.count || 0) < MIN_STAZ || eStima(ex)) targets.push(dateStr);  // riparazione
     }
   }
   const windows = targets.map(dayWindow);

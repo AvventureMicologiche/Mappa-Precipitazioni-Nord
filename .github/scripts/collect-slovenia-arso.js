@@ -84,6 +84,7 @@ const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'slovenia');
 const RETENTION = 730;          // regola 1b del CLAUDE.md
 const MIN_MEZZORE = 40;         // su 48
 const GIORNI_INDIETRO = Number(process.env.GIORNI_INDIETRO || 8);
+const RIPARA_GIORNI = Number(process.env.RIPARA_GIORNI || 30);   // oltre D-8 solo i giorni mancanti o stimati (26/10/2026)
 const DATA_OVERRIDE = process.env.DATA_OVERRIDE || '';
 const PAUSA_MS = Number(process.env.PAUSA_MS || 250);
 // SOLO_PIOGGIA=1 chiede il solo parametro 26. Serve al backfill lungo: chiedendo
@@ -240,6 +241,16 @@ async function main() {
     const oggi = new Date();
     for (let i = 2; i <= GIORNI_INDIETRO; i++) {     // si parte da D-2: D-1 non e mai completo
       const d = new Date(oggi); d.setUTCDate(d.getUTCDate() - i); giorni.push(iso(d));
+    }
+    // Oltre D-8, fino a D-30, solo i giorni che mancano o sono STIMATI (26/10/2026): l'archivio ARSO risponde su
+    // qualunque intervallo, quindi un guasto lungo si ripara da solo al ritorno. Allarga la finestra delle chiamate
+    // solo quando serve davvero.
+    for (let i = GIORNI_INDIETRO + 1; i <= RIPARA_GIORNI; i++) {
+      const d = new Date(oggi); d.setUTCDate(d.getUTCDate() - i); const g = iso(d);
+      const f = path.join(DATA_DIR, `${g}.json`);
+      let ripara = !fs.existsSync(f);
+      if (!ripara) { try { ripara = /open-meteo/.test(JSON.parse(fs.readFileSync(f, 'utf8')).source || ''); } catch (e) { ripara = true; } }
+      if (ripara) { console.log(`  Auto-riparazione: ${g} mancante o stimato`); giorni.push(g); }
     }
   }
   giorni.sort();
