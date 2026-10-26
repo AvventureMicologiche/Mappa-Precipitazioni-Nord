@@ -85,6 +85,13 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Collect:** `collect-lombardia.js` (dal 24 luglio 2026) — prima era l'UNICA regione caricata live dal browser
 - **Formula:** `sum(valore)` su un giorno raggruppata per sensore = totale mm. Sensori pioggia da anagrafe `nf78-nj6b` (tipologia='Precipitazione'), misure da `647i-nhxk`
 - **Orari:** 6 run/giorno + ieri/altroieri
+- ⚠️ **GLI ORARI DI SOCRATA SONO IN ORA SOLARE FISSA (UTC+1) TUTTO L'ANNO, marca a FINE dei 10 minuti** (misurato il
+  26/10/2026 contro MeteoHub dpcn-lombardia: ore di pioggia identiche nel 97% con questa lettura, 5-22% con le altre).
+  Fino al 26/10 il collector chiedeva «D 00:00:00 - D 23:59:59» in quegli orari: d'estate il giorno lombardo andava
+  dalle 0:50 alle 0:50 (la pioggia fra mezzanotte e le 0:50 finiva sul giorno prima), d'inverno era indietro di 10'.
+  Ora `finestraSocrata` = il giorno italiano di `finestraGiorno` portato in ora solare, (inizio, fine]; le ore si
+  raggruppano per giorno E ora (`date_extract_d` + `date_extract_hh`: ⚠️ `date_trunc_ymdh` qui NON esiste). Prova sul
+  20-21/10: giorni bagnati uguali a MeteoHub 92-93% (prima 1%). **Lo storico fino al 26/10 resta com'e'** (sua decisione).
 - **Dati corretti da:** ~1 gennaio 2026 (backfill; il dataset Socrata 647i-nhxk contiene solo l'anno corrente in pieno — il 2025 è vuoto/sparso, min completo = gennaio 2026, ~204 giorni. Cresce a 365 con la retention)
 - **Migrazione a file (24 luglio 2026):** prima la Lombardia interrogava Socrata **live** dal browser a ogni caricamento — lenta sui periodi lunghi (~60 richieste per 30 giorni) e dipendente da Socrata in tempo reale. Ora scrive file giornalieri come le altre regioni: il sito legge i file (`loadARPALombardiaRegion` fa `fetch` del raw GitHub e somma), i sensori morti (offline, nessun dato quel giorno) non ci sono, e se Socrata va giù lo storico resta. Fallback a Open-Meteo se i file mancano. Valori identici alla vecchia query live (verificato: 15/7 media 6.63)
 - **In mappa ci sono le stazioni VERE (31 luglio 2026).** Fino a oggi la Lombardia era l'unica regione a non mostrare le proprie stazioni: prendeva l'**anagrafe** ARPA (326 pluviometri), la assottigliava due volte con `selectUniform` (326→187→160) e a ognuno di quei punti assegnava il valore della stazione reale **più vicina**. Era il compromesso dell'epoca live — 325 chiamate a Socrata erano insostenibili — ed è sopravvissuto per inerzia alla migrazione a file, dove non serviva più.

@@ -39,6 +39,18 @@ function fmtDate(d) {
 }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+// ⚠️ GLI ORARI DI SOCRATA SONO IN ORA SOLARE FISSA (UTC+1) TUTTO L'ANNO, con la marca a FINE dei 10 minuti
+// (26/10/2026, scheda 95). Misurato contro MeteoHub dpcn-lombardia (UTC certo) il 19-22/10: ore di pioggia identiche nel
+// 97% con questa lettura, 5-22% con tutte le altre. Fino al 26/10 si chiedeva «D 00:00:00 - D 23:59:59» in quegli
+// orari: d'estate il giorno andava dalle 0:50 alle 0:50 italiane (la pioggia fra mezzanotte e le 0:50 finiva sul giorno
+// prima), d'inverno era indietro di 10 minuti. Ora il giorno italiano di finestraGiorno, portato in ora solare, (inizio,
+// fine] sulle marche: giusto anche nei giorni da 23 e 25 ore. Lo storico fino al 26/10 resta com'e' (sua decisione).
+const { finestraGiorno } = require('./lib-giorno-italiano.js');
+function finestraSocrata(dateStr) {
+  const f = finestraGiorno(dateStr), solare = t => new Date(t + 3600000).toISOString().slice(0, 19);
+  return `data > '${solare(f.start)}' AND data <= '${solare(f.end)}'`;
+}
+
 // App token di Socrata (secret SOCRATA_APP_TOKEN, app «MappaPluvio» sul profilo avventuremicologiche di
 // dati.lombardia.it, creata il 13/10/2026): alza i limiti che da anonimi davano i 429. Senza, si va come prima.
 const INTESTAZIONI = Object.assign({ 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)' },
@@ -112,9 +124,9 @@ const MIN_ORE_METEO = 20;
  * mai stata doppiata.
  */
 async function fetchMeteoDay(dateStr, tempByStaz, windByStaz, umidByStaz) {
-  const sel = encodeURIComponent('idsensore,idoperatore,date_extract_hh(data) as h,min(valore) as mn,max(valore) as mx,avg(valore) as med,count(valore) as c');
-  const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND valore > -50`);
-  const rows = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=${encodeURIComponent('idsensore,idoperatore,h')}&$limit=80000`);
+  const sel = encodeURIComponent('idsensore,idoperatore,date_extract_d(data) as d,date_extract_hh(data) as h,min(valore) as mn,max(valore) as mx,avg(valore) as med,count(valore) as c');
+  const where = encodeURIComponent(`${finestraSocrata(dateStr)} AND valore > -50`);
+  const rows = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=${encodeURIComponent('idsensore,idoperatore,d,h')}&$limit=80000`);
   // sensore → operatore → una riga per ora
   const perSens = {};
   rows.forEach(r => {
@@ -186,7 +198,7 @@ async function fetchDirezioneDay(dateStr, windByStaz) {
   if (!coppie.length) return {};
   const ids = [];
   coppie.forEach(st => { ids.push(DIR_BY_STAZ[st], windByStaz[st]); });
-  const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND idoperatore='1' AND valore > -50 AND idsensore in (${ids.map(i => `'${i}'`).join(',')})`);
+  const where = encodeURIComponent(`${finestraSocrata(dateStr)} AND idoperatore='1' AND valore > -50 AND idsensore in (${ids.map(i => `'${i}'`).join(',')})`);
   const rows = await getJSON(`/resource/647i-nhxk.json?$select=${encodeURIComponent('idsensore,data,valore')}&$where=${where}&$limit=80000`);
   const perSens = {};
   rows.forEach(r => { (perSens[r.idsensore] = perSens[r.idsensore] || {})[r.data] = parseFloat(r.valore); });
@@ -197,7 +209,7 @@ async function fetchDirezioneDay(dateStr, windByStaz) {
     Object.keys(vel).forEach(t => {
       const v = vel[t];
       if (!(v >= 0 && v < 60)) return;
-      segnaDir(acc, t.slice(11, 13), dir[t] !== undefined ? dir[t] : null, v);
+      segnaDir(acc, t.slice(0, 13), dir[t] !== undefined ? dir[t] : null, v);
     });
     const wd = direzione(acc);
     if (wd !== null) out[st] = wd;
@@ -207,9 +219,9 @@ async function fetchDirezioneDay(dateStr, windByStaz) {
 
 /** Totale giornaliero per sensore per il giorno dateStr (YYYY-MM-DD). */
 async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
-  const where = encodeURIComponent(`data between '${dateStr}T00:00:00' and '${dateStr}T23:59:59' AND valore >= '0'`);
-  const sel = encodeURIComponent('idsensore,date_extract_hh(data) as h,sum(valore) as s');
-  const orarie = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=${encodeURIComponent('idsensore,h')}&$limit=80000`);
+  const where = encodeURIComponent(`${finestraSocrata(dateStr)} AND valore >= '0'`);
+  const sel = encodeURIComponent('idsensore,date_extract_d(data) as d,date_extract_hh(data) as h,sum(valore) as s');
+  const orarie = await getJSON(`/resource/647i-nhxk.json?$select=${sel}&$where=${where}&$group=${encodeURIComponent('idsensore,d,h')}&$limit=80000`);
   // Dalle righe orarie si ricava sia il totale del giorno sia l'intensita'.
   const perSensore = {};
   orarie.forEach(r => {
@@ -217,7 +229,7 @@ async function fetchDay(dateStr, anagrafe, tempByStaz, windByStaz, umidByStaz) {
     const v = parseFloat(r.s);
     if (!isFinite(v)) return;
     a.s += v;
-    segna(a.ore, r.h, v);
+    segna(a.ore, r.d + ' ' + r.h, v);   // giorno e ora: la finestra tocca due date di Socrata
   });
   const rows = Object.keys(perSensore).map(id => ({ idsensore: id, s: perSensore[id].s }));
   // t/w in un try: un guasto della query meteo non tocca mai la pioggia
