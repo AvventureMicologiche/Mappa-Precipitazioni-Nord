@@ -1,7 +1,14 @@
 {
-  "aggiornato": "2026-10-19",
+  "aggiornato": "2026-10-26",
   "finestra": 45,
   "ferme": [
+    {
+      "chiave": "francia-corsica/20033015",
+      "nome": "Bastia",
+      "regione": "francia-corsica",
+      "perc": 0,
+      "dal": "2026-10-19"
+    },
     {
       "chiave": "lombardia/7043",
       "nome": "Ponti sul Mincio v.San Martino",
@@ -10,32 +17,39 @@
       "dal": "2026-09-14"
     },
     {
-      "chiave": "francia-corsica/20033015",
-      "nome": "Bastia",
-      "regione": "francia-corsica",
-      "perc": 0.4,
-      "dal": "2026-10-19"
-    },
-    {
       "chiave": "toscana/TOS01001151",
       "nome": "Cantagallo",
       "regione": "toscana",
-      "perc": 1.7,
+      "perc": 0.7,
       "dal": "2026-10-05"
     },
     {
-      "chiave": "toscana/TOS01004779",
-      "nome": "Gamberame",
-      "regione": "toscana",
-      "perc": 4.5,
-      "dal": "2026-10-12"
+      "chiave": "meteohub-puglia/41.68583_15.39267",
+      "nome": "S.Severo",
+      "regione": "meteohub-puglia",
+      "perc": 3.1,
+      "dal": "2026-10-26"
     },
     {
-      "chiave": "piemonte/142",
-      "nome": "AVIGLIANA",
+      "chiave": "meteohub-puglia/41.58400_14.95717",
+      "nome": "Carlantino",
+      "regione": "meteohub-puglia",
+      "perc": 4.3,
+      "dal": "2026-10-26"
+    },
+    {
+      "chiave": "piemonte/003",
+      "nome": "COLLE BARANT",
       "regione": "piemonte",
-      "perc": 6.9,
-      "dal": "2026-10-19"
+      "perc": 6,
+      "dal": "2026-10-26"
+    },
+    {
+      "chiave": "meteohub-sardegna/39.22389_9.11639",
+      "nome": "Cagliari",
+      "regione": "meteohub-sardegna",
+      "perc": 8.9,
+      "dal": "2026-10-26"
     }
   ]
 }
