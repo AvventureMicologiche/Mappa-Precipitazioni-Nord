@@ -6139,7 +6139,7 @@ var PIEMONTE_ESCLUSE={
   // Le prime due sono le piu' sicure che abbiamo: l'archivio reale parte dal
   // 3/5/2026 e permette un solo confronto all'indietro, e quel confronto dice
   // che erano sane fino a poco fa.
-  'FINIERE':true,              // 13,0 mm, il 24% di VAL CLAREA che sta a 2,6 km. Nei 45 giorni precedenti era al 91%: e' crollata.
+  // FINIERE (esclusa il 21/8: 13,0 mm, il 24% di VAL CLAREA a 2,6 km) e' RIENTRATA il 26/10/2026, vedi in fondo.
   // ── Tre rientrate il 4/10/2026, giorno per giorno dal 20/8 contro i quattro
   // vicini, sui giorni con almeno 5 mm di mediana (come la Toscana, vedi
   // TOSCANA_ESCLUSE): MEUGLIANO 10 giorni su 10 in riga dal 20/7, 120% dei
@@ -6158,12 +6158,25 @@ var PIEMONTE_ESCLUSE={
   // 11,0 km. Quella condizione serve a non accusare i fondovalle, e in mezzo
   // alle risaie non c'entra: e' una scelta fatta a ragion veduta, non
   // l'applicazione automatica della regola.
-  'VERCELLI':true,             // 12,1 mm nei 30 giorni consegnati su 45, il 13,8% della mediana dei vicini (88,0)
+  // VERCELLI (esclusa il 7/9: 12,1 mm in 30 giorni, il 13,8% dei vicini) e' RIENTRATA il 26/10/2026, vedi in fondo.
   // ── 20/10/2026: segnalata dal controllo del lunedi', e la scarta la stessa ARPA: nella banca
   // dati ufficiale il totale del giorno e' VUOTO con classe A0 (non valido) il 9-10/9 e dal 6 al
   // 9/10, mentre Trana fa fino a 42 mm e Rivoli 81. Le briciole che leggiamo (0,2-0,8 mm) sono
   // tempo reale non validato. Il 19/10 1,6 mm in riga coi vicini: se l'ARPA torna a validarla, rientra.
-  'AVIGLIANA':true             // 3,6 mm nei 40 giorni consegnati su 45, il 6,9% della mediana dei vicini (52)
+  // AVIGLIANA (3,6 mm in 40 giorni, il 6,9% dei vicini) e' RIENTRATA il 26/10/2026, vedi sotto.
+  // ── 26/10/2026: ricontrollo di tutta la lista, giorno per giorno sugli ultimi 70 giorni contro
+  // i cinque vicini piu' prossimi (giorni con almeno 5 mm di mediana) e contro la banca dati ARPA.
+  // RIENTRANO: AVIGLIANA, che l'ARPA valida di nuovo dal 10/10 (classe AZ/AY), in riga il 20/10
+  // (30,4 contro 37) e il 21/10 (36,8 contro 42); FINIERE, in riga 5 giorni su 5 dal 10/9,
+  // settembre 87% e ottobre 93% dei vicini; VERCELLI, in riga 4 su 4 dal 18/9, ottobre 113%.
+  // Restano fuori MONTE MALANOTTE (vedi la sua nota) e CEPPO MORELLI, che non consegna.
+  // ── 26/10/2026: segnalata dal controllo del lunedi', e la scarta la stessa ARPA: nella banca
+  // dati ufficiale la pioggia e' VUOTA con classe A0 dal 7 al 23/10, mentre noi abbiamo lo zero
+  // del tempo reale l'8 e il 9/10 (Bobbio Pellice 53,5 e 29,2 mm, Pian Giasset 52,8 e 22,2), e
+  // dal 12 al 23/10 non consegna. Non era neve: la minima quei giorni era sopra lo zero. In
+  // estate era in riga (21 giorni bagnati su 24). Dal 24/10 l'ARPA la valida di nuovo: rientra
+  // quando l'8-9/10 escono dai periodi lunghi (30 giorni: dopo l'8/11).
+  'COLLE BARANT':true          // 5,6 mm nei 33 giorni consegnati su 45, il 6,0% della mediana dei vicini (93)
 };
 
 function loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,cb){
@@ -7145,7 +7158,21 @@ var MH_ESCLUSE={
   // danno 250 m di quota diversa e non si sa quale sia quella vera.
   // Sarno SPM20 40.82944/14.61417 gemella di Sarno a 1,4 km (97,6 mm tutt'e due): resta
   // Sarno. ⚠️ Sarno CF (40.83528/14.59528) NON e' un doppione: misura numeri suoi e resta.
-  campania:{'41.11500_14.82500':true,'40.68889_14.51444':true,'40.78694_14.91222':true,'40.82944_14.61417':true}
+  campania:{'41.11500_14.82500':true,'40.68889_14.51444':true,'40.78694_14.91222':true,'40.82944_14.61417':true},
+  // S.Severo (FG), 41.68583/15.39267, esclusa il 26/10/2026: MUTA. Non fa 1 mm dal 17/8, e in
+  // ottobre zero in tutti i 7 giorni di pioggia dei vicini (9/10 Torremaggiore 14,2, Lucera 16;
+  // 21/10 Torremaggiore e Bari Ufficio Idrografico 13). Restano Torremaggiore a 8,6 km e Bari
+  // Ufficio Idrografico a 13,3.
+  // Carlantino (FG), 41.58400/14.95717, esclusa il 26/10/2026: un imbuto che si intasa piano,
+  // come Vercelli. Luglio 62% della mediana dei vicini, agosto 9%, ottobre zero in tutti e 5 i
+  // giorni bagnati (9/10 Celenza Valfortore, a 4,0 km, 23,1 mm). Restano Celenza Valfortore e
+  // Casalnuovo Monterotaro (9,5 km), e in Molise Tappino a Gambatesa e Gambatesa.
+  // Ricontrollo di tutta la lista lo stesso giorno, giorno per giorno sugli ultimi 70: restano
+  // fuori tutte. Da riguardare alle prossime piogge Riesi_DRPC (in riga il 10/10, 61,5 mm contro
+  // 55,8 di Riesi SIAS a 2,9 km, ma e' l'unico giorno bagnato da quando misura di nuovo) e
+  // Gragnano (in riga il 21-22/10, sorda dall'8 al 12/10). I quattro doppioni sono ancora
+  // identici al decimo (35-36 giorni su 35-36).
+  puglia:{'41.68583_15.39267':true,'41.58400_14.95717':true}
   // ── RIENTRATA il 10/9/2026: Poggio San Vicino (MC, 43.36842_13.07953) ────
   // Esclusa il 21/8/2026 perche' faceva 0,0 mm in 37 giorni. Ha ripreso a
   // misurare quello stesso giorno: 21,8 mm il 21/8, 36,4 il 25/8, 18,0 il
