@@ -292,7 +292,9 @@ async function collectMeteoHub(netCfg, w) {
   return out;
 }
 
-async function collectDay(netCfg, dateStr) {
+// `opz` serve al ripiego del Piemonte (collect-piemonte.js, 26/10/2026): `ore` aggiunge `h` (ore lette, come nei file
+// ARPA), `quote: false` salta la quota dal terreno (il Piemonte ha quella dell'ente). Senza `opz` non cambia niente.
+async function collectDay(netCfg, dateStr, opz = {}) {
   const w = utcWindowForItalianDay(dateStr);
   const q = `reftime: >=${w.qFrom},<=${w.qTo};product:B13011;license:CCBY_COMPLIANT`;
   const url = `${BASE_URL}?networks=${encodeURIComponent(netCfg.net)}&q=${encodeURIComponent(q)}`;
@@ -331,6 +333,7 @@ async function collectDay(netCfg, dateStr) {
       mm
     };
     if (qTer !== null) rec.qt = 1;   // quota del terreno, non dichiarata dall'ente
+    if (opz.ore) rec.h = Math.min(24, Math.round(vals.length * stepSec / 3600));
     const secchielli = creaOre();   // intensita' (12/9/2026)
     for (const v of vals) segna(secchielli, Math.floor((Date.parse(v.ref + 'Z') - 1) / 3600000), v.val);
     const inte = intensita(secchielli);
@@ -342,7 +345,7 @@ async function collectDay(netCfg, dateStr) {
     const meteo = await collectMeteoHub(netCfg, w);
     out.forEach(rec => { if (meteo[rec.id]) Object.assign(rec, meteo[rec.id]); });
   } catch (e) { console.warn(`  Warn meteo ${netCfg.net}: ${e.message}`); }
-  await completaQuote(out);   // stazioni nuove, non ancora in quote-terreno.json (14/10/2026)
+  if (opz.quote !== false) await completaQuote(out);   // stazioni nuove, non ancora in quote-terreno.json (14/10/2026)
   return out;
 }
 
@@ -576,4 +579,6 @@ async function main() {
   console.log('=== collect-meteohub completato ===');
 }
 
-main().catch(e => { console.error('❌', e.message); process.exit(1); });
+// Lanciato da solo raccoglie; richiamato con require (ripiego del Piemonte) da' solo le funzioni.
+if (require.main === module) main().catch(e => { console.error('❌', e.message); process.exit(1); });
+module.exports = { collectDay, togliPicchiFalsi };

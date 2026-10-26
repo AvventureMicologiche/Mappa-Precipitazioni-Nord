@@ -409,6 +409,60 @@ function mergePerOre(nuove, esistenti) {
   return out;
 }
 
+/* ── RIPIEGO METEOHUB (26/10/2026, scheda 95) ────────────────────────────────────────────────────────────────────
+   Dalle 22 del 24/10/2026 ARPA non pubblica piu' niente (realtime e archivio, anche dal PC) e il 25/10 mancava. Gli
+   STESSI pluviometri arrivano su MeteoHub, rete dpcn-piemonte (Protezione Civile), per un'altra strada: ora per ora
+   identici ad ARPA (559 ore bagnate su 560 il 22-24/10), e il 25/10 c'erano tutti. Quando ARPA non da' il giorno
+   intero (meno di meta' delle stazioni con tutte le ore, o nessun file) il giorno si prende da MeteoHub con la ricetta
+   di collect-meteohub.js (pioggia, temperatura, vento, umidita', intensita'), e ogni stazione porta `src:'meteohub'`.
+   ⚠️ LE STAZIONI SI RICONOSCONO CON UNA TABELLA FISSA (`piemonte-meteohub.json`), non con la distanza: MeteoHub sposta
+   le coordinate fino a 2 km e a 500 m si abbinavano solo 205 stazioni su 278. Le coppie della tabella sono riconosciute
+   dai dati (pioggia del 18-24/10 identica sulla settimana, o ora per ora). Una stazione nuova di MeteoHub non entra.
+   Vince chi ha piu' ore, e a parita' ARPA: quando ARPA ripubblica il giorno intero, i suoi valori tornano da soli.
+   MeteoHub da anonimi tiene ~10 giorni (al massimo 3 per richiesta): qui si chiede un giorno alla volta, D-1..D-3. */
+let meteohub = null, tabellaMH = null;
+async function giornoDaMeteoHub(day) {
+  if (!meteohub) { meteohub = require('./collect-meteohub.js'); tabellaMH = require('./piemonte-meteohub.json').stazioni; }
+  const grezze = meteohub.togliPicchiFalsi(
+    await meteohub.collectDay({ net: 'dpcn-piemonte', sigla: 'PIE' }, day, { ore: true, quote: false }), day);
+  const out = [];
+  let fuori = 0;
+  grezze.forEach(r => {
+    const a = tabellaMH[r.id];
+    if (!a) { fuori++; return; }
+    const rec = { id: a.id, n: a.n, lat: a.lat, lon: a.lon, q: a.q, p: a.p, mm: r.mm, h: r.h };
+    if (r.i) rec.i = r.i;
+    ['t', 'w', 'u', 'wd'].forEach(k => { if (r[k] !== undefined) rec[k] = r[k]; });
+    if (r.wp) rec.wp = 1;   // vento senza raffica: lo sistema unisciRipiego
+    rec.src = 'meteohub';
+    out.push(rec);
+  });
+  console.log(`  MeteoHub dpcn-piemonte: ${grezze.length} stazioni complete, ${out.length} riconosciute, ${fuori} fuori tabella`);
+  return out;
+}
+/** Il giorno di MeteoHub sopra quello che c'e': vince chi ha piu' ore, a parita' chi c'era (ARPA o un giro prima). */
+function unisciRipiego(daMH, esistenti) {
+  const map = {};
+  (esistenti || []).forEach(s => { map[s.id] = s; });
+  const out = daMH.map(s => {
+    const prev = map[s.id];
+    if (prev) delete map[s.id];
+    if (prev && (prev.h || 0) >= (s.h || 0)) return prev;
+    const m = { ...s };
+    // [media, null] senza raffica: se c'era gia' un vento (con la sua raffica) si tiene quello, come fa collect-meteohub
+    if (m.wp) { delete m.wp; if (prev && prev.w) { m.w = prev.w; if (prev.wd !== undefined) m.wd = prev.wd; else delete m.wd; } }
+    if (prev) {
+      if (!m.t && prev.t) m.t = prev.t;
+      if (!m.w && prev.w) m.w = prev.w;
+      if (!m.u && prev.u) m.u = prev.u;
+      if (m.wd === undefined && prev.wd !== undefined) m.wd = prev.wd;
+    }
+    return m;
+  });
+  Object.keys(map).forEach(k => { out.push(map[k]); });
+  return out;
+}
+
 function leggiFile(day) {
   const f = path.join(DATA_DIR, day + '.json');
   if (!fs.existsSync(f)) return null;
@@ -427,16 +481,25 @@ async function main() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
   // ── Step 1: anagrafica realtime ─────────────────────────────
+  // Se ARPA non risponde per niente si va avanti col solo ripiego MeteoHub (26/10/2026); il giro fallisce lo stesso
+  // se alla fine non ha scritto niente da MeteoHub, cosi' il guasto resta rosso su GitHub.
   console.log('Carico anagrafica stazioni (realtime)...');
-  const anagRaw = await scegliStrada(API_BASE + '/pie_anag?page_size=10000');
-  const stazioni = Array.isArray(anagRaw) ? anagRaw : (anagRaw.data || anagRaw.results || []);
+  let arpaGiu = false, ripieghi = 0;
   const stIndex = {};
-  stazioni.forEach(s => { if (s.station_code) stIndex[s.station_code] = s; });
-  console.log('  Stazioni realtime: ' + stazioni.length);
+  try {
+    const anagRaw = await scegliStrada(API_BASE + '/pie_anag?page_size=10000');
+    const stazioni = Array.isArray(anagRaw) ? anagRaw : (anagRaw.data || anagRaw.results || []);
+    stazioni.forEach(s => { if (s.station_code) stIndex[s.station_code] = s; });
+    console.log('  Stazioni realtime: ' + stazioni.length);
+  } catch (e) {
+    arpaGiu = true;
+    console.warn('  ARPA non risponde (' + e.message + '): niente realtime, solo il ripiego MeteoHub');
+  }
 
   // ── Step 1b: anagrafica ufficiale (quota, coordinate) — se cade, si va avanti senza ──
   let anagUff = {};
   try {
+    if (arpaGiu) throw new Error('ARPA non risponde');
     anagUff = await fetchAnagraficaUfficiale();
     console.log('  Stazioni ufficiali attive: ' + Object.keys(anagUff).length);
   } catch (e) { console.warn('  Anagrafica ufficiale non disponibile: ' + e.message); }
@@ -445,7 +508,7 @@ async function main() {
 
   // ── Step 2: OGGI dal realtime ────────────────────────────────
   console.log('Carico misure di oggi ' + targetDate + '...');
-  const recOggi = await fetchRealtimeDay(targetDate);
+  const recOggi = arpaGiu ? [] : await fetchRealtimeDay(targetDate);
   console.log('  Record: ' + recOggi.length);
   const oggi = buildDay(recOggi, stIndex, quote);
   console.log('  Stazioni con dati: ' + oggi.length);
@@ -464,6 +527,7 @@ async function main() {
       let stations = null;
       const esistente = leggiFile(day);
       try {
+        if (arpaGiu) throw new Error('ARPA non risponde');
         const rec = await fetchRealtimeDay(day);
         console.log('  Record realtime: ' + rec.length);
         if (rec.length < 1000) {
@@ -479,11 +543,26 @@ async function main() {
         console.warn('  Realtime non disponibile per ' + day + ': ' + e.message);
         stations = esistente ? esistente.stations : null;
       }
+      // Ripiego MeteoHub: ARPA non ha dato il giorno intero (le ore piene sono 23 a fine marzo, 24 negli altri giorni)
+      const f = finestraGiorno(day), piene = Math.min(24, Math.round((f.end - f.start) / 3600000));
+      const complete = (stations || []).filter(s => (s.h || 0) >= piene).length;
+      if (!stations || stations.length < 5 || complete < stations.length / 2) {
+        console.log(`  ARPA non ha il giorno intero (${complete} stazioni complete su ${(stations || []).length}): provo MeteoHub`);
+        try {
+          const daMH = await giornoDaMeteoHub(day);
+          if (daMH.length >= 5) {
+            stations = unisciRipiego(daMH, stations);
+            ripieghi++;
+            console.log(`  Ripiego: ${stations.filter(s => s.src === 'meteohub').length} stazioni da MeteoHub su ${stations.length}`);
+          }
+        } catch (e) { console.warn('  Ripiego MeteoHub non riuscito: ' + e.message); }
+      }
       if (!stations || stations.length < 5) { console.log('  Niente da scrivere per ' + day); continue; }
 
       // Ufficiale
       let extra = {};
       try {
+        if (arpaGiu) throw new Error('ARPA non risponde');
         const uff = await fetchUfficialeGiorno(day);
         if (uff.n === 0) {
           console.log('  Ufficiale: non ancora pubblicato per ' + day);
@@ -513,6 +592,7 @@ async function main() {
     if (f.replace('.json', '') < cutoffStr) { if (!DRY_RUN) fs.unlinkSync(path.join(DATA_DIR, f)); deleted++; }
   });
   console.log('\nPulizia: ' + deleted + ' eliminati, ' + (allFiles.length - deleted) + ' rimanenti');
+  if (arpaGiu && !ripieghi) throw new Error('ARPA non risponde e MeteoHub non ha dato niente da scrivere');
   console.log('\n=== Completato! ===\n');
 }
 
