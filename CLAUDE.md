@@ -2339,9 +2339,11 @@ Nel centro-sud il rosa e' 70% pioppi. In Italia e' il 3,3% del bosco.
 - Il carpino ha perso «nero» nel nome (sua scelta): la legenda sta su TRE
   colonne a 11 px in 4 righe, e «carpino, orniello e aceri» entra nella terza.
   E' sempre il carpino NERO (Ostrya); il bianco resta nei querceti.
-- ⚠️ **Tessere su un RAMO del repo Tessere** (`boschi-di-fiume`, commit
-  `2a8b052b`), non su main col push forzato: main resta `4f1c4bea` finche' non
-  si fa la pulizia del repo (irreversibile, da chiedere).
+- ~~Tessere su un RAMO del repo Tessere (`boschi-di-fiume`)~~: storia chiusa. Con le cerrete (25/10/2026) main e'
+  diventato un commit unico (`928ee210` + `e19f7b19`); il ramo `boschi-di-fiume` e' stato CANCELLATO il 26/10/2026
+  (GitHub, locale, gc: da 1,86 GB a 731 MB), dopo aver spostato su e19f7b19 il rilievo delle 31 pagine /meteo/, che
+  lo leggevano ancora da li'. ⚠️ Cambiando `TESSERE_COMMIT` in index.html va cambiato anche `RILIEVO` in
+  `genera-pagine-meteo-zona.js` (e rigenerate le pagine /meteo/).
 - ⚠️ **PUGLIA: il suo ArcGIS in affanno restituisce immagini VUOTE senza
   errore.** Riscaricata intera perdeva il 25% del bosco. Rifatta partendo
   dalla cache vecchia col rosa sopra (`puglia-fiume-sopra.py` nel banco).
@@ -2917,8 +2919,14 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   posto ora per ora si apre DA SOLA** sul primo paese della zona e, toccando o cercando un paese, si apre **sempre su
   OGGI**; «Il punto di stamattina» scritto dai dati; i 7 giorni da toccare (mappa, tabella e titolo seguono); la mappa
   col **RILIEVO del sito** (TINITALY/INGV, stessa ricetta dei boschi: qui si può, sotto non c'è la heatmap) e le
-  etichette in **pillola bianca su una riga: icona del cielo SEMPRE, minima blu e massima arancio SEMPRE, «💧0,8» solo
-  se piove, poi il nome**, senza sovrapposizioni né uscite dalla mappa, con la lineetta se si spostano; **niente pallini
+  etichette **CENTRATE SUL PAESE, su due righe** (sopra icona del cielo, minima blu e massima arancio, «💧0,8» solo se
+  piove; sotto il nome), fondo bianco, niente puntino a parte e niente lineette. ⚠️ **REGOLA: DIRADARE, MAI SPOSTARE**
+  (24/10/2026 sera, suo, dopo tre prove bocciate con puntino, etichetta spostata e lineetta; e' come fa la mappa di 3B):
+  `sistemaEtichette` passa i paesi in ordine di importanza (quello di `paesi-zone.json`) e NASCONDE (`.via`) chi
+  toccherebbe un'etichetta gia' messa o uscirebbe dalla mappa; sotto la mappa «Ingrandisci la mappa (+) per vedere gli
+  altri N paesi» (`#mappa-nota`), e ingrandendo ricompaiono. Margine dell'inquadratura = mezza etichetta per lato
+  (padding tel [58,26], pc [80,34]: se no i paesi sul bordo sparivano). Telefono: almeno 4 visibili, di solito 5-9;
+  zero sovrapposizioni in 31 zone × 7 giorni; **niente pallini
   dei pluviometri** sulla mappa (confondevano: stanno nel blocco della pioggia caduta); tabella paese per paese; grafico
   30 giorni misurati + 7 previsti; ore e fasce di 6 ore che riempiono la riga (notte, mattina, pomeriggio, sera).
 - ⚠️ **Il vento dell'API è in m/s**: la scheda moltiplica per 3,6 (il campione sbagliava).
