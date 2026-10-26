@@ -187,6 +187,7 @@ const MIN_ORE_METEO = 20;
 const VENTO_MAX_MS = 40;
 const { creaDir, segnaDir, direzione } = require('./lib-direzione.js');
 const { tieniMeteo } = require('./lib-tieni-meteo.js');
+const { fattoreVento } = require('./lib-vento-meteohub.js');
 async function collectMeteoHub(netCfg, w) {
   const out = {};   // id → {t?, w?}
   const fetchProd = async prod => {
@@ -258,9 +259,13 @@ async function collectMeteoHub(netCfg, w) {
     const buone = vento[id].filter(v => v.val >= 0 && v.val < VENTO_MAX_MS);
     const vals = buone.map(v => v.val);
     if (!vals.length || oreDi(buone) < MIN_ORE_METEO) return;
+    // ⚠️ VENTO MEDIO DIVISO PER 3,6 SU ALCUNE STAZIONI (26/10/2026): fattore per stazione in meteohub-vento.json;
+    // 0 = il vento di questa stazione non si usa (niente media, raffica ne' direzione)
+    const fv = fattoreVento(id);
+    if (!fv) return;
     const media = vals.reduce((a, v) => a + v, 0) / vals.length;
     const gu = ((raffica || {})[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
-    (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,
+    (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * fv * 10) / 10,
                                    gu.length ? Math.round(Math.max(...gu) * 3.6 * 10) / 10 : null];
     if (senzaRaffica) out[id].wp = 1;
   });

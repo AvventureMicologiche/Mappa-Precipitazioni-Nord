@@ -13,6 +13,7 @@
 const fs   = require('fs');
 const path = require('path');
 const { togliVentiFalsi } = require('./lib-venti-falsi.js');   // lo stesso filtro del collector (settimo check, bug 11)
+const { fattoreVento } = require('./lib-vento-meteohub.js');
 
 const BASE_URL  = 'https://meteohub.agenziaitaliameteo.it/api/observations';
 const DATA_ROOT = path.join(__dirname, '../..', 'data');
@@ -122,9 +123,11 @@ async function collectMeteoHub(net, w) {
     const buone = vento[id].filter(v => v.val >= 0 && v.val < 40);
     const vals = buone.map(v => v.val);
     if (!vals.length || oreDi(buone) < MIN_ORE) return;
+    const fv = fattoreVento(id);   // vento diviso per 3,6 su alcune stazioni, come collect-meteohub.js (26/10/2026)
+    if (!fv) return;
     const media = vals.reduce((a, v) => a + v, 0) / vals.length;
     const gu = (raffica[id] || []).map(v => v.val).filter(v => v >= 0 && v < 90);
-    (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * 10) / 10,
+    (out[id] = out[id] || {}).w = [Math.round(media * 3.6 * fv * 10) / 10,
                                    gu.length ? Math.round(Math.max(...gu) * 3.6 * 10) / 10 : null];
   });
   return out;
@@ -148,6 +151,7 @@ async function main() {
         const data = JSON.parse(fs.readFileSync(f, 'utf8'));
         let toccate = 0;
         (data.stations || []).forEach(s => {
+          if (!fattoreVento(s.id)) { delete s.w; delete s.wd; }   // vento non usato: via anche quello gia' nel file
           const m = meteo[s.id];
           if (!m) return;
           if (m.t) s.t = m.t;
