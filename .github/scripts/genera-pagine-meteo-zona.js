@@ -50,7 +50,7 @@ for (const [k, v] of Object.entries(POSTI)) SLUG_REG[k] = slugRegione(v);
 const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
 // il rilievo del sito, la stessa versione fissata che usa la mappa boschi (index.html)
-const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@90a532e7a3f95e6cde1fc4fd0ee6fc658ffb2f6d/rilievo/';
+const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/';
 const GA_ID = 'G-9R7MXXS0V4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 
