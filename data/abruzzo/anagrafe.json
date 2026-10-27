@@ -1,0 +1,1291 @@
+{
+ "mnw": {
+  "abr018": {
+   "n": "Chieti",
+   "p": "CH",
+   "q": 49
+  },
+  "abr030": {
+   "n": "Controguerra",
+   "p": "TE",
+   "q": 257
+  },
+  "abr034": {
+   "n": "L'Aquila",
+   "p": "AQ",
+   "q": 653,
+   "ferma": {
+    "dal": "2026-10-27",
+    "lei": 0,
+    "vicini": 29.2,
+    "giorni": 8
+   }
+  },
+  "abr044": {
+   "n": "Tortoreto",
+   "p": "TE",
+   "q": 245
+  },
+  "abr052": {
+   "n": "Nereto",
+   "p": "TE",
+   "q": 132
+  },
+  "abr063": {
+   "n": "Fara San Martino",
+   "p": "CH",
+   "q": 454
+  },
+  "abr066": {
+   "n": "Pineto",
+   "p": "TE",
+   "q": 38
+  },
+  "abr070": {
+   "n": "Chieti 2",
+   "p": "CH",
+   "q": 252
+  },
+  "abr086": {
+   "n": "Pizzoli",
+   "p": "AQ",
+   "q": 824
+  },
+  "abr087": {
+   "n": "Cagnano Amiterno",
+   "p": "AQ",
+   "q": 902
+  },
+  "abr111": {
+   "n": "Montereale",
+   "p": "AQ",
+   "q": 989
+  },
+  "abr112": {
+   "n": "Castellalto",
+   "p": "TE",
+   "q": 347
+  },
+  "abr114": {
+   "n": "Castel di Sangro",
+   "p": "AQ",
+   "q": 803
+  },
+  "abr121": {
+   "n": "Corfinio",
+   "p": "AQ",
+   "q": 342
+  },
+  "abr130": {
+   "n": "Pacentro",
+   "p": "AQ",
+   "q": 1280
+  },
+  "abr133": {
+   "n": "Oricola",
+   "p": "AQ",
+   "q": 608
+  },
+  "abr043": {
+   "n": "Cepagatti",
+   "p": "PE",
+   "q": 58
+  },
+  "abr116": {
+   "n": "Spoltore",
+   "p": "PE",
+   "q": 165
+  },
+  "abr136": {
+   "n": "Cepagatti 2",
+   "p": "PE",
+   "q": 113
+  }
+ },
+ "icon": [
+  {
+   "id": "icon_41.740_13.900",
+   "n": "Civitella Alfedena",
+   "lat": 41.74,
+   "lon": 13.9,
+   "q": 1773,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.740_14.000",
+   "n": "Barrea",
+   "lat": 41.74,
+   "lon": 14,
+   "q": 1150,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.740_14.100",
+   "n": "Castel di Sangro",
+   "lat": 41.74,
+   "lon": 14.1,
+   "q": 868,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_13.500",
+   "n": "San Vincenzo Valle Roveto",
+   "lat": 41.82,
+   "lon": 13.5,
+   "q": 1131,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_13.600",
+   "n": "Balsorano",
+   "lat": 41.82,
+   "lon": 13.6,
+   "q": 1160,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_13.700",
+   "n": "Pescasseroli",
+   "lat": 41.82,
+   "lon": 13.7,
+   "q": 1177,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_13.800",
+   "n": "Pescasseroli 2",
+   "lat": 41.82,
+   "lon": 13.8,
+   "q": 1353,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_13.900",
+   "n": "Villetta Barrea",
+   "lat": 41.82,
+   "lon": 13.9,
+   "q": 1624,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_14.000",
+   "n": "Barrea 2",
+   "lat": 41.82,
+   "lon": 14,
+   "q": 2036,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_14.100",
+   "n": "Roccaraso",
+   "lat": 41.82,
+   "lon": 14.1,
+   "q": 990,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.820_14.500",
+   "n": "Schiavi di Abruzzo",
+   "lat": 41.82,
+   "lon": 14.5,
+   "q": 1048,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.900_13.400",
+   "n": "Civitella Roveto",
+   "lat": 41.9,
+   "lon": 13.4,
+   "q": 1034,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_13.500",
+   "n": "Civita d'Antino",
+   "lat": 41.9,
+   "lon": 13.5,
+   "q": 1422,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_13.600",
+   "n": "Collelongo",
+   "lat": 41.9,
+   "lon": 13.6,
+   "q": 955,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_13.700",
+   "n": "Lecce nei Marsi",
+   "lat": 41.9,
+   "lon": 13.7,
+   "q": 1208,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_13.800",
+   "n": "Bisegna",
+   "lat": 41.9,
+   "lon": 13.8,
+   "q": 1689,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_13.900",
+   "n": "Scanno",
+   "lat": 41.9,
+   "lon": 13.9,
+   "q": 1103,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_14.000",
+   "n": "Rocca Pia",
+   "lat": 41.9,
+   "lon": 14,
+   "q": 1362,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_14.100",
+   "n": "Pescocostanzo",
+   "lat": 41.9,
+   "lon": 14.1,
+   "q": 1254,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.900_14.200",
+   "n": "Gamberale",
+   "lat": 41.9,
+   "lon": 14.2,
+   "q": 1337,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.900_14.300",
+   "n": "Borrello",
+   "lat": 41.9,
+   "lon": 14.3,
+   "q": 848,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.900_14.400",
+   "n": "Roio del Sangro",
+   "lat": 41.9,
+   "lon": 14.4,
+   "q": 1160,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.900_14.500",
+   "n": "Fraine",
+   "lat": 41.9,
+   "lon": 14.5,
+   "q": 496,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.900_14.600",
+   "n": "Tufillo",
+   "lat": 41.9,
+   "lon": 14.6,
+   "q": 232,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_13.300",
+   "n": "Castellafiume",
+   "lat": 41.98,
+   "lon": 13.3,
+   "q": 1249,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.400",
+   "n": "Capistrello",
+   "lat": 41.98,
+   "lon": 13.4,
+   "q": 725,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.500",
+   "n": "Luco dei Marsi",
+   "lat": 41.98,
+   "lon": 13.5,
+   "q": 651,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.600",
+   "n": "San Benedetto dei Marsi",
+   "lat": 41.98,
+   "lon": 13.6,
+   "q": 653,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.700",
+   "n": "Gioia dei Marsi",
+   "lat": 41.98,
+   "lon": 13.7,
+   "q": 1187,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.800",
+   "n": "Anversa degli Abruzzi",
+   "lat": 41.98,
+   "lon": 13.8,
+   "q": 1217,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_13.900",
+   "n": "Introdacqua",
+   "lat": 41.98,
+   "lon": 13.9,
+   "q": 1227,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_14.000",
+   "n": "Cansano",
+   "lat": 41.98,
+   "lon": 14,
+   "q": 1272,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_41.980_14.100",
+   "n": "Palena",
+   "lat": 41.98,
+   "lon": 14.1,
+   "q": 1780,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.200",
+   "n": "Colledimacine",
+   "lat": 41.98,
+   "lon": 14.2,
+   "q": 989,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.300",
+   "n": "Montebello sul Sangro",
+   "lat": 41.98,
+   "lon": 14.3,
+   "q": 829,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.400",
+   "n": "Colledimezzo",
+   "lat": 41.98,
+   "lon": 14.4,
+   "q": 750,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.500",
+   "n": "Guilmi",
+   "lat": 41.98,
+   "lon": 14.5,
+   "q": 557,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.600",
+   "n": "San Buono",
+   "lat": 41.98,
+   "lon": 14.6,
+   "q": 307,
+   "p": "CH"
+  },
+  {
+   "id": "icon_41.980_14.700",
+   "n": "Lentella",
+   "lat": 41.98,
+   "lon": 14.7,
+   "q": 61,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_13.100",
+   "n": "Pereto",
+   "lat": 42.06,
+   "lon": 13.1,
+   "q": 814,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.200",
+   "n": "Tagliacozzo",
+   "lat": 42.06,
+   "lon": 13.2,
+   "q": 1434,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.300",
+   "n": "Scurcola Marsicana",
+   "lat": 42.06,
+   "lon": 13.3,
+   "q": 721,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.400",
+   "n": "Avezzano",
+   "lat": 42.06,
+   "lon": 13.4,
+   "q": 728,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.500",
+   "n": "Celano",
+   "lat": 42.06,
+   "lon": 13.5,
+   "q": 677,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.600",
+   "n": "Cerchio",
+   "lat": 42.06,
+   "lon": 13.6,
+   "q": 768,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.700",
+   "n": "Pescina",
+   "lat": 42.06,
+   "lon": 13.7,
+   "q": 1059,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.800",
+   "n": "Prezza",
+   "lat": 42.06,
+   "lon": 13.8,
+   "q": 843,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_13.900",
+   "n": "Sulmona",
+   "lat": 42.06,
+   "lon": 13.9,
+   "q": 367,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_14.000",
+   "n": "Pacentro",
+   "lat": 42.06,
+   "lon": 14,
+   "q": 1179,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_14.100",
+   "n": "Campo di Giove",
+   "lat": 42.06,
+   "lon": 14.1,
+   "q": 2621,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.060_14.200",
+   "n": "Lama dei Peligni",
+   "lat": 42.06,
+   "lon": 14.2,
+   "q": 585,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_14.300",
+   "n": "Roccascalegna",
+   "lat": 42.06,
+   "lon": 14.3,
+   "q": 322,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_14.400",
+   "n": "Tornareccio",
+   "lat": 42.06,
+   "lon": 14.4,
+   "q": 569,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_14.500",
+   "n": "Casalanguida",
+   "lat": 42.06,
+   "lon": 14.5,
+   "q": 351,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_14.600",
+   "n": "Monteodorisio",
+   "lat": 42.06,
+   "lon": 14.6,
+   "q": 134,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.060_14.700",
+   "n": "Cupello",
+   "lat": 42.06,
+   "lon": 14.7,
+   "q": 122,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_13.100",
+   "n": "Carsoli",
+   "lat": 42.14,
+   "lon": 13.1,
+   "q": 677,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.200",
+   "n": "Sante Marie",
+   "lat": 42.14,
+   "lon": 13.2,
+   "q": 929,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.400",
+   "n": "Massa d'Albe",
+   "lat": 42.14,
+   "lon": 13.4,
+   "q": 2171,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.500",
+   "n": "Ovindoli",
+   "lat": 42.14,
+   "lon": 13.5,
+   "q": 1413,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.600",
+   "n": "Secinaro",
+   "lat": 42.14,
+   "lon": 13.6,
+   "q": 2047,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.700",
+   "n": "Gagliano Aterno",
+   "lat": 42.14,
+   "lon": 13.7,
+   "q": 570,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.800",
+   "n": "Vittorito",
+   "lat": 42.14,
+   "lon": 13.8,
+   "q": 553,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_13.900",
+   "n": "Roccacasale",
+   "lat": 42.14,
+   "lon": 13.9,
+   "q": 1036,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.140_14.000",
+   "n": "Caramanico Terme",
+   "lat": 42.14,
+   "lon": 14,
+   "q": 689,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.140_14.100",
+   "n": "Sant'Eufemia a Maiella",
+   "lat": 42.14,
+   "lon": 14.1,
+   "q": 1603,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.140_14.200",
+   "n": "Pennapiedimonte",
+   "lat": 42.14,
+   "lon": 14.2,
+   "q": 616,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_14.300",
+   "n": "Casoli",
+   "lat": 42.14,
+   "lon": 14.3,
+   "q": 283,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_14.400",
+   "n": "Perano",
+   "lat": 42.14,
+   "lon": 14.4,
+   "q": 74,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_14.500",
+   "n": "Paglieta",
+   "lat": 42.14,
+   "lon": 14.5,
+   "q": 189,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_14.600",
+   "n": "Pollutri",
+   "lat": 42.14,
+   "lon": 14.6,
+   "q": 140,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.140_14.700",
+   "n": "Vasto",
+   "lat": 42.14,
+   "lon": 14.7,
+   "q": 92,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.220_13.400",
+   "n": "Rocca di Cambio",
+   "lat": 42.22,
+   "lon": 13.4,
+   "q": 1610,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.220_13.500",
+   "n": "Rocca di Mezzo",
+   "lat": 42.22,
+   "lon": 13.5,
+   "q": 1293,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.220_13.600",
+   "n": "Fontecchio",
+   "lat": 42.22,
+   "lon": 13.6,
+   "q": 681,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.220_13.700",
+   "n": "Navelli",
+   "lat": 42.22,
+   "lon": 13.7,
+   "q": 1037,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.220_13.800",
+   "n": "Collepietro",
+   "lat": 42.22,
+   "lon": 13.8,
+   "q": 715,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.220_13.900",
+   "n": "Tocco da Casauria",
+   "lat": 42.22,
+   "lon": 13.9,
+   "q": 216,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.220_14.000",
+   "n": "Abbateggio",
+   "lat": 42.22,
+   "lon": 14,
+   "q": 478,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.220_14.100",
+   "n": "Serramonacesca",
+   "lat": 42.22,
+   "lon": 14.1,
+   "q": 797,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.220_14.200",
+   "n": "San Martino sulla Marrucina",
+   "lat": 42.22,
+   "lon": 14.2,
+   "q": 372,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.220_14.300",
+   "n": "Orsogna",
+   "lat": 42.22,
+   "lon": 14.3,
+   "q": 315,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.220_14.400",
+   "n": "Lanciano",
+   "lat": 42.22,
+   "lon": 14.4,
+   "q": 271,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.220_14.500",
+   "n": "Fossacesia",
+   "lat": 42.22,
+   "lon": 14.5,
+   "q": 16,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.300_13.300",
+   "n": "Tornimparte",
+   "lat": 42.3,
+   "lon": 13.3,
+   "q": 825,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.400",
+   "n": "Lucoli",
+   "lat": 42.3,
+   "lon": 13.4,
+   "q": 1246,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.500",
+   "n": "Fossa",
+   "lat": 42.3,
+   "lon": 13.5,
+   "q": 570,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.600",
+   "n": "Prata d'Ansidonia",
+   "lat": 42.3,
+   "lon": 13.6,
+   "q": 853,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.700",
+   "n": "Carapelle Calvisio",
+   "lat": 42.3,
+   "lon": 13.7,
+   "q": 716,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.800",
+   "n": "Villa Santa Lucia degli Abruzzi",
+   "lat": 42.3,
+   "lon": 13.8,
+   "q": 596,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.300_13.900",
+   "n": "Corvara",
+   "lat": 42.3,
+   "lon": 13.9,
+   "q": 350,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.300_14.000",
+   "n": "Alanno",
+   "lat": 42.3,
+   "lon": 14,
+   "q": 167,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.300_14.100",
+   "n": "Casalincontrada",
+   "lat": 42.3,
+   "lon": 14.1,
+   "q": 114,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.300_14.200",
+   "n": "Bucchianico",
+   "lat": 42.3,
+   "lon": 14.2,
+   "q": 238,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.300_14.300",
+   "n": "Canosa Sannita",
+   "lat": 42.3,
+   "lon": 14.3,
+   "q": 170,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.300_14.400",
+   "n": "San Vito Chietino",
+   "lat": 42.3,
+   "lon": 14.4,
+   "q": 45,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.380_13.200",
+   "n": "Scoppito",
+   "lat": 42.38,
+   "lon": 13.2,
+   "q": 1518,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.300",
+   "n": "Scoppito 2",
+   "lat": 42.38,
+   "lon": 13.3,
+   "q": 667,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.400",
+   "n": "L'Aquila",
+   "lat": 42.38,
+   "lon": 13.4,
+   "q": 880,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.500",
+   "n": "Poggio Picenze",
+   "lat": 42.38,
+   "lon": 13.5,
+   "q": 907,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.600",
+   "n": "Santo Stefano di Sessanio",
+   "lat": 42.38,
+   "lon": 13.6,
+   "q": 1459,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.700",
+   "n": "Castel del Monte",
+   "lat": 42.38,
+   "lon": 13.7,
+   "q": 1502,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.380_13.800",
+   "n": "Villa Celiera",
+   "lat": 42.38,
+   "lon": 13.8,
+   "q": 1414,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.380_13.900",
+   "n": "Civitella Casanova",
+   "lat": 42.38,
+   "lon": 13.9,
+   "q": 479,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.380_14.000",
+   "n": "Pianella",
+   "lat": 42.38,
+   "lon": 14,
+   "q": 267,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.380_14.100",
+   "n": "Cepagatti",
+   "lat": 42.38,
+   "lon": 14.1,
+   "q": 79,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.380_14.200",
+   "n": "Torrevecchia Teatina",
+   "lat": 42.38,
+   "lon": 14.2,
+   "q": 238,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.380_14.300",
+   "n": "Miglianico",
+   "lat": 42.38,
+   "lon": 14.3,
+   "q": 29,
+   "p": "CH"
+  },
+  {
+   "id": "icon_42.460_13.200",
+   "n": "Cagnano Amiterno",
+   "lat": 42.46,
+   "lon": 13.2,
+   "q": 1187,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.460_13.300",
+   "n": "Barete",
+   "lat": 42.46,
+   "lon": 13.3,
+   "q": 1309,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.460_13.400",
+   "n": "Pizzoli",
+   "lat": 42.46,
+   "lon": 13.4,
+   "q": 1926,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.460_13.500",
+   "n": "Pietracamela",
+   "lat": 42.46,
+   "lon": 13.5,
+   "q": 2182,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.460_13.600",
+   "n": "Isola del Gran Sasso d'Italia",
+   "lat": 42.46,
+   "lon": 13.6,
+   "q": 1549,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.460_13.700",
+   "n": "Castelli",
+   "lat": 42.46,
+   "lon": 13.7,
+   "q": 963,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.460_13.800",
+   "n": "Farindola",
+   "lat": 42.46,
+   "lon": 13.8,
+   "q": 728,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.460_13.900",
+   "n": "Penne",
+   "lat": 42.46,
+   "lon": 13.9,
+   "q": 366,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.460_14.000",
+   "n": "Collecorvino",
+   "lat": 42.46,
+   "lon": 14,
+   "q": 217,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.460_14.100",
+   "n": "Cappelle sul Tavo",
+   "lat": 42.46,
+   "lon": 14.1,
+   "q": 124,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.460_14.200",
+   "n": "Pescara",
+   "lat": 42.46,
+   "lon": 14.2,
+   "q": 6,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.540_13.200",
+   "n": "Montereale",
+   "lat": 42.54,
+   "lon": 13.2,
+   "q": 999,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.540_13.300",
+   "n": "Capitignano",
+   "lat": 42.54,
+   "lon": 13.3,
+   "q": 1148,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.540_13.400",
+   "n": "Campotosto",
+   "lat": 42.54,
+   "lon": 13.4,
+   "q": 1446,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.540_13.500",
+   "n": "Crognaleto",
+   "lat": 42.54,
+   "lon": 13.5,
+   "q": 847,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.540_13.600",
+   "n": "Tossicia",
+   "lat": 42.54,
+   "lon": 13.6,
+   "q": 1280,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.540_13.700",
+   "n": "Castel Castagna",
+   "lat": 42.54,
+   "lon": 13.7,
+   "q": 262,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.540_13.800",
+   "n": "Bisenti",
+   "lat": 42.54,
+   "lon": 13.8,
+   "q": 543,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.540_13.900",
+   "n": "Montefino",
+   "lat": 42.54,
+   "lon": 13.9,
+   "q": 328,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.540_14.000",
+   "n": "Elice",
+   "lat": 42.54,
+   "lon": 14,
+   "q": 79,
+   "p": "PE"
+  },
+  {
+   "id": "icon_42.540_14.100",
+   "n": "Silvi",
+   "lat": 42.54,
+   "lon": 14.1,
+   "q": 83,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_13.400",
+   "n": "Campotosto 2",
+   "lat": 42.62,
+   "lon": 13.4,
+   "q": 2228,
+   "p": "AQ"
+  },
+  {
+   "id": "icon_42.620_13.500",
+   "n": "Cortino",
+   "lat": 42.62,
+   "lon": 13.5,
+   "q": 1076,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_13.600",
+   "n": "Montorio al Vomano",
+   "lat": 42.62,
+   "lon": 13.6,
+   "q": 461,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_13.700",
+   "n": "Basciano",
+   "lat": 42.62,
+   "lon": 13.7,
+   "q": 359,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_13.800",
+   "n": "Canzano",
+   "lat": 42.62,
+   "lon": 13.8,
+   "q": 112,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_13.900",
+   "n": "Notaresco",
+   "lat": 42.62,
+   "lon": 13.9,
+   "q": 57,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.620_14.000",
+   "n": "Atri",
+   "lat": 42.62,
+   "lon": 14,
+   "q": 95,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_13.500",
+   "n": "Rocca Santa Maria",
+   "lat": 42.7,
+   "lon": 13.5,
+   "q": 870,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_13.600",
+   "n": "Rocca Santa Maria 2",
+   "lat": 42.7,
+   "lon": 13.6,
+   "q": 1333,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_13.700",
+   "n": "Campli",
+   "lat": 42.7,
+   "lon": 13.7,
+   "q": 499,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_13.800",
+   "n": "Castellalto",
+   "lat": 42.7,
+   "lon": 13.8,
+   "q": 144,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_13.900",
+   "n": "Morro d'Oro",
+   "lat": 42.7,
+   "lon": 13.9,
+   "q": 52,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.700_14.000",
+   "n": "Roseto degli Abruzzi",
+   "lat": 42.7,
+   "lon": 14,
+   "q": 3,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.780_13.600",
+   "n": "Civitella del Tronto",
+   "lat": 42.78,
+   "lon": 13.6,
+   "q": 1413,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.780_13.700",
+   "n": "Civitella del Tronto 2",
+   "lat": 42.78,
+   "lon": 13.7,
+   "q": 410,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.780_13.800",
+   "n": "Sant'Omero",
+   "lat": 42.78,
+   "lon": 13.8,
+   "q": 140,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.780_13.900",
+   "n": "Tortoreto",
+   "lat": 42.78,
+   "lon": 13.9,
+   "q": 48,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.860_13.800",
+   "n": "Controguerra",
+   "lat": 42.86,
+   "lon": 13.8,
+   "q": 53,
+   "p": "TE"
+  },
+  {
+   "id": "icon_42.860_13.900",
+   "n": "Colonnella",
+   "lat": 42.86,
+   "lon": 13.9,
+   "q": 132,
+   "p": "TE"
+  }
+ ]
+}

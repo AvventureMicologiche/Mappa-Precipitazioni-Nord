@@ -460,6 +460,15 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 ### Abruzzo
 - **Fonte:** Open-Meteo, calcolato live dal browser (`dataSource: 'open_meteo'`) — assente dalle reti MeteoHub (404) e senza fonte regionale accessibile, per ora
 - Nessuna cartella dati, nessun collector, nessuna sorveglianza (niente che possa "smettere di arrivare"). Fonte dichiarata come stime in mappa
+- **PROVA in corso dal 27/10/2026 (togliere Open-Meteo):** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
+  15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
+  regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
+  ICON senza librerie e' scritto in cima al collector. ⚠️ **La mappa di produzione NON legge questi file**: li
+  legge solo la prova (`dataSource:'abruzzo_misto'`, pluviometri di confine + MeteoNetwork + stime), che sta in una
+  patch fuori dal repo (banco di lavoro, `abruzzo-prova\`) e si guarda sull'anteprima di ramo `abruzzo`. ⚠️ Fuori
+  dalla sorveglianza apposta: `check-campi.js`, `check-doppioni.js` e `check-stazioni-ferme.js` saltano la cartella;
+  `check-fonti.js` e il guardiano non la conoscono. ⚠️ I file ICON restano ~8 giorni e MeteoNetwork ~10: un buco
+  piu' lungo non si recupera
 
 ### Valle d'Aosta
 - **Fonte:** Centro Funzionale Regione VdA (`presidi2.regione.vda.it`), dati reali di stazione — **dal 26 luglio 2026, al posto di Open-Meteo**

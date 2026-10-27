@@ -1,0 +1,80 @@
+name: Abruzzo (prova)
+on:
+  workflow_dispatch:
+    inputs:
+      giorni:
+        description: 'Quanti giorni indietro rifare (default 3; ICON-2I resta ~8 giorni, MeteoNetwork ~10)'
+        required: false
+        default: ''
+      data:
+        description: 'Un giorno preciso da rifare (YYYY-MM-DD)'
+        required: false
+        default: ''
+  # PROVA ABRUZZO SENZA OPEN-METEO (27/10/2026). Il collector e' .github/scripts/collect-abruzzo.js e scrive
+  # data/abruzzo: stazioni MeteoNetwork dentro la regione e stime del modello ICON-2I, tutte e due da MeteoHub
+  # anonimo. La mappa di produzione NON legge questi file: li legge solo la prova (anteprima di ramo), finche'
+  # non si decide. Serve a farla girare ogni giorno e ad allungare il confronto ICON / Open-Meteo / pluviometri.
+  #
+  # Ogni giro rifa' ieri e i due giorni prima: se GitHub salta un giro, il successivo recupera (i file ICON
+  # restano ~8 giorni). Il giorno di ieri e' completo gia' al mattino: la corsa ICON delle 12 UTC copre fino
+  # a mezzanotte e le ore MeteoNetwork arrivano in tempo reale. Il giro del pomeriggio prende le ore
+  # MeteoNetwork arrivate tardi. Orari liberi da tutti gli altri workflow.
+  schedule:
+    - cron: '55 4 * * *'
+    - cron: '55 15 * * *'
+permissions:
+  contents: write
+# un giro alla volta: due giri insieme riscriverebbero gli stessi file e il secondo andrebbe in conflitto al push
+concurrency:
+  group: abruzzo
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    # un giro di tre giorni dura ~1,5 minuti (misurato in locale il 27/10/2026); col secondo tentativo ~4
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Raccoglie MeteoNetwork e ICON-2I
+        id: collect
+        run: node .github/scripts/collect-abruzzo.js
+        env:
+          GIORNI: ${{ inputs.giorni }}
+          DATA: ${{ inputs.data }}
+        continue-on-error: true
+      - name: Secondo tentativo
+        id: retry1
+        if: steps.collect.outcome == 'failure'
+        run: sleep 60 && node .github/scripts/collect-abruzzo.js
+        env:
+          GIORNI: ${{ inputs.giorni }}
+          DATA: ${{ inputs.data }}
+        continue-on-error: true
+      # Si committa ANCHE se tutti e due i tentativi hanno avuto errori: il collector non cancella mai niente
+      # (quello che non arriva resta com'era) e un giorno raccolto a meta' (per esempio MeteoNetwork si' e
+      # ICON no) e' meglio di niente. Il rosso arriva dopo, dal passo in fondo.
+      - name: Commit e push
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add data/abruzzo/
+          git diff --staged --quiet || git commit -m "abruzzo $(date -u +%Y-%m-%d) [skip netlify]"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then ok=1; break; fi
+            echo "Push fallito (tentativo $i/5), retry tra 10s..."
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
+      - name: Giro con errori
+        if: steps.collect.outcome == 'failure' && steps.retry1.outcome == 'failure'
+        run: |
+          echo "Tutti e due i tentativi hanno avuto errori: guardare il log (MeteoNetwork o ICON-2I non risposti)"
+          exit 1
