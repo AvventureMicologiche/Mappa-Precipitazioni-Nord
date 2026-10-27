@@ -85,6 +85,11 @@ mobile con fallback centro/zoom per il centro-sud.
 - **Collect:** `collect-lombardia.js` (dal 24 luglio 2026) — prima era l'UNICA regione caricata live dal browser
 - **Formula:** `sum(valore)` su un giorno raggruppata per sensore = totale mm. Sensori pioggia da anagrafe `nf78-nj6b` (tipologia='Precipitazione'), misure da `647i-nhxk`
 - **Orari:** dal 27/10/2026 sveglia Cloudflare alle 4:30 italiane + 2 cron GitHub di riserva (04:40 e 12:40 UTC); erano 6 run/giorno. Ogni giro raccoglie ieri/altroieri
+- **Fase 3 dell'alleggerimento (27/10/2026): l'anagrafe e' UNA richiesta** (`fetchAnagrafeTutta`, le cinque tipologie
+  insieme, righe in ordine `:id` come prima): 7 richieste a giro invece di 11, file identici. ⚠️ **Due cose provate e
+  NON fatte**: ieri e l'altro ieri in una richiesta (le ore di Socrata si raggruppano per giorno e ora, e la marca delle
+  00:00 appartiene al giorno prima: una finestra di due giorni la metterebbe nel secchiello sbagliato) e saltare i giri
+  dopo le 4:30 (misurato sulla storia di git: ARPA aggiunge dati a ieri fino a sera, il 20/10 163 stazioni e 97 mm)
 - ⚠️ **GLI ORARI DI SOCRATA SONO IN ORA SOLARE FISSA (UTC+1) TUTTO L'ANNO, marca a FINE dei 10 minuti** (misurato il
   26/10/2026 contro MeteoHub dpcn-lombardia: ore di pioggia identiche nel 97% con questa lettura, 5-22% con le altre).
   Fino al 26/10 il collector chiedeva «D 00:00:00 - D 23:59:59» in quegli orari: d'estate il giorno lombardo andava
@@ -232,6 +237,13 @@ mobile con fallback centro/zoom per il centro-sud.
     Senza, il pannello prometterebbe vento dal 10/8.
   - Collaudato sul repo di test dal 19/8; li' il cron e' stato **spento** alla
     promozione, perche' il sito di test legge la Toscana da produzione.
+  - **Dal 27/10/2026 (fase 3 dell'alleggerimento) il vento di ieri da MeteoHub si
+    chiede UNA volta al giorno** (`lib-meteo-una-volta.js`, `SOGLIA_VENTO_MH` 100:
+    primo giro dopo le 3 italiane che trova ieri col vento su meno di 100 stazioni,
+    di norma le 4:30). Prima si chiedeva a ogni giro, chiusure serali comprese:
+    3 richieste x fino a 9 giri. Misurato sulla storia di git (20-26/10): dal primo
+    giro del mattino il vento di ieri non cambia piu' (una volta su sette una
+    stazione in piu' nel pomeriggio, 143 → 144).
 - **Temperatura (dall'11/8/2026):** pagina SIR `stazioni.php?type=termo` (una richiesta per run) — min/max di OGGI (progressivi, finalizzati dai run di chiusura) e di IERI (consolidati) su ~251 stazioni. Niente storico (pagina live-only come la pioggia) → t dal 10/8, cresce un giorno al giorno. **Niente vento** (non esiste su SIR; CFR `action=TERMO` risponde vuoto). ⚠️ **Trappola del parsing**: gli array della pagina hanno nomi offuscati e i nomi stazione contengono PARENTESI («Pisa (Fac. Agraria) (GPRS)») — una regex che si ferma alla prima `)` tronca la riga prima dei valori e fa sembrare la pagina VUOTA (errore commesso l'11/8 mattina, la pagina pareva avere 4 stazioni su 256: gli argomenti si estraggono per stringhe quotate, come già fa `parseSirValues`)
 - **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
 
@@ -364,7 +376,15 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 ### Svizzera intera (v6.0, in produzione dal 3 agosto 2026)
 - In mappa UN SOLO bottone **"Svizzera (CH)"** (regione `svizzera`, ha sostituito "Ticino (CH)"): sotto, DUE fonti unite da `loadSvizzeraRegion` con chiavi prefissate `ti:`/`ch:` — il Ticino resta OASI (cartella `data/ticino`, collector sotto), il resto del paese è **MeteoSwiss OGD** (`data/svizzera`). ~307 stazioni totali; fonte/chip/crediti "OASI Ticino + MeteoSvizzera"
 - **Fonte MeteoSwiss:** collezioni STAC `ch.meteoschweiz.ogd-smn` (SwissMetNet) + `ogd-smn-precip` su `data.geo.admin.ch`, CSV per stazione, coordinate già WGS84, licenza **CC BY 4.0** («Fonte: MeteoSvizzera», voce in fonti.html)
-- **Collect:** `collect-svizzera-meteoswiss.js` + `svizzera.yml` (dal 27/10/2026 sveglia alle 4:30 e 5:45 italiane + 2 cron GitHub di riserva, 07:40 e 12:40 UTC; erano 5 run/giorno). **270 stazioni** (filtro inventario `rre150h0` attivo; il canton TI resta escluso — lo copre OASI — TRANNE la whitelist `TI_SMN_DA_OASI`, vedi sotto)
+- **Collect:** `collect-svizzera-meteoswiss.js` + `svizzera.yml` (dal 27/10/2026 sveglia alle 4:30 e 5:45 italiane + 2 cron GitHub di riserva, 07:40 e 12:40 UTC; erano 5 run/giorno).
+  **Dal 27/10/2026 (fase 3) i giri del MATTINO si saltano se ieri e' gia' completo**: ogni giro scarica per ogni
+  stazione il file con l'anno intero (~1 MB per le SMN, Lugano 970 KB: oltre 150 MB a giro). Il giro che calcola ieri
+  scrive `completo: true` nel file se il file dell'anno arriva gia' alla fine di ieri (senza `_now`) per almeno il 95%
+  delle stazioni; prima delle 12 italiane un giro che trova quel segno non scarica niente (0 richieste). Il giro del
+  POMERIGGIO (cron 12:40 UTC) rifa' sempre tutto e prende le correzioni di MeteoSvizzera, e il mattino dopo ieri si
+  ricalcola come altro ieri: il file finale e' lo stesso di prima. Misurato sulla storia di git (16-26/10): dopo il
+  primo giro del mattino ieri cambia su 0-7 stazioni su 270, al massimo 1,1 mm (ZWE 1,1 → 0). Non si salta con
+  `DATE_OVERRIDE` ne' con giorni da riparare. **270 stazioni** (filtro inventario `rre150h0` attivo; il canton TI resta escluso — lo copre OASI — TRANNE la whitelist `TI_SMN_DA_OASI`, vedi sotto)
 - **Le 9 stazioni SMN del Ticino/Moesano si prendono da qui dall'11/8/2026** (whitelist `TI_SMN_DA_OASI`: MAG Cadenazzo, CEV Cevio, COM Comprovasco, OTL Locarno-Monti, LUG Lugano, PIO Piotta, ROE Robièi, SBE S. Bernardino, SBO Stabio): sono di PROPRIETÀ MeteoSvizzera e le condizioni d'uso OASI vietano di ripubblicarne i grezzi — le pubblicavamo via data/ticino da mesi senza accorgercene (trovato al censimento sensori t/w). Migrazione con `migra-ti-smn-da-oasi-a-ogd.js` (una tantum, 11/8): pioggia OGD su tutto lo storico dentro data/svizzera (valori verificati identici a OASI: SBE 16,4=16,4, Lugano 3,5=3,5, Piotta 8,7=8,7 sul 26/7) e gemelle rimosse da TUTTI i file data/ticino (146 file, 1312 voci). SBE non è più un'esclusione: la vecchia costante `SVIZZERA_ESCLUSE` non esiste più. ⚠️ La whitelist è volutamente CHIUSA: la rete SMN in TI ha anche BIA/CIM/GEN e la rete precip altre 7 stazioni — non aggiungerle senza un check doppioni contro le OASI rimaste
 - **RICETTA (validata 3/8 su 639 giorni-stazione, match al centesimo):** i giornalieri MeteoSwiss NON coincidono col giorno solare italiano (`rre150d0` = finestra 06-06 UTC, `rka150d0` = giorno di calendario UTC) → si sommano le ORE `rre150h0` (timestamp = FINE intervallo) sul giorno solare italiano, ricetta OSMER, MIN_ORE=20. `_h_recent` contiene già tutte le ore di ieri al mattino presto; `_h_now` (10 min) integra l'ultima ora
 - **Auto-riparazione GRATIS D-3..D-30** (D-10 fino al 26/10/2026), giorni STIMATI compresi: `recent` copre l'anno intero (⚠️ solo l'anno corrente: a inizio gennaio dicembre non c'e'), i giorni mancanti si ricostruiscono senza richieste extra (come OASI, un run fallito non perde dati) → soglia allarme fonti 5 giorni (`SOGLIA_PER_REGIONE`)
@@ -396,6 +416,23 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 **Beta PER-REGIONE dal 10/8/2026**: fuori dal beta Marche, Umbria, Campania, Calabria, Sardegna (mai un evento-buco in 30 giorni), Puglia, Basilicata e Molise (un solo evento vecchio, coperto). Restano in validazione **Sicilia e Lazio** (lista `BETA_REGIONS` in index.html, pillola gialla solo per loro). La rete di sicurezza gapfill resta attiva per tutte.
 - **Fonte:** MeteoHub / Agenzia ItaliaMeteo (`meteohub.agenziaitaliameteo.it`), reti `dpcn-<regione>` — in larga parte le stesse reti regionali, CC-BY con citazione. Valori validati contro ARPA Lombardia: scarto medie 1-3%, max identici (pilota, luglio 2026)
 - **Collect:** `.github/scripts/collect-meteohub.js` + `meteohub.yml` (dal 27/10/2026 sveglia alle 4:30 e 5:45 italiane + 2 cron GitHub di riserva, 11:50 e 17:50 UTC; erano 5 run/giorno: 02:20, 04:20, 07:20, 11:50, 17:50 UTC). Granularità VARIA per rete: il collector sceglie la serie più fitta e la somma, soglia completezza ≥85%. Finestra pubblica API ~10 giorni
+- **Fase 3 dell'alleggerimento (27/10/2026): ieri e l'altro ieri in UNA richiesta, il meteo una volta.** Prima ogni giro
+  chiedeva ogni prodotto un giorno per volta (11 reti x 2 giorni x 6 prodotti = 132 richieste, quattro giri al giorno).
+  Ora `collectDue` fa una richiesta di pioggia per rete sui due giorni e li divide con la finestra di sempre (la serie
+  piu' fitta si sceglie giorno per giorno, `serieMigliore`); le cinque del meteo si fanno DOPO, solo per i giorni senza
+  `meteo_completo` nel file e con almeno 10 stazioni. `meteo_completo: true` lo scrive il giro che ha avuto tutte e cinque
+  le risposte almeno 3 ore dopo la fine del giorno (`ORE_DOPO`); `writeDay` lo conserva ai giri che il meteo non lo
+  chiedono, e t/w/u/wd restano dal file con `tieniMeteo`. Di solito il meteo e' il solo ieri: la stessa richiesta di un
+  giorno di prima. Al giorno: ~67 richieste al giro delle 4:30, ~12 agli altri (prima ~532).
+  **Due difese, il caso peggiore e' il giro di prima:** se la richiesta doppia cade (dopo i 3 tentativi) o per un giorno
+  porta meno stazioni della soglia della rete (risposta tagliata senza errore), quel giorno si rifa' da solo
+  (`collectDay` con `meteo: false`) e si tiene il piu' ricco. ⚠️ Un giorno sotto soglia per conto suo (Basilicata 26/10,
+  50 su 55; Puglia 26/10, una stazione) costa quindi una richiesta in piu' a ogni giro, come prima.
+  Misurato sulla storia di git (18-26/10): dopo il giro delle 4:30 pioggia e meteo di ieri non cambiano piu' (qualche
+  stazione arpafvg). Provato in locale vecchio contro nuovo: 32 file su 32 identici, anche con la richiesta doppia fatta
+  cadere (Marche) e tagliata a meta' (Sicilia); richieste 138 → 74 al primo giro, 19 al secondo. `collectDay` resta
+  com'era per il ripiego del Piemonte. Un effetto in piu': una temperatura tolta da `pulisci-temperature.js` non torna
+  piu' al giro dopo, perche' il meteo di quel giorno non si richiede.
 - **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (08:40 UTC) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
 - **Misura della frequenza:** `.github/scripts/analizza-buchi-meteohub.js` (da lanciare a mano) — legge il registro e dà eventi per settimana, distanza fra un evento e l'altro e quota di giorni finiti a stime, rete per rete. È il numero su cui si decide l'uscita dal beta, al posto del "mi sembra che peggiori"
 - **Dati reali da:** Marche/Umbria 13 luglio 2026 (16-17/7 blackout piattaforma, stimati), le altre 8 dal 19 luglio; prima backfill Open-Meteo (`source: open-meteo-backfill-*`) dal 14-20 maggio
@@ -1046,6 +1083,13 @@ Trentino e Liguria (`lib-meteo-una-volta.js`). Provata in locale vecchio contro
 nuovo sulle stesse copie dei dati: file identici stazione per stazione, richieste
 a giro Veneto 381→191, Friuli 409→154 (dopo il primo giro), Alto Adige 229→1,
 Trentino 106→2, Liguria 551→200.
+**Fase 3, la sera del 27/10:** Svizzera senza i giri del mattino quando ieri e'
+completo (spia `completo`, il pomeriggio rifa' tutto), MeteoHub coi due giorni in
+una richiesta e il meteo una volta (`meteo_completo`, ritorno al giorno singolo se la
+richiesta cade o arriva corta), Lombardia con l'anagrafe in una richiesta, vento
+toscano da MeteoHub una volta al giorno. Prima la misura sulla storia di git (quando
+il file di ieri smette di cambiare), poi vecchio contro nuovo: file identici in tutte
+e quattro. Stima: da ~6.250 a ~5.000 richieste al giorno.
 
 **Cosa fa.** Per ogni cartella di `data/` controlla che ci sia il giorno che
 dovrebbe esserci; se manca e l'ultimo giro programmato di quel workflow e'
