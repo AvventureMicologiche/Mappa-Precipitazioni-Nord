@@ -1,29 +1,14 @@
 {
  "regione": "veneto",
- "generato": "2026-10-27T04:15:30.744Z",
+ "generato": "2026-10-27T10:03:55.760Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 185,
+   "stazioni": 186,
    "primo": "2026-10-26",
    "ultimo": "2026-10-26",
    "top": [
-    {
-     "n": "Bibione (VE)",
-     "nb": "Bibione",
-     "mm": 21
-    },
-    {
-     "n": "Marano di Valpolicella (VR)",
-     "nb": "Marano di Valpolicella",
-     "mm": 11.2
-    },
-    {
-     "n": "Isola Vicentina (VI)",
-     "nb": "Isola Vicentina",
-     "mm": 10
-    },
     {
      "n": "Rio Gravasecca (Pra dell'Agnello) (BL)",
      "nb": "Rio Gravasecca (Pra dell'Agnello)",
@@ -33,11 +18,26 @@
      "n": "Rio Popena (Val delle Barache) (BL)",
      "nb": "Rio Popena (Val delle Barache)",
      "mm": 2.8
+    },
+    {
+     "n": "Malga Campobon (San Pietro di Cadore) (BL)",
+     "nb": "Malga Campobon (San Pietro di Cadore)",
+     "mm": 2
+    },
+    {
+     "n": "Rio Rudan (Antelao) (BL)",
+     "nb": "Rio Rudan (Antelao)",
+     "mm": 1.2
+    },
+    {
+     "n": "Ru de Vaccia (Monte Campoduro) (BL)",
+     "nb": "Ru de Vaccia (Monte Campoduro)",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 48.4,
+   "media": 48.1,
    "giorni": 7,
    "stazioni": 186,
    "primo": "2026-10-20",
@@ -71,7 +71,7 @@
    ]
   },
   "20": {
-   "media": 67.1,
+   "media": 66.9,
    "giorni": 20,
    "stazioni": 186,
    "primo": "2026-10-07",
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 67.3,
+   "media": 67,
    "giorni": 30,
    "stazioni": 186,
    "primo": "2026-09-27",
@@ -140,7 +140,7 @@
   }
  },
  "serie": [
-  0.4,
+  0.1,
   0,
   1,
   6,
