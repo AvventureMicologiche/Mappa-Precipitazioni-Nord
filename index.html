@@ -5682,16 +5682,22 @@ function togliGemelleDiConfine(dati){
 // regione selezionata.
 function render(dati,fonte,labelPeriodo,ringsOverride){
   dati=togliGemelleDiConfine(dati);   // due ARPA, lo stesso pluviometro: un pallino solo
-  totalStations=dati.length;
-  var sorted=dati.slice().sort(function(a,b){return b.mm-a.mm;});
-  var vals=dati.map(function(d){return d.mm;});
+  // I pluviometri FUORI regione (_fuori: le cinque venete del Cadore che il Friuli prende in prestito, 27/10/2026,
+  // suo: «sembrano un bug a prima vista») entrano SOLO nel colore, dove aiutano ai bordi: niente pallino, e
+  // stazioni, massimo, media, minimo e classifica sono della regione. Senza, il «massimo del Friuli» poteva essere
+  // un pluviometro veneto che in mappa non si vede.
+  var conta=dati.filter(function(s){return !s._fuori;});
+  if(!conta.length) conta=dati;
+  totalStations=conta.length;
+  var sorted=conta.slice().sort(function(a,b){return b.mm-a.mm;});
+  var vals=conta.map(function(d){return d.mm;});
   var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals);
   var av=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*10)/10;
-  document.getElementById('sn').textContent=dati.length;
+  document.getElementById('sn').textContent=conta.length;
   document.getElementById('smx').textContent=histNum(Math.round(mx*10)/10);   // virgola, A12 del quarto check
   document.getElementById('sav').textContent=histNum(av);
   document.getElementById('smn').textContent=histNum(Math.round(mn*10)/10);
-  setBadge(dati.length+' stazioni · '+fonte);
+  setBadge(conta.length+' stazioni · '+fonte);
   // L'avviso esce INSIEME ai numeri, non alla fine del calcolo della griglia:
   // la legenda con «160 stazioni · 87,3 max» compare subito, e per qualche
   // secondo l'utente leggerebbe quei numeri senza sapere che un giorno manca.
@@ -5708,7 +5714,7 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
   // regione, tenendo a parita di zona quelle con anemometro. Il colore, il
   // massimo, la media e la classifica restano calcolati su TUTTE.
   var daDiradare={}, pallini=[];
-  dati.forEach(function(s){
+  conta.forEach(function(s){
     if(s && s._cap){ (daDiradare[s._region||"?"]=daDiradare[s._region||"?"]||[]).push(s); }
     else pallini.push(s);
   });
@@ -6875,7 +6881,8 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 //  2) Stazioni ARPA Veneto di confine (Cadore/Comelico): coprono l'alta Carnia NW,
 //     dove le OSMER scarseggiano. Storico reale dal repo PROD (no backfill), NON
 //     soggette al filtro. Caricate solo se il Veneto non è già selezionato (evita
-//     doppioni in multiregione). Contribuiscono all'IDW anche se fuori confine.
+//     doppioni in multiregione). Contribuiscono all'IDW anche se fuori confine, ma dal
+//     27/10/2026 SENZA PALLINO e fuori dai numeri del Friuli (_fuori, vedi render).
 // ═══════════════════════════════════════════════════════════════
 var FRIULI_VENETO_BORDER={'Sella Ciampigotto':1,'Santo Stefano di Cadore':1,'Costalta':1,'Domegge di Cadore':1,'Casamazzagno':1};
 function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
@@ -6931,6 +6938,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
       // cercare il file nella cartella giusta (friuli-osmer o meteohub-friuli),
       // come già fa la Svizzera con 'oasi'/'ms'.
       return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'FVG',_src:s._src,
+              _fuori:s._src==='veneto',   // solo colore: niente pallino e fuori dai numeri del Friuli (render)
               mm:Math.round(mm*10)/10};
     }).filter(Boolean);
     if(full.length<5){cb([],'🟢 ARPA OSMER FVG');return;}
