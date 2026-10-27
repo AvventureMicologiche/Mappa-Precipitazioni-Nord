@@ -9,12 +9,14 @@ on:
   schedule:
     # Ogni run raccoglie ieri + altroieri. Il totale giornaliero OASI viene
     # pubblicato solo a metà mattina (~08:30 CEST): il run notturno (00:30 UTC)
-    # e quello delle 04:30 usano il fallback a somma 10-min del collector, i
-    # run successivi consolidano col valore ufficiale.
+    # usa il fallback a somma 10-min del collector, quello delle 09:30 UTC
+    # consolida col valore ufficiale.
+    # ⚠️ DA 4 A 2 GIRI (27/10/2026): dal 21/10 OASI non risponde piu' ai runner di GitHub, e meno richieste
+    # vuol dire meno occasioni di farsi bloccare. I giri delle 04:30 e delle 16:30 non aggiungevano niente:
+    # il primo usava lo stesso ripiego di quello di notte, il secondo rileggeva valori gia' consolidati.
+    # La sveglia Cloudflare delle 4:30 italiane lo lancia ancora (vedi sveglia-guardiano.js).
     - cron: '30 0 * * *'
-    - cron: '30 4 * * *'
-    - cron: '30 10 * * *'
-    - cron: '30 16 * * *'
+    - cron: '30 9 * * *'
 permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
@@ -41,11 +43,15 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
+      # TRAMITE_URL/TRAMITE_CHIAVE (27/10/2026): se OASI non risponde diretta, il collector passa dal worker
+      # Cloudflare fissato a Milano, lo stesso di Liguria e Piemonte (vedi l'intestazione del collector)
       - name: Raccoglie dati Ticino
         id: collect
         run: node .github/scripts/collect-ticino-gh.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          TRAMITE_URL: https://omirl-tramite.avventuremicologiche.workers.dev
+          TRAMITE_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
         continue-on-error: true
       - name: Retry 1
         id: retry1
@@ -53,12 +59,16 @@ jobs:
         run: sleep 30 && node .github/scripts/collect-ticino-gh.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          TRAMITE_URL: https://omirl-tramite.avventuremicologiche.workers.dev
+          TRAMITE_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
         continue-on-error: true
       - name: Retry 2
         if: steps.collect.outcome == 'failure' && steps.retry1.outcome == 'failure'
         run: sleep 60 && node .github/scripts/collect-ticino-gh.js
         env:
           DATE_OVERRIDE: ${{ inputs.date_override }}
+          TRAMITE_URL: https://omirl-tramite.avventuremicologiche.workers.dev
+          TRAMITE_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
       - name: Commit e push
         run: |
           git config user.name "bot"
