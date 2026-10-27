@@ -8,8 +8,8 @@
  *
  *  1. MeteoNetwork, rete `mnw` su MeteoHub (CC BY 4.0, attribuzione «MeteoNetwork Association OdV»): le
  *     stazioni amatoriali DENTRO l'Abruzzo, solo con almeno MIN_ORE ore lette. `rete:'mnw'`.
- *  2. Il modello ICON-2I di ItaliaMeteo (CC BY 4.0, file aperti di MeteoHub): una griglia di punti ogni
- *     ~9 km su tutta la regione. `rete:'icon'` e `stima:1`. La MAPPA tiene solo quelli lontani da un
+ *  2. Il modello ICON-2I di ItaliaMeteo (CC BY 4.0, file aperti di MeteoHub): ~145 punti sui paesi, uniformi
+ *     su tutta la regione (vedi PUNTI_KM). `rete:'icon'` e `stima:1`. La MAPPA tiene solo quelli lontani da un
  *     pluviometro vero; qui si scrivono tutti, cosi' servono anche a misurare quanto sbaglia il modello
  *     dove una stazione c'e'.
  *
@@ -54,10 +54,19 @@ const UA = { 'User-Agent': 'avventuremicologiche-mappa-pluviometrica' };
 // La griglia ICON-2I (vedi sopra). Se cambiasse, l'intestazione lo dice e il collector si ferma.
 const G = { ni: 761, nj: 761, lon0: 3.0, dlon: 0.025, lat0: 33.7, dlat: 0.02 };
 const TP_LEN = 1158452, TP_PASSI = 72;
-// I punti della stima: ~8,3 km in longitudine e ~8,9 in latitudine. Il valore di un punto e' la media
-// delle 3x3 celle intorno (~7 km): un modello a 2,2 km sbaglia di qualche km dove mette il temporale, e
-// la cella singola raddoppierebbe l'errore (pioggia dove non e' caduta, niente dove e' caduta).
-const PASSO_LAT = 0.08, PASSO_LON = 0.10;
+// I PUNTI DELLA STIMA stanno sui PAESI, non su una griglia (27/10/2026, suo: «i paesi piu' grandi, uniformi su
+// tutto l'Abruzzo, una disposizione naturale»): la griglia ogni ~9 km in mappa si riconosceva a colpo d'occhio.
+//  1. i comuni dal piu' popoloso: un comune si prende se dista almeno PUNTI_KM da quelli gia' presi;
+//  2. i buchi: finche' un punto della regione resta oltre BUCO_KM da tutti, nel buco piu' largo va il posto
+//     abitato (GeoNames, luoghi/: gli stessi della ricerca del sito) piu' popoloso entro 3,5 km; se non ce n'e',
+//     un punto nel buco stesso col nome del posto piu' vicino.
+// Misurato il 27/10: 145 punti (101 comuni, 44 nei buchi) contro i 148 della griglia, nessun punto della regione
+// oltre 7,5 km; 23 comuni su 27 sopra i 10.000 abitanti hanno il loro punto (gli altri quattro stanno sulla costa a
+// meno di 7 km da uno piu' grande). Prova col disegno: claudio\abruzzo-prova\scegli-punti-stima.py.
+// Il valore di un punto e' la media delle 3x3 celle intorno (~7 km): un modello a 2,2 km sbaglia di qualche km
+// dove mette il temporale, e la cella singola raddoppierebbe l'errore (pioggia dove non e' caduta, niente dove e'
+// caduta). Se la regola cambia si alza PUNTI_VERSIONE: l'anagrafe rifa' i punti al giro dopo.
+const PUNTI_KM = 7, BUCO_KM = 7.5, PUNTI_VERSIONE = 2;
 
 // ─── Confine dell'Abruzzo e paesi (per i nomi) ─────────────────────────────
 const geo = JSON.parse(fs.readFileSync(path.join(RADICE, 'italia-regioni-confine.geojson'), 'utf8'));
@@ -76,7 +85,7 @@ const km = (a1, o1, a2, o2) => Math.hypot((o2 - o1) * Math.cos((a1 + a2) * Math.
 
 const PAESI = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n')
   .map(r => r.split('|')).filter(c => c[4] === 'abruzzo')
-  .map(c => ({ n: c[0], lat: +c[1], lon: +c[2], p: c[3] }));
+  .map(c => ({ n: c[0], lat: +c[1], lon: +c[2], p: c[3], pop: +c[5] || 0 }));
 function paeseVicino(lat, lon) {
   let best = null, d = Infinity;
   for (const p of PAESI) { const x = km(lat, lon, p.lat, p.lon); if (x < d) { d = x; best = p; } }
@@ -245,25 +254,51 @@ function caricaAnagrafe() {
   try { return JSON.parse(fs.readFileSync(ANAGRAFE, 'utf8')); } catch (e) { return { mnw: {}, icon: [] }; }
 }
 async function puntiIcon(an) {
-  if (an.icon.length) return an.icon;
+  if (an.icon.length && an.iconV === PUNTI_VERSIONE) return an.icon;
   const pts = [];
-  for (let lat = 41.66; lat <= 42.92; lat += PASSO_LAT) {
-    for (let lon = 13.0; lon <= 14.82; lon += PASSO_LON) {
-      const la = Math.round(lat * 1000) / 1000, lo = Math.round(lon * 1000) / 1000;
-      if (inAbruzzo(la, lo)) pts.push({ lat: la, lon: lo });
+  for (const c of [...PAESI].sort((a, b) => b.pop - a.pop)) {
+    if (pts.every(p => km(c.lat, c.lon, p.lat, p.lon) >= PUNTI_KM)) pts.push({ n: c.n, lat: c.lat, lon: c.lon });
+  }
+  const luoghi = [];
+  for (const f of fs.readdirSync(path.join(RADICE, 'luoghi')).filter(f => f.endsWith('.tsv'))) {
+    for (const r of fs.readFileSync(path.join(RADICE, 'luoghi', f), 'utf8').split('\n')) {
+      const c = r.split('\t');
+      if (c[7] === 'Abruzzo' && /^PPL/.test(c[11] || '')) luoghi.push({ n: c[3], lat: +c[4], lon: +c[5], pop: +c[10] || 0 });
     }
+  }
+  const tutti = luoghi.concat(PAESI);
+  // la regione a celle di ~1 km, e per ogni cella quanto dista il punto piu' vicino
+  const celle = [];
+  for (let lat = 41.66; lat <= 42.92; lat += 0.009) for (let lon = 13.0; lon <= 14.82; lon += 0.012) if (inAbruzzo(lat, lon)) celle.push([lat, lon]);
+  const d = celle.map(([a, o]) => Math.min(...pts.map(p => km(a, o, p.lat, p.lon))));
+  for (;;) {
+    let k = 0;
+    d.forEach((x, i) => { if (x > d[k]) k = i; });
+    if (d[k] <= BUCO_KM) break;
+    const [a, o] = celle[k];
+    const cand = tutti.filter(l => km(a, o, l.lat, l.lon) <= 3.5 && inAbruzzo(l.lat, l.lon) &&
+      pts.every(p => km(l.lat, l.lon, p.lat, p.lon) >= PUNTI_KM * 0.7))
+      .sort((x, y) => (y.pop - x.pop) || (km(a, o, x.lat, x.lon) - km(a, o, y.lat, y.lon)));
+    let p;
+    if (cand.length) p = { n: cand[0].n, lat: cand[0].lat, lon: cand[0].lon };
+    else {
+      const v = tutti.reduce((m, l) => (km(a, o, l.lat, l.lon) < km(a, o, m.lat, m.lon) ? l : m));
+      p = { n: v.n, lat: Math.round(a * 1000) / 1000, lon: Math.round(o * 1000) / 1000 };
+    }
+    pts.push(p);
+    celle.forEach(([ca, co], i) => { const x = km(ca, co, p.lat, p.lon); if (x < d[i]) d[i] = x; });
   }
   const q = await quoteTerrarium(pts);
   const usati = {};
   an.icon = pts.map((pt, k) => {
-    const pv = paeseVicino(pt.lat, pt.lon);
-    usati[pv.n] = (usati[pv.n] || 0) + 1;
-    return { id: 'icon_' + pt.lat.toFixed(3) + '_' + pt.lon.toFixed(3), n: pv.n, lat: pt.lat, lon: pt.lon, q: q[k], p: pv.p };
+    usati[pt.n] = (usati[pt.n] || 0) + 1;
+    return { id: 'icon_' + pt.lat.toFixed(3) + '_' + pt.lon.toFixed(3), n: pt.n, lat: pt.lat, lon: pt.lon, q: q[k], p: paeseVicino(pt.lat, pt.lon).p };
   });
-  // due punti vicini allo stesso paese: «Scanno» e «Scanno 2», da nord a sud
+  // due punti con lo stesso nome (non capita il 27/10, ma GeoNames ha molte «San Martino»): il secondo prende un 2
   const conta = {};
   an.icon.forEach(pt => { if (usati[pt.n] > 1) { conta[pt.n] = (conta[pt.n] || 0) + 1; if (conta[pt.n] > 1) pt.n += ' ' + conta[pt.n]; } });
-  console.log(`📌 ${an.icon.length} punti di stima creati (griglia ${PASSO_LAT}° x ${PASSO_LON}°)`);
+  an.iconV = PUNTI_VERSIONE;
+  console.log(`📌 ${an.icon.length} punti di stima sui paesi (comuni ogni ${PUNTI_KM} km, buchi fino a ${BUCO_KM} km)`);
   return an.icon;
 }
 async function nomiMnw(an, staz) {
@@ -394,4 +429,4 @@ async function main() {
 
 // Lanciato da solo fa il giro; con require presta i pezzi (il confronto con Open-Meteo e coi pluviometri veri).
 if (require.main === module) main().catch(e => { console.error('❌', e); process.exit(1); });
-module.exports = { meteoNetwork, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, ANAGRAFE };
+module.exports = { meteoNetwork, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, puntiIcon, ANAGRAFE };
