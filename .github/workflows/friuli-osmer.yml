@@ -10,16 +10,12 @@ on:
     # Dati REALI ARPA OSMER (archivio). Ogni run copre ieri + altroieri +
     # auto-riparazione (~5gg). Orari sfalsati da meteohub (xx:50),
     # valledaosta-cf (xx:15) e ticino, per ridurre i conflitti di push.
-    # OSMER pubblica le ore del giorno appena chiuso LENTAMENTE (copertura
-    # piena in 1-2 giorni): 6 run/giorno (come nel test dal 27/7) accorciano
-    # la finestra mattutina in cui "ieri" mostra solo le 5 stazioni Veneto.
-    - cron: '35 3 * * *'
-    - cron: '30 5 * * *'
-    - cron: '35 6 * * *'
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): erano 7 run/giorno, nati
+    # quando OSMER pubblicava ieri LENTAMENTE (copertura piena in 1-2 giorni). Misurato il 26-27/10: ieri ha gia'
+    # 40 stazioni all'1 di notte e al massimo una in piu' in mattinata. I giri del mattino li lancia l'orologio su
+    # Cloudflare (4:30 e 5:45 italiane); qui restano due passate, e l'auto-riparazione recupera le ore tardive.
     - cron: '35 9 * * *'
-    - cron: '35 12 * * *'
     - cron: '35 16 * * *'
-    - cron: '35 20 * * *'
 permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo

@@ -14,11 +14,9 @@ on:
     # Ogni run raccoglie ieri + altroieri + auto-riparazione fino a 7gg.
     # Orari sfalsati rispetto a ticino.yml (xx:30) per ridurre i conflitti
     # di push tra workflow concorrenti.
-    # Run mattutini ridondanti (i cron GitHub slittano di 40-70 min) → "ieri"
-    # pronto presto. Il dato MeteoHub di ieri è disponibile subito (no lag ingestione).
-    - cron: '20 2 * * *'
-    - cron: '20 4 * * *'
-    - cron: '20 7 * * *'
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): i giri del mattino li lancia
+    # l'orologio su Cloudflare (4:30 e 5:45 italiane). Il dato MeteoHub di ieri è disponibile subito (misurato il
+    # 27/10: Sicilia 415 stazioni gia' al giro delle 4:30, poi identica). Qui restano due passate pomeridiane.
     - cron: '50 11 * * *'
     - cron: '50 17 * * *'
 permissions:

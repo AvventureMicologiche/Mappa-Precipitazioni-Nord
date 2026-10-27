@@ -7,12 +7,10 @@ on:
         required: false
         default: ''
   schedule:
-    - cron: '15 0 * * *'
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti). Le chiusure vere e il giro
+    # delle 4:30 italiane (che attacca a ieri vento e temperature complete) li lancia l'orologio su Cloudflare.
+    # I sei giri di giorno rifacevano solo «oggi», che la mappa non mostra: resta quello del mattino, come riserva.
     - cron: '15 4 * * *'
-    - cron: '15 8 * * *'
-    - cron: '15 12 * * *'
-    - cron: '15 16 * * *'
-    - cron: '15 20 * * *'
     # ⚠️ CHIUSURE SPOSTATE DI 20 MINUTI IL 19/10/2026 (quinto check, bug 14): erano 20:40/21:00/21:20 UTC, cioe'
     # 22:40-23:20 d'estate ma 21:40-22:20 d'inverno, e la prima «chiudeva» la giornata con piu' di due ore ancora
     # da contare. Alle 21:00/21:20/21:40 UTC cadono alle 23:00-23:40 d'estate e alle 22:00-22:40 d'inverno: sempre

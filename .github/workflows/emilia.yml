@@ -7,20 +7,12 @@ on:
         required: false
         default: ''
   schedule:
-    - cron: '5 0 * * *'
-    - cron: '5 4 * * *'
-    # 06:30 UTC = 08:30 italiane, aggiunto il 27/8/2026.
-    # ⚠️ ARPAE pubblica la giornata di IERI verso le 06:00 UTC (misurato dal
-    # campo _updated dell'API: il 27/8 era 06:01). Il primo giro utile era
-    # quello delle 08:05 UTC, cioe' le 10:05 italiane: ogni mattina l'Emilia
-    # arrivava in mappa con due ore di ritardo rispetto a quando il dato
-    # esisteva gia'. Il giro delle 00:05 e quello delle 04:05 non possono
-    # trovare niente e restano solo come rete di sicurezza.
-    - cron: '30 6 * * *'
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti). I giri del mattino li lancia
+    # l'orologio su Cloudflare (4:30, 5:45 e 7:15 italiane). Misurato il 26-27/10: ARPAE ha gia' ieri al giro
+    # delle 4:30 (321-327 stazioni) e ne aggiunge al massimo 3 nel primo pomeriggio. Restano due passate per le
+    # aggiunte tardive. (Il giro delle 06:30 UTC era nato il 27/8, quando ARPAE pubblicava ieri verso le 06:00 UTC.)
     - cron: '5 8 * * *'
     - cron: '5 12 * * *'
-    - cron: '5 16 * * *'
-    - cron: '5 20 * * *'
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo
 # workflow anche lui, accanto ai cron di GitHub. Due giri insieme scriverebbero gli stessi
 # file e il secondo fallirebbe al push. Cosi' il secondo aspetta che il primo finisca.

@@ -9,16 +9,13 @@ on:
   # Svizzera intera (MeteoSwiss OGD) — in PRODUZIONE dal 3 agosto 2026 (v6.0).
   # Ogni run raccoglie ieri + altroieri e auto-ripara i giorni 3..10 se mancanti
   # (il file "recent" copre l'intero anno: la riparazione non costa richieste extra).
-  # Il run delle 02:20 UTC è opportunistico: se il recent non copre ancora tutto
-  # ieri, la soglia MIN_ORE evita scritture parziali e ci pensa il run delle 04:50
-  # (alle 06:17 UTC il recent aveva già tutte le ore di ieri, verificato il 3/8).
-  # Quello delle 12:40 gira dopo il refresh ufficiale delle 12 UTC.
+  # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): i giri del mattino li lancia
+  # l'orologio su Cloudflare (4:30 e 5:45 italiane). Se il recent non copre ancora tutto ieri, la soglia MIN_ORE
+  # evita scritture parziali e ci pensa il run delle 07:40 UTC (alle 06:17 UTC il recent aveva già tutte le ore
+  # di ieri, verificato il 3/8). Quello delle 12:40 gira dopo il refresh ufficiale delle 12 UTC.
   schedule:
-    - cron: '20 2 * * *'
-    - cron: '50 4 * * *'
     - cron: '40 7 * * *'
     - cron: '40 12 * * *'
-    - cron: '10 17 * * *'
 permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo

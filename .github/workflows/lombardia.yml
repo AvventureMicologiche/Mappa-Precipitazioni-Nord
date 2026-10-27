@@ -7,14 +7,12 @@ on:
         required: false
         default: ''
   schedule:
-    # 6 run/giorno. Ogni run raccoglie ieri + altroieri (dati Socrata stabili a
+    # Ogni run raccoglie ieri + altroieri (dati Socrata stabili a
     # giorno chiuso). Orari sfalsati dagli altri workflow.
-    - cron: '40 0 * * *'
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): erano 6 run/giorno. Il giro
+    # vero lo lancia l'orologio su Cloudflare alle 4:30 italiane; qui restano il mattino e meta' giornata.
     - cron: '40 4 * * *'
-    - cron: '40 8 * * *'
     - cron: '40 12 * * *'
-    - cron: '40 16 * * *'
-    - cron: '40 20 * * *'
 permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo

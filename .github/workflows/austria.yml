@@ -14,9 +14,8 @@ on:
   # costa niente e un run fallito non perde mai dati (come Svizzera e OASI).
   # Orari sfalsati da quelli svizzeri per non accavallare i push sullo stesso repo.
   # Il dato orario dell'ultima ora di ieri è disponibile poco dopo mezzanotte
-  # (verificato il 5/8: l'API era già alle 17:00 dello stesso giorno), ma il run
-  # delle 03:10 UTC resta opportunistico — se le ore non bastano, MIN_ORE=20 evita
-  # la scrittura parziale e ci pensa quello delle 05:30.
+  # (verificato il 5/8: l'API era già alle 17:00 dello stesso giorno); se le ore
+  # non bastano, MIN_ORE=20 evita la scrittura parziale e ci pensa il giro dopo.
   # Il cron di CHIUSURA (22:40 UTC = 00:40 italiane) è il più importante: il
   # giorno solare italiano si chiude alle 22:00 UTC e l'API GeoSphere è quasi
   # in tempo reale, quindi 40 minuti dopo il totale di ieri è già completo e
@@ -26,16 +25,14 @@ on:
   # finestra buia che il Trentino aveva col bug #19, chiusa allo stesso modo.
   # Aggiunto il 6/8/2026 dopo che il buco si è visto dal vivo.
   schedule:
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): i giri veri li lancia
+    # l'orologio su Cloudflare alle 0:45 e alle 4:30 italiane; qui restano la notte e un giro nel pomeriggio.
     # ⚠️ +1 ORA IL 19/10/2026 (quinto check, bug 14): GitHub conta in UTC e non conosce l'ora legale. Alle 22:40 UTC
     # questo giro cadeva alle 00:40 d'estate ma alle 23:40 d'inverno, PRIMA della mezzanotte italiana, e non
     # chiudeva piu' il giorno. Alle 23:40 UTC cade alle 00:40 d'inverno e alle 01:40 d'estate: sempre dopo
     # mezzanotte. E' la RISERVA: il giorno lo chiude l'orologio su Cloudflare alle 00:45 italiane (sveglia-guardiano.js).
     - cron: '40 23 * * *'
-    - cron: '10 3 * * *'
-    - cron: '30 5 * * *'
-    - cron: '20 8 * * *'
     - cron: '10 13 * * *'
-    - cron: '40 17 * * *'
 permissions:
   contents: write
 # ⚠️ IN FILA, MAI DUE INSIEME (5/10/2026): dal 5/10 l'orologio su Cloudflare lancia questo

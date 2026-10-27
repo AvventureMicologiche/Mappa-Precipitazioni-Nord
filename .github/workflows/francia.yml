@@ -23,13 +23,13 @@ on:
   # portail-api.meteofrance.fr, scade il 9/8/2028): senza, il collector esce
   # subito con errore esplicito.
   schedule:
+    # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): i giri veri li lancia
+    # l'orologio su Cloudflare alle 0:45 e alle 4:30 italiane; qui restano la notte e un giro nel pomeriggio.
     # ⚠️ +1 ORA IL 19/10/2026 (quinto check, bug 14): GitHub conta in UTC e non conosce l'ora legale. Alle 22:50 UTC
     # questo giro cadeva alle 00:50 d'estate ma alle 23:50 d'inverno, PRIMA della mezzanotte italiana, e non
     # chiudeva piu' il giorno. Alle 23:55 UTC cade alle 00:55 d'inverno e alle 01:55 d'estate: sempre dopo
     # mezzanotte. E' la RISERVA: il giorno lo chiude l'orologio su Cloudflare alle 00:45 italiane (sveglia-guardiano.js).
     - cron: '55 23 * * *'
-    - cron: '25 3 * * *'
-    - cron: '45 5 * * *'
     - cron: '25 13 * * *'
 permissions:
   contents: write
