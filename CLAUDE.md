@@ -3025,6 +3025,36 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   cambiando `paesi-zone.json` va fermato (anche i processi workerd) e tolto `.wrangler/state/v3/cache`. Gli attrezzi
   (campione, prove puppeteer, resoconto della sessione cloud) stanno nel banco, `claudio\mockup-previsioni-zona\`.
 
+## Previsioni senza regione: la vista Italia (27/10/2026)
+
+Il tasto «Previsioni» della home apriva `?r=liguria&m=prev`, perche' senza regione la mappa aspettava 15 s e restava
+sullo storico. Adesso la home apre `?m=prev` e la mappa mostra la **vista Italia**: il tempo sui capoluoghi di regione,
+come fanno 3B Meteo e ilMeteo (guardati quel giorno: nessuno parte da un riquadro vuoto con le istruzioni). Vale anche
+per la linguetta «Previsioni» premuta senza regione. Mockup e prova nel banco di lavoro, `mockup-invito-previsioni\`.
+Il repo di test non l'ha.
+- **Il link senza regione e senza posto entra subito**: aspetta solo i confini sul computer e la barra in alto sul
+  telefono. ⚠️ Sul telefono i confini da cliccare non si disegnano (c'e' la tendina): aspettando quelli si restava 15 s.
+- **L'area finta `italia` in `data/capoluoghi.json`**: i 21 capoluoghi di regione (Aosta e Bolzano compresi), dal piu'
+  abitato, perche' l'ordine decide chi resta quando le etichette si diradano. Non e' una regione scelta: `regioni()` e
+  `zone()` restano vuote, `chiavi()` da' `['italia']` e la usa solo il disegno. ⚠️ 21 citta' in una richiesta sono lo
+  stesso numero delle 21 zone della Toscana (`zonedi=`), che col tetto di 50 sottorichieste di Cloudflare va; in locale
+  quel tetto non c'e', quindi si guarda su un'anteprima di ramo prima della produzione.
+- **Si diradano, non si spostano** (`dirada()`, la regola delle pagine /meteo/): chi toccherebbe un'etichetta piu'
+  importante o un riquadro (giorni, scheda, vetrina, barra del telefono) si nasconde e ricompare ingrandendo: 11 su 21
+  sul computer, 8 sul telefono. ⚠️ Si nasconde il CONTENITORE di Leaflet: nascondendo solo l'etichetta il contenitore
+  restava cliccabile, e un clic vicino a Siena apriva una citta' invisibile invece della Toscana.
+- Le temperature restano anche sotto lo zoom 7,6 (`lontano()` salta la vista Italia).
+- **Computer**: si tocca una citta' (scheda ora per ora) o una regione (si passa ai suoi capoluoghi; i confini non
+  pulsano ma restano cliccabili e si scuriscono sotto il mouse). Sopra la casella il **fumetto** azzurro «Tocca una
+  citta', una regione o digita una localita' qui sotto» (sua scelta fra quattro stili; la frase sotto i giorni l'ha
+  bocciata, «troppo lunga»). **Telefono**: niente fumetto, la ricerca e' la barra in alto.
+- Se le previsioni dell'Italia non arrivano resta l'invito di prima (`invito()`, la variante C4 dell'8/10).
+- **Niente lampo dello storico coi link `?m=prev`**: le previsioni partono a mappa pronta e fino ad allora si vedeva lo
+  storico (su una rete lenta da telefono ~12 s, col pannello dei periodi). Uno script in fondo alla `<head>` mette la
+  classe `apre-prev` su `<html>`: periodi, aiuto, legenda e pallini nascosti, linguetta Previsioni accesa. La toglie
+  `entra()`, o da sola dopo 20 s se le previsioni non partono. Contato fotogramma per fotogramma: lo storico prima si
+  vedeva in 3-6 fotogrammi anche in locale, adesso in 0. Vale per tutti i link alle previsioni, anche delle pagine.
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
