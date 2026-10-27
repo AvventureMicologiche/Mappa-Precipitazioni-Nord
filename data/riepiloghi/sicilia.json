@@ -1,104 +1,104 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-26T04:15:31.619Z",
+ "generato": "2026-10-27T04:15:30.747Z",
  "periodi": {
   "1": {
-   "media": 3.4,
+   "media": 2.1,
    "giorni": 1,
-   "stazioni": 412,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "stazioni": 410,
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Isnello SP54",
-     "mm": 48.2
+     "n": "Caronia Pomiere SIAS",
+     "mm": 26
     },
     {
-     "n": "Caronia Pomiere SIAS",
-     "mm": 30.6
+     "n": "San Fratello Forestale",
+     "mm": 25.2
+    },
+    {
+     "n": "Isnello SP54",
+     "mm": 24.4
     },
     {
      "n": "Miraglia",
-     "mm": 29
+     "mm": 24
     },
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 27
-    },
-    {
-     "n": "Collesano",
-     "mm": 23.5
+     "n": "Reitano",
+     "mm": 21.4
     }
    ]
   },
   "7": {
-   "media": 20.4,
+   "media": 18.5,
    "giorni": 7,
-   "stazioni": 415,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "stazioni": 413,
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 255
-    },
-    {
-     "n": "Piedimonte Etneo",
-     "mm": 239.8
-    },
-    {
-     "n": "Forza d'Agro'",
-     "mm": 239.2
+     "mm": 195.7
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 235.9
+     "mm": 156.6
     },
     {
-     "n": "Letojanni",
-     "mm": 219.7
+     "n": "Forza d'Agro'",
+     "mm": 151
+    },
+    {
+     "n": "Noto SIAS",
+     "mm": 140.2
+    },
+    {
+     "n": "Piedimonte Etneo",
+     "mm": 135.8
     }
    ]
   },
   "20": {
-   "media": 59,
+   "media": 61,
    "giorni": 20,
-   "stazioni": 417,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "stazioni": 416,
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 340.8
+     "mm": 339.7
     },
     {
      "n": "Forza d'Agro'",
-     "mm": 326.5
+     "mm": 325.2
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 321.4
+     "mm": 320.3
     },
     {
      "n": "Letojanni",
-     "mm": 302.3
+     "mm": 300.9
     },
     {
      "n": "Melia",
-     "mm": 289.2
+     "mm": 287.4
     }
    ]
   },
   "30": {
-   "media": 61.7,
+   "media": 61.4,
    "giorni": 30,
-   "stazioni": 419,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "stazioni": 420,
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 340.8
+     "mm": 341
     },
     {
      "n": "Forza d'Agro'",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 321.4
+     "mm": 321.6
     },
     {
      "n": "Letojanni",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  2.1,
   3.4,
   1.9,
   0,
@@ -148,18 +149,17 @@
   0.1,
   0.3,
   0,
-  0,
-  2.3
+  0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-25",
-   "m1": 17.3,
-   "m7": 26,
-   "m30": 112.8,
+   "ultimo": "2026-10-26",
+   "m1": 7.3,
+   "m7": 33.2,
+   "m30": 120,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-25",
-   "m1": 20.1,
-   "m7": 27.7,
-   "m30": 108.6,
+   "ultimo": "2026-10-26",
+   "m1": 12.9,
+   "m7": 40.6,
+   "m30": 121.5,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,75 +1,75 @@
 {
  "regione": "valledaosta",
- "generato": "2026-10-26T04:15:31.616Z",
+ "generato": "2026-10-27T04:15:30.743Z",
  "periodi": {
   "1": {
-   "media": 5.9,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 70,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 37.1
-    },
-    {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 32.9
-    },
-    {
-     "n": "Valgrisenche - Menthieu",
-     "mm": 24
-    },
-    {
-     "n": "La Thuile - La Grande Tête",
-     "mm": 22
-    },
-    {
      "n": "Valtournenche - Grandes Murailles",
-     "mm": 16.6
+     "mm": 6
+    },
+    {
+     "n": "Aosta - Mont-Fleury",
+     "mm": 0.4
+    },
+    {
+     "n": "Pontey - Ponte Dora Baltea",
+     "mm": 0.2
+    },
+    {
+     "n": "Verrès - Capoluogo",
+     "mm": 0.2
+    },
+    {
+     "n": "Villeneuve - S.R. Saint-Nicolas",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 46.8,
+   "media": 45.4,
    "giorni": 7,
    "stazioni": 69,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Lillianes - Granges",
-     "mm": 134.4
+     "mm": 130.4
     },
     {
      "n": "Pontboset - Fournier",
-     "mm": 115.2
+     "mm": 113.6
     },
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 111.6
+     "mm": 106.2
     },
     {
      "n": "Donnas - Clapey",
-     "mm": 104
+     "mm": 100.8
     },
     {
      "n": "Hône - Ayasse",
-     "mm": 95.6
+     "mm": 92.4
     }
    ]
   },
   "20": {
-   "media": 65.1,
+   "media": 64.8,
    "giorni": 20,
    "stazioni": 70,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 164.6
+     "mm": 163.4
     },
     {
      "n": "Lillianes - Granges",
@@ -81,20 +81,20 @@
     },
     {
      "n": "Pontboset - Fournier",
-     "mm": 143.4
+     "mm": 142.8
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 142.4
+     "mm": 141.9
     }
    ]
   },
   "30": {
-   "media": 67.1,
+   "media": 67.2,
    "giorni": 30,
    "stazioni": 69,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   5.9,
   1,
   5.3,
@@ -148,29 +149,28 @@
   0.3,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-10-25",
-   "m1": 1.3,
-   "m7": 99.2,
+   "ultimo": "2026-10-26",
+   "m1": 0,
+   "m7": 96.3,
    "m30": 125.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-10-25",
-   "m1": 2.9,
-   "m7": 36.1,
-   "m30": 45.5,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 35.7,
+   "m30": 45.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,21 +178,21 @@
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-10-25",
-   "m1": 4.2,
+   "ultimo": "2026-10-26",
+   "m1": 0,
    "m7": 23.2,
    "m30": 36.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-10-25",
-   "m1": 0.9,
-   "m7": 89,
-   "m30": 109.3,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 86.9,
+   "m30": 109.4,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,47 +1,47 @@
 {
  "regione": "toscana",
- "generato": "2026-10-26T04:15:31.618Z",
+ "generato": "2026-10-27T04:15:30.745Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 368,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Cercina (FI)",
-     "nb": "Cercina",
-     "mm": 5.8
+     "n": "Castellina Marittima (PI)",
+     "nb": "Castellina Marittima",
+     "mm": 3.8
     },
     {
-     "n": "Parrana San Martino (LI)",
-     "nb": "Parrana San Martino",
-     "mm": 5.8
+     "n": "Sassetta (LI)",
+     "nb": "Sassetta",
+     "mm": 1.4
     },
     {
-     "n": "S. Luce (PI)",
-     "nb": "S. Luce",
-     "mm": 5.8
+     "n": "Pratomagno (AR)",
+     "nb": "Pratomagno",
+     "mm": 1
     },
     {
-     "n": "Santermo (PI)",
-     "nb": "Santermo",
-     "mm": 5.6
+     "n": "Borgo S. Lorenzo 2 (FI)",
+     "nb": "Borgo S. Lorenzo 2",
+     "mm": 0.8
     },
     {
-     "n": "Siberia (PI)",
-     "nb": "Siberia",
-     "mm": 5.4
+     "n": "Castiglion Fibocchi (AR)",
+     "nb": "Castiglion Fibocchi",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 58.8,
+   "media": 58.9,
    "giorni": 7,
    "stazioni": 368,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Patresi Mortigliano (LI)",
@@ -51,7 +51,7 @@
     {
      "n": "Convalle (LU)",
      "nb": "Convalle",
-     "mm": 198
+     "mm": 198.2
     },
     {
      "n": "Fornovolasco (LU)",
@@ -71,11 +71,11 @@
    ]
   },
   "20": {
-   "media": 108.4,
+   "media": 108.1,
    "giorni": 20,
    "stazioni": 368,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Retignano (LU)",
@@ -105,11 +105,11 @@
    ]
   },
   "30": {
-   "media": 110.4,
+   "media": 110.5,
    "giorni": 30,
    "stazioni": 368,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Retignano (LU)",
@@ -119,7 +119,7 @@
     {
      "n": "Fornovolasco (LU)",
      "nb": "Fornovolasco",
-     "mm": 315.1
+     "mm": 314.9
     },
     {
      "n": "Palagnana (LU)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.1,
   0.7,
   1.4,
   12.3,
@@ -168,15 +169,14 @@
   0.1,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": [
   {
    "s": "val-di-magra",
    "n": "Val di Magra",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
    "m7": 81,
    "m30": 159.2,
@@ -187,9 +187,9 @@
   {
    "s": "lunigiana",
    "n": "Lunigiana",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
-   "m7": 93.5,
+   "m7": 93.2,
    "m30": 190.6,
    "p1": false,
    "p7": true,
@@ -220,10 +220,10 @@
   {
    "s": "mugello",
    "n": "Mugello",
-   "ultimo": "2026-10-25",
-   "m1": 1.4,
-   "m7": 28.1,
-   "m30": 56.6,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 28.2,
+   "m30": 56.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -264,10 +264,10 @@
   {
    "s": "val-d-orcia",
    "n": "Val d'Orcia",
-   "ultimo": "2026-10-25",
-   "m1": 0,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
    "m7": 57,
-   "m30": 88.9,
+   "m30": 89.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -275,10 +275,10 @@
   {
    "s": "valdinievole",
    "n": "Valdinievole",
-   "ultimo": "2026-10-25",
-   "m1": 0.9,
-   "m7": 80,
-   "m30": 116.9,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 80.1,
+   "m30": 117,
    "p1": true,
    "p7": true,
    "p30": true
@@ -286,10 +286,10 @@
   {
    "s": "alpe-di-poti",
    "n": "Alpe di Poti",
-   "ultimo": "2026-10-25",
-   "m1": 0.2,
-   "m7": 33.6,
-   "m30": 82.9,
+   "ultimo": "2026-10-26",
+   "m1": 0.3,
+   "m7": 33.9,
+   "m30": 83.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -297,10 +297,10 @@
   {
    "s": "colline-metallifere",
    "n": "Colline Metallifere",
-   "ultimo": "2026-10-25",
-   "m1": 0.6,
-   "m7": 46,
-   "m30": 83.2,
+   "ultimo": "2026-10-26",
+   "m1": 0.3,
+   "m7": 46.3,
+   "m30": 83.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -308,21 +308,21 @@
   {
    "s": "alpi-apuane",
    "n": "Alpi Apuane",
-   "ultimo": "2026-10-25",
-   "m1": 0.1,
+   "ultimo": "2026-10-26",
+   "m1": 0,
    "m7": 111.4,
    "m30": 244.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valdarno",
    "n": "Valdarno",
-   "ultimo": "2026-10-25",
-   "m1": 1.6,
-   "m7": 27.1,
-   "m30": 82.8,
+   "ultimo": "2026-10-26",
+   "m1": 0.3,
+   "m7": 27.3,
+   "m30": 83.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -330,10 +330,10 @@
   {
    "s": "media-valle-del-serchio",
    "n": "Media Valle del Serchio",
-   "ultimo": "2026-10-25",
-   "m1": 0.3,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
    "m7": 117.4,
-   "m30": 184,
+   "m30": 184.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -341,10 +341,10 @@
   {
    "s": "valdelsa",
    "n": "Valdelsa",
-   "ultimo": "2026-10-25",
-   "m1": 1.4,
-   "m7": 35.5,
-   "m30": 65.1,
+   "ultimo": "2026-10-26",
+   "m1": 0.2,
+   "m7": 35.7,
+   "m30": 65.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -352,9 +352,9 @@
   {
    "s": "candalla",
    "n": "Candalla",
-   "ultimo": "2026-10-25",
-   "m1": 0.1,
-   "m7": 147,
+   "ultimo": "2026-10-26",
+   "m1": 0,
+   "m7": 147.1,
    "m30": 265.7,
    "p1": true,
    "p7": true,
@@ -363,21 +363,21 @@
   {
    "s": "colline-metallifere-grossetane",
    "n": "Colline Metallifere grossetane",
-   "ultimo": "2026-10-25",
-   "m1": 0.1,
+   "ultimo": "2026-10-26",
+   "m1": 0,
    "m7": 53.7,
    "m30": 96.6,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monte-pisano",
    "n": "Monte Pisano",
-   "ultimo": "2026-10-25",
-   "m1": 1.2,
-   "m7": 68.8,
-   "m30": 101.4,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 68.9,
+   "m30": 101.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -385,10 +385,10 @@
   {
    "s": "colline-livornesi",
    "n": "Colline Livornesi",
-   "ultimo": "2026-10-25",
-   "m1": 3.7,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
    "m7": 85.2,
-   "m30": 143.2,
+   "m30": 143.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -396,9 +396,9 @@
   {
    "s": "val-di-merse",
    "n": "Val di Merse",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
-   "m7": 38.7,
+   "m7": 38.5,
    "m30": 75.5,
    "p1": false,
    "p7": true,

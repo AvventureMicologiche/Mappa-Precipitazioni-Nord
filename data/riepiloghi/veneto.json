@@ -1,47 +1,47 @@
 {
  "regione": "veneto",
- "generato": "2026-10-26T10:32:48.267Z",
+ "generato": "2026-10-27T04:15:30.744Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.4,
    "giorni": 1,
    "stazioni": 185,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Rovina di Cancia (Q2267) (BL)",
-     "nb": "Rovina di Cancia (Q2267)",
-     "mm": 2.4
+     "n": "Bibione (VE)",
+     "nb": "Bibione",
+     "mm": 21
+    },
+    {
+     "n": "Marano di Valpolicella (VR)",
+     "nb": "Marano di Valpolicella",
+     "mm": 11.2
+    },
+    {
+     "n": "Isola Vicentina (VI)",
+     "nb": "Isola Vicentina",
+     "mm": 10
+    },
+    {
+     "n": "Rio Gravasecca (Pra dell'Agnello) (BL)",
+     "nb": "Rio Gravasecca (Pra dell'Agnello)",
+     "mm": 3.2
     },
     {
      "n": "Rio Popena (Val delle Barache) (BL)",
      "nb": "Rio Popena (Val delle Barache)",
-     "mm": 1.8
-    },
-    {
-     "n": "Rio Chiesa Alto (Livinallongo) (BL)",
-     "nb": "Rio Chiesa Alto (Livinallongo)",
-     "mm": 1.4
-    },
-    {
-     "n": "Crespadoro (VI)",
-     "nb": "Crespadoro",
-     "mm": 0.4
-    },
-    {
-     "n": "Ru de Vaccia (Monte Campoduro) (BL)",
-     "nb": "Ru de Vaccia (Monte Campoduro)",
-     "mm": 0.4
+     "mm": 2.8
     }
    ]
   },
   "7": {
-   "media": 48.1,
+   "media": 48.4,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Castana (VI)",
@@ -71,11 +71,11 @@
    ]
   },
   "20": {
-   "media": 66.7,
+   "media": 67.1,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Castana (VI)",
@@ -95,7 +95,7 @@
     {
      "n": "Staro (Valli del Pasubio) (VI)",
      "nb": "Staro (Valli del Pasubio)",
-     "mm": 178.1
+     "mm": 178.3
     },
     {
      "n": "Tonezza del Cimone (VI)",
@@ -105,11 +105,11 @@
    ]
   },
   "30": {
-   "media": 66.9,
+   "media": 67.3,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Castana (VI)",
@@ -129,7 +129,7 @@
     {
      "n": "Staro (Valli del Pasubio) (VI)",
      "nb": "Staro (Valli del Pasubio)",
-     "mm": 178.1
+     "mm": 178.3
     },
     {
      "n": "Tonezza del Cimone (VI)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.4,
   0,
   1,
   6,
@@ -168,15 +169,14 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
    "m7": 137.7,
    "m30": 159.6,
@@ -187,10 +187,10 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
    "m7": 139.5,
-   "m30": 152,
+   "m30": 148.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,7 +198,7 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
    "m7": 75.5,
    "m30": 82.9,
@@ -209,40 +209,40 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-10-25",
-   "m1": 0,
-   "m7": 144.3,
-   "m30": 173.4,
-   "p1": false,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 144.4,
+   "m30": 173.5,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-10-25",
-   "m1": 0,
-   "m7": 84.7,
-   "m30": 93.6,
-   "p1": false,
+   "ultimo": "2026-10-26",
+   "m1": 0.1,
+   "m7": 84.8,
+   "m30": 93.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-10-25",
-   "m1": 0.1,
-   "m7": 115.5,
+   "ultimo": "2026-10-26",
+   "m1": 0,
+   "m7": 115.2,
    "m30": 122.2,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-10-25",
+   "ultimo": "2026-10-26",
    "m1": 0,
    "m7": 66,
    "m30": 76.2,
