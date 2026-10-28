@@ -13,7 +13,7 @@
 const UA = 'precipitazioni.avventuremicologiche.it (avventuremicologiche@gmail.com)';
 const PROB = true;
 const TETTO_CACHE = 3600, MIN_CACHE = 600;
-const VERSIONE = 13; // alzare quando cambia la forma della risposta: la cache vecchia non si rilegge (11: simbolo del giorno, 18/10/2026; 12: le tre correzioni del simbolo, 19/10/2026; 13: la % per istante UTC, 19/10/2026)
+const VERSIONE = 14; // alzare quando cambia la forma della risposta: la cache vecchia non si rilegge (11: simbolo del giorno, 18/10/2026; 12: le tre correzioni del simbolo, 19/10/2026; 13: la % per istante UTC, 19/10/2026; 14: le citta' grandi nella vista Italia, 28/10/2026)
 // tempi massimi (19/10/2026, quinto check, bug 12): prima nessuno, e una fonte appesa teneva ferma la risposta
 // finche' Cloudflare non chiudeva la funzione. MET oltre 8 s = errore per quel punto; Open-Meteo oltre 4 s = niente %
 const TEMPO_MET_MS = 8000, TEMPO_PROB_MS = 4000;

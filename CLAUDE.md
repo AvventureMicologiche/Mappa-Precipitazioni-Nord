@@ -3164,6 +3164,41 @@ Il repo di test non l'ha.
   `entra()`, o da sola dopo 20 s se le previsioni non partono. Contato fotogramma per fotogramma: lo storico prima si
   vedeva in 3-6 fotogrammi anche in locale, adesso in 0. Vale per tutti i link alle previsioni, anche delle pagine.
 
+### Rifatta il 28/10/2026 sera: icone, cartina a rilievo, banner che scorre
+
+⚠️ **Le etichette coi nomi qui sopra NON ci sono piu'** (punti «L'area finta», «Si diradano»: storia). Suo, dopo un'ora
+di tentativi sulle etichette: «mancano Padova, Firenze, Genova», «deve sembrare un sito al livello loro», «come fanno gli
+altri?». Guardati 3B Meteo, ilMeteo e Meteo.it su telefono e computer: tutti e tre ICONE SENZA NOMI su una cartina SENZA
+SCRITTE, e le temperature a parte. Sue scelte fra quattro proposte e tre stili:
+- **Solo icone** (`.pv-m.vi-ico`, bordo scuro perche' stacchino) su 92 citta' fisse: le 29 di `italia` (i 21 capoluoghi
+  + Catania, Verona, Messina, Udine, Sassari, Grosseto, Brescia, Lecce; Padova e Bergamo tolte da lui) e i punti a 40 km
+  di `italia-nord` (35) e `italia-sud` (28) in `data/capoluoghi.json`: tre richieste, ognuna sotto il tetto di 50
+  sottorichieste. Un'icona che tocca un'altra icona, un riquadro o il banner si nasconde (`dirada()`), misurata sull'icona
+  sola: le citta' sono fisse e l'icona non cambia misura col giorno (le etichette si, e Aosta andava e veniva).
+- **Cartina a rilievo senza nomi** (`viFondo()`): Esri Ocean Base per il mare + Esri `Elevation/World_Hillshade` fusa in
+  multiply, scurite col CSS; due pane sopra la cartina di sempre, solo nella vista Italia e sotto lo zoom 7,5. Tessere con
+  la chiave ArcGIS del satellite (`window._esriChiave`, presa da `SAT_FOTO`); senza chiave (repo di test) il servizio
+  pubblico. ⚠️ Con la chiave `World_Shaded_Relief` da' 404. Scartate: Light_Gray_Base (ha i nomi), Terrain_Base ritinta
+  (mare rosa), colori pieni con la sagoma verde.
+- **Banner che scorre** (`viPezzi()`, `#vi-nastro`): le 29 di `italia` con icona, minima e massima, stile Sky: fascia
+  gialla, filetti rossi, blocco rosso «METEO ITALIA» col giorno, tagliato in diagonale. Scorre a ~45 px/s, fermo col mouse
+  sopra e al tocco (riparte dopo 3 s), un tocco su una citta' apre la sua scheda. Al computer in fondo alla mappa (i
+  crediti salgono sopra, `inquadraItaliaPc()` mette l'Italia sopra il banner); al telefono in fondo allo schermo sotto il
+  riquadro dei giorni (suo: «il banner sotto e il meteo sopra»).
+- **Niente vetrina** nella vista Italia (`vi-senza-vetrina`), computer e telefono. Scegliendo una regione torna tutto
+  com'era: etichette coi nomi, cartina di sempre, vetrina.
+- Misurato (prova `prova-finale.js`, scratchpad cfea5199 `meteo-paese\`): Capo Passero 22-232 px sopra il banner in 4
+  misure, 63 icone a 1920 px e 33 al telefono, tessere Esri tutte con la chiave e nessuna a vuoto.
+- ⚠️ **Lenta e col lampo della versione vecchia** (suo, la sera stessa sull'anteprima): il disegno aspettava tutte le
+  aree, e la prima volta `italia` ci metteva 2,7 s, i 35 punti del nord 14 s e i 28 del sud oltre 60 s (la Function
+  chiede MET a gruppi di 6). Adesso si aspetta solo `italia`; le icone in piu' sono quattro gruppi da ~16
+  (`italia-alto`, `italia-nord`, `italia-centro`, `italia-sud`, divisi per latitudine), chiesti dopo e in parallelo da
+  `caricaIcone()`, e si aggiungono man mano; il banner si riscrive solo cambiando giorno, se no ripartirebbe da capo a
+  ogni gruppo. Il link senza regione ne' posto mette `apre-italia` su `<html>` (script in testa): vetrina e cartina di
+  sempre nascoste e fondo scuro da subito, rilievo chiesto gia' in `entra()`; la toglie `viPezzi()` al primo disegno
+  (o `invito()`, o i 20 s di sicurezza). Prova `prova-apertura.js`: sull'anteprima icone a 1,3 s al computer, vetrina e
+  OpenStreetMap mai visibili.
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
