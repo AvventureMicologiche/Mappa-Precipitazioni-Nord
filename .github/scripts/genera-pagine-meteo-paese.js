@@ -38,6 +38,41 @@ const { METEO_PAESI, ZONE_METEO_TUTTE, CSS, clientePagina, paginaIndice, scrivi,
 
 const RADICE = path.join(__dirname, '..', '..');
 
+/* ⚠️ I CAPOLUOGHI DI PROVINCIA SI VEDONO SEMPRE nell'anteprima «Previsioni» (28/10/2026, suo: «i capoluoghi di provincia
+   si devono vedere sempre, è più importante Savona di Millesimo»). In capoluoghi.json «s» e' la SIGLA della provincia e
+   non dice chi e' il capoluogo (Millesimo e Savona: SV), e col numero di abitanti non basta (Busto Arsizio > Varese,
+   Marsala > Trapani, Gela > Caltanissetta): l'elenco e' scritto qui. Province con piu' capoluoghi: tutti. */
+const normNome = t => String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’`]/g, "'").replace(/\s+/g, ' ').trim();
+const CAPOLUOGHI_PROVINCIA = new Set([
+  'Torino', 'Alessandria', 'Asti', 'Biella', 'Cuneo', 'Novara', 'Verbania', 'Vercelli', 'Aosta',
+  'Milano', 'Bergamo', 'Brescia', 'Como', 'Cremona', 'Lecco', 'Lodi', 'Mantova', 'Monza', 'Pavia', 'Sondrio', 'Varese',
+  'Trento', 'Bolzano', 'Venezia', 'Belluno', 'Padova', 'Rovigo', 'Treviso', 'Verona', 'Vicenza',
+  'Trieste', 'Gorizia', 'Pordenone', 'Udine', 'Genova', 'Imperia', 'La Spezia', 'Savona',
+  'Bologna', 'Ferrara', 'Forlì', 'Cesena', 'Modena', 'Parma', 'Piacenza', 'Ravenna', 'Reggio Emilia', "Reggio nell'Emilia", 'Rimini',
+  'Firenze', 'Arezzo', 'Grosseto', 'Livorno', 'Lucca', 'Massa', 'Carrara', 'Pisa', 'Pistoia', 'Prato', 'Siena',
+  'Perugia', 'Terni', 'Ancona', 'Ascoli Piceno', 'Fermo', 'Macerata', 'Pesaro', 'Urbino',
+  'Roma', 'Frosinone', 'Latina', 'Rieti', 'Viterbo', "L'Aquila", 'Chieti', 'Pescara', 'Teramo', 'Campobasso', 'Isernia',
+  'Napoli', 'Avellino', 'Benevento', 'Caserta', 'Salerno', 'Bari', 'Barletta', 'Andria', 'Trani', 'Brindisi', 'Foggia', 'Lecce', 'Taranto',
+  'Potenza', 'Matera', 'Catanzaro', 'Cosenza', 'Crotone', 'Reggio Calabria', 'Reggio di Calabria', 'Vibo Valentia',
+  'Palermo', 'Agrigento', 'Caltanissetta', 'Catania', 'Enna', 'Messina', 'Ragusa', 'Siracusa', 'Trapani',
+  'Cagliari', 'Sassari', 'Nuoro', 'Oristano', 'Carbonia', 'Iglesias', 'Olbia', 'Tempio Pausania', 'Tortolì', 'Lanusei', 'Sanluri', 'Villacidro',
+].map(normNome));
+// le citta' dell'anteprima nell'ordine in cui si mettono: capoluogo di regione, di provincia, poi gli altri, dal piu' abitato
+let ABITANTI = null;
+function ordineCitta(reg) {
+  if (!ABITANTI) {
+    ABITANTI = {};
+    for (const r of fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n')) {
+      const p = r.split('|'); if (p.length >= 6) ABITANTI[normNome(p[0]) + '|' + p[4]] = +p[5] || 0;
+    }
+  }
+  const tutte = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'capoluoghi.json'), 'utf8'))[reg] || [];
+  const cap = c => c.c || CAPOLUOGHI_PROVINCIA.has(normNome(c.n));
+  const ab = c => ABITANTI[normNome(c.n) + '|' + reg] || 0;
+  const ord = tutte.slice().sort((a, b) => (b.c ? 1 : 0) - (a.c ? 1 : 0) || (cap(b) ? 1 : 0) - (cap(a) ? 1 : 0) || ab(b) - ab(a));
+  return { ord: ord.map(c => c.n), cap: ord.filter(cap).length };
+}
+
 // i tre bottoni con l'anteprima (28/10/2026): l'etichetta gialla all'85% come i riquadri «Guarda la pioggia» delle
 // pagine funghi (lib-striscia.js, sua scelta del 20/10), su una cartina viva che non si tocca (il clic va al link)
 const CSS_PAESE = `
@@ -56,8 +91,72 @@ const CSS_PAESE = `
 /* quelle che col nome non ci stanno: prima senza nome, poi solo icona e massima (si toglie solo quella che non ci sta nemmeno cosi') */
 .pz-ant-v .pz-et.corta .nm,.pz-ant-v .pz-et.mini .nm,.pz-ant-v .pz-et.mini .mn{display:none}
 .pz-ant-v .pz-et.mini{padding:0 4px 1px}.pz-ant-v .pz-et.mini .ic{margin-right:1px}
+/* i capoluoghi di provincia non perdono mai il nome: se non ci stanno perdono la minima (28/10/2026) */
+.pz-ant-v .pz-et.nome .mn{display:none}
 @media (min-width:700px){.pz-ant-v{height:300px}}
+
+/* ── LA TESTATA (28/10/2026, suo: «non c'è intestazione nell'header, ma solo mappa pluviometrica, non c'è scritto chi
+   siamo o altri bottoni ma solo quello iscriviti»). Scelta fra tre proposte provate sulla pagina vera, dopo aver guardato
+   3B Meteo, ilMeteo e Meteo.it: la «B», come ilMeteo. In alto la striscia scura col menu, le voci come i due bottoni della
+   home (Storico piogge, Previsioni meteo: suo, «come in home») piu' la Guida, a destra Chi siamo e Contatti (la home,
+   #noi e #piede); sotto la fascia bianca col nome, chi siamo e Iscriviti. Tolti su sua richiesta Radar, Pioggia caduta
+   (doppione dello storico), Meteo dei paesi (doppione delle previsioni) e Mappa boschi. Al telefono il menu sta SOTTO il
+   nome e scorre di lato, senza ☰ da scoprire. Classi tutte «t-»: la pagina usa gia' .pc (la probabilita' di pioggia).
+   ⚠️ header ha gia' display:flex, align-items:center e flex-wrap:wrap (lo stile della pagina regione): senza nowrap e
+   stretch la striscia al telefono si allargava quanto le sue voci e la pagina sbordava a 741 px. */
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+.tB a{text-decoration:none}
+/* LARGA COME LA PAGINA (28/10/2026, suo: «le scritte in alto non sono simmetriche», scelta «testata larga come la
+   pagina»): la stessa colonna di main (760 px con 16 di margine), cosi' «Storico piogge» e il logo partono dove parte
+   il titolo e «Contatti» e Iscriviti finiscono dove finisce la scheda. Nella striscia 5 px di margine: con gli 11 delle
+   voci fanno i 16 della pagina. In 728 px «Iscriviti al canale» e la frase sotto il nome non ci stavano: «Iscriviti». */
+.tB .t-in{max-width:760px;margin:0 auto;width:100%;padding:0 16px;display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 5px}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-in{padding:0 16px}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 5px;-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+/* a 360 px «Mappa Pluviometrica» andava su due righe */
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}}
 `;
+const YT_ICONA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>';
+function testata(reg, ga) {
+  const vai = k => ` onclick="try{gtag('event','apri_mappa',{da:'${ga}-testata-${k}'})}catch(e){}"`;
+  return `<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in">`
+    + `<a href="${SITO}/?r=${reg}"${vai('storico')}>Storico piogge</a>`
+    + `<a class="on" href="${SITO}/previsioni/?r=${reg}"${vai('previsioni')}>Previsioni meteo</a>`
+    + `<a href="${SITO}/guida/">Guida</a>`
+    + `<span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="${SITO}/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata in tutta Italia · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="${CANALE}" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'${ga}'})}catch(e){}">${YT_ICONA}<span>Iscriviti</span></a>
+  </div></div>
+</header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>`;
+}
 
 function pagina(p, QUOTE_DI) {
   const [reg, locSlug] = p.loc.split('/');
@@ -94,7 +193,7 @@ function pagina(p, QUOTE_DI) {
   const C = { sito: SITO, raw: RAW, slug: 'paese-' + p.slug, reg, dove: p.dove, valle: 'zona', inValle: p.dove, diValle: '',
     rilievo: RILIEVO, quote, pluv: [], solo: true, paese: p.loc, giorni: 'funghi/' + reg + '-giorni.json', id,
     nomi: p.nomi || null, primo: p.primo || null, intorno: p.n + ' e i paesi intorno', alPluv, evento: 'meteo_paese',
-    ant: { confine: confineDi(casa) } };
+    ant: Object.assign({ confine: confineDi(casa) }, ordineCitta(reg)) };
   /* ⚠️ TRE BOTTONI, CON L'ANTEPRIMA, UNO SOTTO L'ALTRO, E TUTTI VERSO LA MAPPA (28/10/2026, suo: «i pulsanti devono essere
      meno, i funghi è inutile, basta radar, previsioni Liguria, pluvio Liguria»; e poi: «rimandi a un'altra pagina tipo
      dove ha piovuto, ma per chi legge è una pagina troppo simile: quei 3 pulsanti ti devono mandare sulle rispettive
@@ -136,11 +235,7 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
 <style>${STILE}${CSS}${CSS_PAESE}</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'${ga}'})}catch(e){}">▶ Iscriviti</a>
-</header>
+${testata(reg, ga)}
 <main>
 <p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/meteo/">Previsioni meteo</a> › ${esc(p.n)}</p>
 <h1>Meteo ${esc(p.n)}</h1>

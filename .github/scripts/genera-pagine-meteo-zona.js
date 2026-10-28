@@ -586,14 +586,21 @@ function clientePagina(C) {
   function antPrev() {
     var m = miniMappa('ant-prev');
     fetch(API + '?capoluoghi=' + REG).then(function (r) { return r.json(); }).then(function (j) {
-      // prima il capoluogo di regione, poi quelli di provincia: l'ordine decide chi resta quando si diradano
-      var cc = (j.capoluoghi || []).slice().sort(function (a, b) { return (b.c ? 2 : b.s ? 1 : 0) - (a.c ? 2 : a.s ? 1 : 0); });
+      /* ⚠️ L'ORDINE LO DA' IL GENERATORE (C.ant.ord, 28/10/2026, suo: «i capoluoghi di provincia si devono vedere sempre,
+         è più importante Savona di Millesimo»): il capoluogo di regione, quelli di provincia, poi gli altri, ognuno dal
+         piu' abitato. Prima si guardava «s», ma e' la SIGLA della provincia: Millesimo e Savona hanno tutte e due SV, e
+         nell'ordine dell'API (alfabetico) Millesimo si prendeva il posto e Savona, che la toccava, spariva. I primi
+         C.ant.cap dell'elenco sono i capoluoghi: non si tolgono mai (vedi sotto). */
+      var ORD = C.ant.ord || [], rk = function (c) { var i = ORD.indexOf(c.n); return i < 0 ? 999 : i; };
+      var cc = (j.capoluoghi || []).slice().sort(function (a, b) { return (b.c ? 1 : 0) - (a.c ? 1 : 0) || rk(a) - rk(b); });
       // inquadrate le CITTA', non il confine: in Toscana le isole dell'arcipelago rimpicciolivano tutto
-      if (cc.length > 1) m.fitBounds(L.latLngBounds(cc.map(function (c) { return [c.lat, c.lon]; })), { paddingTopLeft: [34, 40], paddingBottomRight: [34, 22] });
+      // ⚠️ senza animazione (28/10/2026): le etichette si misurano subito qui sotto, e durante lo zoom animato erano a
+      // meta' strada (al telefono Arezzo spariva senza toccare niente)
+      if (cc.length > 1) m.fitBounds(L.latLngBounds(cc.map(function (c) { return [c.lat, c.lon]; })), { paddingTopLeft: [34, 40], paddingBottomRight: [34, 22], animate: false });
       cc.forEach(function (c, n) {
         var g = (c.giorni || []).filter(function (x) { return x.g === OGGI; })[0]; if (!g) return;
         L.marker([c.lat, c.lon], { interactive: false, zIndexOffset: 1000 - n, icon: L.divIcon({ className: '', iconSize: [0, 0],
-          html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '"><span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span></span><span class="nm">' + esc(c.n) + '</span></span></div>' }) }).addTo(m);
+          html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '"' + (c.c || rk(c) < (C.ant.cap || 0) ? ' data-cap="1"' : '') + '><span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span></span><span class="nm">' + esc(c.n) + '</span></span></div>' }) }).addTo(m);
       });
       /* ⚠️ TUTTE LE CITTA', NON DUE (28/10/2026, suo: «se metti solo 2 zone fa ridere»). Mai spostare un'etichetta
          (la regola delle pagine meteo), ma prima di toglierla si RIMPICCIOLISCE: col nome, poi senza nome (icona e
@@ -601,15 +608,39 @@ function clientePagina(C) {
          scritta in alto contano come gia' messe. */
       var box = $('ant-prev'), bordo = box.getBoundingClientRect(), messi = [box.parentNode.querySelector('.pz-ant-t').getBoundingClientRect()];
       $('ant-prev-q').textContent = 'oggi'; messi.push($('ant-prev-q').getBoundingClientRect());
-      [].slice.call(box.querySelectorAll('.pz-et')).forEach(function (l) {
-        var forme = ['pz-et', 'pz-et corta', 'pz-et mini'];
-        for (var f = 0; f < forme.length; f++) {
-          l.className = forme[f];
-          var r = l.getBoundingClientRect();
-          var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 2;
-          var tocca = messi.some(function (q) { return !(r.right + 2 < q.left || r.left - 2 > q.right || r.bottom + 2 < q.top || r.top - 2 > q.bottom); });
-          if (!fuori && !tocca) { messi.push(r); return; }
-        }
+      // l'etichetta con questa forma: il suo riquadro se ci sta (dentro e senza toccare quelle gia' messe), se no null
+      function ciSta(l, forma, gia) {
+        l.className = forma;
+        var r = l.getBoundingClientRect();
+        var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 2;
+        var tocca = gia.some(function (q) { return !(r.right + 2 < q.left || r.left - 2 > q.right || r.bottom + 2 < q.top || r.top - 2 > q.bottom); });
+        return fuori || tocca ? null : r;
+      }
+      var tutte = [].slice.call(box.querySelectorAll('.pz-et'));
+      var cap = tutte.filter(function (l) { return l.hasAttribute('data-cap'); });
+      /* I CAPOLUOGHI PRIMA DI TUTTI E COL NOME (28/10/2026): tutti interi o tutti senza la minima, la forma con cui ne
+         stanno di piu' col nome (al telefono Savona intera tocca Genova: senza minima ci stanno tutti e quattro), cosi'
+         restano uguali fra loro. Forzarli tutti non va: in Toscana Prato, Pistoia, Lucca e Pisa finivano uno sopra
+         l'altro. Chi col nome non ci sta si rimpicciolisce come gli altri, ma prima degli altri paesi. */
+      var forma = 'pz-et', quanti = -1;
+      ['pz-et', 'pz-et nome'].forEach(function (f) {
+        var gia = messi.slice(), n = 0;
+        cap.forEach(function (l) { var r = ciSta(l, f, gia); if (r) { gia.push(r); n++; } });
+        if (n > quanti) { quanti = n; forma = f; }
+      });
+      var senza = [];
+      cap.forEach(function (l) { var r = ciSta(l, forma, messi); if (r) messi.push(r); else senza.push(l); });
+      // poi i capoluoghi rimasti fuori e gli altri paesi: interi (solo se lo sono i capoluoghi), senza nome, solo icona
+      // e massima, se no via. Un paese piccolo non e' mai piu' grande di un capoluogo.
+      var riservati = [];
+      senza.concat(tutte.filter(function (l) { return !l.hasAttribute('data-cap'); })).forEach(function (l) {
+        var capo = l.hasAttribute('data-cap'), forme = capo ? [] : [forma];
+        if (forma === 'pz-et') forme.push('pz-et corta');
+        forme.push('pz-et mini');
+        for (var f = 0; f < forme.length; f++) { var r = ciSta(l, forme[f], capo ? messi : messi.concat(riservati)); if (r) { messi.push(r); return; } }
+        // il posto di un capoluogo che non ci sta resta vuoto: li' non va un paese piu' piccolo (al telefono Siena non
+        // ci stava per un pixel e al suo posto compariva Montepulciano)
+        if (capo) { l.className = forma; riservati.push(l.getBoundingClientRect()); }
         l.className = 'pz-et via';
       });
     }).catch(function () {});

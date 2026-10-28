@@ -3067,7 +3067,17 @@ e' la famiglia che porta il volume.
     per tutte (suo: «sulla regione è quasi sempre senza nuvole, almeno qualche nuvola si vede»);
   - ☀️ **Previsioni** (`/previsioni/?r=<reg>`): il tempo di oggi in TUTTE le citta' di `capoluoghi.json` della regione
     (`/api/previsioni?capoluoghi=`), inquadrate le citta' e non il confine; un'etichetta che non ci sta col nome perde il
-    nome, poi la minima, e sparisce solo se non ci sta nemmeno cosi' (suo: «se metti solo 2 zone fa ridere»);
+    nome, poi la minima, e sparisce solo se non ci sta nemmeno cosi' (suo: «se metti solo 2 zone fa ridere»).
+    ⚠️ **I capoluoghi di provincia prima di tutti** (28/10/2026, suo: «è più importante Savona di Millesimo»): in
+    `capoluoghi.json` «s» e' la SIGLA della provincia, non «capoluogo» (Millesimo e Savona: SV), e nell'ordine
+    alfabetico dell'API Millesimo si prendeva il posto. L'ordine lo da' il generatore (`ordineCitta`, `C.ant.ord` e
+    `C.ant.cap`): capoluogo di regione, di provincia (elenco scritto, `CAPOLUOGHI_PROVINCIA`: gli abitanti non bastano,
+    Busto Arsizio > Varese), poi gli altri, dal piu' abitato (`data/elenco-paesi.txt`). I capoluoghi tutti interi o
+    tutti senza minima, mai senza nome finche' ci stanno; dove uno non ci sta il posto resta vuoto (al telefono
+    Montepulciano compariva al posto di Siena). Forzarli tutti no: in Toscana finivano uno sopra l'altro. Lo zoom
+    sulle citta' e' senza animazione: le etichette si misurano subito e a meta' zoom Arezzo spariva senza toccare niente.
+    Al telefono in Toscana ne stanno 6 su 10 (Prato, Pistoia e Pisa sono addosso a Firenze in 359 px). In
+    `capoluoghi.json` mancano Biella e Vercelli;
   - 💧 **Pluviometri** (`?r=<reg>&g=7`): la pioggia degli ULTIMI 7 GIORNI, `<reg>-7g.webp` del ramo `anteprime`, che
     `genera-anteprime.js` scatta solo per le regioni di `METEO_PAESI` (5 scatti in piu' al giorno); se manca, quella di ieri.
   Le disegna `clientePagina` (`C.ant`, il confine da `confineDi` di `genera-pagine-adesso.js`) quando i bottoni
@@ -3082,7 +3092,21 @@ e' la famiglia che porta il volume.
   a 30 giorni accanto a quella a 7: Vai alla mappa · Pioggia caduta ultimi 7 giorni (`g=7`) · ultimi 30 giorni (`g=30`) ·
   Radar piogge · Mappa boschi · Boschi + satellite. Righe alte uguali (`grid-auto-rows:1fr`), sotto i 380 px a 12 px:
   misurato a 360, 393 e 1366, nessuna scritta oltre le due righe.
-- Eventi GA4: `meteo_paese` (azione, come `meteo_zona`), `apri_mappa` da `meteo-paese-<slug>-…`.
+- **La testata** (28/10/2026, suo: «non c'è intestazione nell'header, ma solo mappa pluviometrica, non c'è scritto chi
+  siamo»): scelta fra tre proposte provate sulla pagina vera dopo aver guardato 3B Meteo, ilMeteo e Meteo.it; la sua e'
+  la «B», come ilMeteo (`testata()` e `CSS_PAESE` in `genera-pagine-meteo-paese.js`). Striscia scura col menu: Storico
+  piogge (la mappa) · Previsioni meteo (gialla: la sezione) · Guida, a destra Chi siamo e Contatti (la home, `#noi` e
+  `#piede`); sotto la fascia bianca: 🌧️ Mappa Pluviometrica, «Previsioni, radar e pioggia misurata in tutta Italia · un
+  progetto di Avventure Micologiche», Iscriviti. Al telefono il menu sta sotto il nome e scorre di lato. **Larga come
+  la pagina** (suo: «le scritte in alto non sono simmetriche»): la colonna di `main`, 760 px con 16 di margine, cosi'
+  «Storico piogge», il logo e il titolo partono allo stesso pixel e «Contatti», Iscriviti e la scheda finiscono allo
+  stesso pixel (misurato a 1905, 1366, 393 e 360); per starci il bottone e' «Iscriviti» e non «Iscriviti al canale».
+  Tolti da lui: Radar, Pioggia caduta (doppione dello storico), Meteo dei paesi (doppione delle previsioni), Mappa
+  boschi. Classi tutte `t-`: la pagina usa gia' `.pc`. ⚠️ `header` ha gia' `display:flex`, `align-items:center` e
+  `flex-wrap:wrap` dallo stile della pagina regione: senza `nowrap` e `stretch` al telefono la pagina sbordava a 741 px.
+  Le altre famiglie di pagine hanno ancora la testata vecchia: si decide dopo.
+- Eventi GA4: `meteo_paese` (azione, come `meteo_zona`), `apri_mappa` da `meteo-paese-<slug>-…` (anche
+  `…-testata-storico` e `…-testata-previsioni`).
 
 ## `/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)
 
