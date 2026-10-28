@@ -3156,8 +3156,11 @@ ramo `da-guardare`), verificati sul codice e decisi con lui. Corretti:
 - **Frase del pluviometro**: `OPZ.sopraSenzaQui` in `meteoClient`; le pagine paese passano «I paesi intorno», usata
   se nella tabella non c'e' la riga `qui`. Rigenerate le 908 pagine (cambiano anche i numeri d'archivio).
 Lasciati, con lui: id doppi Bormio/Panocchia, `CLOSING` da Cloudflare (lo copre il tetto), coperture parziali di
-meteohub-gaps, testata del telefono, punto delle migliaia e «~» delle pagine paese. La heatmap a fasce su Safari va
-guardata su un iPhone (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).
+meteohub-gaps, testata del telefono, punto delle migliaia e «~» delle pagine paese. La heatmap a fasce su Safari: **CHIUSA
+la sera del 21/10/2026** (provata su Safari vero da un Mac di GitHub, ramo `prova-safari` poi cancellato: strisce
+confermate e tolte con una riga in piu' sopra e sotto ogni fascia, `918afb5e4c`, commento in index.html). Il link per
+riguardarla, se servisse, resta questo; per le prove del canvas basta Playwright sul Mac, su Windows no. Era: «va
+guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).
 
 ## Togliere Open-Meteo (dal 25/10/2026)
 
