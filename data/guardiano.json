@@ -1,22 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-15T04:01:18.298Z",
-      "inRitardo": [
-        "slovenia"
-      ],
-      "lanciati": [
-        "slovenia.yml"
-      ],
-      "mancanti": [
-        {
-          "dir": "slovenia",
-          "giorno": "2026-10-13",
-          "buco": 1
-        }
-      ]
-    },
-    {
       "quando": "2026-10-15T04:31:14.583Z",
       "inRitardo": [],
       "lanciati": [
@@ -1520,8 +1504,31 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-10-28T05:00:41.286Z",
+      "inRitardo": [
+        "slovenia",
+        "meteohub-puglia"
+      ],
+      "lanciati": [
+        "slovenia.yml",
+        "meteohub.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "slovenia",
+          "giorno": "2026-10-26",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-puglia",
+          "giorno": "2026-10-27",
+          "buco": 2
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-27T20:34:02.807Z",
-  "riassunto": "61 giri con qualcosa ri-lanciato su 120 · 67 con qualche giorno mancante · 41 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-28T05:00:41.286Z",
+  "riassunto": "61 giri con qualcosa ri-lanciato su 120 · 67 con qualche giorno mancante · 42 con un buco di 2+ giorni"
 }
