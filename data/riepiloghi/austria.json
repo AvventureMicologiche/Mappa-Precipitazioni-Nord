@@ -1,52 +1,52 @@
 {
  "regione": "austria",
- "generato": "2026-10-27T12:40:22.365Z",
+ "generato": "2026-10-28T04:15:39.964Z",
  "periodi": {
   "1": {
-   "media": 0.8,
+   "media": 0,
    "giorni": 1,
    "stazioni": 266,
-   "primo": "2026-10-26",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-27",
+   "ultimo": "2026-10-27",
    "top": [
-    {
-     "n": "Kernhof-St. Aegyd am Neuwalde (Niederösterreich)",
-     "nb": "Kernhof-St. Aegyd am Neuwalde",
-     "mm": 9.9
-    },
-    {
-     "n": "Feuerkogel (Oberösterreich)",
-     "nb": "Feuerkogel",
-     "mm": 9.3
-    },
-    {
-     "n": "Bad Aussee (Steiermark)",
-     "nb": "Bad Aussee",
-     "mm": 8.3
-    },
-    {
-     "n": "Windischgarsten (Oberösterreich)",
-     "nb": "Windischgarsten",
-     "mm": 8.2
-    },
     {
      "n": "Dachstein-Schladminger Gletscher (Oberösterreich)",
      "nb": "Dachstein-Schladminger Gletscher",
-     "mm": 7.8
+     "mm": 3.3
+    },
+    {
+     "n": "Ramsau am Dachstein (Steiermark)",
+     "nb": "Ramsau am Dachstein",
+     "mm": 2.1
+    },
+    {
+     "n": "Obertauern (Salzburg)",
+     "nb": "Obertauern",
+     "mm": 1.2
+    },
+    {
+     "n": "Schmittenhöhe (Salzburg)",
+     "nb": "Schmittenhöhe",
+     "mm": 0.3
+    },
+    {
+     "n": "Kirchdorf in Tirol (Tirol)",
+     "nb": "Kirchdorf in Tirol",
+     "mm": 0.1
     }
    ]
   },
   "7": {
-   "media": 27,
+   "media": 27.3,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 103.6
+     "mm": 103.7
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
@@ -61,7 +61,7 @@
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 91.1
+     "mm": 90.8
     },
     {
      "n": "Dellach (Kärnten)",
@@ -71,16 +71,16 @@
    ]
   },
   "20": {
-   "media": 43.4,
+   "media": 43.7,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 159.2
+     "mm": 159.3
     },
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -90,7 +90,7 @@
     {
      "n": "Schröcken (Vorarlberg)",
      "nb": "Schröcken",
-     "mm": 131.6
+     "mm": 131.2
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
@@ -100,16 +100,16 @@
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 123.1
+     "mm": 123.2
     }
    ]
   },
   "30": {
-   "media": 46.6,
+   "media": 46.8,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-26",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Schröcken (Vorarlberg)",
@@ -124,7 +124,7 @@
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 159.2
+     "mm": 159.3
     },
     {
      "n": "Laterns-Gapfohl (Vorarlberg)",
@@ -134,14 +134,15 @@
     {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
-     "mm": 131.1
+     "mm": 131.2
     }
    ]
   }
  },
  "serie": [
+  0,
   0.8,
-  5.6,
+  5.7,
   4.1,
   0.9,
   4.4,
@@ -168,9 +169,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-26",
+ "serieDa": "2026-10-27",
  "zone": []
 }

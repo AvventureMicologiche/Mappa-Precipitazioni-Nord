@@ -1,42 +1,42 @@
 {
  "regione": "campania",
- "generato": "2026-10-27T04:15:30.746Z",
+ "generato": "2026-10-28T04:15:39.963Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 166,
-   "primo": "2026-10-26",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-27",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Bagnoli Irpino",
-     "mm": 0.8
+     "mm": 0.6
     },
     {
-     "n": "Ofanto a Monticchio",
+     "n": "Ceraso-Isca Vivaio Forestale",
      "mm": 0.2
     },
     {
-     "n": "S.Angelo d'Alife",
+     "n": "Cusano Mutri",
      "mm": 0.2
     },
     {
-     "n": "Agerola",
-     "mm": 0
+     "n": "Melito Irpino",
+     "mm": 0.2
     },
     {
-     "n": "Agerola METEO",
-     "mm": 0
+     "n": "Montella METEO",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 40.6,
+   "media": 40.7,
    "giorni": 7,
-   "stazioni": 173,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-26",
+   "stazioni": 172,
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Ailano",
@@ -63,25 +63,25 @@
   "20": {
    "media": 135.4,
    "giorni": 20,
-   "stazioni": 174,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-26",
+   "stazioni": 173,
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Castel Volturno",
-     "mm": 269.4
+     "mm": 269
     },
     {
      "n": "Ischia",
-     "mm": 263
+     "mm": 260.6
     },
     {
      "n": "Liberi",
-     "mm": 246.8
+     "mm": 245
     },
     {
      "n": "Capua",
-     "mm": 240.3
+     "mm": 239.1
     },
     {
      "n": "Grazzanise",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 136.1,
+   "media": 136.2,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-26",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.3,
   6.9,
@@ -148,15 +149,14 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-26",
+ "serieDa": "2026-10-27",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-26",
+   "ultimo": "2026-10-27",
    "m1": 0,
    "m7": 37.2,
    "m30": 159,
@@ -167,7 +167,7 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-26",
+   "ultimo": "2026-10-27",
    "m1": 0,
    "m7": 36.9,
    "m30": 114.8,
@@ -178,7 +178,7 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-26",
+   "ultimo": "2026-10-27",
    "m1": 0,
    "m7": 53.1,
    "m30": 159.7,
@@ -189,7 +189,7 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-26",
+   "ultimo": "2026-10-27",
    "m1": 0,
    "m7": 48.2,
    "m30": 154.9,

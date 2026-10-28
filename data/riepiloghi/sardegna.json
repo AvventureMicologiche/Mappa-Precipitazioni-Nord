@@ -1,71 +1,71 @@
 {
  "regione": "sardegna",
- "generato": "2026-10-27T04:15:30.747Z",
+ "generato": "2026-10-28T04:15:39.963Z",
  "periodi": {
   "1": {
    "media": 0.1,
    "giorni": 1,
    "stazioni": 92,
-   "primo": "2026-10-26",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-27",
+   "ultimo": "2026-10-27",
    "top": [
     {
-     "n": "Ossoni",
-     "mm": 1.2
-    },
-    {
-     "n": "Ardara",
-     "mm": 0.6
-    },
-    {
-     "n": "Monte Rasu",
-     "mm": 0.6
-    },
-    {
-     "n": "Monte Santa Vittoria",
-     "mm": 0.6
-    },
-    {
-     "n": "Mandas",
+     "n": "Orani",
      "mm": 0.4
+    },
+    {
+     "n": "Osilo",
+     "mm": 0.4
+    },
+    {
+     "n": "Pozzomaggiore",
+     "mm": 0.4
+    },
+    {
+     "n": "Abbasanta",
+     "mm": 0.2
+    },
+    {
+     "n": "Ala' dei Sardi",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 31.1,
+   "media": 9.6,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-27",
    "top": [
     {
-     "n": "Siniscola",
-     "mm": 220.6
-    },
-    {
-     "n": "Baunei",
-     "mm": 154.4
-    },
-    {
-     "n": "Orosei",
-     "mm": 112
-    },
-    {
      "n": "Villanova Monteleone",
-     "mm": 79.8
+     "mm": 34.2
     },
     {
-     "n": "Montresta",
-     "mm": 76.4
+     "n": "Monte Rasu",
+     "mm": 33.2
+    },
+    {
+     "n": "Badu Crabolu",
+     "mm": 30
+    },
+    {
+     "n": "Samugheo",
+     "mm": 29
+    },
+    {
+     "n": "Flumineddu ad Allai",
+     "mm": 28.8
     }
    ]
   },
   "20": {
-   "media": 56.3,
+   "media": 55.5,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Siniscola",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Villanova Monteleone",
-     "mm": 138.8
+     "mm": 138.6
     },
     {
      "n": "Bosa Marina",
@@ -93,8 +93,8 @@
    "media": 62.8,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-26",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Siniscola",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Badu Crabolu",
-     "mm": 157.6
+     "mm": 157.8
     },
     {
      "n": "Villanova Monteleone",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.1,
   0.4,
   0.1,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-26",
+ "serieDa": "2026-10-27",
  "zone": []
 }
