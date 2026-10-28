@@ -1,33 +1,33 @@
 {
  "regione": "slovenia",
- "generato": "2026-10-28T04:15:39.964Z",
+ "generato": "2026-10-28T05:31:07.022Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Mačkovci",
-     "mm": 1.5
+     "n": "Lendava - Terme",
+     "mm": 0.5
+    },
+    {
+     "n": "Murska Sobota",
+     "mm": 0.4
     },
     {
      "n": "Sotinski breg",
-     "mm": 1.5
+     "mm": 0.4
     },
     {
-     "n": "Zgornja Kapla",
-     "mm": 1
+     "n": "Hočko Pohorje",
+     "mm": 0.3
     },
     {
-     "n": "Cerklje - letališče",
-     "mm": 0.8
-    },
-    {
-     "n": "Gačnik",
-     "mm": 0.6
+     "n": "Mačkovci",
+     "mm": 0.3
     }
    ]
   },
@@ -35,12 +35,12 @@
    "media": 48.6,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Kanin",
-     "mm": 199.4
+     "mm": 199
     },
     {
      "n": "Bovec - letališče",
@@ -64,8 +64,8 @@
    "media": 99.8,
    "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Otlica - Ekoloska",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 99.8,
+   "media": 99.9,
    "giorni": 30,
    "stazioni": 114,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Otlica - Ekoloska",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.1,
   13,
   1.7,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": []
 }
