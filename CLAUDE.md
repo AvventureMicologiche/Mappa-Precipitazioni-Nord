@@ -3038,6 +3038,52 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   Cloudflare). Le pagine di zona hanno il percorso «Mappa pluviometrica › Previsioni meteo › <zona>». In testa a
   `sitemap-meteo.xml`.
 
+### Pagine «Meteo <paese>» (/meteo/<regione>/<paese>/, 28/10/2026)
+
+Secondo TEST, deciso dall'utente il 28/10/2026 («la sezione meteo diventa un sito vero»; «20 pagine meteo paese di
+prova, i paesi più cliccati, non devono andare in conflitto con le pagine funghi»). I grandi ragionano per comune: questa
+e' la famiglia che porta il volume.
+- **I 20 posti** sono `METEO_PAESI` in `genera-pagine-meteo-zona.js`: le pagine paese funghi con piu' clic da Google in
+  28 giorni (Search Console al 28/10; GA4 dava quasi lo stesso ordine). Ognuno ha nome, preposizioni («sul Mottarone»),
+  e se serve `nomi` (il pluviometro ha il nome della rete: «Mottarone - Baita Cai» → «Mottarone») e `primo` (Monticiano e
+  Urbe: il pluviometro sta fuori dal paese, si mette in testa il comune). `sitemap-meteo-paesi.xml` a parte, data
+  `meteoPaesi` in `pagine-lastmod.json`. Non aggiungerne senza aver letto i numeri.
+- **Generatore** `genera-pagine-meteo-paese.js` (`SOLO=<slug>` per una sola): usa lo stile e il codice del browser delle
+  pagine di zona (`clientePagina` con `C.solo`): scheda ora per ora aperta da sola sul paese, 7 giorni, «punto di
+  stamattina» e grafico DEL PAESE; mappa e tabella dei paesi intorno, gli stessi di «Che tempo farà» della pagina funghi
+  (`/api/previsioni?paese=<reg>/<slug>`, `data/paesi-localita/`); pioggia caduta AL PLUVIOMETRO dal file dei 25 giorni
+  delle pagine funghi (`data/funghi/<reg>-giorni.json`, `C.giorni` + `C.id`). Senza `C.solo` e' la pagina di zona di prima.
+  Riscrive anche la pagina madre `/meteo/`, che ha la sezione «Il meteo paese per paese» (solo le pagine che esistono).
+- **Niente conflitto coi funghi**: titolo «Meteo Sassello: previsioni a 7 giorni, ora per ora», senza «funghi» ne' nel
+  titolo ne' nella descrizione (la ricerca «meteo funghi Sassello» resta della pagina funghi). La pagina funghi porta
+  qui: «Meteo Sassello: previsioni ora per ora →» in fondo a «Che tempo farà» (`linkMeteoPaese`, chiamato da
+  `genera-pagine-localita.js`; evento GA4 `apri_meteo_paese`). Il 28/10 il link e' stato MESSO nelle 20 pagine funghi
+  gia' fatte con gli stessi byte del generatore (rigenerandole con `SOLO` si sarebbe rinfrescato anche il ritratto del
+  pluviometro, che si rifa' col giro stagionale).
+- **Da qui si va solo SULLA MAPPA** (suo, 28/10: «i funghi è inutile», «le altre pagine sono troppo simili, quei 3
+  pulsanti ti devono mandare sulle rispettive funzioni sulla mappa»): «Guarda le nostre mappe», tre bottoni uno
+  sotto l'altro, anteprima VIVA sopra e etichetta gialla SOTTO (sopra copriva la Sicilia e le citta' della costa):
+  - 📡 **Radar piogge** (`?r=<reg>&radar=ora`): l'ultima immagine LibreWXR su TUTTA ITALIA E UN PEZZO D'EUROPA, uguale
+    per tutte (suo: «sulla regione è quasi sempre senza nuvole, almeno qualche nuvola si vede»);
+  - ☀️ **Previsioni** (`/previsioni/?r=<reg>`): il tempo di oggi in TUTTE le citta' di `capoluoghi.json` della regione
+    (`/api/previsioni?capoluoghi=`), inquadrate le citta' e non il confine; un'etichetta che non ci sta col nome perde il
+    nome, poi la minima, e sparisce solo se non ci sta nemmeno cosi' (suo: «se metti solo 2 zone fa ridere»);
+  - 💧 **Pluviometri** (`?r=<reg>&g=7`): la pioggia degli ULTIMI 7 GIORNI, `<reg>-7g.webp` del ramo `anteprime`, che
+    `genera-anteprime.js` scatta solo per le regioni di `METEO_PAESI` (5 scatti in piu' al giorno); se manca, quella di ieri.
+  Le disegna `clientePagina` (`C.ant`, il confine da `confineDi` di `genera-pagine-adesso.js`) quando i bottoni
+  arrivano vicino allo schermo. Niente zona del pluviometro: quella delle pagine funghi a volte e' larga (Sassello sta
+  nella «Val Bormida», ma e' in valle dell'Erro).
+- **Il grafico** (anche delle zone, quando si rigenerano; suo: «ieri e oggi così è brutto, fai una cosa più di
+  design»): i giorni previsti su un fondo azzurro chiaro col filo a sinistra, MISURATA e PREVISTA in maiuscoletto
+  sopra le due parti, sotto l'asse una data ogni 7 giorni da ieri all'indietro, la pillola «oggi» e l'ultimo giorno
+  previsto (`#graf-date`).
+- **I sei bottoni sotto la scheda ora per ora** (`porte()` in `clientePagina`, anche delle zone quando si rigenerano;
+  28/10/2026, suo): via «Temperature» («sono quelle di ieri e loro stanno vedendo le attuali»), al suo posto la pioggia
+  a 30 giorni accanto a quella a 7: Vai alla mappa · Pioggia caduta ultimi 7 giorni (`g=7`) · ultimi 30 giorni (`g=30`) ·
+  Radar piogge · Mappa boschi · Boschi + satellite. Righe alte uguali (`grid-auto-rows:1fr`), sotto i 380 px a 12 px:
+  misurato a 360, 393 e 1366, nessuna scritta oltre le due righe.
+- Eventi GA4: `meteo_paese` (azione, come `meteo_zona`), `apri_mappa` da `meteo-paese-<slug>-…`.
+
 ## `/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)
 
 Chi cercava «previsioni meteo» trovava solo la radice, che per Google e' la mappa della pioggia. `/previsioni/` e' la

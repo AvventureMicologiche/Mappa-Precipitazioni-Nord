@@ -68,6 +68,37 @@ const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-treb
   'val-loana', 'monti-lattari', 'val-di-non', 'media-valle-del-serchio', 'monti-sibillini', 'valtiberina', 'valdinievole'];
 const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B);
 
+// ⚠️ LE PAGINE «METEO <PAESE>» DEL TEST (28/10/2026, suo: «20 pagine meteo paese di prova, i paesi più cliccati»): le
+// 20 pagine paese funghi con piu' clic da Google negli ultimi 28 giorni (Search Console; GA4 dice lo stesso). Le scrive
+// genera-pagine-meteo-paese.js in meteo/<regione>/<slug>/, sitemap-meteo-paesi.xml a parte. Stanno QUI e non la' perche'
+// le chiedono anche la pagina madre /meteo/ e il link nelle pagine paese funghi (linkMeteoPaese). Campi: loc = la pagina
+// funghi del pluviometro (e /api/previsioni?paese=), n = il nome nel titolo, dove/di = le preposizioni («sul
+// Mottarone»), nomi = come chiamare un punto dell'elenco dei paesi (il pluviometro ha il nome della rete), primo = il
+// paese da mettere in testa quando il pluviometro sta fuori dal centro, pluv = «al pluviometro <pluv>».
+const METEO_PAESI = [
+  { loc: 'liguria/sassello', slug: 'sassello', n: 'Sassello', dove: 'a Sassello', di: 'di Sassello' },
+  { loc: 'piemonte/mottarone-baita-cai', slug: 'mottarone', n: 'Mottarone', dove: 'sul Mottarone', di: 'del Mottarone', nomi: { 'Mottarone - Baita Cai': 'Mottarone' } },
+  { loc: 'toscana/pizzorne', slug: 'pizzorne', n: 'Pizzorne', dove: 'sulle Pizzorne', di: 'delle Pizzorne' },
+  { loc: 'toscana/pratomagno', slug: 'pratomagno', n: 'Pratomagno', dove: 'sul Pratomagno', di: 'del Pratomagno' },
+  { loc: 'toscana/monticiano-la-pineta', slug: 'monticiano', n: 'Monticiano', dove: 'a Monticiano', di: 'di Monticiano', nomi: { 'Monticiano La Pineta': 'La Pineta' }, primo: 'Monticiano', pluv: 'della Pineta di Monticiano' },
+  { loc: 'emilia/albareto-parma', slug: 'albareto', n: 'Albareto', dove: 'ad Albareto', di: 'di Albareto', nomi: { 'Albareto Parma': 'Albareto' } },
+  { loc: 'liguria/barbagelata', slug: 'barbagelata', n: 'Barbagelata', dove: 'a Barbagelata', di: 'di Barbagelata' },
+  { loc: 'piemonte/druogno', slug: 'druogno', n: 'Druogno', dove: 'a Druogno', di: 'di Druogno' },
+  { loc: 'toscana/vallombrosa', slug: 'vallombrosa', n: 'Vallombrosa', dove: 'a Vallombrosa', di: 'di Vallombrosa' },
+  { loc: 'trentino/tremalzo', slug: 'tremalzo', n: 'Tremalzo', dove: 'al Tremalzo', di: 'del Tremalzo' },
+  { loc: 'piemonte/coazze', slug: 'coazze', n: 'Coazze', dove: 'a Coazze', di: 'di Coazze' },
+  { loc: 'liguria/santo-stefano-d-aveto', slug: 'santo-stefano-d-aveto', n: "Santo Stefano d'Aveto", dove: "a Santo Stefano d'Aveto", di: "di Santo Stefano d'Aveto" },
+  { loc: 'trentino/folgaria', slug: 'folgaria', n: 'Folgaria', dove: 'a Folgaria', di: 'di Folgaria' },
+  { loc: 'toscana/capanne-di-sillano', slug: 'capanne-di-sillano', n: 'Capanne di Sillano', dove: 'a Capanne di Sillano', di: 'di Capanne di Sillano' },
+  { loc: 'liguria/calizzano', slug: 'calizzano', n: 'Calizzano', dove: 'a Calizzano', di: 'di Calizzano' },
+  { loc: 'toscana/bagni-di-lucca', slug: 'bagni-di-lucca', n: 'Bagni di Lucca', dove: 'a Bagni di Lucca', di: 'di Bagni di Lucca' },
+  { loc: 'piemonte/bobbio-pellice', slug: 'bobbio-pellice', n: 'Bobbio Pellice', dove: 'a Bobbio Pellice', di: 'di Bobbio Pellice' },
+  { loc: 'liguria/urbe-vara-sup', slug: 'urbe', n: 'Urbe', dove: 'a Urbe', di: 'di Urbe', nomi: { 'Urbe - Vara Sup.': 'Vara Superiore' }, primo: 'Urbe', pluv: 'di Vara Superiore, a Urbe' },
+  { loc: 'toscana/badia-prataglia', slug: 'badia-prataglia', n: 'Badia Prataglia', dove: 'a Badia Prataglia', di: 'di Badia Prataglia' },
+  { loc: 'liguria/cabanne', slug: 'cabanne', n: 'Cabanne', dove: 'a Cabanne', di: 'di Cabanne' },
+];
+const indirizzoMeteoPaese = p => `${SITO}/meteo/${p.loc.split('/')[0]}/${p.slug}/`;
+
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 function scrivi(dest, testo) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -82,6 +113,14 @@ function linkMeteo(zslug, nome, ga) {
   if (!ZONE_METEO_TUTTE.includes(zslug)) return '';
   return `<p class="mk-meteo-zona" style="margin:12px 0 2px;font-size:16px;font-weight:700"><a href="${SITO}/meteo/${zslug}/"`
     + ` onclick="try{gtag('event','apri_meteo_zona',{da:'${ga}'})}catch(e){}">Previsioni meteo ${esc(nome)} →</a></p>`;
+}
+// Lo stesso per le pagine paese funghi dei 20 posti del test (28/10/2026): «Meteo Sassello» e' la pagina del tempo,
+// «Funghi a Sassello oggi» quella della pioggia che conta. Vuoto per gli altri posti. loc = '<regione>/<slug funghi>'.
+function linkMeteoPaese(loc, ga) {
+  const p = METEO_PAESI.find(x => x.loc === loc);
+  if (!p) return '';
+  return `<p class="mk-meteo-zona" style="margin:12px 0 2px;font-size:16px;font-weight:700"><a href="${indirizzoMeteoPaese(p)}"`
+    + ` onclick="try{gtag('event','apri_meteo_paese',{da:'${ga}'})}catch(e){}">Meteo ${esc(p.n)}: previsioni ora per ora →</a></p>`;
 }
 
 const CSS = `
@@ -170,11 +209,23 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ora .mm{color:#1a5fa8;font-weight:700;min-height:15px}.pz-ora .v{color:#7a8796;font-size:11px}
 /* la % di pioggia, ora per ora: gli stessi tre toni della mappa (sotto il 10% grigia, dal 60% rossa) */
 .pz-ora .pc{font-size:11.5px;font-weight:700;color:#1a5fa8;min-height:15px}.pz-ora .pc.z{color:#9aa3ad;font-weight:500}.pz-ora .pc.alta{color:#c21f1f}
-.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-.pz-porte a{display:block;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
+/* righe tutte alte uguali e scritte centrate (28/10/2026, regola delle simmetrie): i due della pioggia vanno su due righe */
+.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:6px;margin-top:8px}
+.pz-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
 .pz-porte a span{display:block;font-size:20px}
-.pz-graf{display:flex;align-items:flex-end;gap:2px;height:130px;margin:12px 0 4px;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
-.pz-graf .b{flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
+.pz-porte a small{display:block;font-size:11.5px;font-weight:500;color:#4a5d72}
+@media(max-width:380px){.pz-porte a{font-size:12px;padding:8px 2px}}
+.pz-graf{position:relative;display:flex;align-items:flex-end;gap:2px;height:130px;margin:34px 0 0;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
+/* misurata e prevista (28/10/2026): i giorni previsti su un fondo azzurro chiaro col filo a sinistra, i due nomi in
+   maiuscoletto sopra, le date e la pillola «oggi» sotto l'asse. Le barre stanno sopra il fondo (position:relative) */
+.pz-fut{position:absolute;top:-28px;bottom:-1px;right:0;margin-left:-1px;background:#eef4fb;border-left:1px solid #9db4cc;border-radius:0 10px 0 0;pointer-events:none}
+.pz-gt{position:absolute;left:0;top:-24px;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a8a9b;white-space:nowrap;pointer-events:none}
+.pz-gt.pre{margin-left:8px;color:#2f6aa6}
+.pz-graf-date{position:relative;height:22px;margin:0 0 4px;font-size:11.5px;color:#5a6b7d}
+.pz-graf-date span{position:absolute;top:4px;transform:translateX(-50%);white-space:nowrap}
+.pz-graf-date span.d{transform:translateX(-100%)}.pz-graf-date span.s{transform:none}
+.pz-graf-date span.oggi{top:3px;background:#0f3d6e;color:#fff;font-weight:700;font-size:11px;line-height:15px;border-radius:999px;padding:0 8px}
+.pz-graf .b{position:relative;flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
 .pz-graf .b:hover,.pz-graf .b.sel{background:#c4501a}
 .pz-graf .b.prev{background:repeating-linear-gradient(45deg,#7fb0e0,#7fb0e0 3px,#b9d4ef 3px,#b9d4ef 6px)}
 .pz-graf .b.prev.sel,.pz-graf .b.prev:hover{background:#c4501a}
@@ -194,12 +245,16 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 
 /* ⚠️ GIRA NEL BROWSER: la pagina la copia con toString() e la chiama con la sua configurazione (C).
    SOLO ES5: niente frecce, let, const, backtick. E' il codice del campione (prove/meteo-zone/costruisci.js) con la
-   sola variante F delle etichette, senza interruttore pioggia/temperature e con le richieste al sito stesso. */
+   sola variante F delle etichette, senza interruttore pioggia/temperature e con le richieste al sito stesso.
+   LE PAGINE «METEO <PAESE>» (28/10/2026, genera-pagine-meteo-paese.js) usano lo stesso codice con C.solo: i 7 giorni, il
+   punto e il grafico sono quelli del PRIMO posto dell'elenco (il paese della pagina), mappa e tabella i paesi intorno;
+   C.paese = la domanda all'API (paese=<reg>/<slug>), C.giorni + C.id = la pioggia caduta del pluviometro dal file delle
+   pagine paese funghi, C.nomi / C.primo = nomi e ordine dei punti (vedi METEO_PAESI). Senza, e' la pagina di zona. */
 function clientePagina(C) {
   var SITO = C.sito, REG = C.reg;
   var API = '/api/previsioni';
   var BASE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/data/' : C.raw;
-  var RIP = BASE + 'riepiloghi/zone/' + C.slug + '.json';
+  var RIP = BASE + (C.giorni || 'riepiloghi/zone/' + C.slug + '.json');
   var QUOTE = C.quote, PLUV = C.pluv;
   var GS = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'], GL = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
   var ICONE = [[/clearsky_day|fair_day/, '☀️'], [/clearsky_night|fair_night/, '🌙'], [/partlycloudy_day/, '⛅'], [/partlycloudy_night|^cloudy|fog/, '☁️'],
@@ -220,13 +275,13 @@ function clientePagina(C) {
   function finoAl(p) { return (/^(8|11$|1$)/.test(String(p)) ? "fino all'" : 'fino al ') + p + '%'; }
   function norm(t) { return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/['’.-]/g, ' ').replace(/\s+/g, ' ').trim(); }
   function $(id) { return document.getElementById(id); }
-  function ga(azione) { try { gtag('event', 'meteo_zona', { zona: C.slug, azione: azione }); } catch (e) {} }
+  function ga(azione) { try { gtag('event', C.evento || 'meteo_zona', { zona: C.slug, azione: azione }); } catch (e) {} }
   var J = null, G = [], RIPJ = null, SEL = OGGI, mappa = null, strato = null, PAESI = [];
 
   /* ── i 7 giorni della valle ── */
   function giorniDi() {
     var per = {};
-    PAESI.forEach(function (c) { c.giorni.forEach(function (g) { if (g.g < OGGI) return; (per[g.g] = per[g.g] || []).push({ c: c, g: g }); }); });
+    (C.solo ? PAESI.slice(0, 1) : PAESI).forEach(function (c) { c.giorni.forEach(function (g) { if (g.g < OGGI) return; (per[g.g] = per[g.g] || []).push({ c: c, g: g }); }); });
     return Object.keys(per).sort().slice(0, 7).map(function (k) {
       var l = per[k], conti = {}, top = null, mmS = 0, mmMax = 0, dove = '';
       l.forEach(function (x) { var i = icona(x.g.s); conti[i] = (conti[i] || 0) + 1; mmS += x.g.mm; if (x.g.mm > mmMax) { mmMax = x.g.mm; dove = x.c.n; } });
@@ -245,20 +300,23 @@ function clientePagina(C) {
       return '<button class="pz-g' + (x.g === SEL ? ' sel' : '') + '" data-g="' + x.g + '"><div class="n">' + nome(x.g) + '</div><div class="ic">' + x.ic + '</div>'
         + '<div class="t"><span class="mn">' + x.mn + '°</span> / <span class="mx">' + x.mx + '°</span></div>'
         + '<div class="p' + (x.mm < 0.1 ? ' zero' : '') + '">' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm') + '</div>'
-        + (conPc ? '<div class="pc' + tonoPc(x.pc) + '"' + (x.pc != null ? ' title="probabilità di pioggia, la più alta fra i paesi: ' + esc(x.dpc) + '"' : '') + '>' + pcTesto(x.pc) + '</div>' : '')
+        + (conPc ? '<div class="pc' + tonoPc(x.pc) + '"' + (x.pc != null ? ' title="probabilità di pioggia' + (C.solo ? ' a ' : ', la più alta fra i paesi: ') + esc(x.dpc) + '"' : '') + '>' + pcTesto(x.pc) + '</div>' : '')
         + '<div class="barra"><i style="width:' + Math.min(100, x.mm / maxMm * 100) + '%"></i></div></button>';
     }).join('');
   }
   function totale() {
     var tot = G.reduce(function (a, x) { return a + x.mm; }, 0), picco = G.slice().sort(function (a, b) { return b.mmMax - a.mmMax; })[0];
     $('tot').innerHTML = tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b> che conti ' + C.inValle + '.'
+      : C.solo ? 'In tutta la settimana sono previsti <b>' + mm(tot) + ' mm</b> ' + C.dove + '; il giorno più bagnato è <b>' + nome(picco.g, true) + '</b>, con ' + mm(picco.mmMax) + ' mm.'
       : 'In tutta la settimana sono previsti in media <b>' + mm(tot) + ' mm</b>; il giorno più bagnato è <b>' + nome(picco.g, true) + '</b>, fino a ' + mm(picco.mmMax) + ' mm a ' + esc(picco.dove) + '.';
     return tot;
   }
   function sceglie(g) {
     SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab();
     var x = G.filter(function (y) { return y.g === g; })[0];
-    $('mappa-giorno').textContent = 'La ' + C.valle + ' ' + (g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true)) + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
+    var quando = g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true);
+    $('mappa-giorno').textContent = C.solo ? C.intorno + ', ' + quando
+      : 'La ' + C.valle + ' ' + quando + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
   }
 
   /* ── la mappa della valle ── */
@@ -343,8 +401,10 @@ function clientePagina(C) {
   function FASCIA(h) { return h < 6 ? 'notte' : h < 12 ? 'mattina' : h < 18 ? 'pomeriggio' : 'sera'; }
   function porte(x) {
     var pl = '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n);
-    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta', '/?r=' + x.reg + '&g=7' + pl, 'pioggia'], ['📡', 'Radar adesso', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'],
-            ['🌡', 'Temperature', '/?r=' + x.reg + '&g=1&tq=1' + pl, 'temperature'], ['🌲', 'Boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰', 'Satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
+    // via le temperature (28/10/2026, suo: «sono quelle di ieri e loro stanno vedendo le attuali»), al loro posto la
+    // pioggia a 30 giorni accanto a quella a 7, cosi' restano sei, tre per riga
+    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
+            ['📡', 'Radar piogge', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'], ['🌲', 'Mappa boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰️', 'Boschi + satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
       .map(function (p) { return '<a href="' + SITO + p[2] + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'meteo-' + C.slug + '-scheda-' + p[3] + '\'})}catch(e){}"><span>' + p[0] + '</span>' + p[1] + '</a>'; }).join('');
   }
   function disegnaScheda(g) {
@@ -431,7 +491,25 @@ function clientePagina(C) {
     BARRE = serie.map(function (v, i) { return { g: piu(ultimo, i - serie.length + 1), mm: v, prev: false }; })
       .concat(G.map(function (x) { return { g: x.g, mm: x.mm, prev: true, mx: x.mmMax, dove: x.dove, pc: x.pc }; }));
     var mx = Math.max(5, Math.max.apply(null, BARRE.map(function (b) { return b.mm || 0; })));
-    $('graf').innerHTML = BARRE.map(function (b, i) { return '<div class="b' + (b.prev ? ' prev' : '') + '" data-i="' + i + '" style="height:' + ((b.mm || 0) / mx * 100) + '%"></div>'; }).join('');
+    /* MISURATA E PREVISTA, CON LE DATE (28/10/2026, suo: «il grafico deve avere le date e dire dove finisce ieri e inizia
+       adesso», e poi: «ieri e oggi così è brutto, fai una cosa che sembri più di design»). I giorni previsti stanno su un
+       FONDO azzurro chiaro con un filo a sinistra, e sopra le due parti c'e' il loro nome in maiuscoletto (MISURATA,
+       PREVISTA); sotto l'asse una data ogni 7 giorni da ieri all'indietro, la pillola «oggi» sulla prima barra prevista e
+       l'ultimo giorno previsto. Le posizioni sono in % della larghezza: le barre sono tutte larghe uguali. */
+    var n = BARRE.length, k = 0;
+    while (k < n && !BARRE[k].prev) k++;
+    function dove(i) { return ((i + 0.5) / n * 100).toFixed(2) + '%'; }
+    function breve(g) { return d(g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }); }
+    var diviso = k > 0 && k < n, pk = (k / n * 100).toFixed(2) + '%';
+    $('graf').innerHTML = (diviso ? '<div class="pz-fut" style="left:' + pk + '"></div><span class="pz-gt">Misurata</span><span class="pz-gt pre" style="left:' + pk + '">Prevista</span>' : '')
+      + BARRE.map(function (b, i) { return '<div class="b' + (b.prev ? ' prev' : '') + '" data-i="' + i + '" style="height:' + ((b.mm || 0) / mx * 100) + '%"></div>'; }).join('');
+    var tacche = [];
+    for (var i = k - 8; i >= 0; i -= 7) tacche.push(i);   // la pillola «oggi» sta sulla barra dopo ieri: si parte da una settimana prima
+    if (diviso && k < n - 2) tacche.push(n - 1);
+    if ($('graf-date')) $('graf-date').innerHTML = tacche.map(function (i) {
+      var p = (i + 0.5) / n, sp = p > 0.88 ? ' class="d"' : p < 0.1 ? ' class="s"' : '';
+      return '<span' + sp + ' style="left:' + dove(i) + '">' + breve(BARRE[i].g) + '</span>';
+    }).join('') + (diviso && BARRE[k].g === OGGI ? '<span class="oggi" style="left:' + dove(k) + '">oggi</span>' : '');
     if (BARRE.length) $('leg-date').textContent = 'dal ' + d(BARRE[0].g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }) + ' a ' + nome(BARRE[BARRE.length - 1].g, true);
   }
   $('graf').addEventListener('click', function (e) {
@@ -439,9 +517,10 @@ function clientePagina(C) {
     var b = BARRE[+el.getAttribute('data-i')], tutte = $('graf').querySelectorAll('.b');
     for (var i = 0; i < tutte.length; i++) tutte[i].classList.toggle('sel', tutte[i] === el);
     var giorno = d(b.g).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
-    $('graf-info').innerHTML = b.prev ? '<b>' + giorno + '</b>: previsti in media <b>' + mm(b.mm) + ' mm</b>' + (b.mx >= 0.1 ? ', fino a ' + mm(b.mx) + ' a ' + esc(b.dove) : '')
+    $('graf-info').innerHTML = b.prev ? '<b>' + giorno + '</b>: previsti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(b.mm) + ' mm</b>' + (!C.solo && b.mx >= 0.1 ? ', fino a ' + mm(b.mx) + ' a ' + esc(b.dove) : '')
         + (b.pc != null ? '; probabilità di pioggia ' + finoAl(b.pc) : '')
-      : '<b>' + giorno + '</b>: ' + (b.mm == null ? 'nessun dato dai pluviometri' : 'misurati in media <b>' + mm(b.mm) + ' mm</b> dai pluviometri ' + C.diValle);
+      : '<b>' + giorno + '</b>: ' + (C.solo ? (b.mm == null ? 'nessun dato dal pluviometro' : 'misurati <b>' + mm(b.mm) + ' mm</b> ' + C.alPluv)
+        : b.mm == null ? 'nessun dato dai pluviometri' : 'misurati in media <b>' + mm(b.mm) + ' mm</b> dai pluviometri ' + C.diValle);
     if (b.prev) sceglie(b.g);
   });
   function disegnaCaduta() {
@@ -449,7 +528,7 @@ function clientePagina(C) {
     [['1', 'r1'], ['7', 'r7']].forEach(function (p) {
       var x = RIPJ && RIPJ.periodi ? RIPJ.periodi[p[0]] : null;
       if (!x) { $(p[1]).textContent = '–'; return; }
-      $(p[1]).innerHTML = mm(x.media) + ' <small>mm di media</small>';
+      $(p[1]).innerHTML = mm(x.media) + (C.solo ? ' <small>mm</small>' : ' <small>mm di media</small>');
       $(p[1] + 't').innerHTML = (x.top || []).slice(0, 3).map(function (t) { return '<div class="nota" style="margin:2px 0">' + (link[t.n] ? '<a href="' + link[t.n] + '">' + esc(t.n) + '</a>' : esc(t.n)) + ': <b>' + mm(t.mm) + ' mm</b></div>'; }).join('');
     });
     if (RIPJ && RIPJ.periodi && RIPJ.periodi['1'] && RIPJ.periodi['1'].ultimo !== IERI) $('r1h').textContent = maiusc(nome(RIPJ.periodi['1'].ultimo, true));
@@ -459,17 +538,100 @@ function clientePagina(C) {
     var i = RIPJ && RIPJ.periodi ? RIPJ.periodi['1'] : null, s = RIPJ && RIPJ.periodi ? RIPJ.periodi['7'] : null;
     if (i && s) {
       p.push((i.ultimo === IERI ? 'Ieri' : maiusc(nome(i.ultimo, true))) + ' ' + C.dove + ' ' + (i.media < 0.1 ? '<b>non è piovuto</b>'
-        : 'sono caduti in media <b>' + mm(i.media) + ' mm</b>' + (i.top && i.top[0] ? ' (' + esc(i.top[0].n) + ' ' + mm(i.top[0].mm) + ')' : '')) + '; negli ultimi 7 giorni <b>' + mm(s.media) + ' mm</b>.');
+        : 'sono caduti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(i.media) + ' mm</b>' + (i.top && i.top[0] ? ' (' + esc(i.top[0].n) + ' ' + mm(i.top[0].mm) + ')' : '')) + '; negli ultimi 7 giorni <b>' + mm(s.media) + ' mm</b>.');
     }
     var picco = G.slice().sort(function (a, b) { return b.mmMax - a.mmMax; })[0];
-    p.push(tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b>.' : 'Nei prossimi 7 giorni sono previsti in media <b>' + mm(tot) + ' mm</b>, soprattutto ' + nome(picco.g, true) + '.');
+    p.push(tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b>.' : 'Nei prossimi 7 giorni sono previsti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(tot) + ' mm</b>, soprattutto ' + nome(picco.g, true) + '.');
     // la % piu' alta della settimana, e dove (25/10/2026)
     var rischio = G.filter(function (x) { return x.pc != null; }).sort(function (a, b) { return b.pc - a.pc; })[0];
+    // con C.solo il posto e' sempre lo stesso, gia' detto in apertura: «-4° sul Mottarone» e non «a Mottarone» ogni volta
+    function aDove(n) { return C.solo ? '' : ' a ' + esc(n); }
     if (rischio) p.push(rischio.pc < 30 ? 'La probabilità di pioggia resta <b>sotto il 30%</b> per tutta la settimana.'
-      : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b> a ' + esc(rischio.dpc) + '.');
+      : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
-    p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b> a ' + esc(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b> a ' + esc(cal.dmx) + '.');
+    p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
     $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>' + p.join(' ');
+  }
+
+  /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
+     regione, ognuno porta alla sua funzione sulla mappa. Vive e vere: l'ultima immagine del radar (LibreWXR / OPERA,
+     come il tasto della mappa), il tempo di oggi nelle citta' della regione (/api/previsioni?capoluoghi=, come le
+     pagine regione), la mappa della pioggia di ieri (l'anteprima delle pagine regione, ramo «anteprime»). Si
+     caricano quando i bottoni arrivano vicino allo schermo; se una non arriva resta il fondo grigio e il bottone va. */
+  // larga = [[sud, ovest], [nord, est]] al posto del confine della regione (il radar)
+  function miniMappa(id, larga) {
+    var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
+    // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
+    L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
+    var b = larga ? L.latLngBounds(larga)
+      : L.geoJSON(C.ant.confine, { interactive: false, style: { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
+    // l'etichetta gialla sta SOTTO l'anteprima, non sopra (28/10/2026: copriva la Sicilia nel radar e le citta' della
+    // costa nelle previsioni); in alto a sinistra c'e' la fonte, a destra l'ora
+    m.fitBounds(b, { paddingTopLeft: [10, 26], paddingBottomRight: [10, 10] });
+    return m;
+  }
+  /* ⚠️ IL RADAR SU TUTTA ITALIA E UN PEZZO D'EUROPA, uguale per tutte le pagine (28/10/2026, suo: «il radar non dice
+     nulla, perché quasi sempre senza nuvole: facciamolo con tutta l'Italia e anche un pezzo di Nord Europa, almeno
+     qualche nuvola si vede»). Sulla sola regione era quasi sempre una cartina vuota. */
+  function antRadar() {
+    var m = miniMappa('ant-radar', [[37.2, 6.5], [50.2, 18.5]]);
+    m.createPane('radar'); m.getPane('radar').style.zIndex = 450;
+    fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+      var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
+      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR / OPERA (CC BY)' }).addTo(m);
+      $('ant-radar-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+    }).catch(function () {});
+  }
+  function antPrev() {
+    var m = miniMappa('ant-prev');
+    fetch(API + '?capoluoghi=' + REG).then(function (r) { return r.json(); }).then(function (j) {
+      // prima il capoluogo di regione, poi quelli di provincia: l'ordine decide chi resta quando si diradano
+      var cc = (j.capoluoghi || []).slice().sort(function (a, b) { return (b.c ? 2 : b.s ? 1 : 0) - (a.c ? 2 : a.s ? 1 : 0); });
+      // inquadrate le CITTA', non il confine: in Toscana le isole dell'arcipelago rimpicciolivano tutto
+      if (cc.length > 1) m.fitBounds(L.latLngBounds(cc.map(function (c) { return [c.lat, c.lon]; })), { paddingTopLeft: [34, 40], paddingBottomRight: [34, 22] });
+      cc.forEach(function (c, n) {
+        var g = (c.giorni || []).filter(function (x) { return x.g === OGGI; })[0]; if (!g) return;
+        L.marker([c.lat, c.lon], { interactive: false, zIndexOffset: 1000 - n, icon: L.divIcon({ className: '', iconSize: [0, 0],
+          html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '"><span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span></span><span class="nm">' + esc(c.n) + '</span></span></div>' }) }).addTo(m);
+      });
+      /* ⚠️ TUTTE LE CITTA', NON DUE (28/10/2026, suo: «se metti solo 2 zone fa ridere»). Mai spostare un'etichetta
+         (la regola delle pagine meteo), ma prima di toglierla si RIMPICCIOLISCE: col nome, poi senza nome (icona e
+         gradi), poi solo icona e massima. Si nasconde solo se non ci sta nemmeno cosi'. L'etichetta gialla e la
+         scritta in alto contano come gia' messe. */
+      var box = $('ant-prev'), bordo = box.getBoundingClientRect(), messi = [box.parentNode.querySelector('.pz-ant-t').getBoundingClientRect()];
+      $('ant-prev-q').textContent = 'oggi'; messi.push($('ant-prev-q').getBoundingClientRect());
+      [].slice.call(box.querySelectorAll('.pz-et')).forEach(function (l) {
+        var forme = ['pz-et', 'pz-et corta', 'pz-et mini'];
+        for (var f = 0; f < forme.length; f++) {
+          l.className = forme[f];
+          var r = l.getBoundingClientRect();
+          var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 2;
+          var tocca = messi.some(function (q) { return !(r.right + 2 < q.left || r.left - 2 > q.right || r.bottom + 2 < q.top || r.top - 2 > q.bottom); });
+          if (!fuori && !tocca) { messi.push(r); return; }
+        }
+        l.className = 'pz-et via';
+      });
+    }).catch(function () {});
+  }
+  /* la pioggia degli ULTIMI 7 GIORNI (28/10/2026, suo: «le piogge invece metti ultimi 7 gg»): <reg>-7g.webp, che
+     genera-anteprime.js scatta per le regioni di queste pagine; finche' non c'e', quella di ieri */
+  function antPluvio() {
+    var b = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/_anteprime-prova/' : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/';
+    function prova(f) { return fetch(b + REG + '-' + f + '.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) { j.f = f; return j; }); }
+    prova('7g').catch(function () { return prova('ieri'); }).then(function (j) {
+      $('ant-pluvio').style.backgroundImage = 'url(' + b + REG + '-' + j.f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') + ')';
+      var corto = function (g) { return d(g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }); };
+      if (j.da && j.a) $('ant-pluvio-q').textContent = j.da === j.a ? (j.a === IERI ? 'ieri' : corto(j.a)) : 'dal ' + corto(j.da) + ' al ' + corto(j.a);
+    }).catch(function () {});
+  }
+  if (C.ant && $('ant') && window.L) {
+    var antFatte = false;
+    var antVia = function () { if (antFatte) return; antFatte = true; antRadar(); antPrev(); antPluvio(); };
+    if ('IntersectionObserver' in window) {
+      var antIO = new IntersectionObserver(function (e) { if (e.some(function (x) { return x.isIntersecting; })) { antIO.disconnect(); antVia(); } }, { rootMargin: '400px' });
+      antIO.observe($('ant'));
+    } else setTimeout(antVia, 2500);
   }
 
   /* ── i comandi ── */
@@ -481,10 +643,23 @@ function clientePagina(C) {
   });
 
   function guasto() { $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
-  Promise.all([fetch(API + '?zona=' + C.slug + '&pr=1').then(function (r) { return r.json(); }),
+  /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
+     dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
+  function daPluviometro(j) {
+    var s = j && j.serie ? j.serie[C.id] : null;
+    if (!s || !s.length) return null;
+    var n = s.length, sette = 0, conti = 0;
+    for (var i = Math.max(0, n - 7); i < n; i++) if (s[i] != null) { sette += s[i]; conti++; }
+    return { serie: s.slice().reverse(), ultimoGiorno: j.ultimo, periodi: {
+      '1': s[n - 1] == null ? null : { media: s[n - 1], ultimo: j.ultimo, top: [] },
+      '7': conti ? { media: sette, ultimo: j.ultimo, top: [] } : null } };
+  }
+  Promise.all([fetch(API + (C.paese ? '?paese=' + C.paese : '?zona=' + C.slug) + '&pr=1').then(function (r) { return r.json(); }),
                fetch(RIP).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })]).then(function (x) {
-    J = x[0]; RIPJ = x[1];
+    J = x[0]; RIPJ = C.giorni ? daPluviometro(x[1]) : x[1];
     PAESI = (J && J.capoluoghi || []).filter(function (c) { return c.giorni && c.giorni.length; });
+    if (C.nomi) PAESI.forEach(function (c) { if (C.nomi[c.n]) c.n = C.nomi[c.n]; });
+    for (var k = 1; C.primo && k < PAESI.length; k++) if (PAESI[k].n === C.primo) { PAESI.unshift(PAESI.splice(k, 1)[0]); break; }
     G = PAESI.length ? giorniDi() : [];
     disegnaCaduta();
     if (!G.length) { guasto(); return; }
@@ -590,6 +765,7 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
 <h2>La pioggia caduta e quella in arrivo</h2>
 <p class="nota" style="margin-top:0">Gli ultimi 30 giorni misurati dai pluviometri ${esc(ENTE)} (media ${VALLE === 'valle' ? 'della valle' : 'della zona'}) e i 7 giorni previsti. Tocca una barra.</p>
 <div class="pz-graf" id="graf"></div>
+<div class="pz-graf-date" id="graf-date"></div>
 <div class="pz-graf-info" id="graf-info"></div>
 <div class="pz-leg"><span><i style="background:#1a5fa8"></i>misurata</span><span><i style="background:repeating-linear-gradient(45deg,#7fb0e0,#7fb0e0 3px,#b9d4ef 3px,#b9d4ef 6px)"></i>prevista</span><span id="leg-date"></span></div>
 <div class="griglia" style="margin-top:14px">
@@ -650,6 +826,13 @@ function paginaIndice(zone) {
     const s = slug(z.n), n = (tutti[s] || []).length;
     return `<a href="${SITO}/meteo/${s}/" onclick="try{gtag('event','apri_meteo_zona',{da:'meteo-indice'})}catch(e){}">Previsioni meteo ${esc(z.n)}<small>${n} paesi ${z.t === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota</small></a>`;
   };
+  // le pagine «Meteo <paese>» del test (28/10/2026): solo quelle gia' scritte, cosi' l'indice non punta mai a un 404
+  const paesi = METEO_PAESI.filter(p => fs.existsSync(path.join(RADICE, 'meteo', p.loc.split('/')[0], p.slug, 'index.html')))
+    .sort((a, b) => a.n.localeCompare(b.n, 'it'));
+  const schedaPaese = p => {
+    const casa = REGIONI.find(x => x.k === p.loc.split('/')[0]);
+    return `<a href="${indirizzoMeteoPaese(p)}" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo ${esc(p.n)}<small>${esc(casa ? nomeDi(casa) : '')}: ora per ora, e i paesi intorno</small></a>`;
+  };
   return `<!DOCTYPE html>
 <html lang="it">
 <head>
@@ -692,7 +875,13 @@ ${gruppi.map(g => `<h2 id="${g.casa.k}">${esc(nomeDi(g.casa))}</h2>
 <div class="pz-vai">
   ${g.zone.sort((a, b) => a.n.localeCompare(b.n, 'it')).map(scheda).join('\n  ')}
 </div>`).join('\n\n')}
-
+${paesi.length ? `
+<h2 id="paesi">Il meteo paese per paese</h2>
+<p>I posti più cercati sul sito, ognuno con la sua pagina: le previsioni ora per ora, i paesi intorno e la pioggia già caduta al pluviometro.</p>
+<div class="pz-vai">
+  ${paesi.map(schedaPaese).join('\n  ')}
+</div>
+` : ''}
 <h2>Come funzionano queste pagine</h2>
 <p>Ogni zona ha i suoi paesi, chiesti uno per uno alla loro quota: in valle e in cresta il tempo non è lo stesso. Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), aggiornate più volte al giorno; la probabilità di pioggia è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri delle agenzie regionali: non è una stima.</p>
 </main>
@@ -715,7 +904,9 @@ function articolo(di) {
   return { "dell'": "L'", 'della ': 'La ', 'delle ': 'Le ', 'degli ': 'Gli ', 'dei ': 'I ', 'del ': 'Il ' }[m[1]] + m[2];
 }
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, linkMeteo };
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese,
+  // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
+  CSS, clientePagina, paginaIndice, articolo, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {

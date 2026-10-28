@@ -67,7 +67,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoPaesi: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: '2026-08-14', freq: 'daily', pri: '1.0' });
@@ -187,6 +187,12 @@ function scriviSitemap(SITO, RADICE) {
     for (const d of fs.readdirSync(MZ).sort()) {
       if (c_e(path.join('meteo', d, 'index.html')))
         fam[MB.has(d) ? 'meteoB' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });
+      // le pagine «Meteo <paese>» (28/10/2026, genera-pagine-meteo-paese.js) stanno in meteo/<regione>/<paese>/, con la
+      // LORO sitemap: un altro test da misurare a parte
+      else if (fs.statSync(path.join(MZ, d)).isDirectory())
+        for (const s of fs.readdirSync(path.join(MZ, d)).sort())
+          if (c_e(path.join('meteo', d, s, 'index.html')))
+            fam.meteoPaesi.push({ loc: `${SITO}/meteo/${d}/${s}/`, lastmod: LASTMOD.meteoPaesi || LASTMOD.meteo, freq: 'daily', pri: '0.7' });
     }
   }
 
@@ -202,7 +208,7 @@ function scriviSitemap(SITO, RADICE) {
   const NOMI = { mappa: 'sitemap-mappa.xml', funghi: 'sitemap-funghi.xml',
                  localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml',
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
-                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml' };
+                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoPaesi: 'sitemap-meteo-paesi.xml' };
   const figlie = [];
   let totale = 0;
   for (const k of Object.keys(NOMI)) {

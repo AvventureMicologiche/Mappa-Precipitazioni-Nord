@@ -105,8 +105,13 @@ async function scattaPulita(page, k, nome, meta) {
 }
 
 /* LA PIOGGIA DI IERI, pulita (20/10/2026): per la striscia in cima alle pagine PIOGGE (regioni e zone), che parlano
-   di ieri e non dei 20 giorni. <k>-ieri.webp + <k>-ieri.json, stesso formato della mappa pulita. */
-async function scattaIeri(browser, k) {
+   di ieri e non dei 20 giorni. <k>-ieri.webp + <k>-ieri.json, stesso formato della mappa pulita.
+   Con giorni = 7 (28/10/2026) la pioggia degli ULTIMI 7 GIORNI fino a quello stesso giorno, <k>-7g.webp + .json: e'
+   l'anteprima del bottone «Pluviometri» delle pagine «Meteo <paese>», e si scatta solo per le loro regioni (SETTE). */
+const SETTE = [...new Set(require('./genera-pagine-meteo-zona.js').METEO_PAESI.map(p => p.loc.split('/')[0]))];
+async function scattaIeri(browser, k, giorni) {
+  giorni = giorni || 1;
+  const nome = giorni === 1 ? 'ieri' : giorni + 'g';
   const page = await browser.newPage();
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
   await page.evaluateOnNewDocument(() => { try { localStorage.setItem('novitaVista', '2099'); } catch (e) {} });
@@ -115,13 +120,14 @@ async function scattaIeri(browser, k) {
      vuota, il «✅» non arrivava mai e lo scatto aspettava 3 minuti per niente. Senza riepilogo, ieri. */
   let ieri = iso(giornoFa(1));
   try { const u = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'riepiloghi', k + '.json'), 'utf8')).periodi['1'].ultimo; if (/^\d{4}-\d\d-\d\d$/.test(u)) ieri = u; } catch (e) {}
+  const da = giorni === 1 ? ieri : new Date(Date.parse(ieri + 'T12:00:00Z') - (giorni - 1) * 864e5).toISOString().slice(0, 10);
   try {
-    await page.goto(SITO + '?r=' + k + '&da=' + ieri + '&a=' + ieri, { waitUntil: 'networkidle2', timeout: 120000 });
+    await page.goto(SITO + '?r=' + k + '&da=' + da + '&a=' + ieri, { waitUntil: 'networkidle2', timeout: 120000 });
     await page.waitForFunction(() => { const s = document.getElementById('tp-status'); return s && s.textContent.indexOf('✅') === 0; }, { timeout: 180000, polling: 500 });
     await new Promise(r => setTimeout(r, 3000));
-    return ', ieri ' + await scattaPulita(page, k, 'ieri', { tipo: 'ieri', da: ieri, a: ieri }) + ' KB';
+    return ', ' + nome + ' ' + await scattaPulita(page, k, nome, { tipo: nome, da: da, a: ieri }) + ' KB';
   } catch (e) {
-    return ', ieri FALLITA (' + e.message.slice(0, 60) + ')';
+    return ', ' + nome + ' FALLITA (' + e.message.slice(0, 60) + ')';
   } finally { await page.close(); }
 }
 
@@ -180,6 +186,7 @@ async function scatta(browser, k) {
     let pulita = '';
     try { pulita = ', pulita ' + await scattaPulita(page, k) + ' KB'; } catch (e) { pulita = ', pulita FALLITA (' + e.message.slice(0, 60) + ')'; }
     pulita += await scattaIeri(browser, k);
+    if (SETTE.includes(k)) pulita += await scattaIeri(browser, k, 7);
     // (21/10/2026, ottavo check, bug 2) uno scatto pulito o «di ieri» fallito lascia sul ramo l'immagine vecchia: si
     // segnala nel registro del giro come avviso di GitHub, cosi' si vede senza aprire il registro intero
     if (/FALLITA/.test(pulita)) console.log('::warning::anteprime ' + k + ':' + pulita);

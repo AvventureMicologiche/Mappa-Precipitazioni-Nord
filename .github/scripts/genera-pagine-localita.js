@@ -49,6 +49,7 @@ const { rigaStagione } = require('./lib-stagione.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // 20/10/2026, come le zone funghi
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
+const { linkMeteoPaese } = require('./genera-pagine-meteo-zona.js');   // «Meteo <paese>» dei 20 posti del test (28/10/2026)
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
 // genera: totale dell'archivio, giorni di pioggia, giorno piu' bagnato,
 // mese piu' piovoso. Il perche' sta in cima a lib-clima.js.
@@ -410,7 +411,7 @@ ${rigaStagione()}
 <div id="guasto"></div>
 <div id="verdetto"></div>
 ${haBoschi(REG) ? boschiHtml('🌲 Trova i boschi ' + esc(DOVE) + ' e dintorni') : ''}
-${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei paesi…', 'mk-meteo')}
+${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei paesi…', 'mk-meteo', linkMeteoPaese(REG + '/' + slug, 'localita-' + REG + '-' + slug))}
 
 <h2>Le piogge degli ultimi 25 giorni</h2>
 <div id="grafico"></div>

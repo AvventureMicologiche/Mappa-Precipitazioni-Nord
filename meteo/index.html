@@ -295,11 +295,23 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ora .mm{color:#1a5fa8;font-weight:700;min-height:15px}.pz-ora .v{color:#7a8796;font-size:11px}
 /* la % di pioggia, ora per ora: gli stessi tre toni della mappa (sotto il 10% grigia, dal 60% rossa) */
 .pz-ora .pc{font-size:11.5px;font-weight:700;color:#1a5fa8;min-height:15px}.pz-ora .pc.z{color:#9aa3ad;font-weight:500}.pz-ora .pc.alta{color:#c21f1f}
-.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-.pz-porte a{display:block;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
+/* righe tutte alte uguali e scritte centrate (28/10/2026, regola delle simmetrie): i due della pioggia vanno su due righe */
+.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:6px;margin-top:8px}
+.pz-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
 .pz-porte a span{display:block;font-size:20px}
-.pz-graf{display:flex;align-items:flex-end;gap:2px;height:130px;margin:12px 0 4px;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
-.pz-graf .b{flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
+.pz-porte a small{display:block;font-size:11.5px;font-weight:500;color:#4a5d72}
+@media(max-width:380px){.pz-porte a{font-size:12px;padding:8px 2px}}
+.pz-graf{position:relative;display:flex;align-items:flex-end;gap:2px;height:130px;margin:34px 0 0;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
+/* misurata e prevista (28/10/2026): i giorni previsti su un fondo azzurro chiaro col filo a sinistra, i due nomi in
+   maiuscoletto sopra, le date e la pillola «oggi» sotto l'asse. Le barre stanno sopra il fondo (position:relative) */
+.pz-fut{position:absolute;top:-28px;bottom:-1px;right:0;margin-left:-1px;background:#eef4fb;border-left:1px solid #9db4cc;border-radius:0 10px 0 0;pointer-events:none}
+.pz-gt{position:absolute;left:0;top:-24px;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a8a9b;white-space:nowrap;pointer-events:none}
+.pz-gt.pre{margin-left:8px;color:#2f6aa6}
+.pz-graf-date{position:relative;height:22px;margin:0 0 4px;font-size:11.5px;color:#5a6b7d}
+.pz-graf-date span{position:absolute;top:4px;transform:translateX(-50%);white-space:nowrap}
+.pz-graf-date span.d{transform:translateX(-100%)}.pz-graf-date span.s{transform:none}
+.pz-graf-date span.oggi{top:3px;background:#0f3d6e;color:#fff;font-weight:700;font-size:11px;line-height:15px;border-radius:999px;padding:0 8px}
+.pz-graf .b{position:relative;flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
 .pz-graf .b:hover,.pz-graf .b.sel{background:#c4501a}
 .pz-graf .b.prev{background:repeating-linear-gradient(45deg,#7fb0e0,#7fb0e0 3px,#b9d4ef 3px,#b9d4ef 6px)}
 .pz-graf .b.prev.sel,.pz-graf .b.prev:hover{background:#c4501a}
@@ -407,6 +419,31 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 <h2 id="umbria">Umbria</h2>
 <div class="pz-vai">
   <a href="https://precipitazioni.avventuremicologiche.it/meteo/valtiberina/" onclick="try{gtag('event','apri_meteo_zona',{da:'meteo-indice'})}catch(e){}">Previsioni meteo Valtiberina<small>12 paesi della valle, ognuno alla sua quota</small></a>
+</div>
+
+<h2 id="paesi">Il meteo paese per paese</h2>
+<p>I posti più cercati sul sito, ognuno con la sua pagina: le previsioni ora per ora, i paesi intorno e la pioggia già caduta al pluviometro.</p>
+<div class="pz-vai">
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/emilia/albareto/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Albareto<small>Emilia-Romagna: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/badia-prataglia/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Badia Prataglia<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/bagni-di-lucca/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Bagni di Lucca<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/barbagelata/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Barbagelata<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/piemonte/bobbio-pellice/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Bobbio Pellice<small>Piemonte: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/cabanne/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Cabanne<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/calizzano/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Calizzano<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/capanne-di-sillano/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Capanne di Sillano<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/piemonte/coazze/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Coazze<small>Piemonte: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/piemonte/druogno/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Druogno<small>Piemonte: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/trentino/folgaria/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Folgaria<small>Trentino: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/monticiano/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Monticiano<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/piemonte/mottarone/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Mottarone<small>Piemonte: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/pizzorne/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Pizzorne<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/pratomagno/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Pratomagno<small>Toscana: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/santo-stefano-d-aveto/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Santo Stefano d'Aveto<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/sassello/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Sassello<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/trentino/tremalzo/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Tremalzo<small>Trentino: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/urbe/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Urbe<small>Liguria: ora per ora, e i paesi intorno</small></a>
+  <a href="https://precipitazioni.avventuremicologiche.it/meteo/toscana/vallombrosa/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo Vallombrosa<small>Toscana: ora per ora, e i paesi intorno</small></a>
 </div>
 
 <h2>Come funzionano queste pagine</h2>

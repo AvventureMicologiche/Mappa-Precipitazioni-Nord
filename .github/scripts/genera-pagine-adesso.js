@@ -328,4 +328,4 @@ if (require.main === module) {
   console.log(`\n${LISTA.length} pagine scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
 }
 
-module.exports = { LISTA };
+module.exports = { LISTA, confineDi };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
