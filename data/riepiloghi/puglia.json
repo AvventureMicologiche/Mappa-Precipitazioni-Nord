@@ -1,46 +1,46 @@
 {
  "regione": "puglia",
- "generato": "2026-10-28T09:53:33.365Z",
+ "generato": "2026-10-28T15:59:32.990Z",
  "periodi": {
   "1": {
-   "media": 1.8,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 128,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "stazioni": 129,
+   "primo": "2026-10-26",
+   "ultimo": "2026-10-26",
    "top": [
     {
-     "n": "Sannicandro Garganico",
-     "mm": 48
+     "n": "Acquaviva delle Fonti",
+     "mm": 0.6
     },
     {
-     "n": "Poggio Imperiale",
-     "mm": 22.2
+     "n": "Gioia del Colle",
+     "mm": 0.6
     },
     {
-     "n": "Lesina",
-     "mm": 20.7
+     "n": "Montursi (Gioia del Colle)",
+     "mm": 0.6
     },
     {
-     "n": "Cagnano Varano",
-     "mm": 20
+     "n": "Adelfia",
+     "mm": 0.5
     },
     {
-     "n": "Bari Ufficio Idrografico",
-     "mm": 19.2
+     "n": "Bitonto",
+     "mm": 0.5
     }
    ]
   },
   "7": {
-   "media": 25.5,
+   "media": 25.6,
    "giorni": 7,
    "stazioni": 128,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-20",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Sannicandro Garganico",
-     "mm": 90
+     "mm": 90.2
     },
     {
      "n": "Locorotondo",
@@ -56,20 +56,20 @@
     },
     {
      "n": "Massafra",
-     "mm": 71.6
+     "mm": 71.9
     }
    ]
   },
   "20": {
-   "media": 77.4,
+   "media": 77.5,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-07",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 197.4
+     "mm": 197.2
     },
     {
      "n": "S.M. di Leuca",
@@ -77,7 +77,7 @@
     },
     {
      "n": "Nardo",
-     "mm": 159.8
+     "mm": 159.9
     },
     {
      "n": "Ostuni",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 77.9,
+   "media": 77.8,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
+   "primo": "2026-09-27",
+   "ultimo": "2026-10-26",
    "top": [
     {
      "n": "Vignacastrisi",
-     "mm": 198
+     "mm": 197.4
     },
     {
      "n": "S.M. di Leuca",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Nardo",
-     "mm": 162
+     "mm": 159.9
     },
     {
      "n": "Ostuni",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   1.8,
   3.8,
   0.1,
@@ -148,9 +149,8 @@
   0.2,
   0,
   0,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-26",
  "zone": []
 }
