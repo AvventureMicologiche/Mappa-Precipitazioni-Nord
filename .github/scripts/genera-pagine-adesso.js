@@ -31,6 +31,8 @@ const path = require('path');
 const { REGIONI, GEN, navAltre, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi } = require('./genera-pagine-regione.js');
 const { STILE_NUOVO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');   // quiz accanto a YouTube (20/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
+const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
+const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
 const VERSIONE_JS = 5;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026)
@@ -96,15 +98,18 @@ function alleggerisci(g) {
   return { type:'MultiPolygon', coordinates:out };
 }
 
-// le citta': i capoluoghi dell'area (lo stesso elenco della sezione Previsioni), dal piu' popoloso
+// le citta': i capoluoghi dell'area (lo stesso elenco della sezione Previsioni), prima il capoluogo di regione, poi
+// quelli di provincia (28/10/2026, suo: «è più importante Savona di Millesimo»: Imperia prima di Sanremo), poi gli
+// altri; ognuno dal piu' popoloso
 const CAPOLUOGHI = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'capoluoghi.json'), 'utf8'));
 const POP = {};
 for (const riga of fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n')) {
   const c = riga.split('|'); if (c.length >= 6) POP[c[0]] = Math.max(POP[c[0]] || 0, +c[5]);
 }
 function cittaDi(r) {
-  return (CAPOLUOGHI[r.k] || []).map(c => ({ n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, reg:r.k }))
-    .sort((a, b) => (POP[b.n] || 0) - (POP[a.n] || 0));
+  const peso = c => c.c ? 2 : capoluogo(c.n) ? 1 : 0;
+  return (CAPOLUOGHI[r.k] || []).slice().sort((a, b) => peso(b) - peso(a) || (POP[b.n] || 0) - (POP[a.n] || 0))
+    .map(c => ({ n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, reg:r.k }));
 }
 
 const attr = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -229,14 +234,10 @@ I pluviometri la misurano a terra. Per sapere quanta ne è caduta c'è la pagina
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${STILE_ADESSO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}</style>
+${RILIEVO}${STILE_ADESSO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${TESTATA_CSS}</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}-adesso'})}catch(e){}">▶ Iscriviti</a>
-</header>
+${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k + '-adesso', attiva: '' })}
 <main>
 <h1>Dove sta piovendo adesso ${r.prep} ${r.nome}</h1>
 <p class="sotto"><b>Radar della pioggia in diretta</b>: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
@@ -318,14 +319,16 @@ ${navAltre('regione')}
 if (require.main === module) {
   const senza = LISTA.filter(r => !GEN2[r.k]).map(r => r.k);
   if (senza.length) { console.error('⚠️ manca il genitivo per: ' + senza.join(', ')); process.exit(1); }
-  for (const r of LISTA) {
+  const SOLO = process.env.SOLO;   // SOLO=liguria: una pagina sola, per i campioni (sitemap non toccata, 28/10/2026)
+  for (const r of LISTA.filter(r => !SOLO || r.k === SOLO)) {
     const html = pagina(r);
     const nc = cittaDi(r).length;
     if (!nc) { console.error(`⚠️ ${r.k}: nessuna città in capoluoghi.json`); process.exit(1); }
     scrivi(path.join(RADICE, r.k, 'adesso', 'index.html'), html, true);
     console.log(`  /${r.k}/adesso/  ${nc} città · ${Math.round(Buffer.byteLength(html) / 1024)} KB · «${titoloDi(r)}» (${titoloDi(r).length})`);
   }
-  console.log(`\n${LISTA.length} pagine scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
+  if (SOLO) console.log(`(SOLO=${SOLO}: sitemap non toccata)`);
+  else console.log(`\n${LISTA.length} pagine scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
 }
 
 module.exports = { LISTA, confineDi };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)

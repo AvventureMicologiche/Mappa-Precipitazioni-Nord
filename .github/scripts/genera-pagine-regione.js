@@ -56,6 +56,7 @@ const { METEO_CSS, meteoHtml, meteoClient } = require('./lib-meteo-regione.js');
 // 20/10/2026 (lib-striscia.js, sua scelta B): il bottone «Apri la mappa di ieri» diventa la mappa della pioggia di
 // IERI (<regione>-ieri.webp, dal giro delle anteprime), con la sua scritta su un'etichetta gialla all'85%
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');
+const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 // «Apri la mappa di ieri» con le scritte piu' grandi (suo, 20/10/2026), una riga anche a 360 px. Solo qui e non in
 // STILE_IERI, che usano anche le pagine «adesso» con testi diversi. Sta PRIMA di METEO_CSS perche' le zone piogge
 // copiano il foglio della regione di casa tagliandolo all'inizio del blocco meteo: cosi' lo ereditano.
@@ -493,14 +494,10 @@ function pagina(r, radice){
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}</style>
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${TESTATA_CSS}</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'pagina-${r.k}'})}catch(e){}">▶ Iscriviti</a>
-</header>
+${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k, attiva: 'storico' })}
 <main>
 <h1>${h1}</h1>
 <p class="sotto"><b>Pluviometria ${gen}</b>: i dati di ${r.staz} pluviometri ${diEnte(r.agenzia)}, ieri e nell'ultimo mese, ${r.geo}.</p>
@@ -579,7 +576,7 @@ ${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-30gg'})}catch(e){}">Ultimi 30 gg</a>
   ${ESTERE.includes(r.k) ? `<a href="${SITO}/?r=${r.k}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-radar'})}catch(e){}">` : `<a href="${SITO}/${r.k}/adesso/"
-     onclick="try{gtag('event','apri_adesso',{da:'pagina-${r.k}-tasto'})}catch(e){}">`}📡 Radar adesso</a>
+     onclick="try{gtag('event','apri_adesso',{da:'pagina-${r.k}-tasto'})}catch(e){}">`}📡 Radar piogge</a>
   <a class="t-prev" href="${SITO}/?r=${r.k}&amp;m=prev"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>

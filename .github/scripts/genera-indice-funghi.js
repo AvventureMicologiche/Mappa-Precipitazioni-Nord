@@ -48,6 +48,7 @@ const { stileDelModello } = require('./lib-pagina-funghi.js');
 // della classifica col bottone del radar, «Trova i boschi», e i due riquadri pioggia | boschi)
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');
 const { STRISCIA_CSS } = require('./lib-striscia.js');
+const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
 const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
@@ -135,14 +136,11 @@ ${METEO_CSS}${STRISCIA_CSS}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
 /* i due riquadri pioggia | boschi sotto «Ecco cosa vedi sulla mappa»: quasi quadrati, l'anteprima della regione copre */
 .mk-str.mk-italia{gap:12px;margin:8px 0 6px;}
-.mk-str.mk-italia a{height:auto;min-height:150px;aspect-ratio:1/1.02;background-size:cover;background-position:50% 50%;}
-</style>
+.mk-str.mk-italia a i.mk-img{height:auto;min-height:150px;aspect-ratio:1/1.02;background-size:cover;background-position:50% 50%;}
+${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 </head>
 <body>
-<header>
-  <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ <span class="yt-l">Canale </span>YouTube</a>
-</header>
+${testata({ sito: SITO, canale: 'https://www.youtube.com/@avventuremicologiche?sub_confirmation=1', reg: '', ga: 'indice-funghi', attiva: '' })}
 <main>
 
 ${/* ⚠️ LA FINESTRA DEVE ESSERE CHIARA NELLE PRIME TRE RIGHE, non dopo due
@@ -188,8 +186,8 @@ ${/* ⚠️ L'ANTEPRIMA STA QUI, sotto la classifica e il meteo, e non in fondo:
      ⚠️ Le scritte NON dicono il periodo (suo: «quella è un'immagine generica»). */''}
 <h2 style="margin-top:30px">Ecco cosa vedi sulla mappa</h2>
 <div class="mk-str mk-giallo mk-italia" id="riquadri">
-  <a href="${SITO}/" data-t="pioggia" onclick="try{gtag('event','apri_mappa',{da:'indice-funghi-striscia-pioggia'})}catch(e){}"><span><b>💧 Mappa delle piogge</b><small>scegli il periodo →</small></span></a>
-  <a href="${SITO}/?boschi=1" data-t="boschi" onclick="try{gtag('event','apri_mappa',{da:'indice-funghi-striscia-boschi'})}catch(e){}"><span><b>🌲 Mappa dei boschi</b><small>tipo per tipo →</small></span></a>
+  <a href="${SITO}/" data-t="pioggia" onclick="try{gtag('event','apri_mappa',{da:'indice-funghi-striscia-pioggia'})}catch(e){}"><i class="mk-img"></i><span><b>💧 Mappa delle piogge</b><small>scegli il periodo →</small></span></a>
+  <a href="${SITO}/?boschi=1" data-t="boschi" onclick="try{gtag('event','apri_mappa',{da:'indice-funghi-striscia-boschi'})}catch(e){}"><i class="mk-img"></i><span><b>🌲 Mappa dei boschi</b><small>tipo per tipo →</small></span></a>
 </div>
 <p class="nota" style="text-align:center;margin-bottom:26px;">Qui sopra la regione del primo posto in classifica: a
 sinistra la pioggia degli ultimi 20 giorni misurata dai pluviometri, più il colore è acceso più ne è venuta giù; a
@@ -287,8 +285,10 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
       var img = base + reg + '-mappa.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '');
       function pr(lat, lon){ var sz = 256 * Math.pow(2, j.z), sy = Math.sin(lat * Math.PI / 180);
         return [(lon + 180) / 360 * sz, (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * sz]; }
+      // la cartina sta nella parte di sopra del riquadro (i.mk-img, 28/10/2026: l'etichetta e' sotto, come lib-striscia.js)
+      var box = a.querySelector('i.mk-img') || a;
       function metti(){
-        var tw = a.clientWidth, th = a.clientHeight; if (!tw || !th) { setTimeout(metti, 200); return; }
+        var tw = box.clientWidth, th = box.clientHeight; if (!tw || !th) { setTimeout(metti, 200); return; }
         var k, cx, cy;
         if (j.reg) { var nw = pr(j.reg.n, j.reg.w), se = pr(j.reg.s, j.reg.e);
           k = Math.min(tw / Math.max(1, se[0] - nw[0]), th / Math.max(1, se[1] - nw[1])) * 0.94;
@@ -297,9 +297,9 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
         k = Math.max(k, tw / j.w, th / j.h);   // l'immagine copre sempre il riquadro
         var bw = j.w * k, bh = j.h * k;
         var x = Math.min(0, Math.max(tw - bw, tw / 2 - cx * k)), y = Math.min(0, Math.max(th - bh, th / 2 - cy * k));
-        a.style.backgroundImage = 'url(' + img + ')';
-        a.style.backgroundSize = bw.toFixed(1) + 'px ' + bh.toFixed(1) + 'px';
-        a.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+        box.style.backgroundImage = 'url(' + img + ')';
+        box.style.backgroundSize = bw.toFixed(1) + 'px ' + bh.toFixed(1) + 'px';
+        box.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
       }
       metti(); window.addEventListener('resize', metti);
     }).catch(function(){});   // senza JSON il riquadro resta blu con la scritta, e si clicca lo stesso
@@ -401,4 +401,4 @@ if (prima === testo) {
   console.log(`  funghi/index.html  ${CON_FUNGHI.length} regioni, ${N_ZONE} zone, ${N_POSTI} posti`);
 }
 
-scriviSitemap(SITO, RADICE);
+if (!process.env.SOLO) scriviSitemap(SITO, RADICE);   // SOLO=1: la pagina sola, per i campioni (28/10/2026)

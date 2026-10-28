@@ -46,6 +46,7 @@ const { coppiaQuiz } = require('./lib-pagina-funghi.js');
 // della regione (lib-meteo-regione.js, con le opzioni di zona): una regola sola, un posto solo.
 const { METEO_CSS, meteoHtml, meteoClient } = require('./lib-meteo-regione.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');
+const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 // il link alle pagine «Previsioni meteo <zona>» (24/10/2026, test su 11 zone): l'elenco sta nel loro generatore
 const { linkMeteo } = require('./genera-pagine-meteo-zona.js');   // la mappa di ieri nel bottone in cima (20/10/2026)
 
@@ -253,14 +254,10 @@ ${METEO_CSS}${STRISCIA_CSS}
 /* i paesi hanno nomi lunghi («Castelnuovo di Garfagnana»): a capo invece dei puntini, colonna un filo piu' larga */
 #meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
-</style>
+${TESTATA_CSS}</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'zona-piogge-${zslug}'})}catch(e){}">▶ Iscriviti</a>
-</header>
+${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'zona-piogge-' + zslug, attiva: 'storico' })}
 <main>
 <p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/${casa.k}/">${esc(nomeReg)}</a> › ${esc(z.n)}</p>
 <h1>Dove ha piovuto ${esc(z.dove)}</h1>
@@ -294,7 +291,7 @@ ${righe}
   ${tasto('t20', 20, 'Ultimi 20 gg')}
   ${tasto('t30', 30, 'Ultimi 30 gg')}
   <a href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
-     onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-radar'})}catch(e){}">📡 Radar adesso</a>
+     onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-prev" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;m=prev"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
@@ -405,8 +402,9 @@ ${coppiaQuiz(casa.k, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel
       + '<small>la pioggia in tutte le località</small></a></div>'
       // 20/10/2026, come le pagine regione (lib-numeri-regione.js): le altre funzioni della mappa, gia' puntate sulla zona
       + '<div class="mk-porte">'
-      + [['☀️', 'Previsioni', '&m=prev', 'porta-previsioni'], ['📡', 'Radar', '&radar=ora', 'porta-radar'],
-         ['🌲', 'Boschi', '&boschi=1', 'porta-boschi'], ['🛰', 'Satellite', '&boschi=1&sat=1', 'porta-satellite']].map(function(t){
+      // 28/10/2026: i nomi dei bottoni delle pagine meteo («Radar piogge», «Mappa boschi», «Boschi + satellite»)
+      + [['☀️', 'Previsioni', '&m=prev', 'porta-previsioni'], ['📡', 'Radar piogge', '&radar=ora', 'porta-radar'],
+         ['🌲', 'Mappa boschi', '&boschi=1', 'porta-boschi'], ['🛰️', 'Boschi + satellite', '&boschi=1&sat=1', 'porta-satellite']].map(function(t){
           return '<a href="' + SITO + '/?r=' + CASA + t[2] + '&' + PIN + '" onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'zona-piogge-' + ZONA + '-' + t[3] + '\\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
         }).join('') + '</div></div>';
   }

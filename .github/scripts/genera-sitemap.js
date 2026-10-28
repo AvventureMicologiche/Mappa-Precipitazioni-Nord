@@ -181,9 +181,7 @@ function scriviSitemap(SITO, RADICE) {
   // Dal 24/10 sera due gruppi: le zone di ZONE_METEO_B (genera-pagine-meteo-zona.js) vanno in sitemap-meteo-b.xml.
   const MZ = path.join(RADICE, 'meteo'), MB = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_B);
   if (fs.existsSync(MZ)) {
-    // la pagina madre delle zone (28/10/2026), in testa alla sitemap del gruppo A
-    if (c_e(path.join('meteo', 'index.html')))
-      fam.meteo.push({ loc: SITO + '/meteo/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'weekly', pri: '0.8' });
+    // (la pagina madre /meteo/ c'e' stata solo il 28/10/2026: dalla sera rimanda a /previsioni/, che sta in sitemap-mappa.xml)
     for (const d of fs.readdirSync(MZ).sort()) {
       if (c_e(path.join('meteo', d, 'index.html')))
         fam[MB.has(d) ? 'meteoB' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });

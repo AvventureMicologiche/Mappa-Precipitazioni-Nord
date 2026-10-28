@@ -343,7 +343,7 @@ header{position:relative;flex-wrap:nowrap;}
 .mk-r small{color:#6b7d93;white-space:nowrap;}
 .mk-porte-t{padding:12px 14px 4px;font-weight:700;font-size:15px;}
 .mk-porte-t small{display:block;font-weight:500;color:#6b7d93;font-size:13px;margin-top:2px;}
-.mk-6{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 12px 12px;}
+.mk-6{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;padding:8px 12px 12px;}   /* righe alte uguali (28/10/2026) */
 .mk-6 a{display:flex;align-items:center;gap:9px;padding:10px 10px;border:1px solid #d3deeb;border-radius:10px;text-decoration:none;color:#10263f;font-weight:700;font-size:14.5px;line-height:1.15;}
 .mk-6 a:hover{background:#eef4fb;}
 .mk-6 a span{font-size:20px;}
@@ -356,9 +356,10 @@ header{position:relative;flex-wrap:nowrap;}
   header .yt{margin-left:8px;}
   .mk-drop{min-width:0;}
 }
-.mk-porte{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;}
-.mk-porte a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 8px;border-radius:11px;background:rgba(255,255,255,.12);
-  color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;border:1px solid rgba(255,255,255,.22);}
+/* 28/10/2026: coi nomi nuovi («Boschi + satellite») le scritte vanno su due righe: righe alte uguali e testo centrato */
+.mk-porte{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:8px;margin-top:14px;}
+.mk-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 3px 8px;border-radius:11px;background:rgba(255,255,255,.12);
+  color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;line-height:1.15;text-align:center;border:1px solid rgba(255,255,255,.22);}
 .mk-porte a span{font-size:21px;line-height:1;}
 .mk-porte a:hover{background:rgba(255,255,255,.2);}
 .mk-meteo{background:#f3f7fc;border:1px solid #d6e2f0;border-radius:14px;padding:4px 16px 14px;margin:18px 0 6px;}
@@ -413,42 +414,100 @@ header{position:relative;flex-wrap:nowrap;}
 .gg-leg .mk-leg-fut{background:repeating-linear-gradient(135deg,#7fb2ec 0 4px,#a9cdf5 4px 8px) !important;}
 
 /* ── la mappa nella scheda in cima (lib-striscia.js, 20/10/2026) ── */
-.mk-str{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 2px;}
-.mk-str a{position:relative;display:block;height:122px;border-radius:11px;overflow:hidden;background:#1d3d63 no-repeat;
+div.mk-str{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 2px;}
+/* ⚠️ L'ETICHETTA SOTTO LA CARTINA, NON SOPRA (28/10/2026, come le anteprime delle pagine meteo, dove sopra copriva la
+   Sicilia e le citta' della costa; suo: «prendi le idee nuove che abbiamo messo in queste pagine e applicale»). Il
+   riquadro e' una colonna: la cartina (i.mk-img, dove ritaglia() mette l'immagine) e sotto la striscia gialla. */
+div.mk-str a{position:relative;display:flex;flex-direction:column;height:auto;border-radius:11px;overflow:hidden;background:#1d3d63;
   box-shadow:0 0 0 1px rgba(255,255,255,.28);text-decoration:none;}
-.mk-str a span{position:absolute;left:7px;bottom:7px;background:rgba(9,28,52,.86);color:#fff;font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  padding:6px 8px;border-radius:8px;}
-.mk-str a span b{display:block;font-weight:800;white-space:nowrap;}
-.mk-str a span small{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;}
-.mk-str a.mk-uno{grid-column:1 / -1;}
-.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e12b2b;border:2px solid #fff;
+div.mk-str a i.mk-img{position:relative;display:block;height:122px;background:#1d3d63 no-repeat;}
+div.mk-str a span{position:static;display:block;flex:1;border-radius:0;box-shadow:none;background:rgba(9,28,52,.86);color:#fff;font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  padding:7px 9px 8px;}
+div.mk-str a span b{display:block;font-weight:800;white-space:nowrap;}
+div.mk-str a span small{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;}
+div.mk-str a.mk-uno{grid-column:1 / -1;}
+div.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e12b2b;border:2px solid #fff;
   box-shadow:0 1px 4px rgba(0,0,0,.45);}
-@media(min-width:700px){.mk-str a{height:150px;}}
+@media(min-width:700px){div.mk-str a i.mk-img{height:150px;}}
 /* al telefono il riquadro e' largo ~146 px a 360: scritte un filo piu' piccole, e a capo piuttosto che fuori */
-@media(max-width:420px){.mk-str a span{left:6px;bottom:6px;right:6px;padding:5px 6px;font-size:12.5px;}
-  .mk-str a span b,.mk-str a span small{white-space:normal;} .mk-str a span small{font-size:11px;}}
-@media(max-width:370px){.mk-str a span{font-size:12px;padding:5px;} .mk-str a span small{font-size:10.5px;}}
+@media(max-width:420px){div.mk-str a span{padding:6px 7px 7px;font-size:12.5px;}
+  div.mk-str a span b,div.mk-str a span small{white-space:normal;} div.mk-str a span small{font-size:11px;}}
+@media(max-width:370px){div.mk-str a span{font-size:12px;padding:6px;} div.mk-str a span small{font-size:10.5px;}}
 /* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella grande del bottone di ieri */
-.mk-str.mk-ieri a{height:140px;} @media(min-width:700px){.mk-str.mk-ieri a{height:185px;}}
-.mk-str.mk-grande a span{left:10px;bottom:10px;right:auto;padding:9px 13px;border-radius:10px;}
-.mk-str.mk-grande a span b{font-size:19px;} .mk-str.mk-grande a span small{font-size:14px;}
-@media(max-width:420px){.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} .mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
-/* il bottone sulla mappa colorato (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube */
-.mk-str.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.85),rgba(237,164,12,.85));color:#3d1f04;box-shadow:0 3px 0 rgba(160,106,8,.85),0 6px 14px rgba(0,0,0,.3);}   /* all'85% (suo: «giallo ma semitrasparente?»): la mappa si intravede, resta un bottone */
-.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;box-shadow:0 3px 0 #8f1410,0 6px 14px rgba(0,0,0,.35);}
-.mk-str.mk-giallo a span small,.mk-str.mk-rosso a span small{opacity:.92;}
+div.mk-str.mk-ieri a i.mk-img{height:140px;} @media(min-width:700px){div.mk-str.mk-ieri a i.mk-img{height:185px;}}
+div.mk-str.mk-grande a span{padding:10px 14px 11px;border-radius:0;}
+div.mk-str.mk-grande a span b{font-size:19px;} div.mk-str.mk-grande a span small{font-size:14px;}
+@media(max-width:420px){div.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} div.mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
+/* la striscia colorata (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube.
+   Sotto la cartina il giallo e' pieno, come le anteprime delle pagine meteo (all'85% serviva quando stava sopra) */
+div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;border-top:1px solid rgba(160,106,8,.35);box-shadow:none;}
+div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:1px solid #8f1410;box-shadow:none;}
+div.mk-str.mk-giallo a span small,div.mk-str.mk-rosso a span small{opacity:.92;}
 
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
+
+/* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+/* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
+.tB a{text-decoration:none;opacity:1}
+/* la colonna e' quella di main della famiglia: --t-max e --t-pad (760 e 16 di partenza; funghi e mappa forestale 860 e,
+   sotto i 640 px, 12: TESTATA_CSS_FUNGHI). Nella striscia il margine e' 11 px piu' stretto: le voci hanno 11 px di imbottitura */
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+/* la lente del cerca (meteoClient): tonda, blu, accanto a Iscriviti; la casella si apre sopra la fascia */
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+/* con la lente nella fascia mancavano 64 px al computer (la frase andava su due righe) e 14 a 393 (il nome su due):
+   la frase perde «in tutta Italia», il nome al telefono scende di 2 px. Senza lente la testata resta quella approvata */
+.tB .t-in:has(.mk-lente) .t-it{display:none}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+/* a 360 px «Mappa Pluviometrica» andava su due righe */
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
+header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 </style>
 </head>
 <body>
 
-<header>
-  <a href="https://precipitazioni.avventuremicologiche.it/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a class="yt" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'zona-lombardia'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
+<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia" onclick="try{gtag('event','apri_mappa',{da:'zona-lombardia-testata-storico'})}catch(e){}">Storico piogge</a><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=lombardia" onclick="try{gtag('event','apri_mappa',{da:'zona-lombardia-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'zona-lombardia'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
+  </div></div>
 </header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
 
 <main>
 <p class="nota" style="margin-bottom:6px"><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/" style="color:var(--blu)">Lombardia</a></p>
@@ -489,7 +548,7 @@ header{position:relative;flex-wrap:nowrap;}
   <a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=30&amp;pl=45.7158,10.4181&amp;pn=Valle%20Sabbia&amp;pz=1&amp;z=10&amp;c=45.7158,10.4181">Ultimi 30 gg</a>
   <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia,trentino&amp;g=20&amp;pl=45.7158,10.4181&amp;pn=Valle%20Sabbia&amp;pz=1&amp;z=10&amp;c=45.7158,10.4181">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.7158,10.4181&amp;pn=Valle%20Sabbia&amp;pz=1&amp;radar=ora"
-     onclick="try{gtag('event','apri_mappa',{da:'zona-valle-sabbia-radar'})}catch(e){}">📡 Radar adesso</a>
+     onclick="try{gtag('event','apri_mappa',{da:'zona-valle-sabbia-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;pl=45.7158,10.4181&amp;pn=Valle%20Sabbia&amp;pz=1&amp;m=prev"
      onclick="try{gtag('event','apri_mappa',{da:'zona-valle-sabbia-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
@@ -532,7 +591,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/valle-sabbia/">dove ha piovuto in Valle Sabbia</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da gennaio 2026 a ottobre 2026, in 295 giorni di misura, i 3 pluviometri
+<p>Da gennaio 2026 a ottobre 2026, in 298 giorni di misura, i 3 pluviometri
 della Valle Sabbia hanno contato
 <b>864 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Idro Frana</b> con
 937 mm, il più asciutto Caino con 819.
@@ -891,6 +950,11 @@ OpenStreetMap, licenza ODbL.</p>
   function nomeReg(k) { return { valledaosta: "Valle d'Aosta", altoadige: 'Alto Adige', emilia: 'Emilia-Romagna', friuli: 'Friuli' }[k] || (k.charAt(0).toUpperCase() + k.slice(1)); }
   function pl(x) { return '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n) + (x.z ? '&pz=1' : ''); }
   function vai(url, da) { ga(da); setTimeout(function () { location.href = url; }, 120); }
+  /* I CAPOLUOGHI DI PROVINCIA PRIMA DEGLI ALTRI PAESI nella tabella delle citta' (28/10/2026, suo: «è più importante
+     Savona di Millesimo», «in tutte le pagine»): la lista di lib-capoluoghi.js (CAPI), scritta come la normalizza norm().
+     In fondo a questo file un controllo ferma il generatore se le due liste non sono uguali. */
+  var CAPI = '|torino|alessandria|asti|biella|cuneo|novara|verbania|vercelli|aosta|milano|bergamo|brescia|como|cremona|lecco|lodi|mantova|monza|pavia|sondrio|varese|trento|bolzano|venezia|belluno|padova|rovigo|treviso|verona|vicenza|trieste|gorizia|pordenone|udine|genova|imperia|la spezia|savona|bologna|ferrara|forli|cesena|modena|parma|piacenza|ravenna|reggio emilia|reggio nell emilia|rimini|firenze|arezzo|grosseto|livorno|lucca|massa|carrara|pisa|pistoia|prato|siena|perugia|terni|ancona|ascoli piceno|fermo|macerata|pesaro|urbino|roma|frosinone|latina|rieti|viterbo|l aquila|chieti|pescara|teramo|campobasso|isernia|napoli|avellino|benevento|caserta|salerno|bari|barletta|andria|trani|brindisi|foggia|lecce|taranto|potenza|matera|catanzaro|cosenza|crotone|reggio calabria|reggio di calabria|vibo valentia|palermo|agrigento|caltanissetta|catania|enna|messina|ragusa|siracusa|trapani|cagliari|sassari|nuoro|oristano|carbonia|iglesias|olbia|tempio pausania|tortoli|lanusei|sanluri|villacidro|';
+  function capo(n) { return CAPI.indexOf('|' + norm(n) + '|') >= 0 ? 1 : 0; }
 
   /* ── l'elenco dei comuni e le frazioni ── */
   var ELENCO = null, IN_ARRIVO = null;
@@ -972,13 +1036,16 @@ OpenStreetMap, licenza ODbL.</p>
     drop.addEventListener('click', function (e) { var r = e.target.closest('.mk-r'); if (r) { var x = righe[+r.getAttribute('data-i')]; inp.value = x.n; scelto(x); } });
     document.addEventListener('click', function (e) { if (!inp.parentNode.contains(e.target)) drop.classList.remove('on'); });
   }
+  /* le sei porte come i sei bottoni delle pagine meteo (porte() di genera-pagine-meteo-zona.js, 28/10/2026, suo): via
+     «Temperature» («sono quelle di ieri»), al suo posto la pioggia a 30 giorni accanto a quella a 7; «Mappa boschi» e
+     «Boschi + satellite» al posto di «Boschi» e «Satellite», «Radar piogge» al posto di «Radar adesso» */
   function seiPorte(x) {
     return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/?r=' + x.reg + '&m=prev' + pl(x), 'previsioni'],
-            ['💧', 'Pioggia caduta', 'ieri, 7 e 30 giorni', '/?r=' + x.reg + '&g=7' + pl(x), 'pioggia'],
-            ['📡', 'Radar adesso', 'la pioggia in corso', '/?r=' + x.reg + '&radar=ora' + pl(x), 'radar'],
-            ['🌡', 'Temperature', 'minime e massime', '/?r=' + x.reg + '&g=1&tq=1' + pl(x), 'temperature'],
-            ['🌲', 'Boschi', "che bosco c'è, a che quota", '/?r=' + x.reg + '&boschi=1' + pl(x), 'boschi'],
-            ['🛰', 'Satellite', "la foto dall'alto", '/?r=' + x.reg + '&boschi=1&sat=1' + pl(x), 'satellite']];
+            ['💧', 'Pioggia caduta', 'ultimi 7 giorni', '/?r=' + x.reg + '&g=7' + pl(x), 'pioggia'],
+            ['💧', 'Pioggia caduta', 'ultimi 30 giorni', '/?r=' + x.reg + '&g=30' + pl(x), 'pioggia-30'],
+            ['📡', 'Radar piogge', 'la pioggia in corso', '/?r=' + x.reg + '&radar=ora' + pl(x), 'radar'],
+            ['🌲', 'Mappa boschi', "che bosco c'è, a che quota", '/?r=' + x.reg + '&boschi=1' + pl(x), 'boschi'],
+            ['🛰️', 'Boschi + satellite', "la foto dall'alto", '/?r=' + x.reg + '&boschi=1&sat=1' + pl(x), 'satellite']];
   }
 
   /* ═══ 1. IL CERCA NELL'INTESTAZIONE ═══ */
@@ -989,8 +1056,9 @@ OpenStreetMap, licenza ODbL.</p>
     hbox.appendChild(hinp); hbox.appendChild(hdrop);
     var lente = el('button', 'mk-lente', '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>');
     lente.setAttribute('aria-label', 'Cerca un paese');
-    var yt = header.querySelector('.yt');
-    header.insertBefore(hbox, yt); header.insertBefore(lente, yt);
+    // la testata nuova (lib-testata.js, 28/10/2026): casella e lente nella fascia bianca, prima di Iscriviti
+    var yt = header.querySelector('.t-ytp') || header.querySelector('.yt'), hdove = yt ? yt.parentNode : header;
+    hdove.insertBefore(hbox, yt); hdove.insertBefore(lente, yt);
     lente.addEventListener('click', function (e) { e.stopPropagation(); header.classList.add('mk-aperto'); hinp.focus(); });
     document.addEventListener('click', function (e) { if (!hbox.contains(e.target) && !hinp.value) header.classList.remove('mk-aperto'); });
     casella(hinp, hdrop, function (x) {
@@ -1024,9 +1092,10 @@ OpenStreetMap, licenza ODbL.</p>
           + '<span class="mk-ic">📡</span><span><b>Dove sta piovendo adesso</b><small>guarda il radar piogge</small></span><span class="mk-fr">→</span></a>' : '');
       return;
     }
-    // prima il capoluogo di regione, poi per abitanti (dall'elenco dei comuni): Prato e Pisa prima di Manciano
+    // prima il capoluogo di regione, poi quelli di provincia (28/10/2026: Imperia prima di Sanremo), poi per abitanti
+    // (dall'elenco dei comuni): Prato e Pisa prima di Manciano
     var ab = {}; (ELENCO || []).forEach(function (x) { if (x.reg === K && !x.z) ab[x.q] = x.pop; });
-    if (!OPZ.area && !OPZ.primi) cc.sort(function (a, b) { return (b.c || 0) - (a.c || 0) || (ab[norm(b.n)] || 0) - (ab[norm(a.n)] || 0) || a.n.localeCompare(b.n, 'it'); });
+    if (!OPZ.area && !OPZ.primi) cc.sort(function (a, b) { return (b.c || 0) - (a.c || 0) || capo(b.n) - capo(a.n) || (ab[norm(b.n)] || 0) - (ab[norm(a.n)] || 0) || a.n.localeCompare(b.n, 'it'); });
     var g0 = cc[0].giorni;
     var conPc = cc.some(function (c) { return c.giorni.slice(0, 3).some(function (g) { return g.pc != null; }); });   // Open-Meteo giu': niente righe vuote
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
@@ -1185,10 +1254,12 @@ OpenStreetMap, licenza ODbL.</p>
     var s = 256 * Math.pow(2, z), sy = Math.sin(lat * Math.PI / 180);
     return [(lon + 180) / 360 * s, (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * s];
   }
-  function ritaglia(a, g) {
+  function ritaglia(a0, g) {
+    // la cartina sta nella parte di sopra del riquadro (i.mk-img, 28/10/2026: l'etichetta e' sotto)
+    var a = a0.querySelector('i.mk-img') || a0;
     // ⚠️ la pagina disegna la scheda mentre e' ancora nascosta (riquadri larghi 0): si riprova finche' ha una misura
     var j = g.j, tw = a.clientWidth, th = a.clientHeight;
-    if (!tw || !th) { a._prove = (a._prove || 0) + 1; if (a._prove < 50) setTimeout(function () { ritaglia(a, g); }, 200); return; }
+    if (!tw || !th) { a._prove = (a._prove || 0) + 1; if (a._prove < 50) setTimeout(function () { ritaglia(a0, g); }, 200); return; }
     var k, cx, cy, p;
     if (OPZ.tipo === 'regione' && j.reg) {
       var nw = proj(j.reg.n, j.reg.w, j.z), se = proj(j.reg.s, j.reg.e, j.z);
@@ -1235,7 +1306,7 @@ OpenStreetMap, licenza ODbL.</p>
     if (OPZ.ieri) {
       var tit = vecchio.querySelector('b'), sot = vecchio.querySelector('small');
       d.className = 'mk-str mk-ieri' + (OPZ.modo === 'sopra' ? '' : ' mk-grande') + COL;
-      d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><span>' + (OPZ.modo === 'sopra'
+      d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><i class="mk-img"></i><span>' + (OPZ.modo === 'sopra'
         ? '<b>💧 Guarda la pioggia di ieri</b><small>località per località →</small>'
         : '<b>' + (tit ? tit.textContent : 'Apri la mappa di ieri') + ' →</b><small>' + (sot ? sot.textContent : '') + '</small>') + '</span></a>';
       btns.setAttribute('data-str', '1');
@@ -1256,8 +1327,8 @@ OpenStreetMap, licenza ODbL.</p>
     var b = document.querySelector('main a[href*="boschi=1"]:not([href*="sat=1"])');
     // le scritte (20/10/2026, suo: «scriviamo qualcosa in più che incentivi il click»): una riga corta che invita
     // e una piccola sotto; tre alternative messe a confronto in localhost, questa e' la 1
-    d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="pioggia"' + (b ? '' : ' class="mk-uno"') + '><span><b>💧 Guarda la pioggia</b><small>ultimi 20 giorni →</small></span></a>'
-      + (b ? '<a href="' + b.getAttribute('href') + '" data-t="boschi"><span><b>🌲 Guarda i boschi</b><small>tipo per tipo →</small></span></a>' : '');
+    d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="pioggia"' + (b ? '' : ' class="mk-uno"') + '><i class="mk-img"></i><span><b>💧 Guarda la pioggia</b><small>ultimi 20 giorni →</small></span></a>'
+      + (b ? '<a href="' + b.getAttribute('href') + '" data-t="boschi"><i class="mk-img"></i><span><b>🌲 Guarda i boschi</b><small>tipo per tipo →</small></span></a>' : '');
     btns.setAttribute('data-str', '1');
     btns.parentNode.replaceChild(d, btns);
     [].forEach.call(d.querySelectorAll('a'), function (a) {

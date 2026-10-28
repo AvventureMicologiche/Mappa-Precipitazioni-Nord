@@ -58,6 +58,7 @@ const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // «Che tempo farà» (20/10/2026)
+const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 
 /* ── «CHE TEMPO FARÀ NELLE ZONE DEI FUNGHI» (20/10/2026, scheda 89, dal mockup approvato sulla Toscana) ──
    Al posto della striscia blu: una riga per ogni zona dei funghi della regione, con la previsione al CENTRO della
@@ -299,13 +300,10 @@ ${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${STRISCIA_CSS}${METEO_CSS}
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
-</style>
+${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 </head>
 <body>
-<header>
-  <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt">▶ <span class="yt-l">Canale </span>YouTube</a>
-</header>
+${testata({ sito: SITO, canale: 'https://www.youtube.com/@avventuremicologiche?sub_confirmation=1', reg: r.k, ga: 'funghi-' + r.k, attiva: '' })}
 <main>
 
 ${/* La briciola verso la radice della famiglia, dall'8/9/2026. Stessa forma di
@@ -349,7 +347,7 @@ ${meteoHtml(r, ZONE.some(z => z.reg === r.k) ? 'Che tempo farà nelle zone dei f
   <a href="${SITO}/?r=${r.k}&amp;g=20">Ultimi 20 gg</a>
   <a href="${SITO}/?r=${r.k}&amp;g=30">Ultimi 30 gg</a>
   <a href="${SITO}/?r=${r.k}&amp;radar=ora"
-     onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-radar'})}catch(e){}">📡 Radar adesso</a>
+     onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-prev" href="${SITO}/?r=${r.k}&amp;m=prev"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
@@ -792,12 +790,13 @@ ${strisciaScript({ reg: r.k, tipo: 'regione', ga: 'funghi-' + r.k })}
 
 if (require.main === module) {
   let scritte = 0;
+  const SOLO = process.env.SOLO;   // SOLO=liguria: una pagina sola, per i campioni (niente zone-regioni.json ne' sitemap, 28/10/2026)
   // le zone di «Che tempo farà», tutte le regioni (vedi zoneMeteo)
   const zr = {};
   for (const k of Object.keys(POSTI)) { const l = zoneMeteo(k); if (l.length) zr[k] = l; }
-  fs.writeFileSync(path.join(RADICE, 'data', 'zone-regioni.json'),
+  if (!SOLO) fs.writeFileSync(path.join(RADICE, 'data', 'zone-regioni.json'),
     '{\n' + Object.keys(zr).map(k => JSON.stringify(k) + ':' + JSON.stringify(zr[k])).join(',\n') + '\n}\n', 'utf8');
-  for (const k of Object.keys(POSTI)) {
+  for (const k of Object.keys(POSTI).filter(k => !SOLO || k === SOLO)) {
     const r = REGIONI.find(x => x.k === k);
     if (!r) { console.error(`⚠️ «${k}» non e' in genera-pagine-regione.js`); process.exit(1); }
     if (!GENITIVO[k]) { console.error(`⚠️ manca il genitivo di «${k}»`); process.exit(1); }
@@ -827,6 +826,7 @@ if (require.main === module) {
   // queste pagine non resta indietro. Elenca solo quello che esiste davvero in
   // questo repo, quindi in produzione le voci funghi non compariranno finche'
   // le pagine non ci sono.
+  if (SOLO) { console.log(`\n${scritte} pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); return; }
   const voci = scriviSitemap(SITO, RADICE);
   console.log(`\n${scritte} pagine scritte, sitemap.xml con ${voci} indirizzi.`);
 }

@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/meteo/liguria/sassello/">
 <meta property="og:type" content="website">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Previsioni meteo","item":"https://precipitazioni.avventuremicologiche.it/meteo/"},{"@type":"ListItem","position":3,"name":"Meteo Sassello"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Previsioni meteo","item":"https://precipitazioni.avventuremicologiche.it/previsioni/"},{"@type":"ListItem","position":3,"name":"Meteo Sassello"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -330,7 +330,6 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 @media (max-width:380px){.pz-g .p,.pz-g .pc{font-size:11px}}
 
 .pz-ant{display:grid;grid-template-columns:1fr;gap:14px;margin:12px 0 22px}
-/* l'anteprima sopra, l'etichetta gialla SOTTO (28/10/2026): sopra la cartina copriva la Sicilia e le citta' della costa */
 .pz-ant-c{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid #c9d5e1;background:#fff;text-decoration:none;box-shadow:0 2px 10px rgba(15,61,110,.10)}
 .pz-ant-v{position:relative;height:250px;pointer-events:none;background:#e8eef4 center/cover no-repeat}
 .pz-ant-v.leaflet-container{background:#e8eef4}
@@ -348,29 +347,20 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ant-v .pz-et.nome .mn{display:none}
 @media (min-width:700px){.pz-ant-v{height:300px}}
 
-/* ── LA TESTATA (28/10/2026, suo: «non c'è intestazione nell'header, ma solo mappa pluviometrica, non c'è scritto chi
-   siamo o altri bottoni ma solo quello iscriviti»). Scelta fra tre proposte provate sulla pagina vera, dopo aver guardato
-   3B Meteo, ilMeteo e Meteo.it: la «B», come ilMeteo. In alto la striscia scura col menu, le voci come i due bottoni della
-   home (Storico piogge, Previsioni meteo: suo, «come in home») piu' la Guida, a destra Chi siamo e Contatti (la home,
-   #noi e #piede); sotto la fascia bianca col nome, chi siamo e Iscriviti. Tolti su sua richiesta Radar, Pioggia caduta
-   (doppione dello storico), Meteo dei paesi (doppione delle previsioni) e Mappa boschi. Al telefono il menu sta SOTTO il
-   nome e scorre di lato, senza ☰ da scoprire. Classi tutte «t-»: la pagina usa gia' .pc (la probabilita' di pioggia).
-   ⚠️ header ha gia' display:flex, align-items:center e flex-wrap:wrap (lo stile della pagina regione): senza nowrap e
-   stretch la striscia al telefono si allargava quanto le sue voci e la pagina sbordava a 741 px. */
-header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
-.tB a{text-decoration:none}
-/* LARGA COME LA PAGINA (28/10/2026, suo: «le scritte in alto non sono simmetriche», scelta «testata larga come la
-   pagina»): la stessa colonna di main (760 px con 16 di margine), cosi' «Storico piogge» e il logo partono dove parte
-   il titolo e «Contatti» e Iscriviti finiscono dove finisce la scheda. Nella striscia 5 px di margine: con gli 11 delle
-   voci fanno i 16 della pagina. In 728 px «Iscriviti al canale» e la frase sotto il nome non ci stavano: «Iscriviti». */
-.tB .t-in{max-width:760px;margin:0 auto;width:100%;padding:0 16px;display:flex;align-items:center}
+/* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+/* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
+.tB a{text-decoration:none;opacity:1}
+/* la colonna e' quella di main della famiglia: --t-max e --t-pad (760 e 16 di partenza; funghi e mappa forestale 860 e,
+   sotto i 640 px, 12: TESTATA_CSS_FUNGHI). Nella striscia il margine e' 11 px piu' stretto: le voci hanno 11 px di imbottitura */
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
 .tB .t-striscia{background:#0f2d4f}
-.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 5px}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
 .tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
 .tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
 .tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
-.tB .t-banda .t-in{gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
 .tB .t-marchio{display:flex;align-items:center;gap:12px}
 .tB .t-goccia{font-size:34px;line-height:1}
 .tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
@@ -378,34 +368,46 @@ header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretc
 .tB .t-tel{display:none}
 .tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
 .tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+/* la lente del cerca (meteoClient): tonda, blu, accanto a Iscriviti; la casella si apre sopra la fascia */
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+/* con la lente nella fascia mancavano 64 px al computer (la frase andava su due righe) e 14 a 393 (il nome su due):
+   la frase perde «in tutta Italia», il nome al telefono scende di 2 px. Senza lente la testata resta quella approvata */
+.tB .t-in:has(.mk-lente) .t-it{display:none}
 @media (max-width:760px){
   .tB .t-striscia{order:2}
-  .tB .t-in{padding:0 16px}
   .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
   .tB .t-goccia{font-size:26px}
   .tB .t-marchio b{font-size:18px}
   .tB .t-marchio small{font-size:12px;margin-top:1px}
   .tB .t-pc{display:none}.tB .t-tel{display:inline}
   .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
-  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 5px;-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
   .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
   .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
 }
 /* a 360 px «Mappa Pluviometrica» andava su due righe */
-@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}}
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
 </style>
 </head>
 <body>
 <header class="tB">
   <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a href="https://precipitazioni.avventuremicologiche.it/?r=liguria" onclick="try{gtag('event','apri_mappa',{da:'meteo-paese-sassello-testata-storico'})}catch(e){}">Storico piogge</a><a class="on" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=liguria" onclick="try{gtag('event','apri_mappa',{da:'meteo-paese-sassello-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
   <div class="t-banda"><div class="t-in">
-    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata in tutta Italia · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
     <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'meteo-paese-sassello'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
   </div></div>
 </header>
 <script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
 <main>
-<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/meteo/">Previsioni meteo</a> › Sassello</p>
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/previsioni/">Previsioni meteo</a> › Sassello</p>
 <h1>Meteo Sassello</h1>
 <p class="sotto"><b>Che tempo farà a Sassello nei prossimi 7 giorni</b>, ora per ora, e nei 7 paesi intorno, ognuno alla sua quota; e quanta pioggia è già caduta al pluviometro di Sassello.</p>
 

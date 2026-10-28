@@ -40,6 +40,7 @@ const { YT_BTN, stileDelModello, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-
 // YouTube nelle regioni che lo hanno, ed eventi GA4 apri_mappa su tutti i link alla mappa (prima nessuno: le
 // aperture della mappa da queste pagine non si vedevano, «0» in GA4)
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');
+const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { slug, slugRegione, artNum } = require('./lib-nomi.js');   // artNum: «l'81%», «sull'87%» (18/10/2026)
@@ -204,10 +205,11 @@ function usi(T, dove, extra) {
 function tastiPioggia(base) {
   return `<a class="cta" href="${base}&amp;g=20">💧 Apri la mappa della pioggia: ultimi 20 giorni</a>\n<div class="tasti">` +
     [[1, 'Ieri'], [7, 'Ultimi 7 gg'], [10, 'Ultimi 10 gg'], [15, 'Ultimi 15 gg'], [30, 'Ultimi 30 gg']].map(([g, t]) => `<a href="${base}&amp;g=${g}">${t}</a>`).join('') +
-    `<a href="${base}&amp;radar=ora">📡 Radar adesso</a></div>\n`;
+    `<a href="${base}&amp;radar=ora">📡 Radar piogge</a></div>\n`;
 }
 
-function testa({ titolo, descr, url, img, briciola }) {
+// reg: la regione della pagina, per le voci della testata (regioni e zone); vuota = tutta Italia (tipi di bosco, indice)
+function testa({ titolo, descr, url, img, briciola, reg = '' }) {
   return `<!DOCTYPE html>
 <html lang="it">
 <head>
@@ -232,14 +234,10 @@ if(/(^|\\.)avventuremicologiche\\.it$/.test(location.hostname))gtag("config","G-
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
-</style>
+${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 </head>
 <body>
-<header>
-  <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· mappa forestale</span></a>
-  <a class="yt" href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'forestale'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
-</header>
+${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg, ga: 'forestale', attiva: '' })}
 <main>
 `;
 }
@@ -298,7 +296,7 @@ function paginaRegione(r) {
                     `La carta forestale ${r.del} in una mappa facile, anche dal telefono. Per funghi, castagne, foliage ed escursioni.`);
   const funghi = fs.existsSync(path.join(RADICE, 'funghi', r.k, 'index.html'))
     ? `<a href="${SITO}/funghi/${r.k}/">piogge per funghi ${esc(r.inn)}</a>` : `<a href="${SITO}/funghi/">piogge per funghi</a>`;
-  let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`,
+  let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, reg: r.k,
     briciola: [["Mappa forestale d'Italia", `${SITO}/mappa-forestale/`], [r.nome]] });
   h += `<p class="nota" style="margin-bottom:6px"><a href="${SITO}/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> ${esc(r.nome)}</p>
 <h1>${esc(titolo)}</h1>
@@ -360,7 +358,7 @@ function paginaZona(z) {
   const paesi = z.posti.map(id => ({ id, ...D.paesi[id] })).filter(p => p.n).sort((a, b) => a.q - b.q);
   const S = z.scorcio;
   const doveS = S && pulito(S.paese) ? `${z.n}, intorno ${aAd(S.paese)}` : `${z.n}, da vicino`;
-  let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`,
+  let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, reg: r.k,
     briciola: [["Mappa forestale d'Italia", `${SITO}/mappa-forestale/`], [r.nome, `${SITO}/mappa-forestale/${r.k}/`], [z.n]] });
   h += `<p class="nota" style="margin-bottom:6px"><a href="${SITO}/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/mappa-forestale/${r.k}/" style="color:var(--blu)">${esc(r.nome)}</a> <span style="color:#9aa7b8">›</span> ${esc(z.n)}</p>
 <h1>${esc(titolo)}</h1>
@@ -608,6 +606,16 @@ ${youtube('italia')}
 }
 
 if (require.main === module) {
+  // UNA PAGINA SOLA, per i campioni (niente altre pagine ne' sitemap, 28/10/2026): SOLO=liguria (una regione),
+  // SOLO=castagneti (un tipo di bosco), SOLO=italia (la pagina generale), SOLO=zona/<slug> (una zona)
+  const SOLO = process.env.SOLO;
+  if (SOLO) {
+    const r = REG.find(x => x.k === SOLO), t = TIPI_PAGINA.find(x => slugTipo(x) === SOLO);
+    const z = SOLO.startsWith('zona/') && D.zone.find(x => slug(x.n) === SOLO.slice(5));
+    if (SOLO === 'italia') paginaItalia(); else if (r) paginaRegione(r); else if (t) paginaTipo(t); else if (z) paginaZona(z);
+    else throw new Error('pagina sconosciuta: ' + SOLO);
+    console.log(`mappa forestale: 1 pagina (SOLO=${SOLO}), sitemap non toccata`); return;
+  }
   paginaItalia();
   for (const r of REG) paginaRegione(r);
   for (const t of TIPI_PAGINA) paginaTipo(t);

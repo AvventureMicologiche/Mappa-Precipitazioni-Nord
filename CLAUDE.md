@@ -3033,10 +3033,17 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   (campione, prove puppeteer, resoconto della sessione cloud) stanno nel banco, `claudio\mockup-previsioni-zona\`.
   ⚠️ **La mappa in locale chiede le previsioni alla porta 8788** (`API` in index.html): per provare le previsioni
   DENTRO LA MAPPA wrangler va sulla 8788, su un'altra porta la vista Italia cade sull'invito.
-- **La pagina madre `/meteo/` (28/10/2026)**: la scrive lo stesso generatore (`paginaIndice`), le 31 zone divise per
-  regione e il bottone verso `/previsioni/`; niente previsioni dentro (31 posti superano quelli provati col tetto di
-  Cloudflare). Le pagine di zona hanno il percorso «Mappa pluviometrica › Previsioni meteo › <zona>». In testa a
-  `sitemap-meteo.xml`.
+- ~~**La pagina madre `/meteo/`**~~ c'e' stata solo il 28/10/2026 (`paginaIndice`: le 31 zone per regione e i 20
+  paesi). La sera stessa, suo: «la pagina madre meteo, ma che roba è? e a cosa serve? la pagina madre dovrebbe essere la
+  mappa»: **la madre delle pagine meteo e' la mappa delle previsioni, `/previsioni/`**. Il percorso delle zone e dei
+  paesi e' «Mappa pluviometrica › Previsioni meteo (→ /previsioni/) › <zona>», anche nel BreadcrumbList; `/meteo` e
+  `/meteo/` rimandano a `/previsioni/` con un 301 in `_redirects`; niente voce in `sitemap-meteo.xml`. Google zone e
+  paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (`linkMeteo`, `linkMeteoPaese`).
+- **«Guarda le nostre mappe» anche nelle zone (28/10/2026 sera)**: le tre anteprime vive delle pagine paese (vedi sotto,
+  `mappeHtml` e `CSS_ANT` in `genera-pagine-meteo-zona.js`) al posto del bottone del radar e delle «altre pagine» (zona
+  piogge, zona funghi, mappa, previsioni). ⚠️ `<reg>-7g.webp` c'e' solo per le regioni di `METEO_PAESI`: nelle zone di
+  Lombardia, Lazio, Marche, Umbria, Campania, Calabria e Sicilia l'anteprima «Pluviometri» mostra quella di IERI
+  (la pillola in alto lo dice) finche' `genera-anteprime.js` non scatta anche quelle.
 
 ### Pagine «Meteo <paese>» (/meteo/<regione>/<paese>/, 28/10/2026)
 
@@ -3053,7 +3060,6 @@ e' la famiglia che porta il volume.
   stamattina» e grafico DEL PAESE; mappa e tabella dei paesi intorno, gli stessi di «Che tempo farà» della pagina funghi
   (`/api/previsioni?paese=<reg>/<slug>`, `data/paesi-localita/`); pioggia caduta AL PLUVIOMETRO dal file dei 25 giorni
   delle pagine funghi (`data/funghi/<reg>-giorni.json`, `C.giorni` + `C.id`). Senza `C.solo` e' la pagina di zona di prima.
-  Riscrive anche la pagina madre `/meteo/`, che ha la sezione «Il meteo paese per paese» (solo le pagine che esistono).
 - **Niente conflitto coi funghi**: titolo «Meteo Sassello: previsioni a 7 giorni, ora per ora», senza «funghi» ne' nel
   titolo ne' nella descrizione (la ricerca «meteo funghi Sassello» resta della pagina funghi). La pagina funghi porta
   qui: «Meteo Sassello: previsioni ora per ora →» in fondo a «Che tempo farà» (`linkMeteoPaese`, chiamato da
@@ -3070,9 +3076,11 @@ e' la famiglia che porta il volume.
     nome, poi la minima, e sparisce solo se non ci sta nemmeno cosi' (suo: «se metti solo 2 zone fa ridere»).
     ⚠️ **I capoluoghi di provincia prima di tutti** (28/10/2026, suo: «è più importante Savona di Millesimo»): in
     `capoluoghi.json` «s» e' la SIGLA della provincia, non «capoluogo» (Millesimo e Savona: SV), e nell'ordine
-    alfabetico dell'API Millesimo si prendeva il posto. L'ordine lo da' il generatore (`ordineCitta`, `C.ant.ord` e
-    `C.ant.cap`): capoluogo di regione, di provincia (elenco scritto, `CAPOLUOGHI_PROVINCIA`: gli abitanti non bastano,
-    Busto Arsizio > Varese), poi gli altri, dal piu' abitato (`data/elenco-paesi.txt`). I capoluoghi tutti interi o
+    alfabetico dell'API Millesimo si prendeva il posto. L'ordine lo da' il generatore (`ordineCitta` di
+    `lib-capoluoghi.js`, `C.ant.ord` e `C.ant.cap`): capoluogo di regione, di provincia (elenco scritto in
+    `lib-capoluoghi.js`: gli abitanti non bastano, Busto Arsizio > Varese), poi gli altri, dal piu' abitato
+    (`data/elenco-paesi.txt`). La stessa regola nelle tabelle e nelle pagine «adesso»: vedi la sezione della testata
+    qui sotto. I capoluoghi tutti interi o
     tutti senza minima, mai senza nome finche' ci stanno; dove uno non ci sta il posto resta vuoto (al telefono
     Montepulciano compariva al posto di Siena). Forzarli tutti no: in Toscana finivano uno sopra l'altro. Lo zoom
     sulle citta' e' senza animazione: le etichette si misurano subito e a meta' zoom Arezzo spariva senza toccare niente.
@@ -3080,7 +3088,8 @@ e' la famiglia che porta il volume.
     `capoluoghi.json` mancano Biella e Vercelli;
   - 💧 **Pluviometri** (`?r=<reg>&g=7`): la pioggia degli ULTIMI 7 GIORNI, `<reg>-7g.webp` del ramo `anteprime`, che
     `genera-anteprime.js` scatta solo per le regioni di `METEO_PAESI` (5 scatti in piu' al giorno); se manca, quella di ieri.
-  Le disegna `clientePagina` (`C.ant`, il confine da `confineDi` di `genera-pagine-adesso.js`) quando i bottoni
+  L'HTML e' `mappeHtml` di `genera-pagine-meteo-zona.js` (lo usano anche le zone dal 28/10 sera). Le disegna
+  `clientePagina` (`C.ant`, il confine da `confineDi` di `genera-pagine-adesso.js`) quando i bottoni
   arrivano vicino allo schermo. Niente zona del pluviometro: quella delle pagine funghi a volte e' larga (Sassello sta
   nella «Val Bormida», ma e' in valle dell'Erro).
 - **Il grafico** (anche delle zone, quando si rigenerano; suo: «ieri e oggi così è brutto, fai una cosa più di
@@ -3094,7 +3103,7 @@ e' la famiglia che porta il volume.
   misurato a 360, 393 e 1366, nessuna scritta oltre le due righe.
 - **La testata** (28/10/2026, suo: «non c'è intestazione nell'header, ma solo mappa pluviometrica, non c'è scritto chi
   siamo»): scelta fra tre proposte provate sulla pagina vera dopo aver guardato 3B Meteo, ilMeteo e Meteo.it; la sua e'
-  la «B», come ilMeteo (`testata()` e `CSS_PAESE` in `genera-pagine-meteo-paese.js`). Striscia scura col menu: Storico
+  la «B», come ilMeteo (dal 28/10 sera `lib-testata.js`, per tutte le famiglie: sezione qui sotto). Striscia scura col menu: Storico
   piogge (la mappa) · Previsioni meteo (gialla: la sezione) · Guida, a destra Chi siamo e Contatti (la home, `#noi` e
   `#piede`); sotto la fascia bianca: 🌧️ Mappa Pluviometrica, «Previsioni, radar e pioggia misurata in tutta Italia · un
   progetto di Avventure Micologiche», Iscriviti. Al telefono il menu sta sotto il nome e scorre di lato. **Larga come
@@ -3104,9 +3113,55 @@ e' la famiglia che porta il volume.
   Tolti da lui: Radar, Pioggia caduta (doppione dello storico), Meteo dei paesi (doppione delle previsioni), Mappa
   boschi. Classi tutte `t-`: la pagina usa gia' `.pc`. ⚠️ `header` ha gia' `display:flex`, `align-items:center` e
   `flex-wrap:wrap` dallo stile della pagina regione: senza `nowrap` e `stretch` al telefono la pagina sbordava a 741 px.
-  Le altre famiglie di pagine hanno ancora la testata vecchia: si decide dopo.
 - Eventi GA4: `meteo_paese` (azione, come `meteo_zona`), `apri_mappa` da `meteo-paese-<slug>-…` (anche
   `…-testata-storico` e `…-testata-previsioni`).
+
+## La testata del sito e le idee delle pagine meteo su tutte le famiglie (28/10/2026 sera)
+
+Suo, dopo aver approvato le pagine «Meteo <paese>»: «prendi le idee nuove che abbiamo messo in queste pagine e applicale
+anche alle altre famiglie di pagine dove è possibile», poi una pagina campione per famiglia (16, viste in locale) e «tutto
+approvato». Famiglie: regioni, «adesso», zone piogge, funghi (regioni, zone, paesi, indice), mappa forestale (generale,
+regioni, tipi di bosco, zone), meteo (zone e paesi), guida e fonti. Restano fuori solo la mappa e la home.
+- **La testata, `lib-testata.js`** (`testata({ sito, canale, reg, ga, attiva })` + `TESTATA_CSS` IN FONDO al foglio): la
+  «B» delle pagine meteo (sezione sopra). La voce gialla e' quella della famiglia: `attiva: 'storico'` regioni e zone
+  piogge, `'previsioni'` le pagine meteo, nessuna le altre. Le voci aprono la mappa sulla regione della pagina (`reg`;
+  vuota = Italia). ⚠️ **La colonna e' quella di `main` della famiglia** (suo: «non simmetriche»): variabili `--t-max` e
+  `--t-pad`, di partenza 760 e 16; funghi e mappa forestale 860 e, sotto i 640 px, 12 (`TESTATA_CSS_FUNGHI`); guida
+  1080 e 20; fonti 860. Misurato su tutte e 16 a 393 e 1366: logo e titolo allo stesso pixel, Iscriviti e fine pagina
+  allo stesso pixel. Al posto di «🍄 Avventure Micologiche · piogge» delle pagine funghi c'e' la testata comune.
+- **La lente del cerca** (`meteoClient`, pagine regione, zone, funghi, mappa forestale) sta nella fascia bianca prima di
+  Iscriviti (`.t-ytp`), tonda e blu; toccandola la casella si apre sopra la fascia, al computer come al telefono. Con la
+  lente mancavano 64 px al computer e 14 a 393: dove c'e' (`.t-in:has(.mk-lente)`) la frase perde «in tutta Italia» e il
+  nome al telefono scende a 16 px. Senza lente la testata resta quella approvata.
+- **Le sei porte del cerca** (`seiPorte` in `meteoClient`) come i sei bottoni delle pagine meteo: Previsioni · Pioggia
+  caduta 7 giorni · 30 giorni · Radar piogge · Mappa boschi · Boschi + satellite (via Temperature), righe alte uguali.
+  La riga sotto «Apri la mappa di ieri» (regioni e zone piogge): Previsioni · Radar piogge · Mappa boschi · Boschi +
+  satellite, righe alte uguali e testo centrato. «📡 Radar adesso» → «📡 Radar piogge» in tutti i bottoni.
+- **I capoluoghi di provincia prima degli altri paesi**, «in tutte le pagine»: `lib-capoluoghi.js` (l'elenco, `capoluogo`,
+  `ordineCitta`, e `CAPI`, la stessa lista scritta come la normalizza il browser). Le tabelle «Che tempo farà» di
+  `meteoClient` (Imperia prima di Sanremo) hanno `CAPI` scritta dentro: in fondo a `lib-meteo-regione.js` un controllo
+  ferma il generatore se non e' uguale a quella della libreria. Le citta' delle pagine «adesso» idem (`cittaDi`).
+- **Le anteprime in cima** (`lib-striscia.js`, pagine piogge e funghi, e i due riquadri dell'indice /funghi/): cartina
+  sopra (`i.mk-img`, dove `ritaglia` mette l'immagine) ed etichetta SOTTO, gialla piena, come le anteprime delle pagine
+  meteo. ⚠️ Selettori `div.mk-str`: alcune pagine copiano il foglio da un'altra pagina che ha ancora le regole vecchie
+  (etichetta in posizione assoluta, ombra, angoli), e le nuove devono vincere comunque; altezza, posizione, ombra e
+  angoli vecchi si annullano esplicitamente.
+- **La pagina «adesso»: il radar su Italia e un pezzo d'Europa** per tutte le 21 regioni (suo, «indipendentemente»),
+  col confine della regione disegnato: `lib/pagina-adesso.js`, `fitBounds([[37.2,6.5],[50.2,18.5]])` allargato alla
+  regione intera (la Sicilia scende sotto i 37,2°).
+- **Guida e fonti** non hanno generatore: la testata la mette `testata-pagine-a-mano.js`, da RILANCIARE quando cambia
+  `lib-testata.js`. La guida perde «← Torna alla mappa» (ci porta il logo), le fonti la barra «← Mappa» (il titolo
+  passa dentro la pagina).
+- **`SOLO`** ora anche in `genera-pagine-adesso.js` (`SOLO=liguria`), `genera-pagine-funghi.js` (`SOLO=liguria`, niente
+  `zone-regioni.json` ne' sitemap), `genera-indice-funghi.js` (`SOLO=1`, niente sitemap) e `genera-mappa-forestale.js`
+  (`SOLO=liguria`, `SOLO=castagneti`, `SOLO=italia`, `SOLO=zona/<slug>`).
+- **Non portato, deciso**: le tre anteprime vive (radar sull'Europa) nelle pagine piogge e funghi (vogliono Leaflet,
+  che quelle 1.300 pagine non caricano: le farebbe piu' pesanti; in cima c'e' gia' l'anteprima della pioggia); il
+  grafico nuovo nelle pagine piogge (e' un altro codice, si puo' rifare a parte).
+- Date della sitemap (`pagine-lastmod.json`): tutte le famiglie al 28/10/2026, il guscio e' cambiato.
+- Attrezzi delle prove (scratchpad della scheda 99 bis, `148ca25d-…\scratchpad\`): `prova-famiglie.js` (una pagina per
+  famiglia a 360, 393, 1366: errori, sbordi, testata, lente, anteprime, porte, capoluoghi), `misura-colonne.js` (testata
+  contro colonna), `prova-lente.js`, `prova-capoluoghi.js`, `campioni.ps1` e `rigenera-tutto.ps1`.
 
 ## `/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)
 

@@ -49,6 +49,7 @@ const { rigaStagione } = require('./lib-stagione.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // 20/10/2026, come le zone funghi
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
+const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const { linkMeteoPaese } = require('./genera-pagine-meteo-zona.js');   // «Meteo <paese>» dei 20 posti del test (28/10/2026)
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
 // genera: totale dell'archivio, giorni di pioggia, giorno piu' bagnato,
@@ -386,15 +387,11 @@ ${RILIEVO}${QUIZ_REGIONI[REG] ? QUIZ_CSS : ''}${METEO_CSS}
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
-${STRISCIA_CSS}</style>
+${STRISCIA_CSS}${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 </head>
 <body>
 
-<header>
-  <a href="${SITO}/" class="logo">🍄 Avventure Micologiche <span style="opacity:.65;font-weight:400">· piogge</span></a>
-  <a class="yt" href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'localita-${REG}'})}catch(e){}">▶ <span class="yt-l">Canale </span>YouTube</a>
-</header>
+${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: REG, ga: 'localita-' + REG, attiva: '' })}
 
 <main>
 <p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${REG}/" style="color:var(--blu)">${esc(NOME)}</a></p>
@@ -431,7 +428,7 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
   <a href="${SITO}/?r=${REGS}&amp;g=30&amp;${PIN}">Ultimi 30 gg</a>
   <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="${SITO}/?r=${REG}&amp;${PIN}&amp;radar=ora"
-     onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">📡 Radar adesso</a>
+     onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="${SITO}/?r=${REG}&amp;${PIN}&amp;m=prev"
      onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>

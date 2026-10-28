@@ -81,10 +81,11 @@ function numeriRegione(j, oggi, K, SITO) {
       // 19/10/2026 (lib-meteo-regione.js): sotto «Apri la mappa di ieri» le altre funzioni della mappa. Il Radar
       // porta alla pagina «adesso», che c'e' per le regioni italiane; per le estere apre la diretta radar.
       + '<div class="mk-porte">'
+      // 28/10/2026: i nomi dei bottoni delle pagine meteo («Radar piogge», «Mappa boschi», «Boschi + satellite»)
       + [['☀️', 'Previsioni', SITO + '/?r=' + K + '&amp;m=prev', 'porta-previsioni'],
-         ['📡', 'Radar', ['svizzera', 'austria', 'slovenia'].indexOf(K) >= 0 ? SITO + '/?r=' + K + '&amp;radar=ora' : SITO + '/' + K + '/adesso/', 'porta-radar'],
-         ['🌲', 'Boschi', SITO + '/?r=' + K + '&amp;boschi=1', 'porta-boschi'],
-         ['🛰', 'Satellite', SITO + '/?r=' + K + '&amp;boschi=1&amp;sat=1', 'porta-satellite']].map(function (t) {
+         ['📡', 'Radar piogge', ['svizzera', 'austria', 'slovenia'].indexOf(K) >= 0 ? SITO + '/?r=' + K + '&amp;radar=ora' : SITO + '/' + K + '/adesso/', 'porta-radar'],
+         ['🌲', 'Mappa boschi', SITO + '/?r=' + K + '&amp;boschi=1', 'porta-boschi'],
+         ['🛰️', 'Boschi + satellite', SITO + '/?r=' + K + '&amp;boschi=1&amp;sat=1', 'porta-satellite']].map(function (t) {
           return '<a href="' + t[2] + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'pagina-' + K + '-' + t[3] + '\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
         }).join('') + '</div></div>';
   }

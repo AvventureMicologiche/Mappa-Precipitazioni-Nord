@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/meteo/valtiberina/">
 <meta property="og:type" content="website">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Previsioni meteo","item":"https://precipitazioni.avventuremicologiche.it/meteo/"},{"@type":"ListItem","position":3,"name":"Valtiberina"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Previsioni meteo","item":"https://precipitazioni.avventuremicologiche.it/previsioni/"},{"@type":"ListItem","position":3,"name":"Valtiberina"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -284,11 +284,23 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ora .mm{color:#1a5fa8;font-weight:700;min-height:15px}.pz-ora .v{color:#7a8796;font-size:11px}
 /* la % di pioggia, ora per ora: gli stessi tre toni della mappa (sotto il 10% grigia, dal 60% rossa) */
 .pz-ora .pc{font-size:11.5px;font-weight:700;color:#1a5fa8;min-height:15px}.pz-ora .pc.z{color:#9aa3ad;font-weight:500}.pz-ora .pc.alta{color:#c21f1f}
-.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-.pz-porte a{display:block;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
+/* righe tutte alte uguali e scritte centrate (28/10/2026, regola delle simmetrie): i due della pioggia vanno su due righe */
+.pz-porte{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:6px;margin-top:8px}
+.pz-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
 .pz-porte a span{display:block;font-size:20px}
-.pz-graf{display:flex;align-items:flex-end;gap:2px;height:130px;margin:12px 0 4px;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
-.pz-graf .b{flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
+.pz-porte a small{display:block;font-size:11.5px;font-weight:500;color:#4a5d72}
+@media(max-width:380px){.pz-porte a{font-size:12px;padding:8px 2px}}
+.pz-graf{position:relative;display:flex;align-items:flex-end;gap:2px;height:130px;margin:34px 0 0;padding-bottom:2px;border-bottom:1px solid #c9d5e1}
+/* misurata e prevista (28/10/2026): i giorni previsti su un fondo azzurro chiaro col filo a sinistra, i due nomi in
+   maiuscoletto sopra, le date e la pillola «oggi» sotto l'asse. Le barre stanno sopra il fondo (position:relative) */
+.pz-fut{position:absolute;top:-28px;bottom:-1px;right:0;margin-left:-1px;background:#eef4fb;border-left:1px solid #9db4cc;border-radius:0 10px 0 0;pointer-events:none}
+.pz-gt{position:absolute;left:0;top:-24px;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a8a9b;white-space:nowrap;pointer-events:none}
+.pz-gt.pre{margin-left:8px;color:#2f6aa6}
+.pz-graf-date{position:relative;height:22px;margin:0 0 4px;font-size:11.5px;color:#5a6b7d}
+.pz-graf-date span{position:absolute;top:4px;transform:translateX(-50%);white-space:nowrap}
+.pz-graf-date span.d{transform:translateX(-100%)}.pz-graf-date span.s{transform:none}
+.pz-graf-date span.oggi{top:3px;background:#0f3d6e;color:#fff;font-weight:700;font-size:11px;line-height:15px;border-radius:999px;padding:0 8px}
+.pz-graf .b{position:relative;flex:1;background:#1a5fa8;border-radius:2px 2px 0 0;min-height:2px;cursor:pointer}
 .pz-graf .b:hover,.pz-graf .b.sel{background:#c4501a}
 .pz-graf .b.prev{background:repeating-linear-gradient(45deg,#7fb0e0,#7fb0e0 3px,#b9d4ef 3px,#b9d4ef 6px)}
 .pz-graf .b.prev.sel,.pz-graf .b.prev:hover{background:#c4501a}
@@ -304,16 +316,86 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   /* al telefono la casella del giorno e' larga ~48 px: «5,8 mm» andava a capo (25/10/2026), e sotto adesso c'e' la % */
   .pz-g .p,.pz-g .pc{font-size:11.5px;letter-spacing:-.3px;white-space:nowrap}}
 @media (max-width:380px){.pz-g .p,.pz-g .pc{font-size:11px}}
+
+.pz-ant{display:grid;grid-template-columns:1fr;gap:14px;margin:12px 0 22px}
+.pz-ant-c{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid #c9d5e1;background:#fff;text-decoration:none;box-shadow:0 2px 10px rgba(15,61,110,.10)}
+.pz-ant-v{position:relative;height:250px;pointer-events:none;background:#e8eef4 center/cover no-repeat}
+.pz-ant-v.leaflet-container{background:#e8eef4}
+.pz-ant-t{display:block;padding:10px 14px 11px;font-weight:800;font-size:16.5px;line-height:1.25;color:#3d1f04;background:linear-gradient(180deg,#f9c93e,#eda40c);border-top:1px solid rgba(160,106,8,.35)}
+.pz-ant-t small{display:block;font-weight:600;font-size:12.5px;opacity:.92;margin-top:1px}
+.pz-ant-q{position:absolute;top:8px;right:8px;z-index:1000;font-style:normal;font-size:12px;font-weight:700;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;color:#0f3d6e}
+.pz-ant-q:empty{display:none}
+.pz-ant-v .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.7)}
+/* le citta' dell'anteprima piu' piccole di quelle della mappa grande: e' un'anteprima, e cosi' ce ne stanno di piu' */
+.pz-ant-v .pz-et{padding:1px 5px 2px}.pz-ant-v .pz-et .r1{font-size:10.5px}.pz-ant-v .pz-et .ic{font-size:13px}.pz-ant-v .pz-et .nm{font-size:9.5px}
+/* quelle che col nome non ci stanno: prima senza nome, poi solo icona e massima (si toglie solo quella che non ci sta nemmeno cosi') */
+.pz-ant-v .pz-et.corta .nm,.pz-ant-v .pz-et.mini .nm,.pz-ant-v .pz-et.mini .mn{display:none}
+.pz-ant-v .pz-et.mini{padding:0 4px 1px}.pz-ant-v .pz-et.mini .ic{margin-right:1px}
+/* i capoluoghi di provincia non perdono mai il nome: se non ci stanno perdono la minima (28/10/2026) */
+.pz-ant-v .pz-et.nome .mn{display:none}
+@media (min-width:700px){.pz-ant-v{height:300px}}
+
+/* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+/* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
+.tB a{text-decoration:none;opacity:1}
+/* la colonna e' quella di main della famiglia: --t-max e --t-pad (760 e 16 di partenza; funghi e mappa forestale 860 e,
+   sotto i 640 px, 12: TESTATA_CSS_FUNGHI). Nella striscia il margine e' 11 px piu' stretto: le voci hanno 11 px di imbottitura */
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+/* la lente del cerca (meteoClient): tonda, blu, accanto a Iscriviti; la casella si apre sopra la fascia */
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+/* con la lente nella fascia mancavano 64 px al computer (la frase andava su due righe) e 14 a 393 (il nome su due):
+   la frase perde «in tutta Italia», il nome al telefono scende di 2 px. Senza lente la testata resta quella approvata */
+.tB .t-in:has(.mk-lente) .t-it{display:none}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+/* a 360 px «Mappa Pluviometrica» andava su due righe */
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
 </style>
 </head>
 <body>
-<header>
-  <a class="logo" href="https://precipitazioni.avventuremicologiche.it/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'meteo-valtiberina'})}catch(e){}">▶ Iscriviti</a>
+<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a href="https://precipitazioni.avventuremicologiche.it/?r=umbria" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-testata-storico'})}catch(e){}">Storico piogge</a><a class="on" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=umbria" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'meteo-valtiberina'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
+  </div></div>
 </header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
 <main>
-<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/meteo/">Previsioni meteo</a> › Valtiberina</p>
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/previsioni/">Previsioni meteo</a> › Valtiberina</p>
 <h1>Previsioni meteo Valtiberina</h1>
 <p class="sotto"><b>Che tempo farà in Valtiberina nei prossimi 7 giorni</b>: pioggia, minime e massime in 12 paesi della valle, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri di SIR Toscana e MeteoHub.</p>
 
@@ -338,6 +420,7 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 <h2>La pioggia caduta e quella in arrivo</h2>
 <p class="nota" style="margin-top:0">Gli ultimi 30 giorni misurati dai pluviometri di SIR Toscana e MeteoHub (media della valle) e i 7 giorni previsti. Tocca una barra.</p>
 <div class="pz-graf" id="graf"></div>
+<div class="pz-graf-date" id="graf-date"></div>
 <div class="pz-graf-info" id="graf-info"></div>
 <div class="pz-leg"><span><i style="background:#1a5fa8"></i>misurata</span><span><i style="background:repeating-linear-gradient(45deg,#7fb0e0,#7fb0e0 3px,#b9d4ef 3px,#b9d4ef 6px)"></i>prevista</span><span id="leg-date"></span></div>
 <div class="griglia" style="margin-top:14px">
@@ -345,14 +428,11 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   <div class="card"><h3>Ultimi 7 giorni</h3><div class="numerone" id="r7">…</div><div id="r7t"></div></div>
 </div>
 
-<a class="pz-radar" href="https://precipitazioni.avventuremicologiche.it/umbria/adesso/" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-radar'})}catch(e){}">📡 Sta piovendo adesso in Valtiberina?<small>Guarda il radar delle piogge in diretta</small></a>
-
-<h2>Le altre pagine della Valtiberina</h2>
-<div class="pz-vai">
-  <a href="https://precipitazioni.avventuremicologiche.it/zone/valtiberina/" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-zona-piogge'})}catch(e){}">💧 Quanto ha piovuto in Valtiberina<small>Ieri, 7 e 30 giorni, pluviometro per pluviometro</small></a>
-  <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/valtiberina/" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-zona-funghi'})}catch(e){}">🍄 Funghi in Valtiberina<small>La pioggia che conta, da 13 a 20 giorni fa</small></a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=7&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-mappa'})}catch(e){}">🗺 La mappa della pioggia<small>La Valtiberina sulla mappa pluviometrica</small></a>
-  <a href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;m=prev&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-previsioni'})}catch(e){}">☀️ Le previsioni sulla mappa<small>Tocca un paese qualsiasi della valle</small></a>
+<h2>Guarda le nostre mappe</h2>
+<div class="pz-ant" id="ant">
+  <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;radar=ora" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-radar'})}catch(e){}"><div class="pz-ant-v" id="ant-radar"></div><i class="pz-ant-q" id="ant-radar-q"></i><span class="pz-ant-t">📡 Radar piogge<small>Dove sta piovendo adesso, in Italia e in Europa</small></span></a>
+  <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=umbria" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-prev'})}catch(e){}"><div class="pz-ant-v" id="ant-prev"></div><i class="pz-ant-q" id="ant-prev-q"></i><span class="pz-ant-t">☀️ Previsioni Umbria<small>Il tempo città per città, ora per ora</small></span></a>
+  <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;g=7" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-pluvio'})}catch(e){}"><div class="pz-ant-v" id="ant-pluvio"></div><i class="pz-ant-q" id="ant-pluvio-q"></i><span class="pz-ant-t">💧 Pluviometri Umbria<small>La pioggia degli ultimi 7 giorni, pluviometro per pluviometro</small></span></a>
 </div>
 
 <h2>Come funziona questa pagina</h2>
@@ -372,7 +452,7 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   var SITO = C.sito, REG = C.reg;
   var API = '/api/previsioni';
   var BASE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/data/' : C.raw;
-  var RIP = BASE + 'riepiloghi/zone/' + C.slug + '.json';
+  var RIP = BASE + (C.giorni || 'riepiloghi/zone/' + C.slug + '.json');
   var QUOTE = C.quote, PLUV = C.pluv;
   var GS = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'], GL = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
   var ICONE = [[/clearsky_day|fair_day/, '☀️'], [/clearsky_night|fair_night/, '🌙'], [/partlycloudy_day/, '⛅'], [/partlycloudy_night|^cloudy|fog/, '☁️'],
@@ -393,13 +473,13 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   function finoAl(p) { return (/^(8|11$|1$)/.test(String(p)) ? "fino all'" : 'fino al ') + p + '%'; }
   function norm(t) { return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/['’.-]/g, ' ').replace(/\s+/g, ' ').trim(); }
   function $(id) { return document.getElementById(id); }
-  function ga(azione) { try { gtag('event', 'meteo_zona', { zona: C.slug, azione: azione }); } catch (e) {} }
+  function ga(azione) { try { gtag('event', C.evento || 'meteo_zona', { zona: C.slug, azione: azione }); } catch (e) {} }
   var J = null, G = [], RIPJ = null, SEL = OGGI, mappa = null, strato = null, PAESI = [];
 
   /* ── i 7 giorni della valle ── */
   function giorniDi() {
     var per = {};
-    PAESI.forEach(function (c) { c.giorni.forEach(function (g) { if (g.g < OGGI) return; (per[g.g] = per[g.g] || []).push({ c: c, g: g }); }); });
+    (C.solo ? PAESI.slice(0, 1) : PAESI).forEach(function (c) { c.giorni.forEach(function (g) { if (g.g < OGGI) return; (per[g.g] = per[g.g] || []).push({ c: c, g: g }); }); });
     return Object.keys(per).sort().slice(0, 7).map(function (k) {
       var l = per[k], conti = {}, top = null, mmS = 0, mmMax = 0, dove = '';
       l.forEach(function (x) { var i = icona(x.g.s); conti[i] = (conti[i] || 0) + 1; mmS += x.g.mm; if (x.g.mm > mmMax) { mmMax = x.g.mm; dove = x.c.n; } });
@@ -418,20 +498,23 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
       return '<button class="pz-g' + (x.g === SEL ? ' sel' : '') + '" data-g="' + x.g + '"><div class="n">' + nome(x.g) + '</div><div class="ic">' + x.ic + '</div>'
         + '<div class="t"><span class="mn">' + x.mn + '°</span> / <span class="mx">' + x.mx + '°</span></div>'
         + '<div class="p' + (x.mm < 0.1 ? ' zero' : '') + '">' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm') + '</div>'
-        + (conPc ? '<div class="pc' + tonoPc(x.pc) + '"' + (x.pc != null ? ' title="probabilità di pioggia, la più alta fra i paesi: ' + esc(x.dpc) + '"' : '') + '>' + pcTesto(x.pc) + '</div>' : '')
+        + (conPc ? '<div class="pc' + tonoPc(x.pc) + '"' + (x.pc != null ? ' title="probabilità di pioggia' + (C.solo ? ' a ' : ', la più alta fra i paesi: ') + esc(x.dpc) + '"' : '') + '>' + pcTesto(x.pc) + '</div>' : '')
         + '<div class="barra"><i style="width:' + Math.min(100, x.mm / maxMm * 100) + '%"></i></div></button>';
     }).join('');
   }
   function totale() {
     var tot = G.reduce(function (a, x) { return a + x.mm; }, 0), picco = G.slice().sort(function (a, b) { return b.mmMax - a.mmMax; })[0];
     $('tot').innerHTML = tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b> che conti ' + C.inValle + '.'
+      : C.solo ? 'In tutta la settimana sono previsti <b>' + mm(tot) + ' mm</b> ' + C.dove + '; il giorno più bagnato è <b>' + nome(picco.g, true) + '</b>, con ' + mm(picco.mmMax) + ' mm.'
       : 'In tutta la settimana sono previsti in media <b>' + mm(tot) + ' mm</b>; il giorno più bagnato è <b>' + nome(picco.g, true) + '</b>, fino a ' + mm(picco.mmMax) + ' mm a ' + esc(picco.dove) + '.';
     return tot;
   }
   function sceglie(g) {
     SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab();
     var x = G.filter(function (y) { return y.g === g; })[0];
-    $('mappa-giorno').textContent = 'La ' + C.valle + ' ' + (g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true)) + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
+    var quando = g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true);
+    $('mappa-giorno').textContent = C.solo ? C.intorno + ', ' + quando
+      : 'La ' + C.valle + ' ' + quando + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
   }
 
   /* ── la mappa della valle ── */
@@ -516,8 +599,10 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   function FASCIA(h) { return h < 6 ? 'notte' : h < 12 ? 'mattina' : h < 18 ? 'pomeriggio' : 'sera'; }
   function porte(x) {
     var pl = '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n);
-    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta', '/?r=' + x.reg + '&g=7' + pl, 'pioggia'], ['📡', 'Radar adesso', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'],
-            ['🌡', 'Temperature', '/?r=' + x.reg + '&g=1&tq=1' + pl, 'temperature'], ['🌲', 'Boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰', 'Satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
+    // via le temperature (28/10/2026, suo: «sono quelle di ieri e loro stanno vedendo le attuali»), al loro posto la
+    // pioggia a 30 giorni accanto a quella a 7, cosi' restano sei, tre per riga
+    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
+            ['📡', 'Radar piogge', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'], ['🌲', 'Mappa boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰️', 'Boschi + satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
       .map(function (p) { return '<a href="' + SITO + p[2] + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'meteo-' + C.slug + '-scheda-' + p[3] + '\'})}catch(e){}"><span>' + p[0] + '</span>' + p[1] + '</a>'; }).join('');
   }
   function disegnaScheda(g) {
@@ -604,7 +689,25 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
     BARRE = serie.map(function (v, i) { return { g: piu(ultimo, i - serie.length + 1), mm: v, prev: false }; })
       .concat(G.map(function (x) { return { g: x.g, mm: x.mm, prev: true, mx: x.mmMax, dove: x.dove, pc: x.pc }; }));
     var mx = Math.max(5, Math.max.apply(null, BARRE.map(function (b) { return b.mm || 0; })));
-    $('graf').innerHTML = BARRE.map(function (b, i) { return '<div class="b' + (b.prev ? ' prev' : '') + '" data-i="' + i + '" style="height:' + ((b.mm || 0) / mx * 100) + '%"></div>'; }).join('');
+    /* MISURATA E PREVISTA, CON LE DATE (28/10/2026, suo: «il grafico deve avere le date e dire dove finisce ieri e inizia
+       adesso», e poi: «ieri e oggi così è brutto, fai una cosa che sembri più di design»). I giorni previsti stanno su un
+       FONDO azzurro chiaro con un filo a sinistra, e sopra le due parti c'e' il loro nome in maiuscoletto (MISURATA,
+       PREVISTA); sotto l'asse una data ogni 7 giorni da ieri all'indietro, la pillola «oggi» sulla prima barra prevista e
+       l'ultimo giorno previsto. Le posizioni sono in % della larghezza: le barre sono tutte larghe uguali. */
+    var n = BARRE.length, k = 0;
+    while (k < n && !BARRE[k].prev) k++;
+    function dove(i) { return ((i + 0.5) / n * 100).toFixed(2) + '%'; }
+    function breve(g) { return d(g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }); }
+    var diviso = k > 0 && k < n, pk = (k / n * 100).toFixed(2) + '%';
+    $('graf').innerHTML = (diviso ? '<div class="pz-fut" style="left:' + pk + '"></div><span class="pz-gt">Misurata</span><span class="pz-gt pre" style="left:' + pk + '">Prevista</span>' : '')
+      + BARRE.map(function (b, i) { return '<div class="b' + (b.prev ? ' prev' : '') + '" data-i="' + i + '" style="height:' + ((b.mm || 0) / mx * 100) + '%"></div>'; }).join('');
+    var tacche = [];
+    for (var i = k - 8; i >= 0; i -= 7) tacche.push(i);   // la pillola «oggi» sta sulla barra dopo ieri: si parte da una settimana prima
+    if (diviso && k < n - 2) tacche.push(n - 1);
+    if ($('graf-date')) $('graf-date').innerHTML = tacche.map(function (i) {
+      var p = (i + 0.5) / n, sp = p > 0.88 ? ' class="d"' : p < 0.1 ? ' class="s"' : '';
+      return '<span' + sp + ' style="left:' + dove(i) + '">' + breve(BARRE[i].g) + '</span>';
+    }).join('') + (diviso && BARRE[k].g === OGGI ? '<span class="oggi" style="left:' + dove(k) + '">oggi</span>' : '');
     if (BARRE.length) $('leg-date').textContent = 'dal ' + d(BARRE[0].g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }) + ' a ' + nome(BARRE[BARRE.length - 1].g, true);
   }
   $('graf').addEventListener('click', function (e) {
@@ -612,9 +715,10 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
     var b = BARRE[+el.getAttribute('data-i')], tutte = $('graf').querySelectorAll('.b');
     for (var i = 0; i < tutte.length; i++) tutte[i].classList.toggle('sel', tutte[i] === el);
     var giorno = d(b.g).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
-    $('graf-info').innerHTML = b.prev ? '<b>' + giorno + '</b>: previsti in media <b>' + mm(b.mm) + ' mm</b>' + (b.mx >= 0.1 ? ', fino a ' + mm(b.mx) + ' a ' + esc(b.dove) : '')
+    $('graf-info').innerHTML = b.prev ? '<b>' + giorno + '</b>: previsti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(b.mm) + ' mm</b>' + (!C.solo && b.mx >= 0.1 ? ', fino a ' + mm(b.mx) + ' a ' + esc(b.dove) : '')
         + (b.pc != null ? '; probabilità di pioggia ' + finoAl(b.pc) : '')
-      : '<b>' + giorno + '</b>: ' + (b.mm == null ? 'nessun dato dai pluviometri' : 'misurati in media <b>' + mm(b.mm) + ' mm</b> dai pluviometri ' + C.diValle);
+      : '<b>' + giorno + '</b>: ' + (C.solo ? (b.mm == null ? 'nessun dato dal pluviometro' : 'misurati <b>' + mm(b.mm) + ' mm</b> ' + C.alPluv)
+        : b.mm == null ? 'nessun dato dai pluviometri' : 'misurati in media <b>' + mm(b.mm) + ' mm</b> dai pluviometri ' + C.diValle);
     if (b.prev) sceglie(b.g);
   });
   function disegnaCaduta() {
@@ -622,7 +726,7 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
     [['1', 'r1'], ['7', 'r7']].forEach(function (p) {
       var x = RIPJ && RIPJ.periodi ? RIPJ.periodi[p[0]] : null;
       if (!x) { $(p[1]).textContent = '–'; return; }
-      $(p[1]).innerHTML = mm(x.media) + ' <small>mm di media</small>';
+      $(p[1]).innerHTML = mm(x.media) + (C.solo ? ' <small>mm</small>' : ' <small>mm di media</small>');
       $(p[1] + 't').innerHTML = (x.top || []).slice(0, 3).map(function (t) { return '<div class="nota" style="margin:2px 0">' + (link[t.n] ? '<a href="' + link[t.n] + '">' + esc(t.n) + '</a>' : esc(t.n)) + ': <b>' + mm(t.mm) + ' mm</b></div>'; }).join('');
     });
     if (RIPJ && RIPJ.periodi && RIPJ.periodi['1'] && RIPJ.periodi['1'].ultimo !== IERI) $('r1h').textContent = maiusc(nome(RIPJ.periodi['1'].ultimo, true));
@@ -632,17 +736,131 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
     var i = RIPJ && RIPJ.periodi ? RIPJ.periodi['1'] : null, s = RIPJ && RIPJ.periodi ? RIPJ.periodi['7'] : null;
     if (i && s) {
       p.push((i.ultimo === IERI ? 'Ieri' : maiusc(nome(i.ultimo, true))) + ' ' + C.dove + ' ' + (i.media < 0.1 ? '<b>non è piovuto</b>'
-        : 'sono caduti in media <b>' + mm(i.media) + ' mm</b>' + (i.top && i.top[0] ? ' (' + esc(i.top[0].n) + ' ' + mm(i.top[0].mm) + ')' : '')) + '; negli ultimi 7 giorni <b>' + mm(s.media) + ' mm</b>.');
+        : 'sono caduti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(i.media) + ' mm</b>' + (i.top && i.top[0] ? ' (' + esc(i.top[0].n) + ' ' + mm(i.top[0].mm) + ')' : '')) + '; negli ultimi 7 giorni <b>' + mm(s.media) + ' mm</b>.');
     }
     var picco = G.slice().sort(function (a, b) { return b.mmMax - a.mmMax; })[0];
-    p.push(tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b>.' : 'Nei prossimi 7 giorni sono previsti in media <b>' + mm(tot) + ' mm</b>, soprattutto ' + nome(picco.g, true) + '.');
+    p.push(tot < 0.5 ? 'Nei prossimi 7 giorni <b>non è prevista pioggia</b>.' : 'Nei prossimi 7 giorni sono previsti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(tot) + ' mm</b>, soprattutto ' + nome(picco.g, true) + '.');
     // la % piu' alta della settimana, e dove (25/10/2026)
     var rischio = G.filter(function (x) { return x.pc != null; }).sort(function (a, b) { return b.pc - a.pc; })[0];
+    // con C.solo il posto e' sempre lo stesso, gia' detto in apertura: «-4° sul Mottarone» e non «a Mottarone» ogni volta
+    function aDove(n) { return C.solo ? '' : ' a ' + esc(n); }
     if (rischio) p.push(rischio.pc < 30 ? 'La probabilità di pioggia resta <b>sotto il 30%</b> per tutta la settimana.'
-      : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b> a ' + esc(rischio.dpc) + '.');
+      : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
-    p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b> a ' + esc(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b> a ' + esc(cal.dmx) + '.');
+    p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
     $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>' + p.join(' ');
+  }
+
+  /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
+     regione, ognuno porta alla sua funzione sulla mappa. Vive e vere: l'ultima immagine del radar (LibreWXR / OPERA,
+     come il tasto della mappa), il tempo di oggi nelle citta' della regione (/api/previsioni?capoluoghi=, come le
+     pagine regione), la mappa della pioggia di ieri (l'anteprima delle pagine regione, ramo «anteprime»). Si
+     caricano quando i bottoni arrivano vicino allo schermo; se una non arriva resta il fondo grigio e il bottone va. */
+  // larga = [[sud, ovest], [nord, est]] al posto del confine della regione (il radar)
+  function miniMappa(id, larga) {
+    var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
+    // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
+    L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
+    var b = larga ? L.latLngBounds(larga)
+      : L.geoJSON(C.ant.confine, { interactive: false, style: { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
+    // l'etichetta gialla sta SOTTO l'anteprima, non sopra (28/10/2026: copriva la Sicilia nel radar e le citta' della
+    // costa nelle previsioni); in alto a sinistra c'e' la fonte, a destra l'ora
+    m.fitBounds(b, { paddingTopLeft: [10, 26], paddingBottomRight: [10, 10] });
+    return m;
+  }
+  /* ⚠️ IL RADAR SU TUTTA ITALIA E UN PEZZO D'EUROPA, uguale per tutte le pagine (28/10/2026, suo: «il radar non dice
+     nulla, perché quasi sempre senza nuvole: facciamolo con tutta l'Italia e anche un pezzo di Nord Europa, almeno
+     qualche nuvola si vede»). Sulla sola regione era quasi sempre una cartina vuota. */
+  function antRadar() {
+    var m = miniMappa('ant-radar', [[37.2, 6.5], [50.2, 18.5]]);
+    m.createPane('radar'); m.getPane('radar').style.zIndex = 450;
+    fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+      var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
+      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR / OPERA (CC BY)' }).addTo(m);
+      $('ant-radar-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+    }).catch(function () {});
+  }
+  function antPrev() {
+    var m = miniMappa('ant-prev');
+    fetch(API + '?capoluoghi=' + REG).then(function (r) { return r.json(); }).then(function (j) {
+      /* ⚠️ L'ORDINE LO DA' IL GENERATORE (C.ant.ord, 28/10/2026, suo: «i capoluoghi di provincia si devono vedere sempre,
+         è più importante Savona di Millesimo»): il capoluogo di regione, quelli di provincia, poi gli altri, ognuno dal
+         piu' abitato. Prima si guardava «s», ma e' la SIGLA della provincia: Millesimo e Savona hanno tutte e due SV, e
+         nell'ordine dell'API (alfabetico) Millesimo si prendeva il posto e Savona, che la toccava, spariva. I primi
+         C.ant.cap dell'elenco sono i capoluoghi: non si tolgono mai (vedi sotto). */
+      var ORD = C.ant.ord || [], rk = function (c) { var i = ORD.indexOf(c.n); return i < 0 ? 999 : i; };
+      var cc = (j.capoluoghi || []).slice().sort(function (a, b) { return (b.c ? 1 : 0) - (a.c ? 1 : 0) || rk(a) - rk(b); });
+      // inquadrate le CITTA', non il confine: in Toscana le isole dell'arcipelago rimpicciolivano tutto
+      // ⚠️ senza animazione (28/10/2026): le etichette si misurano subito qui sotto, e durante lo zoom animato erano a
+      // meta' strada (al telefono Arezzo spariva senza toccare niente)
+      if (cc.length > 1) m.fitBounds(L.latLngBounds(cc.map(function (c) { return [c.lat, c.lon]; })), { paddingTopLeft: [34, 40], paddingBottomRight: [34, 22], animate: false });
+      cc.forEach(function (c, n) {
+        var g = (c.giorni || []).filter(function (x) { return x.g === OGGI; })[0]; if (!g) return;
+        L.marker([c.lat, c.lon], { interactive: false, zIndexOffset: 1000 - n, icon: L.divIcon({ className: '', iconSize: [0, 0],
+          html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '"' + (c.c || rk(c) < (C.ant.cap || 0) ? ' data-cap="1"' : '') + '><span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span></span><span class="nm">' + esc(c.n) + '</span></span></div>' }) }).addTo(m);
+      });
+      /* ⚠️ TUTTE LE CITTA', NON DUE (28/10/2026, suo: «se metti solo 2 zone fa ridere»). Mai spostare un'etichetta
+         (la regola delle pagine meteo), ma prima di toglierla si RIMPICCIOLISCE: col nome, poi senza nome (icona e
+         gradi), poi solo icona e massima. Si nasconde solo se non ci sta nemmeno cosi'. L'etichetta gialla e la
+         scritta in alto contano come gia' messe. */
+      var box = $('ant-prev'), bordo = box.getBoundingClientRect(), messi = [box.parentNode.querySelector('.pz-ant-t').getBoundingClientRect()];
+      $('ant-prev-q').textContent = 'oggi'; messi.push($('ant-prev-q').getBoundingClientRect());
+      // l'etichetta con questa forma: il suo riquadro se ci sta (dentro e senza toccare quelle gia' messe), se no null
+      function ciSta(l, forma, gia) {
+        l.className = forma;
+        var r = l.getBoundingClientRect();
+        var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 2;
+        var tocca = gia.some(function (q) { return !(r.right + 2 < q.left || r.left - 2 > q.right || r.bottom + 2 < q.top || r.top - 2 > q.bottom); });
+        return fuori || tocca ? null : r;
+      }
+      var tutte = [].slice.call(box.querySelectorAll('.pz-et'));
+      var cap = tutte.filter(function (l) { return l.hasAttribute('data-cap'); });
+      /* I CAPOLUOGHI PRIMA DI TUTTI E COL NOME (28/10/2026): tutti interi o tutti senza la minima, la forma con cui ne
+         stanno di piu' col nome (al telefono Savona intera tocca Genova: senza minima ci stanno tutti e quattro), cosi'
+         restano uguali fra loro. Forzarli tutti non va: in Toscana Prato, Pistoia, Lucca e Pisa finivano uno sopra
+         l'altro. Chi col nome non ci sta si rimpicciolisce come gli altri, ma prima degli altri paesi. */
+      var forma = 'pz-et', quanti = -1;
+      ['pz-et', 'pz-et nome'].forEach(function (f) {
+        var gia = messi.slice(), n = 0;
+        cap.forEach(function (l) { var r = ciSta(l, f, gia); if (r) { gia.push(r); n++; } });
+        if (n > quanti) { quanti = n; forma = f; }
+      });
+      var senza = [];
+      cap.forEach(function (l) { var r = ciSta(l, forma, messi); if (r) messi.push(r); else senza.push(l); });
+      // poi i capoluoghi rimasti fuori e gli altri paesi: interi (solo se lo sono i capoluoghi), senza nome, solo icona
+      // e massima, se no via. Un paese piccolo non e' mai piu' grande di un capoluogo.
+      var riservati = [];
+      senza.concat(tutte.filter(function (l) { return !l.hasAttribute('data-cap'); })).forEach(function (l) {
+        var capo = l.hasAttribute('data-cap'), forme = capo ? [] : [forma];
+        if (forma === 'pz-et') forme.push('pz-et corta');
+        forme.push('pz-et mini');
+        for (var f = 0; f < forme.length; f++) { var r = ciSta(l, forme[f], capo ? messi : messi.concat(riservati)); if (r) { messi.push(r); return; } }
+        // il posto di un capoluogo che non ci sta resta vuoto: li' non va un paese piu' piccolo (al telefono Siena non
+        // ci stava per un pixel e al suo posto compariva Montepulciano)
+        if (capo) { l.className = forma; riservati.push(l.getBoundingClientRect()); }
+        l.className = 'pz-et via';
+      });
+    }).catch(function () {});
+  }
+  /* la pioggia degli ULTIMI 7 GIORNI (28/10/2026, suo: «le piogge invece metti ultimi 7 gg»): <reg>-7g.webp, che
+     genera-anteprime.js scatta per le regioni di queste pagine; finche' non c'e', quella di ieri */
+  function antPluvio() {
+    var b = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/_anteprime-prova/' : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/';
+    function prova(f) { return fetch(b + REG + '-' + f + '.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) { j.f = f; return j; }); }
+    prova('7g').catch(function () { return prova('ieri'); }).then(function (j) {
+      $('ant-pluvio').style.backgroundImage = 'url(' + b + REG + '-' + j.f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') + ')';
+      var corto = function (g) { return d(g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }); };
+      if (j.da && j.a) $('ant-pluvio-q').textContent = j.da === j.a ? (j.a === IERI ? 'ieri' : corto(j.a)) : 'dal ' + corto(j.da) + ' al ' + corto(j.a);
+    }).catch(function () {});
+  }
+  if (C.ant && $('ant') && window.L) {
+    var antFatte = false;
+    var antVia = function () { if (antFatte) return; antFatte = true; antRadar(); antPrev(); antPluvio(); };
+    if ('IntersectionObserver' in window) {
+      var antIO = new IntersectionObserver(function (e) { if (e.some(function (x) { return x.isIntersecting; })) { antIO.disconnect(); antVia(); } }, { rootMargin: '400px' });
+      antIO.observe($('ant'));
+    } else setTimeout(antVia, 2500);
   }
 
   /* ── i comandi ── */
@@ -654,17 +872,30 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
   });
 
   function guasto() { $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
-  Promise.all([fetch(API + '?zona=' + C.slug + '&pr=1').then(function (r) { return r.json(); }),
+  /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
+     dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
+  function daPluviometro(j) {
+    var s = j && j.serie ? j.serie[C.id] : null;
+    if (!s || !s.length) return null;
+    var n = s.length, sette = 0, conti = 0;
+    for (var i = Math.max(0, n - 7); i < n; i++) if (s[i] != null) { sette += s[i]; conti++; }
+    return { serie: s.slice().reverse(), ultimoGiorno: j.ultimo, periodi: {
+      '1': s[n - 1] == null ? null : { media: s[n - 1], ultimo: j.ultimo, top: [] },
+      '7': conti ? { media: sette, ultimo: j.ultimo, top: [] } : null } };
+  }
+  Promise.all([fetch(API + (C.paese ? '?paese=' + C.paese : '?zona=' + C.slug) + '&pr=1').then(function (r) { return r.json(); }),
                fetch(RIP).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })]).then(function (x) {
-    J = x[0]; RIPJ = x[1];
+    J = x[0]; RIPJ = C.giorni ? daPluviometro(x[1]) : x[1];
     PAESI = (J && J.capoluoghi || []).filter(function (c) { return c.giorni && c.giorni.length; });
+    if (C.nomi) PAESI.forEach(function (c) { if (C.nomi[c.n]) c.n = C.nomi[c.n]; });
+    for (var k = 1; C.primo && k < PAESI.length; k++) if (PAESI[k].n === C.primo) { PAESI.unshift(PAESI.splice(k, 1)[0]); break; }
     G = PAESI.length ? giorniDi() : [];
     disegnaCaduta();
     if (!G.length) { guasto(); return; }
     var tot = totale(); disegnaGraf(); punto(tot); sceglie(G[0].g);
     apri(posto(PAESI[0]), 'avvio');   // le ore si vedono subito, sul primo paese dell'elenco (il principale della zona)
   }).catch(function () { guasto(); disegnaCaduta(); });
-})({"sito":"https://precipitazioni.avventuremicologiche.it","raw":"https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/","slug":"valtiberina","reg":"umbria","dove":"in Valtiberina","valle":"valle","inValle":"in valle","diValle":"della valle","rilievo":"https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/","quote":{"Pietralunga":560,"Pieve Santo Stefano":435,"Apecchio":494,"Badia Tedalda":710,"Piobbico":337,"Cantiano":362,"Città di Castello":291,"San Giustino":336,"Citerna":478,"Monte Santa Maria Tiberina":686,"Umbertide":251,"Montone":474},"pluv":[{"id":"TOS30233300","n":"Badia Tedalda","url":"https://precipitazioni.avventuremicologiche.it/funghi/toscana/badia-tedalda/","q":843,"lat":43.686,"lon":12.134,"ente":"SIR Toscana"},{"id":"43.56204_12.43040","n":"Biscubio","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/biscubio/","q":464,"lat":43.562,"lon":12.4304,"ente":"MeteoHub"},{"id":"43.51592_12.35595","n":"Bocca Serriola","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/bocca-serriola/","q":740,"lat":43.5159,"lon":12.356,"ente":"MeteoHub"},{"id":"43.55328_12.52087","n":"Monte Nerone","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/monte-nerone/","q":1368,"lat":43.5533,"lon":12.5209,"ente":"MeteoHub"},{"id":"43.51215_12.55335","n":"Pianello di Cagli","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/pianello-di-cagli/","q":396,"lat":43.5122,"lon":12.5534,"ente":"MeteoHub"},{"id":"43.42694_12.36167","n":"Pieve di Saddi","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/pieve-di-saddi/","q":618,"lat":43.4269,"lon":12.3617,"ente":"MeteoHub"},{"id":"TOS11000040","n":"Pieve Santo Stefano","url":"https://precipitazioni.avventuremicologiche.it/funghi/toscana/pieve-santo-stefano/","q":750,"lat":43.674,"lon":12.102,"ente":"SIR Toscana"},{"id":"43.43194_12.46111","n":"San Benedetto Vecchio","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/san-benedetto-vecchio/","q":644,"lat":43.4319,"lon":12.4611,"ente":"MeteoHub"},{"id":"43.54828_12.48647","n":"Serravalle di Carda","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/serravalle-di-carda/","q":773,"lat":43.5483,"lon":12.4865,"ente":"MeteoHub"}]});
+})({"sito":"https://precipitazioni.avventuremicologiche.it","raw":"https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/","slug":"valtiberina","reg":"umbria","dove":"in Valtiberina","valle":"valle","inValle":"in valle","diValle":"della valle","rilievo":"https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/","quote":{"Pietralunga":560,"Pieve Santo Stefano":435,"Apecchio":494,"Badia Tedalda":710,"Piobbico":337,"Cantiano":362,"Città di Castello":291,"San Giustino":336,"Citerna":478,"Monte Santa Maria Tiberina":686,"Umbertide":251,"Montone":474},"pluv":[{"id":"TOS30233300","n":"Badia Tedalda","url":"https://precipitazioni.avventuremicologiche.it/funghi/toscana/badia-tedalda/","q":843,"lat":43.686,"lon":12.134,"ente":"SIR Toscana"},{"id":"43.56204_12.43040","n":"Biscubio","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/biscubio/","q":464,"lat":43.562,"lon":12.4304,"ente":"MeteoHub"},{"id":"43.51592_12.35595","n":"Bocca Serriola","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/bocca-serriola/","q":740,"lat":43.5159,"lon":12.356,"ente":"MeteoHub"},{"id":"43.55328_12.52087","n":"Monte Nerone","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/monte-nerone/","q":1368,"lat":43.5533,"lon":12.5209,"ente":"MeteoHub"},{"id":"43.51215_12.55335","n":"Pianello di Cagli","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/pianello-di-cagli/","q":396,"lat":43.5122,"lon":12.5534,"ente":"MeteoHub"},{"id":"43.42694_12.36167","n":"Pieve di Saddi","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/pieve-di-saddi/","q":618,"lat":43.4269,"lon":12.3617,"ente":"MeteoHub"},{"id":"TOS11000040","n":"Pieve Santo Stefano","url":"https://precipitazioni.avventuremicologiche.it/funghi/toscana/pieve-santo-stefano/","q":750,"lat":43.674,"lon":12.102,"ente":"SIR Toscana"},{"id":"43.43194_12.46111","n":"San Benedetto Vecchio","url":"https://precipitazioni.avventuremicologiche.it/funghi/umbria/san-benedetto-vecchio/","q":644,"lat":43.4319,"lon":12.4611,"ente":"MeteoHub"},{"id":"43.54828_12.48647","n":"Serravalle di Carda","url":"https://precipitazioni.avventuremicologiche.it/funghi/marche/serravalle-di-carda/","q":773,"lat":43.5483,"lon":12.4865,"ente":"MeteoHub"}],"ant":{"confine":{"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[13.158,42.654],[13.147,42.647],[13.131,42.658],[13.118,42.658],[13.11,42.642],[13.098,42.636],[13.088,42.635],[13.063,42.623],[13.038,42.627],[13.031,42.637],[13.023,42.639],[13.014,42.63],[13.015,42.621],[13.011,42.617],[12.999,42.615],[12.952,42.619],[12.937,42.615],[12.931,42.603],[12.919,42.605],[12.916,42.61],[12.904,42.612],[12.896,42.616],[12.89,42.614],[12.881,42.609],[12.88,42.602],[12.886,42.589],[12.894,42.579],[12.893,42.564],[12.872,42.561],[12.858,42.556],[12.831,42.54],[12.821,42.537],[12.818,42.533],[12.805,42.536],[12.773,42.531],[12.771,42.525],[12.774,42.52],[12.774,42.513],[12.751,42.511],[12.746,42.508],[12.727,42.509],[12.721,42.504],[12.711,42.501],[12.72,42.485],[12.742,42.471],[12.731,42.466],[12.725,42.46],[12.714,42.46],[12.711,42.464],[12.703,42.461],[12.691,42.449],[12.673,42.442],[12.661,42.441],[12.649,42.444],[12.65,42.447],[12.642,42.454],[12.643,42.465],[12.641,42.468],[12.621,42.469],[12.614,42.465],[12.619,42.461],[12.62,42.452],[12.611,42.429],[12.614,42.426],[12.615,42.414],[12.606,42.408],[12.606,42.404],[12.566,42.384],[12.552,42.382],[12.541,42.377],[12.53,42.364],[12.526,42.364],[12.517,42.37],[12.514,42.378],[12.513,42.393],[12.518,42.398],[12.511,42.404],[12.494,42.398],[12.489,42.398],[12.479,42.404],[12.47,42.4],[12.466,42.395],[12.46,42.398],[12.446,42.398],[12.459,42.407],[12.46,42.416],[12.467,42.419],[12.468,42.422],[12.464,42.429],[12.455,42.428],[12.451,42.424],[12.445,42.426],[12.436,42.426],[12.424,42.422],[12.417,42.422],[12.415,42.424],[12.413,42.427],[12.419,42.434],[12.419,42.439],[12.414,42.442],[12.414,42.456],[12.417,42.458],[12.43,42.458],[12.428,42.465],[12.412,42.468],[12.414,42.479],[12.428,42.487],[12.421,42.493],[12.402,42.499],[12.39,42.498],[12.385,42.489],[12.363,42.477],[12.351,42.474],[12.339,42.488],[12.326,42.495],[12.323,42.495],[12.316,42.488],[12.3,42.488],[12.289,42.495],[12.303,42.491],[12.307,42.498],[12.301,42.504],[12.29,42.509],[12.279,42.507],[12.275,42.509],[12.276,42.516],[12.284,42.518],[12.283,42.523],[12.274,42.524],[12.266,42.535],[12.279,42.542],[12.279,42.551],[12.275,42.56],[12.266,42.559],[12.239,42.572],[12.24,42.575],[12.236,42.583],[12.237,42.587],[12.244,42.598],[12.248,42.597],[12.239,42.607],[12.233,42.608],[12.229,42.612],[12.243,42.629],[12.226,42.635],[12.228,42.638],[12.227,42.643],[12.198,42.664],[12.186,42.666],[12.176,42.673],[12.161,42.677],[12.149,42.666],[12.146,42.659],[12.141,42.656],[12.132,42.662],[12.124,42.649],[12.117,42.651],[12.108,42.66],[12.107,42.665],[12.095,42.655],[12.074,42.657],[12.063,42.652],[12.039,42.649],[12.03,42.643],[12.03,42.65],[11.978,42.676],[11.941,42.683],[11.949,42.696],[11.932,42.701],[11.926,42.705],[11.93,42.713],[11.939,42.718],[11.945,42.725],[11.961,42.728],[11.978,42.751],[11.979,42.765],[11.965,42.767],[11.95,42.776],[11.928,42.78],[11.914,42.81],[11.908,42.816],[11.906,42.83],[11.895,42.835],[11.892,42.843],[11.915,42.852],[11.925,42.866],[11.931,42.87],[11.959,42.871],[11.959,42.892],[11.952,42.901],[11.933,42.905],[11.933,42.91],[11.939,42.933],[11.952,42.948],[11.953,42.955],[11.948,42.963],[11.951,42.971],[11.95,42.977],[11.955,42.979],[11.964,43.007],[11.972,43.022],[11.973,43.038],[11.976,43.043],[11.981,43.045],[11.982,43.051],[11.981,43.057],[11.973,43.064],[11.957,43.069],[11.951,43.066],[11.951,43.059],[11.946,43.054],[11.94,43.053],[11.936,43.056],[11.932,43.067],[11.924,43.075],[11.923,43.08],[11.931,43.089],[11.931,43.094],[11.919,43.12],[11.913,43.128],[11.92,43.131],[11.924,43.148],[11.94,43.159],[11.97,43.169],[11.988,43.181],[12.006,43.18],[12.023,43.187],[12.028,43.195],[12.039,43.229],[12.034,43.246],[12.043,43.251],[12.05,43.253],[12.07,43.245],[12.085,43.236],[12.094,43.236],[12.096,43.24],[12.101,43.241],[12.118,43.254],[12.147,43.254],[12.166,43.269],[12.176,43.274],[12.209,43.282],[12.224,43.295],[12.195,43.314],[12.183,43.301],[12.185,43.294],[12.176,43.281],[12.132,43.293],[12.127,43.308],[12.134,43.316],[12.137,43.327],[12.134,43.345],[12.128,43.355],[12.112,43.369],[12.101,43.373],[12.089,43.366],[12.075,43.367],[12.073,43.369],[12.073,43.39],[12.078,43.397],[12.078,43.401],[12.074,43.404],[12.069,43.405],[12.052,43.398],[12.034,43.4],[12.027,43.41],[12.025,43.416],[12.032,43.424],[12.044,43.426],[12.053,43.432],[12.058,43.439],[12.082,43.434],[12.097,43.446],[12.1,43.451],[12.099,43.454],[12.105,43.461],[12.143,43.47],[12.145,43.48],[12.092,43.501],[12.091,43.513],[12.095,43.522],[12.103,43.53],[12.143,43.534],[12.153,43.529],[12.164,43.563],[12.19,43.587],[12.197,43.595],[12.196,43.599],[12.2,43.603],[12.214,43.611],[12.225,43.594],[12.264,43.589],[12.272,43.594],[12.288,43.595],[12.294,43.591],[12.292,43.586],[12.3,43.586],[12.307,43.59],[12.311,43.599],[12.327,43.603],[12.334,43.61],[12.351,43.608],[12.351,43.613],[12.354,43.617],[12.357,43.617],[12.371,43.611],[12.367,43.609],[12.361,43.597],[12.371,43.586],[12.367,43.577],[12.341,43.553],[12.319,43.553],[12.313,43.545],[12.333,43.524],[12.346,43.521],[12.365,43.533],[12.37,43.532],[12.386,43.52],[12.383,43.517],[12.386,43.511],[12.395,43.509],[12.4,43.51],[12.399,43.513],[12.407,43.525],[12.417,43.534],[12.438,43.538],[12.459,43.516],[12.474,43.519],[12.478,43.526],[12.483,43.528],[12.501,43.52],[12.518,43.508],[12.524,43.496],[12.576,43.451],[12.605,43.438],[12.622,43.425],[12.623,43.421],[12.619,43.417],[12.629,43.422],[12.636,43.43],[12.645,43.434],[12.662,43.437],[12.687,43.429],[12.709,43.426],[12.715,43.446],[12.733,43.464],[12.747,43.464],[12.755,43.459],[12.767,43.46],[12.772,43.457],[12.776,43.451],[12.766,43.445],[12.768,43.438],[12.765,43.433],[12.766,43.425],[12.781,43.415],[12.772,43.401],[12.751,43.395],[12.747,43.39],[12.75,43.387],[12.75,43.381],[12.758,43.373],[12.759,43.364],[12.77,43.36],[12.773,43.35],[12.778,43.346],[12.782,43.346],[12.782,43.341],[12.792,43.337],[12.794,43.334],[12.802,43.31],[12.802,43.303],[12.8,43.291],[12.793,43.288],[12.789,43.283],[12.804,43.271],[12.824,43.267],[12.829,43.261],[12.829,43.256],[12.826,43.252],[12.828,43.239],[12.837,43.225],[12.837,43.218],[12.851,43.21],[12.863,43.211],[12.865,43.207],[12.868,43.189],[12.863,43.167],[12.853,43.154],[12.834,43.148],[12.833,43.139],[12.843,43.122],[12.851,43.122],[12.858,43.125],[12.881,43.122],[12.885,43.099],[12.891,43.094],[12.897,43.093],[12.89,43.058],[12.893,43.046],[12.9,43.043],[12.907,43.036],[12.904,43.025],[12.9,43.023],[12.898,43.025],[12.888,43.012],[12.888,43.009],[12.908,42.985],[12.906,42.98],[12.899,42.975],[12.896,42.965],[12.917,42.954],[12.926,42.955],[12.941,42.942],[12.948,42.941],[12.951,42.935],[12.949,42.93],[12.977,42.926],[12.969,42.904],[12.971,42.892],[12.975,42.887],[12.973,42.877],[12.976,42.87],[12.986,42.869],[12.99,42.872],[13,42.891],[12.997,42.903],[13.001,42.909],[13.012,42.903],[13.025,42.903],[13.037,42.907],[13.043,42.915],[13.052,42.92],[13.067,42.907],[13.112,42.889],[13.154,42.835],[13.163,42.832],[13.181,42.837],[13.188,42.835],[13.203,42.841],[13.211,42.841],[13.232,42.856],[13.235,42.868],[13.243,42.86],[13.255,42.823],[13.257,42.819],[13.263,42.816],[13.264,42.808],[13.251,42.79],[13.245,42.771],[13.246,42.768],[13.241,42.762],[13.238,42.761],[13.237,42.769],[13.221,42.773],[13.217,42.772],[13.209,42.764],[13.193,42.76],[13.199,42.755],[13.2,42.751],[13.188,42.737],[13.191,42.71],[13.175,42.692],[13.173,42.687],[13.176,42.683],[13.179,42.683],[13.174,42.665],[13.158,42.654]]],[[[12.431,43.606],[12.434,43.6],[12.433,43.592],[12.431,43.591],[12.408,43.602],[12.423,43.61],[12.431,43.606]]]]}},"ord":["Perugia","Terni","Foligno","Spoleto","Gubbio","Orvieto","Norcia"],"cap":2}});
 </script>
 </body>
 </html>

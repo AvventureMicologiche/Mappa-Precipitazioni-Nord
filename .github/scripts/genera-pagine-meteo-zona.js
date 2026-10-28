@@ -29,8 +29,8 @@
  * ⚠️ Le richieste vanno al SITO STESSO (/api/previsioni, /data/elenco-paesi.txt, /lib/leaflet); il riepilogo dei
  *    pluviometri come la pagina zona piogge (raw, o /data/ in locale).
  *
- * Dal 28/10/2026 scrive anche meteo/index.html, la pagina madre delle zone (paginaIndice), e le pagine di zona hanno il
- * percorso «Mappa pluviometrica › Previsioni meteo › <zona>».
+ * Le pagine di zona hanno il percorso «Mappa pluviometrica › Previsioni meteo › <zona>», dove «Previsioni meteo» e' la
+ * mappa delle previsioni (/previsioni/): la pagina madre meteo/index.html c'e' stata solo il 28/10/2026 (vedi in fondo).
  *
  * Uso: node .github/scripts/genera-pagine-meteo-zona.js        (SOLO=garfagnana: una pagina sola, sitemap non toccata)
  * Si lancia DOPO genera-pagine-regione.js: il foglio di stile si prende dalla pagina regione, come le zone piogge.
@@ -40,9 +40,10 @@ const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { bello, slug, slugRegione, elenco, diZona, postiDellaZona, diEnte } = require('./lib-nomi.js');
-const { perLink } = require('./lib-vicine.js');
 const { retiDei, regioneDati } = require('./lib-posti.js');
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
+const { ordineCitta } = require('./lib-capoluoghi.js');   // l'ordine delle citta' nell'anteprima «Previsioni»
+const { TESTATA_CSS, testata } = require('./lib-testata.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -699,6 +700,44 @@ function clientePagina(C) {
   }).catch(function () { guasto(); disegnaCaduta(); });
 }
 
+/* ⚠️ «GUARDA LE NOSTRE MAPPE»: TRE BOTTONI, CON L'ANTEPRIMA, UNO SOTTO L'ALTRO, E TUTTI VERSO LA MAPPA (28/10/2026, nati
+   sulle pagine «Meteo <paese>», suo: «i pulsanti devono essere meno, i funghi è inutile, basta radar, previsioni Liguria,
+   pluvio Liguria»; e poi: «rimandi a un'altra pagina tipo dove ha piovuto, ma per chi legge è una pagina troppo simile:
+   quei 3 pulsanti ti devono mandare sulle rispettive funzioni sulla mappa»). Lo stesso giorno anche nelle zone, al posto
+   del bottone del radar e delle «altre pagine» (zona piogge, zona funghi, mappa, previsioni). Le anteprime le disegna il
+   browser (clientePagina, C.ant) quando arrivano sullo schermo. L'etichetta gialla all'85% come i riquadri delle pagine
+   funghi, SOTTO la cartina viva (sopra copriva la Sicilia e le citta' della costa), che non si tocca (il clic va al link). */
+const CSS_ANT = `
+.pz-ant{display:grid;grid-template-columns:1fr;gap:14px;margin:12px 0 22px}
+.pz-ant-c{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid #c9d5e1;background:#fff;text-decoration:none;box-shadow:0 2px 10px rgba(15,61,110,.10)}
+.pz-ant-v{position:relative;height:250px;pointer-events:none;background:#e8eef4 center/cover no-repeat}
+.pz-ant-v.leaflet-container{background:#e8eef4}
+.pz-ant-t{display:block;padding:10px 14px 11px;font-weight:800;font-size:16.5px;line-height:1.25;color:#3d1f04;background:linear-gradient(180deg,#f9c93e,#eda40c);border-top:1px solid rgba(160,106,8,.35)}
+.pz-ant-t small{display:block;font-weight:600;font-size:12.5px;opacity:.92;margin-top:1px}
+.pz-ant-q{position:absolute;top:8px;right:8px;z-index:1000;font-style:normal;font-size:12px;font-weight:700;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;color:#0f3d6e}
+.pz-ant-q:empty{display:none}
+.pz-ant-v .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.7)}
+/* le citta' dell'anteprima piu' piccole di quelle della mappa grande: e' un'anteprima, e cosi' ce ne stanno di piu' */
+.pz-ant-v .pz-et{padding:1px 5px 2px}.pz-ant-v .pz-et .r1{font-size:10.5px}.pz-ant-v .pz-et .ic{font-size:13px}.pz-ant-v .pz-et .nm{font-size:9.5px}
+/* quelle che col nome non ci stanno: prima senza nome, poi solo icona e massima (si toglie solo quella che non ci sta nemmeno cosi') */
+.pz-ant-v .pz-et.corta .nm,.pz-ant-v .pz-et.mini .nm,.pz-ant-v .pz-et.mini .mn{display:none}
+.pz-ant-v .pz-et.mini{padding:0 4px 1px}.pz-ant-v .pz-et.mini .ic{margin-right:1px}
+/* i capoluoghi di provincia non perdono mai il nome: se non ci stanno perdono la minima (28/10/2026) */
+.pz-ant-v .pz-et.nome .mn{display:none}
+@media (min-width:700px){.pz-ant-v{height:300px}}
+`;
+// reg e nomeReg della regione della pagina, ga il prefisso degli eventi; nella pagina va anche C.ant (confine e ordine)
+function mappeHtml({ reg, nomeReg, ga }) {
+  const bottone = (href, k, testo, sotto) => `<a class="pz-ant-c" href="${href}" onclick="try{gtag('event','apri_mappa',{da:'${ga}-${k}'})}catch(e){}">`
+    + `<div class="pz-ant-v" id="ant-${k}"></div><i class="pz-ant-q" id="ant-${k}-q"></i><span class="pz-ant-t">${testo}<small>${sotto}</small></span></a>`;
+  return `<h2>Guarda le nostre mappe</h2>
+<div class="pz-ant" id="ant">
+  ${bottone(`${SITO}/?r=${reg}&amp;radar=ora`, 'radar', '📡 Radar piogge', 'Dove sta piovendo adesso, in Italia e in Europa')}
+  ${bottone(`${SITO}/previsioni/?r=${reg}`, 'prev', `☀️ Previsioni ${esc(nomeReg)}`, 'Il tempo città per città, ora per ora')}
+  ${bottone(`${SITO}/?r=${reg}&amp;g=7`, 'pluvio', `💧 Pluviometri ${esc(nomeReg)}`, 'La pioggia degli ultimi 7 giorni, pluviometro per pluviometro')}
+</div>`;
+}
+
 function pagina(z, QUOTE_DI) {
   const zslug = slug(z.n);
   const paesi = require(path.join(RADICE, 'data', 'paesi-zone.json'))[zslug];
@@ -712,8 +751,6 @@ function pagina(z, QUOTE_DI) {
   const ENTE = diEnte(elenco(agenzie));
   const NOME = z.n, DOVE = z.dove, DI = diZona(z.dove);
   const VALLE = z.t === 'valle' ? 'valle' : 'zona';
-  const REGS = perLink(casa.k, z.lat, z.lon);
-  const PIN = 'pl=' + z.lat + ',' + z.lon + '&amp;pn=' + encodeURIComponent(z.n) + '&amp;pz=1';
   const quote = {};
   for (const p of paesi) quote[p.n] = QUOTE_DI[chiave(p.lat, p.lon)];
   const pluv = ids.map(anag).filter(Boolean).sort((a, b) => bello(a[1]).localeCompare(bello(b[1]), 'it')).map(p => {
@@ -721,7 +758,6 @@ function pagina(z, QUOTE_DI) {
     // l'indirizzo della pagina del pluviometro: lo stesso della tabella della zona piogge (slugRegione)
     return { id: String(p[0]), n: bello(p[1]), url: `${SITO}/funghi/${k}/${SLUG_REG[k][p[0]]}/`, q: p[3], lat: +p[4], lon: +p[5], ente: agenziaDi(regioneDati(k, p)) || '' };
   });
-  const haFunghi = fs.existsSync(path.join(RADICE, 'funghi', 'zone', zslug, 'index.html'));
 
   const TITOLO = `Previsioni meteo ${NOME}: che tempo farà nei prossimi 7 giorni, paese per paese`;
   const DESCR = `Previsioni meteo ${DI} per i prossimi 7 giorni: pioggia prevista, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, ora per ora. E quanta pioggia è già caduta nei pluviometri ${ENTE}.`;
@@ -735,8 +771,10 @@ function pagina(z, QUOTE_DI) {
   if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
 
   const C = { sito: SITO, raw: RAW, slug: zslug, reg: casa.k, dove: DOVE, valle: VALLE, inValle: VALLE === 'valle' ? 'in valle' : 'nella zona',
-    diValle: 'della ' + VALLE, rilievo: RILIEVO, quote, pluv };
-  const vai = (href, testo, sotto, k) => `<a href="${href}" onclick="try{gtag('event','apri_mappa',{da:'meteo-${zslug}-${k}'})}catch(e){}">${testo}<small>${sotto}</small></a>`;
+    diValle: 'della ' + VALLE, rilievo: RILIEVO, quote, pluv,
+    // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
+    // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
+    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa) }, ordineCitta(casa.k)) };
 
   return `<!DOCTYPE html>
 <html lang="it">
@@ -751,7 +789,7 @@ function pagina(z, QUOTE_DI) {
 <meta property="og:image" content="${SITO}/preview.jpg">
 <meta property="og:url" content="${SITO}/meteo/${zslug}/">
 <meta property="og:type" content="website">
-${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SITO}/meteo/`], [NOME, null]])}
+${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SITO}/previsioni/`], [NOME, null]])}
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -762,16 +800,12 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
   }
 </script>
 <link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css">
-<style>${STILE}${CSS}</style>
+<style>${STILE}${CSS}${CSS_ANT}${TESTATA_CSS}</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'meteo-${zslug}'})}catch(e){}">▶ Iscriviti</a>
-</header>
+${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiva: 'previsioni' })}
 <main>
-<p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/meteo/">Previsioni meteo</a> › ${esc(NOME)}</p>
+<p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/previsioni/">Previsioni meteo</a> › ${esc(NOME)}</p>
 <h1>Previsioni meteo ${esc(NOME)}</h1>
 <p class="sotto"><b>Che tempo farà ${esc(DOVE)} nei prossimi 7 giorni</b>: pioggia, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri ${esc(ENTE)}.</p>
 
@@ -804,15 +838,7 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
   <div class="card"><h3>Ultimi 7 giorni</h3><div class="numerone" id="r7">…</div><div id="r7t"></div></div>
 </div>
 
-<a class="pz-radar" href="${SITO}/${casa.k}/adesso/" onclick="try{gtag('event','apri_mappa',{da:'meteo-${zslug}-radar'})}catch(e){}">📡 Sta piovendo adesso ${esc(DOVE)}?<small>Guarda il radar delle piogge in diretta</small></a>
-
-<h2>Le altre pagine ${esc(DI)}</h2>
-<div class="pz-vai">
-  ${vai(`${SITO}/zone/${zslug}/`, `💧 Quanto ha piovuto ${esc(DOVE)}`, 'Ieri, 7 e 30 giorni, pluviometro per pluviometro', 'zona-piogge')}
-  ${haFunghi ? vai(`${SITO}/funghi/zone/${zslug}/`, `🍄 Funghi ${esc(DOVE)}`, 'La pioggia che conta, da 13 a 20 giorni fa', 'zona-funghi') : ''}
-  ${vai(`${SITO}/?r=${REGS}&amp;g=7&amp;${PIN}`, '🗺 La mappa della pioggia', `${esc(articolo(DI))} sulla mappa pluviometrica`, 'mappa')}
-  ${vai(`${SITO}/?r=${casa.k}&amp;m=prev&amp;${PIN}`, '☀️ Le previsioni sulla mappa', `Tocca un paese qualsiasi ${VALLE === 'valle' ? 'della valle' : 'della zona'}`, 'previsioni')}
-</div>
+${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
 
 <h2>Come funziona questa pagina</h2>
 <p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei ${paesi.length} paesi e aggiornate più volte al giorno; la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri ${esc(ENTE)}: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
@@ -833,111 +859,15 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
 </html>
 `;
 }
-/* LA PAGINA MADRE meteo/index.html (28/10/2026, suo «sì, fase A»). Le 31 zone non avevano un indice: Google le trovava
-   solo dalla sitemap e dai link sparsi nelle pagine di zona. Qui le zone per regione e il bottone verso /previsioni/, la
-   mappa aperta sulle previsioni. Niente previsioni dentro la pagina: 31 posti in una richiesta sono piu' di quelli
-   provati col tetto di Cloudflare (21), e il tempo lo da' ogni pagina di zona. */
-function paginaIndice(zone) {
-  const tutti = require(path.join(RADICE, 'data', 'paesi-zone.json'));
-  const perReg = {};
-  for (const z of zone) {
-    const { ids, regDi } = postiDellaZona(POSTI, z);
-    const casa = REGIONI.find(x => x.k === z.reg) || REGIONI.find(x => x.k === regDi[ids[0]]);
-    (perReg[casa.k] = perReg[casa.k] || { casa, zone: [] }).zone.push(z);
-  }
-  const nomeDi = c => c.nomeTitolo || c.nome;
-  const gruppi = Object.values(perReg).sort((a, b) => nomeDi(a.casa).localeCompare(nomeDi(b.casa), 'it'));
-  const TITOLO = `Previsioni meteo per zona: ${zone.length} valli e zone d'Italia, paese per paese`;
-  const DESCR = `Che tempo farà nei prossimi 7 giorni in ${zone.length} zone d'Italia, dalla Garfagnana alla Val Brembana, ai Nebrodi: in ogni zona pioggia, minime e massime paese per paese, ognuno alla sua quota.`;
-  const m = fs.readFileSync(path.join(RADICE, 'toscana', 'index.html'), 'utf8');
-  let STILE = m.slice(m.indexOf('<style>') + 7, m.indexOf('</style>'));
-  const iMeteo = STILE.indexOf('/* ── IL METEO NELLE PAGINE REGIONE');
-  if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
-  const scheda = z => {
-    const s = slug(z.n), n = (tutti[s] || []).length;
-    return `<a href="${SITO}/meteo/${s}/" onclick="try{gtag('event','apri_meteo_zona',{da:'meteo-indice'})}catch(e){}">Previsioni meteo ${esc(z.n)}<small>${n} paesi ${z.t === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota</small></a>`;
-  };
-  // le pagine «Meteo <paese>» del test (28/10/2026): solo quelle gia' scritte, cosi' l'indice non punta mai a un 404
-  const paesi = METEO_PAESI.filter(p => fs.existsSync(path.join(RADICE, 'meteo', p.loc.split('/')[0], p.slug, 'index.html')))
-    .sort((a, b) => a.n.localeCompare(b.n, 'it'));
-  const schedaPaese = p => {
-    const casa = REGIONI.find(x => x.k === p.loc.split('/')[0]);
-    return `<a href="${indirizzoMeteoPaese(p)}" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-indice'})}catch(e){}">Meteo ${esc(p.n)}<small>${esc(casa ? nomeDi(casa) : '')}: ora per ora, e i paesi intorno</small></a>`;
-  };
-  return `<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(TITOLO)}</title>
-<meta name="description" content="${esc(DESCR)}">
-<link rel="canonical" href="${SITO}/meteo/">
-<meta property="og:title" content="${esc(TITOLO)}">
-<meta property="og:description" content="${esc(DESCR)}">
-<meta property="og:image" content="${SITO}/preview.jpg">
-<meta property="og:url" content="${SITO}/meteo/">
-<meta property="og:type" content="website">
-${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', null]])}
-<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  if (/(^|\\.)avventuremicologiche\\.it$/.test(location.hostname)) {
-    gtag('config', '${GA_ID}');
-  }
-</script>
-<style>${STILE}${CSS}</style>
-</head>
-<body>
-<header>
-  <a class="logo" href="${SITO}/">🌧️ Mappa Pluviometrica</a>
-  <a class="yt" href="${CANALE}" target="_blank" rel="noopener"
-     onclick="try{gtag('event','click_youtube',{pulsante:'meteo-indice'})}catch(e){}">▶ Iscriviti</a>
-</header>
-<main>
-<p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › Previsioni meteo</p>
-<h1>Previsioni meteo per zona</h1>
-<p class="sotto"><b>Che tempo farà nei prossimi 7 giorni</b> in ${zone.length} valli e zone d'Italia, dalle Alpi all'Appennino e alla Sicilia: in ogni zona pioggia, minime e massime paese per paese, ognuno alla sua quota, e la pioggia già caduta nei pluviometri.</p>
-
-<a class="pz-radar" href="${SITO}/previsioni/" onclick="try{gtag('event','apri_mappa',{da:'meteo-indice-previsioni'})}catch(e){}">☀️ Le previsioni su tutta Italia, sulla mappa<small>Tocca una città o una regione, o cerca il tuo paese: il tempo ora per ora</small></a>
-
-${gruppi.map(g => `<h2 id="${g.casa.k}">${esc(nomeDi(g.casa))}</h2>
-<div class="pz-vai">
-  ${g.zone.sort((a, b) => a.n.localeCompare(b.n, 'it')).map(scheda).join('\n  ')}
-</div>`).join('\n\n')}
-${paesi.length ? `
-<h2 id="paesi">Il meteo paese per paese</h2>
-<p>I posti più cercati sul sito, ognuno con la sua pagina: le previsioni ora per ora, i paesi intorno e la pioggia già caduta al pluviometro.</p>
-<div class="pz-vai">
-  ${paesi.map(schedaPaese).join('\n  ')}
-</div>
-` : ''}
-<h2>Come funzionano queste pagine</h2>
-<p>Ogni zona ha i suoi paesi, chiesti uno per uno alla loro quota: in valle e in cresta il tempo non è lo stesso. Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), aggiornate più volte al giorno; la probabilità di pioggia è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri delle agenzie regionali: non è una stima.</p>
-</main>
-
-<footer>
-  Previsioni: MET Norway (ECMWF) · Probabilità di pioggia: Open-Meteo ·
-  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
-  <a href="${SITO}/guida/">guida alla mappa</a> ·
-  <a href="https://avventuremicologiche.it">Avventure Micologiche</a>
-</footer>
-</body>
-</html>
-`;
-}
-
-// «della Val Brembana» → «La Val Brembana», «del Casentino» → «Il Casentino», «dei Nebrodi» → «I Nebrodi»
-function articolo(di) {
-  const m = di.match(/^(dell'|della |delle |degli |dei |del )(.*)$/);
-  if (!m) return di;
-  return { "dell'": "L'", 'della ': 'La ', 'delle ': 'Le ', 'degli ': 'Gli ', 'dei ': 'I ', 'del ': 'Il ' }[m[1]] + m[2];
-}
+/* LA PAGINA MADRE meteo/index.html NON C'E' PIU' (28/10/2026 sera, suo: «la pagina madre meteo, ma che roba è? e a cosa
+   serve? la pagina madre dovrebbe essere la mappa»): la madre delle pagine meteo e' la mappa delle previsioni, /previsioni/.
+   /meteo/ rimanda li' (301, _redirects) e il percorso delle pagine e' «Mappa pluviometrica › Previsioni meteo (/previsioni/)
+   › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
+   Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, clientePagina, paginaIndice, articolo, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {
@@ -955,8 +885,6 @@ if (require.main === module) {
       console.log('  meteo/' + slug(z.n) + '/');
     }
     if (SOLO) { console.log(`1 pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); return; }
-    scrivi(path.join(RADICE, 'meteo', 'index.html'), paginaIndice(zone));
-    console.log('  meteo/ (la pagina madre)');
     const { scriviSitemap } = require('./genera-sitemap.js');
     const tot = scriviSitemap(SITO, RADICE);
     console.log(`${zone.length} pagine «Previsioni meteo» scritte, sitemap.xml con ${tot} indirizzi.`);

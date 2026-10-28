@@ -16,30 +16,35 @@
 
 const STRISCIA_CSS = `
 /* ── la mappa nella scheda in cima (lib-striscia.js, 20/10/2026) ── */
-.mk-str{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 2px;}
-.mk-str a{position:relative;display:block;height:122px;border-radius:11px;overflow:hidden;background:#1d3d63 no-repeat;
+div.mk-str{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 2px;}
+/* ⚠️ L'ETICHETTA SOTTO LA CARTINA, NON SOPRA (28/10/2026, come le anteprime delle pagine meteo, dove sopra copriva la
+   Sicilia e le citta' della costa; suo: «prendi le idee nuove che abbiamo messo in queste pagine e applicale»). Il
+   riquadro e' una colonna: la cartina (i.mk-img, dove ritaglia() mette l'immagine) e sotto la striscia gialla. */
+div.mk-str a{position:relative;display:flex;flex-direction:column;height:auto;border-radius:11px;overflow:hidden;background:#1d3d63;
   box-shadow:0 0 0 1px rgba(255,255,255,.28);text-decoration:none;}
-.mk-str a span{position:absolute;left:7px;bottom:7px;background:rgba(9,28,52,.86);color:#fff;font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  padding:6px 8px;border-radius:8px;}
-.mk-str a span b{display:block;font-weight:800;white-space:nowrap;}
-.mk-str a span small{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;}
-.mk-str a.mk-uno{grid-column:1 / -1;}
-.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e12b2b;border:2px solid #fff;
+div.mk-str a i.mk-img{position:relative;display:block;height:122px;background:#1d3d63 no-repeat;}
+div.mk-str a span{position:static;display:block;flex:1;border-radius:0;box-shadow:none;background:rgba(9,28,52,.86);color:#fff;font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  padding:7px 9px 8px;}
+div.mk-str a span b{display:block;font-weight:800;white-space:nowrap;}
+div.mk-str a span small{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;}
+div.mk-str a.mk-uno{grid-column:1 / -1;}
+div.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e12b2b;border:2px solid #fff;
   box-shadow:0 1px 4px rgba(0,0,0,.45);}
-@media(min-width:700px){.mk-str a{height:150px;}}
+@media(min-width:700px){div.mk-str a i.mk-img{height:150px;}}
 /* al telefono il riquadro e' largo ~146 px a 360: scritte un filo piu' piccole, e a capo piuttosto che fuori */
-@media(max-width:420px){.mk-str a span{left:6px;bottom:6px;right:6px;padding:5px 6px;font-size:12.5px;}
-  .mk-str a span b,.mk-str a span small{white-space:normal;} .mk-str a span small{font-size:11px;}}
-@media(max-width:370px){.mk-str a span{font-size:12px;padding:5px;} .mk-str a span small{font-size:10.5px;}}
+@media(max-width:420px){div.mk-str a span{padding:6px 7px 7px;font-size:12.5px;}
+  div.mk-str a span b,div.mk-str a span small{white-space:normal;} div.mk-str a span small{font-size:11px;}}
+@media(max-width:370px){div.mk-str a span{font-size:12px;padding:6px;} div.mk-str a span small{font-size:10.5px;}}
 /* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella grande del bottone di ieri */
-.mk-str.mk-ieri a{height:140px;} @media(min-width:700px){.mk-str.mk-ieri a{height:185px;}}
-.mk-str.mk-grande a span{left:10px;bottom:10px;right:auto;padding:9px 13px;border-radius:10px;}
-.mk-str.mk-grande a span b{font-size:19px;} .mk-str.mk-grande a span small{font-size:14px;}
-@media(max-width:420px){.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} .mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
-/* il bottone sulla mappa colorato (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube */
-.mk-str.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.85),rgba(237,164,12,.85));color:#3d1f04;box-shadow:0 3px 0 rgba(160,106,8,.85),0 6px 14px rgba(0,0,0,.3);}   /* all'85% (suo: «giallo ma semitrasparente?»): la mappa si intravede, resta un bottone */
-.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;box-shadow:0 3px 0 #8f1410,0 6px 14px rgba(0,0,0,.35);}
-.mk-str.mk-giallo a span small,.mk-str.mk-rosso a span small{opacity:.92;}
+div.mk-str.mk-ieri a i.mk-img{height:140px;} @media(min-width:700px){div.mk-str.mk-ieri a i.mk-img{height:185px;}}
+div.mk-str.mk-grande a span{padding:10px 14px 11px;border-radius:0;}
+div.mk-str.mk-grande a span b{font-size:19px;} div.mk-str.mk-grande a span small{font-size:14px;}
+@media(max-width:420px){div.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} div.mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
+/* la striscia colorata (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube.
+   Sotto la cartina il giallo e' pieno, come le anteprime delle pagine meteo (all'85% serviva quando stava sopra) */
+div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;border-top:1px solid rgba(160,106,8,.35);box-shadow:none;}
+div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:1px solid #8f1410;box-shadow:none;}
+div.mk-str.mk-giallo a span small,div.mk-str.mk-rosso a span small{opacity:.92;}
 `;
 
 function strisciaMappa(OPZ) {
@@ -54,10 +59,12 @@ function strisciaMappa(OPZ) {
     var s = 256 * Math.pow(2, z), sy = Math.sin(lat * Math.PI / 180);
     return [(lon + 180) / 360 * s, (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * s];
   }
-  function ritaglia(a, g) {
+  function ritaglia(a0, g) {
+    // la cartina sta nella parte di sopra del riquadro (i.mk-img, 28/10/2026: l'etichetta e' sotto)
+    var a = a0.querySelector('i.mk-img') || a0;
     // ⚠️ la pagina disegna la scheda mentre e' ancora nascosta (riquadri larghi 0): si riprova finche' ha una misura
     var j = g.j, tw = a.clientWidth, th = a.clientHeight;
-    if (!tw || !th) { a._prove = (a._prove || 0) + 1; if (a._prove < 50) setTimeout(function () { ritaglia(a, g); }, 200); return; }
+    if (!tw || !th) { a._prove = (a._prove || 0) + 1; if (a._prove < 50) setTimeout(function () { ritaglia(a0, g); }, 200); return; }
     var k, cx, cy, p;
     if (OPZ.tipo === 'regione' && j.reg) {
       var nw = proj(j.reg.n, j.reg.w, j.z), se = proj(j.reg.s, j.reg.e, j.z);
@@ -104,7 +111,7 @@ function strisciaMappa(OPZ) {
     if (OPZ.ieri) {
       var tit = vecchio.querySelector('b'), sot = vecchio.querySelector('small');
       d.className = 'mk-str mk-ieri' + (OPZ.modo === 'sopra' ? '' : ' mk-grande') + COL;
-      d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><span>' + (OPZ.modo === 'sopra'
+      d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><i class="mk-img"></i><span>' + (OPZ.modo === 'sopra'
         ? '<b>💧 Guarda la pioggia di ieri</b><small>località per località →</small>'
         : '<b>' + (tit ? tit.textContent : 'Apri la mappa di ieri') + ' →</b><small>' + (sot ? sot.textContent : '') + '</small>') + '</span></a>';
       btns.setAttribute('data-str', '1');
@@ -125,8 +132,8 @@ function strisciaMappa(OPZ) {
     var b = document.querySelector('main a[href*="boschi=1"]:not([href*="sat=1"])');
     // le scritte (20/10/2026, suo: «scriviamo qualcosa in più che incentivi il click»): una riga corta che invita
     // e una piccola sotto; tre alternative messe a confronto in localhost, questa e' la 1
-    d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="pioggia"' + (b ? '' : ' class="mk-uno"') + '><span><b>💧 Guarda la pioggia</b><small>ultimi 20 giorni →</small></span></a>'
-      + (b ? '<a href="' + b.getAttribute('href') + '" data-t="boschi"><span><b>🌲 Guarda i boschi</b><small>tipo per tipo →</small></span></a>' : '');
+    d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="pioggia"' + (b ? '' : ' class="mk-uno"') + '><i class="mk-img"></i><span><b>💧 Guarda la pioggia</b><small>ultimi 20 giorni →</small></span></a>'
+      + (b ? '<a href="' + b.getAttribute('href') + '" data-t="boschi"><i class="mk-img"></i><span><b>🌲 Guarda i boschi</b><small>tipo per tipo →</small></span></a>' : '');
     btns.setAttribute('data-str', '1');
     btns.parentNode.replaceChild(d, btns);
     [].forEach.call(d.querySelectorAll('a'), function (a) {
