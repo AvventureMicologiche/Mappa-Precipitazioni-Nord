@@ -12863,7 +12863,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        \u00ABpioggia\u00BB sta in .rd-lunga: sul tablet, nella riga a tre, sparisce (25/10/2026, vedi #btn-sat-riga). */
     b.className='tp-custom-btn rd-btn'; b.id='btn-radar'; b.innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Radar<span class="rd-lunga"> pioggia</span>';
     riga.appendChild(b);
-    b.addEventListener('click',function(){ acceso?esci():entra(); });
+    b.addEventListener('click',function(){ if(acceso){ esci(); return; } entra(); if(acceso){ try{ gtag('event','radar',{stato:'acceso'}); }catch(_){} } });
     // ⚠️ Il tasto «Indietro» della legenda chiama hideLegendMobile(), che in
     //    modo radar non fa niente perche' il pannello lo teniamo aperto a
     //    forza: sembrava rotto. In modo radar deve uscire dal radar.
@@ -12928,6 +12928,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
         // ⚠️ Ripremendo il tasto gia' acceso si torna ad «Adesso»: durante
         //    un'animazione quello e' il gesto naturale per fermarla, e non
         //    serve un tasto in piu' per farlo.
+        try{ gtag('event','radar',{stato:'tasto-'+x.id}); }catch(_){}
         if(scelta===x.id && x.id!=='ora') vai('ora'); else vai(x.id);
       });
       d.appendChild(c);
@@ -12945,7 +12946,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       var q=new URLSearchParams(location.search).get('radar');
       if(q && ['ora','due','prev'].indexOf(q)>-1){
         var giri=0, att2=setInterval(function(){
-          if(regioniAttive().length){ clearInterval(att2); entra(); vai(q); }
+          if(regioniAttive().length){ clearInterval(att2); entra(); if(acceso){ try{ gtag('event','radar',{stato:'link'}); }catch(_){} } vai(q); }
           else if(++giri>75) clearInterval(att2);
         },200);
       }
