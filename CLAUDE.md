@@ -3077,6 +3077,17 @@ Il repo di test non l'ha.
   citta', una regione o digita una localita' qui sotto» (sua scelta fra quattro stili; la frase sotto i giorni l'ha
   bocciata, «troppo lunga»). **Telefono**: niente fumetto, la ricerca e' la barra in alto.
 - Se le previsioni dell'Italia non arrivano resta l'invito di prima (`invito()`, la variante C4 dell'8/10).
+- **Telefono, dal 28/10/2026 (suo: «la Sicilia e' tagliata»)**: `inquadraItalia()` mette l'Italia intera
+  (`ITALIA_TEL`, Brennero-Capo Passero, Monte Bianco-Otranto, senza Lampedusa) al centro della striscia fra la barra in
+  alto e il riquadro dei giorni. Prima restava la vista di apertura del sito: 86 px vuoti sopra le Alpi e Capo Passero
+  sotto il riquadro. Lo zoom resta 5,25 (limita la larghezza). ⚠️ **La barra «Cerca il paese o scegli la regione»
+  copre i primi 44 px della mappa**: le misure si fanno da sotto di lei (`sopraTel()`), se no l'Italia sembra scentrata.
+- ⚠️ **Il riquadro dei giorni cresce DOPO l'inquadratura** (la vetrina arriva qualche secondo dopo: 139 → 189 px):
+  un ResizeObserver su `#pv-pan` rifa' l'ultima inquadratura (Italia o regioni) se nel frattempo nessuno ha toccato la
+  mappa (`toccata`), non c'e' una scheda aperta e non era quella di un posto (`inquadraPosto` spegne `rifai`).
+- Sul telefono, nelle previsioni, la scritta della fonte in alto (`.fonte-tag`) non c'e': e' la stessa riga del
+  riquadro («ECMWF via MET Norway · agg.»). Sul computer resta. Prova: `vista-italia-tel\prova.js` (scratchpad
+  1cc91c9d), 23 casi: tre misure, dito sulla mappa, citta' toccata e richiusa, posto da link, tre regioni, computer.
 - **Niente lampo dello storico coi link `?m=prev`**: le previsioni partono a mappa pronta e fino ad allora si vedeva lo
   storico (su una rete lenta da telefono ~12 s, col pannello dei periodi). Uno script in fondo alla `<head>` mette la
   classe `apre-prev` su `<html>`: periodi, aiuto, legenda e pallini nascosti, linguetta Previsioni accesa. La toglie

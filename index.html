@@ -16658,7 +16658,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      «Storico piogge qui». Il tetto e' lo stesso di prima; con tante righe si scorre come sempre. */
   #pv-det{top:auto;right:0;left:0;bottom:0;width:auto;max-height:calc(100% - 76px);border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
   #pv-det .rows{flex:0 1 auto}
-  .modo-prev.pv-det-aperto .fonte-tag{display:none !important}
+  /* la scritta della fonte in alto non c'e' nelle previsioni del telefono (28/10/2026, suo): e' la stessa riga del
+     riquadro in basso («ECMWF via MET Norway · agg.»), che resta. Prima spariva solo con la scheda aperta. */
+  .modo-prev .fonte-tag{display:none !important}
   #pv-det .hd .x{font:700 12.5px/1 inherit;color:#1b3f6e;background:#eef3fa;border:1.5px solid #9db4d6;border-radius:999px;padding:7px 12px;align-self:flex-start;white-space:nowrap}
   #pv-det .hd .x::after{content:' Chiudi'}
   #pv-det .hd .nm{font-size:22px}
@@ -16675,6 +16677,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   var MESIL=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
   var ICONE=[[/clearsky_day|fair_day/,'☀️'],[/clearsky_night|fair_night/,'🌙'],[/partlycloudy_day/,'⛅'],[/partlycloudy_night|^cloudy|fog/,'☁️'],[/thunder/,'⛈️'],[/heavyrain|heavysleet/,'🌧️'],[/rain|sleet|drizzle/,'🌦️'],[/snow/,'🌨️']];
   var acceso=false, giorno=1, aree={}, punti={}, punto=null, gruppo=null, guardia=null, quanti=0, fonteVecchia=null, locCasa=null, inCorso=0, cercato=null, posto=null, pillCasa=null;
+  var rifai=false, toccata=false;   // vedi «IL RIQUADRO CRESCE DOPO» accanto al ResizeObserver di pv-pan (28/10/2026)
   function el(id){ return document.getElementById(id); }
   /* ⚠️ I NOMI DEI POSTI SI METTONO IN PAGINA COME TESTO (20/10/2026, settimo check, bug 3). Il nome di un link
      (`pn=`, `n=`) finiva in innerHTML cosi' com'era: un link costruito apposta faceva girare codice sul nostro dominio.
@@ -16792,6 +16795,15 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     cb.addEventListener('click',function(){ if(window._regApri) window._regApri(); var li=el('loc-input'); if(li){ try{ li.focus(); }catch(e){} } ga('casella'); });
     try{ if(window.ResizeObserver) new ResizeObserver(function(){ if(window.posizionaChipFonte) window.posizionaChipFonte(); }).observe(cb); }catch(e){}
     if(window.L){ L.DomEvent.disableClickPropagation(pan); L.DomEvent.disableScrollPropagation(pan); L.DomEvent.disableClickPropagation(det); L.DomEvent.disableScrollPropagation(det); }
+    /* ⚠️ IL RIQUADRO CRESCE DOPO L'INQUADRATURA (28/10/2026, telefono). Alla prima apertura la vetrina arriva qualche
+       secondo dopo i giorni (misurato a 393x760: 139 -> 189 px) e la mappa, inquadrata sul riquadro corto, finiva
+       sotto quello lungo: la Sicilia tagliata e Palermo sparito. Si rifa' l'ultima inquadratura delle zone (o
+       dell'Italia), ma solo se dopo di lei nessuno ha toccato la mappa, se non c'e' una scheda aperta e se non era
+       quella di un posto (inquadraPosto spegne `rifai`). Senza rifarla, si diradano almeno le etichette. */
+    try{ if(window.ResizeObserver){ var hPan=0; new ResizeObserver(function(){ var h=pan.offsetHeight; if(Math.abs(h-hPan)<8) return; hPan=h;
+      if(!acceso||!tel()) return;
+      if(rifai&&!toccata&&h>40&&!document.body.classList.contains('pv-det-aperto')) inquadra(); else dirada(); }).observe(pan); } }catch(e){}
+    ['pointerdown','touchstart','wheel'].forEach(function(t){ mp.addEventListener(t,function(e){ if(!pan.contains(e.target)&&!det.contains(e.target)) toccata=true; },{capture:true,passive:true}); });
     el('pv-gg').addEventListener('click',function(e){ e.stopPropagation(); var c=e.target.closest('.pv-gg'); if(c) scegliGiorno(+c.dataset.i);
       // toccando l'invito: sul telefono si apre la tendina, sul computer il cursore va nella casella
       if(e.target.closest('.avviso')&&document.body.classList.contains('pv-vuoto')){ try{ if(tel()){ if(window._regApri) window._regApri(); } else { var li=el('loc-input'); if(li) li.focus(); } }catch(x){} } });
@@ -16927,7 +16939,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   }
   function contaPallini(){ var n=0, m=map(); if(!m) return 0; m.eachLayer(function(l){ if(l instanceof L.CircleMarker) n++; }); return n; }
   function inquadra(){
-    var m=map(), rk=zone(); if(!m||!rk.length) return;
+    var m=map(), rk=zone(); if(!m) return;
+    rifai=true; toccata=false;
+    if(!rk.length){ if(tel()) inquadraItalia(); return; }
     if(!tel()){
       /* computer: il fit del sito riserva lo spazio del suo pannello a sinistra, ma qui c'e' anche la tabella
          a destra (470 px + 40): con tre regioni la mappa finiva sotto la tabella (suo, 7/10). Si inquadrano i
@@ -16958,6 +16972,19 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     }
     try{ if(window._fitRegioni) window._fitRegioni(rk); }catch(e){}
     var alza=Math.round((sotto-sopra)/2); if(alza>10) m.panBy([0,alza],{animate:false});
+  }
+  /* VISTA ITALIA SUL TELEFONO (28/10/2026, suo: «non e' centrata giusta, la Sicilia e' tagliata»): si inquadra
+     l'Italia intera, dal Brennero a Capo Passero e dal Monte Bianco a Otranto, al centro della striscia libera
+     sopra il riquadro dei giorni. Prima restava la vista di apertura del sito, tarata sul pannello dello storico:
+     misurato a 393x760, 86 px vuoti sopra le Alpi e Capo Passero 12 px SOTTO il riquadro. Sui capoluoghi no: il
+     piu' a sud e' Palermo, e la Sicilia scende un altro grado e mezzo. Lo zoom non cambia (5,25): sul telefono
+     l'Italia e' limitata dalla larghezza, si guadagna solo il centro. Lampedusa resta fuori apposta. */
+  var ITALIA_TEL=[[36.69,6.62],[47.09,18.52]];
+  function inquadraItalia(){
+    var m=map(), pan=el('pv-pan'), mb=el('map').getBoundingClientRect(), sotto=0;
+    if(pan){ var r=pan.getBoundingClientRect(); if(r.height>40) sotto=Math.max(0,mb.bottom-Math.max(r.top,mb.top)); }
+    var sopra=Math.max(sopraTel(),casellaSotto(mb));
+    try{ m.fitBounds(ITALIA_TEL,{paddingTopLeft:[8,sopra+14],paddingBottomRight:[8,sotto+14],animate:false}); }catch(e){}
   }
 
   /* ── dati ── */
@@ -17186,6 +17213,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* inquadratura del posto cercato: lui e i tre capoluoghi piu' vicini, non tutta la regione */
   function inquadraPosto(){
     var m=map(); if(!m||!posto) return;
+    rifai=false;   // il posto non si perde quando il riquadro cresce
     var cs=[], cl=Math.cos(posto.lat*Math.PI/180);
     zone().forEach(function(k){ var a=aree[k]; if(a&&a.capoluoghi) a.capoluoghi.forEach(function(c){
       var dy=c.lat-posto.lat, dx=(c.lon-posto.lon)*cl, d=dx*dx+dy*dy; if(d>1e-5) cs.push({c:c,d:d}); }); });
