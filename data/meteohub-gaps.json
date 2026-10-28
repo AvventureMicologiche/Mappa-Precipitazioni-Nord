@@ -546,7 +546,9 @@
       "stazioniViste": 0,
       "stazioniAttese": 127,
       "rilevato": "2026-10-27",
-      "stato": "aperto"
+      "stato": "coperto-openmeteo",
+      "copertoIl": "2026-10-28",
+      "stazioniCoperte": 131
     },
     {
       "rete": "basilicata",
@@ -557,7 +559,27 @@
       "stazioniAttese": 62,
       "rilevato": "2026-10-27",
       "stato": "aperto"
+    },
+    {
+      "rete": "puglia",
+      "data": "2026-10-27",
+      "tipo": "mancante",
+      "lieve": false,
+      "stazioniViste": 0,
+      "stazioniAttese": 127,
+      "rilevato": "2026-10-28",
+      "stato": "aperto"
+    },
+    {
+      "rete": "basilicata",
+      "data": "2026-10-27",
+      "tipo": "parziale",
+      "lieve": true,
+      "stazioniViste": 50,
+      "stazioniAttese": 62,
+      "rilevato": "2026-10-28",
+      "stato": "aperto"
     }
   ],
-  "aggiornato": "2026-10-27T14:53:10.760Z"
+  "aggiornato": "2026-10-28T15:24:43.671Z"
 }
