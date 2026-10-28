@@ -3159,7 +3159,10 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
   loro `alternatenames/<paese>.txt` (banco di lavoro, `geonames\`). Posti abitati e passi, ~189.000; nome in
   ITALIANO se c'e' (Ginevra, Nizza, «Alta Savoia»), ma si trova anche col nome locale («nice», «genève»). File
   spezzati sotto i 200 KB (gruppi in `luoghi/divisi.json`, file `-cima` coi 30 piu' abitati per le ricerche corte).
-  Come Open-Meteo: sotto 2 lettere niente, con 2 solo i nomi uguali, da 3 l'inizio del nome. Le quattro caselle
+  Come Open-Meteo: sotto 2 lettere niente, con 2 solo i nomi uguali, da 3 l'inizio del nome. In piu' (28/10/2026):
+  «S.» e «S» davanti valgono San, Sant', Santo, Santa, Santi, Sante (`varianti`, la stessa regola di `locVarianti` della
+  mappa), cosi' «s. pellegrino in alpe» trova la frazione; senza abbreviazione le risposte sono identiche a prima
+  (provato su 60 domande). «s. giovanni» risponde come «san giovanni»: prima i nomi uguali. Le quattro caselle
   (`index.html` CERCA_API, `meteoClient`, `lib/pagina-adesso.js` v5, `genera-pagine-meteo-zona.js`) cambiano solo
   l'indirizzo. ⚠️ In locale la Function tiene i file in memoria: dopo aver rifatto `luoghi/` va riavviato wrangler.
   ⚠️ ~1.400 file in piu' nel sito: col tetto di 19.500 di `pubblica-pages.js` ci stanno ancora tutti i giorni di `data/`.
