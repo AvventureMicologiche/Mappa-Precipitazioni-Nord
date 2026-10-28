@@ -1138,6 +1138,13 @@ non sono una cartella di dati e si giudicano sul campo `generato`.
   del collector restano tutti. Per il tentativo delle 17 c'e' un **quarto cron,
   16:00 UTC** (d'inverno le 17, d'estate le 18). ⚠️ I riepiloghi non hanno il
   tetto, hanno la loro regola «mai due giri di fila».
+- **Una cartella sola ferma, con le sorelle a posto, non si rilancia** (dal
+  28/10/2026). Se un workflow scrive piu' cartelle (MeteoHub 11, Francia 13) e
+  PIU' della meta' delle altre ha il giorno, il giro c'e' stato: il buco e' della
+  fonte, e il log lo dice fra le cartelle «su cui NON agisco». Nata da MeteoHub
+  Puglia (una stazione al giorno dal 26/10): meteohub.yml rilanciato quattro
+  volte al giorno, coi riepiloghi dietro. Con meta' o piu' delle sorelle ferme
+  si rilancia come prima. Il buco resta nel registro (`mancanti`).
 
 **⚠️ IL LIMITE, DETTO CHIARO:** copre il caso «GitHub ha saltato la notte ed e'
 tornato in se' la mattina», che e' il piu' frequente. Non copre «GitHub e' giu'
