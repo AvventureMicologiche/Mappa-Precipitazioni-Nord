@@ -1787,7 +1787,8 @@ html.apre-prev #sez-prev{border-bottom-color:#ffd54a !important;color:#fff !impo
 html.apre-prev #sez-prev::after{display:none}
 </style>
 <script>
-  if(/[?&]m=prev(&|$)/.test(location.search)){ document.documentElement.classList.add('apre-prev');
+  // /previsioni/ (28/10/2026) vale come ?m=prev: e' lo stesso index.html, servito da functions/previsioni/index.js
+  if(/[?&]m=prev(&|$)/.test(location.search)||/^\/previsioni\/$/.test(location.pathname)){ document.documentElement.classList.add('apre-prev');
     setTimeout(function(){ document.documentElement.classList.remove('apre-prev'); },20000); }
 </script>
 </head>
@@ -1805,7 +1806,7 @@ html.apre-prev #sez-prev::after{display:none}
          un sito-mappa la casetta si legge come "torna alla vista iniziale", non
          come "vai su un altro sito". Da misurare su click_home / click_youtube. -->
     <a href="https://avventuremicologiche.it" target="_blank" rel="noopener" title="Vai al sito Avventure Micologiche" onclick="try{gtag('event','click_home',{pulsante:'archie-header'})}catch(e){}" style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#f3efe6;text-decoration:none;flex-shrink:0;margin-right:2px;border:1.5px solid rgba(255,255,255,.85);box-sizing:border-box;overflow:hidden;">
-      <img src="archie-avatar.webp" alt="Avventure Micologiche" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <img src="/archie-avatar.webp" alt="Avventure Micologiche" style="width:100%;height:100%;object-fit:cover;display:block;">
     </a>
     <span style="font-size:18px" class="hdr-goccia">🌧</span>
     <div class="hdr-titolo">
@@ -1900,7 +1901,7 @@ html.apre-prev #sez-prev::after{display:none}
        onclick="try{gtag('event','click_youtube',{pulsante:'box-desktop'})}catch(e){}"
        id="channel-logo" class="prevetrina">
       <div class="v-alto v-iscr">
-        <img src="archie-avatar.webp" alt="Archie" class="ch-ava">
+        <img src="/archie-avatar.webp" alt="Archie" class="ch-ava">
         <div class="v-dx">
           <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
           <div class="v-nome">Avventure Micologiche</div>
@@ -2192,7 +2193,7 @@ html.apre-prev #sez-prev::after{display:none}
       <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
          onclick="try{gtag('event','click_youtube',{pulsante:'pillola-mobile'})}catch(e){}"
          id="channel-pill" class="prevetrina">
-        <img src="archie-avatar.webp" alt="Archie">
+        <img src="/archie-avatar.webp" alt="Archie">
         <div class="cp-t">Più di 1.000 analisi al giorno<small>Grazie a tutti · iscriviti al canale</small></div>
         <div class="cp-yt">
           <svg width="26" height="19" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -10156,7 +10157,8 @@ function buildShareUrl(){
   if(window._boschiAcceso) p.set('boschi', '1');   // retino «Tipi di bosco», 15/9/2026
   if(window._satOn) p.set('sat', '1');   // Mappa|Satellite (29/9/2026): chi apre il link vede la foto
   if(window._boschiAcceso && window._quotaFascia && window._quotaFascia()) p.set('quota', window._quotaFascia());   // filtro di altitudine
-  return location.origin+location.pathname+'?'+p.toString();
+  // da /previsioni/ il link porta alla mappa: aperto, /previsioni/ ripartirebbe dalle previsioni (28/10/2026)
+  return location.origin+location.pathname.replace(/^\/previsioni\/$/,'/')+'?'+p.toString();
 }
 window.buildShareUrl=buildShareUrl;
 // Gancio di collaudo: la mappa vive nella IIFE e dalla console non si legge.
@@ -12287,7 +12289,7 @@ function loadDefaultMarkers(){
         +'<div class="v-dx">'
           +'<div class="v-occhio">'+ytPieno+' '+V.occhiello+'</div>'
           +'<div class="v-gancio'+(V.gancio2?'':' v-uno')+'"'+(V.ganciopx?' style="font-size:'+V.ganciopx+'px"':'')+'><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
-          +'<div class="v-canale"><img src="archie-avatar.webp" alt="">'+V.canale+'</div>'
+          +'<div class="v-canale"><img src="/archie-avatar.webp" alt="">'+V.canale+'</div>'
         +'</div></div>'
         +'<div class="v-btn">'+V.bottone+'</div>';
       copertinaRipiego(box.querySelector('.v-cop'), V.copertina);
@@ -12334,7 +12336,7 @@ function loadDefaultMarkers(){
       nuova.className='cp-social';
       nuova.innerHTML=
         '<a class="cp-alto" href="'+V.link+'" target="_blank" rel="noopener" onclick="'+tracc('vetrina-mobile').replace(/"/g,'&quot;')+'">'
-        +(V.copertina ? '<img class="cp-cop" src="'+urlCopertina(V.copertina)+'" alt="">' : '<img src="archie-avatar.webp" alt="Archie">')
+        +(V.copertina ? '<img class="cp-cop" src="'+urlCopertina(V.copertina)+'" alt="">' : '<img src="/archie-avatar.webp" alt="Archie">')
         +'<div class="cp-t">'+(V.gancioP||V.gancio)+'<small>'+segno+' '+V.occhielloP+' \u00B7 '+V.canale+'</small></div>'
         +'</a>'
         +'<div class="cp-riga">'+riga+'</div>';
@@ -16701,9 +16703,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     storia.det=false; if(!soloDet) storia.prev=false;
     tend(function(){ try{ ignoraPop++; history.go(-k); }catch(e){ ignoraPop--; } });
   }
+  /* aperta da /previsioni/ (28/10/2026), tornando alla pioggia l'indirizzo torna la mappa: ricaricando non si riaprono le
+     previsioni. Due volte: in esci() e quando arriva il passo indietro di togliPassi, che e' asincrono e riporta la voce
+     della cronologia di prima, ancora con /previsioni/ */
+  function indirizzoMappa(){ if(!acceso&&/^\/previsioni\/$/.test(location.pathname)){ try{ history.replaceState(history.state,'','/'+location.search+location.hash); }catch(e){} } }
   /* ⚠️ chi consuma il passo ferma l'evento: dopo c'e' l'ascoltatore dello storico (8/10, in fondo al file) */
   window.addEventListener('popstate',function(e){
-    if(ignoraPop>0){ ignoraPop--; e.stopImmediatePropagation(); return; }
+    if(ignoraPop>0){ ignoraPop--; e.stopImmediatePropagation(); indirizzoMappa(); return; }
     if(!acceso) return;
     if(storia.det){ storia.det=false; e.stopImmediatePropagation(); chiudiDettaglio(); return; }
     if(storia.prev){ storia.prev=false; e.stopImmediatePropagation(); esci(); }
@@ -16823,7 +16829,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        tendina): aspettando quelli si restava 15 s sullo storico. */
     try{
       var q=new URLSearchParams(location.search);
-      if(q.get('m')==='prev'){
+      if(q.get('m')==='prev'||/^\/previsioni\/$/.test(location.pathname)){   // /previsioni/: vedi «LINK ALLE PREVISIONI» in cima
         var vuoto=!q.get('r')&&!q.get('l')&&!q.get('pl');
         var giri=0, att=setInterval(function(){
           if(vuoto){ var ra=el('reg-apri'), pronto=map()&&(tel()?!!(ra&&ra.getBoundingClientRect().height>0):!!document.querySelector('#map path.conf-pulse'));
@@ -16896,6 +16902,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     /* se nelle previsioni si era CERCATO un posto, lo storico si apre su quel posto (sua richiesta 7/10:
        «se da li' clicco storico resto li'»): si rifa' la ricerca vera del sito, che sceglie le regioni e centra */
     var c=cercato; cercato=null; posto=null; document.body.classList.remove('pv-vuoto'); document.body.classList.remove('pv-italia');
+    indirizzoMappa();
     if(pillCasa){ var pl=el('channel-pill'); if(pl){ if(pillCasa.n&&pillCasa.n.parentNode===pillCasa.p) pillCasa.p.insertBefore(pl,pillCasa.n); else pillCasa.p.appendChild(pl); } pillCasa=null; }
     if(ripristina!==false && c && window._locVai){ try{ window._locVai(c); }catch(e){} ga('chiudi'); return; }
     if(ripristina!==false){

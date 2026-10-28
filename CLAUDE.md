@@ -3031,6 +3031,27 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   (con `http.server` dicono «non disponibili»). ⚠️ Il server locale tiene in cache le risposte di `/api/previsioni`:
   cambiando `paesi-zone.json` va fermato (anche i processi workerd) e tolto `.wrangler/state/v3/cache`. Gli attrezzi
   (campione, prove puppeteer, resoconto della sessione cloud) stanno nel banco, `claudio\mockup-previsioni-zona\`.
+  ⚠️ **La mappa in locale chiede le previsioni alla porta 8788** (`API` in index.html): per provare le previsioni
+  DENTRO LA MAPPA wrangler va sulla 8788, su un'altra porta la vista Italia cade sull'invito.
+- **La pagina madre `/meteo/` (28/10/2026)**: la scrive lo stesso generatore (`paginaIndice`), le 31 zone divise per
+  regione e il bottone verso `/previsioni/`; niente previsioni dentro (31 posti superano quelli provati col tetto di
+  Cloudflare). Le pagine di zona hanno il percorso «Mappa pluviometrica › Previsioni meteo › <zona>». In testa a
+  `sitemap-meteo.xml`.
+
+## `/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)
+
+Chi cercava «previsioni meteo» trovava solo la radice, che per Google e' la mappa della pioggia. `/previsioni/` e' la
+stessa mappa aperta sulla vista Italia delle previsioni, con titolo, descrizione, canonico e anteprima suoi. Il
+sottodominio (`meteo.`) e' stato scartato: per Google e' un sito nuovo e dividerebbe i segnali; semmai un rimando 301.
+- `functions/previsioni/index.js` prende LO STESSO index.html (`env.ASSETS`) e riscrive solo i meta con HTMLRewriter:
+  niente copia da tenere allineata. `/previsioni` senza barra → 301 con la query.
+- index.html: l'indirizzo `/previsioni/` vale come `?m=prev` (testata e «link con ?m=prev»); `/previsioni/?r=toscana`
+  come `?r=toscana&m=prev`. Uscendo dalle previsioni l'indirizzo torna `/` (`indirizzoMappa`, anche dopo il passo
+  indietro asincrono di `togliPassi`), e `buildShareUrl` non costruisce mai un link `/previsioni/`. `archie-avatar.webp`
+  con la barra davanti: era l'unico file scritto senza percorso.
+- In `sitemap-mappa.xml` solo se la Function c'e' (il repo di test non l'ha). La home punta a `/previsioni/`.
+- **Fase B, da decidere coi numeri (~3-4/11)**: i link «Apri le previsioni» delle oltre 1.300 pagine da `?m=prev` a
+  `/previsioni/`, e il sottodominio come rimando.
 
 ## Previsioni senza regione: la vista Italia (27/10/2026)
 
