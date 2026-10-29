@@ -20,7 +20,7 @@ const TEMPO_MET_MS = 8000, TEMPO_PROB_MS = 4000;
 const ORIGINI = /^https?:\/\/(precipitazioni\.avventuremicologiche\.it|avventurepluvio(-test)?\.pages\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/;
 const TZ = 'Europe/Rome';
 
-export async function onRequestGet({ request, env }) {
+export async function onRequestGet({ request, env, waitUntil }) {
   const u = new URL(request.url);
   const cors = intestazioni(request);
   try {
@@ -38,7 +38,7 @@ export async function onRequestGet({ request, env }) {
     // Dal 25/10/2026 la chiedono le pagine meteo delle zone e il blocco «Che tempo farà» di tutte le pagine
     const conPr = u.searchParams.get('pr') === '1';
     if (u.searchParams.has('posti')) {
-      const d = await perPosti(u.searchParams.get('posti'), env, request, conPr);
+      const d = await perPosti(u.searchParams.get('posti'), env, request, conPr, waitUntil);
       const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
       return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
     }
@@ -46,7 +46,7 @@ export async function onRequestGet({ request, env }) {
     const area = paese ? paese[2] : zona || zonedi || u.searchParams.get('capoluoghi');
     if (area) {
       const d = await perArea(area, env, request, paese ? '/data/paesi-localita/' + paese[1] + '.json' : zona ? '/data/paesi-zone.json'
-        : zonedi ? '/data/zone-regioni.json' : '/data/capoluoghi.json', conPr);
+        : zonedi ? '/data/zone-regioni.json' : '/data/capoluoghi.json', conPr, waitUntil);
       // ⚠️ (19/10/2026, quinto check, bug 5) nessuna citta' risponde = 502 e niente cache nel browser: prima era un 200
       // tenuto 10 minuti, e la mappa restava su «carico…»; qualcuna sola in errore = 200 ma per 2 minuti, poi si richiede
       const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
@@ -146,7 +146,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
 }
 
 // ── i capoluoghi di un'area, in parallelo (al massimo 12 → sotto i 50 subrequest) ──
-async function perArea(area, env, request, file, conProb) {
+async function perArea(area, env, request, file, conProb, waitUntil) {
   // 40: gli indirizzi delle zone arrivano a 30 lettere; le pagine paese hanno anche cifre («...-laghetto-verde-1») e piu' lettere
   const paese = file.indexOf('/data/paesi-localita/') === 0;
   if (!(paese ? /^[a-z0-9-]{2,80}$/ : /^[a-z-]{3,40}$/).test(area)) return { errore: 'area' };
@@ -154,19 +154,43 @@ async function perArea(area, env, request, file, conProb) {
   // paesi-zone e paesi-localita davano «pa» tutti e due, cosi' una zona e un paese con lo stesso nome si pestavano
   const chiave = new Request(`https://cache.previsioni/area?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&f=${file.slice(6, -5)}&a=${area}${conProb ? '&pr=1' : ''}`);
   const cache = caches.default;
-  const c = await cache.match(chiave); if (c) return c.json();
-  const fr = await env.ASSETS.fetch(new URL(file, request.url));
-  if (!fr.ok) return { errore: 'area sconosciuta' };
-  const lista = await fr.json();
-  const citta = lista[area]; if (!citta) return { errore: 'area sconosciuta' };
-  // ⚠️ TETTO DI 50 SOTTORICHIESTE per chiamata (Cloudflare): con 12 citta' e la % di Open-Meteo erano 51 e la
-  // Svizzera cadeva al primo colpo (7/10). Qui niente % punto per punto (con &pr=1 una richiesta sola per tutti, probDi),
-  // e una citta' che fallisce resta sola col suo errore.
-  /* ⚠️ A GRUPPI DI 6 (20/10/2026). Una Function di Cloudflare tiene aperte al massimo 6 connessioni alla volta: le
-     altre aspettano in fila, ma il tetto di 8 s di MET (AbortSignal.timeout) parte quando la fetch viene CHIESTA, non
-     quando parte. Con le 21 zone della Toscana (?zonedi=) rispondevano sempre le prime 6 e le altre 15 scadevano in
-     fila; in locale (wrangler) il limite non c'e' e andava. A gruppi, il tempo di ognuna parte quando parte davvero. */
-  return previsioniDi(citta, area, request, cache, chiave, conProb);
+  const calcola = async () => {
+    const fr = await env.ASSETS.fetch(new URL(file, request.url));
+    if (!fr.ok) return { errore: 'area sconosciuta' };
+    const lista = await fr.json();
+    const citta = lista[area]; if (!citta) return { errore: 'area sconosciuta' };
+    // ⚠️ TETTO DI 50 SOTTORICHIESTE per chiamata (Cloudflare): con 12 citta' e la % di Open-Meteo erano 51 e la
+    // Svizzera cadeva al primo colpo (7/10). Qui niente % punto per punto (con &pr=1 una richiesta sola per tutti, probDi),
+    // e una citta' che fallisce resta sola col suo errore.
+    /* ⚠️ A GRUPPI DI 6 (20/10/2026). Una Function di Cloudflare tiene aperte al massimo 6 connessioni alla volta: le
+       altre aspettano in fila, ma il tetto di 8 s di MET (AbortSignal.timeout) parte quando la fetch viene CHIESTA, non
+       quando parte. Con le 21 zone della Toscana (?zonedi=) rispondevano sempre le prime 6 e le altre 15 scadevano in
+       fila; in locale (wrangler) il limite non c'e' e andava. A gruppi, il tempo di ognuna parte quando parte davvero. */
+    return previsioniDi(citta, area, request, cache, chiave, conProb);
+  };
+  const c = await cache.match(chiave); if (c) return daCache(c, cache, chiave, calcola, waitUntil);
+  return calcola();
+}
+
+/* «QUELLA DI PRIMA SUBITO, LA NUOVA DIETRO» (29/10/2026, velocita' della vista Italia). Un'area resta fresca 30 minuti
+   come prima, ma in cache resta altre 3 ore: chi arriva dopo i 30 minuti riceve SUBITO quella di prima, e la Function la
+   ricalcola dopo aver risposto (waitUntil) per chi viene dopo. Prima il primo arrivato dopo i 30 minuti aspettava il
+   calcolo intero: `italia` 2,7 s, i gruppi delle icone anche 14 s. Una sveglia che la tiene calda non basta: la cache
+   di Cloudflare e' per data center, e una sveglia la scalda da un posto qualunque, non da dove arrivano gli italiani.
+   La data nella chiave resta (bug 11): a mezzanotte si ricalcola comunque. Si tengono «vecchie» solo le risposte
+   complete: niente citta' in errore e, se chiesta, la % arrivata (quelle restano in cache 2 minuti, come prima).
+   ⚠️ Sottorichieste del ricalcolo dietro: le stesse di un calcolo a freddo piu' una (la rimessa qui sotto). */
+const FRESCA = 1800, VECCHIA = 3 * 3600;
+async function daCache(c, cache, chiave, calcola, waitUntil) {
+  const testo = await c.text();
+  const fino = +c.headers.get('X-Fresca-Fino') || 0;
+  if (fino && Date.now() > fino) {
+    if (typeof waitUntil !== 'function') return calcola();   // senza waitUntil (non dovrebbe succedere) come prima: si aspetta
+    // si rimette con 2 minuti di freschezza (scadenza invariata): chi arriva intanto non lancia un secondo ricalcolo
+    await cache.put(chiave, new Response(testo, { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${restante(c)}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + 120000) } }));
+    waitUntil(calcola().catch(() => {}));
+  }
+  return JSON.parse(testo);
 }
 
 // la % di tanti punti con UNA richiesta a Open-Meteo: latitudini e longitudini separate da virgole, risponde con un
@@ -194,35 +218,41 @@ async function previsioniDi(citta, area, request, cache, chiave, conProb) {
   for (let i = 0; i < citta.length; i += 6) ris.push(...await Promise.all(citta.slice(i, i + 6).map((p, k) => uno(p, i + k))));
   const dati = { area, agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' + (PROB ? ' · % Open-Meteo' : '') };
   if (!ris.some(x => x.giorni)) dati.errore = 'nessuna citta\' risponde';   // MET giu': errore in cima, vedi onRequestGet (bug 5)
-  // chiesta la % e Open-Meteo non ha risposto: in cache solo 2 minuti, come per il punto singolo
-  if (!ris.some(x => x.errore)) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${conProb && !prob ? 120 : 1800}`, 'Date': new Date().toUTCString() } }));
+  // chiesta la % e Open-Meteo non ha risposto: in cache solo 2 minuti, come per il punto singolo, e mai «vecchia» (daCache)
+  if (!ris.some(x => x.errore)) {
+    const fresca = conProb && !prob ? 120 : FRESCA;
+    await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${fresca === FRESCA ? FRESCA + VECCHIA : fresca}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + fresca * 1000) } }));
+  }
   return dati;
 }
 
 // ── i posti della classifica dell'indice /funghi/ (20/10/2026): al massimo 20, ognuno <reg>/<slug>[/<sigla>] ──
 // Ogni regione e' un file solo (data/paesi-localita/<reg>.json), letto una volta anche se ha piu' posti: con 20 posti
 // di 5 regioni sono 5 letture + 20 punti + 2 di cache, sotto il tetto di 50 sottorichieste (vedi perPunto, senzaCache).
-async function perPosti(testo, env, request, conProb) {
+async function perPosti(testo, env, request, conProb, waitUntil) {
   const voci = String(testo || '').split(',').filter(Boolean);
   if (!voci.length || voci.length > 20) return { errore: 'posti' };
   const pezzi = voci.map(v => /^([a-z]{4,12})\/([a-z0-9-]{2,80})(?:\/([A-Z]{1,3}))?$/.exec(v));
   if (pezzi.some(x => !x)) return { errore: 'posti' };
   const chiave = new Request(`https://cache.previsioni/posti?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&p=${encodeURIComponent(voci.join(','))}${conProb ? '&pr=1' : ''}`);
   const cache = caches.default;
-  const c = await cache.match(chiave); if (c) return c.json();
-  const file = {};
-  for (const reg of [...new Set(pezzi.map(x => x[1]))]) {
-    const fr = await env.ASSETS.fetch(new URL('/data/paesi-localita/' + reg + '.json', request.url));
-    file[reg] = fr.ok ? await fr.json() : {};
-  }
-  // un posto senza file o senza la riga del pluviometro si salta: meglio 19 righe che una risposta d'errore
-  const citta = pezzi.map(([, reg, slug, sg]) => {
-    const p = ((file[reg] || {})[slug] || [])[0];
-    if (!p || !p.qui) return null;
-    return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, r: p.r || reg, sotto: [sg, p.q ? p.q + ' m' : ''].filter(Boolean).join(', ') };
-  }).filter(Boolean);
-  if (!citta.length) return { errore: 'posti sconosciuti' };
-  return previsioniDi(citta, 'posti', request, cache, chiave, conProb);
+  const calcola = async () => {
+    const file = {};
+    for (const reg of [...new Set(pezzi.map(x => x[1]))]) {
+      const fr = await env.ASSETS.fetch(new URL('/data/paesi-localita/' + reg + '.json', request.url));
+      file[reg] = fr.ok ? await fr.json() : {};
+    }
+    // un posto senza file o senza la riga del pluviometro si salta: meglio 19 righe che una risposta d'errore
+    const citta = pezzi.map(([, reg, slug, sg]) => {
+      const p = ((file[reg] || {})[slug] || [])[0];
+      if (!p || !p.qui) return null;
+      return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, r: p.r || reg, sotto: [sg, p.q ? p.q + ' m' : ''].filter(Boolean).join(', ') };
+    }).filter(Boolean);
+    if (!citta.length) return { errore: 'posti sconosciuti' };
+    return previsioniDi(citta, 'posti', request, cache, chiave, conProb);
+  };
+  const c = await cache.match(chiave); if (c) return daCache(c, cache, chiave, calcola, waitUntil);
+  return calcola();
 }
 
 // ⚠️ UN formattatore solo, creato una volta: crearlo a ogni ora della previsione costava decine di ms di CPU

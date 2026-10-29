@@ -1795,7 +1795,30 @@ html.apre-italia #map{background:#3e526b}
 <script>
   // /previsioni/ (28/10/2026) vale come ?m=prev: e' lo stesso index.html, servito da functions/previsioni/index.js
   if(/[?&]m=prev(&|$)/.test(location.search)||/^\/previsioni\/$/.test(location.pathname)){ document.documentElement.classList.add('apre-prev');
-    if(!/[?&](r|pl|lat|q|da|a|g)=/.test(location.search)) document.documentElement.classList.add('apre-italia');
+    if(!/[?&](r|pl|lat|q|da|a|g)=/.test(location.search)){ document.documentElement.classList.add('apre-italia');
+      /* LE PREVISIONI DELLA VISTA ITALIA SI CHIEDONO DA QUI (29/10/2026, suo: «velocizzare come si apre»): prima partivano
+         a mappa pronta (misurato sul sito: al computer a 1,3 s, al telefono a 2,9 s, e i quattro gruppi delle icone solo
+         dopo `italia`); ora mentre la pagina scende. chiedi() le prende da _previPronte: un indirizzo diverso dal suo (API,
+         API_V) le lascia li' e chiede come prima. E il collegamento al server del rilievo (Esri) si apre gia' adesso. */
+      try{ var pa=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&location.port!=='8788'?'http://127.0.0.1:8788/api/previsioni':'/api/previsioni';
+        window._previPronte={};
+        ['italia','italia-alto','italia-nord','italia-centro','italia-sud'].forEach(function(k){ var u=pa+'?capoluoghi='+k+'&v=14';
+          window._previPronte[u]=fetch(u).then(function(r){ return r.json().then(function(j){ return {ok:r.ok,s:r.status,j:j}; }); })
+            .catch(function(){ return {ok:false,s:0,j:{errore:'rete'}}; }); });
+        var pc=document.createElement('link'); pc.rel='preconnect'; pc.href='https://ibasemaps-api.arcgis.com'; document.head.appendChild(pc);
+      }catch(e){}
+      /* E CIO' CHE LA VISTA ITALIA NON MOSTRA ASPETTA (29/10/2026): la cartina OSM (sotto il rilievo non si vede), la
+         vetrina (nascosta), le temperature di ieri e, al telefono, i confini delle regioni (411 KB compressi; li' non si
+         disegnano) partono a vista Italia disegnata e col suo rilievo arrivato, o dopo 3 s da quando e' disegnata, o al
+         massimo dopo 10 s. Misurato al telefono su 4G lento: si mangiavano la banda del rilievo, completo a 5,2 s. Se la
+         vista Italia se ne va prima (una regione, una ricerca) il rilievo sparisce e la coda parte subito. */
+      try{ var coda=[], t0=Date.now(), via=0;
+        window._dopoItalia=function(fn){ if(coda) coda.push(fn); else fn(); };
+        var giro=setInterval(function(){ var pronta=!document.documentElement.classList.contains('apre-italia');
+          if(pronta&&!via) via=Date.now();
+          var attese=pronta?[].filter.call(document.querySelectorAll('.leaflet-viFondo-pane img,.leaflet-viRilievo-pane img'),function(i){ return !i.complete; }).length:1;
+          if((pronta&&(!attese||Date.now()-via>3000))||Date.now()-t0>10000){ clearInterval(giro); var l=coda; coda=null; l.forEach(function(f){ try{ f(); }catch(e){} }); } },250);
+      }catch(e){ window._dopoItalia=null; } }
     setTimeout(function(){ document.documentElement.classList.remove('apre-prev'); document.documentElement.classList.remove('apre-italia'); },20000); }
 </script>
 </head>
@@ -2874,7 +2897,10 @@ var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,subdomains:'abc',
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+});
+// nella vista Italia la cartina OSM sta sotto il rilievo e non si vede: arriva dopo (_dopoItalia nello script in testa, 29/10/2026)
+// (boschi e satellite la tolgono apposta e la rimettono loro uscendo: se nel frattempo sono accesi, non si tocca)
+if(window._dopoItalia) window._dopoItalia(function(){ var b=document.body.classList; if(!map.hasLayer(baseTiles)&&!b.contains('modo-boschi')&&!b.contains('sat-on')) baseTiles.addTo(map); }); else baseTiles.addTo(map);
 /* ⚠️ Esposto perche' il modulo dei boschi e' uno <script> SEPARATO e non vede
    le funzioni di qui: in modo boschi scambia il fondo con uno SENZA NOMI, per
    poterli rimettere sopra il rilievo. Stesso motivo di _mapDebug e _vaiQui. */
@@ -11296,7 +11322,14 @@ if(_btnShot){
 // Piemonte prende i pallini dalla sua cfg.stations e i dati veri da
 // loadARPAPiemonteRegion, che si fa le chiamate per conto suo. Quindi la
 // chiamata Piemonte e' stata TOLTA, e quella Lombardia e' diventata pigra.
-loadGeoJSONOnce(function(){
+/* ⚠️ AL TELEFONO, NELLA VISTA ITALIA, I CONFINI ASPETTANO (29/10/2026): li' non si disegnano (la regione si sceglie dalla
+   tendina) e i loro 411 KB si mangiavano la banda del rilievo. Partono con _dopoItalia (script in testa), o subito se
+   qualcuno li chiede prima (loadGeoJSONOnce li scarica alla prima richiesta). Il caricatore se ne va adesso: la vista
+   Italia non aspetta i confini, e se no restava «Caricamento confini regionali…» sopra la mappa gia' pronta. */
+if(window._dopoItalia && screenW<=900){
+  document.getElementById('loader').style.display='none';
+  window._dopoItalia(function(){ loadGeoJSONOnce(function(){}); });
+} else loadGeoJSONOnce(function(){
   document.getElementById('lsub').textContent='';
   document.getElementById('loader').style.display='none';
 });
@@ -12475,6 +12508,8 @@ function loadDefaultMarkers(){
       }).catch(function(){ clearTimeout(riserva); monta(RIPIEGO,'ripiego: copia sul sito non raggiungibile'); });
     }catch(e){ clearTimeout(riserva); monta(RIPIEGO,'ripiego: fetch non disponibile'); }
   }
+  // nella vista Italia la vetrina e' nascosta: si legge dopo (_dopoItalia nello script in testa, 29/10/2026)
+  (window._dopoItalia||function(f){ f(); })(function(){
   var attesa=setTimeout(function(){ copiaSito('GitHub lento'); },TETTO_VETRINA);
   try{
     fetch(URL_VETRINA).then(function(r){
@@ -12490,6 +12525,7 @@ function loadDefaultMarkers(){
       copiaSito('GitHub non raggiungibile');
     });
   }catch(e){ clearTimeout(attesa); monta(RIPIEGO,'ripiego: fetch non disponibile'); }
+  });
 })();
 </script>
 
@@ -16406,7 +16442,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
     try{ new MutationObserver(function(){ posiziona(); rinvia(); }).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
     // la riga dello stato del periodo cambia testo e altezza: il tasto la segue
     try{ var st0=document.getElementById('tp-status'); if(st0) new MutationObserver(posiziona).observe(st0,{childList:true,subtree:true,characterData:true,attributes:true}); }catch(e){}
-    carica();
+    (window._dopoItalia||function(f){ f(); })(carica);   // nella vista Italia non servono: dopo (29/10/2026)
     collega();
   }
   function collega(){
@@ -16707,7 +16743,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 <script>
 (function(){
   var API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&location.port!=='8788' ? 'http://127.0.0.1:8788/api/previsioni' : '/api/previsioni';
-  var API_V='&v=14';   // si alza quando cambia la funzione o l'elenco dei capoluoghi: la cache del browser non rilegge la risposta vecchia (11: simbolo del giorno, 18/10/2026; 12: simbolo corretto e % per istante, 19/10/2026, quinto check bug 12; anche in lib/pagina-adesso.js)
+  var API_V='&v=14';   // si alza quando cambia la funzione o l'elenco dei capoluoghi: la cache del browser non rilegge la risposta vecchia (11: simbolo del giorno, 18/10/2026; 12: simbolo corretto e % per istante, 19/10/2026, quinto check bug 12; anche in lib/pagina-adesso.js e nello script in testa, _previPronte)
   var GI=['dom','lun','mar','mer','gio','ven','sab'], GIL=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
   var MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
   var MESIL=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
@@ -16943,6 +16979,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!acceso) return;
     togliPassi(false);
     acceso=false; window._prevAttivo=false; sorveglia(false); fumetto(false); viFondo();
+    /* ⚠️ IL BANNER VA VIA ANCHE LUI (29/10/2026, suo: «bug grave»): uscendo, anche col tasto Indietro di Chrome, restava
+       in fondo alla mappa della pioggia, e toccando una citta' apriva la sua scheda e ridisegnava le icone sopra lo storico */
+    var na0=el('vi-nastro'); if(na0) na0.style.display='none';
+    document.body.classList.remove('vi-nastro-on'); document.body.classList.remove('vi-senza-vetrina');
     document.body.classList.remove('modo-prev'); document.body.classList.remove('senza-pallini');
     if(window.posizionaChipFonte) window.posizionaChipFonte();
     heat(true);
@@ -17035,6 +17075,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 
   /* ── dati ── */
   function chiedi(url){
+    var pr=window._previPronte&&window._previPronte[url];   // gia' chieste dallo script in testa (vista Italia, 29/10/2026)
+    if(pr){ delete window._previPronte[url]; return pr.then(function(x){ return x.ok&&x.j&&!x.j.errore ? x.j : chiedi(url); }); }   // andata male: la si chiede di nuovo, come prima (i gruppi delle icone non hanno altre riprove)
     return fetch(url).then(function(r){ return r.json().then(function(j){ if(!r.ok||j.errore) throw new Error(j.errore||r.status); return j; }); });
   }
   /* telefono, senza scelte: il fumetto blu sotto la barra in alto; toccandolo si apre la tendina */
@@ -17087,8 +17129,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     ITALIA_ICONE.forEach(function(k){ if(aree[k]&&!vecchia(primiGiorni(aree[k]))) return;
       chiedi(API+'?capoluoghi='+encodeURIComponent(k)+API_V).then(function(j){
         if(!(j.capoluoghi||[]).some(function(c){ return c.giorni&&c.giorni.length; })) return;
-        aree[k]=j; if(acceso&&italia()) disegna(); },function(){}); });
+        aree[k]=j; ridisegnaIcone(); },function(){}); });
   }
+  /* I GRUPPI ARRIVATI INSIEME SI DISEGNANO UNA VOLTA SOLA, e dopo che il primo disegno e' andato a schermo (29/10/2026).
+     Chiesti dallo script in testa, all'entrata ci sono gia' tutti: erano cinque disegni di fila senza mai mostrare niente
+     in mezzo, e al telefono (CPU x4) un disegno costa 0,2-0,3 s, quindi le prime icone arrivavano dopo, non prima. */
+  var icoT=0;
+  function ridisegnaIcone(){ if(icoT) return; icoT=setTimeout(function(){ icoT=0; if(acceso&&italia()) disegna(); },60); }
   function primiGiorni(a){ if(a&&a.capoluoghi) for(var j=0;j<a.capoluoghi.length;j++) if(a.capoluoghi[j].giorni) return a.capoluoghi[j].giorni; return null; }
   function giorniBase(){
     var rk=chiavi();
@@ -17215,7 +17262,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       if(Math.abs(ev.clientX-p.x)>6) p.mosso=true; if(!p.mosso) return;
       NA.pos=p.pos+(ev.clientX-p.x);
       var dt=ev.timeStamp-p.ut; if(dt>0){ NA.v=(ev.clientX-p.ux)/dt; p.ux=ev.clientX; p.ut=ev.timeStamp; } });
-    na.addEventListener('pointerup',function(ev){ var p=NA.presa; NA.presa=null; if(!p) return;
+    na.addEventListener('pointerup',function(ev){ var p=NA.presa; NA.presa=null; if(!p||!acceso) return;   // fuori dalle previsioni non apre niente
       if(!p.mosso){ NA.v=0; var b=document.elementFromPoint(ev.clientX,ev.clientY); b=b&&b.closest?b.closest('#vi-nastro .v'):null;
         var c=b&&((aree.italia&&aree.italia.capoluoghi)||[]).filter(function(x){ return x.n===b.dataset.n; })[0]; if(c){ cercato=null; apriPunto(c); } return; }
       if(ev.timeStamp-p.ut>90) NA.v=0;   // fermato prima di lasciarlo: niente slancio

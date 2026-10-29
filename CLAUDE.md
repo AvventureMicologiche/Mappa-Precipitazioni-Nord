@@ -3260,6 +3260,33 @@ SCRITTE, e le temperature a parte. Sue scelte fra quattro proposte e tre stili:
   requestAnimationFrame; col dito o col mouse avanti e indietro, al rilascio prosegue con lo slancio (smorzato 0,94 a
   fotogramma) e torna al passo; un tocco sotto i 6 px apre la citta'; fermo solo col MOUSE sopra (`pointerType`: col
   dito «enter» arriva senza «leave»). Prova `prova-trascina.js`.
+- **29/10/2026, velocita' (suo: «velocizzare come si apre la pagina meteo madre»)**: lo script in testa, col link
+  senza regione ne' posto, chiede SUBITO `italia` e i quattro gruppi delle icone (`window._previPronte`, indirizzo →
+  promessa) e apre il collegamento a `ibasemaps-api.arcgis.com` (preconnect). `chiedi()` le prende da li'; se una e'
+  andata male la richiede normale (i gruppi non hanno altre riprove). ⚠️ L'indirizzo deve essere identico a quello di
+  `chiedi()`: alzando `API_V` va alzato anche `&v=14` nello script in testa, se no le anticipate restano inutili (niente
+  si rompe, si perde solo il guadagno). Prima `italia` partiva a mappa pronta (sul sito: computer 1,3 s, telefono 2,9 s)
+  e i gruppi dopo di lei. Misurato in locale (server HTTP/2 compresso, telefono 4G lento e CPU ×4): prime icone PC
+  1,14 → 0,77 s, telefono 3,50 → 3,27 s; col calcolo da rifare (+2,3 s) PC 3,46 → 2,80, telefono 5,13 → 4,36, e
+  TUTTE le icone PC 6,2 → 2,7 s, telefono 7,6 → 3,7 s. Attrezzi nello scratchpad db5b737b `velocita\` (server-prova.js,
+  confronta.js, prova-funzioni.js, prova-guasti.js, prova-rinvio.js, prova-cache-function.mjs).
+- **29/10/2026, il rinvio**: `window._dopoItalia(fn)` (script in testa, solo col link della vista Italia) fa partire DOPO
+  la cartina OSM (sotto il rilievo non si vede; boschi e satellite accesi = non si tocca), la vetrina, le temperature di
+  ieri e, al telefono, i confini delle regioni (li' non si disegnano; il caricatore se ne va subito). Scatta a vista
+  disegnata e rilievo arrivato, o 3 s dopo il disegno, o a 10 s. Al computer i confini NO: `entra()` li aspetta.
+  I gruppi delle icone arrivati insieme si disegnano una volta sola, 60 ms dopo il primo disegno (`ridisegnaIcone`):
+  cinque disegni di fila tenevano fermo lo schermo del telefono.
+- **29/10/2026, functions/api/previsioni.js**: «quella di prima subito, la nuova dietro» (`daCache`, `FRESCA` 30 min,
+  `VECCHIA` 3 h): aree e posti in cache 3 h e mezza, dopo 30 minuti si rispondono subito e si ricalcolano con
+  `waitUntil` (uno solo alla volta: la rimessa con 2 minuti di freschezza). Le risposte incomplete restano escluse.
+  Prova `prova-cache-function.mjs` (15 su 15, cache e MET finti) e wrangler. Misura finale in locale (1+2+3+4, cache
+  calda): prime icone PC 1,19 → 0,75 s, telefono 3,65 → 3,10 s; rilievo completo al telefono 4,92 → 4,39 s.
+  Resta, da decidere: la pagina che si riscarica intera a ogni visita (niente ETag su `/`, 336 KB).
+- **29/10/2026, bug del banner (suo: «bug grave»)**: dalla mappa senza regione, Previsioni e poi Indietro di Chrome (o la
+  linguetta Storico), al computer il banner restava in fondo alla mappa della pioggia, e toccando una citta' si apriva la
+  sua scheda e le icone si ridisegnavano sopra lo storico. `esci()` toglieva icone e rilievo ma non il banner: ora lo
+  nasconde e toglie `vi-nastro-on` e `vi-senza-vetrina`; e il tocco sul banner fuori dalle previsioni non fa niente.
+  Prova `prova-indietro.js` (scratchpad db5b737b `velocita\`): con la versione di prima NO al computer, ora 4 su 4.
 
 ## Sesto check (20/10/2026)
 
