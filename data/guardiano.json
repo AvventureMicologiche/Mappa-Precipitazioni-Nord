@@ -1,12 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-16T13:33:35.126Z",
-      "inRitardo": [],
-      "lanciati": [],
-      "mancanti": []
-    },
-    {
       "quando": "2026-10-16T14:49:34.758Z",
       "inRitardo": [],
       "lanciati": [],
@@ -1638,8 +1632,20 @@
           "buco": 2
         }
       ]
+    },
+    {
+      "quando": "2026-10-29T13:46:22.206Z",
+      "inRitardo": [],
+      "lanciati": [],
+      "mancanti": [
+        {
+          "dir": "meteohub-puglia",
+          "giorno": "2026-10-28",
+          "buco": 2
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-10-29T07:30:40.358Z",
-  "riassunto": "64 giri con qualcosa ri-lanciato su 120 · 81 con qualche giorno mancante · 54 con un buco di 2+ giorni"
+  "aggiornato": "2026-10-29T13:46:22.206Z",
+  "riassunto": "64 giri con qualcosa ri-lanciato su 120 · 82 con qualche giorno mancante · 55 con un buco di 2+ giorni"
 }
