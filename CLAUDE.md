@@ -3046,9 +3046,11 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (`linkMeteo`, `linkMeteoPaese`).
 - **«Guarda le nostre mappe» anche nelle zone (28/10/2026 sera)**: le tre anteprime vive delle pagine paese (vedi sotto,
   `mappeHtml` e `CSS_ANT` in `genera-pagine-meteo-zona.js`) al posto del bottone del radar e delle «altre pagine» (zona
-  piogge, zona funghi, mappa, previsioni). ⚠️ `<reg>-7g.webp` c'e' solo per le regioni di `METEO_PAESI`: nelle zone di
-  Lombardia, Lazio, Marche, Umbria, Campania, Calabria e Sicilia l'anteprima «Pluviometri» mostra quella di IERI
-  (la pillola in alto lo dice) finche' `genera-anteprime.js` non scatta anche quelle.
+  piogge, zona funghi, mappa, previsioni). `<reg>-7g.webp` si scatta per le regioni di `METEO_PAESI` E delle zone
+  meteo (`SETTE` in `genera-anteprime.js`, 12 regioni). Fino al 29/10/2026 solo per i paesi, e nelle 10 zone di
+  Lombardia, Lazio, Marche, Umbria, Campania, Calabria e Sicilia l'anteprima «Pluviometri» ripiegava su quella di IERI
+  sotto la scritta «ultimi 7 giorni» (suo, sulla Val Brembana). Una zona meteo nuova in un'altra regione la aggiunge da
+  sola; se il 7 giorni manca, la pagina ripiega ancora su ieri (la pillola in alto lo dice).
 
 ### Pagine «Meteo <paese>» (/meteo/<regione>/<paese>/, 28/10/2026)
 

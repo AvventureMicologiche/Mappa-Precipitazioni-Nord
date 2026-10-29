@@ -107,8 +107,13 @@ async function scattaPulita(page, k, nome, meta) {
 /* LA PIOGGIA DI IERI, pulita (20/10/2026): per la striscia in cima alle pagine PIOGGE (regioni e zone), che parlano
    di ieri e non dei 20 giorni. <k>-ieri.webp + <k>-ieri.json, stesso formato della mappa pulita.
    Con giorni = 7 (28/10/2026) la pioggia degli ULTIMI 7 GIORNI fino a quello stesso giorno, <k>-7g.webp + .json: e'
-   l'anteprima del bottone «Pluviometri» delle pagine «Meteo <paese>», e si scatta solo per le loro regioni (SETTE). */
-const SETTE = [...new Set(require('./genera-pagine-meteo-zona.js').METEO_PAESI.map(p => p.loc.split('/')[0]))];
+   l'anteprima del bottone «Pluviometri» delle pagine «Meteo <paese>» e delle zone meteo, e si scatta solo per le loro
+   regioni (SETTE). ⚠️ Anche quelle delle ZONE (29/10/2026, suo: «perche' la val brembana sui pluviometri mette 7 giorni
+   come scritta e poi mostra ieri?»): prima solo i paesi, e le 10 zone di Lombardia, Campania, Sicilia, Calabria, Lazio,
+   Marche e Umbria ripiegavano sull'immagine di ieri sotto la scritta «ultimi 7 giorni». */
+const MZ = require('./genera-pagine-meteo-zona.js');
+const SETTE = [...new Set(MZ.METEO_PAESI.map(p => p.loc.split('/')[0])
+  .concat(MZ.ZONE_METEO_TUTTE.map(s => (MZ.ZONE.find(z => require('./lib-nomi.js').slug(z.n) === s) || {}).reg).filter(Boolean)))];
 async function scattaIeri(browser, k, giorni) {
   giorni = giorni || 1;
   const nome = giorni === 1 ? 'ieri' : giorni + 'g';
