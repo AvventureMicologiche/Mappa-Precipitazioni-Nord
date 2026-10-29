@@ -3295,6 +3295,55 @@ SCRITTE, e le temperature a parte. Sue scelte fra quattro proposte e tre stili:
   nasconde e toglie `vi-nastro-on` e `vi-senza-vetrina`; e il tocco sul banner fuori dalle previsioni non fa niente.
   Prova `prova-indietro.js` (scratchpad db5b737b `velocita\`): con la versione di prima NO al computer, ora 4 su 4.
 
+### Regione, valle e paese: la vista a etichette (29/10/2026 sera, scheda 100)
+
+La grafica della vista Italia portata su tutte le previsioni (sua idea: «se digito val bormida appare centrata sulla val
+bormida e sempre barra scorrevole che scorre sui paesi della zona, lo stesso se digito calizzano»). Decisa su una bozza
+nel banco (`mockup-vista-zone\`) dopo aver guardato 3B e ilMeteo: la mappa della valle o del paese coi vicini non ce
+l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`), e `functions/api/previsioni.js`.
+- **Fondo**: vista Italia sulla FOTO (Esri `World_Imagery`, `satL`, classe `vi-fondo`); regione, valle e paese anche
+  (`FONDO_VICINO='sat'`) sotto lo zoom 13,5. Provato e lasciato nel codice il rilievo verde (`'verde'`: Ocean Base e
+  Hillshade in multiply su un rettangolo `#cfe3a6` nel pane `vzColore`, classe `vz-fondo`): suo, «troppo anonimo, non si
+  vedono case e strade». ⚠️ Con la nostra chiave Esri ci sono SOLO World_Imagery, Elevation/World_Hillshade e
+  Ocean/World_Ocean_Base: strade, cartine, Terrain, Physical, Light/Dark Gray rispondono 404.
+- **Quali paesi** (`veCandidati`): dall'elenco della ricerca (`data/elenco-paesi.txt`, gia' in memoria: `window._locCarica`,
+  `window._locElenco`). Ordine: il posto cercato, poi i paesi della ZONA cercata (`data/paesi-zone.json`, chiave =
+  `veSlug(nome)`), poi i CAPOLUOGHI di provincia (`veCapoluoghi`: il piu' abitato per sigla, piu' `CAP_FISSI` IM/CS/CL/TP/BT;
+  ⚠️ la sigla «s» di capoluoghi.json NON vuol dire capoluogo, ce l'ha anche Millesimo), poi gli abitanti. Sulla regione
+  anche le citta' delle regioni vicine, sbiadite (`.ve-et.altra`, abitanti ×0,35, mai nel banner); nella zona i paesi
+  fuori zona ×0,25. **Diradare, mai spostare** (`veDirada`): almeno 14 px fra le etichette al computer e 6 al telefono,
+  al massimo 28 e 14 (suo: «non e' troppo densa?» sulla zona di Brescia); gli altri compaiono ingrandendo.
+- **Etichette** `.ve-et`: icona, nome, minima (blu), massima (rossa), centrate sul punto; il paese della scheda in blu
+  (`.scelto`); al telefono sulla regione su due righe (`.due`).
+- **Inquadratura** (`veInquadra`): regione = i suoi capoluoghi di provincia (non i confini interi, non le 5 citta' piu'
+  grandi: la Lombardia non si vedeva intera); con meno di 3 capoluoghi tutti i comuni. Paese = 15 km attorno, zona = i suoi
+  paesi (senza elenco: 18 km). Al telefono la regione e' spinta in basso sopra la scheda.
+- **Banner**: anche fuori dall'Italia (`veNastro`), «METEO <REGIONE>», «METEO <ZONA>», «METEO <PAESE> E DINTORNI» coi km.
+- **Scheda ora per ora**: si apre da sola (`veApri`, una volta per vista, a inquadratura fatta) sul cercato o sul primo
+  paese che si vede. Al computer SOTTO il riquadro dei giorni (`posizionaDet`, classe `stretta` se e' bassa); al telefono
+  foglio al 40% che si scorre. Bottone «💧 Storico piogge di <paese>», niente funghi («deve sembrare un sito meteo vero»).
+- **Vince l'ultimo gesto** (`VE.ultimo`): paese poi regione = regione (la scheda del paese si chiude se non c'e'), regione
+  poi paese = paese. Una ZONA dell'elenco che si chiama come la sua regione («Lombardia», «Emilia») e' quella regione; le
+  regioni si cercano per nome intero («Emilia-Romagna», «Friuli Venezia Giulia»): `locCarica` le aggiunge come zone con
+  sigla «regione» (`posto.regione`).
+- **Dati**: `?punti=lat,lon;...` nella Function, al massimo 15 (a freddo 3 sottorichieste a punto, tetto 50), ognuno con la
+  sua cache di cella; si chiedono solo i paesi che si vedono. Su Cloudflare vero 15 a freddo in 1,2 s.
+- Prove nello scratchpad db5b737b `velocita\`: `prova-vista-zone.js`, `prova-bardolino.js`, `prova-regioni.js`
+  (le 21 regioni: tutti i capoluoghi visibili?), `prova-correzioni.js`, `prova-nomi-zone.js` (la ricerca vera nella casella).
+- **Caccia ai bug del 29/10 sera** (scheda «100 ter», rapporto `side-session-notes\local_e1840b66…\bug-vista-zone.md`),
+  corretti: al telefono il banner coperto dalla scheda → con la scheda aperta si appoggia sopra di lei (`naSopraDet`);
+  al computer la regione tagliata → si inquadrano TUTTI i comuni (al telefono restano i capoluoghi); etichette ferme sui
+  trattini → chi non risponde si nasconde e si riprova dopo 15 s, fino a 3 volte (`VE.falliti`); «METEO ITALIA» rimasto
+  dopo una ricerca → il banner cambia nome subito; titolo coi nomi delle regioni → il nome del posto; etichette sotto
+  «Indietro», i crediti e la fonte → sono ostacoli anche loro; paese di montagna con un'etichetta sola → il cerchio si
+  allarga finche' ci sono 10 comuni (fino a 40 km); il cercato sotto la casella → anche lui si nasconde sotto i riquadri;
+  il blu che non passava → passa al tocco; zona aperta su un paese di un'altra valle (Mugello → Sesto Fiorentino) → la
+  scheda si apre sul PRIMO paese dell'elenco della zona (il principale) o, senza elenco, sul comune piu' vicino al suo
+  punto; «Molise» apriva il comune di Molise → la regione passa davanti, e «Trentino-Alto Adige» (le due province), «Val
+  d'Aosta», «Valle Aosta», «Südtirol», «FVG», «Lucania» sono nomi delle regioni; il capoluogo di REGIONE (`CAPITALI`) viene
+  prima e la scheda si apre li' (in Abruzzo si apriva Pescara, in Calabria Reggio); i capoluoghi di provincia si nascondono
+  solo se si sovrappongono davvero (margine 1 px, fuori dal tetto).
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di

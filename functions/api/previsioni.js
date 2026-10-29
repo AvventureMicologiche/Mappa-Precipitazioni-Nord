@@ -37,6 +37,13 @@ export async function onRequestGet({ request, env, waitUntil }) {
     // &pr=1: anche la % di pioggia ai giorni di ogni posto, con UNA richiesta Open-Meteo per tutto il gruppo (probDi).
     // Dal 25/10/2026 la chiedono le pagine meteo delle zone e il blocco «Che tempo farà» di tutte le pagine
     const conPr = u.searchParams.get('pr') === '1';
+    // ?punti=44.24,8.12;44.19,8.13;... (29/10/2026): i paesi delle etichette di regione, valle e paese della mappa, al massimo
+    // 15 a richiesta, solo i 7 giorni; ognuno con la SUA cache di cella, cosi' un paese gia' visto da un'altra vista non si
+    // richiede. ⚠️ 15: a freddo un punto costa 3 sottorichieste (cache, MET, cache) e il tetto e' 50
+    if (u.searchParams.has('punti')) {
+      const d = await perPunti(u.searchParams.get('punti'), request);
+      return rispondi(d, cors, d.errore ? (d.capoluoghi ? 502 : 400) : 200, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
+    }
     if (u.searchParams.has('posti')) {
       const d = await perPosti(u.searchParams.get('posti'), env, request, conPr, waitUntil);
       const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
@@ -253,6 +260,20 @@ async function perPosti(testo, env, request, conProb, waitUntil) {
   };
   const c = await cache.match(chiave); if (c) return daCache(c, cache, chiave, calcola, waitUntil);
   return calcola();
+}
+
+// ── i paesi delle etichette della mappa (29/10/2026): coordinate libere, a gruppi di 6 (le 6 connessioni, vedi perArea) ──
+async function perPunti(testo, request) {
+  const voci = String(testo || '').split(';').filter(Boolean).map(v => v.split(',').map(Number));
+  if (!voci.length || voci.length > 15 || voci.some(v => v.length !== 2 || !v.every(isFinite) || Math.abs(v[0]) > 90 || Math.abs(v[1]) > 180)) return { errore: 'punti' };
+  const ris = [];
+  for (let i = 0; i < voci.length; i += 6) ris.push(...await Promise.all(voci.slice(i, i + 6).map(async ([la, lo]) => {
+    try { const r = await perPunto(la, lo, null, request, false, false, false); return r.dati.errore ? { lat: la, lon: lo, errore: r.dati.errore } : { lat: la, lon: lo, giorni: r.dati.giorni, agg: r.dati.agg }; }
+    catch (e) { return { lat: la, lon: lo, errore: String(e && e.message || e) }; }
+  })));
+  const dati = { area: 'punti', agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' };
+  if (!ris.some(x => x.giorni)) dati.errore = 'nessun punto risponde';
+  return dati;
 }
 
 // ⚠️ UN formattatore solo, creato una volta: crearlo a ogni ora della previsione costava decine di ms di CPU

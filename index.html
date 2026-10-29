@@ -8038,6 +8038,28 @@ function locCarica() {
                         t: (p[6] || '').trim(),
                         q: locNormalizza(p[0]) });
     });
+    /* LE REGIONI SI CERCANO PER NOME (29/10/2026, suo: «se digito emilia romagna non esiste?»). Nell'elenco c'erano solo
+       «Lombardia» ed «Emilia», come zone. Si aggiungono qui le regioni italiane col nome intero e il centro di REGIONS,
+       come zone con la sigla «regione» (la tendina la scrive al posto della provincia); nelle previsioni aprono la regione
+       intera (veScena), nello storico si inquadrano larghe come le zone. */
+    // ⚠️ caccia ai bug, difetto 15: «Molise» apriva il comune di Molise (162 abitanti) perche' la regione si saltava se un
+    // nome uguale c'era gia'; ora si salta solo davanti a una ZONA uguale (Lombardia, Emilia), e la regione, pesata come
+    // le zone, passa davanti al comune. Piu' gli altri nomi con cui la gente le scrive
+    try {
+      var NOMI_INTERI = { friuli: 'Friuli Venezia Giulia' };
+      var ALTRI_NOMI = [['Trentino-Alto Adige', ['trentino', 'altoadige']], ["Val d'Aosta", ['valledaosta']], ['Valle Aosta', ['valledaosta']],
+        ['Südtirol', ['altoadige']], ['FVG', ['friuli']], ['Lucania', ['basilicata']]];
+      var aggiungi = function (n, regs, sempre) {
+        if (!sempre && _locIndice.some(function (x) { return x.n === n && x.t === 'z' && x.sg !== 'regione' && regs.length === 1 && x.reg === regs[0]; })) return;
+        var c = REGIONS[regs[0]]; if (!c || !c.center) return;
+        _locIndice.push({ n: n, lat: c.center[0], lon: c.center[1], sg: 'regione', reg: regs[0], regs: regs, pop: 0, t: 'z', q: locNormalizza(n) });
+      };
+      Object.keys(REGIONS).forEach(function (k) {
+        var c = REGIONS[k]; if (!c || !c.center || /^(francia|svizzera|austria|slovenia|ticino)/.test(k)) return;
+        aggiungi(NOMI_INTERI[k] || c.name, [k]);
+      });
+      ALTRI_NOMI.forEach(function (a) { aggiungi(a[0], a[1], true); });
+    } catch (e) {}
     return true;
   }).catch(function (e) {
     _locCaricamento = null;   // un guasto di rete non deve spegnere la casella per sempre
@@ -10215,6 +10237,7 @@ window._regioniAttive=getActiveRegions;
 window._nomeRegione=function(k){ return (REGIONS[k]&&REGIONS[k].name)||k; };   // per la legenda della Mappa boschi, 15/9/2026
 window._centraStriscia=centraRegioneInStriscia;window._regApri=regApri; window._regEtichetta=regEtichetta; window._dopoTendina=dopoTendina; window._fumettoInvito=fumettoInvito; window._chiediRegione=chiediRegione;   // 7/10/2026: la sezione Previsioni apre da qui la tendina col cerca localita' del telefono
 window._locVai=locVai;     // 7/10/2026: uscendo dalle previsioni su un posto cercato, lo storico si apre su quel posto
+window._locCarica=locCarica; window._locElenco=function(){ return _locIndice; };   // 29/10/2026: i paesi per abitanti delle etichette delle previsioni
 /* 7/10/2026 sera (giro di controlli): il paese scelto nello storico (ricerca, link condiviso, pagine) e la griglia
    delle regioni vicine servono alle previsioni, che stanno in un altro <script>: senza, entrando nelle previsioni
    il paese spariva e il posto cercato prendeva solo la sua regione principale. */
@@ -16634,9 +16657,32 @@ body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-i
    scheda «Temperature», colonnina dei capoluoghi, citta' grandi col nome fra le icone, banner blu e rosso, sobrio,
    bianco e celeste, cartina a colori pieni. */
 .pv-m.vi-ico .ic{font-size:24px;filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 2px 3px rgba(0,0,0,.45))}
-body.vi-fondo .leaflet-viFondo-pane{filter:brightness(.62) saturate(1.3)}
-body.vi-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.25)}
-body.vi-fondo .leaflet-tile-pane{visibility:hidden}body.vi-fondo #map{background:#3e526b}   /* sotto il rilievo la cartina di sempre non serve: niente scritte che spuntano ai bordi mentre le tessere arrivano */
+/* 29/10/2026 sera (suo: «per la mappa Italia satellite, il resto verde»): la vista Italia sta sulla FOTO (Esri
+   World_Imagery, la stessa chiave del satellite dello storico), una cartina sola invece di due */
+body.vi-fondo .leaflet-viFondo-pane{filter:saturate(1.1)}
+body.vi-fondo .leaflet-tile-pane{visibility:hidden}body.vi-fondo #map{background:#3e526b}   /* sotto la foto la cartina di sempre non serve: niente scritte che spuntano ai bordi mentre le tessere arrivano */
+/* REGIONE, VALLE E PAESE: IL RILIEVO VERDE (29/10/2026; suo, sul fondo scuro da vicino: «di una tristezza unica»). Mare
+   (Ocean Base) e rilievo (Hillshade) fusi in multiply sopra un rettangolo verde chiaro che sta DENTRO la mappa, nel pane
+   vzColore: lo sfondo di #map la fusione non lo vede, perche' Leaflet isola i suoi pane. ⚠️ Il rettangolo e' un path: la
+   regola che spegne il riempimento di tutte le forme nelle previsioni ha un'eccezione apposta. */
+body.vz-fondo .leaflet-tile-pane{visibility:hidden}body.vz-fondo #map{background:#cfe3a6}
+body.vz-fondo .leaflet-viFondo-pane{mix-blend-mode:multiply}
+body.vz-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.15)}
+.modo-prev #map .leaflet-vzColore-pane path{fill:#cfe3a6 !important;fill-opacity:1 !important}
+/* le etichette di regione, valle e paese: icona, nome, minima e massima, centrate sul paese; il paese della scheda in blu;
+   le citta' delle regioni vicine sbiadite; al telefono, sulla regione, su due righe */
+.ve-et{position:absolute;left:0;top:0;transform:translate(-50%,-50%);background:#fff;border-radius:8px;padding:2px 8px 2px 4px;box-shadow:0 1px 4px rgba(0,0,0,.45);display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font:700 12.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#111;cursor:pointer}
+.ve-et .ic{font-size:17px;line-height:1}.ve-et .mn{color:#1856b8}.ve-et .mx{color:#c21f1f}.ve-et b{font-weight:800}
+.ve-et.scelto{background:#1f6fd1;color:#fff}.ve-et.scelto .mn{color:#cfe3ff}.ve-et.scelto .mx{color:#ffd0d0}
+.ve-et.altra{opacity:.82;box-shadow:0 1px 3px rgba(0,0,0,.3)}.ve-et.altra b{color:#555;font-weight:700}
+.ve-et.due{flex-direction:column;gap:0;padding:2px 6px;line-height:1.1}.ve-et.due .r1{display:flex;align-items:center;gap:3px}
+#vi-nastro .v small{font-weight:600;color:#6d5800;font-size:11px}   /* i km dal paese cercato */
+/* la scheda sotto i giorni, su uno schermo basso (1366x768: ~300 px), lascerebbe una riga sola di ore: testata e giorni
+   compatti (posizionaDet mette «stretta»), crediti su una riga */
+#pv-det.stretta .hd .q2{display:none}#pv-det.stretta .hd .nm{font-size:19px}#pv-det.stretta .gg-r{padding:5px 10px 4px}
+#pv-det.stretta .pv-gg{padding:3px 1px 2px}#pv-det.stretta .pv-gg .ic{font-size:13px}#pv-det.stretta .ft{padding:6px 12px;gap:4px}#pv-det.stretta .ft .b{padding:7px 6px}
+#pv-det .ft .fo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:900px){.ve-et{font-size:11.5px;padding:2px 6px 2px 3px}.ve-et .ic{font-size:15px}.ve-et.due{font-size:10.5px;padding:1px 5px}.ve-et.due .ic{font-size:13px}}
 /* al computer attaccato al fondo della mappa, i crediti salgono sopra (regola piu' sotto); touch-action:none perche' il
    dito lo trascina (naGira) */
 #vi-nastro{position:absolute;z-index:850;left:0;right:0;bottom:0;height:44px;overflow:hidden;background:#ffd400;border-top:1px solid #e0b800;box-shadow:0 -2px 8px rgba(0,0,0,.12);display:flex;align-items:center;touch-action:none;user-select:none;-webkit-user-select:none}
@@ -16655,6 +16701,7 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
 @media(max-width:900px){#vi-nastro{position:relative;left:auto;right:auto;bottom:auto;order:3;flex:0 0 auto;height:38px;margin-top:10px;z-index:auto;box-shadow:none}
   #vi-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:11px;padding:0 24px 0 12px}#vi-nastro .lab span{font-size:10px}
   #vi-nastro .v{font-size:13px;padding:0 12px;gap:5px}#vi-nastro .v .ic{font-size:15px}
+  #vi-nastro.sopra-det{position:absolute;left:0;right:0;margin:0;z-index:1260;box-shadow:0 -2px 6px rgba(0,0,0,.18)}   /* sopra la scheda aperta (naSopraDet) */
   .pv-m.vi-ico .ic{font-size:19px}}
 /* ── il dettaglio del posto ── */
 #pv-det{position:absolute;z-index:1250;display:none;flex-direction:column;overflow:hidden;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.3);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;top:14px;right:40px;width:470px;max-height:calc(100% - 70px);box-sizing:border-box}
@@ -16728,16 +16775,21 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* ⚠️ ALTA QUANTO IL CONTENUTO, attaccata in basso (18/10/2026). Era fissata da 76 px al fondo: con
      poche righe (la sera di oggi, i giorni a fasce di 6 ore) restavano 160-350 px bianchi prima di
      «Storico piogge qui». Il tetto e' lo stesso di prima; con tante righe si scorre come sempre. */
-  #pv-det{top:auto;right:0;left:0;bottom:0;width:auto;max-height:calc(100% - 76px);border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
-  #pv-det .rows{flex:0 1 auto}
+  /* 29/10/2026 (suo: «da cellulare la tabella oraria ruba troppo alla mappa, meglio ridurla e fare che la gente
+     scrolli»): al 40% dell'altezza, testata compatta, le ore scorrono dentro */
+  #pv-det{top:auto !important;right:0 !important;left:0 !important;bottom:0;width:auto !important;max-height:40% !important;border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
+  #pv-det .rows{flex:1 1 auto;min-height:0}
+  #pv-det .hd{padding:7px 10px 4px}#pv-det .hd .q1{font-size:12.5px;margin-top:3px}#pv-det .hd .q2{display:none}
+  #pv-det .gg-r{padding:5px 8px 4px}#pv-det .pv-gg{padding:3px 1px 2px}#pv-det .pv-gg .ic{font-size:13px}
+  #pv-det .ft{padding:6px 10px 5px;gap:3px}#pv-det .ft .fo{font-size:9px}
   /* la scritta della fonte in alto non c'e' nelle previsioni del telefono (28/10/2026, suo): e' la stessa riga del
      riquadro in basso («ECMWF via MET Norway · agg.»), che resta. Prima spariva solo con la scheda aperta. */
   .modo-prev .fonte-tag{display:none !important}
   #pv-det .hd .x{font:700 12.5px/1 inherit;color:#1b3f6e;background:#eef3fa;border:1.5px solid #9db4d6;border-radius:999px;padding:7px 12px;align-self:flex-start;white-space:nowrap}
   #pv-det .hd .x::after{content:' Chiudi'}
-  #pv-det .hd .nm{font-size:22px}
+  #pv-det .hd .nm{font-size:17px}
   #pv-det .r{height:27px;font-size:12.5px}#pv-det .r .ic{font-size:17px}
-  #pv-det .ft .b{padding:9px 6px}
+  #pv-det .ft .b{padding:7px 6px}
 }
 </style>
 <script>
@@ -16797,8 +16849,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* computer: quanto lasciare libero a destra. La tabella di un posto, se aperta; se no la scheda del canale in
      alto a destra, che dall'8/10 resta nelle previsioni e copriva i capoluoghi della costa (Ancona) */
   function destra(minimo){
-    var mb=el('map').getBoundingClientRect(), det=el('pv-det'), lg=el('channel-logo');
-    if(det&&det.classList.contains('vivo')) return mb.right-det.getBoundingClientRect().left+16;
+    var mb=el('map').getBoundingClientRect(), lg=el('channel-logo');
+    // la tabella dal 29/10/2026 sta a SINISTRA, sotto i giorni: a destra resta solo la scheda del canale
     if(lg){ var r=lg.getBoundingClientRect(); if(r.width>0&&r.height>0&&getComputedStyle(lg).display!=='none') return Math.max(minimo,mb.right-r.left+16); }
     return minimo;
   }
@@ -16814,7 +16866,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var regs=[]; try{ if(window._regioniVicine) regs=window._regioniVicine(p.lat,p.lon)||[]; }catch(e){}
     if(p.reg&&regs.indexOf(p.reg)<0) regs.unshift(p.reg);
     regs=regs.slice(0,3);
-    posto={n:p.n,lat:p.lat,lon:p.lon,q:quota(p),regs:regs};
+    posto={n:p.n,lat:p.lat,lon:p.lon,q:quota(p),regs:regs,t:p.t||'',regione:p.sg==='regione'?(p.regs||[p.reg]):null};   // t:'z' = una zona o valle cercata; regione: una regione cercata per nome (29/10/2026)
   }
   function icona(s){ for(var i=0;i<ICONE.length;i++) if(ICONE[i][0].test(s||'')) return ICONE[i][1]; return '☁️'; }
   function nome(k){ return window._nomeRegione?window._nomeRegione(k).replace(/\s*\((FR|CH|AT|SI)\)\s*$/,''):k; }
@@ -16940,6 +16992,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var suo=null; if(!br&&bk&&document.body.classList.contains('pv-vuoto')){ bk.style.setProperty('display','block','important'); bk.style.visibility='hidden'; suo=bk.getBoundingClientRect(); bk.style.removeProperty('display'); bk.style.visibility=''; }
     var cima=br&&br.height>10?br.bottom+10:(suo&&suo.height>10?suo.top:r.top);
     if(r.width>100){ pan.style.left=(r.left-m.left)+'px'; pan.style.top=(cima-m.top)+'px'; pan.style.width=r.width+'px'; }
+    posizionaDet();
   }
 
   /* ── entra / esci ── */
@@ -16979,6 +17032,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!acceso) return;
     togliPassi(false);
     acceso=false; window._prevAttivo=false; sorveglia(false); fumetto(false); viFondo();
+    VE.scena=''; VE.visti=[];   // la vista a etichette riparte da capo al prossimo ingresso (i dati dei paesi restano)
     /* ⚠️ IL BANNER VA VIA ANCHE LUI (29/10/2026, suo: «bug grave»): uscendo, anche col tasto Indietro di Chrome, restava
        in fondo alla mappa della pioggia, e toccando una citta' apriva la sua scheda e ridisegnava le icone sopra lo storico */
     var na0=el('vi-nastro'); if(na0) na0.style.display='none';
@@ -17013,13 +17067,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     quanti=contaPallini(); var visti=regioni().join('+');
     /* si reinquadra solo se cambiano le REGIONI: i pallini che il sito finisce di caricare dopo (link delle pagine
        col paese) facevano reinquadrare tutte le zone e il paese si perdeva (giro del 7/10 sera, Alpe Gorreto) */
-    guardia=setInterval(function(){ if(!acceso) return; var n=contaPallini(); if(n!==quanti){ quanti=n; var r=regioni().join('+'), cambiate=r!==visti; visti=r; carica(cambiate); } },1000);
+    guardia=setInterval(function(){ if(!acceso) return; var n=contaPallini(); if(n!==quanti){ quanti=n; var r=regioni().join('+'), cambiate=r!==visti; visti=r; if(cambiate&&regioni().length) VE.ultimo='regione'; carica(cambiate); } },1000);   // vince l'ultimo gesto, vedi veScena
   }
   function contaPallini(){ var n=0, m=map(); if(!m) return 0; m.eachLayer(function(l){ if(l instanceof L.CircleMarker) n++; }); return n; }
   function inquadra(){
     var m=map(), rk=zone(); if(!m) return;
     rifai=true; toccata=false;
     if(!rk.length){ if(tel()) inquadraItalia(); else inquadraItaliaPc(); return; }
+    if(VE.scena&&veInquadra()) return;   // la vista a etichette: le citta' grandi delle regioni (29/10/2026)
     if(!tel()){
       /* computer: il fit del sito riserva lo spazio del suo pannello a sinistra, ma qui c'e' anche la tabella
          a destra (470 px + 40): con tre regioni la mappa finiva sotto la tabella (suo, 7/10). Si inquadrano i
@@ -17097,6 +17152,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        dell'Italia non arrivano */
     document.body.classList.toggle('pv-italia',!rk.length); fumetto(false);
     tt.textContent='☀️ Previsioni · '+(rk.length?rk.map(nome).join(' + '):'Italia');
+    // il posto cercato si chiama col suo nome, non con le sue regioni («Valle d'Aosta + Alvernia-Rodano-Alpi + Svizzera»
+    // per qualche secondo, caccia ai bug difetto 7); se dopo di lui si e' scelta una regione, vale la regione
+    if(posto&&!(VE.ultimo==='regione'&&regioni().length)) tt.textContent='☀️ Previsioni · '+(posto.regione?posto.regione.map(nome).join(' + '):posto.n);
     if(!rk.length){ var ft0=el('fonte-tag'); if(ft0) ft0.textContent='Previsioni modello ECMWF via MET Norway'; }
     function invito(){ document.body.classList.remove('pv-italia'); document.documentElement.classList.remove('apre-italia');
       tt.textContent='☀️ Previsioni'; fumetto(tel()); el('pv-gg').innerHTML=tel()?''
@@ -17149,8 +17207,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var g=gb[giorno].g, d=giornoData(g), agg=null;
     gruppo.clearLayers();
     var it=italia(), lista=[];
+    var ve=!it&&veDisegna(g);   // regione, valle e paese: i paesi per abitanti, vedi «LA VISTA A ETICHETTE» (29/10/2026)
     rk.forEach(function(k){
       var a=aree[k]; if(!a||!a.capoluoghi) return; agg=agg||a.agg;
+      if(ve) return;
       a.capoluoghi.forEach(function(c){
         var e=(c.giorni||[]).filter(function(x){ return x.g===g; })[0]; if(!e) return;
         var sel=punto&&punto.n===c.n&&Math.abs(punto.lat-c.lat)<0.01;
@@ -17170,7 +17230,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     viPezzi(g);
     // il posto cercato (o il pluviometro da cui si arriva) ha la sua targhetta, se non e' gia' un capoluogo;
     // il posto cercato la TIENE anche a scheda chiusa (7/10), e toccandola la scheda si riapre
-    [punto,posto].forEach(function(pp,i){ if(!pp||(i===1&&punto&&punto.lat===pp.lat&&punto.lon===pp.lon)) return;
+    if(!ve) [punto,posto].forEach(function(pp,i){ if(!pp||(i===1&&punto&&punto.lat===pp.lat&&punto.lon===pp.lon)) return;
       var kk=pp.lat.toFixed(3)+','+pp.lon.toFixed(3), jj=punti[kk];
       var eCap=false; gruppo.eachLayer(function(l){ if(l.getLatLng&&Math.abs(l.getLatLng().lat-pp.lat)<0.01&&Math.abs(l.getLatLng().lng-pp.lon)<0.01) eCap=true; });
       if(!eCap&&jj&&jj.giorni){ var ep=jj.giorni.filter(function(x){ return x.g===g; })[0];
@@ -17181,8 +17241,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     el('pv-fo').textContent='ECMWF via MET Norway'+(agg?' · agg. '+fmtOra(agg):'');
     var ft=el('fonte-tag'); if(ft&&acceso) ft.textContent='Previsioni modello ECMWF via MET Norway'+(agg?' · agg. '+fmtOra(agg):'');
     // sul computer, finche' non si tocca niente, a destra sta un cenno piccolo; la tabella arriva col primo tocco
-    if(!tel()&&!punto) cenno();
-    else if(punto){ renderDet(); if(tel()) tieniInVista(); }   // telefono: la scheda cambia altezza col giorno (18/10/2026)
+    if(!tel()&&!punto&&!ve) cenno();
+    else if(punto){ renderDet(); posizionaDet(); if(tel()) tieniInVista(); }   // telefono: la scheda cambia altezza col giorno (18/10/2026)
     lontano(); dirada();
   }
   function scegliGiorno(i){ giorno=i; disegna(); ga('giorno',{giorno:i}); }
@@ -17199,6 +17259,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      prendeva il clic al suo posto (un clic vicino a Siena apriva una citta' nascosta invece della Toscana). */
   function dirada(){
     if(!gruppo||!acceso) return;
+    if(VE.scena&&!italia()){ veDirada(); return; }
     var it=italia(), presi=[];
     if(it) ['pv-pan','pv-det','channel-logo','region-panel'].forEach(function(id){ var e=el(id); if(!e) return; var r=e.getBoundingClientRect(), s=getComputedStyle(e); if(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden') presi.push(r); });
     function tocca(a,b){ return !(a.right+2<b.left||b.right+2<a.left||a.bottom+2<b.top||b.bottom+2<a.top); }   // 2 px di stacco, come le pagine /meteo/ (28/10/2026, erano 4)
@@ -17219,19 +17280,29 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      ⚠️ Provate e scartate: World_Light_Gray_Base (ha i nomi dei paesi a questa scala), World_Shaded_Relief da solo (non
      distingue il mare), World_Terrain_Base ritinta (mare rosa), cartina a colori pieni con la sagoma verde (sua scelta:
      il rilievo). World_Shaded_Relief con la chiave risponde 404: con la chiave il rilievo e' Elevation/World_Hillshade. */
-  var fondoL=null, rilievoL=null;
+  var fondoL=null, rilievoL=null, satL=null, coloreL=null;
+  /* il fondo di regione, valle e paese: 'sat' (la foto, come la vista Italia) o 'verde' (il rilievo verde). Suo, 29/10/2026
+     sera, sul verde nell'anteprima: «non si vedono case, strade, e' tutto troppo anonimo e non riconoscibile» → «proviamo
+     satellite». Con la nostra chiave Esri strade e cartine non ci sono (404): le alternative erano foto o OpenStreetMap */
+  var FONDO_VICINO='sat';
   function esri(serv){ var k=window._esriChiave;
     return k?'https://ibasemaps-api.arcgis.com/arcgis/rest/services/'+serv+'/MapServer/tile/{z}/{y}/{x}?token='+k
             :'https://server.arcgisonline.com/ArcGIS/rest/services/'+serv+'/MapServer/tile/{z}/{y}/{x}'; }
   function viFondo(){
     var m=map(); if(!m) return;
-    var on=!!(acceso&&italia()&&m.getZoom()<7.5);
-    document.body.classList.toggle('vi-fondo',on);
-    if(on&&!m.getPane('viFondo')){ m.createPane('viFondo').style.zIndex=210; m.createPane('viRilievo').style.zIndex=220;
-      m.getPane('viFondo').style.pointerEvents='none'; m.getPane('viRilievo').style.pointerEvents='none'; }
-    if(on&&!fondoL){ fondoL=L.tileLayer(esri('Ocean/World_Ocean_Base'),{pane:'viFondo',maxNativeZoom:10,attribution:'Cartina: Esri'});
-      rilievoL=L.tileLayer(esri('Elevation/World_Hillshade'),{pane:'viRilievo',maxNativeZoom:13}); }
-    [fondoL,rilievoL].forEach(function(l){ if(!l) return; if(on&&!m.hasLayer(l)) l.addTo(m); else if(!on&&m.hasLayer(l)) m.removeLayer(l); });
+    // vista Italia: la foto (29/10/2026); regione, valle e paese: il rilievo verde, fino allo zoom 13,5 (piu' vicino la
+    // cartina di sempre, coi nomi delle strade)
+    var vicino=!!(acceso&&!italia()&&VE.scena&&m.getZoom()<13.5);
+    var on=!!(acceso&&italia()&&m.getZoom()<7.5)||(vicino&&FONDO_VICINO==='sat'), vz=vicino&&FONDO_VICINO==='verde';
+    document.body.classList.toggle('vi-fondo',on); document.body.classList.toggle('vz-fondo',vz);
+    if((on||vz)&&!m.getPane('viFondo')){ m.createPane('vzColore').style.zIndex=205; m.createPane('viFondo').style.zIndex=210; m.createPane('viRilievo').style.zIndex=220;
+      ['vzColore','viFondo','viRilievo'].forEach(function(p){ m.getPane(p).style.pointerEvents='none'; }); }
+    if(on&&!satL) satL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',maxNativeZoom:17,attribution:'Foto: Esri, Vantor, Earthstar Geographics'});
+    if(vz&&!fondoL){ fondoL=L.tileLayer(esri('Ocean/World_Ocean_Base'),{pane:'viFondo',maxNativeZoom:10,attribution:'Cartina: Esri'});
+      rilievoL=L.tileLayer(esri('Elevation/World_Hillshade'),{pane:'viRilievo',maxNativeZoom:13});
+      coloreL=L.rectangle([[-85,-180],[85,180]],{pane:'vzColore',stroke:false,fillColor:'#cfe3a6',fillOpacity:1,interactive:false}); }
+    [satL].forEach(function(l){ if(!l) return; if(on&&!m.hasLayer(l)) l.addTo(m); else if(!on&&m.hasLayer(l)) m.removeLayer(l); });
+    [coloreL,fondoL,rilievoL].forEach(function(l){ if(!l) return; if(vz&&!m.hasLayer(l)) l.addTo(m); else if(!vz&&m.hasLayer(l)) m.removeLayer(l); });
   }
   /* IL BANNER CHE SCORRE (28/10/2026, sua idea): i 29 di `italia` con icona, minima e massima, come la striscia dei
      telegiornali. Il contenuto e' scritto due volte e scorre di meta': il giro si chiude senza salti. Toccando una
@@ -17264,7 +17335,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var dt=ev.timeStamp-p.ut; if(dt>0){ NA.v=(ev.clientX-p.ux)/dt; p.ux=ev.clientX; p.ut=ev.timeStamp; } });
     na.addEventListener('pointerup',function(ev){ var p=NA.presa; NA.presa=null; if(!p||!acceso) return;   // fuori dalle previsioni non apre niente
       if(!p.mosso){ NA.v=0; var b=document.elementFromPoint(ev.clientX,ev.clientY); b=b&&b.closest?b.closest('#vi-nastro .v'):null;
-        var c=b&&((aree.italia&&aree.italia.capoluoghi)||[]).filter(function(x){ return x.n===b.dataset.n; })[0]; if(c){ cercato=null; apriPunto(c); } return; }
+        var c=b&&(VE.scena&&!italia()?VE.lista:((aree.italia&&aree.italia.capoluoghi)||[])).filter(function(x){ return x.n===b.dataset.n; })[0]; if(c){ cercato=null; apriPunto({n:c.n,lat:c.lat,lon:c.lon,q:c.q==null?null:c.q}); } return; }
       if(ev.timeStamp-p.ut>90) NA.v=0;   // fermato prima di lasciarlo: niente slancio
       NA.v=Math.max(-3,Math.min(3,NA.v)); });
     na.addEventListener('pointercancel',function(){ NA.presa=null; });
@@ -17274,16 +17345,19 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   }
   function viPezzi(g){
     viFondo();
-    var it=italia()&&acceso;
+    var it=italia()&&acceso, ve=acceso&&!italia()&&!!VE.scena, su=it||ve;   // il banner c'e' anche su regione, valle e paese (29/10/2026)
     var na=el('vi-nastro');
     if(!na){ na=document.createElement('div'); na.id='vi-nastro'; L.DomEvent.disableClickPropagation(na); L.DomEvent.disableScrollPropagation(na); naPrendi(na); }
     // al telefono nel riquadro, prima della riga dei crediti; al computer nella mappa
     var pan=el('pv-pan'), fo=pan&&pan.querySelector('.fo');
-    if(tel()&&fo){ if(na.nextSibling!==fo) pan.insertBefore(na,fo); }
+    if(tel()&&document.body.classList.contains('pv-det-aperto')){ naSopraDet(); }   // la scheda e' aperta: il banner le sta sopra
+    else if(tel()&&fo){ na.classList.remove('sopra-det'); na.style.bottom=''; if(na.nextSibling!==fo) pan.insertBefore(na,fo); }
     else if(na.parentNode!==el('map')) el('map').appendChild(na);
-    na.style.display=it?'':'none'; document.body.classList.toggle('vi-nastro-on',!!it);
-    if(it) naParti();
-    document.body.classList.toggle('vi-senza-vetrina',!!it);   // niente vetrina nella vista Italia delle previsioni (suo, 28/10 sera)
+    na.style.display=su?'':'none'; document.body.classList.toggle('vi-nastro-on',!!su);
+    if(su) naParti();
+    // niente vetrina nelle previsioni (suo, 28/10 sera sulla vista Italia; 29/10: «voglio che sembri un sito meteo vero»)
+    document.body.classList.toggle('vi-senza-vetrina',!!su);
+    if(ve){ document.documentElement.classList.remove('apre-italia'); return; }   // il banner della regione lo scrive veNastro, quando si sa chi si vede
     document.documentElement.classList.remove('apre-italia');   // da qui in poi decidono le classi qui sopra
     // il banner si riscrive solo se cambia il giorno: le icone che arrivano dopo ridisegnano la mappa, e riscrivendolo
     // ripartirebbe da capo a ogni gruppo
@@ -17313,8 +17387,241 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       if(libero-sopra>80 && (pt.y>libero-30 || pt.y<sopra)) m.panBy([0,pt.y-(sopra+libero)/2],{animate:true});
       return;
     }
-    var limite=dr.left-mb.left-60;
-    if(pt.x>limite) m.panBy([pt.x-limite,0],{animate:true});
+    // computer: la scheda sta a SINISTRA (29/10/2026): il posto non deve finirle sotto
+    var limite=dr.right-mb.left+60;
+    if(pt.x<limite&&pt.y>dr.top-mb.top-20) m.panBy([pt.x-limite,0],{animate:true});
+  }
+
+  /* ═══ LA VISTA A ETICHETTE: REGIONE, VALLE E PAESE (29/10/2026, scheda 100) ═══
+     La grafica della vista Italia portata su tutte le ricerche (sua idea: «se digito val bormida appare centrata sulla
+     val bormida e sempre barra scorrevole che scorre sui paesi della zona, lo stesso se digito calizzano»). Decisa sulla
+     bozza nel banco (mockup-vista-zone\) dopo aver guardato 3B e ilMeteo, che la valle e il paese coi vicini non li hanno.
+     Sue scelte: rilievo VERDE (il fondo scuro da vicino «e' di una tristezza unica»); di tutti i paesi «sia i gradi che
+     il nome»; il criterio e' la GRANDEZZA («non ragioni in termini di dimensioni?»): il posto cercato, poi i capoluoghi di
+     provincia (la sigla in capoluoghi.json: Imperia perdeva contro Sanremo), poi dal piu' abitato (data/elenco-paesi.txt,
+     lo stesso della ricerca, gia' in memoria in _locIndice); chi coprirebbe un'etichetta gia' messa aspetta e compare
+     ingrandendo (diradare, mai spostare). Sulla regione ci sono anche le citta' vicine delle altre regioni, sbiadite e con
+     un terzo del peso (suo: «guarda com'e' vuota»), mai nel banner. Il banner scorre sui paesi che si vedono; la scheda ora
+     per ora si apre da sola sul posto cercato o sul paese piu' grande (suo: «la Val Bormida non apre la pagina oraria»).
+     Una ZONA cercata (Val Bormida) e' un cerchio di 18 km attorno al suo punto, un paese di 15. Le previsioni arrivano a
+     gruppi di 15 con ?punti= (la Function: ognuno con la sua cache di cella) solo per chi si vede.
+     Se l'elenco non c'e' ancora, o le regioni scelte sono estere, resta il disegno di prima coi capoluoghi. */
+  var VE={scena:'',lista:[],visti:[],dati:{},inVolo:{},bounds:null,tipo:'',titolo:'',aperto0:false,nastro:'',nuova:false};
+  function veKm(a,b){ var dx=(a[1]-b[1])*Math.cos(a[0]*Math.PI/180), dy=a[0]-b[0]; return Math.sqrt(dx*dx+dy*dy)*111.2; }
+  function veCh(p){ return (+p.lat).toFixed(2)+','+(+p.lon).toFixed(2); }
+  function veDati(p,g){ var gg=VE.dati[veCh(p)]; if(!gg) return null; for(var i=0;i<gg.length;i++) if(gg[i].g===g) return gg[i]; return null; }
+  /* una ZONA cercata si disegna sui suoi paesi veri (data/paesi-zone.json, quello di «Che tempo fara'»): col solo cerchio
+     attorno al punto della zona la Val Bormida prendeva dentro Savona, e la scheda si apriva li' */
+  var ZONE=null, zoneChiesto=false;
+  function veSlug(n){ return String(n).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+  function veZona(){
+    if(ZONE||zoneChiesto) return ZONE;
+    zoneChiesto=true;
+    fetch('/data/paesi-zone.json').then(function(r){ return r.json(); }).then(function(j){ ZONE=j; if(acceso&&VE.tipo==='zona'){ VE.scena=''; disegna(); } })
+      .catch(function(){ ZONE={}; if(acceso&&VE.tipo==='zona'){ VE.scena=''; disegna(); } });
+    return null;
+  }
+  /* i capoluoghi di provincia: il comune piu' abitato di ogni sigla, con le eccezioni (la stessa regola con cui e' nato
+     capoluoghi.json, 7/10/2026). ⚠️ La sigla «s» di capoluoghi.json NON vuol dire capoluogo: ce l'ha anche Millesimo */
+  var CAP_FISSI={IM:'Imperia',CS:'Cosenza',CL:'Caltanissetta',TP:'Trapani',BT:'Barletta'};
+  // il capoluogo di REGIONE viene prima di tutti sulla regione, e la scheda si apre li' (giro sulle 21 regioni, 29/10: in
+  // Abruzzo si apriva Pescara invece de L'Aquila, in Calabria Reggio invece di Catanzaro; suo: «deve mettere il capoluogo»)
+  var CAPITALI={valledaosta:'Aosta',piemonte:'Torino',lombardia:'Milano',trentino:'Trento',altoadige:'Bolzano',veneto:'Venezia',
+    friuli:'Trieste',liguria:'Genova',emilia:'Bologna',toscana:'Firenze',umbria:'Perugia',marche:'Ancona',lazio:'Roma',
+    abruzzo:"L'Aquila",molise:'Campobasso',campania:'Napoli',puglia:'Bari',basilicata:'Potenza',calabria:'Catanzaro',sicilia:'Palermo',sardegna:'Cagliari'};
+  function veCapoluoghi(tutti){
+    if(veCapoluoghi.m) return veCapoluoghi.m;
+    var top={}, m={}; tutti.forEach(function(p){ if(p.sg&&p.sg.length===2&&(!top[p.sg]||p.pop>top[p.sg].pop)) top[p.sg]=p; });
+    Object.keys(top).forEach(function(s){ m[CAP_FISSI[s]||top[s].n]=1; });
+    return (veCapoluoghi.m=m);
+  }
+  /* ⚠️ VINCE L'ULTIMO GESTO (29/10/2026, sua foto: cercato Bardolino, poi scelta la Lombardia dalla tendina, restava
+     «Bardolino e dintorni» con tre etichette). Il posto resta (serve allo storico), ma se dopo di lui si e' scelta una
+     regione si guarda la regione: VE.ultimo lo scrivono tieniPosto e la sorveglianza delle regioni.
+     ⚠️ E NELL'ELENCO DELLA RICERCA «Lombardia» ed «Emilia» sono ZONE (un punto vicino a Bergamo): cercate scrivendole
+     diventavano un cerchio di 18 km con dentro Brescia e non Milano (sua foto). Una zona che ha il nome di una sua regione
+     e' quella regione. */
+  function veScena(){
+    if(posto&&!(VE.ultimo==='regione'&&regioni().length)){
+      if(posto.regione) return {tipo:'regione',regs:posto.regione,chiave:'r|'+posto.regione.join('+')};   // cercata per nome nella casella (Trentino-Alto Adige: due)
+      if(posto.t==='z'){ var rz=(posto.regs||[]).filter(function(k){ return k===veSlug(posto.n)||veSlug(nome(k))===veSlug(posto.n); })[0];
+        if(rz) return {tipo:'regione',regs:[rz],chiave:'r|'+rz}; }
+      return {tipo:posto.t==='z'?'zona':'paese', chiave:'p|'+posto.n+'|'+posto.lat+'|'+posto.lon}; }
+    var rk=regioni(); return rk.length?{tipo:'regione',regs:rk,chiave:'r|'+rk.join('+')}:null;
+  }
+  function veCandidati(sc){
+    var tutti=((window._locElenco&&window._locElenco())||[]).filter(function(p){ return p.t!=='z'&&p.pop>0; }), cap=veCapoluoghi(tutti), b, out;
+    if(sc.tipo==='regione'){
+      var dentro=tutti.filter(function(p){ return sc.regs.indexOf(p.reg)>=0; }).sort(function(a,b){ return b.pop-a.pop; });
+      if(!dentro.length) return null;
+      /* si inquadrano i CAPOLUOGHI DI PROVINCIA della regione: coprono tutta la regione (Lombardia: da Sondrio a Mantova)
+         senza i paesini ai confini, che rimpicciolivano la Liguria al telefono. ⚠️ Non le 5 citta' piu' grandi (prima):
+         in Lombardia sono tutte nella fascia Milano-Brescia e la regione non si vedeva intera (suo, 29/10 sera). Con meno
+         di 3 capoluoghi (Valle d'Aosta, Trentino, Alto Adige) tutti i comuni della regione */
+      var capi=dentro.filter(function(p){ return cap[p.n]; });
+      /* ⚠️ al COMPUTER la regione INTERA (tutti i suoi comuni): sui soli capoluoghi zoomava troppo, e piu' lo schermo era
+         grande piu' tagliava (caccia ai bug, difetto 2: Campania solo Napoli-Salerno, Abruzzo senza la meta' sud, Friuli
+         senza la Carnia). Al TELEFONO i capoluoghi: con la regione intera diventa troppo piccola */
+      b=L.latLngBounds((!tel()||capi.length<3?dentro:capi).map(function(p){ return [p.lat,p.lon]; }));
+      var largo=L.latLngBounds(dentro.map(function(p){ return [p.lat,p.lon]; })).pad(0.5);
+      out=tutti.filter(function(p){ return largo.contains([p.lat,p.lon]); }).map(function(p){ var fuori=sc.regs.indexOf(p.reg)<0;
+        return {n:p.n,lat:p.lat,lon:p.lon,q:null,pop:p.pop,altra:fuori,cap:!fuori&&!!cap[p.n],capitale:!fuori&&CAPITALI[p.reg]===p.n}; });
+      VE.titolo=sc.regs.map(nome).join(' + ');
+    } else {
+      var c=[posto.lat,posto.lon], R=sc.tipo==='zona'?18:15;
+      /* il cerchio del paese si allarga finche' dentro ci sono almeno 10 comuni (fino a 40 km): in montagna (Livigno,
+         Tarvisio) al telefono restava un'etichetta sola e sembrava un guasto (caccia ai bug, difetto 9) */
+      if(sc.tipo==='paese') while(R<40&&tutti.filter(function(p){ return veKm([p.lat,p.lon],c)<R; }).length<10) R+=5;
+      var dl=R/111.2, dn=dl/Math.cos(c[0]*Math.PI/180);
+      b=L.latLngBounds([c[0]-dl,c[1]-dn],[c[0]+dl,c[1]+dn]);
+      var membri=null;
+      if(sc.tipo==='zona'){ var Z=veZona(), zz=Z&&Z[veSlug(posto.n)];
+        if(zz&&zz.length){ membri={}; zz.forEach(function(x){ membri[x.n]=1; }); b=L.latLngBounds(zz.map(function(x){ return [x.lat,x.lon]; })).pad(0.15); c=[b.getCenter().lat,b.getCenter().lng]; } }
+      out=tutti.filter(function(p){ return membri?b.pad(0.6).contains([p.lat,p.lon]):veKm([p.lat,p.lon],c)<R*1.9; })
+        .map(function(p){ return {n:p.n,lat:p.lat,lon:p.lon,q:null,pop:p.pop,cap:!!cap[p.n],km:veKm([p.lat,p.lon],c),dentro:!!(membri&&membri[p.n])}; });
+      // nella zona prima i suoi paesi, poi gli altri a meta' peso (Savona, 60.000 abitanti, non passa davanti a Cairo Montenotte)
+      if(membri) out.forEach(function(p){ if(!p.dentro){ p.pop=p.pop*0.25; p.cap=false; } });
+      /* ⚠️ IL PAESE PRINCIPALE DELLA ZONA (caccia ai bug, difetti 13 e 14): la scheda si apriva sul piu' grande, ma
+         paesi-zone.json mette in ogni zona i 12 paesi piu' VICINI al suo punto (Mugello → Sesto Fiorentino, Lunigiana →
+         Carrara), e le 473 zone senza elenco usavano il piu' grande del cerchio. Ora il principale e' il PRIMO dell'elenco
+         della zona (lo stesso delle pagine meteo: Castelnuovo di Garfagnana, Sarezzo…) o, senza elenco, il comune piu'
+         vicino al punto della zona; sta in testa e la scheda si apre li' */
+      if(sc.tipo==='zona'){ var pr=null;
+        if(membri&&zz[0]) pr=out.filter(function(p){ return p.n===zz[0].n; })[0];
+        if(!pr) out.forEach(function(p){ if(!pr||p.km<pr.km) pr=p; });
+        if(pr) pr.principale=true; }
+      if(sc.tipo==='paese'){ var io=out.filter(function(p){ return p.n===posto.n&&p.km<3; })[0];
+        if(io){ io.cuore=true; io.lat=posto.lat; io.lon=posto.lon; io.q=posto.q; }
+        else out.push({n:posto.n,lat:posto.lat,lon:posto.lon,q:posto.q,pop:0,cuore:true,km:0}); }   // una frazione, un pluviometro: non e' un comune
+      VE.titolo=posto.n;
+    }
+    out.sort(function(a,b){ return (b.cuore?1:0)-(a.cuore?1:0) || (b.principale?1:0)-(a.principale?1:0) || (b.capitale?1:0)-(a.capitale?1:0) || (b.dentro?1:0)-(a.dentro?1:0) || (b.cap?1:0)-(a.cap?1:0) || b.pop*(b.altra?0.35:1)-a.pop*(a.altra?0.35:1); });
+    return {lista:out.slice(0,200),bounds:b,tipo:sc.tipo};
+  }
+  function veDisegna(g){
+    var sc=veScena(); if(!sc){ VE.scena=''; return false; }
+    if(!(window._locElenco&&window._locElenco())){ if(window._locCarica&&!veDisegna.chiesto){ veDisegna.chiesto=true; window._locCarica().then(function(){ if(acceso&&!italia()) disegna(); }).catch(function(){ veDisegna.chiesto=false; }); } return false; }
+    if(sc.chiave!==VE.scena){ var c=veCandidati(sc); if(!c){ VE.scena=''; return false; }
+      // la scheda di un posto che nella vista nuova non c'e' (Bardolino, poi la Lombardia) si chiude: si apre il capoluogo
+      if(punto&&!c.lista.some(function(p){ return !p.altra&&Math.abs(p.lat-punto.lat)<0.005&&Math.abs(p.lon-punto.lon)<0.005; })){ togliPassi(true); chiudiDettaglio(true); }
+      VE.scena=sc.chiave; VE.lista=c.lista; VE.bounds=c.bounds; VE.tipo=c.tipo; VE.aperto0=!!punto; VE.nastro=''; VE.visti=[]; VE.nuova=true; VE.inquadrata=false; }
+    var tt=el('pv-tt'); if(tt) tt.textContent='☀️ Previsioni · '+VE.titolo;   // il posto, non le sue regioni («Liguria + Piemonte»)
+    var due=tel()&&VE.tipo==='regione';   // al telefono la regione e' stretta: etichette su due righe
+    VE.lista.forEach(function(p){
+      var e=veDati(p,g), sel=!!(punto&&Math.abs(punto.lat-p.lat)<0.005&&Math.abs(punto.lon-p.lon)<0.005);
+      var gr='<span class="mn">'+(e?e.mn:'--')+'°</span> <span class="mx">'+(e?e.mx:'--')+'°</span>', ic='<span class="ic">'+(e?icona(e.s):'·')+'</span>';
+      var cl='ve-et'+(sel?' scelto':'')+(p.altra?' altra':'')+(due?' due':'');
+      var html=due?'<span class="'+cl+'"><span class="r1">'+ic+gr+'</span><b>'+escH(p.n)+'</b></span>':'<span class="'+cl+'">'+ic+'<b>'+escH(p.n)+'</b> '+gr+'</span>';
+      var mk=L.marker([p.lat,p.lon],{icon:L.divIcon({className:'pv-ic',iconSize:[0,0],iconAnchor:[0,0],html:html}),keyboard:false,zIndexOffset:sel?2000:p.cuore?1500:Math.min(1000,Math.round(p.pop/100))});
+      mk._ve=p;
+      mk.on('click',function(){ if(!p.cuore) cercato=null; apriPunto({n:p.n,lat:p.lat,lon:p.lon,q:p.q}); ga('paese_mappa',{posto:p.n}); });
+      gruppo.addLayer(mk); });
+    if(VE.nuova){ VE.nuova=false; setTimeout(function(){ if(acceso&&VE.scena) veInquadra(); },0); }
+    return true;
+  }
+  function veDirada(){
+    var mb=el('map').getBoundingClientRect(), fermi=[];
+    // anche «↩ Indietro», i crediti di Leaflet e la scritta della fonte (caccia ai bug, difetto 8: Mondragone sotto
+    // «Indietro», Manoppello sotto i crediti, Jesolo sotto la fonte)
+    ['pv-pan','pv-det','vi-nastro','region-panel','pv-cerca-tel','channel-logo','btn-reset-regions','fonte-tag'].map(el)
+      .concat([].slice.call(document.querySelectorAll('#map .leaflet-control-attribution, #map .fonte-tag')))
+      .forEach(function(e){ if(!e) return;
+      if(e.id==='pv-det'&&!e.classList.contains('vivo')) return;
+      var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return;
+      var r=e.getBoundingClientRect(); if(r.width>0&&r.height>0) fermi.push(r); });
+    /* MENO FITTE (suo, 29/10 sera, sulla zona di Brescia a schermo intero: «non e' troppo densa come paesi?»): fra
+       un'etichetta e l'altra almeno 14 px al computer e 6 al telefono (1 sulla regione stretta), e al massimo 28 etichette al
+       computer e 14 al telefono; gli altri compaiono ingrandendo */
+    var mg=tel()?(VE.tipo==='regione'?1:6):14, tetto=tel()?14:28, presi=[], visti=[];
+    /* ⚠️ I CAPOLUOGHI si nascondono solo se si SOVRAPPONGONO davvero (1 px) e non contano nel tetto: col margine largo di
+       tutti mancavano Padova, Lucca, Prato al computer e mezza Toscana al telefono (giro sulle 21 regioni, 29/10 sera).
+       Il margine e il tetto valgono per gli altri paesi; il margine si misura anche contro le etichette dei capoluoghi. */
+    var capi=0;
+    gruppo.eachLayer(function(l){ if(!l._ve) return; var e=l.getElement(), d=e&&e.firstChild; if(!d) return;
+      e.style.visibility='';
+      var cp=l._ve.cap||l._ve.capitale, m=cp?1:mg, r=d.getBoundingClientRect(), g={left:r.left-m,right:r.right+m,top:r.top-m,bottom:r.bottom+m};
+      var tocca=function(a){ return !(g.right<a.left||g.left>a.right||g.bottom<a.top||g.top>a.bottom); };
+      var fuori=r.left<mb.left||r.right>mb.right||r.top<mb.top||r.bottom>mb.bottom, tiene=l._ve.cuore||d.classList.contains('scelto');
+      // il cercato e il paese della scheda non cedono il posto agli altri, ma sotto un riquadro o fuori dalla mappa si
+      // nascondono anche loro (difetto 10: Calizzano mezzo sotto la casella di ricerca); e chi non ha risposto (null) non
+      // resta coi trattini (difetto 4): riprova veChiedi
+      var buio=VE.dati[veCh(l._ve)]===null;
+      if(fuori||buio||fermi.some(tocca)||(!tiene&&((!cp&&visti.length-capi>=tetto)||presi.some(tocca)))) e.style.visibility='hidden';
+      else { presi.push(cp?{left:r.left-mg/2,right:r.right+mg/2,top:r.top-mg/2,bottom:r.bottom+mg/2}:g); visti.push(l._ve); if(cp) capi++; } });
+    VE.visti=visti;
+    veChiedi(visti); veNastro();
+  }
+  /* ⚠️ CHI NON RISPONDE SI RIPROVA (caccia ai bug, difetto 4): a cache fredda qualche punto torna con errore, e restava coi
+     trattini per tutta la visita. Ora si nasconde (veDirada) e si richiede dopo 15 s, fino a 3 volte. ⚠️ Si guardano
+     anche i nascosti per «buio»: altrimenti, nascosti, non tornerebbero mai fra i visti */
+  VE.falliti={};
+  function veChiedi(visti){
+    var ora=Date.now();
+    gruppo.eachLayer(function(l){ if(!l._ve) return; var k=veCh(l._ve), f=VE.falliti[k];
+      if(VE.dati[k]===null&&f&&f.n<3&&ora-f.t>15000&&visti.indexOf(l._ve)<0) visti=visti.concat([l._ve]); });
+    var da=visti.filter(function(p){ var k=veCh(p), f=VE.falliti[k];
+      return (VE.dati[k]===undefined||(VE.dati[k]===null&&f&&f.n<3&&ora-f.t>15000))&&!VE.inVolo[k]; });
+    if(!da.length){ veApri(); return; }
+    for(var i=0;i<da.length;i+=15) (function(pezzo){
+      pezzo.forEach(function(p){ VE.inVolo[veCh(p)]=1; });
+      chiedi(API+'?punti='+pezzo.map(veCh).join(';')+API_V).then(function(j){
+        (j.capoluoghi||[]).forEach(function(c){ if(c.giorni) VE.dati[veCh(c)]=daOggi(c.giorni); });
+      }).catch(function(){}).then(function(){
+        pezzo.forEach(function(p){ var k=veCh(p); delete VE.inVolo[k];
+          if(!VE.dati[k]){ VE.dati[k]=null; var f=VE.falliti[k]||(VE.falliti[k]={n:0,t:0}); f.n++; f.t=Date.now(); } });   // non a ogni spostamento: fra 15 s
+        veRidisegna();
+        if(pezzo.some(function(p){ return VE.dati[veCh(p)]===null; })) setTimeout(function(){ if(acceso&&VE.scena) veDirada(); },15500); });
+    })(da.slice(i,i+15));
+  }
+  var veT=0;
+  function veRidisegna(){ if(veT) return; veT=setTimeout(function(){ veT=0; if(acceso&&!italia()&&VE.scena) disegna(); },60); }
+  // la scheda ora per ora si apre da sola, una volta per vista: sul posto cercato (gia' aperta) o sul paese piu' grande che si vede
+  function veApri(){
+    if(VE.aperto0||punto||!acceso||!VE.inquadrata) return;   // ⚠️ solo a inquadratura fatta: prima si vedevano altri paesi (si apriva Savona invece di Genova)
+    if(VE.tipo==='zona'&&!ZONE) return;                      // e la zona aspetta i suoi paesi
+    var p=(VE.visti||[]).filter(function(x){ return !x.altra; })[0]; if(!p||!VE.dati[veCh(p)]) return;   // il primo, e aspetta i SUOI dati
+    VE.aperto0=true; apriPunto({n:p.n,lat:p.lat,lon:p.lon,q:p.q},true);
+  }
+  function veNastro(){
+    var na=el('vi-nastro'); if(!na||!VE.scena||italia()) return;
+    var gb=giorniBase(), g=gb&&gb[Math.min(giorno,gb.length-1)]?gb[Math.min(giorno,gb.length-1)].g:null;
+    var lista=g?(VE.visti||[]).filter(function(p){ return !p.altra&&veDati(p,g); }):[];
+    /* ⚠️ il nome cambia SUBITO (caccia ai bug, difetto 5): finche' i gradi non arrivavano restava «METEO ITALIA» con le
+       citta' di tutta Italia, anche 15 s dopo aver cercato Napoli */
+    if(!lista.length){ var tv=(VE.tipo==='paese'?VE.titolo+' e dintorni':VE.titolo).toUpperCase(), kv='vuoto|'+tv;
+      if(VE.nastro!==kv){ VE.nastro=kv; na.innerHTML='<div class="lab">METEO '+escH(tv)+'<span>…</span></div><div class="t"></div>'; }
+      return; }
+    var chiave=g+'|'+lista.map(function(p){ return p.n; }).join(','); if(chiave===VE.nastro) return; VE.nastro=chiave;
+    var dd=giornoData(g), o=isoRoma(Date.now()), quando=g===o?'OGGI':g===isoPiu(o,1)?'DOMANI':(GIL[dd.getDay()]+' '+dd.getDate()).toUpperCase();
+    var vv=lista.map(function(p){ var e=veDati(p,g), km=VE.tipo==='paese'&&!p.cuore&&p.km!=null?'<small>'+Math.round(p.km)+' km</small>':'';
+      return '<button class="v" data-n="'+escH(p.n)+'"><b>'+escH(p.n)+'</b>'+km+'<span class="ic">'+icona(e.s)+'</span><span class="mn">'+e.mn+'°</span><span class="mx">'+e.mx+'°</span></button>'; });
+    na.innerHTML='<div class="lab">METEO '+escH((VE.tipo==='paese'?VE.titolo+' e dintorni':VE.titolo).toUpperCase())+'<span>'+escH(quando)+'</span></div><div class="t">'+vv.join('')+vv.join('')+'</div>';
+    NA.w=0; NA.pos=0; NA.v=0; naParti();
+  }
+  /* l'inquadratura: al computer fra il riquadro di sinistra e il bordo, al telefono fra la barra in alto e la scheda (40%);
+     la regione con mezza etichetta di margine ai lati (le citta' grandi stanno ai bordi) e, al telefono, spinta in basso
+     sopra la scheda (suo: «troppo in alto con tanto mare») */
+  function veInquadra(){
+    var m=map(); if(!m||!VE.bounds) return false;
+    var mb=el('map').getBoundingClientRect(), reg=VE.tipo==='regione', tl, br;
+    if(tel()){ var sopra=Math.max(sopraTel(),casellaSotto(mb)), sotto=Math.round(mb.height*0.40)+20+38;   // la scheda al 40% e il banner sopra di lei
+      // la spinta in basso solo per le regioni strette e lunghe (la Liguria): su quelle «alte» (Lombardia, Toscana)
+      // rimpiccioliva la regione e i capoluoghi non ci stavano
+      var bb=VE.bounds, alto=(bb.getNorth()-bb.getSouth())*111, largo=(bb.getEast()-bb.getWest())*111*Math.cos(bb.getCenter().lat*Math.PI/180);
+      tl=[reg?38:10,sopra+(reg&&alto<largo*0.5?200:20)]; br=[reg?38:10,sotto]; }
+    else { var pn=el('pv-pan'), sx=pn&&pn.getBoundingClientRect().width>100?pn.getBoundingClientRect().right-mb.left+20:440;
+      tl=[sx+(reg?80:0),reg?50:30]; br=[reg?110:30,reg?90:70]; }
+    try{ m.fitBounds(VE.bounds,{paddingTopLeft:tl,paddingBottomRight:br,animate:false}); }catch(e){ return false; }
+    VE.inquadrata=true; rifai=reg; setTimeout(dirada,30); return true;
+  }
+  // al computer la scheda ora per ora sta SOTTO il riquadro dei giorni, nella stessa colonna (suo: «la apri a dx ma tieni
+  // un sacco di spazio vuoto a sx?»); al telefono resta il foglio dal basso, al 40%
+  function posizionaDet(){
+    var det=el('pv-det'), pan=el('pv-pan'), mp=el('map'); if(!det||!pan||!mp||tel()) return;
+    var m=mp.getBoundingClientRect(), p=pan.getBoundingClientRect(); if(p.width<100) return;
+    var top=Math.round(p.bottom-m.top+10), giu=el('vi-nastro')&&el('vi-nastro').offsetHeight?54:12;
+    det.style.left=Math.round(p.left-m.left)+'px'; det.style.right='auto'; det.style.top=top+'px'; det.style.width=Math.round(p.width)+'px';
+    var alta=Math.max(180,Math.round(m.height-top-giu)); det.style.maxHeight=alta+'px'; det.classList.toggle('stretta',alta<460);
   }
 
   /* ── il dettaglio di un posto ── */
@@ -17324,9 +17631,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     document.body.classList.add('pv-det-aperto');
     // telefono: la barra della regione fa da tetto. ⚠️ Come ALTEZZA MASSIMA, non come top (18/10/2026): col top
     // la scheda andava sempre da sotto la barra al fondo, anche con 4 righe, e restava il vuoto bianco
-    if(tel()){ try{ var _t=sopraTel(); el('pv-det').style.top=''; el('pv-det').style.maxHeight='calc(100% - '+_t+'px)'; }catch(e){} }
+    // ⚠️ dal 29/10/2026 al telefono l'altezza la decide il CSS (40%, suo: «la tabella ruba troppo alla mappa»)
+    if(tel()){ try{ el('pv-det').style.top=''; el('pv-det').style.maxHeight=''; }catch(e){} }
     var k=c.lat.toFixed(3)+','+c.lon.toFixed(3);
-    var det=el('pv-det'); det.className='vivo';
+    var det=el('pv-det'); det.className='vivo'; posizionaDet();
+    // il blu passa SUBITO al paese toccato, non quando arriva la sua previsione (caccia ai bug, difetto 6: a cache fredda
+    // per qualche secondo restava blu il paese di prima)
+    if(VE.scena&&!italia()) veRidisegna();
     var pan0=el('pv-pan'); if(pan0) pan0.classList.remove('con-cenno');
     if(!punti[k] || vecchia(punti[k].giorni)){   // anche se tenuta in memoria da ieri (bug 11)
       det.innerHTML='<div class="hd"><div class="nm">'+escH(c.n)+'<small>carico la previsione…</small></div><button class="x" aria-label="Chiudi">×</button></div>';
@@ -17336,8 +17647,17 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     } else { renderDet(); disegna(); tieniInVista(); }
     if(!silenzio) ga('punto',{posto:c.n});
   }
+  /* ⚠️ AL TELEFONO IL BANNER SOPRA LA SCHEDA (29/10/2026, caccia ai bug, difetto 1 «alto»): il banner vive nel riquadro in
+     basso e la scheda al 40%, che ora si apre da sola, lo copriva sempre (24 aperture su 24). Con la scheda aperta il
+     banner esce dal riquadro e si appoggia sul bordo alto della scheda; chiusa la scheda, torna nel riquadro (viPezzi) */
+  function naSopraDet(){
+    var na=el('vi-nastro'), det=el('pv-det'), mp=el('map'); if(!na||!det||!mp||!tel()) return;
+    if(na.parentNode!==mp) mp.appendChild(na);
+    na.classList.add('sopra-det'); na.style.bottom=det.offsetHeight+'px';
+  }
   function chiudiDettaglio(tutto){
     document.body.classList.remove('pv-det-aperto');
+    if(tel()) setTimeout(function(){ if(acceso) viPezzi(); },0);   // il banner torna nel riquadro
     var det=el('pv-det'); if(det){ det.classList.remove('vivo'); if(tutto){ det.innerHTML=''; det.className=''; var pn=el('pv-pan'); if(pn) pn.classList.remove('con-cenno'); } }
     /* ⚠️ qui c'era anche «cercato=null»: esci() chiama questa funzione PRIMA di leggere cercato, quindi
        «Storico piogge» non tornava mai sul posto cercato. Il posto cercato lo dimentica solo esci(). */
@@ -17374,7 +17694,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +'<div class="gg-r">'+gb.map(function(x,i){ return chip(x,i,i===gi,true); }).join('')+'</div>'
       +(righe?'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>'
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge qui →</button><span class="fo">Previsioni modello ECMWF via MET Norway. Probabilità di pioggia: Open-Meteo.</span></div>';
+      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway · probabilità di pioggia: Open-Meteo</span></div>';
+    if(tel()) setTimeout(naSopraDet,0);   // l'altezza della scheda cambia col giorno e col paese
   }
   function storicoQui(){
     var p=punto, c=cercato; esci(false);
@@ -17408,14 +17729,17 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* un posto «da tenere»: diventa il posto della mappa, si apre la sua scheda e si inquadra con i capoluoghi
      vicini. Ci passano la ricerca, il paese scelto nello storico, i link delle pagine e la scheda del pluviometro. */
   function tieniPosto(c,comeCercato){
-    cercato=comeCercato?c:null; fissaPosto(c);
-    apriPunto({n:c.n,lat:c.lat,lon:c.lon,q:quota(c)},true);
+    cercato=comeCercato?c:null; fissaPosto(c); VE.ultimo='posto';
+    // una ZONA cercata (29/10/2026) non e' un paese: la scheda la apre la vista a etichette sul paese piu' grande
+    if(c.t==='z'){ if(punto) chiudiDettaglio(true); }
+    else apriPunto({n:c.n,lat:c.lat,lon:c.lon,q:quota(c)},true);
     carica('posto'); vicineDopo(c);
   }
   /* inquadratura del posto cercato: lui e i tre capoluoghi piu' vicini, non tutta la regione */
   function inquadraPosto(){
     var m=map(); if(!m||!posto) return;
     rifai=false;   // il posto non si perde quando il riquadro cresce
+    if(VE.scena&&veInquadra()){ rifai=false; return; }   // la vista a etichette: il cerchio attorno al posto (29/10/2026)
     var cs=[], cl=Math.cos(posto.lat*Math.PI/180);
     zone().forEach(function(k){ var a=aree[k]; if(a&&a.capoluoghi) a.capoluoghi.forEach(function(c){
       var dy=c.lat-posto.lat, dx=(c.lon-posto.lon)*cl, d=dx*dx+dy*dy; if(d>1e-5) cs.push({c:c,d:d}); }); });
