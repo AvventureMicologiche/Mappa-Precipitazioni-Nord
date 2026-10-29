@@ -16960,6 +16960,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       entra(); tieniPosto({n:s.n,lat:s.lat,lon:s.lon,q:s.q},false); ga('da_scheda');
     });
     window.addEventListener('resize',posiziona);
+    /* ⚠️ LA TENDINA E' UN GESTO ANCHE SE LA REGIONE NON CAMBIA (caccia ai bug, difetto 16): dal link di Calizzano (che ha
+       gia' la Liguria) scegliendo «Liguria» nella tendina le regioni non cambiano, la sorveglianza non se ne accorge e
+       restava «Calizzano e dintorni». Scelta una regione vera, vince lei */
+    var rsel=el('region-select'); if(rsel) rsel.addEventListener('change',function(){
+      if(!acceso||!this.value||/^__/.test(this.value)) return;
+      VE.ultimo='regione'; setTimeout(function(){ if(acceso) carica(true); },400); });
     // link con ?m=prev: si aspetta la regione scelta dal sito (fino a 15 s)
     /* SENZA REGIONE E SENZA POSTO NEL LINK (27/10/2026, il tasto «Previsioni» della home): non c'e' niente da
        aspettare, si entra nelle previsioni senza scelte, cioe' l'invito a scegliere la regione o cercare un paese.
