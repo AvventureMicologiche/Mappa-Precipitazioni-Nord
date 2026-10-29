@@ -1,100 +1,100 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-28T04:15:39.963Z",
+ "generato": "2026-10-29T04:15:39.975Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 422,
-   "primo": "2026-10-27",
-   "ultimo": "2026-10-27",
+   "stazioni": 421,
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Gangi",
-     "mm": 3.2
+     "mm": 1
     },
     {
-     "n": "Case Mangalaviti",
-     "mm": 0.4
-    },
-    {
-     "n": "Il Gelso",
-     "mm": 0.4
+     "n": "Borgo Schisina",
+     "mm": 0.6
     },
     {
      "n": "Montagna Grande",
-     "mm": 0.4
+     "mm": 0.6
     },
     {
-     "n": "San Fratello Forestale",
+     "n": "San Basilio",
+     "mm": 0.6
+    },
+    {
+     "n": "Termini Imerese SIAS",
      "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 13.1,
+   "media": 7.6,
    "giorni": 7,
-   "stazioni": 414,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-27",
+   "stazioni": 419,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
    "top": [
-    {
-     "n": "Pagliara",
-     "mm": 117.6
-    },
-    {
-     "n": "Casalvecchio Siculo",
-     "mm": 91.6
-    },
-    {
-     "n": "Fiumedinisi SIAS",
-     "mm": 82.2
-    },
     {
      "n": "Isnello SP54",
      "mm": 80
     },
     {
-     "n": "Allume",
-     "mm": 77.6
+     "n": "Caronia Pomiere SIAS",
+     "mm": 72.8
+    },
+    {
+     "n": "Miraglia",
+     "mm": 61
+    },
+    {
+     "n": "San Fratello Forestale",
+     "mm": 54.7
+    },
+    {
+     "n": "Cesarò Monte Soro SIAS",
+     "mm": 53.4
     }
    ]
   },
   "20": {
-   "media": 60.6,
+   "media": 58.4,
    "giorni": 20,
    "stazioni": 416,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 336.2
+     "mm": 322.7
     },
     {
      "n": "Forza d'Agro'",
-     "mm": 321.1
+     "mm": 308.8
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 318.5
+     "mm": 304.1
     },
     {
      "n": "Letojanni",
-     "mm": 296.8
+     "mm": 291.8
     },
     {
      "n": "Melia",
-     "mm": 280.3
+     "mm": 272.3
     }
    ]
   },
   "30": {
-   "media": 61.6,
+   "media": 61.5,
    "giorni": 30,
    "stazioni": 419,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-27",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Pagliara",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   2.1,
   3.4,
@@ -148,30 +149,29 @@
   0.1,
   0.1,
   0.1,
-  0.3,
-  0
+  0.3
  ],
- "serieDa": "2026-10-27",
+ "serieDa": "2026-10-28",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-27",
-   "m1": 0.1,
-   "m7": 33,
-   "m30": 120.2,
-   "p1": true,
+   "ultimo": "2026-10-28",
+   "m1": 0,
+   "m7": 32.2,
+   "m30": 120,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-27",
-   "m1": 0.1,
-   "m7": 40.1,
-   "m30": 121.6,
-   "p1": true,
+   "ultimo": "2026-10-28",
+   "m1": 0,
+   "m7": 39.6,
+   "m30": 121.5,
+   "p1": false,
    "p7": true,
    "p30": true
   }

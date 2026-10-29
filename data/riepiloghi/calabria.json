@@ -1,91 +1,91 @@
 {
  "regione": "calabria",
- "generato": "2026-10-28T04:15:39.963Z",
+ "generato": "2026-10-29T04:15:39.975Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 139,
-   "primo": "2026-10-27",
-   "ultimo": "2026-10-27",
+   "stazioni": 138,
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Cassari",
-     "mm": 0.2
+     "n": "Gioiosa Ionica",
+     "mm": 1.4
     },
     {
-     "n": "Cecita",
-     "mm": 0.2
+     "n": "Cardeto",
+     "mm": 1
     },
     {
-     "n": "Fabrizia",
-     "mm": 0.2
+     "n": "Roccaforte del Greco",
+     "mm": 0.4
     },
     {
-     "n": "Gambarie",
-     "mm": 0.2
+     "n": "Salica",
+     "mm": 0.4
     },
     {
-     "n": "Laino Borgo",
+     "n": "Bova Superiore",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 18.8,
+   "media": 4.8,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Cotronei",
-     "mm": 119.2
+     "n": "Filadelfia",
+     "mm": 17
     },
     {
-     "n": "Petilia Policastro",
-     "mm": 107.4
+     "n": "Martirano",
+     "mm": 15.2
     },
     {
-     "n": "S.Nicola dell'Alto",
-     "mm": 107.4
+     "n": "Cenadi - Serralta",
+     "mm": 14.8
     },
     {
-     "n": "Pagliarelle",
-     "mm": 98.4
+     "n": "Chiaravalle",
+     "mm": 13.8
     },
     {
-     "n": "Petrona'",
-     "mm": 72
+     "n": "Decollatura",
+     "mm": 13.6
     }
    ]
   },
   "20": {
-   "media": 101.5,
+   "media": 99.6,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 254.6
+     "mm": 236.8
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 220.4
-    },
-    {
-     "n": "Cardeto",
-     "mm": 211
+     "mm": 215.6
     },
     {
      "n": "Cassari",
-     "mm": 208.2
+     "mm": 204.6
+    },
+    {
+     "n": "Cardeto",
+     "mm": 204.4
     },
     {
      "n": "Allai",
-     "mm": 197.6
+     "mm": 182
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 103.1,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-27",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Canolo Nuovo",
@@ -102,11 +102,11 @@
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 220.8
+     "mm": 221.2
     },
     {
      "n": "Cardeto",
-     "mm": 212
+     "mm": 213
     },
     {
      "n": "Cassari",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   2.8,
@@ -148,30 +149,29 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-27",
+ "serieDa": "2026-10-28",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-27",
-   "m1": 0.1,
-   "m7": 18.1,
+   "ultimo": "2026-10-28",
+   "m1": 0,
+   "m7": 8,
    "m30": 132.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-27",
-   "m1": 0.1,
-   "m7": 12.8,
+   "ultimo": "2026-10-28",
+   "m1": 0,
+   "m7": 5.1,
    "m30": 73,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

@@ -1,17 +1,17 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-28T04:15:39.962Z",
+ "generato": "2026-10-29T04:15:39.974Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-27",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Corvara",
-     "mm": 0.3
+     "n": "Fleres",
+     "mm": 1.3
     },
     {
      "n": "Alta Val Martello",
@@ -32,60 +32,60 @@
    ]
   },
   "7": {
-   "media": 32.3,
+   "media": 9.6,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Santa Valburga",
-     "mm": 84.1
-    },
-    {
      "n": "Fleres",
-     "mm": 73
+     "mm": 34.8
     },
     {
      "n": "San Vito di Braies",
-     "mm": 69.3
+     "mm": 28.5
     },
     {
-     "n": "Sesto",
-     "mm": 52.3
+     "n": "Predoi",
+     "mm": 18
     },
     {
-     "n": "Plata in Passiria",
-     "mm": 51.6
+     "n": "Pennes",
+     "mm": 16.9
+    },
+    {
+     "n": "Monguelfo",
+     "mm": 15.7
     }
    ]
   },
   "20": {
-   "media": 43.8,
+   "media": 34.9,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Fleres",
-     "mm": 92.2
+     "n": "Santa Valburga",
+     "mm": 87
     },
     {
-     "n": "Santa Valburga",
-     "mm": 89.4
+     "n": "Fleres",
+     "mm": 76.6
     },
     {
      "n": "San Vito di Braies",
-     "mm": 75.8
+     "mm": 70.3
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 65.2
+     "mm": 56.4
     },
     {
-     "n": "Plata in Passiria",
-     "mm": 64.4
+     "n": "Sesto",
+     "mm": 53.7
     }
    ]
   },
@@ -93,12 +93,12 @@
    "media": 46.4,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-27",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Fleres",
-     "mm": 100.2
+     "mm": 101.5
     },
     {
      "n": "Santa Valburga",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.5,
@@ -148,17 +149,16 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-27",
+ "serieDa": "2026-10-28",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 35.4,
+   "m7": 8.8,
    "m30": 50.1,
    "p1": false,
    "p7": true,
@@ -167,9 +167,9 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 28.7,
+   "m7": 11.6,
    "m30": 42.9,
    "p1": false,
    "p7": true,

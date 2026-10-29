@@ -1,91 +1,91 @@
 {
  "regione": "campania",
- "generato": "2026-10-28T04:15:39.963Z",
+ "generato": "2026-10-29T04:15:39.975Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 166,
-   "primo": "2026-10-27",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Bagnoli Irpino",
-     "mm": 0.6
+     "mm": 2
     },
     {
-     "n": "Ceraso-Isca Vivaio Forestale",
-     "mm": 0.2
+     "n": "Ravello-Sambuco",
+     "mm": 1.4
     },
     {
-     "n": "Cusano Mutri",
-     "mm": 0.2
+     "n": "Agerola",
+     "mm": 0
     },
     {
-     "n": "Melito Irpino",
-     "mm": 0.2
+     "n": "Agerola METEO",
+     "mm": 0
     },
     {
-     "n": "Montella METEO",
-     "mm": 0.2
+     "n": "Ailano",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 40.7,
+   "media": 9.4,
    "giorni": 7,
-   "stazioni": 172,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-27",
+   "stazioni": 166,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Ailano",
-     "mm": 107.8
+     "n": "S.Agata dei Goti",
+     "mm": 38.7
     },
     {
-     "n": "Liberi",
-     "mm": 105.7
+     "n": "Caserta Vecchia",
+     "mm": 35.8
     },
     {
-     "n": "Letino",
-     "mm": 95.2
+     "n": "S.Agata dei Goti Isclero",
+     "mm": 34
     },
     {
-     "n": "Rocca d'Evandro",
-     "mm": 94.6
+     "n": "Avella",
+     "mm": 25.4
     },
     {
-     "n": "Capua",
-     "mm": 92
+     "n": "S.Maria a Vico",
+     "mm": 24.6
     }
    ]
   },
   "20": {
-   "media": 135.4,
+   "media": 110.3,
    "giorni": 20,
    "stazioni": 173,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Castel Volturno",
-     "mm": 269
+     "mm": 207.2
     },
     {
-     "n": "Ischia",
-     "mm": 260.6
+     "n": "Cava Casa Riceri",
+     "mm": 196
     },
     {
-     "n": "Liberi",
-     "mm": 245
+     "n": "Omignano Scalo",
+     "mm": 191.9
     },
     {
      "n": "Capua",
-     "mm": 239.1
+     "mm": 189.5
     },
     {
-     "n": "Grazzanise",
-     "mm": 232.2
+     "n": "Liberi",
+     "mm": 182.2
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 136.2,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-27",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.3,
@@ -148,17 +149,16 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-27",
+ "serieDa": "2026-10-28",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 37.2,
+   "m7": 13,
    "m30": 159,
    "p1": false,
    "p7": true,
@@ -167,9 +167,9 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 36.9,
+   "m7": 7.1,
    "m30": 114.8,
    "p1": false,
    "p7": true,
@@ -178,9 +178,9 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 53.1,
+   "m7": 16.7,
    "m30": 159.7,
    "p1": false,
    "p7": true,
@@ -189,9 +189,9 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-27",
+   "ultimo": "2026-10-28",
    "m1": 0,
-   "m7": 48.2,
+   "m7": 14.3,
    "m30": 154.9,
    "p1": false,
    "p7": true,

@@ -1,14 +1,55 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-28T04:15:39.963Z",
+ "generato": "2026-10-29T04:15:39.975Z",
  "periodi": {
   "1": {
-   "media": 1.9,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 61,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-25",
+   "stazioni": 50,
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
+    {
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 0
+    },
+    {
+     "n": "Albano di Lucania",
+     "mm": 0
+    },
+    {
+     "n": "Anzi",
+     "mm": 0
+    },
+    {
+     "n": "Avigliano",
+     "mm": 0
+    },
+    {
+     "n": "Bella-S.Antonio Casalini",
+     "mm": 0
+    }
+   ]
+  },
+  "7": {
+   "media": 3.5,
+   "giorni": 7,
+   "stazioni": 50,
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
+   "top": [
+    {
+     "n": "Castrocucco",
+     "mm": 15
+    },
+    {
+     "n": "Maratea",
+     "mm": 13.5
+    },
+    {
+     "n": "Rotonda",
+     "mm": 9.2
+    },
     {
      "n": "Irsina",
      "mm": 7.6
@@ -16,56 +57,44 @@
     {
      "n": "Bradano Ponte Colonna",
      "mm": 7.3
-    },
-    {
-     "n": "Forenza",
-     "mm": 5.6
-    },
-    {
-     "n": "Vaglio di Basilicata",
-     "mm": 5.2
-    },
-    {
-     "n": "Matera",
-     "mm": 4.4
-    }
-   ]
-  },
-  "7": {
-   "media": 23.2,
-   "giorni": 7,
-   "stazioni": 62,
-   "primo": "2026-10-19",
-   "ultimo": "2026-10-25",
-   "top": [
-    {
-     "n": "Tramutola",
-     "mm": 54.7
-    },
-    {
-     "n": "S.Nicola",
-     "mm": 54.4
-    },
-    {
-     "n": "Vietri",
-     "mm": 52.5
-    },
-    {
-     "n": "Rotonda",
-     "mm": 46.2
-    },
-    {
-     "n": "Picerno",
-     "mm": 42.8
     }
    ]
   },
   "20": {
-   "media": 69,
+   "media": 61.8,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-10-06",
-   "ultimo": "2026-10-25",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
+   "top": [
+    {
+     "n": "Lagonegro",
+     "mm": 138.3
+    },
+    {
+     "n": "Rotonda",
+     "mm": 111.9
+    },
+    {
+     "n": "Castelsaraceno",
+     "mm": 110
+    },
+    {
+     "n": "Castrocucco",
+     "mm": 107.3
+    },
+    {
+     "n": "Tramutola",
+     "mm": 102
+    }
+   ]
+  },
+  "30": {
+   "media": 69,
+   "giorni": 30,
+   "stazioni": 62,
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Lagonegro",
@@ -88,38 +117,12 @@
      "mm": 111.3
     }
    ]
-  },
-  "30": {
-   "media": 69.1,
-   "giorni": 30,
-   "stazioni": 62,
-   "primo": "2026-09-26",
-   "ultimo": "2026-10-25",
-   "top": [
-    {
-     "n": "Lagonegro",
-     "mm": 155.1
-    },
-    {
-     "n": "Tramutola",
-     "mm": 124.8
-    },
-    {
-     "n": "Rotonda",
-     "mm": 124.7
-    },
-    {
-     "n": "Castelsaraceno",
-     "mm": 114.1
-    },
-    {
-     "n": "Castrocucco",
-     "mm": 111.3
-    }
-   ]
   }
  },
  "serie": [
+  0,
+  0,
+  0,
   1.9,
   1.9,
   0,
@@ -146,11 +149,8 @@
   0,
   0,
   0,
-  0,
-  0,
-  0,
   0
  ],
- "serieDa": "2026-10-25",
+ "serieDa": "2026-10-28",
  "zone": []
 }
