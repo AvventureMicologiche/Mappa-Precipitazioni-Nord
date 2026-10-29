@@ -3253,6 +3253,13 @@ SCRITTE, e le temperature a parte. Sue scelte fra quattro proposte e tre stili:
   sempre nascoste e fondo scuro da subito, rilievo chiesto gia' in `entra()`; la toglie `viPezzi()` al primo disegno
   (o `invito()`, o i 20 s di sicurezza). Prova `prova-apertura.js`: sull'anteprima icone a 1,3 s al computer, vetrina e
   OpenStreetMap mai visibili.
+- **29/10/2026, suoi**: al TELEFONO il banner sta SOPRA la riga dei crediti di MET Norway (`viPezzi()` lo mette DENTRO
+  `#pv-pan`, fra i giorni e la riga `.fo`); al computer resta com'era, attaccato al fondo coi crediti sopra («su desktop
+  i crediti andavano bene come prima», provato `bottom:26px` e tolto). E si TRASCINA («se lo tocchi
+  si blocca, sarebbe bello muoverlo piu' veloce o indietro»): niente animazione CSS, `naGira()` lo muove a 45 px/s con
+  requestAnimationFrame; col dito o col mouse avanti e indietro, al rilascio prosegue con lo slancio (smorzato 0,94 a
+  fotogramma) e torna al passo; un tocco sotto i 6 px apre la citta'; fermo solo col MOUSE sopra (`pointerType`: col
+  dito «enter» arriva senza «leave»). Prova `prova-trascina.js`.
 
 ## Sesto check (20/10/2026)
 

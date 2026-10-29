@@ -16601,23 +16601,22 @@ body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-i
 body.vi-fondo .leaflet-viFondo-pane{filter:brightness(.62) saturate(1.3)}
 body.vi-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.25)}
 body.vi-fondo .leaflet-tile-pane{visibility:hidden}body.vi-fondo #map{background:#3e526b}   /* sotto il rilievo la cartina di sempre non serve: niente scritte che spuntano ai bordi mentre le tessere arrivano */
-#vi-nastro{position:absolute;z-index:850;left:0;right:0;bottom:0;height:44px;overflow:hidden;background:#ffd400;border-top:1px solid #e0b800;box-shadow:0 -2px 8px rgba(0,0,0,.12);display:flex;align-items:center}
+/* al computer attaccato al fondo della mappa, i crediti salgono sopra (regola piu' sotto); touch-action:none perche' il
+   dito lo trascina (naGira) */
+#vi-nastro{position:absolute;z-index:850;left:0;right:0;bottom:0;height:44px;overflow:hidden;background:#ffd400;border-top:1px solid #e0b800;box-shadow:0 -2px 8px rgba(0,0,0,.12);display:flex;align-items:center;touch-action:none;user-select:none;-webkit-user-select:none}
 #vi-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;padding:0 30px 0 16px;background:#c8102e;color:#fff;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font:900 13px/1.1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.05em;white-space:nowrap}
 #vi-nastro .lab span{font-size:12px;font-weight:800;color:#ffe36b;letter-spacing:.06em}
-#vi-nastro .t{display:flex;white-space:nowrap;animation:viScorri 60s linear infinite;will-change:transform}
-#vi-nastro:hover .t,#vi-nastro.fermo .t{animation-play-state:paused}
+#vi-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
 #vi-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
 #vi-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}#vi-nastro .v .ic{font-size:18px}
 #vi-nastro .v .mn{color:#5c4a00;font-weight:700}#vi-nastro .v .mx{color:#111;font-weight:900}
-@keyframes viScorri{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* sul computer i crediti salgono sopra la fascia */
+/* sul computer i crediti salgono sopra la fascia (suo, 29/10: «su desktop i crediti andavano bene come prima») */
 @media(min-width:901px){body.vi-nastro-on .fonte-tag{bottom:52px}body.vi-nastro-on .leaflet-bottom{bottom:46px}}
 /* niente vetrina nella vista Italia delle previsioni (suo, 28/10/2026) */
 body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #channel-pill{display:none !important}
-/* al telefono il banner va IN FONDO allo schermo e il riquadro dei giorni sale sopra di lui (suo: «non è più corretto il
-   banner sotto e il meteo sopra?»); il margine in basso lascia libera la barra dei gesti; sopra i crediti della cartina */
-@media(max-width:900px){#vi-nastro{bottom:0 !important;height:38px;padding-bottom:env(safe-area-inset-bottom,0px);z-index:1150}
-  body.vi-nastro-on #pv-pan{bottom:calc(38px + env(safe-area-inset-bottom,0px))}
+/* al telefono il banner sta DENTRO il riquadro dei giorni, sotto i giorni e sopra la riga «ECMWF via MET Norway»
+   (suo, 28/10: «il banner sotto e il meteo sopra»; 29/10: «mettilo sopra i crediti»): lo sposta li' viPezzi() */
+@media(max-width:900px){#vi-nastro{position:relative;left:auto;right:auto;bottom:auto;order:3;flex:0 0 auto;height:38px;margin-top:10px;z-index:auto;box-shadow:none}
   #vi-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:11px;padding:0 24px 0 12px}#vi-nastro .lab span{font-size:10px}
   #vi-nastro .v{font-size:13px;padding:0 12px;gap:5px}#vi-nastro .v .ic{font-size:15px}
   .pv-m.vi-ico .ic{font-size:19px}}
@@ -17030,7 +17029,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      l'apertura del sito e il banner copriva la Sicilia (suo, 28/10 sera). */
   function inquadraItaliaPc(){
     var m=map(), pan=el('pv-pan'), mb=el('map').getBoundingClientRect(), na=el('vi-nastro');
-    var sx=pan?pan.getBoundingClientRect().right-mb.left+16:430, giu=(na&&na.offsetHeight)?na.offsetHeight:44;
+    var sx=pan?pan.getBoundingClientRect().right-mb.left+16:430, giu=(na&&na.offsetHeight)?mb.bottom-na.getBoundingClientRect().top:70;   // il banner e i crediti sotto di lui
     try{ m.fitBounds(ITALIA_TEL,{paddingTopLeft:[sx,16],paddingBottomRight:[24,giu+14],animate:false}); }catch(e){}
   }
 
@@ -17188,18 +17187,55 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     [fondoL,rilievoL].forEach(function(l){ if(!l) return; if(on&&!m.hasLayer(l)) l.addTo(m); else if(!on&&m.hasLayer(l)) m.removeLayer(l); });
   }
   /* IL BANNER CHE SCORRE (28/10/2026, sua idea): i 29 di `italia` con icona, minima e massima, come la striscia dei
-     telegiornali. Il contenuto e' scritto due volte e scorre di meta': il giro si chiude senza salti. Fermo sotto il
-     mouse e al tocco (riparte dopo 3 s); toccando una citta' si apre la sua scheda ora per ora. Al computer in fondo
-     alla mappa (i crediti salgono sopra), al telefono in fondo allo schermo sotto il riquadro dei giorni (CSS). */
+     telegiornali. Il contenuto e' scritto due volte e scorre di meta': il giro si chiude senza salti. Toccando una
+     citta' si apre la sua scheda ora per ora. Al computer in fondo alla mappa, coi crediti sopra; al telefono dentro il
+     riquadro, sotto i giorni e sopra la riga dei crediti (suo, 29/10: solo al telefono). */
+  /* LO SCORRIMENTO (29/10/2026, suo: «se lo tocchi cercando di spostarlo si blocca, sarebbe bello che uno lo possa
+     muovere piu' veloce o indietro»): niente animazione CSS, lo muove naGira() a 45 px al secondo. Col dito o col mouse
+     lo si trascina avanti e indietro; lasciandolo prosegue con lo slancio del lancio, che si smorza fino al passo
+     normale. Un tocco senza trascinare (meno di 6 px) apre la citta'. Col mouse sopra resta fermo, per leggere. */
+  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0};
+  function naGira(t){
+    var na=el('vi-nastro'), tr=na&&na.querySelector('.t');
+    if(!tr||na.style.display==='none'||!acceso){ NA.giro=0; NA.t0=0; return; }
+    var dt=NA.t0?Math.min(64,t-NA.t0):16; NA.t0=t;
+    if(!NA.presa){
+      if(Math.abs(NA.v)>0.05){ NA.pos+=NA.v*dt; NA.v*=Math.pow(0.94,dt/16); }   // lo slancio, in px al millisecondo
+      else { NA.v=0; if(!NA.sopra) NA.pos-=0.045*dt; } }
+    if(!NA.w) NA.w=tr.scrollWidth/2;
+    if(NA.w>0){ NA.pos%=NA.w; if(NA.pos>0) NA.pos-=NA.w; }
+    tr.style.transform='translate3d('+NA.pos.toFixed(1)+'px,0,0)';
+    NA.giro=requestAnimationFrame(naGira);
+  }
+  function naParti(){ if(!NA.giro){ NA.t0=0; NA.giro=requestAnimationFrame(naGira); } }
+  function naPrendi(na){
+    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); NA.v=0;
+      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} });
+    na.addEventListener('pointermove',function(ev){ var p=NA.presa; if(!p) return;
+      if(Math.abs(ev.clientX-p.x)>6) p.mosso=true; if(!p.mosso) return;
+      NA.pos=p.pos+(ev.clientX-p.x);
+      var dt=ev.timeStamp-p.ut; if(dt>0){ NA.v=(ev.clientX-p.ux)/dt; p.ux=ev.clientX; p.ut=ev.timeStamp; } });
+    na.addEventListener('pointerup',function(ev){ var p=NA.presa; NA.presa=null; if(!p) return;
+      if(!p.mosso){ NA.v=0; var b=document.elementFromPoint(ev.clientX,ev.clientY); b=b&&b.closest?b.closest('#vi-nastro .v'):null;
+        var c=b&&((aree.italia&&aree.italia.capoluoghi)||[]).filter(function(x){ return x.n===b.dataset.n; })[0]; if(c){ cercato=null; apriPunto(c); } return; }
+      if(ev.timeStamp-p.ut>90) NA.v=0;   // fermato prima di lasciarlo: niente slancio
+      NA.v=Math.max(-3,Math.min(3,NA.v)); });
+    na.addEventListener('pointercancel',function(){ NA.presa=null; });
+    // fermo col mouse sopra, solo mouse: col dito «enter» arriva senza «leave» e il banner resterebbe fermo
+    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse') NA.sopra=true; });
+    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse') NA.sopra=false; });
+  }
   function viPezzi(g){
     viFondo();
     var it=italia()&&acceso;
     var na=el('vi-nastro');
-    if(!na){ na=document.createElement('div'); na.id='vi-nastro'; el('map').appendChild(na); L.DomEvent.disableClickPropagation(na); L.DomEvent.disableScrollPropagation(na);
-      na.addEventListener('pointerdown',function(){ clearTimeout(na._t); na.classList.add('fermo'); });
-      na.addEventListener('pointerup',function(){ clearTimeout(na._t); na._t=setTimeout(function(){ na.classList.remove('fermo'); },3000); });
-      na.addEventListener('click',function(ev){ var b=ev.target.closest('.v'); if(!b) return; var c=((aree.italia&&aree.italia.capoluoghi)||[]).filter(function(x){ return x.n===b.dataset.n; })[0]; if(c){ cercato=null; apriPunto(c); } }); }
+    if(!na){ na=document.createElement('div'); na.id='vi-nastro'; L.DomEvent.disableClickPropagation(na); L.DomEvent.disableScrollPropagation(na); naPrendi(na); }
+    // al telefono nel riquadro, prima della riga dei crediti; al computer nella mappa
+    var pan=el('pv-pan'), fo=pan&&pan.querySelector('.fo');
+    if(tel()&&fo){ if(na.nextSibling!==fo) pan.insertBefore(na,fo); }
+    else if(na.parentNode!==el('map')) el('map').appendChild(na);
     na.style.display=it?'':'none'; document.body.classList.toggle('vi-nastro-on',!!it);
+    if(it) naParti();
     document.body.classList.toggle('vi-senza-vetrina',!!it);   // niente vetrina nella vista Italia delle previsioni (suo, 28/10 sera)
     document.documentElement.classList.remove('apre-italia');   // da qui in poi decidono le classi qui sopra
     // il banner si riscrive solo se cambia il giorno: le icone che arrivano dopo ridisegnano la mappa, e riscrivendolo
@@ -17211,7 +17247,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       (((aree.italia&&aree.italia.capoluoghi))||[]).forEach(function(c){ var e=(c.giorni||[]).filter(function(x){ return x.g===g; })[0]; if(!e) return;
         vv.push('<button class="v" data-n="'+escH(c.n)+'"><b>'+escH(c.n)+'</b><span class="ic">'+icona(e.s)+'</span><span class="mn">'+e.mn+'°</span><span class="mx">'+e.mx+'°</span></button>'); });
       na.innerHTML='<div class="lab">METEO ITALIA<span>'+escH(quando)+'</span></div><div class="t">'+vv.join('')+vv.join('')+'</div>';
-      var tr=na.lastChild; requestAnimationFrame(function(){ tr.style.animationDuration=Math.round(tr.scrollWidth/2/45)+'s'; }); }   // ~45 px al secondo
+      NA.w=0; NA.pos=0; NA.v=0; naParti(); }   // giorno nuovo: si riparte dall'inizio e si rimisura la larghezza
   }
   /* quando si apre la tabella, la targhetta toccata non deve finirci sotto: si scorre di quel tanto */
   // telefono: dove finisce la barra della regione, in px dalla cima della mappa (0 se non c'e')
