@@ -3007,7 +3007,12 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   (padding tel [58,26], pc [80,34]: se no i paesi sul bordo sparivano). Telefono: almeno 4 visibili, di solito 5-9;
   zero sovrapposizioni in 31 zone × 7 giorni; **niente pallini
   dei pluviometri** sulla mappa (confondevano: stanno nel blocco della pioggia caduta); tabella paese per paese; grafico
-  30 giorni misurati + 7 previsti; ore e fasce di 6 ore che riempiono la riga (notte, mattina, pomeriggio, sera).
+  30 giorni misurati + 7 previsti. **Le ore della scheda sono RIGHE, come 3B** (29/10/2026, suo, scelta fra tre bozze
+  in `claudio\mockup-tabella-oraria\`: prima erano caselle in fila e «non c'è la tabella oraria»): ora, icona e parola
+  («Nubi sparse»), temperatura, mm solo se piove e la %, vento con freccia e direzione (`vd` dell'API); al telefono la
+  parola sparisce. **Oggi = il resto della giornata, come 3B, ma almeno 8 righe**: la sera continua con le prime ore
+  di domani (riga «Domani» dove cambia il giorno; le 24 ore da adesso, provate, «allungavano troppo», suo); dal terzo giorno MET dà solo le fasce di 6 ore (notte, mattina, pomeriggio, sera). Codice comune a zone e paesi
+  (`oreDi`, `righeOre`, stile `.tv`).
 - ⚠️ **Il vento dell'API è in m/s**: la scheda moltiplica per 3,6 (il campione sbagliava).
 - **La % di pioggia dappertutto (25/10/2026, suo)**: 7 giorni (la più alta fra i paesi), tabella, mappa (dal 10%),
   scheda (ore, fasce, giorni), grafico e «punto di stamattina». **Il segno è la GOCCIA 💧** (sua scelta, come

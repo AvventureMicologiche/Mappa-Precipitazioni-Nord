@@ -201,15 +201,26 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-scheda .giorni button.sel{background:#1a5fa8;color:#fff;border-color:#1a5fa8}
 .pz-scheda .giorni b{display:block;text-transform:capitalize}
 .pz-scheda .giorni .pc{display:block;font-weight:700;color:#1a5fa8}.pz-scheda .giorni button.sel .pc{color:#fff}
-.pz-ore{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(54px,1fr);gap:4px;overflow-x:auto;padding:6px 0 8px}
-.pz-ora{text-align:center;border-radius:8px;padding:5px 2px;background:#f6f9fc;font-size:12px}
-/* «pomeriggio» a 13 px vuole 72 px e al telefono la casella ne dava 55-71: tagliato in «pomeriggi» (25/10/2026) */
-.pz-ore.fasce{grid-auto-columns:minmax(70px,1fr)}
-.pz-ore.fasce .pz-ora{padding:8px 2px;font-size:13px}.pz-ore.fasce .pz-ora .ic{font-size:26px}.pz-ore.fasce .pz-ora .h b{display:block;color:#0f3d6e;font-size:12px;letter-spacing:-.2px}
-.pz-ora .h{color:#5a6b7d}.pz-ora .ic{font-size:20px}.pz-ora .t{font-weight:700}
-.pz-ora .mm{color:#1a5fa8;font-weight:700;min-height:15px}.pz-ora .v{color:#7a8796;font-size:11px}
+/* LE ORE A RIGHE, come 3B (29/10/2026, suo, scelta fra tre bozze: «La A»): prima erano caselle in fila e «non c'e' la
+   tabella oraria». Una riga per ora: ora, icona e parola, temperatura, mm solo se piove e la %, vento con freccia e
+   direzione. Al telefono la parola sparisce (come 3B) e la % va sotto i mm. */
+.tv-nota{margin:8px 0 0;font-size:12.5px;color:#5a6b7d}
+.tv{width:100%;border-collapse:collapse;margin:6px 0 8px;font-size:14px;font-variant-numeric:tabular-nums}
+.tv td{padding:9px 6px;border-bottom:1px solid #e6edf4;text-align:left;white-space:nowrap;vertical-align:middle}
+.tv .h{font-weight:700;color:#0f3d6e;width:48px}
+.tv .h b{display:block;font-size:12px;letter-spacing:-.2px}
+.tv tr.f6 .h{font-weight:500;color:#5a6b7d}
+.tv .ic{font-size:22px;line-height:1;margin-right:8px;vertical-align:middle}
+.tv .pa{color:#33475b;vertical-align:middle}
+.tv .t{font-weight:700;font-size:16px;color:#0f2b46;text-align:right;padding-right:14px}
+.tv .mmv{color:#1a5fa8}.tv .z{color:#9aa3ad}
 /* la % di pioggia, ora per ora: gli stessi tre toni della mappa (sotto il 10% grigia, dal 60% rossa) */
-.pz-ora .pc{font-size:11.5px;font-weight:700;color:#1a5fa8;min-height:15px}.pz-ora .pc.z{color:#9aa3ad;font-weight:500}.pz-ora .pc.alta{color:#c21f1f}
+.tv .pc{font-weight:700;color:#1a5fa8;font-size:12.5px}.tv .pc.z{color:#9aa3ad;font-weight:500}.tv .pc.alta{color:#c21f1f}
+.tv .piove .pc{margin-left:8px}
+.tv .ve{color:#33475b}.tv .ve small{color:#7a8796;font-size:12px}
+.tv .fr{display:inline-block;font-style:normal;color:#1a5fa8;font-weight:700;margin-right:5px;line-height:1}
+.tv .sep td{background:#eef4fa;color:#0f3d6e;font-weight:700;font-size:12.5px;padding:6px;border-bottom:1px solid #d8e2ec}
+@media(max-width:560px){.tv .pa{display:none}.tv td{padding:8px 4px}.tv .piove .pc{display:block;margin:0;font-size:12px}.tv .t{padding-right:8px}}
 /* righe tutte alte uguali e scritte centrate (28/10/2026, regola delle simmetrie): i due della pioggia vanno su due righe */
 .pz-porte{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:6px;margin-top:8px}
 .pz-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #c9d5e1;border-radius:10px;padding:8px 4px;text-decoration:none;color:#0f3d6e;font-size:12.5px;font-weight:700}
@@ -400,6 +411,43 @@ function clientePagina(C) {
   var SCHEDA = null, AVVIO = false;
   function posto(c) { return { n: c.n, lat: c.lat, lon: c.lon, quota: QUOTE[c.n], reg: c.r || REG }; }
   function FASCIA(h) { return h < 6 ? 'notte' : h < 12 ? 'mattina' : h < 18 ? 'pomeriggio' : 'sera'; }
+  /* ── le ore a righe, come 3B (29/10/2026, vedi .tv nello stile) ── */
+  var DIR = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSO', 'SO', 'OSO', 'O', 'ONO', 'NO', 'NNO'];
+  function dir(vd) { return vd == null ? '' : DIR[Math.round((((vd % 360) + 360) % 360) / 22.5) % 16]; }
+  // MET da' da dove VIENE il vento: la freccia punta dove va (↓ = vento da nord)
+  function freccia(vd) { return vd == null ? '' : '<i class="fr" style="transform:rotate(' + Math.round(vd) + 'deg)">↓</i>'; }
+  var PAROLE = [[/thunder/, 'Temporale'], [/heavyrainshowers/, 'Rovesci forti'], [/lightrainshowers/, 'Rovesci deboli'], [/rainshowers/, 'Rovesci'],
+                [/heavyrain/, 'Pioggia forte'], [/lightrain/, 'Pioggia debole'], [/rain|drizzle/, 'Pioggia'], [/sleet/, 'Pioggia e neve'],
+                [/heavysnow/, 'Neve forte'], [/lightsnow/, 'Neve debole'], [/snow/, 'Neve'], [/fog/, 'Nebbia'], [/clearsky/, 'Sereno'],
+                [/fair/, 'Poco nuvoloso'], [/partlycloudy/, 'Nubi sparse'], [/cloudy/, 'Nuvoloso']];
+  function parola(s) { for (var i = 0; i < PAROLE.length; i++) if (PAROLE[i][0].test(s || '')) return PAROLE[i][1]; return ''; }
+  // OGGI = il resto della giornata, come 3B, ma ALMENO 8 RIGHE: la sera si continua con le prime ore di domani (alle 22
+  // fino alle 6). Le 24 ore da adesso, come ilMeteo, «allungano troppo» (suo, 29/10/2026); col solo resto di oggi alle 23
+  // restava una riga. Gli altri giorni: le loro ore, o le fasce di 6 ore dove MET da' solo quelle (dal terzo giorno)
+  function oreDi(j, g, ora) {
+    var tutte = j.ore || [];
+    if (g !== OGGI) return tutte.filter(function (o) { return o.g === g; });
+    var out = [];
+    for (var i = 0; i < tutte.length; i++) {
+      var o = tutte[i];
+      if (o.g < OGGI || (o.g === OGGI && o.h < ora && !o.h6)) continue;
+      if (o.g !== OGGI && (out.length >= 8 || o.h6)) break;
+      out.push(o);
+    }
+    return out;
+  }
+  function righeOre(ore, conPc) {
+    var prima = ore[0] && ore[0].g;
+    return ore.map(function (o) {
+      // mm solo se piove, la % sempre (come «assente» di 3B): quasi sempre una riga sola
+      var pc = conPc && o.pc != null ? '<span class="pc' + tonoPc(o.pc) + '">' + pcTesto(o.pc) + '</span>' : '';
+      return (o.g !== prima ? (prima = o.g, '<tr class="sep"><td colspan="5">' + maiusc(nome(o.g, true)) + '</td></tr>') : '')
+        + '<tr' + (o.h6 ? ' class="f6"' : '') + '><td class="h">' + (o.h6 ? '<b>' + FASCIA(o.h) + '</b>' + o.h + '-' + ((o.h + 6) % 24) : String(o.h).padStart(2, '0')) + '</td>'
+        + '<td><span class="ic">' + icona(o.s) + '</span><span class="pa">' + parola(o.s) + '</span></td><td class="t">' + Math.round(o.t) + '°</td>'
+        + '<td' + (o.mm >= 0.1 ? ' class="piove"><b class="mmv">' + mm(o.mm) + ' mm</b>' + pc : '>' + (pc || '<span class="z">–</span>')) + '</td>'
+        + '<td class="ve">' + freccia(o.vd) + (o.v != null ? Math.round(o.v * 3.6) + ' km/h' : '') + ' <small>' + dir(o.vd) + '</small></td></tr>';
+    }).join('');
+  }
   function porte(x) {
     var pl = '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n);
     // via le temperature (28/10/2026, suo: «sono quelle di ieri e loro stanno vedendo le attuali»), al loro posto la
@@ -413,19 +461,15 @@ function clientePagina(C) {
     var giorni = (j.giorni || []).filter(function (x) { return x.g >= OGGI; }).slice(0, 7);
     if (!giorni.some(function (x) { return x.g === g; })) g = giorni[0] && giorni[0].g;
     var ora = +new Date().toLocaleString('en-GB', { timeZone: 'Europe/Rome', hour: '2-digit', hour12: false }) % 24;
-    var ore = (j.ore || []).filter(function (o) { return o.g === g && (o.g !== OGGI || o.h >= ora || o.h6); });
+    var ore = oreDi(j, g, ora);
     var q = s.x.quota != null ? s.x.quota : (j.q != null ? Math.round(j.q) : null);
     var conPc = ore.some(function (o) { return o.pc != null; });
     $('scheda').innerHTML = '<div class="testa"><div><h3>' + esc(s.x.n) + '</h3><div class="sub">' + (q != null ? '~ ' + q + ' m · ' : '') + 'previsioni ora per ora' + (conPc ? ' · 💧 probabilità di pioggia' : '') + (AVVIO ? ' · tocca un altro paese o cercalo per cambiarlo' : '') + '</div></div><button class="chiudi" aria-label="Chiudi">×</button></div>'
       + '<div class="giorni">' + giorni.map(function (x) { return '<button data-g="' + x.g + '" class="' + (x.g === g ? 'sel' : '') + '"><b>' + nome(x.g) + '</b>' + icona(x.s) + ' ' + x.mn + '°/' + x.mx + '°<br>' + (x.mm >= 0.1 ? mm(x.mm) + ' mm' : '–') + (x.pc != null ? '<span class="pc' + tonoPc(x.pc) + '">' + pcTesto(x.pc) + '</span>' : '') + '</button>'; }).join('') + '</div>'
-      // fasce anche se la prima casella e' un'ora sola: MET da' le 00 locali come ora e poi le fasce di 6 (25/10/2026)
-      + (ore.length ? '<div class="pz-ore' + (ore.some(function (o) { return o.h6; }) ? ' fasce' : '') + '">' + ore.map(function (o) {
-          return '<div class="pz-ora"><div class="h">' + (o.h6 ? '<b>' + FASCIA(o.h) + '</b>' + o.h + '-' + ((o.h + 6) % 24) : String(o.h).padStart(2, '0') + ':00') + '</div><div class="ic">' + icona(o.s) + '</div><div class="t">' + Math.round(o.t) + '°</div>'
-            + '<div class="mm">' + (o.mm >= 0.1 ? mm(o.mm) + ' mm' : '') + '</div>'
-            // la % ora per ora (25/10/2026): la % del giorno da sola non basta per programmare un'uscita («ti da 100% per
-            // la pioggia della sera ma devi programmare di giorno», suo). Nelle fasce di 6 ore e' la piu' alta (maxProb)
-            + (conPc ? '<div class="pc' + tonoPc(o.pc) + '">' + pcTesto(o.pc) + '</div>' : '')
-            + '<div class="v">' + (o.v != null ? Math.round(o.v * 3.6) + ' km/h' : '') + '</div></div>'; }).join('') + '</div>'
+      // la % ora per ora (25/10/2026): la % del giorno da sola non basta per programmare un'uscita («ti da 100% per la
+      // pioggia della sera ma devi programmare di giorno», suo). Nelle fasce di 6 ore e' la piu' alta (maxProb)
+      + (ore.length ? (g !== OGGI && ore.some(function (o) { return o.h6; }) ? '<p class="tv-nota">Da qui in poi il modello dà le previsioni a fasce di 6 ore.</p>' : '')
+          + '<table class="tv"><tbody>' + righeOre(ore, conPc) + '</tbody></table>'
         : '<p class="nota">Ore non disponibili per questo giorno.</p>')
       + '<div class="pz-porte">' + porte(s.x) + '</div>';
   }
