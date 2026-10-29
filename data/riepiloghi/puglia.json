@@ -1,33 +1,33 @@
 {
  "regione": "puglia",
- "generato": "2026-10-29T13:43:06.912Z",
+ "generato": "2026-10-29T16:05:46.626Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 129,
-   "primo": "2026-10-26",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-27",
+   "ultimo": "2026-10-27",
    "top": [
     {
+     "n": "Celenza Valfortore",
+     "mm": 0.1
+    },
+    {
      "n": "Acquaviva delle Fonti",
-     "mm": 0.6
-    },
-    {
-     "n": "Gioia del Colle",
-     "mm": 0.6
-    },
-    {
-     "n": "Montursi (Gioia del Colle)",
-     "mm": 0.6
+     "mm": 0
     },
     {
      "n": "Adelfia",
-     "mm": 0.5
+     "mm": 0
     },
     {
-     "n": "Bitonto",
-     "mm": 0.5
+     "n": "Alberona",
+     "mm": 0
+    },
+    {
+     "n": "Alessano",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 25.6,
    "giorni": 7,
    "stazioni": 128,
-   "primo": "2026-10-20",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-21",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Sannicandro Garganico",
@@ -44,7 +44,7 @@
     },
     {
      "n": "Locorotondo",
-     "mm": 83.1
+     "mm": 82.9
     },
     {
      "n": "Fasano",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 77.5,
+   "media": 76.3,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-07",
-   "ultimo": "2026-10-26",
+   "primo": "2026-10-08",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -81,11 +81,11 @@
     },
     {
      "n": "Ostuni",
-     "mm": 158.3
+     "mm": 155
     },
     {
-     "n": "Martina Franca",
-     "mm": 150.6
+     "n": "Galatina",
+     "mm": 139.8
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 77.8,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-27",
-   "ultimo": "2026-10-26",
+   "primo": "2026-09-28",
+   "ultimo": "2026-10-27",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.1,
   1.8,
   3.8,
@@ -148,9 +149,8 @@
   0,
   0.2,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-26",
+ "serieDa": "2026-10-27",
  "zone": []
 }
