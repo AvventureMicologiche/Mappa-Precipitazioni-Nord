@@ -3572,6 +3572,20 @@ i punti hanno un commento «controllo del 30/10/2026» in `index.html`:
 Prova: `prova-correzioni.js` nello scratchpad della scheda 102 (un caso per difetto, la ricerca vera dalla casella),
 16/16 al telefono 393x760, tutti al computer 1366x657 e 1920x920, 6 e 9 a 1536x702, 7 a 393x852 girato.
 
+### «agg.» a pochi minuti, come 3BMeteo e ilMeteo (30/10/2026 sera, scheda 102)
+Suo: alle 20:07 la scritta diceva «agg. 18:17» (l'ora in cui MET aveva calcolato la previsione, la piu' recente che
+c'era), mentre 3BMeteo e ilMeteo scrivono un'ora di pochi minuti prima. MET dice fino a quando ogni previsione e' quella
+in vigore (`Expires`, misurato da 5 a 31 minuti, diverso per ogni punto) e chiede di NON richiederla prima. Quindi:
+- `functions/api/previsioni.js`: ogni punto porta `scade` (l'Expires di MET); un'area porta `valida` (la prima
+  scadenza delle sue citta') e resta fresca fino a li', al massimo ogni 2 minuti; il ricalcolo dietro riceve l'area di
+  prima e chiede a MET SOLO le citta' scadute («OGNI CITTA' QUANDO SCADE LA SUA» in previsioniDi).
+- `index.html`: «agg.» = l'ora di adesso o `valida`, se viene prima («AGGIORNATE A POCHI MINUTI FA»); senza `valida`
+  (cache di prima) l'ora di MET come prima.
+Prova di 8 minuti sulla vista Italia (`prova-scadenze.mjs` nello scratchpad della scheda 102): 2 citta' richieste a
+MET, zero prima della scadenza, scritta al massimo 145 s indietro. ⚠️ Capita che MET, appena scaduta, risponda ancora
+con la stessa scadenza (la sua copia non e' rinnovata): si riprova dopo i 2 minuti, e intanto la scritta resta a quella
+scadenza. Le pagine «adesso» (lib/pagina-adesso.js) scrivono ancora l'ora di MET: da allineare.
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di

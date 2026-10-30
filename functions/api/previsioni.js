@@ -148,6 +148,8 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
   // ⚠️ senza la % (Open-Meteo non ha risposto) si tiene solo 2 minuti: prima restava in cache fino a un'ora e la
   // colonna «PROB.» usciva vuota per tutti (Mantova, foto della guida, 8/10)
   if (PROB && conProb && !Object.keys(pr).length) maxAge = 120;
+  // fino a quando MET dice che questa e' la previsione in vigore (Expires): vedi «OGNI CITTA' QUANDO SCADE LA SUA»
+  dati.scade = ex || (Date.now() + maxAge * 1000);
   if (!senzaCache) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${maxAge}`, 'Date': new Date().toUTCString() } }));
   return { dati, maxAge };
 }
@@ -161,7 +163,7 @@ async function perArea(area, env, request, file, conProb, waitUntil) {
   // paesi-zone e paesi-localita davano «pa» tutti e due, cosi' una zona e un paese con lo stesso nome si pestavano
   const chiave = new Request(`https://cache.previsioni/area?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&f=${file.slice(6, -5)}&a=${area}${conProb ? '&pr=1' : ''}`);
   const cache = caches.default;
-  const calcola = async () => {
+  const calcola = async (prima) => {   // prima: l'area che c'era, per tenere le citta' ancora valide (previsioniDi)
     const fr = await env.ASSETS.fetch(new URL(file, request.url));
     if (!fr.ok) return { errore: 'area sconosciuta' };
     const lista = await fr.json();
@@ -173,7 +175,7 @@ async function perArea(area, env, request, file, conProb, waitUntil) {
        altre aspettano in fila, ma il tetto di 8 s di MET (AbortSignal.timeout) parte quando la fetch viene CHIESTA, non
        quando parte. Con le 21 zone della Toscana (?zonedi=) rispondevano sempre le prime 6 e le altre 15 scadevano in
        fila; in locale (wrangler) il limite non c'e' e andava. A gruppi, il tempo di ognuna parte quando parte davvero. */
-    return previsioniDi(citta, area, request, cache, chiave, conProb);
+    return previsioniDi(citta, area, request, cache, chiave, conProb, prima);
   };
   const c = await cache.match(chiave); if (c) return daCache(c, cache, chiave, calcola, waitUntil);
   return calcola();
@@ -186,16 +188,19 @@ async function perArea(area, env, request, file, conProb, waitUntil) {
    di Cloudflare e' per data center, e una sveglia la scalda da un posto qualunque, non da dove arrivano gli italiani.
    La data nella chiave resta (bug 11): a mezzanotte si ricalcola comunque. Si tengono «vecchie» solo le risposte
    complete: niente citta' in errore e, se chiesta, la % arrivata (quelle restano in cache 2 minuti, come prima).
-   ⚠️ Sottorichieste del ricalcolo dietro: le stesse di un calcolo a freddo piu' una (la rimessa qui sotto). */
+   ⚠️ Sottorichieste del ricalcolo dietro: le stesse di un calcolo a freddo piu' una (la rimessa qui sotto).
+   Dal 30/10/2026 «fresca» non e' piu' 30 minuti fissi ma fino alla prima citta' che scade: vedi «OGNI CITTA' QUANDO
+   SCADE LA SUA» in previsioniDi; il ricalcolo dietro riceve l'area di prima e chiede a MET solo le citta' scadute. */
 const FRESCA = 1800, VECCHIA = 3 * 3600;
 async function daCache(c, cache, chiave, calcola, waitUntil) {
   const testo = await c.text();
   const fino = +c.headers.get('X-Fresca-Fino') || 0;
   if (fino && Date.now() > fino) {
-    if (typeof waitUntil !== 'function') return calcola();   // senza waitUntil (non dovrebbe succedere) come prima: si aspetta
+    const prima = JSON.parse(testo);
+    if (typeof waitUntil !== 'function') return calcola(prima);   // senza waitUntil (non dovrebbe succedere) come prima: si aspetta
     // si rimette con 2 minuti di freschezza (scadenza invariata): chi arriva intanto non lancia un secondo ricalcolo
     await cache.put(chiave, new Response(testo, { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${restante(c)}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + 120000) } }));
-    waitUntil(calcola().catch(() => {}));
+    waitUntil(calcola(prima).catch(() => {}));
   }
   return JSON.parse(testo);
 }
@@ -215,20 +220,36 @@ async function probDi(punti) {
 }
 
 // le previsioni di un elenco di punti, a gruppi di 6, con la stessa cache delle aree (perArea e perPosti)
-async function previsioniDi(citta, area, request, cache, chiave, conProb) {
-  const prob = conProb && PROB ? await probDi(citta) : null;
+/* ⚠️ OGNI CITTA' QUANDO SCADE LA SUA (30/10/2026, suo: «3bmeteo e ilmeteo danno pochi minuti, noi non possiamo mettere
+   ne' un'ora ne' mezz'ora»). MET dice fino a quando la sua previsione e' quella in vigore (Expires: misurati da 5 a 31
+   minuti, diversi per ogni punto) e chiede di non richiederla prima. Ricalcolando un'area si tengono come sono le citta'
+   ancora valide (`prima`, l'area che c'era) e si chiedono a MET solo quelle scadute; l'area resta fresca fino alla prima
+   citta' che scade, al massimo ogni 2 minuti. `valida` = la prima scadenza: fino a quell'istante tutte le citta' sono
+   la previsione in vigore, e il sito scrive «agg.» con quell'ora o con l'ora di adesso, se viene prima (index.html,
+   «AGGIORNATE A POCHI MINUTI FA»). MET non viene mai chiesta prima del suo tempo. */
+async function previsioniDi(citta, area, request, cache, chiave, conProb, prima) {
+  const ora = Date.now(), tenute = {}, id = p => p.n + '|' + p.lat + '|' + p.lon;
+  ((prima && prima.capoluoghi) || []).forEach(x => { if (x.giorni && x.scade > ora) tenute[id(x)] = x; });   // valida anche per un secondo: si tiene, MET non si chiede prima
+  const da = citta.map((p, i) => i).filter(i => !tenute[id(citta[i])]);   // le citta' da chiedere a MET
+  const voleProb = conProb && PROB && da.length > 0;
+  const probDa = voleProb ? await probDi(da.map(i => citta[i])) : null;
+  const prob = {}; if (probDa) da.forEach((i, k) => { prob[i] = probDa[k]; });
   const uno = async (p, i) => {
-    try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false, true, prob ? prob[i] : null); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg }) }; }
+    if (tenute[id(p)]) return tenute[id(p)];
+    try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false, true, prob[i] || null); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg, scade: r.dati.scade }) }; }
     catch (e) { return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, errore: String(e && e.message || e) }; }
   };
   const ris = [];
   for (let i = 0; i < citta.length; i += 6) ris.push(...await Promise.all(citta.slice(i, i + 6).map((p, k) => uno(p, i + k))));
   const dati = { area, agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' + (PROB ? ' · % Open-Meteo' : '') };
+  const sc = ris.filter(x => x.giorni && x.scade).map(x => x.scade); if (sc.length) dati.valida = Math.min(...sc);
   if (!ris.some(x => x.giorni)) dati.errore = 'nessuna citta\' risponde';   // MET giu': errore in cima, vedi onRequestGet (bug 5)
   // chiesta la % e Open-Meteo non ha risposto: in cache solo 2 minuti, come per il punto singolo, e mai «vecchia» (daCache)
   if (!ris.some(x => x.errore)) {
-    const fresca = conProb && !prob ? 120 : FRESCA;
-    await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${fresca === FRESCA ? FRESCA + VECCHIA : fresca}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + fresca * 1000) } }));
+    const completa = !(voleProb && !probDa);
+    const fino = dati.valida ? Math.max(120, Math.min(FRESCA, Math.round((dati.valida - Date.now()) / 1000))) : FRESCA;
+    const fresca = completa ? fino : 120;
+    await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${completa ? fresca + VECCHIA : fresca}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + fresca * 1000) } }));
   }
   return dati;
 }
@@ -243,7 +264,7 @@ async function perPosti(testo, env, request, conProb, waitUntil) {
   if (pezzi.some(x => !x)) return { errore: 'posti' };
   const chiave = new Request(`https://cache.previsioni/posti?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&p=${encodeURIComponent(voci.join(','))}${conProb ? '&pr=1' : ''}`);
   const cache = caches.default;
-  const calcola = async () => {
+  const calcola = async (prima) => {   // prima: vedi perArea
     const file = {};
     for (const reg of [...new Set(pezzi.map(x => x[1]))]) {
       const fr = await env.ASSETS.fetch(new URL('/data/paesi-localita/' + reg + '.json', request.url));
@@ -256,7 +277,7 @@ async function perPosti(testo, env, request, conProb, waitUntil) {
       return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, r: p.r || reg, sotto: [sg, p.q ? p.q + ' m' : ''].filter(Boolean).join(', ') };
     }).filter(Boolean);
     if (!citta.length) return { errore: 'posti sconosciuti' };
-    return previsioniDi(citta, 'posti', request, cache, chiave, conProb);
+    return previsioniDi(citta, 'posti', request, cache, chiave, conProb, prima);
   };
   const c = await cache.match(chiave); if (c) return daCache(c, cache, chiave, calcola, waitUntil);
   return calcola();

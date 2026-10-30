@@ -17533,7 +17533,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var rk=chiavi(), gb=giorniBase(); if(!gb) return;
     if(giorno>=gb.length) giorno=gb.length-1;
     el('pv-gg').innerHTML=gb.map(function(e,i){ return chip(e,i,i===giorno,false); }).join('');
-    var g=gb[giorno].g, d=giornoData(g), agg=null;
+    var g=gb[giorno].g, d=giornoData(g), agg=null, val=null;
     gruppo.clearLayers();
     var it=italia(), lista=[];
     /* ⚠️ NELLA VISTA ITALIA LA VISTA A ETICHETTE SI CHIUDE (controllo del 30/10/2026): veDisegna qui non passa,
@@ -17542,7 +17542,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(it&&VE.scena){ VE.scena=''; VE.visti=[]; }
     var ve=!it&&veDisegna(g);   // regione, valle e paese: i paesi per abitanti, vedi «LA VISTA A ETICHETTE» (29/10/2026)
     rk.forEach(function(k){
-      var a=aree[k]; if(!a||!a.capoluoghi) return; agg=agg||a.agg;
+      var a=aree[k]; if(!a||!a.capoluoghi) return; agg=agg||a.agg; if(a.valida&&(!val||a.valida<val)) val=a.valida;
       if(ve) return;
       a.capoluoghi.forEach(function(c){
         var e=(c.giorni||[]).filter(function(x){ return x.g===g; })[0]; if(!e) return;
@@ -17571,8 +17571,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
           html:'<div class="pv-m sel"><span class="ic">'+icona(ep.s)+'</span><span class="nm">'+escH(pp.n)+'<span class="tx"><span class="mx">'+ep.mx+'°</span> <span class="mn">'+ep.mn+'°</span></span></span></div>'}),keyboard:false,zIndexOffset:500});
           mp.on('click',function(){ apriPunto(pp); ga('posto_riaperto',{posto:pp.n}); });
           gruppo.addLayer(mp); } } });
-    el('pv-fo').textContent='ECMWF via MET Norway'+(agg?' · agg. '+fmtOra(agg):'');
-    var ft=el('fonte-tag'); if(ft&&acceso) ft.textContent='Previsioni modello ECMWF via MET Norway'+(agg?' · agg. '+fmtOra(agg):'');
+    /* ⚠️ AGGIORNATE A POCHI MINUTI FA (30/10/2026, suo: «3bmeteo e ilmeteo danno pochi minuti, noi non possiamo mettere
+       ne' un'ora ne' mezz'ora»). Prima «agg.» era l'ora in cui MET aveva calcolato la previsione (alle 20:07 diceva 18:17,
+       ed era la piu' recente che c'era). Ora e' l'ora fino a cui MET garantisce che questa e' la previsione in vigore
+       (`valida`, la prima scadenza delle citta', vedi «OGNI CITTA' QUANDO SCADE LA SUA» in functions/api/previsioni.js),
+       o l'ora di adesso se viene prima: vera, e a pochi minuti. Senza `valida` (cache di prima) l'ora di MET, come prima. */
+    var quando=val?fmtOra(Math.min(Date.now(),val)):(agg?fmtOra(agg):'');
+    el('pv-fo').textContent='ECMWF via MET Norway'+(quando?' · agg. '+quando:'');
+    var ft=el('fonte-tag'); if(ft&&acceso) ft.textContent='Previsioni modello ECMWF via MET Norway'+(quando?' · agg. '+quando:'');
     // sul computer, finche' non si tocca niente, a destra sta un cenno piccolo; la tabella arriva col primo tocco
     if(!tel()&&!punto&&!ve) cenno();
     else if(punto){ renderDet(); posizionaDet(); if(tel()) tieniInVista(); }   // telefono: la scheda cambia altezza col giorno (18/10/2026)
