@@ -17317,7 +17317,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!daLink) apreVista();   // vedi «NIENTE CARTINA STRADALE FRA UNA VISTA E L'ALTRA»; coi link la mette lo script in testa
     window._radarDaPrev=null;
     zittoStoria=!!daLink; passo('prev');
-    giorno=oraRoma()>=20?1:0;
+    giorno=oraRoma()>=20?1:0; rinfrescata=Date.now(); giornoVisto=isoRoma(Date.now());   // dati appena chiesti: vedi «SI AGGIORNA DA SOLA»
     if(document.body.classList.contains('modo-radar') && el('btn-radar')) el('btn-radar').click();
     if(document.body.classList.contains('modo-boschi') && el('btn-boschi')) el('btn-boschi').click();
     try{ var sh=el('st-history'); if(sh&&sh.style.display==='block') el('sh-close').click(); }catch(e){}
@@ -17576,6 +17576,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        ed era la piu' recente che c'era). Ora e' l'ora fino a cui MET garantisce che questa e' la previsione in vigore
        (`valida`, la prima scadenza delle citta', vedi «OGNI CITTA' QUANDO SCADE LA SUA» in functions/api/previsioni.js),
        o l'ora di adesso se viene prima: vera, e a pochi minuti. Senza `valida` (cache di prima) l'ora di MET, come prima. */
+    ultimaVal=val; ultimoAgg=agg;   // per riscrivere l'ora ogni mezzo minuto (scriviAgg, vedi «SI AGGIORNA DA SOLA»)
     var quando=val?fmtOra(Math.min(Date.now(),val)):(agg?fmtOra(agg):'');
     el('pv-fo').textContent='ECMWF via MET Norway'+(quando?' · agg. '+quando:'');
     var ft=el('fonte-tag'); if(ft&&acceso) ft.textContent='Previsioni modello ECMWF via MET Norway'+(quando?' · agg. '+quando:'');
@@ -18220,6 +18221,49 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     }
     try{ m.fitBounds(L.latLngBounds(pts),{paddingTopLeft:tl,paddingBottomRight:br,maxZoom:11,animate:false}); }catch(e){}
   }
+  /* ⚠️ SI AGGIORNA DA SOLA (30/10/2026, suo: «immagina un locale o un pc che tiene aperta una schermata meteo»). Prima la
+     schermata restava ai dati dell'apertura: icone, gradi, banner e «agg.» fermi, e dopo mezzanotte «oggi» era ieri.
+     Ogni 10 minuti, SOLO a pagina in vista (schermo spento o scheda nascosta: niente richieste; tornando in vista, subito
+     se ne sono passati 10), si richiedono le aree caricate, le etichette che si vedono e la scheda aperta, e si mettono al
+     posto delle vecchie quando arrivano: la mappa non si sposta e la scheda resta aperta. Si ridisegna solo se i dati sono
+     cambiati (il banner non riparte da capo per niente); «agg.» si riscrive ogni mezzo minuto (scriviAgg). A mezzanotte
+     si torna a «oggi». Al server costa poco: risponde con quello che ha e chiede a MET solo le citta' scadute (vedi «OGNI
+     CITTA' QUANDO SCADE LA SUA» in functions/api/previsioni.js). */
+  var RINFRESCO=10*60*1000, rinfrescata=Date.now(), giornoVisto=isoRoma(Date.now()), rifT=0, rifNastro=false, ultimaVal=null, ultimoAgg=null;
+  function ridisegnaDopo(nastro){ if(nastro) rifNastro=true; if(rifT) return;
+    rifT=setTimeout(function(){ rifT=0; if(!acceso) return; var na=el('vi-nastro'); if(na&&rifNastro) na._g=null; rifNastro=false; disegna(); if(punto) renderDet(); },80); }
+  function uguali(a,b){ try{ return JSON.stringify(a)===JSON.stringify(b); }catch(e){ return false; } }
+  function rinfresca(){
+    if(!acceso||document.visibilityState!=='visible') return;
+    rinfrescata=Date.now();
+    var oggi=isoRoma(Date.now()), nuovoGiorno=oggi!==giornoVisto; if(nuovoGiorno){ giornoVisto=oggi; giorno=0; }   // passata mezzanotte: «oggi»
+    var r='&r='+Math.floor(Date.now()/60000);   // salta la cache del browser (fino a 10 minuti), non quella del server
+    Object.keys(aree).forEach(function(k){
+      chiedi(API+'?capoluoghi='+encodeURIComponent(k)+API_V+r).then(function(j){
+        if(!(j.capoluoghi||[]).some(function(c){ return c.giorni&&c.giorni.length; })) return;
+        var cambiate=!aree[k]||!uguali(aree[k].capoluoghi,j.capoluoghi); aree[k]=j; ridisegnaDopo(cambiate); },function(){}); });
+    var vv=(VE.scena&&!italia()?(VE.visti||[]):[]).filter(function(p){ return VE.dati[veCh(p)]; });
+    for(var i=0;i<vv.length;i+=15) (function(pezzo){
+      chiedi(API+'?punti='+pezzo.map(veCh).join(';')+API_V+r).then(function(j){ var cambiate=false;
+        (j.capoluoghi||[]).forEach(function(c){ if(!c.giorni) return; var nuovi=daOggi(c.giorni); if(!uguali(VE.dati[veCh(c)],nuovi)){ VE.dati[veCh(c)]=nuovi; cambiate=true; } });
+        if(cambiate) ridisegnaDopo(true); },function(){});
+    })(vv.slice(i,i+15));
+    if(punto){ var c=punto, k=c.lat.toFixed(3)+','+c.lon.toFixed(3);
+      chiedi(API+'?lat='+c.lat.toFixed(4)+'&lon='+c.lon.toFixed(4)+(c.q!=null?'&q='+Math.round(c.q):'')+API_V+r).then(function(j){
+        if(uguali(punti[k],j)) return; punti[k]=j; if(punto&&punto.lat===c.lat&&punto.lon===c.lon) ridisegnaDopo(false); },function(){}); }
+    if(nuovoGiorno) ridisegnaDopo(true);
+  }
+  function scriviAgg(){
+    if(!acceso||(!ultimaVal&&!ultimoAgg)) return;
+    var q=ultimaVal?fmtOra(Math.min(Date.now(),ultimaVal)):fmtOra(ultimoAgg), fo=el('pv-fo'), ft=el('fonte-tag');
+    if(fo&&/^ECMWF via MET Norway/.test(fo.textContent)) fo.textContent='ECMWF via MET Norway · agg. '+q;
+    if(ft&&/^Previsioni modello ECMWF/.test(ft.textContent)) ft.textContent='Previsioni modello ECMWF via MET Norway · agg. '+q;
+  }
+  setInterval(function(){ if(!acceso||document.visibilityState!=='visible') return; scriviAgg();
+    if(Date.now()-rinfrescata>=RINFRESCO||isoRoma(Date.now())!==giornoVisto) rinfresca(); },30000);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'&&acceso&&Date.now()-rinfrescata>=RINFRESCO) rinfresca(); });
+  window._prevRinfresca=function(mezzanotte){ if(mezzanotte) giornoVisto=''; rinfresca(); };   // per le prove
+
   window._prevEntra=entra; window._prevEsci=esci;
   window._prevZone=zone;   // le regioni mostrate, anche quelle del posto cercato: servono al clic sui confini (13/10/2026)
 

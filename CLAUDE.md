@@ -3586,6 +3586,18 @@ MET, zero prima della scadenza, scritta al massimo 145 s indietro. ⚠️ Capita
 con la stessa scadenza (la sua copia non e' rinnovata): si riprova dopo i 2 minuti, e intanto la scritta resta a quella
 scadenza. Le pagine «adesso» (lib/pagina-adesso.js) scrivono ancora l'ora di MET: da allineare.
 
+### La schermata delle previsioni si aggiorna da sola (30/10/2026 sera, scheda 102)
+Suo: «immagina un locale o un pc che tiene aperta una schermata meteo». Prima restava ai dati dell'apertura (icone,
+gradi, banner, «agg.») e dopo mezzanotte «oggi» era ieri. Ora (`index.html`, «SI AGGIORNA DA SOLA» nel modulo previsioni):
+ogni 10 minuti, SOLO a pagina in vista (`visibilitychange`: tornando in vista, subito se ne sono passati 10), si
+richiedono le aree caricate, le etichette viste (`?punti=`) e la scheda aperta, con `&r=<minuto>` per saltare la cache
+del browser (non quella del server); si mettono al posto delle vecchie quando arrivano e si ridisegna solo se i dati sono
+cambiati (il banner non riparte da capo per niente). La mappa non si sposta, la scheda resta aperta. A mezzanotte
+`giorno=0`. «agg.» si riscrive ogni 30 s (`scriviAgg`, `ultimaVal`). Per le prove `window._prevRinfresca(mezzanotte)`.
+Prova `prova-rinfresco.js` nello scratchpad della scheda 102: PC 7/7; telefono 6/7 (a scheda aperta il tocco della prova
+su «domani» non arriva ai giorni del riquadro), e la mezzanotte al telefono provata a parte: riquadro e scheda tornano
+a «oggi».
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
