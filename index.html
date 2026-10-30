@@ -1802,7 +1802,7 @@ html.apre-vista #map{background:#3e526b}
 <script>
   // /previsioni/ (28/10/2026) vale come ?m=prev: e' lo stesso index.html, servito da functions/previsioni/index.js
   if(/[?&]m=prev(&|$)/.test(location.search)||/^\/previsioni\/$/.test(location.pathname)){ document.documentElement.classList.add('apre-prev');
-    if(!/[?&](r|pl|lat|q|da|a|g)=/.test(location.search)){ document.documentElement.classList.add('apre-italia');
+    if(!/[?&](r|pl|l|lat|q|da|a|g)=/.test(location.search)){ document.documentElement.classList.add('apre-italia');   // l: i link vecchi col posto (controllo del 30/10/2026, difetto 13)
       /* LE PREVISIONI DELLA VISTA ITALIA SI CHIEDONO DA QUI (29/10/2026, suo: «velocizzare come si apre»): prima partivano
          a mappa pronta (misurato sul sito: al computer a 1,3 s, al telefono a 2,9 s, e i quattro gruppi delle icone solo
          dopo `italia`); ora mentre la pagina scende. chiedi() le prende da _previPronte: un indirizzo diverso dal suo (API,
@@ -16746,6 +16746,11 @@ body.modo-prev.pv-bassa #btn-reset-regions{top:14px;left:52px;width:358px;height
 body.pv-bassa #pv-pan{padding:9px 12px 9px}body.pv-bassa #pv-pan .tt{margin-bottom:6px}
 body.pv-bassa #pv-pan .cerca-slot #loc-input{height:36px !important}
 body.pv-bassa.pv-det-aperto #pv-pan .gg-r,body.pv-bassa.pv-det-aperto #pv-pan .fo{display:none}body.pv-bassa.pv-det-aperto #pv-pan .cerca-slot{margin:0}
+/* ⚠️ I RISULTATI DELLA RICERCA SOPRA LA SCHEDA (controllo del 30/10/2026): la tendina dei risultati sta dentro
+   #pv-pan (z-index 1200) e la scheda ora per ora (#pv-det, 1250) le passa sopra. In regione, valle e paese la scheda si
+   apre da sola: a 1366x657, 1366x768 e 1536x702 TUTTE le righe erano coperte, a 1920x920 dalla quarta in giu'. Solo
+   al computer: al telefono la casella non sta nel riquadro, e li' la scheda deve restare sopra il riquadro */
+@media (min-width:901px){ body.modo-prev #pv-pan:has(#loc-drop.aperta){z-index:1300} }
 body.pv-bassa #pv-det .hd{padding:7px 12px 4px}body.pv-bassa #pv-det .hd .q1{margin-top:2px;font-size:13px}
 body.pv-bassa #pv-det .ft{padding:6px 12px;gap:4px}body.pv-bassa #pv-det .ft .b{padding:7px 6px}
 @media(max-width:900px){.ve-et{font-size:11.5px;padding:2px 6px 2px 3px}.ve-et .ic{font-size:15px}.ve-et.due{font-size:10.5px;padding:1px 5px}.ve-et.due .ic{font-size:13px}}
@@ -16882,6 +16887,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   var ICONE=[[/clearsky_day|fair_day/,'☀️'],[/clearsky_night|fair_night/,'🌙'],[/partlycloudy_day/,'⛅'],[/partlycloudy_night|^cloudy|fog/,'☁️'],[/thunder/,'⛈️'],[/heavyrain|heavysleet/,'🌧️'],[/rain|sleet|drizzle/,'🌦️'],[/snow/,'🌨️']];
   var acceso=false, giorno=1, aree={}, punti={}, punto=null, gruppo=null, guardia=null, quanti=0, fonteVecchia=null, locCasa=null, inCorso=0, cercato=null, posto=null, pillCasa=null;
   var rifai=false, toccata=false;   // vedi «IL RIQUADRO CRESCE DOPO» accanto al ResizeObserver di pv-pan (28/10/2026)
+  var modoPrima=null;   // radar o boschi accesi entrando: vedi «IL MODO DA CUI SI ENTRA» in entra() (30/10/2026)
+  var periodoPrima=null, apreT=null;   // il periodo dello storico entrando (vedi «IL PERIODO DELLO STORICO»); il tempo di sicurezza di apreVista
   function el(id){ return document.getElementById(id); }
   /* ⚠️ I NOMI DEI POSTI SI METTONO IN PAGINA COME TESTO (20/10/2026, settimo check, bug 3). Il nome di un link
      (`pn=`, `n=`) finiva in innerHTML cosi' com'era: un link costruito apposta faceva girare codice sul nostro dominio.
@@ -16988,7 +16995,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* aperta da /previsioni/ (28/10/2026), tornando alla pioggia l'indirizzo torna la mappa: ricaricando non si riaprono le
      previsioni. Due volte: in esci() e quando arriva il passo indietro di togliPassi, che e' asincrono e riporta la voce
      della cronologia di prima, ancora con /previsioni/ */
-  function indirizzoMappa(){ if(!acceso&&/^\/previsioni\/$/.test(location.pathname)){ try{ history.replaceState(history.state,'','/'+location.search+location.hash); }catch(e){} } }
+  /* ⚠️ ANCHE ?m=prev (controllo del 30/10/2026, difetto 10): usciti dalle previsioni restava nell'indirizzo, e ricaricando
+     la pagina si tornava nelle previsioni invece che allo storico o al radar. Si toglie solo lui, gli altri restano */
+  function indirizzoMappa(){
+    if(acceso) return;
+    var pv=/^\/previsioni\/$/.test(location.pathname), s=location.search.replace(/([?&])m=prev(&|$)/,function(x,a,b){ return b?a:''; });
+    if(s==='?') s='';
+    if(pv||s!==location.search){ try{ history.replaceState(history.state,'',(pv?'/':location.pathname)+s+location.hash); }catch(e){} }
+  }
   /* ⚠️ chi consuma il passo ferma l'evento: dopo c'e' l'ascoltatore dello storico (8/10, in fondo al file) */
   window.addEventListener('popstate',function(e){
     if(ignoraPop>0){ ignoraPop--; e.stopImmediatePropagation(); indirizzoMappa(); return; }
@@ -17148,9 +17162,15 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var q=new URLSearchParams(location.search);
       if(q.get('m')==='prev'||/^\/previsioni\/$/.test(location.pathname)){   // /previsioni/: vedi «LINK ALLE PREVISIONI» in cima
         var vuoto=!q.get('r')&&!q.get('l')&&!q.get('pl');
+        /* ⚠️ UN POSTO SENZA REGIONE (controllo del 30/10/2026, difetto 13): i link vecchi `?m=prev&l=…&n=…` aspettavano una
+           regione che lo storico, da un `l` senza `r`, non sceglie: 15 s di mappa vuota e poi lo storico. Si entra a mappa
+           pronta, come senza niente, e si cerca il posto come dalla casella */
+        var soloPosto=!vuoto&&!q.get('r')&&!!(window._puntoBuono&&window._puntoBuono(q.get('l')||q.get('pl')));
         var giri=0, att=setInterval(function(){
-          if(vuoto){ var ra=el('reg-apri'), pronto=map()&&(tel()?!!(ra&&ra.getBoundingClientRect().height>0):!!document.querySelector('#map path.conf-pulse'));
-            if(pronto||giri>75){ clearInterval(att); entra(true); zittoStoria=false; segnaScena(); } giri++; return; }
+          if(vuoto||soloPosto){ var ra=el('reg-apri'), pronto=map()&&(tel()?!!(ra&&ra.getBoundingClientRect().height>0):!!document.querySelector('#map path.conf-pulse'));
+            if(pronto||giri>75){ clearInterval(att); entra(true);
+              if(soloPosto&&!posto){ var lp=(q.get('l')||q.get('pl')).split(',').map(Number), pp={n:q.get('n')||q.get('pn')||'Località cercata',lat:lp[0],lon:lp[1],q:null}; tieniPosto(pp,true); etichettaPaese(pp); }
+              zittoStoria=false; segnaScena(); } giri++; return; }
           if(regioni().length || giri>75){ clearInterval(att); if(regioni().length){ entra(true); var l=(q.get('l')||q.get('pl')||'').split(',').map(Number);   // pl/pn: i link delle pagine
             // il paese del link (pl/pn) lo legge gia' entra() dal sito; qui resta solo chi non l'ha messo (l/n)
             if(!posto&&window._puntoBuono(q.get('l')||q.get('pl'))) tieniPosto({n:q.get('n')||q.get('pn')||'Località cercata',lat:l[0],lon:l[1],q:null},true); zittoStoria=false; segnaScena(); } }
@@ -17195,12 +17215,38 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     cercaNelRiquadro(!tel()); pillolaNelRiquadro(tel());
     if(VE.scena) VE.scena='';   // la vista a etichette riparte: candidati, inquadratura e scheda alla misura nuova
     disegna(); posiziona(); posizionaDet();
+    /* ⚠️ E LA VISTA ITALIA SI REINQUADRA (controllo del 30/10/2026, difetto 7): azzerare VE.scena rifa' l'inquadratura di
+       regione, valle e paese, ma l'Italia non ha una scena: girando il telefono restavano zoom e centro del verticale e
+       in orizzontale il sud usciva sotto lo schermo */
+    if(italia()) inquadra();
   }
+  /* ⚠️ NIENTE CARTINA STRADALE FRA UNA VISTA E L'ALTRA (controllo del 30/10/2026, difetto 6): entrando dalla linguetta, e
+     passando dall'Italia a una regione, per circa un secondo si vedeva la cartina dello storico (e sopra le icone
+     dell'Italia), finche' la vista nuova non era disegnata. Come per i link (apre-vista in cima): fondo scuro senza
+     cartina, che toglie viPezzi() a vista fatta; il tempo di sicurezza la toglie comunque dopo 8 s */
+  function apreVista(){ document.documentElement.classList.add('apre-vista'); clearTimeout(apreT);
+    apreT=setTimeout(function(){ document.documentElement.classList.remove('apre-vista'); },8000); }
+  /* ⚠️ IL PERIODO DELLO STORICO (controllo del 30/10/2026, difetto 3): cercare un paese qui (o tornare all'Italia con
+     Indietro) svuota le scelte dello storico, periodo compreso; tornando allo storico l'analisi non c'era piu', e un
+     Indietro dopo andava a vuoto (il suo passo era ancora in cronologia). Entrando ci si ricorda il tasto del periodo;
+     uscendo, se l'analisi non c'e' piu', lo si ripreme appena ci sono le regioni */
+  function rimettiPeriodo(b){ var giri=0, t=setInterval(function(){ giri++;
+      var st=window._storicoStato&&window._storicoStato(); if(acceso||(st&&st.analisi)||giri>40){ clearInterval(t); return; }
+      if(regioni().length&&giri>=3){ clearInterval(t); if(document.body.contains(b)) b.click(); } },250); }
 
   /* ── entra / esci ── */
   function entra(daLink){
     if(acceso||!map()) return;
     acceso=true; window._prevAttivo=true; document.documentElement.classList.remove('apre-prev');   // vedi «LINK ALLE PREVISIONI» in cima
+    /* ⚠️ IL MODO DA CUI SI ENTRA (controllo del 30/10/2026): radar e boschi qui sotto si spengono con un clic
+       che il modulo «Indietro in tutto il sito» non vede (le previsioni sono accese), e il loro passo restava nella
+       cronologia: uscendo con Indietro si tornava allo storico senza il modo, e l'Indietro dopo andava a vuoto. Uscendo
+       con Indietro (o la linguetta) il modo si riaccende, e il passo torna a valere. Non il radar aperto da qui */
+    modoPrima=null;
+    if(!window._radarDaPrev){ if(document.body.classList.contains('modo-radar')) modoPrima='btn-radar'; else if(document.body.classList.contains('modo-boschi')) modoPrima='btn-boschi'; }
+    periodoPrima=null;   // vedi «IL PERIODO DELLO STORICO»
+    try{ if(window._storicoStato&&window._storicoStato().analisi) periodoPrima=document.querySelector('#time-panel .tp-btn.active'); }catch(e){}
+    if(!daLink) apreVista();   // vedi «NIENTE CARTINA STRADALE FRA UNA VISTA E L'ALTRA»; coi link la mette lo script in testa
     window._radarDaPrev=null;
     zittoStoria=!!daLink; passo('prev');
     giorno=oraRoma()>=20?1:0;
@@ -17252,14 +17298,24 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     chiudiDettaglio(true);
     /* se nelle previsioni si era CERCATO un posto, lo storico si apre su quel posto (sua richiesta 7/10:
        «se da li' clicco storico resto li'»): si rifa' la ricerca vera del sito, che sceglie le regioni e centra */
-    var c=cercato; cercato=null; posto=null; document.body.classList.remove('pv-vuoto'); document.body.classList.remove('pv-italia');
+    /* ⚠️ ANCHE DOPO IL TOCCO SU UN PAESE VICINO (controllo del 30/10/2026): toccare un'etichetta azzera
+       `cercato` (serve a «Storico piogge di <paese>»), ma il posto cercato resta in `posto`. Senza regioni scelte lo
+       storico restava vuoto sulla zona, con la barra del telefono ancora su «📍 Calizzano», e rientrando nelle
+       previsioni il paese era perso. Se non ci sono regioni scelte vale il posto cercato */
+    var c=cercato;
+    if(!c&&posto&&posto.src&&!regioni().length){ var ps=posto.src;
+      c={n:ps.n,lat:ps.lat,lon:ps.lon,reg:ps.reg||(posto.regs&&posto.regs[0])||regDi(ps),t:ps.t||'',priv:ps.priv,muta:ps.muta}; }
+    cercato=null; posto=null; document.body.classList.remove('pv-vuoto'); document.body.classList.remove('pv-italia');
     indirizzoMappa();
     pillolaNelRiquadro(false);
+    var modo=modoPrima; modoPrima=null;
+    var per=periodoPrima; periodoPrima=null; if(ripristina!==false&&per) rimettiPeriodo(per);   // vedi «IL PERIODO DELLO STORICO»
     if(ripristina!==false && c && window._locVai){ try{ window._locVai(c); }catch(e){} ga('chiudi'); return; }
     if(ripristina!==false){
       try{ map().stop(); }catch(e){}
       try{ var rk=regioni(); if(rk.length&&window._fitRegioni) window._fitRegioni(rk); }catch(e){}
       if(tel()&&window._centraStriscia){ try{ window._centraStriscia(); }catch(e){} setTimeout(function(){ try{ window._centraStriscia(); }catch(e){} },420); }
+      if(modo){ setTimeout(function(){ var b=el(modo); if(b&&!acceso&&!document.body.classList.contains(modo==='btn-radar'?'modo-radar':'modo-boschi')) b.click(); },0); }   // vedi «IL MODO DA CUI SI ENTRA» in entra()
     }
     ga('chiudi');
   }
@@ -17412,6 +17468,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var g=gb[giorno].g, d=giornoData(g), agg=null;
     gruppo.clearLayers();
     var it=italia(), lista=[];
+    /* ⚠️ NELLA VISTA ITALIA LA VISTA A ETICHETTE SI CHIUDE (controllo del 30/10/2026): veDisegna qui non passa,
+       quindi VE.scena restava quella di prima, e tornando nella stessa regione o valle (tendina, ricerca, Avanti) la
+       vista non era «nuova»: VE.aperto0 restava vero e la scheda ora per ora non si apriva piu' da sola */
+    if(it&&VE.scena){ VE.scena=''; VE.visti=[]; }
     var ve=!it&&veDisegna(g);   // regione, valle e paese: i paesi per abitanti, vedi «LA VISTA A ETICHETTE» (29/10/2026)
     rk.forEach(function(k){
       var a=aree[k]; if(!a||!a.capoluoghi) return; agg=agg||a.agg;
@@ -17466,7 +17526,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!gruppo||!acceso) return;
     if(VE.scena&&!italia()){ veDirada(); return; }
     var it=italia(), presi=[];
-    if(it) ['pv-pan','pv-det','channel-logo','region-panel'].forEach(function(id){ var e=el(id); if(!e) return; var r=e.getBoundingClientRect(), s=getComputedStyle(e); if(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden') presi.push(r); });
+    // anche i crediti di Leaflet e la scritta della fonte (controllo del 30/10/2026, difetto 9: a 1536x702 un'icona della
+    // Sicilia finiva sotto i crediti), come fa gia' veDirada
+    if(it) ['pv-pan','pv-det','channel-logo','region-panel','fonte-tag'].map(el).concat([].slice.call(document.querySelectorAll('#map .leaflet-control-attribution, #map .fonte-tag'))).forEach(function(e){ if(!e) return; var r=e.getBoundingClientRect(), s=getComputedStyle(e); if(r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden') presi.push(r); });
     function tocca(a,b){ return !(a.right+2<b.left||b.right+2<a.left||a.bottom+2<b.top||b.bottom+2<a.top); }   // 2 px di stacco, come le pagine /meteo/ (28/10/2026, erano 4)
     /* VISTA ITALIA, SOLO ICONE (28/10/2026): citta' fisse, quindi ogni giorno le stesse. Un'icona che toccherebbe
        un'icona gia' messa, un riquadro o il banner si nasconde e ricompare ingrandendo; si misura l'icona sola, che e'
@@ -17506,6 +17568,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     // cartina di sempre, coi nomi delle strade)
     var vicino=!!(acceso&&!italia()&&VE.scena&&m.getZoom()<13.5);
     var on=!!(acceso&&italia()&&m.getZoom()<7.5)||(vicino&&FONDO_VICINO==='sat'), vz=vicino&&FONDO_VICINO==='verde';
+    // dall'Italia a una regione, valle o paese la foto dell'Italia se ne va prima che la vista nuova ci sia: fondo scuro
+    // fino al suo disegno (vedi «NIENTE CARTINA STRADALE FRA UNA VISTA E L'ALTRA»)
+    if(!on&&!vz&&acceso&&!italia()&&!VE.scena&&document.body.classList.contains('vi-fondo')) apreVista();
     document.body.classList.toggle('vi-fondo',on); document.body.classList.toggle('vz-fondo',vz);
     if((on||vz)&&!m.getPane('viFondo')){ m.createPane('vzColore').style.zIndex=205; m.createPane('viFondo').style.zIndex=210; m.createPane('viRilievo').style.zIndex=220;
       ['vzColore','viFondo','viRilievo'].forEach(function(p){ m.getPane(p).style.pointerEvents='none'; }); }
@@ -18163,8 +18228,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   }
   /* boschi e analisi si accendono in differita (indice, file): si riguarda tre volte */
   function dopoGesto(){ setTimeout(guarda,80); setTimeout(guarda,800); setTimeout(guarda,2500); }
+  /* ⚠️ IL PRIMO GESTO NELLE PREVISIONI (controllo del 30/10/2026, difetto 11): con un link alle previsioni (?r=…&m=prev)
+     il primo gesto arriva a previsioni accese, guarda() e' fermo e la base (cio' che e' acceso dall'apertura) restava
+     vuota: la regione del link diventava un passo, e l'ultimo Indietro la toglieva invece di uscire dal sito. Li' la
+     base si prende lo stesso */
   ['pointerdown','touchstart','keydown'].forEach(function(ev){
-    document.addEventListener(ev,function(e){ if(e.isTrusted&&!gesto){ guarda(); gesto=true; } },true);
+    document.addEventListener(ev,function(e){ if(e.isTrusted&&!gesto){ if(window._prevAttivo) base=attivi(); else guarda(); gesto=true; } },true);
   });
   ['click','change','keyup'].forEach(function(ev){ document.addEventListener(ev,function(e){ if(e.isTrusted) dopoGesto(); },true); });
   window.addEventListener('popstate',function(e){

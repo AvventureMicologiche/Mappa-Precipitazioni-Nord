@@ -3526,6 +3526,41 @@ l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`
   lasciava lo storico → `window._radarDaPrev` (messo dal «📡 Diretta radar», visto acceso in `guarda`), e Indietro
   spento il radar rientra nelle previsioni (`window._prevEntra`, col suo passo).
 
+### Controllo della mappa meteo del 30/10/2026 (sessione cloud, scheda 102)
+Suo: «check completo, in particolare mappa meteo e tutti i passaggi tra storico e meteo». Fatto da una sessione cloud
+(PR in bozza «[NON UNIRE] Controllo mappa meteo del 30/10», ramo `claude/zealous-wright-ktc8ti`, resoconto
+`check-meteo-30-10.md` sul ramo). ⚠️ Dal cloud il sito vero NON si raggiunge (proxy 403 su sito, api.met.no, Esri,
+OSM): ha provato una copia di main con previsioni finte. 13 difetti; suo «ok a tutto» sulle soluzioni proposte. Tutti
+i punti hanno un commento «controllo del 30/10/2026» in `index.html`:
+1. **Risultati della ricerca sotto la scheda** (computer): `#loc-drop` sta in `#pv-pan` (z 1200), `#pv-det` ha 1250 →
+   `body.modo-prev #pv-pan:has(#loc-drop.aperta){z-index:1300}` sopra i 900 px.
+2. **Paese cercato + tocco su un vicino → Storico vuoto, paese perso**: il tocco azzera `cercato` → in `esci()`, senza
+   regioni scelte, vale `posto.src`.
+3. **La ricerca nelle previsioni cancellava il periodo dello storico** (`_svuotaScelta`), e un Indietro andava a vuoto →
+   `entra()` si ricorda il tasto del periodo (`periodoPrima`), `esci()` lo ripreme se l'analisi non c'e' piu'
+   (`rimettiPeriodo`, aspetta le regioni).
+4. **Radar o boschi spenti entrando non tornavano** → `modoPrima` in `entra()`, riacceso da `esci()` (non uscendo con un
+   periodo, il radar, i boschi o «Storico piogge di <paese>»).
+5. **Stessa regione dopo l'Italia: la scheda non si apriva piu' da sola** → in `disegna()`, nella vista Italia,
+   `VE.scena=''`.
+6. **Cartina stradale per ~1 s** entrando dalla linguetta e passando dall'Italia a una regione → `apreVista()` (la
+   classe `apre-vista` dei link, fondo scuro senza cartina, 8 s di sicurezza): in `entra()` senza link e in `viFondo()`
+   quando la foto dell'Italia se ne va prima della vista nuova; la toglie `viPezzi()` a vista fatta. Misurato col
+   campionamento ogni 40 ms: sito pubblicato 200 e 440 ms, corretto 0.
+7. **Telefono girato sulla vista Italia senza reinquadratura** → `nuovaMisura()` chiama `inquadra()` se `italia()`.
+8. Schermi bassi: a scheda aperta il «📡 Diretta radar» sparisce dal riquadro. **Lasciato** (scelta «A» degli schermi
+   bassi; chiudendo la scheda torna).
+9. **Icona della vista Italia sotto i crediti** (1536x702) → `dirada()` conta crediti e scritta della fonte, come
+   `veDirada`.
+10. **`?m=prev` restava nell'indirizzo uscendo** → `indirizzoMappa()` toglie anche lui (solo lui).
+11. **Link alle previsioni di una regione: l'ultimo Indietro toglieva la regione invece di uscire** → al primo gesto a
+    previsioni accese il modulo «Indietro in tutto il sito» prende la base lo stesso (`base=attivi()`).
+12. Andata e ritorno da un link di pagina: lo storico prende anche le regioni vicine. **Lasciato**: e' la ricerca normale.
+13. **Link vecchi `?m=prev&l=…&n=…` senza `r`: 15 s di mappa vuota** → `l` nello script in testa (apre-vista) e
+    `soloPosto` nell'attesa dei link: si entra a mappa pronta e si cerca il posto (`tieniPosto`).
+Prova: `prova-correzioni.js` nello scratchpad della scheda 102 (un caso per difetto, la ricerca vera dalla casella),
+16/16 al telefono 393x760, tutti al computer 1366x657 e 1920x920, 6 e 9 a 1536x702, 7 a 393x852 girato.
+
 ## Sesto check (20/10/2026)
 
 Fatto da una sessione cloud la notte del 19-20/10, verificato punto per punto sul codice e sui dati veri prima di
