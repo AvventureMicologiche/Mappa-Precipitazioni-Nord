@@ -12266,6 +12266,10 @@ function loadDefaultMarkers(){
     // Per rimetterle in gara: la chiave `guida` nell'elenco qui sopra e la
     // riga `scelte.push('iscriviti')` qui.
     if(!scelte.length) return;
+    // ⚠️ L'INVITO ALLE PREVISIONI NEL GIRO (30/10/2026, suo: «ci sono 4 o 5 video e questo si aggiunge nel ciclo»): al
+    // telefono, per chi le previsioni le ha gia' aperte, l'invito e' una voce in piu' del giro; quando tocca a lui la
+    // pillola del video si fa da parte (vedi «INVITO ALLE PREVISIONI NELLO STORICO» e `_vetrinaQuale` qui sotto)
+    if(window._invitoNelGiro&&window._invitoNelGiro()) scelte.push('previsioni');
     // ⚠️ IL DADO SI TIRA A OGNI APERTURA, e la scelta NON si ricorda.
     // Prima restava appiccicata alla persona (localStorage 'vetrina'): chi
     // aveva pescato la guida vedeva sempre e solo quella. Decisione
@@ -12291,6 +12295,8 @@ function loadDefaultMarkers(){
     }
     QUALE=scelte[_k];
     _giro.scelte=scelte; _giro.i=_k;
+    window._vetrinaQuale=QUALE;
+    if(QUALE==='previsioni') return;   // tocca all'invito: la pillola resta com'era, nascosta (body.inv-prev-on)
     // La chiave vecchia non si legge piu': si toglie di mezzo una volta sola,
     // se no resta li' a sporcare il browser di chi c'era prima.
     try{ if(localStorage.getItem('vetrina')) localStorage.removeItem('vetrina'); }catch(e){}
@@ -16177,9 +16183,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 <!-- ═══ ☀️ INVITO ALLE PREVISIONI NELLO STORICO (30/10/2026, scheda 102) ═══════════════
      Suo: «ha senso una pubblicita' al meteo nella vetrina?». No nella vetrina (sembra un video e toglie posto al canale):
      un bottone giallo «E nei prossimi giorni? ☀️ Previsioni <posto> →» nel riquadro dei numeri, dopo che si e' scelto un
-     periodo (variante A del mockup, banco mockup-invito-previsioni\). UNO O L'ALTRO col video (suo): sta al posto della
-     pillola del video, e solo per chi le previsioni non le ha mai aperte su quel telefono o computer (`prevUsate`, la
-     segna entra() delle previsioni, da qualunque strada). Appena le apre torna il video, per sempre.
+     periodo (variante A del mockup, banco mockup-invito-storico\). Sopra i 600 px (dove la pillola del video non c'e')
+     SEMPRE. Al telefono sta al posto della pillola del video: per chi le previsioni non le ha mai aperte (`prevUsate`,
+     la segna entra() delle previsioni, da qualunque strada) sempre; per gli altri e' una voce in piu' del giro della
+     vetrina (suo, 30/10 sera: «ci sono 4 o 5 video e questo si aggiunge nel ciclo»; `_invitoNelGiro`, `_vetrinaQuale`).
      Il posto: il paese o la valle cercati (non la posizione del GPS), se no la regione, o due regioni; se no niente nome.
      Il tocco preme la linguetta «Previsioni», che apre regione, valle o paese come sempre. Non col radar, coi boschi o
      col riquadro ridotto. GA `invito_previsioni` {azione: visto (una volta per visita) / tocco, dove}. -->
@@ -16197,11 +16204,16 @@ body.inv-prev-on #channel-pill{display:none !important}
 <script>
 (function(){
   var el=null, visto=false;
-  function usate(){ try{ return localStorage.getItem('prevUsate')==='1'; }catch(e){ return true; } }   // senza memoria niente invito
+  function usate(){ try{ return localStorage.getItem('prevUsate')==='1'; }catch(e){ return true; } }   // senza memoria: come chi le ha gia' usate
+  function telefono(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }   // dove c'e' la pillola del video
+  window._invitoNelGiro=function(){ return telefono()&&usate(); };   // lo chiede la vetrina, vedi «L'INVITO ALLE PREVISIONI NEL GIRO»
   function serve(){
-    if(usate()||window._prevAttivo) return false;
+    if(window._prevAttivo) return false;
     var st=window._storicoStato&&window._storicoStato(); if(!st||!st.analisi) return false;
-    var b=document.body.classList; return !(b.contains('modo-radar')||b.contains('modo-boschi')||b.contains('modo-prev'));
+    var b=document.body.classList; if(b.contains('modo-radar')||b.contains('modo-boschi')||b.contains('modo-prev')) return false;
+    if(!telefono()) return true;                   // sopra i 600 px sempre: li' la pillola del video non c'e'
+    if(!usate()) return true;                      // chi le previsioni non le ha mai aperte: sempre l'invito
+    return window._vetrinaQuale==='previsioni';    // gli altri: quando nel giro della vetrina tocca a lui
   }
   function posto(){
     var vp=window._paeseCercato&&window._paeseCercato(); if(vp&&vp.n&&!vp.priv) return vp.n;   // la posizione del GPS non si scrive

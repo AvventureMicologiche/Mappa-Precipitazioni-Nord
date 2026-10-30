@@ -740,9 +740,13 @@ c'era nessuna fase beta da aspettare.
 - **Invito alle previsioni nello storico (30/10/2026, scheda 102)**, sua domanda («ha senso una pubblicita' al meteo nella
   vetrina?»): non nella vetrina (sembra un video e toglie posto al canale), ma un bottone giallo «E nei prossimi giorni?
   ☀️ Previsioni <posto> →» nel riquadro dei numeri, dopo QUALUNQUE periodo scelto, con regione, valle o paese cercati
-  (modulo «INVITO ALLE PREVISIONI NELLO STORICO» in `index.html`). **Uno o l'altro col video** (suo): sta al posto di
-  `#channel-pill` (`body.inv-prev-on`), e solo per chi le previsioni non le ha mai aperte su quel telefono o computer:
-  `localStorage.prevUsate`, la mette `entra()` delle previsioni da qualunque strada; da li' in poi torna il video. Posto:
+  (modulo «INVITO ALLE PREVISIONI NELLO STORICO» in `index.html`). **Sopra i 600 px sempre** (li' la pillola del video
+  non c'e'). **Al telefono al posto di `#channel-pill`** (`body.inv-prev-on`): per chi le previsioni non le ha mai aperte
+  su quel telefono (`localStorage.prevUsate`, la mette `entra()` delle previsioni da qualunque strada) sempre; per gli
+  altri e' una voce in piu' del giro della vetrina (suo, 30/10 sera: «ci sono 4 o 5 video e questo si aggiunge nel
+  ciclo»): la vetrina aggiunge `'previsioni'` alle sue scelte se `window._invitoNelGiro()`, e quando tocca a lei
+  (`window._vetrinaQuale`) non disegna il video. Con 8 video in giro l'invito torna una volta ogni 9. Prova
+  `prova-invito-giro.js` nello scratchpad della scheda 102: telefono 3/3, PC 2/2. Posto:
   paese o valle cercati (mai la posizione del GPS), se no una o due regioni (testo della tendina), se no niente nome.
   Una riga sola a gradini (`adatta()`): via la domanda, poi via il nome. Il tocco preme `#sez-prev`. Niente invito col
   radar, coi boschi o col riquadro ridotto. GA `invito_previsioni` {azione: visto (una volta per visita) / tocco, dove}.
