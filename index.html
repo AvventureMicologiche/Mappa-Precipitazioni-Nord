@@ -16174,6 +16174,73 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
 </script>
+<!-- ═══ ☀️ INVITO ALLE PREVISIONI NELLO STORICO (30/10/2026, scheda 102) ═══════════════
+     Suo: «ha senso una pubblicita' al meteo nella vetrina?». No nella vetrina (sembra un video e toglie posto al canale):
+     un bottone giallo «E nei prossimi giorni? ☀️ Previsioni <posto> →» nel riquadro dei numeri, dopo che si e' scelto un
+     periodo (variante A del mockup, banco mockup-invito-previsioni\). UNO O L'ALTRO col video (suo): sta al posto della
+     pillola del video, e solo per chi le previsioni non le ha mai aperte su quel telefono o computer (`prevUsate`, la
+     segna entra() delle previsioni, da qualunque strada). Appena le apre torna il video, per sempre.
+     Il posto: il paese o la valle cercati (non la posizione del GPS), se no la regione, o due regioni; se no niente nome.
+     Il tocco preme la linguetta «Previsioni», che apre regione, valle o paese come sempre. Non col radar, coi boschi o
+     col riquadro ridotto. GA `invito_previsioni` {azione: visto (una volta per visita) / tocco, dove}. -->
+<style>
+#legend-panel .inv-prev{display:flex;align-items:center;justify-content:center;gap:7px;box-sizing:border-box;width:100%;margin:8px 0 2px;padding:11px 12px;
+  border-radius:10px;cursor:pointer;text-decoration:none;text-align:center;background:linear-gradient(180deg,#ffdf5e,#ffcc1f);border:1px solid #e0ad00;
+  box-shadow:0 3px 0 #b88a00;color:#1b3f6e;font:600 15px/1.15 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+#legend-panel .inv-prev b{font-weight:800;white-space:nowrap}
+#legend-panel .inv-prev:active{transform:translateY(1px);box-shadow:0 2px 0 #b88a00}
+#legend-panel .inv-prev.corto .q{display:none}
+#legend-panel.leg-mini .inv-prev{display:none}
+body.inv-prev-on #channel-pill{display:none !important}
+@media(max-width:900px){ #legend-panel .inv-prev{font-size:14.5px} }
+</style>
+<script>
+(function(){
+  var el=null, visto=false;
+  function usate(){ try{ return localStorage.getItem('prevUsate')==='1'; }catch(e){ return true; } }   // senza memoria niente invito
+  function serve(){
+    if(usate()||window._prevAttivo) return false;
+    var st=window._storicoStato&&window._storicoStato(); if(!st||!st.analisi) return false;
+    var b=document.body.classList; return !(b.contains('modo-radar')||b.contains('modo-boschi')||b.contains('modo-prev'));
+  }
+  function posto(){
+    var vp=window._paeseCercato&&window._paeseCercato(); if(vp&&vp.n&&!vp.priv) return vp.n;   // la posizione del GPS non si scrive
+    var nn=((window._regioniAttive&&window._regioniAttive())||[]).map(function(k){ var o=document.querySelector('#region-select option[value="'+k+'"]'); return o?o.textContent.trim():''; }).filter(Boolean);
+    return nn.length&&nn.length<=2 ? nn.join(' + ') : '';
+  }
+  function crea(){
+    var lp=document.getElementById('legend-panel'); if(!lp) return null;
+    var a=document.createElement('a'); a.className='inv-prev'; a.href='/previsioni/';
+    a.innerHTML='<span class="q">E nei prossimi giorni?</span> <b></b>';
+    a.addEventListener('click',function(e){ e.preventDefault(); try{ gtag('event','invito_previsioni',{azione:'tocco',dove:a._dove||'-'}); }catch(x){}
+      var sp=document.getElementById('sez-prev'); if(sp) sp.click(); else location.href='/previsioni/'; });
+    var pill=document.getElementById('channel-pill');
+    if(pill&&pill.parentNode===lp) lp.insertBefore(a,pill); else lp.appendChild(a);   // il posto della pillola del video
+    return a;
+  }
+  function aggiorna(){
+    var si=serve();
+    document.body.classList.toggle('inv-prev-on',si);
+    if(!si){ if(el) el.style.display='none'; return; }
+    if(!el) el=crea(); if(!el) return;
+    el.style.display='';
+    var p=posto(), t='☀️ Previsioni'+(p?' '+p:'')+' →';
+    if(el._t!==t){ el._t=t; el._dove=p; el.querySelector('b').textContent=t; el.classList.remove('corto'); }
+    adatta();
+    if(!visto){ visto=true; try{ gtag('event','invito_previsioni',{azione:'visto',dove:p||'-'}); }catch(x){} }
+  }
+  /* UNA RIGA SOLA, A GRADINI (prova del 30/10: «Emilia Romagna» andava su due righe, 57 px contro 41): prima via la
+     domanda («☀️ Previsioni Emilia Romagna →»), poi, se ancora non ci sta (due regioni coi nomi lunghi), via anche il
+     nome. Si misura a bottone visibile: nascosto e' alto 0, e la prima volta lo era (il riquadro arriva dopo) */
+  function adatta(){
+    var h=el.offsetHeight; if(!h||h<=48) return;
+    if(!el.classList.contains('corto')){ el.classList.add('corto'); adatta(); return; }
+    var b=el.querySelector('b'); if(b.textContent!=='☀️ Previsioni →') b.textContent='☀️ Previsioni →';
+  }
+  function avvia(){ setInterval(aggiorna,800); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
 <!-- ═══ 🌡 TEMPERATURE DI IERI ACCANTO AI PALLINI (3/10/2026, sua idea) ═══════════════
      Un tasto piccolo sulla mappa («🌡 2 ott»: il giorno lo dice il TASTO, sua regola) che
      accende minima e massima di ieri accanto ai pallini, SOPRA la heatmap: la pioggia del
@@ -17238,6 +17305,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function entra(daLink){
     if(acceso||!map()) return;
     acceso=true; window._prevAttivo=true; document.documentElement.classList.remove('apre-prev');   // vedi «LINK ALLE PREVISIONI» in cima
+    try{ localStorage.setItem('prevUsate','1'); }catch(e){}   // le previsioni le conosce: via l'invito dallo storico (vedi «INVITO ALLE PREVISIONI»)
     /* ⚠️ IL MODO DA CUI SI ENTRA (controllo del 30/10/2026): radar e boschi qui sotto si spengono con un clic
        che il modulo «Indietro in tutto il sito» non vede (le previsioni sono accese), e il loro passo restava nella
        cronologia: uscendo con Indietro si tornava allo storico senza il modo, e l'Indietro dopo andava a vuoto. Uscendo

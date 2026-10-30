@@ -737,6 +737,17 @@ c'era nessuna fase beta da aspettare.
   bottone, link, `?m=prev`, `/previsioni/`, `?novita=1/0`, scadenza con l'orologio finto) su 393, 360 e PC:
   `prova-novita-meteo.js` nello scratchpad della scheda 102. ⚠️ In locale la pagina chiede le previsioni alla 8788:
   aperta come `http://prova.localhost:8790/` le chiede a se stessa (e il satellite funziona). Le cerrete sono uscite.
+- **Invito alle previsioni nello storico (30/10/2026, scheda 102)**, sua domanda («ha senso una pubblicita' al meteo nella
+  vetrina?»): non nella vetrina (sembra un video e toglie posto al canale), ma un bottone giallo «E nei prossimi giorni?
+  ☀️ Previsioni <posto> →» nel riquadro dei numeri, dopo QUALUNQUE periodo scelto, con regione, valle o paese cercati
+  (modulo «INVITO ALLE PREVISIONI NELLO STORICO» in `index.html`). **Uno o l'altro col video** (suo): sta al posto di
+  `#channel-pill` (`body.inv-prev-on`), e solo per chi le previsioni non le ha mai aperte su quel telefono o computer:
+  `localStorage.prevUsate`, la mette `entra()` delle previsioni da qualunque strada; da li' in poi torna il video. Posto:
+  paese o valle cercati (mai la posizione del GPS), se no una o due regioni (testo della tendina), se no niente nome.
+  Una riga sola a gradini (`adatta()`): via la domanda, poi via il nome. Il tocco preme `#sez-prev`. Niente invito col
+  radar, coi boschi o col riquadro ridotto. GA `invito_previsioni` {azione: visto (una volta per visita) / tocco, dove}.
+  Mockup (tre varianti, scelta la A): banco `mockup-invito-storico\`. Prova `prova-invito.js` nello scratchpad della
+  scheda 102: 12/12 a 393 e 360, 11/11 al PC.
 - **Finestra «Novità» 26/10/2026 (VERSIONE `2026-10-26`, NV_FINO `2026-11-01T21:00`: domenica alle 21, ora del
   telefono; da questa volta NV_FINO porta anche l'ora)**, sua richiesta: un GRAZIE che spinge il
   canale, con la novita' delle cerrete. Una pagina, «Mappa dei boschi: arrivano le cerrete», filmato `novita/cerrete.mp4`
