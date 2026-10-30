@@ -1,18 +1,14 @@
 {
  "regione": "puglia",
- "generato": "2026-10-30T13:34:13.911Z",
+ "generato": "2026-10-30T15:54:44.508Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 129,
-   "primo": "2026-10-27",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-28",
+   "ultimo": "2026-10-28",
    "top": [
-    {
-     "n": "Celenza Valfortore",
-     "mm": 0.1
-    },
     {
      "n": "Acquaviva delle Fonti",
      "mm": 0
@@ -28,64 +24,68 @@
     {
      "n": "Alessano",
      "mm": 0
+    },
+    {
+     "n": "Altamura",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 25.6,
+   "media": 6.1,
    "giorni": 7,
    "stazioni": 128,
-   "primo": "2026-10-21",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-22",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Sannicandro Garganico",
-     "mm": 90.2
+     "mm": 76
     },
     {
-     "n": "Locorotondo",
-     "mm": 82.9
+     "n": "Lesina",
+     "mm": 43.9
     },
     {
-     "n": "Fasano",
-     "mm": 82.8
+     "n": "Poggio Imperiale",
+     "mm": 41.6
     },
     {
-     "n": "Monopoli",
-     "mm": 72
+     "n": "Cagnano Varano",
+     "mm": 39.1
     },
     {
-     "n": "Massafra",
-     "mm": 71.9
+     "n": "Vico del Gargano",
+     "mm": 36.1
     }
    ]
   },
   "20": {
-   "media": 76.3,
+   "media": 64.9,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-08",
-   "ultimo": "2026-10-27",
+   "primo": "2026-10-09",
+   "ultimo": "2026-10-28",
    "top": [
     {
-     "n": "Vignacastrisi",
-     "mm": 197.2
+     "n": "Vico del Gargano",
+     "mm": 133.4
     },
     {
-     "n": "S.M. di Leuca",
-     "mm": 189.2
-    },
-    {
-     "n": "Nardo",
-     "mm": 159.9
+     "n": "Sannicandro Garganico",
+     "mm": 131
     },
     {
      "n": "Ostuni",
-     "mm": 155
+     "mm": 129.8
+    },
+    {
+     "n": "Bari Ufficio Idrografico",
+     "mm": 126.9
     },
     {
      "n": "Galatina",
-     "mm": 139.8
+     "mm": 113.8
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 77.8,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-28",
-   "ultimo": "2026-10-27",
+   "primo": "2026-09-29",
+   "ultimo": "2026-10-28",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.1,
   1.8,
@@ -148,9 +149,8 @@
   0,
   0,
   0.2,
-  0,
   0
  ],
- "serieDa": "2026-10-27",
+ "serieDa": "2026-10-28",
  "zone": []
 }
