@@ -3463,6 +3463,26 @@ l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`
   **20** (al telefono la Campania senza il Cilento: al telefono si inquadrano i capoluoghi, scelta del 29/10, e si
   vedono tutti) e **23** (al telefono l'etichetta blu sparisce ingrandendo: la prova ingrandiva sul centro con un
   comando, al telefono i tasti + e − non ci sono e col dito si ingrandisce dove si tocca).
+- **Giro di caccia sul sito VERO, 30/10 pomeriggio (scheda 101, dopo la pubblicazione; suo: «se flashano pagine
+  diverse, avanti e indietro tra le funzioni, formati di schermo»)**: gesti veri in Chrome headless (clic, tocchi, frecce
+  del browser) con un registratore che ogni 40 ms annota cosa cambia, e i fotogrammi dello schermo dell'apertura. Trovati
+  e corretti: **il lampo della cartina stradale** col link di una regione o di un paese (1,5-2 s di cartina OSM dello
+  storico, prima su tutto il nord e poi sulla regione col confine, e al computer la vetrina, poi il satellite) → classe
+  `apre-vista`, gemella di `apre-italia`, che la toglie `viPezzi()` a vista fatta; **il banner fermo** tornando
+  all'Italia con Indietro («METEO CALIZZANO E DINTORNI» sopra le icone di tutta Italia: `na._g` restava quello di
+  prima) → `veNastro` azzera `na._g` e viPezzi azzera `VE.nastro`; **«Avanti» che non faceva niente** (e dopo, il primo
+  Indietro andava a vuoto) → ogni voce nostra porta `pd` (l'altezza nella pila) e, se scheda toccata, `pt`: una voce piu'
+  alta della pila e' un Avanti e si rifa' il passo (dallo storico solo l'entrata 'prev', con `entra(true)`); **Indietro
+  da una scheda toccata** lasciava la vista senza scheda → riapre quella di prima (`detPrima`, di solito quella aperta
+  da sola). Sui **16 schermi** (dal 2560×1300 al 320×568 e al telefono girato; `giro-formati.js` nello scratchpad della
+  101): **telefoni bassi** senza regione (Liguria a 375×667 = nord Italia, a 360×640 l'Europa con l'Islanda, a 320×568 il
+  mare: i margini di `veInquadra` superavano la mappa) → alla vista restano almeno 180 px, si toglie prima la spinta in
+  basso, poi il margine sotto; **banner mai visibile nella vista di un paese al telefono** (scheda gia' aperta al primo
+  disegno: `naSopraDet` cercava nella pagina il banner appena creato) → viPezzi lo appende prima; **«METEO ITALIA
+  UNDEFINED NAN»** al telefono, chiudendo una scheda nella vista Italia (c'era gia' in produzione: `chiudiDettaglio`
+  chiama `viPezzi()` senza giorno) → senza giorno non si riscrive. Al computer, 6 schermi: nessun difetto. Restano,
+  apposta: col telefono girato la mappa e' una striscia (anche nello storico); nello storico «Avanti» non rifa' le
+  regioni tolte con Indietro (dall'8/10); dal radar aperto nelle previsioni, Indietro va allo storico.
 
 ## Sesto check (20/10/2026)
 

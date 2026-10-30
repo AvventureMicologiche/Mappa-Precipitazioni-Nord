@@ -1791,6 +1791,13 @@ html.apre-prev #sez-prev::after{display:none}
 html.apre-italia #channel-logo,html.apre-italia #channel-pill{display:none !important}
 html.apre-italia .leaflet-tile-pane{visibility:hidden}
 html.apre-italia #map{background:#3e526b}
+/* ⚠️ E ANCHE COL LINK DI UNA REGIONE O DI UN PAESE (30/10/2026, scheda 101, giro di caccia sul sito vero, fotogrammi):
+   dal 30/10 regione, valle e paese hanno il satellite, che arriva a vista disegnata; prima, per 1,5-2 s, si vedeva la
+   cartina stradale dello storico, prima su tutto il nord e poi sulla regione col suo confine, e al computer la vetrina.
+   Stesso fondo scuro della vista Italia; la toglie viPezzi() quando la vista c'e', o il tempo di sicurezza qui sotto */
+html.apre-vista #channel-logo,html.apre-vista #channel-pill{display:none !important}
+html.apre-vista .leaflet-tile-pane{visibility:hidden}
+html.apre-vista #map{background:#3e526b}
 </style>
 <script>
   // /previsioni/ (28/10/2026) vale come ?m=prev: e' lo stesso index.html, servito da functions/previsioni/index.js
@@ -1819,7 +1826,8 @@ html.apre-italia #map{background:#3e526b}
           var attese=pronta?[].filter.call(document.querySelectorAll('.leaflet-viFondo-pane img,.leaflet-viRilievo-pane img'),function(i){ return !i.complete; }).length:1;
           if((pronta&&(!attese||Date.now()-via>3000))||Date.now()-t0>10000){ clearInterval(giro); var l=coda; coda=null; l.forEach(function(f){ try{ f(); }catch(e){} }); } },250);
       }catch(e){ window._dopoItalia=null; } }
-    setTimeout(function(){ document.documentElement.classList.remove('apre-prev'); document.documentElement.classList.remove('apre-italia'); },20000); }
+    else document.documentElement.classList.add('apre-vista');
+    setTimeout(function(){ document.documentElement.classList.remove('apre-prev'); document.documentElement.classList.remove('apre-italia'); document.documentElement.classList.remove('apre-vista'); },20000); }
 </script>
 </head>
 <body>
@@ -16853,10 +16861,16 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      passo, quella aperta toccando un paese si'. I passi stanno in `pila`, dal basso: 'prev' (entrata dallo storico),
      'scena', 'det'; ogni voce nostra porta la sua vista (`pvs`, vedi scenaOra), la prima vista si scrive sulla voce che
      c'e' gia' (timbra). Si rimette con le strade di chi la sceglie: tendina, spunte, ricerca (rimettiScena). */
-  var pila=[], zittoStoria=false, ignoraPop=0, primaScena='', rimessa=null;
-  function passo(tipo,s){
+  /* ⚠️ E «AVANTI» (30/10/2026, scheda 101, giro di caccia sul sito vero): dopo «Indietro» la freccia «Avanti» non faceva
+     niente (la vista restava quella), e il primo «Indietro» dopo andava a vuoto. Ogni voce nostra porta anche la sua
+     altezza nella pila (`pd`) e, se e' una scheda toccata, il paese (`pt`): arrivando su una voce piu' alta della pila
+     si rifa' il passo. ⚠️ Indietro da una scheda toccata riapre quella che c'era prima (`detPrima`, di solito quella che
+     si era aperta da sola): prima restava la vista senza scheda, che non era la pagina di prima */
+  var pila=[], zittoStoria=false, ignoraPop=0, primaScena='', rimessa=null, detPrima=null;
+  function passo(tipo,s,pt){
     if(zittoStoria||(tipo==='prev'&&pila.length)||(tipo==='det'&&pila[pila.length-1]==='det')) return;
-    pila.push(tipo); var st={pv:tipo,pvs:s||scenaOra()};
+    if(tipo==='det') detPrima=punto?{n:punto.n,lat:punto.lat,lon:punto.lon,q:punto.q}:null;
+    pila.push(tipo); var st={pv:tipo,pvs:s||scenaOra(),pd:pila.length}; if(pt) st.pt=pt;
     tend(function(){ try{ history.pushState(st,''); }catch(e){ var i=pila.lastIndexOf(tipo); if(i>=0) pila.splice(i,1); } });
   }
   function tend(fn){ if(window._dopoTendina) window._dopoTendina(fn); else fn(); }   // aspetta che la tendina abbia tolto il suo passo (8/10)
@@ -16883,7 +16897,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     rimessa=null;
     if(!era){ timbra(s); return; }                                            // la prima vista: sulla voce che c'e' gia'
     // la scheda toccata nella vista di prima: il suo passo diventa quello della vista nuova (la scheda si e' chiusa)
-    if(pila[pila.length-1]==='det'){ pila[pila.length-1]='scena'; tend(function(){ try{ history.replaceState({pv:'scena',pvs:s},''); }catch(e){} }); return; }
+    if(pila[pila.length-1]==='det'){ pila[pila.length-1]='scena'; var pd=pila.length; tend(function(){ try{ history.replaceState({pv:'scena',pvs:s,pd:pd},''); }catch(e){} }); return; }
     passo('scena',s);
   }
   // la barra del telefono dice dove sei, come nello storico («📍 Ovada»)
@@ -16924,11 +16938,22 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* ⚠️ chi consuma il passo ferma l'evento: dopo c'e' l'ascoltatore dello storico (8/10, in fondo al file) */
   window.addEventListener('popstate',function(e){
     if(ignoraPop>0){ ignoraPop--; e.stopImmediatePropagation(); indirizzoMappa(); return; }
+    var st=e.state;
+    // «Avanti»: una voce nostra piu' alta della pila (vedi «E AVANTI»). Dallo storico solo l'entrata nelle previsioni
+    if(st&&st.pv&&typeof st.pd==='number'&&st.pd>pila.length&&(acceso||(st.pv==='prev'&&st.pd===1))){
+      e.stopImmediatePropagation();
+      if(!acceso){ entra(true); zittoStoria=false; pila=['prev']; return; }   // la vista e' quella che lo storico ha scelto
+      pila.push(st.pv); if(st.pv==='det') detPrima=punto?{n:punto.n,lat:punto.lat,lon:punto.lon,q:punto.q}:null;
+      if(st.pvs&&st.pvs.chiave!==chiaveScena()) rimettiScena(st.pvs);
+      else if(st.pv==='det'&&st.pt) apriPunto(st.pt,true);
+      return;
+    }
     if(!acceso||!pila.length) return;
-    var t=pila.pop(), s=e.state&&e.state.pvs;
+    var t=pila.pop(), s=st&&st.pvs;
     e.stopImmediatePropagation();
     if(t==='prev'){ esci(); return; }
-    if(t==='det') chiudiDettaglio();
+    if(t==='det'){ chiudiDettaglio(); var dp=detPrima; detPrima=null;
+      if(dp&&s&&s.chiave===chiaveScena()){ apriPunto(dp,true); return; } }   // la scheda di prima, nella stessa vista
     if(s&&s.chiave!==chiaveScena()) rimettiScena(s);   // la voce su cui si arriva ha la sua vista: se e' un'altra, si rimette
   });
   window._prevPopInVolo=function(){ return ignoraPop>0; };
@@ -17154,6 +17179,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!acceso) return;
     togliPassi(false); primaScena=''; rimessa=null;   // al prossimo ingresso la prima vista si scrive di nuovo sulla voce di allora
     acceso=false; window._prevAttivo=false; sorveglia(false); fumetto(false); viFondo();
+    document.documentElement.classList.remove('apre-vista');   // uscendo prima che la vista ci sia, torna la cartina
     VE.scena=''; VE.visti=[];   // la vista a etichette riparte da capo al prossimo ingresso (i dati dei paesi restano)
     /* ⚠️ IL BANNER VA VIA ANCHE LUI (29/10/2026, suo: «bug grave»): uscendo, anche col tasto Indietro di Chrome, restava
        in fondo alla mappa della pioggia, e toccando una citta' apriva la sua scheda e ridisegnava le icone sopra lo storico */
@@ -17479,24 +17505,30 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!na){ na=document.createElement('div'); na.id='vi-nastro'; L.DomEvent.disableClickPropagation(na); L.DomEvent.disableScrollPropagation(na); naPrendi(na); }
     // al telefono nel riquadro, prima della riga dei crediti; al computer nella mappa
     var pan=el('pv-pan'), fo=pan&&pan.querySelector('.fo');
-    if(tel()&&document.body.classList.contains('pv-det-aperto')){ naSopraDet(); }   // la scheda e' aperta: il banner le sta sopra
+    // ⚠️ appena creato il banner non e' ancora nella pagina e naSopraDet() lo cerca li': col link di un paese (scheda gia'
+    // aperta al primo disegno) al telefono non c'era MAI (giro di caccia sul sito vero, 30/10/2026)
+    if(tel()&&document.body.classList.contains('pv-det-aperto')){ if(!na.parentNode) el('map').appendChild(na); naSopraDet(); }   // la scheda e' aperta: il banner le sta sopra
     else if(tel()&&fo){ na.classList.remove('sopra-det'); na.style.bottom=''; if(na.nextSibling!==fo) pan.insertBefore(na,fo); }
     else { na.classList.remove('sopra-det'); na.style.bottom=''; if(na.parentNode!==el('map')) el('map').appendChild(na); }   // il «bottom» del telefono va tolto (difetto 22)
     na.style.display=su?'':'none'; document.body.classList.toggle('vi-nastro-on',!!su);
     if(su) naParti();
     // niente vetrina nelle previsioni (suo, 28/10 sera sulla vista Italia; 29/10: «voglio che sembri un sito meteo vero»)
     document.body.classList.toggle('vi-senza-vetrina',!!su);
-    if(ve){ document.documentElement.classList.remove('apre-italia'); return; }   // il banner della regione lo scrive veNastro, quando si sa chi si vede
     document.documentElement.classList.remove('apre-italia');   // da qui in poi decidono le classi qui sopra
+    if(su) document.documentElement.classList.remove('apre-vista');   // ⚠️ solo a vista fatta: prima di lei qui si passa anche senza
+    if(ve) return;   // il banner della regione lo scrive veNastro, quando si sa chi si vede
     // il banner si riscrive solo se cambia il giorno: le icone che arrivano dopo ridisegnano la mappa, e riscrivendolo
     // ripartirebbe da capo a ogni gruppo
-    if(it&&na._g===g&&na.firstChild) return;
+    // ⚠️ senza il giorno (chiudiDettaglio al telefono lo chiama solo per rimetterlo nel riquadro) non si riscrive: usciva
+    // «METEO ITALIA UNDEFINED NAN» (giro di caccia sul sito vero, 30/10/2026)
+    if(it&&(g==null||(na._g===g&&na.firstChild))) return;
     na._g=it?g:null;
     if(it){ var vv=[], dd=new Date(g+'T12:00:00'), oggi=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'}), dom=new Date(Date.parse(oggi+'T12:00:00')+864e5).toISOString().slice(0,10);
       var quando=g===oggi?'OGGI':g===dom?'DOMANI':(GIL[dd.getDay()]+' '+dd.getDate()).toUpperCase();
       (((aree.italia&&aree.italia.capoluoghi))||[]).forEach(function(c){ var e=(c.giorni||[]).filter(function(x){ return x.g===g; })[0]; if(!e) return;
         vv.push('<button class="v" data-n="'+escH(c.n)+'"><b>'+escH(c.n)+'</b><span class="ic">'+icona(e.s)+'</span><span class="mn">'+e.mn+'°</span><span class="mx">'+e.mx+'°</span></button>'); });
       na.innerHTML='<div class="lab">METEO ITALIA<span>'+escH(quando)+'</span></div><div class="t">'+vv.join('')+vv.join('')+'</div>';
+      VE.nastro='';   // riscritto per l'Italia: tornando alla stessa regione, veNastro lo deve rifare
       NA.w=0; NA.pos=0; NA.v=0; naParti(); }   // giorno nuovo: si riparte dall'inizio e si rimisura la larghezza
   }
   /* quando si apre la tabella, la targhetta toccata non deve finirci sotto: si scorre di quel tanto */
@@ -17796,8 +17828,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var p=(VE.visti||[]).filter(function(x){ return !x.altra; })[0]; if(!p||!VE.dati[veCh(p)]) return;   // il primo, e aspetta i SUOI dati
     VE.aperto0=true; apriPunto({n:p.n,lat:p.lat,lon:p.lon,q:p.q},true);
   }
+  /* ⚠️ IL BANNER TORNANDO ALL'ITALIA (30/10/2026, scheda 101, giro di caccia sul sito vero): viPezzi riscrive quello
+     dell'Italia solo se cambia il giorno (na._g); scritto qui per la regione, il segno restava quello di prima, e con
+     «Indietro» fino all'Italia restava «METEO CALIZZANO E DINTORNI» sopra le icone di tutta Italia. Qui lo si azzera, e
+     viPezzi azzera VE.nastro quando scrive il suo */
   function veNastro(){
     var na=el('vi-nastro'); if(!na||!VE.scena||italia()) return;
+    na._g=null;
     var gb=giorniBase(), g=gb&&gb[Math.min(giorno,gb.length-1)]?gb[Math.min(giorno,gb.length-1)].g:null;
     var lista=g?(VE.visti||[]).filter(function(p){ return !p.altra&&veDati(p,g); }):[];
     /* ⚠️ il nome cambia SUBITO (caccia ai bug, difetto 5): finche' i gradi non arrivavano restava «METEO ITALIA» con le
@@ -17822,7 +17859,15 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       // la spinta in basso solo per le regioni strette e lunghe (la Liguria): su quelle «alte» (Lombardia, Toscana)
       // rimpiccioliva la regione e i capoluoghi non ci stavano
       var bb=VE.bounds, alto=(bb.getNorth()-bb.getSouth())*111, largo=(bb.getEast()-bb.getWest())*111*Math.cos(bb.getCenter().lat*Math.PI/180);
-      tl=[reg?38:10,sopra+(reg&&alto<largo*0.5?200:20)]; br=[reg?38:10,sotto]; }
+      var spinta=reg&&alto<largo*0.5?200:20;
+      /* ⚠️ TELEFONI BASSI (30/10/2026, giro di caccia sul sito vero, 16 schermi): barra, casella, scheda al 40%, banner e
+         spinta superavano l'altezza della mappa e fitBounds andava allo zoom piu' lontano: la Liguria a 375×667 era il
+         nord Italia, a 360×640 l'Europa con l'Islanda, a 320×568 il mare. Alla vista restano almeno 180 px: si toglie
+         prima la spinta, poi il margine sotto (sotto la scheda finisce un pezzo di regione, ma si vede) */
+      var troppo=sopra+spinta+sotto+180-mb.height;
+      if(troppo>0){ var via=Math.min(troppo,spinta-20); spinta-=via; troppo-=via; }
+      if(troppo>0) sotto=Math.max(60,sotto-troppo);
+      tl=[reg?38:10,sopra+spinta]; br=[reg?38:10,sotto]; }
     else { var pn=el('pv-pan'), sx=pn&&pn.getBoundingClientRect().width>100?pn.getBoundingClientRect().right-mb.left+20:440;
       tl=[sx+(reg?80:0),reg?50:30]; br=[reg?110:30,reg?90:70]; }
     try{ m.fitBounds(VE.bounds,{paddingTopLeft:tl,paddingBottomRight:br,animate:false}); }catch(e){ return false; }
@@ -17842,7 +17887,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 
   /* ── il dettaglio di un posto ── */
   function apriPunto(c,silenzio){
-    if(!silenzio) passo('det');   // la scheda che si apre da sola (veApri, la ricerca) non e' un passo: vedi «COME UN SITO A PAGINE»
+    if(!silenzio) passo('det',null,{n:c.n,lat:c.lat,lon:c.lon,q:c.q==null?null:c.q});   // la scheda che si apre da sola (veApri, la ricerca) non e' un passo: vedi «COME UN SITO A PAGINE»
     punto={n:c.n,lat:c.lat,lon:c.lon,q:c.q==null?null:c.q};
     document.body.classList.add('pv-det-aperto');
     // telefono: la barra della regione fa da tetto. ⚠️ Come ALTEZZA MASSIMA, non come top (18/10/2026): col top
