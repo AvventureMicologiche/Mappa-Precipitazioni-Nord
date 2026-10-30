@@ -329,10 +329,32 @@ async function main() {
     targetDays = [1, 2].map(i => fmtDate(new Date(noon - i * 86400000)));   // ieri + altroieri
   }
 
+  /* ⚠️ UN SECONDO TENTATIVO, SOLO SE IL FILE E' RIMASTO SENZA (30/10/2026, scheda 101 ter). Il giro delle 4:30 del
+     30/10 ha preso 429 da Socrata sulla sola richiesta della direzione, cinque volte di fila: il file del 29/10 era
+     nuovo, tieniMeteo non aveva niente da tenere, e il giorno e' rimasto senza direzione fino al giro delle 12 (la
+     riserva delle 4:40 UTC GitHub l'ha fatta partire alle 11:00), con la mail di check-campi alle 11:45. Un minuto
+     dopo Socrata rispondeva gia' (l'altro ieri, chiesto subito dopo, e' passato). Quindi: se la richiesta meteo o
+     quella della direzione e' caduta e nel file scritto quel campo non c'e' su nessuna stazione, a fine giro si
+     aspetta un minuto e si rifa' il giorno UNA volta. Se il file ha gia' i valori dei giri prima non si richiede
+     niente: Socrata e' la fonte che risponde 429 alle raffiche. */
+  const daRifare = [];
   for (const dStr of targetDays) {
-    try { writeDay(dStr, await fetchDay(dStr, anagrafe, tempByStaz, windByStaz, umidByStaz)); }
+    try {
+      const st = await fetchDay(dStr, anagrafe, tempByStaz, windByStaz, umidByStaz);
+      const senza = c => !st.some(s => s[c] != null);
+      if (writeDay(dStr, st) && ((st.meteoKo && senza('t')) || (st.direzioneKo && senza('wd')))) daRifare.push(dStr);
+    }
     catch(e) { console.warn(`  Warn ${dStr}: ${e.message}`); }
     await sleep(500);
+  }
+  if (daRifare.length) {
+    console.log(`  ${daRifare.join(' + ')}: meteo o direzione caduti e assenti dal file, riprovo fra un minuto`);
+    await sleep(60000);
+    for (const dStr of daRifare) {
+      try { writeDay(dStr, await fetchDay(dStr, anagrafe, tempByStaz, windByStaz, umidByStaz)); }
+      catch(e) { console.warn(`  Warn ${dStr} (secondo tentativo): ${e.message}`); }
+      await sleep(500);
+    }
   }
 
   // ── Pulizia file > 730 giorni (retention finestra scorrevole) ──

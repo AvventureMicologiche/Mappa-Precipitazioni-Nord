@@ -52,6 +52,9 @@ const TABELLA = [
   ['05:45', ['meteohub.yml', 'svizzera.yml', 'emilia.yml', 'friuli-osmer.yml'], 45],
   // ── il guardiano resta come rete di sicurezza (ri-lancia cio' che manca ancora)
   ['06:00', ['guardiano.yml'], 0],
+  // ── i buchi MeteoHub (30/10/2026): il cron di GitHub delle 8:40 UTC partiva verso le 15:30 UTC, e la stima di un
+  // giorno perso arrivava due giorni dopo, di pomeriggio. Dopo i due giri MeteoHub (4:30, 5:45: durano 3-4 minuti).
+  ['06:15', ['meteohub-gaps.yml'], 60],
   ['06:30', ['guardiano.yml'], 0],
   ['07:00', ['guardiano.yml'], 0],
   ['07:15', ['emilia.yml'], 45],        // ARPAE completa la giornata fra le 6:30 e le 11

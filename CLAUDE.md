@@ -90,6 +90,14 @@ mobile con fallback centro/zoom per il centro-sud.
   NON fatte**: ieri e l'altro ieri in una richiesta (le ore di Socrata si raggruppano per giorno e ora, e la marca delle
   00:00 appartiene al giorno prima: una finestra di due giorni la metterebbe nel secchiello sbagliato) e saltare i giri
   dopo le 4:30 (misurato sulla storia di git: ARPA aggiunge dati a ieri fino a sera, il 20/10 163 stazioni e 97 mm)
+- **Secondo tentativo a fine giro (30/10/2026).** Il giro delle 4:30 del 30/10 ha preso 429 da Socrata cinque volte
+  sulla sola richiesta della direzione: il file del 29/10 era nuovo, `tieniMeteo` non aveva niente da tenere, e il giorno
+  e' rimasto senza direzione fino al giro delle 12 (la riserva delle 04:40 UTC e' partita alle 11:00), con la mail di
+  `check-campi` alle 11:45. Ora, se la richiesta meteo o quella della direzione cade e nel file scritto quel campo non c'e'
+  su nessuna stazione, a fine giro si aspetta un minuto e si rifa' il giorno UNA volta. Se il file ha gia' i valori dei
+  giri prima non si richiede niente. Provato in una copia con le risposte vere registrate e i 429 finti: vecchio wd 0,
+  nuovo wd 120 (anche con la richiesta meteo caduta: vecchio t/w/u a 0, nuovo tutto); file gia' pieno = nessuna richiesta
+  in piu'; Socrata che non risponde mai = file come prima, ~5 minuti in piu' di giro (tetto 20)
 - ⚠️ **GLI ORARI DI SOCRATA SONO IN ORA SOLARE FISSA (UTC+1) TUTTO L'ANNO, marca a FINE dei 10 minuti** (misurato il
   26/10/2026 contro MeteoHub dpcn-lombardia: ore di pioggia identiche nel 97% con questa lettura, 5-22% con le altre).
   Fino al 26/10 il collector chiedeva «D 00:00:00 - D 23:59:59» in quegli orari: d'estate il giorno lombardo andava
@@ -433,7 +441,7 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   cadere (Marche) e tagliata a meta' (Sicilia); richieste 138 → 74 al primo giro, 19 al secondo. `collectDay` resta
   com'era per il ripiego del Piemonte. Un effetto in piu': una temperatura tolta da `pulisci-temperature.js` non torna
   piu' al giro dopo, perche' il meteo di quel giorno non si richiede.
-- **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (08:40 UTC) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
+- **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (dal 30/10/2026 sveglia alle 6:15 italiane, dopo i giri MeteoHub delle 4:30 e 5:45; il cron 08:40 UTC resta di riserva: partiva verso le 15:30 UTC, e la stima di un giorno perso arrivava a G+2 di pomeriggio) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
 - **Misura della frequenza:** `.github/scripts/analizza-buchi-meteohub.js` (da lanciare a mano) — legge il registro e dà eventi per settimana, distanza fra un evento e l'altro e quota di giorni finiti a stime, rete per rete. È il numero su cui si decide l'uscita dal beta, al posto del "mi sembra che peggiori"
 - **Dati reali da:** Marche/Umbria 13 luglio 2026 (16-17/7 blackout piattaforma, stimati), le altre 8 dal 19 luglio; prima backfill Open-Meteo (`source: open-meteo-backfill-*`) dal 14-20 maggio
 - **Temperatura/vento (dall'11/8/2026):** prodotti `B12101` (temperatura, ⚠️ **KELVIN** → `v>100 ? v-273,15`, come la Francia), `B11002` (vento medio, m/s → ×3,6) e `B11041` (raffica, poche stazioni — null dove manca); tre query in più per (rete, giorno), stazioni agganciate per id lat_lon, serie più fitta per prodotto, ore coperte ≥20. Backfill `backfill-meteo-meteohub.js` (finestra API ~9 giorni, dal 2/8)
@@ -1099,6 +1107,11 @@ richiesta cade o arriva corta), Lombardia con l'anagrafe in una richiesta, vento
 toscano da MeteoHub una volta al giorno. Prima la misura sulla storia di git (quando
 il file di ieri smette di cambiare), poi vecchio contro nuovo: file identici in tutte
 e quattro. Stima: da ~6.250 a ~5.000 richieste al giorno.
+**30/10/2026: `meteohub-gaps.yml` entra nella sveglia alle 6:15** (salta se GitHub l'ha fatto
+nell'ultima ora). Il suo cron delle 8:40 UTC partiva da giorni verso le 15:30 UTC: la stima di un
+giorno MeteoHub perso (Puglia 26-29/10) arrivava a G+2 di pomeriggio, e l'allarme fonti delle 11:45
+leggeva un registro vecchio di un giorno. Il cron resta come riserva: un secondo giro aggiorna il
+registro e non copre due volte.
 
 **Cosa fa.** Per ogni cartella di `data/` controlla che ci sia il giorno che
 dovrebbe esserci; se manca e l'ultimo giro programmato di quel workflow e'
