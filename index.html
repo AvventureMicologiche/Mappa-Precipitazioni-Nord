@@ -15908,6 +15908,17 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 })();
 </script>
 <!-- ═══ FINESTRA «NOVITÀ» ALLA PRIMA APERTURA (30/9/2026, sua richiesta; rifatta due volte la stessa notte) ═══
+     ⚠️ 30/10/2026 (VERSIONE 2026-10-30, NV_FINO domenica 8/11 alle 21): UNA pagina, la NUOVA SEZIONE METEO (suo: «hai
+     visto la nuova sezione meteo? fai un giro nella nostra nuova sezione meteo»). Filmato novita/meteo (~9 s,
+     registra-meteo-novita.js nel banco): l'inizio del film della home (l'Italia scura, i pluviometri che si accendono)
+     che si dissolve nella mappa delle previsioni con la stessa inquadratura, a TUTTA MAPPA (suo, sulla prima versione:
+     «dimmi dov'e' la mappa? quella striscia di 2 cm?»); poi la Toscana, il dito che tocca Siena e la sua scheda con le
+     ore (suo: «fai vedere senza frasi come uno naviga e apre le previsioni»). Due scritte sole. Bottoni «Chiudi» (fine)
+     e GIALLO «☀️ Vai alle previsioni» (vai.prev): chiude
+     la finestra e preme la linguetta «Previsioni», come farebbe il dito; niente scheda nuova. Si vede DUE VOLTE (suo:
+     «alla prima chiusura torna a una visita successiva, alla seconda chiusura non appare piu'»): con una pagina sola
+     la «seconda pagina» della visita dopo e' la stessa (BIS). Non si apre sopra le previsioni gia' aperte.
+     Le cerrete del 25/10 sono uscite (filmato in novita/).
      ⚠️ 25/10/2026: UNA pagina, le CERRETE dentro un «grazie» che porta a YouTube (sua idea: «grazie, siamo in continua
      crescita e siete tantissimi... se non sei iscritto sostienici su YouTube»). Filmato = l'inizio del film della home
      (verticale, accelerato fino ai boschi sull'Italia intera) piu' lo zoom rifatto con le tessere nuove, MASSIMO 10
@@ -15957,6 +15968,11 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 #nv-gioca.yt.pulsa{animation:nvPulsaY 1.3s ease-in-out infinite}
 @keyframes nvPulsaY{0%,100%{box-shadow:0 4px 0 #7d0d12,0 0 0 0 rgba(224,38,46,.6)}50%{box-shadow:0 4px 0 #7d0d12,0 0 0 9px rgba(224,38,46,0)}}
 @keyframes nvPulsaA{0%,100%{box-shadow:0 4px 0 #a85d0c,0 0 0 0 rgba(232,137,28,.6)}50%{box-shadow:0 4px 0 #a85d0c,0 0 0 9px rgba(232,137,28,0)}}
+/* il bottone del meteo (30/10/2026): il giallo della linguetta «Previsioni» e del banner, scritta blu della testata */
+#nv-gioca.prev{background:linear-gradient(180deg,#ffdf5e,#ffcc1f);color:#1b3f6e;border-color:#e0ad00;box-shadow:0 4px 0 #b88a00}
+#nv-gioca.prev:hover{background:linear-gradient(180deg,#ffe57a,#ffd23a)}
+#nv-gioca.prev.pulsa{animation:nvPulsaM 1.3s ease-in-out infinite}
+@keyframes nvPulsaM{0%,100%{box-shadow:0 4px 0 #b88a00,0 0 0 0 rgba(255,204,31,.7)}50%{box-shadow:0 4px 0 #b88a00,0 0 0 9px rgba(255,204,31,0)}}
 #nv-avanti.sec{background:#eef3fb;color:#1b3f6e;border:1px solid #c9d6ea;font-weight:700;font-size:15px;min-width:0;padding:14px 8px}
 #nv-piede.coppia #nv-avanti,#nv-piede.coppia #nv-gioca{flex:1 1 0;min-width:0;white-space:nowrap;box-sizing:border-box;height:48px;display:flex;align-items:center;justify-content:center;text-align:center}
 /* CELLE UGUALI ANCHE SUL TELEFONO (26/10/2026, suo: a 360 px «Vai alla mappa» andava a capo). «▶ Iscriviti su YouTube»
@@ -15992,13 +16008,13 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
 #nv-avanti.pulsa{animation:nvPulsa 1.3s ease-in-out infinite}
 @keyframes nvPulsa{0%,100%{box-shadow:0 0 0 0 rgba(27,63,110,.55)}50%{box-shadow:0 0 0 9px rgba(27,63,110,0)}}
 @media(max-width:900px){ #nv-box{max-width:none} #nv-tit{font-size:24px} #nv-dida{font-size:18.5px} }
-@media(prefers-reduced-motion:reduce){ #nv-gioca.pulsa,#nv-gioca.yt.pulsa{animation:none} }
+@media(prefers-reduced-motion:reduce){ #nv-gioca.pulsa,#nv-gioca.yt.pulsa,#nv-gioca.prev.pulsa{animation:none} }
 @media(max-height:660px){ #nv-tit{font-size:21px} #nv-dida{min-height:2.4em} #nv-dida span{font-size:17px;padding:7px 12px} #nv-avanti{padding:12px 16px;font-size:15px;min-width:130px} #nv-dietro{padding:12px 12px;font-size:14px} #nv-testo{padding-top:4px;padding-bottom:6px} #nv-film{max-height:calc(100dvh - 20px - 190px)} }
 </style>
 <script>
 (function(){
-  var VERSIONE='2026-10-26', CHIAVE='novitaVista';   // 26/10: le cerrete e il grazie con YouTube (prima, 20/10: il quiz tartufi)
-  var NV_FINO='2026-11-01T21:00';   // si apre da sola fino a domenica 1/11 alle 21 (suo, 26/10/2026); ?novita=1 la mostra sempre
+  var VERSIONE='2026-10-30', CHIAVE='novitaVista';   // 30/10: la nuova sezione meteo (prima, 26/10: le cerrete e il grazie con YouTube)
+  var NV_FINO='2026-11-08T21:00';   // si apre da sola fino a domenica 8/11 alle 21 (suo, 30/10/2026: «fino a domenica 8 sera»); ?novita=1 la mostra sempre
   function oraQui(){ var d=new Date(), z=function(n){ return ('0'+n).slice(-2); };   // ora del telefono, non UTC
     return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'T'+z(d.getHours())+':'+z(d.getMinutes()); }
   /* 5/10/2026: i filmati (4-5 MB l'uno) li serve GitHub, non Netlify. In cinque giorni di ottobre
@@ -16016,10 +16032,19 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
        img = immagine fissa al posto del filmato; vai = bottone verso fuori, in una scheda nuova. */
     /* 25/10/2026 (suo): le cerrete dentro un grazie, e la spinta a iscriversi. Il quiz del 20/10 e' uscito (l'immagine
        resta in novita/). vai.yt = bottone rosso di YouTube; vai.ga = l'azione dell'evento novita_finestra. */
-    {t:'Mappa dei boschi: arrivano le cerrete', f:'novita/cerrete',
-     d:[[0, 'Siete tantissimi. Grazie!'], [4.0, 'Novità: le cerrete hanno un colore loro'], [8.4, 'Ti è utile? Sostienici su YouTube']],   // 4,0 = compaiono i boschi, 8,4 = il fermo finale (monta-cerrete.py)
-     vai:{testo:'▶ Iscriviti su YouTube', corto:'Iscriviti', url:'https://www.youtube.com/@avventuremicologiche?sub_confirmation=1', yt:true, ga:'youtube'}}
+    /* 30/10/2026 (suo): la nuova sezione meteo. Le cerrete del 25/10 escono (il filmato resta in novita/).
+       vai.prev = bottone giallo che apre le previsioni QUI (chiude la finestra e preme la linguetta), non un indirizzo fuori;
+       fine = la scritta del bottone che chiude (di solito «Vai alla mappa»). Due scritte sole: il tocco su Siena e la scheda
+       che si apre si spiegano da se' (suo: «regione per regione, paese per paese... toglile, devi far vedere anche senza
+       frasi come uno naviga e apre le previsioni»). */
+    {t:'Hai visto la nuova sezione meteo?', f:'novita/meteo',
+     d:[[0, 'Migliaia di pluviometri'], [1.46, 'Ora anche le previsioni']],   // i marchi di registra-meteo-novita.js
+     vai:{testo:'☀️ Vai alle previsioni', corto:'Vai alle previsioni', url:'/previsioni/', prev:true, ga:'previsioni'}, fine:'Chiudi'}
   ];
+  /* DUE VOLTE (30/10/2026, suo: «alla prima chiusura torna a una visita successiva, alla seconda chiusura non appare
+     piu'»): con UNA pagina sola, alla visita dopo (RIM_DOPO) si rivede la stessa pagina e poi basta. seconda = questa
+     apertura e' la seconda volta. Con due pagine resta com'era (una per visita). */
+  var BIS=PAGINE.length===1, seconda=false;
   var AVANZA_DOPO=1200;   // ms fermi sull'ultimo fotogramma prima di passare da soli alla pagina dopo
   var avanzaT=null;
   var velo=null, idx=0, vids=[], elTit, elDida, elConta, elPunti, elAvanti, elDietro, elFilm;
@@ -16029,7 +16054,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   function vista(){ return letto()===VERSIONE; }
   // la prima pagina gia' vista: restituisce l'ora, se no null
   function primaVista(){ var p=letto().split('|'); return (p.length===3&&p[0]===VERSIONE&&p[1]==='1') ? (+p[2]||0) : null; }
-  function segna(){ try{ localStorage.setItem(CHIAVE, SEQ.indexOf(PAGINE.length-1)>=0 ? VERSIONE : VERSIONE+'|1|'+Date.now()); }catch(e){} }
+  function segna(){ var tutte= BIS ? (seconda||forzata()) : SEQ.indexOf(PAGINE.length-1)>=0;   // BIS: vista tutta solo la seconda volta (o chiesta con ?novita=1)
+    try{ localStorage.setItem(CHIAVE, tutte ? VERSIONE : VERSIONE+'|1|'+Date.now()); }catch(e){} }
   /* RIMANDATA (2/10/2026, suo: «se non gliel'abbiamo fatta vedere la prima volta la deve vedere la seconda»):
      chi arriva con qualcosa nell'indirizzo (pagine nostre s=p, link condivisi, date) non la vede subito,
      ma si segna l'ora; alla visita dopo, da dove che arrivi, si apre. 30' di distanza = una visita nuova,
@@ -16061,7 +16087,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
          sull'ultima pagina ci si ferma sull'ultimo fotogramma e «Vai alla mappa» pulsa */
       v.addEventListener('ended',function(){ if(i!==idx) return;
         if(pos()<SEQ.length-1){ clearTimeout(avanzaT); avanzaT=setTimeout(function(){ if(velo.classList.contains('su')&&idx===i) avanti(true); },AVANZA_DOPO); }
-        else elAvanti.classList.add('pulsa'); });
+        else if(!PAGINE[i].vai) elAvanti.classList.add('pulsa'); });   // col bottone colorato pulsa lui, non quello che chiude
       elFilm.insertBefore(v,elFilm.firstChild); vids.push(v);
       var p=document.createElement('i'); elPunti.appendChild(p);
     });
@@ -16070,8 +16096,11 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     elDietro.addEventListener('click',indietro);
     // un tocco sul filmato: da capo; sull'IMMAGINE di una pagina con vai (il quiz): il suo indirizzo
     elFilm.addEventListener('click',function(){ var pg=PAGINE[idx]; if(pg.vai&&pg.img){ window.open(pg.vai.url,'_blank','noopener'); chiudi(pg.vai.ga||'quiz'); } else riparti(); });
-    document.getElementById('nv-gioca').addEventListener('click',function(){   // il link apre la scheda nuova da solo
-      var v=PAGINE[idx].vai||{}; if(v.yt){ try{ gtag('event','click_youtube',{pulsante:'novita'}); }catch(e){} } chiudi(v.ga||'quiz'); });
+    document.getElementById('nv-gioca').addEventListener('click',function(e){   // il link apre la scheda nuova da solo
+      var v=PAGINE[idx].vai||{}; if(v.yt){ try{ gtag('event','click_youtube',{pulsante:'novita'}); }catch(x){} }
+      if(v.prev){ e.preventDefault(); chiudi(v.ga); var sp=document.getElementById('sez-prev');   // le previsioni qui: la linguetta, come col dito
+        if(sp) sp.click(); else location.href=v.url; return; }
+      chiudi(v.ga||'quiz'); });
     velo.addEventListener('click',function(e){ if(e.target===velo) chiudi('chiusa'); });
   }
   function didascalia(t){
@@ -16086,7 +16115,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     elTit.textContent=pg.t; elConta.textContent= SEQ.length>1 ? (q+1)+' di '+SEQ.length : '';
     elPunti.style.visibility= SEQ.length>1 ? '' : 'hidden';
     [].forEach.call(elPunti.children,function(p,k){ p.className=k===i?'on':''; });
-    elAvanti.textContent= q<SEQ.length-1 ? 'Continua →' : 'Vai alla mappa';
+    elAvanti.textContent= q<SEQ.length-1 ? 'Continua →' : (pg.fine||'Vai alla mappa');
     elAvanti.classList.remove('pulsa');
     if(q>0) elDietro.removeAttribute('disabled'); else elDietro.setAttribute('disabled','');
     var g=document.getElementById('nv-gioca');
@@ -16098,7 +16127,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
         if(pg.vai.yt) co.innerHTML='<svg viewBox="0 0 42 30" aria-hidden="true"><rect width="42" height="30" rx="6"/><polygon points="16,7 16,23 31,15"/></svg>';
         co.appendChild(ct); g.appendChild(lu); g.appendChild(co);
       }
-      g.href=pg.vai.url; g.style.display='flex'; g.classList.add('pulsa'); g.classList.toggle('yt',!!pg.vai.yt); elAvanti.classList.add('sec'); elDietro.style.display= q>0 ? '' : 'none'; piede.classList.toggle('coppia', q===0); }
+      g.href=pg.vai.url; if(pg.vai.prev) g.removeAttribute('target'); else g.target='_blank';
+      g.style.display='flex'; g.classList.add('pulsa'); g.classList.toggle('yt',!!pg.vai.yt); g.classList.toggle('prev',!!pg.vai.prev); elAvanti.classList.add('sec'); elDietro.style.display= q>0 ? '' : 'none'; piede.classList.toggle('coppia', q===0); }
     else { g.style.display='none'; g.classList.remove('pulsa'); elAvanti.classList.remove('sec'); elDietro.style.display=''; piede.classList.remove('coppia'); }
     vids.forEach(function(v,k){
       if(k===i){ v.classList.remove('via'); if(!v.getAttribute('src')){ v.src=NV_MEDIA+pg.f+'.mp4'; v.load(); } riparti(); }
@@ -16128,7 +16158,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       if(t1!==null){
         // la seconda pagina: a una visita NUOVA, da qualunque indirizzo (la mappa ormai la conosce)
         if(Date.now()-t1<RIM_DOPO) return;
-        SEQ=[1];
+        SEQ=[BIS?0:1]; seconda=BIS;
       } else {
         if(location.search && location.search!=='?'){ if(rimandoMaturo()) rimandata=true; else { rimanda(); return; } }
         else if(rimandoMaturo()) rimandata=true;
@@ -16136,7 +16166,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       }
     }
     var t0=Date.now();
-    (function aspetta(){ if(pronta()||Date.now()-t0>8000) setTimeout(apri,900); else setTimeout(aspetta,300); })();
+    /* non sopra le previsioni gia' aperte (30/10/2026: la novita' e' proprio il meteo, e chi c'e' gia' dentro non va
+       interrotto); non si segna niente, quindi la finestra arriva a una visita dallo storico */
+    function aperte(){ return !forzata() && (window._prevAttivo || document.documentElement.classList.contains('apre-prev')); }
+    (function aspetta(){ if(pronta()||Date.now()-t0>8000) setTimeout(function(){ if(!aperte()) apri(); },900); else setTimeout(aspetta,300); })();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();

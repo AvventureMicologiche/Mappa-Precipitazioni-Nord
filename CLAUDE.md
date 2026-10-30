@@ -716,6 +716,27 @@ c'era nessuna fase beta da aspettare.
 ---
 
 ## UI Features
+- **Finestra «Novità» 30/10/2026 (VERSIONE `2026-10-30`, NV_FINO `2026-11-08T21:00`: domenica 8/11 alle 21), sua
+  richiesta: far conoscere la NUOVA SEZIONE METEO** («hai visto la nuova sezione meteo? fai un giro nella nostra nuova
+  sezione meteo»). Una pagina, «Hai visto la nuova sezione meteo?», filmato `novita/meteo.mp4` (~9 s, 786x1056, da
+  `registra-meteo-novita.js` nel banco): l'inizio del film verticale della home (l'Italia scura, i pluviometri che si
+  accendono, da `apertura-v-1080.mp4`) che si dissolve nella mappa delle previsioni con la STESSA inquadratura (centro
+  42,0 12,55, zoom 6,85 a 1080 px = 5,50 a 393 px CSS), A TUTTA MAPPA col banner in fondo (testata, riquadri e controlli
+  nascosti solo nel filmato); poi a stacchi la Toscana, il dito che tocca Siena (cerchio del tocco solo nel filmato) e
+  la sua scheda con le ore (al 55%, senza il piede). Due versioni bocciate: la prima (freccia sulla linguetta, scheda
+  ora per ora a schermo stretto: «dimmi dov'e' la mappa? quella striscia di 2 cm?») e la seconda con le scritte
+  «Regione per regione» e «Paese per paese» («e' ovvio che un sito meteo ha tutti i paesi... devi far vedere anche
+  senza frasi come uno naviga e apre le previsioni»). Due scritte sole: «Migliaia di pluviometri» · «Ora anche le
+  previsioni». Bottoni «Chiudi» (`fine`) e GIALLO «☀️ Vai alle previsioni» (sotto i 440 px senza il sole; `vai.prev`,
+  `#nv-gioca.prev`); a filmato finito pulsa solo il giallo:
+  chiude la finestra e preme la linguetta «Previsioni» (`#sez-prev`), nella stessa pagina; GA `novita_finestra`
+  azione=`previsioni`. **DUE VOLTE** (suo: «alla prima chiusura torna a una visita successiva, alla seconda chiusura non
+  appare piu'»): con una pagina sola (`BIS`) la visita dopo (`RIM_DOPO`, 30') rivede la stessa pagina (`seconda`), poi
+  `novitaVista` = VERSIONE. Chi arriva da un link resta rimandato come prima. **Non si apre sopra le previsioni gia'
+  aperte** (`aperte()`: `_prevAttivo` o `apre-prev`), e in quel caso non segna niente. Prova dei 22 casi (due volte,
+  bottone, link, `?m=prev`, `/previsioni/`, `?novita=1/0`, scadenza con l'orologio finto) su 393, 360 e PC:
+  `prova-novita-meteo.js` nello scratchpad della scheda 102. ⚠️ In locale la pagina chiede le previsioni alla 8788:
+  aperta come `http://prova.localhost:8790/` le chiede a se stessa (e il satellite funziona). Le cerrete sono uscite.
 - **Finestra «Novità» 26/10/2026 (VERSIONE `2026-10-26`, NV_FINO `2026-11-01T21:00`: domenica alle 21, ora del
   telefono; da questa volta NV_FINO porta anche l'ora)**, sua richiesta: un GRAZIE che spinge il
   canale, con la novita' delle cerrete. Una pagina, «Mappa dei boschi: arrivano le cerrete», filmato `novita/cerrete.mp4`
