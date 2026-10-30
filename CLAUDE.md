@@ -3051,6 +3051,25 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   Lombardia, Lazio, Marche, Umbria, Campania, Calabria e Sicilia l'anteprima «Pluviometri» ripiegava su quella di IERI
   sotto la scritta «ultimi 7 giorni» (suo, sulla Val Brembana). Una zona meteo nuova in un'altra regione la aggiunge da
   sola; se il 7 giorni manca, la pagina ripiega ancora su ieri (la pillola in alto lo dice).
+- **La barra che scorre SOPRA LA SCHEDA ORA PER ORA (30/10/2026, scheda 101 bis, suo: «sì, la barra»)**, zone e
+  paesi: la stessa della vista Italia della mappa (`#vi-nastro`: fascia gialla, filetti rossi, blocco rosso tagliato in
+  diagonale), `.pz-nastro` nello stile, `nastroHtml()` nell'HTML, `disegnaNastro()`/`naGira()` in `clientePagina`.
+  ⚠️ **Fa da testata della scheda, nella stessa cornice blu** (suo, fra tre posizioni provate con `?nb=` e un
+  confronto a quattro telefoni: «C, sopra la scheda»): prima stava sotto la mappa, e lui: «è un po' sprecata, è il
+  nostro pezzo wow e uno deve scrollare tutto» (al telefono era a 2.750 px dall'inizio). Scartate: in cima sotto il
+  menu, e in cima attaccata in alto scorrendo (40 px di schermo per sempre, e si muove mentre si leggono le ore).
+  Toccando un paese la scheda li' sotto passa a quel paese e si porta in vista la barra; con la scheda chiusa (×) la
+  cornice si chiude sotto la barra (`:has`). Mai fissa in fondo allo schermo: coprirebbe il testo. Nelle ZONE i paesi dal
+  più basso al più alto coi metri (la valle che sale e la temperatura che scende); nelle pagine PAESE prima il paese,
+  poi gli altri dal più vicino coi km. Blocco rosso «METEO <ZONA>» (`C.nastro`) e il giorno scelto nei 7 giorni; se il
+  nome non ci sta (telefono oltre due righe, computer oltre metà barra: Colline Metallifere grossetane, Media Valle del
+  Serchio) resta «METEO» col giorno (`taglia()`, classe `corto`). Scorre a 45 px/s, si trascina col dito o col mouse con
+  lo slancio, un tocco sotto i 6 px apre la scheda ora per ora (evento `scheda-nastro`); ferma col mouse sopra, fuori
+  dallo schermo (IntersectionObserver) e con «riduci movimento». ⚠️ `touch-action: pan-y`, non `none` come nella mappa:
+  col dito in su e in giù la pagina deve scorrere. ⚠️ Si ridisegna solo se cambia la LARGHEZZA: al telefono la barra
+  degli indirizzi che sparisce è un resize e la faceva ripartire. Il contenuto è ripetuto quanto basta a riempire la
+  fascia e il primo paese parte dopo il blocco rosso (`padding-left`). Prova: 51 pagine × telefono 393, computer 1366 e
+  1920, 153/153 (scratchpad 79554e37 `prova-nastro.js`).
 
 ### Pagine «Meteo <paese>» (/meteo/<regione>/<paese>/, 28/10/2026)
 
@@ -3156,6 +3175,35 @@ regioni, tipi di bosco, zone), meteo (zone e paesi), guida e fonti. Restano fuor
 - **La pagina «adesso»: il radar su Italia e un pezzo d'Europa** per tutte le 21 regioni (suo, «indipendentemente»),
   col confine della regione disegnato: `lib/pagina-adesso.js`, `fitBounds([[37.2,6.5],[50.2,18.5]])` allargato alla
   regione intera (la Sicilia scende sotto i 37,2°).
+- **La pagina «adesso»: la barra che scorre sotto il radar e «Previsioni meteo valle per valle»** (30/10/2026, scheda
+  101 bis, suo: «sì, tutti e due»). La barra (`#nastro` fra `#mappa` e i tasti del riquadro `.rb`) e' quella delle
+  pagine meteo (sezione «Pagine «Previsioni meteo <zona>»»): le citta' delle carte con icona, minima e massima di OGGI,
+  scritta quando sono arrivate tutte (nessuna richiesta in piu'), «METEO <REGIONE> OGGI»; un tocco apre la citta' sulla
+  mappa come la sua carta (evento `adesso_barra`). Sta sotto il radar e non sopra le carte perche' cosi' e' nella prima
+  schermata anche al telefono. ⚠️ Stile e codice sono COPIATI da `genera-pagine-meteo-zona.js` (`.pz-nastro`, `naGira`,
+  `taglia`): se cambia li', si cambia anche qui. Il blocco dei link: `linkMeteoRegione(reg)` di
+  `genera-pagine-meteo-zona.js`, dopo le carte delle citta', «Meteo <nome>» in pillole, prima le valli poi i paesi, in
+  ordine alfabetico (eventi `apri_meteo_zona` / `apri_meteo_paese`, `da: pagina-<reg>-adesso`). Le «adesso» sono su
+  Google da subito e passano la strada alle pagine meteo; nelle regioni senza pagine meteo il blocco non c'e' e compare
+  da solo rigenerando. ⚠️ Una zona o un paese meteo nuovo: si rigenerano anche le «adesso».
+- **La pagina «adesso»: la riga viva «se e come sta piovendo»** (30/10/2026, scheda 101 bis, suo: «il commento in alto
+  dovrebbe dire qualcosa che dice se e come sta piovendo», poi «sì, solo la riga»: la goccia «PIOVE» nella barra no,
+  l'icona della barra e' la previsione del giorno e accanto a un'osservazione confondeva). Riquadro `.ad-ora` sotto il
+  sottotitolo, prima del radar, scritto da `rigaViva()` in `lib/pagina-adesso.js` (`VERSIONE_JS` 7) all'apertura e ogni
+  5 minuti: «Adesso · radar delle 11:20» e frasi da bollettino (suo, lo stesso giorno: «metti delle frasi più eleganti»,
+  la brutta era «Non piove in Veneto, e nemmeno nei 150 km intorno»): «Pioggia moderata su Bari, debole su Taranto.
+  Nelle altre sei città è asciutto. Le precipitazioni interessano l'11% circa della Puglia.», «Le città sono all'asciutto, ma
+  piove debolmente nella zona di Salerno.», «Tempo asciutto in Toscana. La pioggia più vicina è a est di Arezzo, a circa
+  75 km.», «Tempo asciutto in Veneto e in tutte le zone vicine.», «Entro le 12:00 la pioggia potrebbe raggiungere anche
+  Gubbio.». La percentuale si scrive solo se una frase prima ha detto che piove. ⚠️ **Legge i PIXEL del radar**: le tessere LibreWXR con lo SCHEMA 0 (`/0/0_0.png`, grigio = dBZ
+  + 32, provato contro lo schema 2: 42 = 10 dBZ, il minimo), lette in una tela (le tessere hanno
+  `access-control-allow-origin: *`), zoom 6 (~2 km a pixel). mm/h con Marshall-Palmer (Z = 200·R^1,6); classi con le
+  soglie della pagina: sotto 0,3 niente, debole < 2, moderata < 6, forte < 24, molto forte. Citta' = il pixel piu' forte
+  nei 3×3 intorno; regione = maschera del confine disegnata sulla tela; «più forte» solo con almeno 4 pixel di quella
+  classe (un pixel solo puo' essere un'eco spuria); pioggia piu' vicina cercata nella regione e 1,5° intorno, oltre
+  150 km «e in tutte le zone vicine»; «entro le…» dai fotogrammi `nowcast` per le citta' ancora asciutte. Il testo
+  fisso del sottotitolo resta (Google legge quello). Provata il 30/10 mattina con pioggia vera al sud: 21 regioni × 2,
+  42/42 (scratchpad 79554e37 `prova-adesso.js`, `radar-colori.js`).
 - **Guida e fonti** non hanno generatore: la testata la mette `testata-pagine-a-mano.js`, da RILANCIARE quando cambia
   `lib-testata.js`. La guida perde «← Torna alla mappa» (ci porta il logo), le fonti la barra «← Mappa» (il titolo
   passa dentro la pagina).

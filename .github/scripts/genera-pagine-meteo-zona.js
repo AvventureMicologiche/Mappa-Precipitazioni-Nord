@@ -123,6 +123,22 @@ function linkMeteoPaese(loc, ga) {
   return `<p class="mk-meteo-zona" style="margin:12px 0 2px;font-size:16px;font-weight:700"><a href="${indirizzoMeteoPaese(p)}"`
     + ` onclick="try{gtag('event','apri_meteo_paese',{da:'${ga}'})}catch(e){}">Meteo ${esc(p.n)}: previsioni ora per ora →</a></p>`;
 }
+/* «Previsioni meteo valle per valle» (30/10/2026, scheda 101 bis, suo: «sì, tutti e due»): le pagine meteo di zona e di
+   paese di UNA regione, per le pagine «adesso» (genera-pagine-adesso.js). Link veri nell'HTML: le «adesso» sono su
+   Google da subito e portano li' le pagine meteo. Stile .mv nella pagina che lo chiede. Vuoto se la regione non ne ha:
+   compare da solo quando ne arriva una. Ordine alfabetico, «Meteo <nome>» come il titolo delle pagine. */
+function linkMeteoRegione(reg, ga) {
+  const voce = (href, n, ev) => `<a class="mv-c" href="${href}" onclick="try{gtag('event','${ev}',{da:'${ga}'})}catch(e){}">Meteo ${esc(n)}</a>`;
+  const per = (a, b) => a.n.localeCompare(b.n, 'it');
+  const zone = ZONE_METEO_TUTTE.map(s => ZONE.find(z => slug(z.n) === s)).filter(z => z && z.reg === reg).sort(per);
+  const paesi = METEO_PAESI.filter(p => p.loc.split('/')[0] === reg).sort(per);
+  if (!zone.length && !paesi.length) return '';
+  return (zone.length ? `<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
+<p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
+<div class="mv">${zone.map(z => voce(`${SITO}/meteo/${slug(z.n)}/`, z.n, 'apri_meteo_zona')).join('')}</div>\n` : '')
+    + (paesi.length ? `<h3 class="cit-tit">Previsioni meteo paese per paese</h3>
+<div class="mv">${paesi.map(p => voce(indirizzoMeteoPaese(p), p.n, 'apri_meteo_paese')).join('')}</div>\n` : '');
+}
 
 const CSS = `
 .bric{font-size:14px;color:#666;margin-bottom:6px;}
@@ -162,6 +178,28 @@ const CSS = `
 .pz-mappa-testa{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .pz-mappa-testa .dove{font-weight:700;color:#0f3d6e}
 #pz-mappa{height:460px;border-radius:12px;border:1px solid #c9d5e1;margin:8px 0 4px;z-index:1}
+/* LA BARRA CHE SCORRE (30/10/2026, suo: «sì, la barra»): la stessa della vista Italia della mappa (#vi-nastro di
+   index.html: fascia gialla, filetti rossi, blocco rosso tagliato in diagonale). ⚠️ STA SOPRA LA SCHEDA ORA PER ORA,
+   come la sua testata, nella stessa cornice blu (suo, fra tre posizioni provate: «C, sopra la scheda»). Sotto la mappa
+   «è un po' sprecata, è il nostro pezzo wow e uno deve scrollare tutto» (al telefono stava a 2.750 px); in cima sotto il
+   menu e attaccata in alto scorrendo le altre due, scartate. Toccando un paese la scheda li' sotto passa a quel paese.
+   Con la scheda chiusa (×) la barra ha la cornice intera. touch-action pan-y: col dito in su e in giu' la pagina
+   scorre, di lato si trascina la barra (naGira in clientePagina) */
+.pz-nastro{position:relative;height:44px;overflow:hidden;background:#ffd400;border:2px solid #1a5fa8;border-bottom:0;border-radius:14px 14px 0 0;margin:14px 0 0;scroll-margin-top:12px;display:flex;align-items:center;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pz-nastro:not([hidden]) + .pz-scheda{margin-top:0;border-top-left-radius:0;border-top-right-radius:0}
+.pz-nastro:has(+ .pz-scheda:not(.on)){border-bottom:2px solid #1a5fa8;border-radius:14px}
+.pz-nastro[hidden]{display:none}
+.pz-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;padding:0 30px 0 16px;background:#c8102e;color:#fff;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font:900 13px/1.1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.05em;white-space:nowrap}
+.pz-nastro .lab span{font-size:12px;font-weight:800;color:#ffe36b;letter-spacing:.06em}
+.pz-nastro .lab b{font-weight:900}.pz-nastro .lab em{font-style:normal}.pz-nastro .lab.corto em{display:none}
+.pz-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
+.pz-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
+.pz-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}.pz-nastro .v .ic{font-size:18px}
+.pz-nastro .v small{font-weight:600;color:#6d5800;font-size:11px}
+.pz-nastro .v .mn{color:#5c4a00;font-weight:700}.pz-nastro .v .mx{color:#111;font-weight:900}
+@media (max-width:600px){.pz-nastro{height:40px}
+  .pz-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:10.5px;line-height:1.05;padding:0 22px 0 10px;white-space:normal;max-width:38%}.pz-nastro .lab span{font-size:10px}
+  .pz-nastro .v{font-size:13px;padding:0 12px;gap:5px}.pz-nastro .v .ic{font-size:15px}}
 .pz-pt{position:relative}
 /* ⚠️ L'ETICHETTA STA SUL PAESE (24/10/2026 sera, suo, dopo tre prove bocciate con puntino + etichetta spostata + lineetta:
    «niente di quello che mi hai proposto funziona, guarda come fanno gli altri»). Come la mappa di 3B Meteo: il
@@ -324,7 +362,7 @@ function clientePagina(C) {
     return tot;
   }
   function sceglie(g) {
-    SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab();
+    SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab(); disegnaNastro();
     var x = G.filter(function (y) { return y.g === g; })[0];
     var quando = g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true);
     $('mappa-giorno').textContent = C.solo ? C.intorno + ', ' + quando
@@ -390,6 +428,88 @@ function clientePagina(C) {
     if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora. 💧 è la probabilità di pioggia, scritta dal 10% in su.' + (nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
+
+  /* ── LA BARRA CHE SCORRE sopra la scheda ora per ora (30/10/2026, suo: «sì, la barra», poi «C, sopra la scheda»):
+     quella della vista Italia della mappa (#vi-nastro e naGira di index.html), col blocco rosso «METEO <ZONA>» e il
+     giorno scelto nei 7 giorni (cambia toccando un giorno o una barra del grafico). Nelle ZONE i paesi vanno dal
+     piu' basso al piu' alto coi metri: si legge la valle che sale e la temperatura che scende. Nelle pagine PAESE prima il
+     paese, poi quelli intorno dal piu' vicino, coi km (come la vista a etichette della mappa). Scorre a 45 px/s, si
+     trascina col dito o col mouse e lasciandola prosegue con lo slancio; un tocco senza trascinare (meno di 6 px) apre la
+     scheda ora per ora. Ferma col mouse sopra, fuori dallo schermo (batteria) e con «riduci movimento» del telefono.
+     Il contenuto e' ripetuto quanto serve a riempire la fascia e scorre di una copia: il giro si chiude senza salti. ── */
+  var NA = { pos: 0, w: 0, t0: 0, v: 0, presa: null, sopra: false, giro: 0, vista: true, largo: 0 };
+  var FERMO = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function km(a, b) { var r = Math.PI / 180, x = (b.lon - a.lon) * r * Math.cos((a.lat + b.lat) / 2 * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * 6371; }
+  function naGira(t) {
+    var na = $('nastro'), tr = na && na.querySelector('.t');
+    if (!tr || na.hidden || !NA.vista) { NA.giro = 0; NA.t0 = 0; return; }
+    var dt = NA.t0 ? Math.min(64, t - NA.t0) : 16; NA.t0 = t;
+    if (!NA.presa) {
+      if (Math.abs(NA.v) > 0.05) { NA.pos += NA.v * dt; NA.v *= Math.pow(0.94, dt / 16); }   // lo slancio, in px al millisecondo
+      else { NA.v = 0; if (!NA.sopra && !FERMO) NA.pos -= 0.045 * dt; } }
+    if (NA.w > 0) { NA.pos %= NA.w; if (NA.pos > 0) NA.pos -= NA.w; }
+    tr.style.transform = 'translate3d(' + NA.pos.toFixed(1) + 'px,0,0)';
+    // con «riduci movimento» il giro si ferma appena la barra e' ferma; riparte toccandola
+    if (FERMO && !NA.presa && !NA.v) { NA.giro = 0; NA.t0 = 0; return; }
+    NA.giro = requestAnimationFrame(naGira);
+  }
+  function naParti() { if (!NA.giro && NA.vista) { NA.t0 = 0; NA.giro = requestAnimationFrame(naGira); } }
+  // un nome che non ci sta (al telefono piu' di due righe, al computer piu' di meta' barra: «Colline Metallifere
+  // grossetane») lascia nel blocco rosso solo METEO e il giorno: il nome e' gia' nel titolo della pagina
+  function taglia() {
+    var na = $('nastro'), lab = na && na.querySelector('.lab'); if (!lab) return;
+    lab.classList.remove('corto');
+    var alto = lab.querySelector('b').offsetHeight + lab.querySelector('span').offsetHeight;
+    if (alto > lab.clientHeight || lab.offsetWidth > na.clientWidth * 0.45) lab.classList.add('corto');
+  }
+  function disegnaNastro() {
+    var na = $('nastro'); if (!na || !J) return;
+    var lista = PAESI.map(function (c, i) { return { c: c, i: i, g: c.giorni.filter(function (x) { return x.g === SEL; })[0] }; }).filter(function (x) { return x.g; });
+    if (!lista.length) { na.hidden = true; return; }
+    if (C.solo) { lista.forEach(function (x) { x.k = x.i ? km(PAESI[0], x.c) : -1; }); lista.sort(function (a, b) { return a.k - b.k; }); }
+    else lista.sort(function (a, b) { return (QUOTE[a.c.n] != null ? QUOTE[a.c.n] : 1e4) - (QUOTE[b.c.n] != null ? QUOTE[b.c.n] : 1e4); });
+    var quando = SEL === OGGI ? 'OGGI' : SEL === DOMANI ? 'DOMANI' : nome(SEL).toUpperCase();
+    var vv = lista.map(function (x) {
+      var q = QUOTE[x.c.n], sotto = C.solo ? (x.k >= 0 ? Math.max(1, Math.round(x.k)) + ' km' : '') : (q != null ? q.toLocaleString('it-IT') + ' m' : '');
+      return '<button class="v" data-n="' + esc(x.c.n) + '"><b>' + esc(x.c.n) + '</b>' + (sotto ? '<small>' + sotto + '</small>' : '')
+        + '<span class="ic">' + icona(x.g.s) + '</span><span class="mn">' + x.g.mn + '°</span><span class="mx">' + x.g.mx + '°</span></button>';
+    }).join('');
+    na.hidden = false;
+    na.innerHTML = '<div class="lab"><b>METEO<em> ' + esc(C.nastro.toUpperCase()) + '</em></b><span>' + esc(quando) + '</span></div><div class="t">' + vv + '</div>';
+    taglia();
+    // il primo paese parte DOPO il blocco rosso, non sotto: la stessa distanza resta in ogni copia, e il giro e' di una copia
+    var tr = na.querySelector('.t'), P = na.querySelector('.lab').offsetWidth, una, copie = 2;
+    tr.style.paddingLeft = P + 'px';
+    una = tr.scrollWidth - P;
+    while (una > 0 && P + una * copie < na.clientWidth + una && copie < 12) copie++;
+    tr.innerHTML = new Array(copie + 1).join(vv);
+    NA.w = una; NA.pos = 0; NA.v = 0; NA.largo = innerWidth; naParti();
+  }
+  (function () {
+    var na = $('nastro'); if (!na) return;
+    function apriDa(b) { var c = b && PAESI.filter(function (x) { return x.n === b.getAttribute('data-n'); })[0]; if (c) apri(posto(c), 'nastro'); }
+    na.addEventListener('pointerdown', function (ev) { if (ev.button > 0) return; NA.v = 0; NA.presa = { x: ev.clientX, pos: NA.pos, mosso: false, ux: ev.clientX, ut: ev.timeStamp }; naParti(); });
+    na.addEventListener('pointermove', function (ev) { var p = NA.presa; if (!p) return;
+      if (!p.mosso && Math.abs(ev.clientX - p.x) > 6) { p.mosso = true; try { na.setPointerCapture(ev.pointerId); } catch (e) {} }
+      if (!p.mosso) return;
+      NA.pos = p.pos + (ev.clientX - p.x);
+      var dt = ev.timeStamp - p.ut; if (dt > 0) { NA.v = (ev.clientX - p.ux) / dt; p.ux = ev.clientX; p.ut = ev.timeStamp; } });
+    na.addEventListener('pointerup', function (ev) { var p = NA.presa; NA.presa = null; if (!p) return;
+      if (!p.mosso) { NA.v = 0; var b = document.elementFromPoint(ev.clientX, ev.clientY); apriDa(b && b.closest ? b.closest('#nastro .v') : null); return; }
+      if (ev.timeStamp - p.ut > 90) NA.v = 0;   // fermata prima di lasciarla: niente slancio
+      NA.v = Math.max(-3, Math.min(3, NA.v)); naParti(); });
+    // col dito in su o in giu' il browser scorre la pagina e la presa si annulla: niente scheda aperta per sbaglio
+    na.addEventListener('pointercancel', function () { NA.presa = null; });
+    // ferma solo col MOUSE sopra: col dito «enter» arriva senza «leave» e resterebbe ferma
+    na.addEventListener('pointerenter', function (ev) { if (ev.pointerType === 'mouse') NA.sopra = true; });
+    na.addEventListener('pointerleave', function (ev) { if (ev.pointerType === 'mouse') NA.sopra = false; });
+    // da tastiera (Tab e Invio) il clic arriva senza puntatore (detail 0); quelli del puntatore li ha gia' visti pointerup
+    na.addEventListener('click', function (e) { if (e.detail === 0) apriDa(e.target.closest('.v')); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { NA.vista = e[e.length - 1].isIntersecting; if (NA.vista) naParti(); }).observe(na);
+    // si rifa' solo se cambia la LARGHEZZA: al telefono la barra degli indirizzi che sparisce scorrendo e' un resize
+    var rt = 0; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (innerWidth !== NA.largo) { taglia(); disegnaNastro(); } }, 200); });
+    taglia();   // gia' sul blocco scritto nell'HTML, prima che arrivino le previsioni
+  })();
 
   /* ── la tabella paese per paese ── */
   function disegnaTab() {
@@ -478,7 +598,9 @@ function clientePagina(C) {
   function apri(x, da) {
     var sc = $('scheda'); sc.classList.add('on'); AVVIO = da === 'avvio';
     sc.innerHTML = '<p class="nota">Sto leggendo le previsioni di ' + esc(x.n) + '…</p>';
-    if (!AVVIO) { sc.scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('scheda-' + da); }
+    // si porta in vista la barra che scorre, che e' la testata della scheda (se le previsioni non sono arrivate e' nascosta)
+    var su = $('nastro') && !$('nastro').hidden ? $('nastro') : sc;
+    if (!AVVIO) { su.scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('scheda-' + da); }
     fetch(API + '?lat=' + (+x.lat).toFixed(3) + '&lon=' + (+x.lon).toFixed(3) + (x.quota != null ? '&q=' + x.quota : ''))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { SCHEDA = { x: x, j: j }; disegnaScheda(OGGI); })   // sempre su OGGI, con le ore (suo, 24/10)
@@ -718,7 +840,7 @@ function clientePagina(C) {
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
@@ -782,6 +904,12 @@ function mappeHtml({ reg, nomeReg, ga }) {
 </div>`;
 }
 
+// la barra che scorre sopra la scheda (vedi .pz-nastro): il blocco rosso c'e' gia' nell'HTML, cosi' la pagina non salta
+// quando arrivano le previsioni; i paesi li scrive disegnaNastro. Lo stesso testo di C.nastro.
+function nastroHtml(titolo) {
+  return `<div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${esc(titolo.toUpperCase())}</em></b><span>…</span></div><div class="t"></div></div>`;
+}
+
 function pagina(z, QUOTE_DI) {
   const zslug = slug(z.n);
   const paesi = require(path.join(RADICE, 'data', 'paesi-zone.json'))[zslug];
@@ -815,7 +943,7 @@ function pagina(z, QUOTE_DI) {
   if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
 
   const C = { sito: SITO, raw: RAW, slug: zslug, reg: casa.k, dove: DOVE, valle: VALLE, inValle: VALLE === 'valle' ? 'in valle' : 'nella zona',
-    diValle: 'della ' + VALLE, rilievo: RILIEVO, quote, pluv,
+    diValle: 'della ' + VALLE, rilievo: RILIEVO, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
     ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa) }, ordineCitta(casa.k)) };
@@ -854,6 +982,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiv
 <p class="sotto"><b>Che tempo farà ${esc(DOVE)} nei prossimi 7 giorni</b>: pioggia, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri ${esc(ENTE)}.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
+${nastroHtml(NOME)}
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometri…</div>
@@ -909,9 +1038,9 @@ ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
    › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese,
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, CSS_ANT, clientePagina, mappeHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {

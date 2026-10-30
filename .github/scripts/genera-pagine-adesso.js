@@ -35,7 +35,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 5;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026)
+const VERSIONE_JS = 7;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026)
 
 // le regioni: l'anagrafe italiana + l'Abruzzo dopo il Lazio (stesso ordine nord-sud delle altre liste)
 const ABRUZZO = { k:'abruzzo', nome:'Abruzzo', prep:'in', senzaPagina:true };
@@ -171,6 +171,35 @@ const STILE_ADESSO = `
 .cit-gg b{color:var(--blu-scuro);}
 .cit-gg .mmw,.cit-cond .mmw{color:#1f6fd1;font-weight:700;white-space:nowrap;margin-left:3px;}
 .cit-vai{margin-top:auto;align-self:flex-start;font-size:14px;font-weight:700;color:var(--blu);background:#fff;border:1px solid #c9d6e6;border-radius:20px;padding:4px 13px;white-space:nowrap;}
+/* LA RIGA VIVA (30/10/2026, suo: «dovrebbe dire se e come sta piovendo»): la scrive il radar (rigaViva in
+   lib/pagina-adesso.js), come «Il punto di stamattina» delle pagine meteo; il pallino rosso e' quello di IN DIRETTA */
+.ad-ora{background:#eef5fb;border-left:4px solid var(--blu);border-radius:8px;padding:11px 14px 12px;margin:4px 0 12px;font-size:16px;line-height:1.5;color:#1f2d3a;min-height:48px;}
+.ad-ora b{color:var(--blu-scuro);}
+.ad-q{display:flex;align-items:center;gap:7px;font-size:12px;color:#5a6b7d;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+.ad-q::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff3b30;flex:none;}
+#ad-t{display:block;}
+/* «Previsioni meteo valle per valle» e «paese per paese» (30/10/2026): le pagine meteo della regione, linkMeteoRegione
+   di genera-pagine-meteo-zona.js; pillole che vanno a capo */
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+/* LA BARRA CHE SCORRE sotto il radar (30/10/2026, suo: «sì, tutti e due»): le citta' della regione con icona, minima e
+   massima di oggi, come la vista Italia della mappa e le pagine meteo. ⚠️ Le stesse regole di .pz-nastro in
+   genera-pagine-meteo-zona.js e lo stesso codice (lib/pagina-adesso.js): se cambia li', si cambia anche qui */
+.pz-nastro{position:relative;height:44px;overflow:hidden;background:#ffd400;border-top:1px solid #e0b800;scroll-margin-top:12px;display:flex;align-items:center;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pz-nastro[hidden]{display:none}
+.pz-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;padding:0 30px 0 16px;background:#c8102e;color:#fff;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font:900 13px/1.1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.05em;white-space:nowrap}
+.pz-nastro .lab span{font-size:12px;font-weight:800;color:#ffe36b;letter-spacing:.06em}
+.pz-nastro .lab b{font-weight:900}.pz-nastro .lab em{font-style:normal}.pz-nastro .lab.corto em{display:none}
+.pz-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
+.pz-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
+.pz-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}.pz-nastro .v .ic{font-size:18px}
+.pz-nastro .v .mn{color:#5c4a00;font-weight:700}.pz-nastro .v .mx{color:#111;font-weight:900}
+@media (max-width:600px){.pz-nastro{height:40px}
+  .pz-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:10.5px;line-height:1.05;padding:0 22px 0 10px;white-space:normal;max-width:38%}.pz-nastro .lab span{font-size:10px}
+  .pz-nastro .v{font-size:13px;padding:0 12px;gap:5px}.pz-nastro .v .ic{font-size:15px}}
 @media(max-width:640px){.citta{gap:10px;} .cit{flex-basis:calc((100% - 10px) / 2);padding:11px 12px 12px;}
   .cit-t{font-size:30px;} .cit-ic{font-size:30px;} .cit-gg{font-size:13.5px;} .cit-vai{font-size:13.5px;padding:4px 11px;}
   #mappa{height:380px;} .reg-lista{grid-template-columns:repeat(2,1fr);}
@@ -192,7 +221,10 @@ function descrDi(r) {
 
 function pagina(r) {
   const citta = cittaDi(r), gen = GEN2[r.k];
-  const dati = JSON.stringify({ k:r.k, sito:SITO, citta, confine:confineDi(r) }).replace(/</g, '\\u003c');
+  // dove/gen per la riga viva: «Non piove in Toscana», «bagna il 15% della Toscana»
+  const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:`${r.prep} ${r.nome}`, gen, sito:SITO, citta, confine:confineDi(r) }).replace(/</g, '\\u003c');
+  // le pagine meteo della regione (qui e non in cima: genera-pagine-meteo-zona.js chiede confineDi a questo file)
+  const valli = require('./genera-pagine-meteo-zona.js').linkMeteoRegione(r.k, 'pagina-' + r.k + '-adesso');
   const carte = citta.map((c, i) => `<a class="cit" data-i="${i}" href="${linkPrev(c)}"><div class="cit-testa"><b>${c.n}</b><span class="cit-ic"></span></div>`
     + `<div class="cit-t">&nbsp;</div><div class="cit-cond">&nbsp;</div><div class="cit-gg">&nbsp;<br>&nbsp;</div><span class="cit-vai">7 giorni →</span></a>`).join('\n');
   const altre = LISTA.filter(x => x.k !== r.k).map(x => `<li><a href="${SITO}/${x.k}/adesso/">${x.nome}</a></li>`).join('\n');
@@ -241,10 +273,12 @@ ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k + '-adesso
 <main>
 <h1>Dove sta piovendo adesso ${r.prep} ${r.nome}</h1>
 <p class="sotto"><b>Radar della pioggia in diretta</b>: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
+<div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar…</span></div>
 
 <div class="rb">
   <div class="rb-testa"><span class="vivo"></span><b>IN DIRETTA</b><span class="quando" id="quando">carico il radar…</span></div>
   <div id="mappa"></div>
+  <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${attr(nomeCortoDi(r).toUpperCase())}</em></b><span>OGGI</span></div><div class="t"></div></div>
   <div class="tasti">
     <a class="forte" data-id="ora">Adesso</a>
     <a data-id="due">▶ −2 ore</a>
@@ -277,7 +311,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k + '-adesso
 <div class="citta" id="citta">
 ${carte}
 </div>
-${ieri}
+${valli}${ieri}
 <h2>Dove sta piovendo adesso nelle altre regioni</h2>
 <ul class="reg-lista">
 ${altre}

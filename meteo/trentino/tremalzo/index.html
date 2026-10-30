@@ -236,6 +236,28 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 .pz-mappa-testa{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .pz-mappa-testa .dove{font-weight:700;color:#0f3d6e}
 #pz-mappa{height:460px;border-radius:12px;border:1px solid #c9d5e1;margin:8px 0 4px;z-index:1}
+/* LA BARRA CHE SCORRE (30/10/2026, suo: «sì, la barra»): la stessa della vista Italia della mappa (#vi-nastro di
+   index.html: fascia gialla, filetti rossi, blocco rosso tagliato in diagonale). ⚠️ STA SOPRA LA SCHEDA ORA PER ORA,
+   come la sua testata, nella stessa cornice blu (suo, fra tre posizioni provate: «C, sopra la scheda»). Sotto la mappa
+   «è un po' sprecata, è il nostro pezzo wow e uno deve scrollare tutto» (al telefono stava a 2.750 px); in cima sotto il
+   menu e attaccata in alto scorrendo le altre due, scartate. Toccando un paese la scheda li' sotto passa a quel paese.
+   Con la scheda chiusa (×) la barra ha la cornice intera. touch-action pan-y: col dito in su e in giu' la pagina
+   scorre, di lato si trascina la barra (naGira in clientePagina) */
+.pz-nastro{position:relative;height:44px;overflow:hidden;background:#ffd400;border:2px solid #1a5fa8;border-bottom:0;border-radius:14px 14px 0 0;margin:14px 0 0;scroll-margin-top:12px;display:flex;align-items:center;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pz-nastro:not([hidden]) + .pz-scheda{margin-top:0;border-top-left-radius:0;border-top-right-radius:0}
+.pz-nastro:has(+ .pz-scheda:not(.on)){border-bottom:2px solid #1a5fa8;border-radius:14px}
+.pz-nastro[hidden]{display:none}
+.pz-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;padding:0 30px 0 16px;background:#c8102e;color:#fff;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font:900 13px/1.1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.05em;white-space:nowrap}
+.pz-nastro .lab span{font-size:12px;font-weight:800;color:#ffe36b;letter-spacing:.06em}
+.pz-nastro .lab b{font-weight:900}.pz-nastro .lab em{font-style:normal}.pz-nastro .lab.corto em{display:none}
+.pz-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
+.pz-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
+.pz-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}.pz-nastro .v .ic{font-size:18px}
+.pz-nastro .v small{font-weight:600;color:#6d5800;font-size:11px}
+.pz-nastro .v .mn{color:#5c4a00;font-weight:700}.pz-nastro .v .mx{color:#111;font-weight:900}
+@media (max-width:600px){.pz-nastro{height:40px}
+  .pz-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:10.5px;line-height:1.05;padding:0 22px 0 10px;white-space:normal;max-width:38%}.pz-nastro .lab span{font-size:10px}
+  .pz-nastro .v{font-size:13px;padding:0 12px;gap:5px}.pz-nastro .v .ic{font-size:15px}}
 .pz-pt{position:relative}
 /* ⚠️ L'ETICHETTA STA SUL PAESE (24/10/2026 sera, suo, dopo tre prove bocciate con puntino + etichetta spostata + lineetta:
    «niente di quello che mi hai proposto funziona, guarda come fanno gli altri»). Come la mappa di 3B Meteo: il
@@ -411,6 +433,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="sotto"><b>Che tempo farà al Tremalzo nei prossimi 7 giorni</b>, ora per ora, e nei 7 paesi intorno, ognuno alla sua quota; e quanta pioggia è già caduta al pluviometro del Tremalzo.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
+<div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> TREMALZO</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometro…</div>
@@ -521,7 +544,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     return tot;
   }
   function sceglie(g) {
-    SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab();
+    SEL = g; disegnaGiorni(); disegnaMappa(); disegnaTab(); disegnaNastro();
     var x = G.filter(function (y) { return y.g === g; })[0];
     var quando = g === OGGI ? 'oggi' : g === DOMANI ? 'domani' : nome(g, true);
     $('mappa-giorno').textContent = C.solo ? C.intorno + ', ' + quando
@@ -587,6 +610,88 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora. 💧 è la probabilità di pioggia, scritta dal 10% in su.' + (nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
+
+  /* ── LA BARRA CHE SCORRE sopra la scheda ora per ora (30/10/2026, suo: «sì, la barra», poi «C, sopra la scheda»):
+     quella della vista Italia della mappa (#vi-nastro e naGira di index.html), col blocco rosso «METEO <ZONA>» e il
+     giorno scelto nei 7 giorni (cambia toccando un giorno o una barra del grafico). Nelle ZONE i paesi vanno dal
+     piu' basso al piu' alto coi metri: si legge la valle che sale e la temperatura che scende. Nelle pagine PAESE prima il
+     paese, poi quelli intorno dal piu' vicino, coi km (come la vista a etichette della mappa). Scorre a 45 px/s, si
+     trascina col dito o col mouse e lasciandola prosegue con lo slancio; un tocco senza trascinare (meno di 6 px) apre la
+     scheda ora per ora. Ferma col mouse sopra, fuori dallo schermo (batteria) e con «riduci movimento» del telefono.
+     Il contenuto e' ripetuto quanto serve a riempire la fascia e scorre di una copia: il giro si chiude senza salti. ── */
+  var NA = { pos: 0, w: 0, t0: 0, v: 0, presa: null, sopra: false, giro: 0, vista: true, largo: 0 };
+  var FERMO = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function km(a, b) { var r = Math.PI / 180, x = (b.lon - a.lon) * r * Math.cos((a.lat + b.lat) / 2 * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * 6371; }
+  function naGira(t) {
+    var na = $('nastro'), tr = na && na.querySelector('.t');
+    if (!tr || na.hidden || !NA.vista) { NA.giro = 0; NA.t0 = 0; return; }
+    var dt = NA.t0 ? Math.min(64, t - NA.t0) : 16; NA.t0 = t;
+    if (!NA.presa) {
+      if (Math.abs(NA.v) > 0.05) { NA.pos += NA.v * dt; NA.v *= Math.pow(0.94, dt / 16); }   // lo slancio, in px al millisecondo
+      else { NA.v = 0; if (!NA.sopra && !FERMO) NA.pos -= 0.045 * dt; } }
+    if (NA.w > 0) { NA.pos %= NA.w; if (NA.pos > 0) NA.pos -= NA.w; }
+    tr.style.transform = 'translate3d(' + NA.pos.toFixed(1) + 'px,0,0)';
+    // con «riduci movimento» il giro si ferma appena la barra e' ferma; riparte toccandola
+    if (FERMO && !NA.presa && !NA.v) { NA.giro = 0; NA.t0 = 0; return; }
+    NA.giro = requestAnimationFrame(naGira);
+  }
+  function naParti() { if (!NA.giro && NA.vista) { NA.t0 = 0; NA.giro = requestAnimationFrame(naGira); } }
+  // un nome che non ci sta (al telefono piu' di due righe, al computer piu' di meta' barra: «Colline Metallifere
+  // grossetane») lascia nel blocco rosso solo METEO e il giorno: il nome e' gia' nel titolo della pagina
+  function taglia() {
+    var na = $('nastro'), lab = na && na.querySelector('.lab'); if (!lab) return;
+    lab.classList.remove('corto');
+    var alto = lab.querySelector('b').offsetHeight + lab.querySelector('span').offsetHeight;
+    if (alto > lab.clientHeight || lab.offsetWidth > na.clientWidth * 0.45) lab.classList.add('corto');
+  }
+  function disegnaNastro() {
+    var na = $('nastro'); if (!na || !J) return;
+    var lista = PAESI.map(function (c, i) { return { c: c, i: i, g: c.giorni.filter(function (x) { return x.g === SEL; })[0] }; }).filter(function (x) { return x.g; });
+    if (!lista.length) { na.hidden = true; return; }
+    if (C.solo) { lista.forEach(function (x) { x.k = x.i ? km(PAESI[0], x.c) : -1; }); lista.sort(function (a, b) { return a.k - b.k; }); }
+    else lista.sort(function (a, b) { return (QUOTE[a.c.n] != null ? QUOTE[a.c.n] : 1e4) - (QUOTE[b.c.n] != null ? QUOTE[b.c.n] : 1e4); });
+    var quando = SEL === OGGI ? 'OGGI' : SEL === DOMANI ? 'DOMANI' : nome(SEL).toUpperCase();
+    var vv = lista.map(function (x) {
+      var q = QUOTE[x.c.n], sotto = C.solo ? (x.k >= 0 ? Math.max(1, Math.round(x.k)) + ' km' : '') : (q != null ? q.toLocaleString('it-IT') + ' m' : '');
+      return '<button class="v" data-n="' + esc(x.c.n) + '"><b>' + esc(x.c.n) + '</b>' + (sotto ? '<small>' + sotto + '</small>' : '')
+        + '<span class="ic">' + icona(x.g.s) + '</span><span class="mn">' + x.g.mn + '°</span><span class="mx">' + x.g.mx + '°</span></button>';
+    }).join('');
+    na.hidden = false;
+    na.innerHTML = '<div class="lab"><b>METEO<em> ' + esc(C.nastro.toUpperCase()) + '</em></b><span>' + esc(quando) + '</span></div><div class="t">' + vv + '</div>';
+    taglia();
+    // il primo paese parte DOPO il blocco rosso, non sotto: la stessa distanza resta in ogni copia, e il giro e' di una copia
+    var tr = na.querySelector('.t'), P = na.querySelector('.lab').offsetWidth, una, copie = 2;
+    tr.style.paddingLeft = P + 'px';
+    una = tr.scrollWidth - P;
+    while (una > 0 && P + una * copie < na.clientWidth + una && copie < 12) copie++;
+    tr.innerHTML = new Array(copie + 1).join(vv);
+    NA.w = una; NA.pos = 0; NA.v = 0; NA.largo = innerWidth; naParti();
+  }
+  (function () {
+    var na = $('nastro'); if (!na) return;
+    function apriDa(b) { var c = b && PAESI.filter(function (x) { return x.n === b.getAttribute('data-n'); })[0]; if (c) apri(posto(c), 'nastro'); }
+    na.addEventListener('pointerdown', function (ev) { if (ev.button > 0) return; NA.v = 0; NA.presa = { x: ev.clientX, pos: NA.pos, mosso: false, ux: ev.clientX, ut: ev.timeStamp }; naParti(); });
+    na.addEventListener('pointermove', function (ev) { var p = NA.presa; if (!p) return;
+      if (!p.mosso && Math.abs(ev.clientX - p.x) > 6) { p.mosso = true; try { na.setPointerCapture(ev.pointerId); } catch (e) {} }
+      if (!p.mosso) return;
+      NA.pos = p.pos + (ev.clientX - p.x);
+      var dt = ev.timeStamp - p.ut; if (dt > 0) { NA.v = (ev.clientX - p.ux) / dt; p.ux = ev.clientX; p.ut = ev.timeStamp; } });
+    na.addEventListener('pointerup', function (ev) { var p = NA.presa; NA.presa = null; if (!p) return;
+      if (!p.mosso) { NA.v = 0; var b = document.elementFromPoint(ev.clientX, ev.clientY); apriDa(b && b.closest ? b.closest('#nastro .v') : null); return; }
+      if (ev.timeStamp - p.ut > 90) NA.v = 0;   // fermata prima di lasciarla: niente slancio
+      NA.v = Math.max(-3, Math.min(3, NA.v)); naParti(); });
+    // col dito in su o in giu' il browser scorre la pagina e la presa si annulla: niente scheda aperta per sbaglio
+    na.addEventListener('pointercancel', function () { NA.presa = null; });
+    // ferma solo col MOUSE sopra: col dito «enter» arriva senza «leave» e resterebbe ferma
+    na.addEventListener('pointerenter', function (ev) { if (ev.pointerType === 'mouse') NA.sopra = true; });
+    na.addEventListener('pointerleave', function (ev) { if (ev.pointerType === 'mouse') NA.sopra = false; });
+    // da tastiera (Tab e Invio) il clic arriva senza puntatore (detail 0); quelli del puntatore li ha gia' visti pointerup
+    na.addEventListener('click', function (e) { if (e.detail === 0) apriDa(e.target.closest('.v')); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { NA.vista = e[e.length - 1].isIntersecting; if (NA.vista) naParti(); }).observe(na);
+    // si rifa' solo se cambia la LARGHEZZA: al telefono la barra degli indirizzi che sparisce scorrendo e' un resize
+    var rt = 0; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (innerWidth !== NA.largo) { taglia(); disegnaNastro(); } }, 200); });
+    taglia();   // gia' sul blocco scritto nell'HTML, prima che arrivino le previsioni
+  })();
 
   /* ── la tabella paese per paese ── */
   function disegnaTab() {
@@ -675,7 +780,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   function apri(x, da) {
     var sc = $('scheda'); sc.classList.add('on'); AVVIO = da === 'avvio';
     sc.innerHTML = '<p class="nota">Sto leggendo le previsioni di ' + esc(x.n) + '…</p>';
-    if (!AVVIO) { sc.scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('scheda-' + da); }
+    // si porta in vista la barra che scorre, che e' la testata della scheda (se le previsioni non sono arrivate e' nascosta)
+    var su = $('nastro') && !$('nastro').hidden ? $('nastro') : sc;
+    if (!AVVIO) { su.scrollIntoView({ behavior: 'smooth', block: 'start' }); ga('scheda-' + da); }
     fetch(API + '?lat=' + (+x.lat).toFixed(3) + '&lon=' + (+x.lon).toFixed(3) + (x.quota != null ? '&q=' + x.quota : ''))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { SCHEDA = { x: x, j: j }; disegnaScheda(OGGI); })   // sempre su OGGI, con le ore (suo, 24/10)
@@ -915,7 +1022,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
@@ -939,7 +1046,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     var tot = totale(); disegnaGraf(); punto(tot); sceglie(G[0].g);
     apri(posto(PAESI[0]), 'avvio');   // le ore si vedono subito, sul primo paese dell'elenco (il principale della zona)
   }).catch(function () { guasto(); disegnaCaduta(); });
-})({"sito":"https://precipitazioni.avventuremicologiche.it","raw":"https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/","slug":"paese-tremalzo","reg":"trentino","dove":"al Tremalzo","valle":"zona","inValle":"al Tremalzo","diValle":"","rilievo":"https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/","quote":{"Tremalzo":1560,"Ledro":663,"Storo":395,"Borgo Chiese":437,"Limone sul Garda":90,"Castel Condino":831,"Tremosine sul Garda":455,"Bondone":716},"pluv":[],"solo":true,"paese":"trentino/tremalzo","giorni":"funghi/trentino-giorni.json","id":"T0354","nomi":null,"primo":null,"intorno":"Tremalzo e i paesi intorno","alPluv":"al pluviometro del Tremalzo","evento":"meteo_paese","ant":{"confine":{"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[11.146,45.717],[11.139,45.71],[11.136,45.7],[11.139,45.697],[11.125,45.69],[11.123,45.69],[11.124,45.693],[11.121,45.696],[11.09,45.696],[11.071,45.705],[11.056,45.718],[11.041,45.706],[11.016,45.706],[11.016,45.714],[11.012,45.716],[11.007,45.71],[10.996,45.708],[10.995,45.697],[10.987,45.689],[10.968,45.68],[10.968,45.685],[10.975,45.696],[10.972,45.702],[10.962,45.686],[10.951,45.685],[10.945,45.674],[10.937,45.673],[10.922,45.68],[10.912,45.688],[10.913,45.692],[10.926,45.699],[10.924,45.7],[10.884,45.717],[10.868,45.716],[10.843,45.72],[10.855,45.742],[10.863,45.744],[10.867,45.764],[10.885,45.774],[10.885,45.778],[10.873,45.788],[10.873,45.792],[10.877,45.803],[10.888,45.812],[10.882,45.818],[10.826,45.838],[10.804,45.834],[10.796,45.836],[10.791,45.833],[10.784,45.836],[10.778,45.843],[10.771,45.843],[10.76,45.838],[10.756,45.83],[10.749,45.838],[10.736,45.843],[10.722,45.841],[10.717,45.837],[10.711,45.836],[10.696,45.84],[10.677,45.831],[10.656,45.832],[10.651,45.812],[10.641,45.802],[10.635,45.807],[10.611,45.805],[10.589,45.798],[10.575,45.787],[10.56,45.784],[10.536,45.786],[10.533,45.788],[10.534,45.801],[10.526,45.806],[10.542,45.814],[10.544,45.818],[10.528,45.827],[10.508,45.824],[10.502,45.83],[10.502,45.835],[10.507,45.842],[10.502,45.861],[10.502,45.871],[10.504,45.874],[10.49,45.884],[10.496,45.9],[10.502,45.9],[10.506,45.903],[10.511,45.915],[10.509,45.924],[10.491,45.933],[10.491,45.942],[10.485,45.944],[10.483,45.951],[10.489,45.964],[10.487,45.971],[10.476,45.97],[10.452,45.978],[10.457,46.009],[10.47,46.021],[10.483,46.021],[10.485,46.025],[10.483,46.057],[10.489,46.065],[10.514,46.078],[10.522,46.089],[10.534,46.096],[10.542,46.104],[10.55,46.12],[10.55,46.138],[10.546,46.142],[10.548,46.146],[10.554,46.149],[10.558,46.161],[10.565,46.168],[10.554,46.181],[10.541,46.189],[10.549,46.205],[10.569,46.22],[10.571,46.225],[10.569,46.229],[10.585,46.245],[10.583,46.257],[10.576,46.273],[10.56,46.285],[10.58,46.299],[10.576,46.306],[10.565,46.313],[10.563,46.327],[10.521,46.344],[10.516,46.343],[10.519,46.356],[10.53,46.357],[10.534,46.356],[10.534,46.354],[10.539,46.354],[10.543,46.356],[10.544,46.359],[10.542,46.361],[10.567,46.378],[10.598,46.377],[10.606,46.379],[10.611,46.387],[10.631,46.402],[10.628,46.408],[10.619,46.414],[10.618,46.417],[10.616,46.43],[10.619,46.437],[10.617,46.444],[10.622,46.448],[10.64,46.446],[10.665,46.452],[10.683,46.45],[10.696,46.458],[10.717,46.463],[10.745,46.485],[10.765,46.486],[10.793,46.449],[10.798,46.444],[10.805,46.442],[10.853,46.439],[10.861,46.436],[10.885,46.45],[10.887,46.447],[10.896,46.444],[10.916,46.445],[10.932,46.454],[10.931,46.457],[10.937,46.467],[10.957,46.47],[10.967,46.482],[10.985,46.484],[11.006,46.477],[11.016,46.468],[11.031,46.46],[11.041,46.447],[11.048,46.446],[11.049,46.449],[11.055,46.45],[11.073,46.441],[11.076,46.445],[11.075,46.453],[11.062,46.487],[11.055,46.495],[11.049,46.507],[11.035,46.514],[11.044,46.517],[11.055,46.516],[11.066,46.524],[11.082,46.531],[11.088,46.503],[11.12,46.492],[11.129,46.482],[11.149,46.486],[11.179,46.499],[11.187,46.509],[11.206,46.497],[11.211,46.491],[11.212,46.477],[11.215,46.478],[11.218,46.473],[11.22,46.459],[11.218,46.456],[11.212,46.455],[11.218,46.442],[11.215,46.434],[11.207,46.429],[11.206,46.426],[11.212,46.421],[11.209,46.416],[11.207,46.417],[11.214,46.408],[11.215,46.403],[11.214,46.397],[11.209,46.388],[11.207,46.388],[11.201,46.373],[11.206,46.367],[11.193,46.365],[11.192,46.36],[11.204,46.342],[11.197,46.332],[11.19,46.328],[11.186,46.317],[11.163,46.291],[11.144,46.288],[11.139,46.284],[11.15,46.28],[11.16,46.268],[11.174,46.259],[11.201,46.257],[11.196,46.25],[11.19,46.25],[11.189,46.253],[11.184,46.252],[11.181,46.243],[11.175,46.239],[11.174,46.235],[11.183,46.226],[11.202,46.223],[11.206,46.22],[11.24,46.228],[11.285,46.258],[11.294,46.261],[11.306,46.259],[11.316,46.273],[11.311,46.281],[11.323,46.293],[11.332,46.294],[11.333,46.298],[11.34,46.298],[11.336,46.29],[11.344,46.28],[11.349,46.28],[11.356,46.276],[11.359,46.266],[11.37,46.262],[11.372,46.264],[11.39,46.262],[11.398,46.265],[11.395,46.274],[11.387,46.28],[11.385,46.286],[11.374,46.293],[11.359,46.296],[11.359,46.299],[11.364,46.302],[11.385,46.302],[11.397,46.311],[11.404,46.325],[11.419,46.325],[11.455,46.335],[11.462,46.35],[11.474,46.352],[11.48,46.356],[11.477,46.364],[11.512,46.359],[11.543,46.348],[11.553,46.347],[11.557,46.351],[11.563,46.381],[11.593,46.384],[11.602,46.39],[11.602,46.399],[11.62,46.429],[11.618,46.444],[11.626,46.461],[11.627,46.472],[11.635,46.475],[11.643,46.475],[11.645,46.473],[11.65,46.483],[11.639,46.493],[11.633,46.495],[11.633,46.499],[11.639,46.502],[11.647,46.498],[11.665,46.498],[11.702,46.507],[11.715,46.514],[11.72,46.51],[11.733,46.509],[11.744,46.505],[11.753,46.506],[11.782,46.511],[11.791,46.515],[11.792,46.52],[11.808,46.532],[11.812,46.533],[11.813,46.53],[11.819,46.528],[11.826,46.52],[11.825,46.513],[11.828,46.509],[11.814,46.494],[11.81,46.485],[11.813,46.478],[11.871,46.473],[11.879,46.47],[11.887,46.465],[11.888,46.442],[11.872,46.433],[11.85,46.434],[11.847,46.426],[11.838,46.415],[11.844,46.41],[11.837,46.401],[11.832,46.388],[11.836,46.366],[11.831,46.367],[11.82,46.377],[11.815,46.374],[11.813,46.368],[11.804,46.365],[11.791,46.367],[11.783,46.365],[11.774,46.358],[11.78,46.352],[11.8,46.344],[11.803,46.334],[11.832,46.323],[11.832,46.312],[11.841,46.306],[11.834,46.3],[11.826,46.285],[11.835,46.274],[11.841,46.27],[11.854,46.271],[11.885,46.279],[11.888,46.275],[11.885,46.26],[11.891,46.253],[11.894,46.251],[11.9,46.254],[11.913,46.253],[11.921,46.248],[11.929,46.249],[11.918,46.238],[11.91,46.224],[11.925,46.217],[11.93,46.206],[11.938,46.199],[11.962,46.199],[11.962,46.187],[11.956,46.184],[11.951,46.176],[11.951,46.17],[11.929,46.176],[11.929,46.171],[11.918,46.155],[11.919,46.149],[11.901,46.137],[11.906,46.135],[11.892,46.12],[11.847,46.113],[11.827,46.107],[11.819,46.108],[11.815,46.104],[11.807,46.103],[11.777,46.103],[11.773,46.107],[11.766,46.099],[11.759,46.096],[11.751,46.105],[11.717,46.103],[11.703,46.09],[11.692,46.095],[11.685,46.094],[11.682,46.086],[11.686,46.067],[11.697,46.06],[11.704,46.052],[11.705,46.047],[11.677,46.044],[11.666,46.037],[11.673,46.029],[11.682,46.028],[11.667,46.017],[11.671,46.015],[11.69,45.989],[11.684,45.984],[11.686,45.969],[11.667,45.964],[11.65,45.965],[11.635,45.961],[11.628,45.961],[11.631,45.969],[11.621,45.971],[11.615,45.967],[11.6,45.971],[11.588,45.969],[11.577,46.007],[11.566,46.006],[11.552,46.012],[11.526,46.012],[11.517,46.009],[11.511,46.012],[11.501,46.011],[11.491,46.009],[11.484,46.001],[11.465,45.995],[11.447,45.981],[11.396,45.98],[11.374,45.984],[11.372,45.973],[11.376,45.961],[11.383,45.951],[11.38,45.943],[11.364,45.942],[11.358,45.944],[11.361,45.935],[11.358,45.925],[11.345,45.921],[11.35,45.915],[11.35,45.91],[11.345,45.909],[11.337,45.914],[11.325,45.917],[11.315,45.924],[11.313,45.93],[11.308,45.928],[11.301,45.935],[11.3,45.929],[11.304,45.918],[11.29,45.917],[11.274,45.92],[11.271,45.917],[11.258,45.921],[11.261,45.916],[11.261,45.907],[11.251,45.896],[11.255,45.891],[11.255,45.884],[11.248,45.886],[11.237,45.881],[11.237,45.878],[11.244,45.877],[11.24,45.857],[11.227,45.849],[11.222,45.849],[11.218,45.844],[11.219,45.833],[11.203,45.827],[11.199,45.824],[11.198,45.82],[11.189,45.814],[11.19,45.802],[11.194,45.802],[11.193,45.796],[11.203,45.783],[11.188,45.782],[11.179,45.788],[11.174,45.787],[11.181,45.765],[11.176,45.752],[11.178,45.738],[11.174,45.732],[11.153,45.719],[11.146,45.717]]]]}},"ord":["Trento","Rovereto","Cles","Predazzo","Cavalese","Madonna di Campiglio"],"cap":1}});
+})({"sito":"https://precipitazioni.avventuremicologiche.it","raw":"https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/","slug":"paese-tremalzo","reg":"trentino","dove":"al Tremalzo","valle":"zona","inValle":"al Tremalzo","diValle":"","rilievo":"https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/","quote":{"Tremalzo":1560,"Ledro":663,"Storo":395,"Borgo Chiese":437,"Limone sul Garda":90,"Castel Condino":831,"Tremosine sul Garda":455,"Bondone":716},"pluv":[],"solo":true,"paese":"trentino/tremalzo","giorni":"funghi/trentino-giorni.json","id":"T0354","nomi":null,"primo":null,"intorno":"Tremalzo e i paesi intorno","alPluv":"al pluviometro del Tremalzo","evento":"meteo_paese","nastro":"Tremalzo","ant":{"confine":{"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[11.146,45.717],[11.139,45.71],[11.136,45.7],[11.139,45.697],[11.125,45.69],[11.123,45.69],[11.124,45.693],[11.121,45.696],[11.09,45.696],[11.071,45.705],[11.056,45.718],[11.041,45.706],[11.016,45.706],[11.016,45.714],[11.012,45.716],[11.007,45.71],[10.996,45.708],[10.995,45.697],[10.987,45.689],[10.968,45.68],[10.968,45.685],[10.975,45.696],[10.972,45.702],[10.962,45.686],[10.951,45.685],[10.945,45.674],[10.937,45.673],[10.922,45.68],[10.912,45.688],[10.913,45.692],[10.926,45.699],[10.924,45.7],[10.884,45.717],[10.868,45.716],[10.843,45.72],[10.855,45.742],[10.863,45.744],[10.867,45.764],[10.885,45.774],[10.885,45.778],[10.873,45.788],[10.873,45.792],[10.877,45.803],[10.888,45.812],[10.882,45.818],[10.826,45.838],[10.804,45.834],[10.796,45.836],[10.791,45.833],[10.784,45.836],[10.778,45.843],[10.771,45.843],[10.76,45.838],[10.756,45.83],[10.749,45.838],[10.736,45.843],[10.722,45.841],[10.717,45.837],[10.711,45.836],[10.696,45.84],[10.677,45.831],[10.656,45.832],[10.651,45.812],[10.641,45.802],[10.635,45.807],[10.611,45.805],[10.589,45.798],[10.575,45.787],[10.56,45.784],[10.536,45.786],[10.533,45.788],[10.534,45.801],[10.526,45.806],[10.542,45.814],[10.544,45.818],[10.528,45.827],[10.508,45.824],[10.502,45.83],[10.502,45.835],[10.507,45.842],[10.502,45.861],[10.502,45.871],[10.504,45.874],[10.49,45.884],[10.496,45.9],[10.502,45.9],[10.506,45.903],[10.511,45.915],[10.509,45.924],[10.491,45.933],[10.491,45.942],[10.485,45.944],[10.483,45.951],[10.489,45.964],[10.487,45.971],[10.476,45.97],[10.452,45.978],[10.457,46.009],[10.47,46.021],[10.483,46.021],[10.485,46.025],[10.483,46.057],[10.489,46.065],[10.514,46.078],[10.522,46.089],[10.534,46.096],[10.542,46.104],[10.55,46.12],[10.55,46.138],[10.546,46.142],[10.548,46.146],[10.554,46.149],[10.558,46.161],[10.565,46.168],[10.554,46.181],[10.541,46.189],[10.549,46.205],[10.569,46.22],[10.571,46.225],[10.569,46.229],[10.585,46.245],[10.583,46.257],[10.576,46.273],[10.56,46.285],[10.58,46.299],[10.576,46.306],[10.565,46.313],[10.563,46.327],[10.521,46.344],[10.516,46.343],[10.519,46.356],[10.53,46.357],[10.534,46.356],[10.534,46.354],[10.539,46.354],[10.543,46.356],[10.544,46.359],[10.542,46.361],[10.567,46.378],[10.598,46.377],[10.606,46.379],[10.611,46.387],[10.631,46.402],[10.628,46.408],[10.619,46.414],[10.618,46.417],[10.616,46.43],[10.619,46.437],[10.617,46.444],[10.622,46.448],[10.64,46.446],[10.665,46.452],[10.683,46.45],[10.696,46.458],[10.717,46.463],[10.745,46.485],[10.765,46.486],[10.793,46.449],[10.798,46.444],[10.805,46.442],[10.853,46.439],[10.861,46.436],[10.885,46.45],[10.887,46.447],[10.896,46.444],[10.916,46.445],[10.932,46.454],[10.931,46.457],[10.937,46.467],[10.957,46.47],[10.967,46.482],[10.985,46.484],[11.006,46.477],[11.016,46.468],[11.031,46.46],[11.041,46.447],[11.048,46.446],[11.049,46.449],[11.055,46.45],[11.073,46.441],[11.076,46.445],[11.075,46.453],[11.062,46.487],[11.055,46.495],[11.049,46.507],[11.035,46.514],[11.044,46.517],[11.055,46.516],[11.066,46.524],[11.082,46.531],[11.088,46.503],[11.12,46.492],[11.129,46.482],[11.149,46.486],[11.179,46.499],[11.187,46.509],[11.206,46.497],[11.211,46.491],[11.212,46.477],[11.215,46.478],[11.218,46.473],[11.22,46.459],[11.218,46.456],[11.212,46.455],[11.218,46.442],[11.215,46.434],[11.207,46.429],[11.206,46.426],[11.212,46.421],[11.209,46.416],[11.207,46.417],[11.214,46.408],[11.215,46.403],[11.214,46.397],[11.209,46.388],[11.207,46.388],[11.201,46.373],[11.206,46.367],[11.193,46.365],[11.192,46.36],[11.204,46.342],[11.197,46.332],[11.19,46.328],[11.186,46.317],[11.163,46.291],[11.144,46.288],[11.139,46.284],[11.15,46.28],[11.16,46.268],[11.174,46.259],[11.201,46.257],[11.196,46.25],[11.19,46.25],[11.189,46.253],[11.184,46.252],[11.181,46.243],[11.175,46.239],[11.174,46.235],[11.183,46.226],[11.202,46.223],[11.206,46.22],[11.24,46.228],[11.285,46.258],[11.294,46.261],[11.306,46.259],[11.316,46.273],[11.311,46.281],[11.323,46.293],[11.332,46.294],[11.333,46.298],[11.34,46.298],[11.336,46.29],[11.344,46.28],[11.349,46.28],[11.356,46.276],[11.359,46.266],[11.37,46.262],[11.372,46.264],[11.39,46.262],[11.398,46.265],[11.395,46.274],[11.387,46.28],[11.385,46.286],[11.374,46.293],[11.359,46.296],[11.359,46.299],[11.364,46.302],[11.385,46.302],[11.397,46.311],[11.404,46.325],[11.419,46.325],[11.455,46.335],[11.462,46.35],[11.474,46.352],[11.48,46.356],[11.477,46.364],[11.512,46.359],[11.543,46.348],[11.553,46.347],[11.557,46.351],[11.563,46.381],[11.593,46.384],[11.602,46.39],[11.602,46.399],[11.62,46.429],[11.618,46.444],[11.626,46.461],[11.627,46.472],[11.635,46.475],[11.643,46.475],[11.645,46.473],[11.65,46.483],[11.639,46.493],[11.633,46.495],[11.633,46.499],[11.639,46.502],[11.647,46.498],[11.665,46.498],[11.702,46.507],[11.715,46.514],[11.72,46.51],[11.733,46.509],[11.744,46.505],[11.753,46.506],[11.782,46.511],[11.791,46.515],[11.792,46.52],[11.808,46.532],[11.812,46.533],[11.813,46.53],[11.819,46.528],[11.826,46.52],[11.825,46.513],[11.828,46.509],[11.814,46.494],[11.81,46.485],[11.813,46.478],[11.871,46.473],[11.879,46.47],[11.887,46.465],[11.888,46.442],[11.872,46.433],[11.85,46.434],[11.847,46.426],[11.838,46.415],[11.844,46.41],[11.837,46.401],[11.832,46.388],[11.836,46.366],[11.831,46.367],[11.82,46.377],[11.815,46.374],[11.813,46.368],[11.804,46.365],[11.791,46.367],[11.783,46.365],[11.774,46.358],[11.78,46.352],[11.8,46.344],[11.803,46.334],[11.832,46.323],[11.832,46.312],[11.841,46.306],[11.834,46.3],[11.826,46.285],[11.835,46.274],[11.841,46.27],[11.854,46.271],[11.885,46.279],[11.888,46.275],[11.885,46.26],[11.891,46.253],[11.894,46.251],[11.9,46.254],[11.913,46.253],[11.921,46.248],[11.929,46.249],[11.918,46.238],[11.91,46.224],[11.925,46.217],[11.93,46.206],[11.938,46.199],[11.962,46.199],[11.962,46.187],[11.956,46.184],[11.951,46.176],[11.951,46.17],[11.929,46.176],[11.929,46.171],[11.918,46.155],[11.919,46.149],[11.901,46.137],[11.906,46.135],[11.892,46.12],[11.847,46.113],[11.827,46.107],[11.819,46.108],[11.815,46.104],[11.807,46.103],[11.777,46.103],[11.773,46.107],[11.766,46.099],[11.759,46.096],[11.751,46.105],[11.717,46.103],[11.703,46.09],[11.692,46.095],[11.685,46.094],[11.682,46.086],[11.686,46.067],[11.697,46.06],[11.704,46.052],[11.705,46.047],[11.677,46.044],[11.666,46.037],[11.673,46.029],[11.682,46.028],[11.667,46.017],[11.671,46.015],[11.69,45.989],[11.684,45.984],[11.686,45.969],[11.667,45.964],[11.65,45.965],[11.635,45.961],[11.628,45.961],[11.631,45.969],[11.621,45.971],[11.615,45.967],[11.6,45.971],[11.588,45.969],[11.577,46.007],[11.566,46.006],[11.552,46.012],[11.526,46.012],[11.517,46.009],[11.511,46.012],[11.501,46.011],[11.491,46.009],[11.484,46.001],[11.465,45.995],[11.447,45.981],[11.396,45.98],[11.374,45.984],[11.372,45.973],[11.376,45.961],[11.383,45.951],[11.38,45.943],[11.364,45.942],[11.358,45.944],[11.361,45.935],[11.358,45.925],[11.345,45.921],[11.35,45.915],[11.35,45.91],[11.345,45.909],[11.337,45.914],[11.325,45.917],[11.315,45.924],[11.313,45.93],[11.308,45.928],[11.301,45.935],[11.3,45.929],[11.304,45.918],[11.29,45.917],[11.274,45.92],[11.271,45.917],[11.258,45.921],[11.261,45.916],[11.261,45.907],[11.251,45.896],[11.255,45.891],[11.255,45.884],[11.248,45.886],[11.237,45.881],[11.237,45.878],[11.244,45.877],[11.24,45.857],[11.227,45.849],[11.222,45.849],[11.218,45.844],[11.219,45.833],[11.203,45.827],[11.199,45.824],[11.198,45.82],[11.189,45.814],[11.19,45.802],[11.194,45.802],[11.193,45.796],[11.203,45.783],[11.188,45.782],[11.179,45.788],[11.174,45.787],[11.181,45.765],[11.176,45.752],[11.178,45.738],[11.174,45.732],[11.153,45.719],[11.146,45.717]]]]}},"ord":["Trento","Rovereto","Cles","Predazzo","Cavalese","Madonna di Campiglio"],"cap":1}});
 </script>
 </body>
 </html>

@@ -32,7 +32,7 @@ const { regioneDati } = require('./lib-posti.js');
 const { confineDi } = require('./genera-pagine-adesso.js');   // il confine della regione nelle anteprime dei bottoni
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
-const { METEO_PAESI, CSS, CSS_ANT, clientePagina, mappeHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
+const { METEO_PAESI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
   SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -76,6 +76,7 @@ function pagina(p, QUOTE_DI) {
   const C = { sito: SITO, raw: RAW, slug: 'paese-' + p.slug, reg, dove: p.dove, valle: 'zona', inValle: p.dove, diValle: '',
     rilievo: RILIEVO, quote, pluv: [], solo: true, paese: p.loc, giorni: 'funghi/' + reg + '-giorni.json', id,
     nomi: p.nomi || null, primo: p.primo || null, intorno: p.n + ' e i paesi intorno', alPluv, evento: 'meteo_paese',
+    nastro: p.n,   // il blocco rosso della barra sotto la mappa: «METEO SASSELLO», come il titolo della pagina
     ant: Object.assign({ confine: confineDi(casa) }, ordineCitta(reg)) };
   // ⚠️ Niente zona del pluviometro nei bottoni: quella delle pagine funghi a volte e' larga (Sassello sta nella «Val
   // Bormida», ma e' in valle dell'Erro). Le tre anteprime: mappeHtml in genera-pagine-meteo-zona.js.
@@ -114,6 +115,7 @@ ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
 <p class="sotto"><b>Che tempo farà ${esc(p.dove)} nei prossimi 7 giorni</b>, ora per ora, e nei ${intorno.length} paesi intorno, ognuno alla sua quota; e quanta pioggia è già caduta ${esc(alPluv)}.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
+${nastroHtml(p.n)}
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometro…</div>
