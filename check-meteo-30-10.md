@@ -232,6 +232,20 @@ rimasti nello storico (banner, scheda, etichette) dopo l'uscita, lampi all'apert
 
 ## Correzioni proposte sul ramo
 
-Quattro modifiche piccole a `index.html`, ognuna col suo commento nello stile del file: difetti 1, 2, 4 e 5. Le ho
-verificate con gli stessi percorsi automatici al computer (1366x657) e al telefono (393x760), più un ripasso dei
-percorsi che andavano già bene (vedi la PR). Non sono pubblicate e non vanno unite così: sono una base da guardare.
+Quattro modifiche piccole a `index.html` (26 righe), ognuna col suo commento nello stile del file: difetti 1, 2, 4 e 5.
+Non sono pubblicate e non vanno unite così: sono una base da guardare.
+
+Verifiche dopo le modifiche, sempre sulla copia locale:
+
+- **1**: righe dei risultati cliccabili a 1366x657, 1366x768, 1440x900 e 1920x920 (l'ultima di una lista lunga resta
+  da scorrere, come prima); a 1366x657 la ricerca di Calizzano col clic ora funziona.
+- **2**: al computer e al telefono, Calizzano cercato nelle previsioni → tocco su Vado Ligure / Carcare → Storico:
+  Liguria + Piemonte col segnaposto; → Previsioni: di nuovo Calizzano.
+- **4**: radar e boschi, al computer e al telefono: Previsioni → Indietro riporta il modo, l'Indietro dopo lo spegne;
+  con la linguetta Storico il modo torna. «📡 Diretta radar» e ritorno invariati.
+- **5**: Toscana → Indietro → Toscana di nuovo, e Avanti: la scheda di Firenze si riapre da sola; Val Bormida →
+  Indietro → Avanti: la scheda di Cairo Montenotte si riapre.
+- Ripasso senza differenze: vista Italia e linguette (A), paese cercato nello storico (B), analisi a 7 giorni con
+  Indietro/Avanti e «↩ Indietro» (C), «📡 Diretta radar» (D, R1), linguette col paese cercato (G), valle (L),
+  Avanti dopo la linguetta (R2).
+- Il difetto 3 resta (ora visibile anche a 1366x657, perché la ricerca funziona).
