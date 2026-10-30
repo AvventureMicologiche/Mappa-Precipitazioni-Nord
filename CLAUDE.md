@@ -3494,9 +3494,16 @@ l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`
   basso, poi il margine sotto; **banner mai visibile nella vista di un paese al telefono** (scheda gia' aperta al primo
   disegno: `naSopraDet` cercava nella pagina il banner appena creato) → viPezzi lo appende prima; **«METEO ITALIA
   UNDEFINED NAN»** al telefono, chiudendo una scheda nella vista Italia (c'era gia' in produzione: `chiudiDettaglio`
-  chiama `viPezzi()` senza giorno) → senza giorno non si riscrive. Al computer, 6 schermi: nessun difetto. Restano,
-  apposta: col telefono girato la mappa e' una striscia (anche nello storico); nello storico «Avanti» non rifa' le
-  regioni tolte con Indietro (dall'8/10); dal radar aperto nelle previsioni, Indietro va allo storico.
+  chiama `viPezzi()` senza giorno) → senza giorno non si riscrive. Al computer, 6 schermi: nessun difetto. Poi (suo
+  «sistema anche questi»): **telefono girato** (852×393 prende le regole fino a 900 px del tablet in verticale: alla
+  mappa restava una striscia) → `@media(max-width:900px) and (max-height:500px) and (orientation:landscape)`: via le
+  due strisce in fondo e la vetrina, riquadro e scheda in una colonna a sinistra di 330 px (`COLONNA`), banner in fondo
+  accanto; in JS `oriz()` per veInquadra, inquadraItalia, inquadraPosto, tieniInVista e il ridimensionamento;
+  **«Avanti» nello storico** (modulo «Indietro in tutto il sito»: ogni popstate valeva Indietro) → le voci `{st:1,i}`
+  col numero, `rifare` (come si riaccende il livello spento: regioni o paese, periodo, tasto, `window._riapriScheda`) e
+  `rifacendo` (si aspetta che il livello ci sia prima di riallineare); **Indietro dal radar aperto dalle previsioni**
+  lasciava lo storico → `window._radarDaPrev` (messo dal «📡 Diretta radar», visto acceso in `guarda`), e Indietro
+  spento il radar rientra nelle previsioni (`window._prevEntra`, col suo passo).
 
 ## Sesto check (20/10/2026)
 

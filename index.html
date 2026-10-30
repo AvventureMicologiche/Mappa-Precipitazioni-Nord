@@ -4308,9 +4308,11 @@ document.addEventListener('keydown',function(ev){
   if(box&&box.style.display==='block') document.getElementById('btn-custom').click();   // lo stesso tasto che lo chiude
 });
 
+var _schedaArg=null;   // l'ultima scheda aperta, per «Avanti» (window._riapriScheda)
 function openStationHistory(s,rank,mx,my){
   hideTooltip();
   if(!currentPast||!currentNow) return;
+  _schedaArg=[s,rank,mx,my];
   var token=++histToken;
   histOpenedAt=Date.now();
 
@@ -10257,6 +10259,8 @@ window._svuotaScelta=function(){ if(isLoading) return false; svuotaScelta(); ret
 /* per il tasto «indietro» del telefono (8/10/2026, modulo in fondo): cosa c'e' a schermo e come si toglie un passo */
 window._storicoStato=function(){ return {analisi:!!(currentPast&&currentNow), scheda:histEl.style.display==='block'}; };
 window._chiudiScheda=function(){ closeStationHistory(); return true; };
+// «Avanti» dopo averla chiusa con Indietro (30/10/2026): la stessa stazione, se il periodo c'e' ancora
+window._riapriScheda=function(){ if(!_schedaArg||!currentPast||!currentNow) return false; openStationHistory.apply(null,_schedaArg); return true; };
 /* via l'analisi, resta la regione coi pallini di partenza: come appena scelta */
 window._togliAnalisi=function(){
   if(isLoading) return false;
@@ -16820,6 +16824,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-det .r{height:27px;font-size:12.5px}#pv-det .r .ic{font-size:17px}
   #pv-det .ft .b{padding:7px 6px}
 }
+/* ⚠️ IL TELEFONO GIRATO (30/10/2026, scheda 101, suo «sistema anche questi» dopo il giro di caccia sul sito vero):
+   in orizzontale un telefono (852×393) prende le regole fino a 900 px pensate per il tablet in verticale, e nei 393 px
+   stavano testata, mappa (285), barra della regione, casella, banner, scheda e due strisce di crediti (70): alla mappa
+   restava una striscia, nello storico coperta anche dalla vetrina. Qui, come al computer: le strisce in fondo e la
+   vetrina via, riquadro e scheda in una colonna a sinistra di 330 px, il banner in fondo alla mappa accanto alla colonna.
+   Le inquadrature lo sanno da oriz() (stessa condizione, in JS) */
+@media(max-width:900px) and (max-height:500px) and (orientation:landscape){
+  .fonte,.fonte-reg{display:none !important}
+  #channel-logo{display:none !important}
+  #pv-pan{right:auto !important;width:330px !important;max-height:calc(100% - 104px);overflow-y:auto;border-radius:0 14px 0 0}
+  #pv-det{right:auto !important;width:330px !important;max-height:calc(100% - 104px) !important;border-radius:0 14px 0 0}
+  body.modo-prev:not(.pv-vuoto) #pv-cerca-tel{right:auto !important;width:306px}
+  #vi-nastro.sopra-det{left:330px !important;bottom:0 !important}
+}
 </style>
 <script>
 (function(){
@@ -16839,6 +16857,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function map(){ return window._mapDebug; }
   function regioni(){ return window._regioniAttive?window._regioniAttive():[]; }
   function tel(){ return window.innerWidth<=900; }
+  // il telefono girato: riquadro e scheda in una colonna a sinistra (vedi «IL TELEFONO GIRATO» nel CSS), 30/10/2026
+  var COLONNA=330;
+  function oriz(){ try{ return tel()&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }
   // dove finisce, dall'alto della mappa, la casella «Cerca la tua localita'» del telefono (0 se non c'e')
   function casellaSotto(mb){ var cb=el('pv-cerca-tel'); if(!cb) return 0; var r=cb.getBoundingClientRect(); return r.height>0?Math.max(0,r.bottom-mb.top):0; }
   /* l'ora italiana, per il giorno di partenza (suo, 7/10: «oggi», ma dopo le 20 «domani») */
@@ -17056,9 +17077,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     el('pv-radar').addEventListener('click',function(){
       var c=cercato||posto, senza=!regioni().length;
       esci(false);
+      window._radarDaPrev={visto:false};   // Indietro dal radar torna qui (modulo «Indietro» dello storico, 30/10/2026)
       if(senza&&c&&window._locVai){ try{ window._locVai({n:c.n,lat:c.lat,lon:c.lon,reg:(c.regs&&c.regs[0])||c.reg||regDi(c),t:c.t||'',priv:c.priv,muta:c.muta}); }catch(e){} }
       var b=el('btn-radar'), giri=0;
-      (function prova(){ if(regioni().length||giri>40){ if(b) b.click(); return; } giri++; setTimeout(prova,150); })();
+      (function prova(){ if(regioni().length||giri>40){ if(b) b.click(); if(window._storiaGuarda) window._storiaGuarda(); return; } giri++; setTimeout(prova,150); })();
     });
     // uscite: linguetta, periodo scelto, «Indietro», radar e boschi
     [].forEach.call(document.querySelectorAll('#time-panel .tp-btn, #btn-custom, #btn-funghi, #btn-radar, #btn-boschi'),
@@ -17073,9 +17095,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       entra(); tieniPosto({n:s.n,lat:s.lat,lon:s.lon,q:s.q},false); ga('da_scheda');
     });
     window.addEventListener('resize',posiziona);
-    var eraTel=tel(), misT=0;   // vedi «DAL TELEFONO AL COMPUTER» in nuovaMisura
+    var eraTel=tel()+'|'+oriz(), misT=0;   // vedi «DAL TELEFONO AL COMPUTER» in nuovaMisura; e il telefono che si gira (30/10)
     window.addEventListener('resize',function(){ clearTimeout(misT); misT=setTimeout(function(){
-      var t=tel(); if(t===eraTel) return; eraTel=t; if(acceso) nuovaMisura(); },250); });
+      var t=tel()+'|'+oriz(); if(t===eraTel) return; eraTel=t; if(acceso) nuovaMisura(); },250); });
     /* ⚠️ LA TENDINA E' UN GESTO ANCHE SE LA REGIONE NON CAMBIA (caccia ai bug, difetto 16): dal link di Calizzano (che ha
        gia' la Liguria) scegliendo «Liguria» nella tendina le regioni non cambiano, la sorveglianza non se ne accorge e
        restava «Calizzano e dintorni». Scelta una regione vera, vince lei */
@@ -17146,6 +17168,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function entra(daLink){
     if(acceso||!map()) return;
     acceso=true; window._prevAttivo=true; document.documentElement.classList.remove('apre-prev');   // vedi «LINK ALLE PREVISIONI» in cima
+    window._radarDaPrev=null;
     zittoStoria=!!daLink; passo('prev');
     giorno=oraRoma()>=20?1:0;
     if(document.body.classList.contains('modo-radar') && el('btn-radar')) el('btn-radar').click();
@@ -17266,6 +17289,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(pan){ var r=pan.getBoundingClientRect(); if(r.height>40) sotto=Math.max(0,mb.bottom-Math.max(r.top,mb.top)); }
     var na=el('vi-nastro'); if(na&&na.style.display!=='none'&&na.offsetHeight) sotto=Math.max(sotto,mb.bottom-na.getBoundingClientRect().top);   // il banner, in fondo sotto il riquadro
     var sopra=Math.max(sopraTel(),casellaSotto(mb));
+    if(oriz()){ try{ m.fitBounds(ITALIA_TEL,{paddingTopLeft:[COLONNA+10,sopraTel()+10],paddingBottomRight:[10,10],animate:false}); }catch(e){} return; }   // telefono girato: accanto alla colonna
     try{ m.fitBounds(ITALIA_TEL,{paddingTopLeft:[8,sopra+14],paddingBottomRight:[8,sotto+14],animate:false}); }catch(e){}
   }
   /* vista Italia sul computer: l'Italia intera fra il riquadro dei giorni (a sinistra) e il banner (in fondo). Senza, restava
@@ -17543,6 +17567,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var pt=m.latLngToContainerPoint([punto.lat,punto.lon]), mb=el('map').getBoundingClientRect(), dr=det.getBoundingClientRect();
     /* telefono (18/10/2026): la scheda adesso e' alta quanto il contenuto e sopra si vede la mappa; se il
        posto finisce sotto la scheda si porta a meta' della striscia libera */
+    if(oriz()){   // telefono girato: la scheda sta a sinistra, il posto va a meta' della mappa libera
+      var lim=dr.right-mb.left+30; if(pt.x<lim) m.panBy([pt.x-(lim+(mb.width-lim)/2),0],{animate:true});
+      return;
+    }
     if(tel()){
       var sopra=sopraTel(), libero=dr.top-mb.top;
       if(libero-sopra>80 && (pt.y>libero-30 || pt.y<sopra)) m.panBy([0,pt.y-(sopra+libero)/2],{animate:true});
@@ -17855,7 +17883,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function veInquadra(){
     var m=map(); if(!m||!VE.bounds) return false;
     var mb=el('map').getBoundingClientRect(), reg=VE.tipo==='regione', tl, br;
-    if(tel()){ var sopra=Math.max(sopraTel(),casellaSotto(mb)), sotto=Math.round(mb.height*0.40)+20+38;   // la scheda al 40% e il banner sopra di lei
+    if(oriz()){ tl=[COLONNA+(reg?40:10),sopraTel()+(reg?24:10)]; br=[reg?38:10,38+(reg?14:6)]; }   // telefono girato: accanto alla colonna, sopra il banner
+    else if(tel()){ var sopra=Math.max(sopraTel(),casellaSotto(mb)), sotto=Math.round(mb.height*0.40)+20+38;   // la scheda al 40% e il banner sopra di lei
       // la spinta in basso solo per le regioni strette e lunghe (la Liguria): su quelle «alte» (Lombardia, Toscana)
       // rimpiccioliva la regione e i capoluoghi non ci stavano
       var bb=VE.bounds, alto=(bb.getNorth()-bb.getSouth())*111, largo=(bb.getEast()-bb.getWest())*111*Math.cos(bb.getCenter().lat*Math.PI/180);
@@ -18005,7 +18034,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var pts=[[posto.lat,posto.lon]]; cs.slice(0,3).forEach(function(x){ pts.push([x.c.lat,x.c.lon]); });
     if(pts.length<2){ try{ m.setView([posto.lat,posto.lon],Math.max(m.getZoom(),9),{animate:false}); }catch(e){} return; }
     var mb=el('map').getBoundingClientRect(), tl, br;
-    if(tel()){
+    if(oriz()){ tl=[COLONNA+16,sopraTel()+20]; br=[40,48]; }   // telefono girato: accanto alla colonna
+    else if(tel()){
       var pan=el('pv-pan'), rp=el('region-panel'), sotto=0, sopra=0;
       if(pan){ var r=pan.getBoundingClientRect(); if(r.height>40) sotto=Math.max(0,mb.bottom-Math.max(r.top,mb.top)); }
       if(rp){ var rr=rp.getBoundingClientRect(); if(getComputedStyle(rp).display!=='none'&&rr.height>10) sopra=Math.max(0,Math.min(rr.bottom,mb.bottom)-mb.top); }
@@ -18046,24 +18076,52 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     {k:'sat',    on:function(){ return !!window._satOn; },                                           via:function(){ if(!window._satToggle) return false; window._satToggle(); return true; }},
     {k:'scheda', on:function(){ return window._storicoStato&&window._storicoStato().scheda; },      via:function(){ return window._chiudiScheda&&window._chiudiScheda(); }}
   ];
-  var ordine=[], base=[], passi=0, ignora=0, gesto=false;
+  /* ⚠️ E «AVANTI» (30/10/2026, scheda 101, suo «sistema anche questi» dopo il giro di caccia sul sito vero): ogni
+     passo portava solo {st:1} e qui ogni popstate valeva Indietro, quindi «Avanti» spegneva un'altra cosa o non faceva
+     niente, e l'Indietro dopo andava a vuoto. Ora ogni voce ha il suo numero (`i`, quanti passi sotto di lei): arrivare
+     su una voce piu' alta dei passi e' un Avanti. Indietro, spegnendo un livello, si tiene come riaccenderlo (`rifare`:
+     le regioni o il paese, il periodo, il tasto, la scheda del pluviometro); Avanti lo riaccende e aspetta che ci sia
+     (`rifacendo`, regioni e periodi ci mettono qualche secondo) prima di riallineare. Un passo nuovo svuota `rifare`. */
+  var ordine=[], base=[], passi=0, ignora=0, gesto=false, rifare=[], rifacendo=null;
   function attivi(){ return LIVELLI.filter(function(l){ try{ return !!l.on(); }catch(e){ return false; } }).map(function(l){ return l.k; }); }
   function livello(k){ for(var i=0;i<LIVELLI.length;i++) if(LIVELLI[i].k===k) return LIVELLI[i]; return null; }
   function tend(fn){ if(window._dopoTendina) window._dopoTendina(fn); else fn(); }
   function fermo(){
     if(window._prevAttivo||ignora>0) return true;
     if(window._prevPopInVolo&&window._prevPopInVolo()) return true;
+    if(rifacendo){ if(attivi().indexOf(rifacendo.k)>=0||Date.now()>rifacendo.fino) rifacendo=null; else return true; }
     var sh=document.getElementById('reg-sheet'); return !!(sh&&sh.classList.contains('aperta'));
   }
   function allinea(){
     var d=ordine.length-passi; if(!d) return;
-    passi=ordine.length;
-    if(d>0) tend(function(){ for(var i=0;i<d;i++){ try{ history.pushState({st:1},''); }catch(e){} } });
+    var da=passi; passi=ordine.length;
+    if(d>0){ rifare=[]; tend(function(){ for(var i=1;i<=d;i++){ try{ history.pushState({st:1,i:da+i},''); }catch(e){} } }); }
     else { ignora++; tend(function(){ try{ history.go(d); }catch(e){ ignora--; } }); }
+  }
+  // come si riaccende un livello appena spento da Indietro (null: non si sa, e Avanti torna indietro da solo)
+  function comeRifare(k){
+    try{
+      if(k==='reg'){
+        var rk=(window._regioniAttive&&window._regioniAttive()||[]).slice(), pa=window._paeseCercato&&window._paeseCercato();
+        if(!rk.length) return null;
+        return function(){
+          if(pa&&isFinite(pa.lat)&&isFinite(pa.lon)&&window._locVai){ window._locVai({n:pa.n,lat:pa.lat,lon:pa.lon,reg:rk[0]}); return; }
+          var sel=document.getElementById('region-select');
+          if(rk.length===1&&sel&&sel.querySelector('option[value="'+rk[0]+'"]')){ sel.value=rk[0]; sel.dispatchEvent(new Event('change',{bubbles:true})); return; }
+          rk.forEach(function(r){ var cb=document.getElementById('chk-'+r); if(cb&&!cb.checked){ cb.checked=true; cb.dispatchEvent(new Event('change',{bubbles:true})); } });
+        };
+      }
+      if(k==='an'){ var b=document.querySelector('#time-panel .tp-btn.active'); return b?function(){ b.click(); }:null; }
+      if(k==='scheda') return window._riapriScheda||null;
+      if(k==='sat') return function(){ if(window._satToggle) window._satToggle(); };
+      var id={radar:'btn-radar',boschi:'btn-boschi',temp:'tq-btn'}[k]; return id?clicca(id):null;
+    }catch(e){ return null; }
   }
   function guarda(){
     if(fermo()) return;
     var a=attivi();
+    // il radar aperto dalle previsioni: visto acceso, e se si spegne in altro modo (✕ Chiudi radar) non vale piu'
+    if(window._radarDaPrev){ if(a.indexOf('radar')>=0) window._radarDaPrev.visto=true; else if(window._radarDaPrev.visto) window._radarDaPrev=null; }
     if(!gesto){ base=a; return; }
     base=base.filter(function(k){ return a.indexOf(k)>=0; });
     ordine=ordine.filter(function(k){ return a.indexOf(k)>=0; });
@@ -18076,22 +18134,35 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     document.addEventListener(ev,function(e){ if(e.isTrusted&&!gesto){ guarda(); gesto=true; } },true);
   });
   ['click','change','keyup'].forEach(function(ev){ document.addEventListener(ev,function(e){ if(e.isTrusted) dopoGesto(); },true); });
-  window.addEventListener('popstate',function(){
+  window.addEventListener('popstate',function(e){
     if(ignora>0){ ignora--; setTimeout(guarda,80); return; }
+    var st=e.state, dove=st&&st.st&&typeof st.i==='number'?st.i:-1;
+    if(dove>passi&&!window._prevAttivo){   // «Avanti» (vedi «E AVANTI»)
+      passi=dove; var r=rifare.pop();
+      if(r&&r.fn){ rifacendo={k:r.k,fino:Date.now()+15000}; try{ r.fn(); }catch(x){ rifacendo=null; } }
+      [80,800,2500,6000,15500].forEach(function(t){ setTimeout(guarda,t); });
+      return;
+    }
     if(!passi) return;
     passi--;
     if(window._prevAttivo) return;   // previsioni da link, senza passi loro: il passo era nostro, ma lo schermo e' loro
     // le previsioni possono aver cambiato lo storico senza un gesto qui (la ricerca toglie le regioni): si ripulisce
     var a=attivi(); ordine=ordine.filter(function(x){ return a.indexOf(x)>=0; });
     if(!ordine.length){ setTimeout(guarda,80); return; }
-    var k=ordine.pop(), l=livello(k), ok=false;
+    var k=ordine.pop(), l=livello(k), ok=false, rf=comeRifare(k);
+    /* ⚠️ IL RADAR APERTO DALLE PREVISIONI (30/10/2026, scheda 101, suo «sistema anche questi»): «📡 Diretta radar»
+       esce dalle previsioni e accende il radar dello storico, e Indietro lo spegneva lasciando lo storico. Ora, spento
+       il radar, si rientra nelle previsioni (col loro passo, come dal tasto), che e' la pagina da cui si veniva */
+    var daPrev=k==='radar'&&window._radarDaPrev&&window._radarDaPrev.visto;
     try{ ok=!!(l&&l.via()); }catch(e){}
     // non si e' potuto togliere (un calcolo in corso): il passo torna dov'era
-    if(!ok){ ordine.push(k); passi++; try{ history.pushState({st:1},''); }catch(e){} }
-    else if(CAMBIA_MAPPA.indexOf(k)>=0) inquadra();
+    if(!ok){ ordine.push(k); passi++; try{ history.pushState({st:1,i:passi},''); }catch(e){} }
+    else if(daPrev){ window._radarDaPrev=null; rifare=[]; setTimeout(function(){ if(window._prevEntra) window._prevEntra(); },60); return; }
+    else { rifare.push({k:k,fn:rf}); if(CAMBIA_MAPPA.indexOf(k)>=0) inquadra(); }
     setTimeout(guarda,80); setTimeout(guarda,800);
   });
   window._storiaPassi=function(){ return {ordine:ordine.slice(),base:base.slice(),passi:passi,lunghezza:history.length}; };   // per le prove
+  window._storiaGuarda=dopoGesto;   // il radar aperto dalle previsioni si accende con un clic non «vero»: lo dicono loro
   /* ⚠️ TORNANDO INDIETRO SI RIMETTE SEMPRE L'INQUADRATURA STANDARD (12/10/2026, suo: «da boschi
      vado su satellite, zoomo tanto, faccio indietro e mi rimane lo zoom del satellite»). Le regioni
      scelte inquadrate come quando si sceglie la regione; al telefono anche la striscia libera, in
