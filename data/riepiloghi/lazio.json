@@ -1,32 +1,32 @@
 {
  "regione": "lazio",
- "generato": "2026-10-29T04:15:39.974Z",
+ "generato": "2026-10-30T04:15:43.609Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 208,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
+     "n": "Liri a Pontecorvo",
+     "mm": 10.7
+    },
+    {
+     "n": "SS.Cosma e Damiano",
+     "mm": 6.6
+    },
+    {
      "n": "Amatrice",
-     "mm": 0.5
+     "mm": 0.6
     },
     {
-     "n": "Ceccano rlazio",
+     "n": "Borgo Montello",
      "mm": 0.2
     },
     {
-     "n": "Cittareale",
-     "mm": 0.2
-    },
-    {
-     "n": "Ripi",
-     "mm": 0.2
-    },
-    {
-     "n": "Salone",
+     "n": "Falcognana",
      "mm": 0.2
     }
    ]
@@ -35,66 +35,66 @@
    "media": 4,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
+    {
+     "n": "SS.Cosma e Damiano",
+     "mm": 21.4
+    },
     {
      "n": "Itri",
      "mm": 17.3
-    },
-    {
-     "n": "SS.Cosma e Damiano",
-     "mm": 15
     },
     {
      "n": "Micigliano",
      "mm": 14.6
     },
     {
-     "n": "Graffignano",
-     "mm": 14.4
+     "n": "Rivodutri",
+     "mm": 14.3
     },
     {
-     "n": "Rivodutri",
+     "n": "Ufente a Ponte Ferraioli",
      "mm": 14.3
     }
    ]
   },
   "20": {
-   "media": 72.2,
+   "media": 58.5,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Osteria di Castro",
-     "mm": 298.3
-    },
-    {
-     "n": "Latina",
-     "mm": 265.5
+     "mm": 281.9
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 256.6
+     "mm": 219.2
+    },
+    {
+     "n": "Latina",
+     "mm": 205.3
+    },
+    {
+     "n": "SS.Cosma e Damiano",
+     "mm": 197.6
     },
     {
      "n": "Ufente a Ponte Ferraioli",
-     "mm": 231.9
-    },
-    {
-     "n": "Vallecorsa",
-     "mm": 226.8
+     "mm": 194.1
     }
    ]
   },
   "30": {
-   "media": 113.3,
+   "media": 113.4,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Latina",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,17 +149,16 @@
   0.2,
   0,
   0.3,
-  0,
   0
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 3,
+   "m7": 2.9,
    "m30": 93.1,
    "p1": false,
    "p7": true,
@@ -167,9 +167,9 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 3,
+   "m7": 2.9,
    "m30": 96.3,
    "p1": false,
    "p7": true,
@@ -178,9 +178,9 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 5.9,
+   "m7": 5.8,
    "m30": 70.5,
    "p1": false,
    "p7": true,
@@ -189,20 +189,20 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-28",
-   "m1": 0.1,
-   "m7": 7.7,
+   "ultimo": "2026-10-29",
+   "m1": 0,
+   "m7": 7.6,
    "m30": 76.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 3.8,
+   "m7": 3.7,
    "m30": 140.2,
    "p1": false,
    "p7": true,
@@ -211,9 +211,9 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 11.5,
+   "m7": 11.4,
    "m30": 87.9,
    "p1": false,
    "p7": true,
@@ -222,11 +222,11 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-28",
-   "m1": 0.1,
-   "m7": 4.5,
+   "ultimo": "2026-10-29",
+   "m1": 0,
+   "m7": 4.4,
    "m30": 86.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

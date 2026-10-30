@@ -1,42 +1,42 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-29T04:15:39.975Z",
+ "generato": "2026-10-30T04:15:43.610Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 421,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
-     "n": "Gangi",
+     "n": "San Piero Patti",
      "mm": 1
     },
     {
-     "n": "Borgo Schisina",
+     "n": "Cumia",
      "mm": 0.6
     },
     {
-     "n": "Montagna Grande",
-     "mm": 0.6
+     "n": "Bisconte",
+     "mm": 0.4
     },
     {
-     "n": "San Basilio",
-     "mm": 0.6
+     "n": "Gangi",
+     "mm": 0.4
     },
     {
-     "n": "Termini Imerese SIAS",
+     "n": "Pantelleria",
      "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 7.6,
+   "media": 7.4,
    "giorni": 7,
-   "stazioni": 419,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "stazioni": 418,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Isnello SP54",
@@ -44,11 +44,11 @@
     },
     {
      "n": "Caronia Pomiere SIAS",
-     "mm": 72.8
+     "mm": 72
     },
     {
      "n": "Miraglia",
-     "mm": 61
+     "mm": 60.2
     },
     {
      "n": "San Fratello Forestale",
@@ -56,16 +56,16 @@
     },
     {
      "n": "Cesarò Monte Soro SIAS",
-     "mm": 53.4
+     "mm": 50.4
     }
    ]
   },
   "20": {
-   "media": 58.4,
+   "media": 54.1,
    "giorni": 20,
-   "stazioni": 416,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "stazioni": 415,
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Pagliara",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Forza d'Agro'",
-     "mm": 308.8
+     "mm": 307.2
     },
     {
      "n": "Casalvecchio Siculo",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Letojanni",
-     "mm": 291.8
+     "mm": 289.4
     },
     {
      "n": "Melia",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 61.5,
+   "media": 61.3,
    "giorni": 30,
    "stazioni": 419,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Pagliara",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   2.1,
@@ -148,28 +149,27 @@
   0.2,
   0.1,
   0.1,
-  0.1,
-  0.3
+  0.1
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-28",
-   "m1": 0,
-   "m7": 32.2,
-   "m30": 120,
-   "p1": false,
+   "ultimo": "2026-10-29",
+   "m1": 0.1,
+   "m7": 30.4,
+   "m30": 119.9,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 39.6,
+   "m7": 39,
    "m30": 121.5,
    "p1": false,
    "p7": true,

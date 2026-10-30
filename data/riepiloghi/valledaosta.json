@@ -1,21 +1,17 @@
 {
  "regione": "valledaosta",
- "generato": "2026-10-29T04:15:39.972Z",
+ "generato": "2026-10-30T04:15:43.607Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 66,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Pontey - Ponte Dora Baltea",
      "mm": 0.2
-    },
-    {
-     "n": "Saint-Pierre - Lago delle Rane",
-     "mm": 0.1
     },
     {
      "n": "Aosta - Mont-Fleury",
@@ -28,6 +24,10 @@
     {
      "n": "Arvier - Cooperativa Enfer",
      "mm": 0
+    },
+    {
+     "n": "Ayas - Alpe Aventine",
+     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 12.1,
    "giorni": 7,
    "stazioni": 70,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
@@ -61,19 +61,19 @@
    ]
   },
   "20": {
-   "media": 49.3,
+   "media": 49.2,
    "giorni": 20,
    "stazioni": 70,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Lillianes - Granges",
-     "mm": 145.2
+     "mm": 145
     },
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 131.4
+     "mm": 131.3
     },
     {
      "n": "Pontboset - Fournier",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 67.1,
+   "media": 67,
    "giorni": 30,
    "stazioni": 69,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   5.9,
   1,
   5.2,
@@ -148,15 +149,14 @@
   0,
   0.6,
   1.2,
-  0.3,
-  0
+  0.3
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
    "m7": 2.9,
    "m30": 125.1,
@@ -167,10 +167,10 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0.1,
-   "m7": 4.2,
-   "m30": 45.3,
+   "m7": 4.3,
+   "m30": 45.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,7 +178,7 @@
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
    "m7": 11.7,
    "m30": 36.1,
@@ -189,7 +189,7 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
    "m7": 1.9,
    "m30": 109.3,

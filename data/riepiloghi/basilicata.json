@@ -1,13 +1,13 @@
 {
  "regione": "basilicata",
- "generato": "2026-10-29T04:15:39.975Z",
+ "generato": "2026-10-30T04:15:43.610Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 50,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Abriola a Sellata Pierfaone",
@@ -32,23 +32,19 @@
    ]
   },
   "7": {
-   "media": 3.5,
+   "media": 3.2,
    "giorni": 7,
    "stazioni": 50,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Castrocucco",
-     "mm": 15
+     "mm": 10.8
     },
     {
      "n": "Maratea",
-     "mm": 13.5
-    },
-    {
-     "n": "Rotonda",
-     "mm": 9.2
+     "mm": 8.2
     },
     {
      "n": "Irsina",
@@ -57,35 +53,39 @@
     {
      "n": "Bradano Ponte Colonna",
      "mm": 7.3
+    },
+    {
+     "n": "Rotonda",
+     "mm": 7
     }
    ]
   },
   "20": {
-   "media": 61.8,
+   "media": 51.2,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
+     "n": "S.Nicola",
+     "mm": 96.2
+    },
+    {
      "n": "Lagonegro",
-     "mm": 138.3
-    },
-    {
-     "n": "Rotonda",
-     "mm": 111.9
-    },
-    {
-     "n": "Castelsaraceno",
-     "mm": 110
-    },
-    {
-     "n": "Castrocucco",
-     "mm": 107.3
+     "mm": 92.5
     },
     {
      "n": "Tramutola",
-     "mm": 102
+     "mm": 86.5
+    },
+    {
+     "n": "Castelsaraceno",
+     "mm": 86.4
+    },
+    {
+     "n": "Castrocucco",
+     "mm": 85.4
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 69,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Lagonegro",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   1.9,
   1.9,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": []
 }

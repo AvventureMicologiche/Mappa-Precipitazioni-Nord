@@ -1,91 +1,91 @@
 {
  "regione": "calabria",
- "generato": "2026-10-29T04:15:39.975Z",
+ "generato": "2026-10-30T04:15:43.610Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 138,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "stazioni": 139,
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
-     "n": "Gioiosa Ionica",
-     "mm": 1.4
+     "n": "Cropalati",
+     "mm": 2
     },
     {
-     "n": "Cardeto",
+     "n": "Savelli",
+     "mm": 1.6
+    },
+    {
+     "n": "S.Nicola dell'Alto",
      "mm": 1
     },
     {
-     "n": "Roccaforte del Greco",
-     "mm": 0.4
+     "n": "Cecita",
+     "mm": 0.6
     },
     {
-     "n": "Salica",
+     "n": "Longobucco",
      "mm": 0.4
-    },
-    {
-     "n": "Bova Superiore",
-     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 4.8,
+   "media": 4.3,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Filadelfia",
      "mm": 17
     },
     {
-     "n": "Martirano",
-     "mm": 15.2
-    },
-    {
      "n": "Cenadi - Serralta",
-     "mm": 14.8
-    },
-    {
-     "n": "Chiaravalle",
      "mm": 13.8
     },
     {
+     "n": "Martirano",
+     "mm": 13.8
+    },
+    {
+     "n": "Scilla - Solano",
+     "mm": 12.6
+    },
+    {
      "n": "Decollatura",
-     "mm": 13.6
+     "mm": 12.4
     }
    ]
   },
   "20": {
-   "media": 99.6,
+   "media": 95.9,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 236.8
-    },
-    {
-     "n": "Roccaforte del Greco",
-     "mm": 215.6
-    },
-    {
-     "n": "Cassari",
-     "mm": 204.6
+     "mm": 235.2
     },
     {
      "n": "Cardeto",
      "mm": 204.4
     },
     {
+     "n": "Roccaforte del Greco",
+     "mm": 198.6
+    },
+    {
      "n": "Allai",
      "mm": 182
+    },
+    {
+     "n": "S.Agata del Bianco",
+     "mm": 174.4
     }
    ]
   },
@@ -93,12 +93,12 @@
    "media": 103.1,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 254.8
+     "mm": 254.6
     },
     {
      "n": "Roccaforte del Greco",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,17 +149,16 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-29",
    "m1": 0,
-   "m7": 8,
+   "m7": 7.3,
    "m30": 132.8,
    "p1": false,
    "p7": true,
@@ -167,11 +167,11 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-28",
-   "m1": 0,
-   "m7": 5.1,
+   "ultimo": "2026-10-29",
+   "m1": 0.1,
+   "m7": 4.3,
    "m30": 73,
-   "p1": false,
+   "p1": true,
    "p7": true,
    "p30": true
   }
