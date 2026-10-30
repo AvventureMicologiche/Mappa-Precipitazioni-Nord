@@ -75,7 +75,13 @@ const ZONE_METEO = ['garfagnana', 'lunigiana', 'casentino', 'valsassina', 'valda
 const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-trebbia', 'sila-greca', 'alpi-apuane',
   'val-trompia', 'cilento', 'colline-metallifere', 'val-di-taro', 'val-di-vara', 'valle-germanasca', 'monti-reatini',
   'val-loana', 'monti-lattari', 'val-di-non', 'media-valle-del-serchio', 'monti-sibillini', 'valtiberina', 'valdinievole'];
-const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B);
+// C (30/10/2026, scheda 101 bis, suo: «sì, prepara le valli»): le 20 successive per visite GA4 (28 gg, pagine zona piogge
+// + zona funghi, `scratchpad 79554e37 zone-ga4.py`), dalla Riviera di Levante (44) ai Monti Sabini (18). Preparate in
+// locale il 30/10; si pubblicano dopo la prima lettura dei numeri di A e B (~3-4/11). Sitemap loro, sitemap-meteo-c.xml.
+const ZONE_METEO_C = ['riviera-di-levante', 'monti-cantari', 'val-di-merse', 'monti-del-partenio', 'valmalenco', 'carnia',
+  'sabina', 'valle-sabbia', 'valdelsa', 'val-serina', 'val-veddasca', 'altopiano-del-tesino', 'romagna-toscana',
+  'val-di-luce', 'serre-calabresi', 'val-nure', 'candalla', 'monti-prenestini', 'val-borbera', 'monti-sabini'];
+const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B, ZONE_METEO_C);
 
 // ⚠️ LE PAGINE «METEO <PAESE>» DEL TEST (28/10/2026, suo: «20 pagine meteo paese di prova, i paesi più cliccati»): le
 // 20 pagine paese funghi con piu' clic da Google negli ultimi 28 giorni (Search Console; GA4 dice lo stesso). Le scrive
@@ -1070,7 +1076,7 @@ ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
    › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 

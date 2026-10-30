@@ -67,7 +67,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoPaesi: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: '2026-08-14', freq: 'daily', pri: '1.0' });
@@ -179,12 +179,13 @@ function scriviSitemap(SITO, RADICE) {
   // Le pagine «PREVISIONI METEO» di zona, dal 24/10/2026 (genera-pagine-meteo-zona.js): un TEST su 11 zone, con la
   // sua sitemap per misurarle da sole in Search Console. Priorita' 0.7 come le zone piogge; data del guscio fissa.
   // Dal 24/10 sera due gruppi: le zone di ZONE_METEO_B (genera-pagine-meteo-zona.js) vanno in sitemap-meteo-b.xml.
-  const MZ = path.join(RADICE, 'meteo'), MB = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_B);
+  // Dal 30/10/2026 il terzo, ZONE_METEO_C, in sitemap-meteo-c.xml.
+  const MZ = path.join(RADICE, 'meteo'), MB = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_B), MC = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_C);
   if (fs.existsSync(MZ)) {
     // (la pagina madre /meteo/ c'e' stata solo il 28/10/2026: dalla sera rimanda a /previsioni/, che sta in sitemap-mappa.xml)
     for (const d of fs.readdirSync(MZ).sort()) {
       if (c_e(path.join('meteo', d, 'index.html')))
-        fam[MB.has(d) ? 'meteoB' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });
+        fam[MB.has(d) ? 'meteoB' : MC.has(d) ? 'meteoC' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });
       // le pagine «Meteo <paese>» (28/10/2026, genera-pagine-meteo-paese.js) stanno in meteo/<regione>/<paese>/, con la
       // LORO sitemap: un altro test da misurare a parte
       else if (fs.statSync(path.join(MZ, d)).isDirectory())
@@ -206,7 +207,7 @@ function scriviSitemap(SITO, RADICE) {
   const NOMI = { mappa: 'sitemap-mappa.xml', funghi: 'sitemap-funghi.xml',
                  localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml',
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
-                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoPaesi: 'sitemap-meteo-paesi.xml' };
+                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoPaesi: 'sitemap-meteo-paesi.xml' };
   const figlie = [];
   let totale = 0;
   for (const k of Object.keys(NOMI)) {

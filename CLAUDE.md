@@ -3003,10 +3003,24 @@ Un TEST deciso dall'utente dopo l'analisi di 3B Meteo e ilMeteo: le ricerche «m
 i grandi ragionano per comune (ilMeteo ha 207 zone, 3B nessuna; delle nostre 114 zone circa 71 non le copre nessuno).
 Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quella funghi: tre titoli per tre domande
 («Dove ha piovuto in…», «Funghi in… oggi», «Previsioni meteo…»).
-- **Generatore** `.github/scripts/genera-pagine-meteo-zona.js` (`SOLO=<slug>` per una sola, sitemap non toccata). Due
-  gruppi: `ZONE_METEO` (A, le 10 zone più viste in GA4 + Val Brembana, il campione) in `sitemap-meteo.xml`, e
-  `ZONE_METEO_B` (le 20 successive) in `sitemap-meteo-b.xml`, per misurarle a parte in Search Console. Valutazione dopo
-  circa 10 giorni; non aggiungere zone senza aver letto quei numeri.
+- **Generatore** `.github/scripts/genera-pagine-meteo-zona.js` (`SOLO=<slug>` per una sola, sitemap non toccata). Tre
+  gruppi: `ZONE_METEO` (A, le 10 zone più viste in GA4 + Val Brembana, il campione) in `sitemap-meteo.xml`,
+  `ZONE_METEO_B` (le 20 successive) in `sitemap-meteo-b.xml` e, dal 30/10/2026, `ZONE_METEO_C` (le 20 dopo ancora per
+  visite GA4 di 28 giorni, pagine zona piogge + zona funghi: dalla Riviera di Levante ai Monti Sabini) in
+  `sitemap-meteo-c.xml`, ognuno misurato a parte in Search Console. Il C è stato preparato prima di leggere i numeri di
+  A e B (suo: «sì, prepara le valli») e si pubblica dopo quella lettura (~3-4/11). Una zona nuova vuole anche la riga
+  «Previsioni meteo <zona> →» nelle sue pagine zona piogge e zona funghi (`linkMeteo`: rigenerandole c'è da sola,
+  altrimenti si inserisce dopo «Sto leggendo le previsioni dei paesi…»; ⚠️ le zona funghi hanno fini riga misti) e la
+  rigenerazione delle «adesso» della sua regione (blocco «valle per valle»).
+  ⚠️ **La Carnia, entrata col C, aveva 5 pluviometri su 6 FUORI dalla Carnia** (Tramonti di Sotto, Tramonti Invaso,
+  Campone, S. Francesco, Sella Chianzutan: Prealpi pordenonesi), e la pagina meteo mostrava Tramonti e Frisanco. Rifatti
+  il 30/10/2026 in `funghi-zone.json` (suo: «sistema la carnia»): Enemonzo, Villa Santina, Forni di Sotto, Sauris di
+  Sopra, Comeglians, Ravascletto e Tolmezzo (in comune con la Valle del But, che resta la zona della sua pagina località:
+  12 km contro 19). Paesi: Ampezzo, Enemonzo, Villa Santina, Forni di Sotto, Ovaro, Raveo, Sauris, Lauco, Tolmezzo,
+  Comeglians, Ravascletto, Socchieve. Rigenerate le pagine della zona (piogge, funghi, meteo), le 11 località che
+  entrano o escono, `funghi/friuli/` e la quota in `data/zone-regioni.json` (440 → 570 m). ⚠️ L'API delle previsioni
+  tiene in cache la risposta della zona (30 minuti, poi la vecchia per altre 3 ore mentre ricalcola): dopo un cambio di
+  paesi la pagina mostra quelli vecchi per un po'; in locale si toglie `.wrangler/state/v3/cache`.
 - **Cosa c'è** (ogni punto deciso da lui sul campione): casella «Cerca il tuo paese, anche una frazione»; la **scheda del
   posto ora per ora si apre DA SOLA** sul primo paese della zona e, toccando o cercando un paese, si apre **sempre su
   OGGI**; «Il punto di stamattina» scritto dai dati; i 7 giorni da toccare (mappa, tabella e titolo seguono); la mappa
