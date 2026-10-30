@@ -3070,6 +3070,20 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   degli indirizzi che sparisce è un resize e la faceva ripartire. Il contenuto è ripetuto quanto basta a riempire la
   fascia e il primo paese parte dopo il blocco rosso (`padding-left`). Prova: 51 pagine × telefono 393, computer 1366 e
   1920, 153/153 (scratchpad 79554e37 `prova-nastro.js`).
+- **La mappa col SATELLITE, come la vista a etichette (30/10/2026, scheda 101 bis)**, zone e paesi. Suo il 29/10:
+  «dentro le pagine meteo la mappa deve diventare come quella nuova»; il 30/10, con la vista in prod: «dobbiamo rifare
+  ovunque compaiono immagini meteo». Al posto di OpenStreetMap col rilievo TINITALY: la foto Esri World_Imagery
+  schiarita come la mappa, fino allo zoom 13,5 (più vicino la cartina coi nomi delle strade, come `viFondo`). ⚠️ **La
+  chiave e la luce si LEGGONO da `index.html`** al momento di generare (`SAT` = `SAT_FOTO`, `LUCE` = `LUCE_SAT` in
+  `genera-pagine-meteo-zona.js`, in `C.sat`): se cambiano (la chiave scade il 29/9/2027) basta rigenerare le 51
+  pagine. Etichette coi colori di `.ve-et` (bianco pieno, minima blu, massima rossa, ombra più scura), al computer su
+  UNA riga (icona, nome, gradi, poi 💧 e mm) con `.r1{display:contents}` e `order`, al telefono su due; il paese della
+  scheda aperta in BLU (`.scelto`, `SCELTO` in `apri()`), messo per primo nel diradare. ⚠️ **`#pz-mappa .pz-et.via`
+  serve**: la regola con l'id batteva `.pz-et.via{display:none}` e i paesi da nascondere restavano a schermo sopra gli
+  altri (il conto era giusto, la foto no: la prova ora guarda il `display` calcolato). Anche l'anteprima «Previsioni
+  <Regione>» sta sul satellite (`miniMappa(id, larga, sat)`, confine bianco: il blu scuro sul mare scuro spariva); il
+  radar resta sulla cartina. Prova: 51 pagine × telefono e computer (scratchpad 79554e37 `prova-mappa-sat.js`).
+  Le foto delle previsioni di guida e home rifatte lo stesso giorno da `scatta-previsioni-nuove.js` del banco.
 
 ### Pagine «Meteo <paese>» (/meteo/<regione>/<paese>/, 28/10/2026)
 

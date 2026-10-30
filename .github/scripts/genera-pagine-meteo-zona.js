@@ -19,9 +19,9 @@
  *    il posto scelto apre la SCHEDA QUI, sempre su OGGI con le ore, e da li' sei bottoni verso la mappa;
  *  - «Il punto di stamattina», scritto dai numeri (niente redattore);
  *  - i 7 giorni della valle, da toccare: mappa, titolo della mappa e colonna della tabella passano a quel giorno;
- *  - la mappa: OpenStreetMap + il RILIEVO del sito (TINITALY/INGV, ricetta della mappa boschi), etichette «variante F»
- *    (pillola bianca: icona del cielo SEMPRE, minima blu, massima arancio, 💧 solo se piove, nome), che non escono dalla
- *    mappa e non si sovrappongono;
+ *  - la mappa: dal 30/10/2026 la FOTO DAL SATELLITE schiarita della vista a etichette della mappa (prima OpenStreetMap +
+ *    il RILIEVO TINITALY), etichette come quelle della mappa (pillola bianca: icona del cielo SEMPRE, nome, minima blu,
+ *    massima rossa, 💧 solo se piove; il paese della scheda in blu), che non escono dalla mappa e non si sovrappongono;
  *  - paese per paese dal piu' basso al piu' alto, il grafico 30 giorni misurati + 7 previsti, ieri e 7 giorni.
  *
  * ⚠️ LE QUOTE DEI PAESI SI CUOCIONO QUI (lib-quota-paesi.js), il browser non chiede niente a Open-Meteo.
@@ -55,6 +55,14 @@ const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
 // il rilievo del sito, la stessa versione fissata che usa la mappa boschi (index.html)
 const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/';
+/* IL SATELLITE DELLA MAPPA (30/10/2026, scheda 101 bis; suo, il 29/10: «dentro le pagine meteo la mappa deve diventare
+   come quella nuova», e il 30/10, con la vista a etichette in prod: «dobbiamo rifare ovunque compaiono immagini meteo»).
+   La stessa foto della vista a etichette di index.html: Esri World_Imagery con la chiave del sito (SAT_FOTO, referrer del
+   dominio, scade il 29/9/2027) e la stessa luce (LUCE_SAT: +6% a tacca). Si leggono da index.html: se cambiano basta
+   rigenerare. Senza chiave (repo di test) il servizio pubblico, come esri() della mappa. */
+const INDEX = fs.readFileSync(path.join(RADICE, 'index.html'), 'utf8');
+const SAT = (/var SAT_FOTO='([^']+)'/.exec(INDEX) || [])[1] || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
 const GA_ID = 'G-9R7MXXS0V4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 
@@ -178,6 +186,9 @@ const CSS = `
 .pz-mappa-testa{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .pz-mappa-testa .dove{font-weight:700;color:#0f3d6e}
 #pz-mappa{height:460px;border-radius:12px;border:1px solid #c9d5e1;margin:8px 0 4px;z-index:1}
+/* la foto dal satellite (SAT nel generatore) schiarita come nella mappa; sotto, mentre le tessere arrivano, il fondo
+   scuro della vista Italia invece del grigio di Leaflet */
+#pz-mappa.sat{background:#3e526b}#pz-mappa.sat .leaflet-tile-pane{filter:brightness(${LUCE}) saturate(1.1)}
 /* LA BARRA CHE SCORRE (30/10/2026, suo: «sì, la barra»): la stessa della vista Italia della mappa (#vi-nastro di
    index.html: fascia gialla, filetti rossi, blocco rosso tagliato in diagonale). ⚠️ STA SOPRA LA SCHEDA ORA PER ORA,
    come la sua testata, nella stessa cornice blu (suo, fra tre posizioni provate: «C, sopra la scheda»). Sotto la mappa
@@ -205,15 +216,26 @@ const CSS = `
    «niente di quello che mi hai proposto funziona, guarda come fanno gli altri»). Come la mappa di 3B Meteo: il
    riquadro e' CENTRATO sul punto del paese, niente puntino a parte, niente lineette; se due si toccherebbero non se ne
    sposta nessuna, si NASCONDE il paese meno importante, e ingrandendo la mappa ricompare. */
-.pz-et{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;cursor:pointer;text-align:center;line-height:1.12;background:rgba(255,255,255,.95);border-radius:8px;padding:2px 7px 3px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+/* COME LE ETICHETTE DELLA MAPPA (30/10/2026, .ve-et di index.html): bianco pieno e ombra piu' scura per staccare dalla
+   foto, minima blu e massima rossa; nella mappa grande al computer su UNA riga (icona, nome, minima, massima, poi 💧 e
+   millimetri), al telefono su due come la mappa sulla regione; il paese della scheda aperta in BLU (.scelto) */
+.pz-et{position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;cursor:pointer;text-align:center;line-height:1.12;background:#fff;border-radius:8px;padding:2px 7px 3px;box-shadow:0 1px 4px rgba(0,0,0,.45);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#111}
 .pz-et .r1{display:block;font-size:12px;font-weight:800}
 .pz-et .ic{font-size:16px;vertical-align:-3px;margin-right:2px}
-.pz-et .mn{color:#1a5fa8}.pz-et .mx{color:#c4501a}
-.pz-et .gc{color:#1a5fa8;margin-left:4px}.pz-et .gc.bagnato{background:#1a5fa8;color:#fff;border-radius:999px;padding:0 5px}
-.pz-et .pp{color:#1a5fa8;margin-left:4px}
-.pz-et .nm{display:block;font-size:11px;font-weight:700;color:#1f2d3a}
+.pz-et .mn{color:#1856b8}.pz-et .mx{color:#c21f1f}
+.pz-et .gc{color:#1856b8;margin-left:4px}.pz-et .gc.bagnato{background:#1856b8;color:#fff;border-radius:999px;padding:0 5px}
+.pz-et .pp{color:#1856b8;margin-left:4px}
+.pz-et .nm{display:block;font-size:11px;font-weight:700;color:#111}
 .pz-et.via{display:none}
-@media (max-width:600px){.pz-et{padding:1px 5px 2px}.pz-et .r1{font-size:11px}.pz-et .ic{font-size:14px}.pz-et .nm{font-size:10px}}
+#pz-mappa .pz-et{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 4px}#pz-mappa .pz-et.via{display:none}
+#pz-mappa .pz-et .r1{display:contents}
+#pz-mappa .pz-et .ic{order:0;margin:0;font-size:17px;vertical-align:0}#pz-mappa .pz-et .nm{order:1;font-size:12.5px;font-weight:800}
+#pz-mappa .pz-et .mn{order:2}#pz-mappa .pz-et .mx{order:3}#pz-mappa .pz-et .pp,#pz-mappa .pz-et .gc{order:4;margin-left:0}
+.pz-et.scelto{background:#1f6fd1}.pz-et.scelto .nm,.pz-et.scelto .pp{color:#fff}.pz-et.scelto .mn,.pz-et.scelto .gc{color:#cfe3ff}.pz-et.scelto .mx{color:#ffd0d0}
+.pz-et.scelto .gc.bagnato{background:#fff;color:#1f6fd1}
+@media (max-width:600px){.pz-et{padding:1px 5px 2px}.pz-et .r1{font-size:11px}.pz-et .ic{font-size:14px}.pz-et .nm{font-size:10px}
+  #pz-mappa .pz-et{flex-direction:column;gap:0;padding:1px 5px 2px}#pz-mappa .pz-et .r1{display:flex;align-items:center;gap:3px}
+  #pz-mappa .pz-et .ic{font-size:14px}#pz-mappa .pz-et .nm{font-size:10px}}
 .pz-zoom{color:#1a5fa8;font-weight:700}
 .pz-scorri{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0}
 table.pz-tab{border-collapse:collapse;min-width:640px;width:100%;font-size:13px}
@@ -379,18 +401,20 @@ function clientePagina(C) {
       // posizione» della mappa: un computer con la finestra stretta resta col mouse.
       var touch = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
       mappa = L.map('pz-mappa', { scrollWheelZoom: false, attributionControl: true, zoomSnap: 0.25, dragging: !touch });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 15, attribution: '© OpenStreetMap' }).addTo(mappa);
-      /* il RILIEVO del sito (tessere TINITALY 1.1, INGV, CC BY 4.0): stessa ricetta della mappa boschi, pane sotto le
-         tessere e tessere in «multiply». Qui si puo': sotto non c'e' la pioggia colorata (la regola del 24/9) */
-      mappa.createPane('rilievo'); mappa.getPane('rilievo').style.zIndex = 190; mappa.getPane('tilePane').style.mixBlendMode = 'multiply';
-      L.tileLayer(C.rilievo + '{z}/{x}/{y}.png', { pane: 'rilievo', minZoom: 5, maxNativeZoom: 13, maxZoom: 15, errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-        attribution: 'rilievo: TINITALY 1.1, INGV (CC BY 4.0)' }).addTo(mappa);
+      /* LA FOTO DAL SATELLITE, COME LA MAPPA (30/10/2026; prima OpenStreetMap col rilievo TINITALY in «multiply»): la
+         foto schiarita fino allo zoom 13,5, piu' vicino la cartina di sempre coi nomi delle strade, come viFondo della
+         vista a etichette. Il rilievo a parte non serve piu': la foto ce l'ha */
+      var sat = L.tileLayer(C.sat, { maxNativeZoom: 17, maxZoom: 15, attribution: 'Foto: Esri, Vantor, Earthstar Geographics' });
+      var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 15, attribution: '© OpenStreetMap' });
+      var fondo = function () { var vicino = mappa.getZoom() >= 13.5; $('pz-mappa').classList.toggle('sat', !vicino);
+        mappa.removeLayer(vicino ? sat : osm); (vicino ? osm : sat).addTo(mappa); };
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
       // il margine e' mezza etichetta per lato: le etichette stanno CENTRATE sul paese, e un paese sul bordo ne avrebbe meta' fuori (e sparirebbe)
       mappa.fitBounds(L.latLngBounds(PAESI.map(function (c) { return [c.lat, c.lon]; })), { padding: innerWidth <= 600 ? [58, 26] : [80, 34], maxZoom: 12 });
-      mappa.on('zoomend', sistemaEtichette);
+      fondo();
+      mappa.on('zoomend', function () { fondo(); sistemaEtichette(); });
       // ⚠️ NIENTE PALLINI DEI PLUVIOMETRI su questa mappa (24/10/2026, suo «sì toglili»): la mappa dice solo «che tempo
       // farà nei paesi», e i puntini verdi della pioggia misurata confondevano. I pluviometri stanno nel blocco della
       // pioggia caduta (nomi cliccabili) e nella pagina piogge della zona.
@@ -405,7 +429,7 @@ function clientePagina(C) {
       var r1 = '<span class="r1"><span class="ic">' + icona(g.s) + '</span><span class="mn">' + g.mn + '°</span> <span class="mx">' + g.mx + '°</span>'
         + (g.pc != null && g.pc >= 10 ? '<span class="pp' + tonoPc(g.pc) + '" title="probabilità di pioggia">💧' + g.pc + '%</span>' : '')
         + (g.mm >= 0.1 ? '<span class="gc' + (g.mm >= 1 ? ' bagnato' : '') + '" title="' + mm(g.mm) + ' mm di pioggia">' + mm(g.mm) + ' mm</span>' : '') + '</span>';
-      L.marker([c.lat, c.lon], { icon: L.divIcon({ className: '', html: '<div class="pz-pt"><span class="pz-et" data-n="' + n + '">' + r1 + '<span class="nm">' + esc(c.n) + '</span></span></div>', iconSize: [0, 0] }), zIndexOffset: 1000 - n })
+      L.marker([c.lat, c.lon], { icon: L.divIcon({ className: '', html: '<div class="pz-pt"><span class="pz-et' + (c.n === SCELTO ? ' scelto' : '') + '" data-n="' + n + '">' + r1 + '<span class="nm">' + esc(c.n) + '</span></span></div>', iconSize: [0, 0] }), zIndexOffset: 1000 - n })
         .addTo(strato).on('click', function () { apri(posto(c), 'mappa'); });
     });
     sistemaEtichette();
@@ -418,7 +442,8 @@ function clientePagina(C) {
     var bordo = $('pz-mappa').getBoundingClientRect(), messi = [], nascosti = 0;
     var E = [].slice.call(document.querySelectorAll('#pz-mappa .pz-et'));
     E.forEach(function (l) { l.classList.remove('via'); });
-    E.sort(function (a, b) { return a.getAttribute('data-n') - b.getAttribute('data-n'); }).forEach(function (l) {
+    // il paese in blu per primo: e' quello della scheda aperta, non si nasconde
+    E.sort(function (a, b) { return b.classList.contains('scelto') - a.classList.contains('scelto') || a.getAttribute('data-n') - b.getAttribute('data-n'); }).forEach(function (l) {
       var r = l.getBoundingClientRect();
       var fuori = r.left < bordo.left + 2 || r.right > bordo.right - 2 || r.top < bordo.top + 2 || r.bottom > bordo.bottom - 18;
       var tocca = messi.some(function (m) { return !(r.right + 3 < m.left || r.left - 3 > m.right || r.bottom + 3 < m.top || r.top - 3 > m.bottom); });
@@ -528,7 +553,7 @@ function clientePagina(C) {
   }
 
   /* ── la scheda del posto: 7 giorni e ore ── */
-  var SCHEDA = null, AVVIO = false;
+  var SCHEDA = null, AVVIO = false, SCELTO = null;   // SCELTO: il paese della scheda, in blu sulla mappa
   function posto(c) { return { n: c.n, lat: c.lat, lon: c.lon, quota: QUOTE[c.n], reg: c.r || REG }; }
   function FASCIA(h) { return h < 6 ? 'notte' : h < 12 ? 'mattina' : h < 18 ? 'pomeriggio' : 'sera'; }
   /* ── le ore a righe, come 3B (29/10/2026, vedi .tv nello stile) ── */
@@ -597,6 +622,9 @@ function clientePagina(C) {
   // report orario non si vede»): niente scorrimento della pagina e niente evento GA, non e' un gesto di chi legge
   function apri(x, da) {
     var sc = $('scheda'); sc.classList.add('on'); AVVIO = da === 'avvio';
+    // il paese della scheda in blu, come la mappa (un posto cercato fuori dalla mappa non ne accende nessuno)
+    SCELTO = x.n; [].forEach.call(document.querySelectorAll('#pz-mappa .pz-et'), function (l) { l.classList.toggle('scelto', (PAESI[+l.getAttribute('data-n')] || {}).n === x.n); });
+    if (window.L && $('pz-mappa')) sistemaEtichette();
     sc.innerHTML = '<p class="nota">Sto leggendo le previsioni di ' + esc(x.n) + '…</p>';
     // si porta in vista la barra che scorre, che e' la testata della scheda (se le previsioni non sono arrivate e' nascosta)
     var su = $('nastro') && !$('nastro').hidden ? $('nastro') : sc;
@@ -726,13 +754,16 @@ function clientePagina(C) {
      pagine regione), la mappa della pioggia di ieri (l'anteprima delle pagine regione, ramo «anteprime»). Si
      caricano quando i bottoni arrivano vicino allo schermo; se una non arriva resta il fondo grigio e il bottone va. */
   // larga = [[sud, ovest], [nord, est]] al posto del confine della regione (il radar)
-  function miniMappa(id, larga) {
+  // sat: la foto dal satellite come la mappa grande (l'anteprima «Previsioni», 30/10/2026); il radar resta sulla cartina
+  function miniMappa(id, larga, sat) {
     var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
     // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
     L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
+    if (sat) { $(id).classList.add('sat'); L.tileLayer(C.sat, { maxNativeZoom: 17, maxZoom: 12, attribution: 'Foto: Esri' }).addTo(m); }
+    else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
     var b = larga ? L.latLngBounds(larga)
-      : L.geoJSON(C.ant.confine, { interactive: false, style: { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
+      // sulla foto il confine bianco: il blu scuro sul mare scuro non si vedeva
+      : L.geoJSON(C.ant.confine, { interactive: false, style: sat ? { color: '#fff', weight: 1.5, fill: false, opacity: 0.75 } : { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
     // l'etichetta gialla sta SOTTO l'anteprima, non sopra (28/10/2026: copriva la Sicilia nel radar e le citta' della
     // costa nelle previsioni); in alto a sinistra c'e' la fonte, a destra l'ora
     m.fitBounds(b, { paddingTopLeft: [10, 26], paddingBottomRight: [10, 10] });
@@ -751,7 +782,7 @@ function clientePagina(C) {
     }).catch(function () {});
   }
   function antPrev() {
-    var m = miniMappa('ant-prev');
+    var m = miniMappa('ant-prev', null, true);
     fetch(API + '?capoluoghi=' + REG).then(function (r) { return r.json(); }).then(function (j) {
       /* ⚠️ L'ORDINE LO DA' IL GENERATORE (C.ant.ord, 28/10/2026, suo: «i capoluoghi di provincia si devono vedere sempre,
          è più importante Savona di Millesimo»): il capoluogo di regione, quelli di provincia, poi gli altri, ognuno dal
@@ -878,6 +909,7 @@ const CSS_ANT = `
 .pz-ant-c{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid #c9d5e1;background:#fff;text-decoration:none;box-shadow:0 2px 10px rgba(15,61,110,.10)}
 .pz-ant-v{position:relative;height:250px;pointer-events:none;background:#e8eef4 center/cover no-repeat}
 .pz-ant-v.leaflet-container{background:#e8eef4}
+.pz-ant-v.sat.leaflet-container{background:#3e526b}.pz-ant-v.sat .leaflet-tile-pane{filter:brightness(${LUCE}) saturate(1.1)}
 .pz-ant-t{display:block;padding:10px 14px 11px;font-weight:800;font-size:16.5px;line-height:1.25;color:#3d1f04;background:linear-gradient(180deg,#f9c93e,#eda40c);border-top:1px solid rgba(160,106,8,.35)}
 .pz-ant-t small{display:block;font-weight:600;font-size:12.5px;opacity:.92;margin-top:1px}
 .pz-ant-q{position:absolute;top:8px;right:8px;z-index:1000;font-style:normal;font-size:12px;font-weight:700;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;color:#0f3d6e}
@@ -943,7 +975,7 @@ function pagina(z, QUOTE_DI) {
   if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
 
   const C = { sito: SITO, raw: RAW, slug: zslug, reg: casa.k, dove: DOVE, valle: VALLE, inValle: VALLE === 'valle' ? 'in valle' : 'nella zona',
-    diValle: 'della ' + VALLE, rilievo: RILIEVO, quote, pluv, nastro: NOME,
+    diValle: 'della ' + VALLE, sat: SAT, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
     ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa) }, ordineCitta(casa.k)) };
@@ -1040,7 +1072,7 @@ ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
 
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {
