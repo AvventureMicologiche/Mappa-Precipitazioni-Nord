@@ -3305,23 +3305,47 @@ l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`
   (`FONDO_VICINO='sat'`) sotto lo zoom 13,5. Provato e lasciato nel codice il rilievo verde (`'verde'`: Ocean Base e
   Hillshade in multiply su un rettangolo `#cfe3a6` nel pane `vzColore`, classe `vz-fondo`): suo, «troppo anonimo, non si
   vedono case e strade». ⚠️ Con la nostra chiave Esri ci sono SOLO World_Imagery, Elevation/World_Hillshade e
-  Ocean/World_Ocean_Base: strade, cartine, Terrain, Physical, Light/Dark Gray rispondono 404.
+  Ocean/World_Ocean_Base: strade, cartine, Terrain, Physical, Light/Dark Gray rispondono 404. **Satellite DECISO** (30/10,
+  scheda 101, decisione 4: «a me non dispiace satellite, puoi schiarirlo leggermente per renderlo meno buio»): la foto e'
+  schiarita a tacche, `LUCE_SAT` (0 = com'e', ogni tacca +6% di `brightness` sul pane `viFondo`, variabile CSS
+  `--sat-luce`), su Italia, regione, valle e paese. **Sua scelta la 5** (+30%) fra 0, 2, 4, 5, 6: con la 6 neve e marmo
+  diventano bianco pieno. Scartata una «6 morbida» (curva gamma con filtro SVG: solo le ombre, ma scorreva meno fluida).
+  Per ritararla si cambia solo `LUCE_SAT`. Confronto con le foto: `mockup-vista-zone\decisione-4-luce.html` nel banco.
 - **Quali paesi** (`veCandidati`): dall'elenco della ricerca (`data/elenco-paesi.txt`, gia' in memoria: `window._locCarica`,
   `window._locElenco`). Ordine: il posto cercato, poi i paesi della ZONA cercata (`data/paesi-zone.json`, chiave =
   `veSlug(nome)`), poi i CAPOLUOGHI di provincia (`veCapoluoghi`: il piu' abitato per sigla, piu' `CAP_FISSI` IM/CS/CL/TP/BT;
   ⚠️ la sigla «s» di capoluoghi.json NON vuol dire capoluogo, ce l'ha anche Millesimo), poi gli abitanti. Sulla regione
   anche le citta' delle regioni vicine, sbiadite (`.ve-et.altra`, abitanti ×0,35, mai nel banner); nella zona i paesi
   fuori zona ×0,25. **Diradare, mai spostare** (`veDirada`): almeno 14 px fra le etichette al computer e 6 al telefono,
-  al massimo 28 e 14 (suo: «non e' troppo densa?» sulla zona di Brescia); gli altri compaiono ingrandendo.
+  al massimo 28 e 14 (suo: «non e' troppo densa?» sulla zona di Brescia); gli altri compaiono ingrandendo. ⚠️ Unica
+  eccezione, **i capoluoghi sulla regione si scostano** (30/10, scheda 101, sua scelta «D» fra quattro provate, decisione
+  1): fra capoluogo e capoluogo basta 1 px, e quello che si toccherebbe sale o scende di mezza etichetta con una punta e
+  un puntino giallo sul suo posto (classi `.su`/`.giu`); punta e puntino contano come etichetta, ma solo per la loro
+  larghezza (14 px al centro: contata larga quanto l'etichetta, Bari non saliva sopra Napoli per 1 px). **Prima tutti i
+  capoluoghi che stanno al loro posto, poi chi non ci sta si scosta, poi gli altri paesi** (30/10: in un giro solo
+  Venezia scostata toglieva il posto a Trento e Trieste, che ci stavano). Scartate: etichette
+  corte (icona + nome + sola massima) e sigle di provincia, +5 capoluoghi su 54 (Varese, Como e Lecco sono in fila a 25
+  km: nessuna etichetta col nome ci passa). Con la D, su 6 regioni e 54 capoluoghi: PC 1536×702 da 41 a 50, telefono da
+  39 a 43. ⚠️ **Allargando si vedono i capoluoghi di regione** (30/10, sua foto: Lombardia rimpicciolita, tre etichette
+  su mezza Europa): i 21 `CAPITALI` stanno sempre in lista (`capreg`, sbiaditi se di altre regioni, mai nel banner),
+  valgono come capoluoghi (1 px, fuori dal tetto) e passano subito dopo quelli di provincia; allargata di uno scatto o piu'
+  oltre l'inquadratura (`VE.z0`) passano davanti a tutti. Lombardia al PC 1920×920: zoom 6 → 14 capoluoghi di regione,
+  5,75 → 14 (Bari compreso, sua foto: «a questo zoom non c'e' Bari»), 5,5 → 12, 5 → 9.
 - **Etichette** `.ve-et`: icona, nome, minima (blu), massima (rossa), centrate sul punto; il paese della scheda in blu
   (`.scelto`); al telefono sulla regione su due righe (`.due`).
 - **Inquadratura** (`veInquadra`): regione = i suoi capoluoghi di provincia (non i confini interi, non le 5 citta' piu'
   grandi: la Lombardia non si vedeva intera); con meno di 3 capoluoghi tutti i comuni. Paese = 15 km attorno, zona = i suoi
-  paesi (senza elenco: 18 km). Al telefono la regione e' spinta in basso sopra la scheda.
+  paesi (senza elenco: 18 km). Al telefono la regione e' spinta in basso sopra la scheda. ⚠️ Le ISOLE LONTANE non si
+  inquadrano (30/10): fuori chi ha il comune piu' vicino della sua regione a oltre 40 km (Lampedusa, Linosa, Pantelleria,
+  Ustica, Capraia); con loro la Sicilia al computer era a zoom 7,25 con 4 capoluoghi su 9 nascosti.
 - **Banner**: anche fuori dall'Italia (`veNastro`), «METEO <REGIONE>», «METEO <ZONA>», «METEO <PAESE> E DINTORNI» coi km.
 - **Scheda ora per ora**: si apre da sola (`veApri`, una volta per vista, a inquadratura fatta) sul cercato o sul primo
   paese che si vede. Al computer SOTTO il riquadro dei giorni (`posizionaDet`, classe `stretta` se e' bassa); al telefono
-  foglio al 40% che si scorre. Bottone «💧 Storico piogge di <paese>», niente funghi («deve sembrare un sito meteo vero»).
+  foglio al 40% che si scorre. ⚠️ **Schermi bassi** (mappa sotto i 760 px, classe `pv-bassa` da `segnaBassa`; 30/10,
+  scheda 101, sua scelta «A» fra tre, decisione 2): a 1536×702 (schermo 1920 al 125%) e 1366×768 la scheda mostrava 0 ore;
+  ora «Indietro» sale accanto allo zoom, il riquadro si accorcia e a scheda aperta i giorni stanno solo nella scheda:
+  6-7 ore e 5. Scartata la scheda a destra sopra la mappa (piu' ore, ma la regione si stringeva: Lombardia 4 capoluoghi
+  su 12 a 1366). Bottone «💧 Storico piogge di <paese>», niente funghi («deve sembrare un sito meteo vero»).
 - **Vince l'ultimo gesto** (`VE.ultimo`): paese poi regione = regione (la scheda del paese si chiude se non c'e'), regione
   poi paese = paese. Una ZONA dell'elenco che si chiama come la sua regione («Lombardia», «Emilia») e' quella regione; le
   regioni si cercano per nome intero («Emilia-Romagna», «Friuli Venezia Giulia»): `locCarica` le aggiunge come zone con
@@ -3338,11 +3362,32 @@ l'hanno. Codice in `index.html`, blocco «LA VISTA A ETICHETTE» (funzioni `ve*`
   «Indietro», i crediti e la fonte → sono ostacoli anche loro; paese di montagna con un'etichetta sola → il cerchio si
   allarga finche' ci sono 10 comuni (fino a 40 km); il cercato sotto la casella → anche lui si nasconde sotto i riquadri;
   il blu che non passava → passa al tocco; zona aperta su un paese di un'altra valle (Mugello → Sesto Fiorentino) → la
-  scheda si apre sul PRIMO paese dell'elenco della zona (il principale) o, senza elenco, sul comune piu' vicino al suo
-  punto; «Molise» apriva il comune di Molise → la regione passa davanti, e «Trentino-Alto Adige» (le due province), «Val
+  scheda si apre sul PRIMO paese dell'elenco della zona o, senza elenco, sul comune piu' vicino al suo punto. ⚠️ **Il
+  primo dell'elenco e' il piu' vicino al punto, non sempre il principale** (Lunigiana → Podenzana): per 51 zone su 114
+  vale `ZONA_PRINCIPALE` in index.html (30/10, scheda 101, decisione 3: lista mia, i dubbi controllati sulle fonti, suo
+  «va bene»; Lunigiana → Aulla, Val Trompia → Gardone, Carnia → Tolmezzo, Valbelluna → Belluno). Lista con i motivi:
+  `mockup-vista-zone\decisione-3.html` nel banco. Le pagine meteo delle zone usano ancora il primo dell'elenco; «Molise» apriva il comune di Molise → la regione passa davanti, e «Trentino-Alto Adige» (le due province), «Val
   d'Aosta», «Valle Aosta», «Südtirol», «FVG», «Lucania» sono nomi delle regioni; il capoluogo di REGIONE (`CAPITALI`) viene
   prima e la scheda si apre li' (in Abruzzo si apriva Pescara, in Calabria Reggio); i capoluoghi di provincia si nascondono
-  solo se si sovrappongono davvero (margine 1 px, fuori dal tetto).
+  solo se si sovrappongono davvero (margine 1 px).
+- **Secondo giro della caccia, corretti il 30/10 (scheda 101)**: **22** (alto) dal telefono al computer o viceversa
+  restavano i pezzi dell'altra misura (banner a meta' mappa col `bottom` del telefono, niente ricerca nel riquadro, il
+  «Seleziona regione» del telefono sopra «Indietro», la regione inquadrata per il telefono) → passata la soglia dei 900
+  px `nuovaMisura()` rimette tutto come all'ingresso (`cercaNelRiquadro`, `pillolaNelRiquadro`, `window.updateGuidePulse`
+  esposta apposta) e la vista si rifa'; **19** il tetto (28 al computer, 14 al telefono) conta TUTTE le etichette,
+  capoluoghi compresi (contando solo gli altri si arrivava a 34 e 20), e i capoluoghi passano sempre per primi; **21**
+  aspettando l'elenco dei paesi si disegnava la grafica vecchia, e se l'elenco non arrivava nessuno lo richiedeva → si
+  aspetta senza disegnare (`veDisegna` torna `'attesa'`) e si riprova dopo 3 s, fino a 5 volte; **17** «Indietro» dopo
+  regione e paese chiudeva la scheda aperta da sola (sembrava non fare niente) e poi usciva dal sito → **come un sito a
+  pagine** (sua scelta «B» fra A «la scheda da sola non conta, Indietro esce» e B): ogni cambio di VISTA e' un passo e
+  Indietro rimette la vista di prima (paese → regione → Italia → fuori). I passi in `pila` ('prev', 'scena', 'det'),
+  ogni voce con la sua vista (`pvs`: regioni spuntate, posto cercato, `VE.ultimo`), la prima vista timbrata sulla voce
+  che c'e' gia' (`timbra`); `segnaScena` dopo ogni caricamento; `rimettiScena` rimette con le strade di chi sceglie
+  (tendina, spunte, ricerca); la scheda aperta da sola (`apriPunto(...,true)`) non e' un passo, quella toccata si', e se
+  poi cambia la vista il suo passo diventa quello della vista. NON corretti, apposta:
+  **20** (al telefono la Campania senza il Cilento: al telefono si inquadrano i capoluoghi, scelta del 29/10, e si
+  vedono tutti) e **23** (al telefono l'etichetta blu sparisce ingrandendo: la prova ingrandiva sul centro con un
+  comando, al telefono i tasti + e − non ci sono e col dito si ingrandisce dove si tocca).
 
 ## Sesto check (20/10/2026)
 
