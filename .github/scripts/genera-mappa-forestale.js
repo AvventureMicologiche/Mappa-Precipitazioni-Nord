@@ -290,7 +290,9 @@ function paginaRegione(r) {
   // la didascalia: il nome della zona in cui cade lo scorcio, o il paese se e' presentabile
   const zS = S && Z.find(z => z.posti.some(id => D.paesi[id] && D.paesi[id].n === S.paese));
   const doveS = zS ? zS.n : (S && pulito(S.paese) ? 'Intorno ' + aAd(S.paese) : r.nome + ', da vicino');
-  const titolo = tit(`Mappa forestale ${r.del}: che bosco c'è, tipo per tipo`, `Mappa forestale ${r.del}: che bosco c'è`, `Mappa forestale ${r.del}`);
+  // ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): «CARTA FORESTALE» IN TESTA. Search Console 3-30/10:
+  // «carta forestale <regione>» 112 viste in posizione 8 e «boschi» 192, e il titolo diceva solo «mappa forestale»
+  const titolo = tit(`Carta forestale ${r.del}: mappa dei boschi, tipo per tipo`, `Carta forestale ${r.del}: mappa dei boschi`, `Carta forestale ${r.del}`);
   const primi = principali(T, 4, 1).map(([t]) => t).join(', ');
   const descr = des(`La carta forestale ${r.del} in una mappa facile, anche dal telefono: ${primi}. Per funghi, castagne, foliage ed escursioni.`,
                     `La carta forestale ${r.del} in una mappa facile, anche dal telefono. Per funghi, castagne, foliage ed escursioni.`);

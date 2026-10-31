@@ -63,8 +63,12 @@ function pagina(p, QUOTE_DI) {
   const NREG = casa.nomeTitolo || casa.nome;
 
   const TITOLO = `Meteo ${p.n}: previsioni a 7 giorni, ora per ora`;
-  const DESCR = `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime. `
-    + `E il tempo nei paesi intorno (${intorno.slice(0, 3).join(', ')}), con la pioggia già caduta ${alPluv}${ente ? ' (' + ente + ')' : ''}.`;
+  // ⚠️ 31/10/2026 (scheda 104 bis): la descrizione passava i 250 caratteri e Google la taglia verso 155
+  const DESCR = [
+    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno (${intorno.slice(0, 2).join(', ')}).`,
+    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.`,
+    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia, minime e massime.`,
+  ].find(t => t.length <= 155) || `Meteo ${p.n}: previsioni a 7 giorni, ora per ora.`;
 
   const modello = path.join(RADICE, casa.k, 'index.html');
   if (!fs.existsSync(modello)) { console.error('⚠️ manca ' + modello + ': lancia prima genera-pagine-regione.js'); process.exit(1); }
@@ -118,7 +122,7 @@ ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
 ${nastroHtml(p.n)}
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometro…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni ${esc(p.dove)}</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>

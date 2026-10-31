@@ -751,7 +751,7 @@ function clientePagina(C) {
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
   }
 
   /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
@@ -877,7 +877,7 @@ function clientePagina(C) {
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
@@ -959,7 +959,7 @@ function pagina(z, QUOTE_DI) {
   // l'ente delle reti (ottavo campo dei posti, retiDei): Bagnone sta in Toscana ma il pluviometro e' di OMIRL
   const agenzie = [...new Set(retiDei(ids.map(id => [regDi[id], anag(id)])).map(agenziaDi).filter(Boolean))];
   const ENTE = diEnte(elenco(agenzie));
-  const NOME = z.n, DOVE = z.dove, DI = diZona(z.dove);
+  const NOME = z.n, DOVE = z.dove;
   const VALLE = z.t === 'valle' ? 'valle' : 'zona';
   const quote = {};
   for (const p of paesi) quote[p.n] = QUOTE_DI[chiave(p.lat, p.lon)];
@@ -969,8 +969,18 @@ function pagina(z, QUOTE_DI) {
     return { id: String(p[0]), n: bello(p[1]), url: `${SITO}/funghi/${k}/${SLUG_REG[k][p[0]]}/`, q: p[3], lat: +p[4], lon: +p[5], ente: agenziaDi(regioneDati(k, p)) || '' };
   });
 
-  const TITOLO = `Previsioni meteo ${NOME}: che tempo farà nei prossimi 7 giorni, paese per paese`;
-  const DESCR = `Previsioni meteo ${DI} per i prossimi 7 giorni: pioggia prevista, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, ora per ora. E quanta pioggia è già caduta nei pluviometri ${ENTE}.`;
+  // ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): TITOLO E DESCRIZIONE CORTI, «METEO <ZONA>» IN TESTA.
+  // Prima 52 titoli su 71 passavano i 60 caratteri (il piu' lungo 102) e le descrizioni i 227: Google li
+  // tagliava e per «meteo casentino» il titolo l'aveva gia' riscritto da solo, col nostro og:title. La
+  // ricerca e' «meteo <zona>», e ilMeteo e 3B, sopra di noi, cominciano proprio cosi'.
+  const DV = VALLE === 'valle' ? 'della valle' : 'della zona';
+  const TITOLO = [`Meteo ${NOME}: previsioni a 7 giorni, paese per paese`, `Meteo ${NOME}: previsioni a 7 giorni`]
+    .find(t => t.length <= 62) || `Meteo ${NOME}`;
+  const DESCR = [
+    `Meteo ${NOME}: pioggia, minime e massime dei prossimi 7 giorni in ${paesi.length} paesi ${DV}, ognuno alla sua quota, ora per ora, e la pioggia già caduta.`,
+    `Meteo ${NOME}: pioggia, minime e massime dei prossimi 7 giorni in ${paesi.length} paesi ${DV}, ora per ora, e la pioggia già caduta.`,
+    `Meteo ${NOME}: pioggia, minime e massime dei prossimi 7 giorni in ${paesi.length} paesi, ora per ora.`,
+  ].find(t => t.length <= 155) || `Meteo ${NOME}: le previsioni dei prossimi 7 giorni, paese per paese.`;
 
   const modello = path.join(RADICE, casa.k, 'index.html');
   if (!fs.existsSync(modello)) { console.error('⚠️ manca ' + modello + ': lancia prima genera-pagine-regione.js'); process.exit(1); }
@@ -994,7 +1004,7 @@ function pagina(z, QUOTE_DI) {
 <title>${esc(TITOLO)}</title>
 <meta name="description" content="${esc(DESCR)}">
 <link rel="canonical" href="${SITO}/meteo/${zslug}/">
-<meta property="og:title" content="${esc('Previsioni meteo ' + NOME + ': i prossimi 7 giorni, paese per paese')}">
+<meta property="og:title" content="${esc(TITOLO)}">
 <meta property="og:description" content="${esc(DESCR)}">
 <meta property="og:image" content="${SITO}/preview.jpg">
 <meta property="og:url" content="${SITO}/meteo/${zslug}/">
@@ -1016,14 +1026,14 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
 ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiva: 'previsioni' })}
 <main>
 <p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/previsioni/">Previsioni meteo</a> › ${esc(NOME)}</p>
-<h1>Previsioni meteo ${esc(NOME)}</h1>
+<h1>Meteo ${esc(NOME)}: previsioni a 7 giorni</h1>
 <p class="sotto"><b>Che tempo farà ${esc(DOVE)} nei prossimi 7 giorni</b>: pioggia, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri ${esc(ENTE)}.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 ${nastroHtml(NOME)}
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometri…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometri…</div>
 
 <h2>I prossimi 7 giorni ${esc(DOVE)}</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>

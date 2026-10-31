@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Meteo Barbagelata: previsioni a 7 giorni, ora per ora</title>
-<meta name="description" content="Previsioni meteo a Barbagelata per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime. E il tempo nei paesi intorno (Favale di Malvaro, Neirone, Moconesi), con la pioggia già caduta al pluviometro di Barbagelata (ARPA Liguria).">
+<meta name="description" content="Previsioni meteo a Barbagelata per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/meteo/liguria/barbagelata/">
 <meta property="og:title" content="Meteo Barbagelata: previsioni a 7 giorni, ora per ora">
-<meta property="og:description" content="Previsioni meteo a Barbagelata per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime. E il tempo nei paesi intorno (Favale di Malvaro, Neirone, Moconesi), con la pioggia già caduta al pluviometro di Barbagelata (ARPA Liguria).">
+<meta property="og:description" content="Previsioni meteo a Barbagelata per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/meteo/liguria/barbagelata/">
 <meta property="og:type" content="website">
@@ -463,7 +463,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> BARBAGELATA</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometro…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni a Barbagelata</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>
@@ -932,7 +932,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
   }
 
   /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
@@ -1058,7 +1058,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {

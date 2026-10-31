@@ -70,7 +70,7 @@ function scriviSitemap(SITO, RADICE) {
   const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [] };
   const voci = fam.mappa;
 
-  voci.push({ loc: SITO + '/', lastmod: '2026-08-14', freq: 'daily', pri: '1.0' });
+  voci.push({ loc: SITO + '/', lastmod: '2026-10-31', freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
   // /previsioni/ (28/10/2026): la mappa aperta sulle previsioni, servita da functions/previsioni/index.js. Solo dove la
   // Function c'e': il repo di test non ce l'ha, e la sitemap dichiarerebbe una pagina che risponde 404
   if (c_e(path.join('functions', 'previsioni', 'index.js')))
@@ -82,7 +82,7 @@ function scriviSitemap(SITO, RADICE) {
   // domanda per cui la gente arriva. `lastmod` e' il giorno in cui e' nata: si
   // sposta a mano quando la pagina cambia davvero, non quando cambiano i dati.
   if (c_e(path.join('guida', 'index.html')))
-    voci.push({ loc: SITO + '/guida/', lastmod: '2026-09-12', freq: 'monthly', pri: '0.6' });
+    voci.push({ loc: SITO + '/guida/', lastmod: '2026-10-31', freq: 'monthly', pri: '0.6' });   // 31/10: «Quanti giorni dopo la pioggia...»
 
   // ⚠️ LE PAGINE REGIONE COTTE CAMBIANO OGNI MATTINA (17/10/2026, suo ok). Dall'11/10
   // hanno «dove ha piovuto ieri, 16 ottobre» e i numeri scritti nell'HTML: per loro la
@@ -169,10 +169,12 @@ function scriviSitemap(SITO, RADICE) {
     // Il guscio delle pagine forestali e' cambiato il 18/10/2026 (radar con zoom e centro, link ai boschi
     // con la regione): prima la data era ferma al 28/9 (quarto check B9). Si cambia a mano quando cambiano.
     const FORESTALE_LASTMOD = '2026-10-20';   // 20/10: ricerca, «Trova i boschi», meteo col radar, quiz, eventi GA4
+    const FORESTALE_TIPI = new Set(['castagneti', 'querceti', 'abetaie-e-peccete']);
+    const FORESTALE_REGIONI_LASTMOD = '2026-10-31';   // 31/10: «Carta forestale» nel titolo delle 21 regioni (scheda 104 bis)
     fam.forestale.push({ loc: SITO + '/mappa-forestale/', lastmod: FORESTALE_LASTMOD, freq: 'monthly', pri: '0.8' });
     for (const d of fs.readdirSync(MF).sort()) {
       if (d !== 'zone' && c_e(path.join('mappa-forestale', d, 'index.html')))
-        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: FORESTALE_LASTMOD, freq: 'monthly', pri: '0.7' });
+        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: FORESTALE_TIPI.has(d) ? FORESTALE_LASTMOD : FORESTALE_REGIONI_LASTMOD, freq: 'monthly', pri: '0.7' });
     }
     if (fs.existsSync(path.join(MF, 'zone'))) for (const d of fs.readdirSync(path.join(MF, 'zone')).sort()) {
       if (c_e(path.join('mappa-forestale', 'zone', d, 'index.html')))

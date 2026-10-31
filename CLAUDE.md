@@ -2,7 +2,7 @@
 
 ## Progetto
 Mappa interattiva delle precipitazioni di TUTTA ITALIA, SVIZZERA E AUSTRIA (Austria dal 7 agosto 2026; Svizzera dal 3/8, v6.0; v5.0 tutta Italia dall'1/8, prima solo Nord) per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali di stazione su heatmap Leaflet.
-**Header e titoli, dal 6-7/8/2026**: su desktop `Mappa Pluviometrica Italia · Svizzera · Austria`; **sotto i 600px resta solo "Mappa Pluviometrica"** (`.hdr-paesi` nascosto) perché col titolo intero l'header traboccava spingendo "Iscriviti" fuori schermo — 9px a 360 di larghezza già col solo "+ Svizzera", 62px aggiungendo l'Austria. `<title>` e `og:title` restano per esteso ("Italia, Svizzera e Austria"): servono a chi condivide, non allo schermo.
+**Header e titoli, dal 6-7/8/2026**: su desktop `Mappa Pluviometrica Italia · Svizzera · Austria`; **sotto i 600px resta solo "Mappa Pluviometrica"** (`.hdr-paesi` nascosto) perché col titolo intero l'header traboccava spingendo "Iscriviti" fuori schermo — 9px a 360 di larghezza già col solo "+ Svizzera", 62px aggiungendo l'Austria. `<title>` e `og:title` restano per esteso ("Italia, Svizzera e Austria"): servono a chi condivide, non allo schermo. (Dal 31/10/2026 il `<title>` dice «piogge e precipitazioni» al posto degli Stati: vedi «Controllo SEO del 31/10/2026» in fondo; og:title resta per esteso.)
 
 - **Dev:** avventurepluvio.netlify.app
 - **Prod:** precipitazioni.avventuremicologiche.it
@@ -3751,3 +3751,51 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
   citta' il 25/10). Il giorno che arriva la pubblicita' si paga il piano Standard (29 €/mese).
 - **Da fare**: il riempimento dei buchi (stime), l'Abruzzo dal vivo, il ripiego della Lombardia, e decidere sulle
   stime gia' salvate (2.698 file interi, 2.917 stazioni-giorno), meglio chiedendo a Open-Meteo con una mail.
+
+---
+
+## Controllo SEO del 31/10/2026 (scheda 104 bis): le parole di sei famiglie
+
+Suo il 31/10: «check completo di verifica e ottimizzazione seo», poi «considera solo i dati da quando abbiamo fatto le
+modifiche» e, sulle sei proposte, «tutte e sei». Search Console 3-30/10, ogni famiglia contata solo dal giorno in cui ha
+le parole di adesso (date ricostruite dal git). Il resoconto e gli attrezzi stanno nel banco, `seo-31-10\`
+(`resoconto-search-console.md`). Il controllo dei FILE l'ha fatto una sessione cloud, cartella `controlli/seo-31-10/`
+sul suo ramo. Solo parole: nessuna funzione nuova.
+1. **Paesi e zone funghi** (`genera-pagine-localita.js`, `genera-pagine-zona.js`): titolo e scritta grande
+   «Meteo funghi Sassello oggi: stanno nascendo?» (dentro c'e' ancora, attaccata, «funghi Sassello oggi»); descrizione
+   e riga sotto la scritta grande cominciano con «Crescita funghi a Sassello». Motivo: «meteo funghi <paese>» 7.137
+   viste in posizione 8,1 e «crescita funghi <paese>» 3.812 al 2,3% di clic, e nel titolo non c'erano. ⚠️ Val Clarea e
+   Alpe di Poti sono anche pagine di paese: le loro ZONE tengono «Funghi in Val Clarea oggi» (`OMONIMA`), se no i due
+   titoli sarebbero identici.
+2. **«Adesso»** (`genera-pagine-adesso.js`): «Radar meteo Sardegna: dove sta piovendo adesso, in diretta», scritta grande
+   «Radar meteo <regione>: dove sta piovendo adesso». «radar meteo <regione>» ci vedeva al 9°-21° posto e chi sta sopra
+   comincia cosi'. ⚠️ «pioggia in diretta <regione>» e' quasi sempre il NOME di un altro sito (Pioggia Diretta,
+   pioggiadiretta.blogspot.com, primo): li' siamo terzi e i pochi clic non sono colpa del titolo.
+3. **Pagine meteo** (`genera-pagine-meteo-zona.js`, `genera-pagine-meteo-paese.js`): titoli «Meteo Casentino:
+   previsioni a 7 giorni, paese per paese» (erano fino a 102 caratteri, 52 su 71 oltre i 60), og:title uguale al titolo
+   (per «meteo casentino» Google costruiva il titolo da lui), scritta grande «Meteo <zona>: previsioni a 7 giorni»,
+   descrizioni sotto i 155. Dopo «Il punto di stamattina» uno spazio: e' un blocco e non si vede, ma senza Google
+   leggeva «stamattinaIeri nel Casentino».
+4. **Mappa** (`index.html`, solo `<title>`): «Mappa Pluviometrica Italia: piogge e precipitazioni misurate». Gli Stati
+   restano in descrizione, og:title e scritta grande. «mappa precipitazioni», «mappa piogge», «precipitazioni» ci vedevano
+   al 7°-9° posto con zero clic.
+5. **Mappa forestale, pagine regione** (`genera-mappa-forestale.js`): «Carta forestale della Toscana: mappa dei boschi,
+   tipo per tipo» («carta forestale <regione>» 112 viste in posizione 8).
+6. **Guida**: titoletto «Quanti giorni dopo la pioggia nascono i funghi?» (`#quanti-giorni`) nel capitolo del tasto
+   Piogge per funghi. In `/funghi/` la domanda c'era gia'.
+- ⚠️ **Come sono state cambiate le 1.135 pagine, e perche' non si sono rigenerate.** Rigenerarle per intero avrebbe
+  rinfrescato anche il ritratto del pluviometro (1.785 righe nei paesi: si rifa' col giro di marzo, giugno, settembre e
+  dicembre) e aggiunto una riga di stile alle «adesso» e alle meteo. Si sono lanciati i generatori vecchi e nuovi in una
+  copia pulita (`git archive`) e nelle pagine vere si sono sostituite SOLO le righe che cambiano fra le due uscite
+  (titolo, descrizione, og, scritta grande, riga breve, «punto di stamattina»), controllando che ogni riga vecchia ci
+  fosse una volta sola: 4.708 righe, zero intoppi. Dopo, pagine vere = generatore nuovo su quelle righe.
+- **Date delle sitemap spostate al 31/10** (le aveva trovate indietro anche il cloud): in `pagine-lastmod.json`
+  funghi, localita, zone, zonePiogge, adesso, meteo, meteoPaesi; in `genera-sitemap.js` `/` (era ferma al 14/8),
+  `/guida/` e le 21 regioni della mappa forestale (`FORESTALE_REGIONI_LASTMOD`; i tre tipi e le zone restano al 20/10).
+  Sitemap riscritte con `scriviSitemap(SITO, RADICE)`: cambiano solo le righe `<lastmod>`.
+- **Da NON toccare, sono in misura**: «pluviometria toscana» (scritta grande del 26/10, misura 9-16/11), «Meteo
+  funghi» delle pagine funghi regione (dal 31/10, si misura dal ~7/11), il quiz tartufi (parole del 30/10, misura
+  13-14/11). Le nuove di oggi si misurano dalla pubblicazione in poi, con la stessa regola delle finestre.
+- Prove: lunghezze e doppioni su tutte le pagine toccate (titoli 39-62, descrizioni sotto i 158, un solo h1, zero
+  titoli doppi); 14 pagine × computer e telefono 393 sul server locale, 28/28 senza errori e senza scritte fuori schermo
+  (in locale col solo `http.server` le previsioni non rispondono: si ignorano solo quelle richieste).

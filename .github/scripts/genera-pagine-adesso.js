@@ -206,17 +206,24 @@ const STILE_ADESSO = `
   .rb-testa{font-size:14.5px;} .rb-testa .quando{font-size:13.5px;}}
 `;
 
+// ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): «RADAR METEO <REGIONE>» IN TESTA.
+// Search Console 19-30/10: 11.729 viste e l'1,5% di clic. «radar meteo <regione>» ci
+// vede al 9°-21° posto, e su Google tutti quelli sopra cominciano il titolo cosi'.
+// «pioggia in diretta <regione>» invece e' quasi sempre il nome di un altro sito
+// (Pioggia Diretta, primo): li' siamo gia' terzi. «Dove sta piovendo adesso» resta
+// dentro, e la scritta grande comincia come il titolo (Google, quando lo riscrive,
+// prende lei).
 function titoloDi(r) {
   const n = nomeCortoDi(r);
-  return [`Dove sta piovendo adesso ${r.prep} ${n}: radar pioggia in diretta`,
-          `Dove sta piovendo adesso ${r.prep} ${n}: radar in diretta`,
-          `Dove sta piovendo adesso ${r.prep} ${n}`].find(t => t.length <= 62);
+  return [`Radar meteo ${n}: dove sta piovendo adesso, in diretta`,
+          `Radar meteo ${n}: dove sta piovendo adesso`,
+          `Radar meteo ${n}: dove piove adesso`].find(t => t.length <= 62);
 }
 function descrDi(r) {
   const n = nomeCortoDi(r);
-  return [`Il radar della pioggia ${r.prep} ${n} in diretta: dove piove in questo momento, le ultime 2 ore e i prossimi 40 minuti, e le previsioni delle città.`,
-          `Radar della pioggia ${r.prep} ${n} in diretta: dove piove adesso, le ultime 2 ore e i prossimi 40 minuti, con le previsioni delle città.`,
-          `Radar della pioggia ${r.prep} ${n} in diretta: dove piove adesso e le previsioni delle città.`].find(t => t.length <= 158);
+  return [`Radar meteo ${n} in diretta: dove sta piovendo in questo momento, le ultime 2 ore e i prossimi 40 minuti, e le previsioni delle città.`,
+          `Radar meteo ${n} in diretta: dove piove adesso, le ultime 2 ore e i prossimi 40 minuti, con le previsioni delle città.`,
+          `Radar meteo ${n} in diretta: dove piove adesso e le previsioni delle città.`].find(t => t.length <= 158);
 }
 
 function pagina(r) {
@@ -271,7 +278,7 @@ ${RILIEVO}${STILE_ADESSO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${TESTATA_CSS}</sty
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k + '-adesso', attiva: '' })}
 <main>
-<h1>Dove sta piovendo adesso ${r.prep} ${r.nome}</h1>
+<h1>Radar meteo ${r.nome}: dove sta piovendo adesso</h1>
 <p class="sotto"><b>Radar della pioggia in diretta</b>: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
 <div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar…</span></div>
 

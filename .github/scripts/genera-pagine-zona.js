@@ -123,20 +123,30 @@ function pagina(z) {
   // di stagione sotto il titolo (lib-stagione.js). Tetto 62 caratteri.
   // ⚠️ 24/9/2026: «stanno nascendo?» in coda, come sulle pagine di paese.
   // Davanti resta «Funghi <zona> oggi», la forma delle ricerche vere.
+  // ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): «METEO FUNGHI» IN TESTA,
+  // come sulle pagine di paese. Search Console 3-30/10: «meteo funghi <zona>»
+  // 1.131 viste in posizione 8,9, mentre le ricerche con «oggi» stanno a 5,3.
+  // «Meteo funghi Garfagnana oggi» tiene dentro anche «funghi garfagnana oggi».
+  // ⚠️ Val Clarea e Alpe di Poti sono anche pagine di paese con lo stesso nome: li' la zona tiene
+  // «Funghi in Val Clarea oggi», se no i due titoli sarebbero identici parola per parola.
+  const OMONIMA = Object.values(SLUG_REG).some(m => Object.values(m).includes(zslug));
   const TITOLO = [
+    ...(OMONIMA ? [] : ['Meteo funghi ' + z.n + ' oggi: stanno nascendo?']),
     'Funghi ' + z.dove + ' oggi: stanno nascendo?',
+    ...(OMONIMA ? [] : ['Meteo funghi ' + z.n + ' oggi']),
     'Funghi ' + z.dove + ' oggi',
   ].find(t => t.length <= 62) || ('Funghi ' + z.dove).slice(0, 62);
+  const H1 = (OMONIMA ? 'Funghi ' + z.dove : 'Meteo funghi ' + z.n) + ' oggi: stanno nascendo?';   // come il titolo intero
   // ⚠️ 26/9/2026: «METEO FUNGHI» E «CRESCITA» (Search Console: le ricerche
   // sono «funghi X oggi», «meteo funghi X», «crescita funghi X»; il titolo
-  // copre solo la prima). Il titolo non si tocca, lo ha deciso lui: le altre
-  // due forme vanno nella descrizione e nella riga sotto il titolo. Nella
-  // descrizione niente millimetri: la pagina si rigenera ogni tre mesi e un
-  // numero cotto qui sarebbe vecchio; il verdetto lo scrive il browser.
+  // copriva solo la prima). Nella descrizione niente millimetri: la pagina si
+  // rigenera ogni tre mesi e un numero cotto qui sarebbe vecchio; il verdetto
+  // lo scrive il browser. Dal 31/10 «meteo funghi» sta nel titolo e la
+  // descrizione comincia con «Crescita funghi».
   const DESCR = [
-    'Meteo funghi ' + z.n + ': quanta pioggia è caduta negli ultimi 20 giorni, da ' + ids.length + ' pluviometri da bosco, e il verdetto per la crescita dei funghi. Aggiornato ogni mattina.',
-    'Meteo funghi ' + z.n + ': la pioggia degli ultimi 20 giorni da ' + ids.length + ' pluviometri da bosco e il verdetto per la crescita dei funghi.',
-    'Meteo funghi ' + z.n + ': la pioggia degli ultimi 20 giorni e il verdetto per la crescita dei funghi.',
+    'Crescita funghi ' + z.dove + ': quanta pioggia è caduta negli ultimi 20 giorni, da ' + ids.length + ' pluviometri da bosco, e il verdetto per i funghi. Aggiornato ogni mattina.',
+    'Crescita funghi ' + z.dove + ': la pioggia degli ultimi 20 giorni da ' + ids.length + ' pluviometri da bosco e il verdetto per i funghi.',
+    'Crescita funghi ' + z.dove + ': la pioggia degli ultimi 20 giorni e il verdetto per i funghi.',
   ].find(t => t.length <= 158) || ('Funghi ' + z.dove + ' oggi: le piogge degli ultimi 25 giorni.');
 
   const modello = path.join(RADICE, 'funghi', casa.k, 'index.html');
@@ -257,8 +267,8 @@ ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: casa.k, ga:
 <main>
 <p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${casa.k}/" style="color:var(--blu)">${esc(nomeReg)}</a></p>
 
-<h1>Funghi ${esc(z.dove)} oggi: stanno nascendo?</h1>
-<p class="breve" style="margin-top:-2px">Meteo funghi ${esc(z.n)}: la pioggia vera ${ids.length > 1 ? 'di ' + ids.length + ' pluviometri da bosco' : 'del pluviometro'}, per capire la crescita dei funghi.</p>
+<h1>${esc(H1)}</h1>
+<p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${ids.length > 1 ? 'di ' + ids.length + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Previsioni meteo Riviera di Levante: che tempo farà nei prossimi 7 giorni, paese per paese</title>
-<meta name="description" content="Previsioni meteo della Riviera di Levante per i prossimi 7 giorni: pioggia prevista, minime e massime in 12 paesi della zona, ognuno alla sua quota, ora per ora. E quanta pioggia è già caduta nei pluviometri di ARPA Liguria.">
+<title>Meteo Riviera di Levante: previsioni a 7 giorni</title>
+<meta name="description" content="Meteo Riviera di Levante: pioggia, minime e massime dei prossimi 7 giorni in 12 paesi della zona, ora per ora, e la pioggia già caduta.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/meteo/riviera-di-levante/">
-<meta property="og:title" content="Previsioni meteo Riviera di Levante: i prossimi 7 giorni, paese per paese">
-<meta property="og:description" content="Previsioni meteo della Riviera di Levante per i prossimi 7 giorni: pioggia prevista, minime e massime in 12 paesi della zona, ognuno alla sua quota, ora per ora. E quanta pioggia è già caduta nei pluviometri di ARPA Liguria.">
+<meta property="og:title" content="Meteo Riviera di Levante: previsioni a 7 giorni">
+<meta property="og:description" content="Meteo Riviera di Levante: pioggia, minime e massime dei prossimi 7 giorni in 12 paesi della zona, ora per ora, e la pioggia già caduta.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/meteo/riviera-di-levante/">
 <meta property="og:type" content="website">
@@ -456,14 +456,14 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
 <main>
 <p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/previsioni/">Previsioni meteo</a> › Riviera di Levante</p>
-<h1>Previsioni meteo Riviera di Levante</h1>
+<h1>Meteo Riviera di Levante: previsioni a 7 giorni</h1>
 <p class="sotto"><b>Che tempo farà nella Riviera di Levante nei prossimi 7 giorni</b>: pioggia, minime e massime in 12 paesi della zona, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri di ARPA Liguria.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> RIVIERA DI LEVANTE</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda" id="scheda" aria-live="polite"></section>
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span>Sto leggendo previsioni e pluviometri…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometri…</div>
 
 <h2>I prossimi 7 giorni nella Riviera di Levante</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
@@ -932,7 +932,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
   }
 
   /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
@@ -1058,7 +1058,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span>Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {

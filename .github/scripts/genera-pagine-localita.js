@@ -256,18 +256,29 @@ function pagina(r, posto, slug, sl) {
   // pagina piogge della zona, e il riquadro qui sotto ci manda.
   // ⚠️ 24/9/2026: «stanno nascendo?» in coda, deciso da lui. Davanti resta
   // «Funghi <posto> oggi», la forma delle ricerche vere (Search Console).
+  // ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): «METEO FUNGHI» IN TESTA.
+  // Search Console 3-30/10: «meteo funghi <paese>» 7.137 viste in posizione 8,1,
+  // «crescita funghi <paese>» 3.812 in posizione 7,8 col 2,3% di clic, e nel
+  // titolo non c'era nessuna delle due. «Meteo funghi Sassello oggi» tiene dentro,
+  // attaccata, anche «funghi Sassello oggi». Il nome va senza preposizione: la
+  // gente scrive «funghi sassello oggi». «Crescita» va in testa alla descrizione.
   const TITOLO = [
+    `Meteo funghi ${nomePosto}${SIGLA_T} oggi: stanno nascendo?`,
     `Funghi ${DOVE}${SIGLA_T} oggi: stanno nascendo?`,
+    `Meteo funghi ${nomePosto}${SIGLA_T} oggi`,
     `Funghi ${DOVE}${SIGLA_T} oggi`,
   ].find(t => t.length <= 62) || `Funghi ${DOVE}${SIGLA_T}`;
+  // la scritta grande come il titolo intero: Google, quando riscrive il titolo, prende lei
+  const H1 = `Meteo funghi ${nomePosto}${SIGLA_T} oggi: stanno nascendo?`;
   // ⚠️ 26/9/2026: «METEO FUNGHI» E «CRESCITA» (Search Console: le ricerche
   // sono «funghi X oggi», «meteo funghi X», «crescita funghi X»; il titolo
-  // copre solo la prima). Il titolo non si tocca, lo ha deciso lui. Niente
-  // millimetri qui: la pagina si rigenera ogni tre mesi, il verdetto e' del browser.
+  // copre solo la prima). Niente millimetri qui: la pagina si rigenera ogni
+  // tre mesi, il verdetto e' del browser. Dal 31/10 «meteo funghi» sta nel
+  // titolo e la descrizione comincia con «Crescita funghi».
   const DESCR = [
-    `Meteo funghi ${nomePosto}${SIGLA_T}: quanta pioggia è caduta negli ultimi 20 giorni, dal pluviometro ${diEnte(CORTA)} a ${quota} metri, e il verdetto per la crescita dei funghi.`,
-    `Meteo funghi ${nomePosto}${SIGLA_T}: quanta pioggia è caduta negli ultimi 20 giorni, misurata dal pluviometro, e il verdetto per la crescita dei funghi.`,
-    `Meteo funghi ${nomePosto}${SIGLA_T}: la pioggia degli ultimi 20 giorni e il verdetto per la crescita dei funghi.`,
+    `Crescita funghi ${DOVE}${SIGLA_T}: quanta pioggia è caduta negli ultimi 20 giorni, dal pluviometro ${diEnte(CORTA)} a ${quota} metri, e il verdetto per i funghi.`,
+    `Crescita funghi ${DOVE}${SIGLA_T}: quanta pioggia è caduta negli ultimi 20 giorni, misurata dal pluviometro, e il verdetto per i funghi.`,
+    `Crescita funghi ${DOVE}${SIGLA_T}: la pioggia degli ultimi 20 giorni e il verdetto per i funghi.`,
   ].find(t => t.length <= 158) || `Funghi ${DOVE} oggi: le piogge degli ultimi 25 giorni.`;
   const ZONA = zonaDelPosto(ZONE, ID, lat, lon);
   const PIOGGE_URL = ZONA ? `${SITO}/zone/${slugDaNome(ZONA.n)}/` : `${SITO}/${REG}/`;
@@ -400,8 +411,8 @@ ${/* ⚠️ 24/9/2026, SCHEMA DETTATO DA LUI: prima i dati (ha piovuto abbastanz
      le barre, la pioggia che conta, le mappe), poi in fondo le spiegazioni.
      Il titolo tiene davanti «Funghi <posto> oggi», che e' la forma che la
      gente cerca davvero (Search Console, 90 giorni), e aggiunge la domanda. */''}
-<h1>Funghi ${esc(DOVE)}${SIGLA_T} oggi: stanno nascendo?</h1>
-<p class="breve" style="margin-top:-2px">Meteo funghi ${esc(nomePosto)}: la pioggia vera del pluviometro, per capire la crescita dei funghi.</p>
+<h1>${esc(H1)}</h1>
+<p class="breve" style="margin-top:-2px">Crescita funghi ${esc(DOVE)}: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
