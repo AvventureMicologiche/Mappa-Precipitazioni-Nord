@@ -67,6 +67,11 @@ const { scriviSitemap } = require('./genera-sitemap.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
+// ⚠️ 31/10/2026 (scheda 104 bis, controllo SEO del cloud): IL NOME NEL TITOLO non e' sempre quello del pluviometro.
+// 90 pagine avevano nel titolo il nome tecnico della stazione («Dossena ST1», «Rio Rudan INADEF DX briglia», «Ferriere
+// Pluvio»). La tabella dice il nome da usare in titolo, scritta grande, descrizione e frasi («a Dossena»); il nome della
+// stazione resta nel ritratto, nelle tabelle e nelle briciole. Chiave <regione>/<slug>.
+const NOMI_TITOLO = JSON.parse(fs.readFileSync(path.join(__dirname, 'nomi-titolo.json'), 'utf8'));
 const { cartelleDi, cartelleConRete, regioneDati } = require('./lib-posti.js');   // posti con la rete di un'altra regione (bug 17)
 const { escluse, escluso } = require('./lib-escluse.js');
 const ESCLUSE = escluse(path.join(__dirname, '..', '..'));
@@ -112,6 +117,7 @@ function aPosto(n) {
   if (/^(Diga|Malga|Casera|Fattoria)\b/.test(n)) return 'alla ' + n;
   if (/^Piani\b/.test(n)) return 'ai ' + n;
   if (/^(Alpe|Isola|Alta|Abbazia)\b/.test(n)) return "all'" + n;
+  if (/^Val\s/.test(n)) return 'in ' + n;   // «in Val Clarea», «in Val Noana» (31/10/2026); «a Valle di Cadore» resta
   // «ad Anterselva», «ad Aulla»: davanti alla a si scrive ad (13/9/2026, il
   // titolo nuovo comincia proprio da qui e «a Anterselva» si leggeva male).
   if (/^A/.test(n)) return 'ad ' + n;
@@ -196,7 +202,9 @@ function pagina(r, posto, slug, sl) {
   const AGENZIA = RD.agenzia;
   const CORTA = RD.agenziaCorta || RD.agenzia.replace(/\s*\(.*\)$/, '');
   const GEN = GENITIVO[REG];
-  const DOVE = aPosto(nomePosto);
+  const NOME_T = NOMI_TITOLO[REG + '/' + slug] || nomePosto;   // il nome per titolo e frasi, vedi NOMI_TITOLO
+  const DOVE = aPosto(NOME_T);
+  const INTORNO = DOVE.replace(/^in Val /, 'alla Val ');   // «intorno alla Val Clarea», non «intorno in Val Clarea»
   const SIGLA_T = OMONIMI.has(nomePosto) && sigla ? ' (' + sigla + ')' : '';   // vedi OMONIMI
 
   // ⚠️ IL SEGNAPOSTO NEL LINK (3/9/2026). pl = coordinate, pn = nome: la mappa
@@ -263,13 +271,13 @@ function pagina(r, posto, slug, sl) {
   // attaccata, anche «funghi Sassello oggi». Il nome va senza preposizione: la
   // gente scrive «funghi sassello oggi». «Crescita» va in testa alla descrizione.
   const TITOLO = [
-    `Meteo funghi ${nomePosto}${SIGLA_T} oggi: stanno nascendo?`,
+    `Meteo funghi ${NOME_T}${SIGLA_T} oggi: stanno nascendo?`,
     `Funghi ${DOVE}${SIGLA_T} oggi: stanno nascendo?`,
-    `Meteo funghi ${nomePosto}${SIGLA_T} oggi`,
+    `Meteo funghi ${NOME_T}${SIGLA_T} oggi`,
     `Funghi ${DOVE}${SIGLA_T} oggi`,
   ].find(t => t.length <= 62) || `Funghi ${DOVE}${SIGLA_T}`;
   // la scritta grande come il titolo intero: Google, quando riscrive il titolo, prende lei
-  const H1 = `Meteo funghi ${nomePosto}${SIGLA_T} oggi: stanno nascendo?`;
+  const H1 = `Meteo funghi ${NOME_T}${SIGLA_T} oggi: stanno nascendo?`;
   // ⚠️ 26/9/2026: «METEO FUNGHI» E «CRESCITA» (Search Console: le ricerche
   // sono «funghi X oggi», «meteo funghi X», «crescita funghi X»; il titolo
   // copre solo la prima). Niente millimetri qui: la pagina si rigenera ogni
@@ -309,7 +317,7 @@ function pagina(r, posto, slug, sl) {
 ${briciolaJson([
   ['Piogge per funghi', SITO + '/funghi/'],
   [NOME, SITO + '/funghi/' + REG + '/'],
-  [bello(nomePosto), null],
+  [NOMI_TITOLO[REG + '/' + slug] || bello(nomePosto), null],
 ])}
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>
@@ -430,7 +438,7 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
 <div id="finestra"></div>
 <div id="intensita"></div>
 
-<h2>Dove ha piovuto di più intorno ${esc(DOVE)}? Guardalo sulla mappa</h2>
+<h2>Dove ha piovuto di più intorno ${esc(INTORNO)}? Guardalo sulla mappa</h2>
 <style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
 <div class="tasti" id="tasti">
   <a href="${SITO}/?r=${REGS}&amp;g=1&amp;${PIN}">Ieri</a>
@@ -474,7 +482,7 @@ ${haBoschi(REG) ? `<h2>Che boschi ci sono intorno</h2>
   <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/tessere-boschi/anteprime/${REG}.jpg"
        alt="La mappa boschi ${r.prep} ${esc(NOME)}: faggete, castagneti, querceti e abetaie colorati per tipo"
        width="1600" height="1000" loading="lazy">
-  <span class="vai-mappa">🌲 Guarda i boschi intorno ${esc(DOVE)}</span>
+  <span class="vai-mappa">🌲 Guarda i boschi intorno ${esc(INTORNO)}</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono ${esc(fonteDa(REG))}.</p>
 ` : ''}

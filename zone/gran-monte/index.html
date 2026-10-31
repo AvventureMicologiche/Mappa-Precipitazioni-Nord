@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto sul Gran Monte: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta sul Gran Monte ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 4 pluviometri di ARPA FVG. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta sul Gran Monte: ieri, 30 ottobre, 0,1 mm di media; negli ultimi 7 giorni 31 mm, in 30 giorni 205 mm. 4 pluviometri di ARPA FVG.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/gran-monte/">
 <meta property="og:title" content="Dove ha piovuto sul Gran Monte: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri del Gran Monte: ieri, ultimi 7 e 30 giorni.">
@@ -396,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto sul Gran Monte</h1>
 <p class="sotto"><b>Pluviometria del Gran Monte</b>: i dati dei 4 pluviometri di ARPA FVG, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,2 mm a Ponte Sambo.</div><div class="dett">Media di 4 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà sul Gran Monte</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">31 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Musi — 50,9 mm</li><li>Uccea — 27,8 mm</li><li>Ponte Sambo — 27,2 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,slovenia&amp;g=7&amp;pl=46.29222,13.32722&amp;pn=Gran%20Monte&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-gran-monte-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">205 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Uccea — 277,8 mm</li><li>Musi — 228,2 mm</li><li>Ponte Sambo — 159,5 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,slovenia&amp;g=30&amp;pl=46.29222,13.32722&amp;pn=Gran%20Monte&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-gran-monte-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,10 +432,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="osmer_MUS"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/musi/">Musi</a><span class="com">UD · 638 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.24283_13.38005"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/platischis/">Platischis</a><span class="com">UD · 709 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.26681_13.32935"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/ponte-sambo/">Ponte Sambo</a><span class="com">UD · 391 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.30650_13.40035"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/uccea/">Uccea</a><span class="com">UD · 645 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="osmer_MUS"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/musi/">Musi</a><span class="com">UD · 638 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">50,9 mm</td><td class="mm v30">228,2 mm</td></tr>
+<tr data-id="46.30650_13.40035"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/uccea/">Uccea</a><span class="com">UD · 645 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">27,8 mm</td><td class="mm v30">277,8 mm</td></tr>
+<tr data-id="46.26681_13.32935"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/ponte-sambo/">Ponte Sambo</a><span class="com">UD · 391 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">27,2 mm</td><td class="mm v30">159,5 mm</td></tr>
+<tr data-id="46.24283_13.38005"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/platischis/">Platischis</a><span class="com">UD · 709 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">16,2 mm</td><td class="mm v30">154,0 mm</td></tr>
 </tbody>
 </table>
 

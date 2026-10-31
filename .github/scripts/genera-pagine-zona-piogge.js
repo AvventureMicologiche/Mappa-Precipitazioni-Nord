@@ -32,7 +32,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
+const { REGIONI, COTTE, briciolaJson } = require('./genera-pagine-regione.js');
+const { oggiItalia, giorniIndietro } = require('./lib-giorni.js');
 const { bello, slug, slugRegione, elenco, diZona, postiDellaZona, diEnte } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
 const { retiDei } = require('./lib-posti.js');   // l'ente dei posti con la rete di un'altra regione (20/10/2026)
@@ -145,6 +146,60 @@ function paesiDellaZona(z) {
     .map(c => ({ n: c.n, lat: c.lat, lon: c.lon, r: c.reg }));
 }
 
+/* ⚠️ I NUMERI SCRITTI NELL'HTML (31/10/2026, scheda 104 bis, proposta 4 del controllo SEO del cloud). Fino a oggi la
+   pagina nasceva con «Sto leggendo i pluviometri…» e la tabella a trattini: i millimetri li metteva il browser, e nel
+   testo che Google legge subito non ce n'era nessuno, proprio sulla domanda «dove ha piovuto ieri <zona>». Ora, come le
+   pagine regione dal 12/10, se il riepilogo della zona e' fresco (meno di 36 ore) e la regione di casa sta in COTTE, il
+   riquadro di ieri, le due schede dei periodi, la tabella e la descrizione nascono coi numeri. Il codice del browser
+   resta com'era e li riscrive coi dati del momento: qui si ripete la sua forma, senza i bottoni. Le rifa' il giro del
+   mattino (pagine-regione.yml) dopo le regioni. */
+const MESI_C = ['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+const MESI_LC = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+const GIORNI_C = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+const cNum = n => (Math.round(n * 10) / 10).toFixed(1).replace('.', ',');
+const cMm = n => n === 0 ? '0' : n < 10 ? cNum(n) : String(Math.round(n));
+const cLungo = s => { const p = s.split('-'); return (+p[2]) + ' ' + MESI_LC[+p[1] - 1]; };
+const cBreve = s => { const p = s.split('-'); return (+p[2]) + ' ' + MESI_C[+p[1] - 1]; };
+const cMenoDi = d => Math.round(d.media * 10) === 0 && d.top && d.top.length && d.top[0].mm > 0;
+const cMedia = d => cMenoDi(d) ? '<small style="margin:0 .3em 0 0">meno di</small>0,1' : cMm(d.media);
+const cCella = v => v == null ? '–' : v === 0 ? '0 mm' : cNum(v) + ' mm';
+const cGiorno = s => s === giorniIndietro(oggiItalia(), 1)[0] ? 'Ieri'
+  : GIORNI_C[new Date(Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10), 12)).getUTCDay()] + ' ' + cLungo(s);
+function cDalAl(a, b) {
+  const pa = a.split('-'), pb = b.split('-'), da = +pa[2], db = +pb[2], ap = n => n === 1 || n === 8 || n === 11;
+  return (ap(da) ? 'Dall’' : 'Dal ') + (pa[1] === pb[1] ? da : cLungo(a)) + (ap(db) ? ' all’' : ' al ') + cLungo(b);
+}
+function riepilogoZona(zslug, reg) {
+  if (!COTTE.includes(reg)) return null;
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'riepiloghi', 'zone', zslug + '.json'), 'utf8'));
+    const eta = Date.now() - new Date(j.generato).getTime();
+    if (j.periodi && j.periodi['7'] && eta >= 0 && eta < 36 * 3600 * 1000) return j;
+  } catch (e) { /* niente riepilogo: la pagina nasce vuota come prima */ }
+  return null;
+}
+// il riquadro di ieri come lo scrive scriviIeri nel browser, senza i bottoni (arrivano col javascript)
+function verdettoCotto(d) {
+  if (!d) return '';
+  const t = cGiorno(d.ultimo), top = (d.top || []).filter(s => s.mm >= 1);
+  const dett = top.length ? 'Dove ha piovuto di più: ' + top.map(s => `<b>${esc(s.n)}</b> ${cNum(s.mm)} mm`).join(', ') + '.'
+    : d.top && d.top.length && d.top[0].mm > 0 ? `Giornata quasi asciutta: il massimo è stato ${cNum(d.top[0].mm)} mm ${/^[aA]/.test(d.top[0].n) ? 'ad' : 'a'} ${esc(d.top[0].n)}${/\.$/.test(d.top[0].n) ? '' : '.'}`
+    : 'Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.';
+  return `<div class="verdetto"><div class="si">${t === 'Ieri' ? 'Ieri, ' + cLungo(d.ultimo) : t}</div>`
+    + `<div class="gr">${cMedia(d)} mm<small>di media</small></div><div class="top">${dett}</div>`
+    + `<div class="dett">${d.stazioni === 1 ? 'Un pluviometro solo della zona.' : 'Media di ' + d.stazioni + ' pluviometri della zona.'}</div></div>`;
+}
+// la descrizione coi numeri: «Quanta pioggia è caduta nel Casentino: ieri, 30 ottobre, 0 mm di media; 7 giorni 6,4 mm…»
+function descrCotta(z, j, n, ente) {
+  const d1 = j.periodi['1'], d7 = j.periodi['7'], d30 = j.periodi['30'];
+  const m = d => (cMenoDi(d) ? 'meno di 0,1' : cMm(d.media)) + ' mm';
+  const quando = d1 ? (cGiorno(d1.ultimo) === 'Ieri' ? 'ieri, ' + cLungo(d1.ultimo) + ', ' : 'il ' + cLungo(d1.ultimo) + ', ') + m(d1) + ' di media; ' : '';
+  const resto = 'negli ultimi 7 giorni ' + m(d7) + (d30 ? ', in 30 giorni ' + m(d30) : '');
+  return [`Quanta pioggia è caduta ${z.dove}: ${quando}${resto}. ${n} pluviometri ${ente}.`,
+          `Quanta pioggia è caduta ${z.dove}: ${quando}${resto}. Pluviometro per pluviometro.`,
+          `Quanta pioggia è caduta ${z.dove}: ${quando}${resto}.`].find(t => t.length <= 158) || null;
+}
+
 function pagina(z) {
   const zslug = slug(z.n);
   const { ids, regDi: REG_DI } = postiDellaZona(POSTI, z);   // senza doppioni
@@ -169,7 +224,8 @@ function pagina(z) {
     `Dove ha piovuto ${z.dove}: ieri e ultimi giorni`,
     `Dove ha piovuto ${z.dove}`,
   ].find(t => t.length <= 62) || `Pioggia ${z.dove}`;
-  const DESCR = [
+  const RIP = riepilogoZona(zslug, casa.k);   // i numeri da scrivere nell'HTML, o null (vedi riepilogoZona)
+  const DESCR = (RIP && descrCotta(z, RIP, ids.length, diEnte(elenco(agenzie)))) || [
     `Quanta pioggia è caduta ${z.dove} ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: ${ids.length} pluviometri ${diEnte(elenco(agenzie))}. Aggiornato ogni giorno.`,
     `Quanta pioggia è caduta ${z.dove} ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.`,
     `Quanta pioggia è caduta ${z.dove} ieri e negli ultimi 7 e 30 giorni.`,
@@ -190,10 +246,12 @@ function pagina(z) {
 
   // Le righe della tabella, cotte coi loro link: i nomi e i link li legge
   // Google, i millimetri e l'ordine li mette il javascript.
+  const V = id => (RIP && RIP.posti && RIP.posti[id]) || [null, null, null];
   const righe = ids.map(id => ANAG(id)).sort((a, b) => bello(a[1]).localeCompare(bello(b[1]), 'it'))
+    .sort((a, b) => !RIP ? 0 : V(a[0])[1] == null ? 1 : V(b[0])[1] == null ? -1 : V(b[0])[1] - V(a[0])[1])   // come il browser
     .map(p => `<tr data-id="${esc(p[0])}"><td><a href="${SITO}/funghi/${REG_DI[p[0]]}/${SLUG_DI(p[0])}/">${esc(bello(p[1]))}</a>` +
       `<span class="com">${esc(p[2])} · ${p[3]} m</span></td>` +
-      `<td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>`).join('\n');
+      `<td class="mm v1">${cCella(V(p[0])[0])}</td><td class="mm v7">${cCella(V(p[0])[1])}</td><td class="mm v30">${cCella(V(p[0])[2])}</td></tr>`).join('\n');
 
   const altre = ZONE.filter(x => x.reg === casa.k && x.n !== z.n)
     .sort((a, b) => a.n.localeCompare(b.n, 'it'))
@@ -202,12 +260,19 @@ function pagina(z) {
   // ⚠️ 25/9/2026: LO SCHEMA «PRIMA I DATI», come le pagine funghi del 24/9 e
   // la pagina regione: in cima IERI (la domanda del titolo), poi le barre dei
   // 30 giorni, i periodi, i pluviometri, le mappe; le spiegazioni in fondo.
+  // le due schede come le scrive scriviPeriodo nel browser
+  const P = k => RIP && RIP.periodi[String(k)];
+  const cartaMedia = k => P(k) ? cMedia(P(k)) + ' mm <small>di media</small>' : '<span class="attesa">…</span>';
+  const cartaTop = k => !P(k) ? '' : !P(k).top || !P(k).top.length || P(k).top[0].mm < 1 ? '<p class="nota">Periodo quasi asciutto in tutta la zona.</p>'
+    : '<ol class="top-staz">' + P(k).top.map(s => `<li>${esc(s.n)} — ${s.mm === 0 ? '0' : cNum(s.mm)} mm</li>`).join('') + '</ol>';
+  const cartaDate = k => !P(k) ? '' : cDalAl(P(k).primo, P(k).ultimo)
+    + (P(k).giorni < k ? ', ' + P(k).giorni + (P(k).giorni === 1 ? ' giornata di dati' : ' giornate di dati') : '') + '.';
   const card = (k, titolo) => `
   <div class="card">
     <h3>${titolo}</h3>
-    <div class="numerone" id="rip${k}-media"><span class="attesa">…</span></div>
-    <div id="rip${k}-top"></div>
-    <p class="nota" id="rip${k}-date"></p>
+    <div class="numerone" id="rip${k}-media">${cartaMedia(k)}</div>
+    <div id="rip${k}-top">${cartaTop(k)}</div>
+    <p class="nota" id="rip${k}-date">${cartaDate(k)}</p>
     <a class="vai" id="cta${k}" href="${SITO}/?r=${REGS}&amp;g=${k}&amp;${PIN}"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-${k}gg'})}catch(e){}">Apri la mappa →</a>
   </div>`;
@@ -263,8 +328,8 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'zona-piogge-' + zslug,
 <h1>Dove ha piovuto ${esc(z.dove)}</h1>
 <p class="sotto"><b>Pluviometria ${esc(di)}</b>: i dati dei ${ids.length} pluviometri ${esc(diEnte(elenco(agenzie)))}, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa"${RIP ? ' style="display:none"' : ''}>Sto leggendo i pluviometri…</div>
+<div id="verdetto"${RIP && RIP.periodi['1'] ? ` data-giorno="${RIP.periodi['1'].ultimo}"` : ''}>${RIP ? verdettoCotto(RIP.periodi['1']) : ''}</div>
 ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni dei paesi…', undefined, linkMeteo(zslug, z.n, 'zona-piogge-' + zslug))}
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
@@ -277,7 +342,7 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
 <h2>I pluviometri ${esc(di)}</h2>
 <p class="nota" style="margin-top:0">Dal più bagnato negli ultimi 7 giorni. Ogni nome porta alla sua pagina, con la pioggia giorno per giorno.</p>
 <table class="tab">
-<thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
+<thead><tr><th>Pluviometro</th><th id="th1">${RIP && RIP.periodi['1'] && cGiorno(RIP.periodi['1'].ultimo) !== 'Ieri' ? cBreve(RIP.periodi['1'].ultimo) : 'Ieri'}</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
 ${righe}
 </tbody>

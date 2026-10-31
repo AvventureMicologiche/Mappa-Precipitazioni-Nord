@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Valle del Fitalia: ieri e ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Valle del Fitalia ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Valle del Fitalia: ieri, 30 ottobre, 1,1 mm di media; negli ultimi 7 giorni 32 mm, in 30 giorni 121 mm. 3 pluviometri di MeteoHub.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/valle-del-fitalia/">
 <meta property="og:title" content="Dove ha piovuto in Valle del Fitalia: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Valle del Fitalia: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -395,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Valle del Fitalia</h1>
 <p class="sotto"><b>Pluviometria della Valle del Fitalia</b>: i dati dei 3 pluviometri di MeteoHub, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">1,1 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Trearie</b> 2,8 mm.</div><div class="dett">Media di 3 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Valle del Fitalia</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -410,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">32 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Biviere di Cesaro' — 40,8 mm</li><li>Case Mangalaviti — 32,8 mm</li><li>Trearie — 20,8 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=7&amp;pl=38.0503,14.7637&amp;pn=Valle%20del%20Fitalia&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valle-del-fitalia-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">121 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Biviere di Cesaro' — 160,8 mm</li><li>Case Mangalaviti — 125,8 mm</li><li>Trearie — 75,9 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=30&amp;pl=38.0503,14.7637&amp;pn=Valle%20del%20Fitalia&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valle-del-fitalia-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -431,9 +432,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="37.95583_14.71222"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/biviere-di-cesaro/">Biviere di Cesaro'</a><span class="com">ME · 1273 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="37.96861_14.76750"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/case-mangalaviti/">Case Mangalaviti</a><span class="com">ME · 1242 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="37.92972_14.84194"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/trearie/">Trearie</a><span class="com">CT · 1282 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="37.95583_14.71222"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/biviere-di-cesaro/">Biviere di Cesaro'</a><span class="com">ME · 1273 m</span></td><td class="mm v1">0,4 mm</td><td class="mm v7">40,8 mm</td><td class="mm v30">160,8 mm</td></tr>
+<tr data-id="37.96861_14.76750"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/case-mangalaviti/">Case Mangalaviti</a><span class="com">ME · 1242 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">32,8 mm</td><td class="mm v30">125,8 mm</td></tr>
+<tr data-id="37.92972_14.84194"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/trearie/">Trearie</a><span class="com">CT · 1282 m</span></td><td class="mm v1">2,8 mm</td><td class="mm v7">20,8 mm</td><td class="mm v30">75,9 mm</td></tr>
 </tbody>
 </table>
 

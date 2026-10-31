@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Val d'Astico: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Val d'Astico ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 4 pluviometri di ARPA Veneto. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Val d'Astico: ieri, 30 ottobre, 7,5 mm di media; negli ultimi 7 giorni 7,6 mm, in 30 giorni 167 mm. 4 pluviometri di ARPA Veneto.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/val-d-astico/">
 <meta property="og:title" content="Dove ha piovuto in Val d'Astico: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Val d'Astico: ieri, ultimi 7 e 30 giorni.">
@@ -396,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Val d'Astico</h1>
 <p class="sotto"><b>Pluviometria della Val d'Astico</b>: i dati dei 4 pluviometri di ARPA Veneto, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">7,5 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Castana</b> 29,8 mm.</div><div class="dett">Media di 4 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Val d'Astico</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">7,6 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Castana — 30,2 mm</li><li>Tonezza del Cimone — 0,2 mm</li><li>Brustole' (Velo d'Astico) — 0 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,trentino&amp;g=7&amp;pl=45.8371,11.3702&amp;pn=Val%20d'Astico&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-d-astico-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">167 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Castana — 241,9 mm</li><li>Tonezza del Cimone — 171,4 mm</li><li>Brustole' (Velo d'Astico) — 155,3 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,trentino&amp;g=30&amp;pl=45.8371,11.3702&amp;pn=Val%20d'Astico&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-d-astico-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,10 +432,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="190"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/brustole-velo-d-astico/">Brustole' (Velo d'Astico)</a><span class="com">VI · 331 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="68"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/castana/">Castana</a><span class="com">VI · 420 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="81"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/monte-summano/">Monte Summano</a><span class="com">VI · 597 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="624"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/tonezza-del-cimone/">Tonezza del Cimone</a><span class="com">VI · 1134 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="68"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/castana/">Castana</a><span class="com">VI · 420 m</span></td><td class="mm v1">29,8 mm</td><td class="mm v7">30,2 mm</td><td class="mm v30">241,9 mm</td></tr>
+<tr data-id="624"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/tonezza-del-cimone/">Tonezza del Cimone</a><span class="com">VI · 1134 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">171,4 mm</td></tr>
+<tr data-id="190"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/brustole-velo-d-astico/">Brustole' (Velo d'Astico)</a><span class="com">VI · 331 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">155,3 mm</td></tr>
+<tr data-id="81"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/monte-summano/">Monte Summano</a><span class="com">VI · 597 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">99,2 mm</td></tr>
 </tbody>
 </table>
 

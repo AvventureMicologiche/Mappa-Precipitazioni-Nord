@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Terra brigasca: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Terra brigasca ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Terra brigasca: ieri, 30 ottobre, 0 mm di media; negli ultimi 7 giorni 0,1 mm, in 30 giorni 118 mm. Pluviometro per pluviometro.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/terra-brigasca/">
 <meta property="og:title" content="Dove ha piovuto in Terra brigasca: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Terra brigasca: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Terra brigasca</h1>
 <p class="sotto"><b>Pluviometria della Terra brigasca</b>: i dati dei 7 pluviometri di ARPA Piemonte e ARPA Liguria, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 7 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Terra brigasca</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -422,17 +423,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">0,1 mm <small>di media</small></div>
+    <div id="rip7-top"><p class="nota">Periodo quasi asciutto in tutta la zona.</p></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte,francia-provenza&amp;g=7&amp;pl=44.0625,7.61639&amp;pn=Terra%20brigasca&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-terra-brigasca-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">118 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Colle D'Oggia — 152,0 mm</li><li>Colle Belenda — 120,0 mm</li><li>Montalto Ligure — 115,4 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte,francia-provenza&amp;g=30&amp;pl=44.0625,7.61639&amp;pn=Terra%20brigasca&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-terra-brigasca-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -443,13 +444,13 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="BELEN"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-belenda/">Colle Belenda</a><span class="com">IM · 1357 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="CODOG"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-d-oggia/">Colle D'Oggia</a><span class="com">IM · 1163 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="MONTL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/montalto-ligure/">Montalto Ligure</a><span class="com">IM · 240 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="PORNA"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/pornassio/">Pornassio</a><span class="com">IM · 475 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TRIOR"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/triora/">Triora</a><span class="com">IM · 789 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="308"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/upega/">Upega</a><span class="com">CN · 1310 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="VERDE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/verdeggia/">Verdeggia</a><span class="com">IM · 1120 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="CODOG"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-d-oggia/">Colle D'Oggia</a><span class="com">IM · 1163 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">152,0 mm</td></tr>
+<tr data-id="308"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/upega/">Upega</a><span class="com">CN · 1310 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">109,9 mm</td></tr>
+<tr data-id="BELEN"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/colle-belenda/">Colle Belenda</a><span class="com">IM · 1357 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">120,0 mm</td></tr>
+<tr data-id="MONTL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/montalto-ligure/">Montalto Ligure</a><span class="com">IM · 240 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">115,4 mm</td></tr>
+<tr data-id="PORNA"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/pornassio/">Pornassio</a><span class="com">IM · 475 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">103,4 mm</td></tr>
+<tr data-id="TRIOR"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/triora/">Triora</a><span class="com">IM · 789 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">110,8 mm</td></tr>
+<tr data-id="VERDE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/verdeggia/">Verdeggia</a><span class="com">IM · 1120 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">114,4 mm</td></tr>
 </tbody>
 </table>
 

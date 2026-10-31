@@ -156,7 +156,11 @@ function scriviSitemap(SITO, RADICE) {
   if (fs.existsSync(zp)) {
     for (const d of fs.readdirSync(zp).sort()) {
       if (!c_e(path.join('zone', d, 'index.html'))) continue;
-      fam.zonePiogge.push({ loc: SITO + '/zone/' + d + '/', lastmod: LASTMOD.zonePiogge || LASTMOD.regioni, freq: 'weekly', pri: '0.7' });
+      // dal 31/10/2026 le zone nascono coi numeri di ieri (genera-pagine-zona-piogge.js): come le regioni, la data e'
+      // quella dei numeri, scritta in data-giorno del riquadro di ieri; senza numeri resta la data del guscio
+      const base = LASTMOD.zonePiogge || LASTMOD.regioni;
+      const g = /id="verdetto" data-giorno="(\d{4}-\d\d-\d\d)"/.exec(fs.readFileSync(path.join(zp, d, 'index.html'), 'utf8'));
+      fam.zonePiogge.push({ loc: SITO + '/zone/' + d + '/', lastmod: g && g[1] > base ? g[1] : base, freq: g ? 'daily' : 'weekly', pri: '0.7' });
     }
   }
 

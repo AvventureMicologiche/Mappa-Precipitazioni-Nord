@@ -3794,6 +3794,30 @@ sul suo ramo. Solo parole: nessuna funzione nuova.
    piu', zero rotti. Pagine rigenerate per intero (non hanno ritratti): 13 regioni, 13 funghi regione, 67 meteo; nelle
    meteo entra anche la riga `.avviso-stime` dello stile della regione (della 103, innocua). La Slovenia, che
    rigenerandola prendeva le righe della 103 rimaste indietro sul suo guscio, e' stata lasciata com'era.
+8. **Terzo giro, stesso giorno (suo «cominciamo col tuo ordine, ma dobbiamo fare tutto entro sera»)**, le altre
+   proposte del cloud:
+   - **Nomi dei paesi nelle pagine meteo**: sottotitolo «… a Bibbiena, Castel Focognano, Chiusi della Verna e negli
+     altri 9 paesi della valle» (`aiPaesi`) e tabella «Paese per paese» che nasce coi nomi e le quote (`tabellaFissa`,
+     righe senza `data-n`: prima delle previsioni non si aprono; `disegnaTab` la riscrive). Paesi meteo: i paesi intorno
+     nel sottotitolo.
+   - **Percorso su regioni, «adesso» e /funghi/** (le sole 45 pagine senza): `briciolaHtml` + `briciolaJson`, stile
+     `BRIC_CSS` (in `genera-pagine-regione.js`, dopo lo stile del meteo, cosi' le pagine meteo che lo tagliano non lo
+     prendono). «Mappa pluviometrica › Toscana › Radar adesso»; l'Abruzzo, senza pagina regione, «› Radar meteo Abruzzo».
+   - **90 nomi tecnici nei titoli dei paesi** («Dossena ST1», «Rio Rudan INADEF DX briglia»): `nomi-titolo.json`
+     (<regione>/<slug> → nome), letto da `genera-pagine-localita.js` come `NOME_T` per titolo, scritta grande,
+     descrizione, frasi e briciola; il nome della stazione resta nel ritratto e nelle tabelle. Davanti il posto dove sta
+     DAVVERO il pluviometro (suo, su Carpe: il comune Toirano e' a 38 m, il pluviometro a 445), il comune fra parentesi
+     se aiuta. `aPosto`: «Val …» prende «in»; nelle frasi «intorno» diventa «intorno alla Val …» (`INTORNO`). Cambiate
+     col trapianto delle righe (93 pagine, 1.014 righe), senza toccare i ritratti.
+   - **Le 114 zone piogge nascono coi numeri** (`riepilogoZona`, `verdettoCotto`, `descrCotta`, schede 7/30 e tabella
+     cotte, ordinate come le ordina il browser), se il riepilogo della zona e' fresco (<36 ore) e la regione sta in
+     `COTTE` (ora esportata). Il browser poi le riscrive coi dati del momento e aggiunge i bottoni. Le rifa' il giro del
+     mattino: passo «Rigenera le zone piogge cotte» in `pagine-regione.yml`, dopo le regioni (commit e pubblicazione
+     c'erano gia': `*/index.html` comprende `zone/`). `data/paesi-zone.json` a dati uguali esce identico. Sitemap:
+     `data-giorno` del riquadro di ieri come data, `daily`.
+   - Lasciate: «(v11.0)» nell'h1 della mappa (lo prende la 104, che rifa' la testata), titolo di `/emilia/` (regioni in
+     misura fino al 9-16/11), anteprima social uguale per tutti, Valle Sabbia senza pagina forestale.
+   - In nota per ~1/12 (suo): togliere le pagine paese con zero clic o clic ridicoli, a stagione finita.
 - ⚠️ **Come sono state cambiate le 1.135 pagine, e perche' non si sono rigenerate.** Rigenerarle per intero avrebbe
   rinfrescato anche il ritratto del pluviometro (1.785 righe nei paesi: si rifa' col giro di marzo, giugno, settembre e
   dicembre) e aggiunto una riga di stile alle «adesso» e alle meteo. Si sono lanciati i generatori vecchi e nuovi in una

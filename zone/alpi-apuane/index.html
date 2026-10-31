@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto sulle Alpi Apuane: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta sulle Alpi Apuane ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta sulle Alpi Apuane: ieri, 30 ottobre, 0 mm di media; negli ultimi 7 giorni 0,1 mm, in 30 giorni 245 mm. 4 pluviometri di SIR Toscana.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/alpi-apuane/">
 <meta property="og:title" content="Dove ha piovuto sulle Alpi Apuane: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri delle Alpi Apuane: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto sulle Alpi Apuane</h1>
 <p class="sotto"><b>Pluviometria delle Alpi Apuane</b>: i dati dei 4 pluviometri di SIR Toscana, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 4 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà sulle Alpi Apuane</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -423,17 +424,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">0,1 mm <small>di media</small></div>
+    <div id="rip7-top"><p class="nota">Periodo quasi asciutto in tutta la zona.</p></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=7&amp;pl=43.95,10.21667&amp;pn=Alpi%20Apuane&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-alpi-apuane-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">245 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Azzano — 276,6 mm</li><li>Gallena — 259,9 mm</li><li>Cervaiole — 241,7 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,liguria&amp;g=30&amp;pl=43.95,10.21667&amp;pn=Alpi%20Apuane&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-alpi-apuane-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -444,10 +445,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="TOS02000083"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/azzano/">Azzano</a><span class="com">LU · 430 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000081"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cervaiole/">Cervaiole</a><span class="com">LU · 1140 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000078"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/gallena/">Gallena</a><span class="com">LU · 345 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000056"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/pian-della-fioba/">Pian della Fioba</a><span class="com">MS · 860 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="TOS02000081"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cervaiole/">Cervaiole</a><span class="com">LU · 1140 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">241,7 mm</td></tr>
+<tr data-id="TOS02000078"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/gallena/">Gallena</a><span class="com">LU · 345 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">259,9 mm</td></tr>
+<tr data-id="TOS02000083"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/azzano/">Azzano</a><span class="com">LU · 430 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">276,6 mm</td></tr>
+<tr data-id="TOS01000056"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/pian-della-fioba/">Pian della Fioba</a><span class="com">MS · 860 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">201,5 mm</td></tr>
 </tbody>
 </table>
 

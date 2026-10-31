@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Val Varenna: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Val Varenna ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Val Varenna: ieri, 30 ottobre, meno di 0,1 mm di media; negli ultimi 7 giorni 0,4 mm, in 30 giorni 230 mm.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/val-varenna/">
 <meta property="og:title" content="Dove ha piovuto in Val Varenna: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Val Varenna: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Val Varenna</h1>
 <p class="sotto"><b>Pluviometria della Val Varenna</b>: i dati dei 10 pluviometri di ARPA Piemonte e ARPA Liguria, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr"><small style="margin:0 .3em 0 0">meno di</small>0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,2 mm a Capanne Marcarolo.</div><div class="dett">Media di 9 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Val Varenna</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -422,17 +423,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">0,4 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Passo del Turchino — 1,2 mm</li><li>Capanne Marcarolo — 0,6 mm</li><li>Piampaludo — 0,6 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=7&amp;pl=44.46056,8.82056&amp;pn=Val%20Varenna&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-varenna-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">230 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Piampaludo — 332,6 mm</li><li>Urbe - Vara Sup. — 306,6 mm</li><li>Prai — 270,6 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=liguria,piemonte&amp;g=30&amp;pl=44.46056,8.82056&amp;pn=Val%20Varenna&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-varenna-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -443,16 +444,16 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="CAMPL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/campo-ligure/">Campo Ligure</a><span class="com">GE · 338 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="141"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/capanne-marcarolo/">Capanne Marcarolo</a><span class="com">AL · 780 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="ISOVE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/isoverde/">Isoverde</a><span class="com">GE · 300 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="MELEE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/mele/">Mele</a><span class="com">GE · 270 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="PTURC"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/passo-del-turchino/">Passo del Turchino</a><span class="com">GE · 590 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="PIAMP"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/piampaludo/">Piampaludo</a><span class="com">SV · 882 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="127"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/ponzone-bric-berton/">Ponzone Bric Berton</a><span class="com">AL · 773 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="PRAIC"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/prai/">Prai</a><span class="com">GE · 820 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="ROSGL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/rossiglione/">Rossiglione</a><span class="com">GE · 289 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="URVAS"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/urbe-vara-sup/">Urbe - Vara Sup.</a><span class="com">SV · 810 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="PTURC"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/passo-del-turchino/">Passo del Turchino</a><span class="com">GE · 590 m</span></td><td class="mm v1">–</td><td class="mm v7">1,2 mm</td><td class="mm v30">183,6 mm</td></tr>
+<tr data-id="141"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/capanne-marcarolo/">Capanne Marcarolo</a><span class="com">AL · 780 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">233,6 mm</td></tr>
+<tr data-id="PIAMP"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/piampaludo/">Piampaludo</a><span class="com">SV · 882 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">332,6 mm</td></tr>
+<tr data-id="127"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/ponzone-bric-berton/">Ponzone Bric Berton</a><span class="com">AL · 773 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">218,4 mm</td></tr>
+<tr data-id="PRAIC"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/prai/">Prai</a><span class="com">GE · 820 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">270,6 mm</td></tr>
+<tr data-id="ROSGL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/rossiglione/">Rossiglione</a><span class="com">GE · 289 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">187,2 mm</td></tr>
+<tr data-id="URVAS"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/urbe-vara-sup/">Urbe - Vara Sup.</a><span class="com">SV · 810 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">306,6 mm</td></tr>
+<tr data-id="CAMPL"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/campo-ligure/">Campo Ligure</a><span class="com">GE · 338 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">234,0 mm</td></tr>
+<tr data-id="MELEE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/mele/">Mele</a><span class="com">GE · 270 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">177,6 mm</td></tr>
+<tr data-id="ISOVE"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/isoverde/">Isoverde</a><span class="com">GE · 300 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">158,8 mm</td></tr>
 </tbody>
 </table>
 

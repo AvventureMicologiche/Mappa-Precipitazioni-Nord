@@ -6,6 +6,7 @@
 <title>Radar meteo Calabria: dove sta piovendo adesso, in diretta</title>
 <meta name="description" content="Radar meteo Calabria in diretta: dove sta piovendo in questo momento, le ultime 2 ore e i prossimi 40 minuti, e le previsioni delle città.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/calabria/adesso/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Calabria","item":"https://precipitazioni.avventuremicologiche.it/calabria/"},{"@type":"ListItem","position":3,"name":"Radar adesso"}]}</script>
 <meta property="og:title" content="Dove sta piovendo adesso in Calabria">
 <meta property="og:description" content="Il radar della pioggia in diretta e le previsioni delle città.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
@@ -51,6 +52,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -279,6 +281,9 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
   #mappa{height:380px;} .reg-lista{grid-template-columns:repeat(2,1fr);}
   .rb-testa{font-size:14.5px;} .rb-testa .quando{font-size:13.5px;}}
 
+.bric{font-size:14px;color:#666;margin-bottom:6px;}
+.bric a{color:var(--blu);}
+
 /* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
 header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
 /* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
@@ -339,6 +344,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 </header>
 <script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
 <main>
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/calabria/">Calabria</a> › Radar adesso</p>
 <h1>Radar meteo Calabria: dove sta piovendo adesso</h1>
 <p class="sotto"><b>Radar della pioggia in diretta</b>: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
 <div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar…</span></div>

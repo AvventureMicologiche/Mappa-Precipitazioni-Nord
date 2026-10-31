@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Valtiberina: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Valtiberina ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Valtiberina: ieri, 30 ottobre, 1,6 mm di media; negli ultimi 7 giorni 8,5 mm, in 30 giorni 91 mm. Pluviometro per pluviometro.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/valtiberina/">
 <meta property="og:title" content="Dove ha piovuto in Valtiberina: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Valtiberina: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -395,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Valtiberina</h1>
 <p class="sotto"><b>Pluviometria della Valtiberina</b>: i dati dei 9 pluviometri di SIR Toscana e MeteoHub, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">1,6 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Monte Nerone</b> 7,9 mm, <b>Serravalle di Carda</b> 4,0 mm, <b>Pianello di Cagli</b> 1,8 mm.</div><div class="dett">Media di 9 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Valtiberina</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +412,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">8,5 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Monte Nerone — 18,5 mm</li><li>Bocca Serriola — 15,2 mm</li><li>Pianello di Cagli — 13,0 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=7&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valtiberina-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">91 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Pianello di Cagli — 139,6 mm</li><li>Monte Nerone — 117,7 mm</li><li>Bocca Serriola — 105,0 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=umbria,toscana,marche&amp;g=30&amp;pl=43.55,12.2&amp;pn=Valtiberina&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valtiberina-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,15 +433,15 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="TOS30233300"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/badia-tedalda/">Badia Tedalda</a><span class="com">AR · 843 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.56204_12.43040"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/biscubio/">Biscubio</a><span class="com">PU · 464 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.51592_12.35595"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/bocca-serriola/">Bocca Serriola</a><span class="com">PG · 740 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.55328_12.52087"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/monte-nerone/">Monte Nerone</a><span class="com">PU · 1368 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.51215_12.55335"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/pianello-di-cagli/">Pianello di Cagli</a><span class="com">PU · 396 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.42694_12.36167"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/pieve-di-saddi/">Pieve di Saddi</a><span class="com">PG · 618 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000040"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/pieve-santo-stefano/">Pieve Santo Stefano</a><span class="com">AR · 750 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.43194_12.46111"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/san-benedetto-vecchio/">San Benedetto Vecchio</a><span class="com">PG · 644 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="43.54828_12.48647"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/serravalle-di-carda/">Serravalle di Carda</a><span class="com">PU · 773 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="43.55328_12.52087"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/monte-nerone/">Monte Nerone</a><span class="com">PU · 1368 m</span></td><td class="mm v1">7,9 mm</td><td class="mm v7">18,5 mm</td><td class="mm v30">117,7 mm</td></tr>
+<tr data-id="43.51592_12.35595"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/bocca-serriola/">Bocca Serriola</a><span class="com">PG · 740 m</span></td><td class="mm v1">0,3 mm</td><td class="mm v7">15,2 mm</td><td class="mm v30">105,0 mm</td></tr>
+<tr data-id="43.51215_12.55335"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/pianello-di-cagli/">Pianello di Cagli</a><span class="com">PU · 396 m</span></td><td class="mm v1">1,8 mm</td><td class="mm v7">13,0 mm</td><td class="mm v30">139,6 mm</td></tr>
+<tr data-id="43.54828_12.48647"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/serravalle-di-carda/">Serravalle di Carda</a><span class="com">PU · 773 m</span></td><td class="mm v1">4,0 mm</td><td class="mm v7">9,9 mm</td><td class="mm v30">72,2 mm</td></tr>
+<tr data-id="43.56204_12.43040"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/biscubio/">Biscubio</a><span class="com">PU · 464 m</span></td><td class="mm v1">0,6 mm</td><td class="mm v7">7,0 mm</td><td class="mm v30">27,0 mm</td></tr>
+<tr data-id="43.43194_12.46111"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/san-benedetto-vecchio/">San Benedetto Vecchio</a><span class="com">PG · 644 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">6,0 mm</td><td class="mm v30">99,4 mm</td></tr>
+<tr data-id="TOS30233300"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/badia-tedalda/">Badia Tedalda</a><span class="com">AR · 843 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">3,3 mm</td><td class="mm v30">88,9 mm</td></tr>
+<tr data-id="TOS11000040"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/pieve-santo-stefano/">Pieve Santo Stefano</a><span class="com">AR · 750 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,8 mm</td><td class="mm v30">75,1 mm</td></tr>
+<tr data-id="43.42694_12.36167"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/pieve-di-saddi/">Pieve di Saddi</a><span class="com">PG · 618 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,4 mm</td><td class="mm v30">95,2 mm</td></tr>
 </tbody>
 </table>
 

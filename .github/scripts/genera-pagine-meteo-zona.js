@@ -166,6 +166,20 @@ const MV_CSS = `
 .mv-c:hover{background:#eef4fd;}
 .mv-c::after{content:" →";}
 `;
+// ⚠️ 31/10/2026 (scheda 104 bis, proposta 2 del cloud): I NOMI DEI PAESI SCRITTI NELL'HTML. Prima arrivavano solo con
+// le previsioni, e nel testo che Google legge subito non ce n'era nessuno: «meteo poppi» non portava al Casentino.
+// La tabella nasce coi nomi e le quote (dal piu' basso, come la riempie il browser); disegnaTab la riscrive tutta
+// quando arrivano le previsioni. Le righe scritte qui non hanno data-n: prima delle previsioni non si aprono.
+function tabellaFissa(nomi, quote) {
+  const righe = nomi.slice().sort((a, b) => (quote[a] || 0) - (quote[b] || 0))
+    .map(n => `<tr><td>${esc(n)}<span class="q">~ ${quote[n] != null ? quote[n].toLocaleString('it-IT') : '–'} m</span></td><td>…</td></tr>`);
+  return `<thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody>${righe.join('')}</tbody>`;
+}
+// «a Bibbiena, Castel Focognano, Chiusi della Verna e negli altri 9 paesi della valle»
+function aiPaesi(nomi, dove) {
+  return nomi.length > 4 ? `a ${nomi.slice(0, 3).map(esc).join(', ')} e negli altri ${nomi.length - 3} paesi ${dove}`
+    : `a ${nomi.slice(0, -1).map(esc).join(', ')}${nomi.length > 1 ? ' e ' : ''}${esc(nomi[nomi.length - 1])}`;
+}
 // in fondo alle pagine meteo di zona e di paese: le altre della stessa regione, sotto un titolo loro
 function altreMeteo(r, ga, salta) {
   const blocco = linkMeteoRegione(r.k, ga, salta);
@@ -1046,7 +1060,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiv
 <main>
 <p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/previsioni/">Previsioni meteo</a> › ${esc(NOME)}</p>
 <h1>Meteo ${esc(NOME)}: previsioni a 7 giorni</h1>
-<p class="sotto"><b>Che tempo farà ${esc(DOVE)} nei prossimi 7 giorni</b>: pioggia, minime e massime in ${paesi.length} paesi ${VALLE === 'valle' ? 'della valle' : 'della zona'}, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri ${esc(ENTE)}.</p>
+<p class="sotto"><b>Che tempo farà ${esc(DOVE)} nei prossimi 7 giorni</b> ${aiPaesi(paesi.map(p => p.n), DV)}, ognuno alla sua quota: pioggia, minime e massime, e quanta pioggia è già caduta nei pluviometri ${esc(ENTE)}.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 ${nastroHtml(NOME)}
@@ -1065,7 +1079,7 @@ ${nastroHtml(NOME)}
 
 <h2>Paese per paese</h2>
 <p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
-<div class="pz-scorri"><table class="pz-tab" id="tab"></table></div>
+<div class="pz-scorri"><table class="pz-tab" id="tab">${tabellaFissa(paesi.map(p => p.n), quote)}</table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
 <p class="nota" style="margin-top:0">Gli ultimi 30 giorni misurati dai pluviometri ${esc(ENTE)} (media ${VALLE === 'valle' ? 'della valle' : 'della zona'}) e i 7 giorni previsti. Tocca una barra.</p>
@@ -1106,7 +1120,7 @@ ${ALTRE}
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
-  MV_CSS, altreMeteo,
+  MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 

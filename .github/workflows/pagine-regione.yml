@@ -49,6 +49,11 @@ jobs:
           node-version: '22'
       - name: Rigenera le pagine cotte
         run: SOLO=cotte node .github/scripts/genera-pagine-regione.js
+      # 31/10/2026 (scheda 104 bis, controllo SEO): anche le 114 zone piogge nascono coi numeri di ieri, 7 e 30 giorni,
+      # dal loro riepilogo (data/riepiloghi/zone/), come le regioni. DOPO le regioni: prendono lo stile da loro.
+      # Riscrive anche data/paesi-zone.json, che a dati uguali esce identico.
+      - name: Rigenera le zone piogge cotte
+        run: node .github/scripts/genera-pagine-zona-piogge.js
       - name: Cambiate?
         id: diff
         run: |

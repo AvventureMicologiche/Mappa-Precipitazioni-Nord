@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Val d'Aupa: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Val d'Aupa ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 3 pluviometri di ARPA FVG. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Val d'Aupa: ieri, 30 ottobre, 0 mm di media; negli ultimi 7 giorni 20 mm, in 30 giorni 142 mm. 3 pluviometri di ARPA FVG.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/val-d-aupa/">
 <meta property="og:title" content="Dove ha piovuto in Val d'Aupa: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Val d'Aupa: ieri, ultimi 7 e 30 giorni.">
@@ -396,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Val d'Aupa</h1>
 <p class="sotto"><b>Pluviometria della Val d'Aupa</b>: i dati dei 3 pluviometri di ARPA FVG, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 3 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Val d'Aupa</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">20 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Alesso — 23,0 mm</li><li>Venzone Tagliamento — 18,0 mm</li><li>Moggio Udinese — 17,8 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,slovenia&amp;g=7&amp;pl=46.41667,13.2&amp;pn=Val%20d'Aupa&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-d-aupa-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">142 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Moggio Udinese — 195,9 mm</li><li>Venzone Tagliamento — 135,8 mm</li><li>Alesso — 94,2 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,slovenia&amp;g=30&amp;pl=46.41667,13.2&amp;pn=Val%20d'Aupa&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-d-aupa-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,9 +432,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="46.30922_13.05566"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/alesso/">Alesso</a><span class="com">UD · 200 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.40013_13.18510"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/moggio-udinese/">Moggio Udinese</a><span class="com">UD · 288 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.33526_13.13480"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/venzone-tagliamento/">Venzone Tagliamento</a><span class="com">UD · 225 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="46.30922_13.05566"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/alesso/">Alesso</a><span class="com">UD · 200 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">23,0 mm</td><td class="mm v30">94,2 mm</td></tr>
+<tr data-id="46.33526_13.13480"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/venzone-tagliamento/">Venzone Tagliamento</a><span class="com">UD · 225 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">18,0 mm</td><td class="mm v30">135,8 mm</td></tr>
+<tr data-id="46.40013_13.18510"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/moggio-udinese/">Moggio Udinese</a><span class="com">UD · 288 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">17,8 mm</td><td class="mm v30">195,9 mm</td></tr>
 </tbody>
 </table>
 

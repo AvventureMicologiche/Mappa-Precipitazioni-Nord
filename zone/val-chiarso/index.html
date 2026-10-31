@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Val Chiarsò: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Val Chiarsò ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 3 pluviometri di ARPA FVG. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Val Chiarsò: ieri, 30 ottobre, 0 mm di media; negli ultimi 7 giorni 14 mm, in 30 giorni 135 mm. 3 pluviometri di ARPA FVG.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/val-chiarso/">
 <meta property="og:title" content="Dove ha piovuto in Val Chiarsò: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Val Chiarsò: ieri, ultimi 7 e 30 giorni.">
@@ -396,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Val Chiarsò</h1>
 <p class="sotto"><b>Pluviometria della Val Chiarsò</b>: i dati dei 3 pluviometri di ARPA FVG, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 3 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Val Chiarsò</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">14 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Passo Pramollo — 19,0 mm</li><li>Bevorchians — 14,6 mm</li><li>Paularo — 7,2 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=7&amp;pl=46.52936,13.11867&amp;pn=Val%20Chiars%C3%B2&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-chiarso-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">135 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Bevorchians — 157,9 mm</li><li>Passo Pramollo — 143,4 mm</li><li>Paularo — 102,1 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=friuli,austria&amp;g=30&amp;pl=46.52936,13.11867&amp;pn=Val%20Chiars%C3%B2&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-chiarso-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,9 +432,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="46.48616_13.18959"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/bevorchians/">Bevorchians</a><span class="com">UD · 757 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.55973_13.27515"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/passo-pramollo/">Passo Pramollo</a><span class="com">UD · 1530 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="46.52640_13.12100"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/paularo/">Paularo</a><span class="com">UD · 635 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="46.55973_13.27515"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/passo-pramollo/">Passo Pramollo</a><span class="com">UD · 1530 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">19,0 mm</td><td class="mm v30">143,4 mm</td></tr>
+<tr data-id="46.48616_13.18959"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/bevorchians/">Bevorchians</a><span class="com">UD · 757 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">14,6 mm</td><td class="mm v30">157,9 mm</td></tr>
+<tr data-id="46.52640_13.12100"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/paularo/">Paularo</a><span class="com">UD · 635 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">7,2 mm</td><td class="mm v30">102,1 mm</td></tr>
 </tbody>
 </table>
 

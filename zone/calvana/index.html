@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Calvana: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Calvana ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Calvana: ieri, 30 ottobre, 0 mm di media; negli ultimi 7 giorni 1,6 mm, in 30 giorni 86 mm. Pluviometro per pluviometro.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/calvana/">
 <meta property="og:title" content="Dove ha piovuto in Calvana: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Calvana: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Calvana</h1>
 <p class="sotto"><b>Pluviometria della Calvana</b>: i dati dei 16 pluviometri di ARPAE Emilia-Romagna e SIR Toscana, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 14 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Calvana</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -422,17 +423,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">1,6 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Cercina — 5,8 mm</li><li>Fattoria Iavello — 2,8 mm</li><li>Le Croci di Calenzano — 2,4 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia&amp;g=7&amp;pl=43.9465,11.17351&amp;pn=Calvana&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-calvana-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">86 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Sammommè — 138,5 mm</li><li>Acquerino — 128,4 mm</li><li>Gavigno — 113,4 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia&amp;g=30&amp;pl=43.9465,11.17351&amp;pn=Calvana&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-calvana-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -443,22 +444,22 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="TOS11000094"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/acquerino/">Acquerino</a><span class="com">PT · 950 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001263"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/baggio/">Baggio</a><span class="com">PT · 525 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="TOS01001102"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cercina/">Cercina</a><span class="com">FI · 305 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">5,8 mm</td><td class="mm v30">47,1 mm</td></tr>
+<tr data-id="TOS01001273"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/fattoria-iavello/">Fattoria Iavello</a><span class="com">PO · 518 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,8 mm</td><td class="mm v30">81,9 mm</td></tr>
+<tr data-id="TOS01001189"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/le-croci-di-calenzano/">Le Croci di Calenzano</a><span class="com">FI · 421 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,4 mm</td><td class="mm v30">60,6 mm</td></tr>
+<tr data-id="TOS01000921"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/mangona/">Mangona</a><span class="com">FI · 540 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,4 mm</td><td class="mm v30">45,4 mm</td></tr>
+<tr data-id="TOS01000941"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vaglia/">Vaglia</a><span class="com">FI · 340 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,4 mm</td><td class="mm v30">61,0 mm</td></tr>
+<tr data-id="TOS11000503"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vaiano-acquedotto/">Vaiano acquedotto</a><span class="com">PO · 322 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,0 mm</td><td class="mm v30">70,1 mm</td></tr>
+<tr data-id="TOS11000094"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/acquerino/">Acquerino</a><span class="com">PT · 950 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,2 mm</td><td class="mm v30">128,4 mm</td></tr>
+<tr data-id="TOS03001241"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/sammomme/">Sammommè</a><span class="com">PT · 785 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,2 mm</td><td class="mm v30">138,5 mm</td></tr>
+<tr data-id="TOS01001171"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vernio/">Vernio</a><span class="com">PO · 695 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,0 mm</td><td class="mm v30">89,9 mm</td></tr>
+<tr data-id="TOS01001263"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/baggio/">Baggio</a><span class="com">PT · 525 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">102,4 mm</td></tr>
+<tr data-id="53448"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/diga-di-suviana/">Diga di Suviana</a><span class="com">BO · 478 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">67,9 mm</td></tr>
+<tr data-id="TOS01001161"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/gavigno/">Gavigno</a><span class="com">PO · 752 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">113,4 mm</td></tr>
+<tr data-id="TOS30290700"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/treppio/">Treppio</a><span class="com">PT · 727 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">107,3 mm</td></tr>
+<tr data-id="TOS30290100"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cottede/">Cottede</a><span class="com">PO · 770 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">82,8 mm</td></tr>
 <tr data-id="TOS01001151"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cantagallo/">Cantagallo</a><span class="com">PO · 555 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001102"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cercina/">Cercina</a><span class="com">FI · 305 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30290100"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/cottede/">Cottede</a><span class="com">PO · 770 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="53443"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/diga-di-pavana/">Diga di Pavana</a><span class="com">BO · 474 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="53448"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/diga-di-suviana/">Diga di Suviana</a><span class="com">BO · 478 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001273"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/fattoria-iavello/">Fattoria Iavello</a><span class="com">PO · 518 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001161"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/gavigno/">Gavigno</a><span class="com">PO · 752 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001189"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/le-croci-di-calenzano/">Le Croci di Calenzano</a><span class="com">FI · 421 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000921"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/mangona/">Mangona</a><span class="com">FI · 540 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS03001241"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/sammomme/">Sammommè</a><span class="com">PT · 785 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30290700"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/treppio/">Treppio</a><span class="com">PT · 727 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000941"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vaglia/">Vaglia</a><span class="com">FI · 340 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000503"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vaiano-acquedotto/">Vaiano acquedotto</a><span class="com">PO · 322 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001171"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vernio/">Vernio</a><span class="com">PO · 695 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="53443"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/diga-di-pavana/">Diga di Pavana</a><span class="com">BO · 474 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">94,8 mm</td></tr>
 </tbody>
 </table>
 

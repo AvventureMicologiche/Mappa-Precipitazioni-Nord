@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Garfagnana: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Garfagnana ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Garfagnana: ieri, 30 ottobre, meno di 0,1 mm di media; negli ultimi 7 giorni 2,3 mm, in 30 giorni 189 mm.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/garfagnana/">
 <meta property="og:title" content="Dove ha piovuto in Garfagnana: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Garfagnana: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Garfagnana</h1>
 <p class="sotto"><b>Pluviometria della Garfagnana</b>: i dati dei 14 pluviometri di ARPAE Emilia-Romagna e SIR Toscana, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr"><small style="margin:0 .3em 0 0">meno di</small>0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,2 mm a Camporgiano.</div><div class="dett">Media di 14 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Garfagnana</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -423,17 +424,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">2,3 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Careggine — 28,0 mm</li><li>Vagli di Sotto — 1,0 mm</li><li>Camporgiano — 0,6 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia,liguria&amp;g=7&amp;pl=44.09,10.43&amp;pn=Garfagnana&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-garfagnana-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">189 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Careggine — 270,7 mm</li><li>Vagli di Sotto — 262,5 mm</li><li>Minucciano — 228,5 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia,liguria&amp;g=30&amp;pl=44.09,10.43&amp;pn=Garfagnana&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-garfagnana-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -444,20 +445,20 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="TOS02004115"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/camporgiano/">Camporgiano</a><span class="com">LU · 390 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000161"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/capanne-di-sillano/">Capanne di Sillano</a><span class="com">LU · 1035 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000096"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/careggine/">Careggine</a><span class="com">LU · 1100 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000221"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/casone-di-profecchia/">Casone di Profecchia</a><span class="com">LU · 1297 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="5509"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/civago/">Civago</a><span class="com">RE · 1051 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS09001210"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/minucciano/">Minucciano</a><span class="com">LU · 666 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000171"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-castellino/">Monte Castellino</a><span class="com">LU · 858 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000097"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/orecchiella/">Orecchiella</a><span class="com">LU · 1169 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000177"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/orto-di-donna/">Orto di Donna</a><span class="com">LU · 1070 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="5569"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/passo-delle-radici/">Passo delle Radici</a><span class="com">MO · 1535 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000034"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/piazza-al-serchio/">Piazza al Serchio</a><span class="com">LU · 660 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS03000278"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/renaio/">Renaio</a><span class="com">LU · 1013 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000191"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vagli-di-sotto/">Vagli di Sotto</a><span class="com">LU · 581 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS02000203"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/villacollemandina/">Villacollemandina</a><span class="com">LU · 502 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="TOS11000096"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/careggine/">Careggine</a><span class="com">LU · 1100 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">28,0 mm</td><td class="mm v30">270,7 mm</td></tr>
+<tr data-id="TOS02000191"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/vagli-di-sotto/">Vagli di Sotto</a><span class="com">LU · 581 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">1,0 mm</td><td class="mm v30">262,5 mm</td></tr>
+<tr data-id="TOS02004115"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/camporgiano/">Camporgiano</a><span class="com">LU · 390 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">159,1 mm</td></tr>
+<tr data-id="TOS02000171"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-castellino/">Monte Castellino</a><span class="com">LU · 858 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">115,2 mm</td></tr>
+<tr data-id="TOS02000203"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/villacollemandina/">Villacollemandina</a><span class="com">LU · 502 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">175,9 mm</td></tr>
+<tr data-id="5569"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/passo-delle-radici/">Passo delle Radici</a><span class="com">MO · 1535 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">192,5 mm</td></tr>
+<tr data-id="TOS02000161"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/capanne-di-sillano/">Capanne di Sillano</a><span class="com">LU · 1035 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">164,3 mm</td></tr>
+<tr data-id="TOS09001210"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/minucciano/">Minucciano</a><span class="com">LU · 666 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">228,5 mm</td></tr>
+<tr data-id="TOS02000177"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/orto-di-donna/">Orto di Donna</a><span class="com">LU · 1070 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">206,5 mm</td></tr>
+<tr data-id="TOS11000034"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/piazza-al-serchio/">Piazza al Serchio</a><span class="com">LU · 660 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">144,2 mm</td></tr>
+<tr data-id="TOS02000221"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/casone-di-profecchia/">Casone di Profecchia</a><span class="com">LU · 1297 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">195,8 mm</td></tr>
+<tr data-id="5509"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/civago/">Civago</a><span class="com">RE · 1051 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">165,0 mm</td></tr>
+<tr data-id="TOS11000097"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/orecchiella/">Orecchiella</a><span class="com">LU · 1169 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">167,6 mm</td></tr>
+<tr data-id="TOS03000278"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/renaio/">Renaio</a><span class="com">LU · 1013 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0 mm</td><td class="mm v30">190,6 mm</td></tr>
 </tbody>
 </table>
 

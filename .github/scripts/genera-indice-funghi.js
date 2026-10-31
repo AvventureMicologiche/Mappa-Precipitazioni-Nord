@@ -39,7 +39,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI } = require('./genera-pagine-regione.js');
+const { REGIONI, briciolaJson, briciolaHtml, BRIC_CSS } = require('./genera-pagine-regione.js');
 const { LOCALITA, slug } = require('./lib-nomi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { rigaStagione } = require('./lib-stagione.js');
@@ -54,6 +54,7 @@ const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json
 const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
 const RADICE = path.resolve(__dirname, '..', '..');
 const SITO = 'https://precipitazioni.avventuremicologiche.it';
+const BRICIOLA = [['Mappa pluviometrica', SITO + '/'], ['Piogge per funghi', null]];   // il percorso (31/10/2026, scheda 104 bis)
 
 // Le regioni che una pagina funghi ce l'hanno davvero, nell'ordine in cui il
 // resto del sito le elenca (nord -> sud, estero a parte): l'anagrafe sta in un
@@ -98,6 +99,7 @@ ${/* ⚠️ TITOLO IN PAGINA E TITOLO DI RICERCA SONO DUE COSE DIVERSE, e qui so
 <title>Dove andare a funghi oggi: le piogge per funghi in Italia</title>
 <meta name="description" content="Dove andare a funghi oggi: le piogge per funghi da 13 a 20 giorni fa, misurate a terra in ${N_POSTI} posti da bosco di ${CON_FUNGHI.length} regioni. Aggiornato ogni giorno.">
 <link rel="canonical" href="${SITO}/funghi/">
+${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="Dove andare a funghi oggi">
 <meta property="og:description" content="Dove è caduta l'acqua nelle zone da bosco, misurata dai pluviometri. Non previsioni: pioggia vera.">
 <meta property="og:image" content="${SITO}/preview.jpg">
@@ -137,7 +139,7 @@ ${METEO_CSS}${STRISCIA_CSS}
 /* i due riquadri pioggia | boschi sotto «Ecco cosa vedi sulla mappa»: quasi quadrati, l'anteprima della regione copre */
 .mk-str.mk-italia{gap:12px;margin:8px 0 6px;}
 .mk-str.mk-italia a i.mk-img{height:auto;min-height:150px;aspect-ratio:1/1.02;background-size:cover;background-position:50% 50%;}
-${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
+${BRIC_CSS}${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: 'https://www.youtube.com/@avventuremicologiche?sub_confirmation=1', reg: '', ga: 'indice-funghi', attiva: '' })}
@@ -149,6 +151,7 @@ ${/* ⚠️ LA FINESTRA DEVE ESSERE CHIARA NELLE PRIME TRE RIGHE, non dopo due
      capiva che stava guardando la pioggia di due settimane fa e non quella di
      ieri. Adesso il titolo pone la domanda e le tre righe sotto dicono subito
      la regola, la finestra e da dove vengono i numeri. */''}
+${briciolaHtml(BRICIOLA)}
 <h1>Dove andare a funghi oggi</h1>
 ${rigaStagione()}
 <p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno

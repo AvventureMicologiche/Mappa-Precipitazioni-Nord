@@ -51,6 +51,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -445,7 +446,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <main>
 <p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/previsioni/">Previsioni meteo</a> › Nebrodi</p>
 <h1>Meteo Nebrodi: previsioni a 7 giorni</h1>
-<p class="sotto"><b>Che tempo farà sui Nebrodi nei prossimi 7 giorni</b>: pioggia, minime e massime in 9 paesi della zona, ognuno alla sua quota, e quanta pioggia è già caduta nei pluviometri di MeteoHub.</p>
+<p class="sotto"><b>Che tempo farà sui Nebrodi nei prossimi 7 giorni</b> a San Fratello, San Teodoro, Maniace e negli altri 6 paesi della zona, ognuno alla sua quota: pioggia, minime e massime, e quanta pioggia è già caduta nei pluviometri di MeteoHub.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> NEBRODI</em></b><span>…</span></div><div class="t"></div></div>
@@ -464,7 +465,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 
 <h2>Paese per paese</h2>
 <p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
-<div class="pz-scorri"><table class="pz-tab" id="tab"></table></div>
+<div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Acquedolci<span class="q">~ 32 m</span></td><td>…</td></tr><tr><td>Alcara li Fusi<span class="q">~ 401 m</span></td><td>…</td></tr><tr><td>San Fratello<span class="q">~ 687 m</span></td><td>…</td></tr><tr><td>Maniace<span class="q">~ 701 m</span></td><td>…</td></tr><tr><td>Cerami<span class="q">~ 925 m</span></td><td>…</td></tr><tr><td>Troina<span class="q">~ 1075 m</span></td><td>…</td></tr><tr><td>Capizzi<span class="q">~ 1092 m</span></td><td>…</td></tr><tr><td>Cesarò<span class="q">~ 1120 m</span></td><td>…</td></tr><tr><td>San Teodoro<span class="q">~ 1158 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
 <p class="nota" style="margin-top:0">Gli ultimi 30 giorni misurati dai pluviometri di MeteoHub (media della zona) e i 7 giorni previsti. Tocca una barra.</p>

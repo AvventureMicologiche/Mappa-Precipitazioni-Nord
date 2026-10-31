@@ -28,7 +28,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI, GEN, navAltre, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi } = require('./genera-pagine-regione.js');
+const { REGIONI, GEN, navAltre, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi, briciolaJson, briciolaHtml, BRIC_CSS } = require('./genera-pagine-regione.js');
 const { STILE_NUOVO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');   // quiz accanto a YouTube (20/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
@@ -232,6 +232,9 @@ function pagina(r) {
   const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:`${r.prep} ${r.nome}`, gen, sito:SITO, citta, confine:confineDi(r) }).replace(/</g, '\\u003c');
   // le pagine meteo della regione (qui e non in cima: genera-pagine-meteo-zona.js chiede confineDi a questo file)
   const valli = require('./genera-pagine-meteo-zona.js').linkMeteoRegione(r.k, 'pagina-' + r.k + '-adesso');
+  // il percorso (31/10/2026, scheda 104 bis): la regione in mezzo solo se ha la sua pagina (l'Abruzzo no)
+  const briciola = [['Mappa pluviometrica', SITO + '/']].concat(r.senzaPagina
+    ? [['Radar meteo ' + r.nome, null]] : [[r.nome, `${SITO}/${r.k}/`], ['Radar adesso', null]]);
   const carte = citta.map((c, i) => `<a class="cit" data-i="${i}" href="${linkPrev(c)}"><div class="cit-testa"><b>${c.n}</b><span class="cit-ic"></span></div>`
     + `<div class="cit-t">&nbsp;</div><div class="cit-cond">&nbsp;</div><div class="cit-gg">&nbsp;<br>&nbsp;</div><span class="cit-vai">7 giorni →</span></a>`).join('\n');
   const altre = LISTA.filter(x => x.k !== r.k).map(x => `<li><a href="${SITO}/${x.k}/adesso/">${x.nome}</a></li>`).join('\n');
@@ -253,6 +256,7 @@ I pluviometri la misurano a terra. Per sapere quanta ne è caduta c'è la pagina
 <title>${attr(titoloDi(r))}</title>
 <meta name="description" content="${attr(descrDi(r))}">
 <link rel="canonical" href="${SITO}/${r.k}/adesso/">
+${briciolaJson(briciola)}
 <meta property="og:title" content="${attr(`Dove sta piovendo adesso ${r.prep} ${r.nome}`)}">
 <meta property="og:description" content="Il radar della pioggia in diretta e le previsioni delle città.">
 <meta property="og:image" content="${SITO}/preview.jpg">
@@ -273,11 +277,12 @@ I pluviometri la misurano a terra. Per sapere quanta ne è caduta c'è la pagina
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${STILE_ADESSO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${TESTATA_CSS}</style>
+${RILIEVO}${STILE_ADESSO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${BRIC_CSS}${TESTATA_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k + '-adesso', attiva: '' })}
 <main>
+${briciolaHtml(briciola)}
 <h1>Radar meteo ${r.nome}: dove sta piovendo adesso</h1>
 <p class="sotto"><b>Radar della pioggia in diretta</b>: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
 <div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar…</span></div>

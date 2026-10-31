@@ -435,6 +435,7 @@ function pagina(r, radice){
   // farà», le stesse pillole delle «adesso». Qui dentro e non in cima: genera-pagine-meteo-zona.js chiede questo file.
   const MZ = require('./genera-pagine-meteo-zona.js');
   const valli = MZ.linkMeteoRegione(r.k, 'pagina-' + r.k);
+  const BRICIOLA = [['Mappa pluviometrica', SITO + '/'], [r.nomeTitolo || r.nome, null]];
   const titolo = `Dove ha piovuto ${r.prep} ${r.nome}`;
   // ⚠️ 26/10/2026: LA SCRITTA GRANDE COMINCIA COME IL TITOLO (sua scelta, scheda GA4 4). Per
   // «pluviometria toscana» Google non mostrava il nostro <title>: lo riscriveva con l'h1 piu' il
@@ -475,6 +476,7 @@ function pagina(r, radice){
 <title>${attr(TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? rip.periodi['7'].stazioni : r.staz))}</title>
 <meta name="description" content="${attr(TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? rip.periodi['7'].stazioni : r.staz))}">
 <link rel="canonical" href="${SITO}/${r.k}/">
+${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da ${r.staz} pluviometri ${diEnte(r.agenzia)}.">
 <meta property="og:image" content="${SITO}/preview.jpg">
@@ -500,11 +502,12 @@ function pagina(r, radice){
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${valli ? MZ.MV_CSS : ''}${TESTATA_CSS}</style>
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${valli ? MZ.MV_CSS : ''}${BRIC_CSS}${TESTATA_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k, attiva: 'storico' })}
 <main>
+${briciolaHtml(BRICIOLA)}
 <h1>${h1}</h1>
 <p class="sotto"><b>Pluviometria ${gen}</b>: i dati di ${r.staz} pluviometri ${diEnte(r.agenzia)}, ieri e nell'ultimo mese, ${r.geo}.</p>
 
@@ -824,6 +827,17 @@ function scrivi(dest, testo, crlf){
    risultati arricchiti la segnala come errore.
    ⚠️ Deve dire ESATTAMENTE quello che dice la briciola visibile in cima alla
    pagina: se le due divergono, e' Google a dirlo e lo dice tardi. */
+// ⚠️ 31/10/2026 (scheda 104 bis, proposta 4 del cloud): IL PERCORSO ANCHE SU REGIONI, «ADESSO» E /funghi/. Erano le
+// sole 45 pagine senza: tutte le altre famiglie hanno «Mappa pluviometrica › …» in cima e il BreadcrumbList, che Google
+// mostra nei risultati al posto dell'indirizzo. Stesso stile del .bric delle zone piogge.
+const BRIC_CSS = `
+.bric{font-size:14px;color:#666;margin-bottom:6px;}
+.bric a{color:var(--blu);}
+`;
+// il percorso visibile, dalle stesse voci del BreadcrumbList: [nome, indirizzo], l'ultima senza indirizzo
+function briciolaHtml(voci) {
+  return `<p class="bric">${voci.map(([n, u]) => u ? `<a href="${u}">${attr(n)}</a>` : attr(n)).join(' › ')}</p>`;
+}
 function briciolaJson(voci) {
   const dati = {
     '@context': 'https://schema.org',
@@ -901,7 +915,7 @@ function stazDi(r, radice) {
   } catch (e) {}
   return r.staz;
 }
-module.exports = { REGIONI, FUNGHI, GEN, navAltre, briciolaJson, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi };   // GEN: anche per le pagine di zona (18/10/2026)
+module.exports = { REGIONI, FUNGHI, GEN, COTTE, navAltre, briciolaJson, briciolaHtml, BRIC_CSS, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi };   // GEN: anche per le pagine di zona (18/10/2026)
 
 if (require.main === module) {
   const radice = path.resolve(__dirname, '..', '..');

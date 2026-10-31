@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Valbelluna: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Valbelluna ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 3 pluviometri di ARPA Veneto. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta in Valbelluna: ieri, 30 ottobre, 0,1 mm di media; negli ultimi 7 giorni 1,5 mm, in 30 giorni 122 mm. 3 pluviometri di ARPA Veneto.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/valbelluna/">
 <meta property="og:title" content="Dove ha piovuto in Valbelluna: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Valbelluna: ieri, ultimi 7 e 30 giorni.">
@@ -396,8 +396,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto in Valbelluna</h1>
 <p class="sotto"><b>Pluviometria della Valbelluna</b>: i dati dei 3 pluviometri di ARPA Veneto, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr">0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,2 mm a Follina.</div><div class="dett">Media di 3 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Valbelluna</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -411,17 +411,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">1,5 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Follina — 2,0 mm</li><li>Nogarolo di Tarzo — 1,8 mm</li><li>Sant'Antonio Tortal — 0,6 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,friuli,trentino&amp;g=7&amp;pl=46.1376,12.1988&amp;pn=Valbelluna&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valbelluna-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">122 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Sant'Antonio Tortal — 136,8 mm</li><li>Nogarolo di Tarzo — 119,3 mm</li><li>Follina — 111,0 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,friuli,trentino&amp;g=30&amp;pl=46.1376,12.1988&amp;pn=Valbelluna&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-valbelluna-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -432,9 +432,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="574"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/follina/">Follina</a><span class="com">TV · 208 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="464"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/nogarolo-di-tarzo/">Nogarolo di Tarzo</a><span class="com">TV · 329 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="22"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/sant-antonio-tortal/">Sant'Antonio Tortal</a><span class="com">BL · 544 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="574"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/follina/">Follina</a><span class="com">TV · 208 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">2,0 mm</td><td class="mm v30">111,0 mm</td></tr>
+<tr data-id="464"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/nogarolo-di-tarzo/">Nogarolo di Tarzo</a><span class="com">TV · 329 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,8 mm</td><td class="mm v30">119,3 mm</td></tr>
+<tr data-id="22"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/sant-antonio-tortal/">Sant'Antonio Tortal</a><span class="com">BL · 544 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">136,8 mm</td></tr>
 </tbody>
 </table>
 

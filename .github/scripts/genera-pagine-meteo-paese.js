@@ -33,7 +33,7 @@ const { confineDi } = require('./genera-pagine-adesso.js');   // il confine dell
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
 const { METEO_PAESI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
-  SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo } = MZ;
+  SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo, tabellaFissa } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
 
@@ -117,7 +117,7 @@ ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
 <main>
 <p class="bric"><a href="${SITO}/">Mappa pluviometrica</a> › <a href="${SITO}/previsioni/">Previsioni meteo</a> › ${esc(p.n)}</p>
 <h1>Meteo ${esc(p.n)}</h1>
-<p class="sotto"><b>Che tempo farà ${esc(p.dove)} nei prossimi 7 giorni</b>, ora per ora, e nei ${intorno.length} paesi intorno, ognuno alla sua quota; e quanta pioggia è già caduta ${esc(alPluv)}.</p>
+<p class="sotto"><b>Che tempo farà ${esc(p.dove)} nei prossimi 7 giorni</b>, ora per ora, e nei paesi intorno, ${intorno.length > 3 ? intorno.slice(0, 3).map(esc).join(', ') + ' e altri ' + (intorno.length - 3) : intorno.map(esc).join(', ')}, ognuno alla sua quota; e quanta pioggia è già caduta ${esc(alPluv)}.</p>
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 ${nastroHtml(p.n)}
@@ -136,7 +136,7 @@ ${nastroHtml(p.n)}
 
 <h2>${esc(p.n)} e i paesi intorno</h2>
 <p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
-<div class="pz-scorri"><table class="pz-tab" id="tab"></table></div>
+<div class="pz-scorri"><table class="pz-tab" id="tab">${tabellaFissa([p.n].concat(intorno), quote)}</table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
 <p class="nota" style="margin-top:0">Gli ultimi 25 giorni misurati ${esc(alPluv)}${ente ? ' (' + esc(ente) + ')' : ''} e i 7 giorni previsti ${esc(p.dove)}. Tocca una barra.</p>

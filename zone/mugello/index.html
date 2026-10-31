@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto nel Mugello: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta nel Mugello ieri e negli ultimi 7 e 30 giorni, pluviometro per pluviometro: 13 pluviometri di SIR Toscana. Aggiornato ogni giorno.">
+<meta name="description" content="Quanta pioggia è caduta nel Mugello: ieri, 30 ottobre, meno di 0,1 mm di media; negli ultimi 7 giorni 1,9 mm, in 30 giorni 57 mm. Pluviometro per pluviometro.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/mugello/">
 <meta property="og:title" content="Dove ha piovuto nel Mugello: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri del Mugello: ieri, ultimi 7 e 30 giorni.">
@@ -50,6 +50,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -407,8 +408,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h1>Dove ha piovuto nel Mugello</h1>
 <p class="sotto"><b>Pluviometria del Mugello</b>: i dati dei 13 pluviometri di SIR Toscana, ieri e nell'ultimo mese.</p>
 
-<div id="attesa">Sto leggendo i pluviometri…</div>
-<div id="verdetto"></div>
+<div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
+<div id="verdetto" data-giorno="2026-10-30"><div class="verdetto"><div class="si">Ieri, 30 ottobre</div><div class="gr"><small style="margin:0 .3em 0 0">meno di</small>0,1 mm<small>di media</small></div><div class="top">Giornata quasi asciutta: il massimo è stato 0,2 mm a Giogo.</div><div class="dett">Media di 13 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà nel Mugello</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -423,17 +424,17 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media"><span class="attesa">…</span></div>
-    <div id="rip7-top"></div>
-    <p class="nota" id="rip7-date"></p>
+    <div class="numerone" id="rip7-media">1,9 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Monte Giovi — 5,8 mm</li><li>Santa Brigida all'Opaco — 4,4 mm</li><li>Barco — 2,8 mm</li></ol></div>
+    <p class="nota" id="rip7-date">Dal 24 al 30 ottobre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia&amp;g=7&amp;pl=43.95,11.3833&amp;pn=Mugello&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-mugello-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media"><span class="attesa">…</span></div>
-    <div id="rip30-top"></div>
-    <p class="nota" id="rip30-date"></p>
+    <div class="numerone" id="rip30-media">57 mm <small>di media</small></div>
+    <div id="rip30-top"><ol class="top-staz"><li>Barco — 83,3 mm</li><li>Monte Giovi — 82,3 mm</li><li>Casaglia — 67,5 mm</li></ol></div>
+    <p class="nota" id="rip30-date">Dall’1 al 30 ottobre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=toscana,emilia&amp;g=30&amp;pl=43.95,11.3833&amp;pn=Mugello&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-mugello-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
@@ -444,19 +445,19 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="TOS30287500"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/barco/">Barco</a><span class="com">FI · 780 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30248000"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/bibbiana/">Bibbiana</a><span class="com">FI · 786 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30248400"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/casaglia/">Casaglia</a><span class="com">FI · 749 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS11000108"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/giogo/">Giogo</a><span class="com">FI · 880 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000916"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-di-fo/">Monte di Fò</a><span class="com">FI · 820 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30287700"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-faggiola/">Monte Faggiola</a><span class="com">FI · 882 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS03001001"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-giovi/">Monte Giovi</a><span class="com">FI · 960 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS30290400"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/palazzuolo-sul-senio/">Palazzuolo sul Senio</a><span class="com">FI · 496 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000931"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ponte-a-olmo/">Ponte a Olmo</a><span class="com">FI · 459 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000979"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/razzuolo/">Razzuolo</a><span class="com">FI · 637 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01000991"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ronta/">Ronta</a><span class="com">FI · 380 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001059"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/santa-brigida-all-opaco/">Santa Brigida all'Opaco</a><span class="com">FI · 407 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
-<tr data-id="TOS01001011"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/villore/">Villore</a><span class="com">FI · 365 m</span></td><td class="mm v1">–</td><td class="mm v7">–</td><td class="mm v30">–</td></tr>
+<tr data-id="TOS03001001"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-giovi/">Monte Giovi</a><span class="com">FI · 960 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">5,8 mm</td><td class="mm v30">82,3 mm</td></tr>
+<tr data-id="TOS01001059"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/santa-brigida-all-opaco/">Santa Brigida all'Opaco</a><span class="com">FI · 407 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">4,4 mm</td><td class="mm v30">61,2 mm</td></tr>
+<tr data-id="TOS30287500"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/barco/">Barco</a><span class="com">FI · 780 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,8 mm</td><td class="mm v30">83,3 mm</td></tr>
+<tr data-id="TOS11000108"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/giogo/">Giogo</a><span class="com">FI · 880 m</span></td><td class="mm v1">0,2 mm</td><td class="mm v7">2,8 mm</td><td class="mm v30">65,3 mm</td></tr>
+<tr data-id="TOS01001011"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/villore/">Villore</a><span class="com">FI · 365 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">2,0 mm</td><td class="mm v30">64,5 mm</td></tr>
+<tr data-id="TOS30248400"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/casaglia/">Casaglia</a><span class="com">FI · 749 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,6 mm</td><td class="mm v30">67,5 mm</td></tr>
+<tr data-id="TOS01000979"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/razzuolo/">Razzuolo</a><span class="com">FI · 637 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,6 mm</td><td class="mm v30">25,7 mm</td></tr>
+<tr data-id="TOS01000916"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-di-fo/">Monte di Fò</a><span class="com">FI · 820 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,2 mm</td><td class="mm v30">64,9 mm</td></tr>
+<tr data-id="TOS01000991"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ronta/">Ronta</a><span class="com">FI · 380 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,2 mm</td><td class="mm v30">65,7 mm</td></tr>
+<tr data-id="TOS01000931"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/ponte-a-olmo/">Ponte a Olmo</a><span class="com">FI · 459 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">62,8 mm</td></tr>
+<tr data-id="TOS30290400"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/palazzuolo-sul-senio/">Palazzuolo sul Senio</a><span class="com">FI · 496 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,4 mm</td><td class="mm v30">30,8 mm</td></tr>
+<tr data-id="TOS30248000"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/bibbiana/">Bibbiana</a><span class="com">FI · 786 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">33,9 mm</td></tr>
+<tr data-id="TOS30287700"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/monte-faggiola/">Monte Faggiola</a><span class="com">FI · 882 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,2 mm</td><td class="mm v30">30,1 mm</td></tr>
 </tbody>
 </table>
 
