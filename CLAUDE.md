@@ -3272,7 +3272,7 @@ regioni, tipi di bosco, zone), meteo (zone e paesi), guida e fonti. Restano fuor
   Nelle altre sei città è asciutto. Le precipitazioni interessano l'11% circa della Puglia.», «Le città sono all'asciutto, ma
   piove debolmente nella zona di Salerno.», «Tempo asciutto in Toscana. La pioggia più vicina è a est di Arezzo, a circa
   75 km.», «Tempo asciutto in Veneto e in tutte le zone vicine.», «Entro le 12:00 la pioggia potrebbe raggiungere anche
-  Gubbio.». La percentuale si scrive solo se una frase prima ha detto che piove. ⚠️ **Legge i PIXEL del radar**: le tessere LibreWXR con lo SCHEMA 0 (`/0/0_0.png`, grigio = dBZ
+  Gubbio.». La percentuale si scrive solo se una frase prima ha detto che piove. Vedi anche la voce sotto, sulle carte. ⚠️ **Legge i PIXEL del radar**: le tessere LibreWXR con lo SCHEMA 0 (`/0/0_0.png`, grigio = dBZ
   + 32, provato contro lo schema 2: 42 = 10 dBZ, il minimo), lette in una tela (le tessere hanno
   `access-control-allow-origin: *`), zoom 6 (~2 km a pixel). mm/h con Marshall-Palmer (Z = 200·R^1,6); classi con le
   soglie della pagina: sotto 0,3 niente, debole < 2, moderata < 6, forte < 24, molto forte. Citta' = il pixel piu' forte
@@ -3281,6 +3281,16 @@ regioni, tipi di bosco, zone), meteo (zone e paesi), guida e fonti. Restano fuor
   150 km «e in tutte le zone vicine»; «entro le…» dai fotogrammi `nowcast` per le citta' ancora asciutte. Il testo
   fisso del sottotitolo resta (Google legge quello). Provata il 30/10 mattina con pioggia vera al sud: 21 regioni × 2,
   42/42 (scratchpad 79554e37 `prova-adesso.js`, `radar-colori.js`).
+- **La pagina «adesso»: «aggiornate alle» a pochi minuti, e le carte che si rinfrescano da sole** (31/10/2026, scheda 103,
+  era il «da allineare» della scheda 102). Come la mappa («agg.» a pochi minuti e «La schermata delle previsioni si
+  aggiorna da sola», piu' sotto): `#pv-quando` scrive l'ora di adesso o la prima `scade` delle citta' (l'Expires di MET
+  che `/api/previsioni` manda per ogni punto), se viene prima; senza `scade` l'ora di MET come prima. Si riscrive ogni
+  30 s; ogni 10 minuti, SOLO a pagina in vista (tornando in vista, subito se ne sono passati 10), `chiediCitta()` richiede
+  le citta' con `&r=<minuto>` e rimette carte, barra e ora; la barra si ridisegna solo se il giorno di oggi di qualche
+  citta' e' cambiato; una citta' che al rinfresco non risponde resta com'era (se e' ancora di oggi). A mezzanotte si
+  richiede tutto e il numero grande riprende l'ora che viene. `VERSIONE_JS` 8. Per le prove `window._cittaRinfresca()` e
+  `window._cittaGiri`. Prova `prova-adesso-agg.js` nello scratchpad della scheda 103 (orologio finto: 10 minuti dopo,
+  pagina nascosta, richieste fallite, mezzanotte): Liguria, Sicilia e Abruzzo, PC 1366 e telefono 393.
 - **Guida e fonti** non hanno generatore: la testata la mette `testata-pagine-a-mano.js`, da RILANCIARE quando cambia
   `lib-testata.js`. La guida perde «← Torna alla mappa» (ci porta il logo), le fonti la barra «← Mappa» (il titolo
   passa dentro la pagina).
@@ -3588,7 +3598,8 @@ in vigore (`Expires`, misurato da 5 a 31 minuti, diverso per ogni punto) e chied
 Prova di 8 minuti sulla vista Italia (`prova-scadenze.mjs` nello scratchpad della scheda 102): 2 citta' richieste a
 MET, zero prima della scadenza, scritta al massimo 145 s indietro. ⚠️ Capita che MET, appena scaduta, risponda ancora
 con la stessa scadenza (la sua copia non e' rinnovata): si riprova dopo i 2 minuti, e intanto la scritta resta a quella
-scadenza. Le pagine «adesso» (lib/pagina-adesso.js) scrivono ancora l'ora di MET: da allineare.
+scadenza. Dal 31/10/2026 lo stesso nelle pagine «adesso» (lib/pagina-adesso.js), vedi «La pagina «adesso»: «aggiornate
+alle» a pochi minuti» nella sezione della testata.
 
 ### La schermata delle previsioni si aggiorna da sola (30/10/2026 sera, scheda 102)
 Suo: «immagina un locale o un pc che tiene aperta una schermata meteo». Prima restava ai dati dell'apertura (icone,
