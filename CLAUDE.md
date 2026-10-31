@@ -3318,7 +3318,21 @@ sottodominio (`meteo.`) e' stato scartato: per Google e' un sito nuovo e divider
   con la barra davanti: era l'unico file scritto senza percorso.
 - In `sitemap-mappa.xml` solo se la Function c'e' (il repo di test non l'ha). La home punta a `/previsioni/`.
 - **Fase B, da decidere coi numeri (~3-4/11)**: i link «Apri le previsioni» delle oltre 1.300 pagine da `?m=prev` a
-  `/previsioni/`, e il sottodominio come rimando.
+  `/previsioni/`. ~~e il sottodominio come rimando~~ fatto il 31/10, qui sotto.
+- **La porta `meteo.avventuremicologiche.it` (31/10/2026, scheda 103 bis, suo: «facciamo a e b»)**: un indirizzo da dire
+  nei video, sui social e nei QR. Tutto → 301 a `/previsioni/`, il percorso si perde e la query resta
+  (`meteo.…/?r=toscana` → `/previsioni/?r=toscana`). NON sta in questo repo: e' il progetto Pages `avventurepluvio-meteo`
+  (un `_worker.js` solo, nel banco in `cloudflare-pages\porta-meteo\`), cosi' il sito vero non si tocca; si ripubblica da
+  quella cartella con `npx wrangler@4 pages deploy . --project-name avventurepluvio-meteo`. Il dominio e' un custom
+  domain di quel progetto. ⚠️ **Il DNS di avventuremicologiche.it sta su CLOUDFLARE** (nameserver
+  addyson/giancarlo.ns.cloudflare.com, dal trasloco della home): il pannello DNS di Aruba e' vecchio (mostra ancora
+  `@ → 75.2.60.5` di Netlify) e quello che ci si scrive non conta. I bottoni della home restano DIRETTI su
+  `precipitazioni.` (dalla porta sarebbe un salto in piu'). Un dominio nuovo tutto suo e' rimandato: se ne riparla se le
+  pagine meteo crescono (il meteo senza funghi, 2-30/10: 13 clic su 17.045).
+- **Il nome del sito per Google (31/10/2026, stessa scheda)**: in testa a index.html `og:site_name` e il blocco WebSite
+  (`application/ld+json`): «Mappa Pluviometrica», con alternateName «Mappa Pluviometrica Italia» e «Precipitazioni
+  Avventure Micologiche» (come ci cercano davvero). Prima Google sceglieva da solo il nome sopra i nostri risultati.
+  Arriva anche su `/previsioni/` (stesso index.html): innocuo, Google lo legge solo dalla pagina principale.
 
 ## Previsioni senza regione: la vista Italia (27/10/2026)
 
