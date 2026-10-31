@@ -131,9 +131,12 @@ function pagina(r, posti) {
     `Funghi ${r.prep} ${nome} oggi: dove stanno nascendo?`,
     `Funghi ${r.prep} ${nome} oggi`,
   ].find(t => t.length <= 62) || `Funghi ${r.prep} ${nome} oggi`;
+  // ⚠️ «METEO FUNGHI <REGIONE>» IN TESTA (31/10/2026, suo ok): come le pagine di zona e di paese. Su Google,
+  // «meteo funghi toscana» 1.672 viste in 28 giorni e noi sesti, sotto chi ha «meteofunghi» nel titolo; le zone,
+  // che la riga ce l'hanno, stanno fra il 3° e il 5° posto. Il titolo resta quello di sempre («Funghi … oggi»).
   const descr = [
-    `Dove stanno nascendo funghi ${r.prep} ${nome}? Le piogge degli ultimi 25 giorni nei posti da bosco, zona per zona, misurate dai pluviometri. Aggiornato ogni mattina.`,
-    `Dove stanno nascendo funghi ${r.prep} ${nome}? Le piogge degli ultimi 25 giorni nei posti da bosco, zona per zona.`,
+    `Meteo funghi ${nome}: dove stanno nascendo? Le piogge degli ultimi 25 giorni nei posti da bosco, misurate dai pluviometri. Aggiornato ogni mattina.`,
+    `Meteo funghi ${nome}: dove stanno nascendo? Le piogge degli ultimi 25 giorni nei posti da bosco, misurate dai pluviometri.`,
   ].find(t => t.length <= 158);
   return `<!DOCTYPE html>
 <html lang="it">
@@ -322,6 +325,7 @@ ${/* ⚠️ LA FINESTRA E LA CLASSIFICA NELLE PRIME TRE RIGHE (9/9/2026), come
      questa pagina e' comparsa su Google una volta. La gente cerca «dove andare
      a funghi», e titolo e H1 adesso lo dicono. */''}
 <h1>Funghi ${r.prep} ${nome} oggi: dove stanno nascendo?</h1>
+<p class="breve" style="margin-top:-2px">Meteo funghi ${nome}: la pioggia vera di ${posti.length} pluviometri da bosco, per capire la crescita dei funghi.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
