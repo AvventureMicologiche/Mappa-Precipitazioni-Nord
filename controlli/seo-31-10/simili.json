@@ -1,0 +1,222 @@
+{
+ "adesso": {
+  "n": 21,
+  "mediana": 84,
+  "max": 87,
+  "min": 72,
+  "peggiori": [
+   [
+    "/molise/adesso/",
+    87
+   ],
+   [
+    "/basilicata/adesso/",
+    86
+   ],
+   [
+    "/veneto/adesso/",
+    86
+   ]
+  ]
+ },
+ "forestale-regione": {
+  "n": 21,
+  "mediana": 60,
+  "max": 71,
+  "min": 50,
+  "peggiori": [
+   [
+    "/mappa-forestale/basilicata/",
+    71
+   ],
+   [
+    "/mappa-forestale/puglia/",
+    71
+   ],
+   [
+    "/mappa-forestale/molise/",
+    71
+   ]
+  ]
+ },
+ "forestale-tipo": {
+  "n": 3,
+  "mediana": 45,
+  "max": 46,
+  "min": 41,
+  "peggiori": [
+   [
+    "/mappa-forestale/castagneti/",
+    46
+   ],
+   [
+    "/mappa-forestale/abetaie-e-peccete/",
+    45
+   ],
+   [
+    "/mappa-forestale/querceti/",
+    41
+   ]
+  ]
+ },
+ "forestale-zona": {
+  "n": 113,
+  "mediana": 54,
+  "max": 65,
+  "min": 46,
+  "peggiori": [
+   [
+    "/mappa-forestale/zone/val-veddasca/",
+    65
+   ],
+   [
+    "/mappa-forestale/zone/valle-caudina/",
+    64
+   ],
+   [
+    "/mappa-forestale/zone/valle-po/",
+    64
+   ]
+  ]
+ },
+ "funghi-regione": {
+  "n": 19,
+  "mediana": 65,
+  "max": 75,
+  "min": 46,
+  "peggiori": [
+   [
+    "/funghi/puglia/",
+    75
+   ],
+   [
+    "/funghi/sicilia/",
+    74
+   ],
+   [
+    "/funghi/basilicata/",
+    73
+   ]
+  ]
+ },
+ "meteo-paese": {
+  "n": 20,
+  "mediana": 73,
+  "max": 75,
+  "min": 69,
+  "peggiori": [
+   [
+    "/meteo/trentino/folgaria/",
+    75
+   ],
+   [
+    "/meteo/piemonte/druogno/",
+    75
+   ],
+   [
+    "/meteo/piemonte/coazze/",
+    75
+   ]
+  ]
+ },
+ "meteo-zona": {
+  "n": 51,
+  "mediana": 78,
+  "max": 80,
+  "min": 74,
+  "peggiori": [
+   [
+    "/meteo/valsassina/",
+    80
+   ],
+   [
+    "/meteo/valmalenco/",
+    80
+   ],
+   [
+    "/meteo/valdinievole/",
+    80
+   ]
+  ]
+ },
+ "paese-funghi": {
+  "n": 908,
+  "mediana": 70,
+  "max": 73,
+  "min": 66,
+  "peggiori": [
+   [
+    "/funghi/piemonte/trasquera/",
+    73
+   ],
+   [
+    "/funghi/piemonte/rassa/",
+    73
+   ],
+   [
+    "/funghi/piemonte/pizzanco/",
+    73
+   ]
+  ]
+ },
+ "regione": {
+  "n": 23,
+  "mediana": 66,
+  "max": 72,
+  "min": 56,
+  "peggiori": [
+   [
+    "/molise/",
+    72
+   ],
+   [
+    "/calabria/",
+    71
+   ],
+   [
+    "/sardegna/",
+    71
+   ]
+  ]
+ },
+ "zona-funghi": {
+  "n": 114,
+  "mediana": 66,
+  "max": 71,
+  "min": 58,
+  "peggiori": [
+   [
+    "/funghi/zone/valle-dei-laghi/",
+    71
+   ],
+   [
+    "/funghi/zone/valle-del-but/",
+    71
+   ],
+   [
+    "/funghi/zone/valnerina/",
+    70
+   ]
+  ]
+ },
+ "zona-piogge": {
+  "n": 114,
+  "mediana": 60,
+  "max": 67,
+  "min": 51,
+  "peggiori": [
+   [
+    "/zone/valnerina/",
+    67
+   ],
+   [
+    "/zone/valbelluna/",
+    66
+   ],
+   [
+    "/zone/vallonina/",
+    66
+   ]
+  ]
+ }
+}
