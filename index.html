@@ -17728,10 +17728,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
             :'https://server.arcgisonline.com/ArcGIS/rest/services/'+serv+'/MapServer/tile/{z}/{y}/{x}'; }
   function viFondo(){
     var m=map(); if(!m) return;
-    // vista Italia: la foto (29/10/2026); regione, valle e paese: il rilievo verde, fino allo zoom 13,5 (piu' vicino la
-    // cartina di sempre, coi nomi delle strade)
-    var vicino=!!(acceso&&!italia()&&VE.scena&&m.getZoom()<13.5);
-    var on=!!(acceso&&italia()&&m.getZoom()<7.5)||(vicino&&FONDO_VICINO==='sat'), vz=vicino&&FONDO_VICINO==='verde';
+    // vista Italia: la foto (29/10/2026); regione, valle e paese anche. ⚠️ 31/10/2026, suo («zoomando scompare il
+    // satellite, va fissata subito»): la foto resta a OGNI zoom. Prima si spegneva oltre lo zoom 7,5 nella vista Italia
+    // (resto della cartina a rilievo) e oltre il 13,5 su regione, valle e paese, e tornava la cartina stradale. Il rilievo
+    // verde, provato e non usato, resta fino al 13,5 (il suo Hillshade arriva al 13)
+    var vicino=!!(acceso&&!italia()&&VE.scena);
+    var on=!!(acceso&&italia())||(vicino&&FONDO_VICINO==='sat'), vz=vicino&&FONDO_VICINO==='verde'&&m.getZoom()<13.5;
     // dall'Italia a una regione, valle o paese la foto dell'Italia se ne va prima che la vista nuova ci sia: fondo scuro
     // fino al suo disegno (vedi «NIENTE CARTINA STRADALE FRA UNA VISTA E L'ALTRA»)
     if(!on&&!vz&&acceso&&!italia()&&!VE.scena&&document.body.classList.contains('vi-fondo')) apreVista();
