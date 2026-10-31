@@ -4044,3 +4044,54 @@ pagine piogge e nelle pagine funghi (vedi la nota della striscia, sezione «Zone
   `https://riquadro.avventurepluvio.pages.dev` e non sul sito vero (`anteprima-riquadro.yml`, sul solo ramo
   `claude/hopeful-volta-4m7kfp`: NON va portato su main). Per uno scatto che dal cloud non si fa (cartina OSM), stesso
   trucco: un giro sul ramo che scatta e salva sul ramo stesso, poi si portano i file su main.
+
+## La forma dei tasti e la barra che scorre nella pioggia (31/10/2026, scheda 104 ter)
+
+Sua richiesta alla scheda 104: «la parte meteo e' talmente bella che fa sembrare la parte pluvio obsoleta... pero' non
+voglio sconvolgere le abitudini degli utenti», punti 2 (la barra che scorre anche in pluvio) e 3 (i tasti). Il punto 1
+(la cartina satellite) e il 4 sono della 104. Provato dal vivo sulla mappa vera nel banco (`mockup-pluvio-104-ter\`:
+`server-ter.js` porta 8900, `funzioni.html` = sei telefoni affiancati, uno per funzione) e deciso da lui punto per punto.
+Codice: modulo «LA FORMA DEI TASTI E LA BARRA CHE SCORRE NELLA PIOGGIA» in fondo a `index.html` (uno `<style>` e uno
+`<script>`), piu' due agganci nello script principale (`window._barraPioggia(sorted)` in `render()` subito dopo
+`addMarkers`, e `window._pioggiaPer` accanto a `window._mapDebug`: regioni, nomi, periodo, `col`, pallini).
+- **Una forma per tutti i tasti, regola SUA**: «come Previsioni Lombardia sotto, la stessa forma per qualsiasi tasto nella
+  schermata, e il tasto riduci uguale in tutte le funzioni». La forma di `.inv-prev`: angoli 10, bordo di 1 px, gradino
+  sotto di 3 px (`box-shadow:0 3px 0`), fondo sfumato dall'alto, premuto scende di 1 px. Il COLORE dice cosa fa: chiaro
+  (`#fff→#e8eef7`, gradino `#a8b8ce`) normale, blu del meteo (`#3d8ce8→#1f6fd1`, gradino `#124a8a`) acceso, verde funghi
+  e satellite acceso, giallo previsioni; «+40 min» del radar resta tratteggiato. I quattro numeri si leggono e non si
+  toccano: piatti, angoli 10. Prima al telefono sette forme (angoli 0, 5, 9, 10, 14, 22 e la pillola di «riduci»).
+  Vale per periodi, date, radar/boschi/satellite, funghi, Invia/Immagine/Copia link, Indietro, i tasti dei boschi,
+  Adesso/-2 ore/+40 min, «+ regione», «Lombardia ▼», «riduci», il termometro, Nascondi boschi, Applica. Le previsioni
+  restano col loro disegno (`body:not(.modo-prev)`). Specificita' con `html:root`: ⚠️ i quattro tasti dei boschi al
+  telefono hanno `.tessera.tessera.tessera` con !important e hanno un selettore loro.
+- **Gli spazi, una regola sola** (suo: «in seleziona periodo non e' distanziato correttamente»; misurati 0, 5, 5 px fra le
+  righe): 6 px fra due tasti affiancati, 9 da una riga all'altra (6 d'aria sotto il gradino), 8 sotto «riduci» in tutte
+  le funzioni (prima 6 nei boschi, 0 nella pioggia e nel radar). La riga «+ regione» tagliava il gradino (scorre di
+  lato): 4 px sotto e 9 da «Lombardia ▼».
+- Pannelli bianchi pieni (via il vetro, che sul satellite diventava grigio), angoli 12. Sotto ogni periodo le sue date
+  (`.tp-d`: «7 gg / 24–30», al PC «7 giorni / 24–30 ott»; al PC basso, ≤780 px, niente date), riscritte a ogni ritorno
+  sulla pagina (mezzanotte).
+- **La barra che scorre** (`#pg-nastro`, le misure e lo scorrimento di `#vi-nastro`: 45 px/s, trascinabile con lo
+  slancio, ferma col mouse sopra): i CAPOLUOGHI delle regioni scelte (`data/capoluoghi.json`, `piemonte-vda` e
+  `trentino-aa` sono due regioni), ognuno col PLUVIOMETRO PIU' VICINO entro 10 km (il numero e' suo, non una stima), dal
+  piu' bagnato; goccia col colore della scala. Sua scelta fra «Le citta'» e «Le piu' piovose» (nomi di stazione lunghi e
+  sconosciuti). ⚠️ **Sotto 1 mm la citta' dice «asciutto»** (suo: «con ieri tantissimi posti danno 0,2 mm anche se non ha
+  piovuto»): 0,2 mm e' una basculata (rugiada, nebbia); il 30/10 in Lombardia 23 pluviometri a 0,2, 229 a zero, uno sopra
+  1 mm. Un tocco su una citta' porta la mappa al pluviometro e apre la sua scheda (GA `barra_pioggia` azione=tocco).
+  **Il blocco rosso dice SOLO il periodo**, una riga: IERI, 7 GIORNI, 30 GIORNI, oppure le date (5–12 OTT, 28 SET–4 OTT; i
+  funghi i loro giorni). Il posto e' gia' in cima allo schermo: con 2-3 regioni o un paese lungo il blocco non cambia
+  (suo: «si puo' stringere; cosa scrivi con 2/3 regioni o un paese lungo?»). Colori del meteo, giallo e rosso.
+  **Al telefono subito sotto «riduci»**, dentro la legenda, a tutta larghezza, al posto della riga «MM CUMULATI»; col
+  pannello ridotto se ne va e il titolo torna. **Al computer in fondo alla mappa** come il meteo (crediti, fonte e
+  termometro salgono). Solo sulla pioggia con un'analisi disegnata: via con previsioni, radar e boschi.
+  Scartate da lui, non riproporre: barra sopra il pannello («toglie un sacco di spazio»), in fondo al pannello (decisa da
+  me senza chiedere: «quando lo abbiamo deciso?»), «riduci» dentro la barra a destra («non si vedono le citta' che
+  scorrono») o a linguetta sopra («e' brutto»), angoli tondi sulla barra, varianti «tessere» e «pillole» dei tasti.
+- Boschi e satellite: «🛰 Satellite» a foto spenta, **«Torna alla mappa»** a foto accesa (era «🗺 Mappa» col disegnino,
+  suo); il «new» del satellite nei boschi a sinistra.
+- Lezione della giornata (suo: «mi stai facendo cose a caso senza logica e gusto estetico minimo»): le osservazioni
+  si raccolgono tutte e si ragiona sul disegno intero, in TUTTE le funzioni (pioggia, ridotta, periodi, boschi,
+  satellite, radar), non una pezza alla volta sulla sola pioggia.
+- Prova: `prova-vera.js` (scratchpad della scheda 104 ter) sull'index.html vero servito in locale, al telefono 393 e
+  360 e al PC: barra, spazi, angoli, tocco, riduci, previsioni avanti e indietro, ieri, tre regioni con date scelte,
+  boschi, satellite, radar.

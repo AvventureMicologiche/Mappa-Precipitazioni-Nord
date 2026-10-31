@@ -5830,6 +5830,12 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
     pallini=pallini.concat(selectUniformRicche(daDiradare[rk],400));
   });
   addMarkers(pallini,sorted);
+  // la barra che scorre (modulo «LA BARRA CHE SCORRE NELLA PIOGGIA» in fondo): la classifica intera del periodo, non i
+  // soli pallini, perche' le reti fitte oltre i 400 sono diradate (31/10/2026, scheda 104 ter). ⚠️ Coi link la prima
+  // analisi arriva PRIMA che il browser legga il modulo in fondo alla pagina: la classifica resta anche qui, e il modulo
+  // la riprende quando parte (window._pioggiaPer.classifica)
+  ultimaClassifica=sorted;
+  if(window._barraPioggia){ try{ window._barraPioggia(sorted); }catch(e){} }
   var hasRain=dati.some(function(s){return s.mm>0;});
   document.getElementById('tp-status').textContent=hasRain?'⏳ Calcolo mappa…':'✅ Nessuna pioggia';
   // Avviso Friuli anche nel ramo "Nessuna pioggia": è proprio il caso del
@@ -10297,6 +10303,18 @@ window.buildShareUrl=buildShareUrl;
 // nessun codice del sito lo usa.
 window._mapDebug=map;
 window._boundsDebug=function(){return REGION_BOUNDS;};  // stesso scopo: solo verifiche automatiche
+// Per la barra che scorre nella pioggia (modulo in fondo, 31/10/2026): regioni scelte, nomi, periodo, colore della
+// scala e i pallini disegnati (il tocco su un nome della barra fa come il tocco sul suo pallino).
+var ultimaClassifica=null;   // la scrive render(): l'ultima classifica intera del periodo
+window._pioggiaPer={
+  classifica:function(){ return ultimaClassifica; },
+  regioni:function(){ return getActiveRegions(); },
+  nome:function(k){ return (REGIONS[k]&&REGIONS[k].name)||k; },
+  periodo:function(){ return {da:currentPast,a:currentNow,label:currentLabel}; },
+  colore:col,
+  pallini:function(){ return activeMarkers.length; },
+  pallino:function(s){ for(var i=0;i<activeMarkers.length;i++){ if(activeMarkers[i]._st===s) return activeMarkers[i]; } return null; }
+};
 /* ⚠️ ESPOSTE PER IL BLOCCO RADAR (31/8/2026). Tutto questo script sta dentro
    una IIFE che comincia a riga 1701, quindi le sue funzioni NON sono globali:
    il radar, che e' un <script> separato in fondo, le vedeva `undefined` e il
@@ -14265,7 +14283,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       +'</div>'
       // la manopola del retino si vede solo col satellite acceso (.sat-on)
       // Satellite nel pannello (29/9, suo: il riquadro in basso a destra non lo vedeva nessuno)
-      +'<div class="bo-azioni"><span class="bo-az bo-az-sat" id="bo-sat-btn" role="button">'+(window._satOn?'🗺 Torna alla mappa':'🛰 Satellite')+'</span>'
+      // «Torna alla mappa» senza l'emoji 🗺 (31/10/2026, scheda 104 ter, suo: «quel disegnino»)
+      +'<div class="bo-azioni"><span class="bo-az bo-az-sat" id="bo-sat-btn" role="button">'+(window._satOn?'Torna alla mappa':'🛰 Satellite')+'</span>'
       +'<span class="bo-az bo-az-piogge" id="bo-piogge" role="button" title="Torna alla mappa della pioggia, stessa zona">💧 Torna alle piogge</span></div>'
       +'<div class="bo-sat"><span>Intensità boschi</span><input type="range" id="bo-sat-op" min="0" max="100" step="5" value="'+Math.round(satRetino*100)+'"><b id="bo-sat-val">'+Math.round(satRetino*100)+'%</b>'
       // «solo satellite» in un tocco: il retino va a 0 e torna dov'era (29/9, suo)
@@ -14331,9 +14350,10 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       var hdr=document.querySelector('#legend-panel .leg-header'), bk=el('leg-back-btn');
       tb.innerHTML='\u21c6 Confronta piogge'; if(hdr&&bk) hdr.insertBefore(tb,bk);
       /* PROVA 29/9: sul telefono anche «Satellite» sta nella riga dei comandi, invece di una riga sua
-         (risparmia ~38 px). Etichette corte: «⇆ Confronta» e «🛰 Satellite»/«🗺 Mappa». */
+         (risparmia ~38 px). Etichette corte: «⇆ Confronta» e «🛰 Satellite»/«Torna alla mappa» (31/10/2026: era
+         «🗺 Mappa», e accanto a «Satellite» non si capiva; suo: «perche' c'e' scritto mappa e quel disegnino?»). */
       var sb=el('bo-sat-btn');
-      if(sb && hdr && bk){ sb.classList.add('in-riga','tessera'); sb.innerHTML=window._satOn?'<i>🗺</i><span>Mappa</span>':'<i>🛰</i><span>Satellite</span>';
+      if(sb && hdr && bk){ sb.classList.add('in-riga','tessera'); sb.innerHTML=window._satOn?'<span>Torna alla mappa</span>':'<i>🛰</i><span>Satellite</span>';
         hdr.insertBefore(sb,bk); tb.classList.add('tessera'); scriviTend(false);
         sb.addEventListener('click',function(e){ e.stopPropagation(); }); }
       var az=document.querySelector('#bo-leg .bo-azioni'); if(az) az.style.display='none';
@@ -15786,8 +15806,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   }
   function disegnaTasto(){
     var pb=document.getElementById('bo-sat-btn');
-    if(pb){ if(pb.classList.contains('tessera')) pb.innerHTML=on?'<i>🗺</i><span>Mappa</span>':'<i>🛰</i><span>Satellite</span>';
-            else pb.textContent=on?'🗺 Torna alla mappa':'🛰 Satellite'; }
+    if(pb){ if(pb.classList.contains('tessera')) pb.innerHTML=on?'<span>Torna alla mappa</span>':'<i>🛰</i><span>Satellite</span>';
+            else pb.textContent=on?'Torna alla mappa':'🛰 Satellite'; }
     if(!btn) return;
     btn.style.backgroundImage='url("'+(on?ANTE_MAPPA:ANTE_SAT)+'")';
     btn.querySelector('span').textContent=on?'Mappa':'Satellite';
@@ -18527,6 +18547,306 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     setTimeout(guarda,80); setTimeout(guarda,800);
     return ok;
   };
+})();
+</script>
+<!-- ═══ LA FORMA DEI TASTI E LA BARRA CHE SCORRE NELLA PIOGGIA (31/10/2026, scheda 104 ter) ═══════════════
+     Sua richiesta alla 104: «la parte meteo e' talmente bella che fa sembrare la parte pluvio obsoleta... pero' non voglio
+     sconvolgere le abitudini degli utenti»; punti 2 (la barra che scorre anche in pluvio) e 3 (i tasti). Provato dal vivo
+     sulla mappa vera nel banco (mockup-pluvio-104-ter\, sei telefoni affiancati), deciso da lui punto per punto.
+     1. UNA FORMA PER TUTTI I TASTI (regola SUA: «come Previsioni Lombardia sotto, la stessa forma per qualsiasi tasto nella
+        schermata, e il tasto riduci uguale in tutte le funzioni»). La forma del tasto giallo (.inv-prev): angoli 10, bordo
+        di 1 px, gradino sotto di 3 px, fondo sfumato dall'alto; premuto scende di 1 px. Il COLORE dice cosa fa: chiaro =
+        normale, blu del meteo = acceso, verde = funghi e satellite acceso, giallo = previsioni. Quello che si LEGGE e non si
+        tocca (i quattro numeri) resta piatto, con gli stessi angoli. Prima, al telefono, sette forme: angoli 0, 5, 9, 10,
+        14, 22 e la pillola tonda di «riduci». Pioggia, boschi, satellite e radar; le previsioni hanno il loro disegno.
+     2. GLI SPAZI, UNA REGOLA SOLA (suo: «in seleziona periodo non e' distanziato correttamente»; misurati 0, 5 e 5 px fra le
+        righe, 4 di lato: col gradino l'aria vera era 0 e 2). 6 px fra due tasti affiancati, 9 da una riga all'altra (6
+        d'aria sotto il gradino), 8 sotto «riduci» in tutte le funzioni (prima 6 nei boschi, 0 nella pioggia e nel radar).
+     3. Pannelli bianchi pieni (via il vetro, che sul satellite diventava grigio) e sotto ogni periodo le sue date.
+     4. LA BARRA CHE SCORRE: quella del meteo (#vi-nastro) portata nella pioggia. Vedi il blocco di script qui sotto. -->
+<style>
+/* ── pannelli e titoli ── */
+html:root #time-panel,html:root #legend-panel,html:root #region-panel{background:#fff !important;border:0 !important;border-radius:12px !important;box-shadow:0 2px 10px rgba(0,0,0,.2) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+html:root #time-panel .tp-title,html:root .leg-title{color:#1b3f6e !important;font-weight:800 !important;letter-spacing:.4px !important}
+@media(min-width:901px){html:root .leg-title{font-size:11px !important;letter-spacing:.3px !important;white-space:nowrap}}
+html:root .grad{border-radius:6px !important}
+html:root .sl{color:#6b7684 !important;font-weight:700 !important}
+/* ── le date sotto i periodi («7 gg» / «24–30»; al PC «7 giorni» / «24–30 ott»): le scrive lo script qui sotto ──
+   ⚠️ il tasto NON va messo in colonna (flex): «7 <span>giorni</span>» andrebbe su due righe; la data va a capo da sola */
+html:root #time-panel .tp-btn{padding:6px 2px 6px !important;line-height:1.15 !important}
+.tp-d{display:block;font-size:10.5px;font-weight:600;color:#6b7684;letter-spacing:0;line-height:1;margin-top:3px}
+@media(min-width:901px) and (max-height:780px){.tp-d{display:none}}   /* PC basso: il pannello compatto, sei periodi su una riga */
+/* ── la forma di «Previsioni» ── */
+html:root body:not(.modo-prev) #time-panel .tp-btn,html:root body:not(.modo-prev) #time-panel .tp-custom-btn,
+html:root body:not(.modo-prev) #btn-shot,html:root body:not(.modo-prev) #btn-share,html:root body:not(.modo-prev) #leg-back-btn,
+html:root body:not(.modo-prev) #bo-tend-btn,html:root body:not(.modo-prev) #bo-sat-btn,html:root body:not(.modo-prev) .rd-d,
+html:root body:not(.modo-prev) .vic-chip,html:root body:not(.modo-prev) #reg-apri,html:root body:not(.modo-prev) #leg-azione,
+html:root body:not(.modo-prev) #tq-btn,html:root body:not(.modo-prev) #legend-panel #bo-nascondi,html:root body:not(.modo-prev) #legend-panel #bo-piogge,
+html:root body:not(.modo-prev) #custom-box #cd-apply{
+  border-radius:10px !important;border:1px solid #c3d0e2 !important;background:linear-gradient(180deg,#ffffff,#e8eef7) !important;
+  box-shadow:0 3px 0 #a8b8ce !important;color:#1b3f6e !important;font-weight:700 !important;transform:none !important;transition:none !important}
+html:root body:not(.modo-prev) #time-panel .tp-btn:active,html:root body:not(.modo-prev) #time-panel .tp-custom-btn:active,
+html:root body:not(.modo-prev) #btn-shot:active,html:root body:not(.modo-prev) #btn-share:active,html:root body:not(.modo-prev) #leg-back-btn:active,
+html:root body:not(.modo-prev) #bo-tend-btn:active,html:root body:not(.modo-prev) #bo-sat-btn:active,html:root body:not(.modo-prev) .rd-d:active,
+html:root body:not(.modo-prev) .vic-chip:active,html:root body:not(.modo-prev) #reg-apri:active,html:root body:not(.modo-prev) #leg-azione:active,
+html:root body:not(.modo-prev) #tq-btn:active{transform:translateY(1px) !important;box-shadow:0 2px 0 #a8b8ce !important}
+@media(hover:hover){html:root body:not(.modo-prev) #time-panel .tp-btn:hover,html:root body:not(.modo-prev) #time-panel .tp-custom-btn:hover,
+  html:root body:not(.modo-prev) #btn-shot:hover,html:root body:not(.modo-prev) #btn-share:hover,html:root body:not(.modo-prev) #leg-back-btn:hover,
+  html:root body:not(.modo-prev) #bo-tend-btn:hover,html:root body:not(.modo-prev) #bo-sat-btn:hover,html:root body:not(.modo-prev) .rd-d:hover{border-color:#90b0d8 !important}}
+/* acceso: il blu del meteo, col gradino blu scuro */
+html:root body:not(.modo-prev) #time-panel .tp-btn.active,html:root body:not(.modo-prev) #time-panel .tp-custom-btn.active,
+html:root body:not(.modo-prev) .rd-d.on,html:root body:not(.modo-prev) #tq-btn.on,html:root body:not(.modo-prev) #custom-box #cd-apply{
+  background:linear-gradient(180deg,#3d8ce8,#1f6fd1) !important;border-color:#1a5fb5 !important;box-shadow:0 3px 0 #124a8a !important;color:#fff !important}
+html:root body:not(.modo-prev) #time-panel .tp-btn.active .tp-d{color:#dbeaff}
+/* funghi: la stessa forma in verde */
+html:root body:not(.modo-prev) #time-panel .tp-funghi-btn{background:linear-gradient(180deg,#f8fdf5,#e2f3da) !important;border-color:#9fcf9f !important;box-shadow:0 3px 0 #7cae7e !important;color:#2d6a30 !important}
+html:root body:not(.modo-prev) #time-panel .tp-funghi-btn.active{background:linear-gradient(180deg,#3f8a43,#2d6a30) !important;border-color:#24572a !important;box-shadow:0 3px 0 #183d1c !important;color:#fff !important}
+/* «+40 min» del radar e' una previsione, non una misura: resta tratteggiato */
+html:root body:not(.modo-prev) .rd-d.rd-prev:not(.on){border-style:dashed !important}
+/* «riduci»: lo stesso tasto in tutte le funzioni, solo piu' basso */
+html:root body:not(.modo-prev) #leg-azione{padding:3px 14px !important}
+/* ⚠️ i quattro tasti dei boschi al telefono hanno regole loro piu' forti (.tessera.tessera.tessera con !important, «TELEFONO,
+   BOSCHI: quattro tasti uguali su DUE righe»): qui la forma si ripete con un selettore che le batte */
+html:root body.conf-c.modo-boschi #legend-panel .leg-header #btn-shot,html:root body.conf-c.modo-boschi #legend-panel .leg-header #leg-back-btn,
+html:root body.conf-c.modo-boschi #legend-panel .leg-header .tessera.tessera.tessera,html:root body.modo-boschi .bo-azioni .bo-az,html:root body.modo-boschi .bo-azioni .bo-tend-btn{
+  border-radius:10px !important;border:1px solid #c3d0e2 !important;background:linear-gradient(180deg,#ffffff,#e8eef7) !important;
+  box-shadow:0 3px 0 #a8b8ce !important;color:#1b3f6e !important;font-weight:700 !important}
+html:root body.modo-boschi.bo-tendina #legend-panel .leg-header .tessera.tessera.tessera.bo-tend-btn,html:root body.modo-boschi.bo-tendina .bo-azioni .bo-tend-btn{
+  background:linear-gradient(180deg,#3d8ce8,#1f6fd1) !important;border-color:#1a5fb5 !important;box-shadow:0 3px 0 #124a8a !important;color:#fff !important}
+/* satellite acceso («Torna alla mappa»): il verde dei boschi */
+html:root body.modo-boschi.sat-on #legend-panel .leg-header .tessera.tessera.tessera.bo-az-sat,html:root body.modo-boschi.sat-on .bo-azioni .bo-az-sat,html:root body.modo-boschi.sat-on #bo-sat-btn{
+  background:linear-gradient(180deg,#3f8a43,#2f6b2f) !important;border-color:#24572a !important;box-shadow:0 3px 0 #183d1c !important;color:#fff !important}
+/* il «new» del satellite nei boschi a sinistra (suo); nel pannello dei periodi resta dov'e' */
+html:root body.modo-boschi #bo-sat-btn::after{left:-4px !important;right:auto !important}
+/* si legge, non si tocca: piatti, con gli stessi angoli */
+html:root body:not(.modo-prev) .stat{border-radius:10px !important;background:#f0f4fb !important;border:1px solid #d6dfeb !important;box-shadow:none !important}
+/* ── gli spazi: 6 di lato, 9 fra le righe, 8 sotto «riduci» ── */
+html:root body:not(.modo-prev) #time-panel .tp-periodi{column-gap:6px !important;row-gap:9px !important}
+html:root body:not(.modo-prev) #time-panel .tp-grid3{column-gap:6px !important;row-gap:9px !important;margin-bottom:0 !important}
+html:root body:not(.modo-prev) #time-panel .tp-grid3 + .tp-grid3{margin-top:9px !important}
+html:root body:not(.modo-prev) #time-panel #btn-custom,html:root body:not(.modo-prev) #time-panel #btn-funghi,html:root body:not(.modo-prev) #time-panel .rd-coppia{margin-top:9px !important}
+html:root body:not(.modo-prev) #time-panel .rd-coppia{gap:6px !important}
+html:root body:not(.modo-prev) #legend-panel .leg-header{column-gap:6px !important;row-gap:9px !important;margin-top:0 !important}
+html:root body.conf-c.modo-boschi #legend-panel .leg-header{column-gap:6px !important;row-gap:9px !important;margin-bottom:9px !important}
+html:root body:not(.modo-prev) #legend-panel .rd-durate{gap:6px !important;margin-top:9px !important}
+html:root body:not(.modo-prev) #legend-panel .stats-row{gap:6px !important}
+html:root body:not(.modo-prev) #legend-panel .inv-prev{margin-top:9px !important}
+html:root body:not(.modo-prev) #legend-panel #leg-handle{margin-bottom:8px !important}
+/* le regioni da aggiungere: la riga scorre di lato e tagliava il gradino (si vedeva solo agli angoli, suo: «sotto agli
+   angoli hanno sfumature diverse»): 4 px sotto per il gradino intero, 9 da «Lombardia ▼» come fra tutte le righe */
+html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bottom:4px !important}
+
+/* ── la barra che scorre (#pg-nastro): le misure e il passo di #vi-nastro del meteo ── */
+#pg-nastro{position:absolute;z-index:850;left:0;right:0;bottom:0;height:44px;overflow:hidden;display:none;align-items:center;touch-action:none;user-select:none;-webkit-user-select:none;
+  background:#ffd400;border-top:1px solid #e0b800;box-shadow:0 -2px 8px rgba(0,0,0,.12);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+#pg-nastro.su{display:flex}
+/* il blocco rosso dice SOLO il periodo: il posto e' gia' scritto in cima allo schermo (suo: «la parte rossa si puo'
+   stringere; se uno sceglie 2/3 regioni o un nome paese lungo cosa scrivi?») */
+#pg-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;padding:0 30px 0 16px;background:#c8102e;color:#fff;
+  clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font-weight:900;font-size:13px;line-height:1.1;letter-spacing:.05em;white-space:nowrap}
+#pg-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
+#pg-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font-family:inherit;font-weight:700;font-size:14px;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
+#pg-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}
+/* la goccia col colore della scala: lo stesso colore che quel numero ha sulla mappa */
+#pg-nastro .v .g{width:13px;height:13px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);border:1.5px solid rgba(0,0,0,.55);box-sizing:border-box;flex:none;margin:0 1px}
+#pg-nastro .v .mm{font-weight:900}
+#pg-nastro .v .u{font-size:11px;font-weight:700;margin-left:-3px}
+#pg-nastro .v .as{font-weight:600;font-style:italic;opacity:.7}
+#pg-nastro .v.nota{font-weight:600;font-style:italic;cursor:default}
+/* al computer in fondo alla mappa come il meteo: crediti, fonte e termometro salgono sopra */
+@media(min-width:901px){body.pg-nastro-on .leaflet-bottom{bottom:46px}body.pg-nastro-on .fonte-tag{bottom:52px !important}body.pg-nastro-on #tq-btn{bottom:74px}}
+/* al telefono SUBITO SOTTO «riduci» (sua scelta), dentro la legenda, a tutta larghezza, al posto della riga «MM CUMULATI»
+   (il blocco rosso dice gia' il periodo). Scartate da lui: sopra il pannello, in fondo, «riduci» dentro la barra o a
+   linguetta, angoli tondi («la barra non stondata»). */
+@media(max-width:900px){
+  #pg-nastro{position:relative;left:auto;right:auto;bottom:auto;height:38px;margin:0 -14px 9px;box-shadow:none;z-index:auto}
+  #pg-nastro .lab{font-size:12px;padding:0 22px 0 12px}
+  #pg-nastro .v{font-size:13px;padding:0 12px;gap:5px}#pg-nastro .v .g{width:12px;height:12px}
+  body.pg-nastro-on #legend-panel .leg-title{display:none !important}
+}
+</style>
+<script>
+/* ── LE DATE SOTTO I PERIODI e LA BARRA CHE SCORRE NELLA PIOGGIA (31/10/2026, scheda 104 ter) ──
+   La barra: i CAPOLUOGHI delle regioni scelte (data/capoluoghi.json), ognuno col PLUVIOMETRO PIU' VICINO entro 10 km (il
+   numero e' di quel pluviometro, non una stima), dal piu' bagnato. Sua scelta fra «Le citta'» e «Le piu' piovose» (i 15
+   pluviometri piu' bagnati: nomi lunghi e sconosciuti, «Vilminore di Scalve Presolana»).
+   ⚠️ SOTTO 1 mm NON E' PIOGGIA (suo: «con ieri tantissimi posti danno 0,2 mm anche se non ha piovuto»): 0,2 mm e' UNA
+   basculata del pluviometro, la misura piu' piccola (rugiada, nebbia). Ieri 30/10 in Lombardia 23 pluviometri a 0,2, 229 a
+   zero, uno solo sopra 1 mm. La mappa sotto i 2 mm e' gia' trasparente e le pagine regione scrivono «giornata asciutta»
+   sotto 1 mm: la citta' dice «asciutto».
+   Scorre come quella del meteo (naGira/naPrendi): 45 px/s, col dito avanti e indietro con lo slancio, ferma col mouse
+   sopra; un tocco su un nome porta la mappa li' e apre la scheda del pluviometro, come toccare il suo pallino.
+   Solo sulla mappa della pioggia con un'analisi disegnata: via con previsioni, radar, boschi; al telefono anche col
+   pannello ridotto («riduci» vuol dire «voglio la mappa», e il titolo torna). Dati da render() (window._barraPioggia) e
+   da window._pioggiaPer, esposti apposta nello script principale. */
+(function(){
+  var MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  var SOGLIA=1, VICINO_KM=10;
+  var DOPPIE={'piemonte-vda':['piemonte','valledaosta'],'trentino-aa':['trentino','altoadige']};   // le voci della tendina che sono due regioni
+  function el(id){ return document.getElementById(id); }
+  function tel(){ return window.innerWidth<=900; }
+  function P(){ return window._pioggiaPer; }
+  function escH(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function virgola(v){ return v<10?String(Math.round(v*10)/10).replace('.',','):String(Math.round(v)); }
+  function distKm(a,b){ var dy=(a.lat-b.lat)*110.57, dx=(a.lon-b.lon)*111.32*Math.cos((a.lat+b.lat)/2*Math.PI/180); return Math.sqrt(dx*dx+dy*dy); }
+
+  /* ── le date sotto i periodi: «Ieri / 30 ott», «7 gg / 24–30» (al PC «7 giorni / 24–30 ott») ── */
+  function giorno(n){ var d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()-n); return d; }
+  function intervallo(da,a){
+    if(+da===+a) return a.getDate()+' '+MESI[a.getMonth()];
+    if(da.getMonth()===a.getMonth()) return da.getDate()+'–'+a.getDate()+(tel()?'':' '+MESI[a.getMonth()]);
+    return tel()?da.getDate()+'/'+(da.getMonth()+1)+'–'+a.getDate()+'/'+(a.getMonth()+1):da.getDate()+' '+MESI[da.getMonth()]+'–'+a.getDate()+' '+MESI[a.getMonth()];
+  }
+  function scriviDate(){
+    [].forEach.call(document.querySelectorAll('#time-panel .tp-btn'),function(b){
+      var d=b.querySelector('.tp-d');
+      if(!d){ d=document.createElement('small'); d.className='tp-d'; b.appendChild(d); }
+      var n=b.dataset.type==='ieri'?1:+b.dataset.val;   // «N giorni» = da N-1 giorni prima di ieri a ieri, come il clic
+      d.textContent=intervallo(giorno(n),giorno(1));
+    });
+  }
+
+  /* ── la barra ── */
+  var ultimo=null, capoluoghi=null, chiesti=false, NV=[];
+  function caricaCapoluoghi(){
+    if(chiesti) return; chiesti=true;
+    fetch('/data/capoluoghi.json').then(function(r){ return r.json(); }).then(function(j){ capoluoghi=j; if(ultimo) scrivi(); }).catch(function(){ chiesti=false; });
+  }
+  // il blocco rosso: IERI, 7 GIORNI... oppure le date (5–12 OTT, 28 SET–4 OTT; i funghi i loro giorni, 11–18 OTT)
+  function periodoCorto(){
+    var p=P()&&P().periodo(); if(!p) return '';
+    var l=String(p.label||'');
+    if(/^ieri$/i.test(l)) return 'IERI';
+    if(/^\d+ giorni$/i.test(l)) return l.toUpperCase();
+    var da=p.da, a=p.a; if(!da||!a) return l.toUpperCase();
+    var M=function(d){ return MESI[d.getMonth()].toUpperCase(); };
+    if(da.toDateString()===a.toDateString()) return a.getDate()+' '+M(a);
+    return da.getMonth()===a.getMonth()?da.getDate()+'–'+a.getDate()+' '+M(a):da.getDate()+' '+M(da)+'–'+a.getDate()+' '+M(a);
+  }
+  function voci(){
+    if(!ultimo||!capoluoghi||!P()) return [];
+    var cc=[], v=[];
+    P().regioni().forEach(function(k){ (DOPPIE[k]||[k]).forEach(function(kk){ cc=cc.concat(capoluoghi[kk]||[]); }); });
+    cc.forEach(function(c){
+      var best=null, bd=VICINO_KM;
+      ultimo.forEach(function(s){ var d=distKm(c,s); if(d<bd){ bd=d; best=s; } });
+      if(best) v.push({n:c.n, mm:best.mm, st:best, asciutto:best.mm<SOGLIA});
+    });
+    // prima le citta' bagnate, dalla piu' bagnata; poi quelle asciutte, nell'ordine del file
+    return v.filter(function(x){ return !x.asciutto; }).sort(function(a,b){ return b.mm-a.mm; }).concat(v.filter(function(x){ return x.asciutto; }));
+  }
+  function voceHtml(x,i){
+    if(x.asciutto) return '<button class="v" data-i="'+i+'"><b>'+escH(x.n)+'</b><span class="as">asciutto</span></button>';
+    return '<button class="v" data-i="'+i+'"><b>'+escH(x.n)+'</b><span class="g" style="background:'+P().colore(x.mm)+'"></span><span class="mm">'+virgola(x.mm)+'</span><span class="u">mm</span></button>';
+  }
+  function barra(){
+    var na=el('pg-nastro');
+    if(!na){
+      na=document.createElement('div'); na.id='pg-nastro';
+      if(window.L){ L.DomEvent.disableClickPropagation(na); L.DomEvent.disableScrollPropagation(na); }
+      prendi(na);
+      el('map').appendChild(na);   // subito nella pagina: sistema() la cerca per id e poi la sposta dove serve
+    }
+    return na;
+  }
+  function scrivi(){
+    var na=barra();
+    NV=voci();
+    var h=NV.length?NV.map(voceHtml).join(''):'<button class="v nota">nessun pluviometro vicino ai capoluoghi</button>';
+    na.innerHTML='<div class="lab">'+escH(periodoCorto())+'</div><div class="t">'+h+'</div>';
+    sistema();
+    // il giro si chiude senza salti: una copia piu' larga della barra (si ripete quanto serve), poi si raddoppia
+    var t=na.querySelector('.t'), una=t.innerHTML, w=na.clientWidth||window.innerWidth, giri=0;
+    while(t.scrollWidth<w&&giri++<8) t.innerHTML+=una;
+    t.innerHTML+=t.innerHTML;
+    NA.w=0; NA.pos=0; NA.v=0;
+  }
+  // va mostrata? solo sulla pioggia con un'analisi disegnata; al telefono non col pannello ridotto
+  function serve(){
+    var c=document.body.classList, lp=el('legend-panel');
+    if(!ultimo||!P()||!P().pallini()||!lp||getComputedStyle(lp).display==='none') return false;
+    if(c.contains('modo-prev')||c.contains('modo-radar')||c.contains('modo-boschi')) return false;
+    if(tel()&&(lp.classList.contains('leg-mini')||!lp.classList.contains('leg-visible'))) return false;
+    return true;
+  }
+  function sistema(){
+    var na=el('pg-nastro'); if(!na) return;
+    var su=serve();
+    if(tel()){   // subito dopo «riduci», prima dei tasti
+      var lp=el('legend-panel'), hd=el('leg-handle');
+      if(lp&&(na.parentNode!==lp||(hd&&na.previousElementSibling!==hd))) lp.insertBefore(na,hd?hd.nextSibling:lp.firstChild);
+    } else if(na.parentNode!==el('map')) el('map').appendChild(na);
+    na.classList.toggle('su',su);
+    document.body.classList.toggle('pg-nastro-on',su);
+    if(su) parti();
+  }
+  window._barraPioggia=function(sorted){
+    ultimo=(sorted||[]).slice();
+    caricaCapoluoghi();
+    setTimeout(scrivi,0);
+  };
+
+  /* lo scorrimento: lo stesso di naGira/naPrendi del meteo */
+  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0};
+  function gira(t){
+    var na=el('pg-nastro'), tr=na&&na.querySelector('.t');
+    if(!tr||!na.classList.contains('su')){ NA.giro=0; NA.t0=0; return; }
+    var dt=NA.t0?Math.min(64,t-NA.t0):16; NA.t0=t;
+    if(!NA.presa){
+      if(Math.abs(NA.v)>0.05){ NA.pos+=NA.v*dt; NA.v*=Math.pow(0.94,dt/16); }
+      else { NA.v=0; if(!NA.sopra) NA.pos-=0.045*dt; } }
+    if(!NA.w) NA.w=tr.scrollWidth/2;
+    if(NA.w>0){ NA.pos%=NA.w; if(NA.pos>0) NA.pos-=NA.w; }
+    tr.style.transform='translate3d('+NA.pos.toFixed(1)+'px,0,0)';
+    NA.giro=requestAnimationFrame(gira);
+  }
+  function parti(){ if(!NA.giro){ NA.t0=0; NA.giro=requestAnimationFrame(gira); } }
+  function prendi(na){
+    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); NA.v=0;
+      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} });
+    na.addEventListener('pointermove',function(ev){ var p=NA.presa; if(!p) return;
+      if(Math.abs(ev.clientX-p.x)>6) p.mosso=true; if(!p.mosso) return;
+      NA.pos=p.pos+(ev.clientX-p.x);
+      var dt=ev.timeStamp-p.ut; if(dt>0){ NA.v=(ev.clientX-p.ux)/dt; p.ux=ev.clientX; p.ut=ev.timeStamp; } });
+    na.addEventListener('pointerup',function(ev){ var p=NA.presa; NA.presa=null; if(!p) return;
+      if(!p.mosso){ NA.v=0; var b=document.elementFromPoint(ev.clientX,ev.clientY); b=b&&b.closest?b.closest('#pg-nastro .v'):null;
+        var x=b&&b.dataset.i!=null&&NV[+b.dataset.i%(NV.length||1)]; if(x) apri(x); return; }
+      if(ev.timeStamp-p.ut>90) NA.v=0;
+      NA.v=Math.max(-3,Math.min(3,NA.v)); });
+    na.addEventListener('pointercancel',function(){ NA.presa=null; });
+    // ferma solo col MOUSE sopra: col dito «enter» arriva senza «leave» e resterebbe ferma
+    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse') NA.sopra=true; });
+    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse') NA.sopra=false; });
+  }
+  // un tocco su una citta': la mappa va al suo pluviometro e si apre la scheda, come col tocco sul pallino
+  function apri(x){
+    var m=window._mapDebug, s=x.st; if(!m||!s) return;
+    try{ gtag('event','barra_pioggia',{azione:'tocco'}); }catch(e){}
+    m.panTo([s.lat,s.lon],{animate:true});
+    var mk=P().pallino(s);
+    if(mk) setTimeout(function(){
+      var pt=m.latLngToContainerPoint([s.lat,s.lon]), r=m.getContainer().getBoundingClientRect();
+      mk.fire('click',{originalEvent:{clientX:r.left+pt.x,clientY:r.top+pt.y}});
+    },380);
+  }
+
+  function avvia(){
+    if(!el('time-panel')||!el('legend-panel')){ setTimeout(avvia,200); return; }
+    scriviDate();
+    var lp=el('legend-panel');
+    // entrando e uscendo da previsioni, radar e boschi, riducendo e riaprendo il pannello: la barra si rimette a posto
+    try{
+      new MutationObserver(sistema).observe(document.body,{attributes:true,attributeFilter:['class']});
+      new MutationObserver(sistema).observe(lp,{attributes:true,attributeFilter:['class','style']});
+    }catch(e){}
+    var tR=null;
+    window.addEventListener('resize',function(){ clearTimeout(tR); tR=setTimeout(function(){ scriviDate(); if(ultimo) scrivi(); else sistema(); },200); });
+    // le date dei periodi cambiano a mezzanotte: chi torna sulla pagina il giorno dopo le ritrova giuste
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) scriviDate(); });
+    // coi link la prima analisi puo' essere gia' disegnata quando questo script parte: la si riprende
+    if(!ultimo&&P()&&P().classifica()) window._barraPioggia(P().classifica());
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
 </script>
 </body>
