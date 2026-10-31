@@ -2930,6 +2930,89 @@ if(window._dopoItalia) window._dopoItalia(function(){ var b=document.body.classL
    poterli rimettere sopra il rilievo. Stesso motivo di _mapDebug e _vaiQui. */
 window._baseTiles=baseTiles;
 
+/* ═══ LA FOTO DAL SATELLITE SOTTO LA PIOGGIA (31/10/2026, scheda 104) ═══
+   Suo: «la parte meteo ora e' molto bella, fa sembrare la parte pluvio vecchia», senza sconvolgere le abitudini.
+   Scelta sua nella prova a schermo pieno (mockup-pluvio-104 nel banco): satellite, niente velo fuori dalla regione,
+   pallini «via di mezzo», nomi sopra la pioggia, pioggia all'80% come sopra la foto dei boschi.
+   - Fino allo zoom 10 la foto e' NOSTRA: NASA Blue Marble (pubblico dominio) da lontano e su tutto il mare, col rilievo
+     del fondale; ESA WorldCover 2021 (CC BY 4.0) sulla terra agli zoom 9-10; colori tarati su Esri. Repo
+     Mappa-Precipitazioni-Satellite servito da jsDelivr: zero tessere Esri su Italia, regioni e province. La sola ESA,
+     scura e piatta, era stata bocciata accanto al meteo («e' un altro pianeta»).
+   - Dallo zoom 11 Esri a «un quarto» delle tessere (512 px, zoomOffset -1; suo «un quarto va bene»): il tetto dei 2
+     milioni di tessere al mese lo usavano gia' meteo e boschi.
+   - La cartina OSM di sempre (baseTiles) resta SOTTO: la usano boschi, satellite dei boschi, scatto e
+     quandoMappaDisegnata. Coi boschi, col satellite dei boschi e nelle previsioni (che hanno la loro foto) la nostra
+     si toglie (classe foto-on spenta).
+   - RIPIEGHI (suo: «spiegami meglio i ripieghi»): Esri fermo (tetto o guasto) → sotto resta la nostra del 10
+     ingrandita (maxZoom 19), niente buchi; la nostra che non arriva (jsDelivr o GitHub giu') → al terzo errore senza
+     nessuna tessera arrivata si spegne per la visita e torna la cartina, coi confini blu e la pioggia al 70%.
+   ⚠️ L'indirizzo porta il COMMIT del repo, mai @main (jsDelivr tiene @main dodici ore: vedi TESSERE_COMMIT). Dopo una
+   rigenerazione: push forzato di la', poi qui il codice nuovo (`git rev-parse HEAD` nel repo del satellite). */
+var FOTO_COMMIT='6b5c86d7343fbfda0417cbd86aec123985480b38';   // main: Blue Marble + ESA, Europa zoom 4-10, 53.234 tessere (31/10/2026)
+var FOTO_URL='https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Satellite@'+FOTO_COMMIT+'/europa/{z}/{x}/{y}.webp';
+var FOTO_LIMITI=[[34,-25],[72,45]];   // Europa: Islanda e Canarie comprese, Urali esclusi (fuori, il colore di fondo)
+var FOTO_CREDITI='Foto: NASA Blue Marble, ESA WorldCover 2021 (dati Copernicus Sentinel modificati)';
+var FOTO_CREDITI_ESRI='foto da vicino: Esri, Vantor, Earthstar Geographics';
+// usata anche dalla foto delle previsioni (viFondo), che e' in un altro <script>
+window._fotoNostra=function(pane,quandoNonArriva){
+  var l=L.tileLayer(FOTO_URL,{pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true});
+  var arrivate=0, rotte=0, detto=false;
+  l.on('tileload',function(){ arrivate++; });
+  l.on('tileerror',function(e){
+    rotte++; if(!detto&&rotte>=3&&arrivate===0){ detto=true; if(quandoNonArriva) quandoNonArriva(); return; }
+    /* ⚠️ UN SECONDO TENTATIVO per tessera (31/10/2026): subito dopo il push del repo jsDelivr va a prendere ogni tessera
+       da GitHub alla prima richiesta, e qualcuna sbagliava (4 su 40 in Lombardia, un'ora dopo tutte a posto): Leaflet
+       non riprova e restava un quadrato di cartina sotto la pioggia. Dopo 1,5 s la stessa tessera si richiede una volta */
+    var im=e.tile; if(!im||im._riprova) return; im._riprova=1;
+    // solo se la tessera e' ancora in mappa: quelle tolte dallo zoom (richiesta annullata) non si richiedono
+    setTimeout(function(){ var s=im.src; if(!s||!l._map||!im.parentNode) return; im.src=''; im.src=s; },1500);
+  });
+  return l;
+};
+(function(){
+  // ⚠️ i limiti di zoom fissi, come fa il satellite dei boschi: senza, Leaflet li prende dagli strati, e uno strato
+  // con minZoom 11 (Esri da vicino) senza la cartina sotto spingeva la mappa allo zoom 11
+  if(map.options.minZoom===undefined) map.options.minZoom=0;
+  if(map.options.maxZoom===undefined) map.options.maxZoom=19;
+  map.createPane('foto').style.zIndex=205; map.getPane('foto').style.pointerEvents='none';   // sopra la cartina (200), sotto la pioggia (400)
+  // i nomi dei paesi sopra la pioggia: lo stesso pannello del satellite dei boschi (modulo «NOMI NOSTRI»)
+  if(!map.getPane('sat-nomi')){ map.createPane('sat-nomi').style.zIndex=455; map.getPane('sat-nomi').style.pointerEvents='none'; }
+  var rotta=false, vicino=null, crediti={};
+  var lontano=window._fotoNostra('foto',function(){ rotta=true; giusta(); });
+  // creata tardi: la chiave Esri sta nel modulo del satellite dei boschi, piu' in fondo alla pagina (nel test non c'e')
+  function esri(){
+    if(vicino) return vicino;
+    var k=window._esriChiave; if(k===undefined) return null;
+    vicino=L.tileLayer(k?'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token='+k
+                        :'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                       {pane:'foto',minZoom:11,maxZoom:19,maxNativeZoom:19,tileSize:512,zoomOffset:-1,crossOrigin:'anonymous'});
+    return vicino;
+  }
+  function vuole(){ var b=document.body.classList; return !rotta&&!b.contains('modo-boschi')&&!b.contains('sat-on')&&!b.contains('modo-prev'); }
+  function credito(t,si){ var ac=map.attributionControl; if(!ac||!!crediti[t]===si) return; crediti[t]=si; si?ac.addAttribution(t):ac.removeAttribution(t); }
+  function scritte(){ var si=vuole(); credito(FOTO_CREDITI,si); credito(FOTO_CREDITI_ESRI,si&&map.getZoom()>=11); }
+  // ⚠️ togliere uno strato mentre carica fa esplodere Leaflet 1.9.4 (vedi osmVia del satellite dei boschi): si aspetta il «load»
+  function togli(l){
+    if(!map.hasLayer(l)) return;
+    if(l._loading){ l.once('load',function(){ setTimeout(function(){ if(!vuole()&&map.hasLayer(l)) map.removeLayer(l); },0); }); return; }
+    map.removeLayer(l);
+  }
+  function giusta(){
+    var si=vuole();
+    document.body.classList.toggle('foto-on',si);
+    [lontano,esri()].forEach(function(l){ if(!l) return; if(si){ if(!map.hasLayer(l)) l.addTo(map); } else togli(l); });
+    scritte();
+  }
+  map.on('zoomend',scritte);
+  function avvia(){
+    giusta();
+    try{ new MutationObserver(giusta).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
+    // Esri da vicino appena la sua chiave c'e' (il modulo dei boschi gira dopo questo script)
+    if(!vicino) setTimeout(function(){ if(vuole()&&esri()&&!map.hasLayer(vicino)) vicino.addTo(map); },0);
+  }
+  if(document.body) avvia(); else document.addEventListener('DOMContentLoaded',avvia);
+})();
+
 /**
  * Esegue `cb` quando la mappa ha davvero DISEGNATO le tile della vista attuale.
  *
@@ -3306,7 +3389,8 @@ function drawGrid(){
   var small=drawGrid._small||(drawGrid._small=document.createElement('canvas'));
   small.width=nx; small.height=ny;
   var sc=small.getContext('2d'); var img=sc.createImageData(nx,ny); var px=img.data;
-  var a=Math.round((window._satOn?0.80:heatOpacity)*255);   // sopra la foto satellitare 0,80 (scelto da lui il 28/9)
+  // sopra la foto satellitare 0,80 (scelto da lui il 28/9): quella dei boschi (_satOn) e, dal 31/10/2026, quella della pioggia (foto-on)
+  var a=Math.round(((window._satOn||document.body.classList.contains('foto-on'))?0.80:heatOpacity)*255);
   for(var k=0;k<gridPoints.length;k++){var q=gridPoints[k];
     if(q.mm<MIN_MM_DISPLAY) continue;
     var fa=a; if(q.mm<5.0){fa=Math.round(a*(q.mm-MIN_MM_DISPLAY)/(5.0-MIN_MM_DISPLAY));}   // sfumatura 2->5
@@ -4636,9 +4720,11 @@ function clearMarkers(){activeMarkers.forEach(function(m){m.remove();});activeMa
 function addMarkers(dati,sorted){
   dati.forEach(function(s){
     var rank=sorted.indexOf(s)+1;
+    // raggio 4 e bordo 1,25 (31/10/2026, suo: «una via di mezzo» fra i 5/1,5 di prima e i 3/1 provati): al
+    // telefono i ~250 pallini coprivano il colore della pioggia. Uguali in addDefaultMarkersForRegion
     var m=L.circleMarker([s.lat,s.lon],{
-      radius:5,fillColor:'#fff',fillOpacity:0.9,
-      color:'#333',weight:1.5,pane:'markerPane'
+      radius:4,fillColor:'#fff',fillOpacity:0.9,
+      color:'#333',weight:1.25,pane:'markerPane'
     }).addTo(map);
     activeMarkers.push(m);
     // Hover: apre il pannello con il grafico (sostituisce il vecchio tooltip).
@@ -10556,7 +10642,10 @@ function captureMapBlob(scala){
         try{ fctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
       } else {
         if(fg){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(fg,0,0); ctx.restore(); fg=null; }
+        // la foto sotto la pioggia ha la luce in CSS (filter sul pannello 'foto', 31/10/2026): anche nello scatto
+        var pf=t.closest('.leaflet-foto-pane'); if(pf) ctx.filter=getComputedStyle(pf).filter||'none';
         try{ ctx.drawImage(t,r.x,r.y,r.w,r.h); }catch(e){}
+        if(pf) ctx.filter='none';
       }
     }
     if(fg){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(fg,0,0); ctx.restore(); }
@@ -11761,8 +11850,8 @@ function drawDefaultMarkers(stazioni,cfg){
   if(stazioni && stazioni.length>400) stazioni=selectUniformRicche(stazioni,400);
   stazioni.forEach(function(s){
     var m=L.circleMarker([s.lat,s.lon],{
-      radius:5,fillColor:'#fff',fillOpacity:0.9,
-      color:'#333',weight:1.5,pane:'markerPane'
+      radius:4,fillColor:'#fff',fillOpacity:0.9,   // 4 e 1,25 come in addMarkers (31/10/2026)
+      color:'#333',weight:1.25,pane:'markerPane'
     }).addTo(map);
     activeMarkers.push(m);
     (function(mk,st){
@@ -12731,6 +12820,21 @@ function loadDefaultMarkers(){
    #333 e non si toccano. Il respiro (confPulse) anima stroke-opacity e resta. */
 .sat-on #map .leaflet-overlay-pane path[stroke="#1b3f6e"],.sat-on #map .leaflet-overlay-pane path[stroke="#4a6c9b"]{stroke:#fff;stroke-opacity:.9}
 .sat-on #map .leaflet-overlay-pane path[fill="#1b3f6e"]{fill:#fff}
+/* LA FOTO SOTTO LA PIOGGIA (31/10/2026, modulo «LA FOTO DAL SATELLITE SOTTO LA PIOGGIA»): confini bianchi come sopra,
+   anche quelli dell'apertura col loro respiro (suo: «ha sempre i confini segnati e pulsa come la precedente?», blu
+   sulla foto non si vedevano); la stessa luce della foto delle previsioni (--sat-luce, LUCE_SAT); fuori dall'Europa
+   della foto il blu del suo mare aperto */
+.foto-on #map .leaflet-overlay-pane path[stroke="#1b3f6e"],.foto-on #map .leaflet-overlay-pane path[stroke="#4a6c9b"]{stroke:#fff;stroke-opacity:.9}
+.foto-on #map .leaflet-overlay-pane path[fill="#1b3f6e"]{fill:#fff}
+#map .leaflet-foto-pane{filter:brightness(var(--sat-luce,1.3)) saturate(1.1)}
+body.foto-on #map{background:#123a52}
+/* «Foto dal satellite al momento non disponibile» (31/10/2026, suo: «non possiamo mettere una scritta?», «la scritta
+   piccola e' leggibile?»): quando Esri non manda la foto dei boschi si torna alla cartina e la scritta resta 5 s */
+#foto-avviso{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:1200;max-width:calc(100% - 32px);
+  background:rgba(20,30,45,.88);color:#fff;font:600 15px/1.3 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  padding:9px 16px;border-radius:20px;box-shadow:0 2px 10px rgba(0,0,0,.35);text-align:center;pointer-events:none;
+  opacity:0;transition:opacity .3s}
+#foto-avviso.on{opacity:1}
 @media(min-width:901px){#map .leaflet-control-attribution{max-width:34vw;white-space:normal;text-align:right;line-height:1.35;font-size:10.5px}}
 @media(max-width:900px){#sat-btn{bottom:auto;top:52px;right:8px;width:54px;height:54px}#sat-btn span{font-size:10px;padding-bottom:3px}}
 .bo-sat{display:none;align-items:center;gap:7px;margin:0 0 6px;font-size:11.5px;color:#1b3f6e}
@@ -15783,7 +15887,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     if(mp.options.minZoom===undefined) mp.options.minZoom=0;
     if(mp.options.maxZoom===undefined) mp.options.maxZoom=19;
     mp.createPane('sat-foto'); mp.getPane('sat-foto').style.zIndex=201; mp.getPane('sat-foto').style.pointerEvents='none';
-    mp.createPane('sat-nomi'); mp.getPane('sat-nomi').style.zIndex=455; mp.getPane('sat-nomi').style.pointerEvents='none';
+    // dal 31/10/2026 'sat-nomi' lo crea gia' la foto sotto la pioggia (i nomi anche li'): un secondo createPane ne farebbe un altro
+    if(!mp.getPane('sat-nomi')){ mp.createPane('sat-nomi'); mp.getPane('sat-nomi').style.zIndex=455; mp.getPane('sat-nomi').style.pointerEvents='none'; }
     strati=[
       /* ⚠️ AGLI ZOOM 12 E 13 LA FOTO ESRI E' UN MOSAICO (29/9, visto da lui sul lago d'Iseo):
          riquadri di voli diversi, alcuni sfocati. Dal 14 e' uniforme. Li' si caricano le tessere
@@ -15803,6 +15908,23 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     ]).concat([
       // i nomi NON sono di Esri: li scriviamo noi a ogni zoom (modulo «NOMI NOSTRI» in fondo)
     ]);
+    /* SE ESRI NON MANDA LA FOTO (31/10/2026, suo: «non possiamo mettere una scritta che dice satellite al momento
+       offline?»): fino ad allora restava il nero. Al terzo errore senza nessuna tessera arrivata si torna alla
+       cartina dei boschi e una scritta lo dice per 5 secondi; il tasto «Satellite» resta, si puo' riprovare. Il caso
+       vero e' il tetto dei 2 milioni di tessere al mese (Esri si ferma fino al 30, senza addebiti). Si contano gli
+       errori DI FILA (una tessera arrivata azzera): cosi' vale anche se Esri si ferma a visita gia' cominciata. */
+    strati.forEach(function(s){
+      var ko=0;
+      s.on('tileload',function(){ ko=0; });
+      s.on('tileerror',function(){ ko++; if(on&&ko>=4){ ko=0; spegni(false); avviso('Foto dal satellite al momento non disponibile'); } });
+    });
+  }
+  function avviso(testo){
+    var el=document.getElementById('map'); if(!el) return;
+    var a=document.getElementById('foto-avviso');
+    if(!a){ a=document.createElement('div'); a.id='foto-avviso'; a.setAttribute('role','status'); el.appendChild(a); }
+    a.textContent=testo; a.classList.add('on');
+    clearTimeout(avviso._t); avviso._t=setTimeout(function(){ a.classList.remove('on'); },5000);
   }
   function disegnaTasto(){
     var pb=document.getElementById('bo-sat-btn');
@@ -15953,6 +16075,8 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   var SOGLIA={5:500000,6:250000,7:120000,8:50000,9:20000,10:8000,11:2500,12:700,13:200,14:0};   // 29/9: meno fitti, suo   // bassa apposta: in montagna i comuni sono piccoli            // abitanti minimi per zoom (13 e oltre: tutti)
   var CORPO={5:12,6:12,7:12,8:12,9:12,10:12,11:12,12:13,13:14,14:15,15:16};   // grandezza del testo in px
   function m(){ return window._mapDebug; }
+  // col satellite dei boschi e, dal 31/10/2026, con la foto sotto la pioggia (classe foto-on): nomi SOPRA la pioggia
+  function nomiSi(){ var b=document.body.classList; return b.contains('sat-on')||b.contains('foto-on'); }
   function carica(){
     if(ELENCO) return Promise.resolve(ELENCO);
     return fetch('/data/elenco-paesi.txt').then(function(r){ return r.text(); }).then(function(t){
@@ -15974,7 +16098,7 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     var mp=m(); if(!mp||!gruppo) return;
     gruppo.clearLayers();
     var z=Math.floor(mp.getZoom());
-    if(!document.body.classList.contains('sat-on') || !ELENCO) return;
+    if(!nomiSi() || !ELENCO) return;
     forsePiccoli();
     var zz=Math.max(5,z), soglia=SOGLIA[Math.min(zz,14)], px=CORPO[Math.min(zz,15)];
     var b=mp.getBounds().pad(0.05), occupato=[], messi=0;
@@ -16004,9 +16128,9 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     gruppo=L.layerGroup().addTo(mp);
     mp.on('moveend zoomend',pianifica);
     new MutationObserver(function(){
-      if(document.body.classList.contains('sat-on')) carica().then(pianifica,function(){}); else pianifica();   // senza elenco niente nomi, e niente errore (A14)
+      if(nomiSi()) carica().then(pianifica,function(){}); else pianifica();   // senza elenco niente nomi, e niente errore (A14)
     }).observe(document.body,{attributes:true,attributeFilter:['class']});
-    if(document.body.classList.contains('sat-on')) carica().then(pianifica,function(){});
+    if(nomiSi()) carica().then(pianifica,function(){});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
@@ -17773,7 +17897,19 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     document.body.classList.toggle('vi-fondo',on); document.body.classList.toggle('vz-fondo',vz);
     if((on||vz)&&!m.getPane('viFondo')){ m.createPane('vzColore').style.zIndex=205; m.createPane('viFondo').style.zIndex=210; m.createPane('viRilievo').style.zIndex=220;
       ['vzColore','viFondo','viRilievo'].forEach(function(p){ m.getPane(p).style.pointerEvents='none'; }); }
-    if(on&&!satL) satL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',maxNativeZoom:17,attribution:'Foto: Esri, Vantor, Earthstar Geographics'});
+    /* ⚠️ 31/10/2026 (scheda 104): fino allo zoom 10 la foto NOSTRA, la stessa della pioggia (window._fotoNostra:
+       Blue Marble + ESA da jsDelivr), cosi' vista Italia, regioni e province non consumano tessere Esri; Esri piena
+       dallo zoom 11 (valli e paesi: li' conta il dettaglio delle case). Se la nostra non arriva, Esri a ogni zoom
+       come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita */
+    if(on&&!satL){
+      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxNativeZoom:17,attribution:'Foto da vicino: Esri, Vantor, Earthstar Geographics'});
+      var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
+        var mm=map(); if(!mm||!satL) return;
+        satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); }):null;
+      if(nostraL) nostraL.options.attribution='Foto: NASA Blue Marble, ESA WorldCover 2021 (dati Copernicus Sentinel modificati)';
+      else vicinoL.options.minZoom=0;
+      satL=L.layerGroup(nostraL?[nostraL,vicinoL]:[vicinoL]);
+    }
     if(vz&&!fondoL){ fondoL=L.tileLayer(esri('Ocean/World_Ocean_Base'),{pane:'viFondo',maxNativeZoom:10,attribution:'Cartina: Esri'});
       rilievoL=L.tileLayer(esri('Elevation/World_Hillshade'),{pane:'viRilievo',maxNativeZoom:13});
       coloreL=L.rectangle([[-85,-180],[85,180]],{pane:'vzColore',stroke:false,fillColor:'#cfe3a6',fillOpacity:1,interactive:false}); }

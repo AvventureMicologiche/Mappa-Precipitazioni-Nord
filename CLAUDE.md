@@ -4095,3 +4095,39 @@ Codice: modulo «LA FORMA DEI TASTI E LA BARRA CHE SCORRE NELLA PIOGGIA» in fon
 - Prova: `prova-vera.js` (scratchpad della scheda 104 ter) sull'index.html vero servito in locale, al telefono 393 e
   360 e al PC: barra, spazi, angoli, tocco, riduci, previsioni avanti e indietro, ieri, tre regioni con date scelte,
   boschi, satellite, radar.
+
+## La foto dal satellite sotto la pioggia e nelle previsioni (31/10/2026, scheda 104)
+
+Suo il 31/10: «la parte meteo ora sulla mappa e' molto bella, ma talmente bella che fa sembrare la parte pluvio
+obsoleta», senza sconvolgere le abitudini. Scelte sue nella prova a schermo pieno in Chrome (banco
+`mockup-pluvio-104\`, server `server-104.js` che inietta `variante.js` in una copia di index.html): **satellite**,
+niente velo fuori dalla regione, pallini «via di mezzo», nomi sopra la pioggia, pioggia all'80%.
+- **La foto e' NOSTRA fino allo zoom 10**: repo `AvventureMicologiche/Mappa-Precipitazioni-Satellite` (un commit solo,
+  push forzato, come `Mappa-Precipitazioni-Tessere`), servito da jsDelivr col **commit** nell'indirizzo
+  (`FOTO_COMMIT`, mai @main). Dentro `europa/{z}/{x}/{y}.webp`, zoom 4-10, da 25° O a 45° E e da 34° a 72° N.
+  - Zoom 4-8 e tutto il mare: **NASA Blue Marble Next Generation** topo-bathy di luglio 2004 (pubblico dominio, 500 m,
+    col rilievo del fondale), colori tarati sulle tessere Esri dello zoom 7 con DUE tabelle, terra e mare.
+  - Terra agli zoom 9-10: **ESA WorldCover 2021 Sentinel-2 RGBNIR** (CC BY 4.0), tarata su Esri.
+  - ⚠️ La sola ESA (scura, mare piatto) e' stata bocciata accanto al meteo: «non c'e' paragone, e' un altro pianeta».
+    Da lontano Esri non e' una foto: e' un mosaico ritoccato col fondale disegnato, e Blue Marble e' di quella famiglia.
+  - Attrezzi nel banco: `satellite-europa.py` (ESA: gradi → z10 → acqua → piramide) e `blue-marble.py` (calibra,
+    basse, alte; `SAT_BOX`, `RIPRENDI`). ⚠️ Su Windows con Chrome e le schede aperte la memoria finisce: GDAL_CACHEMAX
+    64 e OpenBLAS a un filo (gia' nei programmi), e i giri riprendono dalle tessere fatte.
+- **Dallo zoom 11 Esri**: nella pioggia a «un quarto» delle tessere (512 px, zoomOffset -1, suo «un quarto va bene»),
+  nelle previsioni piena (valli e paesi, il dettaglio delle case). Consumo vero letto su location.arcgis.com il 31/10:
+  ~45-56 mila tessere al giorno senza la pioggia, cioe' 1,4-1,7 M sui 2 M gratis: la pioggia su Esri non ci stava.
+- **Codice**: modulo «LA FOTO DAL SATELLITE SOTTO LA PIOGGIA» subito dopo `window._baseTiles`. La cartina OSM resta
+  SOTTO (la usano boschi, satellite dei boschi, scatto, `quandoMappaDisegnata`); la foto sta nel pannello `foto`
+  (z 205) con la luce della foto del meteo (`--sat-luce`, filtro CSS, rifatto anche nello scatto). Classe `foto-on`
+  sul body quando c'e': spenta coi boschi, col satellite dei boschi e nelle previsioni (che hanno la loro, `viFondo`,
+  fatta con la stessa `window._fotoNostra`). Con `foto-on`: pioggia all'80% (`drawGrid`), confini bianchi anche
+  all'apertura col loro respiro, nomi NOSTRI sopra la pioggia (modulo «NOMI NOSTRI», pannello `sat-nomi`, che ora
+  crea la foto), sfondo `#123a52` fuori dall'Europa della foto. Pallini raggio 4 e bordo 1,25 (erano 5 e 1,5) in
+  `addMarkers` e `addDefaultMarkersForRegion`.
+- **Ripieghi** (suo: «spiegami meglio i ripieghi»): Esri fermo (tetto o guasto) → sotto resta la nostra del 10
+  ingrandita, niente buchi, nessuna scritta; la nostra che non arriva (3 errori senza nessuna tessera arrivata) →
+  per quella visita la cartina di prima nella pioggia, Esri a ogni zoom nelle previsioni. **Satellite dei boschi senza
+  Esri**: torna da solo alla cartina dei boschi e per 5 secondi «Foto dal satellite al momento non disponibile»
+  (`#foto-avviso`; suo: «non possiamo mettere una scritta?»): li' la nostra del 10 non servirebbe a niente.
+- ⚠️ Nella prova (`variante.js`) la pioggia all'80% passava da `window._satOn`, che e' la spia dei BOSCHI: nei boschi
+  il tasto sbagliava (trovato dalla 104 ter). Nel sito vero la spia e' la classe `foto-on`, `_satOn` non si tocca.
