@@ -115,6 +115,10 @@ function pagina(r, posti) {
   const corta = elenco([...new Set(RETI.map(x => x.agenziaCorta || x.agenzia.replace(/\s*\(.*\)$/, "")))]);
   const lunga = elenco([...new Set(RETI.map(x => x.agenzia))]);
   const gen = GENITIVO[r.k];
+  // ⚠️ 31/10/2026 (scheda 104 bis, controllo SEO del cloud): le pagine meteo della regione in fondo a «Che tempo
+  // farà», come nelle regioni piogge. Qui dentro: genera-pagine-meteo-zona.js chiede genera-pagine-regione.js.
+  const MZ = require('./genera-pagine-meteo-zona.js');
+  const valli = MZ.linkMeteoRegione(r.k, 'funghi-' + r.k);
   // ⚠️ 13/9/2026: LA DOMANDA E' «DOVE ANDARE A FUNGHI». Search Console, 28
   // giorni: questa pagina in un mese e' comparsa su Google UNA volta, mentre le
   // zone col titolo stretto escono in prima pagina su «funghi in garfagnana
@@ -299,7 +303,7 @@ nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2p
 nav.altre p{line-height:1.9;}
 nav.altre a{color:var(--blu);}
 ${STILE_NUOVO}
-${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${STRISCIA_CSS}${METEO_CSS}
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${STRISCIA_CSS}${METEO_CSS}${valli ? MZ.MV_CSS : ''}
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
@@ -333,7 +337,7 @@ ${rigaStagione()}
 <div id="verdetto"></div>
 ${haBoschi(r.k) ? boschiHtml('🌲 Trova i boschi ' + r.prep + ' ' + nome) : ''}
 ${meteoHtml(r, ZONE.some(z => z.reg === r.k) ? 'Che tempo farà nelle zone dei funghi ' + gen : 'Che tempo farà ' + r.prep + ' ' + nome,
-  ZONE.some(z => z.reg === r.k) ? 'Sto leggendo le previsioni delle zone…' : 'Sto leggendo le previsioni delle città…', 'mk-meteo')}
+  ZONE.some(z => z.reg === r.k) ? 'Sto leggendo le previsioni delle zone…' : 'Sto leggendo le previsioni delle città…', 'mk-meteo', valli)}
 
 <h2>Le piogge degli ultimi 25 giorni ${r.prep} ${nome}</h2>
 <div id="grafico"></div>

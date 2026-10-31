@@ -431,6 +431,10 @@ function pagina(r, radice){
   // parole ora stanno anche nel testo fisso (sottotitolo, «ultimo mese»,
   // «mappa pluviometrica»). Ricontrollare con `sc.py` verso meta' ottobre.
   const gen = GEN[r.k];
+  // ⚠️ 31/10/2026 (scheda 104 bis, controllo SEO del cloud): le pagine meteo della regione in fondo a «Che tempo
+  // farà», le stesse pillole delle «adesso». Qui dentro e non in cima: genera-pagine-meteo-zona.js chiede questo file.
+  const MZ = require('./genera-pagine-meteo-zona.js');
+  const valli = MZ.linkMeteoRegione(r.k, 'pagina-' + r.k);
   const titolo = `Dove ha piovuto ${r.prep} ${r.nome}`;
   // ⚠️ 26/10/2026: LA SCRITTA GRANDE COMINCIA COME IL TITOLO (sua scelta, scheda GA4 4). Per
   // «pluviometria toscana» Google non mostrava il nostro <title>: lo riscriveva con l'h1 piu' il
@@ -496,7 +500,7 @@ function pagina(r, radice){
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${TESTATA_CSS}</style>
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${valli ? MZ.MV_CSS : ''}${TESTATA_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k, attiva: 'storico' })}
@@ -512,7 +516,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k, attiva: '
 <div id="verdetto">${cotto(() => N.verdetto, '')}</div>
 <!-- 19/10/2026: al posto della striscia blu «Che tempo farà», il blocco meteo (lib-meteo-regione.js):
      la casella per il proprio paese, che apre la mappa delle previsioni, e le città principali. -->
-${meteoHtml(r)}
+${meteoHtml(r, null, null, null, valli)}
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
 <div id="grafico">${cotto(() => N.grafico, '')}</div>

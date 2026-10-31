@@ -371,6 +371,13 @@ header{position:relative;flex-wrap:nowrap;}
 .gg-x span.mk-fx{color:#2f6db5;font-weight:600;}
 .gg-leg .mk-leg-fut{background:repeating-linear-gradient(135deg,#7fb2ec 0 4px,#a9cdf5 4px 8px) !important;}
 
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
 #mk-meteo .mk-cr span em{white-space:nowrap;}
@@ -457,6 +464,10 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <h2>Che tempo farà nelle zone dei funghi dell'Umbria</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
 <div class="mk-citta"><p class="mk-attesa">Sto leggendo le previsioni delle zone…</p></div>
+<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
+<p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
+<div class="mv"><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/valtiberina/" onclick="try{gtag('event','apri_meteo_zona',{da:'funghi-umbria'})}catch(e){}">Meteo Valtiberina</a></div>
+
 </section>
 
 <h2>Le piogge degli ultimi 25 giorni in Umbria</h2>

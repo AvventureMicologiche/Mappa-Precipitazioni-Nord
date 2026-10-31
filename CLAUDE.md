@@ -3783,6 +3783,17 @@ sul suo ramo. Solo parole: nessuna funzione nuova.
    tipo per tipo» («carta forestale <regione>» 112 viste in posizione 8).
 6. **Guida**: titoletto «Quanti giorni dopo la pioggia nascono i funghi?» (`#quanti-giorni`) nel capitolo del tasto
    Piogge per funghi. In `/funghi/` la domanda c'era gia'.
+7. **Le pagine meteo non sono piu' un vicolo cieco** (proposta 1 del cloud, suo «sì, le pagine meteo», stesso giorno,
+   dopo la pubblicazione delle sei). Prima le 71 pagine meteo non linkavano nessun'altra pagina meteo e ne ricevevano
+   2-3 link a testa. Ora il blocco delle «adesso», `linkMeteoRegione` (pillole «Meteo <nome> →», «valle per valle» e
+   «paese per paese» della stessa regione), sta anche: in fondo alle pagine meteo di zona e di paese sotto
+   «Previsioni meteo in <regione>» (`altreMeteo`, senza la pagina stessa: parametro `salta`; niente blocco e niente stile
+   dove la regione non ne ha altre: Carnia, Monti Sibillini, Nebrodi, Valtiberina) e dentro «Che tempo farà» delle
+   regioni piogge e funghi (5° argomento di `meteoHtml`; `require` di `genera-pagine-meteo-zona.js` DENTRO la funzione,
+   perche' quel file chiede `genera-pagine-regione.js`). Stile `MV_CSS`, le stesse regole delle «adesso». 868 link in
+   piu', zero rotti. Pagine rigenerate per intero (non hanno ritratti): 13 regioni, 13 funghi regione, 67 meteo; nelle
+   meteo entra anche la riga `.avviso-stime` dello stile della regione (della 103, innocua). La Slovenia, che
+   rigenerandola prendeva le righe della 103 rimaste indietro sul suo guscio, e' stata lasciata com'era.
 - ⚠️ **Come sono state cambiate le 1.135 pagine, e perche' non si sono rigenerate.** Rigenerarle per intero avrebbe
   rinfrescato anche il ritratto del pluviometro (1.785 righe nei paesi: si rifa' col giro di marzo, giugno, settembre e
   dicembre) e aggiunto una riga di stile alle «adesso» e alle meteo. Si sono lanciati i generatori vecchi e nuovi in una

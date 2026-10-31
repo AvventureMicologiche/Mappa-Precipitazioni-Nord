@@ -33,7 +33,7 @@ const { confineDi } = require('./genera-pagine-adesso.js');   // il confine dell
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
 const { METEO_PAESI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
-  SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG } = MZ;
+  SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
 
@@ -61,6 +61,7 @@ function pagina(p, QUOTE_DI) {
   const alPluv = 'al pluviometro ' + (p.pluv || p.di);
   const ga = 'meteo-paese-' + p.slug;
   const NREG = casa.nomeTitolo || casa.nome;
+  const ALTRE = altreMeteo(casa, ga, indirizzoMeteoPaese(p));   // le altre pagine meteo della regione, vuoto se non ce ne sono
 
   const TITOLO = `Meteo ${p.n}: previsioni a 7 giorni, ora per ora`;
   // ⚠️ 31/10/2026 (scheda 104 bis): la descrizione passava i 250 caratteri e Google la taglia verso 155
@@ -109,7 +110,7 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
   }
 </script>
 <link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css">
-<style>${STILE}${CSS}${CSS_ANT}${TESTATA_CSS}</style>
+<style>${STILE}${CSS}${CSS_ANT}${ALTRE && !STILE.includes('.mv-c{') ? MV_CSS : ''}${TESTATA_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
@@ -149,7 +150,7 @@ ${nastroHtml(p.n)}
 </div>
 
 ${mappeHtml({ reg, nomeReg: NREG, ga })}
-
+${ALTRE}
 <h2>Come funziona questa pagina</h2>
 <p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ${esc(p.n)} e per ognuno dei paesi intorno alla sua quota, e aggiornate più volte al giorno; la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata ${esc(alPluv)}${ente ? ', rete ' + esc(ente) : ''}: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
 </main>

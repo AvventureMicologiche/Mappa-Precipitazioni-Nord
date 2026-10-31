@@ -332,6 +332,13 @@ div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);c
 div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:1px solid #8f1410;box-shadow:none;}
 div.mk-str.mk-giallo a span small,div.mk-str.mk-rosso a span small{opacity:.92;}
 
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+
 /* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
 header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
 /* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
@@ -407,6 +414,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h2>Che tempo farà nel Lazio</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
 <div class="mk-citta"><p class="mk-attesa">Sto leggendo le previsioni delle città…</p></div>
+<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
+<p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
+<div class="mv"><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/monti-cantari/" onclick="try{gtag('event','apri_meteo_zona',{da:'pagina-lazio'})}catch(e){}">Meteo Monti Cantari</a><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/monti-prenestini/" onclick="try{gtag('event','apri_meteo_zona',{da:'pagina-lazio'})}catch(e){}">Meteo Monti Prenestini</a><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/monti-reatini/" onclick="try{gtag('event','apri_meteo_zona',{da:'pagina-lazio'})}catch(e){}">Meteo Monti Reatini</a><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/monti-sabini/" onclick="try{gtag('event','apri_meteo_zona',{da:'pagina-lazio'})}catch(e){}">Meteo Monti Sabini</a><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/sabina/" onclick="try{gtag('event','apri_meteo_zona',{da:'pagina-lazio'})}catch(e){}">Meteo Sabina</a></div>
+
 </section>
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>

@@ -140,18 +140,36 @@ function linkMeteoPaese(loc, ga) {
 /* «Previsioni meteo valle per valle» (30/10/2026, scheda 101 bis, suo: «sì, tutti e due»): le pagine meteo di zona e di
    paese di UNA regione, per le pagine «adesso» (genera-pagine-adesso.js). Link veri nell'HTML: le «adesso» sono su
    Google da subito e portano li' le pagine meteo. Stile .mv nella pagina che lo chiede. Vuoto se la regione non ne ha:
-   compare da solo quando ne arriva una. Ordine alfabetico, «Meteo <nome>» come il titolo delle pagine. */
-function linkMeteoRegione(reg, ga) {
+   compare da solo quando ne arriva una. Ordine alfabetico, «Meteo <nome>» come il titolo delle pagine.
+   ⚠️ 31/10/2026 (scheda 104 bis, controllo SEO del cloud, suo «sì, le pagine meteo»): anche nelle pagine meteo stesse
+   (`salta` = l'indirizzo della pagina, che non linka se stessa), nelle 23 regioni e nelle 19 regioni funghi. Prima le
+   71 pagine meteo non linkavano nessun'altra pagina meteo e ne ricevevano 2-3 link a testa. Stile: MV_CSS. */
+function linkMeteoRegione(reg, ga, salta) {
   const voce = (href, n, ev) => `<a class="mv-c" href="${href}" onclick="try{gtag('event','${ev}',{da:'${ga}'})}catch(e){}">Meteo ${esc(n)}</a>`;
   const per = (a, b) => a.n.localeCompare(b.n, 'it');
-  const zone = ZONE_METEO_TUTTE.map(s => ZONE.find(z => slug(z.n) === s)).filter(z => z && z.reg === reg).sort(per);
-  const paesi = METEO_PAESI.filter(p => p.loc.split('/')[0] === reg).sort(per);
+  const zone = ZONE_METEO_TUTTE.map(s => ZONE.find(z => slug(z.n) === s))
+    .filter(z => z && z.reg === reg && `${SITO}/meteo/${slug(z.n)}/` !== salta).sort(per);
+  const paesi = METEO_PAESI.filter(p => p.loc.split('/')[0] === reg && indirizzoMeteoPaese(p) !== salta).sort(per);
   if (!zone.length && !paesi.length) return '';
   return (zone.length ? `<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
 <p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
 <div class="mv">${zone.map(z => voce(`${SITO}/meteo/${slug(z.n)}/`, z.n, 'apri_meteo_zona')).join('')}</div>\n` : '')
     + (paesi.length ? `<h3 class="cit-tit">Previsioni meteo paese per paese</h3>
 <div class="mv">${paesi.map(p => voce(indirizzoMeteoPaese(p), p.n, 'apri_meteo_paese')).join('')}</div>\n` : '');
+}
+// le pillole di linkMeteoRegione, le stesse regole delle pagine «adesso» (STILE_ADESSO di genera-pagine-adesso.js)
+const MV_CSS = `
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+`;
+// in fondo alle pagine meteo di zona e di paese: le altre della stessa regione, sotto un titolo loro
+function altreMeteo(r, ga, salta) {
+  const blocco = linkMeteoRegione(r.k, ga, salta);
+  return blocco ? `<h2>Previsioni meteo ${r.prep} ${esc(r.nomeTitolo || r.nome)}</h2>\n${blocco}` : '';
 }
 
 const CSS = `
@@ -981,6 +999,7 @@ function pagina(z, QUOTE_DI) {
     `Meteo ${NOME}: pioggia, minime e massime dei prossimi 7 giorni in ${paesi.length} paesi ${DV}, ora per ora, e la pioggia già caduta.`,
     `Meteo ${NOME}: pioggia, minime e massime dei prossimi 7 giorni in ${paesi.length} paesi, ora per ora.`,
   ].find(t => t.length <= 155) || `Meteo ${NOME}: le previsioni dei prossimi 7 giorni, paese per paese.`;
+  const ALTRE = altreMeteo(casa, 'meteo-' + zslug, `${SITO}/meteo/${zslug}/`);   // vuoto se la regione non ne ha altre
 
   const modello = path.join(RADICE, casa.k, 'index.html');
   if (!fs.existsSync(modello)) { console.error('⚠️ manca ' + modello + ': lancia prima genera-pagine-regione.js'); process.exit(1); }
@@ -1020,7 +1039,7 @@ ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SIT
   }
 </script>
 <link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css">
-<style>${STILE}${CSS}${CSS_ANT}${TESTATA_CSS}</style>
+<style>${STILE}${CSS}${CSS_ANT}${ALTRE && !STILE.includes('.mv-c{') ? MV_CSS : ''}${TESTATA_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiva: 'previsioni' })}
@@ -1060,7 +1079,7 @@ ${nastroHtml(NOME)}
 </div>
 
 ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
-
+${ALTRE}
 <h2>Come funziona questa pagina</h2>
 <p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei ${paesi.length} paesi e aggiornate più volte al giorno; la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri ${esc(ENTE)}: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
 </main>
@@ -1087,6 +1106,7 @@ ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
+  MV_CSS, altreMeteo,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
