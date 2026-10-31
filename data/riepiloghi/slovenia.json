@@ -1,100 +1,100 @@
 {
  "regione": "slovenia",
- "generato": "2026-10-31T04:15:40.115Z",
+ "generato": "2026-10-31T05:31:00.969Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0,
    "giorni": 1,
    "stazioni": 114,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
-     "n": "Rogla",
-     "mm": 3.3
-    },
-    {
-     "n": "Uršlja gora",
-     "mm": 1.6
-    },
-    {
-     "n": "Sveti Trije Kralji (Pohorje)",
-     "mm": 1.5
-    },
-    {
-     "n": "Slovenske Konjice",
-     "mm": 1.3
-    },
-    {
-     "n": "Zavodnje",
+     "n": "Nanos",
      "mm": 1.1
+    },
+    {
+     "n": "Kredarica",
+     "mm": 0.8
+    },
+    {
+     "n": "Kum",
+     "mm": 0.5
+    },
+    {
+     "n": "Jeruzalem",
+     "mm": 0.2
+    },
+    {
+     "n": "Babno Polje",
+     "mm": 0.1
     }
    ]
   },
   "7": {
-   "media": 26,
+   "media": 15.1,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
-     "n": "Planina pod Golico",
-     "mm": 66.9
+     "n": "Osilnica",
+     "mm": 33.5
     },
     {
-     "n": "Krn",
-     "mm": 54.1
+     "n": "Iskrba",
+     "mm": 32.9
     },
     {
-     "n": "Kredarica",
-     "mm": 48.4
+     "n": "Sviščaki",
+     "mm": 29.9
+    },
+    {
+     "n": "Vodice (Ajdovščina)",
+     "mm": 29
     },
     {
      "n": "Breginj",
-     "mm": 47.6
-    },
-    {
-     "n": "Rateče",
-     "mm": 44.2
+     "mm": 27
     }
    ]
   },
   "20": {
-   "media": 69.1,
+   "media": 60.6,
    "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Kanin",
-     "mm": 219.1
-    },
-    {
-     "n": "Sviščaki",
-     "mm": 174.8
+     "mm": 212.5
     },
     {
      "n": "Breginj",
-     "mm": 173.4
-    },
-    {
-     "n": "Krn",
-     "mm": 170.4
+     "mm": 167.5
     },
     {
      "n": "Predel",
-     "mm": 167.9
+     "mm": 164.4
+    },
+    {
+     "n": "Bovec - letališče",
+     "mm": 164.3
+    },
+    {
+     "n": "Krn",
+     "mm": 156.2
     }
    ]
   },
   "30": {
-   "media": 100,
+   "media": 100.1,
    "giorni": 30,
    "stazioni": 114,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Otlica - Ekoloska",
@@ -120,11 +120,12 @@
   }
  },
  "serie": [
+  0,
   0.2,
   0,
   0,
   0.1,
-  13,
+  13.1,
   1.7,
   11,
   22.1,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": []
 }

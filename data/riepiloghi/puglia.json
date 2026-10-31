@@ -1,46 +1,46 @@
 {
  "regione": "puglia",
- "generato": "2026-10-30T15:54:44.508Z",
+ "generato": "2026-10-31T05:31:00.968Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 129,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-29",
+   "ultimo": "2026-10-29",
    "top": [
     {
-     "n": "Acquaviva delle Fonti",
-     "mm": 0
+     "n": "Monopoli",
+     "mm": 2.9
     },
     {
-     "n": "Adelfia",
-     "mm": 0
+     "n": "Polignano",
+     "mm": 2.9
     },
     {
-     "n": "Alberona",
-     "mm": 0
+     "n": "Castellana Grotte",
+     "mm": 2.5
     },
     {
-     "n": "Alessano",
-     "mm": 0
+     "n": "Sannicandro Garganico",
+     "mm": 2.3
     },
     {
-     "n": "Altamura",
-     "mm": 0
+     "n": "Conversano",
+     "mm": 2.1
     }
    ]
   },
   "7": {
-   "media": 6.1,
+   "media": 6,
    "giorni": 7,
-   "stazioni": 128,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "stazioni": 129,
+   "primo": "2026-10-23",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Sannicandro Garganico",
-     "mm": 76
+     "mm": 78.3
     },
     {
      "n": "Lesina",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 41.6
+     "mm": 40.2
     },
     {
      "n": "Cagnano Varano",
@@ -61,40 +61,40 @@
    ]
   },
   "20": {
-   "media": 64.9,
+   "media": 53,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-10",
+   "ultimo": "2026-10-29",
    "top": [
     {
+     "n": "Ostuni",
+     "mm": 128.6
+    },
+    {
      "n": "Vico del Gargano",
-     "mm": 133.4
+     "mm": 127.4
     },
     {
      "n": "Sannicandro Garganico",
-     "mm": 131
-    },
-    {
-     "n": "Ostuni",
-     "mm": 129.8
+     "mm": 126.7
     },
     {
      "n": "Bari Ufficio Idrografico",
-     "mm": 126.9
+     "mm": 119.9
     },
     {
-     "n": "Galatina",
-     "mm": 113.8
+     "n": "Martina Franca",
+     "mm": 109.3
     }
    ]
   },
   "30": {
-   "media": 77.8,
+   "media": 78.1,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-09-30",
+   "ultimo": "2026-10-29",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Ostuni",
-     "mm": 158.3
+     "mm": 158.7
     },
     {
      "n": "Martina Franca",
-     "mm": 151.2
+     "mm": 152.9
     }
    ]
   }
  },
  "serie": [
+  0.3,
   0,
   0,
   0.1,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0.2,
-  0
+  0.2
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-29",
  "zone": []
 }
