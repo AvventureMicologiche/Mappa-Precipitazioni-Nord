@@ -591,12 +591,11 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       var touch = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
       mappa = L.map('pz-mappa', { scrollWheelZoom: false, attributionControl: true, zoomSnap: 0.25, dragging: !touch });
       /* LA FOTO DAL SATELLITE, COME LA MAPPA (30/10/2026; prima OpenStreetMap col rilievo TINITALY in «multiply»): la
-         foto schiarita fino allo zoom 13,5, piu' vicino la cartina di sempre coi nomi delle strade, come viFondo della
-         vista a etichette. Il rilievo a parte non serve piu': la foto ce l'ha */
+         foto schiarita, come viFondo della vista a etichette. Il rilievo a parte non serve piu': la foto ce l'ha.
+         ⚠️ A OGNI ZOOM dal 31/10/2026 (suo: «zoomando scompare il satellite», poi «sistema anche le 71 pagine meteo»):
+         fino ad allora oltre lo zoom 13,5 tornava la cartina coi nomi delle strade, come faceva viFondo */
       var sat = L.tileLayer(C.sat, { maxNativeZoom: 17, maxZoom: 15, attribution: 'Foto: Esri, Vantor, Earthstar Geographics' });
-      var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 15, attribution: '© OpenStreetMap' });
-      var fondo = function () { var vicino = mappa.getZoom() >= 13.5; $('pz-mappa').classList.toggle('sat', !vicino);
-        mappa.removeLayer(vicino ? sat : osm); (vicino ? osm : sat).addTo(mappa); };
+      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!mappa.hasLayer(sat)) sat.addTo(mappa); };
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
