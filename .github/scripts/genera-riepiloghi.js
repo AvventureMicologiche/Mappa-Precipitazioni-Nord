@@ -231,17 +231,24 @@ function ultimoCompleto(dirs) {
 // ce l'ha MAI, quindi ieri perdeva sempre di una cartella e il conto mostrava quasi sempre l'ALTROIERI (trovato
 // al check generale della v11.0: «5.501 letti» era il 6/10 l'8/10). Stessa lista del guardiano.
 const RITARDO_DICHIARATO = new Set(['slovenia']);
+// ⚠️ FUORI DAL CONTO (controllo del 31/10/2026): la cartella di PROVA dell'Abruzzo (la mappa non la legge, e 145 dei
+// suoi 160 punti sono stime del modello ICON) e i file di stima Open-Meteo (Puglia 26-29/10: 131 «pluviometri» che
+// erano stime). Il 31/10 il conto diceva «6.011 letti» del 29/10: l'Abruzzo di prova non aveva ancora il 30 e faceva
+// perdere a ieri il confronto.
+const NON_PLUVIOMETRI = new Set(['abruzzo']);
 function letture(giorno) {
   let stazioni = 0, cartelle = 0, confronto = 0;
   for (const d of fs.readdirSync(DATI)) {
-    if (d === 'riepiloghi') continue;
+    if (d === 'riepiloghi' || NON_PLUVIOMETRI.has(d)) continue;
     let st;
     try {
       if (!fs.statSync(path.join(DATI, d)).isDirectory()) continue;
+      const j = JSON.parse(fs.readFileSync(path.join(DATI, d, giorno + '.json'), 'utf8'));
+      if (/open-meteo/.test(j.source || '')) continue;
       st = leggi(d, giorno);
     } catch (e) { continue; }
     if (!st) continue;
-    stazioni += st.length;
+    stazioni += st.filter(s => !s.om && !/open-meteo/.test(s.src || '')).length;   // le stazioni stimate dentro un file vero
     cartelle++;
     if (!RITARDO_DICHIARATO.has(d)) confronto++;
   }
