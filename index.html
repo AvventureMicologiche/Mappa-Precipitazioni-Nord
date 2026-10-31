@@ -2960,12 +2960,13 @@ window._fotoNostra=function(pane,quandoNonArriva){
   l.on('tileload',function(){ arrivate++; });
   l.on('tileerror',function(e){
     rotte++; if(!detto&&rotte>=3&&arrivate===0){ detto=true; if(quandoNonArriva) quandoNonArriva(); return; }
-    /* ⚠️ UN SECONDO TENTATIVO per tessera (31/10/2026): subito dopo il push del repo jsDelivr va a prendere ogni tessera
-       da GitHub alla prima richiesta, e qualcuna sbagliava (4 su 40 in Lombardia, un'ora dopo tutte a posto): Leaflet
-       non riprova e restava un quadrato di cartina sotto la pioggia. Dopo 1,5 s la stessa tessera si richiede una volta */
-    var im=e.tile; if(!im||im._riprova) return; im._riprova=1;
+    /* ⚠️ ALTRI TRE TENTATIVI per tessera (31/10/2026): jsDelivr va a prendere ogni tessera da GitHub alla sua PRIMA
+       richiesta, e con tante richieste insieme qualcuna sbagliava (4 su 40 in Lombardia; nell'anteprima, visto da lui,
+       due quadrati di cartina in Austria e in Provenza, un'ora dopo tutte a posto): Leaflet non riprova. Si richiede
+       dopo 2, 5 e 12 secondi. (Il 31/10 sera le tessere sono state anche chieste tutte una volta, per scaldarle.) */
+    var im=e.tile; if(!im) return; im._riprova=(im._riprova||0)+1; if(im._riprova>3) return;
     // solo se la tessera e' ancora in mappa: quelle tolte dallo zoom (richiesta annullata) non si richiedono
-    setTimeout(function(){ var s=im.src; if(!s||!l._map||!im.parentNode) return; im.src=''; im.src=s; },1500);
+    setTimeout(function(){ var s=im.src; if(!s||!l._map||!im.parentNode) return; im.src=''; im.src=s; },[2000,5000,12000][im._riprova-1]);
   });
   return l;
 };
@@ -17902,13 +17903,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        dallo zoom 11 (valli e paesi: li' conta il dettaglio delle case). Se la nostra non arriva, Esri a ogni zoom
        come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita */
     if(on&&!satL){
-      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxNativeZoom:17,attribution:'Foto da vicino: Esri, Vantor, Earthstar Geographics'});
+      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxNativeZoom:17});
       var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
         var mm=map(); if(!mm||!satL) return;
-        satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); }):null;
+        satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); creditoEsri(); }):null;
       if(nostraL) nostraL.options.attribution='Foto: NASA Blue Marble, ESA WorldCover 2021 (dati Copernicus Sentinel modificati)';
       else vicinoL.options.minZoom=0;
       satL=L.layerGroup(nostraL?[nostraL,vicinoL]:[vicinoL]);
+      // il credito di Esri solo quando la sua foto c'e' davvero (31/10/2026: scritto sempre, lui ha chiesto «le
+      // previsioni hai lasciato esri?» guardando la vista Italia, che e' tutta nostra)
+      var ESRI_CR='Foto da vicino: Esri, Vantor, Earthstar Geographics', crSi=false;
+      var creditoEsri=function(){ var mm=map(); if(!mm||!mm.attributionControl) return;
+        var si=!!(mm.hasLayer(satL)&&(vicinoL.options.minZoom===0||mm.getZoom()>=11)); if(si===crSi) return; crSi=si;
+        if(si) mm.attributionControl.addAttribution(ESRI_CR); else mm.attributionControl.removeAttribution(ESRI_CR); };
+      satL.on('add remove',creditoEsri); m.on('zoomend',creditoEsri);
     }
     if(vz&&!fondoL){ fondoL=L.tileLayer(esri('Ocean/World_Ocean_Base'),{pane:'viFondo',maxNativeZoom:10,attribution:'Cartina: Esri'});
       rilievoL=L.tileLayer(esri('Elevation/World_Hillshade'),{pane:'viRilievo',maxNativeZoom:13});
