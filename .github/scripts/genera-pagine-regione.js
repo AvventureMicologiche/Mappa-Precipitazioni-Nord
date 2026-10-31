@@ -293,7 +293,8 @@ function descrMappa(r, j, N, n) {
   // cusio os)» due volte la frase arrivava a 226 caratteri e restava solo «Mappa di 277 pluviometri…»
   const uno = !d1 || !d1.giorni ? null : t1 && t1.mm >= 1 ? `${quando} ${virgola(t1.mm)} mm ${aDi(nomeBello(t1.nb || t1.n))}` : `${quando} giornata ${t1 && t1.mm > 0 ? 'quasi ' : ''}asciutta`;
   const sette = t7 && t7.mm >= 1 ? `in 7 giorni ${mmD(t7.mm)} mm ${aDi(nomeBello(t7.nb || t7.n))}` : null;
-  const numeri = [uno, sette].filter(Boolean).join(', ');
+  // la maiuscola (31/10/2026): senza «ieri» (giorno tutto stimato, vedi genera-riepiloghi.js) la frase partiva da «in 7 giorni»
+  const numeri = (t => t.charAt(0).toUpperCase() + t.slice(1))([uno, sette].filter(Boolean).join(', '));
   // la forma «apertura + ieri» senza coda (19/10/2026): con un nome lungo («Gressoney-Saint-Jean - lago di Seebna»)
   // la Valle d'Aosta sforava i 158 caratteri per la sola coda e ripiegava sull'apertura nuda
   const forme = [`${apre} ${numeri}. ${coda}`, `${apre} ${numeri}.`, `${apre} ${uno ? uno + '.' : ''} ${coda}`, uno ? `${apre} ${uno}.` : apre, apre];
@@ -361,6 +362,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -596,6 +598,7 @@ ${FUNGHI.includes(r.k) ? `
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misurano <b>${r.staz} pluviometri ${diEnte(r.agenzia)}</b>, strumenti a terra, non stime da modello.
+Se una rete si ferma e qualche giorno è coperto da una stima, lo dice l’avviso giallo in cima alla pagina.
 I numeri in cima sono la media dei pluviometri della regione, giorno per giorno; sotto, i più bagnati di ogni periodo.
 La giornata di oggi non è contata perché i pluviometri la stanno ancora misurando.</p>${r.nota ? `\n<p>${r.nota}</p>` : ''}
 ${ESTERE.includes(r.k) ? `<h2>Dove piove oggi ${r.prep} ${r.nome}? La diretta radar</h2>

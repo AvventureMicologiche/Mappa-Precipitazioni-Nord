@@ -4431,6 +4431,12 @@ function openStationHistory(s,rank,mx,my){
     histRender(s,regionKey,days,serie,selFrom,selTo,notaPeriodo,histRegion);
     histPosition(mx,my);
   }
+  /* ⚠️ L'ABRUZZO A OPEN-METEO NON LEGGE data/abruzzo (31/10/2026, controllo della scheda 103). Dal 20/10 in quella
+     cartella ci sono i file della prova MeteoNetwork + ICON-2I (da decidere verso il 3-6/11): la scheda li trovava e
+     accoppiava per NOME il punto Open-Meteo del pallino con un'altra stazione, e il numero grande non era la somma delle
+     barre (Atessa 27,9 mm contro 39,4). Finche' la mappa disegna l'Abruzzo con Open-Meteo, niente barre, com'era prima
+     del 20/10. Decisa la fonte dell'Abruzzo, questa riga si toglie o cambia. */
+  if(regionKey==='abruzzo'&&REGIONS.abruzzo&&REGIONS.abruzzo.dataSource==='open_meteo'){ done({}); return; }
   histFromFiles(histRegion,s,days,done);
 }
 
@@ -4851,6 +4857,19 @@ function positionLegend(){
         ultima=h; positionPanels();
       });
       leg._osserva.observe(leg);
+    }
+    /* ⚠️ E QUANDO CAMBIA IL PANNELLO DEL PERIODO (31/10/2026, scheda 103): sul PC basso e nei boschi la riga «✅ Ieri»
+       sparisce quando il caricamento finisce, DOPO che la legenda si e' messa sotto il pannello; a 1280x760 restava
+       un buco di 39 px. Stessa guardia dell'altezza gia' vista. */
+    var tpn=document.getElementById('time-panel');
+    if(tpn && window.ResizeObserver && !tpn._osserva){
+      var ultimaTp=-1;
+      tpn._osserva=new ResizeObserver(function(){
+        var h=tpn.offsetHeight;
+        if(Math.abs(h-ultimaTp)<2) return;
+        ultimaTp=h; positionPanels();
+      });
+      tpn._osserva.observe(tpn);
     }
   }catch(e){}
 }
@@ -6962,6 +6981,15 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 //     27/10/2026 SENZA PALLINO e fuori dai numeri del Friuli (_fuori, vedi render).
 // ═══════════════════════════════════════════════════════════════
 var FRIULI_VENETO_BORDER={'Sella Ciampigotto':1,'Santo Stefano di Cadore':1,'Costalta':1,'Domegge di Cadore':1,'Casamazzagno':1};
+// ── PLUVIOMETRI DEL FRIULI ESCLUSI (lista nata il 31/10/2026, controllo della scheda 103) ──
+// Per ID, nelle due cartelle (friuli-osmer e meteohub-friuli). La legge anche lib-escluse.js, cosi'
+// pagine e riepiloghi li tolgono come la mappa.
+//   osmer_213200 «Pontebba» (OSMER): 0,8 mm in 24 giorni (30/9-29/10) mentre sugli STESSI giorni i 14
+//   pluviometri entro 17 km segnavano 10-33 mm. Verificato sulla FONTE (archivio orario www.meteo.fvg.it,
+//   31/10): 0 mm in ogni ora che consegna, e nei giorni di pioggia consegna 3-10 ore su 24 (21/10: Pontebba
+//   3 ore a 0, Tarvisio 49,5 mm, Tolmezzo 135,9). E' lo strumento, non il collector.
+//   46.50607_13.30752 «Pontebba T.P.» (MeteoHub): lo stesso posto (100 m), 5 giorni su 30, tutti a 0.
+var FRIULI_ESCLUSE={'osmer_213200':1,'46.50607_13.30752':1};
 function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
   var OSMER_RAW=PILOT_DATA_BASE+'friuli-osmer';
   var MH_RAW=MH_DATA_BASE+'meteohub-friuli';
@@ -7038,6 +7066,7 @@ function loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,cb){
         if(isReal) realDays++;
         data.stations.forEach(function(s){
           var key=s.id||s.n;
+          if(s.id&&FRIULI_ESCLUSE[String(s.id)]) return;   // guasti, vedi FRIULI_ESCLUSE
           if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FVG',_src:'osmer'};
 else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // la quota arriva anche da un file dopo (col suo ~)
           if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
@@ -7058,6 +7087,7 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
       .then(function(data){
         if(!data.stations) return;
         data.stations.forEach(function(s){
+          if(s.id&&FRIULI_ESCLUSE[String(s.id)]) return;   // guasti, vedi FRIULI_ESCLUSE
           var key='mh_'+(s.id||s.n);
           if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'FVG',_src:'mh'};
 else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // la quota arriva anche da un file dopo (col suo ~)
@@ -8191,8 +8221,11 @@ function locDaGeocoder(testo) {
                  /* «frazione» e' un'etichetta che ha senso solo in Italia: il
                     nostro elenco ha i comuni italiani, quindi cio' che arriva
                     di qui e in piu' e' una frazione. Fuori no: li' l'elenco non
-                    c'e' proprio, e Zermatt non e' la frazione di nessuno. */
-                 frazione: paese === 'IT' };
+                    c'e' proprio, e Zermatt non e' la frazione di nessuno.
+                    ⚠️ E NEMMENO I CAPOLUOGHI (31/10/2026, controllo della scheda 103): «reggio calabria» e
+                    «reggio emilia» arrivano da qui perche' il nostro elenco li chiama «Reggio di Calabria» e
+                    «Reggio nell'Emilia», e uscivano «frazione». Per GeoNames PPLA* e PPLC sono sedi di comune. */
+                 frazione: paese === 'IT' && !/^PPL(A\d?|C)$/.test(x.feature_code || '') };
       }).filter(Boolean);
     })
     .catch(function () { return []; });
@@ -8203,13 +8236,19 @@ function locCerca(testo) {
   if (!q || !_locIndice) return { righe: [], totale: 0 };
   var varianti = locVarianti(q);
   var inizio = [], dentro = [];
+  /* ⚠️ I NOMI SCRITTI ATTACCATI (31/10/2026, controllo della scheda 103): il commento di locNormalizza promette che
+     «santangelo» trova Sant'Angelo, ma il confronto era solo con gli spazi e «santanna», «santangelo», «sanpellegrino»
+     non trovavano niente. Se chi scrive non mette spazi (e ha scritto almeno 5 lettere), vale anche l'inizio del nome
+     SENZA spazi; il grassetto in quel caso non c'e' (locDove non trova il pezzo), il posto si'. */
+  var attaccato = q.indexOf(' ') < 0 && q.length >= 5 ? q : null;
   for (var i = 0; i < _locIndice.length; i++) {
-    var p = _locIndice[i];
+    var p = _locIndice[i], preso = false;
     for (var v = 0; v < varianti.length; v++) {
       var qq = varianti[v];
-      if (p.q.lastIndexOf(qq, 0) === 0) { inizio.push(p); break; }
-      if (p.q.indexOf(' ' + qq) >= 0) { dentro.push(p); break; }   // inizio di una parola qualsiasi
+      if (p.q.lastIndexOf(qq, 0) === 0) { inizio.push(p); preso = true; break; }
+      if (p.q.indexOf(' ' + qq) >= 0) { dentro.push(p); preso = true; break; }   // inizio di una parola qualsiasi
     }
+    if (!preso && attaccato && p.q.indexOf(' ') >= 0 && p.q.replace(/ /g, '').lastIndexOf(attaccato, 0) === 0) inizio.push(p);
   }
   // dentro ogni gruppo comanda la popolazione: chi cerca «San» vuole prima
   // San Giovanni Rotondo, non una frazione da sei anime.
@@ -8769,7 +8808,14 @@ function locMostraRecenti() {
           res.righe.forEach(function (x) { visti[x.q + '|' + x.reg] = 1; });
           var nuove = extra.filter(function (x) { return !visti[x.q + '|' + x.reg]; });
           if (!nuove.length) { if (!res.totale) locDisegna(res, testo); return; }
-          locDisegna({ righe: res.righe.concat(nuove).slice(0, LOC_MAX_RIGHE),
+          /* ⚠️ IL NOME GIUSTO E GRANDE VA IN CIMA (31/10/2026, controllo della scheda 103): «nizza» metteva Nizza di
+             Francia (342.000 abitanti) sesta, dopo Ponte Nizza e Val di Nizza, e Invio portava a Nizza Monferrato.
+             Un posto del geocoder col nome IDENTICO a quello scritto e piu' abitanti del primo dell'elenco passa
+             davanti; gli altri restano in coda come prima («siena» resta la citta', la frazione messinese no). */
+          var qn = locNormalizza(testo), pesoPrimo = res.righe.length ? (res.righe[0].t === 'z' ? 25000 : (res.righe[0].pop || 0)) : 0;
+          var davanti = nuove.filter(function (x) { return x.q === qn && (x.pop || 0) > pesoPrimo; });
+          var dietro = nuove.filter(function (x) { return davanti.indexOf(x) < 0; });
+          locDisegna({ righe: davanti.concat(res.righe, dietro).slice(0, LOC_MAX_RIGHE),
                        totale: res.totale + nuove.length }, testo);
         });
       }).catch(function () {
@@ -11483,6 +11529,7 @@ function _pallEscluso(rk,s){
   if(rk==='liguria')  return !!(s.id&&LIGURIA_ESCLUSE[String(s.id)]);
   if(rk==='emilia')   return !!(s.id&&EMILIA_ESCLUSE[String(s.id)]);
   if(rk==='toscana')  return !!TOSCANA_ESCLUSE[s.id||s.n];     // per ID: quattro nomi doppi
+  if(rk==='friuli')   return !!(s.id&&FRIULI_ESCLUSE[String(s.id)]);   // 31/10/2026, vedi FRIULI_ESCLUSE
   return false;
 }
 var _pallCache={};
@@ -13463,6 +13510,21 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   body.modo-boschi #time-panel #btn-funghi{font-size:0 !important}
   body.modo-boschi #time-panel #btn-funghi > span{display:none}
   body.modo-boschi #time-panel #btn-funghi:after{content:'Piogge 13-20 gg fa';font-size:13px;font-weight:600;vertical-align:middle}
+}
+/* ── PC CON LO SCHERMO BASSO: lo stesso pannello compatto, anche fuori dai boschi (31/10/2026, controllo della scheda
+   103, sua scelta «A»: «la B ha dei tagli»). Sul portatile 1366x768 la finestra utile e' alta ~657-717 px e la legenda
+   dei cumulati scorreva in un riquadro (184 px di contenuto, 108-152 in vista): i nomi sotto i numeri e l'invito giallo
+   alle previsioni restavano sotto. Come nella mappa forestale: i sei periodi su UNA riga («7 gg») e «✅ Ieri» via quando
+   ripete solo il periodo acceso (avvisi ed errori restano); l'invito un filo piu' basso. Sotto i 780 px d'altezza, dove
+   prima non ci stava; sopra non cambia niente. Mockup: D:\video youtube\claudio\mockup-legenda-pc-bassi\ */
+@media (min-width:901px) and (max-height:780px){
+  #time-panel .tp-periodi{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+  #time-panel .tp-periodi .tp-grid3{display:contents}
+  #time-panel .tp-lunga{display:none}
+  #time-panel .tp-corta{display:inline}
+  #time-panel .tp-periodi .tp-btn{padding-left:0;padding-right:0;white-space:nowrap}
+  #tp-status.tp-ok{display:none}
+  body #legend-panel .inv-prev{padding-top:7px;padding-bottom:7px;margin-top:6px}
 }
 /* ── TELEFONO, MAPPA FORESTALE: piu' spazio alla mappa (27/9) ── */
 @media (max-width:900px){

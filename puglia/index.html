@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pluviometria Puglia: mappa di 129 pluviometri, ieri e 30 giorni</title>
-<meta name="description" content="Mappa di 129 pluviometri MeteoHub aggiornata ogni mattina. Il 29 ottobre 2,9 mm a Monopoli, in 7 giorni 78 mm a Sannicandro Garganico.">
+<meta name="description" content="Mappa di 129 pluviometri MeteoHub aggiornata ogni mattina. In 7 giorni 78 mm a Sannicandro Garganico. Tocca un paese e vedi il grafico.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/puglia/">
 <meta property="og:title" content="Dove ha piovuto in Puglia: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da oltre 120 pluviometri di MeteoHub.">
@@ -56,6 +56,7 @@ p{margin-bottom:12px;}
 .top-staz li{margin:3px 0 3px 20px;}
 .verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
 .verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
 #attesa{color:#6a7789;font-size:16px;padding:18px 0;}
 ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
 ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
@@ -387,7 +388,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
      alla domanda del titolo, cioe' IERI, poi le barre, poi i periodi, le zone,
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
 <div id="attesa" style="display:none"></div>
-<div id="verdetto"><div class="verdetto"><div class="si">Giovedì 29 ottobre</div><div class="gr">0,3 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Monopoli</b> 2,9 mm, <b>Polignano</b> 2,9 mm, <b>Castellana Grotte</b> 2,5 mm.</div><div class="dett">Media di 129 pluviometri.</div><div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;da=2026-10-29&amp;a=2026-10-29&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-puglia-ieri-box'})}catch(e){}"><b>Mappa di quel giorno</b><i>→</i><small>la pioggia in tutte le località</small></a></div><div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;m=prev" onclick="try{gtag('event','apri_mappa',{da:'pagina-puglia-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/" onclick="try{gtag('event','apri_mappa',{da:'pagina-puglia-porta-radar'})}catch(e){}"><span>📡</span>Radar piogge</a><a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-puglia-porta-boschi'})}catch(e){}"><span>🌲</span>Mappa boschi</a><a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;boschi=1&amp;sat=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-puglia-porta-satellite'})}catch(e){}"><span>🛰️</span>Boschi + satellite</a></div></div></div>
+<div id="verdetto"><div class="avviso-stime">⚠️ Dal 26 al 29 ottobre i pluviometri non hanno trasmesso: quei giorni sono stime Open-Meteo, non misure.</div></div>
 <!-- 19/10/2026: al posto della striscia blu «Che tempo farà», il blocco meteo (lib-meteo-regione.js):
      la casella per il proprio paese, che apre la mappa delle previsioni, e le città principali. -->
 <section class="mk-meteo" id="meteo">
@@ -463,6 +464,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misurano <b>oltre 120 pluviometri di MeteoHub</b>, strumenti a terra, non stime da modello.
+Se una rete si ferma e qualche giorno è coperto da una stima, lo dice l’avviso giallo in cima alla pagina.
 I numeri in cima sono la media dei pluviometri della regione, giorno per giorno; sotto, i più bagnati di ogni periodo.
 La giornata di oggi non è contata perché i pluviometri la stanno ancora misurando.</p>
 <h2>La pioggia in corso: la diretta radar</h2>
@@ -573,15 +575,24 @@ temperatura, vento e umidità.</p>
     out.tasti[x[0]] = link(iso(menoDa(ultimo, x[1] - 1)), ultimo);
   });
 
+  /* ⚠️ I GIORNI A STIMA, DETTI IN CIMA (31/10/2026, controllo della scheda 103): quando una rete si ferma i suoi giorni
+     sono stime Open-Meteo (il riepilogo li segna in `stime`, il periodo piu' lungo dice da quando), e la pagina li
+     dava per misure. Stesso avviso della mappa (avvisoStime in index.html), detto per intero. Su «ieri» le stime non
+     contano proprio: se il giorno era tutto stimato il riepilogo non ha il periodo 1 e qui resta solo l'avviso. */
+  var st = (p['30'] && p['30'].stime) || (p['20'] && p['20'].stime) || (p['7'] && p['7'].stime), avviso = '';
+  var gst = st ? +st.al.split('-')[2] : 0;   // «L’8 ottobre», «Il 29 ottobre»
+  if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima Open-Meteo, non una misura.'
+    : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime Open-Meteo, non misure.') + '</div>';
+
   // ── IERI, in cima: la risposta alla domanda del titolo ──
   var d = p['1'];
-  if (!d || !d.giorni) out.verdetto = '';
+  if (!d || !d.giorni) out.verdetto = avviso;
   else {
     var t = nomeGiorno(d.ultimo), top = (d.top || []).filter(function (s) { return s.mm >= 1; }).slice(0, 3), dett;
     if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm'; }).join(', ') + '.';
     else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm ' + (/^[aA]/.test(d.top[0].n) ? 'ad ' : 'a ') + esc(d.top[0].n) + (/\.$/.test(d.top[0].n) ? '' : '.');   // «T.P.» non prende un altro punto (18/10/2026)
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
-    out.verdetto = '<div class="verdetto">'
+    out.verdetto = avviso + '<div class="verdetto">'
       + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
       + '<div class="gr">' + mediaMm(d) + ' mm<small>di media</small></div>'
       + '<div class="top">' + dett + '</div>'

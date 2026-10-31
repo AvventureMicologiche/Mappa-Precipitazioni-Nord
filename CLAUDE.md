@@ -3600,6 +3600,38 @@ i punti hanno un commento «controllo del 30/10/2026» in `index.html`:
 Prova: `prova-correzioni.js` nello scratchpad della scheda 102 (un caso per difetto, la ricerca vera dalla casella),
 16/16 al telefono 393x760, tutti al computer 1366x657 e 1920x920, 6 e 9 a 1536x702, 7 a 393x852 girato.
 
+### Controllo della mappa e delle pagine del 31/10/2026 (scheda 103)
+Suo: «controllo accurato su tutto il resto della mappa», poi «via per i 6 punti». Attrezzi nello scratchpad della scheda
+103: legenda della mappa contro `data/riepiloghi` stazione per stazione (`giro-numeri2.js`, gancio in render iniettato
+nella copia in memoria), schede dei pluviometri (`giro-schede.js`: numero grande = somma delle barre), 22 tipi di link
+delle pagine (`giro-link.js`), schermi, ricerca, Invia link/foto. Tutto il resto tornava (contando la regola del
+confine del 19/10). Corretto:
+1. **Giorni a stima nelle pagine** (Puglia 26-29/10, tutto `open-meteo-gapfill`): la pagina scriveva «Il 29 ottobre
+   2,9 mm a Monopoli» e «non stime da modello», e il suo bottone apriva la mappa su «Nessun dato». Ora
+   `genera-riepiloghi.js` usa la regola di `usaGiorno` (`soloVere`: su UN giorno le stazioni `om` non contano, una
+   cartella con meno di 5 vere non conta) e segna `stime: {dal, al}` sui periodi lunghi (`stimeInCoda`, come
+   `avvisoStime`); `lib-numeri-regione.js` e la pagina di zona scrivono in cima l'avviso giallo `.avviso-stime`, e la
+   frase «non stime da modello» dice dell'avviso. Senza periodo 1 la descrizione parte dai 7 giorni (maiuscola) e
+   `genera-sitemap.js` prende la data dal tasto `t7`.
+2. **`FRIULI_ESCLUSE`** in `index.html` (letta anche da `lib-escluse.js`): Pontebba OSMER `osmer_213200` (0 mm in ogni
+   ora consegnata, verificato sull'archivio orario OSMER; manca nei giorni di pioggia) e Pontebba T.P. MeteoHub.
+3. **Friuli all'80% anche nelle pagine** (`COPERTURA_REGIONE` in `genera-riepiloghi.js`, regione e zone): la mappa ce
+   l'ha dal pilota (`COV_MIN`), e la pagina contava pluviometri che la mappa non mostra.
+4. **Abruzzo**: finche' la mappa e' su Open-Meteo, la scheda del pluviometro non legge `data/abruzzo` (i file della
+   prova MeteoNetwork + ICON, accoppiati per nome davano barre di un'altra fonte): «Storico non disponibile».
+6. **Ricerca**: un posto del geocoder col nome identico a quello scritto e piu' abitanti del primo dell'elenco va in
+   cima («nizza» → Nizza di Francia); «frazione» non per le sedi di comune (PPLA*, PPLC: Reggio Calabria); i nomi
+   scritti attaccati («santanna», «santangelo») trovano l'inizio del nome senza spazi. Lasciata «Sant'Anna di Stazzema»
+   (GeoNames ha solo «Sant'Anna», senza comune).
+5. **Legenda sui PC con lo schermo basso** (1366x768: finestra utile ~657-717 px; la legenda scorreva in un riquadro,
+   184 px di contenuto e 108-152 in vista, numeri e invito sotto): sua scelta «A» fra due varianti del mockup
+   (`D:\video youtube\claudio\mockup-legenda-pc-bassi\`; la B, invito in cima, a 657 tagliava i numeri). In `index.html`
+   `@media (min-width:901px) and (max-height:780px)`, lo stesso pannello compatto della mappa forestale: sei periodi su
+   una riga («7 gg», `.tp-corta`), `#tp-status.tp-ok` via, invito un filo piu' basso. In `positionLegend` un
+   ResizeObserver anche sul pannello del periodo: la riga «✅» sparisce a caricamento finito e la legenda restava 39 px
+   sotto. Prova `prova-legenda-bassa.js` (7 altezze da 600 a 920, ieri/7/30 giorni/3 regioni/paese/radar/boschi/errore,
+   telefono): 51/51; sotto i 657 px (1366x600) la legenda scorre ancora.
+
 ### «agg.» a pochi minuti, come 3BMeteo e ilMeteo (30/10/2026 sera, scheda 102)
 Suo: alle 20:07 la scritta diceva «agg. 18:17» (l'ora in cui MET aveva calcolato la previsione, la piu' recente che
 c'era), mentre 3BMeteo e ilMeteo scrivono un'ora di pochi minuti prima. MET dice fino a quando ogni previsione e' quella

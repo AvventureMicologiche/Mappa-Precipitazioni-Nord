@@ -92,7 +92,11 @@ function scriviSitemap(SITO, RADICE) {
   for (const r of REGIONI) {
     const rel = path.join(r.k, 'index.html');
     if (!c_e(rel)) continue;
-    const m = /class="ieri-btn" href="[^"]*[?&](?:amp;)?da=(\d{4}-\d\d-\d\d)&amp;a=\1/.exec(fs.readFileSync(path.join(RADICE, rel), 'utf8'));
+    // senza «ieri» (31/10/2026: un giorno tutto stimato non lo e', vedi genera-riepiloghi.js) la data dei numeri cotti
+    // e' la fine dei 7 giorni, nel tasto t7; le pagine non cotte li' hanno «g=7» senza date e restano come prima
+    const h = fs.readFileSync(path.join(RADICE, rel), 'utf8');
+    const m = /class="ieri-btn" href="[^"]*[?&](?:amp;)?da=(\d{4}-\d\d-\d\d)&amp;a=\1/.exec(h)
+      || /id="t7" href="[^"]*[?&](?:amp;)?da=\d{4}-\d\d-\d\d&amp;a=(\d{4}-\d\d-\d\d)&amp;s=p"/.exec(h);
     const lm = m && m[1] > NASCITA_REGIONI ? m[1] : NASCITA_REGIONI;
     voci.push({ loc: `${SITO}/${r.k}/`, lastmod: lm, freq: m ? 'daily' : 'weekly', pri: '0.8' });
   }

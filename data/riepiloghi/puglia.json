@@ -1,36 +1,7 @@
 {
  "regione": "puglia",
- "generato": "2026-10-31T05:31:00.968Z",
+ "generato": "2026-10-31T07:16:05.990Z",
  "periodi": {
-  "1": {
-   "media": 0.3,
-   "giorni": 1,
-   "stazioni": 129,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
-   "top": [
-    {
-     "n": "Monopoli",
-     "mm": 2.9
-    },
-    {
-     "n": "Polignano",
-     "mm": 2.9
-    },
-    {
-     "n": "Castellana Grotte",
-     "mm": 2.5
-    },
-    {
-     "n": "Sannicandro Garganico",
-     "mm": 2.3
-    },
-    {
-     "n": "Conversano",
-     "mm": 2.1
-    }
-   ]
-  },
   "7": {
    "media": 6,
    "giorni": 7,
@@ -58,7 +29,11 @@
      "n": "Vico del Gargano",
      "mm": 36.1
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-10-26",
+    "al": "2026-10-29"
+   }
   },
   "20": {
    "media": 53,
@@ -87,7 +62,11 @@
      "n": "Martina Franca",
      "mm": 109.3
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-10-26",
+    "al": "2026-10-29"
+   }
   },
   "30": {
    "media": 78.1,
@@ -116,7 +95,11 @@
      "n": "Martina Franca",
      "mm": 152.9
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-10-26",
+    "al": "2026-10-29"
+   }
   }
  },
  "serie": [
