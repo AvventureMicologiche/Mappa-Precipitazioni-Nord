@@ -17574,7 +17574,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(document.documentElement.classList.contains('apre-italia')) viFondo();   // la cartina a rilievo non aspetta le previsioni
     el('sez-prev').classList.add('on'); el('sez-storico').classList.remove('on');
     var ft=el('fonte-tag'); if(ft){ fonteVecchia=ft.textContent; }
-    try{ map().attributionControl.addAttribution('Previsioni: MET Norway'); }catch(e){}
+    // ⚠️ niente «Previsioni: MET Norway» nei crediti (31/10/2026, suo: «perche' lo citiamo due volte?»): lo dice gia' la
+    // pillola della fonte in mezzo («Previsioni modello ECMWF via MET Norway»), che basta alla licenza
     /* sul computer il cerca localita' entra nel riquadro; sul telefono resta nella tendina in alto, come nello
        storico (suo, 8/10: «non ha piu' senso in alto?»; il 7/10 era sceso nel riquadro, che saliva toccandolo) */
     cercaNelRiquadro(!tel());
@@ -17608,7 +17609,6 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     heat(true);
     el('sez-prev').classList.remove('on'); el('sez-storico').classList.add('on');
     var ft=el('fonte-tag'); if(ft&&fonteVecchia!=null){ ft.textContent=fonteVecchia; fonteVecchia=null; }
-    try{ map().attributionControl.removeAttribution('Previsioni: MET Norway'); }catch(e){}
     cercaNelRiquadro(false);
     if(gruppo) gruppo.clearLayers();
     chiudiDettaglio(true);
@@ -18306,7 +18306,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var na=el('vi-nastro'); if(!na||!VE.scena||italia()) return;
     na._g=null;
     var gb=giorniBase(), g=gb&&gb[Math.min(giorno,gb.length-1)]?gb[Math.min(giorno,gb.length-1)].g:null;
-    var lista=g?(VE.visti||[]).filter(function(p){ return !p.altra&&veDati(p,g); }):[];
+    /* ⚠️ TUTTI I PAESI DELLA VISTA, NON SOLO QUELLI IN VISTA (31/10/2026, suo, foto dall'anteprima; c'era gia' in
+       produzione): allargando la Lombardia verso l'Italia le etichette si diradano (veDirada: 32 a zoom 8,5, 8 a 7, una a 6)
+       e il banner le seguiva, fino a «Milano» due volte e il resto giallo vuoto. Ora tutti quelli della vista che hanno
+       gia' le previsioni, nell'ordine del gruppo (prima i capoluoghi): non si svuota e non riparte da capo a ogni zoom */
+    var tuttiV=[]; gruppo.eachLayer(function(l){ if(l._ve) tuttiV.push(l._ve); });
+    var lista=g?tuttiV.filter(function(p){ return !p.altra&&veDati(p,g); }):[];
     /* ⚠️ il nome cambia SUBITO (caccia ai bug, difetto 5): finche' i gradi non arrivavano restava «METEO ITALIA» con le
        citta' di tutta Italia, anche 15 s dopo aver cercato Napoli */
     if(!lista.length){ var tv=(VE.tipo==='paese'?VE.titolo+' e dintorni':VE.titolo).toUpperCase(), kv='vuoto|'+tv;
