@@ -4131,3 +4131,23 @@ niente velo fuori dalla regione, pallini «via di mezzo», nomi sopra la pioggia
   (`#foto-avviso`; suo: «non possiamo mettere una scritta?»): li' la nostra del 10 non servirebbe a niente.
 - ⚠️ Nella prova (`variante.js`) la pioggia all'80% passava da `window._satOn`, che e' la spia dei BOSCHI: nei boschi
   il tasto sbagliava (trovato dalla 104 ter). Nel sito vero la spia e' la classe `foto-on`, `_satOn` non si tocca.
+- ⚠️ **jsDelivr alla PRIMA richiesta di un file** va a prenderlo da GitHub e, con tante richieste insieme, risponde 403 a
+  circa il 4% (poi 200): visto da lui come quadrati di cartina sotto la pioggia. In `_fotoNostra` tre tentativi per
+  tessera (2, 5, 12 s); dopo una rigenerazione si «scaldano» le tessere chiedendole tutte una volta
+  (`mockup-pluvio-104\attrezzi\`: elenco e registro). Il commit del repo si crea con `git fast-import`
+  (`attrezzi\commit-veloce.py`): `git add` su 53 mila file andava a 18 al secondo.
+- **Crediti corti**: «Foto: NASA, ESA WorldCover» col link a `fonti.html#satellite` (le tre foto con la licenza intera,
+  Esri compreso, che prima non era citato); Esri «da vicino» solo quando la sua foto c'e'. «Previsioni: MET Norway»
+  tolto dai crediti: lo dice gia' la pillola della fonte (suo: «perche' lo citiamo due volte?»).
+
+## Il riquadro della pioggia al telefono e il banner del meteo (31/10/2026 sera, scheda 104)
+
+- **Riquadro in basso al telefono (sotto i 600 px) proporzionato**: suo «possiamo ridurre di qualche pixel?», poi «hai
+  esagerato», «i pulsanti sono attaccati alla scala piogge», «deve avere un'estetica proporzionata e simmetrica».
+  Spazi VISIVI misurati con `attrezzi\riquadro-spazi.js` (ombre «0 3px 0» comprese): erano 4/5/9/0/4/4/9/15, ora 7 fra
+  tutti i blocchi (6 dal bordo, 3 fra scala e numeri); tasti e scala come prima; riquadro 264 → 253. Blocco CSS in
+  fondo al modulo della 104 ter, solo pioggia (`:not(.modo-boschi):not(.modo-radar)`). Lezione: prima si MISURANO gli
+  spazi, poi si toglie; i tasti non si abbassano (gia' 30 px, sotto i 44-48 consigliati per il dito).
+- **Banner del meteo con una citta' sola** (c'era gia' in produzione): allargando una regione verso l'Italia le
+  etichette si diradano e il banner le seguiva (Lombardia 32 → 8 → «Milano» due volte). `veNastro` ora prende tutti i
+  paesi della vista (`gruppo`) che hanno gia' le previsioni, nell'ordine del gruppo: 21 citta' a ogni zoom.
