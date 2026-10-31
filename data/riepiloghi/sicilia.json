@@ -1,42 +1,42 @@
 {
  "regione": "sicilia",
- "generato": "2026-10-30T04:15:43.610Z",
+ "generato": "2026-10-31T04:15:40.114Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.9,
    "giorni": 1,
-   "stazioni": 421,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
+   "stazioni": 417,
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "San Piero Patti",
-     "mm": 1
+     "n": "Palazzolo Acreide SIAS",
+     "mm": 38.2
     },
     {
-     "n": "Cumia",
-     "mm": 0.6
+     "n": "Albareseda",
+     "mm": 27.1
     },
     {
-     "n": "Bisconte",
-     "mm": 0.4
+     "n": "Nunziata",
+     "mm": 24.4
     },
     {
-     "n": "Gangi",
-     "mm": 0.4
+     "n": "Anapo a San nicola R2",
+     "mm": 20.1
     },
     {
-     "n": "Pantelleria",
-     "mm": 0.4
+     "n": "Cannizzara",
+     "mm": 13
     }
    ]
   },
   "7": {
-   "media": 7.4,
+   "media": 8.3,
    "giorni": 7,
-   "stazioni": 418,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+   "stazioni": 416,
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Isnello SP54",
@@ -44,57 +44,57 @@
     },
     {
      "n": "Caronia Pomiere SIAS",
-     "mm": 72
+     "mm": 72.2
     },
     {
      "n": "Miraglia",
-     "mm": 60.2
+     "mm": 62.4
     },
     {
      "n": "San Fratello Forestale",
-     "mm": 54.7
+     "mm": 54.9
     },
     {
      "n": "Cesarò Monte Soro SIAS",
-     "mm": 50.4
+     "mm": 50.8
     }
    ]
   },
   "20": {
-   "media": 54.1,
+   "media": 35.2,
    "giorni": 20,
-   "stazioni": 415,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "stazioni": 417,
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 322.7
-    },
-    {
-     "n": "Forza d'Agro'",
-     "mm": 307.2
+     "mm": 278.7
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 304.1
+     "mm": 256.8
+    },
+    {
+     "n": "Forza d'Agro'",
+     "mm": 255
+    },
+    {
+     "n": "Piedimonte Etneo",
+     "mm": 249
     },
     {
      "n": "Letojanni",
-     "mm": 289.4
-    },
-    {
-     "n": "Melia",
-     "mm": 272.3
+     "mm": 247.4
     }
    ]
   },
   "30": {
-   "media": 61.3,
+   "media": 62.1,
    "giorni": 30,
    "stazioni": 419,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Pagliara",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Letojanni",
-     "mm": 302.3
+     "mm": 302.5
     },
     {
      "n": "Melia",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.9,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0,
   0.2,
   0.1,
-  0.1,
   0.1
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-30",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-10-29",
-   "m1": 0.1,
-   "m7": 30.4,
-   "m30": 119.9,
+   "ultimo": "2026-10-30",
+   "m1": 1.1,
+   "m7": 31.5,
+   "m30": 120.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,11 +167,11 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-10-29",
-   "m1": 0,
-   "m7": 39,
-   "m30": 121.5,
-   "p1": false,
+   "ultimo": "2026-10-30",
+   "m1": 4.5,
+   "m7": 43.5,
+   "m30": 126,
+   "p1": true,
    "p7": true,
    "p30": true
   }

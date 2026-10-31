@@ -1,91 +1,91 @@
 {
  "regione": "campania",
- "generato": "2026-10-30T04:15:43.610Z",
+ "generato": "2026-10-31T04:15:40.113Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 166,
-   "primo": "2026-10-28",
-   "ultimo": "2026-10-28",
+   "stazioni": 164,
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Bagnoli Irpino",
-     "mm": 2
+     "n": "Ofanto a Monticchio",
+     "mm": 6.2
     },
     {
-     "n": "Ravello-Sambuco",
+     "n": "Andretta",
      "mm": 1.4
     },
     {
-     "n": "Agerola",
-     "mm": 0
+     "n": "Bagnoli Irpino",
+     "mm": 1.2
     },
     {
-     "n": "Agerola METEO",
-     "mm": 0
+     "n": "Casaletto Spartano-Melette Sorge",
+     "mm": 0.8
     },
     {
-     "n": "Ailano",
-     "mm": 0
+     "n": "Conza della Campania METEO",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 9.4,
+   "media": 7.3,
    "giorni": 7,
-   "stazioni": 166,
-   "primo": "2026-10-22",
-   "ultimo": "2026-10-28",
+   "stazioni": 165,
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "S.Agata dei Goti",
-     "mm": 38.7
+     "mm": 37.5
     },
     {
      "n": "Caserta Vecchia",
-     "mm": 35.8
+     "mm": 34.6
     },
     {
      "n": "S.Agata dei Goti Isclero",
-     "mm": 34
+     "mm": 33.6
     },
     {
-     "n": "Avella",
-     "mm": 25.4
+     "n": "Ailano",
+     "mm": 23.8
     },
     {
      "n": "S.Maria a Vico",
-     "mm": 24.6
+     "mm": 23.2
     }
    ]
   },
   "20": {
-   "media": 110.3,
+   "media": 49.9,
    "giorni": 20,
    "stazioni": 173,
-   "primo": "2026-10-09",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Castel Volturno",
-     "mm": 207.2
-    },
-    {
-     "n": "Cava Casa Riceri",
-     "mm": 196
-    },
-    {
-     "n": "Omignano Scalo",
-     "mm": 191.9
-    },
-    {
-     "n": "Capua",
-     "mm": 189.5
-    },
-    {
      "n": "Liberi",
-     "mm": 182.2
+     "mm": 110.9
+    },
+    {
+     "n": "Ailano",
+     "mm": 109
+    },
+    {
+     "n": "Rocca d'Evandro",
+     "mm": 95.8
+    },
+    {
+     "n": "Letino",
+     "mm": 95.2
+    },
+    {
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 93.7
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 136.2,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-09-29",
-   "ultimo": "2026-10-28",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -120,6 +120,8 @@
   }
  },
  "serie": [
+  0.1,
+  0,
   0,
   0,
   0,
@@ -147,18 +149,16 @@
   0,
   0,
   0,
-  0,
-  0,
   0
  ],
- "serieDa": "2026-10-28",
+ "serieDa": "2026-10-30",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 13,
+   "m7": 5.2,
    "m30": 159,
    "p1": false,
    "p7": true,
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 7.1,
-   "m30": 114.8,
+   "m7": 3.6,
+   "m30": 114.7,
    "p1": false,
    "p7": true,
    "p30": true
@@ -178,9 +178,9 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 16.7,
+   "m7": 13,
    "m30": 159.7,
    "p1": false,
    "p7": true,
@@ -189,9 +189,9 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-28",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 14.3,
+   "m7": 9.5,
    "m30": 154.9,
    "p1": false,
    "p7": true,

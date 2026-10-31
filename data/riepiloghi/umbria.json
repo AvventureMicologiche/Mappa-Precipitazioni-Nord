@@ -1,62 +1,62 @@
 {
  "regione": "umbria",
- "generato": "2026-10-30T04:15:43.609Z",
+ "generato": "2026-10-31T04:15:40.113Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 74,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Allerona",
-     "mm": 0
+     "n": "Monte Cucco",
+     "mm": 11.4
     },
     {
-     "n": "Amelia",
-     "mm": 0
+     "n": "Gualdo Tadino",
+     "mm": 5
     },
     {
-     "n": "Ancaiano",
-     "mm": 0
+     "n": "Branca",
+     "mm": 1.6
     },
     {
-     "n": "Armenzano",
-     "mm": 0
+     "n": "Scheggia",
+     "mm": 1.2
     },
     {
-     "n": "Avigliano Umbro",
-     "mm": 0
+     "n": "Forca Canapine",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 4.5,
+   "media": 3.4,
    "giorni": 7,
    "stazioni": 74,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
+     "n": "Monte Cucco",
+     "mm": 19
+    },
+    {
      "n": "Bocca Serriola",
-     "mm": 15.9
+     "mm": 15.2
     },
     {
-     "n": "La Bolsella",
-     "mm": 10.2
-    },
-    {
-     "n": "Armenzano",
+     "n": "Scheggia",
      "mm": 9.8
     },
     {
-     "n": "Avigliano Umbro",
-     "mm": 9.6
+     "n": "Carestello Meteo",
+     "mm": 8.2
     },
     {
-     "n": "Carestello Meteo",
-     "mm": 8.8
+     "n": "Gualdo Tadino",
+     "mm": 8.2
     }
    ]
   },
@@ -64,16 +64,20 @@
    "media": 25.2,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Ancaiano",
      "mm": 59.4
     },
     {
+     "n": "Monte Cucco",
+     "mm": 45.4
+    },
+    {
      "n": "S.Gemini",
-     "mm": 41.2
+     "mm": 41
     },
     {
      "n": "Castagnacupa",
@@ -82,23 +86,19 @@
     {
      "n": "Terni",
      "mm": 38
-    },
-    {
-     "n": "Carestello Meteo",
-     "mm": 37.4
     }
    ]
   },
   "30": {
-   "media": 50.1,
+   "media": 50.4,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Bocca Serriola",
-     "mm": 104.7
+     "mm": 105
     },
     {
      "n": "San Benedetto Vecchio",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.3,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-30",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-29",
-   "m1": 0.1,
-   "m7": 7.6,
-   "m30": 89.5,
+   "ultimo": "2026-10-30",
+   "m1": 1.6,
+   "m7": 8.5,
+   "m30": 91.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,9 +167,9 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 3.8,
+   "m7": 3.4,
    "m30": 43.7,
    "p1": false,
    "p7": true,
@@ -178,9 +178,9 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 7.1,
+   "m7": 2.8,
    "m30": 54.8,
    "p1": false,
    "p7": true,

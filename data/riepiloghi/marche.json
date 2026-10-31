@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-10-30T04:15:43.609Z",
+ "generato": "2026-10-31T04:15:40.113Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 2.7,
    "giorni": 1,
    "stazioni": 113,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Senigallia",
-     "mm": 5.2
+     "n": "Pintura di Bolognola",
+     "mm": 17
     },
     {
-     "n": "Monte Carpegna",
-     "mm": 2.6
+     "n": "Sassotetto",
+     "mm": 12.1
     },
     {
-     "n": "Conca 1",
-     "mm": 1.6
+     "n": "Amandola",
+     "mm": 11.2
     },
     {
-     "n": "Conca 2",
-     "mm": 1.6
+     "n": "Arcevia",
+     "mm": 11
     },
     {
-     "n": "Tavoleto",
-     "mm": 1.4
+     "n": "Umito",
+     "mm": 10.4
     }
    ]
   },
   "7": {
-   "media": 3,
+   "media": 5.5,
    "giorni": 7,
    "stazioni": 112,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Cantiano",
-     "mm": 13
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 11.8
+     "n": "Pintura di Bolognola",
+     "mm": 21.5
     },
     {
      "n": "Monte Nerone",
-     "mm": 11.5
+     "mm": 18.5
+    },
+    {
+     "n": "Sassotetto",
+     "mm": 17.9
     },
     {
      "n": "Monte Bove Sud",
-     "mm": 11.1
+     "mm": 16.2
     },
     {
-     "n": "Foce Metauro",
-     "mm": 10
+     "n": "Cantiano",
+     "mm": 15.4
     }
    ]
   },
   "20": {
-   "media": 29.8,
+   "media": 22.6,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Loro Piceno",
-     "mm": 83.6
+     "n": "Fonte Avellana",
+     "mm": 43.2
     },
     {
-     "n": "Fiumesino",
-     "mm": 79.4
+     "n": "Rotella",
+     "mm": 42.8
     },
     {
-     "n": "Macerata Montalbano",
-     "mm": 68
+     "n": "Potenza 1",
+     "mm": 42.6
     },
     {
-     "n": "Sant Angelo in Pontano",
-     "mm": 67.4
+     "n": "Monte Nerone",
+     "mm": 40
     },
     {
-     "n": "Baraccola",
-     "mm": 63
+     "n": "Montecavallo",
+     "mm": 40
     }
    ]
   },
   "30": {
-   "media": 50.7,
+   "media": 53.3,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 161.6
+     "mm": 164.4
     },
     {
      "n": "Pianello di Cagli",
-     "mm": 138
+     "mm": 139.6
     },
     {
      "n": "Loro Piceno",
-     "mm": 122.4
+     "mm": 122.8
     },
     {
      "n": "Sant Angelo in Pontano",
-     "mm": 117.4
+     "mm": 121.8
     },
     {
      "n": "Monte Nerone",
-     "mm": 109.8
+     "mm": 117.7
     }
    ]
   }
  },
  "serie": [
+  2.7,
   0.2,
   0.1,
   0.1,
@@ -148,18 +149,17 @@
   0.1,
   0.1,
   0,
-  0.1,
   0.1
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-30",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-29",
-   "m1": 0.3,
-   "m7": 3.3,
-   "m30": 41.9,
+   "ultimo": "2026-10-30",
+   "m1": 0.6,
+   "m7": 2.9,
+   "m30": 42.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-29",
-   "m1": 0.1,
-   "m7": 6.5,
-   "m30": 42.3,
+   "ultimo": "2026-10-30",
+   "m1": 6.6,
+   "m7": 12.8,
+   "m30": 48.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,11 +178,11 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-29",
-   "m1": 0,
-   "m7": 1,
-   "m30": 43.7,
-   "p1": false,
+   "ultimo": "2026-10-30",
+   "m1": 5.1,
+   "m7": 6.1,
+   "m30": 48.8,
+   "p1": true,
    "p7": true,
    "p30": true
   }

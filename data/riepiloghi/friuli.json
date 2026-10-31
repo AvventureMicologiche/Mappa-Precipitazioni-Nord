@@ -1,75 +1,75 @@
 {
  "regione": "friuli",
- "generato": "2026-10-30T13:34:13.909Z",
+ "generato": "2026-10-31T04:15:40.111Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 141,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
+   "stazioni": 142,
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Forni di Sotto",
-     "mm": 0.2
-    },
-    {
      "n": "Saletto",
+     "mm": 0.4
+    },
+    {
+     "n": "Andreis",
      "mm": 0.2
     },
     {
-     "n": "Trieste Cattinara",
+     "n": "Barcis",
      "mm": 0.2
     },
     {
-     "n": "Villotta di Chions",
+     "n": "Claut Tre Pini",
      "mm": 0.2
     },
     {
-     "n": "Adegliacco",
-     "mm": 0
+     "n": "Ponte Sambo",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 19.1,
+   "media": 13.3,
    "giorni": 7,
-   "stazioni": 143,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+   "stazioni": 142,
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Musi",
-     "mm": 54.5
+     "mm": 50.9
     },
     {
      "n": "Magnano in Riviera",
-     "mm": 49.1
+     "mm": 45.1
     },
     {
-     "n": "Lignano Sabbiadoro",
-     "mm": 33.4
+     "n": "Uccea",
+     "mm": 27.8
     },
     {
-     "n": "Lignano Sabbiadoro PCR",
-     "mm": 33.4
+     "n": "Ponte Sambo",
+     "mm": 27.2
     },
     {
-     "n": "Palazzolo dello Stella",
-     "mm": 31.9
+     "n": "Basaldella di Vivaro",
+     "mm": 25.6
     }
    ]
   },
   "20": {
-   "media": 103.4,
+   "media": 103.1,
    "giorni": 20,
    "stazioni": 144,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Malga Valine",
-     "mm": 369.4
+     "mm": 369
     },
     {
      "n": "Piancavallo",
@@ -77,15 +77,15 @@
     },
     {
      "n": "Ca' Selva Invaso",
-     "mm": 311.6
+     "mm": 311.2
     },
     {
      "n": "Chievolis",
-     "mm": 306.7
+     "mm": 306.5
     },
     {
      "n": "Sella Chianzutan",
-     "mm": 290.4
+     "mm": 289.8
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 124.6,
    "giorni": 30,
    "stazioni": 144,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Malga Valine",
@@ -123,6 +123,7 @@
   0,
   0,
   0,
+  0,
   0.1,
   0.3,
   12.8,
@@ -148,17 +149,16 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-30",
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 23.3,
+   "m7": 19.6,
    "m30": 142,
    "p1": false,
    "p7": true,
@@ -167,20 +167,20 @@
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 11.2,
+   "m7": 5.6,
    "m30": 278.2,
-   "p1": false,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 16.5,
+   "m7": 13.6,
    "m30": 134.5,
    "p1": false,
    "p7": true,
@@ -189,9 +189,9 @@
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 11.3,
+   "m7": 8.1,
    "m30": 162.4,
    "p1": true,
    "p7": true,
@@ -200,9 +200,9 @@
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 21.8,
+   "m7": 20.3,
    "m30": 125.5,
    "p1": false,
    "p7": true,
@@ -211,10 +211,10 @@
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0.1,
-   "m7": 20.2,
-   "m30": 134.2,
+   "m7": 18.3,
+   "m30": 134.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -222,9 +222,9 @@
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 23,
+   "m7": 21.5,
    "m30": 158.8,
    "p1": false,
    "p7": true,
@@ -233,9 +233,9 @@
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 6.4,
+   "m7": 3.6,
    "m30": 117.2,
    "p1": false,
    "p7": true,
@@ -244,20 +244,20 @@
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-10-29",
-   "m1": 0,
-   "m7": 33.6,
-   "m30": 204.8,
-   "p1": false,
+   "ultimo": "2026-10-30",
+   "m1": 0.1,
+   "m7": 30.5,
+   "m30": 204.9,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-10-29",
+   "ultimo": "2026-10-30",
    "m1": 0,
-   "m7": 11.4,
+   "m7": 7.6,
    "m30": 182.7,
    "p1": false,
    "p7": true,
