@@ -2951,8 +2951,9 @@ window._baseTiles=baseTiles;
 var FOTO_COMMIT='6b5c86d7343fbfda0417cbd86aec123985480b38';   // main: Blue Marble + ESA, Europa zoom 4-10, 53.234 tessere (31/10/2026)
 var FOTO_URL='https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Satellite@'+FOTO_COMMIT+'/europa/{z}/{x}/{y}.webp';
 var FOTO_LIMITI=[[34,-25],[72,45]];   // Europa: Islanda e Canarie comprese, Urali esclusi (fuori, il colore di fondo)
-var FOTO_CREDITI='Foto: NASA Blue Marble, ESA WorldCover 2021 (dati Copernicus Sentinel modificati)';
-var FOTO_CREDITI_ESRI='foto da vicino: Esri, Vantor, Earthstar Geographics';
+// corto (31/10/2026, suo: «nei crediti va a capo»): il testo intero, con la licenza di ESA, sta in fonti.html#satellite
+var FOTO_CREDITI='Foto: NASA, <a href="/fonti.html#satellite" target="_blank" rel="noopener">ESA WorldCover</a>';
+var FOTO_CREDITI_ESRI='da vicino Esri, Vantor, Earthstar Geographics';
 // usata anche dalla foto delle previsioni (viFondo), che e' in un altro <script>
 window._fotoNostra=function(pane,quandoNonArriva){
   var l=L.tileLayer(FOTO_URL,{pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true});
@@ -17907,12 +17908,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
         var mm=map(); if(!mm||!satL) return;
         satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); creditoEsri(); }):null;
-      if(nostraL) nostraL.options.attribution='Foto: NASA Blue Marble, ESA WorldCover 2021 (dati Copernicus Sentinel modificati)';
+      if(nostraL) nostraL.options.attribution='Foto: NASA, <a href="/fonti.html#satellite" target="_blank" rel="noopener">ESA WorldCover</a>';   // corto: il resto in fonti.html
       else vicinoL.options.minZoom=0;
       satL=L.layerGroup(nostraL?[nostraL,vicinoL]:[vicinoL]);
       // il credito di Esri solo quando la sua foto c'e' davvero (31/10/2026: scritto sempre, lui ha chiesto «le
       // previsioni hai lasciato esri?» guardando la vista Italia, che e' tutta nostra)
-      var ESRI_CR='Foto da vicino: Esri, Vantor, Earthstar Geographics', crSi=false;
+      var ESRI_CR='da vicino Esri, Vantor, Earthstar Geographics', crSi=false;
       var creditoEsri=function(){ var mm=map(); if(!mm||!mm.attributionControl) return;
         var si=!!(mm.hasLayer(satL)&&(vicinoL.options.minZoom===0||mm.getZoom()>=11)); if(si===crSi) return; crSi=si;
         if(si) mm.attributionControl.addAttribution(ESRI_CR); else mm.attributionControl.removeAttribution(ESRI_CR); };
@@ -18807,6 +18808,26 @@ html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bott
   #pg-nastro .lab{font-size:12px;padding:0 22px 0 12px}
   #pg-nastro .v{font-size:13px;padding:0 12px;gap:5px}#pg-nastro .v .g{width:12px;height:12px}
   body.pg-nastro-on #legend-panel .leg-title{display:none !important}
+}
+/* AL TELEFONO IL RIQUADRO IN BASSO PROPORZIONATO (31/10/2026 sera, scheda 104). Suo dall'anteprima: «possiamo ridurre
+   di qualche pixel?», poi «hai esagerato, i bottoni sono troppo compressi», «non ti accorgi che i pulsanti sono attaccati
+   alla scala piogge?», «deve avere un'estetica proporzionata e simmetrica, non compressa». Misurati gli spazi VISIVI
+   (ombre «0 3px 0» comprese) fra riduci, barra, tasti, scala, riquadri, giallo e fondo: erano 4/5/9/0/4/4/9/15, ora 7 fra
+   tutti (6 dal bordo a «riduci», 3 fra la scala e i suoi numeri, che sono un pezzo solo); ai lati 14/14 e 6 fra tasti e
+   fra riquadri, come prima. Tasti e scala alti come prima; barra 38 → 33, riquadri dei numeri 44 → 41, giallo 44 → 40:
+   riquadro 264 → 253. Solo la pioggia: boschi e radar hanno le loro misure. Misura: riquadro-spazi.js (scratchpad 104) */
+@media(max-width:600px){
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel{padding-top:12px !important;padding-bottom:10px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel #leg-handle{margin-top:-6px !important;margin-bottom:10px !important}
+  #pg-nastro{height:33px;margin-bottom:7px}
+  #pg-nastro .lab{font-size:11.5px;padding:0 20px 0 11px}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .leg-header{margin-bottom:10px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .grad{margin-bottom:3px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .grad-l{margin-bottom:0 !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .stats-row{margin-top:7px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .stat{padding:3px 4px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .sv{font-size:17px !important}
+  html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .inv-prev{margin-top:7px !important;margin-bottom:0 !important;padding-top:9px !important;padding-bottom:9px !important}
 }
 </style>
 <script>
