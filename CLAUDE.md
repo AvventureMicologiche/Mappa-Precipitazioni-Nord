@@ -719,6 +719,28 @@ c'era nessuna fase beta da aspettare.
 ---
 
 ## UI Features
+- **Le ore della scheda meteo IN ORIZZONTALE al telefono (1/11/2026, scheda 105 ter)**, suo dal telefono sull'anteprima:
+  «una striscia piccolissima, si vede un'ora alla volta» e «lo scorrimento si e' bloccato, ho dovuto cambiare giorno».
+  Misurato a 393×717: scheda al 40% = 269 px, alle ore ne restavano 51 (1,9 righe); il «blocco» era la lista di OGGI che
+  finisce alle 23 senza nessun segno. Tre proposte coi grandi (Windy, Meteo di Apple, Google; 3B ha la pagina intera),
+  scelta la A. In `renderDet`, solo con `tel()` (fino a 900 px; al PC resta la tabella, suo: «se sono 5 ore minimo
+  lasciamo il verticale su pc»): una colonna per ora (`.oriz`/`.et`/`.oz`/`.c`), tutti i giorni di seguito separati da
+  una colonnina blu verticale (`.gs`), giorni in cima su tre righe («MAR 3», `chip(...,corto)`). `striscia()`: apre sul
+  giorno scelto, scorrendo accende il giorno letto (la mappa resta sul giorno scelto), in fondo l'ultimo. Ore a vista:
+  393×717 7,1 (prima 1,9), 360×640 6,4, girato 740×360 5,8 (prima 0), tablet 14,9. Insieme:
+  - **la scheda non si riscrive sotto il dito** (rinfresco dei 10 minuti, etichette dopo uno spostamento): col dito
+    appoggiato si aspetta che si stacchi (`ditoSu`, 350 ms), e ridisegnando lo stesso posto e giorno la posizione resta;
+  - ⚠️ **ai bordi della striscia il gesto si consuma** (`preventDefault` sul touchmove orizzontale): un dito di lato senza
+    niente da scorrere era «pagina precedente» del browser (popstate → la scheda di prima, poi fuori dal sito; c'era anche
+    con la tabella). `overscroll-behavior` NON lo ferma, nemmeno su html/body. `touch-action:pan-x` sulla striscia;
+  - col mouse (finestra stretta, tablet col mouse): rotellina, trascinamento e una barra sottile (`(hover:hover) and
+    (pointer:fine)`); la scheda non scende sotto 268 px (`max(40%,268px)`, sotto i 700 px di altezza 258);
+  - sotto i 900 px col mouse il pie' di pagina (`.fonte`, `.fonte-reg`) si toglie come al telefono: a 820×706 la mappa
+    passa da 598 a 668 px (suo «toglilo»);
+  - telefono girato: «💧 Storico» accanto a «× Chiudi» (`.sto`), niente riga sotto il nome.
+  Resta com'era: 915×412 (disegno da PC, piede della scheda fuori di 47 px). Attrezzi e mockup nel banco,
+  `mockup-meteo-ore\` (`patch-a.py`, `attrezzi\prova-patch-a.js`, `prova-barra.js`, `prova-piede.js`; il dito finto che
+  scorre davvero e' `Input.dispatchTouchEvent`, `dito.js`).
 - **Finestra «Novità» 30/10/2026 (VERSIONE `2026-10-30`, NV_FINO `2026-11-08T21:00`: domenica 8/11 alle 21), sua
   richiesta: far conoscere la NUOVA SEZIONE METEO** («hai visto la nuova sezione meteo? fai un giro nella nostra nuova
   sezione meteo»). Una pagina, «Hai visto la nuova sezione meteo?», filmato `novita/meteo.mp4` (~9 s, 786x1056, da

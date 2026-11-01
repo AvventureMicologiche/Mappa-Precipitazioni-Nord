@@ -17192,6 +17192,7 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
 #pv-det .hd .q1{font-size:14px;font-weight:700;color:#1b3f6e;margin-top:6px;line-height:1.25}
 #pv-det .hd .q2{font-size:13.5px;font-weight:600;color:#3d4f66;margin-top:2px;line-height:1.35}
 #pv-det .hd .x{font:400 22px/1 inherit;color:#6b7684;padding:0 2px;cursor:pointer;background:none;border:0}
+#pv-det .hd .sto{display:none}   /* «Storico» accanto a «Chiudi»: solo col telefono girato (1/11/2026, vedi «LA SCHEDA GIRATA») */
 #pv-det .gg-r{padding:7px 10px 6px;border-bottom:1px solid #e3e9f2;flex-shrink:0}
 #pv-det .pv-gg{min-width:0;padding:4px 2px 3px;font-size:10px}#pv-det .pv-gg .ic{font-size:15px}
 #pv-det .cols{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr 1fr;padding:5px 12px 3px;font:700 9.5px/1 inherit;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #eef2f7;flex-shrink:0}
@@ -17246,8 +17247,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-det{top:auto !important;right:0 !important;left:0 !important;bottom:0;width:auto !important;max-height:40% !important;border-radius:14px 14px 0 0;box-shadow:0 -3px 12px rgba(0,0,0,.3)}
   #pv-det .rows{flex:1 1 auto;min-height:0}
   #pv-det .hd{padding:7px 10px 4px}#pv-det .hd .q1{font-size:12.5px;margin-top:3px}#pv-det .hd .q2{display:none}
-  #pv-det .gg-r{padding:5px 8px 4px}#pv-det .pv-gg{padding:3px 1px 2px}#pv-det .pv-gg .ic{font-size:13px}
-  #pv-det .ft{padding:6px 10px 5px;gap:3px}#pv-det .ft .fo{font-size:9px}
+  /* i giorni della scheda su tre righe («OGGI», «DOMANI», «MAR 3» / icona / gradi), senza la riga della data: da 80 a
+     54 px (1/11/2026, scheda 105 ter, insieme alle ore in orizzontale: vedi «LE ORE IN ORIZZONTALE» sopra renderDet) */
+  #pv-det .gg-r{padding:4px 8px 4px}#pv-det .pv-gg{height:45px;box-sizing:border-box;padding:0 1px;gap:2px;justify-content:center}#pv-det .pv-gg small{letter-spacing:.2px;white-space:nowrap}#pv-det .pv-gg .ic{font-size:14px;line-height:1.05}
+  #pv-det .ft{padding:5px 10px 4px;gap:3px}#pv-det .ft .fo{font-size:9px}
   /* la scritta della fonte in alto non c'e' nelle previsioni del telefono (28/10/2026, suo): e' la stessa riga del
      riquadro in basso («ECMWF via MET Norway · agg.»), che resta. Prima spariva solo con la scheda aperta. */
   .modo-prev .fonte-tag{display:none !important}
@@ -17255,7 +17258,53 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-det .hd .x::after{content:' Chiudi'}
   #pv-det .hd .nm{font-size:17px}
   #pv-det .r{height:27px;font-size:12.5px}#pv-det .r .ic{font-size:17px}
-  #pv-det .ft .b{padding:7px 6px}
+  #pv-det .ft .b{padding:6px 6px}
+  /* LE ORE IN ORIZZONTALE (vedi renderDet): etichette ferme a sinistra, una colonna per ora, i giorni di seguito separati
+     da una colonnina blu col nome scritto in verticale. Altezze fisse: la striscia e' 103 px su qualunque telefono */
+  #pv-det .oriz{display:flex;flex-shrink:0;border-bottom:1px solid #e3e9f2}
+  #pv-det .oriz .et{flex:0 0 52px;display:grid;grid-template-rows:16px 22px 16px 14px 14px 14px;align-items:center;padding:3px 0 3px 10px;font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid #eef2f7;background:#fff}
+  #pv-det .oz{position:relative;flex:1;min-width:0;display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
+  #pv-det .oz::-webkit-scrollbar{display:none}
+  #pv-det .oz .c{flex:0 0 48px;display:grid;grid-template-rows:16px 22px 16px 14px 14px 14px;justify-items:center;align-items:center;padding:3px 0;font:600 11.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;white-space:nowrap}
+  #pv-det .oz .c:nth-child(even){background:#f7f9fc}
+  #pv-det .oz .c6{flex-basis:56px}
+  #pv-det .oz .c b{color:#1b3f6e;font-weight:800;font-size:12.5px}#pv-det .oz .c6 b{font-size:11px}
+  #pv-det .oz .c i{font-style:normal;font-size:18px;line-height:1}
+  #pv-det .oz .c .t{font-weight:800;font-size:13px}
+  #pv-det .oz .c small{font-size:9px;font-weight:600;color:#6b7684}
+  #pv-det .oz .c .mm{color:#0b3d91}#pv-det .oz .c .mm.z{color:#9aa3ad;font-weight:500}
+  #pv-det .oz .c .pc{color:#1f6fd1;font-weight:800}#pv-det .oz .c .pc.z{color:#9aa3ad;font-weight:500}#pv-det .oz .c .pc.alta{color:#c21f1f}
+  #pv-det .oz .gs{flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#1f6fd1;color:#fff}
+  #pv-det .oz .gs span{writing-mode:vertical-rl;transform:rotate(180deg);font:800 10.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+  /* la scheda non scende sotto lo spazio della striscia (268 px col mouse, 264 col dito): nella finestra stretta del PC la
+     mappa e' piu' bassa (sotto c'e' il piede del sito) e al 40% il piede della scheda usciva di 7-29 px */
+  #pv-det{max-height:max(40%,268px) !important}
+  #pv-det .oz,#pv-det .oz *{touch-action:pan-x}   /* sulla striscia il dito va solo di lato: niente «tira giu' e ricarica» */
+  @media(hover:hover){#pv-det .oz{cursor:grab;user-select:none}#pv-det .oz.tira{cursor:grabbing}}   /* col mouse si trascina */
+  /* col mouse anche una barra sottile sotto le ore, il segnale che la fila scorre (suo, 1/11: «Sì, la barra»); al telefono
+     no, li' il dito scorre da se' e la barra ruberebbe spazio. Le righe si stringono di quel tanto che prende la barra */
+  @media(hover:hover) and (pointer:fine){
+    #pv-det .oz{scrollbar-width:thin;scrollbar-color:#9db4d6 #eef3fa}
+    #pv-det .oz::-webkit-scrollbar{display:block;height:8px}#pv-det .oz::-webkit-scrollbar-thumb{background:#9db4d6;border-radius:4px}#pv-det .oz::-webkit-scrollbar-track{background:#eef3fa}
+    #pv-det .oriz .et,#pv-det .oz .c{padding-top:0;padding-bottom:0}
+  }
+}
+/* TELEFONI BASSI (sotto i 700 px, 1/11/2026, scheda 105 ter): al 40% la scheda con la striscia non ci stava (375x667:
+   249 px contro 264, il piede usciva di 15). Righe della striscia, giorni e bottone un filo piu' stretti (-17 px); sotto i
+   ~690 px la scheda tiene comunque lo spazio che le serve (col dito 247 px: a 360x640 sono 9 px piu' del 40%; col mouse
+   e la barra 258). Il telefono girato ha le sue regole qui sotto, che vengono dopo e vincono */
+@media(max-width:900px) and (max-height:700px){
+  #pv-det{max-height:max(40%,258px) !important}
+  #pv-det .gg-r{padding:3px 8px 3px}#pv-det .pv-gg{height:43px}
+  #pv-det .oriz .et,#pv-det .oz .c{grid-template-rows:15px 20px 15px 13px 13px 13px;padding-top:2px;padding-bottom:2px}
+  #pv-det .ft .b{padding:4px 6px}
+}
+/* LA FINESTRA STRETTA DEL PC SENZA PIE' DI PAGINA (1/11/2026, scheda 105 ter, suo «toglilo»). Sotto i 900 px il sito ha il
+   disegno del telefono, ma fra 601 e 900 il pie' di pagina (© e i link alle regioni) restava: a 820x706 si prendeva 70 px
+   e alla mappa ne restavano ~250. Col mouse (finestra del PC stretta: Chrome a meta' schermo su un portatile al 125%,
+   la pagina ingrandita) si toglie come al telefono; i tablet a dito restano com'erano */
+@media(max-width:900px) and (hover:hover) and (pointer:fine){
+  .fonte,.fonte-reg{display:none !important}
 }
 /* ⚠️ IL TELEFONO GIRATO (30/10/2026, scheda 101, suo «sistema anche questi» dopo il giro di caccia sul sito vero):
    in orizzontale un telefono (852×393) prende le regole fino a 900 px pensate per il tablet in verticale, e nei 393 px
@@ -17270,6 +17319,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-det{right:auto !important;width:330px !important;max-height:calc(100% - 104px) !important;border-radius:0 14px 0 0}
   body.modo-prev:not(.pv-vuoto) #pv-cerca-tel{right:auto !important;width:306px}
   #vi-nastro.sopra-det{left:330px !important;bottom:0 !important}
+  /* LA SCHEDA GIRATA (1/11/2026, scheda 105 ter). Con le ore in orizzontale la scheda vuole ~247 px e qui ne ha 212 a
+     740x360 (prima ci stavano zero ore: testata, giorni e piede prendevano tutto). «Storico» sale accanto a «Chiudi», due
+     pillole uguali, e la riga sotto il nome se ne va (il giorno lo dicono i giorni accesi): 209 px */
+  #pv-det .hd .q1{display:none}#pv-det .hd .nm{font-size:15px}
+  #pv-det .hd .sto{display:block;color:#fff;background:#1f6fd1;border:1.5px solid #1f6fd1;border-radius:999px;align-self:flex-start;white-space:nowrap;cursor:pointer}
+  #pv-det .hd .sto,#pv-det .hd .x{min-width:84px;padding:7px 8px;text-align:center}
+  #pv-det .ft .b{display:none}
 }
 </style>
 <script>
@@ -17459,9 +17515,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function isoPiu(s,n){ var p=String(s).split('-'); return new Date(Date.UTC(+p[0],+p[1]-1,+p[2]+n,12)).toISOString().slice(0,10); }
   function daOggi(gg){ var o=isoRoma(Date.now()); return (gg||[]).filter(function(x){ return x.g>=o; }); }
   function vecchia(gg){ return !!(gg&&gg.length&&gg[0].g<isoRoma(Date.now())); }   // comincia con un giorno passato: va richiesta
-  function chip(e,i,on,meteo){
+  function chip(e,i,on,meteo,corto){   // corto: la scheda al telefono, «MAR 3» e niente riga della data (1/11/2026)
     var d=giornoData(e.g), o=isoRoma(Date.now()), dom=isoPiu(o,1);
-    return '<div class="pv-gg'+(on?' on':'')+'" data-i="'+i+'"><small>'+(e.g===o?'oggi':e.g===dom?'domani':GI[d.getDay()])+'</small>'+d.getDate()+' '+MESI[d.getMonth()]
+    return '<div class="pv-gg'+(on?' on':'')+'" data-i="'+i+'"><small>'+(e.g===o?'oggi':e.g===dom?'domani':GI[d.getDay()]+(corto?' '+d.getDate():''))+'</small>'+(corto?'':d.getDate()+' '+MESI[d.getMonth()])
       +(meteo?'<span class="ic">'+icona(e.s)+'</span><span class="tx"><span class="mx">'+e.mx+'°</span> <span class="mn">'+e.mn+'°</span></span>':'')+'</div>';
   }
   function fmtOra(agg){ try{ return new Date(agg).toLocaleTimeString('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
@@ -17496,6 +17552,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     cb.addEventListener('click',function(){ if(window._regApri) window._regApri(); var li=el('loc-input'); if(li){ try{ li.focus(); }catch(e){} } ga('casella'); });
     try{ if(window.ResizeObserver) new ResizeObserver(function(){ if(window.posizionaChipFonte) window.posizionaChipFonte(); }).observe(cb); }catch(e){}
     if(window.L){ L.DomEvent.disableClickPropagation(pan); L.DomEvent.disableScrollPropagation(pan); L.DomEvent.disableClickPropagation(det); L.DomEvent.disableScrollPropagation(det); }
+    // il dito appoggiato sulla scheda: vedi «LA SCHEDA NON SI RISCRIVE SOTTO IL DITO» sopra renderDet
+    det.addEventListener('touchstart',function(){ ditoSu=true; ditoT=Date.now(); },{passive:true});
+    ['touchend','touchcancel'].forEach(function(t){ det.addEventListener(t,function(ev){ if(ev.touches&&ev.touches.length) return; ditoSu=false;
+      if(detRimandata){ detRimandata=false; setTimeout(renderDet,350); } },{passive:true}); });   // 350 ms: la striscia lanciata finisce di scorrere
     /* ⚠️ IL RIQUADRO CRESCE DOPO L'INQUADRATURA (28/10/2026, telefono). Alla prima apertura la vetrina arriva qualche
        secondo dopo i giorni (misurato a 393x760: 139 -> 189 px) e la mappa, inquadrata sul riquadro corto, finiva
        sotto quello lungo: la Sicilia tagliata e Palermo sparito. Si rifa' l'ultima inquadratura delle zone (o
@@ -18495,12 +18555,28 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     punto=null;
     if(acceso&&!tutto){ disegna(); if(tel()&&posto) inquadraPosto(); }   // sul computer rimette il cenno; sul telefono il posto coi capoluoghi vicini
   }
+  /* ⚠️ LE ORE IN ORIZZONTALE AL TELEFONO (1/11/2026, scheda 105 ter, suo «Fai la A» fra tre proposte). Dal 29/10 la
+     scheda sta al 40% della mappa e alle ore restavano 51 px: a 393x717 due righe, «si vede un'ora alla volta». E la lista
+     di oggi finiva alle 23 senza nessun segno: il dito si fermava li' («lo scorrimento si e' bloccato, ho dovuto cambiare
+     giorno»). Ora al telefono (tel(), fino a 900 px) una colonna per ora come Windy, Meteo di Apple e Google: sette ore a
+     vista nella stessa altezza, tutti i giorni di seguito con una colonnina blu col nome del giorno. Scorrendo si accende
+     in cima il giorno che si sta leggendo e la riga sotto il nome lo dice (la mappa resta sul giorno scelto); toccando un
+     giorno la striscia salta li'. Al computer resta la tabella.
+     ⚠️ LA SCHEDA NON SI RISCRIVE SOTTO IL DITO. Il rinfresco ogni 10 minuti (ridisegnaDopo) e le etichette che arrivano
+     dopo uno spostamento (veRidisegna) passano da qui, e con l'innerHTML nuovo la lista tornava all'inizio e il gesto si
+     perdeva (misurato col dito finto: a meta' gesto di nuovo alle 13, il dito che continua non muove piu' niente). Ora col
+     dito appoggiato si aspetta che si stacchi, e ridisegnando lo stesso posto e lo stesso giorno la striscia (o la
+     tabella) resta dov'era. Prove: banco, mockup-meteo-ore\attrezzi. */
+  var ditoSu=false, ditoT=0, detRimandata=false;
   function renderDet(){
     if(!punto) return;
     var k=punto.lat.toFixed(3)+','+punto.lon.toFixed(3), j=punti[k]; if(!j) return;
+    var det=el('pv-det');
+    if(ditoSu&&Date.now()-ditoT<8000&&det.querySelector('.oz,.rows')){ detRimandata=true; return; }
     var gb=daOggi(j.giorni); if(!gb.length) return;   // da oggi in poi: gi===0 e' davvero oggi (bug 11)
-    var gi=Math.min(giorno,gb.length-1), e=gb[gi], g=e.g, d=giornoData(g);
+    var gi=Math.min(giorno,gb.length-1), e=gb[gi], g=e.g, d=giornoData(g), corta=tel();
     var ore=(j.ore||[]).filter(function(o){ return o.g===g; });
+    var chiave=k+'|'+g+'|'+corta, li=det.querySelector('.oz,.rows'), resta=li&&det._chiave===chiave?(corta?li.scrollLeft:li.scrollTop):null;
     function riga(o){
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10, pc=o.pc;
@@ -18508,25 +18584,76 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+' mm')+'</span>'
         +'<span class="pc'+(pc==null?'':pc<10?' z':pc>=60?' alta':'')+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+' km/h</span></div>';
     }
-    var righe=ore.map(riga).join('');
-    /* ⚠️ LA SERA OGGI CONTINUA CON DOMANI (18/10/2026). Alle 19 di oggi restavano 5 ore e sotto il vuoto:
-       con meno di 8 ore si aggiungono le prime di domani fino a 12 righe, dopo una riga «domani». La sera
-       si guarda la notte e la mattina dopo. Solo su «oggi»: gli altri giorni restano interi e da soli. */
-    var fino='';
-    if(gi===0 && ore.length && ore.length<8 && gb[1]){
-      var dom=(j.ore||[]).filter(function(o){ return o.g===gb[1].g; }).slice(0,12-ore.length);
-      if(dom.length){
-        var dd=giornoData(gb[1].g), ul=dom[dom.length-1];
-        righe+='<div class="sep">domani · '+GI[dd.getDay()]+' '+dd.getDate()+' '+MESI[dd.getMonth()]+'</div>'+dom.map(riga).join('');
-        fino=' e domani fino alle '+String((ul.h+(ul.h6?6:1))%24).padStart(2,'0');
+    function colonna(o){   // la stessa ora, in piedi
+      var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
+      var mm=Math.round(o.mm*10)/10, pc=o.pc;
+      return '<div class="c'+(o.h6?' c6':'')+'" data-g="'+o.g+'"><b>'+h+'</b><i>'+icona(o.s)+'</i><span class="t">'+Math.round(o.t)+'°</span>'
+        +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+'<small> mm</small>')+'</span>'
+        +'<span class="pc'+(pc==null?'':pc<10?' z':pc>=60?' alta':'')+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
+    }
+    var righe='', fino='';
+    if(corta){   // al telefono: tutte le ore dei giorni in cima, di seguito
+      var ult=gb[gb.length-1].g, pr=null;
+      (j.ore||[]).forEach(function(o){ if(o.g<gb[0].g||o.g>ult) return;
+        if(o.g!==pr){ if(pr!==null){ var dd=giornoData(o.g); righe+='<div class="gs" data-g="'+o.g+'"><span>'+GI[dd.getDay()]+' '+dd.getDate()+'</span></div>'; } pr=o.g; }
+        righe+=colonna(o); });
+    } else {
+      righe=ore.map(riga).join('');
+      /* ⚠️ LA SERA OGGI CONTINUA CON DOMANI (18/10/2026). Alle 19 di oggi restavano 5 ore e sotto il vuoto:
+         con meno di 8 ore si aggiungono le prime di domani fino a 12 righe, dopo una riga «domani». La sera
+         si guarda la notte e la mattina dopo. Solo su «oggi»: gli altri giorni restano interi e da soli. */
+      if(gi===0 && ore.length && ore.length<8 && gb[1]){
+        var dom=(j.ore||[]).filter(function(o){ return o.g===gb[1].g; }).slice(0,12-ore.length);
+        if(dom.length){
+          var dd=giornoData(gb[1].g), ul=dom[dom.length-1];
+          righe+='<div class="sep">domani · '+GI[dd.getDay()]+' '+dd.getDate()+' '+MESI[dd.getMonth()]+'</div>'+dom.map(riga).join('');
+          fino=' e domani fino alle '+String((ul.h+(ul.h6?6:1))%24).padStart(2,'0');
+        }
       }
     }
-    el('pv-det').innerHTML='<div class="hd"><div class="nm">'+escH(punto.n)+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0')+fino:'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+(e.pc!=null?' · ☔ '+(e.pc>0?'fino '+(/^(8|1$|1[1]$)/.test(String(e.pc))?'all\'':'al ')+e.pc+'%':'0%'):'')+'</div></div><button class="x" aria-label="Chiudi">×</button></div>'
-      +'<div class="gg-r">'+gb.map(function(x,i){ return chip(x,i,i===gi,true); }).join('')+'</div>'
-      +(righe?'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>'
+    det.innerHTML='<div class="hd"><div class="nm">'+escH(punto.n)+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0')+fino:'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+(e.pc!=null?' · ☔ '+(e.pc>0?'fino '+(/^(8|1$|1[1]$)/.test(String(e.pc))?'all\'':'al ')+e.pc+'%':'0%'):'')+'</div></div><button class="b sto" aria-label="Storico piogge">💧 Storico</button><button class="x" aria-label="Chiudi">×</button></div>'
+      +'<div class="gg-r">'+gb.map(function(x,i){ return chip(x,i,i===gi,true,corta); }).join('')+'</div>'
+      +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
+                    :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
       +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway · probabilità di pioggia: Open-Meteo</span></div>';
+    det._chiave=chiave;
+    if(corta) striscia(det,gb,gi,resta);
+    else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }
     if(tel()) setTimeout(naSopraDet,0);   // l'altezza della scheda cambia col giorno e col paese
+  }
+  // la striscia delle ore: si apre sul giorno scelto (o dov'era), e scorrendo dice che giorno si sta leggendo
+  function striscia(det,gb,gi,resta){
+    var oz=det.querySelector('.oz'); if(!oz) return;
+    if(resta!=null) oz.scrollLeft=resta;
+    else if(gi>0){ var s=oz.querySelector('.gs[data-g="'+gb[gi].g+'"]'); if(s) oz.scrollLeft=s.offsetLeft; }
+    var q1=det.querySelector('.hd .q1'), q0=q1?q1.textContent:'', visto=gi, cs=oz.querySelectorAll('.c'), oggi=isoRoma(Date.now());
+    function segna(){
+      var c=null; if(oz.scrollLeft>=oz.scrollWidth-oz.clientWidth-2) c=cs[cs.length-1];   // in fondo: l'ultimo giorno, anche se e' corto
+      else for(var i=0;i<cs.length;i++) if(cs[i].offsetLeft+cs[i].offsetWidth>oz.scrollLeft+4){ c=cs[i]; break; }
+      if(!c) return; var n=-1; gb.forEach(function(x,i){ if(x.g===c.dataset.g) n=i; }); if(n<0||n===visto) return; visto=n;
+      [].forEach.call(det.querySelectorAll('.gg-r .pv-gg'),function(p){ p.classList.toggle('on',+p.dataset.i===n); });
+      if(q1){ var dd=giornoData(gb[n].g); q1.textContent=n===gi?q0:gb[n].g===oggi&&cs[0]?'Oggi dalle '+cs[0].querySelector('b').textContent:'Previsione per '+GIL[dd.getDay()]+' '+dd.getDate()+' '+MESI[dd.getMonth()]; }
+    }
+    oz.addEventListener('scroll',segna,{passive:true});
+    /* ⚠️ AI BORDI IL DITO NON DEVE PASSARE OLTRE. Con la striscia gia' all'inizio, un dito verso destra non trovava niente
+       da scorrere e il browser lo prendeva per «pagina precedente»: tornava la scheda di prima (popstate -> apriPunto) e
+       poi si usciva dal sito (misurato col dito finto; succedeva anche alla tabella di prima, ma li' il dito di lato non
+       serviva). overscroll-behavior non basta, nemmeno sulla radice: al bordo il gesto si consuma qui. */
+    var x0=0, y0=0, verso=null;
+    oz.addEventListener('touchstart',function(ev){ x0=ev.touches[0].clientX; y0=ev.touches[0].clientY; verso=null; },{passive:true});
+    oz.addEventListener('touchmove',function(ev){ var dx=ev.touches[0].clientX-x0, dy=ev.touches[0].clientY-y0;
+      if(verso===null&&(Math.abs(dx)>3||Math.abs(dy)>3)) verso=Math.abs(dx)>=Math.abs(dy)?'x':'y';
+      if(verso==='x'&&ev.cancelable&&((dx>0&&oz.scrollLeft<=0)||(dx<0&&oz.scrollLeft>=oz.scrollWidth-oz.clientWidth-1))) ev.preventDefault(); },{passive:false});
+    // al computer con la finestra stretta: la rotellina scorre di lato
+    oz.addEventListener('wheel',function(ev){ if(Math.abs(ev.deltaY)>Math.abs(ev.deltaX)){ oz.scrollLeft+=ev.deltaY; ev.preventDefault(); } },{passive:false});
+    // e col mouse la striscia si prende e si trascina, come col dito (suo, 1/11: «in orizzontale non riesco nemmeno a scorrere»)
+    var mx=null, ms=0;
+    // (premuto sulla barra sotto le ore: la barra fa da se')
+    oz.addEventListener('pointerdown',function(ev){ if(ev.pointerType!=='mouse'||ev.button!==0||ev.offsetY>oz.clientHeight) return; mx=ev.clientX; ms=oz.scrollLeft; try{ oz.setPointerCapture(ev.pointerId); }catch(x){} oz.classList.add('tira'); ev.preventDefault(); });
+    oz.addEventListener('pointermove',function(ev){ if(mx!==null) oz.scrollLeft=ms-(ev.clientX-mx); });
+    ['pointerup','pointercancel'].forEach(function(t){ oz.addEventListener(t,function(){ mx=null; oz.classList.remove('tira'); }); });
+    segna();
   }
   function storicoQui(){
     var p=punto, c=cercato; esci(false);
