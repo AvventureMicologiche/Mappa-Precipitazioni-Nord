@@ -1,79 +1,79 @@
 {
  "regione": "trentino",
- "generato": "2026-10-31T04:15:40.112Z",
+ "generato": "2026-11-01T04:15:41.136Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 105,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Ghiacciaio di Fradusta",
-     "mm": 2.8
+     "mm": 8.4
     },
     {
-     "n": "Pergine Valsugana",
+     "n": "Aldeno (San Zeno)",
+     "mm": 0.2
+    },
+    {
+     "n": "Monte Groste' (Rifugio Graffer)",
+     "mm": 0.2
+    },
+    {
+     "n": "Val Genova (Malga Caret)",
      "mm": 0.2
     },
     {
      "n": "Ala (Maso Le Pozze)",
      "mm": 0
-    },
-    {
-     "n": "Ala (Ronchi)",
-     "mm": 0
-    },
-    {
-     "n": "Aldeno (San Zeno)",
-     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0.6,
+   "media": 0.3,
    "giorni": 7,
    "stazioni": 104,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Rovereto (Malga Zugna)",
-     "mm": 25.2
-    },
-    {
-     "n": "Pian Palu' (Malga Giumella)",
-     "mm": 9.2
+     "mm": 13.2
     },
     {
      "n": "Marmolada (Sas Del Mul)",
      "mm": 7
     },
     {
-     "n": "Bresimo (Malga Bordolona)",
-     "mm": 4.6
+     "n": "Cima Cavaion",
+     "mm": 2.2
     },
     {
      "n": "Campitello (Malga Do Col D'Aura)",
-     "mm": 4.6
+     "mm": 1.4
+    },
+    {
+     "n": "Careser (Diga)",
+     "mm": 1
     }
    ]
   },
   "20": {
-   "media": 61.6,
+   "media": 61.5,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 215.4
+     "mm": 215.2
     },
     {
      "n": "Monte Groste' (Rifugio Graffer)",
-     "mm": 116.2
+     "mm": 116.4
     },
     {
      "n": "Val D'Ambiez",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Lavarone (Chiesa)",
-     "mm": 103.8
+     "mm": 103.6
     },
     {
      "n": "Daone (Pracul)",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 79.3,
+   "media": 78.7,
    "giorni": 30,
-   "stazioni": 103,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "stazioni": 104,
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
@@ -106,20 +106,21 @@
     },
     {
      "n": "Monte Groste' (Rifugio Graffer)",
-     "mm": 130.2
+     "mm": 130.4
     },
     {
      "n": "Daone (Pracul)",
      "mm": 122.6
     },
     {
-     "n": "Daone (Malga Bissina)",
+     "n": "Zuclo (Malga Casinot)",
      "mm": 122.4
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0.4,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-10-30",
-   "m1": 0.1,
-   "m7": 0.4,
-   "m30": 104,
+   "ultimo": "2026-10-31",
+   "m1": 0.2,
+   "m7": 0.3,
+   "m30": 104.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,43 +167,43 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 62.5,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 88,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 66.9,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
    "m7": 0.1,
-   "m30": 94.7,
+   "m30": 75.3,
    "p1": false,
    "p7": true,
    "p30": true
@@ -211,12 +211,12 @@
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.1,
+   "m7": 0,
    "m30": 74.6,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   }
  ]

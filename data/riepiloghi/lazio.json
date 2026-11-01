@@ -1,13 +1,42 @@
 {
  "regione": "lazio",
- "generato": "2026-10-31T04:15:40.113Z",
+ "generato": "2026-11-01T04:15:41.137Z",
  "periodi": {
   "1": {
-   "media": 1.4,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 209,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
+   "top": [
+    {
+     "n": "Ponza",
+     "mm": 8.9
+    },
+    {
+     "n": "Tivoli",
+     "mm": 3.6
+    },
+    {
+     "n": "Regillo",
+     "mm": 3.4
+    },
+    {
+     "n": "Rocca di Papa",
+     "mm": 2.8
+    },
+    {
+     "n": "Lago di Albano",
+     "mm": 1.6
+    }
+   ]
+  },
+  "7": {
+   "media": 1.7,
+   "giorni": 7,
+   "stazioni": 209,
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Arrone a Maccarese",
@@ -15,61 +44,32 @@
     },
     {
      "n": "Lago di Nemi",
-     "mm": 35.6
+     "mm": 37
     },
     {
      "n": "Fregene",
      "mm": 28.7
     },
     {
+     "n": "Lago di Albano",
+     "mm": 28.5
+    },
+    {
      "n": "Latina",
      "mm": 27.4
-    },
-    {
-     "n": "Borgo Montello",
-     "mm": 27.1
-    }
-   ]
-  },
-  "7": {
-   "media": 4.4,
-   "giorni": 7,
-   "stazioni": 209,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
-   "top": [
-    {
-     "n": "Lago di Nemi",
-     "mm": 42.1
-    },
-    {
-     "n": "Arrone a Maccarese",
-     "mm": 38.3
-    },
-    {
-     "n": "Lago di Albano",
-     "mm": 33
-    },
-    {
-     "n": "Borgo Montello",
-     "mm": 30
-    },
-    {
-     "n": "Latina",
-     "mm": 29.5
     }
    ]
   },
   "20": {
-   "media": 50.8,
+   "media": 50.7,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Osteria di Castro",
-     "mm": 276.6
+     "mm": 276.8
     },
     {
      "n": "Latina",
@@ -77,7 +77,7 @@
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 194.3
+     "mm": 194.5
     },
     {
      "n": "Vallecorsa",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 114.9,
+   "media": 114.7,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Latina",
@@ -102,11 +102,11 @@
     },
     {
      "n": "Osteria di Castro",
-     "mm": 356
+     "mm": 356.4
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 318.2
+     "mm": 318.4
     },
     {
      "n": "Ufente a Ponte Ferraioli",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   1.4,
   0.1,
   0,
@@ -148,50 +149,49 @@
   0.4,
   0,
   0.2,
-  0,
-  0.3
+  0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2.9,
+   "m7": 0,
    "m30": 93.2,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-30",
-   "m1": 0.2,
-   "m7": 3.1,
+   "ultimo": "2026-10-31",
+   "m1": 0,
+   "m7": 0.2,
    "m30": 96.6,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 3.8,
+   "m7": 0,
    "m30": 70.5,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 6,
+   "m7": 0.3,
    "m30": 76.7,
    "p1": false,
    "p7": true,
@@ -200,31 +200,31 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-30",
-   "m1": 1.1,
-   "m7": 4.7,
+   "ultimo": "2026-10-31",
+   "m1": 0,
+   "m7": 1.1,
    "m30": 141.2,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-30",
-   "m1": 0.1,
-   "m7": 7.6,
+   "ultimo": "2026-10-31",
+   "m1": 0,
+   "m7": 0.1,
    "m30": 88,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2.4,
+   "m7": 0.1,
    "m30": 86.7,
    "p1": false,
    "p7": true,

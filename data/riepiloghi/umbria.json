@@ -1,25 +1,21 @@
 {
  "regione": "umbria",
- "generato": "2026-10-31T04:15:40.113Z",
+ "generato": "2026-11-01T04:15:41.136Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 74,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 11.4
+     "mm": 4.6
     },
     {
      "n": "Gualdo Tadino",
-     "mm": 5
-    },
-    {
-     "n": "Branca",
-     "mm": 1.6
+     "mm": 3.4
     },
     {
      "n": "Scheggia",
@@ -27,61 +23,65 @@
     },
     {
      "n": "Forca Canapine",
-     "mm": 0.8
+     "mm": 1
+    },
+    {
+     "n": "Nocera Umbra",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 3.4,
+   "media": 0.6,
    "giorni": 7,
    "stazioni": 74,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 19
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 15.2
-    },
-    {
-     "n": "Scheggia",
-     "mm": 9.8
-    },
-    {
-     "n": "Carestello Meteo",
-     "mm": 8.2
+     "mm": 16.2
     },
     {
      "n": "Gualdo Tadino",
-     "mm": 8.2
+     "mm": 8.4
+    },
+    {
+     "n": "Scheggia",
+     "mm": 2.8
+    },
+    {
+     "n": "Branca",
+     "mm": 2
+    },
+    {
+     "n": "Forca Canapine",
+     "mm": 2
     }
    ]
   },
   "20": {
-   "media": 25.2,
+   "media": 24.9,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Ancaiano",
-     "mm": 59.4
+     "mm": 58.4
     },
     {
      "n": "Monte Cucco",
-     "mm": 45.4
-    },
-    {
-     "n": "S.Gemini",
-     "mm": 41
+     "mm": 49.8
     },
     {
      "n": "Castagnacupa",
-     "mm": 40.6
+     "mm": 40.2
+    },
+    {
+     "n": "S.Gemini",
+     "mm": 40
     },
     {
      "n": "Terni",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 50.4,
+   "media": 50.6,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Bocca Serriola",
@@ -113,13 +113,14 @@
      "mm": 95.2
     },
     {
-     "n": "Citta'di Castello",
-     "mm": 92
+     "n": "Monte Cucco",
+     "mm": 93.8
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.3,
   0,
   0,
@@ -148,18 +149,17 @@
   0.2,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-10-30",
-   "m1": 1.6,
-   "m7": 8.5,
-   "m30": 91.1,
+   "ultimo": "2026-10-31",
+   "m1": 1.2,
+   "m7": 3,
+   "m30": 92.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,9 +167,9 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 3.4,
+   "m7": 0.3,
    "m30": 43.7,
    "p1": false,
    "p7": true,
@@ -178,12 +178,12 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2.8,
+   "m7": 0,
    "m30": 54.8,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   }
  ]

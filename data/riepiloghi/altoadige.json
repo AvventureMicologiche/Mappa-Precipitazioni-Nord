@@ -1,13 +1,13 @@
 {
  "regione": "altoadige",
- "generato": "2026-10-31T04:15:40.112Z",
+ "generato": "2026-11-01T04:15:41.136Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Alta Val Martello",
@@ -32,40 +32,40 @@
    ]
   },
   "7": {
-   "media": 0.8,
+   "media": 0.6,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
-    {
-     "n": "Fleres",
-     "mm": 8.8
-    },
     {
      "n": "Vallelunga Grub",
      "mm": 4.8
     },
     {
-     "n": "Predoi",
-     "mm": 3.4
+     "n": "Fleres",
+     "mm": 4.7
     },
     {
-     "n": "San Valentino alla Muta",
+     "n": "Predoi",
      "mm": 2.7
     },
     {
+     "n": "San Valentino alla Muta",
+     "mm": 2.6
+    },
+    {
      "n": "Senales Vernago",
-     "mm": 2.3
+     "mm": 2.2
     }
    ]
   },
   "20": {
-   "media": 34.3,
+   "media": 33.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Santa Valburga",
@@ -73,11 +73,11 @@
     },
     {
      "n": "Fleres",
-     "mm": 76.1
+     "mm": 75.9
     },
     {
      "n": "San Vito di Braies",
-     "mm": 70.3
+     "mm": 70.2
     },
     {
      "n": "Ultimo Fontana Bianca",
@@ -85,7 +85,7 @@
     },
     {
      "n": "Sesto",
-     "mm": 53.5
+     "mm": 53.2
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 46.4,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Fleres",
@@ -125,6 +125,7 @@
   0,
   0,
   0,
+  0,
   0.5,
   0.2,
   3.9,
@@ -148,31 +149,30 @@
   2.1,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
    "m7": 0,
    "m30": 50.1,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
    "m7": 0,
    "m30": 42.9,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   }
  ]

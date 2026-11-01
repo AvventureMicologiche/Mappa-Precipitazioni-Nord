@@ -1,81 +1,81 @@
 {
  "regione": "toscana",
- "generato": "2026-10-31T04:15:40.112Z",
+ "generato": "2026-11-01T04:15:41.136Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 368,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
+    {
+     "n": "Camaldoli (AR)",
+     "nb": "Camaldoli",
+     "mm": 2.6
+    },
+    {
+     "n": "Badia Prataglia (AR)",
+     "nb": "Badia Prataglia",
+     "mm": 2.2
+    },
     {
      "n": "Croce Arcana (PT)",
      "nb": "Croce Arcana",
+     "mm": 0.8
+    },
+    {
+     "n": "Badia Tedalda (AR)",
+     "nb": "Badia Tedalda",
      "mm": 0.4
     },
     {
-     "n": "Sestino (AR)",
-     "nb": "Sestino",
+     "n": "Bocca di Serchio (PI)",
+     "nb": "Bocca di Serchio",
      "mm": 0.4
-    },
-    {
-     "n": "Camporgiano (LU)",
-     "nb": "Camporgiano",
-     "mm": 0.2
-    },
-    {
-     "n": "Convalle (LU)",
-     "nb": "Convalle",
-     "mm": 0.2
-    },
-    {
-     "n": "Giogo (FI)",
-     "nb": "Giogo",
-     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 2.3,
+   "media": 0.9,
    "giorni": 7,
    "stazioni": 368,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
-     "n": "Prunetta (PT)",
-     "nb": "Prunetta",
-     "mm": 29.8
-    },
-    {
-     "n": "Careggine (LU)",
-     "nb": "Careggine",
-     "mm": 28
+     "n": "Santermo (PI)",
+     "nb": "Santermo",
+     "mm": 6.2
     },
     {
      "n": "Parrana San Martino (LI)",
      "nb": "Parrana San Martino",
-     "mm": 20.4
+     "mm": 6
     },
     {
-     "n": "Livorno Mareografo (LI)",
-     "nb": "Livorno Mareografo",
-     "mm": 19
+     "n": "S. Luce (PI)",
+     "nb": "S. Luce",
+     "mm": 6
     },
     {
-     "n": "Valle Benedetta (LI)",
-     "nb": "Valle Benedetta",
-     "mm": 18.1
+     "n": "Cercina (FI)",
+     "nb": "Cercina",
+     "mm": 5.8
+    },
+    {
+     "n": "Monte Giovi (FI)",
+     "nb": "Monte Giovi",
+     "mm": 5.6
     }
    ]
   },
   "20": {
-   "media": 62.4,
+   "media": 62.3,
    "giorni": 20,
    "stazioni": 368,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Patresi Mortigliano (LI)",
@@ -85,7 +85,7 @@
     {
      "n": "Convalle (LU)",
      "nb": "Convalle",
-     "mm": 201
+     "mm": 200.8
     },
     {
      "n": "Fornovolasco (LU)",
@@ -95,21 +95,21 @@
     {
      "n": "Palagnana (LU)",
      "nb": "Palagnana",
-     "mm": 185.7
+     "mm": 185.3
     },
     {
      "n": "Fabbriche di Vallico (LU)",
      "nb": "Fabbriche di Vallico",
-     "mm": 180.2
+     "mm": 180
     }
    ]
   },
   "30": {
-   "media": 110.5,
+   "media": 110.1,
    "giorni": 30,
    "stazioni": 368,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Retignano (LU)",
@@ -129,7 +129,7 @@
     {
      "n": "Patresi Mortigliano (LI)",
      "nb": "Patresi Mortigliano",
-     "mm": 308.8
+     "mm": 308.4
     },
     {
      "n": "Fabbriche di Vallico (LU)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -168,28 +169,27 @@
   1.5,
   0,
   0,
-  0,
-  0.4
+  0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "val-di-magra",
    "n": "Val di Magra",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0,
    "m30": 159.2,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "lunigiana",
    "n": "Lunigiana",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.3,
+   "m7": 0.2,
    "m30": 190.7,
    "p1": false,
    "p7": true,
@@ -198,10 +198,10 @@
   {
    "s": "garfagnana",
    "n": "Garfagnana",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2.3,
-   "m30": 188.5,
+   "m7": 0.2,
+   "m30": 188.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,32 +209,32 @@
   {
    "s": "stretti-di-giaredo",
    "n": "Stretti di Giaredo",
-   "ultimo": "2026-10-30",
-   "m1": 0.1,
-   "m7": 0.5,
+   "ultimo": "2026-10-31",
+   "m1": 0,
+   "m7": 0.4,
    "m30": 188.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "mugello",
    "n": "Mugello",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 1.9,
+   "m7": 1.6,
    "m30": 56.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "casentino",
    "n": "Casentino",
-   "ultimo": "2026-10-30",
-   "m1": 0,
-   "m7": 6.4,
-   "m30": 73.8,
+   "ultimo": "2026-10-31",
+   "m1": 0.7,
+   "m7": 1.2,
+   "m30": 74.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,9 +242,9 @@
   {
    "s": "calvana",
    "n": "Calvana",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 1.6,
+   "m7": 1.2,
    "m30": 86.1,
    "p1": false,
    "p7": true,
@@ -253,21 +253,21 @@
   {
    "s": "val-di-luce",
    "n": "Val di Luce",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.3,
-   "m30": 180.9,
-   "p1": true,
+   "m7": 0.2,
+   "m30": 180.8,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-d-orcia",
    "n": "Val d'Orcia",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 3.5,
-   "m30": 89.1,
+   "m7": 0.2,
+   "m30": 86.2,
    "p1": false,
    "p7": true,
    "p30": true
@@ -275,9 +275,9 @@
   {
    "s": "valdinievole",
    "n": "Valdinievole",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 8.4,
+   "m7": 0.9,
    "m30": 117,
    "p1": false,
    "p7": true,
@@ -286,9 +286,9 @@
   {
    "s": "alpe-di-poti",
    "n": "Alpe di Poti",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2,
+   "m7": 0.5,
    "m30": 83.2,
    "p1": false,
    "p7": true,
@@ -297,21 +297,21 @@
   {
    "s": "colline-metallifere",
    "n": "Colline Metallifere",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 1.6,
-   "m30": 82.5,
-   "p1": false,
+   "m7": 0.9,
+   "m30": 80,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "alpi-apuane",
    "n": "Alpi Apuane",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
    "m7": 0.1,
-   "m30": 244.9,
+   "m30": 244.8,
    "p1": false,
    "p7": true,
    "p30": true
@@ -319,9 +319,9 @@
   {
    "s": "valdarno",
    "n": "Valdarno",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 3.4,
+   "m7": 2,
    "m30": 83.2,
    "p1": true,
    "p7": true,
@@ -330,10 +330,10 @@
   {
    "s": "media-valle-del-serchio",
    "n": "Media Valle del Serchio",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.5,
-   "m30": 184.2,
+   "m7": 0.4,
+   "m30": 184.1,
    "p1": false,
    "p7": true,
    "p30": true
@@ -341,10 +341,10 @@
   {
    "s": "valdelsa",
    "n": "Valdelsa",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 2.3,
-   "m30": 65.4,
+   "m7": 1.6,
+   "m30": 65.3,
    "p1": false,
    "p7": true,
    "p30": true
@@ -352,21 +352,21 @@
   {
    "s": "candalla",
    "n": "Candalla",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 0.3,
+   "m7": 0.2,
    "m30": 265.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "colline-metallifere-grossetane",
    "n": "Colline Metallifere grossetane",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 1,
-   "m30": 96.6,
+   "m7": 0.1,
+   "m30": 90.7,
    "p1": false,
    "p7": true,
    "p30": true
@@ -374,9 +374,9 @@
   {
    "s": "monte-pisano",
    "n": "Monte Pisano",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 1.7,
+   "m7": 1.3,
    "m30": 101.5,
    "p1": false,
    "p7": true,
@@ -385,9 +385,9 @@
   {
    "s": "colline-livornesi",
    "n": "Colline Livornesi",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
-   "m7": 8.8,
+   "m7": 3.9,
    "m30": 143.4,
    "p1": false,
    "p7": true,
@@ -396,10 +396,10 @@
   {
    "s": "val-di-merse",
    "n": "Val di Merse",
-   "ultimo": "2026-10-30",
+   "ultimo": "2026-10-31",
    "m1": 0,
    "m7": 0.1,
-   "m30": 73.5,
+   "m30": 73.1,
    "p1": false,
    "p7": true,
    "p30": true

@@ -1,125 +1,126 @@
 {
  "regione": "calabria",
- "generato": "2026-10-31T04:15:40.114Z",
+ "generato": "2026-11-01T04:15:41.138Z",
  "periodi": {
   "1": {
-   "media": 1,
+   "media": 1.1,
    "giorni": 1,
    "stazioni": 139,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
+     "n": "Allai",
+     "mm": 23.6
+    },
+    {
+     "n": "Gambarie",
+     "mm": 14.4
+    },
+    {
+     "n": "Soveria Simeri",
+     "mm": 14
+    },
+    {
+     "n": "Arasi'",
+     "mm": 12.8
+    },
+    {
      "n": "Punta Stilo",
-     "mm": 17.8
-    },
-    {
-     "n": "Ciro' Marina",
-     "mm": 15
-    },
-    {
-     "n": "Locri",
-     "mm": 14.6
-    },
-    {
-     "n": "Bovalino Marina",
-     "mm": 10.4
-    },
-    {
-     "n": "Roccella Jonica",
      "mm": 10.4
     }
    ]
   },
   "7": {
-   "media": 5.1,
+   "media": 5,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
+     "n": "Allai",
+     "mm": 29.4
+    },
+    {
      "n": "Punta Stilo",
-     "mm": 18.8
+     "mm": 29.2
     },
     {
      "n": "Ciro' Marina",
-     "mm": 17.4
+     "mm": 20.6
     },
     {
-     "n": "Filadelfia",
-     "mm": 16.6
+     "n": "Cropalati",
+     "mm": 19
     },
     {
-     "n": "Locri",
-     "mm": 15.2
-    },
-    {
-     "n": "Bovalino Marina",
-     "mm": 13.8
+     "n": "Gambarie",
+     "mm": 16.4
     }
    ]
   },
   "20": {
-   "media": 42.1,
+   "media": 40.3,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
-    {
-     "n": "Canolo Nuovo",
-     "mm": 132.8
-    },
     {
      "n": "Cotronei",
      "mm": 125.4
     },
     {
+     "n": "Canolo Nuovo",
+     "mm": 120.2
+    },
+    {
      "n": "Petilia Policastro",
-     "mm": 119.2
+     "mm": 119.4
     },
     {
      "n": "S.Nicola dell'Alto",
-     "mm": 116.4
+     "mm": 117.4
     },
     {
      "n": "Pagliarelle",
-     "mm": 104.8
+     "mm": 105.4
     }
    ]
   },
   "30": {
-   "media": 104.1,
+   "media": 105.2,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 254.8
+     "mm": 255
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 221.6
-    },
-    {
-     "n": "Cardeto",
-     "mm": 213.2
-    },
-    {
-     "n": "Cassari",
-     "mm": 208.2
+     "mm": 225.8
     },
     {
      "n": "Allai",
-     "mm": 200
+     "mm": 223.6
+    },
+    {
+     "n": "Cardeto",
+     "mm": 222.8
+    },
+    {
+     "n": "Punta Stilo",
+     "mm": 209.8
     }
    ]
   }
  },
  "serie": [
+  1.1,
   1,
   0,
   0,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-10-30",
-   "m1": 0.5,
-   "m7": 7.2,
-   "m30": 133.3,
+   "ultimo": "2026-10-31",
+   "m1": 0.6,
+   "m7": 5.9,
+   "m30": 133.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-greca",
    "n": "Sila Greca",
-   "ultimo": "2026-10-30",
-   "m1": 0.9,
-   "m7": 4.9,
-   "m30": 73.9,
+   "ultimo": "2026-10-31",
+   "m1": 0.7,
+   "m7": 4.3,
+   "m30": 74.5,
    "p1": true,
    "p7": true,
    "p30": true

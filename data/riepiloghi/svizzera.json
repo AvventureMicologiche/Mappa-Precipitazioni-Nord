@@ -1,86 +1,86 @@
 {
  "regione": "svizzera",
- "generato": "2026-10-31T04:15:40.114Z",
+ "generato": "2026-11-01T04:15:41.138Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 308,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "stazioni": 307,
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
-     "n": "Durnand (VS)",
-     "nb": "Durnand",
+     "n": "Arolla (VS)",
+     "nb": "Arolla",
      "mm": 0.2
     },
     {
-     "n": "Eggersriet (SG)",
-     "nb": "Eggersriet",
+     "n": "Chaumont (NE)",
+     "nb": "Chaumont",
      "mm": 0.1
     },
     {
-     "n": "Saignelégier (JU)",
-     "nb": "Saignelégier",
+     "n": "Couvet (NE)",
+     "nb": "Couvet",
      "mm": 0.1
     },
     {
-     "n": "Starkenbach (SG)",
-     "nb": "Starkenbach",
+     "n": "Muri, AG (AG)",
+     "nb": "Muri, AG",
      "mm": 0.1
     },
     {
-     "n": "Aadorf / Tänikon (TG)",
-     "nb": "Aadorf / Tänikon",
-     "mm": 0
+     "n": "Siebnen (SZ)",
+     "nb": "Siebnen",
+     "mm": 0.1
     }
    ]
   },
   "7": {
-   "media": 15,
+   "media": 11.4,
    "giorni": 7,
    "stazioni": 308,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Biasca Val Pontirone (TI)",
      "nb": "Biasca Val Pontirone",
-     "mm": 84.7
-    },
-    {
-     "n": "Säntis (AI)",
-     "nb": "Säntis",
-     "mm": 70.2
+     "mm": 84.6
     },
     {
      "n": "Emosson (VS)",
      "nb": "Emosson",
-     "mm": 67.5
+     "mm": 51.1
     },
     {
      "n": "Magglingen (BE)",
      "nb": "Magglingen",
-     "mm": 65.9
+     "mm": 48.5
+    },
+    {
+     "n": "Clusanfe (VS)",
+     "nb": "Clusanfe",
+     "mm": 48.1
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 64.8
+     "mm": 43.1
     }
    ]
   },
   "20": {
-   "media": 55.7,
+   "media": 55.6,
    "giorni": 20,
    "stazioni": 308,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Biasca Val Pontirone (TI)",
      "nb": "Biasca Val Pontirone",
-     "mm": 195.3
+     "mm": 195.2
     },
     {
      "n": "Camedo Paese (TI)",
@@ -105,11 +105,11 @@
    ]
   },
   "30": {
-   "media": 90.8,
+   "media": 86.3,
    "giorni": 30,
    "stazioni": 309,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Biasca Val Pontirone (TI)",
@@ -124,7 +124,7 @@
     {
      "n": "Säntis (AI)",
      "nb": "Säntis",
-     "mm": 233.8
+     "mm": 230.6
     },
     {
      "n": "Carena (TI)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.9,
@@ -168,9 +169,8 @@
   0.9,
   0.1,
   0,
-  2.2,
-  4.5
+  2.2
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": []
 }

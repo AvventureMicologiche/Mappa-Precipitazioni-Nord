@@ -1,33 +1,62 @@
 {
  "regione": "puglia",
- "generato": "2026-10-31T07:16:05.990Z",
+ "generato": "2026-11-01T04:15:41.137Z",
  "periodi": {
-  "7": {
-   "media": 6,
-   "giorni": 7,
-   "stazioni": 129,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+  "1": {
+   "media": 6.7,
+   "giorni": 1,
+   "stazioni": 128,
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
-     "n": "Sannicandro Garganico",
-     "mm": 78.3
+     "n": "Lesina",
+     "mm": 66.9
     },
     {
-     "n": "Lesina",
-     "mm": 43.9
+     "n": "Bari Campus",
+     "mm": 37.7
+    },
+    {
+     "n": "Serracapriola",
+     "mm": 36.3
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 40.2
+     "mm": 30.6
     },
     {
-     "n": "Cagnano Varano",
-     "mm": 39.1
+     "n": "Torrente Saccione SP142",
+     "mm": 28.6
+    }
+   ]
+  },
+  "7": {
+   "media": 13.5,
+   "giorni": 7,
+   "stazioni": 129,
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
+   "top": [
+    {
+     "n": "Lesina",
+     "mm": 115.5
     },
     {
-     "n": "Vico del Gargano",
-     "mm": 36.1
+     "n": "Poggio Imperiale",
+     "mm": 113
+    },
+    {
+     "n": "Sannicandro Garganico",
+     "mm": 62.9
+    },
+    {
+     "n": "Bisceglie",
+     "mm": 57.6
+    },
+    {
+     "n": "Castel del Monte",
+     "mm": 55.3
     }
    ],
    "stime": {
@@ -36,31 +65,31 @@
    }
   },
   "20": {
-   "media": 53,
+   "media": 47.8,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Ostuni",
-     "mm": 128.6
+     "mm": 167.8
     },
     {
-     "n": "Vico del Gargano",
-     "mm": 127.4
+     "n": "Lesina",
+     "mm": 164.7
     },
     {
-     "n": "Sannicandro Garganico",
-     "mm": 126.7
+     "n": "Poggio Imperiale",
+     "mm": 158.2
     },
     {
-     "n": "Bari Ufficio Idrografico",
-     "mm": 119.9
+     "n": "Fasano",
+     "mm": 120.3
     },
     {
-     "n": "Martina Franca",
-     "mm": 109.3
+     "n": "Locorotondo",
+     "mm": 114.8
     }
    ],
    "stime": {
@@ -69,31 +98,31 @@
    }
   },
   "30": {
-   "media": 78.1,
+   "media": 89.3,
    "giorni": 30,
    "stazioni": 127,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
+     "n": "Ostuni",
+     "mm": 204.1
+    },
+    {
      "n": "Vignacastrisi",
-     "mm": 197.4
+     "mm": 197.6
     },
     {
      "n": "S.M. di Leuca",
      "mm": 189.2
     },
     {
-     "n": "Nardo",
-     "mm": 159.9
+     "n": "Lesina",
+     "mm": 187.1
     },
     {
-     "n": "Ostuni",
-     "mm": 158.7
-    },
-    {
-     "n": "Martina Franca",
-     "mm": 152.9
+     "n": "Poggio Imperiale",
+     "mm": 182.4
     }
    ],
    "stime": {
@@ -103,6 +132,8 @@
   }
  },
  "serie": [
+  6.7,
+  10,
   0.3,
   0,
   0,
@@ -130,10 +161,8 @@
   0,
   0,
   0,
-  0,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-31",
  "zone": []
 }

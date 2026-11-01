@@ -1,115 +1,115 @@
 {
  "regione": "austria",
- "generato": "2026-10-31T04:15:40.115Z",
+ "generato": "2026-11-01T04:15:41.138Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.7,
    "giorni": 1,
-   "stazioni": 268,
-   "primo": "2026-10-30",
-   "ultimo": "2026-10-30",
+   "stazioni": 266,
+   "primo": "2026-10-31",
+   "ultimo": "2026-10-31",
    "top": [
     {
-     "n": "Mariazell/St.Sebastian Flugfeld (Steiermark)",
-     "nb": "Mariazell/St.Sebastian Flugfeld",
-     "mm": 0.7
+     "n": "Kernhof-St. Aegyd am Neuwalde (Niederösterreich)",
+     "nb": "Kernhof-St. Aegyd am Neuwalde",
+     "mm": 9.7
     },
     {
-     "n": "Schwarzau im Freiwald (Niederösterreich)",
-     "nb": "Schwarzau im Freiwald",
-     "mm": 0.4
+     "n": "Lilienfeld-Tarschberg (Niederösterreich)",
+     "nb": "Lilienfeld-Tarschberg",
+     "mm": 9.3
+    },
+    {
+     "n": "Rax Seilbahnbergstation (Niederösterreich)",
+     "nb": "Rax Seilbahnbergstation",
+     "mm": 7.4
     },
     {
      "n": "Lunz am See (Niederösterreich)",
      "nb": "Lunz am See",
-     "mm": 0.3
+     "mm": 5.3
     },
     {
-     "n": "Präbichl (Steiermark)",
-     "nb": "Präbichl",
-     "mm": 0.3
-    },
-    {
-     "n": "Mooslandl (Steiermark)",
-     "nb": "Mooslandl",
-     "mm": 0.2
+     "n": "Hohe Wand/Hochkogelhaus (Niederösterreich)",
+     "nb": "Hohe Wand/Hochkogelhaus",
+     "mm": 5.1
     }
    ]
   },
   "7": {
-   "media": 13.8,
+   "media": 10.5,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-24",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-25",
+   "ultimo": "2026-10-31",
    "top": [
-    {
-     "n": "Rudolfshütte (Salzburg)",
-     "nb": "Rudolfshütte",
-     "mm": 50.8
-    },
-    {
-     "n": "Feuerkogel (Oberösterreich)",
-     "nb": "Feuerkogel",
-     "mm": 48.7
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
-     "nb": "Schröcken",
-     "mm": 46.8
-    },
     {
      "n": "Tannheim (Tirol)",
      "nb": "Tannheim",
      "mm": 45.1
     },
     {
+     "n": "Feuerkogel (Oberösterreich)",
+     "nb": "Feuerkogel",
+     "mm": 43
+    },
+    {
      "n": "Sulzberg (Vorarlberg)",
      "nb": "Sulzberg",
-     "mm": 45
+     "mm": 39.8
+    },
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "nb": "Schröcken",
+     "mm": 39.5
+    },
+    {
+     "n": "Lilienfeld-Tarschberg (Niederösterreich)",
+     "nb": "Lilienfeld-Tarschberg",
+     "mm": 39.4
     }
    ]
   },
   "20": {
-   "media": 36.5,
+   "media": 36.4,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-11",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-12",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 149.2
+     "mm": 145.2
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
      "nb": "Kolm-Saigurn",
-     "mm": 119.3
+     "mm": 114.3
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 110
+     "mm": 109.9
     },
     {
      "n": "Kornat (Kärnten)",
      "nb": "Kornat",
-     "mm": 102.6
+     "mm": 102.5
     },
     {
      "n": "Feuerkogel (Oberösterreich)",
      "nb": "Feuerkogel",
-     "mm": 96.1
+     "mm": 97
     }
    ]
   },
   "30": {
-   "media": 50,
+   "media": 50.7,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-10-01",
-   "ultimo": "2026-10-30",
+   "primo": "2026-10-02",
+   "ultimo": "2026-10-31",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
@@ -119,7 +119,7 @@
     {
      "n": "Schröcken (Vorarlberg)",
      "nb": "Schröcken",
-     "mm": 177
+     "mm": 176.9
     },
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -132,14 +132,15 @@
      "mm": 142.8
     },
     {
-     "n": "Bregenz (Vorarlberg)",
-     "nb": "Bregenz",
-     "mm": 140.3
+     "n": "Feuerkogel (Oberösterreich)",
+     "nb": "Feuerkogel",
+     "mm": 140.8
     }
    ]
   }
  },
  "serie": [
+  0.7,
   0,
   0.7,
   2.5,
@@ -168,9 +169,8 @@
   2.3,
   0,
   0,
-  0.5,
-  0
+  0.5
  ],
- "serieDa": "2026-10-30",
+ "serieDa": "2026-10-31",
  "zone": []
 }
