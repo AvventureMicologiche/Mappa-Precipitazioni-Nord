@@ -17,44 +17,33 @@
 const STRISCIA_CSS = `
 /* ── la mappa nella scheda in cima (lib-striscia.js, 20/10/2026) ── */
 div.mk-str{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0 2px;}
-/* ⚠️ L'ETICHETTA SOPRA LA CARTINA (1/11/2026, suo: «da quando le scritte sono cosi' grandi e la cartina non si vede?»,
-   poi «sistema assolutamente le dimensioni con la soluzione A»). Dal 28/10 l'etichetta stava SOTTO la cartina, in una
-   fascia gialla piena: il riquadro cresceva di ~60 px e la cartina sembrava una striscia. Si torna a com'era il 20/10:
-   la cartina riempie tutto il riquadro (i.mk-img in posizione assoluta) e l'etichetta gialla all'85% sta in basso a
-   sinistra, sopra. Le anteprime delle pagine meteo (CSS_ANT) restano con l'etichetta sotto: le' l'aveva voluta lui.
-   Le regole del 28/10 che qualche pagina si porta ancora nel foglio copiato si annullano qui una per una. */
-div.mk-str a{position:relative;display:block;flex-direction:row;height:122px;border-radius:11px;overflow:hidden;background:#1d3d63;
+/* ⚠️ L'ETICHETTA SOTTO LA CARTINA, NON SOPRA (28/10/2026, come le anteprime delle pagine meteo, dove sopra copriva la
+   Sicilia e le citta' della costa; suo: «prendi le idee nuove che abbiamo messo in queste pagine e applicale»). Il
+   riquadro e' una colonna: la cartina (i.mk-img, dove ritaglia() mette l'immagine) e sotto la striscia gialla. */
+div.mk-str a{position:relative;display:flex;flex-direction:column;height:auto;border-radius:11px;overflow:hidden;background:#1d3d63;
   box-shadow:0 0 0 1px rgba(255,255,255,.28);text-decoration:none;}
-div.mk-str a i.mk-img{position:absolute;left:0;top:0;right:0;bottom:0;display:block;height:auto;background:#1d3d63 no-repeat;}
-div.mk-str a span{position:absolute;left:7px;bottom:7px;right:auto;display:block;flex:none;border-radius:8px;background:rgba(9,28,52,.86);color:#fff;
-  font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:6px 8px;}
+div.mk-str a i.mk-img{position:relative;display:block;height:122px;background:#1d3d63 no-repeat;}
+div.mk-str a span{position:static;display:block;flex:1;border-radius:0;box-shadow:none;background:rgba(9,28,52,.86);color:#fff;font:700 13.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  padding:7px 9px 8px;}
 div.mk-str a span b{display:block;font-weight:800;white-space:nowrap;}
 div.mk-str a span small{display:block;font-weight:500;font-size:12px;opacity:.88;margin-top:1px;white-space:nowrap;}
 div.mk-str a.mk-uno{grid-column:1 / -1;}
 div.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e12b2b;border:2px solid #fff;
   box-shadow:0 1px 4px rgba(0,0,0,.45);}
-@media(min-width:700px){div.mk-str a{height:150px;} div.mk-str a i.mk-img{height:auto;}}
+@media(min-width:700px){div.mk-str a i.mk-img{height:150px;}}
 /* al telefono il riquadro e' largo ~146 px a 360: scritte un filo piu' piccole, e a capo piuttosto che fuori */
-@media(max-width:420px){div.mk-str a span{left:6px;bottom:6px;right:6px;padding:5px 6px;font-size:12.5px;}
+@media(max-width:420px){div.mk-str a span{padding:6px 7px 7px;font-size:12.5px;}
   div.mk-str a span b,div.mk-str a span small{white-space:normal;} div.mk-str a span small{font-size:11px;}}
-@media(max-width:370px){div.mk-str a span{font-size:12px;padding:5px;} div.mk-str a span small{font-size:10.5px;}}
-/* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella del bottone */
-/* ⚠️ LA CARTINA GRANDE E LA SCRITTA PICCOLA (1/11/2026, suo, sulla prima prova: «sempre una merda piccolissima con un
-   titolo gigantesco per dire quasi niente»). La cartina passa da 170 / 230 px a 300 / 440 (telefono / PC), e sulle pagine
-   regione si vede la regione INTERA (ritaglia, OPZ.ieri). La scritta e' una riga sola, piccola, in basso a sinistra. */
-div.mk-str.mk-ieri a{height:300px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}
-@media(min-width:700px){div.mk-str.mk-ieri a{height:440px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}}
-div.mk-str.mk-grande a span{left:8px;bottom:8px;right:auto;padding:4px 10px;border-radius:999px;}
-div.mk-str.mk-grande a span b{font-size:13px;font-weight:800;white-space:nowrap;} div.mk-str.mk-grande a span small{display:none;}
-@media(max-width:420px){div.mk-str.mk-grande a span{left:6px;bottom:6px;right:auto;padding:4px 9px;}
-  div.mk-str.mk-grande a span b{font-size:12px;}}
-div.mk-str.mk-grande a span em{font-style:normal;font-weight:600;}
-@media(max-width:420px){div.mk-str.mk-grande a span em{display:none;}}
-/* il bottone sulla mappa colorato (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube,
-   all'85% (suo: «giallo ma semitrasparente?»): la mappa si intravede, resta un bottone */
-div.mk-str.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.85),rgba(237,164,12,.85));color:#3d1f04;border-top:0;
-  box-shadow:0 3px 0 rgba(160,106,8,.85),0 6px 14px rgba(0,0,0,.3);}
-div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:0;box-shadow:0 3px 0 #8f1410,0 6px 14px rgba(0,0,0,.35);}
+@media(max-width:370px){div.mk-str a span{font-size:12px;padding:6px;} div.mk-str a span small{font-size:10.5px;}}
+/* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella grande del bottone di ieri */
+div.mk-str.mk-ieri a i.mk-img{height:140px;} @media(min-width:700px){div.mk-str.mk-ieri a i.mk-img{height:185px;}}
+div.mk-str.mk-grande a span{padding:10px 14px 11px;border-radius:0;}
+div.mk-str.mk-grande a span b{font-size:19px;} div.mk-str.mk-grande a span small{font-size:14px;}
+@media(max-width:420px){div.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} div.mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
+/* la striscia colorata (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube.
+   Sotto la cartina il giallo e' pieno, come le anteprime delle pagine meteo (all'85% serviva quando stava sopra) */
+div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;border-top:1px solid rgba(160,106,8,.35);box-shadow:none;}
+div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:1px solid #8f1410;box-shadow:none;}
 div.mk-str.mk-giallo a span small,div.mk-str.mk-rosso a span small{opacity:.92;}
 `;
 
@@ -80,8 +69,6 @@ function strisciaMappa(OPZ) {
     if (OPZ.tipo === 'regione' && j.reg) {
       var nw = proj(j.reg.n, j.reg.w, j.z), se = proj(j.reg.s, j.reg.e, j.z);
       k = tw / Math.max(1, se[0] - nw[0]);
-      // pagine piogge (1/11/2026): la cartina e' alta, la regione ci sta INTERA, anche in altezza (la Calabria era a meta')
-      if (OPZ.ieri) k = 0.94 * Math.min(k, th / Math.max(1, se[1] - nw[1]));
       cx = (nw[0] + se[0]) / 2 - j.x0; cy = (nw[1] + se[1]) / 2 - j.y0;
     } else if (OPZ.lat == null) {   // regione senza confine nel JSON: il centro dell'immagine
       k = tw / j.w; cx = j.w / 2; cy = j.h / 2;
@@ -105,7 +92,7 @@ function strisciaMappa(OPZ) {
   }
   function carica(tipo, base) {
     if (geo[tipo]) return geo[tipo];
-    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : '-mappa');
+    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : '-mappa');
     geo[tipo] = fetch(base + f + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { return { j: j, url: base + f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') }; })
       .catch(function () { return null; });
@@ -130,26 +117,13 @@ function strisciaMappa(OPZ) {
       btns.setAttribute('data-str', '1');
       if (OPZ.modo === 'sopra') btns.parentNode.insertBefore(d, btns); else btns.parentNode.replaceChild(d, btns);
       var a1 = d.querySelector('a');
-      a1.addEventListener('click', function () { ga(a1.getAttribute('data-t')); });
+      a1.addEventListener('click', function () { ga('ieri'); });
       /* ⚠️ L'IMMAGINE DEVE ESSERE DEL GIORNO DEL BOTTONE (21/10/2026, ottavo check, bug 2): se lo scatto di ieri fallisce
          (o GitHub salta il giro) sul ramo resta quella dell'altroieri, che usciva sotto «Ieri» senza nessun avviso.
          Se la data del JSON non e' quella del link (da=) l'immagine non si mette: il riquadro resta blu con la scritta,
          come quando manca. */
       var daL = (vecchio.getAttribute('href').match(/[?&]da=(\d{4}-\d\d-\d\d)/) || [])[1];
-      /* ⚠️ LA CARTINA DEGLI ULTIMI 7 GIORNI (1/11/2026, suo: «la scritta va bene la pioggia di ieri e la mappa ultimi 7
-         giorni»). La scheda resta su ieri (e' la risposta alla ricerca), la cartina e' quella dei 7 giorni (<reg>-7g, che
-         genera-anteprime.js scatta per tutte le regioni delle pagine piogge): nei giorni asciutti quella di ieri era
-         solo cartina e pallini bianchi. Il riquadro porta alla mappa dei 7 giorni (il link #cta7 della pagina) e lo dice.
-         Se lo scatto dei 7 giorni manca o non finisce a ieri, resta la cartina di ieri come prima. */
-      var c7 = document.getElementById('cta7');
-      carica('7g', PIOGGIA).then(function (g7) {
-        if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) {
-          a1.setAttribute('href', c7.getAttribute('href')); a1.setAttribute('data-t', '7giorni');
-          a1.querySelector('span').innerHTML = '<b>💧 Pioggia degli ultimi 7 giorni<em> · apri la mappa</em> →</b>';
-          a1._g = g7; ritaglia(a1, g7); return;
-        }
-        carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
-      });
+      carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
       return;
     }
     // (21/10/2026, ottavo check, bug 9) solo il bottone NORMALE diventa la striscia: «Vedi i vicini sulla mappa» (pluviometro
