@@ -114,7 +114,7 @@ const REGIONI = [
   { k:'sardegna',    nome:'Sardegna',               prep:'in',   dirs:['meteohub-sardegna'],    agenzia:'MeteoHub',              url:'', staz:'oltre 90',         geo:'dalla Gallura al Sulcis' },
   { k:'svizzera',    nome:'Svizzera',               prep:'in',   dirs:['svizzera','ticino'],    agenzia:'MeteoSvizzera e OASI Ticino', agenziaCorta:'MeteoSvizzera', url:'', staz:'oltre 300',  geo:'dal Ticino ai Grigioni, dal Vallese al Giura' },
   { k:'austria',     nome:'Austria',                prep:'in',   dirs:['austria'],              agenzia:'GeoSphere Austria',     url:'', staz:'quasi 270',        geo:'dai ghiacciai del Tirolo alle colline del Burgenland' },
-  { k:'slovenia',    nome:'Slovenia',               prep:'in',   dirs:['slovenia'],             agenzia:'ARSO Slovenia',         url:'', staz:'oltre 110',        geo:'dalle Alpi Giulie al Carso', nota:'ARSO pubblica con circa 36 ore di ritardo: nei riepiloghi qui sotto gli ultimi uno o due giorni possono mancare, ed è normale.' },
+  // ⚠️ LA SLOVENIA NON HA PIU' UNA PAGINA (1/11/2026, sua decisione, scheda 105 bis). ARSO pubblica con ~34 ore di ritardo: la pagina non aveva mai «ieri» ma lo prometteva, e non era fra le COTTE (diceva «oltre 110 pluviometri» col riquadro a 109). La Slovenia resta sulla MAPPA; /slovenia/ rimanda a /?r=slovenia (_redirects). Togliendola da qui spariscono da soli la pagina, la voce di sitemap, il riepilogo e i link in guida, fonti e pagine funghi.
 ];
 
 // ── I LINK FRA LE PAGINE ────────────────────────────────────────────────────

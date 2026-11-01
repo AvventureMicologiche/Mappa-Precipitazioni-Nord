@@ -681,6 +681,39 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
   }
 
 
+  function avvisoStime(j, ids, uno) {
+    if (!j || !j.stime || !j.oggi || !ids || !ids.length) return "";
+    var segnati = {}, chi = 0;
+    for (var a = 0; a < ids.length; a++) {
+      var l = j.stime[ids[a]];
+      if (!l || !l.length) continue;
+      chi++;
+      for (var b = 0; b < l.length; b++) segnati[l[b]] = 1;
+    }
+    var ii = Object.keys(segnati).map(Number).sort(function (x, y) { return y - x; });   // dal piu' lontano
+    if (!ii.length) return "";
+    var MM = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+    var o = j.oggi.split("-");
+    function data(i) { return new Date(Date.UTC(+o[0], +o[1] - 1, +o[2] - 1 - i)); }
+    function el(d) { var g = d.getUTCDate(); return g === 1 || g === 8 || g === 11; }   // l'8, l'11, l'1
+    function gm(d) { return d.getUTCDate() + " " + MM[d.getUTCMonth()]; }
+    var p = data(ii[0]), u = data(ii[ii.length - 1]), quando;
+    if (ii.length === 1) quando = (el(u) ? "l’" : "il ") + gm(u);
+    else if (ii[0] - ii[ii.length - 1] === ii.length - 1)   // giorni di fila
+      quando = (el(p) ? "dall’" : "dal ") + (p.getUTCMonth() === u.getUTCMonth() ? p.getUTCDate() : gm(p))
+        + (el(u) ? " all’" : " al ") + gm(u);
+    else quando = "in " + ii.length + " giorni fra " + (el(p) ? "l’" : "il ") + gm(p) + " e " + (el(u) ? "l’" : "il ") + gm(u);
+    quando = quando.charAt(0).toUpperCase() + quando.slice(1);
+    var gg1 = ii.length === 1, testo;
+    if (uno) testo = "questo pluviometro non ha trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+    else if (chi === ids.length) testo = "i pluviometri non hanno trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+    else testo = (chi === 1 ? "un pluviometro su " + ids.length + " non ha trasmesso: i suoi valori di " : chi + " pluviometri su " + ids.length + " non hanno trasmesso: i loro valori di ")
+      + (gg1 ? "quel giorno sono una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+    return "<div class=\"avviso-stime\" style=\"background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300\">⚠️ "
+      + quando + " " + testo + "</div>";
+  }
+
+
   var MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
   var GS=['dom','lun','mar','mer','gio','ven','sab'];
   function iso(d){ var p=function(n){return String(n).padStart(2,'0');};
@@ -802,6 +835,9 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
       + '<div class="scala">'+scala+'</div>'
       + '<div class="scala-t"><span>sotto 30</span><span>30-60</span><span>60-100</span><span>oltre 100</span></div>'
       + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
+    /* i giorni stimati di questo pluviometro, detti in cima (1/11/2026, avvisoStime di lib-pagina-funghi.js) */
+    var avv = avvisoStime(j, [ID], true);
+    if (avv) document.getElementById('verdetto').insertAdjacentHTML('afterbegin', avv);
 
     /* ── le 25 barre, ieri a destra ── */
     var max = Math.max.apply(null, s.concat([1]));

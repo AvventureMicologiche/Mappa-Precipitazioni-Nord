@@ -82,3 +82,9 @@
 # mappa»: il percorso delle pagine meteo porta a /previsioni/, e chi aveva /meteo/ ci arriva da qui.
 /meteo /previsioni/ 301
 /meteo/ /previsioni/ 301
+
+# LA PAGINA DELLA SLOVENIA NON C'E' PIU' - 1/11/2026 (scheda 105 bis, sua decisione)
+# ARSO pubblica con ~34 ore di ritardo: la pagina prometteva «ieri» senza averlo mai e i suoi numeri non tornavano.
+# La Slovenia resta sulla mappa: chi aveva l'indirizzo arriva li', con la Slovenia gia' scelta.
+/slovenia /?r=slovenia 301
+/slovenia/ /?r=slovenia 301

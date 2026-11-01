@@ -52,7 +52,7 @@ const W = 1600, H = 1000;        // finestra del browser (×2 per il retina)
 // Piemonte-VdA e Trentino-A.A. si risolvono lato sito.
 const REGIONI = ['lombardia','piemonte','valledaosta','liguria','emilia','veneto','friuli',
   'trentino','altoadige','toscana','umbria','marche','lazio','molise','campania','puglia',
-  'basilicata','calabria','sicilia','sardegna','svizzera','austria','slovenia'];
+  'basilicata','calabria','sicilia','sardegna','svizzera','austria'];   // slovenia tolta il 1/11/2026: la sua pagina non c'e' piu'
 
 const p2 = n => String(n).padStart(2, '0');
 const iso = d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());

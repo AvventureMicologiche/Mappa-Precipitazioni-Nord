@@ -1,13 +1,56 @@
 # Analisi delle famiglie di pagine (1 novembre 2026)
 
-Scheda «Mappa pluviometrica 105 bis», in cloud. Solo analisi: non ho toccato pagine, generatori, dati o workflow. Il file sta nella radice di `main`, come chiesto; le pagine `.md` non vengono pubblicate sul sito (`pubblica-pages.js` le salta).
+Scheda «Mappa pluviometrica 105 bis», in cloud. Il file sta nella radice di `main`; le pagine `.md` non vengono pubblicate sul sito (`pubblica-pages.js` le salta).
+
+> **Correzione:** nella prima versione l'esempio delle stime era «Vico del Gargano, 78,8 mm il 27/10». Era sbagliato: avevo letto la serie al contrario, e quei 78,8 mm sono dell'11/10, una misura vera. L'esempio giusto è Bosco Umbra, qui sotto. Il difetto resta lo stesso.
+
+## Aggiornamento del 1/11/2026: cosa è stato sistemato
+
+Su tua richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia mettiamo stime e le dichiariamo», «sistema anche carnia e abruzzo»). I dettagli tecnici sono nel `CLAUDE.md`, sezione «Correzioni del 1/11/2026».
+
+1. **Pagina Slovenia tolta.** Le pagine regione delle piogge sono ora 22 e la sitemap ha 1.412 indirizzi. Nessun link rimasto verso `/slovenia/`, che rimanda alla mappa con la Slovenia già scelta. La Slovenia resta sulla mappa.
+2. **Stime dichiarate nelle pagine funghi.** Le stime restano nei totali, ma ogni pagina lo dice in cima con un riquadro giallo, con le stesse parole delle pagine piogge: «Dal 26 al 30 ottobre questo pluviometro non ha trasmesso: quei giorni sono stime Open-Meteo, non misure». Vale per paesi, zone (con «2 pluviometri su 14» quando non sono tutti) e regioni funghi. Nell'indice `/funghi/` i posti con giorni stimati hanno l'asterisco. Oggi l'avviso compare in Puglia (26-30/10), in Sardegna (15/10, 5 posti) e in Sicilia (7/10, 8 posti).
+3. **Carnia forestale rifatta** sui 7 pluviometri nuovi: bosco dall'80 al 69%, abetaie e peccete dall'1 al 29%, pinete dal 38,5 al 15,4%. È una media calcolata qui, vicina al metodo del banco: al prossimo giro del banco si ricalcola col metodo vero.
+4. **Abruzzo forestale:** niente più «pioggia vera»; ora dice che sono stime di modello.
+
+Le pagine cambiate vanno online con la prossima pubblicazione (il giro del mattino `pagine-regione.yml` pubblica tutto `main`).
+
+## Elenco aggiornato: cosa resta da fare
+
+**Medi**
+1. **Numeri che si contraddicono:** Basilicata (titolo 50, sottotitolo «oltre 45», riquadro 62) e Campania (165, «oltre 160», 175); nella mappa forestale «dodici colori» e «11 tipi di bosco». Soluzione: un solo numero di pluviometri per pagina regione, «12 tipi». **Piccolo.**
+2. **Zone piogge che contano i pluviometri esclusi** (13 zone) e spiegano male il trattino. Soluzione: togliere gli esclusi dal conteggio, correggere la nota. **Piccolo.**
+3. **Zone con posti sbagliati:** Valle Sessera (posti novaresi), Valtiberina (posti marchigiani), Calvana (dighe bolognesi), Val d'Aveto senza Santo Stefano. Soluzione: correggere `funghi-zone.json` e rigenerare. **Piccolo-medio.**
+4. **Nomi brutti nei titoli dei paesi** («Male'», «Mondovi'», «Branzi Caserma Carabinieri», «(CI)»). Soluzione: accenti in `bello()`, `nomi-titolo.json`, sigle sarde. **Piccolo.**
+5. **Ritratto dei paesi indietro** (mese più piovoso ancora agosto o settembre, ora è ottobre) e mese in corso contato come intero dal 28. Soluzione: rinnovo mensile, mese intero solo se finito. **Piccolo.**
+6. **Verdetto funghi con fino al 40% di giorni senza dato contati come zero, senza dirlo** (circa 35 pagine). Soluzione: dirlo nel riquadro o abbassare la soglia. **Piccolo.**
+7. **Mappa forestale isolata** (138 pagine raggiungibili solo dalla guida). Soluzione: link dalle pagine funghi e dalla mappa. **Piccolo.**
+8. **Date della sitemap ferme:** 117 pagine forestali al 20/10 (oggi è cambiata anche la Carnia), `/fonti` all'8/10. Soluzione: date in `pagine-lastmod.json` o calcolate da sole. **Piccolo / medio.**
+9. **Pagine meteo:** quasi doppioni nel gruppo C (Candalla e Alpi Apuane, Val Serina e Val Brembana), Riviera di Levante con i paesi della Fontanabuona, quota mancante in `paesi-zone.json`. **Piccolo-medio.**
+10. **Pagine funghi sottili al sud:** Puglia 2 posti, Basilicata 6, Sardegna 8, Sicilia 9. Soluzione: allargare i posti o decidere con Search Console. **Medio.**
+
+**Bassi**
+
+11. Frasi da sistemare: «0,0 mm di media», doppio punto, «e altre una città», «con 386.» senza «mm», «zona per zona» nelle «adesso» senza zone. **Piccolo.**
+12. Le regioni piogge non si linkano fra loro, e il piede chiama «riepilogo delle regioni» i link alle pagine funghi. **Piccolo.**
+13. Anteprima social uguale (testo e immagine) su 1.043 pagine. **Piccolo.**
+14. `/previsioni/` con la scritta grande della mappa. **Piccolo.**
+15. Due stili di percorso in cima alle pagine; la guida parla di «dieci gruppi» di boschi. **Piccolo.**
+16. *Nuovo:* sopra l'avviso delle stime la riga di stagione dice «i millimetri qui sotto sono veri» (`lib-stagione.js`). Soluzione: togliere «sono veri». **Piccolo.**
+17. *Nuovo:* il ripiego delle regioni funghi (quando il file del giorno è vecchio) non dichiara le stime. Raro. **Piccolo.**
+
+**Non sono errori, ma convengono:** codice comune in file esterni (pagine da circa 113 a 15 KB, **medio-grande**); verdetto funghi scritto nell'HTML ogni mattina come le zone piogge (**medio**).
+
+---
+
+Sotto, l'analisi com'era stamattina, prima delle correzioni.
 
 ## In breve
 
 - **La struttura è sana.** 1.412 pagine HTML, più `/previsioni/` servita da una Function: 1.413 indirizzi, tutti in una sitemap. Nessun link interno rotto, nessun link verso un indirizzo che rimanda, nessuna pagina orfana. Nessun titolo, description o H1 doppio in tutto il sito. Canonical giusto su tutte le pagine.
 - **I generatori sono allineati alle pagine.** Rilanciandoli tutti oggi cambiano solo i numeri d'archivio delle pagine funghi (attesi: si rifanno ogni tre mesi), e i conteggi della Slovenia e della «adesso» della Valle d'Aosta.
 - **Al telefono e al PC le pagine funzionano.** Su 22 pagine provate (393 e 1366 px): nessun errore JavaScript, niente che esce dallo schermo, nessun «NaN» o «undefined».
-- **Il difetto più serio: le pagine funghi contano le stime Open-Meteo come pioggia vera.** In Puglia il grafico di Vico del Gargano mostra 78,8 mm il 27/10, che è una stima, sotto la scritta «millimetri misurati a terra». Va contro la regola 4 del progetto.
+- **Il difetto più serio: le pagine funghi contano le stime Open-Meteo come pioggia vera.** In Puglia Bosco Umbra mostra 38,5 mm negli ultimi 7 giorni, di cui 15,5 stimati (dal 26 al 30/10 la rete non ha trasmesso), sotto la scritta «millimetri misurati a terra». Va contro la regola 4 del progetto.
 - **Alcune pagine si contraddicono da sole.** La Slovenia dice «oltre 110 pluviometri» e due righe sotto «Media di 109». La Basilicata ha tre numeri diversi di pluviometri (50, oltre 45, 62). La mappa forestale dice «dodici colori» e accanto «11 tipi di bosco». La Carnia forestale descrive ancora i boschi della zona vecchia.
 - **La mappa forestale è un'isola.** 138 pagine raggiungibili solo fra loro e dalla guida (2 link). Nessuna pagina funghi, piogge o meteo ci porta.
 - **Le pagine sono pesanti per quello che dicono.** Una pagina paese pesa 113 KB, e 98 KB sono JavaScript e CSS identici in tutte le 908 sorelle. Il browser non può tenerli in memoria fra una pagina e l'altra.
@@ -157,7 +200,7 @@ In più, `sitemap-paesi-prova.xml` (20 paesi lombardi, prova del 25/10) è fuori
 
 **Alta** (dicono una cosa falsa a chi legge, su un tema che il progetto tiene serio)
 
-- **A1. Stime contate come pioggia vera nelle pagine funghi.** `genera-funghi.js:100` legge i file con `leggi()` di `lib-giorni.js:40-45`, che non scarta né i file `open-meteo-*` né le stazioni `om:true`; il ripiego nel browser fa lo stesso (`genera-pagine-funghi.js:594`). Il ritratto invece le scarta (`lib-clima.js`). Esempio: Puglia, 26-29/10 tutti `open-meteo-gapfill`; nel file `data/funghi/puglia-giorni.json` Vico del Gargano ha 78,8 mm il 27/10, e la pagina dice «millimetri misurati a terra». Tocca indice, regioni, zone e paesi funghi ogni volta che MeteoHub perde un giorno (dal 1/9 è successo 13 volte, secondo la lettura funghi).
+- **A1. Stime contate come pioggia vera nelle pagine funghi.** `genera-funghi.js:100` legge i file con `leggi()` di `lib-giorni.js:40-45`, che non scarta né i file `open-meteo-*` né le stazioni `om:true`; il ripiego nel browser fa lo stesso (`genera-pagine-funghi.js:594`). Il ritratto invece le scarta (`lib-clima.js`). Esempio: Puglia, 26-29/10 tutti `open-meteo-gapfill`; nel file `data/funghi/puglia-giorni.json` Bosco Umbra ha 38,5 mm negli ultimi 7 giorni, di cui 15,5 stimati (il 30/10 da solo vale 15 mm), e la pagina dice «millimetri misurati a terra». Tocca indice, regioni, zone e paesi funghi ogni volta che MeteoHub perde un giorno (dal 1/9 è successo 13 volte, secondo la lettura funghi).
 - **A2. Carnia forestale sulla zona vecchia** (`mappa-forestale-dati.json` del 25/10, pagina `mappa-forestale/zone/carnia/`).
 - **A3. Abruzzo forestale con «pioggia vera»** (`genera-mappa-forestale.js:342`).
 

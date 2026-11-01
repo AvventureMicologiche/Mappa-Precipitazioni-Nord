@@ -41,7 +41,7 @@ const { REGIONI, navAltre, briciolaJson, stazDi } = require('./genera-pagine-reg
 const { LOCALITA, bello, slug, slugRegione, postiDellaZona, diEnte, elenco } = require('./lib-nomi.js');
 const { rigaStagione } = require('./lib-stagione.js');
 // 24/9/2026: verdetto, barre e finestra comuni con le pagine di zona
-const { STILE_NUOVO, JS_COMUNE, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, JS_STIME, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -492,6 +492,7 @@ ${navAltre('funghi')}
   var MAPPA = '${SITO}/';
   var QUANTI = 15, FORTE = 30;
 ${JS_COMUNE}
+${JS_STIME}
 
   function meno(n){ var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-n); return d; }
   function menoDaI(s, n){ return iso(menoDa(s, n)); }
@@ -541,6 +542,9 @@ ${JS_COMUNE}
       var o = j.oggi, daG = iso(menoDa(o,20)), aG = iso(menoDa(o,13)), ieri = iso(menoDa(o,1));
       var lk = function(dal, al){ return MAPPA + '?r=' + REG + '&da=' + dal + '&a=' + al + '&s=p'; };
       scriviVerdetto(s, o, lk(daG, ieri), 'in media, negli ultimi 20 giorni');
+      /* i giorni stimati dei posti da bosco della regione, detti in cima (1/11/2026, avvisoStime di lib-pagina-funghi.js) */
+      var avv = avvisoStime(j, ids, false);
+      if (avv) document.getElementById('verdetto').insertAdjacentHTML('afterbegin', avv);
       var ax = scriviBarre(s, o);
       scriviFinestra(s, o, null, 'in media');
       document.getElementById('t-conta').href = lk(daG, aG);

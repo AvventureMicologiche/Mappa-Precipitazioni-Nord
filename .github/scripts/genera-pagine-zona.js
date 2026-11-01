@@ -59,7 +59,7 @@ const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js')
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola, artGiorno, aNome } = require('./lib-clima.js');
 // 24/9/2026: grafica e codice di pagina comuni con le pagine di regione
-const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello } = require('./lib-pagina-funghi.js');
+const { STILE_NUOVO, JS_COMUNE, JS_AGGIORNATO, JS_STIME, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello } = require('./lib-pagina-funghi.js');
 // ⚠️ CAMPIONE 20/10/2026 (Garfagnana, solo in locale): come le zone piogge, piu' «Trova i boschi» (sua idea). Stesso
 // codice nel browser (lib-meteo-regione.js) con le opzioni dei funghi: blocco meteo con un altro id (#meteo qui e' il
 // grafico delle temperature) e NIENTE giorni previsti nel grafico dei funghi (regola: niente previsioni di crescita).
@@ -379,6 +379,7 @@ ${coppiaQuiz(casa.k, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel
     : "https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/";
 ${JS_COMUNE}
 ${JS_AGGIORNATO}
+${JS_STIME}
 
   function fresco(j){
     if(!j || !j.generato || !j.serie || !j.oggi) return false;
@@ -394,7 +395,7 @@ ${JS_AGGIORNATO}
   })).then(function(js){
     var buoni = js.filter(function(j){ return j && fresco(j); });
     if (buoni.length !== REGIONI.length) return guasto();
-    var serie = {}, serieT = {}, sospesi = {}, oggi = null, gen = null;
+    var serie = {}, serieT = {}, sospesi = {}, stimeZ = {}, oggi = null, gen = null;
     /* ⚠️ SI ALLINEA PER DATA, NON PER POSIZIONE (17/10/2026). serie[0] e' «ieri» del
        SUO file: se una regione quella mattina non e' stata aggiornata, il suo file
        parte dal giorno prima e affiancando per posizione la media mescolava giorni
@@ -410,12 +411,16 @@ ${JS_AGGIORNATO}
       Object.keys(j.serie).forEach(function(id){ serie[id] = scorri(j.serie[id], k); });
       Object.keys(j.serieT || {}).forEach(function(id){ serieT[id] = scorri(j.serieT[id], k); });
       Object.keys(j.sospesi || {}).forEach(function(id){ sospesi[id] = 1; });
+      /* i giorni stimati, spostati come la serie (1/11/2026, avvisoStime di lib-pagina-funghi.js) */
+      Object.keys(j.stime || {}).forEach(function(id){ stimeZ[id] = j.stime[id].map(function(i){ return i + k; }).filter(function(i){ return i < GIORNI; }); });
     });
     /* 17/10/2026: i pluviometri sospesi (la mappa li esclude perche' misurano
        male, lib-escluse.js) non entrano nella media: in tabella restano col «—» */
     var righe = POSTI.filter(function(p){ return serie[p[0]] && !sospesi[p[0]]; });
     if (righe.length < 2) return guasto();
     disegna(serie, serieT, oggi, righe);
+    var avv = avvisoStime({ oggi: oggi, stime: stimeZ }, righe.map(function(p){ return p[0]; }), false);
+    if (avv) document.getElementById("verdetto").insertAdjacentHTML("afterbegin", avv);
     scriviAggiornato(gen);
   }).catch(function(){ guasto(); });
 

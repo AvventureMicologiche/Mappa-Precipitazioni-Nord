@@ -546,6 +546,9 @@ stesso metodo delle gemelle ARPAE-OMIRL.
 
 ### Slovenia (v8.0, in produzione dal 12 agosto 2026)
 
+> ⚠️ **LA PAGINA `/slovenia/` NON C'E' PIU' (1/11/2026, sua decisione)**: la Slovenia resta sulla mappa, la pagina
+> regione no. Vedi «Correzioni del 1/11/2026» in fondo.
+
 **L'header non tiene piu' insieme titolo e badge: si danno il cambio** (12/8).
 A riposo il titolo elenca le nazioni coperte, appena parte un'analisi il badge
 le sostituisce con stazioni e fonte, e con «↩ Indietro» tornano. Lo fa
@@ -2255,7 +2258,7 @@ famiglie che rispondono a due ricerche diverse, e non si mescolano:
 
 | categoria | ricerca | pagine |
 |---|---|---|
-| **PIOGGE** | «dove ha piovuto ieri in Toscana / in Garfagnana» | 23 regioni (`/toscana/`) + **114 zone** (`/zone/<slug>/`) |
+| **PIOGGE** | «dove ha piovuto ieri in Toscana / in Garfagnana» | 22 regioni (`/toscana/`, la Slovenia tolta il 1/11/2026) + **114 zone** (`/zone/<slug>/`) |
 | **FUNGHI** | «dove andare a funghi oggi in Toscana» | 19 regioni, 114 zone, 911 localita', indice (`/funghi/...`) |
 
 - **Piogge**: si deve essere i piu' avanti possibile su IERI. Le regioni hanno
@@ -3834,3 +3837,42 @@ sul suo ramo. Solo parole: nessuna funzione nuova.
 - Prove: lunghezze e doppioni su tutte le pagine toccate (titoli 39-62, descrizioni sotto i 158, un solo h1, zero
   titoli doppi); 14 pagine × computer e telefono 393 sul server locale, 28/28 senza errori e senza scritte fuori schermo
   (in locale col solo `http.server` le previsioni non rispondono: si ignorano solo quelle richieste).
+
+---
+
+## Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)
+
+L'analisi completa sta in `analisi-famiglie-pagine-2026-11-01.md`, nella radice. Corretti lo stesso giorno, su sua
+richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia mettiamo stime e le dichiariamo»,
+«sistema anche carnia e abruzzo»):
+
+- **La pagina `/slovenia/` e' tolta.** ARSO pubblica con ~34 ore di ritardo: la pagina prometteva «ieri» senza
+  averlo mai, non era fra le COTTE e diceva «oltre 110 pluviometri» col riquadro a 109. Fatto togliendo la voce da
+  `REGIONI` in `genera-pagine-regione.js`: spariscono da soli la pagina, la voce di `sitemap-mappa.xml`, il riepilogo e
+  i link della mappa del sito (guida, fonti) e delle pagine funghi. `data/riepiloghi/slovenia.json` cancellato: il
+  guardiano guarda il piu' vecchio dei riepiloghi, e uno non piu' aggiornato gli avrebbe fatto rilanciare i riepiloghi
+  ogni giorno. Tolta anche dagli scatti di `genera-anteprime.js`. Rimando in `_redirects`: `/slovenia/` → `/?r=slovenia`
+  (301). ⚠️ La Slovenia RESTA sulla mappa, nei collector, in `check-fonti.js` e nel guardiano: si toglie solo la pagina.
+- **Le stime si dichiarano nelle pagine funghi.** Fino a oggi `genera-funghi.js` leggeva i file con `leggi()` senza
+  guardare la provenienza, e i giorni stimati (gapfill Open-Meteo, stazioni `om`) finivano nei totali sotto la scritta
+  «misurati a terra» (Puglia 26-30/10, Bosco Umbra 38,5 mm in 7 giorni di cui 15,5 stimati). Le stime restano nei
+  totali (sua scelta), ma ora `leggiS()` le segna e il file `<regione>-giorni.json` ha `stime`: {id: [indici della
+  serie, 0 = ieri]}, solo per chi ne ha (le regioni senza stime non cambiano file). `italia.json` ha un sesto elemento
+  `1` nelle righe con giorni stimati nella finestra 13-20. Nelle pagine: `avvisoStime()` (`JS_STIME` di
+  `lib-pagina-funghi.js`) mette in cima al verdetto il riquadro giallo con le parole delle pagine piogge («Dal 26 al 30
+  ottobre questo pluviometro non ha trasmesso: quei giorni sono stime Open-Meteo, non misure»), sui paesi, sulle zone
+  (con «2 pluviometri su 14» quando non sono tutti, date allineate come la serie) e sulle regioni funghi; l'indice
+  `/funghi/` mette l'asterisco ai posti e una riga sotto la finestra. ⚠️ Il ripiego delle regioni funghi (`daiFile`,
+  quando `<regione>.json` e' vecchio) non lo dice: e' raro, e l'avviso in cima viene comunque dal file dei giorni.
+  Le 1.022 pagine di paese e di zona NON sono state rigenerate: trapiantate solo le righe che cambiano fra generatore
+  vecchio e nuovo, come il 31/10, per non rinfrescare i ritratti. Prove: Puglia, Sardegna (15/10) e Sicilia (7/10)
+  vere, zona e indice con stime finte iniettate nel browser, telefono 393 e PC 1366; 6.668 script compilati.
+- **Mappa forestale, Carnia.** `mappa-forestale-dati.json` era del 25/10 e la Carnia e' stata rifatta il 30/10: la
+  pagina descriveva le Prealpi pordenonesi (Tramonti Invaso). Ricalcolata QUI la sola Carnia coi 7 pluviometri nuovi
+  (gia' presenti in `paesi` col loro bosco): bosco = media, tipi = media pesata sul bosco. E' un'approssimazione del
+  metodo del banco (unione dei cerchi), che sulle zone senza sovrapposizioni torna al decimo e sulle altre sbaglia di
+  qualche punto. Bosco da 80 a 69%, abetaie e peccete da 1 a 29%, pinete da 38,5 a 15,4%. `generato` resta 25/10: al
+  prossimo giro del banco la Carnia si ricalcola col metodo vero.
+- **Mappa forestale, Abruzzo.** Il modello scriveva per tutte «i pluviometri della regione, con la pioggia vera giorno
+  per giorno»; per le regioni senza pagina piogge (`HA_PIOGGE`, cioe' l'Abruzzo) ora dice «la pioggia dell'Abruzzo
+  giorno per giorno (qui sono stime di modello, non misure di pluviometri)».

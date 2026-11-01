@@ -339,7 +339,7 @@ ${Z.slice().sort((a, b) => a.n.localeCompare(b.n, 'it')).map(z => `<li>${zlink(z
 ${youtube(r.k, r.k)}
 <div class="pioggia">
 <h2>E la pioggia? Sulla stessa mappa</h2>
-<p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: i pluviometri ${esc(r.del)}, con la pioggia vera giorno per giorno. Scegli un periodo e vedi i colori della pioggia, poi con <b>⇆ Confronta con piogge</b> li metti accanto ai boschi.</p>
+<p>La mappa forestale sta dentro la nostra <b>mappa pluviometrica</b>: ${HA_PIOGGE.has(r.k) ? `i pluviometri ${esc(r.del)}, con la pioggia vera giorno per giorno` : `la pioggia ${esc(r.del)} giorno per giorno (qui sono stime di modello, non misure di pluviometri)`}. Scegli un periodo e vedi i colori della pioggia, poi con <b>⇆ Confronta con piogge</b> li metti accanto ai boschi.</p>
 ${tastiPioggia(`${SITO}/?r=${r.k}`)}${HA_PIOGGE.has(r.k) ? `<a href="${SITO}/${r.k}/"><img class="img-f" src="${ANTEPRIME}${r.k}.jpg" alt="La pioggia degli ultimi giorni ${esc(r.inn)}, pluviometro per pluviometro" width="1600" height="1000" loading="lazy"></a>
 <p><a href="${SITO}/${r.k}/">Dove ha piovuto ${esc(r.inn)}</a> · ${funghi.replace('>p', '>P')}</p>` : `<p>${funghi.replace('>p', '>P')}</p>`}
 </div>

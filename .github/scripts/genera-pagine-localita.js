@@ -38,7 +38,7 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
-const { JS_AGGIORNATO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello } = require('./lib-pagina-funghi.js');
+const { JS_AGGIORNATO, JS_STIME, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, stileDelModello } = require('./lib-pagina-funghi.js');
 // ⚠️ `slug` si chiama qui `slugDaNome`: dentro pagina() c'e' gia' un parametro
 // che si chiama slug ed e' una STRINGA. Importandola col suo nome la funzione
 // veniva coperta e usciva «slug is not a function» solo a generazione avviata,
@@ -536,6 +536,7 @@ ${coppiaQuiz(REG, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel="n
     : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/';
   var GIORNI = 25;
 ${JS_AGGIORNATO}
+${JS_STIME}
 
   var MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
   var GS=['dom','lun','mar','mer','gio','ven','sab'];
@@ -658,6 +659,9 @@ ${JS_AGGIORNATO}
       + '<div class="scala">'+scala+'</div>'
       + '<div class="scala-t"><span>sotto 30</span><span>30-60</span><span>60-100</span><span>oltre 100</span></div>'
       + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
+    /* i giorni stimati di questo pluviometro, detti in cima (1/11/2026, avvisoStime di lib-pagina-funghi.js) */
+    var avv = avvisoStime(j, [ID], true);
+    if (avv) document.getElementById('verdetto').insertAdjacentHTML('afterbegin', avv);
 
     /* ── le 25 barre, ieri a destra ── */
     var max = Math.max.apply(null, s.concat([1]));
