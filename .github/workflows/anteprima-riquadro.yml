@@ -1,0 +1,33 @@
+name: Anteprima del riquadro (solo sul ramo di prova)
+# ⚠️ STA SOLO SUL RAMO claude/hopeful-volta-4m7kfp, NON VA PORTATO SU MAIN (1/11/2026). Rigenera le pagine di prova
+# col riquadro nuovo (lib-striscia.js) e le mette sull'ANTEPRIMA di Cloudflare https://riquadro.avventurepluvio.pages.dev
+# (pubblica-pages.js --ramo): il sito vero non cambia. Parte a ogni push su questo ramo.
+on:
+  push:
+    branches: [claude/hopeful-volta-4m7kfp]
+permissions:
+  contents: read
+concurrency:
+  group: anteprima-riquadro
+  cancel-in-progress: true
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Rigenera le pagine di prova
+        run: |
+          SOLO=calabria,sicilia node .github/scripts/genera-pagine-regione.js
+          SOLO=sila-grande node .github/scripts/genera-pagine-zona-piogge.js
+          SOLO=nebrodi node .github/scripts/genera-pagine-zona-piogge.js
+          SOLO=calabria node .github/scripts/genera-pagine-funghi.js
+          SOLO=calabria/spineto node .github/scripts/genera-pagine-localita.js
+      - name: Pubblica sull'anteprima (non sul sito vero)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 71126919175cd19d3ba3af31a9a7d22a
+        run: node .github/scripts/pubblica-pages.js "$GITHUB_WORKSPACE" avventurepluvio --ramo=riquadro
