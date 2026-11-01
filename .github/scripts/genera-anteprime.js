@@ -110,10 +110,10 @@ async function scattaPulita(page, k, nome, meta) {
    l'anteprima del bottone «Pluviometri» delle pagine «Meteo <paese>» e delle zone meteo, e si scatta solo per le loro
    regioni (SETTE). ⚠️ Anche quelle delle ZONE (29/10/2026, suo: «perche' la val brembana sui pluviometri mette 7 giorni
    come scritta e poi mostra ieri?»): prima solo i paesi, e le 10 zone di Lombardia, Campania, Sicilia, Calabria, Lazio,
-   Marche e Umbria ripiegavano sull'immagine di ieri sotto la scritta «ultimi 7 giorni». */
-const MZ = require('./genera-pagine-meteo-zona.js');
-const SETTE = [...new Set(MZ.METEO_PAESI.map(p => p.loc.split('/')[0])
-  .concat(MZ.ZONE_METEO_TUTTE.map(s => (MZ.ZONE.find(z => require('./lib-nomi.js').slug(z.n) === s) || {}).reg).filter(Boolean)))];
+   Marche e Umbria ripiegavano sull'immagine di ieri sotto la scritta «ultimi 7 giorni».
+   ⚠️ DAL 1/11/2026 PER TUTTE LE REGIONI: la cartina in cima alle pagine piogge (regioni e zone, lib-striscia.js) e'
+   quella dei 7 giorni (suo: «la scritta va bene la pioggia di ieri e la mappa ultimi 7 giorni»). Lo scatto di ieri
+   resta: e' il ripiego se quello dei 7 giorni manca. ~9 scatti in piu' al giro, ~2 minuti. */
 async function scattaIeri(browser, k, giorni) {
   giorni = giorni || 1;
   const nome = giorni === 1 ? 'ieri' : giorni + 'g';
@@ -191,7 +191,7 @@ async function scatta(browser, k) {
     let pulita = '';
     try { pulita = ', pulita ' + await scattaPulita(page, k) + ' KB'; } catch (e) { pulita = ', pulita FALLITA (' + e.message.slice(0, 60) + ')'; }
     pulita += await scattaIeri(browser, k);
-    if (SETTE.includes(k)) pulita += await scattaIeri(browser, k, 7);
+    pulita += await scattaIeri(browser, k, 7);
     // (21/10/2026, ottavo check, bug 2) uno scatto pulito o «di ieri» fallito lascia sul ramo l'immagine vecchia: si
     // segnala nel registro del giro come avviso di GitHub, cosi' si vede senza aprire il registro intero
     if (/FALLITA/.test(pulita)) console.log('::warning::anteprime ' + k + ':' + pulita);

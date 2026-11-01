@@ -3025,6 +3025,15 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   scatta a ogni giro con `scattaIeri` e `anteprime.yml` copia sul ramo), con la sua scritta sull'etichetta gialla.
   Solo la pioggia, niente boschi (suo: «in alto solo la mappa piogge»). La mappa di un giorno e' piu' sbiadita di
   quella dei 20 giorni: nei giorni asciutti e' quasi solo cartina coi pallini, ed e' il dato vero.
+  ⚠️ **DAL 1/11/2026 LA CARTINA E' QUELLA DEI 7 GIORNI, GRANDE** (suo, sulla Sila Grande: «da quando le scritte sono
+  cosi' grandi e la cartina non si vede?», «sempre una merda piccolissima con un titolo gigantesco»). La scheda resta su
+  IERI (numeri e titolo), la cartina e' `<reg>-7g` (ora scattata per TUTTE le regioni) alta 300 px al telefono e 440 al
+  PC (era 140 / 185 con sotto la fascia gialla), sulle pagine regione la regione INTERA; dentro la cartina la pillola
+  gialla «💧 Pioggia degli ultimi 7 giorni →» (porta a #cta7) e SOTTO il bottone giallo largo «Oppure guarda la pioggia
+  di ieri →» (`a.mk-oppure`, il link del vecchio «Apri la mappa di ieri»; suo: «i due bottoni devono essere simili» e
+  «la gente non capisce a quanti giorni e' la mappa»: per questo la pillola dice i 7 giorni). Se la cartina dei 7 giorni
+  manca o non finisce a ieri si torna alla cartina di ieri, senza il bottone. Scartate: scritta sotto la cartina (28/10),
+  due pillole sulla cartina, due bottoni a meta'. Le pagine funghi (due riquadri) restano col 28/10.
 - **Mappa forestale (138 pagine, 20/10)**: `genera-mappa-forestale.js` ha ricerca in testata, «🌲 Trova i boschi»
   dopo lo scorcio, «Che tempo farà» dopo «Che boschi ci sono» (regioni: zone dei funghi alla loro quota con
   `zonedi=`, o le citta' dove le zone non ci sono; zone: i paesi con `zona=`; tipi di bosco e indice: niente meteo),
