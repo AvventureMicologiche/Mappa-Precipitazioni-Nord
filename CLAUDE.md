@@ -3025,6 +3025,15 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   scatta a ogni giro con `scattaIeri` e `anteprime.yml` copia sul ramo), con la sua scritta sull'etichetta gialla.
   Solo la pioggia, niente boschi (suo: «in alto solo la mappa piogge»). La mappa di un giorno e' piu' sbiadita di
   quella dei 20 giorni: nei giorni asciutti e' quasi solo cartina coi pallini, ed e' il dato vero.
+  ⚠️ **DAL 1/11/2026 LA CARTINA E' QUELLA DEI 7 GIORNI, GRANDE** (suo, sulla Sila Grande: «da quando le scritte sono
+  cosi' grandi e la cartina non si vede?», «sempre una merda piccolissima con un titolo gigantesco»). La scheda resta su
+  IERI (numeri e titolo), la cartina e' `<reg>-7g` (ora scattata per TUTTE le regioni) alta 300 px al telefono e 440 al
+  PC (era 140 / 185 con sotto la fascia gialla), sulle pagine regione la regione INTERA; dentro la cartina la pillola
+  gialla «💧 Pioggia degli ultimi 7 giorni →» (porta a #cta7) e SOTTO il bottone giallo largo «Oppure guarda la pioggia
+  di ieri →» (`a.mk-oppure`, il link del vecchio «Apri la mappa di ieri»; suo: «i due bottoni devono essere simili» e
+  «la gente non capisce a quanti giorni e' la mappa»: per questo la pillola dice i 7 giorni). Se la cartina dei 7 giorni
+  manca o non finisce a ieri si torna alla cartina di ieri, senza il bottone. Scartate: scritta sotto la cartina (28/10),
+  due pillole sulla cartina, due bottoni a meta'. Le pagine funghi (due riquadri) restano col 28/10.
 - **Mappa forestale (138 pagine, 20/10)**: `genera-mappa-forestale.js` ha ricerca in testata, «🌲 Trova i boschi»
   dopo lo scorcio, «Che tempo farà» dopo «Che boschi ci sono» (regioni: zone dei funghi alla loro quota con
   `zonedi=`, o le citta' dove le zone non ci sono; zone: i paesi con `zona=`; tipi di bosco e indice: niente meteo),
@@ -4012,9 +4021,10 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
     cloud le sue tessere non rispondono. Va fatta dal PC.
 
 ### ⚠️ DA FARE (lasciati il 1/11/2026 notte, decisi con lui)
-1. **La foto dei boschi del Molise**, dal PC: `BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js molise`
-   (col sito di produzione; serve puppeteer, o `CHROME=<percorso di chrome>` con puppeteer-core), poi commit dei due file
-   `molise-mappa.webp` e `molise-mappa.json`. Senza, il riquadro «Guarda i boschi» delle pagine funghi del Molise resta blu.
+1. ~~La foto dei boschi del Molise~~: FATTA il 1/11/2026. Non dal PC: l'ha scattata GitHub (che la cartina la carica)
+   con un giro messo solo sul ramo di lavoro (`BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js
+   molise`), e i due file sono stati portati su main. ⚠️ Vale per ogni scatto che dal cloud non si fa: un giro su un ramo di
+   prova, scatenato dal push, che salva sul ramo stesso.
 2. **Allargare i posti funghi al nord con le carte forestali** (circa 170 posti): IN NOTA, non adesso. Suo: «la stagione e'
    quasi conclusa, non vale la pena, preferisco indicizzare le meteo». Da riprendere a fine estate 2027, con la regola dei
    posti scritta sopra e i numeri di Search Console.
@@ -4024,4 +4034,5 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
    (Longobucco, Acri, Bocchigliero) quando ci saranno abbastanza posti.
 5. **Utili, non urgenti**: il codice comune delle pagine in file a parte (pagine da ~113 a ~15 KB, lavoro medio-grande); il
    verdetto delle pagine funghi scritto nell'HTML ogni mattina, come le zone piogge (lavoro medio).
-6. `fonti.html` senza percorso in cima (le altre pagine ce l'hanno dal 1/11).
+6. ~~`fonti.html` senza percorso in cima~~: fatto il 1/11/2026 (percorso «Mappa pluviometrica › Fonti e licenze» e
+   BreadcrumbList).

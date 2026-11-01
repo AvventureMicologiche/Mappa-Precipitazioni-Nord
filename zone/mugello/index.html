@@ -344,6 +344,13 @@ div.mk-str.mk-ieri a span b{font-size:13px;font-weight:800;white-space:nowrap;} 
 div.mk-str.mk-ieri a span em{font-style:normal;font-weight:600;}
 @media(max-width:420px){div.mk-str.mk-ieri a span{left:6px;bottom:6px;padding:4px 9px;}
   div.mk-str.mk-ieri a span b{font-size:12px;white-space:nowrap;} div.mk-str.mk-ieri a span em{display:none;}}
+/* al PC la pillola un po' piu' grande: accanto al bottone largo di ieri sembrava la cosa meno importante */
+@media(min-width:700px){div.mk-str.mk-ieri a span{left:10px;bottom:10px;padding:5px 12px;} div.mk-str.mk-ieri a span b{font-size:15px;}}
+/* il bottone sotto la cartina, stesso giallo della pillola (1/11/2026) */
+#verdetto a.mk-oppure,a.mk-oppure{display:block;margin:9px 0 2px;padding:11px 10px;border-radius:11px;text-align:center;text-decoration:none;
+  background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;font:800 15px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-shadow:0 3px 0 rgba(160,106,8,.85);}
+#verdetto a.mk-oppure:hover,a.mk-oppure:hover{filter:brightness(1.05);}
 /* la striscia colorata (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube.
    Sotto la cartina il giallo e' pieno, come le anteprime delle pagine meteo (all'85% serviva quando stava sopra) */
 div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;border-top:1px solid rgba(160,106,8,.35);box-shadow:none;}
@@ -1092,13 +1099,23 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
          genera-anteprime.js scatta per tutte le regioni): nei giorni asciutti quella di ieri era solo cartina e pallini
          bianchi. Il riquadro porta alla mappa dei 7 giorni (il link #cta7 della pagina) e lo dice. Se lo scatto dei 7
          giorni manca o non finisce a ieri, resta la cartina di ieri come prima. */
-      var c7 = document.getElementById('cta7');
+      /* ⚠️ E SOTTO, IL BOTTONE GIALLO «OPPURE GUARDA LA PIOGGIA DI IERI» (1/11/2026, suo: «il tasto dentro la mappa 7 gg va
+         bene e poi tasto giallo orizzontale sotto la mappa»). La pillola sulla cartina dice quanti giorni si guardano, il
+         bottone porta alla mappa di ieri (il link del vecchio «Apri la mappa di ieri»). Si mettono SUBITO, senza aspettare
+         il JSON, cosi' la pagina non salta di 50 px quando arriva; se la cartina dei 7 giorni manca si torna a com'era
+         (pillola di ieri, niente bottone: direbbe la stessa cosa due volte). */
+      var c7 = OPZ.modo === 'sopra' ? null : document.getElementById('cta7'), sp = a1.querySelector('span'), ieriHtml = sp.innerHTML, opp = null;
+      if (c7) {
+        a1.setAttribute('href', c7.getAttribute('href')); a1.setAttribute('data-t', '7giorni');
+        sp.innerHTML = '<b>💧 Pioggia degli ultimi 7 giorni<em> · apri la mappa</em> →</b>';
+        opp = document.createElement('a'); opp.className = 'mk-oppure'; opp.href = vecchio.getAttribute('href');
+        opp.textContent = 'Oppure guarda la pioggia di ieri →';
+        opp.addEventListener('click', function () { ga('ieri'); });
+        d.parentNode.insertBefore(opp, d.nextSibling);
+      }
       carica('7g', PIOGGIA).then(function (g7) {
-        if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) {
-          a1.setAttribute('href', c7.getAttribute('href')); a1.setAttribute('data-t', '7giorni');
-          a1.querySelector('span').innerHTML = '<b>💧 Pioggia degli ultimi 7 giorni<em> · apri la mappa</em> →</b>';
-          a1._g = g7; ritaglia(a1, g7); return;
-        }
+        if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) { a1._g = g7; ritaglia(a1, g7); return; }
+        if (opp) { opp.parentNode.removeChild(opp); a1.setAttribute('href', vecchio.getAttribute('href')); a1.setAttribute('data-t', 'ieri'); sp.innerHTML = ieriHtml; }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
       });
       return;
