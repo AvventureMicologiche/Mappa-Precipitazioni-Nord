@@ -1,0 +1,31 @@
+name: Foto dei boschi del Molise (una tantum, solo sul ramo di prova)
+# ⚠️ STA SOLO SUL RAMO claude/hopeful-volta-4m7kfp, NON VA PORTATO SU MAIN (1/11/2026). Scatta la mappa boschi pulita del
+# Molise (tessere-boschi/anteprime/molise-mappa.webp + .json, per il riquadro «Guarda i boschi» delle pagine funghi) e la
+# salva su questo ramo; da qui si porta a main. Dal cloud la cartina di OpenStreetMap non si carica, da GitHub si'.
+on:
+  push:
+    branches: [claude/hopeful-volta-4m7kfp]
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Installa Chromium
+        run: npm install --no-save puppeteer@23
+      - name: Scatta
+        run: BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js molise
+      - name: Salva sul ramo
+        run: |
+          ls -la tessere-boschi/anteprime/molise-mappa.*
+          cat tessere-boschi/anteprime/molise-mappa.json
+          git config user.name "bot"
+          git config user.email "bot@bot.com"
+          git add tessere-boschi/anteprime/molise-mappa.webp tessere-boschi/anteprime/molise-mappa.json
+          git commit -q -m "Foto dei boschi del Molise [skip ci]"
+          git push -q
