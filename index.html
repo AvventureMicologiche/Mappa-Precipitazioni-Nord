@@ -2948,9 +2948,36 @@ var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
-// nella vista Italia la cartina OSM sta sotto il rilievo e non si vede: arriva dopo (_dopoItalia nello script in testa, 29/10/2026)
-// (boschi e satellite la tolgono apposta e la rimettono loro uscendo: se nel frattempo sono accesi, non si tocca)
-if(window._dopoItalia) window._dopoItalia(function(){ var b=document.body.classList; if(!map.hasLayer(baseTiles)&&!b.contains('modo-boschi')&&!b.contains('sat-on')) baseTiles.addTo(map); }); else baseTiles.addTo(map);
+/* ⚠️ LA CARTINA OSM IN MAPPA SOLO QUANDO SI VEDE (1/11/2026, scheda 106 bis). Sotto la foto della pioggia (foto-on) e
+   sotto il satellite dei boschi (sat-on) non si vede, ma si scaricava lo stesso: al PC 2,8 MB all'apertura e 2,1 MB a
+   ogni «Applica» contro 650 KB di foto, al telefono 1 MB contro 283 KB, e rubava la banda a foto e dati (suo: «vedo le
+   tessere apparire una alla volta»). Ora la mette e la toglie osmSeServe, che il modulo della foto chiama a ogni cambio
+   di modo: c'e' coi boschi e quando la foto della pioggia non arriva (ripiego). Nelle previsioni no: hanno la loro foto
+   a ogni zoom (col suo ripiego su Esri) e fra una vista e l'altra il fondo scuro, e la cartina entrava per un attimo
+   prima della loro foto facendo partire 12-40 richieste per niente. Toglierla mentre carica non rompe
+   Leaflet 1.9.4 (TileLayer._tileReady esce se lo strato non ha piu' la mappa, e le richieste in volo si annullano):
+   esplode solo se la si toglie DENTRO il suo «load», e qui non succede. Nella vista Italia la cartina sta sotto il
+   rilievo e arriva dopo (_dopoItalia nello script in testa, 29/10/2026). */
+/* ⚠️ IL CREDITO DI OPENSTREETMAP RESTA: i nomi esteri sopra la foto vengono da OpenStreetMap (ODbL, modulo «NOMI NOSTRI»),
+   quindi tolta la cartina la sua scritta si rimette a mano. Leaflet conta i crediti (removeAttribution scende a zero ma
+   tiene la voce): la scritta resta nello stesso posto di prima, e i crediti sono identici a quando la cartina c'era. */
+var osmCreditoAMano=false;
+function osmSeServe(){
+  var b=document.body.classList, ac=map.attributionControl, cr=baseTiles.getAttribution();
+  if(b.contains('foto-on')||b.contains('sat-on')||b.contains('modo-prev')){
+    if(map.hasLayer(baseTiles)) map.removeLayer(baseTiles);
+    // col satellite dei boschi no: ha gia' il suo («nomi esteri © OpenStreetMap»), e prima la scritta della cartina li' spariva
+    var serve=!b.contains('sat-on');
+    if(ac&&serve!==osmCreditoAMano){ if(serve) ac.addAttribution(cr); else ac.removeAttribution(cr); osmCreditoAMano=serve; }
+    return;
+  }
+  (window._dopoItalia||function(f){ f(); })(function(){
+    var b2=document.body.classList;
+    if(map.hasLayer(baseTiles)||b2.contains('foto-on')||b2.contains('sat-on')||b2.contains('modo-prev')) return;
+    if(ac&&osmCreditoAMano){ ac.removeAttribution(cr); osmCreditoAMano=false; }
+    baseTiles.addTo(map);
+  });
+}
 /* ⚠️ Esposto perche' il modulo dei boschi e' uno <script> SEPARATO e non vede
    le funzioni di qui: in modo boschi scambia il fondo con uno SENZA NOMI, per
    poterli rimettere sopra il rilievo. Stesso motivo di _mapDebug e _vaiQui. */
@@ -2966,9 +2993,13 @@ window._baseTiles=baseTiles;
      scura e piatta, era stata bocciata accanto al meteo («e' un altro pianeta»).
    - Dallo zoom 11 Esri a «un quarto» delle tessere (512 px, zoomOffset -1; suo «un quarto va bene»): il tetto dei 2
      milioni di tessere al mese lo usavano gia' meteo e boschi.
-   - La cartina OSM di sempre (baseTiles) resta SOTTO: la usano boschi, satellite dei boschi, scatto e
-     quandoMappaDisegnata. Coi boschi, col satellite dei boschi e nelle previsioni (che hanno la loro foto) la nostra
-     si toglie (classe foto-on spenta).
+   - La cartina OSM di sempre (baseTiles) non sta piu' sotto la foto (1/11/2026, osmSeServe): torna coi boschi, nelle
+     previsioni e quando la foto non arriva. Coi boschi, col satellite dei boschi e nelle previsioni (che hanno la loro
+     foto) la nostra si toglie (classe foto-on spenta).
+   - SOTTO la foto nitida una SFOCATA, la stessa foto fino allo zoom 6 (1/11/2026, scheda 106 bis): il fit del periodo e'
+     senza animazione (fitMapToRegions) e Leaflet butta tutte le tessere; prima restava il fondo blu finche' la foto
+     nuova non arrivava (al PC ~1,5 s, al telefono anche due volte), ora c'e' la sfocata, poche tessere gia' in memoria,
+     e la nitida le arriva sopra, come su Google Maps. Lo scatto la salta (sotto la nitida non si vede).
    - RIPIEGHI (suo: «spiegami meglio i ripieghi»): Esri fermo (tetto o guasto) → sotto resta la nostra del 10
      ingrandita (maxZoom 19), niente buchi; la nostra che non arriva (jsDelivr o GitHub giu') → al terzo errore senza
      nessuna tessera arrivata si spegne per la visita e torna la cartina, coi confini blu e la pioggia al 70%.
@@ -2981,8 +3012,10 @@ var FOTO_LIMITI=[[34,-25],[72,45]];   // Europa: Islanda e Canarie comprese, Ura
 var FOTO_CREDITI='Foto: NASA, <a href="/fonti.html#satellite" target="_blank" rel="noopener">ESA WorldCover</a>';
 var FOTO_CREDITI_ESRI='da vicino Esri, Vantor, Earthstar Geographics';
 // usata anche dalla foto delle previsioni (viFondo), che e' in un altro <script>
-window._fotoNostra=function(pane,quandoNonArriva){
-  var l=L.tileLayer(FOTO_URL,{pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true});
+window._fotoNostra=function(pane,quandoNonArriva,piu){
+  var o={pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true};
+  for(var k in (piu||{})) o[k]=piu[k];   // la sfocata: maxNativeZoom 6, className, zIndex 0
+  var l=L.tileLayer(FOTO_URL,o);
   var arrivate=0, rotte=0, detto=false;
   l.on('tileload',function(){ arrivate++; });
   l.on('tileerror',function(e){
@@ -3007,6 +3040,15 @@ window._fotoNostra=function(pane,quandoNonArriva){
   if(!map.getPane('sat-nomi')){ map.createPane('sat-nomi').style.zIndex=455; map.getPane('sat-nomi').style.pointerEvents='none'; }
   var rotta=false, vicino=null;
   var lontano=window._fotoNostra('foto',function(){ rotta=true; giusta(); });
+  // la sfocata sotto la nitida (vedi sopra): zIndex 0 la tiene sotto nel pannello, il nome la fa saltare allo scatto
+  var sotto=window._fotoNostra('foto',null,{maxNativeZoom:6,className:'foto-sotto',zIndex:0});
+  // ⚠️ e Leaflet non la butta al salto di zoom: il fit del periodo e' un setView senza animazione (_resetView), che a ogni
+  // strato toglie tutte le tessere (viewprereset → _invalidateAll) e le rifa' comparire in dissolvenza: ~0,3 s di fondo blu
+  // anche con le tessere in memoria. La sfocata sta quasi sempre al suo zoom 6, quindi le sue tessere restano dove sono e
+  // Leaflet le sposta e le ingrandisce con la mappa (_setZoomTransforms), come nell'animazione dello zoom
+  sotto.getEvents=function(){ var e=L.TileLayer.prototype.getEvents.call(this); delete e.viewprereset; return e; };
+  // quandoMappaDisegnata aspetta la foto che si vede, non piu' la cartina OSM (che sotto la foto non c'e')
+  window._fondoFoto=function(){ return document.body.classList.contains('foto-on')&&map.hasLayer(lontano)?lontano:null; };
   // creata tardi: la chiave Esri sta nel modulo del satellite dei boschi, piu' in fondo alla pagina (nel test non c'e')
   function esri(){
     if(vicino) return vicino;
@@ -3046,7 +3088,8 @@ window._fotoNostra=function(pane,quandoNonArriva){
   function giusta(){
     var si=vuole();
     document.body.classList.toggle('foto-on',si);
-    [lontano,esri()].forEach(function(l){ if(!l) return; if(si){ if(!map.hasLayer(l)) l.addTo(map); } else togli(l); });
+    [sotto,lontano,esri()].forEach(function(l){ if(!l) return; if(si){ if(!map.hasLayer(l)) l.addTo(map); } else togli(l); });
+    osmSeServe();
     scritte();
   }
   map.on('zoomend',scritte);
@@ -3143,6 +3186,25 @@ function precaricaTileDestinazione(regionKeys){
     var pad=(window.innerWidth>900)?L.point(440,24):L.point(24,24);
     var z=Math.round(map.getBoundsZoom(lb,false,pad));
     if(!isFinite(z)||z<2||z>19) return;
+    /* ⚠️ CON LA FOTO SI PRECARICA LA FOTO (1/11/2026, scheda 106 bis): qui si scaricavano le tessere OSM, che sotto la
+       foto non si vedono, e quelle della foto arrivavano solo dopo il clic. Le tessere NOSTRE (fino allo zoom 10; oltre,
+       quelle dello zoom 10 che Leaflet ingrandisce sotto Esri): stesso indirizzo e stesso crossOrigin dello strato,
+       quindi la stessa voce di cache. Esri non si precarica (il tetto delle tessere al mese). */
+    if(document.body.classList.contains('foto-on')){
+      var tz=Math.max(4,Math.min(10,z)), sc=Math.pow(2,tz-z), sz=map.getSize(), cf=map.project(lb.getCenter(),tz);
+      var lim=[map.project(L.latLng(FOTO_LIMITI[1][0],FOTO_LIMITI[0][1]),tz), map.project(L.latLng(FOTO_LIMITI[0][0],FOTO_LIMITI[1][1]),tz)];
+      var fx0=Math.max(Math.floor((cf.x-sz.x*sc/2)/256)-1,Math.floor(lim[0].x/256)), fx1=Math.min(Math.floor((cf.x+sz.x*sc/2)/256)+1,Math.floor(lim[1].x/256));
+      var fy0=Math.max(Math.floor((cf.y-sz.y*sc/2)/256)-1,Math.floor(lim[0].y/256)), fy1=Math.min(Math.floor((cf.y+sz.y*sc/2)/256)+1,Math.floor(lim[1].y/256));
+      var nf=0;
+      for(var fx=fx0;fx<=fx1;fx++) for(var fy=fy0;fy<=fy1;fy++){
+        var fu=FOTO_URL.replace('{z}',tz).replace('{x}',fx).replace('{y}',fy);
+        if(_tilePrecaricate[fu]) continue;
+        _tilePrecaricate[fu]=1;
+        if(++nf>MAX_TILE) return;
+        var fi=new Image(); fi.crossOrigin=''; fi.src=fu;
+      }
+      return;
+    }
     var size=map.getSize(), cp=map.project(lb.getCenter(),z), lato=Math.pow(2,z);
     var x0=Math.floor((cp.x-size.x/2)/256)-1, x1=Math.floor((cp.x+size.x/2)/256)+1;
     var y0=Math.floor((cp.y-size.y/2)/256)-1, y1=Math.floor((cp.y+size.y/2)/256)+1;
@@ -3165,19 +3227,21 @@ function precaricaTileDestinazione(regionKeys){
 
 function quandoMappaDisegnata(cb){
   var ATTESA_MAX=1500, fatto=false;
+  // lo strato che si vede: la foto (1/11/2026, scheda 106 bis: si aspettava la cartina OSM, nascosta sotto la foto)
+  var fondo=(window._fondoFoto&&window._fondoFoto())||baseTiles;
   function via(){
     if(fatto) return; fatto=true;
-    baseTiles.off('load',via);
+    fondo.off('load',via);
     requestAnimationFrame(function(){ requestAnimationFrame(cb); });
   }
-  baseTiles.on('load',via);
+  fondo.on('load',via);
   setTimeout(via,ATTESA_MAX);
   // Se non c'è nulla in caricamento la mappa è già a posto: non aspettare.
   // `_loading` è il flag interno di GridLayer (Leaflet non ne espone uno
   // pubblico: `isLoading()` NON esiste, ci ero cascato). Se un domani sparisse,
   // `undefined` fa cadere qui dentro e si torna al vecchio comportamento a
   // 20 ms — cioè si perde il beneficio, non si rompe niente.
-  if(!baseTiles._loading) setTimeout(via,20);
+  if(!fondo._loading||!map.hasLayer(fondo)) setTimeout(via,20);
 }
 
 // ─── Crediti delle fonti dati ──────────────────────────────────
@@ -10730,6 +10794,7 @@ function captureMapBlob(scala){
       if(!t.complete||!t.naturalWidth||!visibile(t)) continue;
       if(t.closest('.leaflet-boschi-pane')) continue;   // il retino dei boschi va sopra la pioggia, piu' giu'
       if(t.closest('.leaflet-bo-rilievo-pane')) continue;   // gia' sul foglio, sotto
+      if(t.closest('.foto-sotto')) continue;   // la foto sfocata sta sotto la nitida: nello scatto non serve (1/11/2026)
       var r=rel(t);
       // solo OSM si fonde col rilievo, sul foglio; il radar e gli altri strati vanno sopra, normali
       if(fondiOsm && tpEl.contains(t)){
@@ -12932,11 +12997,16 @@ function loadDefaultMarkers(){
 /* ⚠️ CON LA FOTO SOTTO LA PIOGGIA LA CARTINA OSM C'E' MA NON SI VEDE (1/11/2026, scheda 105, suo: «da pc se appena aperto da
    pluvio vado su meteo e torno indietro mi flasha per un istante openstreetmap»). Tornando dalle previsioni la mappa cambia
    inquadratura e la foto ricarica le sue tessere: la cartina, che sta sempre sotto, a volte arrivava prima (sul sito vero
-   un fotogramma col 65% della mappa, al telefono fino al 98%). Resta caricata (ripiego se la foto non arriva: foto-on si
-   spegne e torna a vedersi; quandoMappaDisegnata), ma nell'attesa si vede il blu dello sfondo; lo scatto la salta da solo
+   un fotogramma col 65% della mappa, al telefono fino al 98%). Dal 1/11/2026 sera sotto la foto non c'e' proprio (osmSeServe): la
+   regola resta per l'istante in cui entra o esce; nell'attesa si vede la foto sfocata (prima il blu dello sfondo); lo scatto la salta da solo
    (visibile()). Provato e scartato: tenere la foto caricata nelle previsioni (nel meteo e' su un'altra inquadratura) */
 body.foto-on #map .osm-base{visibility:hidden}
 body.foto-on #map{background:#123a52}
+/* ⚠️ SULLA FOTO IL VELO DEL CARICAMENTO ERA LO «SCHERMO GRIGIO» (1/11/2026, scheda 106 bis, suo: «vedo per qualche attimo
+   lo schermo grigio»): #map-spinner stende il bianco al 45% su tutta la mappa finche' i colori non sono calcolati; sulla
+   cartina chiara si notava poco, sulla foto scura diventa grigio (al telefono restava ~6 s, prima del calcolo veloce).
+   Sulla foto resta la sola rotellina */
+body.foto-on #map-spinner{background:transparent}
 /* «Foto dal satellite al momento non disponibile» (31/10/2026, suo: «non possiamo mettere una scritta?», «la scritta
    piccola e' leggibile?»): quando Esri non manda la foto dei boschi si torna alla cartina e la scritta resta 5 s */
 #foto-avviso{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:1200;max-width:calc(100% - 32px);

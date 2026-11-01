@@ -1421,16 +1421,34 @@ sue funzioni non si vedono).
   misura-girati.js`, 6 su 6). Tempi: telefono, 30 giorni Lombardia, colori a 1,3 s dal tocco invece di 6,4 (calcolo 5,5 s →
   0,18); PC 0,25 s invece di 1,0. ⚠️ In multiregione l'ordine in cui arrivano le regioni cambia le ultime cifre dell'IDW
   (somme in ordine diverso): succedeva anche prima, non si vede, e falsa un confronto fra due caricamenti.
-- **Trovato e NON ancora fatto (da decidere con lui, in quest'ordine):**
-  1. Il velo `#map-spinner` (bianco al 45%) resta sopra la mappa fino a fine calcolo: sulla foto scura e' lo «schermo
-     grigio». Col calcolo veloce dura quanto i dati, ma si puo' alleggerire (rotellina senza bianco).
-  2. **Regressione della foto**: `precaricaTileDestinazione` precarica tessere OSM e `quandoMappaDisegnata` aspetta il
-     «load» di OSM (fino a 1,5 s), che dal 31/10 sta NASCOSTA sotto la foto; la foto non la prepara nessuno. Il fit del
-     periodo e' `setView(..., {animate:false})` (3/8): Leaflet butta tutte le tessere e resta il fondo `#123a52` finche'
-     la foto non arriva (PC a 8 Mbit ~1,5 s; al telefono anche due volte, al secondo zoom col riquadro). Rimedio: le
-     stesse due cose sulla foto, ed eventualmente una foto sfocata gia' in memoria sotto (prima sfocata, poi nitida).
-  3. **OSM nascosta scaricata lo stesso**: al PC 2,8 MB all'apertura e 2,1 MB dopo «Applica» (foto 650 KB), al telefono
-     1 MB contro 283 KB di foto: ruba banda a foto e dati («tessere una alla volta»). Il satellite dei boschi la toglie
-     gia' (`osmVia`/`osmTorna`); qui va tolta finche' c'e' `foto-on`, verificando scatto, boschi e foto che non arriva.
+- **Fatti poi gli altri tre (suo «sì, tutti e tre»), lo «schermo grigio» e le «tessere una alla volta»:**
+  1. **Il velo**: `#map-spinner` stendeva il bianco al 45% su tutta la mappa fino a fine calcolo, e sulla foto scura era
+     lo «schermo grigio». Con `foto-on` resta la sola rotellina (`body.foto-on #map-spinner{background:transparent}`).
+  2. **La foto pronta (era una regressione della foto)**: `precaricaTileDestinazione` scaricava tessere OSM e
+     `quandoMappaDisegnata` aspettava il «load» di OSM (fino a 1,5 s), che dal 31/10 sta sotto la foto; la foto non la
+     preparava nessuno. Ora con `foto-on` il precarico chiede le tessere NOSTRE della vista d'arrivo (zoom 4-10, stesso
+     indirizzo e crossOrigin dello strato; Esri mai) e l'attesa guarda la foto (`window._fondoFoto`). In piu', SOTTO la
+     nitida, una **foto sfocata**: la stessa foto fino allo zoom 6 (`sotto`, className `foto-sotto`, zIndex 0 nel pannello
+     `foto`), poche tessere gia' in memoria. Il fit del periodo e' un `setView` senza animazione (3/8) e Leaflet butta le
+     tessere di ogni strato (`viewprereset` → `_invalidateAll`); alla sfocata quell'evento e' tolto (`getEvents`), quindi
+     le sue tessere restano e Leaflet le sposta con la mappa: mai fondo vuoto, prima sfocato e poi nitido. Allineata sotto
+     il pixel dopo regione, «Applica», boschi, radar, zoom 11 e 5, salto in Campania (`allineata.js`). Lo scatto la salta.
+  3. **Niente OSM sotto la foto** (`osmSeServe`, chiamata da `giusta()` a ogni cambio di classe del body): la cartina sta
+     in mappa solo coi boschi e quando la foto della pioggia non arriva (ripiego); mai con `foto-on`, `sat-on` o
+     `modo-prev` (le previsioni hanno la loro foto a ogni zoom, e la cartina entrava per un attimo prima di lei: 12-40
+     richieste per niente). Toglierla mentre carica non rompe Leaflet 1.9.4 (`TileLayer._tileReady` esce senza mappa):
+     esplode solo DENTRO il suo «load». ⚠️ **Il credito «© OpenStreetMap contributors» resta**: i nomi esteri sopra la foto
+     sono di OpenStreetMap (ODbL), quindi tolta la cartina la scritta si rimette a mano (`osmCreditoAMano`), nello stesso
+     posto (Leaflet conta i crediti e tiene la voce a zero); col satellite dei boschi no, ha gia' il suo. Crediti uguali a
+     prima in tutti i passi della prova. ⚠️ Entrando nei boschi la cartina ora si scarica in quel momento (40 tessere al
+     PC, 12 al telefono): prima era gia' li', nascosta.
+  Misure (sito vero, copia servita al posto della pagina): al PC a 8 Mbit, Italia → Lombardia → «Applica» 30 giorni, la
+  foto non manca mai (prima mancava da 0,2 a 1,65 s), colori a 0,75-0,94 s (prima 1,9), dopo il tocco 80 KB scaricati
+  (prima 2 MB di OSM + 635 KB di foto); apertura al PC 0 tessere OSM (prima 75), al telefono 0 (prima 26). Prove:
+  `prova-234.js` (apertura, date, boschi, satellite, radar, previsioni e ritorni, PC e telefono, e SENZAFOTO=1: con
+  jsDelivr bloccato la cartina torna), `lampo-osm.js` della 105 (0 su 5 giri), scatto al PC uguale (tranne i «new» che
+  pulsano), telefono girato della 106 6 su 6. ⚠️ I tempi si misurano UNA pagina alla volta: con piu' pagine insieme
+  raw.githubusercontent frena i file dei giorni (fino a 30 s) e il confronto non vale; le prove di funzione invece si
+  fanno in parallelo.
   jsDelivr risponde bene (HTTP/2, primo byte 35-190 ms). Noti, non cause: la pagina (1,27 MB, senza cache: rimedio 5
   della scheda 100) e i file dei giorni (~10 KB l'uno: 90 giorni = 841 KB al telefono).

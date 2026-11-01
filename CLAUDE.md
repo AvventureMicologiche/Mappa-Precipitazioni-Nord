@@ -132,7 +132,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La foto dal satellite sotto la pioggia e nelle previsioni (31/10/2026, scheda 104)**: foto nostra fino allo zoom 10, Esri da vicino
 - **Il riquadro della pioggia al telefono e il banner del meteo (31/10/2026 sera, scheda 104)**: gli spazi misurati del riquadro in basso sotto i 600 px, il banner del meteo
 - **Telefono girato, crediti al telefono e blocco rosso del meteo (1/11/2026 sera, scheda 106)**: la pioggia col telefono in orizzontale, i crediti sopra il riquadro, «METEO» + giorno
-- **La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)**: il calcolo dei colori 20-50 volte più veloce, il velo e la foto ancora da fare
+- **La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)**: il calcolo dei colori 20-50 volte più veloce, niente velo grigio sulla foto, foto precaricata con la sfocata sotto, niente OSM sotto la foto (credito OSM tenuto)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
