@@ -339,16 +339,49 @@ div.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7p
 @media(max-width:420px){div.mk-str a span{padding:6px 7px 7px;font-size:12.5px;}
   div.mk-str a span b,div.mk-str a span small{white-space:normal;} div.mk-str a span small{font-size:11px;}}
 @media(max-width:370px){div.mk-str a span{font-size:12px;padding:6px;} div.mk-str a span small{font-size:10.5px;}}
-/* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella grande del bottone di ieri */
-div.mk-str.mk-ieri a i.mk-img{height:140px;} @media(min-width:700px){div.mk-str.mk-ieri a i.mk-img{height:185px;}}
-div.mk-str.mk-grande a span{padding:10px 14px 11px;border-radius:0;}
-div.mk-str.mk-grande a span b{font-size:19px;} div.mk-str.mk-grande a span small{font-size:14px;}
-@media(max-width:420px){div.mk-str.mk-grande a span b{font-size:17px;white-space:nowrap;} div.mk-str.mk-grande a span small{font-size:13px;white-space:nowrap;}}
+/* ⚠️ PAGINE PIOGGE: LA CARTINA GRANDE E LA SCRITTA PICCOLA SOPRA (1/11/2026, suo: «da quando le scritte sono cosi'
+   grandi e la cartina non si vede?», «sempre una merda piccolissima con un titolo gigantesco per dire quasi niente»,
+   poi sulla Sila Grande «rigenera tutto con questo formato»). Il riquadro e' tutto cartina, 300 px al telefono e 440 al
+   PC (prima 140 / 185 di cartina con sotto la fascia gialla grande), sulle pagine regione si vede la regione INTERA
+   (ritaglia) e la scritta e' UNA riga gialla piccola in basso a sinistra, sopra la cartina. Le pagine funghi (due
+   riquadri, pioggia e boschi) restano come il 28/10: etichetta sotto. */
+div.mk-str.mk-ieri a{display:block;height:300px;}
+div.mk-str.mk-ieri a i.mk-img{position:absolute;left:0;top:0;right:0;bottom:0;height:auto;}
+@media(min-width:700px){div.mk-str.mk-ieri a{height:440px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}}
+div.mk-str.mk-ieri a span{position:absolute;left:8px;bottom:8px;right:auto;flex:none;padding:4px 10px;border-radius:999px;}
+div.mk-str.mk-ieri a span b{font-size:13px;font-weight:800;white-space:nowrap;} div.mk-str.mk-ieri a span small{display:none;}
+div.mk-str.mk-ieri a span em{font-style:normal;font-weight:600;}
+@media(max-width:420px){div.mk-str.mk-ieri a span{left:6px;bottom:6px;padding:4px 9px;}
+  div.mk-str.mk-ieri a span b{font-size:12px;white-space:nowrap;} div.mk-str.mk-ieri a span em{display:none;}}
+/* al PC la pillola un po' piu' grande: accanto al bottone largo di ieri sembrava la cosa meno importante */
+@media(min-width:700px){div.mk-str.mk-ieri a span{left:10px;bottom:10px;padding:5px 12px;} div.mk-str.mk-ieri a span b{font-size:15px;}}
+/* il bottone sotto la cartina, stesso giallo della pillola (1/11/2026) */
+#verdetto a.mk-oppure,a.mk-oppure{display:block;margin:9px 0 2px;padding:11px 10px;border-radius:11px;text-align:center;text-decoration:none;
+  background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;font:800 15px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-shadow:0 3px 0 rgba(160,106,8,.85);}
+#verdetto a.mk-oppure:hover,a.mk-oppure:hover{filter:brightness(1.05);}
 /* la striscia colorata (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube.
    Sotto la cartina il giallo e' pieno, come le anteprime delle pagine meteo (all'85% serviva quando stava sopra) */
 div.mk-str.mk-giallo a span{background:linear-gradient(180deg,#f9c93e,#eda40c);color:#3d1f04;border-top:1px solid rgba(160,106,8,.35);box-shadow:none;}
 div.mk-str.mk-rosso a span{background:linear-gradient(180deg,#ec3b33,#c9221b);color:#fff;border-top:1px solid #8f1410;box-shadow:none;}
 div.mk-str.mk-giallo a span small,div.mk-str.mk-rosso a span small{opacity:.92;}
+/* sopra la cartina (pagine piogge) il giallo ha un'ombra, se no si perde nei colori della pioggia */
+div.mk-str.mk-ieri.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.94),rgba(237,164,12,.94));border-top:0;
+  box-shadow:0 2px 0 rgba(160,106,8,.85),0 4px 10px rgba(0,0,0,.3);}
+/* ⚠️ PAGINE FUNGHI: I DUE RIQUADRI GRANDI (1/11/2026, suo: «sì ingrandiscili anche qui», proposta B fra due). Come le
+   pagine piogge: tutto cartina, la scritta e' una pillola gialla in basso a sinistra che dice il periodo («Pioggia 20
+   giorni», «Boschi, tipo per tipo»). Al telefono uno SOTTO l'altro, larghi quanto la scheda e alti 240 px (affiancati
+   erano larghi 160 px e la regione si vedeva a meta'); al PC affiancati, alti 320 (erano 122 / 150 con la fascia sotto).
+   Classe mk-grandi, cosi' i riquadri dell'indice /funghi/ (mk-italia, stile loro) non cambiano. */
+div.mk-str.mk-grandi a{display:block;height:240px;}
+div.mk-str.mk-grandi a i.mk-img{position:absolute;left:0;top:0;right:0;bottom:0;height:auto;}
+div.mk-str.mk-grandi a span{position:absolute;left:6px;bottom:6px;right:auto;flex:none;padding:4px 9px;border-radius:999px;}
+div.mk-str.mk-grandi a span b{font-size:12.5px;white-space:nowrap;} div.mk-str.mk-grandi a span small{display:none;}
+@media(max-width:699px){div.mk-str.mk-grandi{grid-template-columns:1fr;}}
+@media(min-width:700px){div.mk-str.mk-grandi a{height:320px;} div.mk-str.mk-grandi a span{left:10px;bottom:10px;padding:5px 12px;}
+  div.mk-str.mk-grandi a span b{font-size:15px;}}
+div.mk-str.mk-grandi.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.94),rgba(237,164,12,.94));border-top:0;
+  box-shadow:0 2px 0 rgba(160,106,8,.85),0 4px 10px rgba(0,0,0,.3);}
 
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
