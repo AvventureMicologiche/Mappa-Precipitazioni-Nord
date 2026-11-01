@@ -4021,9 +4021,10 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
     cloud le sue tessere non rispondono. Va fatta dal PC.
 
 ### ⚠️ DA FARE (lasciati il 1/11/2026 notte, decisi con lui)
-1. **La foto dei boschi del Molise**, dal PC: `BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js molise`
-   (col sito di produzione; serve puppeteer, o `CHROME=<percorso di chrome>` con puppeteer-core), poi commit dei due file
-   `molise-mappa.webp` e `molise-mappa.json`. Senza, il riquadro «Guarda i boschi» delle pagine funghi del Molise resta blu.
+1. ~~La foto dei boschi del Molise~~: FATTA il 1/11/2026. Non dal PC: l'ha scattata GitHub (che la cartina la carica)
+   con un giro messo solo sul ramo di lavoro (`BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js
+   molise`), e i due file sono stati portati su main. ⚠️ Vale per ogni scatto che dal cloud non si fa: un giro su un ramo di
+   prova, scatenato dal push, che salva sul ramo stesso.
 2. **Allargare i posti funghi al nord con le carte forestali** (circa 170 posti): IN NOTA, non adesso. Suo: «la stagione e'
    quasi conclusa, non vale la pena, preferisco indicizzare le meteo». Da riprendere a fine estate 2027, con la regola dei
    posti scritta sopra e i numeri di Search Console.
@@ -4033,4 +4034,5 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
    (Longobucco, Acri, Bocchigliero) quando ci saranno abbastanza posti.
 5. **Utili, non urgenti**: il codice comune delle pagine in file a parte (pagine da ~113 a ~15 KB, lavoro medio-grande); il
    verdetto delle pagine funghi scritto nell'HTML ogni mattina, come le zone piogge (lavoro medio).
-6. `fonti.html` senza percorso in cima (le altre pagine ce l'hanno dal 1/11).
+6. ~~`fonti.html` senza percorso in cima~~: fatto il 1/11/2026 (percorso «Mappa pluviometrica › Fonti e licenze» e
+   BreadcrumbList).
