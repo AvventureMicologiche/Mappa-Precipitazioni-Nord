@@ -39,14 +39,17 @@ div.mk-str i.mk-pin{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7p
   div.mk-str a span b,div.mk-str a span small{white-space:normal;} div.mk-str a span small{font-size:11px;}}
 @media(max-width:370px){div.mk-str a span{font-size:12px;padding:5px;} div.mk-str a span small{font-size:10.5px;}}
 /* pagine piogge: un riquadro solo, piu' alto; nel modo «bottone» la scritta e' quella del bottone */
-/* 1/11/2026: la cartina un po' piu' alta (170 / 230 px, prima 140 / 185) e l'etichetta piu' piccola (17 / 14,5 px, prima
-   19 / 17): l'etichetta copriva un terzo della cartina al telefono */
-div.mk-str.mk-ieri a{height:170px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}
-@media(min-width:700px){div.mk-str.mk-ieri a{height:230px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}}
-div.mk-str.mk-grande a span{left:10px;bottom:10px;right:auto;padding:7px 11px;border-radius:9px;}
-div.mk-str.mk-grande a span b{font-size:17px;} div.mk-str.mk-grande a span small{font-size:13px;}
-@media(max-width:420px){div.mk-str.mk-grande a span{left:8px;bottom:8px;padding:5px 9px;}
-  div.mk-str.mk-grande a span b{font-size:14.5px;white-space:nowrap;} div.mk-str.mk-grande a span small{font-size:11.5px;white-space:nowrap;}}
+/* ⚠️ LA CARTINA GRANDE E LA SCRITTA PICCOLA (1/11/2026, suo, sulla prima prova: «sempre una merda piccolissima con un
+   titolo gigantesco per dire quasi niente»). La cartina passa da 170 / 230 px a 300 / 440 (telefono / PC), e sulle pagine
+   regione si vede la regione INTERA (ritaglia, OPZ.ieri). La scritta e' una riga sola, piccola, in basso a sinistra. */
+div.mk-str.mk-ieri a{height:300px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}
+@media(min-width:700px){div.mk-str.mk-ieri a{height:440px;} div.mk-str.mk-ieri a i.mk-img{height:auto;}}
+div.mk-str.mk-grande a span{left:8px;bottom:8px;right:auto;padding:4px 10px;border-radius:999px;}
+div.mk-str.mk-grande a span b{font-size:13px;font-weight:800;white-space:nowrap;} div.mk-str.mk-grande a span small{display:none;}
+@media(max-width:420px){div.mk-str.mk-grande a span{left:6px;bottom:6px;right:auto;padding:4px 9px;}
+  div.mk-str.mk-grande a span b{font-size:12px;}}
+div.mk-str.mk-grande a span em{font-style:normal;font-weight:600;}
+@media(max-width:420px){div.mk-str.mk-grande a span em{display:none;}}
 /* il bottone sulla mappa colorato (20/10/2026, suo: «il bottone magari rosso o giallo?»): giallo del quiz, rosso di YouTube,
    all'85% (suo: «giallo ma semitrasparente?»): la mappa si intravede, resta un bottone */
 div.mk-str.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.85),rgba(237,164,12,.85));color:#3d1f04;border-top:0;
@@ -77,6 +80,8 @@ function strisciaMappa(OPZ) {
     if (OPZ.tipo === 'regione' && j.reg) {
       var nw = proj(j.reg.n, j.reg.w, j.z), se = proj(j.reg.s, j.reg.e, j.z);
       k = tw / Math.max(1, se[0] - nw[0]);
+      // pagine piogge (1/11/2026): la cartina e' alta, la regione ci sta INTERA, anche in altezza (la Calabria era a meta')
+      if (OPZ.ieri) k = 0.94 * Math.min(k, th / Math.max(1, se[1] - nw[1]));
       cx = (nw[0] + se[0]) / 2 - j.x0; cy = (nw[1] + se[1]) / 2 - j.y0;
     } else if (OPZ.lat == null) {   // regione senza confine nel JSON: il centro dell'immagine
       k = tw / j.w; cx = j.w / 2; cy = j.h / 2;
@@ -140,7 +145,7 @@ function strisciaMappa(OPZ) {
       carica('7g', PIOGGIA).then(function (g7) {
         if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) {
           a1.setAttribute('href', c7.getAttribute('href')); a1.setAttribute('data-t', '7giorni');
-          a1.querySelector('span').innerHTML = '<b>Mappa degli ultimi 7 giorni →</b><small>' + (sot ? sot.textContent : 'la pioggia in tutte le località') + '</small>';
+          a1.querySelector('span').innerHTML = '<b>💧 Pioggia degli ultimi 7 giorni<em> · apri la mappa</em> →</b>';
           a1._g = g7; ritaglia(a1, g7); return;
         }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
