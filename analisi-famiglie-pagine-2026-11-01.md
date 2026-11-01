@@ -42,6 +42,17 @@ Su tua richiesta («fai i medi»). I dettagli sono nel `CLAUDE.md`, «Secondo gi
 
 Prove: nessun link interno rotto, nessun titolo doppio, 7.603 script delle pagine compilati senza errori. Dieci pagine provate nel browser al telefono e al PC, tutte giuste.
 
+## Quinto aggiornamento (1/11/2026, notte): sfoltiti i posti nuovi, zone, sigle sarde, /previsioni/
+
+- **Posti nuovi da 102 a 77**: Sicilia da 41 a 22 (fuori i posti con intorno soprattutto «altri boschi», quelli sotto i
+  400 m e i doppioni sotto i 4 km), Calabria da 24 a 20, Campania da 14 a 12. Pagine paese: 985.
+- **Nove posti nuovi nelle zone**: Cilento, Monti Lattari, Serre calabresi, Nebrodi, Valle del Fitalia. La zona «Sila
+  Greca» e' in realta' la Sila Grande: Longobucco resta fuori, da rivedere.
+- **Sigle sarde 2025** nell'elenco dei paesi (OT, OG, VS, SU Sulcis Iglesiente, CA, SS, NU, OR).
+- **`/previsioni/`**: la scritta grande dice «Mappa Pluviometrica · Previsioni meteo», nella pagina e nell'HTML per Google.
+- **Da fare**: la foto dei boschi del Molise (dal PC), l'estensione al nord (in nota, dopo la stagione), il resto in
+  CLAUDE.md, «DA FARE (lasciati il 1/11/2026 notte)».
+
 ## Quarto aggiornamento (1/11/2026, notte): fatti il punto 10, il 12 e i piccoli
 
 - **Punto 10, strada 1**: 102 posti funghi nuovi al sud (Sicilia +41, Calabria +24, Campania +14, Sardegna +9,

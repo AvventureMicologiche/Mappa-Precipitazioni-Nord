@@ -3978,3 +3978,45 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   - il ripiego delle regioni funghi (`daiFile`) dice anch'esso i giorni stimati, senza doppioni d'avviso;
   - «l'1 novembre» nella descrizione delle zone piogge;
   - «Iscriviti» della testata con `?sub_confirmation=1` (lib-testata.js), su tutte le pagine.
+- **Quarto giro, la notte (suo: «vai con la Sicilia a 22, sfoltisci Calabria e Campania, poi la 2, la 3, la 4, la 6»):**
+  - ⚠️ **I posti nuovi sono 77, non piu' 102** (pagine paese 985). Tolti 25: in **Sicilia** da 41 a 22, fuori quelli con
+    meno di meta' del bosco di tipi da funghi (faggete, castagneti, querceti, cerrete, pinete, abetaie, lariceti, conifere)
+    perche' intorno c'era soprattutto «altri boschi», quelli sotto i 400 m e uno per coppia sotto i 4 km (33 su 41 erano
+    in provincia di Messina, dove la rete e' fittissima); in **Calabria** Rogliano, Tiriolo, Petilia Policastro e
+    Villaggio del Pino, in **Campania** Montella e Tramonti, tutti a meno di 4 km da un altro posto. Le loro pagine non sono
+    mai andate online (tolte prima del giro del mattino), quindi nessun rimando. ⚠️ **La regola per i prossimi posti**:
+    bosco >= 50% sulle carte forestali, tipi da funghi >= 50% del bosco, quota >= 400 m al sud, niente doppioni sotto i
+    4 km. Se si allarga al nord, si parte da qui.
+  - **Nove posti nuovi nelle zone** (`funghi-zone.json`), solo dove stanno davvero: Cilento (Gioi, Ceraso-Isca), Monti
+    Lattari (Sambuco di Ravello, Chiunzi), Serre calabresi (San Nicola da Crissa), Nebrodi (Ambola, San Fratello
+    Forestale), Valle del Fitalia (Galati Mamertino, Mastrostefano). Rifatte le pagine di quelle cinque zone (funghi per
+    intero, piogge, meteo, forestali con la media della Carnia) e i riepiloghi. ⚠️ **La zona «Sila Greca» in realta' e'
+    la Sila Grande** (Monte Curcio, Camigliatello, Spineto): Longobucco, che e' Sila Greca vera, sta a 21 km dai suoi
+    pluviometri e non e' entrato. Da rivedere il nome o la zona.
+  - **Sigle sarde 2025 nell'elenco dei paesi** (`data/elenco-paesi.txt`): CA 70, SS 66, NU 53, OR 87, OT 26 (Gallura),
+    OG 23 (Ogliastra), VS 28 (Medio Campidano), SU 24 (Sulcis Iglesiente). Le appartenenze vengono da un elenco ISTAT 2025
+    trovato su GitHub (alessandroamormino/fuorirotta, `data/elenco-comuni-istat.csv`), che pero' da' «CI» al Sulcis: la
+    sigla giusta e' SU (decreto in vigore dal 28/10/2026, Conferenza Stato-Citta'). In `data/capoluoghi.json` Olbia e
+    Tempio hanno la sigla OT. Effetto in mappa: `veCapoluoghi` sceglie il capoluogo per sigla, quindi in Sardegna
+    compaiono anche Olbia, Tortoli' e Villacidro (Carbonia c'era gia').
+  - **La scritta grande di `/previsioni/`** (il 7 dei piccoli): nelle previsioni lo span dei paesi dell'H1 dice
+    « · Previsioni meteo» (`data-prev`), uscendo torna l'elenco (`data-storico`, `titoloSezione()` in `entra`/`esci` del
+    modulo previsioni); la Function `functions/previsioni/index.js` lo riscrive gia' nell'HTML (`Sezione`), cosi' Google
+    legge «Mappa Pluviometrica · Previsioni meteo». Provato con wrangler e nel browser. ⚠️ Se la scheda 104 rifa' la
+    testata della mappa, tenga `data-prev`/`data-storico` (o sposti la riga della Function sul titolo nuovo).
+  - **La foto dei boschi del Molise NON si e' potuta fare qui**: lo scatto contiene la cartina di OpenStreetMap, e dal
+    cloud le sue tessere non rispondono. Va fatta dal PC.
+
+### ⚠️ DA FARE (lasciati il 1/11/2026 notte, decisi con lui)
+1. **La foto dei boschi del Molise**, dal PC: `BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js molise`
+   (col sito di produzione; serve puppeteer, o `CHROME=<percorso di chrome>` con puppeteer-core), poi commit dei due file
+   `molise-mappa.webp` e `molise-mappa.json`. Senza, il riquadro «Guarda i boschi» delle pagine funghi del Molise resta blu.
+2. **Allargare i posti funghi al nord con le carte forestali** (circa 170 posti): IN NOTA, non adesso. Suo: «la stagione e'
+   quasi conclusa, non vale la pena, preferisco indicizzare le meteo». Da riprendere a fine estate 2027, con la regola dei
+   posti scritta sopra e i numeri di Search Console.
+3. **Promemoria senza lavoro**: la frase della classifica nel ritratto di ~56 pagine del sud si aggiorna col rinnovo del 2/12;
+   la pulizia delle pagine paese senza clic (~1/12) NON deve giudicare le 77 pagine nuove del sud (un mese di vita).
+4. **Zona «Sila Greca»**: e' la Sila Grande; decidere se rinominarla o rifarla (Longobucco fuori).
+5. **Utili, non urgenti**: il codice comune delle pagine in file a parte (pagine da ~113 a ~15 KB, lavoro medio-grande); il
+   verdetto delle pagine funghi scritto nell'HTML ogni mattina, come le zone piogge (lavoro medio).
+6. `fonti.html` senza percorso in cima (le altre pagine ce l'hanno dal 1/11).

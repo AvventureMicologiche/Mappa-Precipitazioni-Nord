@@ -1869,7 +1869,7 @@ html.apre-vista #map{background:#3e526b}
            su un Pixel 9 (412), spingendo fuori il tasto "Iscriviti"; e anche il
            solo "+ Svizzera" traboccava già di 9px a 360. Su telefono resta
            "Mappa Pluviometrica Italia", che entra anche a 320. -->
-      <h1>Mappa Pluviometrica<span class="hdr-paesi"> Italia · Svizzera · Austria · Francia · Slovenia</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v11.0)</span></h1>
+      <h1>Mappa Pluviometrica<span class="hdr-paesi" data-prev=" · Previsioni meteo" data-storico=" Italia · Svizzera · Austria · Francia · Slovenia"> Italia · Svizzera · Austria · Francia · Slovenia</span> <span class="ver-tag" style="font-size:10px;font-weight:400;opacity:.6;letter-spacing:.05em;">(v11.0)</span></h1>
       <div class="hdr-sub" id="datehdr"></div>
     </div>
   </div>
@@ -17392,9 +17392,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       if(regioni().length&&giri>=3){ clearInterval(t); if(document.body.contains(b)) b.click(); } },250); }
 
   /* ── entra / esci ── */
+  /* LA SCRITTA GRANDE NELLE PREVISIONI (1/11/2026, analisi delle famiglie di pagine): nelle previsioni lo span dei paesi
+     dice « · Previsioni meteo» (data-prev), uscendo torna l'elenco dei paesi. /previsioni/ arriva gia' cosi' dalla
+     Function (functions/previsioni/index.js), perche' Google legga «Previsioni meteo» nell'H1. */
+  var hdrPaesi=null;
+  function titoloSezione(prev){
+    var p=document.querySelector('.hdr-paesi'); if(!p||!p.getAttribute('data-prev')) return;
+    if(hdrPaesi===null) hdrPaesi=p.getAttribute('data-storico')||p.textContent;
+    p.textContent=prev?p.getAttribute('data-prev'):hdrPaesi;
+    if(typeof window.badgeCiSta==='function') window.badgeCiSta();
+  }
   function entra(daLink){
     if(acceso||!map()) return;
     acceso=true; window._prevAttivo=true; document.documentElement.classList.remove('apre-prev');   // vedi «LINK ALLE PREVISIONI» in cima
+    titoloSezione(true);
     try{ localStorage.setItem('prevUsate','1'); }catch(e){}   // le previsioni le conosce: via l'invito dallo storico (vedi «INVITO ALLE PREVISIONI»)
     /* ⚠️ IL MODO DA CUI SI ENTRA (controllo del 30/10/2026): radar e boschi qui sotto si spengono con un clic
        che il modulo «Indietro in tutto il sito» non vede (le previsioni sono accese), e il loro passo restava nella
@@ -17439,6 +17450,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!acceso) return;
     togliPassi(false); primaScena=''; rimessa=null;   // al prossimo ingresso la prima vista si scrive di nuovo sulla voce di allora
     acceso=false; window._prevAttivo=false; sorveglia(false); fumetto(false); viFondo();
+    titoloSezione(false);
     document.documentElement.classList.remove('apre-vista');   // uscendo prima che la vista ci sia, torna la cartina
     VE.scena=''; VE.visti=[];   // la vista a etichette riparte da capo al prossimo ingresso (i dati dei paesi restano)
     /* ⚠️ IL BANNER VA VIA ANCHE LUI (29/10/2026, suo: «bug grave»): uscendo, anche col tasto Indietro di Chrome, restava
