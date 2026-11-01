@@ -109,6 +109,30 @@
      esterno in meno all'apertura, che su un telefono con poca rete vale qualche decimo di secondo, e niente dipendenza da unpkg -->
 <link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css"/>
 <script src="/lib/leaflet/1.9.4/leaflet.js"></script>
+<script>
+/* I TELEFONI GRANDI GIRATI (1/11/2026, scheda 106). Il sito passa al disegno da computer sopra i 900 px: un telefono
+   grande girato (915×412, 932×430: Pixel, Galaxy, iPhone Pro Max) prendeva quello, col pie' di pagina, e il riquadro
+   della pioggia finiva tutto fuori schermo. Col dito, in orizzontale e con lo schermo basso (lato corto fino a 500 px) la
+   pagina si disegna larga 900 e il telefono la allarga del 2-4%: valgono le regole del telefono girato («LA PIOGGIA AL
+   TELEFONO GIRATO» in fondo, «IL TELEFONO GIRATO» del meteo). Lo schermo si legge da screen (che il viewport non tocca),
+   e a ogni giro del telefono si rifa'. */
+(function(){
+  var m=document.querySelector('meta[name="viewport"]'); if(!m) return;
+  var NORMALE='width=device-width, initial-scale=1.0';
+  function giusto(){
+    var c=NORMALE;
+    try{
+      var lungo=Math.max(screen.width,screen.height), corto=Math.min(screen.width,screen.height);
+      var o=screen.orientation&&screen.orientation.type, oriz=o?/landscape/.test(o):Math.abs(window.orientation||0)===90;
+      if(matchMedia('(pointer:coarse)').matches&&oriz&&corto<=500&&lungo>900) c='width=900';
+    }catch(e){}
+    if(m.getAttribute('content')!==c) m.setAttribute('content',c);
+  }
+  giusto();
+  window.addEventListener('orientationchange',giusto); window.addEventListener('resize',giusto);
+  try{ screen.orientation.addEventListener('change',giusto); }catch(e){}
+})();
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{height:100%}
@@ -5068,6 +5092,9 @@ function centraRegioneInStriscia(){
   if(window._fermaCentraFino && Date.now()<window._fermaCentraFino) return;
   if(typeof getActiveRegions!=='function') return;
   var rks=getActiveRegions(); if(!rks.length) return;
+  // telefono girato (1/11/2026, scheda 106): la colonna sta a sinistra, si inquadra accanto a lei (vedi «LA PIOGGIA AL
+  // TELEFONO GIRATO» in fondo alla pagina)
+  if(window._centraGirato&&window._centraGirato()) return;
   var mEl=document.getElementById('map'); if(!mEl) return;
   var mBox=mEl.getBoundingClientRect(), coperto=0;
   ['legend-panel','time-panel'].forEach(function(id){
@@ -10803,6 +10830,8 @@ function captureMapBlob(scala){
           var nb=doc.getElementById('novita-box'); if(nb) nb.style.visibility='hidden';
           // il riquadro Mappa|Satellite non va nello scatto; i crediti della foto SI' (obbligatori)
           var sb=doc.getElementById('sat-btn'); if(sb) sb.style.visibility='hidden';
+          // al telefono i crediti chiusi nella «i» (scheda 106): nella foto interi
+          if(window._creditiInteri) window._creditiInteri(doc);
           // il tasto delle temperature invece SI': sta nella riga Radar|Boschi, nascosto lasciava un buco (4/10)
           // la manopola del retino html2canvas la disegna come una casella di testo: nello scatto non serve
           // i tasti dei boschi restano nella foto (29/9, suo); solo il cursore della manopola, che
@@ -13442,6 +13471,16 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        con tre regioni a 360x800: alzava 126 px quando ne servivano 80, e le
        regioni restavano 47 px troppo in alto). E' la stessa lezione del
        25/8/2026 su centraRegioneInStriscia, mai applicata a questa copia. */
+    /* ⚠️ TELEFONO GIRATO (1/11/2026, scheda 106): il pannello del radar e' la colonna di sinistra, alta quanto la mappa;
+       contata come «copre dal basso» alzava di mezza mappa e la Liguria finiva fuori (si vedevano Toscana e Corsica). Si
+       sposta il contenuto a meta' della mappa libera: mezza colonna a destra, mezza barra delle regioni in giu' */
+    if(window._girato&&window._girato()){
+      var lc=el('legend-panel'), rg=el('region-panel'), mq=el('map');
+      var col=lc&&getComputedStyle(lc).display!=='none'?lc.offsetLeft+lc.offsetWidth:0;
+      var su=rg&&mq?Math.max(0,Math.round(rg.getBoundingClientRect().bottom-mq.getBoundingClientRect().top)):0;
+      m.panBy([-Math.round(col/2),-Math.round(su/2)],{animate:false});
+      return;
+    }
     if(window.innerWidth<=900){
       var lp=el('legend-panel'), mp=el('map'), rp=el('region-panel');
       if(lp&&mp){
@@ -18477,14 +18516,19 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var lista=g?tuttiV.filter(function(p){ return !p.altra&&veDati(p,g); }):[];
     /* ⚠️ il nome cambia SUBITO (caccia ai bug, difetto 5): finche' i gradi non arrivavano restava «METEO ITALIA» con le
        citta' di tutta Italia, anche 15 s dopo aver cercato Napoli */
-    if(!lista.length){ var tv=(VE.tipo==='paese'?VE.titolo+' e dintorni':VE.titolo).toUpperCase(), kv='vuoto|'+tv;
-      if(VE.nastro!==kv){ VE.nastro=kv; na.innerHTML='<div class="lab">METEO '+escH(tv)+'<span>…</span></div><div class="t"></div>'; }
+    /* ⚠️ IL BLOCCO ROSSO DICE SOLO «METEO» E IL GIORNO (1/11/2026, scheda 106, suo «fai tutte e tre»; la stessa regola
+       che ha dato il 31/10 per la barra della pioggia: «cosa scrivi con 2/3 regioni o un paese lungo?»). Col nome del
+       posto, a 360 px, il blocco prendeva il 92% del banner con San Giovanni in Persiceto e usciva dallo schermo con San
+       Valentino in Abruzzo Citeriore (111%); con due o tre regioni peggio. Il nome e' gia' in cima, sulla mappa e nella
+       scheda. «METEO ITALIA» della vista Italia resta: lo scrive viPezzi */
+    if(!lista.length){ var kv='vuoto';
+      if(VE.nastro!==kv){ VE.nastro=kv; na.innerHTML='<div class="lab">METEO<span>…</span></div><div class="t"></div>'; }
       return; }
     var chiave=g+'|'+lista.map(function(p){ return p.n; }).join(','); if(chiave===VE.nastro) return; VE.nastro=chiave;
     var dd=giornoData(g), o=isoRoma(Date.now()), quando=g===o?'OGGI':g===isoPiu(o,1)?'DOMANI':(GIL[dd.getDay()]+' '+dd.getDate()).toUpperCase();
     var vv=lista.map(function(p){ var e=veDati(p,g), km=VE.tipo==='paese'&&!p.cuore&&p.km!=null?'<small>'+Math.round(p.km)+' km</small>':'';
       return '<button class="v" data-n="'+escH(p.n)+'"><b>'+escH(p.n)+'</b>'+km+'<span class="ic">'+icona(e.s)+'</span><span class="mn">'+e.mn+'°</span><span class="mx">'+e.mx+'°</span></button>'; });
-    na.innerHTML='<div class="lab">METEO '+escH((VE.tipo==='paese'?VE.titolo+' e dintorni':VE.titolo).toUpperCase())+'<span>'+escH(quando)+'</span></div><div class="t">'+vv.join('')+vv.join('')+'</div>';
+    na.innerHTML='<div class="lab">METEO<span>'+escH(quando)+'</span></div><div class="t">'+vv.join('')+vv.join('')+'</div>';
     NA.w=0; NA.pos=0; NA.v=0; naParti();
   }
   /* l'inquadratura: al computer fra il riquadro di sinistra e il bordo, al telefono fra la barra in alto e la scheda (40%);
@@ -19210,14 +19254,17 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     if(tel()&&(lp.classList.contains('leg-mini')||!lp.classList.contains('leg-visible'))) return false;
     /* ⚠️ TELEFONO GIRATO (1/11/2026, scheda 105): a 852×393 la barra prendeva una riga sua, i tasti scendevano su
        un'altra e i quattro numeri restavano tagliati a meta'. Lo schermo e' troppo basso: niente barra, torna il titolo
-       coi tasti accanto, come in produzione (lo stesso che col pannello ridotto) */
-    if(tel()&&window.innerHeight<=500) return false;
+       coi tasti accanto, come in produzione (lo stesso che col pannello ridotto).
+       ⚠️ 1/11/2026, scheda 106: col telefono girato vero (la colonna a sinistra) la barra torna, in fondo alla mappa
+       accanto alla colonna come il banner del meteo */
+    if(tel()&&window.innerHeight<=500&&!girato()) return false;
     return true;
   }
+  function girato(){ return !!(window._girato&&window._girato()); }
   function sistema(){
     var na=el('pg-nastro'); if(!na) return;
     var su=serve();
-    if(tel()){   // subito dopo «riduci», prima dei tasti
+    if(tel()&&!girato()){   // subito dopo «riduci», prima dei tasti
       var lp=el('legend-panel'), hd=el('leg-handle');
       if(lp&&(na.parentNode!==lp||(hd&&na.previousElementSibling!==hd))) lp.insertBefore(na,hd?hd.nextSibling:lp.firstChild);
     } else if(na.parentNode!==el('map')) el('map').appendChild(na);
@@ -19234,7 +19281,10 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
      scrive lo stile). Al telefono la barra sta dentro la legenda: niente spostamento */
   function accorcia(na,su){
     var x='';
-    if(su&&!tel()){
+    // telefono girato: attaccata alla colonna, senza aria, come il banner del meteo girato
+    // (offsetLeft e offsetWidth, non il rettangolo: la colonna entra scorrendo e a meta' corsa il rettangolo e' altrove)
+    if(su&&girato()){ var lc=el('legend-panel'); x=Math.max(0,lc.offsetLeft+lc.offsetWidth)+'px'; }
+    else if(su&&!tel()){
       var mp=el('map').getBoundingClientRect(), cima=mp.bottom-(na.offsetHeight||44), destra=0;
       ['legend-panel','time-panel'].forEach(function(id){ var e=el(id); if(!e||getComputedStyle(e).display==='none') return;
         var r=e.getBoundingClientRect(); if(r.height&&r.bottom>cima-8) destra=Math.max(destra,r.right); });
@@ -19319,7 +19369,8 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   function sotto(){
     var tp=document.getElementById('time-panel'), rp=document.getElementById('region-panel'), mp=document.getElementById('map');
     if(!tp||!rp||!mp) return;
-    if(window.innerWidth<601||window.innerWidth>900){ if(tp.dataset.sotto){ tp.style.removeProperty('top'); delete tp.dataset.sotto; } return; }
+    // ⚠️ e non al telefono girato (scheda 106): li' i periodi stanno nella colonna, la cima la decide il suo CSS
+    if(window.innerWidth<601||window.innerWidth>900||(window._girato&&window._girato())){ if(tp.dataset.sotto){ tp.style.removeProperty('top'); delete tp.dataset.sotto; } return; }
     var r=rp.getBoundingClientRect(); if(!r.height) return;
     var top=Math.round(r.bottom-mp.getBoundingClientRect().top+10)+'px';
     if(tp.style.getPropertyValue('top')!==top){ tp.style.setProperty('top',top,'important'); tp.dataset.sotto='1'; }
@@ -19328,6 +19379,185 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     sotto(); setTimeout(sotto,600);
     window.addEventListener('resize',sotto);
     try{ new ResizeObserver(sotto).observe(document.getElementById('region-panel')); }catch(e){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
+<!-- I CREDITI AL TELEFONO SOPRA IL RIQUADRO (1/11/2026, scheda 106, suo «fai tutte e tre»). Fino a 900 px i crediti di
+     Leaflet stavano in fondo alla mappa, SOTTO il riquadro in basso: misurato sul sito vero, visti allo 0% in pioggia,
+     previsioni, radar e da vicino, al telefono e al tablet (solo coi periodi aperti, al tablet, si vedevano). Ora, come
+     Google Maps e le mappe MapLibre: 10 px sopra il riquadro come il termometro, a sinistra (lui sta a destra), la riga intera
+     per 5 secondi e poi una «i» tonda che la riapre. Le regole di OpenStreetMap lo permettono (osmfoundation.org,
+     Attribution Guidelines: si possono chiudere dopo 5 secondi o al primo gesto, se resta un «(i)» per ritrovarli).
+     Con la foto di Esri sulla mappa la «i» porta scritto «Esri». Nello scatto i crediti ci vanno sempre interi. -->
+<style>
+@media(max-width:900px){
+  #map .leaflet-bottom.leaflet-right{right:auto;left:var(--cr-sx,0px);bottom:var(--cr-giu,0px)}
+  #map .leaflet-bottom.leaflet-right .leaflet-control{float:left}
+  #map .leaflet-control-attribution{margin:0 0 10px 8px;padding:3px 9px;border-radius:10px;font-size:11px;line-height:1.35;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.18);max-width:calc(100vw - var(--cr-sx,0px) - 74px)}
+  #map.cr-chiusi .leaflet-control-attribution{display:none}
+  #cr-i{position:absolute;z-index:1000;left:calc(var(--cr-sx,0px) + 8px);bottom:calc(var(--cr-giu,0px) + 10px);display:none;
+    align-items:center;gap:5px;height:24px;min-width:24px;padding:0 7px;border:1px solid #c3cfdf;border-radius:12px;
+    background:rgba(255,255,255,.92);box-shadow:0 1px 4px rgba(0,0,0,.18);color:#1b3f6e;font:600 11px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;cursor:pointer}
+  #cr-i b{font:italic 700 14px Georgia,'Times New Roman',serif;line-height:1}
+  #map.cr-chiusi #cr-i{display:inline-flex}
+}
+</style>
+<script>
+(function(){
+  var APERTI_MS=5000, RIAPERTI_MS=8000, RIQUADRI=['legend-panel','time-panel','pv-det','pv-pan','vi-nastro','pg-nastro'];
+  var mp=null, btn=null, tChiudi=0, rAF=0, ro=null;
+  function el(id){ return document.getElementById(id); }
+  function tel(){ return window.innerWidth<=900; }
+  function att(){ return mp&&mp.querySelector('.leaflet-control-attribution'); }
+  function visibile(e){ if(!e) return null; var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return null;
+    var r=e.getBoundingClientRect(); return r.width>0&&r.height>0?r:null; }
+  /* Dove finisce la mappa libera: una colonna stretta a sinistra che arriva in fondo (il telefono girato) sposta i crediti
+     di lato; poi si sale lungo i riquadri appoggiati al fondo che passano SOTTO i crediti, uno sopra l'altro (nel meteo il
+     banner sta sopra la scheda; col telefono girato la barra e il banner partono dalla colonna) */
+  // scheda, riquadro e banner del meteo e la barra della pioggia nascono dopo: si seguono quando ci sono
+  function segui(){ RIQUADRI.forEach(function(id){ var e=el(id); if(!e||e._crSeguito) return; e._crSeguito=true;
+    try{ if(ro) ro.observe(e); new MutationObserver(rimisura).observe(e,{attributes:true,attributeFilter:['class','style']}); }catch(x){} }); }
+  function misura(){
+    rAF=0; if(!mp) return;
+    segui();
+    if(!tel()){ mp.style.removeProperty('--cr-giu'); mp.style.removeProperty('--cr-sx'); mp.classList.remove('cr-chiusi'); return; }
+    var mt=mp.getBoundingClientRect(), lim=mt.bottom, sx=0;
+    var rr=RIQUADRI.map(function(id){ return visibile(el(id)); }).filter(Boolean);
+    rr.forEach(function(r){ if(r.width<=mt.width*0.6&&r.left<=mt.left+12&&r.bottom>=mt.bottom-2&&r.top<mt.bottom-40) sx=Math.max(sx,Math.round(r.right-mt.left)); });
+    var x0=mt.left+sx+8, x1=x0+60;
+    for(var giro=0;giro<5;giro++){ var su=false;
+      rr.forEach(function(r){ if(r.left<=x0&&r.right>=x1&&r.bottom>=lim-2&&r.top<lim-1){ lim=r.top; su=true; } });
+      if(!su) break; }
+    mp.style.setProperty('--cr-giu',Math.max(0,Math.round(mt.bottom-lim))+'px');
+    mp.style.setProperty('--cr-sx',sx+'px');
+  }
+  function rimisura(){ if(!rAF) rAF=requestAnimationFrame(misura); }
+  function etichetta(){ var a=att(); if(!btn) return; var esri=!!(a&&/Esri/.test(a.textContent));
+    var h='<b>i</b>'+(esri?'<span>Esri</span>':''); if(btn.innerHTML!==h) btn.innerHTML=h; }
+  function chiudi(){ clearTimeout(tChiudi); if(mp&&tel()){ etichetta(); mp.classList.add('cr-chiusi'); } }
+  function apri(ms){ clearTimeout(tChiudi); if(!mp) return; mp.classList.remove('cr-chiusi'); rimisura(); tChiudi=setTimeout(chiudi,ms); }
+  function avvia(){
+    mp=el('map'); if(!mp||!att()){ setTimeout(avvia,200); return; }
+    btn=document.createElement('button'); btn.type='button'; btn.id='cr-i'; btn.setAttribute('aria-label','Crediti della mappa');
+    mp.appendChild(btn); etichetta();
+    // il tocco sulla «i» non deve arrivare alla mappa (che la richiuderebbe, e a Leaflet)
+    ['pointerdown','touchstart','mousedown','click','dblclick','wheel'].forEach(function(ev){ btn.addEventListener(ev,function(e){ e.stopPropagation(); }); });
+    btn.addEventListener('click',function(){ apri(RIAPERTI_MS); });
+    // al primo gesto sulla mappa si chiudono subito (regola OSM), non sui crediti stessi (i link si devono poter toccare)
+    mp.addEventListener('pointerdown',function(e){ var a=att(); if(a&&a.contains(e.target)) return; if(!mp.classList.contains('cr-chiusi')) chiudi(); },true);
+    try{ new MutationObserver(function(){ etichetta(); rimisura(); }).observe(att(),{childList:true,subtree:true,characterData:true}); }catch(e){}
+    try{
+      ro=new ResizeObserver(rimisura); ro.observe(mp);
+      new MutationObserver(rimisura).observe(document.body,{attributes:true,attributeFilter:['class']});
+      new MutationObserver(rimisura).observe(mp,{childList:true});   // la scheda e il banner del meteo entrano nella mappa
+    }catch(e){}
+    document.addEventListener('transitionend',rimisura,true);
+    window.addEventListener('resize',function(){ rimisura(); if(!tel()) mp.classList.remove('cr-chiusi'); });
+    misura(); apri(APERTI_MS);
+  }
+  // nello scatto i crediti interi, sempre (la foto gira: la «i» non direbbe niente)
+  window._creditiInteri=function(doc){ var m=doc.getElementById('map'); if(m) m.classList.remove('cr-chiusi'); var b=doc.getElementById('cr-i'); if(b) b.style.display='none'; };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
+<!-- LA PIOGGIA AL TELEFONO GIRATO (1/11/2026, scheda 106, suo «fai tutte e tre ma fammi vedere prima e dopo»). Misurato
+     sul sito vero con le altezze vere (barra del browser tolta: 667×325 … 932×380): fino a 900 px la pioggia prendeva il
+     disegno del TABLET in verticale. Fila delle regioni alta 83 px, periodi tagliati di 44-99 px e senza scorrimento
+     (Radar, Boschi, Satellite a meta', funghi irraggiungibili), il riquadro della pioggia in basso da meta' schermo,
+     tagliato, e alla mappa ~80 px con la regione persa in mezzo all'Europa. Qui come il meteo girato (30/10, «IL TELEFONO
+     GIRATO» nel suo CSS): regione e «＋ regione» in UNA riga in cima, periodi o riquadro in una COLONNA di 330 px a
+     sinistra (scorre dentro, se serve), la mappa a destra, la barra delle citta' in fondo alla mappa accanto alla colonna
+     come il banner del meteo. La condizione e' la stessa del meteo (oriz()), in JS window._girato(). I telefoni piu'
+     larghi di 900 (915, 932) ci entrano col viewport largo 900: vedi «I TELEFONI GRANDI GIRATI» in cima alla pagina. -->
+<style>
+@media(max-width:900px) and (max-height:500px) and (orientation:landscape){
+  /* la riga in cima: «Lombardia ▼» largo quanto la colonna, le pastiglie «＋ regione» accanto */
+  body:not(.modo-prev) #region-panel .tp-content{display:flex !important;align-items:center;gap:8px}
+  body:not(.modo-prev) #reg-apri{flex:0 0 314px;width:314px !important;box-sizing:border-box}
+  body:not(.modo-prev) #vic-riga{flex:1 1 0;min-width:0;padding-top:0 !important;padding-bottom:0 !important}
+  /* la colonna: i periodi... */
+  body:not(.modo-prev) #time-panel{top:var(--gir-cima,50px) !important;left:0 !important;bottom:0 !important;width:330px !important;
+    max-height:none !important;overflow-y:auto !important;border-radius:0 14px 0 0 !important;padding:8px 12px 4px !important;box-sizing:border-box}
+  /* tasti di 31-32 px (sotto i 30 no: gia' pochi per il dito), 9 px fra le righe: a 740×310 i periodi ci stanno interi */
+  body:not(.modo-prev) #time-panel .tp-btn{padding:6px 3px !important}
+  body:not(.modo-prev) #time-panel .tp-custom-btn{padding-top:5px !important;padding-bottom:5px !important}
+  body:not(.modo-prev) #tp-status:empty{display:none !important}
+  /* ...o il riquadro della pioggia (radar e boschi compresi), con le misure del telefono dritto */
+  #legend-panel{position:absolute !important;left:0 !important;right:auto !important;top:var(--gir-cima,50px) !important;bottom:0 !important;
+    width:330px !important;max-height:none !important;overflow-y:auto;border-radius:0 14px 0 0 !important;padding:10px 12px !important;
+    box-sizing:border-box;transform:translateX(-105%);box-shadow:4px 0 14px rgba(0,0,0,.18) !important}
+  #legend-panel .leg-handle{display:none !important}
+  html body #legend-panel .sv{font-size:17px !important}
+  html body #legend-panel .leg-header .leg-title{font-size:13px !important}
+  html body #legend-panel .grad{height:12px !important}
+  html body #legend-panel #leg-back-btn{font-size:14px !important;padding:4px 12px !important;white-space:nowrap}
+  body.pg-nastro-on #legend-panel .leg-title{display:none !important}
+  /* la barra delle citta' in fondo alla mappa, accanto alla colonna (la sposta lo script della barra) */
+  body.pg-nastro-on #pg-nastro{position:absolute;right:0;bottom:0;margin:0;z-index:850;box-shadow:0 -2px 6px rgba(0,0,0,.18)}
+  body.pg-nastro-on:not(.modo-prev) #tq-btn.p-mappa{bottom:48px !important}
+  /* la fonte in cima alla mappa libera, al centro, come al telefono dritto (sotto la barra delle regioni): in fondo finiva
+     sotto la colonna e sopra la barra delle citta' */
+  body:not(.modo-prev) .fonte-tag{top:var(--gir-cima,50px) !important;bottom:auto !important;left:calc(50% + 165px) !important}
+}
+</style>
+<script>
+(function(){
+  function el(id){ return document.getElementById(id); }
+  function girato(){ try{ return window.innerWidth<=900&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }
+  window._girato=girato;
+  function visibile(e){ if(!e) return null; var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return null;
+    var r=e.getBoundingClientRect(); return r.width>0&&r.height>0?r:null; }
+  // la colonna parte 8 px sotto la riga delle regioni, che si misura (le pastiglie possono andare su due righe)
+  function cima(){
+    var mp=el('map'), rp=el('region-panel'); if(!mp) return;
+    if(!girato()){ mp.style.removeProperty('--gir-cima'); return; }
+    var r=visibile(rp), t=r?Math.round(r.bottom-mp.getBoundingClientRect().top+8):50;
+    if(mp.style.getPropertyValue('--gir-cima')!==t+'px') mp.style.setProperty('--gir-cima',t+'px');
+  }
+  /* L'INQUADRATURA ACCANTO ALLA COLONNA. centraRegioneInStriscia() al telefono centra la regione nella striscia fra la
+     barra in alto e il riquadro in basso: qui la colonna arriva in fondo e la striscia sarebbe nulla (prima, col riquadro
+     in basso, era di 79 px e la regione finiva piccola in mezzo all'Europa). Si inquadra nel rettangolo libero: a destra
+     della colonna, sotto la riga delle regioni, sopra la barra delle citta'. Sul paese cercato si sposta e basta */
+  window._centraGirato=function(){
+    if(!girato()) return false;
+    var m=window._mapDebug, mEl=el('map'); if(!m||!mEl) return true;
+    var mb=mEl.getBoundingClientRect(), col=0, sopra=0, sotto=0;
+    ['legend-panel','time-panel'].forEach(function(id){ var r=visibile(el(id)); if(r&&r.left<=mb.left+12&&r.bottom>=mb.bottom-2) col=Math.max(col,Math.round(r.right-mb.left)); });
+    var rp=visibile(el('region-panel')); if(rp) sopra=Math.max(0,Math.round(rp.bottom-mb.top));
+    var na=visibile(el('pg-nastro')); if(na&&na.left>=mb.left+col-2) sotto=Math.max(0,Math.round(mb.bottom-na.top));
+    if(mb.width-col<80||mb.height-sopra-sotto<60) return true;
+    if(typeof _vistaPaese!=='undefined'&&_vistaPaese&&!(typeof _vistaDaLink!=='undefined'&&_vistaDaLink)){
+      var pp=m.latLngToContainerPoint([_vistaPaese.lat,_vistaPaese.lon]);
+      var dx=Math.round(pp.x-(col+(mb.width-col)/2)), dy=Math.round(pp.y-(sopra+(mb.height-sopra-sotto)/2));
+      if(Math.abs(dx)>12||Math.abs(dy)>12) m.panBy([dx,dy],{animate:false});
+      return true;
+    }
+    // la regione disegnata (i confini nell'overlay-pane, come unioneDisegno); se non c'e' ancora, REGION_BOUNDS
+    var t=Infinity,b=-Infinity,l=Infinity,r=-Infinity;
+    document.querySelectorAll('#map .leaflet-overlay-pane path').forEach(function(p){ var q=p.getBoundingClientRect(); if(q.width<4&&q.height<4) return;
+      t=Math.min(t,q.top); b=Math.max(b,q.bottom); l=Math.min(l,q.left); r=Math.max(r,q.right); });
+    var bb=null;
+    if(isFinite(t)) bb=L.latLngBounds(m.containerPointToLatLng([l-mb.left,b-mb.top]),m.containerPointToLatLng([r-mb.left,t-mb.top]));
+    else if(typeof getActiveRegions==='function'&&typeof REGION_BOUNDS!=='undefined') getActiveRegions().forEach(function(k){ var x=REGION_BOUNDS[k]; if(!x) return;
+      var lb=L.latLngBounds([x[0][0],x[0][1]],[x[1][0],x[1][1]]); bb=bb?bb.extend(lb):lb; });
+    if(!bb||!bb.isValid()) return true;
+    try{ m.fitBounds(bb,{paddingTopLeft:[col+12,sopra+10],paddingBottomRight:[12,sotto+10],animate:false}); }catch(e){}
+    return true;
+  };
+  // «Date personalizzate» si apre sotto i funghi, fuori dalla colonna: la colonna scorre fino a lei
+  function versoDate(){
+    var cb=el('custom-box'), tp=el('time-panel'); if(!girato()||!cb||!tp||getComputedStyle(cb).display==='none') return;
+    setTimeout(function(){ var r=cb.getBoundingClientRect(), t=tp.getBoundingClientRect(); if(!r.height) return;
+      var giu=r.height>t.height-16?r.top-t.top-8:r.bottom-t.bottom+8; if(giu>0) tp.scrollTo({top:tp.scrollTop+giu,behavior:'smooth'}); },60);
+  }
+  function avvia(){
+    cima();
+    window.addEventListener('resize',function(){ cima(); setTimeout(cima,300); });
+    try{ new ResizeObserver(cima).observe(el('region-panel')); }catch(e){}
+    try{ new MutationObserver(cima).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
+    try{ new MutationObserver(versoDate).observe(el('custom-box'),{attributes:true,attributeFilter:['style','class']}); }catch(e){}
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();

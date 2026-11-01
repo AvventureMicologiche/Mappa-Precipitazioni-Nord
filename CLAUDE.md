@@ -4173,3 +4173,44 @@ niente velo fuori dalla regione, pallini «via di mezzo», nomi sopra la pioggia
 - **Banner del meteo con una citta' sola** (c'era gia' in produzione): allargando una regione verso l'Italia le
   etichette si diradano e il banner le seguiva (Lombardia 32 → 8 → «Milano» due volte). `veNastro` ora prende tutti i
   paesi della vista (`gruppo`) che hanno gia' le previsioni, nell'ordine del gruppo: 21 citta' a ogni zoom.
+
+## Telefono girato, crediti al telefono e blocco rosso del meteo (1/11/2026 sera, scheda 106)
+
+I tre difetti che c'erano gia' in produzione prima della grafica nuova, lasciati dalla scheda 105 (suo: «facciamo i
+problemi della 4?», poi «fai tutte e tre ma fammi vedere prima e dopo»). Misurati sul sito vero e corretti; attrezzi nel
+banco, `mockup-106\` (`lib106.js` con `NUOVO=1` mette l'index.html del repo al posto di quello del sito vero e il resto
+arriva dal sito: prova senza server). Al telefono dritto, al tablet e al PC i riquadri e lo zoom sono rimasti identici a
+prima in tutte le 25 combinazioni provate (393, 360, 768, 1440, 1366×657 × pioggia, periodi, previsioni, radar, boschi).
+
+- **La pioggia al telefono girato** (modulo «LA PIOGGIA AL TELEFONO GIRATO» in fondo a index.html). Con le altezze VERE
+  (tolta la barra del browser: 667×325 … 932×380, non 852×393) fino a 900 px la pioggia prendeva il disegno del tablet
+  dritto: fila delle regioni di 83 px, periodi tagliati di 44-99 px e senza scorrimento (funghi irraggiungibili), riquadro
+  della pioggia in basso da meta' schermo, alla mappa ~80 px e la regione persa in mezzo all'Europa (centraRegioneInStriscia
+  la centrava in una striscia di 79 px). Ora come il meteo girato del 30/10: «Lombardia ▼» e «＋ regione» in UNA riga,
+  periodi o riquadro (radar e boschi compresi) in una colonna di 330 px a sinistra che scorre dentro se serve, mappa a
+  destra, barra delle citta' in fondo alla mappa accanto alla colonna (`serve`/`sistema`/`accorcia` del modulo della
+  barra: prima col telefono girato la barra non c'era), termometro sopra la barra, fonte in cima all'area libera.
+  Condizione: la stessa media query del meteo, in JS `window._girato()`. Tasti dei periodi di 31-32 px e 9 px fra le righe:
+  a 740×310 ci stanno interi. Inquadratura: `window._centraGirato()` in cima a `centraRegioneInStriscia` (il rettangolo
+  libero: a destra della colonna, sotto la riga, sopra la barra; sul paese cercato si sposta e basta) e un ramo nel
+  `inquadra()` del radar (contava la colonna come «copre dal basso» e la Liguria finiva fuori). «Date personalizzate» si
+  apre sotto i funghi: la colonna scorre da sola fino a lei. L'IIFE «TABLET DRITTO» della 105 col telefono girato si ferma.
+- **I telefoni grandi girati** (script «I TELEFONI GRANDI GIRATI» in testa, dopo leaflet.js): 915×412 e 932×430 sono
+  piu' larghi di 900 e prendevano il disegno da PC col pie' di pagina, riquadro della pioggia tutto fuori schermo e
+  scheda del meteo fuori di 18-38 px. Col dito, in orizzontale, lato corto dello schermo fino a 500 e lungo oltre 900, il
+  viewport diventa `width=900` (lo schermo si legge da `screen`, che il viewport non tocca; si rifa' a ogni giro): la
+  pagina si allarga del 2-4% e valgono le regole del telefono girato, pioggia e meteo. ⚠️ Provato col telefono finto di
+  Chrome (puppeteer, `isLandscape`), non ancora su un telefono vero che gira.
+- **I crediti al telefono** (modulo «I CREDITI AL TELEFONO SOPRA IL RIQUADRO»): fino a 900 px stavano in fondo alla mappa
+  SOTTO il riquadro, visti allo 0% in pioggia, previsioni, radar e da vicino (al tablet si vedevano solo coi periodi).
+  Ora come Google Maps e MapLibre: a sinistra, 10 px sopra il riquadro come il termometro (`--cr-giu`, `--cr-sx`: col
+  telefono girato a destra della colonna e sopra barra o banner), la riga intera per 5 secondi e poi una «i» tonda
+  (`#cr-i`, «i Esri» quando c'e' la foto Esri) che la riapre per 8 secondi; il primo tocco sulla mappa la chiude. Le
+  regole di OpenStreetMap lo permettono (osmfoundation.org, Licence/Attribution_Guidelines: chiusi dopo 5 secondi o al
+  primo gesto, purche' resti un «(i)»). Nello scatto i crediti vanno interi: `window._creditiInteri(doc)` nell'onclone.
+  Al PC non cambia niente.
+- **Il blocco rosso del banner meteo dice solo «METEO» e il giorno** (`veNastro`): col nome del posto, a 360 px,
+  prendeva il 92% del banner con San Giovanni in Persiceto, il 97% con Castelnuovo di Garfagnana e usciva dallo schermo
+  con San Valentino in Abruzzo Citeriore (111%), e con due o tre regioni peggio; il nome era gia' scritto quattro volte
+  (in cima, sulla mappa, nella scheda, nel tasto dello storico). E' la stessa regola che lui ha dato il 31/10 per la barra
+  della pioggia. Ora il 21% del banner. «METEO ITALIA» della vista Italia resta (lo scrive `viPezzi`).
