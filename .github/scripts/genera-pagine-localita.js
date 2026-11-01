@@ -324,11 +324,13 @@ function pagina(r, posto, slug, sl) {
 <meta name="description" content="${esc(DESCR)}">
 <link rel="canonical" href="${SITO}/funghi/${REG}/${slug}/">
 <meta property="og:title" content="Funghi ${esc(DOVE)} oggi: stanno nascendo?">
-<meta property="og:description" content="Le piogge degli ultimi 25 giorni, misurate dal pluviometro, giorno per giorno.">
+<meta property="og:description" content="${esc(DESCR)}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/funghi/${REG}/${slug}/">
 <meta property="og:type" content="website">
 ${briciolaJson([
+  ['Mappa pluviometrica', SITO + '/'],
   ['Piogge per funghi', SITO + '/funghi/'],
   [NOME, SITO + '/funghi/' + REG + '/'],
   [NOMI_TITOLO[REG + '/' + slug] || bello(nomePosto), null],
@@ -427,7 +429,7 @@ ${STRISCIA_CSS}${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: REG, ga: 'localita-' + REG, attiva: '' })}
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${REG}/" style="color:var(--blu)">${esc(NOME)}</a></p>
+<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/funghi/" style="color:var(--blu)">Piogge per funghi</a> › <a href="${SITO}/funghi/${REG}/" style="color:var(--blu)">${esc(NOME)}</a> › ${esc(NOME_T)}</p>
 
 ${/* ⚠️ 24/9/2026, SCHEMA DETTATO DA LUI: prima i dati (ha piovuto abbastanza?
      le barre, la pioggia che conta, le mappe), poi in fondo le spiegazioni.

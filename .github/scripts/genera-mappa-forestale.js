@@ -222,9 +222,10 @@ function testa({ titolo, descr, url, img, briciola, reg = '' }) {
 <meta property="og:title" content="${esc(titolo)}">
 <meta property="og:description" content="${esc(descr)}">
 <meta property="og:image" content="${img}">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${url}">
 <meta property="og:type" content="website">
-${briciolaJson(briciola)}
+${briciolaJson([['Mappa pluviometrica', SITO + '/']].concat(briciola))}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
@@ -301,7 +302,7 @@ function paginaRegione(r) {
     ? `<a href="${SITO}/funghi/${r.k}/">piogge per funghi ${esc(r.inn)}</a>` : `<a href="${SITO}/funghi/">piogge per funghi</a>`;
   let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, reg: r.k,
     briciola: [["Mappa forestale d'Italia", `${SITO}/mappa-forestale/`], [r.nome]] });
-  h += `<p class="nota" style="margin-bottom:6px"><a href="${SITO}/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> ${esc(r.nome)}</p>
+  h += `<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/mappa-forestale/" style="color:var(--blu)">Mappa forestale d'Italia</a> › ${esc(r.nome)}</p>
 <h1>${esc(titolo)}</h1>
 <p class="breve" style="margin-top:-2px">La carta forestale ${esc(r.del)} in una mappa sola, anche dal telefono: dodici colori sopra il rilievo, e tocchi un punto per sapere che bosco è, a che quota e su quale versante. Per chi va a funghi, a castagne, a vedere il foliage o a camminare.</p>
 <a class="cta" href="${MAPPA}">🌲 Apri la mappa forestale ${esc(r.del)}</a>
@@ -363,7 +364,7 @@ function paginaZona(z) {
   const doveS = S && pulito(S.paese) ? `${z.n}, intorno ${aAd(S.paese)}` : `${z.n}, da vicino`;
   let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, reg: r.k,
     briciola: [["Mappa forestale d'Italia", `${SITO}/mappa-forestale/`], [r.nome, `${SITO}/mappa-forestale/${r.k}/`], [z.n]] });
-  h += `<p class="nota" style="margin-bottom:6px"><a href="${SITO}/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/mappa-forestale/${r.k}/" style="color:var(--blu)">${esc(r.nome)}</a> <span style="color:#9aa7b8">›</span> ${esc(z.n)}</p>
+  h += `<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/mappa-forestale/" style="color:var(--blu)">Mappa forestale d'Italia</a> › <a href="${SITO}/mappa-forestale/${r.k}/" style="color:var(--blu)">${esc(r.nome)}</a> › ${esc(z.n)}</p>
 <h1>${esc(titolo)}</h1>
 <p class="breve" style="margin-top:-2px">La carta forestale ${esc(DELLA)}, colorata sopra il rilievo. Tocchi un punto e sai che bosco è, a che quota e su quale versante. Per chi va a funghi, a castagne, a vedere il foliage o a camminare.</p>
 <a class="cta" href="${MAPPA}">🌲 Apri la mappa forestale ${esc(DELLA)}</a>
@@ -489,7 +490,7 @@ function paginaTipo(T) {
 
   let h = testa({ titolo: piano('titolo'), descr: piano('descrizione'), url, img: `${url}scorcio.jpg`,
     briciola: [["Mappa forestale d'Italia", `${SITO}/mappa-forestale/`], [prima(NT)]] });
-  h += `<p class="nota" style="margin-bottom:6px"><a href="${SITO}/mappa-forestale/" style="color:var(--blu)">‹ Mappa forestale d'Italia</a> <span style="color:#9aa7b8">›</span> ${esc(prima(NT))}</p>
+  h += `<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/mappa-forestale/" style="color:var(--blu)">Mappa forestale d'Italia</a> › ${esc(prima(NT))}</p>
 <h1>${tit('titolo grande')}</h1>
 ${paragrafiT(B['apertura'], V, 'breve')}
 <style>.numeri b{white-space:nowrap;font-size:clamp(16px,5.2vw,24px)}</style>
@@ -568,7 +569,8 @@ function paginaItalia() {
   const titolo = "Mappa forestale d'Italia: le carte forestali di tutte le regioni";
   const descr = 'Le carte forestali di tutte le regioni italiane in una mappa: faggete, castagneti, querceti, pinete e lariceti. Per funghi, castagne, foliage ed escursioni.';
   let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, briciola: [["Mappa forestale d'Italia"]] });
-  h += `<h1>${esc(titolo)}</h1>
+  h += `<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › Mappa forestale d'Italia</p>
+<h1>${esc(titolo)}</h1>
 <p class="breve" style="margin-top:-2px">Ogni regione pubblica la sua carta forestale, ognuna sul suo geoportale e con le sue sigle. Qui sono <b>tutte insieme, in una mappa sola</b>: dodici colori sopra il rilievo, anche dal telefono. Tocchi un punto e sai che bosco è, a che quota e su quale versante.</p>
 <div class="numeri"><div><b>${REG.length}</b>regioni e province</div><div><b>${D.gruppi.length}</b>tipi di bosco</div><div><b>10 m</b>il rilievo</div></div>
 <a class="cta" href="${MAPPA}">🌲 Apri la mappa forestale d'Italia</a>

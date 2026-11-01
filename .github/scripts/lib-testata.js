@@ -91,7 +91,7 @@ function testata({ sito, canale, reg, ga, attiva }) {
     + `<span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
   <div class="t-banda"><div class="t-in">
     <a class="t-marchio" href="${sito}/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
-    <a class="t-ytp" href="${canale}" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'${ga}'})}catch(e){}">${YT_ICONA}<span>Iscriviti</span></a>
+    <a class="t-ytp" href="${canale}${canale.includes('?') ? '' : '?sub_confirmation=1'}" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'${ga}'})}catch(e){}">${YT_ICONA}<span>Iscriviti</span></a>
   </div></div>
 </header>
 <script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>`;

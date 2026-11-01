@@ -236,11 +236,13 @@ function pagina(z) {
 <meta name="description" content="${esc(DESCR)}">
 <link rel="canonical" href="${SITO}/funghi/zone/${zslug}/">
 <meta property="og:title" content="Funghi ${esc(z.dove)} oggi: stanno nascendo?">
-<meta property="og:description" content="Le piogge degli ultimi 25 giorni, misurate dai pluviometri nelle zone da bosco.">
+<meta property="og:description" content="${esc(DESCR)}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/funghi/zone/${zslug}/">
 <meta property="og:type" content="website">
 ${briciolaJson([
+  ['Mappa pluviometrica', SITO + '/'],
   ['Piogge per funghi', SITO + '/funghi/'],
   [nomeReg, SITO + '/funghi/' + casa.k + '/'],
   [z.n, null],
@@ -268,7 +270,7 @@ ${TESTATA_CSS}${TESTATA_CSS_FUNGHI}</style>
 ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: casa.k, ga: 'zona-' + casa.k, attiva: '' })}
 
 <main>
-<p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${casa.k}/" style="color:var(--blu)">${esc(nomeReg)}</a></p>
+<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/funghi/" style="color:var(--blu)">Piogge per funghi</a> › <a href="${SITO}/funghi/${casa.k}/" style="color:var(--blu)">${esc(nomeReg)}</a> › ${esc(z.n)}</p>
 
 <h1>${esc(H1)}</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${nAttivi > 1 ? 'di ' + nAttivi + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
@@ -346,7 +348,7 @@ ${RITRATTO ? `<h2>L'archivio della zona</h2>
 <p>Da ${meseIso(RITRATTO.dal)} a ${meseIso(RITRATTO.al)}, in ${RITRATTO.giorni} giorni di misura, i ${RITRATTO.quanti} pluviometri
 ${esc(diZona(z.dove))}${RITRATTO.quanti < nAttivi ? ' che leggiamo dallo stesso giorno' : ''} hanno contato
 <b>${migliaia(RITRATTO.media)} mm</b> di pioggia a testa, in media. Il più bagnato è <b>${esc(RITRATTO.alto.n)}</b> con
-${migliaia(RITRATTO.alto.c.mm)} mm, il più asciutto ${esc(RITRATTO.basso.n)} con ${migliaia(RITRATTO.basso.c.mm)}.
+${migliaia(RITRATTO.alto.c.mm)} mm, il più asciutto ${esc(RITRATTO.basso.n)} con ${migliaia(RITRATTO.basso.c.mm)} mm.
 La giornata più piovosa è stata ${artGiorno(RITRATTO.forte.c.maxData)}<b>${dataBella(RITRATTO.forte.c.maxData)}</b> ${aNome(RITRATTO.forte.n)}${esc(RITRATTO.forte.n)},
 con <b>${virgola(RITRATTO.forte.c.maxMm)} mm</b>.</p>` : ''}
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi

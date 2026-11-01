@@ -190,7 +190,28 @@ const listaRegioni = () => REGIONI
 
 // `tipo` = 'regione' | 'funghi': la famiglia della pagina che si sta scrivendo.
 // Si elenca l'ALTRA.
-function navAltre(tipo) {
+// LE REGIONI VICINE (1/11/2026, analisi delle famiglie di pagine): le pagine regione non si linkavano fra loro.
+// Confini di terra, piu' lo Stretto fra Calabria e Sicilia; si linkano solo le regioni che una pagina ce l'hanno.
+const VICINE = {
+  valledaosta: ['piemonte', 'svizzera'], piemonte: ['valledaosta', 'lombardia', 'liguria', 'emilia', 'svizzera'],
+  liguria: ['piemonte', 'emilia', 'toscana'], lombardia: ['piemonte', 'emilia', 'veneto', 'trentino', 'altoadige', 'svizzera'],
+  emilia: ['piemonte', 'lombardia', 'veneto', 'liguria', 'toscana', 'marche'],
+  veneto: ['lombardia', 'emilia', 'trentino', 'altoadige', 'friuli', 'austria'], trentino: ['lombardia', 'veneto', 'altoadige'],
+  altoadige: ['trentino', 'veneto', 'lombardia', 'austria', 'svizzera'], friuli: ['veneto', 'austria'],
+  toscana: ['liguria', 'emilia', 'marche', 'umbria', 'lazio'], umbria: ['toscana', 'marche', 'lazio'],
+  marche: ['emilia', 'toscana', 'umbria', 'lazio', 'abruzzo'], lazio: ['toscana', 'umbria', 'marche', 'abruzzo', 'molise', 'campania'],
+  molise: ['abruzzo', 'lazio', 'campania', 'puglia'], campania: ['lazio', 'molise', 'puglia', 'basilicata'],
+  puglia: ['molise', 'campania', 'basilicata'], basilicata: ['campania', 'puglia', 'calabria'], calabria: ['basilicata', 'sicilia'],
+  sicilia: ['calabria'], svizzera: ['valledaosta', 'piemonte', 'lombardia', 'altoadige', 'austria'],
+  austria: ['altoadige', 'veneto', 'friuli', 'svizzera'],
+};
+function vicineHtml(k) {
+  const v = (VICINE[k] || []).filter(x => fs.existsSync(path.join(__dirname, '..', '..', x, 'index.html')))
+    .map(x => REGIONI.find(r => r.k === x)).filter(Boolean);
+  return v.length ? `<p style="margin:0 0 10px">Le regioni vicine: ${v.map(r => `<a href="${SITO}/${r.k}/">${r.nomeTitolo || r.nome}</a>`).join(' · ')}</p>
+` : '';
+}
+function navAltre(tipo, k) {
   if (tipo === 'regione') {
     // ⚠️ DUE STRADE, E SI DEVE CAPIRE CHE SONO DUE. La riga porta a cose
     // diverse: «La nostra selezione» e' la classifica nazionale delle localita'
@@ -199,10 +220,10 @@ function navAltre(tipo) {
     // link di cui non si sa dove porta non lo clicca nessuno. Stessa forma
     // della striscia in fondo alla mappa: domanda, la selezione, il riepilogo.
     return `<nav class="altre">
-  <div style="${BOSCO}">
+  ${k ? vicineHtml(k) : ''}<div style="${BOSCO}">
     <b style="color:#2d6a30">🍄 Dove ha piovuto di più?</b>
     <p><a href="${SITO}/funghi/" style="color:#2d6a30;font-weight:600">La nostra selezione, le località più bagnate</a>
-    <span style="color:#7a8b9a">·</span> oppure il riepilogo delle regioni: ${listaFunghi()}</p>
+    <span style="color:#7a8b9a">·</span> oppure le pagine funghi, regione per regione: ${listaFunghi()}</p>
   </div>
 </nav>`;
   }
@@ -292,12 +313,15 @@ function descrMappa(r, j, N, n) {
   // il nome SENZA la provincia aggiunta dal riepilogo (`nb`, bug 8 del 19/10/2026): con «(Provincia del verbano
   // cusio os)» due volte la frase arrivava a 226 caratteri e restava solo «Mappa di 277 pluviometri…»
   const uno = !d1 || !d1.giorni ? null : t1 && t1.mm >= 1 ? `${quando} ${virgola(t1.mm)} mm ${aDi(nomeBello(t1.nb || t1.n))}` : `${quando} giornata ${t1 && t1.mm > 0 ? 'quasi ' : ''}asciutta`;
-  const sette = t7 && t7.mm >= 1 ? `in 7 giorni ${mmD(t7.mm)} mm ${aDi(nomeBello(t7.nb || t7.n))}` : null;
+  // (1/11/2026) se nei 7 giorni ci sono giorni stimati (j.periodi['7'].stime) il massimo della settimana non si scrive:
+  // in Puglia «in 7 giorni 116 mm a Lesina» contava quattro giorni di stime
+  const sette = t7 && t7.mm >= 1 && !d7.stime ? `in 7 giorni ${mmD(t7.mm)} mm ${aDi(nomeBello(t7.nb || t7.n))}` : null;
   // la maiuscola (31/10/2026): senza «ieri» (giorno tutto stimato, vedi genera-riepiloghi.js) la frase partiva da «in 7 giorni»
   const numeri = (t => t.charAt(0).toUpperCase() + t.slice(1))([uno, sette].filter(Boolean).join(', '));
   // la forma «apertura + ieri» senza coda (19/10/2026): con un nome lungo («Gressoney-Saint-Jean - lago di Seebna»)
   // la Valle d'Aosta sforava i 158 caratteri per la sola coda e ripiegava sull'apertura nuda
-  const forme = [`${apre} ${numeri}. ${coda}`, `${apre} ${numeri}.`, `${apre} ${uno ? uno + '.' : ''} ${coda}`, uno ? `${apre} ${uno}.` : apre, apre];
+  // senza numeri (ne' ieri ne' 7 giorni) le prime due forme davano «mattina.. Tocca»: il doppio punto (1/11/2026)
+  const forme = (numeri ? [`${apre} ${numeri}. ${coda}`, `${apre} ${numeri}.`] : []).concat([`${apre} ${uno ? uno + '.' : ''} ${coda}`, uno ? `${apre} ${uno}.` : apre, apre]);
   return forme.map(t => t.replace(/\s+/g, ' ').replace(/ \./g, '.').trim()).find(t => t.length <= 158);
 }
 function descrCotta(r, j, N) {
@@ -307,11 +331,15 @@ function descrCotta(r, j, N) {
   const primo = !d1 || !d1.giorni ? null
     : t1 && t1.mm >= 1 ? `${quando}: ${virgola(t1.mm)} mm ${aDi(t1.nb || t1.n)}.`
     : `${quando}: giornata ${t1 && t1.mm > 0 ? 'quasi ' : ''}asciutta ${r.prep} ${r.nome}.`;
-  const sette = `Ultimi 7 giorni: ${virgola(d7.media)} mm di media su ${d7.stazioni} pluviometri ${ag}`;
+  // (1/11/2026) «0,0 mm di media» quando la media si arrotonda a zero: la pagina scrive «meno di 0,1»; e i giorni stimati
+  // dei 7 giorni si dicono, senza il massimo della settimana
+  const media = d7.media === 0 ? null : d7.media < 0.05 ? 'meno di 0,1 mm di media' : `${virgola(d7.media)} mm di media`;
+  const stime = d7.stime ? `, con ${Math.round((Date.parse(d7.stime.al) - Date.parse(d7.stime.dal)) / 864e5) + 1} giorni stimati` : '';
+  const sette = media ? `Ultimi 7 giorni: ${media} su ${d7.stazioni} pluviometri ${ag}${stime}` : `Ultimi 7 giorni: nessuna pioggia sui ${d7.stazioni} pluviometri ${ag}`;
   const forme = [
-    [primo, sette + (t7 && t7.mm >= 1 ? `, ${mmD(t7.mm)} mm ${aDi(t7.nb || t7.n)}.` : '.')],
+    [primo, sette + (t7 && t7.mm >= 1 && !d7.stime ? `, ${mmD(t7.mm)} mm ${aDi(t7.nb || t7.n)}.` : '.')],
     [primo, sette + '.'],
-    [primo, `Ultimi 7 giorni: ${virgola(d7.media)} mm di media.`],
+    [primo, media ? `Ultimi 7 giorni: ${media}${stime}.` : 'Ultimi 7 giorni: nessuna pioggia.'],
     [primo],
   ];
   for (const f of forme) { const t = f.filter(Boolean).join(' '); if (t.length <= 158) return t; }
@@ -480,6 +508,7 @@ ${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
 <meta property="og:description" content="Riepilogo degli ultimi 7, 20 e 30 giorni con le zone più bagnate, da ${r.staz} pluviometri ${diEnte(r.agenzia)}.">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/${r.k}/">
 <meta property="og:type" content="website">
 <!-- Google tag (gtag.js) — stessa proprietà del sito.
@@ -627,7 +656,7 @@ ${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-
 </main>
 
 <footer>
-${navAltre('regione')}
+${navAltre('regione', r.k)}
   Dati: ${fonteFooter} ·
   <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>

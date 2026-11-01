@@ -42,6 +42,21 @@ Su tua richiesta («fai i medi»). I dettagli sono nel `CLAUDE.md`, «Secondo gi
 
 Prove: nessun link interno rotto, nessun titolo doppio, 7.603 script delle pagine compilati senza errori. Dieci pagine provate nel browser al telefono e al PC, tutte giuste.
 
+## Quarto aggiornamento (1/11/2026, notte): fatti il punto 10, il 12 e i piccoli
+
+- **Punto 10, strada 1**: 102 posti funghi nuovi al sud (Sicilia +41, Calabria +24, Campania +14, Sardegna +9,
+  Basilicata +3, Puglia +2) e il **Molise con la sua pagina funghi** (9 posti). Criteri: quota 200-1.600 m, almeno il
+  50% di bosco entro 3 km sulle carte forestali, dato vero, niente doppioni sotto i 2-3 km. Nessun indirizzo cambiato.
+  Le pagine scrivono ora il bosco delle carte forestali (prima quello di OpenStreetMap) e la regola dice i due criteri.
+  Restano: i posti nuovi non sono ancora nelle zone, e manca l'anteprima boschi del Molise (si fa dal PC).
+- **Punto 12**: San Michele e Punta Sebera da «CI» a «SU» (provincia del Sulcis Iglesiente, attiva dal 2025, che ha
+  preso la sigla SU). Le sigle sarde di oggi: CA, SS, NU, OR, OT, OG, VS, SU. `elenco-paesi.txt` ha ancora quelle del
+  2016-2024: la ricerca scrive «(SU)» anche per comuni passati a Cagliari o al Medio Campidano.
+- **Piccoli**: fatti tutti tranne il 7 (H1 di `/previsioni/`, aspetta la testata della scheda 104). Il dettaglio è in
+  CLAUDE.md, «Correzioni del 1/11/2026».
+- Controlli: zero link interni rotti, zero titoli, descrizioni e H1 doppi su 1.513 pagine, `twitter:card` su tutte,
+  prove nel browser a 393 e 1366 px.
+
 ## Terzo aggiornamento (1/11/2026 sera): doppioni, punto 10 approfondito, elenco dei piccoli
 
 ### Doppioni meteo: fatto

@@ -207,7 +207,9 @@ function verdettoCotto(d) {
 function descrCotta(z, j, n, ente) {
   const d1 = j.periodi['1'], d7 = j.periodi['7'], d30 = j.periodi['30'];
   const m = d => (cMenoDi(d) ? 'meno di 0,1' : cMm(d.media)) + ' mm';
-  const quando = d1 ? (cGiorno(d1.ultimo) === 'Ieri' ? 'ieri, ' + cLungo(d1.ultimo) + ', ' : 'il ' + cLungo(d1.ultimo) + ', ') + m(d1) + ' di media; ' : '';
+  // «l'1 novembre», «l'8», «l'11» (1/11/2026): la regola dell'avviso delle stime piu' sotto
+  const art = s => [1, 8, 11].includes(+s.slice(8, 10)) ? 'l’' : 'il ';
+  const quando = d1 ? (cGiorno(d1.ultimo) === 'Ieri' ? 'ieri, ' + cLungo(d1.ultimo) + ', ' : art(d1.ultimo) + cLungo(d1.ultimo) + ', ') + m(d1) + ' di media; ' : '';
   const resto = 'negli ultimi 7 giorni ' + m(d7) + (d30 ? ', in 30 giorni ' + m(d30) : '');
   return [`Quanta pioggia è caduta ${z.dove}: ${quando}${resto}. ${n} pluviometri ${ente}.`,
           `Quanta pioggia è caduta ${z.dove}: ${quando}${resto}. Pluviometro per pluviometro.`,
@@ -308,6 +310,7 @@ function pagina(z) {
 <meta property="og:title" content="${esc('Dove ha piovuto ' + z.dove + ': ieri e ultimi giorni')}">
 <meta property="og:description" content="${esc('La pioggia misurata dai pluviometri ' + di + ': ieri, ultimi 7 e 30 giorni.')}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/zone/${zslug}/">
 <meta property="og:type" content="website">
 ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], [nomeReg, `${SITO}/${casa.k}/`], [z.n, null]])}

@@ -29,13 +29,16 @@
 const fs = require('fs');
 const path = require('path');
 const { REGIONI, GEN, navAltre, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi, briciolaJson, briciolaHtml, BRIC_CSS } = require('./genera-pagine-regione.js');
+// «zona per zona» solo se la pagina della regione ha l'elenco delle zone (1/11/2026): Puglia, Basilicata, Sardegna e
+// Molise le zone non le hanno, e la riga prometteva una cosa che la pagina non ha
+const HA_ZONE = new Set(JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'funghi-zone.json'), 'utf8')).map(z => z.reg));
 const { STILE_NUOVO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');   // quiz accanto a YouTube (20/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 8;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026)
+const VERSIONE_JS = 9;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026)
 
 // le regioni: l'anagrafe italiana + l'Abruzzo dopo il Lazio (stesso ordine nord-sud delle altre liste)
 const ABRUZZO = { k:'abruzzo', nome:'Abruzzo', prep:'in', senzaPagina:true };
@@ -242,7 +245,7 @@ function pagina(r) {
 <h2>Quanta pioggia è caduta</h2>
 <p>Il radar dice dove piove adesso. Quanta acqua è caduta davvero lo misurano i pluviometri a terra, millimetro per millimetro: ieri, negli ultimi 7, 20 e 30 giorni.</p>
 <a class="ieri-btn" href="${SITO}/${r.k}/">
-  <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>I millimetri di ${stazDi(r, RADICE)} pluviometri, zona per zona</small><i>→</i></a>
+  <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>I millimetri di ${stazDi(r, RADICE)} pluviometri${HA_ZONE.has(r.k) ? ', zona per zona' : ''}</small><i>→</i></a>
 `;
   const radarPluvio = r.senzaPagina
     ? `<p>Il radar guarda la pioggia in quota: può vedere gocce che evaporano prima di toccare terra, o perderla dietro le montagne.</p>`
@@ -258,8 +261,9 @@ I pluviometri la misurano a terra. Per sapere quanta ne è caduta c'è la pagina
 <link rel="canonical" href="${SITO}/${r.k}/adesso/">
 ${briciolaJson(briciola)}
 <meta property="og:title" content="${attr(`Dove sta piovendo adesso ${r.prep} ${r.nome}`)}">
-<meta property="og:description" content="Il radar della pioggia in diretta e le previsioni delle città.">
+<meta property="og:description" content="${attr(descrDi(r))}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/${r.k}/adesso/">
 <meta property="og:type" content="website">
 <!-- Google tag: il config solo sul dominio vero, come le pagine regione -->

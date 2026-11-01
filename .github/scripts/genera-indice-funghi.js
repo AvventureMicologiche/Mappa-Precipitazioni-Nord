@@ -103,6 +103,7 @@ ${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="Dove andare a funghi oggi">
 <meta property="og:description" content="Dove è caduta l'acqua nelle zone da bosco, misurata dai pluviometri. Non previsioni: pioggia vera.">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/funghi/">
 <meta property="og:type" content="website">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>

@@ -97,6 +97,7 @@ function pagina(p, QUOTE_DI) {
 <meta property="og:title" content="${esc(TITOLO)}">
 <meta property="og:description" content="${esc(DESCR)}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${indirizzoMeteoPaese(p)}">
 <meta property="og:type" content="website">
 ${briciolaJson([['Mappa pluviometrica', `${SITO}/`], ['Previsioni meteo', `${SITO}/previsioni/`], ['Meteo ' + p.n, null]])}

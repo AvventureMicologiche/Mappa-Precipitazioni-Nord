@@ -3960,3 +3960,21 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   Sardegna). Sigle sarde di oggi: CA, SS, NU, OR, OT (Gallura), OG (Ogliastra), VS (Medio Campidano), SU. ⚠️
   `data/elenco-paesi.txt` ha ancora le sigle sarde del 2016-2024 (SU = Sud Sardegna): la ricerca scrive «Teulada (SU)»
   anche per i comuni passati a Cagliari o al Medio Campidano. Da rifare quando ISTAT pubblica i confini nuovi.
+- **I punti piccoli dell'analisi, fatti la stessa sera** (suo «per me va bene»; il 7, l'H1 di `/previsioni/`, aspetta
+  la testata della scheda 104):
+  - descrizioni delle regioni: «meno di 0,1 mm» al posto di «0,0», niente doppio punto senza numeri, i giorni stimati
+    dei 7 giorni detti e senza il massimo della settimana (`descrMappa`, `descrCotta`);
+  - «zona per zona» nelle «adesso» solo se la regione ha zone (`HA_ZONE` in genera-pagine-adesso.js);
+  - «e un'altra città» / «e altre due città» nella riga viva (lib/pagina-adesso.js, `VERSIONE_JS` 9);
+  - «il più asciutto X con 370 mm» nel ritratto delle zone funghi (107 pagine);
+  - piede delle regioni piogge: «Le regioni vicine» (`VICINE`, solo regioni con pagina) e «le pagine funghi, regione
+    per regione» al posto di «il riepilogo delle regioni» (anche nella mappa);
+  - `og:description` = la descrizione della pagina (era uguale su 1.145 pagine) e `twitter:card` summary_large_image
+    su tutte;
+  - un solo stile di percorso, «Mappa pluviometrica › …» (classe `bric`, stile in linea) anche su pagine funghi e mappa
+    forestale, e la radice nel BreadcrumbList;
+  - guida: le pagine meteo e «adesso» nell'elenco delle pagine; l'alt della foto dei boschi senza «dieci gruppi»;
+  - riga di stagione senza «i millimetri sono veri» (lib-stagione.js), che stava sopra l'avviso delle stime;
+  - il ripiego delle regioni funghi (`daiFile`) dice anch'esso i giorni stimati, senza doppioni d'avviso;
+  - «l'1 novembre» nella descrizione delle zone piogge;
+  - «Iscriviti» della testata con `?sub_confirmation=1` (lib-testata.js), su tutte le pagine.

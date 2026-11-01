@@ -151,11 +151,13 @@ function pagina(r, posti) {
 <meta name="description" content="${descr}">
 <link rel="canonical" href="${SITO}/funghi/${r.k}/">
 <meta property="og:title" content="Funghi ${r.prep} ${nome} oggi: dove stanno nascendo?">
-<meta property="og:description" content="Dove è caduta l'acqua nelle zone da bosco, misurata dai pluviometri. Non previsioni: pioggia vera.">
+<meta property="og:description" content="${descr}">
 <meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="${SITO}/funghi/${r.k}/">
 <meta property="og:type" content="website">
 ${briciolaJson([
+  ['Mappa pluviometrica', `${SITO}/`],
   ['Piogge per funghi', `${SITO}/funghi/`],
   [nome, null],
 ])}
@@ -317,7 +319,7 @@ ${/* La briciola verso la radice della famiglia, dall'8/9/2026. Stessa forma di
      quella che le pagine di paese hanno verso qui: e' il solo link che le 19
      regioni mandano all'indice, e senza di lui l'indice sarebbe una pagina che
      nessuno nomina. */''}
-<p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi, tutte le regioni</a></p>
+<p class="bric" style="font-size:14px;color:#666;margin-bottom:6px"><a href="${SITO}/" style="color:var(--blu)">Mappa pluviometrica</a> › <a href="${SITO}/funghi/" style="color:var(--blu)">Piogge per funghi</a> › ${nome}</p>
 ${/* ⚠️ LA FINESTRA E LA CLASSIFICA NELLE PRIME TRE RIGHE (9/9/2026), come
      sull'indice. Prima il titolo diceva «Piogge per funghi in Umbria» e sotto
      «quanta acqua e' caduta davvero nelle zone da bosco»: chi arrivava da
@@ -546,7 +548,8 @@ ${JS_STIME}
       scriviVerdetto(s, o, lk(daG, ieri), 'in media, negli ultimi 20 giorni');
       /* i giorni stimati dei posti da bosco della regione, detti in cima (1/11/2026, avvisoStime di lib-pagina-funghi.js) */
       var avv = avvisoStime(j, ids, false);
-      if (avv) document.getElementById('verdetto').insertAdjacentHTML('afterbegin', avv);
+      var vv = document.getElementById('verdetto');
+      if (avv && !vv.querySelector('.avviso-stime')) vv.insertAdjacentHTML('afterbegin', avv);
       var ax = scriviBarre(s, o);
       scriviFinestra(s, o, null, 'in media');
       document.getElementById('t-conta').href = lk(daG, aG);
@@ -592,14 +595,17 @@ ${JS_STIME}
           .then(function(r){ return r.ok ? r.json() : null; })
           .catch(function(){ return null; });
       })).then(function(parti){
-        var m = null, casa = false;
+        var m = null, casa = false, st = {};
         parti.forEach(function(j, i){
           if (!j || !j.stations || !j.stations.length) return;
           if (!m) m = {};
           if (PROPRIE.indexOf(DIRS[i]) >= 0) casa = true;
-          j.stations.forEach(function(s){ if (s.mm != null) m[s.id] = (m[s.id] || 0) + s.mm; });
+          // le stime come in leggiS di genera-funghi.js (1/11/2026): file open-meteo, stazioni om o src open-meteo
+          var tutto = /open-meteo/.test(String(j.source || ''));
+          j.stations.forEach(function(s){ if (s.mm != null) { m[s.id] = (m[s.id] || 0) + s.mm;
+            if (tutto || s.om || /open-meteo/.test(String(s.src || ''))) st[s.id] = 1; } });
         });
-        return { n:n, m:m, casa:casa };
+        return { n:n, m:m, casa:casa, st:st };
       });
     })).then(function(res){
       /* ⚠️ GEMELLO DI perGiorno in genera-funghi.js (20/10/2026, sesto check, bug 4): i mm si prendono da tutte
@@ -627,6 +633,15 @@ ${JS_STIME}
       function coperto(id, da, a){ var c = 0, d = 0;
         for (var n = da; n >= a; n--) if (perGiorno[n]) { d++; if (perGiorno[n][id] != null) c++; }
         return d > 0 && c >= d * 0.6; }
+      /* anche il ripiego dice i giorni stimati (1/11/2026): stesso avviso del file dei giorni, se non c'e' gia' */
+      var stime = {}, visti = [];
+      buoni.forEach(function(x){ Object.keys(x.st).forEach(function(id){ (stime[id] = stime[id] || []).push(x.n - 1); }); });
+      var ver = document.getElementById('verdetto');
+      if (ver && !ver.querySelector('.avviso-stime')) {
+        POSTI.forEach(function(p){ if (!SOSPESI[p[0]] && coperto(p[0], GIORNI, 1)) visti.push(p[0]); });
+        var avv = avvisoStime({ oggi: iso(meno(0)), stime: stime }, visti, false);
+        if (avv) ver.insertAdjacentHTML('afterbegin', avv);
+      }
       mostra(POSTI.filter(function(p){ return !SOSPESI[p[0]] && coperto(p[0], GIORNI, 1) && coperto(p[0], 20, 13); }).map(function(p){
         return { id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
           mm:somma(20,13,p[0]), mm7:somma(7,1,p[0]), mm25:somma(GIORNI,1,p[0]),
