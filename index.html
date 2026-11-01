@@ -4633,7 +4633,8 @@ function pallinoVicino(punto,toll){
 // capisce su quale si e' finiti.
 var _mEvid=null;
 function evidenziaMarker(m){
-  if(_mEvid&&_mEvid!==m){ try{_mEvid.setStyle({radius:5,weight:1.5,color:'#333'});}catch(e){} }
+  // torna alla misura di nascita (4 e 1,25, addMarkers): coi 5/1,5 di prima il pallino aperto restava piu' grosso (1/11/2026)
+  if(_mEvid&&_mEvid!==m){ try{_mEvid.setStyle({radius:4,weight:1.25,color:'#333'});}catch(e){} }
   _mEvid=m||null;
   if(m){ try{ m.setStyle({radius:8,weight:2,color:'#000'}); }catch(e){} }
 }
@@ -4749,7 +4750,7 @@ function addMarkers(dati,sorted){
     });
     m.on('mouseout',function(){
       if(TAP_DITO) return;   // vedi mouseover: col dito niente passaggi finti
-      this.setStyle({radius:5,weight:1.5,color:'#333'});
+      this.setStyle({radius:4,weight:1.25,color:'#333'});   // la misura di nascita, qui sopra
       if(histHoverT)clearTimeout(histHoverT);
       if(histPinned) return;
       histHideT=setTimeout(closeStationHistory,280);
@@ -11875,7 +11876,7 @@ function drawDefaultMarkers(stazioni,cfg){
       // col dito il riquadro lo apre il touchstart qui sotto: niente passaggi del mouse finti (18/10/2026)
       mk.on('mouseover',function(e){if(TAP_DITO)return;showDef(e.originalEvent.clientX,e.originalEvent.clientY);});
       mk.on('mousemove',function(e){if(TAP_DITO)return;posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
-      mk.on('mouseout',function(){mk.setStyle({radius:5,weight:1.5,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
+      mk.on('mouseout',function(){mk.setStyle({radius:4,weight:1.25,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
       mk.on('touchstart',function(e){var t=e.originalEvent.touches[0];showDef(t.clientX,t.clientY);e.originalEvent.stopPropagation();});
       mk.on('touchend',function(e){e.originalEvent.stopPropagation();});
       /* ⚠️ IL CLIC SUL PALLINO VALE COME IL CLIC SULLA REGIONE (29/9/2026, collaudo): prima del
@@ -15655,13 +15656,19 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
       [].slice.call(riga.querySelectorAll('.vic-chip.on')).forEach(function(c){
         croci+=c.offsetWidth+6;
       });
+      /* ⚠️ FINO AL BORDO, COME «Liguria ▼» SOPRA (1/11/2026, scheda 105): si toglievano 4 px di sicurezza e un intervallo
+         di troppo (fra n pastiglie gli intervalli sono n-1), e la riga finiva 17 px prima del bordo contro i 10 a sinistra.
+         Ora la larghezza si divide tutta e i pixel che avanzano dall'arrotondamento vanno alle ultime */
       if(pari.length){
-        var largo=Math.floor((riga.clientWidth-4-croci-6*pari.length)/pari.length);
+        var resto=Math.floor(riga.getBoundingClientRect().width)-croci-6*(pari.length-1);
+        var largo=Math.floor(resto/pari.length), avanzo=resto-largo*pari.length;
         if(largo>40){
-          pari.forEach(function(c){ c.classList.add('pari'); c.style.width=largo+'px'; });
+          pari.forEach(function(c,i){ c.classList.add('pari'); c.style.width=(largo+(i>=pari.length-avanzo?1:0))+'px'; });
           var stretto=pari.some(function(c){ return c.scrollWidth>c.clientWidth+1; });
+          /* ⚠️ e possono anche stringersi di qualche px (1/11/2026): «altre» si misura senza il numero, e alle larghezze
+             naturali a 320 px con la Valle d'Aosta la riga sforava di 1 px. Misurarla col numero toglieva «＋ Toscana» a 393 */
           if(stretto) pari.forEach(function(c){
-            c.classList.remove('pari'); c.style.width=''; c.style.flexGrow='1';
+            c.classList.remove('pari'); c.style.width=''; c.style.flexGrow='1'; c.style.flexShrink='1'; c.style.minWidth='0';
           });
         }
       }
@@ -18801,6 +18808,8 @@ html:root body:not(.modo-prev) #legend-panel #leg-handle{margin-bottom:8px !impo
 /* le regioni da aggiungere: la riga scorre di lato e tagliava il gradino (si vedeva solo agli angoli, suo: «sotto agli
    angoli hanno sfumature diverse»): 4 px sotto per il gradino intero, 9 da «Lombardia ▼» come fra tutte le righe */
 html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bottom:4px !important}
+/* niente 2 px di lato: la riga parte e finisce dove «Liguria ▼» (il gradino «0 3px 0» va solo in giu') */
+html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right:0 !important}
 
 /* ── la barra che scorre (#pg-nastro): le misure e il passo di #vi-nastro del meteo ── */
 #pg-nastro{position:absolute;z-index:850;left:0;right:0;bottom:0;height:44px;overflow:hidden;display:none;align-items:center;touch-action:none;user-select:none;-webkit-user-select:none;
@@ -18828,8 +18837,13 @@ html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bott
   #pg-nastro{position:relative;left:auto;right:auto;bottom:auto;height:38px;margin:0 -14px 9px;box-shadow:none;z-index:auto}
   #pg-nastro .lab{font-size:12px;padding:0 22px 0 12px}
   #pg-nastro .v{font-size:13px;padding:0 12px;gap:5px}#pg-nastro .v .g{width:12px;height:12px}
-  body.pg-nastro-on #legend-panel .leg-title{display:none !important}
 }
+@media(max-width:600px){body.pg-nastro-on #legend-panel .leg-title{display:none !important}}
+/* ⚠️ TABLET DRITTO, 601-900 px (1/11/2026, scheda 105): il riquadro ha 24 px di lato e non 14, e la barra restava staccata
+   10 px dai bordi; senza il titolo i tre tasti restavano soli a destra con 400 px vuoti a sinistra. Qui c'e' posto: la barra
+   va da bordo a bordo e il titolo torna in riga coi tasti, come in produzione e come al PC (dove la barra e' in fondo).
+   Sopra la barra 9 px come sotto (erano i 24 del riquadro) */
+@media(min-width:601px) and (max-width:900px){#pg-nastro{margin-left:-24px;margin-right:-24px;margin-top:-15px}}
 /* AL TELEFONO IL RIQUADRO IN BASSO PROPORZIONATO (31/10/2026 sera, scheda 104). Suo dall'anteprima: «possiamo ridurre
    di qualche pixel?», poi «hai esagerato, i bottoni sono troppo compressi», «non ti accorgi che i pulsanti sono attaccati
    alla scala piogge?», «deve avere un'estetica proporzionata e simmetrica, non compressa». Misurati gli spazi VISIVI
@@ -18849,6 +18863,13 @@ html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bott
   html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .stat{padding:3px 4px !important}
   html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .sv{font-size:17px !important}
   html:root body:not(.modo-prev):not(.modo-boschi):not(.modo-radar) #legend-panel .inv-prev{margin-top:7px !important;margin-bottom:0 !important;padding-top:9px !important;padding-bottom:9px !important}
+  /* ⚠️ «RIDUCI» NELLO STESSO POSTO IN TUTTE LE FUNZIONI (1/11/2026, scheda 105; sua regola «il tasto riduci uguale in tutte
+     le funzioni»): la pioggia lo aveva a 6 dal bordo e 7 sopra la riga dopo, boschi, satellite e radar a 4 e 5, e cambiando
+     funzione saltava di 2 px. Ora 6 e 7 dappertutto (i boschi crescono di 4 px, anche coi telefoni bassi «forza-medio») */
+  html:root body:not(.modo-prev) #legend-panel{padding-top:12px !important}
+  html:root body:not(.modo-prev) #legend-panel #leg-handle{margin-top:-6px !important;margin-bottom:10px !important}
+  /* il radar e' l'unico col titolo sopra i tasti: titolo -> tasti 11 px, ora 7 come fra tutte le righe del riquadro */
+  html:root body.modo-radar #legend-panel:not(.leg-mini) .leg-header .leg-title{margin-bottom:-2px !important}
 }
 </style>
 <script>
