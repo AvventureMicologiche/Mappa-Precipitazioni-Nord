@@ -54,12 +54,12 @@ Afragola|40.922|14.310|NA|campania|63820
 Africo|38.050|16.130|RC|calabria|3210
 Agazzano|44.947|9.521|PC|emilia|2070
 Agerola|40.638|14.545|NA|campania|7373
-Aggius|40.929|9.064|SS|sardegna|1602
+Aggius|40.929|9.064|OT|sardegna|1602
 Agira|37.657|14.524|EN|sicilia|8484
 Agliana|43.903|11.007|PT|toscana|16792
 Agliano Terme|44.791|8.251|AT|piemonte|1673
 Agliè|45.363|7.769|TO|piemonte|2644
-Aglientu|41.082|9.113|SS|sardegna|1171
+Aglientu|41.082|9.113|OT|sardegna|1171
 Agna|45.170|11.957|PD|veneto|3400
 Agnadello|45.447|9.559|CR|lombardia|3757
 Agnana Calabra|38.302|16.225|RC|calabria|569
@@ -90,7 +90,7 @@ Airole|43.872|7.554|IM|liguria|461
 Airuno|45.754|9.422|LC|lombardia|2979
 Aisone|44.313|7.221|CN|piemonte|254
 Ala|45.757|11.005|TN|trentino|8887
-Alà dei Sardi|40.651|9.329|SS|sardegna|1947
+Alà dei Sardi|40.651|9.329|OT|sardegna|1947
 Ala di Stura|45.315|7.304|TO|piemonte|462
 Alagna|45.169|8.889|PV|lombardia|882
 Alagna Valsesia|45.853|7.938|VC|piemonte|671
@@ -295,7 +295,7 @@ Aramengo|45.100|8.002|AT|piemonte|632
 Arba|46.146|12.791|PN|friuli|1309
 Arborea|39.773|8.582|OR|sardegna|4048
 Arborio|45.496|8.389|VC|piemonte|909
-Arbus|39.529|8.600|SU|sardegna|6575
+Arbus|39.529|8.600|VS|sardegna|6575
 Arcade|45.785|12.219|TV|veneto|4366
 Arce|41.588|13.574|FR|lazio|5783
 Arcene|45.576|9.614|BG|lombardia|4731
@@ -341,7 +341,7 @@ Arluno|45.509|8.950|MI|lombardia|11495
 Armeno|45.822|8.439|NO|piemonte|2201
 Armento|40.305|16.066|PZ|basilicata|679
 Armo|44.087|7.914|IM|liguria|124
-Armungia|39.521|9.380|SU|sardegna|489
+Armungia|39.521|9.380|CA|sardegna|489
 Arnad|45.645|7.721|AO|valledaosta|1294
 Arnara|41.584|13.388|FR|lazio|2379
 Arnasco|44.078|8.107|SV|liguria|630
@@ -368,9 +368,9 @@ Artegna|46.242|13.156|UD|friuli|2877
 Artena|41.739|12.915|RM|lazio|13665
 Artogne|45.848|10.165|BS|lombardia|3571
 Arvier|45.704|7.169|AO|valledaosta|892
-Arzachena|41.079|9.388|SS|sardegna|11447
+Arzachena|41.079|9.388|OT|sardegna|11447
 Arzago d'Adda|45.480|9.564|BG|lombardia|2760
-Arzana|39.919|9.528|NU|sardegna|2501
+Arzana|39.919|9.528|OG|sardegna|2501
 Arzano|40.911|14.269|NA|campania|34933
 Arzergrande|45.273|12.046|PD|veneto|4682
 Arzignano|45.521|11.332|VI|veneto|25589
@@ -443,7 +443,7 @@ Azzone|45.979|10.113|BG|lombardia|433
 Baceno|46.261|8.319|VB|piemonte|922
 Bacoli|40.797|14.078|NA|campania|26648
 Badalucco|43.916|7.847|IM|liguria|1190
-Badesi|40.968|8.879|SS|sardegna|1898
+Badesi|40.968|8.879|OT|sardegna|1898
 Badia|46.611|11.893|BZ|altoadige|3360
 Badia Calavena|45.564|11.156|VR|veneto|2661
 Badia Pavese|45.121|9.469|PV|lombardia|402
@@ -488,7 +488,7 @@ Baldissero Torinese|45.068|7.818|TO|piemonte|3783
 Balestrate|38.051|13.004|PA|sicilia|6413
 Balestrino|44.125|8.175|SV|liguria|597
 Ballabio|45.896|9.424|LC|lombardia|4018
-Ballao|39.549|9.360|SU|sardegna|877
+Ballao|39.549|9.360|CA|sardegna|877
 Balme|45.302|7.218|TO|piemonte|95
 Balmuccia|45.818|8.138|VC|piemonte|94
 Balocco|45.456|8.281|VC|piemonte|239
@@ -538,7 +538,7 @@ Bargagli|44.445|9.088|GE|liguria|2810
 Barge|44.725|7.323|CN|piemonte|7861
 Barghe|45.678|10.406|BS|lombardia|1188
 Bari|41.126|16.867|BA|puglia|315933
-Bari Sardo|39.840|9.646|NU|sardegna|3938
+Bari Sardo|39.840|9.646|OG|sardegna|3938
 Bariano|45.515|9.707|BG|lombardia|4350
 Baricella|44.647|11.535|BO|emilia|6763
 Barile|40.946|15.673|PZ|basilicata|2905
@@ -550,9 +550,9 @@ Barolo|44.610|7.942|CN|piemonte|705
 Barone Canavese|45.328|7.871|TO|piemonte|599
 Baronissi|40.746|14.770|SA|campania|16790
 Barrafranca|37.373|14.204|EN|sicilia|13977
-Barrali|39.476|9.103|SU|sardegna|1139
+Barrali|39.476|9.103|CA|sardegna|1139
 Barrea|41.758|13.992|AQ|abruzzo|726
-Barumini|39.705|9.003|SU|sardegna|1310
+Barumini|39.705|9.003|VS|sardegna|1310
 Barzago|45.755|9.316|LC|lombardia|2577
 Barzana|45.734|9.567|BG|lombardia|1790
 Barzanò|45.735|9.317|LC|lombardia|5171
@@ -583,7 +583,7 @@ Battipaglia|40.608|14.983|SA|campania|50464
 Battuda|45.274|9.077|PV|lombardia|582
 Baucina|37.925|13.537|PA|sicilia|2014
 Bauladu|40.020|8.671|OR|sardegna|703
-Baunei|40.032|9.664|NU|sardegna|3716
+Baunei|40.032|9.664|OG|sardegna|3716
 Baveno|45.909|8.505|VB|piemonte|4917
 Bedero Valcuvia|45.913|8.794|VA|lombardia|667
 Bedizzole|45.510|10.423|BS|lombardia|11816
@@ -640,7 +640,7 @@ Bentivoglio|44.635|11.418|BO|emilia|5358
 Berbenno|45.812|9.568|BG|lombardia|2442
 Berbenno di Valtellina|46.169|9.743|SO|lombardia|4308
 Berceto|44.510|9.989|PR|emilia|2144
-Berchidda|40.786|9.164|SS|sardegna|2897
+Berchidda|40.786|9.164|OT|sardegna|2897
 Beregazzo con Figliaro|45.776|8.951|CO|lombardia|2577
 Bereguardo|45.257|9.024|PV|lombardia|2775
 Bergamasco|44.827|8.455|AL|piemonte|765
@@ -845,7 +845,7 @@ Borrello|41.920|14.303|CH|abruzzo|368
 Borriana|45.506|8.040|BI|piemonte|880
 Borso del Grappa|45.821|11.799|TV|veneto|5913
 Bortigali|40.283|8.837|NU|sardegna|1417
-Bortigiadas|40.891|9.043|SS|sardegna|800
+Bortigiadas|40.891|9.043|OT|sardegna|800
 Borutta|40.522|8.744|SS|sardegna|285
 Borzonasca|44.422|9.387|GE|liguria|2124
 Bosa|40.299|8.498|OR|sardegna|8026
@@ -976,9 +976,9 @@ Bucciano|41.077|14.570|BN|campania|2077
 Buccinasco|45.421|9.108|MI|lombardia|26503
 Buccino|40.631|15.367|SA|campania|5248
 Bucine|43.479|11.617|AR|toscana|10033
-Buddusò|40.579|9.261|SS|sardegna|3979
+Buddusò|40.579|9.261|OT|sardegna|3979
 Budoia|46.043|12.533|PN|friuli|2552
-Budoni|40.707|9.700|SS|sardegna|4846
+Budoni|40.707|9.700|OT|sardegna|4846
 Budrio|44.538|11.536|BO|emilia|18008
 Buggerru|39.397|8.401|SU|sardegna|1108
 Buggiano|43.880|10.728|PT|toscana|8735
@@ -995,7 +995,7 @@ Buonalbergo|41.221|14.977|BN|campania|1824
 Buonconvento|43.138|11.482|SI|toscana|3182
 Buonvicino|39.689|15.884|CS|calabria|2354
 Burago di Molgora|45.596|9.379|MB|lombardia|4240
-Burcei|39.347|9.362|SU|sardegna|2896
+Burcei|39.347|9.362|CA|sardegna|2896
 Burgio|37.599|13.290|AG|sicilia|2780
 Burgos|40.391|8.994|SS|sardegna|944
 Buriasco|44.873|7.412|TO|piemonte|1405
@@ -1060,7 +1060,7 @@ Calabritto|40.784|15.220|AV|campania|2500
 Calalzo di Cadore|46.447|12.381|BL|veneto|2173
 Calamandrana|44.737|8.336|AT|piemonte|1784
 Calamonaci|37.525|13.291|AG|sicilia|1375
-Calangianus|40.923|9.192|SS|sardegna|4267
+Calangianus|40.923|9.192|OT|sardegna|4267
 Calanna|38.183|15.723|RC|calabria|979
 Calasca-Castiglione|46.004|8.170|VB|piemonte|681
 Calascibetta|37.590|14.273|EN|sicilia|4628
@@ -1363,7 +1363,7 @@ Carceri|45.196|11.621|PD|veneto|1600
 Carcoforo|45.909|8.049|VC|piemonte|75
 Cardano al Campo|45.647|8.775|VA|lombardia|14136
 Cardè|44.744|7.478|CN|piemonte|1134
-Cardedu|39.796|9.625|NU|sardegna|1809
+Cardedu|39.796|9.625|OG|sardegna|1809
 Cardeto|38.084|15.766|RC|calabria|1822
 Cardinale|38.642|16.386|CZ|calabria|2334
 Cardito|40.946|14.295|NA|campania|22322
@@ -1782,7 +1782,7 @@ Castelvetro Piacentino|45.097|9.988|PC|emilia|5584
 Castelvisconti|45.306|9.942|CR|lombardia|330
 Castenaso|44.509|11.469|BO|emilia|14352
 Castenedolo|45.471|10.300|BS|lombardia|11160
-Castiadas|39.276|9.524|SU|sardegna|1507
+Castiadas|39.276|9.524|CA|sardegna|1507
 Castiglion Fibocchi|43.528|11.763|AR|toscana|2218
 Castiglion Fiorentino|43.342|11.924|AR|toscana|13166
 Castiglione a Casauria|42.236|13.894|PE|abruzzo|873
@@ -2249,7 +2249,7 @@ Colli del Tronto|42.878|13.748|AP|marche|3566
 Colli sul Velino|42.499|12.780|RI|lazio|524
 Colli Verdi|44.917|9.249|PV|lombardia|1156
 Colliano|40.725|15.292|SA|campania|3764
-Collinas|39.641|8.837|SU|sardegna|885
+Collinas|39.641|8.837|VS|sardegna|885
 Collio|45.811|10.333|BS|lombardia|2227
 Collobiano|45.397|8.349|VC|piemonte|105
 Colloredo di Monte Albano|46.166|13.138|UD|friuli|2231
@@ -2526,7 +2526,7 @@ Daverio|45.777|8.772|VA|lombardia|3075
 Davoli|38.649|16.487|CZ|calabria|5407
 Dazio|46.161|9.600|SO|lombardia|424
 Decimomannu|39.311|8.966|CA|sardegna|7831
-Decimoputzu|39.335|8.919|SU|sardegna|4315
+Decimoputzu|39.335|8.919|CA|sardegna|4315
 Decollatura|39.047|16.357|CZ|calabria|3252
 Dego|44.450|8.310|SV|liguria|2003
 Deiva Marina|44.219|9.521|SP|liguria|1438
@@ -2569,7 +2569,7 @@ Dolcè|45.600|10.853|VR|veneto|2573
 Dolceacqua|43.848|7.623|IM|liguria|1990
 Dolcedo|43.907|7.952|IM|liguria|1451
 Dolegna del Collio|46.032|13.479|GO|friuli|390
-Dolianova|39.376|9.176|SU|sardegna|9404
+Dolianova|39.376|9.176|CA|sardegna|9404
 Dolo|45.426|12.074|VE|veneto|14982
 Dolzago|45.768|9.344|LC|lombardia|2307
 Domanico|39.215|16.207|CS|calabria|943
@@ -2577,12 +2577,12 @@ Domaso|46.152|9.328|CO|lombardia|1455
 Domegge di Cadore|46.460|12.416|BL|veneto|2575
 Domicella|40.879|14.587|AV|campania|1873
 Domodossola|46.115|8.292|VB|piemonte|18175
-Domus de Maria|38.946|8.864|SU|sardegna|1675
+Domus de Maria|38.946|8.864|CA|sardegna|1675
 Domusnovas|39.321|8.653|SU|sardegna|6416
 Donato|45.528|7.908|BI|piemonte|719
 Dongo|46.123|9.279|CO|lombardia|3489
 Donnas|45.603|7.767|AO|valledaosta|2624
-Donori|39.433|9.126|SU|sardegna|2119
+Donori|39.433|9.126|CA|sardegna|2119
 Dorgali|40.289|9.588|NU|sardegna|8524
 Dorio|46.102|9.319|LC|lombardia|337
 Dormelletto|45.730|8.573|NO|piemonte|2643
@@ -2620,7 +2620,7 @@ Eboli|40.618|15.054|SA|campania|38219
 Edolo|46.178|10.337|BS|lombardia|4509
 Egna|46.314|11.273|BZ|altoadige|4992
 Elice|42.519|13.968|PE|abruzzo|1729
-Elini|39.900|9.531|NU|sardegna|550
+Elini|39.900|9.531|OG|sardegna|550
 Ello|45.788|9.366|LC|lombardia|1242
 Elmas|39.271|9.049|CA|sardegna|8949
 Elva|44.540|7.090|CN|piemonte|94
@@ -2647,14 +2647,14 @@ Erto e Casso|46.279|12.372|PN|friuli|387
 Erula|40.791|8.942|SS|sardegna|766
 Erve|45.821|9.446|LC|lombardia|764
 Esanatoglia|43.251|12.946|MC|marche|2147
-Escalaplano|39.626|9.355|SU|sardegna|2268
-Escolca|39.699|9.124|SU|sardegna|624
+Escalaplano|39.626|9.355|CA|sardegna|2268
+Escolca|39.699|9.124|CA|sardegna|624
 Esine|45.924|10.259|BS|lombardia|5351
 Esino Lario|45.995|9.335|LC|lombardia|750
 Esperia|41.385|13.685|FR|lazio|3903
 Esporlatu|40.386|8.991|SS|sardegna|412
 Este|45.228|11.656|PD|veneto|16576
-Esterzili|39.781|9.285|SU|sardegna|721
+Esterzili|39.781|9.285|CA|sardegna|721
 Etroubles|45.820|7.233|AO|valledaosta|496
 Eupilio|45.817|9.268|CO|lombardia|2769
 Exilles|45.097|6.930|TO|piemonte|266
@@ -2957,7 +2957,7 @@ Furci|42.008|14.587|CH|abruzzo|1088
 Furci Siculo|37.961|15.380|ME|sicilia|3428
 Furnari|38.105|15.125|ME|sicilia|3665
 Furore|40.620|14.550|SA|campania|846
-Furtei|39.563|8.944|SU|sardegna|1674
+Furtei|39.563|8.944|VS|sardegna|1674
 Fuscaldo|39.416|16.031|CS|calabria|8072
 Fusignano|44.468|11.959|RA|emilia|8259
 Fusine|46.149|9.750|SO|lombardia|611
@@ -2982,7 +2982,7 @@ Gaiarine|45.880|12.482|TV|veneto|6136
 Gaiba|44.948|11.482|RO|veneto|1094
 Gaiola|44.335|7.407|CN|piemonte|600
 Gaiole in Chianti|43.469|11.433|SI|toscana|2758
-Gairo|39.848|9.506|NU|sardegna|1514
+Gairo|39.848|9.506|OG|sardegna|1514
 Gais|46.835|11.948|BZ|altoadige|3167
 Galati Mamertino|38.033|14.771|ME|sicilia|2794
 Galatina|40.174|18.172|LE|puglia|27214
@@ -3073,9 +3073,9 @@ Genazzano|41.832|12.972|RM|lazio|5959
 Genga|43.430|12.935|AN|marche|1875
 Genivolta|45.335|9.878|CR|lombardia|1178
 Genola|44.588|7.663|CN|piemonte|2596
-Genoni|39.795|9.010|SU|sardegna|885
+Genoni|39.795|9.010|CA|sardegna|885
 Genova|44.411|8.933|GE|liguria|586180
-Genuri|39.743|8.923|SU|sardegna|345
+Genuri|39.743|8.923|VS|sardegna|345
 Genzano di Lucania|40.850|16.032|PZ|basilicata|5915
 Genzano di Roma|41.707|12.691|RM|lazio|23780
 Gera Lario|46.171|9.371|CO|lombardia|1016
@@ -3084,17 +3084,17 @@ Geraci Siculo|37.859|14.154|PA|sicilia|1925
 Gerano|41.934|12.994|RM|lazio|1248
 Gerenzago|45.204|9.362|PV|lombardia|1386
 Gerenzano|45.638|8.999|VA|lombardia|10411
-Gergei|39.700|9.102|SU|sardegna|1298
+Gergei|39.700|9.102|CA|sardegna|1298
 Germagnano|45.262|7.467|TO|piemonte|1256
 Germagno|45.892|8.388|VB|piemonte|186
 Germignaga|45.993|8.727|VA|lombardia|3724
 Gerocarne|38.587|16.221|VV|calabria|2380
 Gerola Alta|46.060|9.550|SO|lombardia|189
 Gerre de' Caprioli|45.107|10.038|CR|lombardia|1283
-Gesico|39.615|9.106|SU|sardegna|886
+Gesico|39.615|9.106|CA|sardegna|886
 Gessate|45.555|9.437|MI|lombardia|8664
 Gessopalena|42.056|14.274|CH|abruzzo|1550
-Gesturi|39.733|9.023|SU|sardegna|1280
+Gesturi|39.733|9.023|VS|sardegna|1280
 Gesualdo|41.007|15.070|AV|campania|3603
 Ghedi|45.402|10.277|BS|lombardia|18321
 Ghemme|45.598|8.420|NO|piemonte|3617
@@ -3138,7 +3138,7 @@ Gioiosa Marea|38.172|14.893|ME|sicilia|7114
 Giove|42.509|12.325|TR|umbria|1900
 Giovinazzo|41.188|16.673|BA|puglia|20433
 Giovo|46.157|11.152|TN|trentino|2465
-Girasole|39.953|9.661|NU|sardegna|1191
+Girasole|39.953|9.661|OG|sardegna|1191
 Girifalco|38.822|16.426|CZ|calabria|6120
 Gissi|42.021|14.547|CH|abruzzo|2935
 Giuggianello|40.094|18.369|LE|puglia|1249
@@ -3163,13 +3163,13 @@ Godrano|37.903|13.429|PA|sicilia|1153
 Goito|45.255|10.675|MN|lombardia|10289
 Golasecca|45.697|8.655|VA|lombardia|2653
 Golferenzo|44.962|9.307|PV|lombardia|206
-Golfo Aranci|41.002|9.622|SS|sardegna|2288
+Golfo Aranci|41.002|9.622|OT|sardegna|2288
 Gombito|45.262|9.730|CR|lombardia|636
 Gonars|45.897|13.235|UD|friuli|4790
-Goni|39.578|9.286|SU|sardegna|504
+Goni|39.578|9.286|CA|sardegna|504
 Gonnesa|39.265|8.471|SU|sardegna|5135
 Gonnoscodina|39.701|8.836|OR|sardegna|505
-Gonnosfanadiga|39.493|8.662|SU|sardegna|6702
+Gonnosfanadiga|39.493|8.662|VS|sardegna|6702
 Gonnosnò|39.760|8.872|OR|sardegna|800
 Gonnostramatza|39.680|8.831|OR|sardegna|943
 Gonzaga|44.955|10.821|MN|lombardia|9138
@@ -3281,7 +3281,7 @@ Gualdo Cattaneo|42.909|12.556|PG|umbria|6278
 Gualdo Tadino|43.231|12.785|PG|umbria|15453
 Gualtieri|44.905|10.629|RE|emilia|6639
 Gualtieri Sicaminò|38.163|15.317|ME|sicilia|1834
-Guamaggiore|39.567|9.074|SU|sardegna|1050
+Guamaggiore|39.567|9.074|CA|sardegna|1050
 Guanzate|45.724|9.011|CO|lombardia|5705
 Guarcino|41.800|13.314|FR|lazio|1658
 Guarda Veneta|44.980|11.803|RO|veneto|1185
@@ -3298,7 +3298,7 @@ Guardialfiera|41.803|14.793|CB|molise|1120
 Guardiaregia|41.435|14.541|CB|molise|787
 Guardistallo|43.313|10.633|PI|toscana|1254
 Guarene|44.738|8.034|CN|piemonte|3435
-Guasila|39.562|9.046|SU|sardegna|2775
+Guasila|39.562|9.046|CA|sardegna|2775
 Guastalla|44.922|10.654|RE|emilia|14786
 Guazzora|45.014|8.845|AL|piemonte|313
 Gubbio|43.354|12.579|PG|umbria|32432
@@ -3309,14 +3309,14 @@ Guidonia Montecelio|42.000|12.726|RM|lazio|81447
 Guiglia|44.428|10.957|MO|emilia|3999
 Guilmi|41.997|14.476|CH|abruzzo|432
 Gurro|46.086|8.570|VB|piemonte|247
-Guspini|39.539|8.627|SU|sardegna|12272
+Guspini|39.539|8.627|VS|sardegna|12272
 Gussago|45.592|10.153|BS|lombardia|16403
 Gussola|45.010|10.346|CR|lombardia|2873
 Hône|45.612|7.736|AO|valledaosta|1175
 Idro|45.737|10.474|BS|lombardia|1892
 Iglesias|39.310|8.531|SU|sardegna|27674
 Igliano|44.444|8.013|CN|piemonte|84
-Ilbono|39.894|9.542|NU|sardegna|2207
+Ilbono|39.894|9.542|OG|sardegna|2207
 Illasi|45.466|11.184|VR|veneto|5302
 Illorai|40.354|9.002|SS|sardegna|953
 Imbersago|45.705|9.445|LC|lombardia|2408
@@ -3352,7 +3352,7 @@ Ischitella|41.904|15.900|FG|puglia|4316
 Iseo|45.660|10.050|BS|lombardia|9100
 Isera|45.887|11.008|TN|trentino|2625
 Isernia|41.588|14.226|IS|molise|22025
-Isili|39.742|9.107|SU|sardegna|2842
+Isili|39.742|9.107|CA|sardegna|2842
 Isnello|37.944|14.006|PA|sicilia|1598
 Isola d'Asti|44.829|8.177|AT|piemonte|2121
 Isola del Cantone|44.646|8.956|GE|liguria|1535
@@ -3390,7 +3390,7 @@ Jacurso|38.847|16.379|CZ|calabria|623
 Jelsi|41.518|14.796|CB|molise|1797
 Jenne|41.887|13.168|RM|lazio|398
 Jerago con Orago|45.705|8.793|VA|lombardia|5084
-Jerzu|39.793|9.519|NU|sardegna|3228
+Jerzu|39.793|9.519|OG|sardegna|3228
 Jesi|43.523|13.244|AN|marche|40303
 Jesolo|45.534|12.636|VE|veneto|24479
 Jolanda di Savoia|44.886|11.975|FE|emilia|3003
@@ -3400,7 +3400,7 @@ Jovençan|45.714|7.275|AO|valledaosta|758
 L'Aquila|42.351|13.398|AQ|abruzzo|66964
 La Cassa|45.182|7.519|TO|piemonte|1781
 La Loggia|44.957|7.668|TO|piemonte|8631
-La Maddalena|41.213|9.407|SS|sardegna|10936
+La Maddalena|41.213|9.407|OT|sardegna|10936
 La Magdeleine|45.811|7.619|AO|valledaosta|111
 La Morra|44.637|7.933|CN|piemonte|2718
 La Salle|45.747|7.073|AO|valledaosta|2071
@@ -3449,7 +3449,7 @@ Landiona|45.497|8.422|NO|piemonte|590
 Landriano|45.311|9.260|PV|lombardia|5917
 Langhirano|44.614|10.266|PR|emilia|9784
 Langosco|45.215|8.563|PV|lombardia|436
-Lanusei|39.877|9.542|NU|sardegna|5492
+Lanusei|39.877|9.542|OG|sardegna|5492
 Lanuvio|41.680|12.703|RM|lazio|13006
 Lanzada|46.269|9.874|SO|lombardia|1372
 Lanzo Torinese|45.272|7.477|TO|piemonte|5150
@@ -3460,7 +3460,7 @@ Larciano|43.825|10.877|PT|toscana|6418
 Lardirago|45.235|9.234|PV|lombardia|1200
 Lariano|41.728|12.833|RM|lazio|12893
 Larino|41.800|14.911|CB|molise|7142
-Las Plassas|39.678|8.984|SU|sardegna|257
+Las Plassas|39.678|8.984|VS|sardegna|257
 Lasa|46.618|10.698|BZ|altoadige|3932
 Lascari|38.000|13.941|PA|sicilia|3500
 Lasnigo|45.881|9.264|CO|lombardia|462
@@ -3597,7 +3597,7 @@ Locana|45.417|7.461|TO|piemonte|1601
 Locate di Triulzi|45.358|9.221|MI|lombardia|9655
 Locate Varesino|45.690|8.931|CO|lombardia|4216
 Locatello|45.832|9.533|BG|lombardia|819
-Loceri|39.857|9.582|NU|sardegna|1278
+Loceri|39.857|9.582|OG|sardegna|1278
 Locorotondo|40.752|17.327|BA|puglia|14161
 Locri|38.237|16.264|RC|calabria|12459
 Loculi|40.407|9.611|NU|sardegna|515
@@ -3608,7 +3608,7 @@ Lodine|40.148|9.219|NU|sardegna|358
 Lodrino|45.718|10.278|BS|lombardia|1750
 Lograto|45.483|10.057|BS|lombardia|3793
 Loiano|44.270|11.322|BO|emilia|4434
-Loiri Porto San Paolo|40.842|9.498|SS|sardegna|3234
+Loiri Porto San Paolo|40.842|9.498|OT|sardegna|3234
 Lomagna|45.668|9.376|LC|lombardia|4899
 Lomazzo|45.699|9.040|CO|lombardia|9194
 Lombardore|45.236|7.736|TO|piemonte|1706
@@ -3642,7 +3642,7 @@ Loro Ciuffenna|43.593|11.632|AR|toscana|5892
 Loro Piceno|43.166|13.416|MC|marche|2481
 Lorsica|44.432|9.274|GE|liguria|519
 Losine|45.984|10.318|BS|lombardia|591
-Lotzorai|39.969|9.663|NU|sardegna|2151
+Lotzorai|39.969|9.663|OG|sardegna|2151
 Lovere|45.813|10.072|BG|lombardia|5318
 Lovero|46.231|10.230|SO|lombardia|667
 Lozio|45.986|10.261|BS|lombardia|418
@@ -3671,18 +3671,18 @@ Luisago|45.761|9.043|CO|lombardia|2686
 Lula|40.471|9.485|NU|sardegna|1495
 Lumarzo|44.444|9.137|GE|liguria|1594
 Lumezzane|45.650|10.262|BS|lombardia|23390
-Lunamatrona|39.649|8.903|SU|sardegna|1783
+Lunamatrona|39.649|8.903|VS|sardegna|1783
 Lunano|43.730|12.441|PU|marche|1528
 Lungavilla|45.045|9.079|PV|lombardia|2412
 Lungro|39.744|16.122|CS|calabria|2517
 Luni|44.085|10.042|SP|liguria|8405
 Luogosano|40.988|14.990|AV|campania|1238
-Luogosanto|41.051|9.206|SS|sardegna|1905
+Luogosanto|41.051|9.206|OT|sardegna|1905
 Lupara|41.762|14.733|CB|molise|538
 Lurago d'Erba|45.753|9.225|CO|lombardia|5335
 Lurago Marinone|45.708|8.984|CO|lombardia|2456
 Lurano|45.565|9.639|BG|lombardia|2580
-Luras|40.936|9.175|SS|sardegna|2651
+Luras|40.936|9.175|OT|sardegna|2651
 Lurate Caccivio|45.766|9.001|CO|lombardia|9922
 Lusciano|40.970|14.192|CE|campania|14539
 Luserna|45.922|11.324|TN|trentino|279
@@ -3782,7 +3782,7 @@ Mammola|38.362|16.241|RC|calabria|2971
 Mamoiada|40.214|9.284|NU|sardegna|2559
 Manciano|42.587|11.515|GR|toscana|7259
 Mandanici|38.002|15.317|ME|sicilia|629
-Mandas|39.657|9.130|SU|sardegna|2238
+Mandas|39.657|9.130|CA|sardegna|2238
 Mandatoriccio|39.470|16.837|CS|calabria|2900
 Mandela|42.032|12.924|RM|lazio|897
 Mandello del Lario|45.917|9.320|LC|lombardia|10578
@@ -4140,7 +4140,7 @@ Monasterolo Casotto|44.331|7.941|CN|piemonte|101
 Monasterolo del Castello|45.763|9.931|BG|lombardia|1190
 Monasterolo di Savigliano|44.686|7.621|CN|piemonte|1357
 Monastier di Treviso|45.650|12.436|TV|veneto|4087
-Monastir|39.387|9.044|SU|sardegna|4505
+Monastir|39.387|9.044|CA|sardegna|4505
 Moncalieri|45.001|7.685|TO|piemonte|55875
 Moncalvo|45.051|8.263|AT|piemonte|3184
 Moncenisio|45.205|6.984|TO|piemonte|42
@@ -4405,7 +4405,7 @@ Monteverde|41.000|15.533|AV|campania|831
 Monteverdi Marittimo|43.177|10.715|PI|toscana|778
 Monteviale|45.561|11.458|VI|veneto|2600
 Montezemolo|44.378|8.141|CN|piemonte|270
-Monti|40.805|9.326|SS|sardegna|2488
+Monti|40.805|9.326|OT|sardegna|2488
 Montiano|44.084|12.304|FC|emilia|1701
 Monticelli Brusati|45.634|10.098|BS|lombardia|4401
 Monticelli d'Ongina|45.090|9.933|PC|emilia|5428
@@ -4519,7 +4519,7 @@ Mugnano di Napoli|40.910|14.206|NA|campania|34504
 Mulazzano|45.372|9.398|LO|lombardia|5733
 Mulazzo|44.322|9.907|MS|toscana|2566
 Mura|45.713|10.342|BS|lombardia|790
-Muravera|39.422|9.575|SU|sardegna|5162
+Muravera|39.422|9.575|CA|sardegna|5162
 Murazzano|44.474|8.019|CN|piemonte|840
 Murello|44.753|7.601|CN|piemonte|962
 Murialdo|44.316|8.161|SV|liguria|838
@@ -4656,11 +4656,11 @@ Nulvi|40.781|8.745|SS|sardegna|2851
 Numana|43.513|13.622|AN|marche|3716
 Nuoro|40.323|9.330|NU|sardegna|36674
 Nurachi|39.974|8.540|OR|sardegna|1790
-Nuragus|39.777|9.039|SU|sardegna|942
-Nurallao|39.795|9.078|SU|sardegna|1357
-Nuraminis|39.442|9.013|SU|sardegna|2606
+Nuragus|39.777|9.039|CA|sardegna|942
+Nurallao|39.795|9.078|CA|sardegna|1357
+Nuraminis|39.442|9.013|CA|sardegna|2606
 Nureci|39.824|8.974|OR|sardegna|348
-Nurri|39.711|9.229|SU|sardegna|2233
+Nurri|39.711|9.229|CA|sardegna|2233
 Nus|45.739|7.467|AO|valledaosta|2943
 Nusco|40.886|15.084|AV|campania|4258
 Nuvolento|45.548|10.383|BS|lombardia|4011
@@ -4685,7 +4685,7 @@ Oggiona con Santo Stefano|45.697|8.818|VA|lombardia|4295
 Oggiono|45.792|9.351|LC|lombardia|8750
 Oglianico|45.343|7.693|TO|piemonte|1426
 Ogliastro Cilento|40.351|15.046|SA|campania|2241
-Olbia|40.923|9.505|SS|sardegna|53307
+Olbia|40.923|9.505|OT|sardegna|53307
 Olcenengo|45.364|8.311|VC|piemonte|754
 Oldenico|45.402|8.383|VC|piemonte|252
 Oleggio|45.597|8.637|NO|piemonte|13650
@@ -4763,7 +4763,7 @@ Ornica|45.989|9.578|BG|lombardia|172
 Orosei|40.379|9.697|NU|sardegna|6794
 Orotelli|40.303|9.112|NU|sardegna|2152
 Orria|40.299|15.171|SA|campania|1161
-Orroli|39.694|9.252|SU|sardegna|2397
+Orroli|39.694|9.252|CA|sardegna|2397
 Orsago|45.931|12.424|TV|veneto|3917
 Orsara Bormida|44.690|8.562|AL|piemonte|406
 Orsara di Puglia|41.281|15.266|FG|puglia|2914
@@ -4773,7 +4773,7 @@ Orsomarso|39.799|15.908|CS|calabria|1338
 Orta di Atella|40.966|14.269|CE|campania|24796
 Orta Nova|41.326|15.707|FG|puglia|16999
 Orta San Giulio|45.799|8.406|NO|piemonte|1163
-Ortacesus|39.536|9.086|SU|sardegna|933
+Ortacesus|39.536|9.086|CA|sardegna|933
 Orte|42.460|12.386|VT|lazio|8665
 Ortelle|40.034|18.393|LE|puglia|2359
 Ortezzano|43.032|13.607|FM|marche|791
@@ -4791,12 +4791,12 @@ Orzinuovi|45.402|9.922|BS|lombardia|12343
 Orzivecchi|45.421|9.960|BS|lombardia|2485
 Osasco|44.849|7.343|TO|piemonte|1124
 Osasio|44.869|7.608|TO|piemonte|913
-Oschiri|40.719|9.098|SS|sardegna|3436
+Oschiri|40.719|9.098|OT|sardegna|3436
 Osidda|40.524|9.219|NU|sardegna|230
 Osiglia|44.281|8.201|SV|liguria|469
 Osilo|40.744|8.671|SS|sardegna|3204
 Osimo|43.486|13.482|AN|marche|33991
-Osini|39.822|9.497|NU|sardegna|811
+Osini|39.822|9.497|OG|sardegna|811
 Osio Sopra|45.630|9.592|BG|lombardia|5079
 Osio Sotto|45.616|9.593|BG|lombardia|12080
 Osmate|45.789|8.655|VA|lombardia|0
@@ -4841,7 +4841,7 @@ Ozieri|40.585|8.998|SS|sardegna|10881
 Ozzano dell'Emilia|44.445|11.478|BO|emilia|12870
 Ozzano Monferrato|45.102|8.376|AL|piemonte|1506
 Ozzero|45.369|8.923|MI|lombardia|1467
-Pabillonis|39.596|8.719|SU|sardegna|2948
+Pabillonis|39.596|8.719|VS|sardegna|2948
 Pace del Mela|38.180|15.306|ME|sicilia|6388
 Paceco|37.981|12.557|TP|sicilia|11487
 Pacentro|42.051|13.993|AQ|abruzzo|1211
@@ -4856,7 +4856,7 @@ Paderno Franciacorta|45.590|10.078|BS|lombardia|3699
 Paderno Ponchielli|45.239|9.928|CR|lombardia|1480
 Padova|45.407|11.876|PD|veneto|206192
 Padria|40.398|8.630|SS|sardegna|695
-Padru|40.767|9.523|SS|sardegna|2130
+Padru|40.767|9.523|OT|sardegna|2130
 Padula|40.341|15.660|SA|campania|5279
 Paduli|41.169|14.887|BN|campania|4085
 Paesana|44.685|7.277|CN|piemonte|2868
@@ -4881,7 +4881,7 @@ Palagonia|37.328|14.746|CT|sicilia|16540
 Palaia|43.605|10.773|PI|toscana|4572
 Palanzano|44.435|10.192|PR|emilia|1165
 Palata|41.888|14.787|CB|molise|1769
-Palau|41.178|9.383|SS|sardegna|3772
+Palau|41.178|9.383|OT|sardegna|3772
 Palazzago|45.751|9.537|BG|lombardia|4293
 Palazzo Adriano|37.682|13.380|PA|sicilia|2227
 Palazzo Canavese|45.457|7.978|TO|piemonte|843
@@ -4976,7 +4976,7 @@ Patti|38.140|14.964|ME|sicilia|13325
 Patù|39.840|18.339|LE|puglia|1721
 Pau|39.793|8.803|OR|sardegna|300
 Paularo|46.530|13.117|UD|friuli|2737
-Pauli Arbarei|39.660|8.923|SU|sardegna|651
+Pauli Arbarei|39.660|8.923|VS|sardegna|651
 Paulilatino|40.087|8.760|OR|sardegna|2347
 Paullo|45.417|9.399|MI|lombardia|11014
 Paupisi|41.197|14.665|BN|campania|1560
@@ -5024,7 +5024,7 @@ Perano|42.108|14.397|CH|abruzzo|1664
 Perarolo di Cadore|46.397|12.355|BL|veneto|383
 Perca|46.791|11.983|BZ|altoadige|1460
 Percile|42.095|12.910|RM|lazio|277
-Perdasdefogu|39.678|9.442|NU|sardegna|2042
+Perdasdefogu|39.678|9.442|OG|sardegna|2042
 Perdaxius|39.161|8.610|SU|sardegna|1475
 Perdifumo|40.267|15.017|SA|campania|1768
 Pereto|42.058|13.102|AQ|abruzzo|739
@@ -5204,7 +5204,7 @@ Pignola|40.574|15.785|PZ|basilicata|6699
 Pignone|44.179|9.724|SP|liguria|599
 Pigra|45.957|9.126|CO|lombardia|266
 Pila|45.770|8.081|VC|piemonte|137
-Pimentel|39.485|9.066|SU|sardegna|1193
+Pimentel|39.485|9.066|CA|sardegna|1193
 Pimonte|40.674|14.513|NA|campania|6000
 Pinarolo Po|45.066|9.165|PV|lombardia|1702
 Pinasca|44.943|7.228|TO|piemonte|3049
@@ -5979,7 +5979,7 @@ Sacco|40.382|15.373|SA|campania|559
 Saccolongo|45.406|11.744|PD|veneto|4934
 Sacile|45.954|12.503|PN|friuli|19897
 Sacrofano|42.106|12.448|RM|lazio|6668
-Sadali|39.814|9.273|SU|sardegna|918
+Sadali|39.814|9.273|CA|sardegna|918
 Sagama|40.261|8.578|OR|sardegna|193
 Sagliano Micca|45.623|8.045|BI|piemonte|1654
 Sagrado|45.876|13.485|GO|friuli|2236
@@ -6039,8 +6039,8 @@ Salza di Pinerolo|44.941|7.053|TO|piemonte|78
 Salza Irpina|40.918|14.891|AV|campania|767
 Salzano|45.521|12.098|VE|veneto|12678
 Samarate|45.631|8.783|VA|lombardia|16168
-Samassi|39.482|8.907|SU|sardegna|5321
-Samatzai|39.480|9.034|SU|sardegna|1720
+Samassi|39.482|8.907|VS|sardegna|5321
+Samatzai|39.480|9.034|CA|sardegna|1720
 Sambuca di Sicilia|37.647|13.111|AG|sicilia|6114
 Sambuca Pistoiese|44.104|10.999|PT|toscana|1680
 Sambuci|41.986|12.937|RM|lazio|936
@@ -6056,7 +6056,7 @@ San Bartolomeo al Mare|43.929|8.102|IM|liguria|3127
 San Bartolomeo in Galdo|41.410|15.015|BN|campania|5090
 San Bartolomeo Val Cavargna|46.083|9.146|CO|lombardia|1041
 San Basile|39.811|16.164|CS|calabria|1065
-San Basilio|39.537|9.198|SU|sardegna|1281
+San Basilio|39.537|9.198|CA|sardegna|1281
 San Bassano|45.247|9.813|CR|lombardia|2207
 San Bellino|45.028|11.589|RO|veneto|1156
 San Benedetto Belbo|44.490|8.058|CN|piemonte|191
@@ -6135,7 +6135,7 @@ San Floriano del Collio|45.982|13.585|GO|friuli|798
 San Floro|38.838|16.519|CZ|calabria|700
 San Francesco al Campo|45.226|7.656|TO|piemonte|4825
 San Fratello|38.013|14.596|ME|sicilia|3942
-San Gavino Monreale|39.549|8.792|SU|sardegna|8894
+San Gavino Monreale|39.549|8.792|VS|sardegna|8894
 San Gemini|42.613|12.546|TR|umbria|4921
 San Genesio Atesino|46.536|11.332|BZ|altoadige|2937
 San Genesio ed Uniti|45.233|9.180|PV|lombardia|3788
@@ -6291,7 +6291,7 @@ San Nicola la Strada|41.054|14.331|CE|campania|21157
 San Nicola Manfredi|41.072|14.824|BN|campania|3624
 San Nicolò d'Arcidano|39.685|8.647|OR|sardegna|2811
 San Nicolò di Comelico|46.582|12.528|BL|veneto|405
-San Nicolò Gerrei|39.496|9.301|SU|sardegna|846
+San Nicolò Gerrei|39.496|9.301|CA|sardegna|846
 San Pancrazio|46.587|11.085|BZ|altoadige|1584
 San Pancrazio Salentino|40.417|17.838|BR|puglia|10289
 San Paolo|45.371|10.025|BS|lombardia|4504
@@ -6363,11 +6363,11 @@ San Siro|46.055|9.259|CO|lombardia|1758
 San Sossio Baronia|41.067|15.203|AV|campania|1697
 San Sostene|38.637|16.488|CZ|calabria|1311
 San Sosti|39.658|16.029|CS|calabria|2200
-San Sperate|39.357|9.007|SU|sardegna|7972
+San Sperate|39.357|9.007|CA|sardegna|7972
 San Stino di Livenza|45.731|12.680|VE|veneto|13042
 San Tammaro|41.077|14.232|CE|campania|5064
 San Teodoro|37.848|14.699|ME|sicilia|1421
-San Teodoro|40.771|9.672|SS|sardegna|4540
+San Teodoro|40.771|9.672|OT|sardegna|4540
 San Tomaso Agordino|46.381|11.975|BL|veneto|683
 San Valentino in Abruzzo Citeriore|42.233|13.987|PE|abruzzo|1930
 San Valentino Torio|40.792|14.601|SA|campania|10439
@@ -6378,7 +6378,7 @@ San Vincenzo|43.101|10.538|LI|toscana|7023
 San Vincenzo La Costa|39.365|16.151|CS|calabria|2158
 San Vincenzo Valle Roveto|41.834|13.524|AQ|abruzzo|2433
 San Vitaliano|40.923|14.482|NA|campania|6220
-San Vito|39.442|9.542|SU|sardegna|3822
+San Vito|39.442|9.542|CA|sardegna|3822
 San Vito al Tagliamento|45.915|12.855|PN|friuli|15011
 San Vito al Torre|45.896|13.370|UD|friuli|1333
 San Vito Chietino|42.303|14.446|CH|abruzzo|5226
@@ -6405,7 +6405,7 @@ Sangano|45.026|7.451|TO|piemonte|3807
 Sangiano|45.876|8.632|VA|lombardia|1536
 Sangineto|39.604|15.913|CS|calabria|1337
 Sanguinetto|45.183|11.151|VR|veneto|4140
-Sanluri|39.562|8.899|SU|sardegna|8460
+Sanluri|39.562|8.899|VS|sardegna|8460
 Sannazzaro de' Burgondi|45.103|8.908|PV|lombardia|5644
 Sannicandro di Bari|41.001|16.799|BA|puglia|9713
 Sannicola|40.094|18.064|LE|puglia|5902
@@ -6436,7 +6436,7 @@ Sant'Anatolia di Narco|42.733|12.836|PG|umbria|558
 Sant'Andrea Apostolo dello Ionio|38.623|16.529|CZ|calabria|2072
 Sant'Andrea del Garigliano|41.366|13.842|FR|lazio|1566
 Sant'Andrea di Conza|40.844|15.372|AV|campania|1662
-Sant'Andrea Frius|39.480|9.173|SU|sardegna|1834
+Sant'Andrea Frius|39.480|9.173|CA|sardegna|1834
 Sant'Angelo a Cupolo|41.068|14.804|BN|campania|4264
 Sant'Angelo a Fasanella|40.457|15.344|SA|campania|718
 Sant'Angelo a Scala|40.976|14.740|AV|campania|755
@@ -6460,7 +6460,7 @@ Sant'Antimo|40.933|14.236|NA|campania|34107
 Sant'Antioco|39.067|8.455|SU|sardegna|11496
 Sant'Antonino di Susa|45.107|7.274|TO|piemonte|4333
 Sant'Antonio Abate|40.722|14.547|NA|campania|19546
-Sant'Antonio di Gallura|40.991|9.301|SS|sardegna|1619
+Sant'Antonio di Gallura|40.991|9.301|OT|sardegna|1619
 Sant'Apollinare|41.402|13.831|FR|lazio|1931
 Sant'Arcangelo|40.247|16.276|PZ|basilicata|6506
 Sant'Arcangelo Trimonte|41.169|14.939|BN|campania|641
@@ -6542,7 +6542,7 @@ Santa Severina|39.148|16.915|KR|calabria|2262
 Santa Sofia|43.947|11.908|FC|emilia|4193
 Santa Sofia d'Epiro|39.546|16.329|CS|calabria|2748
 Santa Teresa di Riva|37.946|15.368|ME|sicilia|9240
-Santa Teresa Gallura|41.240|9.188|SS|sardegna|5018
+Santa Teresa Gallura|41.240|9.188|OT|sardegna|5018
 Santa Venerina|37.687|15.139|CT|sicilia|8351
 Santa Vittoria d'Alba|44.697|7.933|CN|piemonte|2748
 Santa Vittoria in Matenano|43.020|13.497|FM|marche|1422
@@ -6581,7 +6581,7 @@ Saracena|39.775|16.156|CS|calabria|3964
 Saracinesco|42.004|12.952|RM|lazio|184
 Sarcedo|45.708|11.526|VI|veneto|5303
 Sarconi|40.248|15.888|PZ|basilicata|1362
-Sardara|39.614|8.821|SU|sardegna|4168
+Sardara|39.614|8.821|VS|sardegna|4168
 Sardigliano|44.754|8.908|AL|piemonte|452
 Sarego|45.407|11.405|VI|veneto|6641
 Sarentino|46.643|11.356|BZ|altoadige|6890
@@ -6699,7 +6699,7 @@ Sedini|40.850|8.817|SS|sardegna|1378
 Sedriano|45.488|8.971|MI|lombardia|11270
 Sedrina|45.780|9.623|BG|lombardia|2507
 Sefro|43.146|12.949|MC|marche|431
-Segariu|39.564|8.983|SU|sardegna|1277
+Segariu|39.564|8.983|VS|sardegna|1277
 Seggiano|42.928|11.557|GR|toscana|1004
 Segni|41.691|13.023|RM|lazio|9101
 Segonzano|46.190|11.259|TN|trentino|1531
@@ -6707,7 +6707,7 @@ Segrate|45.491|9.293|MI|lombardia|33519
 Segusino|45.917|11.954|TV|veneto|1941
 Selargius|39.254|9.166|CA|sardegna|28684
 Selci|42.320|12.623|RI|lazio|1106
-Selegas|39.569|9.104|SU|sardegna|1433
+Selegas|39.569|9.104|CA|sardegna|1433
 Sella Giudicarie|45.984|10.669|TN|trentino|2918
 Sellano|42.889|12.927|PG|umbria|1140
 Sellero|46.069|10.338|BS|lombardia|1506
@@ -6736,11 +6736,11 @@ Senna Comasco|45.763|9.107|CO|lombardia|3171
 Senna Lodigiana|45.147|9.594|LO|lombardia|1997
 Sennariolo|40.212|8.556|OR|sardegna|183
 Sennori|40.788|8.595|SS|sardegna|7375
-Senorbì|39.533|9.132|SU|sardegna|4781
+Senorbì|39.533|9.132|CA|sardegna|4781
 Sepino|41.407|14.619|CB|molise|1985
 Sequals|46.166|12.827|PN|friuli|2221
 Seravezza|43.995|10.228|LU|toscana|13238
-Serdiana|39.374|9.157|SU|sardegna|2620
+Serdiana|39.374|9.157|CA|sardegna|2620
 Seregno|45.650|9.202|MB|lombardia|43001
 Seren del Grappa|45.989|11.844|BL|veneto|2557
 Sergnano|45.428|9.705|CR|lombardia|3631
@@ -6763,7 +6763,7 @@ Serracapriola|41.810|15.162|FG|puglia|4069
 Serradifalco|37.457|13.883|CL|sicilia|6265
 Serralunga d'Alba|44.609|8.001|CN|piemonte|524
 Serralunga di Crea|45.101|8.282|AL|piemonte|579
-Serramanna|39.425|8.921|SU|sardegna|9259
+Serramanna|39.425|8.921|VS|sardegna|9259
 Serramazzoni|44.421|10.790|MO|emilia|8014
 Serramezzana|40.245|15.032|SA|campania|347
 Serramonacesca|42.248|14.094|PE|abruzzo|582
@@ -6778,8 +6778,8 @@ Serravalle Pistoiese|43.906|10.832|PT|toscana|11517
 Serravalle Scrivia|44.719|8.859|AL|piemonte|6322
 Serravalle Sesia|45.686|8.311|VC|piemonte|5141
 Serre|40.581|15.188|SA|campania|3956
-Serrenti|39.493|8.975|SU|sardegna|5028
-Serri|39.701|9.148|SU|sardegna|676
+Serrenti|39.493|8.975|VS|sardegna|5028
+Serri|39.701|9.148|CA|sardegna|676
 Serrone|41.841|13.097|FR|lazio|3069
 Sersale|39.012|16.726|CZ|calabria|4767
 Servigliano|43.081|13.492|FM|marche|2347
@@ -6809,9 +6809,9 @@ Settimo San Pietro|39.292|9.184|CA|sardegna|6532
 Settimo Torinese|45.137|7.771|TO|piemonte|46873
 Settimo Vittone|45.548|7.832|TO|piemonte|1543
 Settingiano|38.914|16.513|CZ|calabria|2955
-Setzu|39.724|8.940|SU|sardegna|144
-Seui|39.840|9.324|SU|sardegna|1361
-Seulo|39.868|9.238|SU|sardegna|897
+Setzu|39.724|8.940|VS|sardegna|144
+Seui|39.840|9.324|OG|sardegna|1361
+Seulo|39.868|9.238|NU|sardegna|897
 Seveso|45.647|9.139|MB|lombardia|22733
 Sezzadio|44.786|8.573|AL|piemonte|1294
 Sezze|41.498|13.059|LT|lazio|24114
@@ -6824,7 +6824,7 @@ Siano|40.801|14.694|SA|campania|10074
 Siapiccia|39.926|8.762|OR|sardegna|370
 Sicignano degli Alburni|40.559|15.306|SA|campania|3419
 Siculiana|37.336|13.420|AG|sicilia|4632
-Siddi|39.670|8.889|SU|sardegna|696
+Siddi|39.670|8.889|VS|sardegna|696
 Siderno|38.269|16.298|RC|calabria|16879
 Siena|43.318|11.332|SI|toscana|52839
 Sigillo|43.331|12.741|PG|umbria|2468
@@ -6833,8 +6833,8 @@ Silandro|46.628|10.773|BZ|altoadige|5947
 Silanus|40.290|8.889|NU|sardegna|2200
 Silea|45.655|12.299|TV|veneto|9923
 Siligo|40.577|8.726|SS|sardegna|912
-Siliqua|39.300|8.809|SU|sardegna|3997
-Silius|39.517|9.296|SU|sardegna|1271
+Siliqua|39.300|8.809|CA|sardegna|3997
+Silius|39.517|9.296|CA|sardegna|1271
 Sillano Giuncugnano|44.225|10.302|LU|toscana|1150
 Sillavengo|45.520|8.441|NO|piemonte|595
 Silvano d'Orba|44.686|8.671|AL|piemonte|2056
@@ -6860,7 +6860,7 @@ Sirolo|43.526|13.616|AN|marche|3856
 Sirone|45.773|9.324|LC|lombardia|2391
 Sirtori|45.735|9.334|LC|lombardia|2920
 Sissa Trecasali|44.958|10.259|PR|emilia|7991
-Siurgus Donigala|39.599|9.185|SU|sardegna|2080
+Siurgus Donigala|39.599|9.185|CA|sardegna|2080
 Siziano|45.320|9.199|PV|lombardia|5807
 Sizzano|45.577|8.437|NO|piemonte|1446
 Sluderno|46.664|10.585|BZ|altoadige|1832
@@ -6883,7 +6883,7 @@ Solbiate Arno|45.721|8.813|VA|lombardia|4274
 Solbiate con Cagno|45.800|8.915|CO|lombardia|4588
 Solbiate Olona|45.654|8.887|VA|lombardia|5579
 Soldano|43.827|7.654|IM|liguria|985
-Soleminis|39.348|9.181|SU|sardegna|1858
+Soleminis|39.348|9.181|CA|sardegna|1858
 Solero|44.920|8.508|AL|piemonte|1660
 Solesino|45.178|11.742|PD|veneto|7180
 Soleto|40.188|18.207|LE|puglia|5542
@@ -7042,7 +7042,7 @@ Subbiano|43.576|11.870|AR|toscana|6299
 Subiaco|41.925|13.100|RM|lazio|9066
 Succivo|40.966|14.253|CE|campania|8148
 Sueglio|46.086|9.333|LC|lombardia|147
-Suelli|39.562|9.132|SU|sardegna|1135
+Suelli|39.562|9.132|CA|sardegna|1135
 Suello|45.819|9.308|LC|lombardia|1686
 Suisio|45.660|9.501|BG|lombardia|3873
 Sulbiate|45.635|9.421|MB|lombardia|4067
@@ -7075,7 +7075,7 @@ Taino|45.765|8.617|VA|lombardia|3762
 Taipana|46.253|13.345|UD|friuli|679
 Talamello|43.905|12.286|RN|emilia|1060
 Talamona|46.138|9.609|SO|lombardia|4768
-Talana|40.041|9.497|NU|sardegna|1069
+Talana|40.041|9.497|OG|sardegna|1069
 Taleggio|45.894|9.565|BG|lombardia|603
 Talla|43.602|11.787|AR|toscana|1130
 Talmassons|45.930|13.116|UD|friuli|4144
@@ -7116,10 +7116,10 @@ Teglio|46.172|10.063|SO|lombardia|4654
 Teglio Veneto|45.816|12.884|VE|veneto|2325
 Telese Terme|41.220|14.531|BN|campania|6964
 Telgate|45.627|9.853|BG|lombardia|4857
-Telti|40.876|9.352|SS|sardegna|2222
+Telti|40.876|9.352|OT|sardegna|2222
 Telve|46.071|11.479|TN|trentino|1995
 Telve di Sopra|46.072|11.473|TN|trentino|617
-Tempio Pausania|40.903|9.103|SS|sardegna|13946
+Tempio Pausania|40.903|9.103|OT|sardegna|13946
 Temù|46.250|10.470|BS|lombardia|1083
 Tenna|46.015|11.266|TN|trentino|955
 Tenno|45.919|10.833|TN|trentino|1967
@@ -7158,7 +7158,7 @@ Terre del Reno|44.793|11.389|FE|emilia|10571
 Terre Roveresche|43.688|12.964|PU|marche|5624
 Terricciola|43.525|10.676|PI|toscana|4511
 Terruggia|45.083|8.442|AL|piemonte|901
-Tertenia|39.697|9.577|NU|sardegna|3815
+Tertenia|39.697|9.577|OG|sardegna|3815
 Terzigno|40.808|14.498|NA|campania|17367
 Terzo|44.670|8.421|AL|piemonte|907
 Terzo d'Aquileia|45.801|13.346|UD|friuli|2881
@@ -7291,7 +7291,7 @@ Torrile|44.891|10.355|PR|emilia|7458
 Torrioni|41.034|14.814|AV|campania|578
 Torrita di Siena|43.167|11.772|SI|toscana|7357
 Torrita Tiberina|42.237|12.617|RM|lazio|1071
-Tortolì|39.925|9.657|NU|sardegna|10743
+Tortolì|39.925|9.657|OG|sardegna|10743
 Tortona|44.895|8.860|AL|piemonte|25986
 Tortora|39.922|15.768|CS|calabria|5997
 Tortorella|40.142|15.606|SA|campania|563
@@ -7387,12 +7387,12 @@ Tricase|39.935|18.351|LE|puglia|17665
 Tricerro|45.234|8.325|VC|piemonte|709
 Tricesimo|46.162|13.213|UD|friuli|7609
 Trichiana|46.068|12.136|BL|veneto|0
-Triei|40.037|9.641|NU|sardegna|1126
+Triei|40.037|9.641|OG|sardegna|1126
 Trieste|45.649|13.768|TS|friuli|202123
 Triggiano|41.065|16.925|BA|puglia|27007
 Trigolo|45.329|9.812|CR|lombardia|1760
 Trinità|44.507|7.758|CN|piemonte|2188
-Trinità d'Agultu e Vignola|40.986|8.914|SS|sardegna|2155
+Trinità d'Agultu e Vignola|40.986|8.914|OT|sardegna|2155
 Trinitapoli|41.360|16.086|BT|puglia|14293
 Trino|45.194|8.297|VC|piemonte|7437
 Triora|43.994|7.762|IM|liguria|374
@@ -7423,7 +7423,7 @@ Tufillo|41.916|14.626|CH|abruzzo|468
 Tufino|40.956|14.565|NA|campania|3785
 Tufo|41.010|14.824|AV|campania|924
 Tuglie|40.070|18.103|LE|puglia|5264
-Tuili|39.715|8.960|SU|sardegna|1062
+Tuili|39.715|8.960|VS|sardegna|1062
 Tula|40.734|8.987|SS|sardegna|1598
 Tuoro sul Trasimeno|43.209|12.072|PG|umbria|3850
 Turania|42.137|13.010|RI|lazio|245
@@ -7431,7 +7431,7 @@ Turano Lodigiano|45.248|9.623|LO|lombardia|1538
 Turate|45.655|9.001|CO|lombardia|8973
 Turbigo|45.528|8.735|MI|lombardia|7389
 Turi|40.916|17.019|BA|puglia|12748
-Turri|39.703|8.918|SU|sardegna|442
+Turri|39.703|8.918|VS|sardegna|442
 Turriaco|45.821|13.445|GO|friuli|2780
 Turrivalignani|42.263|14.029|PE|abruzzo|884
 Tursi|40.246|16.477|MT|basilicata|5151
@@ -7445,7 +7445,7 @@ Ugento|39.929|18.162|LE|puglia|12001
 Uggiano la Chiesa|40.100|18.454|LE|puglia|4479
 Uggiate-Trevano|45.823|8.962|CO|lombardia|4451
 Ulà Tirso|40.045|8.905|OR|sardegna|580
-Ulassai|39.812|9.500|NU|sardegna|1517
+Ulassai|39.812|9.500|OG|sardegna|1517
 Ultimo|46.549|11.003|BZ|altoadige|2920
 Umbertide|43.306|12.327|PG|umbria|16481
 Umbriatico|39.353|16.917|KR|calabria|929
@@ -7459,14 +7459,14 @@ Urbisaglia|43.197|13.377|MC|marche|2712
 Urgnano|45.599|9.689|BG|lombardia|9549
 Uri|40.638|8.487|SS|sardegna|3016
 Ururi|41.815|15.012|CB|molise|2793
-Urzulei|40.094|9.507|NU|sardegna|1295
+Urzulei|40.094|9.507|OG|sardegna|1295
 Uscio|44.413|9.163|GE|liguria|2275
 Usellus|39.808|8.853|OR|sardegna|854
 Usini|40.664|8.541|SS|sardegna|4321
 Usmate Velate|45.651|9.361|MB|lombardia|10033
-Ussana|39.393|9.078|SU|sardegna|4285
-Ussaramanna|39.691|8.910|SU|sardegna|556
-Ussassai|39.811|9.393|NU|sardegna|599
+Ussana|39.393|9.078|CA|sardegna|4285
+Ussaramanna|39.691|8.910|VS|sardegna|556
+Ussassai|39.811|9.393|OG|sardegna|599
 Usseaux|45.048|7.027|TO|piemonte|185
 Usseglio|45.233|7.217|TO|piemonte|219
 Ussita|42.944|13.138|MC|marche|420
@@ -7563,7 +7563,7 @@ Vallelunga Pratameno|37.680|13.830|CL|sicilia|3641
 Vallemaio|41.366|13.812|FR|lazio|1002
 Vallepietra|41.927|13.231|RM|lazio|306
 Vallerano|42.384|12.264|VT|lazio|2613
-Vallermosa|39.363|8.796|SU|sardegna|1944
+Vallermosa|39.363|8.796|CA|sardegna|1944
 Vallerotonda|41.552|13.913|FR|lazio|1671
 Vallesaccarda|41.064|15.252|AV|campania|1418
 Valleve|46.028|9.743|BG|lombardia|136
@@ -7825,7 +7825,7 @@ Villa Vicentina|45.817|13.394|UD|friuli|0
 Villabassa|46.738|12.169|BZ|altoadige|1479
 Villabate|38.076|13.442|PA|sicilia|19819
 Villachiara|45.357|9.930|BS|lombardia|1432
-Villacidro|39.456|8.732|SU|sardegna|14281
+Villacidro|39.456|8.732|VS|sardegna|14281
 Villadeati|45.072|8.170|AL|piemonte|523
 Villadose|45.074|11.890|RO|veneto|5188
 Villadossola|46.068|8.260|VB|piemonte|6777
@@ -7839,14 +7839,14 @@ Villafranca Sicula|37.587|13.291|AG|sicilia|1426
 Villafranca Tirrena|38.235|15.432|ME|sicilia|8748
 Villafrati|37.908|13.487|PA|sicilia|3377
 Villaga|45.402|11.534|VI|veneto|1963
-Villagrande Strisaili|39.962|9.506|NU|sardegna|3376
+Villagrande Strisaili|39.962|9.506|OG|sardegna|3376
 Villalago|41.936|13.836|AQ|abruzzo|589
 Villalba|37.655|13.844|CL|sicilia|1731
 Villalfonsina|42.165|14.574|CH|abruzzo|977
 Villalvernia|44.818|8.857|AL|piemonte|966
 Villamagna|42.333|14.237|CH|abruzzo|2437
 Villamaina|40.971|15.088|AV|campania|1018
-Villamar|39.618|8.962|SU|sardegna|2872
+Villamar|39.618|8.962|VS|sardegna|2872
 Villamarzana|45.011|11.692|RO|veneto|1202
 Villamassargia|39.276|8.640|SU|sardegna|3655
 Villamiroglio|45.134|8.170|AL|piemonte|332
@@ -7867,14 +7867,14 @@ Villanova Monteleone|40.504|8.470|SS|sardegna|2375
 Villanova Solaro|44.730|7.576|CN|piemonte|777
 Villanova sull'Arda|45.026|9.997|PC|emilia|1936
 Villanova Truschedu|39.990|8.753|OR|sardegna|323
-Villanova Tulo|39.780|9.215|SU|sardegna|1158
-Villanovaforru|39.633|8.869|SU|sardegna|681
-Villanovafranca|39.645|9.001|SU|sardegna|1433
+Villanova Tulo|39.780|9.215|CA|sardegna|1158
+Villanovaforru|39.633|8.869|VS|sardegna|681
+Villanovafranca|39.645|9.001|VS|sardegna|1433
 Villanterio|45.221|9.360|PV|lombardia|3153
 Villanuova sul Clisi|45.602|10.454|BS|lombardia|5661
 Villaperuccio|39.112|8.672|SU|sardegna|1097
 Villapiana|39.847|16.455|CS|calabria|5181
-Villaputzu|39.440|9.575|SU|sardegna|4836
+Villaputzu|39.440|9.575|CA|sardegna|4836
 Villar Dora|45.118|7.384|TO|piemonte|2951
 Villar Focchiardo|45.110|7.227|TO|piemonte|2068
 Villar Pellice|44.809|7.158|TO|piemonte|1120
@@ -7886,11 +7886,11 @@ Villareggia|45.311|7.979|TO|piemonte|1012
 Villaricca|40.922|14.195|NA|campania|30052
 Villaromagnano|44.851|8.887|AL|piemonte|700
 Villarosa|37.588|14.174|EN|sicilia|5130
-Villasalto|39.494|9.389|SU|sardegna|1127
+Villasalto|39.494|9.389|CA|sardegna|1127
 Villasanta|45.604|9.302|MB|lombardia|13619
-Villasimius|39.142|9.520|SU|sardegna|3420
-Villasor|39.381|8.941|SU|sardegna|6857
-Villaspeciosa|39.313|8.927|SU|sardegna|2407
+Villasimius|39.142|9.520|CA|sardegna|3420
+Villasor|39.381|8.941|CA|sardegna|6857
+Villaspeciosa|39.313|8.927|CA|sardegna|2407
 Villastellone|44.922|7.745|TO|piemonte|4864
 Villata|45.386|8.433|VC|piemonte|1618
 Villaurbana|39.886|8.778|OR|sardegna|1731
