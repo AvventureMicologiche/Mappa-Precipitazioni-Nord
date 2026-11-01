@@ -96,8 +96,8 @@ decisione e' sua. Sicurezza media sul fatto che non scarti piogge vere (temporal
 **4. Lombardia, giro della sera del 1/11: e' partito, ma non ha scritto niente.** Sicurezza alta (log letto).
 - Il cron delle 12:40 UTC di `lombardia.yml` e' partito alle 18:03 (run 41334608701, ritardo di GitHub). Log:
   `Warn 2026-10-31: HTTP 429` e `Warn 2026-10-30: HTTP 429`, nessun file cambiato, nessun commit. L'ultimo commit
-  lombardo resta `328e090e3` delle 11:33 UTC (che aveva gia' preso 429 sul 31/10). Il file del 31/10 e' quello delle
-  03:30, completo (253 sensori): niente si vede in mappa, si perde solo la correzione serale di ARPA (esempio vero:
+  lombardo resta `328e090e3` delle 11:33 UTC (che aveva gia' preso 429 sul 31/10). Il file del 31/10 e' quello del giro
+  delle 03:30 UTC del 1/11 (`257d6eb27`), completo (253 sensori): niente si vede in mappa, si perde solo la correzione serale di ARPA (esempio vero:
   Bormio 2000 il 29/10 passato da 13 a 0 mm solo col giro della sera del 30/10).
 - Meccanismo: `getJSON` riprova il 429 cinque volte in circa 100 s, poi `main` lo scrive come avviso
   (`collect-lombardia.js:347`) ed esce con 0, quindi i Retry del workflow non partono. Il secondo tentativo dopo un
