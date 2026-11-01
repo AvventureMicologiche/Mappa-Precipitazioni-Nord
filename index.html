@@ -1839,6 +1839,20 @@ html.apre-italia #map{background:#3e526b}
 html.apre-vista #channel-logo,html.apre-vista #channel-pill{display:none !important}
 html.apre-vista .leaflet-tile-pane{visibility:hidden}
 html.apre-vista #map{background:#3e526b}
+/* ⚠️ E LA FOTO DELLA PIOGGIA (1/11/2026, scheda 108, suo: «se apro da home page previsioni il sito sfarfalla un po'
+   all'apertura»). Dal 31/10 sotto la pioggia c'e' la foto nostra, in un pannello suo ('foto') FUORI da
+   .leaflet-tile-pane: le due regole qui sopra non la coprono. Aprendo le previsioni, prima della vista, si vedevano: il
+   fondo passare dal grigio al blu della foto (body.foto-on) e ritorno, la foto della pioggia entrare a pezzi
+   sull'inquadratura dello storico coi confini bianchi, poi il salto all'inquadratura delle previsioni (al telefono la
+   foto spariva per mezzo secondo e tornava). E al PC il riquadro bianco «Seleziona regione» dello storico (c'e' finche'
+   updateGuidePulse non lo spegne), al telefono la scritta della fonte dello storico («Fonte: —», poi «5.919
+   pluviometri in 5 nazioni»), che nelle previsioni del telefono non c'e'. Nascosta, la foto si scarica lo stesso: sono
+   le stesse tessere della foto delle previsioni (stesso indirizzo), che poi le trova gia' in cache */
+html.apre-italia #map .leaflet-foto-pane,html.apre-vista #map .leaflet-foto-pane{visibility:hidden}
+html.apre-italia body.foto-on #map,html.apre-vista body.foto-on #map{background:#3e526b}
+html.apre-italia #map .leaflet-overlay-pane{visibility:hidden}
+html.apre-prev #fonte-tag{visibility:hidden !important}
+@media(min-width:901px){html.apre-prev #region-panel{visibility:hidden !important}}
 </style>
 <script>
   // /previsioni/ (28/10/2026) vale come ?m=prev: e' lo stesso index.html, servito da functions/previsioni/index.js

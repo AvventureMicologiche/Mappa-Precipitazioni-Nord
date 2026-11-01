@@ -566,3 +566,32 @@ Prova `prova-rinfresco.js` nello scratchpad della scheda 102: PC 7/7; telefono 6
 su «domani» non arriva ai giorni del riquadro), e la mezzanotte al telefono provata a parte: riquadro e scheda tornano
 a «oggi».
 
+## Lo sfarfallio aprendo le previsioni dalla home (1/11/2026 sera, scheda 108)
+
+Suo: «se apro da home page previsioni il sito sfarfalla un po' all'apertura». Il tasto della home apre `/previsioni/`
+(= `?m=prev` senza regione: `apre-prev` + `apre-italia`). Dal 31/10 (scheda 104, «La foto dal satellite sotto la pioggia»
+in `CLAUDE-mappa.md`) la foto della pioggia sta nel pannello `foto` (z 205), FUORI da `.leaflet-tile-pane`: le regole
+`apre-italia` e `apre-vista` del 28-30/10 nascondono solo il tile-pane. Misurato sul sito vero (filmato a fotogrammi e un
+registratore ogni 25 ms), prima della vista delle previsioni si vedevano: al PC il riquadro bianco «Seleziona regione»
+dello storico (c'e' finche' `updateGuidePulse` non lo spegne); il fondo da grigio `#3e526b` a blu `#123a52` e ritorno
+(`body.foto-on #map` vince su `html.apre-italia #map`: stessa specificita', viene dopo); la foto della pioggia a pezzi
+sull'inquadratura dello storico, coi confini bianchi; poi la foto SPARITA (icone sul grigio) e ricomparsa piu' in la' (al
+telefono ~0,4 s); al telefono `#fonte-tag` dello storico in alto («Fonte: —», poi «5.919 pluviometri in 5 nazioni»).
+Stesso difetto con `?m=prev`, col link di una regione e col telefono girato.
+- **Correzione, solo CSS**, nel blocco in testa dopo `html.apre-vista #map{...}` («E LA FOTO DELLA PIOGGIA»): pannello
+  `foto` nascosto sotto `apre-italia` e `apre-vista` (si scarica lo stesso: sono le tessere della foto delle previsioni,
+  che poi arrivano dalla cache), fondo `#3e526b` anche con `foto-on`, `.leaflet-overlay-pane` nascosto sotto
+  `apre-italia`, `#fonte-tag` sotto `apre-prev`, `#region-panel` sotto `apre-prev` oltre i 900 px (la stessa soglia di
+  `updateGuidePulse`, `innerWidth<=900` = telefono). Copre anche la foto sfocata della scheda 106 bis (stesso pannello,
+  classe `foto-sotto`): senza questa regola lampeggiava anche lei.
+- **Prova** (banco, `sfarfallio-108\`: `misura.js`, `tempi.py`, `strade.sh`, `coppia.py`): 15 strade col file del repo
+  sul sito vero: `/previsioni/` al PC e al telefono, prima visita e gia' visitato, telefono girato, `?m=prev`,
+  `/previsioni/?r=liguria`, `?r=toscana&m=prev` al PC, al telefono e girato, radice al PC, al telefono e girato, linguetta
+  Previsioni e ritorno. Sempre un fondo solo, nessuna foto che sparisce, zero errori; radice e linguetta come prima. Tempi
+  uguali entro il rumore (giri uno alla volta: vista al PC 0,9-1,5 s, al telefono 4G con CPU ×4 2,9-4,7 s). Da sapere:
+  prima la prima immagine (quella sbagliata) arrivava ~1 s prima; adesso si resta sul grigio fino alla vista vera.
+- **Resta, piccolo, solo coi link di una regione** (`apre-vista`): i confini della regione bianchi sul grigio per un
+  attimo (PC ~0,15 s, telefono girato ~1 s), finche' `foto-on` si spegne e tornano blu. C'erano anche prima, sopra la
+  foto. Li toglierebbe `html.apre-vista #map .leaflet-overlay-pane{visibility:hidden}`, non messa: `apre-vista` vale
+  anche fra una vista e l'altra delle previsioni (linguetta, dall'Italia a una regione) e andrebbe provata li'.
+

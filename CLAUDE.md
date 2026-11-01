@@ -151,6 +151,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Pagine «Previsioni meteo <zona>» (/meteo/<zona>/, 24/10/2026)**: `/meteo/<zona>/` e le pagine «Meteo <paese>»
 - **`/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)**: titolo, descrizione e canonico suoi; il sottodominio `meteo.` scartato
 - **Previsioni senza regione: la vista Italia (27/10/2026)**: la vista Italia, poi icone, vista a etichette, controlli del 30-31/10
+- **Lo sfarfallio aprendo le previsioni dalla home (1/11/2026 sera, scheda 108)**: la foto della pioggia fuori da `apre-italia`, coperta col CSS in testa
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
