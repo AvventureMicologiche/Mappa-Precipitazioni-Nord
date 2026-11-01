@@ -42,24 +42,100 @@ Su tua richiesta («fai i medi»). I dettagli sono nel `CLAUDE.md`, «Secondo gi
 
 Prove: nessun link interno rotto, nessun titolo doppio, 7.603 script delle pagine compilati senza errori. Dieci pagine provate nel browser al telefono e al PC, tutte giuste.
 
-## Elenco aggiornato: cosa resta da fare
+## Terzo aggiornamento (1/11/2026 sera): doppioni, punto 10 approfondito, elenco dei piccoli
 
-**Medi rimasti**
-1. **Doppioni del gruppo C delle meteo:** Candalla con le Alpi Apuane, Val Serina con la Val Brembana. Serve la tua scelta. **Piccolo.**
-2. **Pagine funghi sottili al sud** (Puglia 2 posti, Basilicata 6, Sardegna 8, Sicilia 9). Servono il banco e Search Console. **Medio.**
+### Doppioni meteo: fatto
+Tolte le pagine meteo di **Candalla** (7 paesi su 9 in comune con le Alpi Apuane) e **Val Serina** (8 su 12 in comune con
+la Val Brembana). Rimando 301 in `_redirects` verso la pagina che le contiene. Le pagine zona piogge e zona funghi di
+quelle due zone adesso linkano «Previsioni meteo Alpi Apuane →» e «Previsioni meteo Val Brembana →» (`METEO_ASSORBITE`
+in `genera-pagine-meteo-zona.js`). Tolte anche dalle pillole «valle per valle» di 20 pagine meteo toscane e lombarde,
+delle «adesso», delle regioni piogge e funghi. Pagine meteo di zona: da 51 a 49. Link interni rotti: zero.
 
-**Bassi**
+### Punto 10 approfondito: perché il sud ha così pochi posti funghi
 
-3. Frasi da sistemare: «0,0 mm di media», doppio punto, «e altre una città», «con 386.» senza «mm», «zona per zona» nelle «adesso» senza zone. **Piccolo.**
-4. Le regioni piogge non si linkano fra loro, e il piede chiama «riepilogo delle regioni» i link alle pagine funghi. **Piccolo.**
-5. Anteprima social uguale (testo e immagine) su 1.043 pagine. **Piccolo.**
-6. `/previsioni/` con la scritta grande della mappa. **Piccolo.**
-7. Due stili di percorso in cima alle pagine; la guida parla di «dieci gruppi» di boschi. **Piccolo.**
-8. Sopra l'avviso delle stime la riga di stagione dice «i millimetri qui sotto sono veri» (`lib-stagione.js`). **Piccolo.**
-9. Il ripiego delle regioni funghi (quando il file del giorno è vecchio) non dichiara le stime. Raro. **Piccolo.**
-10. La sigla «(CI)» di San Michele, da verificare con le nuove province sarde. **Piccolo.**
+**La causa.** I posti funghi si scelgono con due regole: quota fra 200 e 1.600 m e **almeno il 37% di bosco entro 3 km
+misurato su OpenStreetMap** (lo dicono le pagine stesse, e `funghi-posti.json` porta quel numero). OpenStreetMap al sud
+disegna pochissimi boschi. Le nostre tessere vengono invece dalle **carte forestali ufficiali** delle regioni, e sugli
+stessi 908 posti danno in media **17 punti di bosco in più**; 762 posti su 908 si scostano di oltre 10 punti.
 
-**Non sono errori, ma convengono:** codice comune in file esterni (pagine da circa 113 a 15 KB, **medio-grande**); verdetto funghi scritto nell'HTML ogni mattina come le zone piogge (**medio**).
+**La prova.** Ho misurato il bosco entro 3 km sulle nostre tessere (lette dal repo delle tessere): è lo stesso calcolo
+della mappa forestale, che ritrovo al decimo (scarto medio 0,1 punti su 101 posti del sud). Poi l'ho fatto su tutti i
+pluviometri in fascia di quota con almeno 24 giorni di dato vero sugli ultimi 30, senza quelli esclusi dalla mappa.
+
+| regione | posti oggi | carte forestali >= 37% | >= 50% | nuovi con >= 50% |
+|---|---|---|---|---|
+| Sicilia | 9 | 83 | 50 | 41 |
+| Calabria | 17 | 61 | 41 | 24 |
+| Campania | 31 | 71 | 46 | 18 |
+| Sardegna | 8 | 21 | 14 | 9 |
+| Basilicata | 6 | 20 | 8 | 3 |
+| Puglia | 2 | 5 | 3 | 2 |
+| Molise (oggi senza pagina) | 0 | 15 | 10 | 10 |
+| tutta Italia | 908 | 1.407 | 1.134 | 280 (+10 Molise) |
+
+In Sicilia restavano fuori, per esempio, San Fratello Forestale (1.030 m, 84% di bosco), Gibilmanna (960 m, 64%),
+Monte Colla (1.502 m, 91%), Intraleo (1.475 m, 71%): boschi veri dei Nebrodi, delle Madonie e dei Peloritani. In
+Sardegna Monte Rasu (79%), Jerzu, Orune, Fonni. In Basilicata Tramutola (60%); San Fele (faggete) e Marsico Nuovo
+stanno appena sotto il 50%.
+
+**La Puglia resta sottile comunque**: ha pochi boschi e pochi pluviometri in bosco sopra i 200 m (al massimo 5 con la
+regola più larga). Lì la pagina sottile è la verità, non un difetto della scelta.
+
+**Le strade, dalla più utile:**
+1. **Aggiungere i posti al sud con le carte forestali, soglia 50%, senza togliere nessun posto di oggi.** Circa 107
+   pagine paese nuove (Sicilia 41, Calabria 24, Campania 18, Sardegna 9, Basilicata 3, Puglia 2, Molise 10) e la pagina
+   funghi del Molise. Al sud la stagione dei funghi è adesso (novembre e dicembre, in Sardegna e Sicilia anche dopo):
+   pagine pubblicate ora vengono lette da Google in stagione. Tutto si fa da qui, senza il banco: bosco e tipi di bosco
+   li calcolo come la mappa forestale, la provincia dal comune più vicino, i nomi tecnici («Leni SIAS», «Messina
+   SP50Bis», «Novara SS185») vanno sistemati a mano in `nomi-titolo.json` come i 105 di oggi. **Medio-grande.**
+2. **La stessa regola per tutta Italia**: 280 posti nuovi più i 10 del Molise (Piemonte 39, Liguria 34, Emilia 34, ...).
+   Più coerente, ma raddoppia il lavoro sui nomi e mette online molte pagine a stagione finita al nord. Meglio dopo,
+   coi numeri di Search Console. **Grande.**
+3. **Non aggiungere niente** e lasciare le regioni sottili come sono. **Zero.**
+
+⚠️ Con le strade 1 e 2 la «pulizia di dicembre» (togliere le pagine paese con zero clic) non deve giudicare le pagine
+nuove: avrebbero un mese di vita.
+
+**Legato al punto 10, e piccolo:** la pagina paese scrive «il 41% di bosco entro 3 km» (OpenStreetMap) e, poco sotto,
+la carta forestale della stessa zona dice un altro numero (Ligonchio 37% e 87%, Colle d'Oggia 39% e 82%). Conviene
+scrivere sempre quello delle carte forestali, che sono la fonte dei colori della mappa (`mappa-forestale-dati.json`
+lo ha per tutti i 908 posti). Va fatto insieme alla scelta sulla soglia, perché le pagine dicono anche «almeno il 37%
+di bosco su OpenStreetMap».
+
+**Non serve il banco. Serve Search Console** solo per decidere fra la strada 1 e la 2 (quanto rendono oggi le pagine
+paese del centro-sud rispetto al nord).
+
+### Elenco dei punti piccoli, con la soluzione
+
+1. **Description delle regioni**: «0,0 mm di media» quando la media è sotto 0,05 (scrivere «meno di 0,1 mm», come la
+   pagina), doppio punto quando manca ieri e la settimana è asciutta, Puglia con i 7 giorni che contengono stime (dirlo
+   o togliere il numero). `genera-pagine-regione.js:300-314`. Si vede dal giro del mattino.
+2. **«zona per zona» nelle «adesso»** di Puglia, Basilicata e Sardegna, che le zone non le hanno: togliere le due
+   parole quando la regione non ha zone. `genera-pagine-adesso.js:245`.
+3. **«e altre una città»** nella riga viva delle «adesso»: «e un'altra città». `lib/pagina-adesso.js:181-182`, con
+   `VERSIONE_JS` alzata (il file è servito a parte).
+4. **«il più asciutto Passo Mendola con 370.»** senza «mm», 107 zone funghi: «con 370 mm». `genera-pagine-zona.js:341`.
+   La frase sta nel ritratto: o trapianto della sola riga, o si aspetta il rinnovo del 2/12.
+5. **Piede delle regioni piogge**: «oppure il riepilogo delle regioni» porta in realtà alle pagine funghi; scrivere «le
+   pagine funghi delle regioni» e aggiungere 2-4 link alle regioni vicine. `genera-pagine-regione.js:205`.
+6. **Anteprima social**: `og:description` uguale su 1.043 pagine (mettere la description della pagina, che c'è già) e
+   `twitter:card` solo sulla mappa (aggiungerla ovunque). L'immagine per regione è un passo in più, facoltativo.
+7. **`/previsioni/` con la scritta grande della mappa**: riscrivere anche l'H1 nella Function
+   (`functions/previsioni/index.js`). Da fare dopo la testata nuova della scheda 104, che tocca proprio quell'H1.
+8. **Due stili di percorso**: la mappa forestale ha un percorso a un solo elemento; usare `briciolaHtml` come le altre
+   famiglie («Mappa pluviometrica › Mappa forestale › Toscana»).
+9. **Guida**: «la legenda dei dieci gruppi» (sono dodici, `guida/index.html:650`) e nessuna riga sulle pagine meteo.
+10. **Riga di stagione sopra l'avviso delle stime**: dice «i millimetri qui sotto sono veri» (`lib-stagione.js:27-29`)
+    proprio sopra il riquadro che dice che alcuni giorni sono stime. Togliere «sono veri» quando c'è `.avviso-stime`.
+11. **Ripiego delle regioni funghi** (quando il file del giorno è vecchio): non dichiara le stime. Raro. Portarci
+    `leggiS` come in `genera-funghi.js`.
+12. **«San Michele (CI)»**: la sigla va verificata con le province sarde nuove. Serve la tua conferma sulla sigla.
+13. **«il 1 novembre»** (latente, compare solo quando il riepilogo è di altroieri e il giorno è l'1, l'8 o l'11):
+    `genera-pagine-zona-piogge.js:210`, usare la regola dell'apostrofo già scritta per l'avviso delle stime (`:469`).
+14. **Pagine meteo**: «Iscriviti» con e senza `?sub_confirmation=1`; metterlo dappertutto.
+
+**Non sono errori, ma convengono:** codice comune in file esterni (pagine da circa 113 a 15 KB, **medio-grande**);
+verdetto funghi scritto nell'HTML ogni mattina come le zone piogge (**medio**).
 
 ---
 

@@ -3047,7 +3047,10 @@ Una pagina FATTA PER la previsione della zona, accanto a quella piogge e a quell
   `ZONE_METEO_B` (le 20 successive) in `sitemap-meteo-b.xml` e, dal 30/10/2026, `ZONE_METEO_C` (le 20 dopo ancora per
   visite GA4 di 28 giorni, pagine zona piogge + zona funghi: dalla Riviera di Levante ai Monti Sabini) in
   `sitemap-meteo-c.xml`, ognuno misurato a parte in Search Console. Il C è stato preparato prima di leggere i numeri di
-  A e B (suo: «sì, prepara le valli») e si pubblica dopo quella lettura (~3-4/11). Una zona nuova vuole anche la riga
+  A e B (suo: «sì, prepara le valli») e si pubblica dopo quella lettura (~3-4/11). ⚠️ **Dal 1/11/2026 il C ne ha 18**:
+  Candalla e Val Serina tolte perche' quasi uguali ad Alpi Apuane e Val Brembana (7 paesi su 9 e 8 su 12 in comune),
+  rimando 301 in `_redirects`, e `METEO_ASSORBITE` fa linkare alle loro pagine zona la pagina meteo che le contiene.
+  Una zona nuova vuole anche la riga
   «Previsioni meteo <zona> →» nelle sue pagine zona piogge e zona funghi (`linkMeteo`: rigenerandole c'è da sola,
   altrimenti si inserisce dopo «Sto leggendo le previsioni dei paesi…»; ⚠️ le zona funghi hanno fini riga misti) e la
   rigenerazione delle «adesso» della sua regione (blocco «valle per valle»).
@@ -3914,6 +3917,15 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   `quote-paesi.json` (riempito il 1/11 con 536 quote nuove dalle tessere terrarium): tabella e scheda chiedono a MET la
   stessa quota. La Riviera di Levante ha i paesi della costa (`PAESI_IN_PIU` in genera-pagine-zona-piogge.js: Recco,
   Camogli, Rapallo, Santa Margherita, Zoagli, Chiavari, Lavagna, Sestri Levante) prima di quelli della Fontanabuona.
-- **NON fatti, apposta**: i quasi doppioni del gruppo C delle meteo (Candalla con le Alpi Apuane, Val Serina con la Val
-  Brembana) aspettano la sua scelta; le pagine funghi sottili del sud (Puglia 2 posti, Basilicata 6) vogliono i dati del
-  bosco del banco e i numeri di Search Console.
+- **Terzo giro, la sera (suo «per i doppioni procedi come hai detto, per il punto 10 approfondisci»)**: tolte le pagine
+  meteo di Candalla e Val Serina (sopra, nella sezione delle pagine meteo).
+- ⚠️ **PERCHE' IL SUD HA POCHI POSTI FUNGHI (punto 10, misurato il 1/11/2026, niente ancora cambiato)**: i posti si
+  scelgono con quota 200-1.600 m e **almeno il 37% di bosco entro 3 km su OPENSTREETMAP** (il settimo campo di
+  `funghi-posti.json`, lo stesso numero che la pagina paese scrive «di bosco entro 3 km»), e OpenStreetMap al sud
+  disegna pochi boschi. Le carte forestali ufficiali (le nostre tessere) danno sugli stessi 908 posti in media 17 punti
+  in piu'. Il bosco della mappa forestale (`mappa-forestale-dati.json`, `paesi`) e' un cerchio di 3 km sulle tessere
+  z13, e si rifa' anche senza il banco leggendo le tessere da raw.githubusercontent.com (repo Tessere, cartella
+  `boschi/13/`): ritrovato al decimo. Con le carte forestali e soglia 50% entrerebbero 280 posti nuovi in tutta Italia, al sud
+  Sicilia 41, Calabria 24, Campania 18, Sardegna 9, Basilicata 3, Puglia 2, piu' 10 nel Molise, che oggi la pagina funghi non ce
+  l'ha. La Puglia resta sottile con qualunque regola (al massimo 5). Le strade e i numeri sono nel resoconto
+  `analisi-famiglie-pagine-2026-11-01.md`, «Terzo aggiornamento»; si decide con lui (e con Search Console).

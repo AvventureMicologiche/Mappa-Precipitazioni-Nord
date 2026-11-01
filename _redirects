@@ -88,3 +88,9 @@
 # La Slovenia resta sulla mappa: chi aveva l'indirizzo arriva li', con la Slovenia gia' scelta.
 /slovenia /?r=slovenia 301
 /slovenia/ /?r=slovenia 301
+
+# Pagine meteo tolte il 1/11/2026 perche' quasi uguali a quelle che le contengono (analisi delle famiglie di pagine)
+/meteo/candalla /meteo/alpi-apuane/ 301
+/meteo/candalla/ /meteo/alpi-apuane/ 301
+/meteo/val-serina /meteo/val-brembana/ 301
+/meteo/val-serina/ /meteo/val-brembana/ 301

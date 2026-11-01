@@ -79,9 +79,14 @@ const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-treb
 // + zona funghi, `scratchpad 79554e37 zone-ga4.py`), dalla Riviera di Levante (44) ai Monti Sabini (18). Preparate in
 // locale il 30/10; si pubblicano dopo la prima lettura dei numeri di A e B (~3-4/11). Sitemap loro, sitemap-meteo-c.xml.
 const ZONE_METEO_C = ['riviera-di-levante', 'monti-cantari', 'val-di-merse', 'monti-del-partenio', 'valmalenco', 'carnia',
-  'sabina', 'valle-sabbia', 'valdelsa', 'val-serina', 'val-veddasca', 'altopiano-del-tesino', 'romagna-toscana',
-  'val-di-luce', 'serre-calabresi', 'val-nure', 'candalla', 'monti-prenestini', 'val-borbera', 'monti-sabini'];
+  'sabina', 'valle-sabbia', 'valdelsa', 'val-veddasca', 'altopiano-del-tesino', 'romagna-toscana',
+  'val-di-luce', 'serre-calabresi', 'val-nure', 'monti-prenestini', 'val-borbera', 'monti-sabini'];
 const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B, ZONE_METEO_C);
+// ⚠️ DUE ZONE DEL GRUPPO C TOLTE (1/11/2026, scheda 105 bis, analisi delle famiglie di pagine, suo «procedi come hai
+// detto»): Val Serina aveva 8 paesi su 12 in comune con la Val Brembana, Candalla 7 su 9 con le Alpi Apuane. Due pagine
+// quasi uguali si rubano le ricerche a vicenda. Le loro pagine meteo non ci sono piu' (rimando 301 in _redirects) e le
+// pagine zona piogge e zona funghi di quelle due zone linkano la pagina meteo che le contiene (linkMeteo).
+const METEO_ASSORBITE = { 'val-serina': 'val-brembana', candalla: 'alpi-apuane' };
 
 // ⚠️ LE PAGINE «METEO <PAESE>» DEL TEST (28/10/2026, suo: «20 pagine meteo paese di prova, i paesi più cliccati»): le
 // 20 pagine paese funghi con piu' clic da Google negli ultimi 28 giorni (Search Console; GA4 dice lo stesso). Le scrive
@@ -125,6 +130,10 @@ const agenziaDi = k => { const r = REGIONI.find(x => x.k === k); return r ? (r.a
    (genera-pagine-zona-piogge.js e genera-pagine-zona.js lo chiedono qui, cosi' l'elenco resta uno solo). Serve a dire
    a Google quale delle tre pagine della zona e' quella delle previsioni. Vuoto per le zone fuori dal test. */
 function linkMeteo(zslug, nome, ga) {
+  if (METEO_ASSORBITE[zslug]) {
+    const dentro = ZONE.find(z => slug(z.n) === METEO_ASSORBITE[zslug]);
+    if (dentro) { nome = dentro.n; zslug = METEO_ASSORBITE[zslug]; }
+  }
   if (!ZONE_METEO_TUTTE.includes(zslug)) return '';
   return `<p class="mk-meteo-zona" style="margin:12px 0 2px;font-size:16px;font-weight:700"><a href="${SITO}/meteo/${zslug}/"`
     + ` onclick="try{gtag('event','apri_meteo_zona',{da:'${ga}'})}catch(e){}">Previsioni meteo ${esc(nome)} →</a></p>`;
