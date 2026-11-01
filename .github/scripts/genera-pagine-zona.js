@@ -94,6 +94,9 @@ function pagina(z) {
   const zslug = slug(z.n);
   const { ids, regDi: REG_DI } = postiDellaZona(POSTI, z);   // senza doppioni
   const SLUG_DI = id => SLUG_REG[REG_DI[id]][id];
+  // ⚠️ QUANTI PLUVIOMETRI SI DICHIARANO (1/11/2026, scheda 105 bis): senza gli esclusi dalla mappa, che la media gia'
+  // non contava. In tabella restano col trattino (17/10/2026). Prima la Riviera di Levante diceva 3 con la media su 2.
+  const nAttivi = ids.filter(id => { const pp = POSTI[REG_DI[id]].find(x => x[0] === id) || [id]; return !escluso(ESCLUSE, regioneDati(REG_DI[id], pp), pp); }).length;
   const regioni = [...new Set(ids.map(id => REG_DI[id]))];
   const casa = REGIONI.find(x => x.k === z.reg) || REGIONI.find(x => x.k === regioni[0]);
   const nomeReg = casa.nomeTitolo || casa.nome;
@@ -144,8 +147,8 @@ function pagina(z) {
   // lo scrive il browser. Dal 31/10 «meteo funghi» sta nel titolo e la
   // descrizione comincia con «Crescita funghi».
   const DESCR = [
-    'Crescita funghi ' + z.dove + ': quanta pioggia è caduta negli ultimi 20 giorni, da ' + ids.length + ' pluviometri da bosco, e il verdetto per i funghi. Aggiornato ogni mattina.',
-    'Crescita funghi ' + z.dove + ': la pioggia degli ultimi 20 giorni da ' + ids.length + ' pluviometri da bosco e il verdetto per i funghi.',
+    'Crescita funghi ' + z.dove + ': quanta pioggia è caduta negli ultimi 20 giorni, da ' + nAttivi + ' pluviometri da bosco, e il verdetto per i funghi. Aggiornato ogni mattina.',
+    'Crescita funghi ' + z.dove + ': la pioggia degli ultimi 20 giorni da ' + nAttivi + ' pluviometri da bosco e il verdetto per i funghi.',
     'Crescita funghi ' + z.dove + ': la pioggia degli ultimi 20 giorni e il verdetto per i funghi.',
   ].find(t => t.length <= 158) || ('Funghi ' + z.dove + ' oggi: le piogge degli ultimi 25 giorni.');
 
@@ -268,7 +271,7 @@ ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: casa.k, ga:
 <p class="nota" style="margin-bottom:6px"><a href="${SITO}/funghi/" style="color:var(--blu)">‹ Piogge per funghi</a> <span style="color:#9aa7b8">›</span> <a href="${SITO}/funghi/${casa.k}/" style="color:var(--blu)">${esc(nomeReg)}</a></p>
 
 <h1>${esc(H1)}</h1>
-<p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${ids.length > 1 ? 'di ' + ids.length + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
+<p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${nAttivi > 1 ? 'di ' + nAttivi + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
 ${rigaStagione()}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
@@ -323,10 +326,14 @@ ${haBoschi(casa.k) ? `<h2>Che boschi ci sono nella zona</h2>
   <span class="vai-mappa">🌲 Guarda i boschi ${esc(z.dove)}</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono ${esc(fonteDa(casa.k))}.</p>
-` : ''}
+${/* la carta forestale della zona, o della regione (1/11/2026, scheda 105 bis) */ fs.existsSync(path.join(RADICE, 'mappa-forestale', 'zone', zslug, 'index.html'))
+  ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="${SITO}/mappa-forestale/zone/${zslug}/">la carta forestale ${esc(diZona(z.dove))}</a>.</p>
+`
+  : fs.existsSync(path.join(RADICE, 'mappa-forestale', casa.k, 'index.html')) ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="${SITO}/mappa-forestale/${casa.k}/">la carta forestale ${esc(GEN[casa.k])}</a>.</p>
+` : ''}` : ''}
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
-<p>I millimetri li misurano i <b>${ids.length} pluviometri</b> ${esc(diEnte(elenco(agenzie)))} nelle zone
+<p>I millimetri li misurano i <b>${nAttivi} pluviometri</b> ${esc(diEnte(elenco(agenzie)))} nelle zone
 da bosco ${esc(diZona(z.dove))}: quota fra 200 e 1600 metri e almeno il 37% di bosco entro 3 km.
 I numeri in cima sono la media dei pluviometri, giorno per giorno. Ogni pluviometro va alla zona più
 vicina, e a una sola. La giornata di oggi non è contata perché i pluviometri la stanno ancora misurando.</p>
@@ -336,7 +343,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <a href="${SITO}/zone/${zslug}/">dove ha piovuto ${esc(z.dove)}</a>.</p>
 ${RITRATTO ? `<h2>L'archivio della zona</h2>
 <p>Da ${meseIso(RITRATTO.dal)} a ${meseIso(RITRATTO.al)}, in ${RITRATTO.giorni} giorni di misura, i ${RITRATTO.quanti} pluviometri
-${esc(diZona(z.dove))}${RITRATTO.quanti < ids.length ? ' che leggiamo dallo stesso giorno' : ''} hanno contato
+${esc(diZona(z.dove))}${RITRATTO.quanti < nAttivi ? ' che leggiamo dallo stesso giorno' : ''} hanno contato
 <b>${migliaia(RITRATTO.media)} mm</b> di pioggia a testa, in media. Il più bagnato è <b>${esc(RITRATTO.alto.n)}</b> con
 ${migliaia(RITRATTO.alto.c.mm)} mm, il più asciutto ${esc(RITRATTO.basso.n)} con ${migliaia(RITRATTO.basso.c.mm)}.
 La giornata più piovosa è stata ${artGiorno(RITRATTO.forte.c.maxData)}<b>${dataBella(RITRATTO.forte.c.maxData)}</b> ${aNome(RITRATTO.forte.n)}${esc(RITRATTO.forte.n)},

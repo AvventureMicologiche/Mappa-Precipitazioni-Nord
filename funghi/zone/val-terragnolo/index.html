@@ -549,7 +549,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <h2 style="font-size:18px">I pluviometri della zona, dal più bagnato</h2>
 <table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
 <tbody id="tabella">
-<tr data-id="T0009"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/centa-san-nicolo/"><b>Centa San Nicolo'</b></a><span class="com">TN · 805 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="T0009"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/centa-san-nicolo/"><b>Centa San Nicolò</b></a><span class="com">TN · 805 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="T0210"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/folgaria/"><b>Folgaria</b></a><span class="com">TN · 1121 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="T0032"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/lavarone-chiesa/"><b>Lavarone (Chiesa)</b></a><span class="com">TN · 1155 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="T0369"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/passo-sommo/"><b>Passo Sommo</b></a><span class="com">TN · 1360 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
@@ -569,6 +569,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <span class="vai-mappa">🌲 Guarda i boschi in Val Terragnolo</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono dalla carta «Tipi forestali 2021».</p>
+<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/val-terragnolo/">la carta forestale della Val Terragnolo</a>.</p>
 
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
@@ -614,7 +615,7 @@ OpenStreetMap, licenza ODbL.</p>
   var REGIONI = ["trentino"], REGS = "trentino,veneto";
   var LAT = 45.87569, LON = 11.14439;
   /* [ id, nome, sigla, quota, lat, lon, slug, regione ] */
-  var POSTI = [["T0009","Centa San Nicolo'","TN",805,45.9701,11.2342,"centa-san-nicolo","trentino"],["T0210","Folgaria","TN",1121,45.9153,11.1644,"folgaria","trentino"],["T0032","Lavarone (Chiesa)","TN",1155,45.9403,11.2537,"lavarone-chiesa","trentino"],["T0369","Passo Sommo","TN",1360,45.9186,11.2061,"passo-sommo","trentino"],["T0148","Terragnolo (Piazza)","TN",800,45.8796,11.1511,"terragnolo-piazza","trentino"]];
+  var POSTI = [["T0009","Centa San Nicolò","TN",805,45.9701,11.2342,"centa-san-nicolo","trentino"],["T0210","Folgaria","TN",1121,45.9153,11.1644,"folgaria","trentino"],["T0032","Lavarone (Chiesa)","TN",1155,45.9403,11.2537,"lavarone-chiesa","trentino"],["T0369","Passo Sommo","TN",1360,45.9186,11.2061,"passo-sommo","trentino"],["T0148","Terragnolo (Piazza)","TN",800,45.8796,11.1511,"terragnolo-piazza","trentino"]];
   var LOCALE = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
   var BASE = LOCALE ? "/data/"
     : "https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/";

@@ -2080,7 +2080,7 @@ riscrive mille pagine ogni notte, e smetterebbe di crederci.
 Il resto lo dira' il rapporto Pagine di Search Console fra tre settimane, ed e'
 per quello che la sitemap e' divisa.
 
-### Il rinnovo si fa da solo, quattro volte l'anno
+### Il rinnovo si fa da solo, ogni mese (dal 1/11/2026; prima quattro volte l'anno)
 
 `rinnova-pagine.js` + `rinnova-pagine.yml`, cron `20 11 1 3,6,9,12 *` (il primo
 di marzo, giugno, settembre e dicembre). Rigenera funghi -> paese -> zona, e se
@@ -3876,3 +3876,44 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
 - **Mappa forestale, Abruzzo.** Il modello scriveva per tutte «i pluviometri della regione, con la pioggia vera giorno
   per giorno»; per le regioni senza pagina piogge (`HA_PIOGGE`, cioe' l'Abruzzo) ora dice «la pioggia dell'Abruzzo
   giorno per giorno (qui sono stime di modello, non misure di pluviometri)».
+
+### Secondo giro dello stesso giorno: i punti medi dell'analisi (suo «fai i medi»)
+
+- **Un solo numero di pluviometri per pagina regione** (`reteDi` in `genera-pagine-regione.js`): titolo, descrizione e
+  sottotitolo («oltre N», `stazDi`, anche nelle «adesso» e nelle regioni funghi) usano la rete, il piu' alto fra i periodi
+  del riepilogo. La Basilicata diceva 50, «oltre 45» e 62; ora 62 e «oltre 60». L'indice forestale scrive
+  `D.gruppi.length` tipi di bosco (12) invece di un 11 scritto a mano.
+- **Le zone non contano i pluviometri esclusi dalla mappa**: zone piogge (via dalla tabella e dal conto, la media li
+  toglieva gia') e zone funghi (`nAttivi`; in tabella restano col trattino come dal 17/10); anche la frase «con i suoi N
+  pluviometri» delle pagine paese. Riviera di Levante 3 → 2, Calvana 16 → 13.
+- **Quattro zone corrette in `funghi-zone.json`**: Valle Sessera senza i tre posti novaresi (Armeno, Monte Mesma,
+  Paruzzaro) e Cellio (Valsesia), con Valdilana, Camparient e Bielmonte, centro spostato a 45,69 8,16; Valtiberina senza
+  i quattro posti marchigiani del versante adriatico (Biscubio, Monte Nerone, Pianello di Cagli, Serravalle di Carda);
+  Calvana senza le dighe bolognesi di Pavana e Suviana; Val d'Aveto con Santo Stefano d'Aveto e Amborzasco. Rifatti i
+  riepiloghi, le pagine di zona (piogge, funghi, meteo) e, in `mappa-forestale-dati.json`, posti, bosco e tipi di quelle
+  quattro zone con la stessa media della Carnia (le foto restano valide: i loro paesi sono ancora dentro).
+- **Nomi**: `bello()` (lib-nomi.js) trasforma l'apostrofo finale dopo una vocale nell'accento grave (Malè, Mondovì,
+  Fiè, Nicolò, Viù, Prà, Cesarò...), tranne «Ca'»; gli indirizzi non cambiano (verificato su 908). Quindici nomi in
+  piu' in `nomi-titolo.json` (Branzi, Idro, Verceia, Porto Ceresio, Lavena Ponte Tresa, Omegna, Ponte di Nava, Fucine
+  (Viù), Fusino (Grosio), Lago della Piastra (Entracque), Lago del Brugneto, Lago di Ca' Zul, Lago di Ca' Selva, Lago di
+  Tramonti, Tolmezzo). ⚠️ «San Michele (CI)» NON e' toccato: le province sarde sono state rifatte e la sigla va
+  verificata prima.
+- **Ritratti**: `lib-clima.js` conta come «intero» solo un mese FINITO; `rinnova-pagine.yml` gira il 2 di ogni mese
+  (`20 11 2 * *`): i crediti Netlify, che imponevano il trimestre, non ci sono piu'.
+- **Verdetto delle pagine paese**: sopra la soglia del 60% i giorni senza dato contano zero, e ora il riquadro lo dice
+  («Questo pluviometro non ha mandato dati per N giorni su M: il totale può essere più basso del vero»).
+- **La mappa forestale non e' piu' un'isola**: sotto «Che boschi ci sono» le regioni funghi linkano la carta forestale
+  della regione, le zone funghi quella della zona (o della regione se la zona non ha la sua, Valle Sabbia), i 908 paesi
+  quella della loro zona o della regione. ⚠️ Nel generatore dei paesi `GEN` e' il genitivo della regione (stringa,
+  `GENITIVO[REG]`), non la tabella di genera-pagine-regione.js: importarla col suo nome non serve, viene coperta.
+- **Le date della sitemap si calcolano da sole** per la mappa, `/previsioni/`, la guida, le fonti e le 138 pagine
+  forestali: `pagine-impronte.json` tiene un'impronta del file per pagina, e la data diventa oggi quando l'impronta
+  cambia (`dataDi` in genera-sitemap.js). Il file va committato con le sitemap: pagine-regione.yml e rinnova-pagine.yml
+  lo aggiungono. Le altre famiglie restano su `pagine-lastmod.json` (funghi, localita, zone e indice spostati al 1/11).
+- **Pagine meteo**: ogni paese di `data/paesi-zone.json` e di `data/paesi-localita/` porta la quota `q` dall'archivio
+  `quote-paesi.json` (riempito il 1/11 con 536 quote nuove dalle tessere terrarium): tabella e scheda chiedono a MET la
+  stessa quota. La Riviera di Levante ha i paesi della costa (`PAESI_IN_PIU` in genera-pagine-zona-piogge.js: Recco,
+  Camogli, Rapallo, Santa Margherita, Zoagli, Chiavari, Lavagna, Sestri Levante) prima di quelli della Fontanabuona.
+- **NON fatti, apposta**: i quasi doppioni del gruppo C delle meteo (Candalla con le Alpi Apuane, Val Serina con la Val
+  Brembana) aspettano la sua scelta; le pagine funghi sottili del sud (Puglia 2 posti, Basilicata 6) vogliono i dati del
+  bosco del banco e i numeri di Search Console.

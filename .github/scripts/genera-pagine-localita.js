@@ -62,7 +62,7 @@ const { clima, buono, periodo, dataBella, meseBello, migliaia, virgola, artGiorn
 const ZONE = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-zone.json'), 'utf8'));
 // ⚠️ per id E vicinanza, non per solo id (18/10/2026): «156» e' Crodo in Piemonte e Crespano
 // del Grappa in Veneto, e la pagina di Crodo finiva sui Colli Asolani. Vedi lib-nomi.js.
-const { zonaDelPosto, artNum, vocaleNum, diEnte } = require('./lib-nomi.js');   // «l'81%», «l'8º» (18/10/2026)
+const { zonaDelPosto, artNum, vocaleNum, diEnte, diZona, postiDellaZona } = require('./lib-nomi.js');   // «l'81%», «l'8º» (18/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -163,6 +163,11 @@ const COMUNI = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'u
   .map(r => r.split('|')).filter(p => p.length >= 6 && (p[6] || '').trim() !== 'z')
   .map(p => ({ n: p[0], lat: +p[1], lon: +p[2], reg: p[4], pop: +p[5] || 0 }));
 const PAESI_KM = 12, PAESI_MAX = 8;
+// ⚠️ LA QUOTA DEI PAESI INTORNO (1/11/2026, scheda 105 bis): dall'archivio quote-paesi.json, la stessa che la scheda ora
+// per ora delle pagine «Meteo <paese>» manda all'API; senza, tabella e scheda potevano dare minime diverse. Chi non e'
+// nell'archivio resta senza (MET usa il suo terreno), come prima.
+const { chiave: chiaveQuota } = require('./lib-quota-paesi.js');
+const QUOTE_PAESI = (() => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'quote-paesi.json'), 'utf8')); } catch (e) { return {}; } })();
 const normNome = t => String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]+/g, ' ').trim();
 // il comune che E' il pluviometro con un altro nome, entro 2 km (settimo check bug 7, ottavo check bug 6)
 function doppione(io, cn, d) {
@@ -189,7 +194,7 @@ function paesiDelPosto(reg, posto) {
   let altri = giro(PAESI_KM);
   if (altri.length < 4) altri = giro(20);
   return [{ n: nome, lat: +lat, lon: +lon, ...(quota > 0 ? { q: +quota } : {}), r: reg, qui: 1 }]
-    .concat(altri.map(c => ({ n: c.n, lat: c.lat, lon: c.lon, r: c.reg })));
+    .concat(altri.map(c => { const qq = QUOTE_PAESI[chiaveQuota(c.lat, c.lon)]; return { n: c.n, lat: c.lat, lon: c.lon, ...(qq ? { q: qq.q } : {}), r: c.reg }; }));
 }
 
 function pagina(r, posto, slug, sl) {
@@ -291,6 +296,14 @@ function pagina(r, posto, slug, sl) {
   const ZONA = zonaDelPosto(ZONE, ID, lat, lon);
   const PIOGGE_URL = ZONA ? `${SITO}/zone/${slugDaNome(ZONA.n)}/` : `${SITO}/${REG}/`;
   const PIOGGE_DOVE = ZONA ? ZONA.dove : `${r.prep} ${r.nomeTitolo || r.nome}`;
+  // ⚠️ LA CARTA FORESTALE (1/11/2026, scheda 105 bis): le 138 pagine della mappa forestale le linkava solo la guida.
+  // La zona se ha la sua pagina forestale, se no la regione.
+  const FOR_ZONA = ZONA && fs.existsSync(path.join(RADICE, 'mappa-forestale', 'zone', slugDaNome(ZONA.n), 'index.html'));
+  const FORESTALE = FOR_ZONA ? [`${SITO}/mappa-forestale/zone/${slugDaNome(ZONA.n)}/`, diZona(ZONA.dove)]
+    : fs.existsSync(path.join(RADICE, 'mappa-forestale', REG, 'index.html')) && GEN ? [`${SITO}/mappa-forestale/${REG}/`, GEN] : null;   // GEN qui e' il genitivo della regione (GENITIVO[REG])
+  // i pluviometri della zona SENZA gli esclusi dalla mappa (1/11/2026), come nelle pagine di zona
+  const N_ZONA = ZONA ? (() => { const { ids, regDi } = postiDellaZona(POSTI, ZONA);
+    return ids.filter(id => { const pp = POSTI[regDi[id]].find(x => x[0] === id) || [id]; return !escluso(ESCLUSE, regioneDati(regDi[id], pp), pp); }).length; })() : 0;
 
   // Il foglio di stile viene dalla pagina funghi della regione: una copia sola.
   const modello = path.join(RADICE, 'funghi', REG, 'index.html');
@@ -485,7 +498,8 @@ ${haBoschi(REG) ? `<h2>Che boschi ci sono intorno</h2>
   <span class="vai-mappa">🌲 Guarda i boschi intorno ${esc(INTORNO)}</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono ${esc(fonteDa(REG))}.</p>
-` : ''}
+${FORESTALE ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="${FORESTALE[0]}">la carta forestale ${esc(FORESTALE[1])}</a>.</p>
+` : ''}` : ''}
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misura il pluviometro ${esc(diEnte(AGENZIA))} ${esc(DOVE)}: ${esc(sigla)}, ${quota} metri,
@@ -496,7 +510,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="${PIOGGE_URL}">dove ha piovuto ${esc(PIOGGE_DOVE)}</a>.${ZONA ? ` Questo pluviometro sta
 ${esc(ZONA.dove)}: <a href="${SITO}/funghi/zone/${slugDaNome(ZONA.n)}/">guarda tutta la zona</a>,
-con i suoi ${new Set(ZONA.posti).size} pluviometri insieme.` : ''}</p>
+con i suoi ${N_ZONA} pluviometri insieme.` : ''}</p>
 ${RITRATTO ? `<h2>L'archivio di questo pluviometro</h2>
 <p><b>${(t => t.charAt(0).toUpperCase() + t.slice(1))(periodo(RITRATTO))}</b>, in ${RITRATTO.giorni} giorni di misura, ${bagnate(RITRATTO)}
 Il giorno più bagnato è stato ${artGiorno(RITRATTO.maxData)}<b>${dataBella(RITRATTO.maxData)}</b>, con
@@ -656,6 +670,8 @@ ${JS_STIME}
       + '<div class="si"><span class="pallino" style="background:'+liv.c+'"></span>'+liv.t+'</div>'
       + '<div class="gr">'+Math.round(m20)+' mm<small>negli ultimi 20 giorni</small></div>'
       + '<div class="dett">'+dett+'</div>'
+      /* 1/11/2026 (scheda 105 bis): sotto la soglia il verdetto non c'e'; sopra, i giorni senza dato contano zero, e lo si dice */
+      + (g20 < r20 ? '<div class="dett" style="opacity:.85;margin-top:6px">Questo pluviometro non ha mandato dati per ' + (r20 - g20) + (r20 - g20 === 1 ? ' giorno' : ' giorni') + ' su ' + r20 + ': il totale può essere più basso del vero.</div>' : '')
       + '<div class="scala">'+scala+'</div>'
       + '<div class="scala-t"><span>sotto 30</span><span>30-60</span><span>60-100</span><span>oltre 100</span></div>'
       + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';

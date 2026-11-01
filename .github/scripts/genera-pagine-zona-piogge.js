@@ -36,7 +36,7 @@ const { REGIONI, COTTE, briciolaJson } = require('./genera-pagine-regione.js');
 const { oggiItalia, giorniIndietro } = require('./lib-giorni.js');
 const { bello, slug, slugRegione, elenco, diZona, postiDellaZona, diEnte } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
-const { retiDei } = require('./lib-posti.js');   // l'ente dei posti con la rete di un'altra regione (20/10/2026)
+const { retiDei, regioneDati } = require('./lib-posti.js');   // l'ente dei posti con la rete di un'altra regione (20/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
 // il bottone YouTube in fondo, col quiz accanto SOLO nelle regioni che ce l'hanno (18/10/2026):
 // la pagina regione gemella ce l'aveva dall'11/10, queste no
@@ -77,6 +77,8 @@ const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 
 // Per REGIONE: gli id non sono unici fra regioni (18/10/2026), la regione di ogni
 // pluviometro la decide postiDellaZona per vicinanza al centro della zona (lib-nomi.js).
+const { escluse, escluso } = require('./lib-escluse.js');
+const ESCLUSE = escluse(RADICE);   // le liste *_ESCLUSE della mappa (lib-escluse.js)
 const SLUG_REG = {}, ANAG_REG = {};
 for (const [k, v] of Object.entries(POSTI)) {
   SLUG_REG[k] = slugRegione(v); ANAG_REG[k] = {};
@@ -99,7 +101,18 @@ function scrivi(dest, testo) {
    ⚠️ REGOLA SUA: «meglio un paese in piu', anche fuori zona, che uno in meno». Per questo la pagina scrive
    «I paesi della X e dei dintorni». Limite noto: in Lunigiana centro e pluviometri stanno a sud, Pontremoli e
    Fivizzano restano fuori (la casella li trova). Ognuno porta la SUA regione (r). Finiscono in
-   data/paesi-zone.json, che legge /api/previsioni?zona=<slug>. Niente quota: MET usa il suo terreno. */
+   data/paesi-zone.json, che legge /api/previsioni?zona=<slug>.
+   ⚠️ LA QUOTA (1/11/2026, scheda 105 bis): fino a oggi qui niente quota, e MET usava il suo terreno; la scheda ora per
+   ora delle pagine meteo invece mandava la quota cotta (lib-quota-paesi.js), e lo stesso paese poteva avere due minime
+   diverse fra tabella e scheda. Ora ogni paese porta `q` dall'archivio quote-paesi.json (stessa fonte, terreno); chi non
+   e' nell'archivio resta senza, come prima. L'archivio lo riempie quotePaesi() (pagine meteo, o a mano).
+   ⚠️ PAESI IN PIU' (PAESI_IN_PIU): la Riviera di Levante ha i pluviometri nell'entroterra (Barbagelata, Ognio) e
+   mostrava solo la Fontanabuona, senza Rapallo, Chiavari o Sestri. I paesi della lista vengono prima di tutti. */
+const PAESI_IN_PIU = {
+  'riviera-di-levante': ['Recco', 'Camogli', 'Rapallo', 'Santa Margherita Ligure', 'Zoagli', 'Chiavari', 'Lavagna', 'Sestri Levante'],
+};
+const { chiave: chiaveQuota } = require('./lib-quota-paesi.js');
+const QUOTE_PAESI = (() => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'quote-paesi.json'), 'utf8')); } catch (e) { return {}; } })();
 const COMUNI = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n')
   .map(r => r.split('|')).filter(p => p.length >= 6 && (p[6] || '').trim() !== 'z')
   .map(p => ({ n: p[0], lat: +p[1], lon: +p[2], reg: p[4], pop: +p[5] || 0 }));
@@ -125,8 +138,9 @@ function paesiDellaZona(z) {
   const st = ids.map(id => ANAG_REG[regDi[id]][id]).map(p => ({ lat: +p[4], lon: +p[5] }));
   const dist = st.map(p => km(z.lat, z.lon, p.lat, p.lon)).sort((a, b) => a - b);
   const s = Math.max(6, dist[Math.floor(dist.length / 2)] || 0);   // la scala della zona, in km
-  const cand = new Map(), metti = (c, certo) => { const ch = c.n + '|' + c.reg, v = cand.get(ch);
-    cand.set(ch, { ...c, d: km(z.lat, z.lon, c.lat, c.lon), certo: certo || (v && v.certo) }); };
+  const cand = new Map(), metti = (c, certo, prima) => { const ch = c.n + '|' + c.reg, v = cand.get(ch);
+    cand.set(ch, { ...c, d: km(z.lat, z.lon, c.lat, c.lon), certo: certo || (v && v.certo), prima: prima || (v && v.prima) }); };
+  for (const n of PAESI_IN_PIU[slug(z.n)] || []) { const c = COMUNI.find(x => x.n === n && x.reg === z.reg); if (c) metti(c, true, true); }
   for (const p of st) { let best = null, d0 = Infinity; for (const c of COMUNI) { const d = km(p.lat, p.lon, c.lat, c.lon); if (d < d0) { d0 = d; best = c; } } if (best) metti(best, true); }
   const poli = st.length >= 3 ? inviluppo(st.map(p => [p.lon * k, p.lat])) : [];
   for (const c of COMUNI) {
@@ -142,8 +156,8 @@ function paesiDellaZona(z) {
   // ⚠️ PRIMA I CERTI (comune di un pluviometro o dentro l'area dei pluviometri), poi il cerchio: con la sola vicinanza
   // al centro la Garfagnana perdeva l'alta valle (Piazza al Serchio, Minucciano) per Bagni di Lucca. 20/10/2026.
   const peso = c => Math.log10(c.pop + 10) * Math.exp(-((c.d / (2 * s)) ** 2)) * (c.reg === z.reg ? 1 : 0.6);
-  return [...cand.values()].sort((a, b) => (b.certo ? 1 : 0) - (a.certo ? 1 : 0) || peso(b) - peso(a)).slice(0, MAX_PAESI)
-    .map(c => ({ n: c.n, lat: c.lat, lon: c.lon, r: c.reg }));
+  return [...cand.values()].sort((a, b) => (b.prima ? 1 : 0) - (a.prima ? 1 : 0) || (b.certo ? 1 : 0) - (a.certo ? 1 : 0) || peso(b) - peso(a)).slice(0, MAX_PAESI)
+    .map(c => { const qq = QUOTE_PAESI[chiaveQuota(c.lat, c.lon)]; return { n: c.n, lat: c.lat, lon: c.lon, ...(qq ? { q: qq.q } : {}), r: c.reg }; });
 }
 
 /* ⚠️ I NUMERI SCRITTI NELL'HTML (31/10/2026, scheda 104 bis, proposta 4 del controllo SEO del cloud). Fino a oggi la
@@ -202,8 +216,12 @@ function descrCotta(z, j, n, ente) {
 
 function pagina(z) {
   const zslug = slug(z.n);
-  const { ids, regDi: REG_DI } = postiDellaZona(POSTI, z);   // senza doppioni
+  const { ids: tuttiIds, regDi: REG_DI } = postiDellaZona(POSTI, z);   // senza doppioni
   const SLUG_DI = id => SLUG_REG[REG_DI[id]][id], ANAG = id => ANAG_REG[REG_DI[id]][id];
+  // ⚠️ SENZA I PLUVIOMETRI ESCLUSI DALLA MAPPA (1/11/2026, scheda 105 bis): la media della zona li toglieva gia'
+  // (genera-riepiloghi.js), il conto e la tabella no. La Riviera di Levante scriveva «3 pluviometri» con la media su 2,
+  // e Sella Giassina restava in tabella col trattino «non ha pubblicato», mentre e' esclusa perche' misura male.
+  const ids = tuttiIds.filter(id => !escluso(ESCLUSE, regioneDati(REG_DI[id], ANAG(id)), ANAG(id)));
   const regioni = [...new Set(ids.map(id => REG_DI[id]))];
   const casa = REGIONI.find(x => x.k === z.reg) || REGIONI.find(x => x.k === regioni[0]);
   const nomeReg = casa.nomeTitolo || casa.nome;

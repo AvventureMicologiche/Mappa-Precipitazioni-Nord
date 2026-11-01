@@ -576,7 +576,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <tr data-id="T0032"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/lavarone-chiesa/"><b>Lavarone (Chiesa)</b></a><span class="com">TN · 1155 m</span></td>
 <td>7,4 km</td>
 <td class="mm"><span class="v">…</span></td></tr>
-<tr data-id="T0009"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/centa-san-nicolo/"><b>Centa San Nicolo'</b></a><span class="com">TN · 805 m</span></td>
+<tr data-id="T0009"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/centa-san-nicolo/"><b>Centa San Nicolò</b></a><span class="com">TN · 805 m</span></td>
 <td>8,1 km</td>
 <td class="mm"><span class="v">…</span></td></tr>
 <tr data-id="T0368"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/monte-bondone-viote/"><b>Monte Bondone (Viote)</b></a><span class="com">TN · 1490 m</span></td>
@@ -600,6 +600,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <span class="vai-mappa">🌲 Guarda i boschi intorno a Folgaria</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono dalla carta «Tipi forestali 2021».</p>
+<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/val-terragnolo/">la carta forestale della Val Terragnolo</a>.</p>
 
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
@@ -826,6 +827,8 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
       + '<div class="si"><span class="pallino" style="background:'+liv.c+'"></span>'+liv.t+'</div>'
       + '<div class="gr">'+Math.round(m20)+' mm<small>negli ultimi 20 giorni</small></div>'
       + '<div class="dett">'+dett+'</div>'
+      /* 1/11/2026 (scheda 105 bis): sotto la soglia il verdetto non c'e'; sopra, i giorni senza dato contano zero, e lo si dice */
+      + (g20 < r20 ? '<div class="dett" style="opacity:.85;margin-top:6px">Questo pluviometro non ha mandato dati per ' + (r20 - g20) + (r20 - g20 === 1 ? ' giorno' : ' giorni') + ' su ' + r20 + ': il totale può essere più basso del vero.</div>' : '')
       + '<div class="scala">'+scala+'</div>'
       + '<div class="scala-t"><span>sotto 30</span><span>30-60</span><span>60-100</span><span>oltre 100</span></div>'
       + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';

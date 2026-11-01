@@ -473,8 +473,8 @@ function pagina(r, radice){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${attr(TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? rip.periodi['7'].stazioni : r.staz))}</title>
-<meta name="description" content="${attr(TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? rip.periodi['7'].stazioni : r.staz))}">
+<title>${attr(TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? reteDi(rip) : r.staz))}</title>
+<meta name="description" content="${attr(TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? reteDi(rip) : r.staz))}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 ${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
@@ -905,12 +905,20 @@ function mappaInUnFile(radice, rel) {
 
 /* ⚠️ IL NUMERO DEI PLUVIOMETRI DAL RIEPILOGO (19/10/2026, quinto check, bug 16). Quelli scritti a mano in REGIONI
    invecchiano (Liguria «quasi 200» con 175, Molise «circa 25» con 28, Lombardia «oltre 250» con 250): si scrive
-   «oltre N», N arrotondato per difetto alla decina (alla cinquina sotto i 100) sotto il piu' basso fra ieri e 7
-   giorni del riepilogo. Senza riepilogo resta quello a mano. La usano anche le pagine «adesso» e quelle funghi. */
+   «oltre N», N arrotondato per difetto alla decina (alla cinquina sotto i 100) sotto la rete (reteDi qui sotto,
+   dal 1/11/2026; prima era il piu' basso fra ieri e 7 giorni del riepilogo). Senza riepilogo resta quello a mano. La usano anche le pagine «adesso» e quelle funghi. */
+/* ⚠️ UN SOLO NUMERO PER PAGINA (1/11/2026, scheda 105 bis). Prima il titolo prendeva i pluviometri dei 7 giorni (i
+   meno, dopo il filtro di copertura), il sottotitolo il minimo fra ieri e 7 giorni e il riquadro quelli di ieri: la
+   Basilicata diceva 50, «oltre 45» e 62 sulla stessa pagina. Ora titolo, descrizione e sottotitolo usano la RETE, il
+   piu' alto fra i periodi del riepilogo; il riquadro resta il conto di quel giorno (e non lo supera). */
+function reteDi(rip) {
+  const n = Math.max(...['1', '7', '20', '30'].map(k => ((rip && rip.periodi && rip.periodi[k]) || {}).stazioni || 0));
+  return n > 0 ? n : null;
+}
 function stazDi(r, radice) {
   try {
     const rip = JSON.parse(fs.readFileSync(path.join(radice, 'data', 'riepiloghi', r.k + '.json'), 'utf8'));
-    const n = Math.min(...['1', '7'].map(k => (rip.periodi[k] || {}).stazioni).filter(x => x > 0));
+    const n = reteDi(rip) || Infinity;
     if (isFinite(n)) { const p = n >= 100 ? 10 : 5; return n >= 20 ? 'oltre ' + Math.floor((n - 1) / p) * p : String(n); }
   } catch (e) {}
   return r.staz;

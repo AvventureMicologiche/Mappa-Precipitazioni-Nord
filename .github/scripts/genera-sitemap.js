@@ -56,6 +56,16 @@ const FUNGHI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.jso
 // Le aggiorna da solo `rinnova-pagine.js` (una volta a stagione), e si possono
 // cambiare a mano quando si tocca un modello.
 const LASTMOD = JSON.parse(fs.readFileSync(path.join(__dirname, 'pagine-lastmod.json'), 'utf8'));
+
+/* ⚠️ LE DATE CHE SI CALCOLANO DA SOLE (1/11/2026, scheda 105 bis). La mappa, la guida, le fonti e le 138 pagine della
+   mappa forestale avevano la data SCRITTA QUI, e restava indietro: le forestali dicevano 20/10 dopo le cerrete (26/10)
+   e la testata (28/10), /fonti diceva 8/10. Ora per loro la data e' quella in cui il FILE e' cambiato: si tiene
+   un'impronta del contenuto in `pagine-impronte.json` ({percorso: [impronta, data]}); se l'impronta cambia, la data
+   diventa oggi. `base` e' la data di partenza (e il minimo). ⚠️ Il file delle impronte va committato insieme alle
+   sitemap (pagine-regione.yml e rinnova-pagine.yml lo fanno): se no il giro dopo vede la pagina «cambiata» di nuovo. */
+const crypto = require('crypto');
+const { oggiItalia } = require('./lib-giorni.js');
+const IMPRONTE = path.join(__dirname, 'pagine-impronte.json');
 const NASCITA_REGIONI = LASTMOD.regioni;
 const NASCITA_FUNGHI = LASTMOD.funghi;
 const NASCITA_LOCALITA = LASTMOD.localita;
@@ -64,25 +74,37 @@ const NASCITA_ZONE = LASTMOD.zone;
 function scriviSitemap(SITO, RADICE) {
   const { REGIONI } = require('./genera-pagine-regione.js');
   const c_e = rel => fs.existsSync(path.join(RADICE, rel));
+  let IMP = {};
+  try { IMP = JSON.parse(fs.readFileSync(IMPRONTE, 'utf8')); } catch (e) { IMP = {}; }
+  const imp0 = JSON.stringify(IMP), oggi = oggiItalia();
+  const dataDi = (rel, base) => {
+    let h;
+    try { h = crypto.createHash('sha1').update(fs.readFileSync(path.join(RADICE, rel))).digest('hex').slice(0, 16); }
+    catch (e) { return base; }
+    const k = rel.split(path.sep).join('/'), e = IMP[k];
+    if (!e) { IMP[k] = [h, base]; return base; }
+    if (e[0] !== h) IMP[k] = [h, oggi];
+    return IMP[k][1] > base ? IMP[k][1] : base;
+  };
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
   const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [] };
   const voci = fam.mappa;
 
-  voci.push({ loc: SITO + '/', lastmod: '2026-10-31', freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
+  voci.push({ loc: SITO + '/', lastmod: dataDi('index.html', '2026-10-31'), freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
   // /previsioni/ (28/10/2026): la mappa aperta sulle previsioni, servita da functions/previsioni/index.js. Solo dove la
   // Function c'e': il repo di test non ce l'ha, e la sitemap dichiarerebbe una pagina che risponde 404
   if (c_e(path.join('functions', 'previsioni', 'index.js')))
-    voci.push({ loc: SITO + '/previsioni/', lastmod: '2026-10-28', freq: 'daily', pri: '0.9' });
+    voci.push({ loc: SITO + '/previsioni/', lastmod: dataDi('index.html', '2026-10-31'), freq: 'daily', pri: '0.9' });   // e' index.html riscritto
   // '/fonti' e non '/fonti.html': Cloudflare Pages rimanda il .html con un 308 (check dell'8/10/2026)
-  voci.push({ loc: SITO + '/fonti', lastmod: '2026-10-08', freq: 'monthly', pri: '0.5' });
+  voci.push({ loc: SITO + '/fonti', lastmod: dataDi('fonti.html', '2026-10-28'), freq: 'monthly', pri: '0.5' });
   // La guida (12/9/2026). Priorita' 0.6: sta sopra le fonti, che sono una
   // pagina di servizio, e sotto le pagine regione, che sono la risposta alla
   // domanda per cui la gente arriva. `lastmod` e' il giorno in cui e' nata: si
   // sposta a mano quando la pagina cambia davvero, non quando cambiano i dati.
   if (c_e(path.join('guida', 'index.html')))
-    voci.push({ loc: SITO + '/guida/', lastmod: '2026-10-31', freq: 'monthly', pri: '0.6' });   // 31/10: «Quanti giorni dopo la pioggia...»
+    voci.push({ loc: SITO + '/guida/', lastmod: dataDi(path.join('guida', 'index.html'), '2026-10-31'), freq: 'monthly', pri: '0.6' });   // 31/10: «Quanti giorni dopo la pioggia...»
 
   // ⚠️ LE PAGINE REGIONE COTTE CAMBIANO OGNI MATTINA (17/10/2026, suo ok). Dall'11/10
   // hanno «dove ha piovuto ieri, 16 ottobre» e i numeri scritti nell'HTML: per loro la
@@ -172,17 +194,17 @@ function scriviSitemap(SITO, RADICE) {
   if (c_e(path.join('mappa-forestale', 'index.html'))) {
     // Il guscio delle pagine forestali e' cambiato il 18/10/2026 (radar con zoom e centro, link ai boschi
     // con la regione): prima la data era ferma al 28/9 (quarto check B9). Si cambia a mano quando cambiano.
-    const FORESTALE_LASTMOD = '2026-10-20';   // 20/10: ricerca, «Trova i boschi», meteo col radar, quiz, eventi GA4
+    const FORESTALE_LASTMOD = '2026-10-28';   // la base: 28/10 testata nuova; dopo, la data viene dalle impronte (dataDi)
     const FORESTALE_TIPI = new Set(['castagneti', 'querceti', 'abetaie-e-peccete']);
     const FORESTALE_REGIONI_LASTMOD = '2026-10-31';   // 31/10: «Carta forestale» nel titolo delle 21 regioni (scheda 104 bis)
-    fam.forestale.push({ loc: SITO + '/mappa-forestale/', lastmod: FORESTALE_LASTMOD, freq: 'monthly', pri: '0.8' });
+    fam.forestale.push({ loc: SITO + '/mappa-forestale/', lastmod: dataDi(path.join('mappa-forestale', 'index.html'), FORESTALE_LASTMOD), freq: 'monthly', pri: '0.8' });
     for (const d of fs.readdirSync(MF).sort()) {
       if (d !== 'zone' && c_e(path.join('mappa-forestale', d, 'index.html')))
-        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: FORESTALE_TIPI.has(d) ? FORESTALE_LASTMOD : FORESTALE_REGIONI_LASTMOD, freq: 'monthly', pri: '0.7' });
+        fam.forestale.push({ loc: `${SITO}/mappa-forestale/${d}/`, lastmod: dataDi(path.join('mappa-forestale', d, 'index.html'), FORESTALE_TIPI.has(d) ? FORESTALE_LASTMOD : FORESTALE_REGIONI_LASTMOD), freq: 'monthly', pri: '0.7' });
     }
     if (fs.existsSync(path.join(MF, 'zone'))) for (const d of fs.readdirSync(path.join(MF, 'zone')).sort()) {
       if (c_e(path.join('mappa-forestale', 'zone', d, 'index.html')))
-        fam.forestale.push({ loc: `${SITO}/mappa-forestale/zone/${d}/`, lastmod: FORESTALE_LASTMOD, freq: 'monthly', pri: '0.6' });
+        fam.forestale.push({ loc: `${SITO}/mappa-forestale/zone/${d}/`, lastmod: dataDi(path.join('mappa-forestale', 'zone', d, 'index.html'), FORESTALE_LASTMOD), freq: 'monthly', pri: '0.6' });
     }
   }
 
@@ -237,6 +259,9 @@ function scriviSitemap(SITO, RADICE) {
                     `    <lastmod>${f.lastmod}</lastmod>\n  </sitemap>`).join('\n') +
     `\n</sitemapindex>\n`;
   fs.writeFileSync(path.join(RADICE, 'sitemap.xml'), indice.replace(/\r\n/g, '\n'), 'utf8');
+  // le impronte, una riga per pagina e in ordine, solo se sono cambiate (dataDi qui sopra)
+  if (JSON.stringify(IMP) !== imp0)
+    fs.writeFileSync(IMPRONTE, '{\n' + Object.keys(IMP).sort().map(k => JSON.stringify(k) + ':' + JSON.stringify(IMP[k])).join(',\n') + '\n}\n', 'utf8');
   return totale;
 }
 

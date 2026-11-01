@@ -37,7 +37,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { REGIONI, navAltre, briciolaJson, stazDi } = require('./genera-pagine-regione.js');
+const { REGIONI, GEN, navAltre, briciolaJson, stazDi } = require('./genera-pagine-regione.js');
 const { LOCALITA, bello, slug, slugRegione, postiDellaZona, diEnte, elenco } = require('./lib-nomi.js');
 const { rigaStagione } = require('./lib-stagione.js');
 // 24/9/2026: verdetto, barre e finestra comuni con le pagine di zona
@@ -417,7 +417,8 @@ con i disegni ${cartaDi(r.k)}. Avvicinati sulla zona che ti interessa.</p>
   <span class="vai-mappa">Guarda i boschi ${r.prep} ${nome} →</span>
 </a>
 <p class="nota" style="margin-bottom:26px;">La fonte è ${fonteNota(r.k)}: dice che bosco
-c'è, non se quest'anno ci sono nati funghi.</p>
+c'è, non se quest'anno ci sono nati funghi.${/* 1/11/2026, scheda 105 bis */ fs.existsSync(path.join(RADICE, 'mappa-forestale', r.k, 'index.html'))
+  ? ` Tipo per tipo, con le percentuali e le valli: <a href="${SITO}/mappa-forestale/${r.k}/">la carta forestale ${GEN[r.k]}</a>.` : ''}</p>
 ` : ''}
 
 

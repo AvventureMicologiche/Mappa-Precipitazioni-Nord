@@ -611,6 +611,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <span class="vai-mappa">🌲 Guarda i boschi intorno a Endesa</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono dalla «Carta della Natura» di ISPRA, scala 1:25.000.</p>
+<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/val-di-bove/">la carta forestale della Val di Bove</a>.</p>
 
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
@@ -839,6 +840,8 @@ OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</
       + '<div class="si"><span class="pallino" style="background:'+liv.c+'"></span>'+liv.t+'</div>'
       + '<div class="gr">'+Math.round(m20)+' mm<small>negli ultimi 20 giorni</small></div>'
       + '<div class="dett">'+dett+'</div>'
+      /* 1/11/2026 (scheda 105 bis): sotto la soglia il verdetto non c'e'; sopra, i giorni senza dato contano zero, e lo si dice */
+      + (g20 < r20 ? '<div class="dett" style="opacity:.85;margin-top:6px">Questo pluviometro non ha mandato dati per ' + (r20 - g20) + (r20 - g20 === 1 ? ' giorno' : ' giorni') + ' su ' + r20 + ': il totale può essere più basso del vero.</div>' : '')
       + '<div class="scala">'+scala+'</div>'
       + '<div class="scala-t"><span>sotto 30</span><span>30-60</span><span>60-100</span><span>oltre 100</span></div>'
       + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';

@@ -15,29 +15,49 @@ Su tua richiesta («la pagina slovenia la togliamo, quando mancano dati come in 
 
 Le pagine cambiate vanno online con la prossima pubblicazione (il giro del mattino `pagine-regione.yml` pubblica tutto `main`).
 
+## Secondo aggiornamento: i punti medi
+
+Su tua richiesta («fai i medi»). I dettagli sono nel `CLAUDE.md`, «Secondo giro dello stesso giorno».
+
+1. **Numeri che non tornavano.** Titolo, descrizione e sottotitolo delle pagine regione usano un numero solo, la rete intera: la Basilicata ora dice 62 e «oltre 60», la Campania 175 e «oltre 170». La mappa forestale dice 12 tipi di bosco, come i dodici colori.
+2. **Zone che contavano i pluviometri esclusi:** ora non li contano più, né nelle zone piogge né nelle zone funghi (Riviera di Levante 2, Calvana 13).
+3. **Zone con posti sbagliati, corrette:**
+   - Valle Sessera: con Bielmonte, Camparient e Valdilana al posto dei posti novaresi;
+   - Valtiberina: senza i quattro posti marchigiani;
+   - Calvana: senza le dighe bolognesi;
+   - Val d'Aveto: con Santo Stefano e Amborzasco.
+
+   Rifatte le loro pagine piogge, funghi, meteo e forestali.
+4. **Nomi nei titoli:** Malè, Mondovì, Fiè, Nicolò, Viù e gli altri accenti; quindici nomi tecnici sostituiti (Branzi, Idro, Verceia, Lago di Ca' Zul...). Nessun indirizzo cambiato. «San Michele (CI)» non l'ho toccato: le province sarde sono state rifatte e la sigla giusta va verificata.
+5. **Ritratti:** il rinnovo è mensile (il 2 del mese, il primo è domani) e conta solo i mesi finiti.
+6. **Verdetto delle pagine paese:** quando mancano giorni il riquadro lo dice.
+7. **Mappa forestale collegata:** le regioni funghi, le zone funghi e tutti i 908 paesi linkano la loro carta forestale. Prima ci portava solo la guida.
+8. **Date della sitemap:** per mappa, guida, fonti e mappa forestale la data si calcola da sola quando la pagina cambia (`pagine-impronte.json`).
+9. **Pagine meteo, in parte:**
+   - la Riviera di Levante ha i paesi della costa;
+   - tutti i paesi delle zone hanno la quota, così tabella e scheda danno le stesse temperature.
+
+   I quasi doppioni del gruppo C (Candalla e Alpi Apuane, Val Serina e Val Brembana) **aspettano la tua scelta**: toglierli con un rimando alla pagina più grande, oppure lasciarli.
+10. **Pagine funghi sottili del sud: non fatto.** Per aggiungere posti da bosco servono le percentuali di bosco che si calcolano sul tuo PC, e per decidere servono i numeri di Search Console.
+
+Prove: nessun link interno rotto, nessun titolo doppio, 7.603 script delle pagine compilati senza errori. Dieci pagine provate nel browser al telefono e al PC, tutte giuste.
+
 ## Elenco aggiornato: cosa resta da fare
 
-**Medi**
-1. **Numeri che si contraddicono:** Basilicata (titolo 50, sottotitolo «oltre 45», riquadro 62) e Campania (165, «oltre 160», 175); nella mappa forestale «dodici colori» e «11 tipi di bosco». Soluzione: un solo numero di pluviometri per pagina regione, «12 tipi». **Piccolo.**
-2. **Zone piogge che contano i pluviometri esclusi** (13 zone) e spiegano male il trattino. Soluzione: togliere gli esclusi dal conteggio, correggere la nota. **Piccolo.**
-3. **Zone con posti sbagliati:** Valle Sessera (posti novaresi), Valtiberina (posti marchigiani), Calvana (dighe bolognesi), Val d'Aveto senza Santo Stefano. Soluzione: correggere `funghi-zone.json` e rigenerare. **Piccolo-medio.**
-4. **Nomi brutti nei titoli dei paesi** («Male'», «Mondovi'», «Branzi Caserma Carabinieri», «(CI)»). Soluzione: accenti in `bello()`, `nomi-titolo.json`, sigle sarde. **Piccolo.**
-5. **Ritratto dei paesi indietro** (mese più piovoso ancora agosto o settembre, ora è ottobre) e mese in corso contato come intero dal 28. Soluzione: rinnovo mensile, mese intero solo se finito. **Piccolo.**
-6. **Verdetto funghi con fino al 40% di giorni senza dato contati come zero, senza dirlo** (circa 35 pagine). Soluzione: dirlo nel riquadro o abbassare la soglia. **Piccolo.**
-7. **Mappa forestale isolata** (138 pagine raggiungibili solo dalla guida). Soluzione: link dalle pagine funghi e dalla mappa. **Piccolo.**
-8. **Date della sitemap ferme:** 117 pagine forestali al 20/10 (oggi è cambiata anche la Carnia), `/fonti` all'8/10. Soluzione: date in `pagine-lastmod.json` o calcolate da sole. **Piccolo / medio.**
-9. **Pagine meteo:** quasi doppioni nel gruppo C (Candalla e Alpi Apuane, Val Serina e Val Brembana), Riviera di Levante con i paesi della Fontanabuona, quota mancante in `paesi-zone.json`. **Piccolo-medio.**
-10. **Pagine funghi sottili al sud:** Puglia 2 posti, Basilicata 6, Sardegna 8, Sicilia 9. Soluzione: allargare i posti o decidere con Search Console. **Medio.**
+**Medi rimasti**
+1. **Doppioni del gruppo C delle meteo:** Candalla con le Alpi Apuane, Val Serina con la Val Brembana. Serve la tua scelta. **Piccolo.**
+2. **Pagine funghi sottili al sud** (Puglia 2 posti, Basilicata 6, Sardegna 8, Sicilia 9). Servono il banco e Search Console. **Medio.**
 
 **Bassi**
 
-11. Frasi da sistemare: «0,0 mm di media», doppio punto, «e altre una città», «con 386.» senza «mm», «zona per zona» nelle «adesso» senza zone. **Piccolo.**
-12. Le regioni piogge non si linkano fra loro, e il piede chiama «riepilogo delle regioni» i link alle pagine funghi. **Piccolo.**
-13. Anteprima social uguale (testo e immagine) su 1.043 pagine. **Piccolo.**
-14. `/previsioni/` con la scritta grande della mappa. **Piccolo.**
-15. Due stili di percorso in cima alle pagine; la guida parla di «dieci gruppi» di boschi. **Piccolo.**
-16. *Nuovo:* sopra l'avviso delle stime la riga di stagione dice «i millimetri qui sotto sono veri» (`lib-stagione.js`). Soluzione: togliere «sono veri». **Piccolo.**
-17. *Nuovo:* il ripiego delle regioni funghi (quando il file del giorno è vecchio) non dichiara le stime. Raro. **Piccolo.**
+3. Frasi da sistemare: «0,0 mm di media», doppio punto, «e altre una città», «con 386.» senza «mm», «zona per zona» nelle «adesso» senza zone. **Piccolo.**
+4. Le regioni piogge non si linkano fra loro, e il piede chiama «riepilogo delle regioni» i link alle pagine funghi. **Piccolo.**
+5. Anteprima social uguale (testo e immagine) su 1.043 pagine. **Piccolo.**
+6. `/previsioni/` con la scritta grande della mappa. **Piccolo.**
+7. Due stili di percorso in cima alle pagine; la guida parla di «dieci gruppi» di boschi. **Piccolo.**
+8. Sopra l'avviso delle stime la riga di stagione dice «i millimetri qui sotto sono veri» (`lib-stagione.js`). **Piccolo.**
+9. Il ripiego delle regioni funghi (quando il file del giorno è vecchio) non dichiara le stime. Raro. **Piccolo.**
+10. La sigla «(CI)» di San Michele, da verificare con le nuove province sarde. **Piccolo.**
 
 **Non sono errori, ma convengono:** codice comune in file esterni (pagine da circa 113 a 15 KB, **medio-grande**); verdetto funghi scritto nell'HTML ogni mattina come le zone piogge (**medio**).
 

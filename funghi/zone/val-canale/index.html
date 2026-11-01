@@ -549,7 +549,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <h2 style="font-size:18px">I pluviometri della zona, dal più bagnato</h2>
 <table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
 <tbody id="tabella">
-<tr data-id="73"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/contra-doppio-posina/"><b>Contra' Doppio (Posina)</b></a><span class="com">VI · 724 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
+<tr data-id="73"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/contra-doppio-posina/"><b>Contrà Doppio (Posina)</b></a><span class="com">VI · 724 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="T0425"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/passo-pian-delle-fugazze/"><b>Passo Pian Delle Fugazze</b></a><span class="com">TN · 1170 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="135"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rifugio-la-guardia-recoaro-terme/"><b>Rifugio la Guardia (Recoaro Terme)</b></a><span class="com">VI · 1130 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
 <tr data-id="625"><td><a class="loc" href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/staro-valli-del-pasubio/"><b>Staro (Valli del Pasubio)</b></a><span class="com">VI · 602 m</span></td><td class="mm"><span class="v">…</span></td><td class="mm"><span class="v">…</span></td><td class="mm tagl"><span class="v">…</span></td></tr>
@@ -570,6 +570,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <span class="vai-mappa">🌲 Guarda i boschi in Val Canale</span>
 </a>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono dalla «Carta delle categorie forestali».</p>
+<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/val-canale/">la carta forestale della Val Canale</a>.</p>
 
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
@@ -585,7 +586,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Da giugno 2026 a ottobre 2026, in 144 giorni di misura, i 6 pluviometri
 della Val Canale hanno contato
 <b>486 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Passo Pian Delle Fugazze</b> con
-568 mm, il più asciutto Contra' Doppio (Posina) con 380.
+568 mm, il più asciutto Contrà Doppio (Posina) con 380.
 La giornata più piovosa è stata il <b>21 ottobre 2026</b> a Passo Pian Delle Fugazze,
 con <b>129,8 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -615,7 +616,7 @@ OpenStreetMap, licenza ODbL.</p>
   var REGIONI = ["veneto","trentino"], REGS = "veneto,trentino";
   var LAT = 45.781, LON = 11.1816;
   /* [ id, nome, sigla, quota, lat, lon, slug, regione ] */
-  var POSTI = [["73","Contra' Doppio (Posina)","VI",724,45.807,11.2251,"contra-doppio-posina","veneto"],["135","Rifugio la Guardia (Recoaro Terme)","VI",1130,45.7189,11.1813,"rifugio-la-guardia-recoaro-terme","veneto"],["625","Staro (Valli del Pasubio)","VI",602,45.7257,11.2264,"staro-valli-del-pasubio","veneto"],["76","Turcati (Recoaro Terme)","VI",714,45.704,11.1848,"turcati-recoaro-terme","veneto"],["137","Valli del Pasubio","VI",602,45.7578,11.2137,"valli-del-pasubio","veneto"],["T0425","Passo Pian Delle Fugazze","TN",1170,45.759,11.1748,"passo-pian-delle-fugazze","trentino"]];
+  var POSTI = [["73","Contrà Doppio (Posina)","VI",724,45.807,11.2251,"contra-doppio-posina","veneto"],["135","Rifugio la Guardia (Recoaro Terme)","VI",1130,45.7189,11.1813,"rifugio-la-guardia-recoaro-terme","veneto"],["625","Staro (Valli del Pasubio)","VI",602,45.7257,11.2264,"staro-valli-del-pasubio","veneto"],["76","Turcati (Recoaro Terme)","VI",714,45.704,11.1848,"turcati-recoaro-terme","veneto"],["137","Valli del Pasubio","VI",602,45.7578,11.2137,"valli-del-pasubio","veneto"],["T0425","Passo Pian Delle Fugazze","TN",1170,45.759,11.1748,"passo-pian-delle-fugazze","trentino"]];
   var LOCALE = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
   var BASE = LOCALE ? "/data/"
     : "https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/";

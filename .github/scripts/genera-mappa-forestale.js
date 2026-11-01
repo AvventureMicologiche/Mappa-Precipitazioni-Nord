@@ -569,7 +569,7 @@ function paginaItalia() {
   let h = testa({ titolo, descr, url, img: `${url}scorcio.jpg`, briciola: [["Mappa forestale d'Italia"]] });
   h += `<h1>${esc(titolo)}</h1>
 <p class="breve" style="margin-top:-2px">Ogni regione pubblica la sua carta forestale, ognuna sul suo geoportale e con le sue sigle. Qui sono <b>tutte insieme, in una mappa sola</b>: dodici colori sopra il rilievo, anche dal telefono. Tocchi un punto e sai che bosco è, a che quota e su quale versante.</p>
-<div class="numeri"><div><b>${REG.length}</b>regioni e province</div><div><b>11</b>tipi di bosco</div><div><b>10 m</b>il rilievo</div></div>
+<div class="numeri"><div><b>${REG.length}</b>regioni e province</div><div><b>${D.gruppi.length}</b>tipi di bosco</div><div><b>10 m</b>il rilievo</div></div>
 <a class="cta" href="${MAPPA}">🌲 Apri la mappa forestale d'Italia</a>
 <a href="${MAPPA}"><img class="img-f" src="scorcio.jpg" alt="La mappa forestale da vicino, con la nuvoletta di un bosco" width="1200" height="750"></a>
 <p class="nota">${esc(didascalia(D.regioni.toscana.tipi, 'Toscana, da vicino'))}. <a href="${MAPPA}">Apri la mappa</a> e vai dove vuoi.</p>

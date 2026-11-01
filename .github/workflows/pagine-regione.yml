@@ -98,7 +98,7 @@ jobs:
           # modifica non aggiunta, `git pull --rebase` rifiutava di partire 5 volte su 5 e il giro, rosso, ripubblicava
           # senza mai salvare. Ora si aggiungono tutte, e --autostash fa partire il rebase anche se resta altro, che
           # si dichiara nel registro del giro.
-          git add -- '*/index.html' 'sitemap*.xml'
+          git add -- '*/index.html' 'sitemap*.xml' .github/scripts/pagine-impronte.json
           git diff --quiet || { echo "⚠️ file modificati NON aggiunti al commit:"; git status --short; }
           git commit -m "pagine regione cotte $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
