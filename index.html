@@ -3523,7 +3523,8 @@ map.on('moveend',function(){
 // già disegnati, riappaiono al posto giusto) ed è lo stesso trattamento che la
 // heat riceve dalla riga sotto.
 (function ascoltaGestiUtente(){
-  var segna=function(){ _vistaUtente=true; };
+  // il contatore dice al radar se la mappa e' stata toccata MENTRE era acceso (1/11/2026, scheda 105)
+  var segna=function(){ _vistaUtente=true; window._gestiMappa=(window._gestiMappa||0)+1; };
   map.on('dragstart',segna);          // il trascinamento e' solo umano
   var cont=map.getContainer();
   ['wheel','dblclick','touchstart'].forEach(function(ev){
@@ -13113,7 +13114,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
    ═══════════════════════════════════════════════════════════════ */
 (function(){
   var API='https://api.librewxr.net/public/weather-maps.json';
-  var acceso=false, scelta=null, vistaPrec=null;
+  var acceso=false, scelta=null, vistaPrec=null, gestiEntrata=0, vistaSuaEntrata=false;   // vedi esci() (1/11/2026)
   var strati=[], idx=-1, timer=null, fisso=null;
   var cache=null, cacheQuando=0, ultimoBuono=null;
   /* Quanto piu' largo sta il radar rispetto all'inquadratura normale della
@@ -13311,6 +13312,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     heat(false); pallini(false);
     var m=map();
     vistaPrec={c:m.getCenter(),z:m.getZoom()};
+    gestiEntrata=window._gestiMappa||0; vistaSuaEntrata=!!(window._vistaUtenteAttiva&&window._vistaUtenteAttiva());
     var pts=[]; m.eachLayer(function(l){ if(l instanceof L.CircleMarker) pts.push(l.getLatLng()); });
     if(typeof showLegendMobile==='function' && window.innerWidth<=900){ try{ showLegendMobile(); }catch(e){} }
     sorveglia(true);
@@ -13357,7 +13359,15 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        mangiato: misurato il 31/8, z6 di partenza e z8 dopo il finto guasto.
        Con `ripristina===false` non si tocca niente: chi esce cliccando un
        periodo lascia inquadrare all'analisi, che lo fa da se'. */
-    if(ripristina!==false){
+    /* ⚠️ E LA VISTA FATTA A MANO RESTA (1/11/2026, scheda 105, suo: «zoommo e quando torno indietro lo zoom si perde»):
+       se nel radar la mappa l'ha toccata lui (dita, rotellina, trascinamento, + e -: _gestiMappa) resta dov'e'; se l'aveva
+       scelta lui nella pioggia prima di entrare, torna quella; se no la regione intera come dal 31/8. */
+    var toccataDentro=(window._gestiMappa||0)>gestiEntrata;
+    if(ripristina!==false&&toccataDentro){ /* niente: la vista e' sua */ }
+    else if(ripristina!==false&&vistaSuaEntrata&&vistaPrec){
+      try{ map().stop(); map().setView(vistaPrec.c,vistaPrec.z,{animate:false}); }catch(e){}
+    }
+    else if(ripristina!==false){
       try{ map().stop(); }catch(e){}
       try{
         var _rk=regioniAttive();
@@ -15341,17 +15351,26 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
     if(ind) ind.addEventListener('click',function(e){
       if(!acceso) return;
       e.stopImmediatePropagation(); e.preventDefault();
-      if(window._satOn&&window._satToggle) window._satToggle(); else esci();
-      if(window._inquadraRegioni) window._inquadraRegioni();
+      var sat=!!(window._satOn&&window._satToggle);
+      if(sat) window._satToggle(); else esci();
+      if(window._inquadraPasso) window._inquadraPasso(sat?'sat':'boschi');
     },true);
+    /* ⚠️ TORNANDO ALLA PIOGGIA LO ZOOM FATTO A MANO RESTA (1/11/2026, scheda 105, suo: «se vado su satellite, boschi o
+       altro, zoommo e quando torno indietro lo zoom si perde, e' voluto?» → no). Decide inquadra(k) del modulo della
+       freccia indietro, per tasto e freccia insieme: uscendo dai boschi la regione intera torna solo se la mappa non l'aveva
+       toccata lui (_vistaUtente: dita, rotellina, trascinamento, + e -); dal satellite alla cartina dei boschi si rimette la
+       regione come prima (13/10, suo: la cartina dei boschi ingrandita come la foto restava sgranata). ⚠️ Il satellite
+       aperto dal suo tasto si spegne INSIEME ai boschi: li' si torna alla pioggia e lo zoom resta. Si guarda dopo un
+       attimo (inquadra aspetta 350 ms), perche' i boschi si spengono un istante dopo il satellite */
     /* ↩ Indietro del desktop: un passo (12/10/2026). Col satellite acceso si torna alla
        cartina dei boschi, poi dai boschi alla heatmap; il sito non azzera piu' tutto dietro. */
     var rr=el('btn-reset-regions');
     if(rr) rr.addEventListener('click',function(e){
       if(!acceso) return;
       e.stopImmediatePropagation();
-      if(window._satOn&&window._satToggle) window._satToggle(); else esci();
-      if(window._inquadraRegioni) window._inquadraRegioni();
+      var sat=!!(window._satOn&&window._satToggle);
+      if(sat) window._satToggle(); else esci();
+      if(window._inquadraPasso) window._inquadraPasso(sat?'sat':'boschi');   // vedi il commento qui sopra
     },true);
     /* «Copia link» senza un'analisi: dal 28/9/2026 lo fa il gestore normale,
        perche' buildShareUrl nei boschi non vuole piu' le date. Qui c'era un
@@ -17145,6 +17164,11 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
   #vi-nastro .v{font-size:13px;padding:0 12px;gap:5px}#vi-nastro .v .ic{font-size:15px}
   #vi-nastro.sopra-det{position:absolute;left:0;right:0;margin:0;z-index:1260;box-shadow:0 -2px 6px rgba(0,0,0,.18)}   /* sopra la scheda aperta (naSopraDet) */
   .pv-m.vi-ico .ic{font-size:19px}}
+/* ⚠️ CON LA BARRA APPOGGIATA SOPRA, LA SCHEDA SENZA ANGOLI TONDI IN ALTO (1/11/2026, scheda 105, sua schermata di La
+   Spezia): la barra e' dritta da bordo a bordo e la scheda sotto aveva gli angoli a 14 px, e ai due lati restavano due
+   spicchi di mappa fra l'una e l'altra. Ora combaciano dritte, un pezzo solo. Senza la barra sopra (e col telefono girato,
+   dove la barra sta accanto) la scheda resta com'era */
+@media(max-width:900px) and (min-height:501px){#map:has(#vi-nastro.sopra-det) #pv-det{border-top-left-radius:0 !important;border-top-right-radius:0 !important}}
 /* ── il dettaglio del posto ── */
 #pv-det{position:absolute;z-index:1250;display:none;flex-direction:column;overflow:hidden;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.3);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;top:14px;right:40px;width:470px;max-height:calc(100% - 70px);box-sizing:border-box}
 .modo-prev #pv-det.vivo{display:flex}
@@ -18722,7 +18746,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     // non si e' potuto togliere (un calcolo in corso): il passo torna dov'era
     if(!ok){ ordine.push(k); passi++; try{ history.pushState({st:1,i:passi},''); }catch(e){} }
     else if(daPrev){ window._radarDaPrev=null; rifare=[]; setTimeout(function(){ if(window._prevEntra) window._prevEntra(); },60); return; }
-    else { rifare.push({k:k,fn:rf}); if(CAMBIA_MAPPA.indexOf(k)>=0) inquadra(); }
+    else { rifare.push({k:k,fn:rf}); if(CAMBIA_MAPPA.indexOf(k)>=0) inquadra(k); }
     setTimeout(guarda,80); setTimeout(guarda,800);
   });
   window._storiaPassi=function(){ return {ordine:ordine.slice(),base:base.slice(),passi:passi,lunghezza:history.length}; };   // per le prove
@@ -18735,8 +18759,13 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      pluviometro o spegnere le temperature lascia la vista dov'e', se no al telefono chi ha
      ingrandito una valle e chiude la scheda col tasto indietro si ritrova la regione intera. */
   var CAMBIA_MAPPA=['radar','boschi','sat'];
-  function inquadra(){
+  /* ⚠️ tornando alla pioggia da radar o boschi, la vista toccata a mano resta (1/11/2026, scheda 105, vedi vistaSua() nel
+     modulo dei boschi); dal satellite alla cartina dei boschi la regione si rimette sempre (13/10) */
+  function inquadra(k){
     setTimeout(function(){
+      // ⚠️ il satellite aperto dal suo tasto si spegne insieme ai boschi: un passo e si e' gia' nella pioggia
+      var sua=!!(window._vistaUtenteAttiva&&window._vistaUtenteAttiva()), allaPioggia=!document.body.classList.contains('modo-boschi');
+      if(k!=='chiesto'&&sua&&(k!=='sat'||allaPioggia)) return;
       try{
         var rk=window._regioniAttive?window._regioniAttive():[];
         if(!rk.length||typeof window._fitRegioni!=='function') return;
@@ -18747,7 +18776,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       }catch(e){}
     },350);
   }
-  window._inquadraRegioni=inquadra;
+  window._inquadraRegioni=function(){ inquadra('chiesto'); };   // chi la chiama da fuori ha gia' deciso («Torna alla mappa»)
+  window._inquadraPasso=inquadra;   // i tasti Indietro dei boschi: decide inquadra(k), come per la freccia (1/11/2026)
   /* il tasto blu «↩ Indietro» del computer (12/10/2026): spegne l'ultimo strato SOPRA la heatmap.
      Se e' anche l'ultimo passo della cronologia passa dalla cronologia (stessa strada della freccia);
      se e' acceso dall'apertura (link condiviso, nessun passo) lo spegne e basta. false = non c'e'
@@ -18763,7 +18793,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(passi>0&&ordine.length&&ordine[ordine.length-1]===k){ try{ history.back(); return true; }catch(e){} }
     var l=livello(k), ok=false;
     try{ ok=!!(l&&l.via()); }catch(e){}
-    if(ok&&CAMBIA_MAPPA.indexOf(k)>=0) inquadra();
+    if(ok&&CAMBIA_MAPPA.indexOf(k)>=0) inquadra(k);
     setTimeout(guarda,80); setTimeout(guarda,800);
     return ok;
   };
