@@ -2979,7 +2979,7 @@ window._fotoNostra=function(pane,quandoNonArriva){
   map.createPane('foto').style.zIndex=205; map.getPane('foto').style.pointerEvents='none';   // sopra la cartina (200), sotto la pioggia (400)
   // i nomi dei paesi sopra la pioggia: lo stesso pannello del satellite dei boschi (modulo «NOMI NOSTRI»)
   if(!map.getPane('sat-nomi')){ map.createPane('sat-nomi').style.zIndex=455; map.getPane('sat-nomi').style.pointerEvents='none'; }
-  var rotta=false, vicino=null, crediti={};
+  var rotta=false, vicino=null;
   var lontano=window._fotoNostra('foto',function(){ rotta=true; giusta(); });
   // creata tardi: la chiave Esri sta nel modulo del satellite dei boschi, piu' in fondo alla pagina (nel test non c'e')
   function esri(){
@@ -2991,8 +2991,26 @@ window._fotoNostra=function(pane,quandoNonArriva){
     return vicino;
   }
   function vuole(){ var b=document.body.classList; return !rotta&&!b.contains('modo-boschi')&&!b.contains('sat-on')&&!b.contains('modo-prev'); }
-  function credito(t,si){ var ac=map.attributionControl; if(!ac||!!crediti[t]===si) return; crediti[t]=si; si?ac.addAttribution(t):ac.removeAttribution(t); }
-  function scritte(){ var si=vuole(); credito(FOTO_CREDITI,si); credito(FOTO_CREDITI_ESRI,si&&map.getZoom()>=11); }
+  /* ⚠️ I CREDITI DELLA FOTO TUTTI INSIEME E IN FONDO (1/11/2026, scheda 105, difetto 7). Leaflet li scrive nell'ordine in
+     cui sono entrati la PRIMA volta: la foto entrava all'apertura, la fonte (ARPA Lombardia) dopo e Esri allo zoom 11, e
+     da vicino si leggeva «Foto: NASA, ESA WorldCover, ARPA Lombardia, da vicino Esri...», come se ARPA fosse una foto.
+     Ora la foto e' UNA scritta sola, che si rimette in coda ogni volta che cambia lei o la fonte (aggiornaCrediti), e
+     non si spezza: se i crediti vanno a capo, vanno a capo prima di «Foto:» */
+  var fotoScritta=null;
+  function inFondo(){
+    var ac=map.attributionControl, n=ac&&ac._attributions&&fotoScritta?ac._attributions[fotoScritta]:0; if(!n) return;
+    delete ac._attributions[fotoScritta]; ac._attributions[fotoScritta]=n; ac._update();
+  }
+  window._fotoCreditiInFondo=inFondo;
+  function scritte(){
+    var ac=map.attributionControl; if(!ac) return;
+    // inline-block: va a capo tutta intera, e si spezza dentro solo se da sola e' piu' larga dei crediti (a 1024 px)
+    var t=vuole()?'<span style="display:inline-block;max-width:100%">'+FOTO_CREDITI+(map.getZoom()>=11?', '+FOTO_CREDITI_ESRI:'')+'</span>':null;
+    if(t===fotoScritta) return;
+    if(fotoScritta){ ac.removeAttribution(fotoScritta); delete ac._attributions[fotoScritta]; }
+    fotoScritta=t; if(t) ac.addAttribution(t);
+    inFondo();
+  }
   // ⚠️ togliere uno strato mentre carica fa esplodere Leaflet 1.9.4 (vedi osmVia del satellite dei boschi): si aspetta il «load»
   function togli(l){
     if(!map.hasLayer(l)) return;
@@ -3006,6 +3024,35 @@ window._fotoNostra=function(pane,quandoNonArriva){
     scritte();
   }
   map.on('zoomend',scritte);
+  /* ⚠️ DA LONTANO NIENTE RETTANGOLO (1/11/2026, scheda 105, difetto 6): la foto copre l'Europa (FOTO_LIMITI) e
+     rimpicciolendo, sotto lo zoom 5 al PC e il 4 al telefono, diventava un rettangolo dentro la cartina stradale (nel meteo
+     su fondo grigio), e sotto il 4 la console si riempiva di errori (tessere che non esistono). Ora lo zoom piu' lontano
+     e' quello in cui la foto riempie ancora tutta la mappa, misurato sulla finestra (cambia girando il telefono o
+     allargando la finestra): 4,25 a 393x852, 5 a 1440x900, 5,5 a 1920. Scelta fra le due proposte (l'altra: allargare la
+     foto a sud, rigenerando le tessere). Italia intera, regioni e vista Italia delle previsioni stanno tutte sopra. */
+  function zoomMinimo(){
+    map.options.minZoom=0;   // getBoundsZoom non scende sotto il minimo in vigore: a ogni misura si riparte da zero
+    var z=map.getBoundsZoom(FOTO_LIMITI,true);
+    map.setMinZoom(isFinite(z)?z:0);
+  }
+  zoomMinimo(); map.on('resize',zoomMinimo);
+  /* e allo zoom piu' lontano la foto si tiene tutta in vista: e' larga quanto lo schermo solo centrata sull'Europa, e
+     centrata sull'Italia avanzava una striscia a est. ⚠️ SOLO li' e SOLO dopo un gesto della persona (rotellina, dita,
+     trascinamento: _vistaUtente), non con maxBounds: maxBounds sposta OGNI setView, e al telefono l'Italia intera e la
+     Sicilia hanno il fondo della mappa oltre il bordo sud della foto, sotto il riquadro. Provato: a 320x568 con Bretagna,
+     Sicilia e Puglia l'apertura e' gia' allo zoom minimo, e senza la condizione del gesto saliva di 23 gradi a nord */
+  /* ⚠️ al telefono il bordo SUD della foto puo' stare sotto il riquadro in basso (pioggia, periodi, previsioni): tenuto
+     al fondo della mappa, tutto lontano l'Italia finiva sotto il riquadro e non la si poteva tirare su. Conta solo un
+     riquadro largo (oltre il 60% della mappa) e appoggiato al fondo: al PC i riquadri stanno di lato e non contano */
+  map.on('moveend',function(){
+    if(map.getZoom()>map.getMinZoom()+0.01||!window._vistaUtenteAttiva||!window._vistaUtenteAttiva()) return;
+    var sz=map.getSize(), mr=map.getContainer().getBoundingClientRect(), giu=0;
+    ['legend-panel','time-panel','pv-pan'].forEach(function(id){ var e=document.getElementById(id); if(!e||getComputedStyle(e).display==='none') return;
+      var r=e.getBoundingClientRect(); if(r.height>=40&&r.width>mr.width*0.6&&r.bottom>=mr.bottom-2) giu=Math.max(giu,mr.bottom-Math.max(r.top,mr.top)); });
+    var no=map.latLngToContainerPoint([FOTO_LIMITI[1][0],FOTO_LIMITI[0][1]]), se=map.latLngToContainerPoint([FOTO_LIMITI[0][0],FOTO_LIMITI[1][1]]);
+    var dx=no.x>0?no.x:(se.x<sz.x?se.x-sz.x:0), dy=no.y>0?no.y:(se.y<sz.y-giu?se.y-(sz.y-giu):0);
+    if(Math.abs(dx)>0.5||Math.abs(dy)>0.5) map.panBy([dx,dy],{animate:false});
+  });
   function avvia(){
     giusta();
     try{ new MutationObserver(giusta).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){}
@@ -3121,6 +3168,7 @@ function aggiornaCrediti(testo){
     if(_creditoAttuale) map.attributionControl.removeAttribution(_creditoAttuale);
     _creditoAttuale=testo;
     map.attributionControl.addAttribution(testo);
+    if(window._fotoCreditiInFondo) window._fotoCreditiInFondo();   // la foto dopo la fonte, mai in mezzo (1/11/2026)
   }
 }
 
@@ -10761,6 +10809,11 @@ function captureMapBlob(scala){
           var mw=doc.getElementById('map-wrap'); if(mw) mw.style.background='none';
           var mp=doc.getElementById('map'); if(mp) mp.style.background='none';
           [].slice.call(doc.querySelectorAll('[data-cattura]')).forEach(function(el){ el.style.boxShadow='none'; });
+          // ⚠️ LA BARRA CHE SCORRE, NELLA FOTO, DALL'INIZIO (1/11/2026, scheda 105): ferma dov'era capitata mostrava un
+          // «98 mm» col nome della citta' sotto il blocco rosso. Nella foto la prima voce (la citta' piu' bagnata) parte
+          // subito dopo il blocco rosso; a schermo la barra continua a scorrere dov'era
+          var nt=doc.querySelector('#pg-nastro .t'), nl=document.querySelector('#pg-nastro .lab');
+          if(nt&&nl) nt.style.transform='translate3d('+nl.offsetWidth+'px,0,0)';
           // I due tasti vanno ritratti a riposo: durante la cattura mostrano
           // lo stato di attesa (⏳) o l'esito (✓), che finiva nell'immagine.
           var b1=doc.querySelector('#btn-shot'); if(b1) b1.textContent=b1.dataset.label||b1.textContent;
@@ -12915,6 +12968,10 @@ body.modo-boschi.bo-scegli-date #time-panel{display:block !important}
 .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;   /* sopra il punto: un pluviometro in paese non copre il nome */
   color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;
   text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
+/* ⚠️ NELLA PIOGGIA I NOMI SOPRA I PALLINI (1/11/2026, scheda 105): nelle citta' coi pluviometri fitti si leggeva «Mil●n●»
+   e «Berg●●o», col pannello dei nomi (455) sotto quello dei pallini (600). Ora appena sopra (610, sotto i tooltip a 650).
+   Il tocco passa attraverso le scritte (pointer-events none): il pallino sotto un nome si apre lo stesso */
+body.foto-on:not(.modo-prev) #map .leaflet-sat-nomi-pane{z-index:610 !important}
 .bo-sat span{font-weight:600;white-space:nowrap}
 .bo-sat input{flex:1;min-width:0;accent-color:#1b3f6e}
 .bo-sat b{min-width:32px;text-align:right}
@@ -18742,6 +18799,15 @@ html:root .sl{color:#6b7684 !important;font-weight:700 !important}
 html:root #time-panel .tp-btn{padding:6px 2px 6px !important;line-height:1.15 !important}
 .tp-d{display:block;font-size:10.5px;font-weight:600;color:#6b7684;letter-spacing:0;line-height:1;margin-top:3px}
 @media(min-width:901px) and (max-height:780px){.tp-d{display:none}}   /* PC basso: il pannello compatto, sei periodi su una riga */
+/* ⚠️ PC PIU' BASSO ANCORA, sotto i 680 px di finestra (1/11/2026, scheda 105; 1366x657 e' il portatile piu' diffuso): coi
+   9 px fra le righe la colonna era 21 px piu' lunga della mappa, il riquadro scorreva e il tasto giallo restava a meta'
+   (in produzione scorreva gia' di 8). I tasti lunghi (date, radar/boschi/satellite, funghi) perdono 3 px sopra e sotto,
+   i quattro numeri 1, il riquadro 1: le righe restano a 9 px. A 1366x657 non scorre piu'; a 1366x625 scorre 31 (era 53) */
+@media(min-width:901px) and (max-height:680px){
+  html:root body:not(.modo-prev) #time-panel .tp-custom-btn{padding-top:4px !important;padding-bottom:4px !important}
+  html:root body:not(.modo-prev) #legend-panel .stat{padding-top:4px !important;padding-bottom:4px !important}
+  html:root body:not(.modo-prev) #legend-panel{padding-top:10px !important;padding-bottom:10px !important}
+}
 /* ⚠️ telefono girato (1/11/2026, scheda 105): con le date il pannello dei periodi usciva 10 px sotto lo schermo, e il
    termometro, credendolo il pannello in basso del telefono, saliva sotto la fila delle regioni. Senza le date ci sta */
 @media(max-width:900px) and (max-height:500px){.tp-d{display:none}}
@@ -18966,7 +19032,9 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     var t=na.querySelector('.t'), una=t.innerHTML, w=na.clientWidth||window.innerWidth, giri=0;
     while(t.scrollWidth<w&&giri++<8) t.innerHTML+=una;
     t.innerHTML+=t.innerHTML;
-    NA.w=0; NA.pos=0; NA.v=0;
+    // si parte con la prima voce, la citta' piu' bagnata, subito dopo il blocco rosso: da 0 nasceva sotto il blocco (1/11/2026)
+    var lb=na.querySelector('.lab');
+    NA.w=0; NA.pos=lb?lb.offsetWidth:0; NA.v=0;
   }
   // va mostrata? solo sulla pioggia con un'analisi disegnata; al telefono non col pannello ridotto
   function serve(){
@@ -19073,6 +19141,27 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     document.addEventListener('visibilitychange',function(){ if(!document.hidden) scriviDate(); });
     // coi link la prima analisi puo' essere gia' disegnata quando questo script parte: la si riprende
     if(!ultimo&&P()&&P().classifica()) window._barraPioggia(P().classifica());
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+/* ⚠️ TABLET DRITTO, 601-900 px: I PERIODI SOTTO LA BARRA DELLE REGIONI (1/11/2026, scheda 105; c'era gia' in produzione).
+   Il CSS del tablet mette il pannello dei periodi a 60 px dalla cima della mappa, la misura della barra di una volta: con
+   «Liguria ▼» e la fila «+ regione» la barra e' alta il doppio e copriva «Seleziona periodo». Qui si misura: 10 px sotto
+   la barra, e di nuovo quando la barra cambia altezza (la fila compare e sparisce con la regione). positionPanels() al
+   tablet non entra (si ferma sotto i 900 px) */
+(function(){
+  function sotto(){
+    var tp=document.getElementById('time-panel'), rp=document.getElementById('region-panel'), mp=document.getElementById('map');
+    if(!tp||!rp||!mp) return;
+    if(window.innerWidth<601||window.innerWidth>900){ if(tp.dataset.sotto){ tp.style.removeProperty('top'); delete tp.dataset.sotto; } return; }
+    var r=rp.getBoundingClientRect(); if(!r.height) return;
+    var top=Math.round(r.bottom-mp.getBoundingClientRect().top+10)+'px';
+    if(tp.style.getPropertyValue('top')!==top){ tp.style.setProperty('top',top,'important'); tp.dataset.sotto='1'; }
+  }
+  function avvia(){
+    sotto(); setTimeout(sotto,600);
+    window.addEventListener('resize',sotto);
+    try{ new ResizeObserver(sotto).observe(document.getElementById('region-panel')); }catch(e){}
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
