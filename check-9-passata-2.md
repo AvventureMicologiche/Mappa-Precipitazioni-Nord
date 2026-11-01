@@ -29,7 +29,7 @@ Cosa e' stato controllato e cosa e' uscito:
 | Titoli, descrizioni, `<h1>` doppi fra pagine diverse | 0, 0, 0 |
 | `<title>` o `<h1>` vuoti, pagine senza `meta description`, descrizioni sotto 70 caratteri | 0 |
 | Testo visibile con `undefined`, `NaN`, `null`, `[object Object]`, «Sila Greca», `/slovenia/` | 0 |
-| Rinominati e tolti del 1/11: Sila Greca, `/slovenia/`, meteo Candalla e Val Serina, 22 posti Sicilia, 4 Calabria, 2 Campania | nessuna pagina li linka piu'; ognuno ha la sua regola in `_redirects`, con e senza barra finale |
+| Rinominati e tolti del 1/11: Sila Greca, `/slovenia/`, meteo Candalla e Val Serina, 19 posti Sicilia, 4 Calabria, 2 Campania | nessuna pagina li linka piu'; ognuno ha la sua regola in `_redirects`, con e senza barra finale |
 
 I riferimenti a «Candalla» e «Val Serina» rimasti (79 e 48 pagine) puntano alle zone funghi e alle carte forestali
 `/funghi/zone/candalla/`, `/mappa-forestale/zone/val-serina/` e simili, che esistono: sono state tolte solo le due
