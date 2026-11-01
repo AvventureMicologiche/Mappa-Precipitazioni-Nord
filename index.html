@@ -18726,6 +18726,10 @@ html:root .sl{color:#6b7684 !important;font-weight:700 !important}
 html:root #time-panel .tp-btn{padding:6px 2px 6px !important;line-height:1.15 !important}
 .tp-d{display:block;font-size:10.5px;font-weight:600;color:#6b7684;letter-spacing:0;line-height:1;margin-top:3px}
 @media(min-width:901px) and (max-height:780px){.tp-d{display:none}}   /* PC basso: il pannello compatto, sei periodi su una riga */
+/* ⚠️ IL FOGLIO DELLE DATE AL TELEFONO (1/11/2026, scheda 105): ha un'altezza sua e copriva i periodi solo perche' erano
+   bassi; con le date sotto i periodi sono piu' alti e a 393 la loro cima spuntava 10 px sopra il foglio. Col foglio
+   aperto i periodi dietro si nascondono: resta «Seleziona periodo», come in produzione */
+@media(max-width:600px){#time-panel:has(#custom-box[style*="block"]) .tp-periodi{visibility:hidden}}
 /* ── la forma di «Previsioni» ── */
 html:root body:not(.modo-prev) #time-panel .tp-btn,html:root body:not(.modo-prev) #time-panel .tp-custom-btn,
 html:root body:not(.modo-prev) #btn-shot,html:root body:not(.modo-prev) #btn-share,html:root body:not(.modo-prev) #leg-back-btn,
@@ -18948,7 +18952,24 @@ html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bott
     } else if(na.parentNode!==el('map')) el('map').appendChild(na);
     na.classList.toggle('su',su);
     document.body.classList.toggle('pg-nastro-on',su);
+    accorcia(na,su);
     if(su) parti();
+  }
+  /* ⚠️ AL PC CON LO SCHERMO BASSO (1/11/2026, scheda 105, controllo prima della produzione): sotto gli ~820 px di finestra
+     la colonna di sinistra (periodi e riquadro) arriva in fondo alla mappa e la barra le passava sotto: copriva il tasto
+     giallo «Previsioni» e il riquadro copriva il blocco rosso (1366×657, 1536×702; in produzione ci stava tutto). Quando
+     la colonna entra nella fascia della barra, la barra parte 10 px a destra dei pannelli; con lo schermo alto resta a
+     tutta larghezza. La rifa' sistema(), che l'osservatore richiama a ogni spostamento della legenda (positionPanels le
+     scrive lo stile). Al telefono la barra sta dentro la legenda: niente spostamento */
+  function accorcia(na,su){
+    var x='';
+    if(su&&!tel()){
+      var mp=el('map').getBoundingClientRect(), cima=mp.bottom-(na.offsetHeight||44), destra=0;
+      ['legend-panel','time-panel'].forEach(function(id){ var e=el(id); if(!e||getComputedStyle(e).display==='none') return;
+        var r=e.getBoundingClientRect(); if(r.height&&r.bottom>cima-8) destra=Math.max(destra,r.right); });
+      if(destra) x=Math.round(destra-mp.left+10)+'px';
+    }
+    if(na.style.left!==x) na.style.left=x;
   }
   window._barraPioggia=function(sorted){
     ultimo=(sorted||[]).slice();
