@@ -3983,8 +3983,8 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
     meno di meta' del bosco di tipi da funghi (faggete, castagneti, querceti, cerrete, pinete, abetaie, lariceti, conifere)
     perche' intorno c'era soprattutto «altri boschi», quelli sotto i 400 m e uno per coppia sotto i 4 km (33 su 41 erano
     in provincia di Messina, dove la rete e' fittissima); in **Calabria** Rogliano, Tiriolo, Petilia Policastro e
-    Villaggio del Pino, in **Campania** Montella e Tramonti, tutti a meno di 4 km da un altro posto. Le loro pagine non sono
-    mai andate online (tolte prima del giro del mattino), quindi nessun rimando. ⚠️ **La regola per i prossimi posti**:
+    Villaggio del Pino, in **Campania** Montella e Tramonti, tutti a meno di 4 km da un altro posto. Sono state online al
+    massimo poche ore: per sicurezza `_redirects` le rimanda (301) alla pagina funghi della loro regione. ⚠️ **La regola per i prossimi posti**:
     bosco >= 50% sulle carte forestali, tipi da funghi >= 50% del bosco, quota >= 400 m al sud, niente doppioni sotto i
     4 km. Se si allarga al nord, si parte da qui.
   - **Nove posti nuovi nelle zone** (`funghi-zone.json`), solo dove stanno davvero: Cilento (Gioi, Ceraso-Isca), Monti
