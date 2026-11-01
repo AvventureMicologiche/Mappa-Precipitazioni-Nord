@@ -1,87 +1,87 @@
 {
  "regione": "slovenia",
- "generato": "2026-11-01T04:15:41.139Z",
+ "generato": "2026-11-01T05:31:09.472Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 114,
-   "primo": "2026-10-29",
-   "ultimo": "2026-10-29",
+   "stazioni": 109,
+   "primo": "2026-10-30",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Nanos",
-     "mm": 1.1
-    },
-    {
-     "n": "Kredarica",
-     "mm": 0.8
-    },
-    {
      "n": "Kum",
+     "mm": 3.7
+    },
+    {
+     "n": "Nanos",
+     "mm": 2.6
+    },
+    {
+     "n": "Slavnik",
      "mm": 0.5
     },
     {
-     "n": "Jeruzalem",
-     "mm": 0.2
+     "n": "Uršlja gora",
+     "mm": 0.4
     },
     {
-     "n": "Babno Polje",
-     "mm": 0.1
+     "n": "Kanin",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 15.1,
+   "media": 13.5,
    "giorni": 7,
    "stazioni": 114,
-   "primo": "2026-10-23",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-24",
+   "ultimo": "2026-10-30",
    "top": [
     {
-     "n": "Osilnica",
-     "mm": 33.5
-    },
-    {
      "n": "Iskrba",
-     "mm": 32.9
+     "mm": 32
     },
     {
-     "n": "Sviščaki",
-     "mm": 29.9
+     "n": "Osilnica",
+     "mm": 29.4
     },
     {
      "n": "Vodice (Ajdovščina)",
-     "mm": 29
+     "mm": 25.9
     },
     {
      "n": "Breginj",
-     "mm": 27
+     "mm": 24.9
+    },
+    {
+     "n": "Kočevske Poljane",
+     "mm": 24
     }
    ]
   },
   "20": {
-   "media": 60.6,
+   "media": 58.4,
    "giorni": 20,
    "stazioni": 114,
-   "primo": "2026-10-10",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-11",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Kanin",
-     "mm": 212.5
+     "mm": 212.3
     },
     {
      "n": "Breginj",
      "mm": 167.5
     },
     {
-     "n": "Predel",
-     "mm": 164.4
-    },
-    {
      "n": "Bovec - letališče",
      "mm": 164.3
+    },
+    {
+     "n": "Predel",
+     "mm": 161.3
     },
     {
      "n": "Krn",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 100.1,
+   "media": 100.2,
    "giorni": 30,
    "stazioni": 114,
-   "primo": "2026-09-30",
-   "ultimo": "2026-10-29",
+   "primo": "2026-10-01",
+   "ultimo": "2026-10-30",
    "top": [
     {
      "n": "Otlica - Ekoloska",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Kanin",
-     "mm": 244.8
+     "mm": 245
     },
     {
      "n": "Idrija",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0.2,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-29",
+ "serieDa": "2026-10-30",
  "zone": []
 }
