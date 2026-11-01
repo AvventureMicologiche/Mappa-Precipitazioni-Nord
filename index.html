@@ -3313,68 +3313,110 @@ function inRegion(lon,lat,rings){
   return false;
 }
 
-function buildGrid(data,rings,idwRad,gridRes){
-  var rad=idwRad||IDW_RAD;
-  var GR=gridRes||activeGridRes||GRID_RES;
-  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
-  var dataForIDW=data;
-  // Bounding box per regione
-  var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
-  var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
-  var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
-  // Bounding box dell'anello esterno di ogni poligono: la stragrande maggioranza
-  // delle celle è fuori regione e viene scartata da questo confronto O(1), senza
-  // il point-in-polygon sui migliaia di vertici del confine (era il collo di
-  // bottiglia in multiregione: box unito grande × tutti i confini per cella).
-  var polys=rings.map(function(poly){
+/* ⚠️ IL CONFINE SI ATTRAVERSA UNA VOLTA PER RIGA, NON PER CELLA (1/11/2026, scheda 106 bis). Suo: «l'attesa dopo
+   che ho scelto le date è lunga e vedo per qualche attimo lo schermo grigio». Misurato sul sito vero: i file dei giorni
+   arrivavano in 0,1-1 s, il calcolo dei colori durava 0,8-1,2 s al PC e 5,5-6 s al telefono, e il 93-97% di quel tempo
+   era pipGeo rifatto su OGNI cella contro tutti i punti del confine (la Lombardia ne ha 4.969).
+   Ora per ogni riga della griglia si cercano UNA volta gli incroci del confine con quella latitudine, con la stessa
+   formula e gli stessi numeri di pipGeo, e per ogni cella si contano quelli alla sua destra: dispari = dentro, come
+   in pipGeo. E l'IDW guarda solo le stazioni della fascia di latitudine della riga (quelle piu' lontane di rad in
+   latitudine non entravano mai), nello stesso ordine, quindi con le stesse somme. Provato su 8 casi veri
+   (Lombardia, Toscana, tre regioni insieme, Sicilia, Sardegna, Lazio, Austria, Trentino-AA): celle IDENTICHE fino
+   all'ultima cifra, da 19 a 54 volte piu' veloce (attrezzi in velocita-106-bis nel banco). pipGeo e inRegion restano
+   per chi chiede un punto solo. */
+function incrociRiga(ring,lat){
+  var xs=[],n=ring.length;
+  for(var i=0,j=n-1;i<n;j=i++){
+    var xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    if((yi>lat)!==(yj>lat)) xs.push((xj-xi)*(lat-yi)/(yj-yi)+xi);
+  }
+  return xs.sort(function(a,b){return a-b;});
+}
+// pipGeo(lon) = numero DISPARI di incroci con x > lon (disuguaglianza stretta, come la' dentro)
+function dentroRiga(xs,lon){
+  var lo=0,hi=xs.length;
+  while(lo<hi){var m=(lo+hi)>>1; if(xs[m]>lon) hi=m; else lo=m+1;}
+  return ((xs.length-lo)&1)===1;
+}
+// Bounding box dell'anello esterno di ogni poligono: la stragrande maggioranza
+// delle celle è fuori regione e viene scartata da questo confronto O(1), senza
+// guardare il confine (era il collo di bottiglia in multiregione: box unito
+// grande × tutti i confini per cella).
+function scatoleGriglia(rings){
+  return rings.map(function(poly){
     var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
     for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
     return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
   });
-  var pts=[];
-  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR){
-    for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
-      var inside=false;
-      for(var pz=0;pz<polys.length;pz++){
-        var P=polys[pz];
-        if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue; // AABB: reject veloce
-        if(pipGeo(lon,lat,P.poly[0])){
-          var hole=false;
-          for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
-          if(!hole){inside=true;break;}
-        }
-      }
-      if(!inside) continue;
-      var num=0,den=0,found=false,dMin=Infinity,mmMin=0;
-      for(var i=0;i<dataForIDW.length;i++){
-        var dlat=lat-dataForIDW[i].lat;
-        var dlon=(lon-dataForIDW[i].lon)*Math.cos(lat*Math.PI/180);
-        var d2=dlat*dlat+dlon*dlon;
-        if(d2>rad*rad) continue;
-        found=true;
-        if(d2<dMin){dMin=d2;mmMin=dataForIDW[i].mm;}
-        if(d2<0.000001){num=dataForIDW[i].mm;den=1;break;}
-        var w=1/d2; num+=w*dataForIDW[i].mm; den+=w;
-      }
-      if(!found) continue;
-      // veto locale (vedi VETO_KM): stazione vicina a zero => punto a zero
-      pts.push({lat:lat,lon:lon,mm:(dMin<=VETO_D2&&mmMin<VETO_MM)?0:num/den});
-    }
+}
+// Tutte le celle di UNA riga della griglia, aggiunte in coda a pts. La usano buildGrid e buildGridAFette: le due
+// non possono piu' separarsi (prima il corpo del doppio ciclo era copiato due volte).
+function celleRiga(polys,data,lat,rad,LON_MIN,LON_MAX,GR,pts){
+  var tocca=[];
+  for(var pz=0;pz<polys.length;pz++){
+    var P=polys[pz];
+    if(lat<P.by0||lat>P.by1) continue;
+    tocca.push({P:P,xs:P.poly.map(function(r){return incrociRiga(r,lat);})});
   }
+  if(!tocca.length) return;
+  var fascia=[];
+  for(var s=0;s<data.length;s++){var dl=lat-data[s].lat; if(dl*dl<=rad*rad) fascia.push(data[s]);}
+  var cl=Math.cos(lat*Math.PI/180);
+  for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
+    var inside=false;
+    for(var q=0;q<tocca.length;q++){
+      var T=tocca[q];
+      if(lon<T.P.bx0||lon>T.P.bx1) continue; // AABB: reject veloce
+      if(dentroRiga(T.xs[0],lon)){
+        var hole=false;
+        for(var h=1;h<T.xs.length;h++){if(dentroRiga(T.xs[h],lon)){hole=true;break;}}
+        if(!hole){inside=true;break;}
+      }
+    }
+    if(!inside) continue;
+    var num=0,den=0,found=false,dMin=Infinity,mmMin=0;
+    for(var i=0;i<fascia.length;i++){
+      var dlat=lat-fascia[i].lat;
+      var dlon=(lon-fascia[i].lon)*cl;
+      var d2=dlat*dlat+dlon*dlon;
+      if(d2>rad*rad) continue;
+      found=true;
+      if(d2<dMin){dMin=d2;mmMin=fascia[i].mm;}
+      if(d2<0.000001){num=fascia[i].mm;den=1;break;}
+      var w=1/d2; num+=w*fascia[i].mm; den+=w;
+    }
+    if(!found) continue;
+    // veto locale (vedi VETO_KM): stazione vicina a zero => punto a zero
+    pts.push({lat:lat,lon:lon,mm:(dMin<=VETO_D2&&mmMin<VETO_MM)?0:num/den});
+  }
+}
+
+function buildGrid(data,rings,idwRad,gridRes){
+  var rad=idwRad||IDW_RAD;
+  var GR=gridRes||activeGridRes||GRID_RES;
+  // Usa TUTTE le stazioni incluse quelle a 0mm come "voti contrari"
+  // Bounding box per regione
+  var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
+  var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
+  var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
+  var polys=scatoleGriglia(rings);
+  var pts=[];
+  for(var lat=LAT_MIN;lat<=LAT_MAX;lat+=GR) celleRiga(polys,data,lat,rad,LON_MIN,LON_MAX,GR,pts);
   return pts;
 }
 
 /**
  * Come buildGrid, ma A FETTE: lavora ~22 ms per volta e poi restituisce il
  * controllo al browser, che così può dipingere. Stessa identica matematica —
- * il corpo del doppio ciclo è copiato, non riscritto — cambia solo QUANDO si
+ * tutte e due chiamano celleRiga, una riga alla volta — cambia solo QUANDO si
  * ferma.
  *
  * Perché serve: su una regione grande come l'Austria il ciclo sincrono teneva
  * il thread bloccato **1,1 secondi** (misurato con PerformanceObserver sui
  * longtask). In quel secondo la pagina è congelata: le tile appena scaricate
  * non compaiono, il cursore non risponde, e l'utente vede una schermata ferma
- * e grigia. È l'ultimo strato di un difetto che ne aveva quattro.
+ * e grigia. È l'ultimo strato di un difetto che ne aveva quattro. (Dal 1/11/2026
+ * il calcolo intero dura ~20 ms al PC, ma le fette restano per i telefoni lenti.)
  *
  * `sessione` è la fotografia di loadSessionId al momento della partenza: se
  * l'utente cambia periodo o regione mentre calcoliamo, il lavoro in corso va
@@ -3386,43 +3428,13 @@ function buildGridAFette(data,rings,idwRad,gridRes,sessione,onFatto){
   var lons=data.map(function(s){return s.lon;}),lats=data.map(function(s){return s.lat;});
   var LON_MIN=Math.min.apply(null,lons)-0.5, LON_MAX=Math.max.apply(null,lons)+0.5;
   var LAT_MIN=Math.min.apply(null,lats)-0.3, LAT_MAX=Math.max.apply(null,lats)+0.3;
-  var polys=rings.map(function(poly){
-    var r0=poly[0],xmn=Infinity,xmx=-Infinity,ymn=Infinity,ymx=-Infinity;
-    for(var k=0;k<r0.length;k++){var X=r0[k][0],Y=r0[k][1];if(X<xmn)xmn=X;if(X>xmx)xmx=X;if(Y<ymn)ymn=Y;if(Y>ymx)ymx=Y;}
-    return {poly:poly,bx0:xmn,bx1:xmx,by0:ymn,by1:ymx};
-  });
+  var polys=scatoleGriglia(rings);
   var pts=[], lat=LAT_MIN, FETTA=22;
   function giro(){
     if(sessione!==undefined && sessione!==loadSessionId) return;  // sorpassati: si molla
     var t0=(window.performance&&performance.now)?performance.now():Date.now();
     while(lat<=LAT_MAX){
-      for(var lon=LON_MIN;lon<=LON_MAX;lon+=GR){
-        var inside=false;
-        for(var pz=0;pz<polys.length;pz++){
-          var P=polys[pz];
-          if(lon<P.bx0||lon>P.bx1||lat<P.by0||lat>P.by1) continue;
-          if(pipGeo(lon,lat,P.poly[0])){
-            var hole=false;
-            for(var h=1;h<P.poly.length;h++){if(pipGeo(lon,lat,P.poly[h])){hole=true;break;}}
-            if(!hole){inside=true;break;}
-          }
-        }
-        if(!inside) continue;
-        var num=0,den=0,found=false,dMin=Infinity,mmMin=0;
-        for(var i=0;i<data.length;i++){
-          var dlat=lat-data[i].lat;
-          var dlon=(lon-data[i].lon)*Math.cos(lat*Math.PI/180);
-          var d2=dlat*dlat+dlon*dlon;
-          if(d2>rad*rad) continue;
-          found=true;
-          if(d2<dMin){dMin=d2;mmMin=data[i].mm;}
-          if(d2<0.000001){num=data[i].mm;den=1;break;}
-          var w=1/d2; num+=w*data[i].mm; den+=w;
-        }
-        if(!found) continue;
-        // veto locale: stessa regola di buildGrid (le due copie devono restare gemelle)
-        pts.push({lat:lat,lon:lon,mm:(dMin<=VETO_D2&&mmMin<VETO_MM)?0:num/den});
-      }
+      celleRiga(polys,data,lat,rad,LON_MIN,LON_MAX,GR,pts);
       lat+=GR;
       var ora=(window.performance&&performance.now)?performance.now():Date.now();
       if(ora-t0>FETTA) break;   // fiato al browser

@@ -4214,3 +4214,36 @@ prima in tutte le 25 combinazioni provate (393, 360, 768, 1440, 1366×657 × pio
   con San Valentino in Abruzzo Citeriore (111%), e con due o tre regioni peggio; il nome era gia' scritto quattro volte
   (in cima, sulla mappa, nella scheda, nel tasto dello storico). E' la stessa regola che lui ha dato il 31/10 per la barra
   della pioggia. Ora il 21% del banner. «METEO ITALIA» della vista Italia resta (lo scrive `viPezzi`).
+
+## La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)
+
+Suo: «vedo in mappa pluvio le tessere apparire una alla volta, l'attesa dopo che ho scelto le date e' lunga e vedo per
+qualche attimo lo schermo grigio». Misurato sul sito vero, GA bloccato, al PC e al telefono (4G «Fast» e CPU ×4); gli
+attrezzi stanno nel banco, `velocita-106-bis\` (le prove dentro la pagina usano una COPIA di index.html coi cronometri,
+servita al posto della pagina vera con l'intercettazione di puppeteer: lo script principale e' in una IIFE e da fuori le
+sue funzioni non si vedono).
+- **Fatto: il calcolo dei colori 20-50 volte piu' veloce, risultato identico.** Dopo «Applica» i file dei giorni
+  arrivavano in 0,1-1 s, ma il calcolo (`buildGridAFette`) durava 0,8-1,2 s al PC e 5,5-6 s al telefono: il 93-97% era
+  `pipGeo` rifatto su OGNI cella contro tutti i punti del confine (Lombardia 4.969). Ora `celleRiga` cerca gli incroci
+  del confine UNA volta per riga (`incrociRiga`, stessa formula di pipGeo) e per ogni cella conta quelli a destra
+  (`dentroRiga`); l'IDW guarda solo le stazioni della fascia di latitudine, nello stesso ordine. buildGrid e
+  buildGridAFette usano tutte e due `celleRiga`. Provato: griglia identica cella per cella su 9 casi nel browser e
+  heatmap identica PIXEL PER PIXEL su tutte le regioni a 30 giorni, funghi, ieri, tre regioni e telefono
+  (`giro-calcolo.js`, 29 casi su 29; ⚠️ confrontare DOPO che tutte e due le pagine hanno finito: col calcolo lento la
+  vecchia si fotografava a meta' dei ridisegni); telefono girato uguale alla misura della 106 (`mockup-106\
+  misura-girati.js`, 6 su 6). Tempi: telefono, 30 giorni Lombardia, colori a 1,3 s dal tocco invece di 6,4 (calcolo 5,5 s →
+  0,18); PC 0,25 s invece di 1,0. ⚠️ In multiregione l'ordine in cui arrivano le regioni cambia le ultime cifre dell'IDW
+  (somme in ordine diverso): succedeva anche prima, non si vede, e falsa un confronto fra due caricamenti.
+- **Trovato e NON ancora fatto (da decidere con lui, in quest'ordine):**
+  1. Il velo `#map-spinner` (bianco al 45%) resta sopra la mappa fino a fine calcolo: sulla foto scura e' lo «schermo
+     grigio». Col calcolo veloce dura quanto i dati, ma si puo' alleggerire (rotellina senza bianco).
+  2. **Regressione della foto**: `precaricaTileDestinazione` precarica tessere OSM e `quandoMappaDisegnata` aspetta il
+     «load» di OSM (fino a 1,5 s), che dal 31/10 sta NASCOSTA sotto la foto; la foto non la prepara nessuno. Il fit del
+     periodo e' `setView(..., {animate:false})` (3/8): Leaflet butta tutte le tessere e resta il fondo `#123a52` finche'
+     la foto non arriva (PC a 8 Mbit ~1,5 s; al telefono anche due volte, al secondo zoom col riquadro). Rimedio: le
+     stesse due cose sulla foto, ed eventualmente una foto sfocata gia' in memoria sotto (prima sfocata, poi nitida).
+  3. **OSM nascosta scaricata lo stesso**: al PC 2,8 MB all'apertura e 2,1 MB dopo «Applica» (foto 650 KB), al telefono
+     1 MB contro 283 KB di foto: ruba banda a foto e dati («tessere una alla volta»). Il satellite dei boschi la toglie
+     gia' (`osmVia`/`osmTorna`); qui va tolta finche' c'e' `foto-on`, verificando scatto, boschi e foto che non arriva.
+  jsDelivr risponde bene (HTTP/2, primo byte 35-190 ms). Noti, non cause: la pagina (1,27 MB, senza cache: rimedio 5
+  della scheda 100) e i file dei giorni (~10 KB l'uno: 90 giorni = 841 KB al telefono).
