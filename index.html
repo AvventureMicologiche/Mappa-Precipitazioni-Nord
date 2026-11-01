@@ -2918,7 +2918,7 @@ var initCenter=(screenW<=900)?[42.0,12.6]:[42.0,8.6];
 // +/- e la rotellina zoomano di 0,5 come prima (zoom manuale invariato).
 var map=L.map('map',{zoomSnap:0.25,zoomDelta:0.5}).setView(initCenter, initZoom);
 var baseTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  maxZoom:19,subdomains:'abc',
+  maxZoom:19,subdomains:'abc',className:'osm-base',   // col nome la si nasconde sotto la foto (1/11/2026, «body.foto-on .osm-base»)
   crossOrigin:true, // necessario per esportare la mappa su canvas (immagine di condivisione)
   attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
@@ -12886,6 +12886,13 @@ function loadDefaultMarkers(){
 .foto-on #map .leaflet-overlay-pane path[stroke="#1b3f6e"],.foto-on #map .leaflet-overlay-pane path[stroke="#4a6c9b"]{stroke:#fff;stroke-opacity:.9}
 .foto-on #map .leaflet-overlay-pane path[fill="#1b3f6e"]{fill:#fff}
 #map .leaflet-foto-pane{filter:brightness(var(--sat-luce,1.3)) saturate(1.1)}
+/* ⚠️ CON LA FOTO SOTTO LA PIOGGIA LA CARTINA OSM C'E' MA NON SI VEDE (1/11/2026, scheda 105, suo: «da pc se appena aperto da
+   pluvio vado su meteo e torno indietro mi flasha per un istante openstreetmap»). Tornando dalle previsioni la mappa cambia
+   inquadratura e la foto ricarica le sue tessere: la cartina, che sta sempre sotto, a volte arrivava prima (sul sito vero
+   un fotogramma col 65% della mappa, al telefono fino al 98%). Resta caricata (ripiego se la foto non arriva: foto-on si
+   spegne e torna a vedersi; quandoMappaDisegnata), ma nell'attesa si vede il blu dello sfondo; lo scatto la salta da solo
+   (visibile()). Provato e scartato: tenere la foto caricata nelle previsioni (nel meteo e' su un'altra inquadratura) */
+body.foto-on #map .osm-base{visibility:hidden}
 body.foto-on #map{background:#123a52}
 /* «Foto dal satellite al momento non disponibile» (31/10/2026, suo: «non possiamo mettere una scritta?», «la scritta
    piccola e' leggibile?»): quando Esri non manda la foto dei boschi si torna alla cartina e la scritta resta 5 s */
