@@ -5889,7 +5889,9 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
   // (Prima non si poteva: l'avviso stava in #tp-status, che veniva riscritto
   //  subito dopo con «Calcolo mappa…» e se lo portava via. Ora vive nella legenda.)
   aggiornaAvvisoIeri();
-  document.getElementById('leg-title').textContent='mm cumulati ('+labelPeriodo+')';
+  /* nei funghi il titolo SENZA le date (1/11/2026, scheda 105, suo: «togli la data»): «(12/10/2026 → 19/10/2026)» lo
+     allungava a 423 px dove ce ne stanno 171, e le date sono gia' nella conferma sotto il tasto e nel blocco rosso */
+  document.getElementById('leg-title').textContent='mm cumulati ('+String(labelPeriodo).replace(/\s*\([^()]*→[^()]*\)\s*$/,'')+')';
   document.getElementById('legend-panel').style.display='block';
   showLegendMobile();
   positionLegend();
@@ -16742,7 +16744,9 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
     var mt=mpEl.getBoundingClientRect(), copre=0;
     ['legend-panel','time-panel'].forEach(function(id){ var e=document.getElementById(id); if(!e) return; var s=getComputedStyle(e);
       if(s.display==='none'||s.visibility==='hidden') return; var r=e.getBoundingClientRect();
-      if(r.height>20 && r.bottom>=mt.bottom-2 && r.top<mt.bottom) copre=Math.max(copre,mt.bottom-Math.max(r.top,mt.top)); });
+      /* ⚠️ solo i pannelli LARGHI in fondo (1/11/2026, scheda 105): col telefono girato i periodi sono una colonna a
+         sinistra e, toccando il fondo dello schermo, mandavano l'icona in cima, sotto la fila delle regioni */
+      if(r.height>20 && r.width>mt.width*0.6 && r.bottom>=mt.bottom-2 && r.top<mt.bottom) copre=Math.max(copre,mt.bottom-Math.max(r.top,mt.top)); });
     btn.style.top=''; btn.style.bottom=Math.round(copre+10)+'px';
   }
   // i pannelli in basso cambiano altezza (riduci, periodo, legenda) e scorrono con un'animazione: l'icona li segue
@@ -17904,7 +17908,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        dallo zoom 11 (valli e paesi: li' conta il dettaglio delle case). Se la nostra non arriva, Esri a ogni zoom
        come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita */
     if(on&&!satL){
-      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxNativeZoom:17});
+      /* ⚠️ maxZoom 19 (1/11/2026, scheda 105): senza, Leaflet la ferma al 18 e allo zoom 19 restava la nostra del 10
+         ingrandita 512 volte, una macchia di colore (in produzione, prima, la cartina stradale) */
+      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxZoom:19,maxNativeZoom:17});
       var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
         var mm=map(); if(!mm||!satL) return;
         satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); creditoEsri(); }):null;
@@ -18718,7 +18724,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 /* ── pannelli e titoli ── */
 html:root #time-panel,html:root #legend-panel,html:root #region-panel{background:#fff !important;border:0 !important;border-radius:12px !important;box-shadow:0 2px 10px rgba(0,0,0,.2) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
 html:root #time-panel .tp-title,html:root .leg-title{color:#1b3f6e !important;font-weight:800 !important;letter-spacing:.4px !important}
-@media(min-width:901px){html:root .leg-title{font-size:11px !important;letter-spacing:.3px !important;white-space:nowrap}}
+/* ⚠️ al PC il titolo VA A CAPO quando non ci sta (1/11/2026, scheda 105): su una riga sola («nowrap») spingeva fuori dal
+   riquadro «Immagine» e «Copia link» nei funghi e con le date personalizzate («12 OTT – 19 OTT»: 209 px dove ce ne
+   stanno 171). Spaziatura .2: «MM CUMULATI (30 GIORNI)» era 171 px giusti e a capo sarebbe andato per un pelo */
+@media(min-width:901px){html:root .leg-title{font-size:11px !important;letter-spacing:.2px !important}}
 html:root .grad{border-radius:6px !important}
 html:root .sl{color:#6b7684 !important;font-weight:700 !important}
 /* ── le date sotto i periodi («7 gg» / «24–30»; al PC «7 giorni» / «24–30 ott»): le scrive lo script qui sotto ──
@@ -18726,6 +18735,9 @@ html:root .sl{color:#6b7684 !important;font-weight:700 !important}
 html:root #time-panel .tp-btn{padding:6px 2px 6px !important;line-height:1.15 !important}
 .tp-d{display:block;font-size:10.5px;font-weight:600;color:#6b7684;letter-spacing:0;line-height:1;margin-top:3px}
 @media(min-width:901px) and (max-height:780px){.tp-d{display:none}}   /* PC basso: il pannello compatto, sei periodi su una riga */
+/* ⚠️ telefono girato (1/11/2026, scheda 105): con le date il pannello dei periodi usciva 10 px sotto lo schermo, e il
+   termometro, credendolo il pannello in basso del telefono, saliva sotto la fila delle regioni. Senza le date ci sta */
+@media(max-width:900px) and (max-height:500px){.tp-d{display:none}}
 /* ⚠️ IL FOGLIO DELLE DATE AL TELEFONO (1/11/2026, scheda 105): ha un'altezza sua e copriva i periodi solo perche' erano
    bassi; con le date sotto i periodi sono piu' alti e a 393 la loro cima spuntava 10 px sopra il foglio. Col foglio
    aperto i periodi dietro si nascondono: resta «Seleziona periodo», come in produzione */
@@ -18941,6 +18953,10 @@ html:root body:not(.modo-prev) #vic-riga{padding-top:9px !important;padding-bott
     if(!ultimo||!P()||!P().pallini()||!lp||getComputedStyle(lp).display==='none') return false;
     if(c.contains('modo-prev')||c.contains('modo-radar')||c.contains('modo-boschi')) return false;
     if(tel()&&(lp.classList.contains('leg-mini')||!lp.classList.contains('leg-visible'))) return false;
+    /* ⚠️ TELEFONO GIRATO (1/11/2026, scheda 105): a 852×393 la barra prendeva una riga sua, i tasti scendevano su
+       un'altra e i quattro numeri restavano tagliati a meta'. Lo schermo e' troppo basso: niente barra, torna il titolo
+       coi tasti accanto, come in produzione (lo stesso che col pannello ridotto) */
+    if(tel()&&window.innerHeight<=500) return false;
     return true;
   }
   function sistema(){
