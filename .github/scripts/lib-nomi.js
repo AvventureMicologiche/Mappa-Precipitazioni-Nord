@@ -38,7 +38,7 @@
 //
 // Per chiuderne una, si toglie la chiave da qui e si cancella la sua cartella.
 const LOCALITA = ['lombardia', 'piemonte', 'valledaosta', 'liguria', 'emilia', 'veneto',
-  'friuli', 'trentino', 'altoadige', 'toscana', 'umbria', 'marche', 'lazio',
+  'friuli', 'trentino', 'altoadige', 'toscana', 'umbria', 'marche', 'lazio', 'molise',
   'campania', 'puglia', 'basilicata', 'calabria', 'sicilia', 'sardegna'];
 
 // Le particelle che dentro un nome restano minuscole: «Colle di Cadibona», non

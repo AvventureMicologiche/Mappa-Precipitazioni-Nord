@@ -3928,4 +3928,35 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   `boschi/13/`): ritrovato al decimo. Con le carte forestali e soglia 50% entrerebbero 280 posti nuovi in tutta Italia, al sud
   Sicilia 41, Calabria 24, Campania 18, Sardegna 9, Basilicata 3, Puglia 2, piu' 10 nel Molise, che oggi la pagina funghi non ce
   l'ha. La Puglia resta sottile con qualunque regola (al massimo 5). Le strade e i numeri sono nel resoconto
-  `analisi-famiglie-pagine-2026-11-01.md`, «Terzo aggiornamento»; si decide con lui (e con Search Console).
+  `analisi-famiglie-pagine-2026-11-01.md`, «Terzo aggiornamento».
+- ⚠️ **FATTO LA STESSA SERA, STRADA 1 (suo: «facciamo la 1, poi valuteremo se ampliarla al nord»)**: 102 posti funghi
+  nuovi, solo al sud, coi criteri: quota 200-1.600 m, almeno il 50% di bosco entro 3 km sulle carte forestali (le nostre
+  tessere, stesso calcolo della mappa forestale), almeno 24 giorni di dato vero sugli ultimi 30, non esclusi dalla mappa
+  ne' fermi, e niente doppioni sotto i 2-3 km (fuori Agerola, Ravello, Scala, Vandra a Fornelli). Sicilia +41, Calabria
+  +24, Campania +14, Sardegna +9, Basilicata +3, Puglia +2, e il **Molise con 9: pagina funghi nuova** (`LOCALITA` in
+  lib-nomi.js, i due `GENITIVO`, la riga in index.html, la frase dell'indice). Nessun posto di oggi tolto. Pagine paese:
+  da 908 a 1.010.
+  - **Accodati in fondo all'elenco di ogni regione**, in ordine di nome: `slugRegione` assegna i nomi in ordine, e cosi'
+    nessun indirizzo di prima cambia. Il nome resta quello della rete (`p[1]`); i titoli in `nomi-titolo.json` (32
+    nuovi: «Antillo SIAS» -> «Antillo», «Messina SP50Bis» -> «Monti Peloritani»). Le due «Montalbano Elicona»: quella a
+    1.231 m e' «Montalbano Elicona - Portella dello Zoppo». `aPosto` conosce «Monti» (sui/ai Monti).
+  - **Il settimo campo di `funghi-posti.json` ora e' il bosco delle CARTE FORESTALI su tutti i 1.010 posti** (lo stesso di
+    `mappa-forestale-dati.json`): prima la pagina scriveva il numero di OpenStreetMap e, sotto, la carta forestale ne
+    diceva un altro (Ligonchio 37% e 87%). I valori di OpenStreetMap restano nella storia di git. Il testo della regola,
+    in regioni, zone, indice, paesi e guida: «almeno il 37% entro 3 km sulle mappe di OpenStreetMap, o il 50% sulle carte
+    forestali delle regioni».
+  - Bosco e tipi dei posti nuovi aggiunti a `mappa-forestale-dati.json` (`paesi`), calcolati qui dalle tessere lette da
+    raw.githubusercontent.com (cartella `boschi/13/` del repo Tessere, cerchio di 3 km). Il generatore forestale ora scrive
+    i nomi con `bello()` (Forlì, non «Forli'»).
+  - Le pagine paese di prima sono state aggiornate col trapianto delle righe (bosco, regola, vicini), non rigenerate: i
+    ritratti restano. ⚠️ La frase della classifica nel ritratto («Su 17 pluviometri da bosco della Calabria...») resta coi
+    numeri vecchi su 56 pagine del sud: la rinfresca il rinnovo del 2/12.
+  - **Restano da fare**: i posti nuovi non sono nelle ZONE (`funghi-zone.json` elenca i posti a mano: Nebrodi, Sila,
+    Cilento ne avrebbero di nuovi); manca l'anteprima boschi del Molise (`tessere-boschi/anteprime/molise-mappa.webp`,
+    si fa dal PC con `BOSCHI=1 ... genera-anteprime.js molise`: senza, il riquadro «Guarda i boschi» resta blu con la
+    scritta). La pulizia di dicembre non deve giudicare queste pagine: hanno un mese di vita.
+- **Punto 12, San Michele e Punta Sebera: «CI» -> «SU».** La provincia di Carbonia-Iglesias non c'e' dal 2016; i suoi
+  comuni sono nella provincia del Sulcis Iglesiente, attiva dal 2025, che ha preso la sigla SU (l'ha lasciata il Sud
+  Sardegna). Sigle sarde di oggi: CA, SS, NU, OR, OT (Gallura), OG (Ogliastra), VS (Medio Campidano), SU. ⚠️
+  `data/elenco-paesi.txt` ha ancora le sigle sarde del 2016-2024 (SU = Sud Sardegna): la ricerca scrive «Teulada (SU)»
+  anche per i comuni passati a Cagliari o al Medio Campidano. Da rifare quando ISTAT pubblica i confini nuovi.

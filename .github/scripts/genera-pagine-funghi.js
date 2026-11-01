@@ -22,10 +22,10 @@
  * c'e' e serve a una frase sola.
  *
  * ⚠️ NIENTE ABRUZZO: non abbiamo una fonte aperta per quella regione (POLARIS
- * e' dietro un login, email del 19/8/2026 senza risposta). NIENTE MOLISE:
- * nessuno dei suoi 24 pluviometri in fascia di quota arriva al 37% di bosco (il
- * piu' boscoso e' Capracotta, 35%), e una pagina vuota e' peggio di nessuna
- * pagina. Restano 19 regioni.
+ * e' dietro un login, email del 19/8/2026 senza risposta). IL MOLISE C'E' DAL
+ * 1/11/2026: col bosco di OpenStreetMap nessuno dei suoi pluviometri arrivava al
+ * 37% (Capracotta 35%), con le carte forestali 9 passano il 50% (vedi
+ * funghi-posti.json in CLAUDE.md, «Correzioni del 1/11/2026»). Sono 20 regioni.
  *
  * ⚠️ QUESTE PAGINE FANNO PARTIRE UN DEPLOY: stanno fuori da `data/` e da
  * `.github/`, quindi non sono nella regola ignore di netlify.toml. Pubblicarle
@@ -87,7 +87,7 @@ const GENITIVO = {
   lombardia: 'della Lombardia', piemonte: 'del Piemonte', valledaosta: "della Valle d'Aosta",
   liguria: 'della Liguria', emilia: "dell'Emilia-Romagna", veneto: 'del Veneto',
   friuli: 'del Friuli Venezia Giulia', trentino: 'del Trentino', altoadige: "dell'Alto Adige",
-  toscana: 'della Toscana', umbria: "dell'Umbria", marche: 'delle Marche', lazio: 'del Lazio',
+  toscana: 'della Toscana', umbria: "dell'Umbria", marche: 'delle Marche', lazio: 'del Lazio', molise: 'del Molise',
   campania: 'della Campania', puglia: 'della Puglia', basilicata: 'della Basilicata',
   calabria: 'della Calabria', sicilia: 'della Sicilia', sardegna: 'della Sardegna',
 };
@@ -427,7 +427,8 @@ c'è, non se quest'anno ci sono nati funghi.${/* 1/11/2026, scheda 105 bis */ fs
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misurano i pluviometri ${diEnte(corta)} nei posti da bosco ${gen}: un pluviometro vero,
-quota fra 200 e 1600 metri, almeno il 37% di bosco entro 3 km sulle mappe di OpenStreetMap. I numeri in
+quota fra 200 e 1600 metri e tanto bosco intorno: almeno il 37% entro 3 km sulle mappe di OpenStreetMap,
+o il 50% sulle carte forestali delle regioni, che al sud vedono boschi che OpenStreetMap non ha. I numeri in
 cima sono la media di questi pluviometri, giorno per giorno, aggiornata ogni mattina.</p>
 <p>Perché da 13 a 20 giorni fa: dopo una pioggia il fungo impiega almeno dodici o tredici giorni
 a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due settimane.</p>
@@ -435,8 +436,8 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <a href="${SITO}/${r.k}/">dove ha piovuto ${r.prep} ${nome}</a>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
 valgono regole proprie.</p>
-<p>Dati ${diEnte(lunga)} via il nostro archivio. Il bosco è calcolato su dati OpenStreetMap, licenza ODbL.
-La provincia viene dai confini provinciali ISTAT.</p>
+<p>Dati ${diEnte(lunga)} via il nostro archivio. Le percentuali di bosco vengono dalle carte forestali delle regioni;
+per scegliere i posti usiamo anche OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 </div>
 ${/* Il bottone YouTube in fondo (12/10/2026): qui prima non c'era, ora c'e' in tutte,
      in coppia col quiz tartufi nelle regioni che il quiz ha (coppiaQuiz). */ ''}${coppiaQuiz(r.k, `<a href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"

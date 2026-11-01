@@ -208,12 +208,12 @@ ${CON_FUNGHI.map(r => `  <a href="${SITO}/funghi/${r.k}/"><b>${nomeDi(r)}</b><sp
   strumento di un ente pubblico, col suo nome e la sua quota.</div>
   <div><span class="n">2</span><b>Quota fra 200 e 1600 metri.</b> Sotto è pianura, sopra il bosco
   finisce.</div>
-  <div><span class="n">3</span><b>Almeno il 37% di bosco entro 3 km</b>, misurato sulle mappe di
-  OpenStreetMap.</div>
+  <div><span class="n">3</span><b>Tanto bosco intorno</b>: almeno il 37% entro 3 km sulle mappe di
+  OpenStreetMap, o il 50% sulle carte forestali delle regioni, che al sud vedono boschi che
+  OpenStreetMap non ha.</div>
 </div>
-<p class="nota">Restano fuori l'Abruzzo, che non ha una fonte pubblica aperta, e il Molise, dove
-nessun pluviometro in fascia di quota arriva al 37% di bosco: una pagina vuota è peggio di
-nessuna pagina.</p>
+<p class="nota">Resta fuori l'Abruzzo, che non ha una rete di pluviometri con i dati aperti: una
+pagina fatta di stime non direbbe dove ha piovuto davvero.</p>
 
 <h2 style="margin-top:30px">Le valli e le zone</h2>
 <p class="nota">Una zona mette insieme i pluviometri di tutta la valle: comoda quando il posto
@@ -256,8 +256,8 @@ ${/* Il tasto grande sta ora SOPRA, sotto l'anteprima: qui sarebbe il secondo
      nella stessa pagina, e due volte lo stesso invito non ne vale due. */''}
 
 <p class="nota" style="margin-top:22px">Dati degli enti pubblici via il nostro archivio, elencati
-in <a href="${SITO}/fonti">fonti e licenze</a>. Il bosco è calcolato su dati OpenStreetMap,
-licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
+in <a href="${SITO}/fonti">fonti e licenze</a>. Le percentuali di bosco vengono dalle carte
+forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 
 ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
      funghi, e il secondo ripeterebbe pari pari le 19 schede qui sopra. Di suo

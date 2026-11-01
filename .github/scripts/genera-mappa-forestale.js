@@ -43,7 +43,7 @@ const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-r
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
-const { slug, slugRegione, artNum } = require('./lib-nomi.js');   // artNum: «l'81%», «sull'87%» (18/10/2026)
+const { slug, slugRegione, artNum, bello } = require('./lib-nomi.js');   // artNum: «l'81%», «sull'87%» (18/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
 
 const SITO = 'https://precipitazioni.avventuremicologiche.it';
@@ -61,6 +61,7 @@ const D = JSON.parse(fs.readFileSync(path.join(__dirname, 'mappa-forestale-dati.
     const regs = regDi[id] || [];
     const reg = regs.length === 1 ? regs[0] : (regs.includes(p.reg) ? p.reg : null);
     if (reg && slugDi[reg][id]) { p.reg = reg; p.slug = slugDi[reg][id]; }
+    p.n = bello(p.n);   // «Forlì del Sannio», non «Forli' del Sannio» (1/11/2026): il nome nel file e' quello della rete
   }
 }
 const IND = JSON.parse(fs.readFileSync(path.join(RADICE, 'tessere-boschi', 'italia', 'indice.json'), 'utf8'));

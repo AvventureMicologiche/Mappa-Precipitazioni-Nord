@@ -87,7 +87,7 @@ const GENITIVO = {
   liguria: 'della Liguria', emilia: "dell'Emilia-Romagna", veneto: 'del Veneto',
   friuli: 'del Friuli', trentino: 'del Trentino', altoadige: "dell'Alto Adige",
   toscana: 'della Toscana', umbria: "dell'Umbria", marche: 'delle Marche',
-  lazio: 'del Lazio', campania: 'della Campania', puglia: 'della Puglia',
+  lazio: 'del Lazio', molise: 'del Molise', campania: 'della Campania', puglia: 'della Puglia',
   basilicata: 'della Basilicata', calabria: 'della Calabria', sicilia: 'della Sicilia',
   sardegna: 'della Sardegna',
 };
@@ -116,6 +116,7 @@ function aPosto(n) {
       || /^Pian (della|delle|del|dei|degli)\b/.test(n)) return 'al ' + n;   // «Pian di Scò», «Pian Camuno» sono paesi: «a»
   if (/^(Diga|Malga|Casera|Fattoria)\b/.test(n)) return 'alla ' + n;
   if (/^Piani\b/.test(n)) return 'ai ' + n;
+  if (/^Monti\b/.test(n)) return 'sui ' + n;   // «sui Monti Peloritani» (1/11/2026)
   if (/^(Alpe|Isola|Alta|Abbazia)\b/.test(n)) return "all'" + n;
   if (/^Val\s/.test(n)) return 'in ' + n;   // «in Val Clarea», «in Val Noana» (31/10/2026); «a Valle di Cadore» resta
   // «ad Anterselva», «ad Aulla»: davanti alla a si scrive ad (13/9/2026, il
@@ -209,7 +210,7 @@ function pagina(r, posto, slug, sl) {
   const GEN = GENITIVO[REG];
   const NOME_T = NOMI_TITOLO[REG + '/' + slug] || nomePosto;   // il nome per titolo e frasi, vedi NOMI_TITOLO
   const DOVE = aPosto(NOME_T);
-  const INTORNO = DOVE.replace(/^in Val /, 'alla Val ');   // «intorno alla Val Clarea», non «intorno in Val Clarea»
+  const INTORNO = DOVE.replace(/^in Val /, 'alla Val ').replace(/^sui Monti /, 'ai Monti ');   // «intorno alla Val Clarea», non «intorno in Val Clarea»
   const SIGLA_T = OMONIMI.has(nomePosto) && sigla ? ' (' + sigla + ')' : '';   // vedi OMONIMI
 
   // ⚠️ IL SEGNAPOSTO NEL LINK (3/9/2026). pl = coordinate, pn = nome: la mappa
@@ -503,7 +504,7 @@ ${FORESTALE ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a hr
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misura il pluviometro ${esc(diEnte(AGENZIA))} ${esc(DOVE)}: ${esc(sigla)}, ${quota} metri,
-con ${artNum('il', bosco + '%')} di bosco entro 3 km. Sono misure a terra, giorno per giorno, aggiornate ogni mattina.
+con ${artNum('il', bosco + '%')} di bosco entro 3 km sulle carte forestali delle regioni. Sono misure a terra, giorno per giorno, aggiornate ogni mattina.
 La giornata di oggi non è contata perché il pluviometro la sta ancora misurando.</p>
 <p>Perché da 13 a 20 giorni fa: dopo una pioggia il fungo impiega almeno dodici o tredici giorni
 a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due settimane.</p>
@@ -521,8 +522,9 @@ da bosco ${esc(GEN)} con lo stesso periodo alle spalle, questo è ${vocaleNum(PO
 per acqua caduta.` : ''}</p>` : ''}
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
 valgono regole proprie.</p>
-<p>Dati ${esc(diEnte(AGENZIA))} via il nostro archivio. Il bosco entro 3 km è calcolato su dati
-OpenStreetMap, licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
+<p>Dati ${esc(diEnte(AGENZIA))} via il nostro archivio. Il bosco entro 3 km è misurato sulle carte
+forestali delle regioni, le stesse della mappa boschi; per scegliere i posti usiamo anche OpenStreetMap,
+licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 </div>
 ${coppiaQuiz(REG, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel="noopener" class="yt-btn"
    onclick="try{gtag('event','click_youtube',{pulsante:'localita-fondo-${REG}'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, `localita-fondo-${REG}`)}
