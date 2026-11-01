@@ -72,7 +72,7 @@ const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 // altre senza aver letto i numeri dei due gruppi.
 const ZONE_METEO = ['garfagnana', 'lunigiana', 'casentino', 'valsassina', 'valdarno', 'mugello', 'nebrodi',
   'val-bormida', 'colline-metallifere-grossetane', 'val-d-aveto', 'val-brembana'];
-const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-trebbia', 'sila-greca', 'alpi-apuane',
+const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-trebbia', 'sila-grande', 'alpi-apuane',
   'val-trompia', 'cilento', 'colline-metallifere', 'val-di-taro', 'val-di-vara', 'valle-germanasca', 'monti-reatini',
   'val-loana', 'monti-lattari', 'val-di-non', 'media-valle-del-serchio', 'monti-sibillini', 'valtiberina', 'valdinievole'];
 // C (30/10/2026, scheda 101 bis, suo: «sì, prepara le valli»): le 20 successive per visite GA4 (28 gg, pagine zona piogge

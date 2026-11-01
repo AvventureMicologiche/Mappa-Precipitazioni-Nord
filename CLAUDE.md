@@ -3990,9 +3990,13 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   - **Nove posti nuovi nelle zone** (`funghi-zone.json`), solo dove stanno davvero: Cilento (Gioi, Ceraso-Isca), Monti
     Lattari (Sambuco di Ravello, Chiunzi), Serre calabresi (San Nicola da Crissa), Nebrodi (Ambola, San Fratello
     Forestale), Valle del Fitalia (Galati Mamertino, Mastrostefano). Rifatte le pagine di quelle cinque zone (funghi per
-    intero, piogge, meteo, forestali con la media della Carnia) e i riepiloghi. ⚠️ **La zona «Sila Greca» in realta' e'
+    intero, piogge, meteo, forestali con la media della Carnia) e i riepiloghi. ⚠️ **La zona «Sila Greca» in realta' era
     la Sila Grande** (Monte Curcio, Camigliatello, Spineto): Longobucco, che e' Sila Greca vera, sta a 21 km dai suoi
-    pluviometri e non e' entrato. Da rivedere il nome o la zona.
+    pluviometri e non e' entrato. **Rinominata «Sila Grande» la stessa notte** (suo): `funghi-zone.json` («nella Sila
+    Grande»), `mappa-forestale-dati.json`, `ZONE_METEO_B` (`sila-grande`), la riga della zona in `elenco-paesi.txt`, la
+    foto `mappa-forestale/zone/sila-grande/scorcio.jpg`; le quattro pagine cambiano indirizzo (zone, funghi/zone, meteo,
+    mappa-forestale/zone) e i vecchi `sila-greca` rimandano con un 301. ⚠️ Nella misura del gruppo B delle meteo, in Search
+    Console la pagina compare con l'indirizzo nuovo dal 2/11.
   - **Sigle sarde 2025 nell'elenco dei paesi** (`data/elenco-paesi.txt`): CA 70, SS 66, NU 53, OR 87, OT 26 (Gallura),
     OG 23 (Ogliastra), VS 28 (Medio Campidano), SU 24 (Sulcis Iglesiente). Le appartenenze vengono da un elenco ISTAT 2025
     trovato su GitHub (alessandroamormino/fuorirotta, `data/elenco-comuni-istat.csv`), che pero' da' «CI» al Sulcis: la
@@ -4016,7 +4020,8 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
    posti scritta sopra e i numeri di Search Console.
 3. **Promemoria senza lavoro**: la frase della classifica nel ritratto di ~56 pagine del sud si aggiorna col rinnovo del 2/12;
    la pulizia delle pagine paese senza clic (~1/12) NON deve giudicare le 77 pagine nuove del sud (un mese di vita).
-4. **Zona «Sila Greca»**: e' la Sila Grande; decidere se rinominarla o rifarla (Longobucco fuori).
+4. ~~Zona «Sila Greca»~~: rinominata «Sila Grande» il 1/11 notte. Resta, se servira', una zona Sila Greca vera
+   (Longobucco, Acri, Bocchigliero) quando ci saranno abbastanza posti.
 5. **Utili, non urgenti**: il codice comune delle pagine in file a parte (pagine da ~113 a ~15 KB, lavoro medio-grande); il
    verdetto delle pagine funghi scritto nell'HTML ogni mattina, come le zone piogge (lavoro medio).
 6. `fonti.html` senza percorso in cima (le altre pagine ce l'hanno dal 1/11).
