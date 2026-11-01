@@ -3033,7 +3033,14 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   di ieri →» (`a.mk-oppure`, il link del vecchio «Apri la mappa di ieri»; suo: «i due bottoni devono essere simili» e
   «la gente non capisce a quanti giorni e' la mappa»: per questo la pillola dice i 7 giorni). Se la cartina dei 7 giorni
   manca o non finisce a ieri si torna alla cartina di ieri, senza il bottone. Scartate: scritta sotto la cartina (28/10),
-  due pillole sulla cartina, due bottoni a meta'. Le pagine funghi (due riquadri) restano col 28/10.
+  due pillole sulla cartina, due bottoni a meta'.
+  ⚠️ **ANCHE LE PAGINE FUNGHI, la sera del 1/11/2026** (suo: «sì ingrandiscili anche qui», proposta B): i due riquadri
+  (pioggia 20 giorni e boschi) sono tutto cartina, con la pillola gialla sopra che dice il periodo («💧 Pioggia 20 giorni
+  →», «🌲 Boschi, tipo per tipo →»); al telefono uno SOTTO l'altro, larghi quanto la scheda e alti 240 px, al PC
+  affiancati e alti 320 (erano 122 / 150 con la fascia sotto). Classe `mk-grandi`: i riquadri dell'indice `/funghi/`
+  (`mk-italia`) restano loro. Le regioni si vedono intere anche qui (ritaglia). Le 1.120 pagine funghi NON sono state
+  rigenerate: si e' sostituito solo il blocco della striscia (CSS dal suo commento d'inizio alla riga dell'opacita' del
+  giallo, e la funzione `strisciaMappa`), cosi' i ritratti restano.
 - **Mappa forestale (138 pagine, 20/10)**: `genera-mappa-forestale.js` ha ricerca in testata, «🌲 Trova i boschi»
   dopo lo scorcio, «Che tempo farà» dopo «Che boschi ci sono» (regioni: zone dei funghi alla loro quota con
   `zonedi=`, o le citta' dove le zone non ci sono; zone: i paesi con `zona=`; tipi di bosco e indice: niente meteo),
@@ -4020,19 +4027,20 @@ richiesta («la pagina slovenia la togliamo, quando mancano dati come in puglia 
   - **La foto dei boschi del Molise NON si e' potuta fare qui**: lo scatto contiene la cartina di OpenStreetMap, e dal
     cloud le sue tessere non rispondono. Va fatta dal PC.
 
-### ⚠️ DA FARE (lasciati il 1/11/2026 notte, decisi con lui)
-1. ~~La foto dei boschi del Molise~~: FATTA il 1/11/2026. Non dal PC: l'ha scattata GitHub (che la cartina la carica)
-   con un giro messo solo sul ramo di lavoro (`BOSCHI=1 OUT=tessere-boschi/anteprime node .github/scripts/genera-anteprime.js
-   molise`), e i due file sono stati portati su main. ⚠️ Vale per ogni scatto che dal cloud non si fa: un giro su un ramo di
-   prova, scatenato dal push, che salva sul ramo stesso.
-2. **Allargare i posti funghi al nord con le carte forestali** (circa 170 posti): IN NOTA, non adesso. Suo: «la stagione e'
-   quasi conclusa, non vale la pena, preferisco indicizzare le meteo». Da riprendere a fine estate 2027, con la regola dei
-   posti scritta sopra e i numeri di Search Console.
-3. **Promemoria senza lavoro**: la frase della classifica nel ritratto di ~56 pagine del sud si aggiorna col rinnovo del 2/12;
-   la pulizia delle pagine paese senza clic (~1/12) NON deve giudicare le 77 pagine nuove del sud (un mese di vita).
-4. ~~Zona «Sila Greca»~~: rinominata «Sila Grande» il 1/11 notte. Resta, se servira', una zona Sila Greca vera
-   (Longobucco, Acri, Bocchigliero) quando ci saranno abbastanza posti.
-5. **Utili, non urgenti**: il codice comune delle pagine in file a parte (pagine da ~113 a ~15 KB, lavoro medio-grande); il
-   verdetto delle pagine funghi scritto nell'HTML ogni mattina, come le zone piogge (lavoro medio).
-6. ~~`fonti.html` senza percorso in cima~~: fatto il 1/11/2026 (percorso «Mappa pluviometrica › Fonti e licenze» e
-   BreadcrumbList).
+### ⚠️ DA FARE SENZA URGENZA (la memoria, aggiornata la sera del 1/11/2026; si riparte dalla scheda 105)
+Fatti il 1/11 e tolti dall'elenco: foto dei boschi del Molise, percorso in cima a `fonti.html`, cartina grande nelle
+pagine piogge e nelle pagine funghi (vedi la nota della striscia, sezione «Zone piogge e zone funghi anche meteo»).
+1. **Posti funghi al nord con le carte forestali** (circa 170 posti): da riprendere a fine estate 2027, con la regola dei
+   posti scritta sopra (bosco >= 50% sulle carte, tipi da funghi >= 50%, niente doppioni sotto i 4 km) e i numeri di
+   Search Console. Suo: «la stagione e' quasi conclusa, non vale la pena, preferisco indicizzare le meteo».
+2. **Promemoria di dicembre, senza lavoro**: il rinnovo del 2/12 (`rinnova-pagine.yml`) aggiorna da solo la frase della
+   classifica nel ritratto di ~56 pagine del sud; la pulizia delle pagine paese senza clic (~1/12) NON deve giudicare le
+   77 pagine nuove del sud (hanno un mese di vita).
+3. **Una zona «Sila Greca» vera** (Longobucco, Acri, Bocchigliero), se un giorno ci saranno abbastanza posti funghi li'.
+4. **Il codice comune delle pagine in file a parte**: le pagine passerebbero da ~113 a ~15 KB. Lavoro medio-grande.
+5. **Il verdetto delle pagine funghi scritto nell'HTML ogni mattina**, come gia' le zone piogge. Lavoro medio.
+- **Come far vedere un'anteprima dal cloud** (il cloud non ha il token di Cloudflare e non apre il sito): sul ramo di
+  lavoro un workflow che parte al push e pubblica con `pubblica-pages.js <repo> avventurepluvio --ramo=riquadro`, cioe' su
+  `https://riquadro.avventurepluvio.pages.dev` e non sul sito vero (`anteprima-riquadro.yml`, sul solo ramo
+  `claude/hopeful-volta-4m7kfp`: NON va portato su main). Per uno scatto che dal cloud non si fa (cartina OSM), stesso
+  trucco: un giro sul ramo che scatta e salva sul ramo stesso, poi si portano i file su main.
