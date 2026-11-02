@@ -1533,6 +1533,12 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
   2.138 a 44 (zoom 10), rimaste solo in Groenlandia est (ghiaccio in mare, al bordo della foto) e attorno a Narvik, dove
   si e' lasciata la foto di prima. Repo Satellite: commit unico `ef0c3dbb` (push forzato); `FOTO_COMMIT` in index.html
   col commit `077b0053d5`, pubblicato (deploy `1955c2a3`), verificato online su delta del Po e Venezia, telefono e PC.
+- ⚠️ **`FOTO_COMMIT` sta anche nelle 21 pagine «adesso»** (avviso della 111 ter): dal 2/11 `genera-pagine-adesso.js` lo
+  copia da index.html (con FOTO_URL, FOTO_LIMITI, FOTO_CREDITI, LUCE_SAT) nella riga `adesso-dati`. Chi cambia
+  FOTO_COMMIT lancia `node .github/scripts/genera-pagine-adesso.js` e mette nello stesso giro le 21 `*/adesso/index.html`
+  (cambia solo quella riga), lasciando fuori `pagine-impronte.json` e le sitemap che il generatore riscrive. Se no le
+  «adesso» restano col commit vecchio, che dopo il push forzato su GitHub non c'e' piu'. Fatto qui: `33251f875f`, deploy
+  `e1a55d0e`, verificate online Veneto (telefono) e Marche (PC).
 - ⚠️ **jsDelivr**: col commit nell'indirizzo sono NUOVE tutte le 53.234 tessere, non solo quelle cambiate: si
   scaldano tutte. `attrezzi\scalda.js` ora prende `ELENCO`, `LOG` e `COMMIT`; con `PARALLELE=40` va a 6-10 tessere al
   secondo, circa due ore: prima Italia e Alpi, poi gli zoom 4-8, poi il resto per distanza dall'Italia.
