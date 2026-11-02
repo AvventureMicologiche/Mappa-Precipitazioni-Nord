@@ -56,22 +56,56 @@ function finestraSocrata(dateStr) {
 const INTESTAZIONI = Object.assign({ 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0 (compatible; MappaPluvio/1.0)' },
   process.env.SOCRATA_APP_TOKEN ? { 'X-App-Token': process.env.SOCRATA_APP_TOKEN } : {});
 
-function getJSON(pathQ, retries = 3) {
+/* ⚠️ IL 429 E LA STRADA DAL WORKER (2/11/2026, scheda 109). Dal 27/10 Socrata risponde 429 ai runner di GitHub in 17
+   giri su 22, anche col token (il 13-14/10 lo aveva quasi azzerato): cade la prima richiesta grossa, la pioggia, cinque
+   volte in 100 s, e in due giorni sono caduti quattro giorni interi (recuperati dai giri dopo). Dal PC la stessa
+   richiesta, senza token, passa al primo colpo in meno di un secondo. Ora al 429 la richiesta si rifa' subito dal
+   worker omirl-tramite fissato a Milano (TRAMITE_URL + X-Chiave, come Piemonte e Ticino; il worker passa anche
+   l'X-App-Token, perche' da Cloudflare senza token Socrata rifiuta subito). Se rifiuta anche li', si aspetta e si
+   riprova, diretta e poi dal worker, con pause lunghe (45 s, 2 minuti) e un tetto di 6 minuti di attese per giro. */
+const TRAMITE_URL = (process.env.TRAMITE_URL || '').replace(/\/$/, '');
+const TRAMITE_CHIAVE = process.env.TRAMITE_CHIAVE || '';
+const PAUSE_429 = [0, 45000, 120000];
+const ATTESA_429_MAX = 6 * 60000;
+let attesa429 = 0;
+const conti = { diretta: 0, tramite: 0, tramiteOk: 0, r429: 0 };
+function richiesta(pathQ, viaTramite) {
   return new Promise((resolve, reject) => {
-    const attempt = n => {
-      https.get({ host: HOST, path: pathQ, headers: INTESTAZIONI }, res => {
-        let data = '';
-        res.on('data', c => data += c);
-        res.on('end', () => {
-          // 429 = Socrata rifiuta le raffiche: si riprova piu' volte e con pause piu' lunghe (13/10/2026)
-          if (res.statusCode === 429 && n < Math.max(retries, 5)) return setTimeout(() => attempt(n+1), 10000*n);
-          if (res.statusCode !== 200) { if (n < retries) return setTimeout(() => attempt(n+1), 4000*n); return reject(new Error(`HTTP ${res.statusCode}`)); }
-          try { resolve(JSON.parse(data)); } catch(e) { if (n < retries) return setTimeout(() => attempt(n+1), 4000*n); reject(new Error('JSON: '+e.message)); }
-        });
-      }).on('error', e => { if (n < retries) return setTimeout(() => attempt(n+1), 4000*n); reject(e); });
-    };
-    attempt(1);
+    let opz;
+    if (viaTramite) { const u = new URL(TRAMITE_URL + pathQ); opz = { host: u.host, path: u.pathname + u.search, headers: Object.assign({ 'X-Chiave': TRAMITE_CHIAVE }, INTESTAZIONI) }; conti.tramite++; }
+    else { opz = { host: HOST, path: pathQ, headers: INTESTAZIONI }; conti.diretta++; }
+    https.get(opz, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve({ status: res.statusCode, data }));
+    }).on('error', reject);
   });
+}
+async function getJSON(pathQ, retries = 3) {
+  let errori = 0, k = 0;
+  for (;;) {
+    let r;
+    try { r = await richiesta(pathQ, false); }
+    catch (e) { if (++errori < retries) { await sleep(4000 * errori); continue; } throw e; }
+    if (r.status === 429) {
+      conti.r429++;
+      if (TRAMITE_URL) {
+        try {
+          const t = await richiesta(pathQ, true);
+          if (t.status === 200) { const j = JSON.parse(t.data); conti.tramiteOk++; return j; }
+          if (t.status === 429) conti.r429++;
+        } catch (e) { /* il worker non ha risposto: si prosegue con le pause */ }
+      }
+      k++;
+      if (k >= PAUSE_429.length || attesa429 + PAUSE_429[k] > ATTESA_429_MAX) throw new Error('HTTP 429');
+      attesa429 += PAUSE_429[k];
+      await sleep(PAUSE_429[k]);
+      continue;
+    }
+    if (r.status !== 200) { if (++errori < retries) { await sleep(4000 * errori); continue; } throw new Error(`HTTP ${r.status}`); }
+    try { return JSON.parse(r.data); }
+    catch (e) { if (++errori < retries) { await sleep(4000 * errori); continue; } throw new Error('JSON: ' + e.message); }
+  }
 }
 
 /* ⚠️ L'ANAGRAFE E' UNA RICHIESTA SOLA (27/10/2026, fase 3 dell'alleggerimento delle fonti). Prima erano cinque, una
@@ -344,7 +378,11 @@ async function main() {
       const senza = c => !st.some(s => s[c] != null);
       if (writeDay(dStr, st) && ((st.meteoKo && senza('t')) || (st.direzioneKo && senza('wd')))) daRifare.push(dStr);
     }
-    catch(e) { console.warn(`  Warn ${dStr}: ${e.message}`); }
+    catch(e) {
+      console.warn(`  Warn ${dStr}: ${e.message}`);
+      // 2/11/2026: anche la pioggia caduta per 429 si riprova fra un minuto (il 1/11 sera il giro non ha scritto niente)
+      if (/HTTP 429/.test(e.message)) daRifare.push(dStr);
+    }
     await sleep(500);
   }
   if (daRifare.length) {
@@ -368,6 +406,7 @@ async function main() {
     .forEach(f => { if (f.replace('.json', '') < cutoffStr) { fs.unlinkSync(path.join(DATA_DIR, f)); deleted++; } });
   if (deleted > 0) console.log(`  Pulizia retention: ${deleted} file eliminati`);
 
+  console.log(`  Richieste a Socrata: ${conti.diretta} dirette, ${conti.tramite} dal worker (${conti.tramiteOk} riuscite), ${conti.r429} risposte 429, ${Math.round(attesa429 / 1000)} s di attese`);
   console.log('=== collect-lombardia completato ===');
 }
 

@@ -34,6 +34,9 @@ jobs:
     timeout-minutes: 20
     env:
       SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}   # app token Socrata (13/10/2026): meno 429
+      # il worker Cloudflare (2/11/2026): al 429 il collector rifa' la richiesta da li', come Piemonte e Ticino
+      TRAMITE_URL: https://omirl-tramite.avventuremicologiche.workers.dev
+      TRAMITE_CHIAVE: ${{ secrets.OMIRL_CHIAVE }}
     steps:
       - uses: actions/checkout@v5
         with:

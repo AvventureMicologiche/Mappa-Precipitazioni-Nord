@@ -99,6 +99,17 @@ Sezioni:
   - Storico rifatto sui 63 giorni con vento (27/6→28/8): 7.510 stazioni-giorno con la raffica, 309 (4%) restano senza perché la loro serie `idop 3` è bucata. Controllo di coerenza: pioggia e conteggio stazioni **identici in tutti e 63 i file**, e la raffica più alta dello storico (162 km/h a Bione il 17/7) ha i vicini a 120, 87 e 83 km/h con 18-35 mm — è una burrasca vera, non uno sbalzo.
   - ⚠️ **La stessa query è duplicata in `backfill-meteo-lombardia.js`**: le due devono restare uguali.
 - **Sensori morti:** su 325 in anagrafe, ~250 riportano; su 30 giorni 71 non riportano mai (0 online genuinamente a zero → una stazione a ~0 su un mese è morta, non asciutta)
+- **Il 429 e la strada dal worker (2/11/2026, scheda 109).** Dal 27/10 Socrata risponde 429 ai runner di GitHub in 17
+  giri su 22, anche col token (che il 13-14/10 lo aveva quasi azzerato): cade la prima richiesta grossa (la pioggia su
+  `647i-nhxk`) subito dopo l'anagrafe, cinque volte in 100 s; in due giorni quattro giorni di pioggia caduti
+  (recuperati dai giri dopo, persa solo la correzione serale di ARPA; il 1/11 sera il giro e' uscito con 0 senza
+  scrivere niente). Dal PC la stessa richiesta senza token: 200 in 0,9 s. Da Cloudflare (MXP) SENZA token: 429 subito
+  sulla richiesta grossa, 200 sull'anagrafe. Quindi: `dati.lombardia.it` aggiunto al worker `omirl-tramite`
+  (`/resource/`, versione `ebd807c8`), che per Socrata inoltra anche l'`X-App-Token` del collector (provato: token
+  finto = 403 «Invalid app_token»). `getJSON` va diretto; al 429 rifa' subito la richiesta dal worker; se anche li' e'
+  429, pause di 45 s e 2 minuti (diretta + worker), tetto di 6 minuti di attese per giro; un giorno caduto per 429
+  entra in `daRifare` (un minuto dopo). Riga a fine giro: «Richieste a Socrata: N dirette, N dal worker, N 429».
+  `lombardia.yml` passa `TRAMITE_URL`/`TRAMITE_CHIAVE` (= secret `OMIRL_CHIAVE`) a livello di job.
 
 ### Piemonte
 - **Fonte:** ARPA Piemonte `utility.arpa.piemonte.it/api_realtime`
@@ -250,6 +261,22 @@ Sezioni:
     stazione in piu' nel pomeriggio, 143 → 144).
 - **Temperatura (dall'11/8/2026):** pagina SIR `stazioni.php?type=termo` (una richiesta per run) — min/max di OGGI (progressivi, finalizzati dai run di chiusura) e di IERI (consolidati) su ~251 stazioni. Niente storico (pagina live-only come la pioggia) → t dal 10/8, cresce un giorno al giorno. **Niente vento** (non esiste su SIR; CFR `action=TERMO` risponde vuoto). ⚠️ **Trappola del parsing**: gli array della pagina hanno nomi offuscati e i nomi stazione contengono PARENTESI («Pisa (Fac. Agraria) (GPRS)») — una regex che si ferma alla prima `)` tronca la riga prima dei valori e fa sembrare la pagina VUOTA (errore commesso l'11/8 mattina, la pagina pareva avere 4 stazioni su 256: gli argomenti si estraggono per stringhe quotate, come già fa `parseSirValues`)
 - **ATTENZIONE:** SIR non ha lat/lon nella tabella pubblica — si usano quelli del base-call CFR (stesso IDStazione tra le due fonti). Se CFR cambia ID o smette di rispondere, il collector si rompe anche se SIR funziona.
+- **⚠️ VALORI CONGELATI DI UNA STAZIONE CHE MUORE (2/11/2026, scheda 109 ter).** Quando un pluviometro smette di
+  trasmettere, il Δ24h del SIR resta fermo sull'ultima lettura e il collector lo scrive come pioggia del giorno, anche
+  nelle chiusure (il merge tiene pure le stazioni sparite dalla pagina). Tolti a mano col suo sì quattro valori,
+  assenti e non zero: **Croce Arcana** (TOS02000372) 16,7 mm il 27 e il 28/7, identici a ogni giro, la pioggia del
+  26/7 (vicini 72 mm) ripetuta; **Campagrina** (TOS02000241) 27,6 il 10/10, identico dalle 2 alle 23:40 coi vicini a
+  0, e 41,6 il 9/10, fermo fra 43,8 e 41,6 mentre i vicini scendevano da 88 a 6,6; assente dall'11/10. Visti sulla
+  storia git dei file, giro per giro. Su 5 stazioni sparite in 113 giorni, 2 col valore congelato.
+  - La pagina SIR ha l'ora della lettura (dodicesimo campo, «02/11 07.15»), che `parseSirValues` non legge: con quella
+    si scarterebbe una lettura vecchia. **Non fatto (regola 10)**: due casi in quattro mesi, un giorno o due ciascuno,
+    e nei 7 e 30 giorni la stazione morta resta fuori da sola per la copertura del 60%.
+  - **Mangona** (TOS01000921) 25,6 il 13/9 coi vicini a 0 e l'umidità al 39% **resta**: lo strumento sale davvero
+    durante la mattina, dopo giorni di pioggia in cui aveva segnato pochissimo (imbuto intasato che si svuota piano;
+    9-13/9 56 mm contro 43 dei vicini). Toglierlo farebbe sbagliare le somme. Dal 14/9 fa il 68% dei vicini, sopra la
+    soglia del 40% di `TOSCANA_ESCLUSE`. Nel Piemonte, sullo stesso giro: **Cursolo 7/6** 22,2 mm è falso (ARPA
+    l'ha invalidato, archivio ufficiale null fino al 10/6), ma sta prima della frontiera del 12/6 e resta; Monte
+    Malanotte è già esclusa dalla mappa.
 
 ### Liguria
 - **Fonte:** OMIRL `omirl.regione.liguria.it/Omirl/rest/charts/{shortCode}/Pluvio`
