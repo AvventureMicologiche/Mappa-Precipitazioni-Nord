@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-01T04:15:41.137Z",
+ "generato": "2026-11-02T04:15:43.489Z",
  "periodi": {
   "1": {
-   "media": 3.5,
+   "media": 25.6,
    "giorni": 1,
    "stazioni": 112,
-   "primo": "2026-10-31",
-   "ultimo": "2026-10-31",
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Foce Cesano",
-     "mm": 20.8
+     "n": "Cantiano",
+     "mm": 88.6
     },
     {
-     "n": "Pintura di Bolognola",
-     "mm": 17.5
+     "n": "Fiumesino",
+     "mm": 74.6
     },
     {
-     "n": "Foce Metauro",
-     "mm": 16.8
+     "n": "Cesano",
+     "mm": 74.2
     },
     {
-     "n": "Metauro",
-     "mm": 16.4
+     "n": "Marina di Montemarciano",
+     "mm": 73.8
     },
     {
-     "n": "Sassotetto",
-     "mm": 16.4
+     "n": "Corinaldo",
+     "mm": 72
     }
    ]
   },
   "7": {
-   "media": 6.7,
+   "media": 31.8,
    "giorni": 7,
-   "stazioni": 112,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-31",
+   "stazioni": 113,
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Pintura di Bolognola",
-     "mm": 35.5
+     "n": "Cantiano",
+     "mm": 95.6
     },
     {
-     "n": "Sassotetto",
-     "mm": 29.4
+     "n": "Corinaldo",
+     "mm": 85.2
     },
     {
-     "n": "Umito",
-     "mm": 21.4
+     "n": "Cesano",
+     "mm": 79.8
     },
     {
-     "n": "Foce Cesano",
-     "mm": 21.2
+     "n": "Marina di Montemarciano",
+     "mm": 75.6
     },
     {
-     "n": "Montemonaco",
-     "mm": 17.5
+     "n": "Fiumesino",
+     "mm": 75
     }
    ]
   },
   "20": {
-   "media": 25.3,
+   "media": 40.4,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Sassotetto",
-     "mm": 51.8
+     "n": "Cantiano",
+     "mm": 125.8
     },
     {
-     "n": "Fonte Avellana",
-     "mm": 50.2
+     "n": "Corinaldo",
+     "mm": 89.6
     },
     {
-     "n": "Pintura di Bolognola",
-     "mm": 49.2
+     "n": "Cesano",
+     "mm": 86.8
     },
     {
-     "n": "Montecavallo",
-     "mm": 47.6
+     "n": "Fiumesino",
+     "mm": 82
     },
     {
-     "n": "Monte Nerone",
-     "mm": 45.6
+     "n": "Marina di Montemarciano",
+     "mm": 81.2
     }
    ]
   },
   "30": {
-   "media": 56.7,
+   "media": 82,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-03",
+   "ultimo": "2026-11-01",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 169
+     "mm": 192.2
     },
     {
      "n": "Pianello di Cagli",
-     "mm": 140.6
+     "mm": 189.4
     },
     {
-     "n": "Monte Nerone",
-     "mm": 123.4
+     "n": "Cantiano",
+     "mm": 181.6
     },
     {
-     "n": "Loro Piceno",
-     "mm": 123.2
+     "n": "Fiumesino",
+     "mm": 170.6
     },
     {
-     "n": "Sant Angelo in Pontano",
-     "mm": 122.6
+     "n": "Fonte Avellana",
+     "mm": 164.2
     }
    ]
   }
  },
  "serie": [
+  25.6,
   3.5,
   2.7,
   0.2,
@@ -148,18 +149,17 @@
   3.2,
   0.2,
   0.1,
-  0.1,
-  0
+  0.1
  ],
- "serieDa": "2026-10-31",
+ "serieDa": "2026-11-01",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-10-31",
-   "m1": 1.3,
-   "m7": 2.2,
-   "m30": 43.6,
+   "ultimo": "2026-11-01",
+   "m1": 24.8,
+   "m7": 27,
+   "m30": 68.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-10-31",
-   "m1": 6.5,
-   "m7": 13.6,
-   "m30": 55.2,
+   "ultimo": "2026-11-01",
+   "m1": 7.8,
+   "m7": 21.2,
+   "m30": 62.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-10-31",
-   "m1": 4,
-   "m7": 9.2,
-   "m30": 52.8,
+   "ultimo": "2026-11-01",
+   "m1": 3.3,
+   "m7": 12.5,
+   "m30": 56.1,
    "p1": true,
    "p7": true,
    "p30": true

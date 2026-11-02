@@ -1,125 +1,126 @@
 {
  "regione": "lazio",
- "generato": "2026-11-01T04:15:41.137Z",
+ "generato": "2026-11-02T04:15:43.489Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 2.5,
    "giorni": 1,
    "stazioni": 209,
-   "primo": "2026-10-31",
-   "ultimo": "2026-10-31",
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-01",
    "top": [
     {
+     "n": "Amaseno a Fossanova",
+     "mm": 26.5
+    },
+    {
      "n": "Ponza",
-     "mm": 8.9
+     "mm": 24
     },
     {
-     "n": "Tivoli",
-     "mm": 3.6
+     "n": "Valle del Rio",
+     "mm": 19.4
     },
     {
-     "n": "Regillo",
-     "mm": 3.4
+     "n": "Supino",
+     "mm": 17.7
     },
     {
-     "n": "Rocca di Papa",
-     "mm": 2.8
-    },
-    {
-     "n": "Lago di Albano",
-     "mm": 1.6
+     "n": "Esperia",
+     "mm": 15.2
     }
    ]
   },
   "7": {
-   "media": 1.7,
+   "media": 4.2,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-01",
    "top": [
+    {
+     "n": "Latina",
+     "mm": 41.5
+    },
+    {
+     "n": "Lago di Nemi",
+     "mm": 41.2
+    },
     {
      "n": "Arrone a Maccarese",
      "mm": 38.1
     },
     {
-     "n": "Lago di Nemi",
-     "mm": 37
+     "n": "Borgo Montello",
+     "mm": 33.7
     },
     {
-     "n": "Fregene",
-     "mm": 28.7
-    },
-    {
-     "n": "Lago di Albano",
-     "mm": 28.5
-    },
-    {
-     "n": "Latina",
-     "mm": 27.4
+     "n": "Ponza",
+     "mm": 32.9
     }
    ]
   },
   "20": {
-   "media": 50.7,
+   "media": 52.2,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-01",
    "top": [
     {
      "n": "Osteria di Castro",
-     "mm": 276.8
-    },
-    {
-     "n": "Latina",
-     "mm": 196.6
+     "mm": 283.4
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 194.5
+     "mm": 221
+    },
+    {
+     "n": "Latina",
+     "mm": 210.7
     },
     {
      "n": "Vallecorsa",
-     "mm": 181.8
+     "mm": 176.6
     },
     {
      "n": "Ufente a Ponte Ferraioli",
-     "mm": 167.2
+     "mm": 172
     }
    ]
   },
   "30": {
-   "media": 114.7,
+   "media": 117.2,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-03",
+   "ultimo": "2026-11-01",
    "top": [
     {
      "n": "Latina",
-     "mm": 396.7
+     "mm": 410.6
     },
     {
      "n": "Osteria di Castro",
-     "mm": 356.4
+     "mm": 363.2
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 318.4
+     "mm": 344.9
     },
     {
      "n": "Ufente a Ponte Ferraioli",
-     "mm": 314.4
+     "mm": 319.2
     },
     {
      "n": "Priverno",
-     "mm": 294.6
+     "mm": 303.7
     }
    ]
   }
  },
  "serie": [
+  2.5,
   0.1,
   1.4,
   0.1,
@@ -148,50 +149,49 @@
   2.3,
   0.4,
   0,
-  0.2,
-  0
+  0.2
  ],
- "serieDa": "2026-10-31",
+ "serieDa": "2026-11-01",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 0,
-   "m30": 93.2,
-   "p1": false,
+   "ultimo": "2026-11-01",
+   "m1": 1,
+   "m7": 1.1,
+   "m30": 94.2,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 96.6,
-   "p1": false,
+   "ultimo": "2026-11-01",
+   "m1": 3.6,
+   "m7": 3.8,
+   "m30": 100.1,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 0,
-   "m30": 70.5,
-   "p1": false,
-   "p7": false,
+   "ultimo": "2026-11-01",
+   "m1": 0.1,
+   "m7": 0.1,
+   "m30": 70.6,
+   "p1": true,
+   "p7": true,
    "p30": true
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-10-31",
+   "ultimo": "2026-11-01",
    "m1": 0,
-   "m7": 0.3,
+   "m7": 0.1,
    "m30": 76.7,
    "p1": false,
    "p7": true,
@@ -200,29 +200,29 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 1.1,
-   "m30": 141.2,
-   "p1": false,
+   "ultimo": "2026-11-01",
+   "m1": 5.9,
+   "m7": 7,
+   "m30": 146.3,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 88,
-   "p1": false,
+   "ultimo": "2026-11-01",
+   "m1": 0.3,
+   "m7": 0.4,
+   "m30": 88.3,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-10-31",
+   "ultimo": "2026-11-01",
    "m1": 0,
    "m7": 0.1,
    "m30": 86.7,

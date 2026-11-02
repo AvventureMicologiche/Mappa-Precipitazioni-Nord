@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-01T10:38:39.389Z",
+ "generato": "2026-11-02T04:15:43.489Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 4.7,
    "giorni": 1,
-   "stazioni": 175,
-   "primo": "2026-10-31",
-   "ultimo": "2026-10-31",
+   "stazioni": 173,
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Bisaccia",
-     "mm": 16.9
+     "n": "Castelnuovo Cilento-Vallo Scalo",
+     "mm": 28.6
     },
     {
-     "n": "Diga Osento",
-     "mm": 10.3
+     "n": "Morigerati Bussento",
+     "mm": 22.8
     },
     {
-     "n": "Ofanto a Monticchio",
-     "mm": 7
+     "n": "Morigerati",
+     "mm": 22.7
     },
     {
-     "n": "Calitri",
-     "mm": 6.4
+     "n": "Sorrento",
+     "mm": 22.6
     },
     {
-     "n": "Senerchia",
-     "mm": 6
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 22.4
     }
    ]
   },
   "7": {
-   "media": 0.7,
+   "media": 5.1,
    "giorni": 7,
    "stazioni": 165,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Ofanto a Monticchio",
-     "mm": 14.6
+     "n": "Castelnuovo Cilento-Vallo Scalo",
+     "mm": 28.6
     },
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 7.9
+     "mm": 23.2
     },
     {
-     "n": "Bagnoli Irpino",
-     "mm": 6.8
+     "n": "Morigerati Bussento",
+     "mm": 22.8
     },
     {
-     "n": "Conza della Campania METEO",
-     "mm": 6.6
+     "n": "Morigerati",
+     "mm": 22.7
     },
     {
-     "n": "Senerchia",
-     "mm": 6.6
+     "n": "Sorrento",
+     "mm": 22.6
     }
    ]
   },
   "20": {
-   "media": 50.1,
+   "media": 45.6,
    "giorni": 20,
-   "stazioni": 173,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-31",
+   "stazioni": 174,
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-01",
    "top": [
     {
-     "n": "Liberi",
-     "mm": 110.9
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 112.5
     },
     {
      "n": "Ailano",
-     "mm": 108.6
+     "mm": 108.4
+    },
+    {
+     "n": "Liberi",
+     "mm": 106.3
     },
     {
      "n": "Rocca d'Evandro",
-     "mm": 95.4
+     "mm": 98
     },
     {
      "n": "Letino",
-     "mm": 95.2
-    },
-    {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 93.7
+     "mm": 95.8
     }
    ]
   },
   "30": {
-   "media": 136.7,
+   "media": 141.3,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-03",
+   "ultimo": "2026-11-01",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 309.8
+     "mm": 325.8
     },
     {
      "n": "Ischia",
-     "mm": 296.2
+     "mm": 310
     },
     {
      "n": "Forio",
-     "mm": 282.2
+     "mm": 301
     },
     {
      "n": "Castel Volturno",
-     "mm": 273.8
+     "mm": 276.4
     },
     {
-     "n": "Liberi",
-     "mm": 247
+     "n": "Piano Liguori",
+     "mm": 259
     }
    ]
   }
  },
  "serie": [
+  4.7,
   0.5,
   0.1,
   0,
@@ -148,18 +149,17 @@
   1.4,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-10-31",
+ "serieDa": "2026-11-01",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-10-31",
-   "m1": 0.2,
-   "m7": 0.5,
-   "m30": 155.7,
+   "ultimo": "2026-11-01",
+   "m1": 4.3,
+   "m7": 4.8,
+   "m30": 160,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-10-31",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 114.8,
+   "ultimo": "2026-11-01",
+   "m1": 16.4,
+   "m7": 16.5,
+   "m30": 131.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,21 +178,21 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-10-31",
-   "m1": 0,
+   "ultimo": "2026-11-01",
+   "m1": 0.5,
    "m7": 0.5,
-   "m30": 159.7,
-   "p1": false,
+   "m30": 160.2,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-10-31",
-   "m1": 0.6,
-   "m7": 0.6,
-   "m30": 155.5,
+   "ultimo": "2026-11-01",
+   "m1": 0.2,
+   "m7": 0.8,
+   "m30": 155.7,
    "p1": true,
    "p7": true,
    "p30": true
