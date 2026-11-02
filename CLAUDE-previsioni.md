@@ -595,3 +595,13 @@ Stesso difetto con `?m=prev`, col link di una regione e col telefono girato.
   foto. Li toglierebbe `html.apre-vista #map .leaflet-overlay-pane{visibility:hidden}`, non messa: `apre-vista` vale
   anche fra una vista e l'altra delle previsioni (linguetta, dall'Italia a una regione) e andrebbe provata li'.
 
+## Lo zoom minimo delle cartine delle pagine meteo (2/11/2026, scheda 109)
+
+- Trovato dal check notturno: la cartina delle 49 pagine meteo di zona e delle 20 di paese (`pz-mappa`, stesso codice
+  in `genera-pagine-meteo-zona.js`) non aveva zoom minimo e si rimpiccioliva fino al planisfero (zoom 0). Ora, dopo
+  `fitBounds`, `setMinZoom(Math.max(6, Math.floor(zoom) - 4))`: al massimo 4 livelli sotto l'inquadratura, mai sotto il
+  6. Misurato sul sito vero col file nuovo: telefono inquadratura 9,75-10,75 → minimo 6, PC 10,25-11,5 → 6-7; a quel
+  punto si vede l'Italia del nord e del centro sulla foto, e il tasto «−» si spegne. 69 pagine rigenerate, +3 righe
+  ciascuna, nient'altro cambiato. Le pagine «adesso» (`lib/pagina-adesso.js`, cartina OSM) hanno lo stesso minimo a 0:
+  non toccate.
+

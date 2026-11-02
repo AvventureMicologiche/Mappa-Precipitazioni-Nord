@@ -614,6 +614,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
       // il margine e' mezza etichetta per lato: le etichette stanno CENTRATE sul paese, e un paese sul bordo ne avrebbe meta' fuori (e sparirebbe)
       mappa.fitBounds(L.latLngBounds(PAESI.map(function (c) { return [c.lat, c.lon]; })), { padding: innerWidth <= 600 ? [58, 26] : [80, 34], maxZoom: 12 });
+      // ⚠️ NON SI RIMPICCIOLISCE FINO AL MONDO (2/11/2026, scheda 109, check notturno): senza minimo la cartina arrivava
+      // allo zoom 0, il planisfero. Si scende al massimo di 4 livelli sotto l'inquadratura, e mai sotto il 6 (l'Italia).
+      mappa.setMinZoom(Math.max(6, Math.floor(mappa.getZoom()) - 4));
       fondo();
       mappa.on('zoomend', function () { fondo(); sistemaEtichette(); });
       // ⚠️ NIENTE PALLINI DEI PLUVIOMETRI su questa mappa (24/10/2026, suo «sì toglili»): la mappa dice solo «che tempo
