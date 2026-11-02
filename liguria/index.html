@@ -500,6 +500,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <ol class="zone-dove" id="zone">
 <li data-z="val-d-aveto"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-d-aveto/">Val d'Aveto</a><span class="zmm">2,7 mm<small>ieri 2,3</small></span></li>
 <li data-z="val-cichero"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-cichero/">Val Cichero</a><span class="zmm">2,1 mm<small>ieri 2,1</small></span></li>
+<li data-z="valle-dei-campassi"><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-dei-campassi/">Valle dei Campassi</a><span class="zmm">1,7 mm<small>ieri 1,5</small></span></li>
 <li data-z="val-bisagno"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-bisagno/">Val Bisagno</a><span class="zmm">1,1 mm<small>ieri 1,1</small></span></li>
 <li data-z="riviera-di-levante"><a href="https://precipitazioni.avventuremicologiche.it/zone/riviera-di-levante/">Riviera di Levante</a><span class="zmm">0,8 mm<small>ieri 0,8</small></span></li>
 <li data-z="val-neva"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-neva/">Val Neva</a><span class="zmm">0,7 mm<small>ieri 0,6</small></span></li>
@@ -507,7 +508,6 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <li data-z="val-bormida"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-bormida/">Val Bormida</a><span class="zmm">0,3 mm<small>ieri meno di 0,1</small></span></li>
 <li data-z="val-di-vara"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-vara/">Val di Vara</a><span class="zmm">0,3 mm<small>ieri 0,1</small></span></li>
 <li data-z="val-varenna"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-varenna/">Val Varenna</a><span class="zmm">0,3 mm<small>ieri 0,1</small></span></li>
-<li data-z="valle-dei-campassi"><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-dei-campassi/">Valle dei Campassi</a><span class="zmm">0,2 mm<small>31 ott 0</small></span></li>
 <li data-z="val-roia"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-roia/">Val Roia</a><span class="zmm">0,1 mm<small>ieri meno di 0,1</small></span></li>
 <li data-z="val-varatella"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-varatella/">Val Varatella</a><span class="zmm">0,1 mm<small>ieri 0</small></span></li>
 </ol>
@@ -665,8 +665,8 @@ temperatura, vento e umidità.</p>
      contano proprio: se il giorno era tutto stimato il riepilogo non ha il periodo 1 e qui resta solo l'avviso. */
   var st = (p['30'] && p['30'].stime) || (p['20'] && p['20'].stime) || (p['7'] && p['7'].stime), avviso = '';
   var gst = st ? +st.al.split('-')[2] : 0;   // «L’8 ottobre», «Il 29 ottobre»
-  if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima Open-Meteo, non una misura.'
-    : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime Open-Meteo, non misure.') + '</div>';
+  if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima del modello, non una misura.'
+    : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime del modello, non misure.') + '</div>';
 
   // ── IERI, in cima: la risposta alla domanda del titolo ──
   var d = p['1'];

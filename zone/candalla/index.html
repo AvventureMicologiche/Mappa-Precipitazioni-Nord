@@ -600,8 +600,8 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
   function scriviIeri(d, st){
     var box = document.getElementById('verdetto'), avviso = '';
     if (st) { var g = +st.al.split('-')[2];
-      avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (g === 1 || g === 8 || g === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima Open-Meteo, non una misura.'
-        : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime Open-Meteo, non misure.') + '</div>'; }
+      avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (g === 1 || g === 8 || g === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima del modello, non una misura.'
+        : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime del modello, non misure.') + '</div>'; }
     if (!d) { box.innerHTML = avviso; return; }
     var t = nomeGiorno(d.ultimo), top = (d.top||[]).filter(function(s){ return s.mm >= 1; }), dett;
     if (top.length) {

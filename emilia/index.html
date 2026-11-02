@@ -503,8 +503,8 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <li data-z="val-di-taro"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-taro/">Val di Taro</a><span class="zmm">3,0 mm<small>ieri 2,9</small></span></li>
 <li data-z="val-trebbia"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-trebbia/">Val Trebbia</a><span class="zmm">2,7 mm<small>ieri 2,4</small></span></li>
 <li data-z="val-nure"><a href="https://precipitazioni.avventuremicologiche.it/zone/val-nure/">Val Nure</a><span class="zmm">2,6 mm<small>ieri 2,2</small></span></li>
+<li data-z="valle-del-carlone"><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-del-carlone/">Valle del Carlone</a><span class="zmm">2,5 mm<small>ieri 1,9</small></span></li>
 <li data-z="alta-val-d-enza"><a href="https://precipitazioni.avventuremicologiche.it/zone/alta-val-d-enza/">Alta Val d'Enza</a><span class="zmm">2,3 mm<small>ieri 2,1</small></span></li>
-<li data-z="valle-del-carlone"><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-del-carlone/">Valle del Carlone</a><span class="zmm">0,5 mm<small>31 ott 0,1</small></span></li>
 </ol>
 
 <h2>Mappa pluviometrica dell'Emilia-Romagna: guardala in dettaglio</h2>
@@ -660,8 +660,8 @@ temperatura, vento e umidità.</p>
      contano proprio: se il giorno era tutto stimato il riepilogo non ha il periodo 1 e qui resta solo l'avviso. */
   var st = (p['30'] && p['30'].stime) || (p['20'] && p['20'].stime) || (p['7'] && p['7'].stime), avviso = '';
   var gst = st ? +st.al.split('-')[2] : 0;   // «L’8 ottobre», «Il 29 ottobre»
-  if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima Open-Meteo, non una misura.'
-    : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime Open-Meteo, non misure.') + '</div>';
+  if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima del modello, non una misura.'
+    : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime del modello, non misure.') + '</div>';
 
   // ── IERI, in cima: la risposta alla domanda del titolo ──
   var d = p['1'];
