@@ -1482,7 +1482,7 @@ fanno le copie da `index-prod.html` (in catena con `fai0`, `fai4`, `fai4b` danno
   (`window._pioggiaPer.apri(s,x,y)`, che fa quello che fa il clic sul pallino). Enna apre Villarosa Diga R2, Ragusa Modica,
   Caltanissetta Imera Meridionale, Palermo Palermo Abela (i piu' vicini al capoluogo), al PC, al telefono e girato;
   Austria e Lombardia come prima. ⚠️ `closeStationHistory` NON e' globale: nelle prove la scheda non si chiude da fuori.
-  Resta, non toccato: col telefono girato la scheda del pluviometro (296×360 a destra) copre in parte la barra.
+  Col telefono girato la scheda copriva anche la barra: corretto dopo, sezione qui sotto.
 - **Gli angoli del riquadro col telefono girato** (A2). `#legend-panel{border-radius:0 14px 0 0}` del blocco girato
   perdeva contro `html:root #legend-panel{border-radius:12px}` della grafica nuova (piu' forte): quattro angoli tondi e due
   spicchi di mappa a sinistra. I periodi vincevano gia' (stessa forza, vengono dopo). Ora nel blocco girato
@@ -1492,3 +1492,19 @@ fanno le copie da `index-prod.html` (in catena con `fai0`, `fai4`, `fai4b` danno
 - Giro largo della copia unica (`giro-errori.js` con `prove-veloci.js`): 24 aperture (pioggia, periodi, meteo, radar,
   boschi; PC, telefono, girato), zoom fino al 19 e ritorno, nessun errore della pagina. ⚠️ `prove-veloci.js` non vede
   «pronta» Austria a 7 giorni al telefono (25 s): uguale prima, e' l'attrezzo.
+
+## La scheda del pluviometro col telefono girato (2/11/2026, scheda 109 quater)
+
+- **Il difetto.** Sopra i 600 px `histPosition()` mette la scheda come al PC, accanto al punto toccato, senza altezza
+  massima. Col telefono girato (667×325 … 852×393) la scheda e' alta 343-360 px e la mappa ne ha 287-355, con in fondo
+  la barra delle citta' (`#pg-nastro`): la scheda usciva dal fondo dello schermo (667×325: 81 px, 740×340: 49-66 px), il
+  riepilogo del giorno scelto e «vai alle previsioni» non si raggiungevano, e copriva la barra e le pastiglie «+ regione».
+- **La correzione.** Sopra i 600 px, se la barra e' accesa (`body.pg-nastro-on`), si misura quanto la barra entra nella
+  mappa (`sotto`): la scheda finisce 8 px sopra, `maxHeight` = spazio libero (minimo 120 px) e `overflowY:auto`, cioe'
+  scorre dentro col dito come la colonna del riquadro. Sotto i 600 px (scheda fissa in basso) `maxHeight` e `overflowY`
+  si ripuliscono, come gia' `bottom` nell'altro verso.
+- **Provato** su una copia sul sito vero (`misura-scheda2.js`, `barra667.js`, `dito.js` nel banco, cartella
+  `scheda-109-quater\`): girati 667, 740, 852 e 915 mai fuori schermo e mai sulla barra (alta 233-313 px), il dito la fa
+  scorrere fino a «vai alle previsioni» e la mappa resta ferma; telefono dritto 393, tablet 768, PC 1440 e 1366 posizione
+  e altezza identiche. ⚠️ Nelle prove lo scorrimento si fa con eventi di tocco CDP (`Input.dispatchTouchEvent`):
+  `Input.synthesizeScrollGesture` NON fa scorrere la scheda, e' l'attrezzo.

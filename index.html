@@ -4546,16 +4546,25 @@ function histPosition(mx,my){
     var legH=(leg&&getComputedStyle(leg).display!=='none')
       ? leg.getBoundingClientRect().height : 0;
     histEl.style.bottom=(legH+8)+'px';
+    histEl.style.maxHeight=''; histEl.style.overflowY='';   // l'altezza dello schermo largo, qui sotto, non vale
     return;
   }
   histEl.style.bottom=''; // ripulisce l'aggancio mobile dopo un resize
   var r=mapEl.getBoundingClientRect();
+  /* ⚠️ LA SCHEDA NON COPRE LA BARRA E NON ESCE DALLO SCHERMO (2/11/2026, scheda 109 quater). Col telefono girato
+     (667×325 … 852×393) la scheda e' alta 343-360 px e la mappa ne ha 287-355, con in fondo la barra delle citta': la
+     scheda usciva dal fondo dello schermo fino a 81 px (il riepilogo del giorno e «vai alle previsioni» non si
+     raggiungevano) e copriva la barra. Ora finisce 8 px sopra la barra e, se non ci sta, scorre dentro. Vale anche al PC,
+     dove una stazione in basso la portava sopra la barra */
+  var nb=document.getElementById('pg-nastro'), sotto=0;
+  if(nb&&document.body.classList.contains('pg-nastro-on')){ var nr=nb.getBoundingClientRect(); if(nr.height) sotto=Math.max(0,Math.round(r.bottom-nr.top)); }
+  histEl.style.maxHeight=Math.max(120,mapEl.clientHeight-sotto-16)+'px'; histEl.style.overflowY='auto';
   var w=histEl.offsetWidth||310,hh=histEl.offsetHeight||200;
   var x=mx-r.left+18,y=my-r.top-hh/2;
   if(x+w>mapEl.clientWidth-8) x=mx-r.left-w-18;
   if(x<8) x=8;
   if(y<8) y=8;
-  if(y+hh>mapEl.clientHeight-8) y=Math.max(8,mapEl.clientHeight-hh-8);
+  if(y+hh>mapEl.clientHeight-sotto-8) y=Math.max(8,mapEl.clientHeight-sotto-hh-8);
   // Anche su desktop la legenda dei cumulati non va mai coperta: se il
   // pannello ci finisce sopra lo sposto prima sopra di essa, e se non c'è
   // spazio a destra.
