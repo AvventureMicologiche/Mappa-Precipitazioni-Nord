@@ -172,6 +172,22 @@ Sezioni:
 - **Orari:** dal 27/10/2026 sveglia Cloudflare alle 4:30 italiane + 2 cron GitHub di riserva (04:10 e 12:10 UTC); erano 6 run/giorno. Ogni giro aggiorna anche ieri. ⚠️ La riserva del mattino serve: il file di ieri esiste già (scritto come «oggi» il giorno prima) e il guardiano, che guarda solo se il file c'è, un ieri incompleto non lo vede. **Dal 27/10/2026 (fase 2) ogni XML di stazione si scarica una volta sola** e serve sia a oggi sia a ieri (`recordIeri`): ~190 richieste a giro invece di ~380, file identici (provato in locale vecchio contro nuovo)
 - **Dati corretti da:** 4 giugno 2026
 - **Temperatura/vento (dall'11/8/2026):** gli STESSI XML di stazione portano sensori `TEMP` (°C, letture ogni 30') e `VVENTO` (**m/s → ×3,6**, nessuna raffica) — zero richieste extra. ⚠️ La regex dei DATI per t/w ammette il segno meno (le temperature possono essere negative; quella della pioggia no). Finestra XML ~2,5 giorni → niente backfill: t/w dal 9/8/2026
+- **⚠️ Pioggia falsa tolta a mano (2/11/2026, scheda 109 ter): Castana (Arsiero, VI, id `68`), 29,8 mm il 30/10**, con
+  gli 8 vicini entro 15 km a 0 (Brustolè a 3 km) e il resto del Veneto al massimo a 0,4. L'XML di ARPAV il giorno non lo
+  aveva più; la stessa rete ripubblicata su MeteoHub (`dpcn-veneto`, letture da 5 minuti) li mette tutti fra le 10:20 e
+  le 11:25 italiane, 2-3 mm ogni 5 minuti regolari, con temperatura e umidità di un giorno asciutto: sembra una prova di
+  taratura. Tolta dal file del 30/10 (assente, non zero: 185 → 184). Il collector riscrive solo oggi e ieri e
+  `check-gaps-nord` stima solo i giorni interi: non torna.
+  - **Filtro automatico dei picchi isolati: SCARTATO (sua decisione, 2/11/2026).** La proposta del check 9 del cloud era
+    `togliPicchiFalsi` di MeteoHub (lì scatta da 200 mm) con soglia 20 mm e vicini della stessa rete tutti sotto 1 mm
+    (2 entro 5 km o 3 entro 15 km), in `writeDay` di Ticino e Veneto. Il cloud l'aveva provato solo su settembre e
+    ottobre. Su tutto lo storico reale (18/3-1/11/2026, 2.317 giorni-rete, 13 reti del nord) prende **32 casi, quasi
+    tutti temporali d'estate** (Bagolino 6/8 107,6 mm con la rete a 56, Branzi 9/8 67,2 con la rete a 28,6); in Ticino e
+    Veneto 5: Biasca, Castana e tre probabili temporali veri (Malga Campobon 28/6, Gallio 29/6, Lonigo 31/7). L'unica
+    variante sicura, «e tutto il resto della rete sotto 3 mm», in Ticino e Veneto prende solo Biasca e Castana: per due
+    casi in 5-7 mesi, trovati dal check periodico e tolti a mano in due minuti, non vale un pezzo in più (regola 10).
+    Al nord quella variante segnala anche Cursolo 7/6 e Monte Malanotte 19/7 (Piemonte; Malanotte anche 18/7 con
+    136 mm e i vicini a 0), Mangona 13/9 e Campagrina 10/10 (Toscana): non controllati, da guardare se ricapita.
 
 ### Trentino
 - **Fonte:** Meteotrentino API
@@ -398,6 +414,13 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Temperatura/vento (dall'11/8/2026):** parametri OASI `T`/`WS`/`WSgust` a 10 minuti (`resolution=h`), stessa ricetta delle altre reti (ore ≥20, m/s ×3,6). Solo **15 stazioni con T, 7 col vento** (censimento 11/8: le pluvio UCA non hanno altri sensori); se T non dà righe si saltano anche WS/WSgust. Backfill `backfill-meteo-ticino.js` dal 27/6
 - **Validazione (16-17 luglio 2026):** allineamento calendario confermato con analisi di lag vs Open-Meteo (corr. 0.73-0.82 stesso giorno, ~0.1 a ±1g); coerenza interna verificata (somma 10-min vs giornaliero: scarto 3%); confronti di confine con Piemonte coerenti col microclima (la sponda ovest del Verbano è genuinamente più piovosa).
 - Sviluppato e validato nel repo di test `Mappa-Precipitazioni-Nord-Test` (+ sito avventurepluvio-test.netlify.app), promosso in produzione il 17 luglio 2026.
+- **⚠️ Pioggia falsa tolta a mano (2/11/2026, scheda 109 ter): Biasca Val Pontirone (`meteo_u_122`), 84,4 mm il 27/10**,
+  unica stazione bagnata del Ticino, vicini tutti a 0 (massimo della Svizzera 0,4). Le letture OASI da 10 minuti: 0 fino
+  alle 14:35, **83,9 mm in una lettura sola alle 14:45**, poi gocce da 0,1: manutenzione o secchio svuotato, non pioggia.
+  Lo dava anche il giornaliero ufficiale, ancora «provvisorio» al 2/11. Tolta dal file del 27/10 (assente, non zero:
+  40 → 39 stazioni). I giri non la rimettono: l'auto-riparazione rifà solo i giorni mancanti, stimati o sotto 30
+  stazioni; la rimetterebbe solo un `DATE_OVERRIDE=2026-10-27` lanciato a mano. Il filtro automatico dei picchi isolati
+  è stato scartato: vedi la scheda Veneto.
 
 ### Centro-Sud via MeteoHub (Marche, Umbria, Lazio, Molise, Campania, Puglia, Basilicata, Calabria, Sicilia, Sardegna)
 
