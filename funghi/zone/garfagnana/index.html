@@ -639,10 +639,10 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/garfagnana/">dove ha piovuto in Garfagnana</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a ottobre 2026, in 108 giorni di misura, i 12 pluviometri
+<p>Da luglio 2026 a novembre 2026, in 113 giorni di misura, i 12 pluviometri
 della Garfagnana che leggiamo dallo stesso giorno hanno contato
-<b>456 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Vagli di Sotto</b> con
-620 mm, il più asciutto Piazza al Serchio con 386 mm.
+<b>458 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Vagli di Sotto</b> con
+622 mm, il più asciutto Orto di Donna con 387 mm.
 La giornata più piovosa è stata il <b>21 agosto 2026</b> a Vagli di Sotto,
 con <b>100,9 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -1392,7 +1392,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
        resta; modo 'bottone': il bottone stesso diventa la mappa, con la sua scritta sopra l'immagine. */
     if (OPZ.ieri) {
       var tit = vecchio.querySelector('b'), sot = vecchio.querySelector('small');
-      d.className = 'mk-str mk-ieri' + COL;
+      d.className = 'mk-str mk-ieri' + COL;   // 2/11/2026: via « mk-grande», classe senza CSS (check 9)
       d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><i class="mk-img"></i><span>' + (OPZ.modo === 'sopra'
         ? '<b>💧 Guarda la pioggia di ieri</b><small>località per località →</small>'
         : '<b>' + (tit ? tit.textContent : 'Apri la mappa di ieri') + ' →</b><small>' + (sot ? sot.textContent : '') + '</small>') + '</span></a>';
