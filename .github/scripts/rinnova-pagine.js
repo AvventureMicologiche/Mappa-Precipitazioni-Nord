@@ -14,7 +14,8 @@
  * le pagine nuove vanno online col giro pagine-regione.yml del mattino dopo, che
  * pubblica tutto main (ottavo check, punto C, 21/10/2026), o subito con
  * `node cloudflare-pages\pubblica-pages.js` lanciato a mano dal PC. Gira
- * **una volta al mese (il 2, dal 1/11/2026; prima quattro volte l'anno) e non ogni notte**, e i millimetri di
+ * **una volta al mese (dal 2 al 6, una volta sola, dal 2/11/2026; prima solo il 2; fino al 31/10 quattro volte l'anno)
+ * e non ogni notte**, e i millimetri di
  * ieri restano nel javascript.
  *
  * ⚠️ NON TOCCA LE 22 PAGINE REGIONE NE' LE 19 FUNGHI. Quelle il ritratto non

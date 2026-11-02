@@ -1026,3 +1026,15 @@ striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutt
 - Tolta anche da `lib-striscia.js` la classe `mk-grande`, che non aveva CSS (check 9): nel browser stessi stili e misure.
 - Una volta sola: la sitemap della mappa forestale, che data le pagine con l'impronta del file
   (`pagine-impronte.json`), le segna cambiate al primo giro `pagine-regione.yml` dopo la pubblicazione.
+
+## Il rinnovo mensile delle pagine non era mai partito: ora prova dal 2 al 6 (2/11/2026, scheda 113)
+
+- `rinnova-pagine.yml` (ritratti dei pluviometri nelle pagine di paese e di zona) e' nato il 4/9 con un cron
+  trimestrale, il primo turno sarebbe stato l'1/12; il 1/11 (105 bis) e' passato al 2 di ogni mese. Il 2/11, primo
+  turno in assoluto, GitHub era 6-8 ore indietro (anteprime delle 6:40 partite alle 14:49, 3 riepiloghi su 5) e il
+  giro non era ancora partito alle 15:48. Con un cron solo al mese un salto dello scheduler vuol dire un mese senza
+  rinnovo, e nessun controllo lo vede.
+- Ora il cron e' `20 11 2-6 * *` e il job `gia-fatto` (come quello di `alert-fonti.yml`, ma sul MESE in ora italiana)
+  salta il cron se questo mese c'e' gia' un giro riuscito; il lancio a mano gira sempre; `concurrency` mette in fila
+  un cron in ritardo che arriva durante un altro giro. Provato con giri finti (nessuno, riuscito a mano, fallito, mese
+  scorso, mezzanotte UTC/italiana). Lo script non e' cambiato: a vuoto (`DRY_RUN=1`) 26 s, 1.101 pagine.
