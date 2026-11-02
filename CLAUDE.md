@@ -133,6 +133,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il riquadro della pioggia al telefono e il banner del meteo (31/10/2026 sera, scheda 104)**: gli spazi misurati del riquadro in basso sotto i 600 px, il banner del meteo
 - **Telefono girato, crediti al telefono e blocco rosso del meteo (1/11/2026 sera, scheda 106)**: la pioggia col telefono in orizzontale, i crediti sopra il riquadro, «METEO» + giorno
 - **La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)**: il calcolo dei colori 20-50 volte più veloce, niente velo grigio sulla foto, foto precaricata con la sfocata sotto, niente OSM sotto la foto (credito OSM tenuto)
+- **Telefono dritto con la tastiera, barra della Sicilia e angoli del telefono girato (2/11/2026, scheda 109 quater)**: classe `schermo-dritto` (niente zoom 19 con la tastiera), scheda del pluviometro senza pallino, angoli del riquadro girato
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
@@ -154,6 +155,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Previsioni senza regione: la vista Italia (27/10/2026)**: la vista Italia, poi icone, vista a etichette, controlli del 30-31/10
 - **Lo sfarfallio aprendo le previsioni dalla home (1/11/2026 sera, scheda 108)**: la foto della pioggia fuori da `apre-italia`, coperta col CSS in testa
 - **Lo zoom minimo delle cartine delle pagine meteo (2/11/2026, scheda 109)**: non piu' fino al planisfero, al massimo 4 livelli sotto l'inquadratura
+- **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

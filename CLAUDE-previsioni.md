@@ -605,3 +605,29 @@ Stesso difetto con `?m=prev`, col link di una regione e col telefono girato.
   ciascuna, nient'altro cambiato. Le pagine «adesso» (`lib/pagina-adesso.js`, cartina OSM) hanno lo stesso minimo a 0:
   non toccate.
 
+## I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)
+
+Tre ritocchi delle previsioni in `index.html`, provati su copie sul sito vero (suo «sì, tutte e sei»). Attrezzi nel
+banco, `scheda-109-quater\`: `fai0.py`, `fai4.py`, `fai4b.py`; `misura.js` e' la copia di quella della 108 con i confini
+annotati (`conf=`) e il cambio di regione (`CLIC=reg=toscana:6000`), `riassumi0.py` li riassume; `prova4.js`,
+`prova4u.js` e `prova4b.js` portano l'orologio della pagina alle 21:15 e tolgono alle risposte di `/api/previsioni` le
+ore di oggi prima delle 21, come le darebbe MET la sera.
+- **I confini coi link di una regione** (urgente suo del 2/11, avanzo della 108). Con `?r=<regione>&m=prev` e
+  `/previsioni/?r=<regione>`, in attesa della vista, i confini si vedevano sul grigio: bianchi finche' c'era `foto-on` (PC
+  0,2 s, telefono 0,9 s, telefono girato 1,3 s), poi blu fino alla vista. Ora `.leaflet-overlay-pane` nascosto anche sotto
+  `apre-vista`, accanto alla regola di `apre-italia` nel blocco in testa («E I CONFINI COI LINK DI UNA REGIONE»). Provato
+  anche dove `apre-vista` vale fra una vista e l'altra: dalla linguetta e dall'Italia a una regione i confini blu sul
+  grigio duravano fino a 2,5 s, ora mai. In 8 strade su 8 a vista pronta i confini sono identici a prima. ⚠️ Se la pagina
+  ci mette piu' di 20 s (PC carico, telefono lento a freddo) il tempo di sicurezza dello script in testa toglie il grigio
+  prima delle previsioni e per un attimo si vede lo storico coi confini bianchi: c'era uguale prima.
+- **La sera OGGI e' «stasera»** (check notturno, punto 8). MET da' le ore da adesso in avanti, le passate non le ha:
+  dopo le 20 minima e massima di oggi vengono da tre o quattro ore e spesso sono uguali, «8° 8°», che sembra un errore.
+  «Minima e massima di tutta la giornata» non si possono fare senza un'altra fonte per le ore passate. Ora in `chip()`,
+  dalle 20 (la stessa ora in cui il giorno di partenza diventa domani), la casella di oggi dice «stasera» e con i due
+  numeri uguali ne scrive uno («STASERA 9°» invece di «OGGI 9° 9°»); anche la riga dei giorni del riquadro dice «stasera».
+- **La sera si accendeva DOM 8** (trovato provando la sera). Dopo le 20 la scheda al telefono parte da domani e la
+  striscia delle ore scorre fin li'; se la scheda si ridisegna subito dopo, lo scorrimento arriva alla striscia di prima,
+  gia' staccata dalla pagina: misure a zero, `segna()` la crede «in fondo» e accende l'ultimo giorno sopra le ore di
+  domani. Misurato alle 21:15: 5 aperture su 14. Ora `segna()` esce se `oz` non e' piu' nella pagina (`isConnected`): 11
+  su 11 giuste. Di giorno non capitava (si parte da oggi, la striscia non scorre).
+
