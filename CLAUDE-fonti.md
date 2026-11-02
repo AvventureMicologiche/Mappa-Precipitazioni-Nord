@@ -439,6 +439,15 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   porta meno stazioni della soglia della rete (risposta tagliata senza errore), quel giorno si rifa' da solo
   (`collectDay` con `meteo: false`) e si tiene il piu' ricco. ⚠️ Un giorno sotto soglia per conto suo (Basilicata 26/10,
   50 su 55; Puglia 26/10, una stazione) costa quindi una richiesta in piu' a ogni giro, come prima.
+- **La riparazione automatica arriva a 20 giorni con l'account (2/11/2026, scheda 109).** Prima riprovava da 3 a 9
+  giorni indietro, la finestra pubblica; col token (`MH_TOKEN`) l'archivio e' aperto e ora arriva a 20
+  (`RIPARA_FINO`, anonimo resta 9). Motivo: la Puglia del 26-30/10 (stime Open-Meteo intere 26-29, meta' il 30, oltre
+  la frontiera) il 2/11 MeteoHub la stava ricaricando a pezzi: 26/10 132 stazioni ma 13 ore su 24, 27 e 28/10 una
+  stazione sola, 29/10 9 ore, 30/10 17 ore. Coi file sotto l'85% di ore le stazioni si scartano e restano le stime;
+  col 9 il 26/10 sarebbe uscito dalla finestra il 4/11. Si richiedono solo i giorni con stime o sotto soglia: il 2/11
+  fra 10 e 20 giorni fa c'era solo la Sardegna del 15/10. Se il 27-28/10 non tornano, la strada e' il bollettino
+  pluviometrico di ottobre della Regione (uscita attesa verso il 5/11, come quello di luglio) con
+  `archivio\ripara-puglia-bollettino.js` del banco, come il 27/7.
   Misurato sulla storia di git (18-26/10): dopo il giro delle 4:30 pioggia e meteo di ieri non cambiano piu' (qualche
   stazione arpafvg). Provato in locale vecchio contro nuovo: 32 file su 32 identici, anche con la richiesta doppia fatta
   cadere (Marche) e tagliata a meta' (Sicilia); richieste 138 → 74 al primo giro, 19 al secondo. `collectDay` resta
