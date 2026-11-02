@@ -34,6 +34,8 @@ Sezioni:
 - Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)
   - Secondo giro dello stesso giorno: i punti medi dell'analisi (suo «fai i medi»)
   - ⚠️ DA FARE SENZA URGENZA (la memoria, aggiornata la sera del 1/11/2026; si riparte dalla scheda 105)
+- Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)
+- Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)
 
 ---
 
@@ -949,3 +951,41 @@ pagine piogge e nelle pagine funghi (vedi la nota della striscia, sezione «Zone
 - Restano: la storia di git (toglierle da li' vorrebbe dire riscrivere la storia del repo, non proposto) e le date in
   sitemap di quelle pagine, che al primo giro diventano quella del giorno (l'impronta e' sul file intero).
 
+## Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)
+
+Suo, guardando le strisce al telefono: «sono tagliate? è così?». Poi «Sì, sistemale» e «Sì, tutti e due».
+
+- **Il difetto**: le anteprime del ramo `anteprime` (`<k>-mappa`, `-ieri`, `-7g`) erano sempre 1600x918, più larghe
+  che alte. I riquadri di `lib-striscia.js` sono quasi quadrati (piogge al telefono 292-325 x 300, funghi 300-333 x
+  240; al PC 692 x 440 e 392 x 320) e `ritaglia()` vuole sia la regione intera sia l'immagine che copre tutto il
+  riquadro: nelle regioni lunghe vinceva la copertura e si perdevano i capi. Al telefono di 360 si vedeva: Emilia 58%
+  della larghezza, Austria 64, Liguria 67 (Sanremo e La Spezia fuori), Alto Adige 70, Valle d'Aosta 76, Svizzera 77,
+  Sicilia 78, Molise 85. Uguale per i boschi delle pagine funghi (`tessere-boschi/anteprime/`): Emilia 73%, Liguria 85,
+  Alto Adige 88. C'era già prima della foto satellite: non dipende dalla foto.
+- **Correzione in `genera-anteprime.js` (`scattaPulita`)**: se la mappa è più bassa di 1,1 volte la larghezza della
+  regione più 40 px, la finestra si allunga in altezza quanto serve, con lo STESSO zoom e lo stesso centro, e il file si
+  salva a 1.200 px (scala 0,375, come i boschi). ⚠️ Non si rifà `fitBounds` sulla mappa alta: ingrandiva di un quarto
+  (Alto Adige, Valle d'Aosta, Sicilia, Molise) e al telefono si riperdevano i bordi. Le regioni che ci stanno già
+  restano 1600x918. `lib-striscia.js` e le pagine NON cambiano: il JSON porta `w`, `h`, `z`, `x0`, `y0` e la pagina
+  ritaglia da sola. Migliora da solo anche il riquadro «Pluviometri, ultimi 7 giorni» delle pagine meteo
+  (`#ant-pluvio`, center/cover), che prima tagliava i lati delle stesse regioni.
+- **Pesi** (solo le regioni allungate): pioggia 7 giorni Emilia 156 → 234 KB, Liguria 151 → 176, Alto Adige 266 → 335,
+  Svizzera 287 → 323; boschi Emilia 139 → 275, Liguria 131 → 179, Alto Adige 202 → 293, Valle d'Aosta 186 → 244.
+- I boschi sono rifatti a mano (`BOSCHI=1`) per emilia, liguria, altoadige e valledaosta e sono nel commit; la pioggia
+  la rifà il giro `anteprime.yml` del mattino.
+- **Prova** (attrezzi nello scratchpad della scheda 111 bis; foto e testi provati in `D:\video youtube\claudio\scheda-111-bis\`):
+  scatti in locale di 10 regioni; pagine servite in locale con le anteprime nuove al posto di `/_anteprime-prova/`;
+  misura della regione dentro il riquadro dal JSON e da `background-size`/`background-position`. 8 regioni, piogge e
+  funghi, a 360, 393 e 1440: tutte al 100% in larghezza e in altezza. Fogli `immagini\111-bis\strisce-prima-dopo-telefono.png`
+  e `funghi-emilia-prima-dopo.png` nel banco.
+- ⚠️ Con tre schede che aprivano il sito insieme, uno scatto locale dei 7 giorni è uscito senza pioggia (Sicilia, raw
+  rallentato) e uno è scaduto (Liguria, `captureScreenshot`). Rifatti col PC più libero erano giusti. Le prove di
+  scatto si fanno con poco altro aperto.
+
+**La pagina di paese nella guida** (sezione «Che cosa trovi nella scheda del paese»): `guida/scheda-paese.jpg` era la
+pagina di metà settembre (finestra degli 8 giorni in cima, quattro numeri a confronto). Rifatta su Torriglia Garaventa
+com'è oggi, 1100 px di larghezza, dalla fine della testata alla fine della scheda scura (1100x836), e riscritti alt,
+didascalia ed elenco secondo le sezioni della pagina di adesso. `guida/boschi-tendina.jpg` rifatta per prova sul sito
+vero: uguale (i boschi stanno ancora sulla cartina, come nella mappa), lasciata. Resta vecchia la copertina del video
+guida (`guida/video-guida.jpg`): è la copertina vera del video su YouTube, girato sulla mappa di settembre, e si
+cambia solo con un video nuovo.

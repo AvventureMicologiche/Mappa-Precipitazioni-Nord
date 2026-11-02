@@ -148,6 +148,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Controllo SEO del 31/10/2026 (scheda 104 bis): le parole di sei famiglie**: Search Console 3-30/10 e le sei correzioni di titoli e testi
 - **Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)**: `/slovenia/` tolta, stime dichiarate, e l'elenco «DA FARE SENZA URGENZA»
 - **Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)**: i commenti del CSS delle pagine sono pubblici, le sue frasi si parafrasano
+- **Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)**: anteprime allungate in altezza in `genera-anteprime.js` (regioni lunghe intere nei riquadri), boschi di 4 regioni, `guida/scheda-paese.jpg` e il suo elenco
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 

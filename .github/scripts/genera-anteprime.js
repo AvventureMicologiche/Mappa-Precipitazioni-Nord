@@ -78,6 +78,33 @@ async function scattaPulita(page, k, nome, meta) {
     mp.eachLayer(l => { if (l.options && l.options.fill === false && l.getBounds) { const x = l.getBounds(); if (x.isValid()) b = b ? b.extend(x) : L.latLngBounds(x.getSouthWest(), x.getNorthEast()); } });
     if (b) mp.fitBounds(b, { padding: [20, 20], animate: false });
   });
+  /* ⚠️ LE REGIONI LUNGHE INTERE ANCHE NEI RIQUADRI QUASI QUADRATI (2/11/2026, scheda 111 bis, suo: «sono tagliate?»).
+     Lo scatto era sempre 1600x918, piu' largo che alto; i riquadri delle pagine (lib-striscia.js) sono quasi quadrati
+     (telefono 292-325 x 300, PC 692 x 440, funghi 333 x 240) e l'immagine deve coprirli tutti: nelle regioni lunghe
+     vinceva la copertura in altezza e si perdevano i capi (al telefono di 360: Emilia 58% della larghezza, Austria 64,
+     Liguria 67, Alto Adige 70, poi VdA, Svizzera, Sicilia, Molise). Ora la mappa si allunga in ALTEZZA quanto serve
+     (alta almeno 1,1 volte la larghezza della regione, per il riquadro di 292 x 300 col margine 0,94 di ritaglia()),
+     STESSO ZOOM e stesso centro: piu' terra sopra e sotto, niente altro. ⚠️ Non si rifa' fitBounds sulla mappa alta:
+     ingrandiva di un quarto (Alto Adige, Valle d'Aosta, Sicilia, Molise), la regione tornava piu' larga del conto e al
+     telefono di 360 si riperdevano i bordi. Le regioni che ci stanno gia' restano 1600x918, stesso peso di prima. */
+  const lunga = await page.evaluate(() => {
+    const mp = window._mapDebug, el = document.getElementById('map'); let b = null;
+    mp.eachLayer(l => { if (l.options && l.options.fill === false && l.getBounds) { const x = l.getBounds(); if (x.isValid()) b = b ? b.extend(x) : L.latLngBounds(x.getSouthWest(), x.getNorthEast()); } });
+    if (!b || !el) return null;
+    const rw = Math.abs(mp.latLngToContainerPoint(b.getNorthEast()).x - mp.latLngToContainerPoint(b.getSouthWest()).x);
+    const z = mp.getZoom(), c = mp.unproject(mp.project(b.getNorthWest(), z).add(mp.project(b.getSouthEast(), z)).divideBy(2), z);
+    return { mappa: el.clientHeight, serve: Math.ceil(rw * 1.1) + 40, z: z, lat: c.lat, lng: c.lng };
+  });
+  /* ...e un'immagine allungata si salva a 1.200 px (scala 0,375, come i boschi): a 1.600 pesava il doppio (Emilia
+     352 KB invece di 160, Alto Adige 541 invece di 273), cosi' resta come prima. Il JSON tiene le misure in pixel della
+     mappa, la pagina la stende uguale. */
+  const allungata = !!(lunga && lunga.serve > lunga.mappa);
+  if (allungata) {
+    const vp = page.viewport();
+    await page.setViewport(Object.assign({}, vp, { height: vp.height + lunga.serve - lunga.mappa }));
+    await new Promise(r => setTimeout(r, 800));
+    await page.evaluate(g => { const mp = window._mapDebug; mp.invalidateSize({ animate: false }); mp.setView([g.lat, g.lng], g.z, { animate: false }); }, lunga);
+  }
   await page.waitForNetworkIdle({ idleTime: 1200, timeout: 30000 }).catch(() => {});
   await new Promise(r => setTimeout(r, process.env.BOSCHI ? 4000 : 2500));
   await page.addStyleTag({ content: 'body *{visibility:hidden !important} #map .leaflet-map-pane, #map .leaflet-map-pane *{visibility:visible !important}' });
@@ -93,7 +120,7 @@ async function scattaPulita(page, k, nome, meta) {
   });
   if (!g || !g.w) throw new Error('mappa pulita: niente _mapDebug o #map');
   await page.screenshot({ path: path.join(OUT_DIR, k + '-' + nome + '.webp'), type: 'webp', quality: process.env.BOSCHI ? 50 : 72,
-    clip: { x: g.x, y: g.y, width: g.w, height: g.h, scale: process.env.BOSCHI ? 0.375 : 0.5 } });
+    clip: { x: g.x, y: g.y, width: g.w, height: g.h, scale: process.env.BOSCHI || allungata ? 0.375 : 0.5 } });
   /* ⚠️ I BOSCHI A 1.200 PX E QUALITA' 50 (21/10/2026, ottavo check, bug 12): a 1.600 px pesavano fino a 457 KB (Lombardia)
      per un riquadro di 146-400 px, e abbassando solo la qualita' le regioni alpine (rilievo pieno di dettagli) restavano
      sopra i 250. Il JSON tiene le misure in pixel della MAPPA (w, h): la pagina stende l'immagine con quelle
