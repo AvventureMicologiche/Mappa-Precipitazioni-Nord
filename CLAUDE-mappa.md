@@ -1452,3 +1452,43 @@ sue funzioni non si vedono).
   fanno in parallelo.
   jsDelivr risponde bene (HTTP/2, primo byte 35-190 ms). Noti, non cause: la pagina (1,27 MB, senza cache: rimedio 5
   della scheda 100) e i file dei giorni (~10 KB l'uno: 90 giorni = 841 KB al telefono).
+
+## Telefono dritto con la tastiera, barra della Sicilia e angoli del telefono girato (2/11/2026, scheda 109 quater)
+
+Tre difetti della mappa trovati dal check notturno del 1-2/11 (scheda 109: cloud A2, A3, A4, confermati nel browser) e
+corretti su copie provate sul sito vero (suo «sì, tutte e sei»). Attrezzi nel banco, `scheda-109-quater\`: `fai1..fai3.py`
+fanno le copie da `index-prod.html` (in catena con `fai0`, `fai4`, `fai4b` danno `index-tutte.html`, quella messa qui),
+`prova1.js`, `prova1b.js`, `prova2.js`, `prova3.js`, `giro-errori.js`; fogli prima/dopo in `immagini\109-quater\`.
+- **Il telefono dritto con la tastiera** (A4). Le regole del telefono girato guardano la FINESTRA
+  (`(max-width:900px) and (max-height:500px) and (orientation:landscape)`), non il telefono: Firefox per Android, e altri,
+  aprendo la tastiera abbassano la finestra (393×852 → 393×300) e al telefono dritto scattava il disegno girato, colonna di
+  330 px su 393. Nel meteo con la scheda di una citta' aperta la mappa andava allo zoom 19 sopra Milano: l'inquadratura
+  accanto alla colonna restava con uno spazio NEGATIVO e Leaflet (`getBoundsZoom`) risponde con lo zoom massimo. Nella
+  vista Italia la mappa finiva nell'Atlantico (longitudine −16) e ci restava anche richiudendo la tastiera. Ora lo script
+  «I TELEFONI GRANDI GIRATI» in testa mette su `html` la classe `schermo-dritto` col dito e lo schermo dritto
+  (`window._schermoDritto()`, rifatta a ogni giro e a ogni resize); le 28 regole dei due blocchi girati (meteo e
+  pioggia) la escludono con `:where(html:not(.schermo-dritto))` (stessa forza di prima: `:where` vale zero) e
+  `window._girato()` e `oriz()` del meteo la chiedono. ⚠️ Lo schermo si legge da `screen.orientation.type` (riserva
+  `window.orientation`), NON da `screen.width>screen.height` come proponeva il cloud: sull'iPhone `screen` resta quello
+  del telefono dritto anche girato. Col mouse (finestra stretta del PC) non cambia niente. Una regola nuova nei due
+  blocchi girati va scritta col prefisso anche lei. Provato: tastiera nella pioggia, nel meteo con la scheda e nella
+  vista Italia, anche col percorso vero (tocco su «Cerca la tua località» o su «Lombardia ▼», finestra a 300, si
+  scrive): casella sempre libera, zoom fermo; telefoni girati 740×340 e 852×393, telefono grande 915×412 e PC 800×450
+  identici a prima (misure dei riquadri, zoom, centro). ⚠️ Lo zoom d'apertura della pioggia a 393 cambia da solo fra 7,5
+  e 7,75 a seconda del caricamento: non confrontare due aperture su quello.
+- **La barra delle citta' in Sicilia** (A3). La barra sceglie il pluviometro dalla classifica INTERA, ma le reti fitte
+  sono diradate a 400 pallini (Sicilia 431): toccando Palermo, Enna, Ragusa o Caltanissetta il pallino non c'era, la mappa
+  si spostava e restava aperta la scheda della citta' di prima. Ora senza pallino la scheda si apre direttamente
+  (`window._pioggiaPer.apri(s,x,y)`, che fa quello che fa il clic sul pallino). Enna apre Villarosa Diga R2, Ragusa Modica,
+  Caltanissetta Imera Meridionale, Palermo Palermo Abela (i piu' vicini al capoluogo), al PC, al telefono e girato;
+  Austria e Lombardia come prima. ⚠️ `closeStationHistory` NON e' globale: nelle prove la scheda non si chiude da fuori.
+  Resta, non toccato: col telefono girato la scheda del pluviometro (296×360 a destra) copre in parte la barra.
+- **Gli angoli del riquadro col telefono girato** (A2). `#legend-panel{border-radius:0 14px 0 0}` del blocco girato
+  perdeva contro `html:root #legend-panel{border-radius:12px}` della grafica nuova (piu' forte): quattro angoli tondi e due
+  spicchi di mappa a sinistra. I periodi vincevano gia' (stessa forza, vengono dopo). Ora nel blocco girato
+  `html:root:where(:not(.schermo-dritto)) body #legend-panel` (forza di `html:root body #legend-panel`): angoli dei
+  periodi in pioggia, radar e boschi; al telefono dritto e al PC identico. L'ombra laterale scritta nel blocco non era mai
+  arrivata ed e' tolta: resta quella della grafica nuova, come i periodi. Il margine sopra era gia' giusto (10 px).
+- Giro largo della copia unica (`giro-errori.js` con `prove-veloci.js`): 24 aperture (pioggia, periodi, meteo, radar,
+  boschi; PC, telefono, girato), zoom fino al 19 e ritorno, nessun errore della pagina. ⚠️ `prove-veloci.js` non vede
+  «pronta» Austria a 7 giorni al telefono (25 s): uguale prima, e' l'attrezzo.

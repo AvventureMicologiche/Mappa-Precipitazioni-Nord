@@ -115,11 +115,28 @@
    della pioggia finiva tutto fuori schermo. Col dito, in orizzontale e con lo schermo basso (lato corto fino a 500 px) la
    pagina si disegna larga 900 e il telefono la allarga del 2-4%: valgono le regole del telefono girato («LA PIOGGIA AL
    TELEFONO GIRATO» in fondo, «IL TELEFONO GIRATO» del meteo). Lo schermo si legge da screen (che il viewport non tocca),
-   e a ogni giro del telefono si rifa'. */
+   e a ogni giro del telefono si rifa'.
+   ⚠️ IL TELEFONO DRITTO CON LA TASTIERA (2/11/2026, scheda 109 quater, check notturno A4). Le regole del telefono girato
+   guardano la FINESTRA (orientation:landscape e alta fino a 500), non il telefono: Firefox per Android, e altri, aprendo
+   la tastiera abbassano la finestra (393×852 → 393×300) e al telefono dritto scattava il disegno girato, colonna di 330 px
+   su 393; nel meteo con la scheda aperta la mappa andava allo zoom 19 sopra Milano (l'inquadratura accanto alla colonna
+   restava con uno spazio negativo e Leaflet risponde con lo zoom massimo). Col dito e lo schermo DRITTO html prende la
+   classe schermo-dritto: le regole del girato la escludono (con :where, stessa forza di prima) e _girato() e oriz() del
+   meteo chiedono window._schermoDritto(). Lo schermo si legge da screen.orientation, che la tastiera non tocca; non da
+   screen.width>screen.height, che sull'iPhone resta quello del telefono dritto anche girato. */
 (function(){
+  function dritto(){
+    try{ if(!matchMedia('(pointer:coarse)').matches) return false;
+      var o=screen.orientation&&screen.orientation.type; if(o) return /portrait/.test(o);
+      if(typeof window.orientation==='number') return Math.abs(window.orientation)!==90; }catch(e){}
+    return false;
+  }
+  window._schermoDritto=function(){ var d=dritto(); document.documentElement.classList.toggle('schermo-dritto',d); return d; };
+  window._schermoDritto();
   var m=document.querySelector('meta[name="viewport"]'); if(!m) return;
   var NORMALE='width=device-width, initial-scale=1.0';
   function giusto(){
+    window._schermoDritto();
     var c=NORMALE;
     try{
       var lungo=Math.max(screen.width,screen.height), corto=Math.min(screen.width,screen.height);
@@ -1850,7 +1867,11 @@ html.apre-vista #map{background:#3e526b}
    le stesse tessere della foto delle previsioni (stesso indirizzo), che poi le trova gia' in cache */
 html.apre-italia #map .leaflet-foto-pane,html.apre-vista #map .leaflet-foto-pane{visibility:hidden}
 html.apre-italia body.foto-on #map,html.apre-vista body.foto-on #map{background:#3e526b}
-html.apre-italia #map .leaflet-overlay-pane{visibility:hidden}
+/* ⚠️ E I CONFINI COI LINK DI UNA REGIONE (2/11/2026, scheda 109 quater, suo: urgente). Con ?r=<regione>&m=prev, in
+   attesa della vista, i confini della regione si vedevano sul grigio, bianchi finche' c'era foto-on (PC ~0,2 s, telefono
+   ~0,9 s, telefono girato ~1,3 s) e poi blu fino alla vista. Nascosti anche sotto apre-vista, che vale anche fra una vista
+   e l'altra delle previsioni (linguetta, dall'Italia a una regione): li' si vedevano blu sul grigio fino a 2,5 s */
+html.apre-italia #map .leaflet-overlay-pane,html.apre-vista #map .leaflet-overlay-pane{visibility:hidden}
 html.apre-prev #fonte-tag{visibility:hidden !important}
 @media(min-width:901px){html.apre-prev #region-panel{visibility:hidden !important}}
 </style>
@@ -10572,7 +10593,10 @@ window._pioggiaPer={
   periodo:function(){ return {da:currentPast,a:currentNow,label:currentLabel}; },
   colore:col,
   pallini:function(){ return activeMarkers.length; },
-  pallino:function(s){ for(var i=0;i<activeMarkers.length;i++){ if(activeMarkers[i]._st===s) return activeMarkers[i]; } return null; }
+  pallino:function(s){ for(var i=0;i<activeMarkers.length;i++){ if(activeMarkers[i]._st===s) return activeMarkers[i]; } return null; },
+  // il pluviometro senza pallino (reti diradate): la scheda come col tocco sul pallino (2/11/2026, scheda 109 quater)
+  apri:function(s,x,y){ if(histHoverT)clearTimeout(histHoverT); if(histHideT)clearTimeout(histHideT);
+    histPinned=false; openStationHistory(s,(ultimaClassifica||[]).indexOf(s)+1,x,y); histPinned=true; }
 };
 /* ⚠️ ESPOSTE PER IL BLOCCO RADAR (31/8/2026). Tutto questo script sta dentro
    una IIFE che comincia a riga 1701, quindi le sue funzioni NON sono globali:
@@ -17455,21 +17479,22 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
    stavano testata, mappa (285), barra della regione, casella, banner, scheda e due strisce di crediti (70): alla mappa
    restava una striscia, nello storico coperta anche dalla vetrina. Qui, come al computer: le strisce in fondo e la
    vetrina via, riquadro e scheda in una colonna a sinistra di 330 px, il banner in fondo alla mappa accanto alla colonna.
-   Le inquadrature lo sanno da oriz() (stessa condizione, in JS) */
+   Le inquadrature lo sanno da oriz() (stessa condizione, in JS). ⚠️ Col telefono DRITTO e la finestra bassa (tastiera)
+   non vale: vedi «IL TELEFONO DRITTO CON LA TASTIERA» in cima, 2/11/2026 */
 @media(max-width:900px) and (max-height:500px) and (orientation:landscape){
-  .fonte,.fonte-reg{display:none !important}
-  #channel-logo{display:none !important}
-  #pv-pan{right:auto !important;width:330px !important;max-height:calc(100% - 104px);overflow-y:auto;border-radius:0 14px 0 0}
-  #pv-det{right:auto !important;width:330px !important;max-height:calc(100% - 104px) !important;border-radius:0 14px 0 0}
-  body.modo-prev:not(.pv-vuoto) #pv-cerca-tel{right:auto !important;width:306px}
-  #vi-nastro.sopra-det{left:330px !important;bottom:0 !important}
+  :where(html:not(.schermo-dritto)) .fonte,:where(html:not(.schermo-dritto)) .fonte-reg{display:none !important}
+  :where(html:not(.schermo-dritto)) #channel-logo{display:none !important}
+  :where(html:not(.schermo-dritto)) #pv-pan{right:auto !important;width:330px !important;max-height:calc(100% - 104px);overflow-y:auto;border-radius:0 14px 0 0}
+  :where(html:not(.schermo-dritto)) #pv-det{right:auto !important;width:330px !important;max-height:calc(100% - 104px) !important;border-radius:0 14px 0 0}
+  :where(html:not(.schermo-dritto)) body.modo-prev:not(.pv-vuoto) #pv-cerca-tel{right:auto !important;width:306px}
+  :where(html:not(.schermo-dritto)) #vi-nastro.sopra-det{left:330px !important;bottom:0 !important}
   /* LA SCHEDA GIRATA (1/11/2026, scheda 105 ter). Con le ore in orizzontale la scheda vuole ~247 px e qui ne ha 212 a
      740x360 (prima ci stavano zero ore: testata, giorni e piede prendevano tutto). «Storico» sale accanto a «Chiudi», due
      pillole uguali, e la riga sotto il nome se ne va (il giorno lo dicono i giorni accesi): 209 px */
-  #pv-det .hd .q1{display:none}#pv-det .hd .nm{font-size:15px}
-  #pv-det .hd .sto{display:block;color:#fff;background:#1f6fd1;border:1.5px solid #1f6fd1;border-radius:999px;align-self:flex-start;white-space:nowrap;cursor:pointer}
-  #pv-det .hd .sto,#pv-det .hd .x{min-width:84px;padding:7px 8px;text-align:center}
-  #pv-det .ft .b{display:none}
+  :where(html:not(.schermo-dritto)) #pv-det .hd .q1{display:none}:where(html:not(.schermo-dritto)) #pv-det .hd .nm{font-size:15px}
+  :where(html:not(.schermo-dritto)) #pv-det .hd .sto{display:block;color:#fff;background:#1f6fd1;border:1.5px solid #1f6fd1;border-radius:999px;align-self:flex-start;white-space:nowrap;cursor:pointer}
+  :where(html:not(.schermo-dritto)) #pv-det .hd .sto,:where(html:not(.schermo-dritto)) #pv-det .hd .x{min-width:84px;padding:7px 8px;text-align:center}
+  :where(html:not(.schermo-dritto)) #pv-det .ft .b{display:none}
 }
 </style>
 <script>
@@ -17494,7 +17519,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function tel(){ return window.innerWidth<=900; }
   // il telefono girato: riquadro e scheda in una colonna a sinistra (vedi «IL TELEFONO GIRATO» nel CSS), 30/10/2026
   var COLONNA=330;
-  function oriz(){ try{ return tel()&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }
+  function oriz(){ try{ return tel()&&!(window._schermoDritto&&window._schermoDritto())&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }   // schermo dritto: vedi «IL TELEFONO DRITTO CON LA TASTIERA» in cima
   // dove finisce, dall'alto della mappa, la casella «Cerca la tua localita'» del telefono (0 se non c'e')
   function casellaSotto(mb){ var cb=el('pv-cerca-tel'); if(!cb) return 0; var r=cb.getBoundingClientRect(); return r.height>0?Math.max(0,r.bottom-mb.top):0; }
   /* l'ora italiana, per il giorno di partenza (suo, 7/10: «oggi», ma dopo le 20 «domani») */
@@ -17659,10 +17684,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function isoPiu(s,n){ var p=String(s).split('-'); return new Date(Date.UTC(+p[0],+p[1]-1,+p[2]+n,12)).toISOString().slice(0,10); }
   function daOggi(gg){ var o=isoRoma(Date.now()); return (gg||[]).filter(function(x){ return x.g>=o; }); }
   function vecchia(gg){ return !!(gg&&gg.length&&gg[0].g<isoRoma(Date.now())); }   // comincia con un giorno passato: va richiesta
+  /* ⚠️ LA SERA OGGI E' «STASERA» (2/11/2026, scheda 109 quater, check notturno): MET da' le ore da adesso in avanti (le
+     passate non le ha), quindi dopo le 20 minima e massima di oggi vengono da tre o quattro ore e spesso sono uguali:
+     «8° 8°», che sembra un errore. Dalle 20, la stessa ora in cui il giorno di partenza diventa domani, la casella di oggi
+     dice «stasera» e con i due numeri uguali ne scrive uno */
   function chip(e,i,on,meteo,corto){   // corto: la scheda al telefono, «MAR 3» e niente riga della data (1/11/2026)
-    var d=giornoData(e.g), o=isoRoma(Date.now()), dom=isoPiu(o,1);
-    return '<div class="pv-gg'+(on?' on':'')+'" data-i="'+i+'"><small>'+(e.g===o?'oggi':e.g===dom?'domani':GI[d.getDay()]+(corto?' '+d.getDate():''))+'</small>'+(corto?'':d.getDate()+' '+MESI[d.getMonth()])
-      +(meteo?'<span class="ic">'+icona(e.s)+'</span><span class="tx"><span class="mx">'+e.mx+'°</span> <span class="mn">'+e.mn+'°</span></span>':'')+'</div>';
+    var d=giornoData(e.g), o=isoRoma(Date.now()), dom=isoPiu(o,1), sera=e.g===o&&oraRoma()>=20;
+    return '<div class="pv-gg'+(on?' on':'')+'" data-i="'+i+'"><small>'+(sera?'stasera':e.g===o?'oggi':e.g===dom?'domani':GI[d.getDay()]+(corto?' '+d.getDate():''))+'</small>'+(corto?'':d.getDate()+' '+MESI[d.getMonth()])
+      +(meteo?'<span class="ic">'+icona(e.s)+'</span><span class="tx"><span class="mx">'+e.mx+'°</span>'+(sera&&e.mx===e.mn?'':' <span class="mn">'+e.mn+'°</span>')+'</span>':'')+'</div>';
   }
   function fmtOra(agg){ try{ return new Date(agg).toLocaleTimeString('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
 
@@ -18778,6 +18807,11 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     else if(gi>0){ var s=oz.querySelector('.gs[data-g="'+gb[gi].g+'"]'); if(s) oz.scrollLeft=s.offsetLeft; }
     var q1=det.querySelector('.hd .q1'), q0=q1?q1.textContent:'', visto=gi, cs=oz.querySelectorAll('.c'), oggi=isoRoma(Date.now());
     function segna(){
+      /* ⚠️ LA STRISCIA VECCHIA NON DECIDE (2/11/2026, scheda 109 quater). Dopo le 20 la scheda parte da domani e la striscia
+         scorre fin li'; se la scheda si ridisegna subito dopo, lo scorrimento arriva alla striscia di prima, gia' staccata:
+         misure a zero, «in fondo», e si accendeva l'ultimo giorno (DOM 8) sopra le ore di domani (al telefono alle 21:15,
+         misurato: 5 aperture su 14) */
+      if(!oz.isConnected) return;
       var c=null; if(oz.scrollLeft>=oz.scrollWidth-oz.clientWidth-2) c=cs[cs.length-1];   // in fondo: l'ultimo giorno, anche se e' corto
       else for(var i=0;i<cs.length;i++) if(cs[i].offsetLeft+cs[i].offsetWidth>oz.scrollLeft+4){ c=cs[i]; break; }
       if(!c) return; var n=-1; gb.forEach(function(x,i){ if(x.g===c.dataset.g) n=i; }); if(n<0||n===visto) return; visto=n;
@@ -19431,10 +19465,15 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     var m=window._mapDebug, s=x.st; if(!m||!s) return;
     try{ gtag('event','barra_pioggia',{azione:'tocco'}); }catch(e){}
     m.panTo([s.lat,s.lon],{animate:true});
+    /* ⚠️ IL PLUVIOMETRO SENZA PALLINO (2/11/2026, scheda 109 quater, check notturno A3): la barra sceglie dalla
+       classifica INTERA, ma le reti fitte sono diradate a 400 pallini e il pluviometro scelto puo' non averne uno. In
+       Sicilia (431 stazioni) Palermo, Enna, Ragusa e Caltanissetta spostavano la mappa e basta, e restava aperta la scheda
+       della citta' di prima. Senza pallino la scheda si apre direttamente, nello stesso punto */
     var mk=P().pallino(s);
-    if(mk) setTimeout(function(){
+    setTimeout(function(){
       var pt=m.latLngToContainerPoint([s.lat,s.lon]), r=m.getContainer().getBoundingClientRect();
-      mk.fire('click',{originalEvent:{clientX:r.left+pt.x,clientY:r.top+pt.y}});
+      if(mk) mk.fire('click',{originalEvent:{clientX:r.left+pt.x,clientY:r.top+pt.y}});
+      else if(P().apri) P().apri(s,r.left+pt.x,r.top+pt.y);
     },380);
   }
 
@@ -19566,42 +19605,50 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
      GIRATO» nel suo CSS): regione e «＋ regione» in UNA riga in cima, periodi o riquadro in una COLONNA di 330 px a
      sinistra (scorre dentro, se serve), la mappa a destra, la barra delle citta' in fondo alla mappa accanto alla colonna
      come il banner del meteo. La condizione e' la stessa del meteo (oriz()), in JS window._girato(). I telefoni piu'
-     larghi di 900 (915, 932) ci entrano col viewport largo 900: vedi «I TELEFONI GRANDI GIRATI» in cima alla pagina. -->
+     larghi di 900 (915, 932) ci entrano col viewport largo 900: vedi «I TELEFONI GRANDI GIRATI» in cima alla pagina.
+     ⚠️ Col telefono DRITTO e la finestra bassa (la tastiera di Firefox) non vale: «IL TELEFONO DRITTO CON LA TASTIERA»
+     in cima, 2/11/2026. -->
 <style>
 @media(max-width:900px) and (max-height:500px) and (orientation:landscape){
   /* la riga in cima: «Lombardia ▼» largo quanto la colonna, le pastiglie «＋ regione» accanto */
-  body:not(.modo-prev) #region-panel .tp-content{display:flex !important;align-items:center;gap:8px}
-  body:not(.modo-prev) #reg-apri{flex:0 0 314px;width:314px !important;box-sizing:border-box}
-  body:not(.modo-prev) #vic-riga{flex:1 1 0;min-width:0;padding-top:0 !important;padding-bottom:0 !important}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #region-panel .tp-content{display:flex !important;align-items:center;gap:8px}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #reg-apri{flex:0 0 314px;width:314px !important;box-sizing:border-box}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #vic-riga{flex:1 1 0;min-width:0;padding-top:0 !important;padding-bottom:0 !important}
   /* la colonna: i periodi... */
-  body:not(.modo-prev) #time-panel{top:var(--gir-cima,50px) !important;left:0 !important;bottom:0 !important;width:330px !important;
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #time-panel{top:var(--gir-cima,50px) !important;left:0 !important;bottom:0 !important;width:330px !important;
     max-height:none !important;overflow-y:auto !important;border-radius:0 14px 0 0 !important;padding:8px 12px 4px !important;box-sizing:border-box}
   /* tasti di 31-32 px (sotto i 30 no: gia' pochi per il dito), 9 px fra le righe: a 740×310 i periodi ci stanno interi */
-  body:not(.modo-prev) #time-panel .tp-btn{padding:6px 3px !important}
-  body:not(.modo-prev) #time-panel .tp-custom-btn{padding-top:5px !important;padding-bottom:5px !important}
-  body:not(.modo-prev) #tp-status:empty{display:none !important}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #time-panel .tp-btn{padding:6px 3px !important}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #time-panel .tp-custom-btn{padding-top:5px !important;padding-bottom:5px !important}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) #tp-status:empty{display:none !important}
   /* ...o il riquadro della pioggia (radar e boschi compresi), con le misure del telefono dritto */
-  #legend-panel{position:absolute !important;left:0 !important;right:auto !important;top:var(--gir-cima,50px) !important;bottom:0 !important;
-    width:330px !important;max-height:none !important;overflow-y:auto;border-radius:0 14px 0 0 !important;padding:10px 12px !important;
-    box-sizing:border-box;transform:translateX(-105%);box-shadow:4px 0 14px rgba(0,0,0,.18) !important}
-  #legend-panel .leg-handle{display:none !important}
-  html body #legend-panel .sv{font-size:17px !important}
-  html body #legend-panel .leg-header .leg-title{font-size:13px !important}
-  html body #legend-panel .grad{height:12px !important}
-  html body #legend-panel #leg-back-btn{font-size:14px !important;padding:4px 12px !important;white-space:nowrap}
-  body.pg-nastro-on #legend-panel .leg-title{display:none !important}
+  :where(html:not(.schermo-dritto)) #legend-panel{position:absolute !important;left:0 !important;right:auto !important;top:var(--gir-cima,50px) !important;bottom:0 !important;
+    width:330px !important;max-height:none !important;overflow-y:auto;padding:10px 12px !important;
+    box-sizing:border-box;transform:translateX(-105%)}
+  /* ⚠️ GLI ANGOLI COME I PERIODI (2/11/2026, scheda 109 quater, check notturno A2): scritti qui sopra perdevano contro
+     «html:root #legend-panel{border-radius:12px}» della grafica nuova, piu' forte: quattro angoli tondi e due spicchi di
+     mappa a sinistra, dove il riquadro tocca il bordo dello schermo. I periodi hanno la stessa forza della grafica nuova e
+     vengono dopo, quindi vincevano gia'. L'ombra resta quella della grafica nuova, come i periodi (la laterale scritta qui
+     non era mai arrivata) */
+  html:root:where(:not(.schermo-dritto)) body #legend-panel{border-radius:0 14px 0 0 !important}
+  :where(html:not(.schermo-dritto)) #legend-panel .leg-handle{display:none !important}
+  html:where(:not(.schermo-dritto)) body #legend-panel .sv{font-size:17px !important}
+  html:where(:not(.schermo-dritto)) body #legend-panel .leg-header .leg-title{font-size:13px !important}
+  html:where(:not(.schermo-dritto)) body #legend-panel .grad{height:12px !important}
+  html:where(:not(.schermo-dritto)) body #legend-panel #leg-back-btn{font-size:14px !important;padding:4px 12px !important;white-space:nowrap}
+  :where(html:not(.schermo-dritto)) body.pg-nastro-on #legend-panel .leg-title{display:none !important}
   /* la barra delle citta' in fondo alla mappa, accanto alla colonna (la sposta lo script della barra) */
-  body.pg-nastro-on #pg-nastro{position:absolute;right:0;bottom:0;margin:0;z-index:850;box-shadow:0 -2px 6px rgba(0,0,0,.18)}
-  body.pg-nastro-on:not(.modo-prev) #tq-btn.p-mappa{bottom:48px !important}
+  :where(html:not(.schermo-dritto)) body.pg-nastro-on #pg-nastro{position:absolute;right:0;bottom:0;margin:0;z-index:850;box-shadow:0 -2px 6px rgba(0,0,0,.18)}
+  :where(html:not(.schermo-dritto)) body.pg-nastro-on:not(.modo-prev) #tq-btn.p-mappa{bottom:48px !important}
   /* la fonte in cima alla mappa libera, al centro, come al telefono dritto (sotto la barra delle regioni): in fondo finiva
      sotto la colonna e sopra la barra delle citta' */
-  body:not(.modo-prev) .fonte-tag{top:var(--gir-cima,50px) !important;bottom:auto !important;left:calc(50% + 165px) !important}
+  :where(html:not(.schermo-dritto)) body:not(.modo-prev) .fonte-tag{top:var(--gir-cima,50px) !important;bottom:auto !important;left:calc(50% + 165px) !important}
 }
 </style>
 <script>
 (function(){
   function el(id){ return document.getElementById(id); }
-  function girato(){ try{ return window.innerWidth<=900&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }
+  function girato(){ try{ return window.innerWidth<=900&&!(window._schermoDritto&&window._schermoDritto())&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }   // schermo dritto: vedi «IL TELEFONO DRITTO CON LA TASTIERA» in cima
   window._girato=girato;
   function visibile(e){ if(!e) return null; var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return null;
     var r=e.getBoundingClientRect(); return r.width>0&&r.height>0?r:null; }
