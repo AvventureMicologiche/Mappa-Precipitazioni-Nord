@@ -45,6 +45,7 @@ const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { slug, slugRegione, artNum, bello } = require('./lib-nomi.js');   // artNum: «l'81%», «sull'87%» (18/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 
 const SITO = 'https://precipitazioni.avventuremicologiche.it';
 const RADICE = path.join(__dirname, '..', '..');
@@ -280,7 +281,7 @@ function didascalia(tipi, dove) {
 // regione (Puglia, 27/9: «querceti e pinete» sotto una foto tutta faggete della Foresta Umbra)
 const tipiDelPunto = (S, riserva) => { const p = S && Object.values(D.paesi).find(x => x.n === S.paese); return p ? p.tipi : riserva; };
 const scriviFile = (rel, testo) => {
-  const f = path.join(RADICE, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, testo, 'utf8');
+  const f = path.join(RADICE, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, senzaCommenti(testo), 'utf8');
 };
 
 // ═══ LA PAGINA DI UNA REGIONE ═══════════════════════════════════════════════

@@ -989,3 +989,40 @@ didascalia ed elenco secondo le sezioni della pagina di adesso. `guida/boschi-te
 vero: uguale (i boschi stanno ancora sulla cartina, come nella mappa), lasciata. Resta vecchia la copertina del video
 guida (`guida/video-guida.jpg`): è la copertina vera del video su YouTube, girato sulla mappa di settembre, e si
 cambia solo con un video nuovo.
+
+## I commenti fuori dalle pagine generate (2/11/2026, scheda 112 quater)
+
+Dal check 9 (punto 9 della scheda 110, suo «sì, fai il 9»). Il CSS e il JavaScript che i generatori mettono nelle pagine
+portavano con sé tutti i loro commenti: circa 6 KB nel CSS e 14 KB nel JavaScript per pagina di paese, compressi (gzip)
+7-11 KB su 25-46. Chi apre la pagina non li vede ma li scarica (il check ne aveva contati 2,3 KB: erano solo quelli della
+striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutto, **-24,5%** (paese funghi da 37,8 a
+28,4 KB, zona piogge da 30,0 a 22,5, meteo da 35,6 a 27,1, mappa forestale da 23,6 a 18,5).
+
+- **`lib-senza-commenti.js`**, `senzaCommenti(html)`: toglie i commenti dentro `<style>` e dentro gli `<script>` di
+  JavaScript in linea (a blocco e di riga). Lascia stare i commenti HTML (`<!-- PAGINE:INIZIO -->` è un segnaposto),
+  quelli che cominciano con `/*!`, gli script con `src` o di dati (JSON-LD, `application/json`) e il testo dentro stringhe
+  ed espressioni regolari. Se in uno script trova un apice inverso o una stringa che non si chiude, lo lascia intero.
+- **Una riga al momento di scrivere il file** in otto generatori: `genera-pagine-localita.js`, `genera-pagine-zona.js`,
+  `genera-pagine-zona-piogge.js`, `genera-pagine-meteo-zona.js`, `genera-pagine-meteo-paese.js`,
+  `genera-pagine-adesso.js`, `genera-mappa-forestale.js` (dentro `scriviFile`), `genera-indice-funghi.js`. I commenti
+  restano nei generatori, dove servono.
+- ⚠️ **LE PAGINE MODELLO RESTANO COI COMMENTI.** Alcuni generatori copiano lo `<style>` di una pagina già fatta e lo
+  tagliano su un commento (`'/* ── IL METEO NELLE PAGINE REGIONE'`: `stileDelModello` di `lib-pagina-funghi.js`, zone
+  piogge, meteo zona e meteo paese) o ne tolgono dei blocchi cercandone il testo identico, commenti compresi (RILIEVO,
+  YT_BTN, QUIZ_CSS, STRISCIA_CSS). Quindi niente `senzaCommenti` sulle 22 pagine regione (`genera-pagine-regione.js`),
+  sulle 20 funghi regione (`genera-pagine-funghi.js`) e sulla zona funghi della **Garfagnana**, modello della mappa
+  forestale (eccezione scritta in `genera-pagine-zona.js`). Chi cambia il modello di un generatore deve tenerne conto.
+  Per loro vale ancora la nota della 109 qui sopra: i commenti di quelle pagine sono pubblici.
+- **Le pagine non sono state rigenerate**: `senzaCommenti` è stata applicata alle pagine come stavano su GitHub
+  (`scheda-112-quater\applica-112q.js`), così il commit ha solo i commenti tolti e niente numeri nuovi mescolati.
+- **Prove** (`D:\video youtube\claudio\scheda-112-quater\`): `verifica-commenti.js` sulle 1.461 pagine: albero sintattico
+  di 7.886 script identico prima e dopo (acorn, quello dentro Node: `node --expose-internals`), zero commenti rimasti,
+  script di dati identici, HTML fuori da style e script identico, regole CSS lette dal browser identiche;
+  `rigenera.sh` + `confronta-rigenerate.js`: tutte le famiglie rigenerate senza e con la modifica, ogni pagina nuova è
+  `senzaCommenti` della pagina di base; i generatori con la modifica riscrivono zone piogge, meteo, «adesso» e mappa
+  forestale identiche byte per byte; `confronto-browser.js` su 19 pagine di tutte le famiglie, telefono e PC, servite in
+  locale: stesso testo, elementi, misure e stili, nessun errore (le «adesso» variano anche contro se stesse: radar dal
+  vivo).
+- Tolta anche da `lib-striscia.js` la classe `mk-grande`, che non aveva CSS (check 9): nel browser stessi stili e misure.
+- Una volta sola: la sitemap della mappa forestale, che data le pagine con l'impronta del file
+  (`pagine-impronte.json`), le segna cambiate al primo giro `pagine-regione.yml` dopo la pubblicazione.

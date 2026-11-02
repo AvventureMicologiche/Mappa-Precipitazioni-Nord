@@ -48,6 +48,7 @@ const { stileDelModello } = require('./lib-pagina-funghi.js');
 // della classifica col bottone del radar, «Trova i boschi», e i due riquadri pioggia | boschi)
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');
 const { STRISCIA_CSS } = require('./lib-striscia.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -401,7 +402,7 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
 `;
 
 const dest = path.join(RADICE, 'funghi', 'index.html');
-const testo = pagina();
+const testo = senzaCommenti(pagina());
 const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
 if (prima === testo) {
   console.log('  funghi/index.html  (invariato)');

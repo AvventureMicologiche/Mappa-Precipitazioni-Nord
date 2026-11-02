@@ -54,6 +54,7 @@ const { perLink } = require('./lib-vicine.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 // Il ritratto dell'archivio, cotto dentro la pagina: il perche' sta in cima
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
@@ -541,7 +542,8 @@ if (require.main === module) {
     }
     const dir = path.join(RADICE, 'funghi', 'zone', slug(z.n));
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
+    // la Garfagnana coi commenti: e' il modello della mappa forestale (stileDelModello cerca i blocchi coi loro commenti)
+    fs.writeFileSync(path.join(dir, 'index.html'), slug(z.n) === 'garfagnana' ? html : senzaCommenti(html), 'utf8');
     scritte++;
   }
   if (SOLO) { console.log(`${scritte} pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); process.exit(0); }

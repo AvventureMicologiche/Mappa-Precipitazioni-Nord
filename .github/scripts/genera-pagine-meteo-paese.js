@@ -32,6 +32,7 @@ const { regioneDati } = require('./lib-posti.js');
 const { confineDi } = require('./genera-pagine-adesso.js');   // il confine della regione nelle anteprime dei bottoni
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { METEO_PAESI_TUTTI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
   SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo, tabellaFissa } = MZ;
 
@@ -189,7 +190,7 @@ if (require.main === module) {
       // lo script della pagina deve girare (i nomi con l'apostrofo: «Santo Stefano d'Aveto»), come genera-pagine-localita.js
       for (const s of html.match(/<script>[\s\S]*?<\/script>/g) || []) new Function(s.slice(8, -9));
       const [reg] = p.loc.split('/');
-      scrivi(path.join(RADICE, 'meteo', reg, p.slug, 'index.html'), html);
+      scrivi(path.join(RADICE, 'meteo', reg, p.slug, 'index.html'), senzaCommenti(html));
       console.log('  meteo/' + reg + '/' + p.slug + '/');
     }
     if (SOLO) { console.log(`1 pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); return; }

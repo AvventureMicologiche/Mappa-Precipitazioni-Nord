@@ -34,6 +34,7 @@ const { REGIONI, GEN, navAltre, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CAN
 const HA_ZONE = new Set(JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'funghi-zone.json'), 'utf8')).map(z => z.reg));
 const { STILE_NUOVO, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');   // quiz accanto a YouTube (20/10/2026)
 const { scriviSitemap } = require('./genera-sitemap.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const { capoluogo } = require('./lib-capoluoghi.js');
 
@@ -413,7 +414,7 @@ if (require.main === module) {
     const html = pagina(r);
     const nc = cittaDi(r).length;
     if (!nc) { console.error(`⚠️ ${r.k}: nessuna città in capoluoghi.json`); process.exit(1); }
-    scrivi(path.join(RADICE, r.k, 'adesso', 'index.html'), html, true);
+    scrivi(path.join(RADICE, r.k, 'adesso', 'index.html'), senzaCommenti(html), true);
     console.log(`  /${r.k}/adesso/  ${nc} città · ${Math.round(Buffer.byteLength(html) / 1024)} KB · «${titoloDi(r)}» (${titoloDi(r).length})`);
   }
   if (SOLO) console.log(`(SOLO=${SOLO}: sitemap non toccata)`);

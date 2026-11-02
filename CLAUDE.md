@@ -149,6 +149,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)**: `/slovenia/` tolta, stime dichiarate, e l'elenco «DA FARE SENZA URGENZA»
 - **Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)**: i commenti del CSS delle pagine sono pubblici, le sue frasi si parafrasano
 - **Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)**: anteprime allungate in altezza in `genera-anteprime.js` (regioni lunghe intere nei riquadri), boschi di 4 regioni, `guida/scheda-paese.jpg` e il suo elenco
+- **I commenti fuori dalle pagine generate (2/11/2026, scheda 112 quater)**: `lib-senza-commenti.js` scrivendo le pagine non modello (-24,5% compresse); le pagine modello (regioni, funghi regione, Garfagnana) restano coi commenti
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 

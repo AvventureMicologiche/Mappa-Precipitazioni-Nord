@@ -44,6 +44,7 @@ const { retiDei, regioneDati } = require('./lib-posti.js');
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const { ordineCitta } = require('./lib-capoluoghi.js');   // l'ordine delle citta' nell'anteprima «Previsioni»
 const { TESTATA_CSS, testata } = require('./lib-testata.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 
 const RADICE = path.join(__dirname, '..', '..');
 const POSTI = JSON.parse(fs.readFileSync(path.join(__dirname, 'funghi-posti.json'), 'utf8'));
@@ -1177,7 +1178,7 @@ if (require.main === module) {
     const punti = [].concat(...zone.map(z => tutti[slug(z.n)] || []));
     const QUOTE_DI = await quotePaesi(punti);
     for (const z of zone) {
-      scrivi(path.join(RADICE, 'meteo', slug(z.n), 'index.html'), pagina(z, QUOTE_DI));
+      scrivi(path.join(RADICE, 'meteo', slug(z.n), 'index.html'), senzaCommenti(pagina(z, QUOTE_DI)));
       console.log('  meteo/' + slug(z.n) + '/');
     }
     if (SOLO) { console.log(`1 pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); return; }

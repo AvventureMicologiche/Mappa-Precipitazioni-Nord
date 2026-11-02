@@ -49,6 +49,7 @@ const { rigaStagione } = require('./lib-stagione.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // 20/10/2026, come le zone funghi
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 const { linkMeteoPaese } = require('./genera-pagine-meteo-zona.js');   // «Meteo <paese>» dei 20 posti del test (28/10/2026)
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
@@ -976,7 +977,7 @@ if (require.main === module) {
 
       const dir = path.join(RADICE, 'funghi', k, sl[p[0]]);
       fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
+      fs.writeFileSync(path.join(dir, 'index.html'), senzaCommenti(html), 'utf8');
       scritte++;
     }
     console.log(`  /funghi/${k}/  ${POSTI[k].length} posti`);

@@ -47,6 +47,7 @@ const { coppiaQuiz } = require('./lib-pagina-funghi.js');
 // della regione (lib-meteo-regione.js, con le opzioni di zona): una regola sola, un posto solo.
 const { METEO_CSS, meteoHtml, meteoClient } = require('./lib-meteo-regione.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');
+const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
 // il link alle pagine «Previsioni meteo <zona>» (24/10/2026, test su 11 zone): l'elenco sta nel loro generatore
 const { linkMeteo } = require('./genera-pagine-meteo-zona.js');   // la mappa di ieri nel bottone in cima (20/10/2026)
@@ -597,7 +598,7 @@ if (require.main === module) {
   for (const z of ZONE) {
     if (!postiDellaZona(POSTI, z).ids.length) continue;
     if (SOLO && slug(z.n) !== SOLO) continue;
-    scrivi(path.join(RADICE, 'zone', slug(z.n), 'index.html'), pagina(z));
+    scrivi(path.join(RADICE, 'zone', slug(z.n), 'index.html'), senzaCommenti(pagina(z)));
     n++;
   }
   if (SOLO) { console.log(`${n} pagina scritta (SOLO=${SOLO}), sitemap non toccata.`); process.exit(0); }
