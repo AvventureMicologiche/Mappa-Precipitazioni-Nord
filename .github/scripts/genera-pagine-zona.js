@@ -300,7 +300,7 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
   <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-radar t-prev" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;m=prev"
+  <a class="t-radar t-prev" href="${SITO}/previsioni/?r=${casa.k}&amp;${PIN}"
      onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>

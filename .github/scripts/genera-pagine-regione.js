@@ -615,7 +615,7 @@ ${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${
   ${ESTERE.includes(r.k) ? `<a href="${SITO}/?r=${r.k}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-radar'})}catch(e){}">` : `<a href="${SITO}/${r.k}/adesso/"
      onclick="try{gtag('event','apri_adesso',{da:'pagina-${r.k}-tasto'})}catch(e){}">`}📡 Radar piogge</a>
-  <a class="t-prev" href="${SITO}/?r=${r.k}&amp;m=prev"
+  <a class="t-prev" href="${SITO}/previsioni/?r=${r.k}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">La pioggia degli ultimi 20 giorni ${r.prep} ${r.nome}, pluviometro per pluviometro.</p>

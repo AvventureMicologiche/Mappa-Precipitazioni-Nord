@@ -224,8 +224,9 @@ sottodominio (`meteo.`) e' stato scartato: per Google e' un sito nuovo e divider
   indietro asincrono di `togliPassi`), e `buildShareUrl` non costruisce mai un link `/previsioni/`. `archie-avatar.webp`
   con la barra davanti: era l'unico file scritto senza percorso.
 - In `sitemap-mappa.xml` solo se la Function c'e' (il repo di test non l'ha). La home punta a `/previsioni/`.
-- **Fase B, da decidere coi numeri (~3-4/11)**: i link «Apri le previsioni» delle oltre 1.300 pagine da `?m=prev` a
-  `/previsioni/`. ~~e il sottodominio come rimando~~ fatto il 31/10, qui sotto.
+- ~~**Fase B, da decidere coi numeri (~3-4/11)**: i link «Apri le previsioni» delle oltre 1.300 pagine da `?m=prev` a
+  `/previsioni/`.~~ fatta il 2/11/2026: sezione «La fase B delle previsioni» in fondo. ~~e il sottodominio come
+  rimando~~ fatto il 31/10, qui sotto.
 - **La porta `meteo.avventuremicologiche.it` (31/10/2026, scheda 103 bis, suo: «facciamo a e b»)**: un indirizzo da dire
   nei video, sui social e nei QR. Tutto → 301 a `/previsioni/`, il percorso si perde e la query resta
   (`meteo.…/?r=toscana` → `/previsioni/?r=toscana`). NON sta in questo repo: e' il progetto Pages `avventurepluvio-meteo`
@@ -686,4 +687,45 @@ ore di oggi prima delle 21, come le darebbe MET la sera.
 - `VERSIONE_JS` 11. Le 21 pagine cambiano in tre punti: lo stile della cartina, i dati (foto e nomi), `?v=11`. Il
   generatore ha riscritto `pagine-impronte.json` (impronte di `index.html`, `fonti.html`, `guida`, cambiate da altre
   schede): rimesso com'era, non committato.
+
+## La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)
+
+Decisa coi numeri (suo «sì, tutta», dopo la lettura del 2/11). Search Console fino all'1/11: le 31 valli A+B indicizzate
+31 su 31, 30 mostrate, 1.514 viste, 13 clic, posizione 9,8, da 17 viste al giorno il primo giorno a ~350; il gruppo C
+(30/10) 4 su 18 indicizzate; i 20 paesi 13 su 20, 10 mostrati, 137 viste, 1 clic. Le zone piogge e funghi delle stesse
+valli e le pagine funghi dei 20 paesi NON hanno perso niente: posizioni migliori sulle stesse ricerche (zone funghi A+B
+6,6 → 5,0, pagine funghi dei paesi 6,1 → 4,2), e il calo di viste delle zone piogge (−48%) c'e' uguale nelle zone senza
+pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo-2-11.md` delle schede.
+- **I link alle previsioni vanno su `/previsioni/?r=<regione>`** (e `&pl=…&pn=…[&pz=1]` col posto), non piu' su
+  `/?r=<regione>&m=prev`: il bottone «☀️ Previsioni» delle pagine piogge, funghi e forestali, «Previsioni» delle porte
+  (regioni, zone piogge, «Che tempo farà»), le citta' e la casella di «Che tempo farà», «Vai alla mappa» delle pagine meteo,
+  le carte e la barra delle «adesso» (`lib/pagina-adesso.js`, `VERSIONE_JS` 12). Cambiati: `lib-meteo-regione.js` (4
+  stringhe del codice del browser), `lib-numeri-regione.js`, `genera-pagine-{funghi,localita,zona,zona-piogge,regione,
+  meteo-zona,adesso}.js`. ⚠️ **`index.html` non cambia e `?m=prev` resta valido**: link vecchi, preferiti, link condivisi
+  (`buildShareUrl` non costruisce mai `/previsioni/`). Chi clicca vede la stessa mappa: cambia solo l'indirizzo. Su Google
+  il guadagno e' piccolo, perche' la testata di tutte le pagine linkava gia' `/previsioni/?r=<reg>` dal 28/10: serve ad
+  avere un indirizzo solo per le previsioni. Ogni apertura passa dalla Function di `/previsioni/` (~40-60 al giorno,
+  lontanissimo dal tetto gratuito).
+- **Le pagine non si sono rigenerate tutte**: paesi funghi (986), zone funghi (114) e mappa forestale (138) sono state
+  riscritte SOLO nelle righe del link, con gli stessi caratteri dei generatori (cosi' il ritratto del pluviometro non si
+  rinfresca fuori dal giro stagionale; lo script e' `riscrivi-link.js` nello scratchpad della 112 ter). Rigenerate coi
+  generatori: regioni, zone piogge, funghi regione e indice, «adesso», 49 valli meteo e 40 paesi meteo. Queste si sono
+  portate dietro anche «stime del modello» al posto di «stime Open-Meteo», che la 111 aveva gia' messo nei generatori.
+- **20 «Meteo <paese>» nuove, `METEO_PAESI_B`** in `genera-pagine-meteo-zona.js` (`METEO_PAESI_TUTTI` per i link e per le
+  pillole «paese per paese»), `sitemap-meteo-paesi-b.xml` a parte, data `meteoPaesiB` in `pagine-lastmod.json`. Criterio
+  NUOVO: i paesi per cui Google mostrava gia' la nostra pagina funghi a chi cercava «meteo <paese>» SENZA «funghi»
+  (Search Console 3/10-1/11), con zero clic. I primi 20 erano stati scelti coi clic dei funghi, ma quelle ricerche sono
+  «meteo funghi <posto>» e restano apposta alla pagina funghi: al 2/11 meta' non erano mai uscite. Serravalle di Carda,
+  Giffone, Rofrano, Licenza, Lagonegro, Sefro, Rocca di Papa, Badia Agnano, Porlezza, Rocca Sinibalda, Val di Breguzzo,
+  Lago Ballano, Gambarie, Roccaforte Mondovi', Caronia, Cellio con Breia, Solofra, Cervinara, Fabrizia, Paluzza. Nomi dei
+  pluviometri che non sono il paese: «Porlezza torrente», «Turano a Rocca Sinibalda», «Val di Breguzzo (Ponte Arnò)»
+  rinominati; a Caronia il pluviometro e' nel bosco di Pomiere a 1.482 m, quindi la pagina si apre sul paese (`primo`,
+  come Monticiano e Urbe). Le 20 pagine funghi hanno la riga «Meteo <paese>: previsioni ora per ora →», messa senza
+  rigenerarle. Le pillole «Previsioni meteo paese per paese» compaiono da sole nelle regioni nuove (Basilicata, Calabria,
+  Campania, Lazio, Lombardia, Marche, Sicilia, Friuli...).
+- Prova in locale (wrangler sulla 8985 nella copia di lavoro, scratchpad della 112 ter `prova-fase-b.js`; la mappa chiede
+  l'API alla 8788, la prova gira quelle richieste sulla 8985): una pagina per famiglia senza un solo `m=prev` e coi link
+  nuovi; 14 link aperti, computer e telefono, con previsioni accese sulla regione e sul posto giusti; le 20 pagine nuove
+  al computer e al telefono con scheda aperta, 3-8 etichette, 7 giorni, niente sbordi ne' errori. Unico posto che non
+  compare: Stretti di Giaredo dalla pagina funghi della Toscana, uguale col link vecchio (sta fuori dalla Toscana).
 

@@ -378,7 +378,7 @@ ${righe}
   ${tasto('t30', 30, 'Ultimi 30 gg')}
   <a href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-prev" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;m=prev"
+  <a class="t-prev" href="${SITO}/previsioni/?r=${casa.k}&amp;${PIN}"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">La pioggia degli ultimi 20 giorni ${casa.prep} ${esc(nomeReg)}; il link apre la mappa già inquadrata ${esc(z.dove)}.</p>
@@ -495,9 +495,10 @@ ${coppiaQuiz(casa.k, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel
       // 20/10/2026, come le pagine regione (lib-numeri-regione.js): le altre funzioni della mappa, gia' puntate sulla zona
       + '<div class="mk-porte">'
       // 28/10/2026: i nomi dei bottoni delle pagine meteo («Radar piogge», «Mappa boschi», «Boschi + satellite»)
-      + [['☀️', 'Previsioni', '&m=prev', 'porta-previsioni'], ['📡', 'Radar piogge', '&radar=ora', 'porta-radar'],
+      // 2/11/2026 (fase B): «Previsioni» (t[2] vuoto) apre /previsioni/, non piu' la radice col parametro
+      + [['☀️', 'Previsioni', '', 'porta-previsioni'], ['📡', 'Radar piogge', '&radar=ora', 'porta-radar'],
          ['🌲', 'Mappa boschi', '&boschi=1', 'porta-boschi'], ['🛰️', 'Boschi + satellite', '&boschi=1&sat=1', 'porta-satellite']].map(function(t){
-          return '<a href="' + SITO + '/?r=' + CASA + t[2] + '&' + PIN + '" onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'zona-piogge-' + ZONA + '-' + t[3] + '\\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
+          return '<a href="' + SITO + (t[2] ? '/?r=' : '/previsioni/?r=') + CASA + t[2] + '&' + PIN + '" onclick="try{gtag(\\'event\\',\\'apri_mappa\\',{da:\\'zona-piogge-' + ZONA + '-' + t[3] + '\\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
         }).join('') + '</div></div>';
   }
 

@@ -510,7 +510,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <a href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;g=30">Ultimi 30 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-molise-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-prev" href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;m=prev"
+  <a class="t-prev" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=molise"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-molise-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <div id="testa" style="display:none"></div>
@@ -788,10 +788,10 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
     else quando = "in " + ii.length + " giorni fra " + (el(p) ? "l’" : "il ") + gm(p) + " e " + (el(u) ? "l’" : "il ") + gm(u);
     quando = quando.charAt(0).toUpperCase() + quando.slice(1);
     var gg1 = ii.length === 1, testo;
-    if (uno) testo = "questo pluviometro non ha trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
-    else if (chi === ids.length) testo = "i pluviometri non hanno trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+    if (uno) testo = "questo pluviometro non ha trasmesso: " + (gg1 ? "quel giorno è una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
+    else if (chi === ids.length) testo = "i pluviometri non hanno trasmesso: " + (gg1 ? "quel giorno è una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
     else testo = (chi === 1 ? "un pluviometro su " + ids.length + " non ha trasmesso: i suoi valori di " : chi + " pluviometri su " + ids.length + " non hanno trasmesso: i loro valori di ")
-      + (gg1 ? "quel giorno sono una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+      + (gg1 ? "quel giorno sono una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
     return "<div class=\"avviso-stime\" style=\"background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300\">⚠️ "
       + quando + " " + testo + "</div>";
   }
@@ -900,7 +900,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
           if (!m) m = {};
           if (PROPRIE.indexOf(DIRS[i]) >= 0) casa = true;
           // le stime come in leggiS di genera-funghi.js (1/11/2026): file open-meteo, stazioni om o src open-meteo
-          var tutto = /open-meteo/.test(String(j.source || ''));
+          var tutto = /open-meteo|icon-2i-gapfill/.test(String(j.source || ''));
           j.stations.forEach(function(s){ if (s.mm != null) { m[s.id] = (m[s.id] || 0) + s.mm;
             if (tutto || s.om || /open-meteo/.test(String(s.src || ''))) st[s.id] = 1; } });
         });
@@ -1225,7 +1225,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
      «Temperature» («sono quelle di ieri»), al suo posto la pioggia a 30 giorni accanto a quella a 7; «Mappa boschi» e
      «Boschi + satellite» al posto di «Boschi» e «Satellite», «Radar piogge» al posto di «Radar adesso» */
   function seiPorte(x) {
-    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/?r=' + x.reg + '&m=prev' + pl(x), 'previsioni'],
+    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/previsioni/?r=' + x.reg + pl(x), 'previsioni'],
             ['💧', 'Pioggia caduta', 'ultimi 7 giorni', '/?r=' + x.reg + '&g=7' + pl(x), 'pioggia'],
             ['💧', 'Pioggia caduta', 'ultimi 30 giorni', '/?r=' + x.reg + '&g=30' + pl(x), 'pioggia-30'],
             ['📡', 'Radar piogge', 'la pioggia in corso', '/?r=' + x.reg + '&radar=ora' + pl(x), 'radar'],
@@ -1257,7 +1257,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
   /* ═══ 3. «CHE TEMPO FARÀ»: la casella e le citta' ═══ */
   var blocco = document.getElementById(OPZ.id || 'meteo');
   var tuo = blocco && blocco.querySelector('.mk-tuo input');
-  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/?r=' + x.reg + '&m=prev' + pl(x), 'cerca-meteo'); });
+  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/previsioni/?r=' + x.reg + pl(x), 'cerca-meteo'); });
   var bosco = OPZ.boschi && document.getElementById(OPZ.boschi), bin = bosco && bosco.querySelector('.mk-tuo input');
   if (bin) casella(bin, bosco.querySelector('.mk-tuo .mk-drop'), function (x) { bin.blur(); vai(SITO + '/?r=' + x.reg + '&boschi=1' + pl(x), 'cerca-boschi'); });
   function disegnaCitta(j) {
@@ -1269,7 +1269,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
          (bug 4) il bottone del radar resta anche senza previsioni: e' proprio quando serve. */
       var rg = OPZ.primi ? PRIMO : K, lp = document.querySelector('main a[href*="pl="]');
       var pq = lp ? (lp.getAttribute('href').match(/[?&](pl=[^&]+&pn=[^&]+(?:&pz=1)?)/) || [])[1] : '';
-      var mp = SITO + '/?' + (rg ? 'r=' + rg + '&' : '') + 'm=prev' + (pq ? '&' + pq : '');
+      var mp = SITO + '/previsioni/' + ((rg ? '&r=' + rg : '') + (pq ? '&' + pq : '')).replace('&', '?');
       var rl = document.querySelector('main a[href*="radar=ora"]');
       var rr = rl ? rl.getAttribute('href') : ADESSO ? SITO + '/' + K + '/adesso/' : OPZ.primi && PRIMO ? SITO + '/?r=' + PRIMO + '&radar=ora' : '';
       box.innerHTML = '<p class="mk-attesa">' + (OPZ.guasto || 'Le previsioni delle città') + ' non rispondono in questo momento: <a href="' + esc(mp) + '">guardale sulla mappa</a>.</p>'
@@ -1285,7 +1285,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Molise.</p>
     var conPc = cc.some(function (c) { return c.giorni.slice(0, 3).some(function (g) { return g.pc != null; }); });   // Open-Meteo giu': niente righe vuote
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
     var righe = cc.map(function (c, i) {
-      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/?r=' + (c.r || K) + '&m=prev' + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
+      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>' + g.mx + '°'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           // la % di pioggia del giorno, la piu' alta delle sue ore (la Function con &pr=1, 25/10/2026)

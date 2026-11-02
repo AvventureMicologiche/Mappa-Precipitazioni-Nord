@@ -358,7 +358,7 @@ ${meteoHtml(r, ZONE.some(z => z.reg === r.k) ? 'Che tempo farà nelle zone dei f
   <a href="${SITO}/?r=${r.k}&amp;g=30">Ultimi 30 gg</a>
   <a href="${SITO}/?r=${r.k}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-prev" href="${SITO}/?r=${r.k}&amp;m=prev"
+  <a class="t-prev" href="${SITO}/previsioni/?r=${r.k}"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <div id="testa" style="display:none"></div>

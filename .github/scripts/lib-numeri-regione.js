@@ -91,7 +91,7 @@ function numeriRegione(j, oggi, K, SITO) {
       // porta alla pagina «adesso», che c'e' per le regioni italiane; per le estere apre la diretta radar.
       + '<div class="mk-porte">'
       // 28/10/2026: i nomi dei bottoni delle pagine meteo («Radar piogge», «Mappa boschi», «Boschi + satellite»)
-      + [['☀️', 'Previsioni', SITO + '/?r=' + K + '&amp;m=prev', 'porta-previsioni'],
+      + [['☀️', 'Previsioni', SITO + '/previsioni/?r=' + K, 'porta-previsioni'],
          ['📡', 'Radar piogge', ['svizzera', 'austria', 'slovenia'].indexOf(K) >= 0 ? SITO + '/?r=' + K + '&amp;radar=ora' : SITO + '/' + K + '/adesso/', 'porta-radar'],
          ['🌲', 'Mappa boschi', SITO + '/?r=' + K + '&amp;boschi=1', 'porta-boschi'],
          ['🛰️', 'Boschi + satellite', SITO + '/?r=' + K + '&amp;boschi=1&amp;sat=1', 'porta-satellite']].map(function (t) {

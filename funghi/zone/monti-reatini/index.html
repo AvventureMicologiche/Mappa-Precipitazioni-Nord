@@ -584,7 +584,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=lazio,umbria&amp;g=20&amp;pl=42.4735,12.9975&amp;pn=Monti%20Reatini&amp;pz=1&amp;z=10&amp;c=42.4735,12.9975">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=lazio&amp;pl=42.4735,12.9975&amp;pn=Monti%20Reatini&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-monti-reatini-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-radar t-prev" href="https://precipitazioni.avventuremicologiche.it/?r=lazio&amp;pl=42.4735,12.9975&amp;pn=Monti%20Reatini&amp;pz=1&amp;m=prev"
+  <a class="t-radar t-prev" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=lazio&amp;pl=42.4735,12.9975&amp;pn=Monti%20Reatini&amp;pz=1"
      onclick="try{gtag('event','apri_mappa',{da:'zona-monti-reatini-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
@@ -1114,7 +1114,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
      «Temperature» («sono quelle di ieri»), al suo posto la pioggia a 30 giorni accanto a quella a 7; «Mappa boschi» e
      «Boschi + satellite» al posto di «Boschi» e «Satellite», «Radar piogge» al posto di «Radar adesso» */
   function seiPorte(x) {
-    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/?r=' + x.reg + '&m=prev' + pl(x), 'previsioni'],
+    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/previsioni/?r=' + x.reg + pl(x), 'previsioni'],
             ['💧', 'Pioggia caduta', 'ultimi 7 giorni', '/?r=' + x.reg + '&g=7' + pl(x), 'pioggia'],
             ['💧', 'Pioggia caduta', 'ultimi 30 giorni', '/?r=' + x.reg + '&g=30' + pl(x), 'pioggia-30'],
             ['📡', 'Radar piogge', 'la pioggia in corso', '/?r=' + x.reg + '&radar=ora' + pl(x), 'radar'],
@@ -1146,7 +1146,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
   /* ═══ 3. «CHE TEMPO FARÀ»: la casella e le citta' ═══ */
   var blocco = document.getElementById(OPZ.id || 'meteo');
   var tuo = blocco && blocco.querySelector('.mk-tuo input');
-  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/?r=' + x.reg + '&m=prev' + pl(x), 'cerca-meteo'); });
+  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/previsioni/?r=' + x.reg + pl(x), 'cerca-meteo'); });
   var bosco = OPZ.boschi && document.getElementById(OPZ.boschi), bin = bosco && bosco.querySelector('.mk-tuo input');
   if (bin) casella(bin, bosco.querySelector('.mk-tuo .mk-drop'), function (x) { bin.blur(); vai(SITO + '/?r=' + x.reg + '&boschi=1' + pl(x), 'cerca-boschi'); });
   function disegnaCitta(j) {
@@ -1158,7 +1158,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
          (bug 4) il bottone del radar resta anche senza previsioni: e' proprio quando serve. */
       var rg = OPZ.primi ? PRIMO : K, lp = document.querySelector('main a[href*="pl="]');
       var pq = lp ? (lp.getAttribute('href').match(/[?&](pl=[^&]+&pn=[^&]+(?:&pz=1)?)/) || [])[1] : '';
-      var mp = SITO + '/?' + (rg ? 'r=' + rg + '&' : '') + 'm=prev' + (pq ? '&' + pq : '');
+      var mp = SITO + '/previsioni/' + ((rg ? '&r=' + rg : '') + (pq ? '&' + pq : '')).replace('&', '?');
       var rl = document.querySelector('main a[href*="radar=ora"]');
       var rr = rl ? rl.getAttribute('href') : ADESSO ? SITO + '/' + K + '/adesso/' : OPZ.primi && PRIMO ? SITO + '/?r=' + PRIMO + '&radar=ora' : '';
       box.innerHTML = '<p class="mk-attesa">' + (OPZ.guasto || 'Le previsioni delle città') + ' non rispondono in questo momento: <a href="' + esc(mp) + '">guardale sulla mappa</a>.</p>'
@@ -1174,7 +1174,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
     var conPc = cc.some(function (c) { return c.giorni.slice(0, 3).some(function (g) { return g.pc != null; }); });   // Open-Meteo giu': niente righe vuote
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
     var righe = cc.map(function (c, i) {
-      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/?r=' + (c.r || K) + '&m=prev' + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
+      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>' + g.mx + '°'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           // la % di pioggia del giorno, la piu' alta delle sue ore (la Function con &pr=1, 25/10/2026)

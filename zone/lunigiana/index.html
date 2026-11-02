@@ -502,7 +502,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-lunigiana-30gg'})}catch(e){}">Ultimi 30 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=44.18694,9.91389&amp;pn=Lunigiana&amp;pz=1&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-lunigiana-radar'})}catch(e){}">📡 Radar piogge</a>
-  <a class="t-prev" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;pl=44.18694,9.91389&amp;pn=Lunigiana&amp;pz=1&amp;m=prev"
+  <a class="t-prev" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=toscana&amp;pl=44.18694,9.91389&amp;pn=Lunigiana&amp;pz=1"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-lunigiana-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
 <p class="breve">La pioggia degli ultimi 20 giorni in Toscana; il link apre la mappa già inquadrata in Lunigiana.</p>
@@ -621,9 +621,10 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
       // 20/10/2026, come le pagine regione (lib-numeri-regione.js): le altre funzioni della mappa, gia' puntate sulla zona
       + '<div class="mk-porte">'
       // 28/10/2026: i nomi dei bottoni delle pagine meteo («Radar piogge», «Mappa boschi», «Boschi + satellite»)
-      + [['☀️', 'Previsioni', '&m=prev', 'porta-previsioni'], ['📡', 'Radar piogge', '&radar=ora', 'porta-radar'],
+      // 2/11/2026 (fase B): «Previsioni» (t[2] vuoto) apre /previsioni/, non piu' la radice col parametro
+      + [['☀️', 'Previsioni', '', 'porta-previsioni'], ['📡', 'Radar piogge', '&radar=ora', 'porta-radar'],
          ['🌲', 'Mappa boschi', '&boschi=1', 'porta-boschi'], ['🛰️', 'Boschi + satellite', '&boschi=1&sat=1', 'porta-satellite']].map(function(t){
-          return '<a href="' + SITO + '/?r=' + CASA + t[2] + '&' + PIN + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-piogge-' + ZONA + '-' + t[3] + '\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
+          return '<a href="' + SITO + (t[2] ? '/?r=' : '/previsioni/?r=') + CASA + t[2] + '&' + PIN + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'zona-piogge-' + ZONA + '-' + t[3] + '\'})}catch(e){}"><span>' + t[0] + '</span>' + t[1] + '</a>';
         }).join('') + '</div></div>';
   }
 
@@ -821,7 +822,7 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
      «Temperature» («sono quelle di ieri»), al suo posto la pioggia a 30 giorni accanto a quella a 7; «Mappa boschi» e
      «Boschi + satellite» al posto di «Boschi» e «Satellite», «Radar piogge» al posto di «Radar adesso» */
   function seiPorte(x) {
-    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/?r=' + x.reg + '&m=prev' + pl(x), 'previsioni'],
+    return [['☀️', 'Previsioni', '7 giorni, ora per ora', '/previsioni/?r=' + x.reg + pl(x), 'previsioni'],
             ['💧', 'Pioggia caduta', 'ultimi 7 giorni', '/?r=' + x.reg + '&g=7' + pl(x), 'pioggia'],
             ['💧', 'Pioggia caduta', 'ultimi 30 giorni', '/?r=' + x.reg + '&g=30' + pl(x), 'pioggia-30'],
             ['📡', 'Radar piogge', 'la pioggia in corso', '/?r=' + x.reg + '&radar=ora' + pl(x), 'radar'],
@@ -853,7 +854,7 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
   /* ═══ 3. «CHE TEMPO FARÀ»: la casella e le citta' ═══ */
   var blocco = document.getElementById(OPZ.id || 'meteo');
   var tuo = blocco && blocco.querySelector('.mk-tuo input');
-  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/?r=' + x.reg + '&m=prev' + pl(x), 'cerca-meteo'); });
+  if (tuo) casella(tuo, blocco.querySelector('.mk-tuo .mk-drop'), function (x) { tuo.blur(); vai(SITO + '/previsioni/?r=' + x.reg + pl(x), 'cerca-meteo'); });
   var bosco = OPZ.boschi && document.getElementById(OPZ.boschi), bin = bosco && bosco.querySelector('.mk-tuo input');
   if (bin) casella(bin, bosco.querySelector('.mk-tuo .mk-drop'), function (x) { bin.blur(); vai(SITO + '/?r=' + x.reg + '&boschi=1' + pl(x), 'cerca-boschi'); });
   function disegnaCitta(j) {
@@ -865,7 +866,7 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
          (bug 4) il bottone del radar resta anche senza previsioni: e' proprio quando serve. */
       var rg = OPZ.primi ? PRIMO : K, lp = document.querySelector('main a[href*="pl="]');
       var pq = lp ? (lp.getAttribute('href').match(/[?&](pl=[^&]+&pn=[^&]+(?:&pz=1)?)/) || [])[1] : '';
-      var mp = SITO + '/?' + (rg ? 'r=' + rg + '&' : '') + 'm=prev' + (pq ? '&' + pq : '');
+      var mp = SITO + '/previsioni/' + ((rg ? '&r=' + rg : '') + (pq ? '&' + pq : '')).replace('&', '?');
       var rl = document.querySelector('main a[href*="radar=ora"]');
       var rr = rl ? rl.getAttribute('href') : ADESSO ? SITO + '/' + K + '/adesso/' : OPZ.primi && PRIMO ? SITO + '/?r=' + PRIMO + '&radar=ora' : '';
       box.innerHTML = '<p class="mk-attesa">' + (OPZ.guasto || 'Le previsioni delle città') + ' non rispondono in questo momento: <a href="' + esc(mp) + '">guardale sulla mappa</a>.</p>'
@@ -881,7 +882,7 @@ di risoluzione; i millimetri di questa pagina sono quelli misurati a terra.</p>
     var conPc = cc.some(function (c) { return c.giorni.slice(0, 3).some(function (g) { return g.pc != null; }); });   // Open-Meteo giu': niente righe vuote
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
     var righe = cc.map(function (c, i) {
-      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/?r=' + (c.r || K) + '&m=prev' + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
+      return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>' + g.mx + '°'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           // la % di pioggia del giorno, la piu' alta delle sue ore (la Function con &pr=1, 25/10/2026)

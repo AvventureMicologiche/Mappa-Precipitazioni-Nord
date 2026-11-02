@@ -160,6 +160,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
 - **Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)**: un tocco del «−» sotto l'inquadratura, l'Europa del radar, non piu' il planisfero
 - **Il radar delle pagine «adesso» sulla foto della mappa (2/11/2026, scheda 111 ter)**: foto nostra, confine bianco e nomi come la mappa col radar, zoom fino al 10, ripiego sulla cartina
+- **La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)**: i numeri delle pagine meteo, i link da `?m=prev` a `/previsioni/?r=`, `METEO_PAESI_B` scelti dalle ricerche «meteo <paese>»
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

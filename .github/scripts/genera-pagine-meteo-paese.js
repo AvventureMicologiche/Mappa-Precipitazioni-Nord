@@ -32,7 +32,7 @@ const { regioneDati } = require('./lib-posti.js');
 const { confineDi } = require('./genera-pagine-adesso.js');   // il confine della regione nelle anteprime dei bottoni
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
-const { METEO_PAESI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
+const { METEO_PAESI_TUTTI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
   SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo, tabellaFissa } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -175,7 +175,7 @@ ${ALTRE}
 if (require.main === module) {
   (async () => {
     const SOLO = process.env.SOLO;
-    const posti = METEO_PAESI.filter(p => !SOLO || p.slug === SOLO);
+    const posti = METEO_PAESI_TUTTI.filter(p => !SOLO || p.slug === SOLO);   // i primi 20 e, dal 2/11/2026, i 20 del gruppo B
     if (!posti.length) throw new Error('nessun posto con SOLO=' + SOLO);
     const punti = [];
     for (const p of posti) {

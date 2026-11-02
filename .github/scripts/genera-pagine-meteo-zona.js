@@ -117,6 +117,35 @@ const METEO_PAESI = [
   { loc: 'toscana/badia-prataglia', slug: 'badia-prataglia', n: 'Badia Prataglia', dove: 'a Badia Prataglia', di: 'di Badia Prataglia' },
   { loc: 'liguria/cabanne', slug: 'cabanne', n: 'Cabanne', dove: 'a Cabanne', di: 'di Cabanne' },
 ];
+// ⚠️ IL SECONDO GRUPPO DI PAESI (2/11/2026, scheda 112 ter, fase B, suo «sì, tutta»): scelti con un criterio diverso dai
+// primi 20. Quelli erano le pagine funghi con piu' clic, ma le loro ricerche sono «meteo funghi <posto>», che restano
+// apposta alla pagina funghi: al 2/11 meta' non erano mai uscite su Google. Questi sono i paesi per cui Google mostrava
+// GIA' la nostra pagina funghi a chi cercava «meteo <paese>» SENZA «funghi» (Search Console 3/10-1/11: Serravalle di
+// Carda 182 viste, Giffone 101, Rofrano 47...), con zero clic: la domanda c'e', la pagina giusta no. Sitemap loro,
+// sitemap-meteo-paesi-b.xml, per misurarli a parte. Druogno e Albareto, che stavano nell'elenco, c'erano gia'.
+const METEO_PAESI_B = [
+  { loc: 'marche/serravalle-di-carda', slug: 'serravalle-di-carda', n: 'Serravalle di Carda', dove: 'a Serravalle di Carda', di: 'di Serravalle di Carda' },
+  { loc: 'calabria/giffone', slug: 'giffone', n: 'Giffone', dove: 'a Giffone', di: 'di Giffone' },
+  { loc: 'campania/rofrano', slug: 'rofrano', n: 'Rofrano', dove: 'a Rofrano', di: 'di Rofrano' },
+  { loc: 'lazio/licenza', slug: 'licenza', n: 'Licenza', dove: 'a Licenza', di: 'di Licenza' },
+  { loc: 'basilicata/lagonegro', slug: 'lagonegro', n: 'Lagonegro', dove: 'a Lagonegro', di: 'di Lagonegro' },
+  { loc: 'marche/sefro', slug: 'sefro', n: 'Sefro', dove: 'a Sefro', di: 'di Sefro' },
+  { loc: 'lazio/rocca-di-papa', slug: 'rocca-di-papa', n: 'Rocca di Papa', dove: 'a Rocca di Papa', di: 'di Rocca di Papa' },
+  { loc: 'toscana/badia-agnano', slug: 'badia-agnano', n: 'Badia Agnano', dove: 'a Badia Agnano', di: 'di Badia Agnano' },
+  { loc: 'lombardia/porlezza-torrente', slug: 'porlezza', n: 'Porlezza', dove: 'a Porlezza', di: 'di Porlezza', nomi: { 'Porlezza torrente': 'Porlezza' } },
+  { loc: 'lazio/turano-a-rocca-sinibalda', slug: 'rocca-sinibalda', n: 'Rocca Sinibalda', dove: 'a Rocca Sinibalda', di: 'di Rocca Sinibalda', nomi: { 'Turano a Rocca Sinibalda': 'Rocca Sinibalda' }, pluv: 'del Turano, a Rocca Sinibalda' },
+  { loc: 'trentino/val-di-breguzzo-ponte-arno', slug: 'val-di-breguzzo', n: 'Val di Breguzzo', dove: 'in Val di Breguzzo', di: 'della Val di Breguzzo', nomi: { 'Val di Breguzzo (Ponte Arnò)': 'Val di Breguzzo' }, pluv: 'di Ponte Arnò, in Val di Breguzzo' },
+  { loc: 'emilia/lago-ballano', slug: 'lago-ballano', n: 'Lago Ballano', dove: 'al Lago Ballano', di: 'del Lago Ballano' },
+  { loc: 'calabria/gambarie', slug: 'gambarie', n: 'Gambarie', dove: 'a Gambarie', di: 'di Gambarie' },
+  { loc: 'piemonte/roccaforte-mondovi', slug: 'roccaforte-mondovi', n: 'Roccaforte Mondovì', dove: 'a Roccaforte Mondovì', di: 'di Roccaforte Mondovì' },
+  { loc: 'sicilia/caronia-pomiere-sias', slug: 'caronia', n: 'Caronia', dove: 'a Caronia', di: 'di Caronia', nomi: { 'Caronia Pomiere SIAS': 'Pomiere' }, primo: 'Caronia', pluv: 'di Pomiere, nel bosco di Caronia' },
+  { loc: 'piemonte/cellio-con-breia', slug: 'cellio-con-breia', n: 'Cellio con Breia', dove: 'a Cellio con Breia', di: 'di Cellio con Breia' },
+  { loc: 'campania/solofra', slug: 'solofra', n: 'Solofra', dove: 'a Solofra', di: 'di Solofra' },
+  { loc: 'campania/cervinara', slug: 'cervinara', n: 'Cervinara', dove: 'a Cervinara', di: 'di Cervinara' },
+  { loc: 'calabria/fabrizia', slug: 'fabrizia', n: 'Fabrizia', dove: 'a Fabrizia', di: 'di Fabrizia' },
+  { loc: 'friuli/paluzza', slug: 'paluzza', n: 'Paluzza', dove: 'a Paluzza', di: 'di Paluzza' },
+];
+const METEO_PAESI_TUTTI = METEO_PAESI.concat(METEO_PAESI_B);
 const indirizzoMeteoPaese = p => `${SITO}/meteo/${p.loc.split('/')[0]}/${p.slug}/`;
 
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -141,7 +170,7 @@ function linkMeteo(zslug, nome, ga) {
 // Lo stesso per le pagine paese funghi dei 20 posti del test (28/10/2026): «Meteo Sassello» e' la pagina del tempo,
 // «Funghi a Sassello oggi» quella della pioggia che conta. Vuoto per gli altri posti. loc = '<regione>/<slug funghi>'.
 function linkMeteoPaese(loc, ga) {
-  const p = METEO_PAESI.find(x => x.loc === loc);
+  const p = METEO_PAESI_TUTTI.find(x => x.loc === loc);
   if (!p) return '';
   return `<p class="mk-meteo-zona" style="margin:12px 0 2px;font-size:16px;font-weight:700"><a href="${indirizzoMeteoPaese(p)}"`
     + ` onclick="try{gtag('event','apri_meteo_paese',{da:'${ga}'})}catch(e){}">Meteo ${esc(p.n)}: previsioni ora per ora →</a></p>`;
@@ -158,7 +187,7 @@ function linkMeteoRegione(reg, ga, salta) {
   const per = (a, b) => a.n.localeCompare(b.n, 'it');
   const zone = ZONE_METEO_TUTTE.map(s => ZONE.find(z => slug(z.n) === s))
     .filter(z => z && z.reg === reg && `${SITO}/meteo/${slug(z.n)}/` !== salta).sort(per);
-  const paesi = METEO_PAESI.filter(p => p.loc.split('/')[0] === reg && indirizzoMeteoPaese(p) !== salta).sort(per);
+  const paesi = METEO_PAESI_TUTTI.filter(p => p.loc.split('/')[0] === reg && indirizzoMeteoPaese(p) !== salta).sort(per);
   if (!zone.length && !paesi.length) return '';
   return (zone.length ? `<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
 <p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
@@ -646,7 +675,7 @@ function clientePagina(C) {
     var pl = '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n);
     // via le temperature (28/10/2026, suo: «sono quelle di ieri e loro stanno vedendo le attuali»), al loro posto la
     // pioggia a 30 giorni accanto a quella a 7, cosi' restano sei, tre per riga
-    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
+    return [['☀️', 'Vai alla mappa', '/previsioni/?r=' + x.reg + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
             ['📡', 'Radar piogge', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'], ['🌲', 'Mappa boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰️', 'Boschi + satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
       .map(function (p) { return '<a href="' + SITO + p[2] + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'meteo-' + C.slug + '-scheda-' + p[3] + '\'})}catch(e){}"><span>' + p[0] + '</span>' + p[1] + '</a>'; }).join('');
   }
@@ -920,7 +949,7 @@ function clientePagina(C) {
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
@@ -1131,7 +1160,7 @@ ${ALTRE}
    › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };

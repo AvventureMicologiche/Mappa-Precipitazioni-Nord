@@ -385,6 +385,13 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ant-v .pz-et.nome .mn{display:none}
 @media (min-width:700px){.pz-ant-v{height:300px}}
 
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+
 /* ── LA TESTATA (lib-testata.js, 28/10/2026) ── */
 header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
 /* opacity: la pagina delle fonti ha header a{opacity:.85}, che non deve arrivare qui */
@@ -485,6 +492,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=friuli" onclick="try{gtag('event','apri_mappa',{da:'meteo-carnia-prev'})}catch(e){}"><div class="pz-ant-v" id="ant-prev"></div><i class="pz-ant-q" id="ant-prev-q"></i><span class="pz-ant-t">☀️ Previsioni Friuli<small>Il tempo città per città, ora per ora</small></span></a>
   <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;g=7" onclick="try{gtag('event','apri_mappa',{da:'meteo-carnia-pluvio'})}catch(e){}"><div class="pz-ant-v" id="ant-pluvio"></div><i class="pz-ant-q" id="ant-pluvio-q"></i><span class="pz-ant-t">💧 Pluviometri Friuli<small>La pioggia degli ultimi 7 giorni, pluviometro per pluviometro</small></span></a>
 </div>
+<h2>Previsioni meteo in Friuli</h2>
+<h3 class="cit-tit">Previsioni meteo paese per paese</h3>
+<div class="mv"><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/friuli/paluzza/" onclick="try{gtag('event','apri_meteo_paese',{da:'meteo-carnia'})}catch(e){}">Meteo Paluzza</a></div>
 
 <h2>Come funziona questa pagina</h2>
 <p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei 12 paesi e aggiornate più volte al giorno; la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri di ARPA FVG: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
@@ -776,7 +786,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     var pl = '&pl=' + (+x.lat).toFixed(4) + ',' + (+x.lon).toFixed(4) + '&pn=' + encodeURIComponent(x.n);
     // via le temperature (28/10/2026, suo: «sono quelle di ieri e loro stanno vedendo le attuali»), al loro posto la
     // pioggia a 30 giorni accanto a quella a 7, cosi' restano sei, tre per riga
-    return [['☀️', 'Vai alla mappa', '/?r=' + x.reg + '&m=prev' + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
+    return [['☀️', 'Vai alla mappa', '/previsioni/?r=' + x.reg + pl, 'previsioni'], ['💧', 'Pioggia caduta<small>ultimi 7 giorni</small>', '/?r=' + x.reg + '&g=7' + pl, 'pioggia-7'], ['💧', 'Pioggia caduta<small>ultimi 30 giorni</small>', '/?r=' + x.reg + '&g=30' + pl, 'pioggia-30'],
             ['📡', 'Radar piogge', '/?r=' + x.reg + '&radar=ora' + pl, 'radar'], ['🌲', 'Mappa boschi', '/?r=' + x.reg + '&boschi=1' + pl, 'boschi'], ['🛰️', 'Boschi + satellite', '/?r=' + x.reg + '&boschi=1&sat=1' + pl, 'satellite']]
       .map(function (p) { return '<a href="' + SITO + p[2] + '" onclick="try{gtag(\'event\',\'apri_mappa\',{da:\'meteo-' + C.slug + '-scheda-' + p[3] + '\'})}catch(e){}"><span>' + p[0] + '</span>' + p[1] + '</a>'; }).join('');
   }
@@ -1050,7 +1060,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/?r=' + REG + '&m=prev">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
