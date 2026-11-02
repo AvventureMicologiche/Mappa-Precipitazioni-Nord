@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-10-26",
+  "aggiornato": "2026-11-02",
   "finestra": 45,
   "ferme": [
     {
@@ -20,22 +20,8 @@
       "chiave": "toscana/TOS01001151",
       "nome": "Cantagallo",
       "regione": "toscana",
-      "perc": 0.7,
+      "perc": 2.8,
       "dal": "2026-10-05"
-    },
-    {
-      "chiave": "meteohub-puglia/41.68583_15.39267",
-      "nome": "S.Severo",
-      "regione": "meteohub-puglia",
-      "perc": 3.1,
-      "dal": "2026-10-26"
-    },
-    {
-      "chiave": "meteohub-puglia/41.58400_14.95717",
-      "nome": "Carlantino",
-      "regione": "meteohub-puglia",
-      "perc": 4.3,
-      "dal": "2026-10-26"
     },
     {
       "chiave": "piemonte/003",
@@ -45,11 +31,25 @@
       "dal": "2026-10-26"
     },
     {
-      "chiave": "meteohub-sardegna/39.22389_9.11639",
-      "nome": "Cagliari",
-      "regione": "meteohub-sardegna",
-      "perc": 8.9,
-      "dal": "2026-10-26"
+      "chiave": "meteohub-sicilia/38.15500_13.11444",
+      "nome": "Cinisi",
+      "regione": "meteohub-sicilia",
+      "perc": 9,
+      "dal": "2026-11-02"
+    },
+    {
+      "chiave": "meteohub-molise/41.94222_14.70306",
+      "nome": "Mafalda",
+      "regione": "meteohub-molise",
+      "perc": 12.4,
+      "dal": "2026-11-02"
+    },
+    {
+      "chiave": "toscana/TOS03002613",
+      "nome": "Monastero d'Ombrone",
+      "regione": "toscana",
+      "perc": 13.6,
+      "dal": "2026-11-02"
     }
   ]
 }
