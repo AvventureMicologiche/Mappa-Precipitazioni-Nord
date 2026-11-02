@@ -1223,7 +1223,7 @@ temperatura, vento e umidità.</p>
        resta; modo 'bottone': il bottone stesso diventa la mappa, con la sua scritta sopra l'immagine. */
     if (OPZ.ieri) {
       var tit = vecchio.querySelector('b'), sot = vecchio.querySelector('small');
-      d.className = 'mk-str mk-ieri' + COL;
+      d.className = 'mk-str mk-ieri' + COL;   // 2/11/2026: via « mk-grande», classe senza CSS (check 9)
       d.innerHTML = '<a href="' + vecchio.getAttribute('href') + '" data-t="ieri" class="mk-uno"><i class="mk-img"></i><span>' + (OPZ.modo === 'sopra'
         ? '<b>💧 Guarda la pioggia di ieri</b><small>località per località →</small>'
         : '<b>' + (tit ? tit.textContent : 'Apri la mappa di ieri') + ' →</b><small>' + (sot ? sot.textContent : '') + '</small>') + '</span></a>';
