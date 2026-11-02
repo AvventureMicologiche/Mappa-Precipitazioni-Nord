@@ -1548,3 +1548,17 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
   locale, `?foto=vecchia` per il prima), `attrezzi\prova-mare-locale.js` (prima|dopo agli zoom 7-12, pioggia e
   previsioni), `attrezzi\mare-per-costa.py` (elenco per costa), `attrezzi\foglio-mare.py`, `attrezzi\controlla-z8.py`.
   Immagini e misure in `immagini\111-quater\`.
+
+## Le date sotto i periodi andavano a capo al telefono a cavallo dei mesi (2/11/2026, scheda 114, check-10)
+
+- Trovato dal check-10 (M2). Le date sotto i tasti dei periodi (31/10, `291b8b5c5d`) al telefono scrivevano
+  «26/10–1/11» quando il periodo scavalca il mese: sotto ogni tasto ci sono 50 px a 393, 44 a 360, 38 a 320, e la data
+  (58 px) andava a capo, «26/10–» sopra e «1/11» sotto, con la riga dei tasti 10 px piu' alta e la mappa 10 px piu'
+  bassa. Il 31/10 e il 1/11 stava tutto dentro ottobre: il 2/11 e' stato il primo giorno; da li' succede quasi ogni
+  giorno del mese (il 30 giorni scavalca sempre).
+- Ora al telefono, a cavallo di due mesi, solo l'inizio: «dal 26/10» (la fine e' sempre ieri, scritta sotto «Ieri»).
+  E nel CSS delle date: sotto i 600 px niente a capo e lettere -0,2 px, sotto i 380 il carattere a 10 px, sotto i 340 a
+  9 px (accanto a `.tp-d`). Al PC resta «26 ott–1 nov», che ci sta. Lo stesso mese resta «26–31».
+- Prova sul sito vero col file nuovo (`check-10\prova-m2-10.js` del banco, `NUOVO=1` di prove-veloci), oggi e con
+  l'orologio della pagina al 15/11, a 320, 360, 393, 412, 768, 1440, 1366: una riga sola dappertutto, niente che sborda,
+  tasti alti 45 (393) come il 1/11 invece di 55. Scatti in `immagini\check-10\m2\`.
