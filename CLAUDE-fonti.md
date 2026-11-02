@@ -1003,8 +1003,27 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
 - **La % delle previsioni RESTA di Open-Meteo** (sua decisione): la sola alternativa con la % ora per ora era calcolarla
   dai 50 scenari ECMWF (~500 MB a giro, troppo per GitHub); OpenWeather contraddiceva le icone di MET (confronto su 6
   citta' il 25/10). Il giorno che arriva la pubblicita' si paga il piano Standard (29 €/mese).
-- **Da fare**: il riempimento dei buchi (stime), l'Abruzzo dal vivo, il ripiego della Lombardia, e decidere sulle
-  stime gia' salvate (2.698 file interi, 2.917 stazioni-giorno), meglio chiedendo a Open-Meteo con una mail.
+- **Riempimento dei buchi: ICON-2I al posto di Open-Meteo (2/11/2026, scheda 111, suo «da adesso in poi mettiamo
+  icon su ogni buco»)**. `check-meteohub-gaps.js` e `check-gaps-nord.js` usano `lib-icon2i.js` (la lettura ICON nata in
+  `collect-abruzzo.js`, che ora la prende da li', numeri identici: 145 punti e 75 pluviometri su 75 del 31/10): ICON
+  nel punto di ogni stazione, media 3x3 celle come nel confronto d'Abruzzo. File interi `source: 'icon-2i-gapfill'` (+
+  `icon_corse`), stazioni stimate `om: true` + `src: 'icon-2i'` (cosi' tutto quello che riconosce le stime da `om`
+  continua a funzionare), parziali `gapfill.fonte: 'icon-2i'`, registro `coperto-icon` (`/^coperto-/` vale per tutt'e
+  due). Le stime vecchie di Open-Meteo restano come sono (suo: «il passato non lo tocchiamo»). I ~20 script che
+  riconoscevano le stime dalla parola `open-meteo` nel `source` ora cercano `/open-meteo|icon-2i-gapfill/` (⚠️ mai
+  `/icon-2i/` da solo: il `source` dell'Abruzzo e' `meteonetwork+icon-2i` e diventerebbe tutto stima); la mappa e
+  `genera-riepiloghi.js` cercano `/-gapfill$/`. Gli avvisi di mappa e pagine dicono «stime del modello» (vale per le
+  vecchie e le nuove); `fonti.html` cita ICON-2I (CC BY 4.0, Agenzia ItaliaMeteo). Corretto in `check-gaps-nord` il
+  vecchio «senza valore = 0 mm»: ora la stazione resta fuori. ⚠️ I file ICON restano ~7 giorni (14 corse il 2/11):
+  con la grazia di 2-3 giorni c'e' margine, un buco scoperto piu' tardi resta aperto, e i buchi vecchi non si tappano
+  piu' a mano con `SCAN_DAYS` (lo faceva l'archivio di Open-Meteo). Tempi provati il 2/11 su copie dei dati: un giorno
+  di regione 20-30 s; la corsa del 31/10 alle 00 ha la pioggia in un altro punto del file e si legge per la strada
+  lenta (~2 min la prima volta). Sui due buchi simulati (Sardegna 31/10 intero, Calabria 30/10 a meta') errore medio
+  ICON 2,5 e 3,4 mm, Open-Meteo 2,5 e 2,4; sulle stazioni bagnate >=5 mm ICON 0,56 e 1,32 del vero, Open-Meteo 0,00
+  e 0,45.
+- **Da fare**: l'Abruzzo dal vivo, il ripiego della Lombardia (`loadOpenMeteoRegion` in `index.html`, da togliere
+  quando ICON copre i buchi), e decidere sulle stime gia' salvate (2.702 file interi, 1.599 stazioni-giorno `om` al
+  2/11), meglio chiedendo a Open-Meteo con una mail.
 
 ---
 

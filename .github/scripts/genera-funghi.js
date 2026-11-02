@@ -93,7 +93,7 @@ const MINIMO = 5;                   // sotto questi giorni buoni non si scrive
    e' un file `open-meteo-*` (gapfill) o una stazione `om` / `src` open-meteo: i millimetri restano nei totali, come
    prima, ma si segna chi e' stimato e quando, e le pagine lo dicono in cima (avvisoStime di lib-pagina-funghi.js).
    Fino a oggi `leggi()` non guardava la provenienza e le pagine chiamavano «misure a terra» anche le stime. */
-const STIMA = /open-meteo/;
+const STIMA = /open-meteo|icon-2i-gapfill/;   // le stazioni stimate da ICON-2I (2/11/2026) hanno `om`
 function leggiS(dir, giorno) {
   try {
     const j = JSON.parse(fs.readFileSync(path.join(DATI, dir, giorno + '.json'), 'utf8'));

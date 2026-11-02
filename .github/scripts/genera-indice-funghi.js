@@ -369,8 +369,8 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
       /* 1/11/2026: i posti con giorni STIMATI nella finestra (la rete non ha trasmesso) hanno l'asterisco, e lo si dice */
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
-        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima Open-Meteo, non una misura: il pluviometro non ha trasmesso.'
-          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima Open-Meteo, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
+        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'
+          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
 
       /* i due riquadri sulla regione del primo posto (20/10/2026): le sue anteprime, e i link che la aprono a 20 giorni
          (pioggia) e coi boschi accesi */

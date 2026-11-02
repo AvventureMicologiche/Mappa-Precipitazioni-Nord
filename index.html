@@ -6283,7 +6283,7 @@ function avvisoStime(){
     }
     var p=primo.split('-');
     var chi=(regioni.length===1)?'':('<b>'+((REGIONS[rk]&&REGIONS[rk].name)||rk)+'</b>: ');
-    righe.push('⚠️ '+chi+'dal '+p[2]+'/'+p[1]+' stime Open-Meteo, pluviometri&nbsp;offline');
+    righe.push('⚠️ '+chi+'dal '+p[2]+'/'+p[1]+' stime del modello, pluviometri&nbsp;offline');
   });
   if(!righe.length) return;
   box.innerHTML=righe.join('<br>');
@@ -6294,12 +6294,13 @@ var _periodoUnGiorno=false;
 // Il secondo argomento e' la regione: senza, un giorno stimato non si
 // saprebbe di chi e'. Lo passano tutti e 18 i punti di caricamento.
 function usaGiorno(data,rk){
-  // ⚠️ Solo `open-meteo-gapfill`, cioe' i buchi tappati dalla rete di
-  // sicurezza. NON `open-meteo-backfill-*`, che e' la pre-storia dichiarata
+  // ⚠️ Solo `*-gapfill`, cioe' i buchi tappati dalla rete di sicurezza
+  // (`open-meteo-gapfill` fino al 2/11/2026, poi `icon-2i-gapfill`, le stime
+  // del modello ICON-2I). NON `open-meteo-backfill-*`, che e' la pre-storia dichiarata
   // di ogni regione (Toscana prima del 12/7, centro-sud prima del 19/7):
   // segnalare quella farebbe comparire l'avviso su mezza Italia a ogni
   // periodo lungo, che e' esattamente il chiacchiericcio da evitare.
-  if(rk && data && /open-meteo-gapfill/.test(data.source||'')){
+  if(rk && data && /-gapfill$/.test(data.source||'')){
     (_stime[rk]=_stime[rk]||{})[data.date]=1;
   }
   if(!data||!data.stations) return {stations:[]};

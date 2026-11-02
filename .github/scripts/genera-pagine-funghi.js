@@ -601,7 +601,7 @@ ${JS_STIME}
           if (!m) m = {};
           if (PROPRIE.indexOf(DIRS[i]) >= 0) casa = true;
           // le stime come in leggiS di genera-funghi.js (1/11/2026): file open-meteo, stazioni om o src open-meteo
-          var tutto = /open-meteo/.test(String(j.source || ''));
+          var tutto = /open-meteo|icon-2i-gapfill/.test(String(j.source || ''));
           j.stations.forEach(function(s){ if (s.mm != null) { m[s.id] = (m[s.id] || 0) + s.mm;
             if (tutto || s.om || /open-meteo/.test(String(s.src || ''))) st[s.id] = 1; } });
         });

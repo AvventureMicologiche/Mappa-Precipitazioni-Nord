@@ -133,7 +133,7 @@ function stimato(dir, g) {
   const k = dir + '/' + g;
   if (!(k in fonteCache)) {
     let s = ''; try { s = JSON.parse(fs.readFileSync(path.join(DATI, dir, g + '.json'), 'utf8')).source || ''; } catch (e) {}
-    fonteCache[k] = /open-meteo-gapfill/.test(s);
+    fonteCache[k] = /-gapfill$/.test(s);   // open-meteo-gapfill fino al 2/11/2026, poi icon-2i-gapfill
   }
   return fonteCache[k];
 }

@@ -1,9 +1,9 @@
-name: Buchi Nord — copertura Open-Meteo
+name: Buchi Nord — copertura con stime ICON-2I
 on:
   workflow_dispatch:
     inputs:
       scan_days:
-        description: 'Giorni da scansionare (default 15; usa 400 per tappare buchi vecchi)'
+        description: 'Giorni da scansionare (default 15; oltre gli ~8 giorni di ICON i buchi si segnano, non si coprono)'
         required: false
         default: '15'
       max_coperture:
@@ -13,9 +13,9 @@ on:
   schedule:
     # 1 run/giorno, dopo che tutti i collector del mattino hanno finito
     # (i cron di GitHub slittano di 40-70 minuti). Trova i giorni interamente
-    # mancanti e, passata la grazia (3 giorni; 8 per il Ticino, che si
-    # auto-ripara dall'archivio OASI), li copre con stime Open-Meteo sulle
-    # coordinate delle stazioni vere. Vedi .github/scripts/check-gaps-nord.js
+    # mancanti e, passata la grazia (3 giorni per tutti dal 26/10/2026), li copre
+    # con le stime del modello ICON-2I sulle coordinate delle stazioni vere (fino
+    # al 2/11/2026 Open-Meteo). Vedi .github/scripts/check-gaps-nord.js
     - cron: '10 9 * * *'
 permissions:
   contents: write

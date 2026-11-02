@@ -449,7 +449,7 @@ function realiInFile(j) {
  *  soglia di sicurezza le contava fra i giorni sani. Ora prende tutta la
  *  famiglia `open-meteo*`. */
 function haStime(j) {
-  return !!j && ((j.source || '').startsWith('open-meteo') || !!j.gapfill ||
+  return !!j && ((j.source || '').startsWith('open-meteo') || (j.source || '') === 'icon-2i-gapfill' || !!j.gapfill ||
                  (Array.isArray(j.stations) && j.stations.some(s => s.om)));
 }
 function leggiFile(f) {

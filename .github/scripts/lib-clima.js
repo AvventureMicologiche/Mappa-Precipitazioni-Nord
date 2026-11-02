@@ -85,7 +85,7 @@ function leggiVere(dir, giorno) {
   try { j = JSON.parse(fs.readFileSync(path.join(DATI, dir, giorno + '.json'), 'utf8')); }
   catch (e) { return null; }
   if (!Array.isArray(j.stations) || !j.stations.length) return null;
-  if (/open-meteo/.test(j.source || '')) return null;
+  if (/open-meteo|icon-2i-gapfill/.test(j.source || '')) return null;
   return j.stations.filter(s => !s.om && !/open-meteo/.test(s.src || ''));
 }
 

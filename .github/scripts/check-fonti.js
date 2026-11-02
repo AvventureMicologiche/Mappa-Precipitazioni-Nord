@@ -174,7 +174,7 @@ const itaDate = g => { const [y, m, d] = g.split('-'); return `${d}/${m}/${y}`; 
 
 function leggi(f) { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return null; } }
 /** File nato da stime nostre (gapfill, backfill, archivio), non dato di stazione. */
-const eStima = j => !!j && typeof j.source === 'string' && /open-meteo/.test(j.source);
+const eStima = j => !!j && typeof j.source === 'string' && /open-meteo|icon-2i-gapfill/.test(j.source);
 
 /* ---------- analisi di una regione ---------- */
 const mediana = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : 0; };
@@ -446,9 +446,9 @@ function main() {
             `    non è stato misurato allora non si recupera.\n`
           : prec.tipo === 'eventi'
           ? `  ${r.nome} — nessun nuovo evento-buco MeteoHub. In guasto dal ${itaDate(prec.dal)}.\n` +
-            `    I giorni coperti nel frattempo restano integrazioni Open-Meteo (om:true nel file).\n`
+            `    I giorni coperti nel frattempo restano stime del modello (om:true nel file).\n`
           : `  ${r.nome} — dati reali di nuovo presenti (ultimo: ${itaDate(st.ultimoReale)}, ${st.stazioni} stazioni).\n` +
-            `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime Open-Meteo.\n`);
+            `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime del modello.\n`);
         console.log(`🟢 ${r.dir}: rientrata [${prec.tipo || 'assente'}]`);
         cambiato = true;
       }
@@ -472,13 +472,13 @@ function main() {
   const buchi = problemi.filter(x => x.tipo === 'eventi').length;
   if (allarmi.length) {
     sezioni.push(`ALLARME — ${problemi.length === 1 ? '1 regione' : `${problemi.length} regioni`}\n\n` + allarmi.join('\n') +
-      (assenti ? '\n  La rete di sicurezza sta coprendo i giorni mancanti con stime Open-Meteo:\n' +
+      (assenti ? '\n  La rete di sicurezza sta coprendo i giorni mancanti con stime del modello:\n' +
                  '  la mappa non mostra buchi, ma quei totali sono stime, non pioggia misurata.\n' : '') +
       (ridotte ? '\n  Attenzione al caso delle stazioni ridotte: i giorni ci sono e il totale in\n' +
                  '  mappa sembra normale, ma è calcolato su una frazione della rete. Le zone\n' +
                  '  rimaste scoperte risultano asciutte anche se ci ha piovuto.\n' : '') +
       (buchi ? '\n  Gli eventi-buco MeteoHub sono misurati PRIMA della copertura: a schermo i\n' +
-               '  giorni sembrano pieni, ma le stazioni mancanti sono integrazioni Open-Meteo\n' +
+               '  giorni sembrano pieni, ma le stazioni mancanti sono stime del modello\n' +
                '  (om:true nel file). Il registro è data/meteohub-gaps.json.\n' : '') +
       `\n  Prossimo promemoria fra ${PROMEMORIA_GIORNI} giorni, se resta così.\n`);
   }
