@@ -2762,79 +2762,6 @@ var REGIONS = {
   }
 };
 
-var LOMBARDIA_STATIONS=[
-  // Stazioni ARPA Lombardia — coordinate ufficiali
-  // Provincia MI
-  {n:"Milano Lambrate",      lat:45.484,lon:9.238, q:122,p:"MI"},
-  {n:"Milano Brera",         lat:45.472,lon:9.186, q:121,p:"MI"},
-  {n:"Sesto S.Giovanni",     lat:45.534,lon:9.234, q:134,p:"MI"},
-  {n:"Rho",                  lat:45.530,lon:9.041, q:154,p:"MI"},
-  {n:"Monza",                lat:45.584,lon:9.274, q:162,p:"MB"},
-  {n:"Abbiategrasso",        lat:45.399,lon:8.921, q:120,p:"MI"},
-  {n:"Melegnano",            lat:45.358,lon:9.323, q:88, p:"MI"},
-  {n:"Paullo",               lat:45.420,lon:9.400, q:96, p:"MI"},
-  {n:"Magenta",              lat:45.464,lon:8.879, q:141,p:"MI"},
-  // Provincia VA
-  {n:"Varese Ville Ponti",   lat:45.821,lon:8.825, q:382,p:"VA"},
-  {n:"Varese Capolago",      lat:45.868,lon:8.834, q:432,p:"VA"},
-  {n:"Luino",                lat:46.000,lon:8.744, q:202,p:"VA"},
-  {n:"Busto Arsizio",        lat:45.612,lon:8.852, q:224,p:"VA"},
-  {n:"Sesto Calende",        lat:45.731,lon:8.638, q:197,p:"VA"},
-  {n:"Saronno",              lat:45.624,lon:9.040, q:212,p:"VA"},
-  // Provincia CO
-  {n:"Como",                 lat:45.810,lon:9.085, q:201,p:"CO"},
-  {n:"Bellagio",             lat:45.987,lon:9.260, q:210,p:"CO"},
-  {n:"Erba",                 lat:45.812,lon:9.222, q:322,p:"CO"},
-  {n:"Cantù",                lat:45.737,lon:9.128, q:370,p:"CO"},
-  // Provincia SO
-  {n:"Chiavenna",            lat:46.324,lon:9.397, q:333,p:"SO"},
-  {n:"Morbegno",             lat:46.135,lon:9.578, q:247,p:"SO"},
-  {n:"Sondrio",              lat:46.170,lon:9.875, q:307,p:"SO"},
-  {n:"Bormio",               lat:46.468,lon:10.374,q:1225,p:"SO"},
-  {n:"Livigno",              lat:46.537,lon:10.134,q:1816,p:"SO"},
-  {n:"Tirano",               lat:46.215,lon:10.168,q:441,p:"SO"},
-  // Provincia LC
-  {n:"Valsassina",           lat:45.976,lon:9.450, q:760,p:"LC"},
-  {n:"Lecco",                lat:45.856,lon:9.397, q:215,p:"LC"},
-  // Provincia BG
-  {n:"Bergamo",              lat:45.674,lon:9.700, q:238,p:"BG"},
-  {n:"Clusone",              lat:45.890,lon:9.945, q:648,p:"BG"},
-  {n:"Lovere",               lat:45.811,lon:10.070,q:201,p:"BG"},
-  {n:"Seriate",              lat:45.682,lon:9.727, q:213,p:"BG"},
-  {n:"Sarnico",              lat:45.679,lon:9.966, q:186,p:"BG"},
-  {n:"Treviglio",            lat:45.521,lon:9.590, q:125,p:"BG"},
-  {n:"Romano di Lombardia",  lat:45.519,lon:9.747, q:120,p:"BG"},
-  // Provincia BS
-  {n:"Brescia",              lat:45.541,lon:10.213,q:149,p:"BS"},
-  {n:"Breno",                lat:45.952,lon:10.299,q:327,p:"BS"},
-  {n:"Edolo",                lat:46.177,lon:10.332,q:698,p:"BS"},
-  {n:"Gargnano",             lat:45.694,lon:10.659,q:65, p:"BS"},
-  {n:"Iseo",                 lat:45.659,lon:10.045,q:186,p:"BS"},
-  {n:"Palazzolo Oglio",      lat:45.598,lon:9.879, q:166,p:"BS"},
-  {n:"Desenzano Garda",      lat:45.468,lon:10.537,q:67, p:"BS"},
-  // Provincia PV
-  {n:"Pavia",                lat:45.185,lon:9.155, q:77, p:"PV"},
-  {n:"Vigevano",             lat:45.318,lon:8.859, q:116,p:"PV"},
-  {n:"Voghera",              lat:44.997,lon:9.007, q:106,p:"PV"},
-  {n:"Stradella",            lat:45.083,lon:9.298, q:102,p:"PV"},
-  // Provincia LO
-  {n:"Lodi",                 lat:45.311,lon:9.502, q:87, p:"LO"},
-  {n:"Codogno",              lat:45.160,lon:9.704, q:72, p:"LO"},
-  {n:"Casalpusterlengo",     lat:45.178,lon:9.651, q:74, p:"LO"},
-  // Provincia CR
-  {n:"Cremona",              lat:45.133,lon:10.027,q:45, p:"CR"},
-  {n:"Crema",                lat:45.363,lon:9.686, q:79, p:"CR"},
-  {n:"Casalmaggiore",        lat:44.987,lon:10.418,q:29, p:"CR"},
-  {n:"Soresina",             lat:45.289,lon:9.852, q:75, p:"CR"},
-  // Provincia MN
-  {n:"Mantova",              lat:45.157,lon:10.791,q:19, p:"MN"},
-  {n:"Guidizzolo",           lat:45.317,lon:10.582,q:64, p:"MN"},
-  {n:"Ostiglia",             lat:45.070,lon:11.135,q:15, p:"MN"},
-  {n:"Suzzara",              lat:44.994,lon:10.741,q:21, p:"MN"},
-  {n:"Viadana",              lat:44.924,lon:10.519,q:22, p:"MN"},
-  {n:"Castiglione Stiviere", lat:45.384,lon:10.487,q:116,p:"MN"}
-];
-
 // Selezione geografica uniforme delle stazioni
 // Divide il territorio in griglia GRID_W x GRID_H e seleziona max MAX_PER_CELL per cella
 function selectUniform(stazioni, maxTotal){
@@ -5826,7 +5753,7 @@ function loadData(pastDate,nowDate,labelPeriodo){
 
     if(source==='arpa_lombardia'){
       loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,dati&&dati._ripiego?'🌍 stime Open-Meteo':'🟢 ARPA Lombardia',regionKey);
+        onRegionDone(dati,'🟢 ARPA Lombardia',regionKey);
       });
     } else if(source==='arpa_piemonte'){
       loadARPAPiemonteRegion(pastDate,nowDate,labelPeriodo,function(dati){
@@ -5847,10 +5774,6 @@ function loadData(pastDate,nowDate,labelPeriodo){
     } else if(source==='cf_valledaosta'){
       loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,function(dati,fonte){
         onRegionDone(dati,fonte,regionKey);
-      });
-    } else if(source==='open_meteo_vda'){
-      loadOpenMeteoStorico('valledaosta',pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🟢 Open-Meteo',regionKey);
       });
     } else if(source==='osmer_fvg'){
       loadOSMERFriuliRegion(pastDate,nowDate,labelPeriodo,function(dati,fonte){
@@ -6406,8 +6329,10 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
               idsensore:id,                                  // serve al grafico storico
               mm:Math.round(rainMap[id]*10)/10};   // il valore vero anche sotto 0,5 mm (19/10/2026, quarto check B5): prima 0, e la pagina dello stesso pluviometro diceva 0,2. In tutti i 18 loader; i colori non cambiano, la scala e' trasparente fino a 2 mm
     }).filter(function(s){return s&&s.lat&&s.lon;});
-    // fallback se i file mancano: sono stime, e il badge lo deve dire (bug 7, 19/10/2026: diceva «🟢 ARPA Lombardia»)
-    if(out.length<3){ loadOpenMeteoRegion(LOMBARDIA_STATIONS,pastDate,nowDate,labelPeriodo,function(d){ d._ripiego=true; cb(d); }); return; }
+    // ⚠️ SENZA FILE LA LOMBARDIA RESTA SENZA DATI, come le altre (2/11/2026, scheda 114, suo: «cosa ci fa la lombardia con
+    // open meteo?»). Qui c'era il ripiego sulle stime Open-Meteo chieste dal browser (LOMBARDIA_STATIONS, tolta): via con
+    // la decisione di togliere tutto Open-Meteo. I giorni che mancano li copre gaps-nord con le stime ICON-2I nei file.
+    if(out.length<3){ cb([]); return; }
     cb(out);
   }
   days.forEach(function(day){
@@ -7202,60 +7127,6 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
           cb(full);
         });
     });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════
-// OPEN-METEO STORICO — carica dati giornalieri da GitHub
-// Usato per Valle d'Aosta e Friuli
-// ═══════════════════════════════════════════════════════════════
-function loadOpenMeteoStorico(regionKey,pastDate,nowDate,labelPeriodo,cb){
-  var GITHUB_RAW='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/'+regionKey;
-  var rainTot={}, stMeta={}, cop={};
-  var dates=[];
-  var d=new Date(pastDate.getTime());
-  while(d<=nowDate){
-    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
-    dates.push(y+'-'+mo+'-'+dy);
-    d.setDate(d.getDate()+1);
-  }
-
-  var pending=dates.length;
-  if(pending===0){cb([]);return;}
-
-  dates.forEach(function(dateStr){
-    fetch(GITHUB_RAW+'/'+dateStr+'.json')
-      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
-      .then(function(d){return usaGiorno(d,'svizzera');})
-      .then(function(data){
-        if(data.stations){
-          data.stations.forEach(function(s){
-            var key=s.id||s.n;   // per ID: due stazioni omonime nello stesso file non vanno fuse in una
-            if(!stMeta[key]) stMeta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||''};
-else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // la quota arriva anche da un file dopo (col suo ~)
-            if(s.w)stMeta[key].w=1; if(s.u)stMeta[key].u=1; if(s.t)stMeta[key].t=1;  // per selectUniformRicche
-            if(typeof s.wh==='number')stMeta[key].wh=s.wh;   // altezza anemometro (solo Veneto la dichiara)
-            rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
-          });
-        }
-      })
-      .catch(function(){})
-      .finally(function(){
-        pending--;
-        if(pending>0) return;
-        var _scarsa=copFiltro(cop);   // copertura sotto il 60% del periodo: niente pallino
-        var full=Object.keys(rainTot).map(function(key){
-          if(_scarsa(key))return null;
-          var s=stMeta[key];if(!s)return null;
-          var mm=rainTot[key]||0;
-          return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,w:s.w,u:s.u,t:s.t,p:s.p||'',
-                  mm:Math.round(mm*10)/10};
-        }).filter(Boolean);
-        if(full.length<5){cb([]);return;}
-        full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
-        full.forEach(function(s){ s._cap=1; });   // pallini da diradare, dati interi
-        cb(full);
-      });
   });
 }
 
@@ -11778,8 +11649,8 @@ setTimeout(function(){
 // prato» compariva a 45.996/9.955, cioe' nel bergamasco, e «Virgilio Mantova
 // Cerese» a Dorio in provincia di Lecco, 150 km da Mantova. Adesso anche la
 // Lombardia legge i pallini dall'ultimo file dati, come le altre.
-// LOMBARDIA_STATIONS resta: e' l'elenco dei punti su cui si chiedono le
-// stime a Open-Meteo se i file mancassero.
+// LOMBARDIA_STATIONS (i punti delle stime Open-Meteo se i file mancavano) e'
+// stata tolta il 2/11/2026 col ripiego: senza file, niente dati.
 
 /* ═══════════════════════════════════════════════════════════════
    ⚠️ I PALLINI DI PARTENZA SONO LE STAZIONI VERE (30 agosto 2026)

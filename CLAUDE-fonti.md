@@ -1036,6 +1036,17 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
 - **Da fare**: l'Abruzzo dal vivo, il ripiego della Lombardia (`loadOpenMeteoRegion` in `index.html`, da togliere
   quando ICON copre i buchi), e decidere sulle stime gia' salvate (2.702 file interi, 1.599 stazioni-giorno `om` al
   2/11), meglio chiedendo a Open-Meteo con una mail.
+- **Ripiego della Lombardia e ramo morto della Valle d'Aosta TOLTI (2/11/2026 sera, scheda 114)**, suo «cosa ci fa la
+  lombardia con open meteo? ... la valle d'aosta chiudi sta cosa». In `index.html`: (1) in `loadARPALombardiaRegion`, con
+  meno di 3 stazioni dai file, `cb([])` al posto delle stime Open-Meteo chieste dal browser: senza file la Lombardia
+  resta senza dati e il riquadro dice «Archivio dati (GitHub) non raggiungibile», come le altre; il badge e' sempre
+  «🟢 ARPA Lombardia»; tolta `LOMBARDIA_STATIONS` (73 righe, i punti delle stime). (2) Tolti il ramo `open_meteo_vda`
+  del caricatore (nessuna regione lo usava: la Valle d'Aosta e' `cf_valledaosta`) e `loadOpenMeteoStorico`, che usava
+  solo lui. Open-Meteo dal browser resta SOLO nel ramo `else` dei caricatori, cioe' l'Abruzzo dal vivo, che va via con
+  la patch della 111 (`abruzzo-prova\produzione-111\`, si applica ancora: `git apply --check` ok); dopo, il ramo `else`
+  e `loadOpenMeteoRegion` restano senza chiamate e si tolgono. Prova sul sito vero col file nuovo
+  (`check-10\prova-om-10.js`, `prova-om-bloccati-10.js` del banco): Lombardia 30 giorni e ieri, Valle d'Aosta, Abruzzo
+  identici a online; coi file della Lombardia bloccati, online 58 stime Open-Meteo, nuovo 0 pallini, 0 richieste.
 
 ---
 
