@@ -418,3 +418,18 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
 - Prova su una copia (scratchpad 54de8904 `sandbox-fonti\`, registro con tre allarmi finti, dati letti dal repo): le tre
   frasi nuove come previsto, registro e mail del repo non toccati.
 
+## meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)
+
+- Trovato dal check-10 (`check-10\RESOCONTO-check-10.md` del banco, M1). In `check-meteohub-gaps.js` un errore nel
+  leggere ICON-2I (MeteoHub opendata giu', un file appena tolto, un formato cambiato) faceva finire il giro con 1: il
+  workflow ritentava dopo 30 s e, se falliva anche il ritentativo, il passo «Commit e push» non partiva. Si perdevano le
+  coperture riuscite sulle altre regioni, i buchi nuovi, i «risolto-meteohub» e il registro, e con un errore che si
+  ripete ogni giorno il registro restava fermo senza che `check-fonti.js` lo sapesse.
+- Ora l'errore di ICON non fa finire il giro in errore: si scrive come avviso di GitHub (`::warning::`, giallo nel giro),
+  l'evento resta aperto e lo riprova il giro dopo, come faceva gia' `check-gaps-nord.js`. Un crollo vero dello script
+  (`main().catch`) esce ancora con 1 e non committa: e' giusto, a meta' giro file e registro non tornano. Per questo NON
+  `if: always()` sul commit.
+- Prova su due copie leggere (scratchpad 3f257665 `prova-m1\`, ultimi 13 giorni di dati MeteoHub, file del Molise del
+  30/10 tolto, `lib-icon2i.js` sostituito da uno che da' sempre errore): vecchio esce con 1, nuovo con 0 e la riga
+  `::warning::`; registri identici (Molise 30/10 «aperto», mancante, 0/28), resto del giro identico.
+

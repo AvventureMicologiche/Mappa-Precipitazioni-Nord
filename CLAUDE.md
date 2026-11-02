@@ -174,6 +174,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Sesto check (20/10/2026)**: difetti dei workflow e dati riparati
 - **«Da guardare» del settimo e ottavo check (21/10/2026)**: tempi massimi, conflitti di push, i 13 punti aperti
 - **La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)**: «Allarme partito il», buchi lievi spiegati
+- **meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)**: l'errore ICON e' un avviso, il commit parte
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni (8 KB)
 

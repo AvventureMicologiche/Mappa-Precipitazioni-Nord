@@ -114,7 +114,6 @@ async function main() {
   const find = (rete, data) => ledger.eventi.find(e => e.rete === rete && e.data === data);
 
   let cambiato = false;
-  let errori = 0;
 
   for (const region of REGIONS) {
     // anagrafe (union dei file reali della finestra) + mediana stazioni
@@ -181,10 +180,13 @@ async function main() {
       if (mancanti.length === 0) continue;
       console.log(`🌍 ${region} ${day}: copro ${mancanti.length} stazioni con ICON-2I...`);
       // Un errore su un giorno (MeteoHub giu', file ICON illeggibile) non deve far saltare gli altri ne'
-      // perdere il registro: si annota, si va avanti, e il giro finisce in errore cosi' il workflow riprova.
+      // perdere il registro: si annota, si va avanti, l'evento resta aperto e lo riprova il giro dopo.
+      // ⚠️ IL GIRO NON FINISCE IN ERRORE PER ICON (2/11/2026, check-10, scheda 114). Prima qui il giro usciva con 1: il
+      // workflow ritentava e, se falliva anche il ritentativo, saltava il commit, perdendo le coperture riuscite, i buchi
+      // nuovi e il registro (ogni giorno, se l'errore si ripete). Come check-gaps-nord: solo l'avviso, giallo nel giro.
       let icon;
       try { icon = await stimaIcon(mancanti, day, await leCorse()); }
-      catch (e) { errori++; console.log(`   ⚠️ ${region} ${day}: ICON-2I non letto (${e.message}), riprovo al prossimo giro`); continue; }
+      catch (e) { console.log(`::warning::${region} ${day}: ICON-2I non letto (${e.message}), riprovo al prossimo giro`); continue; }
       if (!icon) { console.log(`   ⚠️ ${region} ${day}: ICON-2I non ha piu' tutte le ore di quel giorno sui server, resta aperto`); continue; }
       // ⚠️ ASSENTE NON E' ZERO (20/10/2026, sesto check): senza valore la stazione non si scrive, niente 0 mm
       // inventati (con ICON succede solo fuori dalla sua griglia, 33,7-48,9 N e 3-22 E: in Italia non capita).
@@ -219,7 +221,6 @@ async function main() {
   const risolti = ledger.eventi.filter(e => e.stato === 'risolto-meteohub').length;
   const coperti = ledger.eventi.filter(e => COPERTO.test(e.stato)).length;
   console.log(`=== Registro: ${ledger.eventi.length} eventi totali — ${aperti} aperti, ${risolti} risolti da MeteoHub, ${coperti} coperti con stime ===`);
-  if (errori) process.exitCode = 1;
 }
 
 main().catch(e => { console.error('❌', e.message); process.exit(1); });
