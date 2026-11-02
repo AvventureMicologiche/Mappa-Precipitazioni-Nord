@@ -1038,3 +1038,13 @@ striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutt
   salta il cron se questo mese c'e' gia' un giro riuscito; il lancio a mano gira sempre; `concurrency` mette in fila
   un cron in ritardo che arriva durante un altro giro. Provato con giri finti (nessuno, riuscito a mano, fallito, mese
   scorso, mezzanotte UTC/italiana). Lo script non e' cambiato: a vuoto (`DRY_RUN=1`) 26 s, 1.101 pagine.
+
+## Il togli-commenti controlla che lo script si legga ancora (2/11/2026, scheda 114, check-10 B7)
+
+- `jsSenza` di `lib-senza-commenti.js` tratta sempre «/» dopo una «)» come divisione: un'espressione regolare scritta li'
+  con dentro «//» (per esempio `if (u) /\/\//.test(u)`) sarebbe presa per un commento e il resto della riga tagliato,
+  pagina rotta senza avviso. Oggi nessun generatore lo scrive (le 1.506 pagine si rigenerano identiche).
+- Ora `senzaRotture()`: lo script senza commenti si compila (`vm.Script`, non si esegue); se non si legge piu' e
+  l'originale si', resta l'originale coi commenti e il generatore lo scrive nel log («senza-commenti: uno script
+  lasciato coi commenti…»). Prova (scratchpad 3f257665 `prova-b7\`): il caso che rompe esce leggibile; su tutte le 1.504
+  pagine generate del repo il risultato e' identico al byte, 7,1 s invece di 6,9.

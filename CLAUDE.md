@@ -153,6 +153,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)**: anteprime allungate in altezza in `genera-anteprime.js` (regioni lunghe intere nei riquadri), boschi di 4 regioni, `guida/scheda-paese.jpg` e il suo elenco
 - **I commenti fuori dalle pagine generate (2/11/2026, scheda 112 quater)**: `lib-senza-commenti.js` scrivendo le pagine non modello (-24,5% compresse); le pagine modello (regioni, funghi regione, Garfagnana) restano coi commenti
 - **Il rinnovo mensile delle pagine non era mai partito: ora prova dal 2 al 6 (2/11/2026, scheda 113)**: cron `2-6` + `gia-fatto` sul mese
+- **Il togli-commenti controlla che lo script si legga ancora (2/11/2026, scheda 114, check-10 B7)**: se togliendoli lo script si rompe, restano i commenti
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 
@@ -176,6 +177,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **«Da guardare» del settimo e ottavo check (21/10/2026)**: tempi massimi, conflitti di push, i 13 punti aperti
 - **La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)**: «Allarme partito il», buchi lievi spiegati
 - **meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)**: l'errore ICON e' un avviso, il commit parte
+- **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni (8 KB)
 

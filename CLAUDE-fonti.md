@@ -582,6 +582,15 @@ stesso metodo delle gemelle ARPAE-OMIRL.
   pagina non aveva. ⚠️ **Se si aggiunge una cartella a una regione, la regola
   vale gia' da sola**: e' generica, e sulla Svizzera (svizzera+ticino) scarta
   zero stazioni perche' le 9 sovrapposte furono sanate l'11/8.
+- **Un giorno coperto dalle stime non torna «vero» da solo (2/11/2026, scheda
+  114, check-10 B1).** `mergeDay` di `collect-friuli-osmer.js` riscriveva il file
+  del giorno sempre con `source:'osmer-fvg'`, anche senza nessuna stazione
+  fresca: un giorno che OSMER non ha, coperto da gaps-nord con le stime ICON-2I,
+  al giro dopo passava per dato vero (via l'avviso «stime del modello», registro
+  «sostituito-dal-reale»). Ora senza stazioni fresche il file non si tocca; quando
+  OSMER manda il giorno, le stazioni vere prendono il posto delle stime (stesso
+  id). Mai successo: nel registro di gaps-nord il Friuli non ha eventi. Provato
+  sulla funzione vecchia e nuova (scratchpad 3f257665 `prova-b1\`).
 
 ### Slovenia (v8.0, in produzione dal 12 agosto 2026)
 

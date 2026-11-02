@@ -29,6 +29,7 @@
  * Non fa niente da solo: e' un modulo, si richiede.
  */
 
+const vm = require('vm');
 const PAROLE_PRIMA_DI_REGEX = new Set(['return', 'typeof', 'instanceof', 'in', 'of', 'new', 'delete', 'void', 'throw',
   'case', 'do', 'else', 'yield', 'await']);
 const SPAZIO = /[ \t]/;
@@ -115,6 +116,18 @@ function jsSenza(s) {
   return pezzi.join('');
 }
 
+// ⚠️ LO SCRIPT DEVE ANCORA LEGGERSI (2/11/2026, scheda 114, check-10 B7). jsSenza tratta sempre «/» dopo una «)» come
+// divisione: un'espressione regolare scritta li' («if (u) /\/\//.test(u)») con dentro «//» verrebbe presa per un commento
+// e il resto della riga tagliato, pagina rotta senza avviso. Oggi nessun generatore lo scrive. Lo script senza commenti si
+// compila (non si esegue): se non si legge piu' e l'originale si', resta l'originale coi commenti, e lo si dice nel log.
+function senzaRotture(corpo, nuovo) {
+  if (nuovo === corpo) return nuovo;
+  try { new vm.Script(nuovo); return nuovo; } catch (e) {}
+  try { new vm.Script(corpo); } catch (e) { return nuovo; }   // gia' illeggibile prima: come prima
+  console.warn('senza-commenti: uno script lasciato coi commenti (togliendoli non si leggeva piu\'): ' + corpo.trim().slice(0, 80).replace(/\s+/g, ' '));
+  return corpo;
+}
+
 // Una pagina intera: si scorre l'HTML e si puliscono solo i <style> e gli <script> di JavaScript in linea.
 function senzaCommenti(html) {
   const pezzi = []; let da = 0;
@@ -128,7 +141,7 @@ function senzaCommenti(html) {
     const corpo = html.slice(inizio, chiude);
     let nuovo = corpo;
     if (tag === 'style') nuovo = cssSenza(corpo);
-    else if (!/\bsrc\s*=/i.test(attr) && !/\btype\s*=\s*["']?(?!text\/javascript|application\/javascript|module)/i.test(attr)) nuovo = jsSenza(corpo);
+    else if (!/\bsrc\s*=/i.test(attr) && !/\btype\s*=\s*["']?(?!text\/javascript|application\/javascript|module)/i.test(attr)) nuovo = senzaRotture(corpo, jsSenza(corpo));
     if (nuovo !== corpo) { pezzi.push(html.slice(da, inizio), nuovo); da = chiude; }
     apre.lastIndex = chiude;
   }

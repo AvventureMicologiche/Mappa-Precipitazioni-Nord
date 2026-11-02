@@ -47,6 +47,9 @@ const COPERTO = /^coperto-/;
 // perché il giorno subito dopo l'ingestione si sta ancora completando.
 const GRACE_DAYS = 2;
 const WINDOW_DAYS = 10;    // finestra di scansione (= finestra pubblica MeteoHub)
+// Le chiusure si guardano piu' indietro: collect-meteohub ripara i giorni coperti fino a 20 giorni (RIPARA_FINO con
+// l'account, dal 2/11/2026). Vedi «LE CHIUSURE FINO A 20 GIORNI» in main().
+const CHIUDI_FINO = 20;
 const PARTIAL_RATIO = 0.9; // sotto il 90% della mediana → giorno parziale
 // Sotto quale quota della normalità un calo merita davvero le stime (4/8/2026).
 // Il 90% qui sopra serve ad ACCORGERSI del calo e a scriverlo nel registro; è
@@ -209,6 +212,23 @@ async function main() {
       }
       ev.stato = 'coperto-icon'; ev.copertoIl = todayStr; ev.stazioniCoperte = nuove.length; cambiato = true;
       console.log(`   ✅ ${region} ${day}: coperto (${nuove.length} stazioni ICON-2I, corse ${icon.corse.join(', ')})`);
+    }
+
+    // ⚠️ LE CHIUSURE FINO A 20 GIORNI (2/11/2026, scheda 114, check-10 B3). Dal 2/11 (ae6d822b37) collect-meteohub ripara
+    // i giorni coperti fino a 20 giorni indietro, ma qui la scansione e' di 10: un giorno fra l'11° e il 20° tornato vero
+    // restava «coperto» nel registro per sempre (giusti i dati, sbagliato il conto dei giorni a stime). Per CHIUDERE si
+    // guarda fino a CHIUDI_FINO, con la stessa regola di sopra (file vero, stazioni vere almeno alla soglia); i buchi
+    // NUOVI si cercano sempre e solo nei WINDOW_DAYS.
+    for (const ev of ledger.eventi) {
+      if (ev.rete !== region || days.includes(ev.data) || !(ev.stato === 'aperto' || COPERTO.test(ev.stato))) continue;
+      if (daysDiff(todayStr, ev.data) > CHIUDI_FINO) continue;
+      const j = loadDay(region, ev.data);
+      if (!isReal(j) || j.stations.filter(s => !s.om).length < soglia) continue;
+      const tardivo = COPERTO.test(ev.stato);
+      ev.stato = 'risolto-meteohub'; ev.risoltoIl = todayStr;
+      if (tardivo) { ev.stimeSostituite = true; delete ev.stazioniCoperte; }
+      cambiato = true;
+      console.log(`✅ ${region} ${ev.data}: risolto da MeteoHub oltre i ${WINDOW_DAYS} giorni${tardivo ? ' (stime sostituite dal dato reale)' : ''}`);
     }
   }
 

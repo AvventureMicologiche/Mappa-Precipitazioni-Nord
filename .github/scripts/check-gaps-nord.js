@@ -119,7 +119,9 @@ function anagrafeVicina(dir, giorni, buco) {
       for (const s of (j.stations || [])) {
         if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
         const k = s.id ?? s.n;
-        if (!reg.has(k)) reg.set(k, { id: s.id ?? s.n, n: s.n, lat: s.lat, lon: s.lon, q: s.q || 0, p: s.p || '' });
+        // la quota com'e' (senza, niente «0 m») e il «~» della quota presa dal terreno, come registroStazione di
+        // check-meteohub-gaps (2/11/2026, scheda 114, check-10 B4: il Friuli ha tutte e 40 le stazioni con qt)
+        if (!reg.has(k)) { const r = { id: s.id ?? s.n, n: s.n, lat: s.lat, lon: s.lon, q: s.q, p: s.p || '' }; if (s.qt) r.qt = s.qt; reg.set(k, r); }
       }
     }
     return [...reg.values()];

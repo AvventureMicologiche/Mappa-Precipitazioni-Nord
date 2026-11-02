@@ -433,3 +433,21 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
   30/10 tolto, `lib-icon2i.js` sostituito da uno che da' sempre errore): vecchio esce con 1, nuovo con 0 e la riga
   `::warning::`; registri identici (Molise 30/10 «aperto», mancante, 0/28), resto del giro identico.
 
+## Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)
+
+- **B3, le chiusure del registro MeteoHub fino a 20 giorni.** Dal 2/11 (`ae6d822b37`) `collect-meteohub.js` ripara i
+  giorni coperti fino a 20 giorni indietro (`RIPARA_FINO` con l'account), ma `check-meteohub-gaps.js` guardava solo i 10
+  giorni della scansione: un giorno fra l'11° e il 20° tornato vero restava «coperto» per sempre (dati giusti, conto
+  dei giorni a stime sbagliato). Ora, dopo la scansione, per ogni regione si chiudono anche gli eventi aperti o coperti
+  fino a `CHIUDI_FINO` = 20 giorni, con la stessa regola (file vero, stazioni vere almeno alla soglia); i buchi nuovi si
+  cercano sempre e solo nei 10 giorni. Sui dati del 2/11 non cambia niente (Sardegna 15/10 e 22/10 non ancora piene).
+  Prova (scratchpad 3f257665 `prova-b3\`): evento finto Calabria 18/10 «coperto-icon» col file vero pieno, il nuovo lo
+  chiude «risolto, stime sostituite», il vecchio no; gli altri 60 eventi identici.
+- **B4, la quota delle stime di gaps-nord.** `anagrafeVicina` di `check-gaps-nord.js` scriveva `q: s.q || 0` e non
+  copiava `qt`: nei giorni coperti la quota presa dal terreno perdeva il «~» (il Friuli ce l'ha su tutte e 40 le
+  stazioni, la Toscana su 2). Ora come `registroStazione` di meteohub-gaps (20/10): quota com'e' e `qt`. Il «0 m» per
+  la quota mancante in pratica non capitava: al 1/11 nessuna stazione delle 12 reti del Nord e' senza quota. Prova
+  (`prova-b4\`): Friuli 41 stazioni, `qt` da 0 a 41; Toscana da 0 a 2.
+- Scartati dello stesso check, con lui: B2 (la finestra di ICON per gaps-nord: 8 eventi da luglio, mai piu' di uno o
+  due insieme) e B6 (il rinnovo mensile col giro a mano del 1°: caso rarissimo).
+
