@@ -648,3 +648,42 @@ ore di oggi prima delle 21, come le darebbe MET la sera.
   l'impronta di `index.html`, rimasta indietro dopo la 109 quater. Tolta dal commit perche' non c'entrava (la rifa' il
   giro del mattino).
 
+## Il radar delle pagine «adesso» sulla foto della mappa (2/11/2026, scheda 111 ter)
+
+- Regola sua del 2/11: le immagini e le cartine delle pagine hanno sempre la stessa faccia della mappa. Le 21 pagine
+  «adesso» (`lib/pagina-adesso.js`) avevano ancora il radar sulla cartina OSM chiara (controllo della 111 bis, suo «sì,
+  sistemale»). Ora il radar sta sulla foto NOSTRA della mappa, come col radar acceso in `/?r=<regione>&radar=ora`:
+  Blue Marble ed ESA WorldCover, luce `LUCE_SAT` (1,3), confine della regione BIANCO (2,2 a .9, la regione scelta
+  della mappa sulla foto), nomi nostri bianchi sopra il radar, fondo `#123a52` (il mare aperto della foto).
+- **Il «+» si ferma allo zoom 10** (suo «sì, zoom fino al 10»): oltre c'era solo la foto del 10 ingrandita, sfocata, e
+  Esri qui non si usa (il suo tetto lo usano meteo e boschi). Con la cartina si arrivava al 12.
+- Indirizzo col commit, limiti, crediti corti e luce li legge `genera-pagine-adesso.js` da `index.html` (`FOTO_COMMIT`,
+  `FOTO_URL`, `FOTO_LIMITI`, `FOTO_CREDITI`, `LUCE_SAT`), come fa `genera-pagine-meteo-zona.js` con `SAT_FOTO`, e li
+  scrive nei dati della pagina: se la foto si rigenera (commit nuovo) basta rigenerare le 21 pagine. Se non li trova,
+  il generatore si ferma invece di scrivere pagine che tornano alla cartina.
+- I nomi: prima le citta' della regione (quelle delle carte), poi i capoluoghi delle regioni d'Italia e le citta' estere
+  sopra i 300.000 abitanti di `data/nomi-esteri-grandi.txt` (lo stesso elenco della mappa), ~150 nomi, +7 KB a pagina.
+  Stesso stile e stesso respiro dei «NOMI NOSTRI» della mappa; un nome che urta uno gia' messo, che uscirebbe dal bordo o
+  finirebbe sotto i crediti si salta (la cartina e' piccola: la mappa a schermo pieno i nomi tagliati li tiene).
+- Ripiego come la mappa: tre tentativi per tessera (2, 5, 12 s); al terzo errore senza nessuna tessera arrivata torna
+  la cartina OSM di prima, col confine blu, senza i nostri nomi e di nuovo fino al 12.
+- Da lontano niente rettangolo: lo zoom minimo resta il tocco del «−» della 110 bis (3,75 al telefono, 4 al PC), ma non
+  scende sotto quello in cui la foto riempie la cartina, e `maxBounds` tiene la cartina dentro la foto (prima il bordo
+  sud della foto, al 34° parallelo, entrava come una striscia blu). ⚠️ Al minimo `maxBounds` sposta il centro verso nord
+  di quasi 5°, e il «+» di Leaflet ingrandiva li', sulla Germania: sotto l'inquadratura il «+» torna al centro di
+  partenza (`m.zoomIn` riscritto), se la persona non ha trascinato la cartina (al PC si puo').
+- ⚠️ Due trappole pagate: (1) `var NOMI` esisteva gia' piu' sotto (i nomi del tempo, «Sereno»): la lista dei posti si
+  chiama `POSTI`, se no al PC la si perdeva al primo spostamento; (2) la foto NON ha la classe `fondo` (che toglie il
+  «plus-lighter» di leaflet.css, e serve alla cartina chiara): con `normal` fra due tessere allo zoom 4,75 si vedeva un
+  filo del fondo scuro. Crediti al telefono a 10,5 px: «Foto: NASA, ESA WorldCover» e' piu' lunga di «© OpenStreetMap».
+- Misurato in locale (server del repo, porta 8970): 42 aperture su 42 con inquadratura, centro e zoom minimo identici a
+  prima, massimo 10, foto arrivata, zero tessere OSM ed Esri, nessun errore; coi tasti veri «−» fino in fondo e «+» fino
+  in fondo; radar «−2 ore» (11 fotogrammi) e «+40 min» (6) animati, riga viva, carte e barra che portano al paese; foto
+  bloccata = cartina di prima. Attrezzi nel banco, `scheda-111-ter\` (`collaudo.js` con `PROVA=tutte|zoom|radar|rotta`,
+  `finale.js`, `scatta2.js`, `scatta-mappa.js` per la mappa vera nello stesso punto, `affianca.py`); scatti in
+  `immagini\111-ter\`. ⚠️ Il server di Python con 3-4 browser insieme a volte rifiuta la connessione
+  (`ERR_CONNECTION_REFUSED`, anche con la pagina vecchia): non e' la pagina, si riprova.
+- `VERSIONE_JS` 11. Le 21 pagine cambiano in tre punti: lo stile della cartina, i dati (foto e nomi), `?v=11`. Il
+  generatore ha riscritto `pagine-impronte.json` (impronte di `index.html`, `fonti.html`, `guida`, cambiate da altre
+  schede): rimesso com'era, non committato.
+

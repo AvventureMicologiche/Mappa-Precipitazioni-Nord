@@ -38,7 +38,22 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 10;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026)
+const VERSIONE_JS = 11;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026)
+
+/* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
+   pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
+   SATELLITE SOTTO LA PIOGGIA»): indirizzo col commit, limiti dell'Europa, crediti corti, e la stessa luce (LUCE_SAT,
+   +6% a tacca). Si leggono da index.html come fa genera-pagine-meteo-zona.js con SAT_FOTO: se cambiano, basta
+   rigenerare. Se non si trovano il generatore si ferma, invece di scrivere pagine che tornano alla cartina. */
+const INDEX = fs.readFileSync(path.join(RADICE, 'index.html'), 'utf8');
+function fotoDellaMappa() {
+  const commit = /var FOTO_COMMIT='([0-9a-f]{40})'/.exec(INDEX), url = /var FOTO_URL='([^']+)'\+FOTO_COMMIT\+'([^']+)'/.exec(INDEX);
+  const lim = /var FOTO_LIMITI=(\[\[[^;]+\]\]);/.exec(INDEX), cr = /var FOTO_CREDITI='([^']+)'/.exec(INDEX);
+  if (!commit || !url || !lim || !cr) throw new Error("la foto della mappa non si trova in index.html (FOTO_COMMIT, FOTO_URL, FOTO_LIMITI, FOTO_CREDITI)");
+  return { u:url[1] + commit[1] + url[2], lim:JSON.parse(lim[1]), cr:cr[1] };
+}
+const FOTO = fotoDellaMappa();
+const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
 
 // le regioni: l'anagrafe italiana + l'Abruzzo dopo il Lazio (stesso ordine nord-sud delle altre liste)
 const ABRUZZO = { k:'abruzzo', nome:'Abruzzo', prep:'in', senzaPagina:true };
@@ -115,6 +130,20 @@ function cittaDi(r) {
     .map(c => ({ n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, reg:r.k }));
 }
 
+/* I NOMI SOPRA LA FOTO (2/11/2026, scheda 111 ter): la foto non ha scritte, come nella mappa (modulo «NOMI NOSTRI» di
+   index.html). Prima le citta' della regione (sono gia' nei dati, lib/pagina-adesso.js le mette davanti), poi i
+   capoluoghi delle regioni d'Italia e le citta' estere sopra i 300.000 abitanti dell'elenco dei nomi della mappa
+   (data/nomi-esteri-grandi.txt, da OpenStreetMap), nel pezzo d'Europa che la cartina mostra da lontano. La mappa sceglie
+   fra migliaia di nomi per abitanti e zoom; qui sono un centinaio, in ordine, e decide lo spazio. */
+const ESTERI = fs.readFileSync(path.join(RADICE, 'data', 'nomi-esteri-grandi.txt'), 'utf8').split('\n').map(r => r.split('|'))
+  .filter(p => p.length >= 4 && +p[3] >= 300000 && +p[1] > 34 && +p[1] < 60 && +p[2] > -12 && +p[2] < 36)
+  .sort((a, b) => b[3] - a[3]).map(p => ({ n:p[0].trim(), lat:+(+p[1]).toFixed(3), lon:+(+p[2]).toFixed(3) }));
+function nomiDi(r) {
+  const visti = new Set(cittaDi(r).map(c => c.n));
+  return CAPOLUOGHI.italia.map(c => ({ n:c.n, lat:c.lat, lon:c.lon })).concat(ESTERI)
+    .filter(c => !visti.has(c.n) && visti.add(c.n));
+}
+
 const attr = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const nomeCortoDi = r => r.nomeTitolo || r.nome;
 const linkPrev = c => `${SITO}/?r=${c.reg}&amp;m=prev&amp;pl=${c.lat},${c.lon}&amp;pn=${encodeURIComponent(c.n)}`;
@@ -127,8 +156,14 @@ const STILE_ADESSO = `
 .rb-testa .quando{margin-left:auto;opacity:.9;font-size:14.5px;white-space:nowrap;}
 .vivo{width:11px;height:11px;border-radius:50%;background:#ff3b30;flex:none;box-shadow:0 0 0 0 rgba(255,59,48,.7);animation:vivo 1.6s infinite;}
 @keyframes vivo{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 9px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
-/* fondo = il mare di OpenStreetMap: al telefono fra due tessere resta un filo di fondo (la mappa cade a mezzo pixel) */
-#mappa{height:470px;background:#aad3df;}
+/* fondo = il mare aperto della foto, come nella mappa (body.foto-on #map): al telefono fra due tessere resta un filo di
+   fondo (la mappa cade a mezzo pixel). Se la foto non arriva torna la cartina (.osm), col suo mare */
+#mappa{height:470px;background:#123a52;}
+#mappa.osm{background:#aad3df;}
+/* la foto della mappa con la sua luce (LUCE_SAT di index.html), e i nomi bianchi come i «NOMI NOSTRI» della mappa */
+#mappa .leaflet-foto-pane{filter:brightness(${LUCE}) saturate(1.1);}
+.nome-paese{white-space:nowrap;pointer-events:none;}
+.nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6);}
 .rb .tasti{grid-template-columns:repeat(3,1fr);margin:0;padding:12px 12px 4px;}
 .rb .tasti a{cursor:pointer;user-select:none;}
 .rb-scala{padding:8px 14px 12px;}
@@ -206,6 +241,8 @@ const STILE_ADESSO = `
 @media(max-width:640px){.citta{gap:10px;} .cit{flex-basis:calc((100% - 10px) / 2);padding:11px 12px 12px;}
   .cit-t{font-size:30px;} .cit-ic{font-size:30px;} .cit-gg{font-size:13.5px;} .cit-vai{font-size:13.5px;padding:4px 11px;}
   #mappa{height:380px;} .reg-lista{grid-template-columns:repeat(2,1fr);}
+  /* «Foto: NASA, ESA WorldCover» e' piu' lunga di «© OpenStreetMap»: a 11 px i crediti andavano a capo a 393 */
+  .leaflet-container .leaflet-control-attribution{font-size:10.5px;}
   .rb-testa{font-size:14.5px;} .rb-testa .quando{font-size:13.5px;}}
 `;
 
@@ -232,7 +269,9 @@ function descrDi(r) {
 function pagina(r) {
   const citta = cittaDi(r), gen = GEN2[r.k];
   // dove/gen per la riga viva: «Non piove in Toscana», «bagna il 15% della Toscana»
-  const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:`${r.prep} ${r.nome}`, gen, sito:SITO, citta, confine:confineDi(r) }).replace(/</g, '\\u003c');
+  // foto e nomi: la cartina con la faccia della mappa (2/11/2026, scheda 111 ter)
+  const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:`${r.prep} ${r.nome}`, gen, sito:SITO, citta, confine:confineDi(r),
+    foto:FOTO, nomi:nomiDi(r) }).replace(/</g, '\\u003c');
   // le pagine meteo della regione (qui e non in cima: genera-pagine-meteo-zona.js chiede confineDi a questo file)
   const valli = require('./genera-pagine-meteo-zona.js').linkMeteoRegione(r.k, 'pagina-' + r.k + '-adesso');
   // il percorso (31/10/2026, scheda 104 bis): la regione in mezzo solo se ha la sua pagina (l'Abruzzo no)

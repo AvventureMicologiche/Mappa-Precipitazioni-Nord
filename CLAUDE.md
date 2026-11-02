@@ -159,6 +159,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Lo zoom minimo delle cartine delle pagine meteo (2/11/2026, scheda 109)**: non piu' fino al planisfero, al massimo 4 livelli sotto l'inquadratura
 - **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
 - **Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)**: un tocco del «−» sotto l'inquadratura, l'Europa del radar, non piu' il planisfero
+- **Il radar delle pagine «adesso» sulla foto della mappa (2/11/2026, scheda 111 ter)**: foto nostra, confine bianco e nomi come la mappa col radar, zoom fino al 10, ripiego sulla cartina
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
