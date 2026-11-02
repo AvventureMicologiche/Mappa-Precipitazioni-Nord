@@ -548,7 +548,7 @@ browser: solo ES5, niente frecce, `let`, `const` o backtick.
   Solo la pioggia, niente boschi (suo: «in alto solo la mappa piogge»). La mappa di un giorno e' piu' sbiadita di
   quella dei 20 giorni: nei giorni asciutti e' quasi solo cartina coi pallini, ed e' il dato vero.
   ⚠️ **DAL 1/11/2026 LA CARTINA E' QUELLA DEI 7 GIORNI, GRANDE** (suo, sulla Sila Grande: «da quando le scritte sono
-  cosi' grandi e la cartina non si vede?», «sempre una merda piccolissima con un titolo gigantesco»). La scheda resta su
+  cosi' grandi e la cartina non si vede?»: la cartina era piccola e il titolo enorme). La scheda resta su
   IERI (numeri e titolo), la cartina e' `<reg>-7g` (ora scattata per TUTTE le regioni) alta 300 px al telefono e 440 al
   PC (era 140 / 185 con sotto la fascia gialla), sulle pagine regione la regione INTERA; dentro la cartina la pillola
   gialla «💧 Pioggia degli ultimi 7 giorni →» (porta a #cta7) e SOTTO il bottone giallo largo «Oppure guarda la pioggia
@@ -928,4 +928,24 @@ pagine piogge e nelle pagine funghi (vedi la nota della striscia, sezione «Zone
   `https://riquadro.avventurepluvio.pages.dev` e non sul sito vero (`anteprima-riquadro.yml`, sul solo ramo
   `claude/hopeful-volta-4m7kfp`: NON va portato su main). Per uno scatto che dal cloud non si fa (cartina OSM), stesso
   trucco: un giro sul ramo che scatta e salva sul ramo stesso, poi si portano i file su main.
+
+## Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)
+
+- **Trovate dal check notturno** (`check-9-passata-2.md`, ramo `check-9`, punto D1): due citazioni sue, una con una
+  parolaccia e una con un giudizio pesante, stavano nei COMMENTI del CSS che i generatori mettono nelle pagine. La prima veniva
+  da `STRISCIA_CSS` (`lib-striscia.js`, commit `25d085df0` del 1/11) ed era in 1.256 pagine (regioni, zone piogge e
+  funghi, funghi regione, paesi); la seconda da `STILE_IERI` (`genera-pagine-regione.js`, 11/10) in 226 (regioni,
+  «adesso», zone piogge, meteo). Erano online: non si vedevano a schermo, ma bastava «visualizza sorgente».
+- **Correzione (suo «Sì, fai la A»)**: la stessa sostituzione nei generatori e nelle pagine gia' fatte, solo quei
+  caratteri (script `check-109\togli-frasi-109.js` nel banco), niente pagine rigenerate: 1.349 file, da 1 a 3 righe
+  ciascuno, fini riga intatti. Le citazioni sono diventate parafrasi senza virgolette. `STRISCIA_CSS` resta identico
+  fra `lib-striscia.js` e le pagine funghi modello, quindi `stileDelModello()` lo toglie ancora (provato su tre
+  regioni). Regole CSS lette dal browser identiche prima e dopo su 7 pagine di 6 famiglie (`prova-frasi-109.js`).
+- ⚠️ **Regola**: i commenti dentro `STRISCIA_CSS`, `STILE_IERI`, `RILIEVO`, `METEO_CSS`, `YT_BTN` e in ogni CSS o JS
+  che finisce nelle pagine (e in `index.html`) sono PUBBLICI: sorgente della pagina, Google, bot dei modelli. Lo e'
+  anche tutto il repo su GitHub. Le sue frasi si parafrasano, senza parolacce e senza giudizi pesanti. Se un
+  commento serve da segnaposto ai generatori (per esempio «BOTTONI IN RILIEVO», «IL METEO NELLE PAGINE REGIONE»,
+  cercati con `indexOf`), si cambia solo il testo che non e' segnaposto.
+- Restano: la storia di git (toglierle da li' vorrebbe dire riscrivere la storia del repo, non proposto) e le date in
+  sitemap di quelle pagine, che al primo giro diventano quella del giorno (l'impronta e' sul file intero).
 

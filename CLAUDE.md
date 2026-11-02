@@ -145,6 +145,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La testata del sito e le idee delle pagine meteo su tutte le famiglie (28/10/2026 sera)**: `lib-testata.js` e le idee delle pagine meteo portate sulle altre famiglie
 - **Controllo SEO del 31/10/2026 (scheda 104 bis): le parole di sei famiglie**: Search Console 3-30/10 e le sei correzioni di titoli e testi
 - **Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)**: `/slovenia/` tolta, stime dichiarate, e l'elenco «DA FARE SENZA URGENZA»
+- **Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)**: i commenti del CSS delle pagine sono pubblici, le sue frasi si parafrasano
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 

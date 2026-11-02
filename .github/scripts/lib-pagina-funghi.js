@@ -312,8 +312,8 @@ const JS_STIME = stime.toString()
   .replace(/\}\s*$/, '');
 
 /* ── I BOTTONI IN RILIEVO, comuni a tutte le pagine (11/10/2026) ──────────────
-   Nati sulle pagine regione (sua scelta V2 fra tre: «le scritte cosi' piccole
-   fanno schifo, i bottoni non sembrano bottoni»), poi estesi a funghi, zone e
+   Nati sulle pagine regione (sua scelta V2 fra tre: le scritte erano troppo piccole
+   e i bottoni non sembravano bottoni), poi estesi a funghi, zone e
    paesi su sua richiesta. UN SOLO BLOCCO per tutti: prima lo stesso bottone
    era scritto in quattro generatori.
    ⚠️ VA IN FONDO AL FOGLIO DI STILE di ogni pagina, dopo tutto il resto: le
