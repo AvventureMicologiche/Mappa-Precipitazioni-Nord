@@ -603,7 +603,7 @@ Stesso difetto con `?m=prev`, col link di una regione e col telefono girato.
   6. Misurato sul sito vero col file nuovo: telefono inquadratura 9,75-10,75 → minimo 6, PC 10,25-11,5 → 6-7; a quel
   punto si vede l'Italia del nord e del centro sulla foto, e il tasto «−» si spegne. 69 pagine rigenerate, +3 righe
   ciascuna, nient'altro cambiato. Le pagine «adesso» (`lib/pagina-adesso.js`, cartina OSM) hanno lo stesso minimo a 0:
-  non toccate.
+  non toccate (fatte il 2/11 dalla 110 bis, con un altro minimo: nota in fondo).
 
 ## I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)
 
@@ -630,4 +630,21 @@ ore di oggi prima delle 21, come le darebbe MET la sera.
   gia' staccata dalla pagina: misure a zero, `segna()` la crede «in fondo» e accende l'ultimo giorno sopra le ore di
   domani. Misurato alle 21:15: 5 aperture su 14. Ora `segna()` esce se `oz` non e' piu' nella pagina (`isConnected`): 11
   su 11 giuste. Di giorno non capitava (si parte da oggi, la striscia non scorre).
+
+## Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)
+
+- L'avanzo della 109 (punto 8 della 110, suo «fai la 8»): la cartina OSM delle 21 pagine «adesso» (`lib/pagina-adesso.js`)
+  non aveva zoom minimo e si rimpiccioliva fino al planisfero. La formula delle meteo (`Math.max(6, Math.floor(z) - 4)`)
+  qui non va: l'inquadratura e' gia' l'Italia con un pezzo d'Europa (4,75 al telefono 393, 5 al PC 1440, uguale su tutte
+  le 21 pagine, Sicilia compresa) e un minimo 6, sopra l'inquadratura, farebbe ingrandire la cartina all'apertura. Ora,
+  dopo `fitBounds`, `setMinZoom(m.getZoom() - 1)`: un tocco del «−» e si vede l'Europa del radar, dall'Irlanda al Mar
+  Nero, poi il tasto si spegne.
+- Misurato in locale (server del repo, 21 pagine al telefono e al PC): prima minimo 0, si arrivava a 0; dopo minimo 3,75
+  al telefono e 4 al PC; inquadratura e centro identici a prima in 42 aperture su 42, nessun errore. Coi tasti veri il
+  «−» porta al minimo e si spegne, il secondo tocco non fa niente, il «+» torna all'inquadratura. Attrezzi nel banco,
+  `scheda-110-bis\`: `prova-zoom-adesso.js` (`FASE=prima|dopo`) e `tasti-adesso.js`; scatti in `immagini\110-bis\`.
+- `VERSIONE_JS` 10 in `genera-pagine-adesso.js`, 21 pagine rigenerate: una riga ciascuna (`?v=10`), CRLF intatti.
+  ⚠️ Il generatore chiama `scriviSitemap` e quindi riscrive anche `pagine-impronte.json`: quel giorno ha aggiornato
+  l'impronta di `index.html`, rimasta indietro dopo la 109 quater. Tolta dal commit perche' non c'entrava (la rifa' il
+  giro del mattino).
 

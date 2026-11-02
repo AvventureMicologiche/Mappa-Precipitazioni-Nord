@@ -156,6 +156,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Lo sfarfallio aprendo le previsioni dalla home (1/11/2026 sera, scheda 108)**: la foto della pioggia fuori da `apre-italia`, coperta col CSS in testa
 - **Lo zoom minimo delle cartine delle pagine meteo (2/11/2026, scheda 109)**: non piu' fino al planisfero, al massimo 4 livelli sotto l'inquadratura
 - **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
+- **Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)**: un tocco del «−» sotto l'inquadratura, l'Europa del radar, non piu' il planisfero
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
