@@ -1,6 +1,6 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-02T04:15:43.489Z",
+ "generato": "2026-11-02T11:29:49.950Z",
  "periodi": {
   "1": {
    "media": 0,
@@ -37,17 +37,12 @@
    ]
   },
   "7": {
-   "media": 1.2,
+   "media": 0.9,
    "giorni": 7,
    "stazioni": 308,
    "primo": "2026-10-26",
    "ultimo": "2026-11-01",
    "top": [
-    {
-     "n": "Biasca Val Pontirone (TI)",
-     "nb": "Biasca Val Pontirone",
-     "mm": 84.6
-    },
     {
      "n": "Altenrhein (SG)",
      "nb": "Altenrhein",
@@ -67,21 +62,21 @@
      "n": "Innerthal (SZ)",
      "nb": "Innerthal",
      "mm": 7.1
+    },
+    {
+     "n": "Eggersriet (SG)",
+     "nb": "Eggersriet",
+     "mm": 6.9
     }
    ]
   },
   "20": {
-   "media": 55.7,
+   "media": 55.4,
    "giorni": 20,
    "stazioni": 308,
    "primo": "2026-10-13",
    "ultimo": "2026-11-01",
    "top": [
-    {
-     "n": "Biasca Val Pontirone (TI)",
-     "nb": "Biasca Val Pontirone",
-     "mm": 195.2
-    },
     {
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
@@ -101,21 +96,21 @@
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
      "mm": 144
+    },
+    {
+     "n": "Chironico Cala (TI)",
+     "nb": "Chironico Cala",
+     "mm": 141.6
     }
    ]
   },
   "30": {
-   "media": 84.1,
+   "media": 83.9,
    "giorni": 30,
    "stazioni": 309,
    "primo": "2026-10-03",
    "ultimo": "2026-11-01",
    "top": [
-    {
-     "n": "Biasca Val Pontirone (TI)",
-     "nb": "Biasca Val Pontirone",
-     "mm": 252.3
-    },
     {
      "n": "Chironico Cala (TI)",
      "nb": "Chironico Cala",
@@ -135,6 +130,11 @@
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
      "mm": 209
+    },
+    {
+     "n": "Preonzo - Alpe Roscioro (TI)",
+     "nb": "Preonzo - Alpe Roscioro",
+     "mm": 206.7
     }
    ]
   }
@@ -145,7 +145,7 @@
   0,
   0,
   0.9,
-  0.3,
+  0,
   0,
   10.2,
   3.7,

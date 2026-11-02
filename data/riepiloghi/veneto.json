@@ -1,6 +1,6 @@
 {
  "regione": "veneto",
- "generato": "2026-11-02T04:15:43.487Z",
+ "generato": "2026-11-02T11:29:49.949Z",
  "periodi": {
   "1": {
    "media": 0.6,
@@ -37,17 +37,12 @@
    ]
   },
   "7": {
-   "media": 1,
+   "media": 0.9,
    "giorni": 7,
    "stazioni": 186,
    "primo": "2026-10-26",
    "ultimo": "2026-11-01",
    "top": [
-    {
-     "n": "Castana (VI)",
-     "nb": "Castana",
-     "mm": 30.2
-    },
     {
      "n": "Col Indes (Tambre) (BL)",
      "nb": "Col Indes (Tambre)",
@@ -67,11 +62,16 @@
      "n": "Cansiglio - Tramedere (BL)",
      "nb": "Cansiglio - Tramedere",
      "mm": 5
+    },
+    {
+     "n": "Zero Branco (TV)",
+     "nb": "Zero Branco",
+     "mm": 5
     }
    ]
   },
   "20": {
-   "media": 49.5,
+   "media": 49.3,
    "giorni": 20,
    "stazioni": 186,
    "primo": "2026-10-13",
@@ -80,7 +80,7 @@
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 226.9
+     "mm": 197.1
     },
     {
      "n": "Col Indes (Tambre) (BL)",
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 67.8,
+   "media": 67.7,
    "giorni": 30,
    "stazioni": 186,
    "primo": "2026-10-03",
@@ -114,7 +114,7 @@
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 242.1
+     "mm": 212.3
     },
     {
      "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
@@ -142,7 +142,7 @@
  "serie": [
   0.6,
   0,
-  0.2,
+  0,
   0.1,
   0,
   0,
@@ -178,8 +178,8 @@
    "n": "Val d'Astico",
    "ultimo": "2026-11-01",
    "m1": 0.1,
-   "m7": 7.6,
-   "m30": 167,
+   "m7": 0.1,
+   "m30": 159.6,
    "p1": true,
    "p7": true,
    "p30": true
