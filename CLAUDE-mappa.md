@@ -1508,3 +1508,37 @@ fanno le copie da `index-prod.html` (in catena con `fai0`, `fai4`, `fai4b` danno
   scorrere fino a «vai alle previsioni» e la mappa resta ferma; telefono dritto 393, tablet 768, PC 1440 e 1366 posizione
   e altezza identiche. ⚠️ Nelle prove lo scorrimento si fa con eventi di tocco CDP (`Input.dispatchTouchEvent`):
   `Input.synthesizeScrollGesture` NON fa scorrere la scheda, e' l'attrezzo.
+
+## Le macchie squadrate sul mare della foto dal satellite (2/11/2026, scheda 111 quater)
+
+Trovate dalla 111 bis lungo l'Adriatico (anche nelle strisce delle pagine, che fotografano la mappa); suo «Sì,
+sistemale». Misurate su tutta l'Europa della foto: rettangoli scuri o chiari sul mare lungo le coste, agli zoom 9 e 10,
+in **755 tessere dello zoom 9 e 2.138 dello zoom 10** (macchie di almeno 30 pixel), su 61 tratti di costa dalla
+Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
+- **Causa**: lungo le coste la foto ESA ha una striscia di mare che finisce a gradini (fin dove arrivano i dati). In
+  `blue-marble.py` quell'acqua diventava Blue Marble solo se il suo COLORE era vicino al blu dell'acqua (entro 50) e col
+  peso che scendeva col colore: l'acqua verde scura (Adriatico, 8,30,18) restava ESA a meta', quella torbida e chiara tutta.
+- **Rimedio**: `mockup-pluvio-104\mare-pulito.py` (fasi `mappa`, `acqua`, `misura`, `rifai`, `controlla`, `ritocca`;
+  lavoro in `D:\claude-dati\sat-111q`, la copia buona si legge e basta). Mare e terra li dice la **carta di ESA
+  WorldCover 2021** (classi: 80 acqua, 0 fuori dai dati), letta a 1/8 (80 m; 227 riquadri da 3x3 gradi in 101 s).
+  L'acqua della carta collegata al mare aperto, dove Blue Marble vede mare, diventa Blue Marble PIENA, sfumata sulla
+  costa con la frazione d'acqua; il colore e' quello del pixel piu' vicino di mare VERO di Blue Marble (blu meno rosso
+  almeno 50 sul grezzo, somma RGB sotto 330); senza mare vero entro ~60 pixel la tessera resta com'era. Si toglie ESA,
+  non se ne aggiunge mai; laghi e fiumi lontani dal mare di Blue Marble restano ESA come prima.
+- ⚠️ **Il ghiaccio azzurrino**: sopra i 65° N Blue Marble di luglio ha neve e ghiaccio blu appena piu' del rosso
+  (25-30, il mare vero 100). Presi per mare facevano CHIAZZE CHIARE TONDE nei fiordi (87 tessere, Narvik e Groenlandia):
+  da qui la regola del «mare vero». Trovate con un confronto vecchie/nuove (pixel di mare diventati chiari), che la
+  misura delle macchie non vede.
+- **Esito**: 6.173 tessere rifatte (zoom 9 e 10). Controllo automatico sulle nuove: macchie da 755 a 11 (zoom 9) e da
+  2.138 a 44 (zoom 10), rimaste solo in Groenlandia est (ghiaccio in mare, al bordo della foto) e attorno a Narvik, dove
+  si e' lasciata la foto di prima. Repo Satellite: commit unico `ef0c3dbb` (push forzato); `FOTO_COMMIT` in index.html
+  col commit `077b0053d5`, pubblicato (deploy `1955c2a3`), verificato online su delta del Po e Venezia, telefono e PC.
+- ⚠️ **jsDelivr**: col commit nell'indirizzo sono NUOVE tutte le 53.234 tessere, non solo quelle cambiate: si
+  scaldano tutte. `attrezzi\scalda.js` ora prende `ELENCO`, `LOG` e `COMMIT`; con `PARALLELE=40` va a 6-10 tessere al
+  secondo, circa due ore: prima Italia e Alpi, poi gli zoom 4-8, poi il resto per distanza dall'Italia.
+- ⚠️ `attrezzi\commit-veloce.py` su un `main` che esiste gia': `FORZA=1`, se no fast-import non aggiorna il ramo
+  («does not contain») e lo script usciva lo stesso con 0 (ora esce con l'errore vero).
+- Attrezzi della prova: `mockup-pluvio-104\server-111q.js` (8975: index.html di origin/main con le tessere servite in
+  locale, `?foto=vecchia` per il prima), `attrezzi\prova-mare-locale.js` (prima|dopo agli zoom 7-12, pioggia e
+  previsioni), `attrezzi\mare-per-costa.py` (elenco per costa), `attrezzi\foglio-mare.py`, `attrezzi\controlla-z8.py`.
+  Immagini e misure in `immagini\111-quater\`.

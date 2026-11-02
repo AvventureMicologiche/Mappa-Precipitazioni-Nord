@@ -135,6 +135,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)**: il calcolo dei colori 20-50 volte più veloce, niente velo grigio sulla foto, foto precaricata con la sfocata sotto, niente OSM sotto la foto (credito OSM tenuto)
 - **Telefono dritto con la tastiera, barra della Sicilia e angoli del telefono girato (2/11/2026, scheda 109 quater)**: classe `schermo-dritto` (niente zoom 19 con la tastiera), scheda del pluviometro senza pallino, angoli del riquadro girato
 - **La scheda del pluviometro col telefono girato (2/11/2026, scheda 109 quater)**: la scheda finisce sopra la barra delle città e scorre dentro, non esce più dallo schermo
+- **Le macchie squadrate sul mare della foto dal satellite (2/11/2026, scheda 111 quater)**: il mare delle coste lo decide la carta ESA WorldCover, il ghiaccio azzurrino di Blue Marble, jsDelivr da riscaldare tutto
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
