@@ -729,3 +729,14 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   al computer e al telefono con scheda aperta, 3-8 etichette, 7 giorni, niente sbordi ne' errori. Unico posto che non
   compare: Stretti di Giaredo dalla pagina funghi della Toscana, uguale col link vecchio (sta fuori dalla Toscana).
 
+## «Ieri a Caronia» era la pioggia di Pomiere: il punto di stamattina coi pluviometri fuori dal paese (2/11/2026, scheda 113)
+
+- Nelle pagine «Meteo <paese>» col pluviometro fuori dal paese (`primo` in `METEO_PAESI`: Monticiano a 5 km, Urbe a 3,5 km
+  e 265 m piu' su, Caronia a 15 km e 1.482 m) «Il punto di stamattina» diceva «Ieri a Caronia sono caduti…» con la pioggia
+  del pluviometro. Ora, solo con `C.primo`, dice dove e' stata misurata: «Ieri al pluviometro di Pomiere, nel bosco di
+  Caronia, sono caduti…» (`C.alPluv`, con la virgola di chiusura se il nome ne ha una). `punto()` in
+  `genera-pagine-meteo-zona.js`; le previsioni restano «a Caronia», perche' sono chieste per il paese.
+- Rigenerate le 49 pagine di zona e le 40 di paese, una riga ciascuna (`pagine-impronte.json` rimesso com'era). Prova sul
+  sito vero con la pagina del repo iniettata (scratchpad 54de8904 `prova-punto-113.js`): cambiano solo Caronia, Monticiano
+  e Urbe; Sassello e Valtiberina identiche, nessun errore.
+

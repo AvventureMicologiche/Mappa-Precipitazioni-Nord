@@ -811,7 +811,10 @@ function clientePagina(C) {
     var p = [];
     var i = RIPJ && RIPJ.periodi ? RIPJ.periodi['1'] : null, s = RIPJ && RIPJ.periodi ? RIPJ.periodi['7'] : null;
     if (i && s) {
-      p.push((i.ultimo === IERI ? 'Ieri' : maiusc(nome(i.ultimo, true))) + ' ' + C.dove + ' ' + (i.media < 0.1 ? '<b>non è piovuto</b>'
+      // pluviometro fuori dal paese (C.primo: Monticiano, Urbe, Caronia, 2/11/2026, scheda 113): la pioggia caduta si dice
+      // dove e' stata misurata, «Ieri al pluviometro di Pomiere, nel bosco di Caronia,» e non «Ieri a Caronia» (15 km, 1.482 m)
+      var doveMis = C.primo ? C.alPluv + (C.alPluv.indexOf(',') >= 0 ? ',' : '') : C.dove;
+      p.push((i.ultimo === IERI ? 'Ieri' : maiusc(nome(i.ultimo, true))) + ' ' + doveMis + ' ' + (i.media < 0.1 ? '<b>non è piovuto</b>'
         : 'sono caduti ' + (C.solo ? '' : 'in media ') + '<b>' + mm(i.media) + ' mm</b>' + (i.top && i.top[0] ? ' (' + esc(i.top[0].n) + ' ' + mm(i.top[0].mm) + ')' : '')) + '; negli ultimi 7 giorni <b>' + mm(s.media) + ' mm</b>.');
     }
     var picco = G.slice().sort(function (a, b) { return b.mmMax - a.mmMax; })[0];

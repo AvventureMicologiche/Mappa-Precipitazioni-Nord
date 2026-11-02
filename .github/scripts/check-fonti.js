@@ -440,15 +440,18 @@ function main() {
       }
     } else {
       if (prec.stato === 'allarme') {
+        // 2/11/2026 (scheda 113): `prec.dal` e' il giorno della mail d'allarme, non l'inizio del guasto («in guasto dal
+        // 31/10» per una Puglia ferma dal 26/10); e «nessun nuovo evento» era falso il giorno di un evento lieve nuovo.
         rientri.push(prec.tipo === 'stazioni'
           ? `  ${r.nome} — stazioni tornate normali (ieri ${st.stazioniIeri}, di norma ${st.riferimento}).\n` +
-            `    Era a meno di metà dal ${itaDate(prec.dal)}. I giorni ridotti restano com'erano: quello che\n` +
+            `    Allarme partito il ${itaDate(prec.dal)}. I giorni ridotti restano com'erano: quello che\n` +
             `    non è stato misurato allora non si recupera.\n`
           : prec.tipo === 'eventi'
-          ? `  ${r.nome} — nessun nuovo evento-buco MeteoHub. In guasto dal ${itaDate(prec.dal)}.\n` +
-            `    I giorni coperti nel frattempo restano stime del modello (om:true nel file).\n`
+          ? `  ${r.nome} — buchi MeteoHub sotto la soglia: ${st.eventi === 1 ? '1 giorno' : st.eventi + ' giorni'} di fila con buchi gravi (allarme da ${soglia}).\n` +
+            `    Allarme partito il ${itaDate(prec.dal)}. I buchi lievi (rete sopra il 60%) restano nel registro\n` +
+            `    e non si coprono; i giorni coperti prima restano stime del modello (om:true nel file).\n`
           : `  ${r.nome} — dati reali di nuovo presenti (ultimo: ${itaDate(st.ultimoReale)}, ${st.stazioni} stazioni).\n` +
-            `    Era ferma dal ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime del modello.\n`);
+            `    Allarme partito il ${itaDate(prec.dal)}. I giorni scoperti nel frattempo restano stime del modello.\n`);
         console.log(`🟢 ${r.dir}: rientrata [${prec.tipo || 'assente'}]`);
         cambiato = true;
       }

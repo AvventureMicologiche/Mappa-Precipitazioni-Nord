@@ -162,6 +162,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
 - **Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)**: un tocco del «−» sotto l'inquadratura, l'Europa del radar, non piu' il planisfero
 - **Il radar delle pagine «adesso» sulla foto della mappa (2/11/2026, scheda 111 ter)**: foto nostra, confine bianco e nomi come la mappa col radar, zoom fino al 10, ripiego sulla cartina
+- **«Ieri a Caronia» era la pioggia di Pomiere: il punto di stamattina coi pluviometri fuori dal paese (2/11/2026, scheda 113)**: con `primo` il punto dice dove e' stata misurata la pioggia
 - **La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)**: i numeri delle pagine meteo, i link da `?m=prev` a `/previsioni/?r=`, `METEO_PAESI_B` scelti dalle ricerche «meteo <paese>»
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
@@ -171,6 +172,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Check periodico dati**: cosa si controlla ogni ~5 giorni
 - **Sesto check (20/10/2026)**: difetti dei workflow e dati riparati
 - **«Da guardare» del settimo e ottavo check (21/10/2026)**: tempi massimi, conflitti di push, i 13 punti aperti
+- **La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)**: «Allarme partito il», buchi lievi spiegati
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni (8 KB)
 

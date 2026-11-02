@@ -408,3 +408,13 @@ confermate e tolte con una riga in piu' sopra e sotto ogni fascia, `918afb5e4c`,
 riguardarla, se servisse, resta questo; per le prove del canvas basta Playwright sul Mac, su Windows no. Era: «va
 guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-20`, zoom 11-14).
 
+## La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)
+
+- Il 2/11 la mail diceva «Puglia — nessun nuovo evento-buco MeteoHub. In guasto dal 31/10/2026» il giorno in cui la Puglia
+  aveva un buco lieve nuovo (1/11, 104 su 130) e il guasto era cominciato il 26/10: `prec.dal` e' il giorno della mail
+  d'allarme, non l'inizio del guasto. Ora le tre righe dei rientri dicono «Allarme partito il …», e quella degli
+  eventi-buco dice quanti giorni di fila con buchi gravi restano contro la soglia e che i buchi lievi (rete sopra il 60%)
+  restano nel registro e non si coprono. `check-fonti.js`, blocco dei `rientri`.
+- Prova su una copia (scratchpad 54de8904 `sandbox-fonti\`, registro con tre allarmi finti, dati letti dal repo): le tre
+  frasi nuove come previsto, registro e mail del repo non toccati.
+
