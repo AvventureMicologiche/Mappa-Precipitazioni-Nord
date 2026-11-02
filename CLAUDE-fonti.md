@@ -1021,6 +1021,9 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
   lenta (~2 min la prima volta). Sui due buchi simulati (Sardegna 31/10 intero, Calabria 30/10 a meta') errore medio
   ICON 2,5 e 3,4 mm, Open-Meteo 2,5 e 2,4; sulle stazioni bagnate >=5 mm ICON 0,56 e 1,32 del vero, Open-Meteo 0,00
   e 0,45.
+- **Le 1.100 pagine funghi gia' fatte (2/11/2026, scheda 113 bis)**: dicevano ancora «stima/stime Open-Meteo»
+  nell'avviso (generatori giusti dal `d84b6308e0`, pagine mai rigenerate). Sostituite solo le 6.596 frasi, senza
+  rigenerare (i numeri del giorno restano): blocco identico a `lib-pagina-funghi.js` e `genera-indice-funghi.js`.
 - **Da fare**: l'Abruzzo dal vivo, il ripiego della Lombardia (`loadOpenMeteoRegion` in `index.html`, da togliere
   quando ICON copre i buchi), e decidere sulle stime gia' salvate (2.702 file interi, 1.599 stazioni-giorno `om` al
   2/11), meglio chiedendo a Open-Meteo con una mail.

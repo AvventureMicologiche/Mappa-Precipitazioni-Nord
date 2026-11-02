@@ -873,10 +873,10 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
     else quando = "in " + ii.length + " giorni fra " + (el(p) ? "l’" : "il ") + gm(p) + " e " + (el(u) ? "l’" : "il ") + gm(u);
     quando = quando.charAt(0).toUpperCase() + quando.slice(1);
     var gg1 = ii.length === 1, testo;
-    if (uno) testo = "questo pluviometro non ha trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
-    else if (chi === ids.length) testo = "i pluviometri non hanno trasmesso: " + (gg1 ? "quel giorno è una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+    if (uno) testo = "questo pluviometro non ha trasmesso: " + (gg1 ? "quel giorno è una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
+    else if (chi === ids.length) testo = "i pluviometri non hanno trasmesso: " + (gg1 ? "quel giorno è una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
     else testo = (chi === 1 ? "un pluviometro su " + ids.length + " non ha trasmesso: i suoi valori di " : chi + " pluviometri su " + ids.length + " non hanno trasmesso: i loro valori di ")
-      + (gg1 ? "quel giorno sono una stima Open-Meteo, non una misura." : "quei giorni sono stime Open-Meteo, non misure.");
+      + (gg1 ? "quel giorno sono una stima del modello, non una misura." : "quei giorni sono stime del modello, non misure.");
     return "<div class=\"avviso-stime\" style=\"background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300\">⚠️ "
       + quando + " " + testo + "</div>";
   }

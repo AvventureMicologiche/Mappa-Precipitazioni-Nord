@@ -619,8 +619,8 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
       document.getElementById('tabella').innerHTML = h + '</tbody></table>';
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
-        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima Open-Meteo, non una misura: il pluviometro non ha trasmesso.'
-          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima Open-Meteo, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
+        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'
+          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
 
       var reg = righe[0][2], rq = document.getElementById('riquadri');
       if (rq && /^[a-z]+$/.test(reg)) {
