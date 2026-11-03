@@ -7464,7 +7464,13 @@ var MH_ESCLUSE={
   // tre mesi (dal 19/7), settembre zero in 30 giorni, 0,6 mm in 43 giorni contro i 53 della
   // mediana dei 22 vicini entro 25 km. Il caso di Ponte S.Maria. Entro 10 km restano Villa
   // Ruggero (8,9 km) e poco piu' in la' Castelvetrano SIAS (11,4).
-  sicilia:{'37.65500_14.52833':true,'37.69194_12.75222':true,'37.29722_14.07111':true,'37.76556_15.05944':true,'37.74639_12.82722':true},
+  // Cinisi (PA), 38.15500/13.11444, esclusa il 3/11/2026: SORDA. Il 10% della mediana dei cinque
+  // vicini sia a settembre sia a ottobre (4,1 mm contro 39,8), e nei giorni bagnati di ottobre
+  // un'inezia: 12/10 0,1 contro 2-14, 25/10 0,0 contro 7-14, 26/10 0,4 contro 2-12. Il 1-2/11 non
+  // consegna, con i vicini a 40-73 mm il 2/11. Trovata dal controllo del lunedi' del 2/11.
+  // ⚠️ Entro 10 km nessuno (Partinico SIAS a 10,1, Torretta a 10,9): fuori lo stesso, come
+  // Ponte S.Maria, perche' un 10% e' una macchia secca falsa, non un dato da tenere.
+  sicilia:{'37.65500_14.52833':true,'37.69194_12.75222':true,'37.29722_14.07111':true,'37.76556_15.05944':true,'37.74639_12.82722':true,'38.15500_13.11444':true},
   // Benevento METEO (BN), 41.11500/14.82500, esclusa il 30/9/2026: MORTA CON UNA DATA.
   // Misurava (60,9 mm in agosto, ultima pioggia 9,6 mm il 12/8), poi ZERO in tutto
   // settembre mentre Paduli a 3,9 km ne fa 66 e Benevento a 4,8 km 55. Gragnano (NA),
@@ -7494,7 +7500,17 @@ var MH_ESCLUSE={
   // 55,8 di Riesi SIAS a 2,9 km, ma e' l'unico giorno bagnato da quando misura di nuovo) e
   // Gragnano (in riga il 21-22/10, sorda dall'8 al 12/10). I quattro doppioni sono ancora
   // identici al decimo (35-36 giorni su 35-36).
-  puglia:{'41.68583_15.39267':true,'41.58400_14.95717':true}
+  puglia:{'41.68583_15.39267':true,'41.58400_14.95717':true},
+  // Mafalda (CB), 41.94222/14.70306, esclusa il 3/11/2026: SI E' FERMATA. Misurava (luglio 131%
+  // della mediana dei vicini, settembre 220%), poi ottobre al 6% (3,8 mm contro 62,9) e ZERO in
+  // tutti i giorni bagnati dal 9/10: 21/10 contro 9,6-21,1 di Caprafica e Palata, 24/10 contro
+  // 23,9-28,4, 2/11 contro 40,6-72,2. Trovata dal controllo del lunedi' del 2/11. Restano
+  // Caprafica (7,7 km) e Palata (9,0): due, non tre, ma uno zero fisso non e' un dato da tenere.
+  // Castelmauro (12,6 km) segna pochissimo anche lei (1,8 mm il 2/11): da guardare.
+  // Ricontrollo di tutta la lista il 3/11/2026, giorno per giorno sugli ultimi 90 giorni (giorni
+  // con mediana dei vicini >= 5 mm): restano fuori tutte. Trinita' Diga R2 e' in riga solo dal
+  // 1/11 (11,3 e 38,9 mm), Riesi_DRPC va a sbalzi (settembre zero, ottobre 188%): da riguardare.
+  molise:{'41.94222_14.70306':true}
   // ── RIENTRATA il 10/9/2026: Poggio San Vicino (MC, 43.36842_13.07953) ────
   // Esclusa il 21/8/2026 perche' faceva 0,0 mm in 37 giorni. Ha ripreso a
   // misurare quello stesso giorno: 21,8 mm il 21/8, 36,4 il 25/8, 18,0 il
@@ -7713,6 +7729,7 @@ var TOSCANA_ESCLUSE={
   'TOS01001225':1, // Case Passerini (FI): 25,9 mm, il 39% di 66, in mezzo alla piana di Firenze dove i vicini sono fitti. Ne restano 9 entro 10 km.
   'TOS03001802':1, // Cimone - Monte Serra (PI): 21,3 mm, il 42% di 51, ma soprattutto il 42% di Monte Serra, che sta a 1,8 km sulla stessa cima. Due pluviometri cosi' vicini non vedono due piogge diverse. Ne restano 7 entro 10 km.
   'TOS01001151':1, // Cantagallo (PO), esclusa il 7/10/2026: sorda in 4 giorni bagnati su 5 dal 20/8, il 10% dei vicini. Il 21/8 2,8 mm contro i 99 di Acquerino a 4,3 km e i 52-65 di Vernio, Gavigno e Treppio. Il SIR pubblica proprio quegli zeri. Trovata dal controllo del 5/10. Ne restano 4 entro 7 km.
+  'TOS03002613':1, // Monastero d'Ombrone (SI), esclusa il 3/11/2026: un imbuto che si intasa piano, come Vercelli e Carlantino. Luglio 89% della mediana dei cinque vicini, agosto 38%, settembre 39%, ottobre 14% (12,8 mm contro 90,8); sorda in 9 giorni bagnati su 15 in 120 giorni (8/10 4,2 contro 12-53, 21/10 1,0 contro 6-28). Trovata dal controllo del lunedi' del 2/11. ⚠️ Entro 10 km nessuno (Castelnuovo Berardenga a 11,7, Madonna a Brolio a 12,4): contro la regola dei tre, fuori lo stesso perche' un 14% e' una macchia secca falsa, e il colore lo danno i vicini a 12-14 km. Ricontrollo di tutta la lista lo stesso giorno (90 giorni, giorni con mediana >= 5 mm): da settembre sono in riga in ogni giorno bagnato Case Passerini, Casa Rota, Parana e Serra Pistoiese (sorde solo il 20-25/8), da meta' settembre Sassa e Gabbro.
   // ── Due che erano qui e sono rientrate il 21/8/2026 la sera stessa ────────
   // Rimesse in mappa passando la stessa regola alle altre regioni, che ha
   // costretto a misurarla meglio. Due correzioni al metodo, e tutt'e due le

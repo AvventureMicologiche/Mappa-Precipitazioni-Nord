@@ -110,6 +110,16 @@ Sezioni:
   429, pause di 45 s e 2 minuti (diretta + worker), tetto di 6 minuti di attese per giro; un giorno caduto per 429
   entra in `daRifare` (un minuto dopo). Riga a fine giro: «Richieste a Socrata: N dirette, N dal worker, N 429».
   `lombardia.yml` passa `TRAMITE_URL`/`TRAMITE_CHIAVE` (= secret `OMIRL_CHIAVE`) a livello di job.
+- **La risposta tagliata e i rifiuti del worker (3/11/2026, scheda 114 bis, voce B5 del check-10).** `richiesta()` non
+  aveva tempo massimo e non ascoltava la chiusura della risposta: una risposta chiusa a meta' (il worker chiude dopo
+  25 s) o una connessione muta lasciavano la promessa aperta per sempre, e il giro restava appeso fino al tetto dei 20
+  minuti, senza Retry ne' commit (provato in locale; mai successo nei 100 giri dal 16/10). Ora `res` 'error' e 'close'
+  senza `res.complete` rifiutano, e `TEMPO_MAX` (60 s senza dati) chiude la richiesta: li' prendono i tentativi di
+  sempre. Le risposte del worker che non sono ne' 200 ne' 429 (403 = chiave sbagliata o token rifiutato) prima finivano
+  nelle pause senza traccia: ora la riga di fine giro aggiunge «N risposte del worker non 429 (HTTP 403)». Il conto dei
+  429 non e' doppio: conta le risposte, dirette e dal worker. `TRAMITE_URL`/`TRAMITE_CHIAVE` passano dal job ai tre
+  passi del collector, come Piemonte e Ticino. Il 2-3/11 il worker e' stato respinto anche lui con 429 in 2 giri su 3
+  (6 su 6), senza giorni persi: i giri delle 4:30 passano.
 
 ### Piemonte
 - **Fonte:** ARPA Piemonte `utility.arpa.piemonte.it/api_realtime`
