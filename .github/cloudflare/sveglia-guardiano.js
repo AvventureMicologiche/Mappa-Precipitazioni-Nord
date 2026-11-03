@@ -30,9 +30,11 @@ const REPO = 'AvventureMicologiche/Mappa-Precipitazioni-Nord';
 // Toscana e Alto Adige dal 27/10/2026 (fase 1 dell'alleggerimento): il giorno lo chiudono la sera, ma il vento e
 // le temperature complete di ieri arrivano solo con un giro del giorno dopo. Lo facevano i cron di GitHub di notte
 // e del mattino, che adesso sono ridotti a riserva.
+// Abruzzo dal 3/11/2026 (MeteoNetwork + ICON-2I su file, scheda 114): il suo cron di GitHub (4:55 UTC) partiva verso
+// le 13:30 italiane; qui arriva prima dei riepiloghi delle 5:15, come le altre.
 const MATTINO = ['meteohub.yml', 'svizzera.yml', 'lombardia.yml', 'piemonte.yml', 'liguria.yml',
   'veneto.yml', 'trentino.yml', 'austria.yml', 'francia.yml', 'valledaosta-cf.yml',
-  'friuli-osmer.yml', 'ticino.yml', 'emilia.yml', 'toscana.yml', 'altoadige.yml'];
+  'friuli-osmer.yml', 'ticino.yml', 'emilia.yml', 'toscana.yml', 'altoadige.yml', 'abruzzo.yml'];
 
 // [ora italiana, workflow, minuti per «GitHub l'ha gia' fatto» (0 = parte sempre)]
 const TABELLA = [

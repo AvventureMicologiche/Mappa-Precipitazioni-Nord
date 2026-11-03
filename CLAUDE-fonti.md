@@ -534,6 +534,10 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Sorveglianza:** in `check-fonti.js` (`REGIONI`), quindi anche il guardiano, che ri-lancia `abruzzo.yml` se il
   giro salta; `check-campi`, `check-doppioni` e `check-stazioni-ferme` continuano a saltare la cartella. L'avviso
   «dati di ieri non pervenuti» della mappa vale anche per l'Abruzzo.
+- **Sveglia (dal 3/11/2026, suo «Sì, mettila»):** `abruzzo.yml` e' nel giro del mattino delle 4:30 della sveglia
+  Cloudflare (`MATTINO` di `sveglia-guardiano`, versione `1be359ee`, copia in `.github/cloudflare/`), prima dei
+  riepiloghi delle 5:15: il cron di GitHub delle 4:55 UTC partiva verso le 13:30 italiane. Il guardiano (6:00-8:30)
+  resta come rete se anche quel giro manca.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
