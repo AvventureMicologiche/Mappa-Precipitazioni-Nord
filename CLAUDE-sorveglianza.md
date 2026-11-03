@@ -303,8 +303,8 @@ pubblicato la direzione del vento per 5 stazioni invece di 46, per tre giorni,
 senza un solo errore nei giri. L'ha vista lui per caso, e il 9/10 era ormai
 fuori dalle ~69 ore di OMIRL: e' servita una riparazione mirata del solo `wd`.
 
-- **Ogni giorno, tutte le reti**: ieri e l'altro ieri (un giro saltato non fa
-  perdere niente), conteggio di stazioni, `t`, `w`, `wd`, `u` contro la
+- **Ogni giorno, tutte le reti**: **dal 3/11/2026 solo l'altro ieri** (prima ieri
+  e l'altro ieri: vedi la nota del 3/11 in fondo), conteggio di stazioni, `t`, `w`, `wd`, `u` contro la
   **mediana dei 14 giorni prima** (almeno 7 validi). Suona **sotto il 60%**, e
   solo dove quel campo arriva ad almeno 5 stazioni.
 - ⚠️ **L'intensita' `i` NON si guarda**: si scrive solo da 0,5 mm, nei giorni
@@ -318,9 +318,9 @@ fuori dalle ~69 ore di OMIRL: e' servita una riparazione mirata del solo `wd`.
   10/10 alle 10 avrebbe suonato quella mattina, in tempo per un rilancio.
 - La mail dice rete, campo e quanti contro quanti, e come rilanciare il
   collector con `date_override` finche' la fonte tiene i dati. Niente registro
-  e niente commit: un buco di piu' giorni manda la mail due mattine di fila, un
-  campo sparito per sempre si zittisce in circa una settimana, quando la
-  mediana si adegua.
+  e niente commit: un buco di piu' giorni manda una mail ogni mattina, un giorno
+  per volta, un campo sparito per sempre si zittisce in circa una settimana,
+  quando la mediana si adegua.
 - **Legge solo i nostri file, non tocca un dato.** Prova in locale:
   `node .github/scripts/check-campi.js`, `GIORNO=2026-09-07` per un giorno
   passato, `DATA_DIR=<cartella>` per i file di un altro momento (si estraggono
@@ -450,4 +450,26 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
   (`prova-b4\`): Friuli 41 stazioni, `qt` da 0 a 41; Toscana da 0 a 2.
 - Scartati dello stesso check, con lui: B2 (la finestra di ICON per gaps-nord: 8 eventi da luglio, mai piu' di uno o
   due insieme) e B6 (il rinnovo mensile col giro a mano del 1°: caso rarissimo).
+
+## La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)
+
+- **Il caso.** Mail di `check-campi.js` del 3/11 alle 11:45: «toscana, 2/11, vento su 0 stazioni contro 143». La fonte
+  non c'entrava. Le tre chiusure GitHub della Toscana (cron 21:00/21:20/21:40 UTC) sono partite alle 3:44, 3:56 e 4:02
+  italiane e, da chiusure tardive, hanno lavorato sul 2/11 come «oggi». La sveglia delle 4:30 ha visto «Toscana partita
+  28' fa» (`saltaSe` 45 della riga MATTINO) e ha saltato il giro che attacca il vento di ieri. Il vento e' arrivato col
+  cron `15 4` di GitHub, partito alle 12:51 italiane: 138 stazioni dalla rete di sicurezza MeteoHub, come i giorni prima.
+- **Sua regola: le mail solo per problemi certi, non per il ritardo di un workflow.** E niente giri in piu' per coprire
+  il caso: la Toscana sempre alle 4:30 (`saltaSe` 0) e' stata scartata, perche' le chiamate alle fonti le abbiamo
+  ridotte apposta e i fornitori ci bannano.
+- **Il rimedio: `check-campi.js` guarda solo l'altro ieri** (`rif` = oggi − 2, `GIORNI` 1). Il meteo di ieri lo
+  attaccano i giri del giorno dopo, anche in ritardo di ore; l'altro ieri nessun giro lo tocca piu', quindi un campo che
+  manca e' perso davvero. La mail lo dice («il giorno segnalato e' l'altro ieri»).
+- **La misura, log di alert-fonti dal 14/10 (40 giri riusciti): 5 mail dei campi.** Ritardi rientrati da soli: Toscana
+  `w`/`wd` 2/11 (mail 3/11), Lombardia `wd` 29/10 (mail 30/10). Buchi MeteoHub poi dichiarati `gapfill`, che il controllo
+  salta: Sardegna 15/10 (mail 16/10), Puglia 30/10 (mail 31/10). Persi davvero: Toscana `t`/`u` 17/10 (mail 19/10),
+  Campania 29/10 (mail 30 e 31/10). Col nuovo controllo, provato sui file di origin/main del 3/11: suonano solo
+  Toscana 17/10 e Campania 29/10, **2 mail invece di 5, una per buco**.
+- **Il prezzo**: un buco vero arriva un giorno dopo. Per la Liguria (OMIRL ~69 ore) il rilancio si fa ancora la sera
+  stessa; la temperatura toscana, che il SIR tiene solo per ieri, gia' prima arrivava tardi (17/10 avvisato il 19/10).
+  Se alert-fonti salta un giorno intero (sveglia delle 11:45 e cron delle 16:40), quel giorno non si guarda.
 

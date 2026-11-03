@@ -180,6 +180,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)**: «Allarme partito il», buchi lievi spiegati
 - **meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)**: l'errore ICON e' un avviso, il commit parte
 - **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
+- **La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)**: mail solo per buchi certi, 2 invece di 5
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni (8 KB)
 
