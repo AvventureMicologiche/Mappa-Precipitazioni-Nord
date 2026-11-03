@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-02T04:15:43.489Z",
+ "generato": "2026-11-03T04:15:44.111Z",
  "periodi": {
   "1": {
-   "media": 3.8,
+   "media": 28.9,
    "giorni": 1,
-   "stazioni": 404,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-01",
+   "stazioni": 402,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Giampilieri",
-     "mm": 34.2
+     "n": "Monreale Vigna d'Api SIAS",
+     "mm": 123.8
     },
     {
-     "n": "Mazara del Vallo SIAS",
-     "mm": 31.2
+     "n": "Isnello SP54",
+     "mm": 115.6
     },
     {
-     "n": "Bivona SIAS",
-     "mm": 25
+     "n": "Manali",
+     "mm": 90
     },
     {
-     "n": "Scaletta Superiore",
-     "mm": 24.6
+     "n": "Isnello",
+     "mm": 89.6
     },
     {
-     "n": "Gallitello",
-     "mm": 23.2
+     "n": "Palermo Chiavelli",
+     "mm": 79.8
     }
    ]
   },
   "7": {
-   "media": 11.3,
+   "media": 37.4,
    "giorni": 7,
-   "stazioni": 411,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-01",
+   "stazioni": 408,
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Melilli",
-     "mm": 68.4
+     "n": "Monreale Vigna d'Api SIAS",
+     "mm": 135.6
     },
     {
-     "n": "Nunziata",
-     "mm": 66.9
+     "n": "Isnello SP54",
+     "mm": 119.4
     },
     {
-     "n": "Linera",
-     "mm": 57.3
+     "n": "Manali",
+     "mm": 98.2
     },
     {
-     "n": "Palazzolo Acreide SIAS",
-     "mm": 47.6
+     "n": "Isnello",
+     "mm": 90.2
     },
     {
-     "n": "Viagrande",
-     "mm": 43
+     "n": "Scanzano Diga R2",
+     "mm": 90
     }
    ]
   },
   "20": {
-   "media": 36.1,
+   "media": 60.3,
    "giorni": 20,
-   "stazioni": 417,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-01",
+   "stazioni": 420,
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 295.1
+     "mm": 296.2
     },
     {
      "n": "Piedimonte Etneo",
-     "mm": 274
-    },
-    {
-     "n": "Letojanni",
-     "mm": 272.4
+     "mm": 279.6
     },
     {
      "n": "Forza d'Agrò",
-     "mm": 269.1
+     "mm": 279
+    },
+    {
+     "n": "Letojanni",
+     "mm": 272.3
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 260.6
+     "mm": 256.7
     }
    ]
   },
   "30": {
-   "media": 70.1,
+   "media": 97.3,
    "giorni": 30,
-   "stazioni": 418,
-   "primo": "2026-10-03",
-   "ultimo": "2026-11-01",
+   "stazioni": 419,
+   "primo": "2026-10-04",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 363.4
+     "mm": 381.6
     },
     {
      "n": "Forza d'Agrò",
-     "mm": 346.8
-    },
-    {
-     "n": "Letojanni",
-     "mm": 329.3
+     "mm": 366.3
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 327.8
+     "mm": 342.2
     },
     {
-     "n": "Piedimonte Etneo",
-     "mm": 306.1
+     "n": "Letojanni",
+     "mm": 341.7
+    },
+    {
+     "n": "Mandanici",
+     "mm": 328.4
     }
    ]
   }
  },
  "serie": [
+  28.9,
   3.8,
   4.5,
   0.9,
@@ -148,18 +149,17 @@
   0.4,
   0.2,
   0,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-11-01",
+ "serieDa": "2026-11-02",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-01",
-   "m1": 0.5,
-   "m7": 17.7,
-   "m30": 137.7,
+   "ultimo": "2026-11-02",
+   "m1": 54.8,
+   "m7": 66.6,
+   "m30": 192.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-01",
-   "m1": 1.3,
-   "m7": 25.8,
-   "m30": 125.8,
+   "ultimo": "2026-11-02",
+   "m1": 55,
+   "m7": 65.9,
+   "m30": 180.8,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,38 +1,38 @@
 {
  "regione": "liguria",
- "generato": "2026-11-02T11:29:49.949Z",
+ "generato": "2026-11-03T04:15:44.109Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 0,
    "giorni": 1,
    "stazioni": 174,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-01",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Santo Stefano d'Aveto (Santo Stefano d'Aveto)",
-     "nb": "Santo Stefano d'Aveto",
-     "mm": 3.8
+     "n": "Pratomollo (Borzonasca)",
+     "nb": "Pratomollo",
+     "mm": 1.8
     },
     {
-     "n": "Amborzasco (Santo Stefano d'Aveto)",
-     "nb": "Amborzasco",
-     "mm": 2.8
+     "n": "S. Margherita Ligure (Santa Margherita Ligure)",
+     "nb": "S. Margherita Ligure",
+     "mm": 1.2
     },
     {
-     "n": "Cabanne (Rezzoaglio)",
-     "nb": "Cabanne",
-     "mm": 2.8
+     "n": "Barbagelata (Lorsica)",
+     "nb": "Barbagelata",
+     "mm": 0.8
     },
     {
-     "n": "Giacopiane - Diga (Borzonasca)",
-     "nb": "Giacopiane - Diga",
-     "mm": 2.8
+     "n": "Alpe Vobbia (Vobbia)",
+     "nb": "Alpe Vobbia",
+     "mm": 0.4
     },
     {
-     "n": "Borzone (Borzonasca)",
-     "nb": "Borzone",
-     "mm": 2.6
+     "n": "Bargagli (Bargagli)",
+     "nb": "Bargagli",
+     "mm": 0.2
     }
    ]
   },
@@ -40,8 +40,8 @@
    "media": 0.7,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Santo Stefano d'Aveto (Santo Stefano d'Aveto)",
@@ -51,22 +51,22 @@
     {
      "n": "Cabanne (Rezzoaglio)",
      "nb": "Cabanne",
-     "mm": 3.8
+     "mm": 3.6
     },
     {
      "n": "La Macchia (Varese Ligure)",
      "nb": "La Macchia",
-     "mm": 3.2
+     "mm": 3
     },
     {
      "n": "Torriglia (Torriglia)",
      "nb": "Torriglia",
-     "mm": 3.2
+     "mm": 3
     },
     {
-     "n": "Varese Ligure (Varese Ligure)",
-     "nb": "Varese Ligure",
-     "mm": 3
+     "n": "Amborzasco (Santo Stefano d'Aveto)",
+     "nb": "Amborzasco",
+     "mm": 2.8
     }
    ]
   },
@@ -74,8 +74,8 @@
    "media": 135.3,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Lavagnola (Savona)",
@@ -85,7 +85,7 @@
     {
      "n": "Ellera - Foglietto (Albisola Superiore)",
      "nb": "Ellera - Foglietto",
-     "mm": 360.6
+     "mm": 360.4
     },
     {
      "n": "Stella Santa Giustina (Stella)",
@@ -100,16 +100,16 @@
     {
      "n": "Piampaludo (Sassello)",
      "nb": "Piampaludo",
-     "mm": 290.2
+     "mm": 290
     }
    ]
   },
   "30": {
-   "media": 183.9,
+   "media": 184,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-03",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-04",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Ellera - Foglietto (Albisola Superiore)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0,
   0.5,
   0,
   0,
@@ -168,18 +169,17 @@
   24.6,
   1.2,
   0.8,
-  0,
   0
  ],
- "serieDa": "2026-11-01",
+ "serieDa": "2026-11-02",
  "zone": [
   {
    "s": "valle-dei-campassi",
    "n": "Valle dei Campassi",
-   "ultimo": "2026-11-01",
-   "m1": 1.5,
-   "m7": 1.7,
-   "m30": 162.2,
+   "ultimo": "2026-11-02",
+   "m1": 0.3,
+   "m7": 2,
+   "m30": 162.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,7 +187,7 @@
   {
    "s": "val-bormida",
    "n": "Val Bormida",
-   "ultimo": "2026-11-01",
+   "ultimo": "2026-11-02",
    "m1": 0,
    "m7": 0.3,
    "m30": 172.8,
@@ -198,43 +198,43 @@
   {
    "s": "val-varenna",
    "n": "Val Varenna",
-   "ultimo": "2026-11-01",
-   "m1": 0.1,
+   "ultimo": "2026-11-02",
+   "m1": 0,
    "m7": 0.3,
    "m30": 229.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-neva",
    "n": "Val Neva",
-   "ultimo": "2026-11-01",
-   "m1": 0.6,
+   "ultimo": "2026-11-02",
+   "m1": 0,
    "m7": 0.7,
    "m30": 120.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "terra-brigasca",
    "n": "Terra brigasca",
-   "ultimo": "2026-11-01",
-   "m1": 0.4,
+   "ultimo": "2026-11-02",
+   "m1": 0,
    "m7": 0.4,
    "m30": 118.2,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "riviera-di-levante",
    "n": "Riviera di Levante",
-   "ultimo": "2026-11-01",
-   "m1": 0.8,
-   "m7": 0.8,
-   "m30": 223.6,
+   "ultimo": "2026-11-02",
+   "m1": 0.4,
+   "m7": 1.2,
+   "m30": 224,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "val-bisagno",
    "n": "Val Bisagno",
-   "ultimo": "2026-11-01",
-   "m1": 1.1,
+   "ultimo": "2026-11-02",
+   "m1": 0.1,
    "m7": 1.1,
-   "m30": 158.7,
+   "m30": 158.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -253,8 +253,8 @@
   {
    "s": "val-cichero",
    "n": "Val Cichero",
-   "ultimo": "2026-11-01",
-   "m1": 2.1,
+   "ultimo": "2026-11-02",
+   "m1": 0,
    "m7": 2.1,
    "m30": 229,
    "p1": true,
@@ -264,10 +264,10 @@
   {
    "s": "val-di-vara",
    "n": "Val di Vara",
-   "ultimo": "2026-11-01",
+   "ultimo": "2026-11-02",
    "m1": 0.1,
    "m7": 0.3,
-   "m30": 227.9,
+   "m30": 228,
    "p1": true,
    "p7": true,
    "p30": true
@@ -275,10 +275,10 @@
   {
    "s": "val-d-aveto",
    "n": "Val d'Aveto",
-   "ultimo": "2026-11-01",
-   "m1": 2.3,
-   "m7": 2.7,
-   "m30": 215.7,
+   "ultimo": "2026-11-02",
+   "m1": 0.5,
+   "m7": 3.1,
+   "m30": 216.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -286,7 +286,7 @@
   {
    "s": "val-varatella",
    "n": "Val Varatella",
-   "ultimo": "2026-11-01",
+   "ultimo": "2026-11-02",
    "m1": 0,
    "m7": 0.1,
    "m30": 217.2,
@@ -297,11 +297,11 @@
   {
    "s": "val-roia",
    "n": "Val Roia",
-   "ultimo": "2026-11-01",
+   "ultimo": "2026-11-02",
    "m1": 0,
    "m7": 0.1,
    "m30": 120.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

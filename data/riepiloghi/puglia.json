@@ -1,137 +1,127 @@
 {
  "regione": "puglia",
- "generato": "2026-11-02T04:15:43.489Z",
+ "generato": "2026-11-03T04:15:44.111Z",
  "periodi": {
   "1": {
-   "media": 6.7,
+   "media": 43.7,
    "giorni": 1,
    "stazioni": 128,
-   "primo": "2026-10-31",
-   "ultimo": "2026-10-31",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Lesina",
-     "mm": 66.9
+     "n": "Faeto",
+     "mm": 159.5
     },
     {
-     "n": "Bari Campus",
-     "mm": 37.7
+     "n": "Orto di Zolfo",
+     "mm": 144.8
     },
     {
-     "n": "Serracapriola",
-     "mm": 36.3
+     "n": "Panni",
+     "mm": 110.8
     },
     {
-     "n": "Poggio Imperiale",
-     "mm": 30.6
+     "n": "Orsara di Puglia",
+     "mm": 100.6
     },
     {
-     "n": "Torrente Saccione SP142",
-     "mm": 28.6
+     "n": "Biccari",
+     "mm": 94.8
     }
    ]
   },
   "7": {
-   "media": 16.6,
+   "media": 59.9,
    "giorni": 7,
    "stazioni": 129,
-   "primo": "2026-10-25",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-02",
    "top": [
     {
+     "n": "Faeto",
+     "mm": 161.9
+    },
+    {
+     "n": "Orto di Zolfo",
+     "mm": 147
+    },
+    {
      "n": "Lesina",
-     "mm": 115.5
+     "mm": 114.9
     },
     {
-     "n": "Poggio Imperiale",
-     "mm": 113
+     "n": "Panni",
+     "mm": 111
     },
     {
-     "n": "Sannicandro Garganico",
-     "mm": 62.9
-    },
-    {
-     "n": "Bisceglie",
-     "mm": 57.6
-    },
-    {
-     "n": "Castel del Monte",
-     "mm": 55.3
+     "n": "Bosco Umbra",
+     "mm": 108.3
     }
-   ],
-   "stime": {
-    "dal": "2026-10-26",
-    "al": "2026-10-29"
-   }
+   ]
   },
   "20": {
-   "media": 50.9,
+   "media": 85.8,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-12",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Ostuni",
-     "mm": 167.8
+     "n": "Faeto",
+     "mm": 178.1
     },
     {
      "n": "Lesina",
-     "mm": 164.7
+     "mm": 175.9
+    },
+    {
+     "n": "Orto di Zolfo",
+     "mm": 167.2
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 158.2
+     "mm": 160.6
     },
     {
-     "n": "Fasano",
-     "mm": 120.3
-    },
-    {
-     "n": "Locorotondo",
-     "mm": 114.8
+     "n": "Monopoli",
+     "mm": 149.5
     }
-   ],
-   "stime": {
-    "dal": "2026-10-26",
-    "al": "2026-10-29"
-   }
+   ]
   },
   "30": {
-   "media": 92.3,
+   "media": 137.6,
    "giorni": 30,
    "stazioni": 128,
-   "primo": "2026-10-02",
-   "ultimo": "2026-10-31",
+   "primo": "2026-10-04",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Ostuni",
-     "mm": 204.1
+     "n": "Vignacastrisi",
+     "mm": 274.9
     },
     {
-     "n": "Vignacastrisi",
-     "mm": 200.3
+     "n": "Ostuni",
+     "mm": 234.5
+    },
+    {
+     "n": "Orto di Zolfo",
+     "mm": 233
     },
     {
      "n": "S.M. di Leuca",
-     "mm": 189.2
+     "mm": 232.3
     },
     {
-     "n": "Lesina",
-     "mm": 187.1
-    },
-    {
-     "n": "Poggio Imperiale",
-     "mm": 182.4
+     "n": "Faeto",
+     "mm": 230.9
     }
-   ],
-   "stime": {
-    "dal": "2026-10-26",
-    "al": "2026-10-29"
-   }
+   ]
   }
  },
  "serie": [
+  43.7,
+  2.4,
   6.7,
   7.7,
   0.3,
@@ -159,10 +149,8 @@
   1.4,
   0,
   0,
-  0,
-  0,
   0
  ],
- "serieDa": "2026-10-31",
+ "serieDa": "2026-11-02",
  "zone": []
 }

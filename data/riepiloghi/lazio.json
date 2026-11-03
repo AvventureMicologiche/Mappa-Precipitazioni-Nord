@@ -1,125 +1,126 @@
 {
  "regione": "lazio",
- "generato": "2026-11-02T04:15:43.489Z",
+ "generato": "2026-11-03T04:15:44.110Z",
  "periodi": {
   "1": {
-   "media": 2.5,
+   "media": 3.8,
    "giorni": 1,
-   "stazioni": 209,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-01",
+   "stazioni": 208,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Amaseno a Fossanova",
-     "mm": 26.5
+     "n": "San Biagio Saracinisco",
+     "mm": 84.5
     },
     {
-     "n": "Ponza",
-     "mm": 24
+     "n": "Settefrati",
+     "mm": 40.8
     },
     {
      "n": "Valle del Rio",
-     "mm": 19.4
+     "mm": 35.4
     },
     {
-     "n": "Supino",
-     "mm": 17.7
+     "n": "Amatrice",
+     "mm": 29.7
     },
     {
-     "n": "Esperia",
-     "mm": 15.2
+     "n": "Ponza",
+     "mm": 27.8
     }
    ]
   },
   "7": {
-   "media": 4.2,
+   "media": 7.9,
    "giorni": 7,
    "stazioni": 209,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Latina",
-     "mm": 41.5
-    },
-    {
-     "n": "Lago di Nemi",
-     "mm": 41.2
-    },
-    {
-     "n": "Arrone a Maccarese",
-     "mm": 38.1
-    },
-    {
-     "n": "Borgo Montello",
-     "mm": 33.7
+     "n": "San Biagio Saracinisco",
+     "mm": 91.9
     },
     {
      "n": "Ponza",
-     "mm": 32.9
+     "mm": 60.7
+    },
+    {
+     "n": "Valle del Rio",
+     "mm": 54.8
+    },
+    {
+     "n": "Latina",
+     "mm": 49.9
+    },
+    {
+     "n": "Lago di Nemi",
+     "mm": 48
     }
    ]
   },
   "20": {
-   "media": 52.2,
+   "media": 56,
    "giorni": 20,
    "stazioni": 209,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Osteria di Castro",
-     "mm": 283.4
+     "mm": 292
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 221
+     "mm": 234
     },
     {
      "n": "Latina",
-     "mm": 210.7
+     "mm": 219.1
+    },
+    {
+     "n": "San Biagio Saracinisco",
+     "mm": 208
     },
     {
      "n": "Vallecorsa",
-     "mm": 176.6
-    },
-    {
-     "n": "Ufente a Ponte Ferraioli",
-     "mm": 172
+     "mm": 186.4
     }
    ]
   },
   "30": {
-   "media": 117.2,
+   "media": 120.8,
    "giorni": 30,
    "stazioni": 209,
-   "primo": "2026-10-03",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-04",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Latina",
-     "mm": 410.6
+     "mm": 419
     },
     {
      "n": "Osteria di Castro",
-     "mm": 363.2
+     "mm": 371.6
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 344.9
+     "mm": 357.9
     },
     {
      "n": "Ufente a Ponte Ferraioli",
-     "mm": 319.2
+     "mm": 322.4
     },
     {
-     "n": "Priverno",
-     "mm": 303.7
+     "n": "Sabaudia",
+     "mm": 310
     }
    ]
   }
  },
  "serie": [
+  3.8,
   2.5,
   0.1,
   1.4,
@@ -148,18 +149,17 @@
   11.5,
   2.3,
   0.4,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-11-01",
+ "serieDa": "2026-11-02",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-11-01",
-   "m1": 1,
-   "m7": 1.1,
-   "m30": 94.2,
+   "ultimo": "2026-11-02",
+   "m1": 0.7,
+   "m7": 1.8,
+   "m30": 94.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-11-01",
-   "m1": 3.6,
-   "m7": 3.8,
-   "m30": 100.1,
+   "ultimo": "2026-11-02",
+   "m1": 0.6,
+   "m7": 4.4,
+   "m30": 100.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,32 +178,32 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-11-01",
-   "m1": 0.1,
+   "ultimo": "2026-11-02",
+   "m1": 0,
    "m7": 0.1,
    "m30": 70.6,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-11-01",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 76.7,
-   "p1": false,
+   "ultimo": "2026-11-02",
+   "m1": 6.9,
+   "m7": 7,
+   "m30": 83.5,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-11-01",
-   "m1": 5.9,
-   "m7": 7,
-   "m30": 146.3,
+   "ultimo": "2026-11-02",
+   "m1": 6.4,
+   "m7": 13.4,
+   "m30": 152.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,10 +211,10 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-11-01",
-   "m1": 0.3,
-   "m7": 0.4,
-   "m30": 88.3,
+   "ultimo": "2026-11-02",
+   "m1": 2.7,
+   "m7": 3.1,
+   "m30": 91,
    "p1": true,
    "p7": true,
    "p30": true
@@ -222,7 +222,7 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-11-01",
+   "ultimo": "2026-11-02",
    "m1": 0,
    "m7": 0.1,
    "m30": 86.7,

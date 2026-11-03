@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-02T04:15:43.489Z",
+ "generato": "2026-11-03T04:15:44.110Z",
  "periodi": {
   "1": {
-   "media": 25.6,
+   "media": 15.4,
    "giorni": 1,
-   "stazioni": 112,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-01",
+   "stazioni": 111,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-02",
    "top": [
     {
+     "n": "Arquata del Tronto",
+     "mm": 124.3
+    },
+    {
+     "n": "Umito",
+     "mm": 103.6
+    },
+    {
+     "n": "Pintura di Bolognola",
+     "mm": 86.6
+    },
+    {
+     "n": "Piscina Acquasanta Terme",
+     "mm": 81.8
+    },
+    {
      "n": "Cantiano",
-     "mm": 88.6
-    },
-    {
-     "n": "Fiumesino",
-     "mm": 74.6
-    },
-    {
-     "n": "Cesano",
-     "mm": 74.2
-    },
-    {
-     "n": "Marina di Montemarciano",
-     "mm": 73.8
-    },
-    {
-     "n": "Corinaldo",
-     "mm": 72
+     "mm": 64.2
     }
    ]
   },
   "7": {
-   "media": 31.8,
+   "media": 47.3,
    "giorni": 7,
-   "stazioni": 113,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-01",
+   "stazioni": 112,
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 95.6
+     "mm": 159.8
     },
     {
-     "n": "Corinaldo",
-     "mm": 85.2
+     "n": "Pintura di Bolognola",
+     "mm": 137.8
     },
     {
-     "n": "Cesano",
-     "mm": 79.8
+     "n": "Umito",
+     "mm": 132.3
     },
     {
-     "n": "Marina di Montemarciano",
-     "mm": 75.6
+     "n": "Arquata del Tronto",
+     "mm": 131.9
     },
     {
-     "n": "Fiumesino",
-     "mm": 75
+     "n": "Piscina Acquasanta Terme",
+     "mm": 102.4
     }
    ]
   },
   "20": {
-   "media": 40.4,
+   "media": 55.4,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-02",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 125.8
+     "mm": 190
     },
     {
-     "n": "Corinaldo",
-     "mm": 89.6
+     "n": "Umito",
+     "mm": 148.3
     },
     {
-     "n": "Cesano",
-     "mm": 86.8
+     "n": "Pintura di Bolognola",
+     "mm": 148.2
     },
     {
-     "n": "Fiumesino",
-     "mm": 82
+     "n": "Arquata del Tronto",
+     "mm": 147.7
     },
     {
-     "n": "Marina di Montemarciano",
-     "mm": 81.2
+     "n": "Piscina Acquasanta Terme",
+     "mm": 112.4
     }
    ]
   },
   "30": {
-   "media": 82,
+   "media": 97.1,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-03",
-   "ultimo": "2026-11-01",
+   "primo": "2026-10-04",
+   "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Monte Petrano",
-     "mm": 192.2
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 189.4
-    },
-    {
      "n": "Cantiano",
-     "mm": 181.6
+     "mm": 245.6
     },
     {
-     "n": "Fiumesino",
-     "mm": 170.6
+     "n": "Monte Petrano",
+     "mm": 205
     },
     {
      "n": "Fonte Avellana",
-     "mm": 164.2
+     "mm": 197.4
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 189.2
+    },
+    {
+     "n": "Umito",
+     "mm": 185.5
     }
    ]
   }
  },
  "serie": [
+  15.4,
   25.6,
   3.5,
   2.7,
@@ -148,18 +149,17 @@
   1.4,
   3.2,
   0.2,
-  0.1,
   0.1
  ],
- "serieDa": "2026-11-01",
+ "serieDa": "2026-11-02",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-01",
-   "m1": 24.8,
-   "m7": 27,
-   "m30": 68.4,
+   "ultimo": "2026-11-02",
+   "m1": 4.6,
+   "m7": 31.6,
+   "m30": 73,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-01",
-   "m1": 7.8,
-   "m7": 21.2,
-   "m30": 62.8,
+   "ultimo": "2026-11-02",
+   "m1": 36,
+   "m7": 57.3,
+   "m30": 98.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-01",
-   "m1": 3.3,
-   "m7": 12.5,
-   "m30": 56.1,
+   "ultimo": "2026-11-02",
+   "m1": 86.5,
+   "m7": 99,
+   "m30": 142.6,
    "p1": true,
    "p7": true,
    "p30": true
