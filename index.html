@@ -7189,7 +7189,9 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 //    bug»): colorano i bordi, ma niente pallino e fuori dai numeri (_fuori, vedi render);
 //  - le stazioni AMATORIALI MeteoNetwork dentro l'Abruzzo (data/abruzzo, rete 'mnw');
 //  - le STIME del modello ICON-2I (data/abruzzo, rete 'icon'), dappertutto tranne entro ABR_STIMA_KM da una
-//    MeteoNetwork: una stima accanto a una misura direbbe due cose diverse sullo stesso posto. Vicino ai
+//    MeteoNetwork: una stima accanto a una misura direbbe due cose diverse sullo stesso posto. Dal 3/11/2026 (dati
+//    dal 26/10) quelle con un pluviometro vero entro 15 km sono corrette con quanto ICON ha sbagliato su di lui
+//    (correggiIcon in collect-abruzzo.js; `corr` nel file, e il pallino lo dice). Vicino ai
 //    pluviometri di confine invece restano: senza pallino quelli, togliere le stime lascerebbe vuota la fascia
 //    lungo i bordi.
 // Prima del 19/10/2026, dal 20/5 come le altre regioni del centro-sud, ci sono le stime del backfill fatto una volta
@@ -7223,7 +7225,7 @@ function loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,cb){
   var attive=getActiveRegions();
   // una vicina gia' accesa porta da se' i suoi pluviometri, nel colore e nei pallini: qui non si rileggono
   var vicine=Object.keys(ABR_VICINE).filter(function(rk){ return attive.indexOf(rk)<0; });
-  var rainTot={}, meta={}, cop={}, daIcon={}, daBackfill={};
+  var rainTot={}, meta={}, cop={}, daIcon={}, daBackfill={}, daCorr={};
   var dates=[];
   var d=new Date(pastDate.getTime());
   while(d<=nowDate){
@@ -7247,7 +7249,7 @@ function loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,cb){
         s._fonte='Rete regionale via MeteoHub · '+Math.max(1,Math.round(dc))+' km fuori';
       }
       var soloIcon=s._src==='icon'&&daIcon[key]&&!daBackfill[key];   // vedi sopra: «stima ICON-2I» solo se e' tutta ICON
-      if(s._src==='icon') s._fonte=soloIcon?'Modello ICON-2I, non un pluviometro':'Stima del modello, non un pluviometro';
+      if(s._src==='icon') s._fonte=soloIcon?(daCorr[key]?'Modello ICON-2I corretto coi pluviometri vicini, non un pluviometro':'Modello ICON-2I, non un pluviometro'):'Stima del modello, non un pluviometro';
       var o={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'',_src:s._src,_dir:s._dir,_fonte:s._fonte,
              _rete:s._src==='icon'?(soloIcon?'stima ICON-2I':'stima del modello'):s._src==='mnw'?'MeteoNetwork':ABR_ENTI[s._reg],
              _fuori:s._src==='confine',   // colora i bordi, ma niente pallino e fuori dai numeri dell'Abruzzo (render)
@@ -7296,7 +7298,7 @@ function loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,cb){
             meta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,_src:mnw?'mnw':'icon',_dir:'abruzzo',_cod:s.cod,
                        _fonte:mnw?'Rete MeteoNetwork · stazione '+s.cod:''};   // le stime: la fonte la decide finalizza
           }
-          if(!mnw) (backfill?daBackfill:daIcon)[key]=1;
+          if(!mnw){ (backfill?daBackfill:daIcon)[key]=1; if(s.corr) daCorr[key]=1; }   // corr: corretto coi pluviometri vicini (collect-abruzzo.js, 3/11/2026)
           rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
         });
       })

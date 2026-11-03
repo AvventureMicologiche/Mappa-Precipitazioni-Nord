@@ -11,7 +11,8 @@
  *  2. Il modello ICON-2I di ItaliaMeteo (CC BY 4.0, file aperti di MeteoHub): ~145 punti sui paesi, uniformi
  *     su tutta la regione (vedi PUNTI_KM). `rete:'icon'` e `stima:1`. La MAPPA tiene solo quelli lontani da un
  *     pluviometro vero; qui si scrivono tutti, cosi' servono anche a misurare quanto sbaglia il modello
- *     dove una stazione c'e'.
+ *     dove una stazione c'e'. Dal 3/11/2026 un punto con un pluviometro vero entro CORR_KM e' CORRETTO con
+ *     quanto ICON ha sbagliato su di lui (vedi correggiIcon): `mm` corretto, `grezzo` quello di ICON, `corr` il fattore.
  *
  * I pluviometri ufficiali delle regioni vicine (Lazio, Marche, Molise) NON stanno qui: la mappa li legge
  * dalle loro cartelle meteohub-*, come il Friuli fa con le cinque stazioni venete del Cadore.
@@ -30,6 +31,7 @@
  * Uso: node collect-abruzzo.js                (ieri e i due giorni prima)
  *      GIORNI=7 node collect-abruzzo.js       (gli ultimi 7)
  *      DATA=2026-10-24 node collect-abruzzo.js
+ *      SOLO_CORREZIONE=1 GIORNI=8 node collect-abruzzo.js   (rifa' solo la correzione sui file gia' scritti, senza rete)
  */
 const fs = require('fs');
 const path = require('path');
@@ -37,6 +39,7 @@ const { MIN_ORE, creaOre, segna, intensita } = require('./lib-intensita.js');
 const { finestraGiorno } = require('./lib-giorno-italiano.js');
 const { quoteTerrarium } = require('./lib-terrarium.js');
 const { MH, UA, G, corseIcon, oraIcon, iconGiorno } = require('./lib-icon2i.js');
+const { escluse } = require('./lib-escluse.js');
 
 const RADICE = path.join(__dirname, '../..');
 const CARTELLA = path.join(RADICE, 'data', 'abruzzo');
@@ -243,6 +246,65 @@ function scriviIconPluviometri(giorno, veri, mm, corse) {
   fs.writeFileSync(f, JSON.stringify({ date: giorno, collected: new Date().toISOString(), icon_corse: corse, count: Object.keys(icon).length, icon }));
 }
 
+// ─── ICON corretto coi pluviometri vicini (3/11/2026, scheda 115) ──────────
+// ICON-2I sbaglia di qualche km dove mette il temporale: il 2/11/2026 dava 157 mm a Corfinio, che ne ha misurati
+// 37,7, e 73 a Cepagatti, che ne ha misurati 163,6. Dove un pluviometro VERO sta entro CORR_KM, la stima di un punto
+// si moltiplica per quanto ICON ha sbagliato su di lui: il rapporto (vero + 1) / (ICON + 1) nel punto del pluviometro
+// (ICON da icon-pluviometri, stessa media 3x3), in logaritmo, mediato coi pesi 1/d² e con un peso in piu' 1/CORR_D0²
+// che lo riporta verso 1 quando i pluviometri sono pochi o lontani; il fattore resta fra CORR_MIN e CORR_MAX. Oltre
+// CORR_KM ICON resta com'e'.
+// Perche' cosi': prova «a occhi chiusi» sui 14 giorni dal 20/10 al 2/11 (claudio\abruzzo-prova\correzione-prova-115.js,
+// 82 pluviometri: ognuno nascosto insieme ai vicini entro 10 km e indovinato dagli altri). Nei giorni bagnati l'errore
+// medio scende da 13,5 a 9,2 mm e gli errori oltre 20 mm da 50 a 25; il 21/10 da 14,8 a 7,5, il 2/11 da 17,3 a 12,5.
+// Oltre i 15 km la correzione PEGGIORA (fra 15 e 20 km da 13,7 a 19 mm): per questo il taglio.
+// Pluviometri usati: quelli che la mappa mostra. Le MeteoNetwork del giorno non ferme (anagrafe) e gli ufficiali di
+// Lazio, Marche e Molise entro CONFINE_KM dal confine, non esclusi (MH_ESCLUSE di index.html, via lib-escluse.js):
+// il 2/11 Mafalda, esclusa perche' segna troppo poco, avrebbe portato San Salvo da 73 a 17,5 mm.
+// Nel file il valore di ICON resta in `grezzo` (rifacendo un giorno si riparte sempre da quello), il fattore in `corr`
+// (solo sui punti corretti); la mappa scrive «corretto coi pluviometri vicini» nel pallino. Senza il file
+// icon-pluviometri del giorno (prima del 27/10/2026) non si corregge niente e il file non cambia.
+const CORR_KM = 15, CORR_D0 = 15, CORR_MIN = 0.25, CORR_MAX = 4;
+const PER_VICINA = { 'meteohub-lazio': 'lazio', 'meteohub-marche': 'marche', 'meteohub-molise': 'molise' };
+function correggiIcon(giorno, stations, an, ESC) {
+  let iconP;
+  try { iconP = JSON.parse(fs.readFileSync(path.join(CARTELLA, 'icon-pluviometri', giorno + '.json'), 'utf8')).icon; } catch (e) { return null; }
+  const pluvio = [];
+  for (const s of stations) {
+    if (s.rete !== 'mnw' || s.mm == null || (an.mnw[s.cod] && an.mnw[s.cod].ferma)) continue;
+    const ic = iconP['mnw:' + s.cod];
+    if (ic != null) pluvio.push({ lat: s.lat, lon: s.lon, mm: s.mm, ic });
+  }
+  for (const dir of VICINE) {
+    let d; try { d = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', dir, giorno + '.json'), 'utf8')); } catch (e) { continue; }
+    if (/open-meteo|icon-2i-gapfill/.test(d.source || '')) continue;
+    const esc = ESC[PER_VICINA[dir]] || new Set();
+    for (const s of d.stations || []) {
+      if (s.om || s.mm == null || s.lat == null || esc.has(String(s.id))) continue;
+      const ic = iconP[dir + ':' + s.id];
+      if (ic != null && distConfine(s.lat, s.lon) <= CONFINE_KM) pluvio.push({ lat: s.lat, lon: s.lon, mm: s.mm, ic });
+    }
+  }
+  let corretti = 0;
+  for (const s of stations) {
+    if (s.rete !== 'icon') continue;
+    const grezzo = s.grezzo != null ? s.grezzo : s.mm;
+    let somma = 0, peso = 1 / CORR_D0 ** 2, usati = 0;
+    for (const p of pluvio) {
+      const d = km(s.lat, s.lon, p.lat, p.lon);
+      if (d > CORR_KM) continue;
+      const w = 1 / Math.max(d, 1) ** 2;
+      somma += w * Math.log((p.mm + 1) / (p.ic + 1)); peso += w; usati++;
+    }
+    s.grezzo = grezzo;
+    if (!usati) { s.mm = grezzo; delete s.corr; continue; }
+    const f = Math.min(CORR_MAX, Math.max(CORR_MIN, Math.exp(somma / peso)));
+    s.mm = Math.max(0, Math.round(((grezzo + 1) * f - 1) * 10) / 10);
+    s.corr = Math.round(f * 100) / 100;
+    corretti++;
+  }
+  return { pluviometri: pluvio.length, corretti };
+}
+
 function segnaFerme(an) {
   const giorni = fs.readdirSync(CARTELLA).filter(f => /^\d{4}-\d\d-\d\d\.json$/.test(f)).sort().slice(-FERME_GIORNI).map(f => f.slice(0, 10));
   const mnw = {}, altri = {};
@@ -290,6 +352,18 @@ function segnaFerme(an) {
 async function main() {
   fs.mkdirSync(CARTELLA, { recursive: true });
   const an = caricaAnagrafe();
+  const ESC = escluse(RADICE);
+  if (process.env.SOLO_CORREZIONE) {   // senza rete: solo la correzione sui file gia' scritti (vedi correggiIcon)
+    for (const giorno of giorniDaFare()) {
+      const file = path.join(CARTELLA, giorno + '.json');
+      let d; try { d = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { continue; }
+      const c = correggiIcon(giorno, d.stations, an, ESC);
+      if (!c) { console.log(`— ${giorno}: niente icon-pluviometri, file non toccato`); continue; }
+      fs.writeFileSync(file, JSON.stringify(d));
+      console.log(`✅ ${giorno}: corretti ${c.corretti} punti ICON con ${c.pluviometri} pluviometri`);
+    }
+    return;
+  }
   const punti = (await puntiIcon(an)).map(p => ({ ...p,
     i: Math.round((p.lon - G.lon0) / G.dlon), j: Math.round((p.lat - G.lat0) / G.dlat) }));
   let corse = [];
@@ -330,6 +404,7 @@ async function main() {
 
     const stations = Object.values(st).sort((a, b) => (a.rete === b.rete ? 0 : a.rete === 'mnw' ? -1 : 1) || a.n.localeCompare(b.n, 'it'));
     if (!stations.length) { console.log(`— ${giorno}: niente da scrivere`); continue; }
+    const corr = correggiIcon(giorno, stations, an, ESC);
     const out = {
       date: giorno, collected: new Date().toISOString(), source: 'meteonetwork+icon-2i',
       icon_corse: icon ? icon.corse : (prima && prima.icon_corse) || null,
@@ -339,7 +414,8 @@ async function main() {
     const nm = stations.filter(s => s.rete === 'mnw'), ni = stations.filter(s => s.rete === 'icon');
     const media = a => a.length ? (a.reduce((t, s) => t + s.mm, 0) / a.length).toFixed(1) : '—';
     console.log(`✅ ${giorno}: MeteoNetwork ${nm.length} (media ${media(nm)} mm) · ICON ${ni.length} punti (media ${media(ni)} mm)` +
-      (icon ? ` · corse ${icon.corse.join(', ')} · ICON su ${veri.length} pluviometri veri` : ' · ICON non disponibile'));
+      (icon ? ` · corse ${icon.corse.join(', ')} · ICON su ${veri.length} pluviometri veri` : ' · ICON non disponibile') +
+      (corr ? ` · corretti ${corr.corretti} punti con ${corr.pluviometri} pluviometri` : ''));
   }
   segnaFerme(an);
   fs.writeFileSync(ANAGRAFE, JSON.stringify(an, null, 1));

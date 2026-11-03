@@ -538,6 +538,21 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   Cloudflare (`MATTINO` di `sveglia-guardiano`, versione `1be359ee`, copia in `.github/cloudflare/`), prima dei
   riepiloghi delle 5:15: il cron di GitHub delle 4:55 UTC partiva verso le 13:30 italiane. Il guardiano (6:00-8:30)
   resta come rete se anche quel giro manca.
+- **ICON corretto coi pluviometri vicini (3/11/2026, scheda 115, suo «ha senso e va approfondito» e «Si', preparala»):**
+  `correggiIcon` in `collect-abruzzo.js`. Un punto ICON con un pluviometro vero entro 15 km si moltiplica per quanto ICON
+  ha sbagliato su di lui: rapporto (vero+1)/(ICON+1) nel punto del pluviometro (`icon-pluviometri`), in logaritmo, pesi
+  1/d² piu' un peso 1/15² che lo riporta verso 1, fattore fra 1/4 e 4; oltre 15 km ICON resta com'e'. Pluviometri: le
+  MeteoNetwork non ferme e gli ufficiali di Lazio, Marche e Molise entro 15 km dal confine non esclusi (MH_ESCLUSE via
+  `lib-escluse.js`). Nel file `mm` corretto, `grezzo` di ICON, `corr` il fattore; il pallino dice «Modello ICON-2I
+  corretto coi pluviometri vicini»; una frase nella riga Abruzzo di `fonti.html`. Rifacendo un giorno si riparte da
+  `grezzo`; `SOLO_CORREZIONE=1` rifa' solo la correzione, senza rete. Giorni corretti: dal 26/10 (prima non c'e'
+  `icon-pluviometri`). Prova a occhi chiusi sui 14 giorni 20/10-2/11, 82 pluviometri nascosti coi vicini entro 10 km
+  (`claudio\abruzzo-prova\correzione-prova-115.js`): giorni bagnati da 13,5 a 9,2 mm di errore medio, errori oltre 20
+  mm da 50 a 25; oltre 15 km la correzione peggiorava, da qui il taglio. Il 2/11, dei 102 punti in mappa 43 corretti:
+  Caramanico 196,8→91, Sulmona 86→34, Manoppello 114→195, Fara Filiorum Petri 110→173 (vero: Cepagatti 2 163,6);
+  Pacentro 141 resta (nessun pluviometro entro 15 km). Non aggiusta i posti senza pluviometri vicini, e un pluviometro
+  di valle puo' abbassare un paese di montagna (Caramanico da Corfinio): da riguardare alle prossime piogge con lo
+  stesso attrezzo (il giro salva ICON nei pluviometri ogni giorno).
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
