@@ -18200,11 +18200,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     /* ⚠️ 31/10/2026 (scheda 104): fino allo zoom 10 la foto NOSTRA, la stessa della pioggia (window._fotoNostra:
        Blue Marble + ESA da jsDelivr), cosi' vista Italia, regioni e province non consumano tessere Esri; Esri piena
        dallo zoom 11 (valli e paesi: li' conta il dettaglio delle case). Se la nostra non arriva, Esri a ogni zoom
-       come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita */
+       come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita
+       ⚠️ 3/11/2026 (scheda 116, suo «Sì, a un quarto»): Esri dallo zoom 11 a UN QUARTO delle tessere, come la pioggia
+       (512 px, zoomOffset -1): un quarto delle richieste, foto un po' piu' morbida da vicino al PC. maxNativeZoom 18 =
+       Esri fino al suo 17, come prima */
     if(on&&!satL){
       /* ⚠️ maxZoom 19 (1/11/2026, scheda 105): senza, Leaflet la ferma al 18 e allo zoom 19 restava la nostra del 10
          ingrandita 512 volte, una macchia di colore (in produzione, prima, la cartina stradale) */
-      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxZoom:19,maxNativeZoom:17});
+      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxZoom:19,maxNativeZoom:18,tileSize:512,zoomOffset:-1});
       var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
         var mm=map(); if(!mm||!satL) return;
         satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); creditoEsri(); }):null;

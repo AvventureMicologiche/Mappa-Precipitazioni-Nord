@@ -170,6 +170,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **«Ieri a Caronia» era la pioggia di Pomiere: il punto di stamattina coi pluviometri fuori dal paese (2/11/2026, scheda 113)**: con `primo` il punto dice dove e' stata misurata la pioggia
 - **Il credito della probabilita' di pioggia solo in fonti.html (3/11/2026, scheda 114)**: via dalla scheda, dalle 89 pagine meteo e dalla guida
 - **La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)**: i numeri delle pagine meteo, i link da `?m=prev` a `/previsioni/?r=`, `METEO_PAESI_B` scelti dalle ricerche «meteo <paese>»
+- **Le previsioni da vicino a un quarto delle tessere Esri (3/11/2026, scheda 116)**: dallo zoom 11 come la pioggia, 512 px e zoomOffset -1
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

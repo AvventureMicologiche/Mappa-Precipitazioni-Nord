@@ -754,3 +754,15 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
 - Prova sul sito vero col file nuovo (`check-10\prova-crediti-114.js` del banco): PC e telefono, scheda di Milano, riga
   «Previsioni ECMWF via MET Norway», zero «Open-Meteo» nel testo della pagina.
 
+## Le previsioni da vicino a un quarto delle tessere Esri (3/11/2026, scheda 116)
+
+- Sua domanda «ma le previsioni non hanno le tessere a 1/4?»: no. Dal 31/10 (scheda 104) la pioggia prendeva Esri a un
+  quarto dallo zoom 11 e le previsioni piene («li' conta il dettaglio delle case»); il 31/10 lui aveva chiesto «e se
+  mettiamo anche il meteo a 1/4?», misurato, ma poi si e' fatta prima la foto nostra fino al 10 e da 11 in su e' rimasto
+  pieno senza una sua scelta. Suo «Si', a un quarto»: `vicinoL` (modulo della foto delle previsioni, `viFondo`) con
+  `tileSize:512, zoomOffset:-1` come la pioggia, `maxNativeZoom` 18 = Esri fino al suo 17 come prima.
+- Misura sul sito vero, stesso giro (Lombardia, Val Brembana agli zoom 11, 12, 13 e uno spostamento;
+  `scratchpad c5b15e68\previsioni-quarto-116.js`, `INDICE=` di prove-veloci): PC 80 tessere (433 KB) → 32 (230 KB),
+  telefono 32 (245 KB) → 16 (127 KB), 0 errori. Allo zoom 13 la foto e' un po' piu' morbida
+  (`immagini\116\previsioni-z13-*`).
+
