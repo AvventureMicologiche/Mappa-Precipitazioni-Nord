@@ -1,29 +1,14 @@
 {
  "regione": "veneto",
- "generato": "2026-11-03T04:15:44.109Z",
+ "generato": "2026-11-03T12:23:40.631Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 185,
+   "stazioni": 186,
    "primo": "2026-11-02",
    "ultimo": "2026-11-02",
    "top": [
-    {
-     "n": "Marcon loc. Zuccarello (VE)",
-     "nb": "Marcon loc. Zuccarello",
-     "mm": 30.4
-    },
-    {
-     "n": "Col Indes (Tambre) (BL)",
-     "nb": "Col Indes (Tambre)",
-     "mm": 1
-    },
-    {
-     "n": "San Martino d'Alpago (BL)",
-     "nb": "San Martino d'Alpago",
-     "mm": 1
-    },
     {
      "n": "Rovina di Cancia (Q2267) (BL)",
      "nb": "Rovina di Cancia (Q2267)",
@@ -33,25 +18,35 @@
      "n": "Roa Bianca (Lastia di Framont) (BL)",
      "nb": "Roa Bianca (Lastia di Framont)",
      "mm": 0.2
+    },
+    {
+     "n": "Adria - Bellombra (RO)",
+     "nb": "Adria - Bellombra",
+     "mm": 0
+    },
+    {
+     "n": "Agna (PD)",
+     "nb": "Agna",
+     "mm": 0
+    },
+    {
+     "n": "Agordo (BL)",
+     "nb": "Agordo",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0.9,
+   "media": 0.7,
    "giorni": 7,
    "stazioni": 186,
    "primo": "2026-10-27",
    "ultimo": "2026-11-02",
    "top": [
     {
-     "n": "Marcon loc. Zuccarello (VE)",
-     "nb": "Marcon loc. Zuccarello",
-     "mm": 32.6
-    },
-    {
      "n": "Col Indes (Tambre) (BL)",
      "nb": "Col Indes (Tambre)",
-     "mm": 9.2
+     "mm": 8.2
     },
     {
      "n": "Marano di Valpolicella (VR)",
@@ -67,11 +62,16 @@
      "n": "Cansiglio - Tramedere (BL)",
      "nb": "Cansiglio - Tramedere",
      "mm": 5
+    },
+    {
+     "n": "Zero Branco (TV)",
+     "nb": "Zero Branco",
+     "mm": 4.8
     }
    ]
   },
   "20": {
-   "media": 49.5,
+   "media": 49.3,
    "giorni": 20,
    "stazioni": 186,
    "primo": "2026-10-14",
@@ -85,7 +85,7 @@
     {
      "n": "Col Indes (Tambre) (BL)",
      "nb": "Col Indes (Tambre)",
-     "mm": 170.8
+     "mm": 169.8
     },
     {
      "n": "Soffranco (BL)",
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 67.8,
+   "media": 67.7,
    "giorni": 30,
    "stazioni": 186,
    "primo": "2026-10-04",
@@ -134,13 +134,13 @@
     {
      "n": "Col Indes (Tambre) (BL)",
      "nb": "Col Indes (Tambre)",
-     "mm": 177.6
+     "mm": 176.6
     }
    ]
   }
  },
  "serie": [
-  0.2,
+  0,
   0.6,
   0,
   0,
@@ -188,10 +188,10 @@
    "s": "val-gallina",
    "n": "Val Gallina",
    "ultimo": "2026-11-02",
-   "m1": 0.2,
-   "m7": 3.2,
-   "m30": 151.6,
-   "p1": true,
+   "m1": 0,
+   "m7": 3,
+   "m30": 151.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
