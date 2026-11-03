@@ -1584,3 +1584,15 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
   1 pixel su 10.508, a 4 px dal fondo sotto la barra delle citta' (`uguale-116.js`); scatti a meta' rotellina, a meta'
   trascinamento e a meta' pizzico al telefono (eventi touch veri) con la pioggia al suo posto (`immagini\116\zoom-*`,
   `pizzico-*`); boschi, satellite, radar, telefono senza errori; fotogrammi e compiti lunghi uguali a prima.
+
+## Il tetto di zoom: pioggia 13, previsioni 14, boschi e satellite 19 (3/11/2026, scheda 116)
+
+- Suo: «e' necessario uno zoom cosi' elevato sulla pagina meteo e piogge? non vorrei che il consumo di Esri sia
+  esagerato; se uno vuole il satellite per vedere zoom elevati lo abbiamo, lo guarda li'». Fino ad allora pioggia e
+  previsioni arrivavano al 19 (la singola casa), ma la pioggia viene da pluviometri a chilometri l'uno dall'altro: oltre
+  il 13 e' lo stesso colore sopra la foto, e ogni scatto in piu' chiede tessere nuove a Esri. Suo «te le approvo gia'».
+- Modulo «IL TETTO DI ZOOM» subito dopo quello della foto: `map.setMaxZoom` a ogni cambio di classe del body, 19 con
+  `modo-boschi` o `sat-on` (il satellite sta solo dentro i boschi), 14 con `modo-prev`, 13 per tutto il resto (pioggia e
+  radar). Leaflet ferma rotellina e tasto + (che si spegne) e, uscendo dai boschi da piu' vicino, riporta la mappa al tetto.
+- Provato in locale (`scratchpad c5b15e68\tetto-116.js`, `tetto-sat-116.js`, server `server-116.js` su prova.localhost:9021):
+  pioggia ferma al 13 col + spento; boschi al 19 e uscendo torna al 13; satellite al 19; previsioni al 14; 0 errori.

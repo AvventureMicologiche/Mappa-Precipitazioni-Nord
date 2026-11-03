@@ -139,6 +139,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le macchie squadrate sul mare della foto dal satellite (2/11/2026, scheda 111 quater)**: il mare delle coste lo decide la carta ESA WorldCover, il ghiaccio azzurrino di Blue Marble, jsDelivr da riscaldare tutto
 - **Le date sotto i periodi andavano a capo al telefono a cavallo dei mesi (2/11/2026, scheda 114, check-10)**: «dal 26/10» e niente a capo
 - **La pioggia non si spegne piu' zoomando e trascinando (3/11/2026, scheda 116)**: la tela piu' grande dello schermo segue zoom, pizzico e trascinamento
+- **Il tetto di zoom: pioggia 13, previsioni 14, boschi e satellite 19 (3/11/2026, scheda 116)**: `setMaxZoom` a ogni cambio di modo
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
@@ -171,6 +172,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il credito della probabilita' di pioggia solo in fonti.html (3/11/2026, scheda 114)**: via dalla scheda, dalle 89 pagine meteo e dalla guida
 - **La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)**: i numeri delle pagine meteo, i link da `?m=prev` a `/previsioni/?r=`, `METEO_PAESI_B` scelti dalle ricerche «meteo <paese>»
 - **Le previsioni da vicino a un quarto delle tessere Esri (3/11/2026, scheda 116)**: dallo zoom 11 come la pioggia, 512 px e zoomOffset -1
+- **Le pagine meteo con la foto nostra fino allo zoom 10 (3/11/2026, scheda 116)**: `fotoSat` nelle 89 pagine di zona e di paese, Esri a un quarto da vicino
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

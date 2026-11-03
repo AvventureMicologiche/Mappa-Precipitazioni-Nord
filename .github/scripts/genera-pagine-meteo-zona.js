@@ -64,6 +64,16 @@ const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipit
 const INDEX = fs.readFileSync(path.join(RADICE, 'index.html'), 'utf8');
 const SAT = (/var SAT_FOTO='([^']+)'/.exec(INDEX) || [])[1] || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
+/* LA FOTO NOSTRA FINO ALLO ZOOM 10, POI ESRI A UN QUARTO (3/11/2026, scheda 116, suo: «la nostra foto fino allo zoom 10
+   nelle pagine /meteo/<zona>/, che oggi chiedono a Esri anche le tessere da lontano»). Come la mappa (modulo «LA FOTO
+   DAL SATELLITE SOTTO LA PIOGGIA» di index.html) e le pagine «adesso»: la cartina della valle e l'anteprima
+   «Previsioni» chiedevano Esri a ogni zoom, anche all'apertura. Si legge da index.html come in genera-pagine-adesso.js;
+   se non si trova, Esri a ogni zoom come prima (fotoSat nel codice del browser). */
+const FOTO = (function () {
+  const commit = /var FOTO_COMMIT='([0-9a-f]{40})'/.exec(INDEX), url = /var FOTO_URL='([^']+)'\+FOTO_COMMIT\+'([^']+)'/.exec(INDEX);
+  const lim = /var FOTO_LIMITI=(\[\[[^;]+\]\]);/.exec(INDEX), cr = /var FOTO_CREDITI='([^']+)'/.exec(INDEX);
+  return commit && url && lim && cr ? { u: url[1] + commit[1] + url[2], lim: JSON.parse(lim[1]), cr: cr[1] } : null;
+})();
 const GA_ID = 'G-9R7MXXS0V4';
 const CANALE = 'https://www.youtube.com/@avventuremicologiche';
 
@@ -468,6 +478,38 @@ function clientePagina(C) {
       : 'La ' + C.valle + ' ' + quando + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
   }
 
+  /* ── la foto dal satellite delle cartine (3/11/2026, scheda 116) ──
+     Come la mappa grande: fino allo zoom 10 la foto NOSTRA (C.foto: Blue Marble + ESA da jsDelivr, nessuna tessera Esri),
+     dallo zoom 11 Esri a un quarto delle tessere (512 px, zoomOffset -1). La nostra resta sotto: se Esri si ferma si vede
+     lei ingrandita. Se la nostra non arriva (3 errori senza una tessera arrivata) Esri a ogni zoom, come prima; jsDelivr
+     alla prima richiesta di una tessera a volte risponde 403, quindi altri tre tentativi (2, 5, 12 s), come la mappa.
+     zmax e' lo zoom massimo della cartina (Leaflet lo prende dagli strati). Il credito di Esri solo quando c'e' lui. */
+  function fotoSat(m, crEsri, zmax) {
+    var esri = L.tileLayer(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
+    var cr = false;
+    function crediti() {
+      var si = esri.options.minZoom === 0 || m.getZoom() >= 11, ac = m.attributionControl;
+      if (si === cr || !ac) return; cr = si;
+      if (si) ac.addAttribution(crEsri); else ac.removeAttribution(crEsri);
+    }
+    if (C.foto) {
+      var nostra = L.tileLayer(C.foto.u, { minNativeZoom: 4, maxNativeZoom: 10, maxZoom: zmax, bounds: C.foto.lim, crossOrigin: true, attribution: C.foto.cr });
+      var arrivate = 0, rotte = 0;
+      nostra.on('tileload', function () { arrivate++; });
+      nostra.on('tileerror', function (e) {
+        if (++rotte >= 3 && !arrivate) {
+          setTimeout(function () { if (!m.hasLayer(nostra)) return; m.removeLayer(nostra); m.removeLayer(esri); esri.options.minZoom = 0; esri.addTo(m); crediti(); }, 0);
+          return;
+        }
+        var im = e.tile; if (!im) return; im._riprova = (im._riprova || 0) + 1; if (im._riprova > 3) return;
+        setTimeout(function () { var s = im.src; if (!s || !nostra._map || !im.parentNode) return; im.src = ''; im.src = s; }, [2000, 5000, 12000][im._riprova - 1]);
+      });
+      nostra.addTo(m);
+    }
+    esri.addTo(m); crediti(); m.on('zoomend', crediti);
+    return esri;
+  }
+
   /* ── la mappa della valle ── */
   function disegnaMappa() {
     if (!window.L || !J) return;
@@ -481,9 +523,10 @@ function clientePagina(C) {
       /* LA FOTO DAL SATELLITE, COME LA MAPPA (30/10/2026; prima OpenStreetMap col rilievo TINITALY in «multiply»): la
          foto schiarita, come viFondo della vista a etichette. Il rilievo a parte non serve piu': la foto ce l'ha.
          ⚠️ A OGNI ZOOM dal 31/10/2026 (suo: «zoomando scompare il satellite», poi «sistema anche le 71 pagine meteo»):
-         fino ad allora oltre lo zoom 13,5 tornava la cartina coi nomi delle strade, come faceva viFondo */
-      var sat = L.tileLayer(C.sat, { maxNativeZoom: 17, maxZoom: 15, attribution: 'Foto: Esri, Vantor, Earthstar Geographics' });
-      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!mappa.hasLayer(sat)) sat.addTo(mappa); };
+         fino ad allora oltre lo zoom 13,5 tornava la cartina coi nomi delle strade, come faceva viFondo
+         ⚠️ 3/11/2026 (scheda 116): la nostra fino al 10 e Esri a un quarto da vicino, vedi fotoSat */
+      var sat = null;
+      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!sat) sat = fotoSat(mappa, 'da vicino Esri, Vantor, Earthstar Geographics', 15); };
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
@@ -840,8 +883,8 @@ function clientePagina(C) {
   function miniMappa(id, larga, sat) {
     var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
     // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
-    L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);
-    if (sat) { $(id).classList.add('sat'); L.tileLayer(C.sat, { maxNativeZoom: 17, maxZoom: 12, attribution: 'Foto: Esri' }).addTo(m); }
+    m.attributionControl = L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);   // fotoSat ci scrive Esri
+    if (sat) { $(id).classList.add('sat'); fotoSat(m, 'Esri', 12); }   // la nostra fino al 10, poi Esri a un quarto (3/11/2026)
     else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
     var b = larga ? L.latLngBounds(larga)
       // sulla foto il confine bianco: il blu scuro sul mare scuro non si vedeva
@@ -1068,7 +1111,7 @@ function pagina(z, QUOTE_DI) {
   if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
 
   const C = { sito: SITO, raw: RAW, slug: zslug, reg: casa.k, dove: DOVE, valle: VALLE, inValle: VALLE === 'valle' ? 'in valle' : 'nella zona',
-    diValle: 'della ' + VALLE, sat: SAT, quote, pluv, nastro: NOME,
+    diValle: 'della ' + VALLE, sat: SAT, foto: FOTO, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
     ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa) }, ordineCitta(casa.k)) };
@@ -1167,7 +1210,7 @@ ${ALTRE}
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {

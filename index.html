@@ -3053,6 +3053,20 @@ window._fotoNostra=function(pane,quandoNonArriva,piu){
   if(document.body) avvia(); else document.addEventListener('DOMContentLoaded',avvia);
 })();
 
+/* ═══ IL TETTO DI ZOOM (3/11/2026, scheda 116) ═══
+   Suo: «e' necessario uno zoom cosi' elevato sulla pagina meteo e piogge? non vorrei che il consumo di Esri sia
+   esagerato; se uno vuole il satellite per vedere zoom elevati lo abbiamo, lo guarda li'». La pioggia viene da
+   pluviometri a chilometri l'uno dall'altro: oltre lo zoom 13 (il paese coi suoi campi) e' lo stesso colore sopra la
+   foto, e ogni scatto in piu' chiede tessere nuove a Esri. Sua scelta: pioggia (radar compreso) fino al 13, previsioni
+   fino al 14 (le case), Mappa boschi e il suo Satellite (sat-on sta solo dentro modo-boschi) fino al 19 come prima.
+   Leaflet ferma rotellina e tasto + al tetto, e se la mappa e' piu' vicina (uscendo dai boschi) la riporta al tetto. */
+(function(){
+  function tetto(){ var b=document.body.classList; return b.contains('modo-boschi')||b.contains('sat-on')?19:b.contains('modo-prev')?14:13; }
+  function giusto(){ var z=tetto(); if(map.options.maxZoom!==z) map.setMaxZoom(z); }
+  function avvia(){ giusto(); try{ new MutationObserver(giusto).observe(document.body,{attributes:true,attributeFilter:['class']}); }catch(e){} }
+  if(document.body) avvia(); else document.addEventListener('DOMContentLoaded',avvia);
+})();
+
 /**
  * Esegue `cb` quando la mappa ha davvero DISEGNATO le tile della vista attuale.
  *

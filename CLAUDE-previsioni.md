@@ -766,3 +766,16 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   telefono 32 (245 KB) → 16 (127 KB), 0 errori. Allo zoom 13 la foto e' un po' piu' morbida
   (`immagini\116\previsioni-z13-*`).
 
+## Le pagine meteo con la foto nostra fino allo zoom 10 (3/11/2026, scheda 116)
+
+- Suo «la nostra foto fino allo zoom 10 nelle pagine /meteo/<zona>/» (approvata insieme al tetto di zoom). Le 49 pagine
+  di zona e le 40 «Meteo <paese>» chiedevano Esri a OGNI zoom, anche all'apertura: la cartina della valle (fino al 15) e
+  l'anteprima «Previsioni» della regione (fino al 12). Ora `fotoSat` nel codice del browser di
+  `genera-pagine-meteo-zona.js` (lo usa anche genera-pagine-meteo-paese.js): la foto NOSTRA fino al 10 (`FOTO`, letta da
+  index.html come in genera-pagine-adesso.js: FOTO_COMMIT, FOTO_URL, FOTO_LIMITI, FOTO_CREDITI), Esri dall'11 a un quarto
+  come la mappa, la nostra sotto se Esri si ferma, Esri a ogni zoom se la nostra non arriva, tre tentativi per tessera
+  per jsDelivr, credito di Esri solo da vicino. Rigenerate tutte e 89: cambiano solo quelle righe (sitemap uguale).
+- Tessere Esri aprendo la pagina e scendendo fino alle cartine (online → nuova, `tetto-116.js`): Garfagnana PC 20 → 6,
+  telefono 15 → 0; Val Brembana PC 30 → 6, telefono 12 → 2; Paluzza PC 22 → 4, telefono 12 → 0. 290 script compilati, 0
+  errori.
+
