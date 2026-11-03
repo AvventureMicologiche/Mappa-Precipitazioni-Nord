@@ -12,6 +12,12 @@
  * numero sbagliato. Misurato su 10 giorni di agosto-settembre: 0,3% fuori, 6% senza vicini.
  * Non prende gli errori piccoli (2-3°): e' la stessa differenza fra un fondovalle e un versante.
  *
+ * ⚠️ LE TEMPERATURE STIMATE (3/11/2026, scheda 115): i punti ICON dell'Abruzzo (`rete: 'icon'`, `stima: 1`) hanno una
+ * temperatura del modello corretta con le stazioni vicine (collect-abruzzo.js, temperatureIcon). Entrano con le stesse
+ * regole, ma i loro vicini sono SOLO stazioni vere (se no un centinaio di punti stimati si darebbero ragione a vicenda)
+ * e nessuna stazione vera viene controllata contro di loro. Nel file escono con un 1 in fondo ([lat, lon, min, max, 1]):
+ * la mappa le scrive diverse da quelle misurate.
+ *
  * Zero rete: legge i file del giorno gia' nel checkout. Scrive data/temperature-ieri.json
  * (data/ e' nella regola ignore di Netlify: zero crediti). Lo lancia riepiloghi.yml.
  *
@@ -51,7 +57,7 @@ function main() {
       if (!t || typeof t[0] !== 'number' || typeof t[1] !== 'number' || t[0] === t[1]) continue;
       if (s.om || (s.src && /open-meteo/.test(s.src))) continue;
       if (typeof s.lat !== 'number' || typeof s.lon !== 'number') continue;
-      tutte.push({ lat: s.lat, lon: s.lon, q: s.q || 0, mn: t[0], mx: t[1] });
+      tutte.push({ lat: s.lat, lon: s.lon, q: s.q || 0, mn: t[0], mx: t[1], st: (s.rete === 'icon' || s.stima === 1) ? 1 : 0 });
     }
   }
   // griglia per cercare i vicini senza confrontare tutti con tutti
@@ -66,6 +72,7 @@ function main() {
     for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) {
       for (const o of griglia[(la + a) + ':' + (lo + b)] || []) {
         if (o === s || (Math.abs(o.lat - s.lat) + Math.abs(o.lon - s.lon)) < 0.0005) continue;   // se stessa o la gemella di un'altra rete
+        if (o.st) continue;   // una stima non fa da testimone a nessuno
         const km = Math.hypot((s.lat - o.lat) * 111, (s.lon - o.lon) * 111 * Math.cos(s.lat * Math.PI / 180));
         if (km <= KM) vic.push(o);
       }
@@ -74,7 +81,7 @@ function main() {
     const dq = o => (s.q - o.q) * GRADIENTE;
     const attMx = mediana(vic.map(o => o.mx + dq(o))), attMn = mediana(vic.map(o => o.mn + dq(o)));
     if (Math.abs(s.mx - attMx) > TOLL_MAX || Math.abs(s.mn - attMn) > TOLL_MIN) { fuori++; continue; }
-    buone.push([s.lat, s.lon, s.mn, s.mx]);
+    buone.push(s.st ? [s.lat, s.lon, s.mn, s.mx, 1] : [s.lat, s.lon, s.mn, s.mx]);
   }
   const out = { giorno, generato: new Date().toISOString(), lette: tutte.length, scartate: fuori, senza_vicini: soli, s: buone };
   fs.writeFileSync(OUT, JSON.stringify(out));

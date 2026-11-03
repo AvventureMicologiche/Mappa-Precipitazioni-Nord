@@ -14,6 +14,8 @@
  *     pluviometro vero; qui si scrivono tutti, cosi' servono anche a misurare quanto sbaglia il modello
  *     dove una stazione c'e'. Dal 3/11/2026 un punto con un pluviometro vero entro CORR_KM e' CORRETTO con
  *     quanto ICON ha sbagliato su di lui (vedi correggiIcon): `mm` corretto, `grezzo` quello di ICON, `corr` il fattore.
+ *     Dal 3/11/2026 anche la temperatura minima e massima di ICON (`tg`), corretta con le stazioni vere vicine (`t`,
+ *     vedi temperatureIcon); in mappa e' scritta diversa da quella misurata.
  *
  * I pluviometri ufficiali delle regioni vicine (Lazio, Marche, Molise) NON stanno qui: la mappa li legge
  * dalle loro cartelle meteohub-*, come il Friuli fa con le cinque stazioni venete del Cadore.
@@ -39,7 +41,7 @@ const path = require('path');
 const { MIN_ORE, creaOre, segna, intensita } = require('./lib-intensita.js');
 const { finestraGiorno } = require('./lib-giorno-italiano.js');
 const { quoteTerrarium } = require('./lib-terrarium.js');
-const { MH, UA, G, corseIcon, oraIcon, iconGiorno } = require('./lib-icon2i.js');
+const { MH, UA, G, corseIcon, oraIcon, iconGiorno, t2mGiorno } = require('./lib-icon2i.js');
 const { escluse } = require('./lib-escluse.js');
 
 const RADICE = path.join(__dirname, '../..');
@@ -272,10 +274,23 @@ function pluviometriVeri(giorno, mnw, prima) {
 function scriviIconPluviometri(giorno, veri, mm, corse) {
   const dir = path.join(CARTELLA, 'icon-pluviometri'), f = path.join(dir, giorno + '.json');
   fs.mkdirSync(dir, { recursive: true });
-  let icon = {};
-  try { icon = JSON.parse(fs.readFileSync(f, 'utf8')).icon || {}; } catch (e) {}
+  let prima = {};
+  try { prima = JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) {}
+  const icon = prima.icon || {};
   veri.forEach((p, k) => { icon[p.id] = mm[k]; });
-  fs.writeFileSync(f, JSON.stringify({ date: giorno, collected: new Date().toISOString(), icon_corse: corse, count: Object.keys(icon).length, icon }));
+  const out = { date: giorno, collected: new Date().toISOString(), icon_corse: corse, count: Object.keys(icon).length, icon };
+  if (prima.t) out.t = prima.t;   // la temperatura (scriviIconT) resta
+  fs.writeFileSync(f, JSON.stringify(out));
+}
+// Nello stesso file, dal 3/11/2026, anche la temperatura di ICON nel punto dei pluviometri: {id: [minima, massima]}.
+function scriviIconT(giorno, veri, t) {
+  const dir = path.join(CARTELLA, 'icon-pluviometri'), f = path.join(dir, giorno + '.json');
+  fs.mkdirSync(dir, { recursive: true });
+  let d = { date: giorno, icon: {} };
+  try { d = JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) {}
+  d.t = d.t || {};
+  veri.forEach((p, k) => { if (t[k]) d.t[p.id] = t[k]; });
+  fs.writeFileSync(f, JSON.stringify(d));
 }
 
 // ─── ICON corretto coi pluviometri vicini (3/11/2026, scheda 115) ──────────
@@ -337,6 +352,55 @@ function correggiIcon(giorno, stations, an, ESC) {
   return { pluviometri: pluvio.length, corretti };
 }
 
+// ─── La temperatura stimata dei punti ICON (3/11/2026, scheda 115, suo «ma non e' possibile mettere la temperatura?») ─
+// La minima e la massima di ICON-2I nella cella del punto (`tg`, da t2mGiorno di lib-icon2i.js) si correggono con
+// quanto ICON ha sbagliato sulle stazioni vere vicine: lo SCARTO (vero - ICON nel punto della stazione, da
+// icon-pluviometri `t`), mediato coi pesi 1/d² entro T_KM e con un peso in piu' 1/T_D0² che lo riporta verso zero
+// quando le stazioni sono poche o lontane. Minima e massima ognuna per conto suo. `t` corretta, `tg` quella di ICON.
+// Misura del 3/11 a occhi chiusi (claudio\abruzzo-prova\temperature-icon-*-115.js, 28/10-2/11, ~88 stazioni, ognuna
+// nascosta coi vicini entro 10 km): massima da 1,7° a 1,3° di errore medio (93% entro 3°), minima 1,4° (88% entro 3°).
+// ⚠️ Giorni nuvolosi: le notti serene con l'inversione nelle conche vanno riguardate. Sulla mappa la temperatura di un
+// punto stimato passa dal controllo coi vicini di genera-temperature-ieri.js (che guarda solo le stazioni VERE) ed e'
+// scritta diversa (in corsivo, piu' chiara). Stazioni usate: come per la pioggia, solo quelle che la mappa mostra.
+const T_KM = 25, T_D0 = 15;
+function temperatureIcon(giorno, stations, an, ESC) {
+  let iconT;
+  try { iconT = JSON.parse(fs.readFileSync(path.join(CARTELLA, 'icon-pluviometri', giorno + '.json'), 'utf8')).t; } catch (e) {}
+  if (!iconT) return null;
+  const vere = [];
+  for (const s of stations) {
+    if (s.rete !== 'mnw' || !s.t || (an.mnw[s.cod] && an.mnw[s.cod].ferma)) continue;
+    const ic = iconT['mnw:' + s.cod];
+    if (ic) vere.push({ lat: s.lat, lon: s.lon, t: s.t, ic });
+  }
+  for (const dir of VICINE) {
+    let d; try { d = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', dir, giorno + '.json'), 'utf8')); } catch (e) { continue; }
+    if (/open-meteo|icon-2i-gapfill/.test(d.source || '')) continue;
+    const esc = ESC[PER_VICINA[dir]] || new Set();
+    for (const s of d.stations || []) {
+      if (s.om || !s.t || s.t[0] === s.t[1] || s.lat == null || esc.has(String(s.id))) continue;
+      const ic = iconT[dir + ':' + s.id];
+      if (ic) vere.push({ lat: s.lat, lon: s.lon, t: s.t, ic });
+    }
+  }
+  let n = 0;
+  for (const s of stations) {
+    if (s.rete !== 'icon' || !s.tg) continue;
+    const somma = [0, 0]; let peso = 1 / T_D0 ** 2;
+    for (const v of vere) {
+      const d = km(s.lat, s.lon, v.lat, v.lon);
+      if (d > T_KM) continue;
+      const w = 1 / Math.max(d, 1) ** 2;
+      somma[0] += w * (v.t[0] - v.ic[0]); somma[1] += w * (v.t[1] - v.ic[1]); peso += w;
+    }
+    const r1 = x => Math.round(x * 10) / 10;
+    const mn = r1(s.tg[0] + somma[0] / peso), mx = r1(s.tg[1] + somma[1] / peso);
+    s.t = [Math.min(mn, mx), Math.max(mn, mx)];
+    n++;
+  }
+  return { stazioni: vere.length, punti: n };
+}
+
 function segnaFerme(an) {
   const giorni = fs.readdirSync(CARTELLA).filter(f => /^\d{4}-\d\d-\d\d\.json$/.test(f)).sort().slice(-FERME_GIORNI).map(f => f.slice(0, 10));
   const mnw = {}, altri = {};
@@ -391,8 +455,10 @@ async function main() {
       let d; try { d = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { continue; }
       const c = correggiIcon(giorno, d.stations, an, ESC);
       if (!c) { console.log(`— ${giorno}: niente icon-pluviometri, file non toccato`); continue; }
+      const ct = temperatureIcon(giorno, d.stations, an, ESC);
       fs.writeFileSync(file, JSON.stringify(d));
-      console.log(`✅ ${giorno}: corretti ${c.corretti} punti ICON con ${c.pluviometri} pluviometri`);
+      console.log(`✅ ${giorno}: corretti ${c.corretti} punti ICON con ${c.pluviometri} pluviometri` +
+        (ct ? ` · temperatura su ${ct.punti} punti con ${ct.stazioni} stazioni` : ''));
     }
     return;
   }
@@ -422,6 +488,10 @@ async function main() {
     try { if (corse.length) icon = await iconGiorno(giorno, corse, punti.concat(veri)); }
     catch (e) { errori++; console.log(`⚠️ ${giorno} ICON-2I:`, e.message); }
     if (icon) scriviIconPluviometri(giorno, veri, icon.mm.slice(punti.length), icon.corse);
+    let tIcon = null;   // la temperatura di ICON, a parte: se cade, la pioggia si scrive lo stesso
+    try { if (corse.length) tIcon = await t2mGiorno(giorno, corse, punti.concat(veri)); }
+    catch (e) { console.log(`⚠️ ${giorno} temperatura ICON-2I:`, e.message); }
+    if (tIcon) scriviIconT(giorno, veri, tIcon.t.slice(punti.length));
 
     const st = {};
     for (const s of mnw) {
@@ -441,10 +511,17 @@ async function main() {
       const t = temp[st[id].cod] || st[id].t || (vecchie[id] && vecchie[id].t);
       if (t) st[id].t = t;
     }
+    // la temperatura di ICON nei punti: questo giro, se no quella gia' nel file (la corregge temperatureIcon)
+    punti.forEach((pt, k) => {
+      const s = st[pt.id]; if (!s) return;
+      const tg = tIcon ? tIcon.t[k] : (s.tg || (vecchie[pt.id] && vecchie[pt.id].tg));
+      if (tg) s.tg = tg;
+    });
 
     const stations = Object.values(st).sort((a, b) => (a.rete === b.rete ? 0 : a.rete === 'mnw' ? -1 : 1) || a.n.localeCompare(b.n, 'it'));
     if (!stations.length) { console.log(`— ${giorno}: niente da scrivere`); continue; }
     const corr = correggiIcon(giorno, stations, an, ESC);
+    const corrT = temperatureIcon(giorno, stations, an, ESC);
     const out = {
       date: giorno, collected: new Date().toISOString(), source: 'meteonetwork+icon-2i',
       icon_corse: icon ? icon.corse : (prima && prima.icon_corse) || null,
@@ -455,7 +532,8 @@ async function main() {
     const media = a => a.length ? (a.reduce((t, s) => t + s.mm, 0) / a.length).toFixed(1) : '—';
     console.log(`✅ ${giorno}: MeteoNetwork ${nm.length} (media ${media(nm)} mm) · ICON ${ni.length} punti (media ${media(ni)} mm)` +
       (icon ? ` · corse ${icon.corse.join(', ')} · ICON su ${veri.length} pluviometri veri` : ' · ICON non disponibile') +
-      (corr ? ` · corretti ${corr.corretti} punti con ${corr.pluviometri} pluviometri` : ''));
+      (corr ? ` · corretti ${corr.corretti} punti con ${corr.pluviometri} pluviometri` : '') +
+      (corrT ? ` · temperatura su ${corrT.punti} punti con ${corrT.stazioni} stazioni` : ''));
   }
   segnaFerme(an);
   fs.writeFileSync(ANAGRAFE, JSON.stringify(an, null, 1));
@@ -464,4 +542,4 @@ async function main() {
 
 // Lanciato da solo fa il giro; con require presta i pezzi (il confronto con Open-Meteo e coi pluviometri veri).
 if (require.main === module) main().catch(e => { console.error('❌', e); process.exit(1); });
-module.exports = { meteoNetwork, temperatureMnw, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, puntiIcon, ANAGRAFE };
+module.exports = { meteoNetwork, temperatureMnw, temperatureIcon, scriviIconT, pluviometriVeri, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, puntiIcon, ANAGRAFE };

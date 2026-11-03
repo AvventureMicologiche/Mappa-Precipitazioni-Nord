@@ -16717,6 +16717,8 @@ body.modo-radar #tq-btn,body.modo-boschi #tq-btn{display:none !important}
 .tq{display:inline-flex;gap:0;align-items:center;white-space:nowrap;font:800 12px/1.2 system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:-.3px;
   text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}   /* alone pieno: scelto da lui il 3/10 sopra le piogge forti */
 .tq .mn{color:#1856b8}.tq .mx{color:#c21f1f}.tq .sep{color:#6b7684;font-weight:400;margin:0 .5px}
+/* la temperatura STIMATA dei punti ICON dell'Abruzzo (3/11/2026, scheda 115): in corsivo e piu' chiara */
+.tq.st{font-style:italic;font-weight:600}.tq.st .mn{color:#6a8fcf}.tq.st .mx{color:#d77a7a}
 /* ⚠️ NIENTE attenuazione della pioggia con le temperature accese: provata e bocciata (3/10, suo) */
 /* con le temperature accese via il velo blu-grigio sulla regione, e non pulsa niente (3/10, suo):
    come col radar e coi boschi, chi ha acceso le temperature ha gia' scelto cosa guardare */
@@ -16789,7 +16791,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
       // un file vecchio non si mostra: «ieri» deve essere davvero ieri o l'altro ieri
       var eta=(Date.now()-Date.parse(j.giorno+'T12:00:00Z'))/864e5;
       if(!(eta>0 && eta<3)) return;
-      dati={}; j.s.forEach(function(r){ dati[chiave(r[0],r[1])]=[r[2],r[3]]; });
+      dati={}; j.s.forEach(function(r){ dati[chiave(r[0],r[1])]=[r[2],r[3],r[4]?1:0]; });   // r[4]: stima del modello (genera-temperature-ieri.js)
       var d=j.giorno.split('-'); giorno=(+d[2])+' '+MESI[(+d[1])-1];
       if(btn) disegnaTasto();
       aggiorna();
@@ -16800,7 +16802,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
   var TERM='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1f6fd1" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/><path d="M12 9v8"/></svg>';
   function disegnaTasto(){
     btn.innerHTML=POS==='riga' ? TERM+'<span>Temp. ieri</span>' : TERM+'<span>ieri</span>';
-    btn.title=on?'Nascondi le temperature del '+giorno:'Minima e massima del '+giorno+' accanto ai pluviometri';
+    btn.title=on?'Nascondi le temperature del '+giorno:'Minima e massima del '+giorno+' accanto ai pluviometri (in corsivo le stime del modello)';
     btn.classList.toggle('on',on);
     document.body.classList.toggle('tq-on',on);
     if(POS==='riga') copiaAspetto();
@@ -16846,7 +16848,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
       var t=dati[chiave(p._latlng.lat,p._latlng.lng)]; if(!t) return;
       var r=p.getRadius()||6;
       var mk=L.marker(p._latlng,{pane:'tqPane',interactive:false,keyboard:false,icon:L.divIcon({className:'tq-ic',iconSize:null,iconAnchor:[-(r+3),8],
-        html:'<span class="tq"><span class="mn">'+g(t[0])+'</span><span class="sep">|</span><span class="mx">'+f(t[1])+'</span></span>'})});
+        html:'<span class="tq'+(t[2]?' st':'')+'"><span class="mn">'+g(t[0])+'</span><span class="sep">|</span><span class="mx">'+f(t[1])+'</span></span>'})});
       mk._tq=true; mk._r=r; gruppo.addLayer(mk);
     });
     disegnando=false;
@@ -16864,17 +16866,18 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
       var el=mk.getElement()&&mk.getElement().querySelector('.tq'); if(!el) return;
       el.style.marginLeft=''; el.classList.remove('via');
       var q=mp.latLngToContainerPoint(mk.getLatLng()), b=el.getBoundingClientRect();
-      voci.push({el:el,x:q.x+mr.left,y:q.y+mr.top,r:mk._r||6,b:b});
+      voci.push({el:el,x:q.x+mr.left,y:q.y+mr.top,r:mk._r||6,b:b,st:el.classList.contains('st')});
     });
     var CW=64, CH=26, migliore={};
+    // 4) (3/11/2026) una STIMA passa solo dove nella casella non c'e' una stazione vera, e si piazza dopo di loro
     voci.forEach(function(v){
       var cx=Math.floor(v.x/CW), cy=Math.floor(v.y/CH), k=cx+':'+cy;
-      v.k=k; v.d=Math.hypot(v.x-(cx+.5)*CW, v.y-(cy+.5)*CH);
+      v.k=k; v.d=Math.hypot(v.x-(cx+.5)*CW, v.y-(cy+.5)*CH)+(v.st?1e6:0);
       if(!migliore[k]||v.d<migliore[k].d) migliore[k]=v;
     });
     // UNA stazione per casella, e le altre no: la grandezza della casella decide quante etichette
     voci.forEach(function(v){ if(migliore[v.k]!==v) v.el.classList.add('via'); });
-    var ordine=voci.filter(function(v){ return migliore[v.k]===v; });
+    var ordine=voci.filter(function(v){ return migliore[v.k]===v; }).sort(function(a,b){ return (a.st?1:0)-(b.st?1:0); });
     var tenute=[], punti=[];
     function sopra(a,c){ return c.x+c.r>a.left && c.x-c.r<a.right && c.y+c.r>a.top && c.y-c.r<a.bottom; }
     function urta(a,v){

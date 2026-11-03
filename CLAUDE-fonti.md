@@ -559,8 +559,21 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   `t: [minima, massima]` con le regole di `collect-meteohub.js` (kelvin, termometro muto, sbalzi isolati, -45/50 °C,
   almeno 20 ore). Un giro senza temperatura tiene quella gia' nel file. Riempite una volta dal 26/10 al 2/11 (8-13
   stazioni al giorno; il 24-25/10 MeteoHub da anonimi risponde 401). Sulla mappa passano dal controllo coi vicini di
-  `genera-temperature-ieri.js`: il 2/11 12 su 12. I punti ICON restano SENZA temperatura: sono stime, e sul sito le
-  temperature sono solo misurate e verificate coi vicini.
+  `genera-temperature-ieri.js`: il 2/11 12 su 12. (I punti ICON all'inizio restavano senza temperatura: vedi sotto.)
+- **La temperatura STIMATA dei punti ICON (3/11/2026, scheda 115, suo «ma non e' possibile mettere la temperatura?»,
+  «Si', misura» e «Si', preparala»):** nel file ICON-2I la T a 2 m (0/0/0 a 103/2) e' la prima di 8 variabili per
+  passo (passo in minuti), `t2mGiorno` in `lib-icon2i.js` (cella, non media 3x3; corse in altro ordine = indice).
+  `collect-abruzzo.js`: `tg` = minima e massima di ICON nel punto, ICON anche sulle stazioni vere (`t` in
+  `icon-pluviometri`), `temperatureIcon` corregge con lo scarto medio delle stazioni vere entro 25 km (pesi 1/d² + 1/15²,
+  minima e massima a parte) → `t`. Misura a occhi chiusi 28/10-2/11 (`claudio\abruzzo-prova\temperature-icon-*-115.js`,
+  529 coppie): massima 1,7°→1,3° di errore medio (93% entro 3°), minima 1,4° (88% entro 3°). `genera-temperature-ieri.js`:
+  le stime (`rete:'icon'`/`stima:1`) hanno come vicini solo stazioni vere e non fanno da testimone; nel file
+  [lat, lon, min, max, 1]. Mappa: `.tq.st` in corsivo e piu' chiara, nella casella passa prima la stazione vera; il
+  titolo del tasto dice «in corsivo le stime del modello». `fonti.html`: una frase nella riga Abruzzo. Riempite una
+  volta 28/10-2/11; il 2/11 passano il controllo 91 stime su 145 (54 dei 102 punti in mappa: quelli senza 3 stazioni
+  vere entro 25 km, nel cuore della Maiella e del Gran Sasso, restano senza). Le temperature vere non cambiano (2/11:
+  4.623 righe prima e dopo). ⚠️ Giorni nuvolosi: alle prime notti serene riguardare le minime delle conche con lo
+  stesso attrezzo (ICON nelle stazioni e' in `icon-pluviometri`, giorno per giorno).
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge

@@ -65,7 +65,7 @@ function intestazione(b) {
   while (p + 5 <= b.length) {
     const L = b.readUInt32BE(p), num = b[p + 4];
     if (num === 3) { m.ni = b.readUInt32BE(p + 30); m.nj = b.readUInt32BE(p + 34); }
-    if (num === 4) { m.tpl = u16(b, p + 7); m.cat = b[p + 9]; m.num = b[p + 10]; m.passo = b.readUInt32BE(p + 18); }
+    if (num === 4) { m.tpl = u16(b, p + 7); m.cat = b[p + 9]; m.num = b[p + 10]; m.passo = b.readUInt32BE(p + 18); m.sup = b[p + 22]; m.supV = b.readUInt32BE(p + 24); }
     if (num === 5) { m.pack = u16(b, p + 9); m.R = b.readFloatBE(p + 11); m.E = sm16(b, p + 15); m.D = sm16(b, p + 17); m.bit = b[p + 19]; }
     if (num === 6) m.bitmap = b[p + 5];
     if (num === 7) { m.dati = p + 5; return m; }
@@ -172,4 +172,64 @@ async function stimaIcon(stazioni, giorno, corse) {
   return { mm: new Map(punti.map((p, k) => [p.id, r.mm[k]])), corse: r.corse };
 }
 
-module.exports = { MH, UA, G, TP_LEN, TP_PASSI, corseIcon, oraIcon, iconGiorno, cella, stimaIcon };
+// ─── LA TEMPERATURA A 2 METRI (3/11/2026, scheda 115) ──────────────────────
+// Nello stesso file, prima della pioggia, ci sono 8 variabili per ogni passo da 0 a 72 ore, lunghe T2M_LEN byte
+// l'una e in fila passo per passo: la prima e' la temperatura a 2 m (GRIB 0/0/0, superficie 103 a 2 m, in kelvin, il
+// passo in MINUTI), quindi il passo s sta a s * T2M_NVAR * T2M_LEN. Alcune corse sono messe in un altro ordine (31/10
+// e 2/11/2026 alle 00): allora si scorre il file una volta (~2 minuti) e si tiene l'indice, come per la pioggia.
+// Il valore e' quello della CELLA, non la media 3x3: nella misura del 3/11 (claudio\abruzzo-prova\temperature-icon-
+// *-115.js, ~88 stazioni vere intorno all'Abruzzo, 28/10-2/11) la cella sbaglia meno (massima 1,7° contro 1,9°), la
+// media mescola il fondovalle col crinale.
+const T2M_LEN = 1158428, T2M_NVAR = 8;
+const eT2m = (m, s) => !!m && m.cat === 0 && m.num === 0 && m.sup === 103 && m.supV === 2 && m.passo === s * 60;
+const indiciT = {};   // file -> {passo in ore: offset}, solo per le corse in un altro ordine
+async function scorriT2m(file, tot) {
+  if (indiciT[file]) return indiciT[file];
+  console.log(`   ⚠️ ${file.slice(0, 24)}: la temperatura non e' dove ci si aspetta, scorro il file`);
+  const idx = {};
+  let off = 0;
+  while (off < tot) {
+    const { buf } = await intervallo(file, off, Math.min(tot - 1, off + 1023));
+    const m = intestazione(buf);
+    if (!m) break;
+    if (m.cat === 0 && m.num === 0 && m.sup === 103 && m.supV === 2) idx[m.passo / 60] = off;
+    off += m.len;
+  }
+  return (indiciT[file] = idx);
+}
+// La temperatura (°C) del passo s della corsa in `file` nella cella di ogni punto.
+async function oraT2m(file, s, punti, rig) {
+  if (!dimensioni[file]) dimensioni[file] = (await intervallo(file, 0, 0)).tot;
+  let off = indiciT[file] ? indiciT[file][s] : s * T2M_NVAR * T2M_LEN;
+  let m = off === undefined ? null : intestazione((await intervallo(file, off, off + 511)).buf);
+  if (!eT2m(m, s)) {
+    off = (await scorriT2m(file, dimensioni[file]))[s];
+    m = off === undefined ? null : intestazione((await intervallo(file, off, off + 511)).buf);
+  }
+  if (!eT2m(m, s)) throw new Error(`temperatura del passo ${s} assente`);
+  if (m.ni !== G.ni || m.nj !== G.nj || m.pack !== 0 || m.bit !== 16 || m.bitmap !== 255) throw new Error('griglia o impacchettamento della temperatura diversi');
+  const riga = G.ni * 2;
+  const dati = (await intervallo(file, off + m.dati + rig.j0 * riga, off + m.dati + (rig.j1 + 1) * riga - 1)).buf;
+  const sc = Math.pow(2, m.E), dc = Math.pow(10, -m.D);
+  return punti.map(pt => (m.R + dati.readUInt16BE((pt.j - rig.j0) * riga + pt.i * 2) * sc) * dc - 273.15);
+}
+// Minima e massima del giorno italiano nella cella di ogni punto: le 24 ore piene che finiscono in (mezzanotte,
+// mezzanotte], ognuna dalla corsa piu' recente partita prima di lei. {t: [[minima, massima], ...], corse}, oppure
+// null se un'ora manca (niente temperatura del giorno, non mezza).
+async function t2mGiorno(giorno, corse, punti) {
+  const { start, end } = finestraGiorno(giorno);
+  const rig = { j0: Math.min(...punti.map(p => p.j)), j1: Math.max(...punti.map(p => p.j)) };
+  const mn = new Array(punti.length).fill(Infinity), mx = new Array(punti.length).fill(-Infinity);
+  const usate = new Set();
+  for (let t = start + 3600000; t <= end; t += 3600000) {
+    const c = corse.find(x => x.rif <= t - 3600000 && (t - x.rif) / 3600000 <= TP_PASSI);
+    if (!c) return null;
+    const v = await oraT2m(c.file, (t - c.rif) / 3600000, punti, rig);
+    v.forEach((x, k) => { if (x < mn[k]) mn[k] = x; if (x > mx[k]) mx[k] = x; });
+    usate.add(new Date(c.rif).toISOString().slice(0, 13));
+  }
+  const r1 = x => Math.round(x * 10) / 10;
+  return { t: mn.map((x, k) => [r1(x), r1(mx[k])]), corse: [...usate].sort() };
+}
+
+module.exports = { MH, UA, G, TP_LEN, TP_PASSI, corseIcon, oraIcon, iconGiorno, cella, stimaIcon, t2mGiorno };
