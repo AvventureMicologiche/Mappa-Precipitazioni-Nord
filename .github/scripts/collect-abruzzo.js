@@ -7,7 +7,8 @@
  * pubblicita'. Questo collector scrive data/abruzzo/<giorno>.json con due famiglie di punti:
  *
  *  1. MeteoNetwork, rete `mnw` su MeteoHub (CC BY 4.0, attribuzione «MeteoNetwork Association OdV»): le
- *     stazioni amatoriali DENTRO l'Abruzzo, solo con almeno MIN_ORE ore lette. `rete:'mnw'`.
+ *     stazioni amatoriali DENTRO l'Abruzzo, solo con almeno MIN_ORE ore lette. `rete:'mnw'`. Dal 3/11/2026 anche
+ *     la temperatura minima e massima (`t`, vedi temperatureMnw).
  *  2. Il modello ICON-2I di ItaliaMeteo (CC BY 4.0, file aperti di MeteoHub): ~145 punti sui paesi, uniformi
  *     su tutta la regione (vedi PUNTI_KM). `rete:'icon'` e `stima:1`. La MAPPA tiene solo quelli lontani da un
  *     pluviometro vero; qui si scrivono tutti, cosi' servono anche a misurare quanto sbaglia il modello
@@ -130,6 +131,37 @@ async function meteoNetwork(giorno) {
     const h = Object.keys(ore).length;
     if (h < MIN_ORE) continue;   // giornata bucata: meglio nessun pallino che un totale di mezza giornata
     out.push({ cod, lat, lon, h, mm: Math.round(mm * 10) / 10, i: intensita(ore) });
+  }
+  return out;
+}
+
+// ─── 1b. La temperatura delle MeteoNetwork (3/11/2026, scheda 115, suo «aggiungile») ─────
+// Fino al 3/11 si chiedeva solo la pioggia e l'Abruzzo non aveva temperature. Stesse regole di collect-meteohub.js
+// (meteoDelGiorno): B12101 in kelvin se una lettura supera 100 (allora sotto e' un dato non pervenuto), serie tutta a
+// zero = termometro muto, una lettura che si stacca di oltre 10° dalla precedente e dalla successiva si scarta, fra -45
+// e 50 °C, almeno MIN_ORE_METEO ore coperte. Scrive `t: [minima, massima]` per codice. Sulla mappa le temperature
+// entrano solo dopo il controllo coi vicini di genera-temperature-ieri.js. Una richiesta in piu' per giorno.
+const MIN_ORE_METEO = 20;
+async function temperatureMnw(giorno) {
+  const { start, end } = finestraGiorno(giorno);
+  const f = t => new Date(t).toISOString().slice(0, 16).replace('T', ' ');
+  const q = `reftime: >=${f(start)},<=${f(end)};product:B12101;license:CCBY_COMPLIANT`;
+  const d = await json(`${MH}/api/observations?networks=mnw&q=${encodeURIComponent(q)}`, 120000);
+  const out = {};
+  for (const x of d.data || []) {
+    const { lat, lon } = x.stat;
+    if (!(lat > 41.6 && lat < 43.0 && lon > 13.0 && lon < 14.9) || !inAbruzzo(lat, lon)) continue;
+    const cod = ((x.stat.details || []).find(v => v.var === 'B01019') || {}).val;
+    const serie = (x.prod || []).filter(p => p.var === 'B12101').sort((a, b) => b.val.length - a.val.length)[0];
+    if (!cod || !serie) continue;
+    const letture = serie.val.filter(v => { const t = Date.parse(v.ref + 'Z'); return t > start && t <= end && typeof v.val === 'number'; });
+    if (!letture.length || letture.every(v => v.val === 0)) continue;   // tutta zeri: termometro muto
+    const kelvin = letture.some(v => v.val > 100);
+    const s = letture.filter(v => !kelvin || v.val > 100).map(v => ({ ref: v.ref, c: v.val > 100 ? v.val - 273.15 : v.val }))
+      .filter(v => v.c >= -45 && v.c <= 50).sort((a, b) => (a.ref < b.ref ? -1 : a.ref > b.ref ? 1 : 0));
+    const vals = s.filter((v, i) => !(i > 0 && i < s.length - 1 && Math.abs(v.c - s[i - 1].c) > 10 && Math.abs(v.c - s[i + 1].c) > 10)).map(v => v.c);
+    const ore = new Set(letture.map(v => v.ref.slice(11, 13))).size;
+    if (vals.length && ore >= MIN_ORE_METEO) out[cod] = [Math.round(Math.min(...vals) * 10) / 10, Math.round(Math.max(...vals) * 10) / 10];
   }
   return out;
 }
@@ -380,6 +412,9 @@ async function main() {
     let mnw = [];
     try { mnw = await meteoNetwork(giorno); await nomiMnw(an, mnw); }
     catch (e) { errori++; console.log(`⚠️ ${giorno} MeteoNetwork:`, e.message); }
+    let temp = {};   // la temperatura e' a parte: se cade, la pioggia si scrive lo stesso
+    try { temp = await temperatureMnw(giorno); }
+    catch (e) { console.log(`⚠️ ${giorno} temperature MeteoNetwork:`, e.message); }
 
     // i punti della stima e, in coda, i pluviometri veri: una lettura sola dei file ICON per tutti e due
     const veri = pluviometriVeri(giorno, mnw, prima);
@@ -401,6 +436,11 @@ async function main() {
     });
     // quello che non e' arrivato stavolta resta com'era (un giro andato male non cancella)
     for (const id in vecchie) if (!st[id] && !(icon && vecchie[id].rete === 'icon')) st[id] = vecchie[id];
+    // la temperatura di questo giro, se no quella gia' nel file (anche quando vince la pioggia del file, sopra)
+    for (const id in st) if (st[id].rete === 'mnw') {
+      const t = temp[st[id].cod] || st[id].t || (vecchie[id] && vecchie[id].t);
+      if (t) st[id].t = t;
+    }
 
     const stations = Object.values(st).sort((a, b) => (a.rete === b.rete ? 0 : a.rete === 'mnw' ? -1 : 1) || a.n.localeCompare(b.n, 'it'));
     if (!stations.length) { console.log(`— ${giorno}: niente da scrivere`); continue; }
@@ -424,4 +464,4 @@ async function main() {
 
 // Lanciato da solo fa il giro; con require presta i pezzi (il confronto con Open-Meteo e coi pluviometri veri).
 if (require.main === module) main().catch(e => { console.error('❌', e); process.exit(1); });
-module.exports = { meteoNetwork, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, puntiIcon, ANAGRAFE };
+module.exports = { meteoNetwork, temperatureMnw, corseIcon, oraIcon, iconGiorno, inAbruzzo, km, G, segnaFerme, caricaAnagrafe, puntiIcon, ANAGRAFE };

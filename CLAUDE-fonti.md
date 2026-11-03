@@ -553,6 +553,14 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   Pacentro 141 resta (nessun pluviometro entro 15 km). Non aggiusta i posti senza pluviometri vicini, e un pluviometro
   di valle puo' abbassare un paese di montagna (Caramanico da Corfinio): da riguardare alle prossime piogge con lo
   stesso attrezzo (il giro salva ICON nei pluviometri ogni giorno).
+- **Le temperature delle MeteoNetwork (3/11/2026, scheda 115, suo «mi sono accorto che l'abruzzo non pubblica le
+  temperature» e «aggiungile»):** il collector chiedeva solo la pioggia (B13011). Ora `temperatureMnw` chiede anche
+  B12101 (una richiesta in piu' per giorno, in un try a parte: se cade, la pioggia si scrive lo stesso) e scrive
+  `t: [minima, massima]` con le regole di `collect-meteohub.js` (kelvin, termometro muto, sbalzi isolati, -45/50 °C,
+  almeno 20 ore). Un giro senza temperatura tiene quella gia' nel file. Riempite una volta dal 26/10 al 2/11 (8-13
+  stazioni al giorno; il 24-25/10 MeteoHub da anonimi risponde 401). Sulla mappa passano dal controllo coi vicini di
+  `genera-temperature-ieri.js`: il 2/11 12 su 12. I punti ICON restano SENZA temperatura: sono stime, e sul sito le
+  temperature sono solo misurate e verificate coi vicini.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
