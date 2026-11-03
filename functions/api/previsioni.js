@@ -139,7 +139,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
     g: e.g, mn: Math.round(e.mn), mx: Math.round(e.mx), mm: Math.round(e.mm * 10) / 10, pc: e.pc,
     s: scegliSimbolo(e.righe),
   }));
-  const dati = { lat: +la, lon: +lo, q: qq ? +qq : null, agg: d.properties.meta.updated_at, giorni: lista, ...(conOre ? { ore } : {}), fonte: 'MET Norway (ECMWF)' + (PROB ? ' · % Open-Meteo' : ''), ...((PROB && conProb) ? { probStato: prob ? prob.status : 'rete' } : {}) };   // probStato: cosa ha risposto Open-Meteo (8/10, per capire i buchi della %)
+  const dati = { lat: +la, lon: +lo, q: qq ? +qq : null, agg: d.properties.meta.updated_at, giorni: lista, ...(conOre ? { ore } : {}), fonte: 'MET Norway (ECMWF)', ...((PROB && conProb) ? { probStato: prob ? prob.status : 'rete' } : {}) };   // probStato: cosa ha risposto Open-Meteo (8/10, per capire i buchi della %)
 
   // quanto tenere in cache: l'Expires di MET, fra 10 minuti e 1 ora
   let maxAge = TETTO_CACHE;
@@ -241,7 +241,7 @@ async function previsioniDi(citta, area, request, cache, chiave, conProb, prima)
   };
   const ris = [];
   for (let i = 0; i < citta.length; i += 6) ris.push(...await Promise.all(citta.slice(i, i + 6).map((p, k) => uno(p, i + k))));
-  const dati = { area, agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' + (PROB ? ' · % Open-Meteo' : '') };
+  const dati = { area, agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' };
   const sc = ris.filter(x => x.giorni && x.scade).map(x => x.scade); if (sc.length) dati.valida = Math.min(...sc);
   if (!ris.some(x => x.giorni)) dati.errore = 'nessuna citta\' risponde';   // MET giu': errore in cima, vedi onRequestGet (bug 5)
   // chiesta la % e Open-Meteo non ha risposto: in cache solo 2 minuti, come per il punto singolo, e mai «vecchia» (daCache)

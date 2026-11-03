@@ -58,7 +58,7 @@ function numeriRegione(j, oggi, K, SITO) {
   });
 
   /* ⚠️ I GIORNI A STIMA, DETTI IN CIMA (31/10/2026, controllo della scheda 103): quando una rete si ferma i suoi giorni
-     sono stime Open-Meteo (il riepilogo li segna in `stime`, il periodo piu' lungo dice da quando), e la pagina li
+     sono stime del modello (il riepilogo li segna in `stime`, il periodo piu' lungo dice da quando), e la pagina li
      dava per misure. Stesso avviso della mappa (avvisoStime in index.html), detto per intero. Su «ieri» le stime non
      contano proprio: se il giorno era tutto stimato il riepilogo non ha il periodo 1 e qui resta solo l'avviso. */
   var st = (p['30'] && p['30'].stime) || (p['20'] && p['20'].stime) || (p['7'] && p['7'].stime), avviso = '';

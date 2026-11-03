@@ -2397,7 +2397,7 @@ var REGIONS = {
     geojson: '/italia-regioni-confine.geojson',
     geojsonFilter: 'lombar',
     dataSource: 'arpa_lombardia',
-    // Stazioni reali con coordinate (usate anche per Open-Meteo fallback)
+    // Stazioni reali con coordinate
     stations: [
       {n:"Milano",lat:45.464,lon:9.188,q:122,p:"MI"},
       {n:"Bergamo",lat:45.674,lon:9.700,q:238,p:"BG"},
@@ -2697,7 +2697,7 @@ var REGIONS = {
 
   // ───────── CENTRO-SUD (MeteoHub / Agenzia ItaliaMeteo) — pilota, repo TEST ─────────
   // Un solo loader generico (loadMeteoHubRegion) legge data/meteohub-<regione> dal
-  // repo test (backfill Open-Meteo + reale, già nei file). Niente lista stations.
+  // repo test (stime del backfill + reale, già nei file). Niente lista stations.
   marche:     { name:'Marche',      center:[43.32,13.01], zoom:8.5, fonte:'MeteoHub', geojson:'/italia-regioni-confine.geojson', geojsonFilter:'marche',     dataSource:'meteohub' },
   umbria:     { name:'Umbria',      center:[43.02,12.57], zoom:8.5, fonte:'MeteoHub', geojson:'/italia-regioni-confine.geojson', geojsonFilter:'umbria',     dataSource:'meteohub' },
   lazio:      { name:'Lazio',       center:[41.85,12.75], zoom:8,   fonte:'MeteoHub', geojson:'/italia-regioni-confine.geojson', geojsonFilter:'lazio',      dataSource:'meteohub' },
@@ -2711,7 +2711,7 @@ var REGIONS = {
 
   // Abruzzo (2/11/2026, scheda 111): MeteoNetwork + stime ICON-2I in data/abruzzo (collect-abruzzo.js), e i
   // pluviometri di Lazio, Marche e Molise vicini al confine che colorano i bordi: vedi loadAbruzzoRegion. Fino al
-  // 2/11 era Open-Meteo dal vivo su 40 paesi (la lista `stations` e' stata tolta con lui).
+  // 2/11 erano stime chieste dal vivo su 40 paesi (la lista `stations` e' stata tolta con loro).
   abruzzo: {
     name: 'Abruzzo',
     center: [42.30, 13.85], zoom: 8.5,
@@ -3811,8 +3811,8 @@ var HIST_RAW_BY_REGION={
 };
 function histRawBase(region){ if(region&&region.indexOf('meteohub-')===0) return MH_DATA_BASE;
   if(region&&region.indexOf('francia')===0) return PILOT_DATA_BASE; return HIST_RAW_BY_REGION[region]||HIST_RAW; }
-// Piloti VdA-CF e Friuli-OSMER: lo storico è backfill Open-Meteo (stime, source
-// 'open-meteo-backfill-*') per i 60 giorni prima del primo dato reale + dati reali
+// Piloti VdA-CF e Friuli-OSMER: lo storico è backfill (stime, dichiarate nel
+// source) per i 60 giorni prima del primo dato reale + dati reali
 // di stazione, tutti sulle STESSE coordinate. Nessuno switch runtime: si legge
 // sempre dai file (come la Toscana). Queste date = primo giorno disponibile (inizio
 // backfill): VdA reale dal 16/7 → backfill dal 17/5; Friuli reale dal 18/7 → dal 19/5.
@@ -3841,7 +3841,7 @@ var INIZIO_STORICO={
   altoadige:'2025-08-07', trentino:'2025-08-07', svizzera:'2025-08-07', austria:'2025-08-07', slovenia:'2025-08-11', francia:'2025-08-01',
   marche:'2026-05-14', umbria:'2026-05-14', lazio:'2026-05-20', molise:'2026-05-20', campania:'2026-05-20', puglia:'2026-05-20',
   basilicata:'2026-05-20', calabria:'2026-05-20', sicilia:'2026-05-20', sardegna:'2026-05-20',
-  abruzzo:'2026-05-20'   // dal 2/11/2026: data/abruzzo, stime del backfill fino al 18/10 come i vicini (prima Open-Meteo dal vivo)
+  abruzzo:'2026-05-20'   // dal 2/11/2026: data/abruzzo, stime del backfill fino al 18/10 come i vicini (prima stime chieste dal vivo)
 };
 var RETENTION_GIORNI=730;
 function inizioStorico(regioni){
@@ -4516,7 +4516,7 @@ function openStationHistory(s,rank,mx,my){
   var selFrom=fmtISOLocal(currentPast),selTo=fmtISOLocal(end);
   var regionKey=s._region||getActiveRegions()[0]||DEFAULT_REGION; // multiregione: la regione della stazione cliccata, non la 1a attiva
   // Friuli: lo storico legge dal dato OSMER (repo test) quando è la fonte attiva,
-  // altrimenti da Open-Meteo produzione. Le altre regioni usano regionKey tal quale.
+  // altrimenti dai file di produzione. Le altre regioni usano regionKey tal quale.
   // Svizzera: regione a due fonti — le stazioni OASI hanno lo storico in
   // data/ticino (prod), quelle MeteoSwiss in data/svizzera (pilota). Il tag
   // _src lo mette loadSvizzeraRegion.
@@ -4610,8 +4610,8 @@ function openStationHistory(s,rank,mx,my){
     histRender(s,regionKey,days,serie,selFrom,selTo,notaPeriodo,histRegion);
     histPosition(mx,my);
   }
-  /* L'Abruzzo a Open-Meteo dal vivo non aveva barre (31/10/2026, scheda 103: la scheda accoppiava per NOME il punto
-     Open-Meteo con un'altra stazione di data/abruzzo, Atessa 27,9 mm contro 39,4). Dal 2/11/2026 i pallini SONO i punti
+  /* L'Abruzzo con le stime dal vivo non aveva barre (31/10/2026, scheda 103: la scheda accoppiava per NOME il punto
+     stimato con un'altra stazione di data/abruzzo, Atessa 27,9 mm contro 39,4). Dal 2/11/2026 i pallini SONO i punti
      di data/abruzzo (o dei pluviometri vicini, `_dir`), e le barre tornano come per tutti. */
   histFromFiles(histRegion,s,days,done);
 }
@@ -5300,8 +5300,8 @@ cacheInit();
 // ═══════════════════════════════════════════════════════════════
 // ⚠️ L'ANNO SOLO QUANDO SERVE (25/10/2026). L'etichetta del periodo («01 set → 30 set») finisce anche nella
 // striscia blu della foto condivisa: senza anno, dal 1° gennaio un periodo di dicembre sembrerebbe dell'anno
-// nuovo. Se una delle due date non e' dell'anno in corso, l'anno va su tutte e due. Qui stava loadOpenMeteo,
-// codice morto che non chiamava nessuno e che, se Open-Meteo non rispondeva, scriveva 0 mm.
+// nuovo. Se una delle due date non e' dell'anno in corso, l'anno va su tutte e due. Qui stava un vecchio
+// caricatore di stime, codice morto che non chiamava nessuno e che, se il servizio non rispondeva, scriveva 0 mm.
 function periodoBreve(a,b){
   var o={day:'2-digit',month:'short'}, y=new Date().getFullYear();
   if(a.getFullYear()!==y||b.getFullYear()!==y) o.year='numeric';
@@ -5461,10 +5461,10 @@ function aggiornaAvvisoIeri(){
   // Si controlla solo chi i file giornalieri li usa davvero: una regione che
   // chiedesse i dati a un'API sul momento troverebbe un 404 TUTTI i giorni e
   // griderebbe al dato mancante sopra una mappa che i dati ce li ha. Era
-  // l'Abruzzo a Open-Meteo fino al 2/11/2026; da allora legge data/abruzzo
+  // l'Abruzzo con le stime dal vivo fino al 2/11/2026; da allora legge data/abruzzo
   // come gli altri, e il suo «ieri» mancante si dice.
   regioni=regioni.filter(function(rk){
-    return !(REGIONS[rk]&&REGIONS[rk].dataSource==='open_meteo');
+    return !(REGIONS[rk]&&REGIONS[rk].dataSource==='dal_vivo');
   });
   if(!regioni.length) return;
   var restanti=regioni.length, noti=[], imprevisti=[], parziali=[], ritardo='36h';
@@ -5708,7 +5708,7 @@ function loadData(pastDate,nowDate,labelPeriodo){
 
   regions.forEach(function(regionKey){
     var cfg=REGIONS[regionKey]||REGIONS.lombardia;
-    var source=cfg.dataSource||'open_meteo';
+    var source=cfg.dataSource||'dal_vivo';
 
     // Assicura che il confine GeoJSON sia caricato
     if(!regionRings[regionKey]){
@@ -5780,12 +5780,12 @@ function loadData(pastDate,nowDate,labelPeriodo){
       });
     } else if(source==='abruzzo_misto'){
       // senza file per il periodo (prima del 20/5/2026, o un guasto) l'Abruzzo resta senza dati, come le altre
-      // regioni: niente piu' ripiego su Open-Meteo (2/11/2026)
+      // regioni: niente piu' ripiego sulle stime dal vivo (2/11/2026)
       loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,function(dati,fonte){
         onRegionDone(dati,fonte||'🟢 MeteoNetwork · 🌍 stime ICON-2I',regionKey);
       });
     } else {
-      // ⚠️ NESSUNA REGIONE E' PIU' SU OPEN-METEO DAL BROWSER (3/11/2026, scheda 114 per la 111): l'ultima era l'Abruzzo,
+      // ⚠️ NESSUNA REGIONE CHIEDE PIU' STIME DAL BROWSER (3/11/2026, scheda 114 per la 111): l'ultima era l'Abruzzo,
       // ora su file (abruzzo_misto). Una fonte che qui non si riconosce resta senza dati, come una regione senza file.
       onRegionDone([],'',regionKey);
     }
@@ -5841,7 +5841,7 @@ function renderMulti(allData, labelPeriodo, fontiArr, _retry){
   document.getElementById('beta-note').style.display=betaAttivo?'block':'none';
 
   // I crediti derivano dalle STESSE etichette della chip, ripulite dall'emoji
-  // di stato (🟢 dati di stazione, 🌍 ripiego Open-Meteo). Leggerli invece
+  // di stato (🟢 dati di stazione, 🌍 ripiego sulle stime). Leggerli invece
   // dalle caselle spuntate li faceva divergere dalla chip quando si cambiava
   // regione con un caricamento ancora in volo: la chip descrive i dati che
   // sono davvero disegnati, le caselle solo quelli richiesti.
@@ -6108,9 +6108,9 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
 }
 
 // ─── Wrapper ARPA Lombardia → callback ───────────────────────
-// ─── Stime Open-Meteo: quando usarle, e dirlo ───────────────────────────────
+// ─── Stime del modello: quando usarle, e dirlo ──────────────────────────────
 // Un file giornaliero può essere una stima intera (copertura di un buco,
-// source "open-meteo-gapfill", tutte le stazioni con om:true) oppure contenere
+// source che finisce in "-gapfill", tutte le stazioni con om:true) oppure contenere
 // solo alcune stazioni stimate (copertura parziale: le reali restano intatte).
 // NB: il backfill storico dei piloti NON marca le stazioni con om, quindi non
 // finisce qui dentro — è la pre-storia documentata, non un buco tappato.
@@ -6131,7 +6131,7 @@ function render(dati,fonte,labelPeriodo,ringsOverride){
 // Nessun avviso all'utente: sono casi rarissimi (al Nord 5 giorni in un anno)
 // e su un periodo lungo la stima si annacqua. Chiacchiericcio in meno.
 // ══ Avviso «questi giorni sono stime» (24/8/2026) ══════════
-// La rete di sicurezza copre i giorni mancanti con stime Open-Meteo e la mappa
+// La rete di sicurezza copre i giorni mancanti con stime del modello e la mappa
 // non mostra buchi: il totale c'e', ma non e' pioggia misurata. Fino a oggi non
 // lo diceva nessuno. La scelta del 31/7 («casi rarissimi, su un periodo lungo la
 // stima si annacqua») valeva quando erano 5 giorni all'anno al Nord; non vale
@@ -6191,8 +6191,8 @@ var _periodoUnGiorno=false;
 // saprebbe di chi e'. Lo passano tutti e 18 i punti di caricamento.
 function usaGiorno(data,rk){
   // ⚠️ Solo `*-gapfill`, cioe' i buchi tappati dalla rete di sicurezza
-  // (`open-meteo-gapfill` fino al 2/11/2026, poi `icon-2i-gapfill`, le stime
-  // del modello ICON-2I). NON `open-meteo-backfill-*`, che e' la pre-storia dichiarata
+  // (dal 2/11/2026 `icon-2i-gapfill`, le stime del modello ICON-2I;
+  // prima un altro servizio). NON i `*-backfill-*`, che sono la pre-storia dichiarata
   // di ogni regione (Toscana prima del 12/7, centro-sud prima del 19/7):
   // segnalare quella farebbe comparire l'avviso su mezza Italia a ogni
   // periodo lungo, che e' esattamente il chiacchiericcio da evitare.
@@ -6302,9 +6302,9 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
               idsensore:id,                                  // serve al grafico storico
               mm:Math.round(rainMap[id]*10)/10};   // il valore vero anche sotto 0,5 mm (19/10/2026, quarto check B5): prima 0, e la pagina dello stesso pluviometro diceva 0,2. In tutti i 18 loader; i colori non cambiano, la scala e' trasparente fino a 2 mm
     }).filter(function(s){return s&&s.lat&&s.lon;});
-    // ⚠️ SENZA FILE LA LOMBARDIA RESTA SENZA DATI, come le altre (2/11/2026, scheda 114, suo: «cosa ci fa la lombardia con
-    // open meteo?»). Qui c'era il ripiego sulle stime Open-Meteo chieste dal browser (LOMBARDIA_STATIONS, tolta): via con
-    // la decisione di togliere tutto Open-Meteo. I giorni che mancano li copre gaps-nord con le stime ICON-2I nei file.
+    // ⚠️ SENZA FILE LA LOMBARDIA RESTA SENZA DATI, come le altre (2/11/2026, scheda 114). Qui c'era il ripiego sulle
+    // stime chieste dal browser (LOMBARDIA_STATIONS, tolta): via con la decisione di non chiedere piu' stime dal
+    // browser. I giorni che mancano li copre gaps-nord con le stime ICON-2I nei file.
     if(out.length<3){ cb([]); return; }
     cb(out);
   }
@@ -7016,7 +7016,7 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 }
 
 // ═══════════════════════════════════════════════════════════════
-// FRIULI — OSMER reale (pilota, repo TEST). Storico = backfill Open-Meteo (stime,
+// FRIULI — OSMER reale (pilota, repo TEST). Storico = backfill (stime,
 // dal 19/5) + dati reali di stazione (dal 18/7), tutti sulle STESSE coordinate.
 // Nessuno switch runtime: si legge sempre dai file (come la Toscana). Le date
 // oltre la copertura non sono selezionabili (limite nel datepicker).
@@ -7179,7 +7179,7 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 // ═══════════════════════════════════════════════════════════════
 // ABRUZZO: PLUVIOMETRI VERI DOVE CI SONO, STIME ICON-2I DOVE NO (prova 26/10/2026, produzione: scheda 111)
 // ═══════════════════════════════════════════════════════════════
-// L'Abruzzo non pubblica i suoi pluviometri. Fino al 2/11/2026 la mappa lo calcolava dal vivo con Open-Meteo,
+// L'Abruzzo non pubblica i suoi pluviometri. Fino al 2/11/2026 la mappa lo calcolava dal vivo con stime,
 // stime su 40 paesi. Ora tre famiglie di punti. In mappa i pallini sono UGUALI a quelli delle altre regioni (sua
 // decisione del 27/10: «fino a quando non si clicca sul pluvio deve sembrare come le altre regioni»); che cosa e'
 // lo dice il pallino aperto, col nome della rete accanto al nome (_rete) e la fonte (_fonte):
@@ -7193,7 +7193,7 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 //    pluviometri di confine invece restano: senza pallino quelli, togliere le stime lascerebbe vuota la fascia
 //    lungo i bordi.
 // Prima del 19/10/2026, dal 20/5 come le altre regioni del centro-sud, ci sono le stime del backfill fatto una volta
-// sola sugli stessi punti (source `open-meteo-backfill-abruzzo`, rete 'stima'): sono stime anche loro, ma non di
+// sola sugli stessi punti (source `*-backfill-abruzzo`, rete 'stima'): sono stime anche loro, ma non di
 // ICON, quindi un punto che nel periodo ne ha anche solo una si chiama «stima del modello» e non «stima ICON-2I».
 // Il collector e' .github/scripts/collect-abruzzo.js; ICON-2I si legge come spiega lib-icon2i.js.
 var ABR_DATA_BASE=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/data/':PILOT_DATA_BASE;   // in locale il disco, online GitHub (abruzzo.yml)
@@ -7325,7 +7325,7 @@ function loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,cb){
 }
 
 // Valle d'Aosta — Centro Funzionale reale (pilota, repo TEST). Storico = backfill
-// Open-Meteo (stime, dal 17/5) + dati reali (dal 16/7), stesse coordinate. Si legge
+// (stime, dal 17/5) + dati reali (dal 16/7), stesse coordinate. Si legge
 // sempre dai file, nessuno switch runtime (vedi loadOSMERFriuliRegion).
 function loadCFValdostaRegion(pastDate,nowDate,labelPeriodo,cb){
   var CF_RAW=PILOT_DATA_BASE+'valledaosta-cf';
@@ -7375,7 +7375,7 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 }
 
 // Loader generico MeteoHub (centro-sud, pilota repo TEST): legge
-// data/meteohub-<regione> (backfill Open-Meteo + reale già nei file), somma per
+// data/meteohub-<regione> (stime del backfill + reale già nei file), somma per
 // stazione nel periodo. Stesso pattern dei loader a file (Alto Adige/Trentino).
 // Pluviometri guasti nelle reti MeteoHub, tenuti fuori dalla mappa: stessa
 // idea di PIEMONTE_ESCLUSE, LOMB_ESCLUSE ed EMILIA_ESCLUSE. Chiave: regione
@@ -8363,7 +8363,7 @@ function locRegioniVicine(lat, lon) {
 // Prato Nevoso, Valcasotto, Piani di Artavaggio. Metterle tutte nel file non
 // si può — in Italia sono decine di migliaia — ma sono anche la CODA: quando
 // l'elenco non trova niente, e solo allora, si chiede al geocoder di
-// Open-Meteo, che le ha. Una chiamata sola, sui pochi casi che sfuggono.
+// /api/cerca (GeoNames), che le ha. Una chiamata sola, sui pochi casi che sfuggono.
 var GEO_REGIONI = {
   'Piemonte':'piemonte', "Valle d'Aosta":'valledaosta', 'Lombardia':'lombardia',
   'Veneto':'veneto', 'Friuli Venezia Giulia':'friuli', 'Liguria':'liguria',
@@ -8391,7 +8391,7 @@ var GEO_REGIONI = {
    Bastava smettere di filtrare per paese. Zero byte in piu', e le ricerche
    italiane restano identiche al millisecondo (misurato: 485 ms prima, 485 dopo).
 
-   ⚠️ LA REGIONE FRANCESE SI PRENDE DALL'`admin1_id`, NON DAL NOME. Open-Meteo
+   ⚠️ LA REGIONE FRANCESE SI PRENDE DALL'`admin1_id`, NON DAL NOME. Il geocoder
    risponde in italiano e per due regioni usa ancora i nomi PRE-2016
    («Aquitania-Limosino-Poitou-Charentes» invece di Nuova Aquitania,
    «Nord-Passo di Calais-Piccardia» invece di Alta Francia): una tabella di nomi
@@ -8407,8 +8407,8 @@ var GEO_FRANCIA = {
   11071621: 'francia-normandia', 11071623: 'francia-occitania',
   2985244:  'francia-provenza'
 };
-/* ⚠️ DAL 25/10/2026 I POSTI LI DA' /api/cerca, NON PIU' OPEN-METEO (il suo piano gratuito vieta i siti con
-   pubblicita'): stessi nomi (GeoNames), stessa forma della risposta, file in luoghi/ fatti da genera-luoghi.js. */
+/* ⚠️ DAL 25/10/2026 I POSTI LI DA' /api/cerca, NON PIU' UN SERVIZIO DI FUORI:
+   stessi nomi (GeoNames), stessa forma della risposta, file in luoghi/ fatti da genera-luoghi.js. */
 var CERCA_API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port !== '8788'
   ? 'http://127.0.0.1:8788/api/cerca' : '/api/cerca';
 function locDaGeocoder(testo) {
@@ -8653,7 +8653,7 @@ function locChiudi() {
    andava nel Golfo di Guinea) e dentro l'area della mappa (Italia, Svizzera, Austria, Francia, Slovenia). */
 window._puntoBuono=function(t){ var p=String(t||'').split(','); if(p.length!==2||!p[0].trim()||!p[1].trim()) return false;
   var la=+p[0], lo=+p[1]; return isFinite(la)&&isFinite(lo)&&la>=30&&la<=55&&lo>=-10&&lo<=25; };
-// ⚠️ (21/10/2026, ottavo check, bug 15) i nomi delle frazioni arrivano dal geocoder di Open-Meteo, cioe' da fuori:
+// ⚠️ (21/10/2026, ottavo check, bug 15) i nomi delle frazioni arrivano dal geocoder, cioe' da fuori:
 // in pagina vanno come testo, anche in «Cercate di recente»
 function locEsc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function locDisegna(res, testo, intestazione, nota) {
@@ -8864,7 +8864,7 @@ function locVai(p, _giro) {
   // L'avviso delle stime. L'Abruzzo è l'unica regione senza pluviometri reali,
   // e ci sono una manciata di isole troppo lontane da qualsiasi stazione: in
   // tutti e due i casi la mappa qualcosa la disegna, e va detto CHE COSA.
-  var stime = REGIONS[p.reg] && REGIONS[p.reg].dataSource === 'open_meteo';
+  var stime = REGIONS[p.reg] && REGIONS[p.reg].dataSource === 'dal_vivo';
   var vuoto = locRegioniVicine(p.lat, p.lon).length === 0;
   var st = document.getElementById('tp-status');
   if (st && (stime || vuoto)) {
@@ -9303,7 +9303,7 @@ var REGION_BOUNDS={
   'francia-occitania': [[42.33, -0.33],[45.05, 4.85]],
   'francia-loira': [[46.27, -2.62],[48.57, 0.92]],
   'francia-provenza': [[42.98, 4.23],[45.13, 7.72]],
-  // Centro-sud (bounds dalle stazioni reali MeteoHub) + Abruzzo (Open-Meteo)
+  // Centro-sud (bounds dalle stazioni reali MeteoHub) + Abruzzo
   marche:      [[42.74,12.13],[43.91,13.89]],
   umbria:      [[42.53,11.95],[43.52,13.19]],
   lazio:       [[40.93,11.56],[42.76,13.95]],
@@ -11706,7 +11706,7 @@ setTimeout(function(){
 // prato» compariva a 45.996/9.955, cioe' nel bergamasco, e «Virgilio Mantova
 // Cerese» a Dorio in provincia di Lecco, 150 km da Mantova. Adesso anche la
 // Lombardia legge i pallini dall'ultimo file dati, come le altre.
-// LOMBARDIA_STATIONS (i punti delle stime Open-Meteo se i file mancavano) e'
+// LOMBARDIA_STATIONS (i punti delle stime se i file mancavano) e'
 // stata tolta il 2/11/2026 col ripiego: senza file, niente dati.
 
 /* ═══════════════════════════════════════════════════════════════
@@ -11759,7 +11759,7 @@ setTimeout(function(){
      Cerese» a Dorio), che il loader dei dati scarta e quello dei pallini no.
      Da decidere a parte.
    · ABRUZZO — li' la lista NON e' un abbellimento: e' l'elenco dei punti su
-     cui si chiedono le stime a Open-Meteo, cioe' la fonte stessa. Non si
+     cui si chiedono le stime, cioe' la fonte stessa. Non si
      tocca finche' l'Abruzzo non ha una rete vera.
    ═══════════════════════════════════════════════════════════════ */
 var PALLINI_CARTELLE={
@@ -17078,7 +17078,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
      sinistra sul computer); un tocco su un capoluogo, o una ricerca, apre il
      dettaglio del posto ora per ora (temperatura, mm, probabilita', vento).
      I dati arrivano da /api/previsioni (Pages Function su Cloudflare: MET
-     Norway per tutto, Open-Meteo solo per la %), mai dal browser alle fonti.
+     Norway per tutto, un secondo servizio solo per la %), mai dal browser alle fonti.
      Decisioni sue del 7/10: capoluoghi e non griglia; la striscia dei giorni
      SENZA icone (una regione non ha «un tempo»); tasto attivo con la sola
      riga gialla; colori chiari; cerca localita' dentro il riquadro; «Storico
@@ -18742,7 +18742,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
                     :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span></div>';   // Open-Meteo (la % di pioggia) si cita solo in fonti.html (sua decisione, 3/11/2026)
+      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span></div>';   // la fonte della % di pioggia si cita solo in fonti.html (sua decisione, 3/11/2026)
     det._chiave=chiave;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }

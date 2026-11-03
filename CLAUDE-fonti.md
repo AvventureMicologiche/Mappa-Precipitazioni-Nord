@@ -1085,6 +1085,16 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
   `else` ora e' «nessun dato»). In `index.html` zero `open-meteo.com`. Open-Meteo resta, per sua decisione, solo nella
   probabilita' di pioggia delle previsioni (`functions/api/previsioni.js`, sul server) e nei crediti di `fonti.html`.
   **Da fare**: la mail a Open-Meteo e' facoltativa.
+- **Il nome tolto da quello che trova chi cerca (3/11/2026, scheda 115, suo «si puo' toglierlo anche da chi va a
+  cercarlo» e poi «Si', fallo»)**: il campo `fonte` della risposta di `/api/previsioni` dice solo «MET Norway (ECMWF)»
+  (prima anche « · % Open-Meteo»; nessuna pagina lo mostra). Riscritti senza il nome i commenti che il sito serve: 41
+  righe di `index.html` (piu' il valore `'open_meteo'` di `dataSource`, che nessuna regione usava piu', ora `'dal_vivo'`:
+  stesso comportamento), `lib/pagina-adesso.js`, le 43 pagine che tengono i commenti (22 regioni, 20 funghi regione,
+  Garfagnana: solo le frasi, senza rigenerare) e le librerie che li scrivono (`lib-numeri-regione.js`,
+  `lib-meteo-regione.js`, `genera-pagine-funghi.js`). Restano per scelta: la riga di codice delle 20 pagine funghi che
+  riconosce le stime vecchie (`/open-meteo|icon-2i-gapfill/`), i `source` dei file di dati (il passato non si tocca),
+  gli script dei giri e queste note su GitHub, i crediti di `fonti.html`. Prova: 260 script delle pagine compilati, 10
+  scene della mappa identiche fra online e nuovo (stazioni, pallini, errori), zero richieste a Open-Meteo.
 
 ---
 
