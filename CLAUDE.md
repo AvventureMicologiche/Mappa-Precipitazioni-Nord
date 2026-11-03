@@ -138,6 +138,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La scheda del pluviometro col telefono girato (2/11/2026, scheda 109 quater)**: la scheda finisce sopra la barra delle città e scorre dentro, non esce più dallo schermo
 - **Le macchie squadrate sul mare della foto dal satellite (2/11/2026, scheda 111 quater)**: il mare delle coste lo decide la carta ESA WorldCover, il ghiaccio azzurrino di Blue Marble, jsDelivr da riscaldare tutto
 - **Le date sotto i periodi andavano a capo al telefono a cavallo dei mesi (2/11/2026, scheda 114, check-10)**: «dal 26/10» e niente a capo
+- **La pioggia non si spegne piu' zoomando e trascinando (3/11/2026, scheda 116)**: la tela piu' grande dello schermo segue zoom, pizzico e trascinamento
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

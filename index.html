@@ -3242,12 +3242,36 @@ window._vistaDaLinkAttiva = function(){ return _vistaDaLink; };
 // ═══════════════════════════════════════════════════════════════
 // CANVAS / HEATMAP
 // ═══════════════════════════════════════════════════════════════
+/* ═══ LA PIOGGIA SEGUE ZOOM E TRASCINAMENTO (3/11/2026, scheda 116) ═══
+   Suo: «rispetto a quando c'era OpenStreetMap perde fluidita' quando si zooma» (con la rotellina, al PC). Misurato:
+   non erano i fotogrammi (55-58 al secondo, come con OSM) ma la pioggia, che si SPEGNEVA a ogni zoom e a ogni
+   trascinamento e tornava 80-100 ms dopo la fine: uno scatto di rotella 0,38 s di buio, tre scatti 0,5-0,8 s in due
+   lampi, un trascinamento di 1 s 1,4 s. Con la cartina chiara sotto si notava poco; sulla foto scura, con la pioggia
+   all'80%, lo schermo passava dai colori al buio e indietro. Ora la tela fa come la foto:
+   - e' piu' grande dello schermo di HEAT_MARGINE per lato, quindi trascinando la pioggia viene con la mappa (sta nel
+     pannello della mappa) e i bordi restano coperti fino a quel margine;
+   - nello zoom si ingrandisce con la mappa, con la stessa animazione di Leaflet (classe leaflet-zoom-animated e
+     zoomanim, come L.ImageOverlay), e col pizzico e i salti senza animazione si rimette al suo posto a ogni 'zoom';
+   - alla fine si ridisegna nitida come prima (moveend 80 ms, zoomend 100 ms).
+   I pallini restano nascosti durante lo zoom (sua scelta del 3/8, piu' sotto). heatBox: il riquadro della tela in
+   gradi, misurato a ogni disegno. */
+var HEAT_MARGINE=0.5, heatBox=null;
+function heatPosa(nw,se){ L.DomUtil.setTransform(cvs,nw,cvs.width?(se.x-nw.x)/cvs.width:1); }
 function initCanvas(){
   if(cvs) return;
   cvs=document.createElement('canvas');
   cvs.style.cssText='position:absolute;top:0;left:0;pointer-events:none;z-index:200;';
+  cvs.className='leaflet-zoom-animated';   // l'origine della scala in alto a sinistra e l'animazione dello zoom
   map.getPanes().overlayPane.appendChild(cvs);
   heatCtx=cvs.getContext('2d');
+  map.on('zoomanim',function(e){
+    if(!heatBox) return;
+    var b=map._latLngBoundsToNewLayerBounds(heatBox,e.zoom,e.center); heatPosa(b.min,b.max);
+  });
+  map.on('zoom viewreset',function(){
+    if(!heatBox||map._animatingZoom) return;   // nell'animazione comanda zoomanim
+    heatPosa(map.latLngToLayerPoint(heatBox.getNorthWest()),map.latLngToLayerPoint(heatBox.getSouthEast()));
+  });
 }
 function clearHeatmap(){
   if(cvs&&heatCtx){heatCtx.clearRect(0,0,cvs.width,cvs.height);cvs.style.opacity='0';}
@@ -3439,12 +3463,14 @@ function gridPxSize(){
 
 function drawGrid(){
   if(!cvs||!heatCtx||gridPoints.length===0) return;
+  if(map._animatingZoom) return;   // a meta' zoom no: lo ridisegna lo zoomend (vedi «LA PIOGGIA SEGUE ZOOM»)
   var size=map.getSize();
-  cvs.width=size.x; cvs.height=size.y;
-  cvs.style.transform='';
-  var tl=map.containerPointToLayerPoint([0,0]);
-  cvs.style.transform='translate('+tl.x+'px,'+tl.y+'px)';
-  heatCtx.clearRect(0,0,size.x,size.y);
+  // la tela e' piu' larga dello schermo di HEAT_MARGINE per lato: si disegna come prima, spostata di (mx,my)
+  var mx=Math.round(size.x*HEAT_MARGINE), my=Math.round(size.y*HEAT_MARGINE);
+  cvs.width=size.x+2*mx; cvs.height=size.y+2*my;
+  heatBox=L.latLngBounds(map.containerPointToLatLng([-mx,-my]),map.containerPointToLatLng([size.x+mx,size.y+my]));
+  L.DomUtil.setTransform(cvs,map.containerPointToLayerPoint([-mx,-my]),1);
+  heatCtx.clearRect(0,0,cvs.width,cvs.height);
   // 16/8/2026 — SFUMATURA. Prima ogni cella era un quadrato di
   // colore piatto steso pixel per pixel: una griglia, non una superficie. Con
   // l'azzurro uniforme intorno non si notava; col bianco della pianura a zero
@@ -3481,6 +3507,7 @@ function drawGrid(){
   // (trasparente) e il colore "usciva" di mezza cella dalla regione. Con il
   // clip sui poligoni il bordo torna netto e la sfumatura resta dentro.
   heatCtx.save();
+  heatCtx.translate(mx,my);   // da qui in poi le coordinate sono quelle dello schermo, come prima
   if(gridRings&&gridRings.length){
     heatCtx.beginPath();
     for(var rI=0;rI<gridRings.length;rI++){var poly=gridRings[rI];
@@ -3505,7 +3532,7 @@ function drawGrid(){
   for(var rb=0;rb<=ny;rb++) yb[rb]=map.latLngToContainerPoint(L.latLng(latMax+GR/2-rb*GR,lonMin)).y;
   for(var r0=0;r0<ny;){
     var r1=r0+1; while(r1<ny && yb[r1+1]-yb[r0]<=64) r1++;
-    if(yb[r1]>=0 && yb[r0]<=size.y){
+    if(yb[r1]>=-my && yb[r0]<=size.y+my){   // anche le fasce del margine
       var dy=Math.round(yb[r0]), dh=Math.round(yb[r1])-dy;
       /* ⚠️ UNA RIGA IN PIU' SOPRA E SOTTO, RITAGLIATA (21/10/2026). Ritagliando la sorgente alle sole righe della
          fascia, Safari (iPhone compreso) non sfuma oltre il bordo del ritaglio: a ogni giuntura c'era un gradino e
@@ -3525,15 +3552,8 @@ function drawGrid(){
   cvs.style.opacity='1';
 }
 
-map.on('move',function(){
-  // Durante il pan: nascondi il canvas invece di spostarlo
-  // evita il disallineamento visivo durante il trascinamento
-  if(!cvs||gridPoints.length===0) return;
-  cvs.style.opacity='0';
-});
-map.on('movestart',function(){
-  if(cvs&&gridPoints.length>0) cvs.style.opacity='0';
-});
+// Fino al 3/11/2026 qui la tela si nascondeva a 'move' e 'movestart' (trascinando restava il buio fino alla fine):
+// ora viene con la mappa e si ridisegna alla fine (vedi «LA PIOGGIA SEGUE ZOOM E TRASCINAMENTO»)
 map.on('moveend',function(){
   if(gridPoints.length===0) return;
   if(drawTimer) clearTimeout(drawTimer);
@@ -3562,7 +3582,7 @@ map.on('moveend',function(){
   },true);
 })();
 map.on('zoomstart',function(){
-  if(cvs) cvs.style.opacity='0';
+  // la pioggia non si spegne piu' (3/11/2026): si ingrandisce con la mappa, vedi initCanvas
   var mp=document.querySelector('.leaflet-marker-pane');
   if(mp) mp.style.opacity='0';
 });

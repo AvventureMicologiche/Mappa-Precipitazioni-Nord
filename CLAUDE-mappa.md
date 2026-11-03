@@ -1562,3 +1562,25 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
 - Prova sul sito vero col file nuovo (`check-10\prova-m2-10.js` del banco, `NUOVO=1` di prove-veloci), oggi e con
   l'orologio della pagina al 15/11, a 320, 360, 393, 412, 768, 1440, 1366: una riga sola dappertutto, niente che sborda,
   tasti alti 45 (393) come il 1/11 invece di 55. Scatti in `immagini\check-10\m2\`.
+
+## La pioggia non si spegne piu' zoomando e trascinando (3/11/2026, scheda 116)
+
+- Suo: «rispetto a quando c'era OpenStreetMap perde fluidita' quando si zooma», con la rotellina al PC. Misurato sul sito
+  vero (`scratchpad c5b15e68\fluidita-116.js`, `rotellina-116.js`: GPU vera anche senza finestra, una pagina alla
+  volta): i fotogrammi erano gli stessi di OSM (55-58 al secondo), anche togliendo il filtro di luce della foto, la
+  sfocata sotto e i nomi nostri. La causa era la PIOGGIA: la tela andava a opacita' 0 a `zoomstart`, `movestart` e
+  `move` e tornava col ridisegno 80-100 ms dopo la fine. Uno scatto di rotella = 0,38 s di buio, tre scatti 0,5-0,8 s in
+  due lampi, un trascinamento di 1 s = 1,4 s (`pioggia-nascosta-116.js`). Era cosi' da sempre: sulla cartina chiara si
+  notava poco, sulla foto scura con la pioggia all'80% lo schermo passava dai colori al buio e indietro.
+- Ora (modulo «LA PIOGGIA SEGUE ZOOM E TRASCINAMENTO» sopra `initCanvas`) la tela fa come la foto: e' piu' grande dello
+  schermo di `HEAT_MARGINE` (0,5) per lato e sta nel pannello della mappa, quindi trascinando viene con la mappa; nello
+  zoom si ingrandisce con l'animazione di Leaflet (classe `leaflet-zoom-animated`, `zoomanim` col riquadro in gradi
+  `heatBox`, come L.ImageOverlay); col pizzico e coi salti senza animazione si rimette a posto a ogni `zoom`/`viewreset`;
+  alla fine si ridisegna nitida come prima. `drawGrid` non disegna a meta' animazione (lo rifa' lo zoomend). I pallini
+  restano nascosti durante lo zoom (sua scelta del 3/8).
+- Prove (copia servita sulla 9020 contro il sito vero): pioggia nascosta 0 ms con rotellina e trascinamento (prima
+  0,4-1,4 s); a mappa ferma la pioggia e' IDENTICA pixel per pixel su Toscana 30 gg, Sicilia al telefono, Trentino-AA
+  a 1920, Abruzzo 21/10 (contro la pagina vecchia servita uguale: online i dati dell'Abruzzo arrivano da raw), Lombardia
+  1 pixel su 10.508, a 4 px dal fondo sotto la barra delle citta' (`uguale-116.js`); scatti a meta' rotellina, a meta'
+  trascinamento e a meta' pizzico al telefono (eventi touch veri) con la pioggia al suo posto (`immagini\116\zoom-*`,
+  `pizzico-*`); boschi, satellite, radar, telefono senza errori; fotogrammi e compiti lunghi uguali a prima.
