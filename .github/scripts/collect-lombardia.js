@@ -68,17 +68,27 @@ const TRAMITE_CHIAVE = process.env.TRAMITE_CHIAVE || '';
 const PAUSE_429 = [0, 45000, 120000];
 const ATTESA_429_MAX = 6 * 60000;
 let attesa429 = 0;
-const conti = { diretta: 0, tramite: 0, tramiteOk: 0, r429: 0 };
+// r429 conta le risposte 429, dirette e dal worker; tramiteNo le risposte del worker che non sono ne' 200 ne' 429
+// (un 403 = chiave sbagliata), che prima finivano nelle pause senza lasciare traccia nel log
+const conti = { diretta: 0, tramite: 0, tramiteOk: 0, r429: 0, tramiteNo: [] };
+/* ⚠️ LA RISPOSTA TAGLIATA (3/11/2026, scheda 114 bis, voce B5 del check-10). Una risposta chiusa a meta' (il worker
+   chiude dopo 25 s) o una connessione che resta muta non chiudevano mai la promessa: il giro restava appeso fino al
+   tetto dei 20 minuti del workflow, senza i Retry e senza commit (provato in locale). Ora la risposta tagliata e'
+   un errore, e dopo TEMPO_MAX senza dati la richiesta si chiude: li' prendono i tentativi di sempre. */
+const TEMPO_MAX = 60000;
 function richiesta(pathQ, viaTramite) {
   return new Promise((resolve, reject) => {
     let opz;
     if (viaTramite) { const u = new URL(TRAMITE_URL + pathQ); opz = { host: u.host, path: u.pathname + u.search, headers: Object.assign({ 'X-Chiave': TRAMITE_CHIAVE }, INTESTAZIONI) }; conti.tramite++; }
     else { opz = { host: HOST, path: pathQ, headers: INTESTAZIONI }; conti.diretta++; }
-    https.get(opz, res => {
+    const req = https.get(opz, res => {
       let data = '';
       res.on('data', c => data += c);
       res.on('end', () => resolve({ status: res.statusCode, data }));
+      res.on('error', reject);
+      res.on('close', () => { if (!res.complete) reject(new Error('risposta tagliata')); });
     }).on('error', reject);
+    req.setTimeout(TEMPO_MAX, () => req.destroy(new Error(`nessun dato in ${TEMPO_MAX / 1000} s`)));
   });
 }
 async function getJSON(pathQ, retries = 3) {
@@ -94,7 +104,8 @@ async function getJSON(pathQ, retries = 3) {
           const t = await richiesta(pathQ, true);
           if (t.status === 200) { const j = JSON.parse(t.data); conti.tramiteOk++; return j; }
           if (t.status === 429) conti.r429++;
-        } catch (e) { /* il worker non ha risposto: si prosegue con le pause */ }
+          else conti.tramiteNo.push('HTTP ' + t.status);
+        } catch (e) { conti.tramiteNo.push(e.message.slice(0, 60)); /* il worker non ha risposto: si prosegue con le pause */ }
       }
       k++;
       if (k >= PAUSE_429.length || attesa429 + PAUSE_429[k] > ATTESA_429_MAX) throw new Error('HTTP 429');
@@ -406,7 +417,8 @@ async function main() {
     .forEach(f => { if (f.replace('.json', '') < cutoffStr) { fs.unlinkSync(path.join(DATA_DIR, f)); deleted++; } });
   if (deleted > 0) console.log(`  Pulizia retention: ${deleted} file eliminati`);
 
-  console.log(`  Richieste a Socrata: ${conti.diretta} dirette, ${conti.tramite} dal worker (${conti.tramiteOk} riuscite), ${conti.r429} risposte 429, ${Math.round(attesa429 / 1000)} s di attese`);
+  console.log(`  Richieste a Socrata: ${conti.diretta} dirette, ${conti.tramite} dal worker (${conti.tramiteOk} riuscite), ${conti.r429} risposte 429, ${Math.round(attesa429 / 1000)} s di attese` +
+    (conti.tramiteNo.length ? `; ${conti.tramiteNo.length} risposte del worker non 429 (${[...new Set(conti.tramiteNo)].join(', ')})` : ''));
   console.log('=== collect-lombardia completato ===');
 }
 
