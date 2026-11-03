@@ -1140,11 +1140,11 @@ ${nastroHtml(NOME)}
 ${mappeHtml({ reg: casa.k, nomeReg, ga: 'meteo-' + zslug })}
 ${ALTRE}
 <h2>Come funziona questa pagina</h2>
-<p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei ${paesi.length} paesi e aggiornate più volte al giorno; la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0). La pioggia caduta è misurata dai pluviometri ${esc(ENTE)}: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
+<p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei ${paesi.length} paesi e aggiornate più volte al giorno. La pioggia caduta è misurata dai pluviometri ${esc(ENTE)}: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>
 </main>
 
 <footer>
-  Previsioni: MET Norway (ECMWF) · Probabilità di pioggia: Open-Meteo · Pioggia misurata: ${esc(elenco(agenzie))} ·
+  Previsioni: MET Norway (ECMWF) · Pioggia misurata: ${esc(elenco(agenzie))} ·
   <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="${SITO}/guida/">guida alla mappa</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a>

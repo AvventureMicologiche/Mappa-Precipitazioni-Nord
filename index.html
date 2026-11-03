@@ -8870,7 +8870,7 @@ function locVai(p, _giro) {
   if (st && (stime || vuoto)) {
     st.className = 'error';
     st.textContent = stime
-      ? '⚠️ ' + p.n + ': qui non abbiamo pluviometri reali, quello che vedi sono stime Open-Meteo'
+      ? '⚠️ ' + p.n + ': qui non abbiamo pluviometri reali, quello che vedi sono stime del modello'
       : '⚠️ ' + p.n + ': nessun pluviometro entro 30 km, la mappa può restare vuota qui intorno';
   }
   // ⚠️ SUL TELEFONO la scelta della regione è una TENDINA A UNA VOCE SOLA, e
@@ -18742,7 +18742,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
                     :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway · probabilità di pioggia: Open-Meteo</span></div>';
+      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span></div>';   // Open-Meteo (la % di pioggia) si cita solo in fonti.html (sua decisione, 3/11/2026)
     det._chiave=chiave;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }

@@ -740,3 +740,17 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   sito vero con la pagina del repo iniettata (scratchpad 54de8904 `prova-punto-113.js`): cambiano solo Caronia, Monticiano
   e Urbe; Sassello e Valtiberina identiche, nessun errore.
 
+## Il credito della probabilita' di pioggia solo in fonti.html (3/11/2026, scheda 114)
+
+- Suo «no non la devi mettere lì in quel punto», sulla riga «Previsioni ECMWF via MET Norway · probabilità di pioggia:
+  Open-Meteo» in fondo alla scheda delle previsioni. Regola sua del 2/11: Open-Meteo si nomina solo in `fonti.html`
+  (dove la riga «Previsioni meteo» dice gia' «per la sola probabilità di pioggia, Open-Meteo», CC BY 4.0).
+- Tolto da: la scheda della mappa (`index.html`, ora «Previsioni ECMWF via MET Norway»); le 89 pagine meteo (49 zone, 40
+  paesi: la frase «la probabilità di pioggia (💧) è di Open-Meteo (CC BY 4.0)» e «Probabilità di pioggia: Open-Meteo» nei
+  crediti), cambiate frase per frase senza rigenerare, e i due generatori (`genera-pagine-meteo-zona.js`,
+  `genera-pagine-meteo-paese.js`) con lo stesso testo; la frase della guida (`guida/index.html`). In `index.html` anche il
+  testo morto dell'avviso dell'Abruzzo («stime Open-Meteo» → «stime del modello»). La % di pioggia resta (dati di
+  Open-Meteo dal server, `functions/api/previsioni.js`, interruttore `PROB`). Restano solo commenti nel codice.
+- Prova sul sito vero col file nuovo (`check-10\prova-crediti-114.js` del banco): PC e telefono, scheda di Milano, riga
+  «Previsioni ECMWF via MET Norway», zero «Open-Meteo» nel testo della pagina.
+
