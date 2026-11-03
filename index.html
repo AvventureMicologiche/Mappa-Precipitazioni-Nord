@@ -2709,56 +2709,16 @@ var REGIONS = {
   sicilia:    { name:'Sicilia',     center:[37.62,13.78], zoom:7,   fonte:'MeteoHub', geojson:'/italia-regioni-confine.geojson', geojsonFilter:'sicil',      dataSource:'meteohub', escludiSottoLat:36.3 },
   sardegna:   { name:'Sardegna',    center:[40.10, 8.96], zoom:7.5, fonte:'MeteoHub', geojson:'/italia-regioni-confine.geojson', geojsonFilter:'sardegna',   dataSource:'meteohub' },
 
-  // Abruzzo: nessun feed reale → Open-Meteo live (~40 punti), come erano VdA/Friuli
+  // Abruzzo (2/11/2026, scheda 111): MeteoNetwork + stime ICON-2I in data/abruzzo (collect-abruzzo.js), e i
+  // pluviometri di Lazio, Marche e Molise vicini al confine che colorano i bordi: vedi loadAbruzzoRegion. Fino al
+  // 2/11 era Open-Meteo dal vivo su 40 paesi (la lista `stations` e' stata tolta con lui).
   abruzzo: {
     name: 'Abruzzo',
     center: [42.30, 13.85], zoom: 8.5,
-    fonte: 'stime Open-Meteo',
+    fonte: 'MeteoNetwork + pluviometri di confine + stime ICON-2I',
     geojson: '/italia-regioni-confine.geojson',
     geojsonFilter: 'abruzz',
-    dataSource: 'open_meteo',
-    stations: [
-      {n:"L'Aquila",             lat:42.350,lon:13.400,q:714, p:"AQ"},
-      {n:"Avezzano",            lat:42.030,lon:13.430,q:697, p:"AQ"},
-      {n:"Sulmona",             lat:42.050,lon:13.930,q:405, p:"AQ"},
-      {n:"Tagliacozzo",         lat:42.070,lon:13.250,q:740, p:"AQ"},
-      {n:"Carsoli",             lat:42.100,lon:13.090,q:640, p:"AQ"},
-      {n:"Celano",              lat:42.090,lon:13.550,q:800, p:"AQ"},
-      {n:"Ovindoli",            lat:42.130,lon:13.520,q:1375,p:"AQ"},
-      {n:"Campo Imperatore",    lat:42.442,lon:13.560,q:2130,p:"AQ"},
-      {n:"Scanno",              lat:41.900,lon:13.880,q:1015,p:"AQ"},
-      {n:"Pescasseroli",        lat:41.810,lon:13.790,q:1167,p:"AQ"},
-      {n:"Barrea",              lat:41.753,lon:13.992,q:1060,p:"AQ"},
-      {n:"Castel di Sangro",    lat:41.783,lon:14.110,q:793, p:"AQ"},
-      {n:"Roccaraso",           lat:41.848,lon:14.073,q:1236,p:"AQ"},
-      {n:"Pratola Peligna",     lat:42.100,lon:13.870,q:340, p:"AQ"},
-      {n:"Navelli",             lat:42.238,lon:13.723,q:760, p:"AQ"},
-      {n:"Fonte Cerreto",       lat:42.420,lon:13.520,q:1120,p:"AQ"},
-      {n:"Teramo",              lat:42.660,lon:13.700,q:265, p:"TE"},
-      {n:"Giulianova",          lat:42.750,lon:13.960,q:68,  p:"TE"},
-      {n:"Roseto degli Abruzzi",lat:42.680,lon:14.020,q:15,  p:"TE"},
-      {n:"Atri",                lat:42.580,lon:13.980,q:442, p:"TE"},
-      {n:"Nereto",              lat:42.820,lon:13.820,q:145, p:"TE"},
-      {n:"Alba Adriatica",      lat:42.830,lon:13.920,q:5,   p:"TE"},
-      {n:"Martinsicuro",        lat:42.880,lon:13.920,q:4,   p:"TE"},
-      {n:"Isola del Gran Sasso",lat:42.500,lon:13.660,q:415, p:"TE"},
-      {n:"Pescara",             lat:42.460,lon:14.210,q:4,   p:"PE"},
-      {n:"Montesilvano",        lat:42.510,lon:14.150,q:5,   p:"PE"},
-      {n:"Penne",               lat:42.450,lon:13.930,q:438, p:"PE"},
-      {n:"Popoli",              lat:42.170,lon:13.830,q:254, p:"PE"},
-      {n:"Città Sant'Angelo",   lat:42.520,lon:14.060,q:317, p:"PE"},
-      {n:"Chieti",              lat:42.350,lon:14.170,q:330, p:"CH"},
-      {n:"Lanciano",            lat:42.230,lon:14.390,q:265, p:"CH"},
-      {n:"Vasto",               lat:42.110,lon:14.710,q:144, p:"CH"},
-      {n:"Ortona",              lat:42.350,lon:14.400,q:72,  p:"CH"},
-      {n:"Francavilla al Mare", lat:42.420,lon:14.290,q:20,  p:"CH"},
-      {n:"San Salvo",           lat:42.050,lon:14.730,q:100, p:"CH"},
-      {n:"Guardiagrele",        lat:42.190,lon:14.220,q:576, p:"CH"},
-      {n:"Casoli",              lat:42.120,lon:14.290,q:378, p:"CH"},
-      {n:"Gissi",               lat:42.020,lon:14.550,q:373, p:"CH"},
-      {n:"Atessa",              lat:42.070,lon:14.450,q:435, p:"CH"},
-      {n:"Roccascalegna",       lat:42.060,lon:14.310,q:500, p:"CH"}
-    ]
+    dataSource: 'abruzzo_misto'
   }
 };
 
@@ -3641,18 +3601,24 @@ function testoQuota(s){
   if(!s || s.q === null || s.q === undefined || s.q === '') return '—';
   return (s.qt ? '~ ' : '') + s.q + ' m slm';
 }
+// Il nome come si MOSTRA: dove le reti si mescolano (Abruzzo, prova 26-27/10/2026) accanto al nome si legge la
+// rete, «Regione Lazio», «MeteoNetwork», «stima ICON-2I» (_rete, la mette loadAbruzzoRegion). Solo a schermo:
+// nei file e nella ricerca del grafico resta s.n.
+function nomeStazione(s){
+  return s.n + (s._rete ? ' · ' + s._rete : '');
+}
 function showTooltip(s,rank,mx,my){
   // Col grafico storico aperto il tooltip si sovrapporrebbe (su mobile in modo
   // vistoso, visto che il popup occupa tutta la larghezza): niente tooltip.
   var _h=document.getElementById('st-history');
   if(_h&&_h.style.display==='block') return;
   // Determina la regione dalla provincia della stazione
-  var fonte=lastUsedFonte||'—';
-  document.getElementById('tt-nome').textContent=s.n;
+  var fonte=s._fonte||lastUsedFonte||'—';   // _fonte: la stazione dice da se' cos'e' (Abruzzo, vedi loadAbruzzoRegion)
+  document.getElementById('tt-nome').textContent=nomeStazione(s);
   document.getElementById('tt-mm').textContent=histNum(s.mm);
   document.getElementById('tt-prov').textContent=s.p;
   document.getElementById('tt-quota').textContent=testoQuota(s);
-  document.getElementById('tt-rank').textContent='#'+rank+' / '+totalStations;
+  document.getElementById('tt-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';   // fuori regione: senza posizione
   document.getElementById('tt-fonte').textContent=fonte;
   tooltip.classList.remove('tt-senza-periodo');
   posTooltip(mx,my);
@@ -3839,7 +3805,9 @@ var HIST_RAW_BY_REGION={
   'valledaosta-cf':PILOT_DATA_BASE,
   'svizzera':PILOT_DATA_BASE,  // pilota MeteoSwiss (il Ticino OASI resta su HIST_RAW prod)
   'austria':PILOT_DATA_BASE,   // pilota GeoSphere Austria
-  'slovenia':PILOT_DATA_BASE   // pilota ARSO Slovenia
+  'slovenia':PILOT_DATA_BASE,  // pilota ARSO Slovenia
+  // Abruzzo (dal 2/11/2026): in locale i file del disco, online data/abruzzo su GitHub (la scrive abruzzo.yml)
+  'abruzzo':/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/data/':PILOT_DATA_BASE
 };
 function histRawBase(region){ if(region&&region.indexOf('meteohub-')===0) return MH_DATA_BASE;
   if(region&&region.indexOf('francia')===0) return PILOT_DATA_BASE; return HIST_RAW_BY_REGION[region]||HIST_RAW; }
@@ -3872,8 +3840,9 @@ var INIZIO_STORICO={
   valledaosta:VDA_HIST_FROM, friuli:FRIULI_HIST_FROM,
   altoadige:'2025-08-07', trentino:'2025-08-07', svizzera:'2025-08-07', austria:'2025-08-07', slovenia:'2025-08-11', francia:'2025-08-01',
   marche:'2026-05-14', umbria:'2026-05-14', lazio:'2026-05-20', molise:'2026-05-20', campania:'2026-05-20', puglia:'2026-05-20',
-  basilicata:'2026-05-20', calabria:'2026-05-20', sicilia:'2026-05-20', sardegna:'2026-05-20'
-};   // l'Abruzzo non c'e': e' Open-Meteo dal vivo, per lui vale solo il tetto
+  basilicata:'2026-05-20', calabria:'2026-05-20', sicilia:'2026-05-20', sardegna:'2026-05-20',
+  abruzzo:'2026-05-20'   // dal 2/11/2026: data/abruzzo, stime del backfill fino al 18/10 come i vicini (prima Open-Meteo dal vivo)
+};
 var RETENTION_GIORNI=730;
 function inizioStorico(regioni){
   var lim=new Date(); lim.setDate(lim.getDate()-RETENTION_GIORNI);
@@ -4551,7 +4520,8 @@ function openStationHistory(s,rank,mx,my){
   // Svizzera: regione a due fonti — le stazioni OASI hanno lo storico in
   // data/ticino (prod), quelle MeteoSwiss in data/svizzera (pilota). Il tag
   // _src lo mette loadSvizzeraRegion.
-  var histRegion=(REGIONS[regionKey]&&REGIONS[regionKey].dataSource==='meteohub')?'meteohub-'+regionKey:(regionKey==='friuli')?((s._src==='mh')?'meteohub-friuli':'friuli-osmer'):(regionKey==='valledaosta')?'valledaosta-cf':(regionKey==='svizzera')?((s._src==='oasi')?'ticino':'svizzera'):regionKey;
+  // Abruzzo: ogni stazione porta la sua cartella (data/abruzzo o le meteohub-* delle regioni vicine).
+  var histRegion=(regionKey==='abruzzo'&&s._dir)?s._dir:(REGIONS[regionKey]&&REGIONS[regionKey].dataSource==='meteohub')?'meteohub-'+regionKey:(regionKey==='friuli')?((s._src==='mh')?'meteohub-friuli':'friuli-osmer'):(regionKey==='valledaosta')?'valledaosta-cf':(regionKey==='svizzera')?((s._src==='oasi')?'ticino':'svizzera'):regionKey;
   var limit=HIST_REAL_FROM[histRegion]||HIST_REAL_FROM[regionKey];
 
   // ⚠️ LA FINESTRA E' SEMPRE GLI ULTIMI 30 GIORNI, E FINISCE SEMPRE IERI
@@ -4587,7 +4557,7 @@ function openStationHistory(s,rank,mx,my){
   // nel grafico non c'e' nessun giorno acceso.
   var notaPeriodo = (selTo<days[0]) ? 'fuori' : (selFrom<days[0]) ? 'lungo' : '';
 
-  document.getElementById('sh-nome').textContent=s.n;
+  document.getElementById('sh-nome').textContent=nomeStazione(s);
   document.getElementById('sh-mm').textContent=histNum(s.mm);
   // OMIRL Liguria non espone la provincia: il campo p contiene il comune
   // (verificato sulla fonte). Etichetta coerente col dato invece che sbagliata.
@@ -4595,7 +4565,7 @@ function openStationHistory(s,rank,mx,my){
   document.getElementById('sh-prov').textContent=s.p||'—';
   document.getElementById('sh-quota').textContent=testoQuota(s);
   document.getElementById('sh-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';
-  document.getElementById('sh-fonte').textContent=lastUsedFonte||'—';
+  document.getElementById('sh-fonte').textContent=s._fonte||lastUsedFonte||'—';
   // 7/10/2026: «Previsioni qui» (sezione Previsioni, blocco in fondo al file): il posto lo legge dal link
   (function(){ var _pa=document.getElementById('sh-prev'); if(_pa){ _pa.style.display='block'; _pa._st={lat:s.lat,lon:s.lon,n:s.n,q:s.q}; } })();
   /* 3/9/2026 — il ponte verso la pagina del posto.
@@ -4640,12 +4610,9 @@ function openStationHistory(s,rank,mx,my){
     histRender(s,regionKey,days,serie,selFrom,selTo,notaPeriodo,histRegion);
     histPosition(mx,my);
   }
-  /* ⚠️ L'ABRUZZO A OPEN-METEO NON LEGGE data/abruzzo (31/10/2026, controllo della scheda 103). Dal 20/10 in quella
-     cartella ci sono i file della prova MeteoNetwork + ICON-2I (da decidere verso il 3-6/11): la scheda li trovava e
-     accoppiava per NOME il punto Open-Meteo del pallino con un'altra stazione, e il numero grande non era la somma delle
-     barre (Atessa 27,9 mm contro 39,4). Finche' la mappa disegna l'Abruzzo con Open-Meteo, niente barre, com'era prima
-     del 20/10. Decisa la fonte dell'Abruzzo, questa riga si toglie o cambia. */
-  if(regionKey==='abruzzo'&&REGIONS.abruzzo&&REGIONS.abruzzo.dataSource==='open_meteo'){ done({}); return; }
+  /* L'Abruzzo a Open-Meteo dal vivo non aveva barre (31/10/2026, scheda 103: la scheda accoppiava per NOME il punto
+     Open-Meteo con un'altra stazione di data/abruzzo, Atessa 27,9 mm contro 39,4). Dal 2/11/2026 i pallini SONO i punti
+     di data/abruzzo (o dei pluviometri vicini, `_dir`), e le barre tornano come per tutti. */
   histFromFiles(histRegion,s,days,done);
 }
 
@@ -5491,11 +5458,11 @@ function aggiornaAvvisoIeri(){
   if(fmtISOLocal(currentNow)!==ieriStr) return;
   var regioni=getActiveRegions(); if(!regioni.length) return;
   var nSelezionate=regioni.length;   // quante ne ha scelte l'utente, prima del filtro qui sotto
-  // L'Abruzzo i file giornalieri non li legge: e' l'unica regione a stime
-  // Open-Meteo, i dati li chiede all'API sul momento. Cercare
-  // data/abruzzo/<ieri>.json vuol dire trovare un 404 TUTTI i giorni e gridare
-  // al dato mancante sopra una mappa che i dati ce li ha — un falso allarme
-  // quotidiano. Si controlla solo chi quei file li usa davvero.
+  // Si controlla solo chi i file giornalieri li usa davvero: una regione che
+  // chiedesse i dati a un'API sul momento troverebbe un 404 TUTTI i giorni e
+  // griderebbe al dato mancante sopra una mappa che i dati ce li ha. Era
+  // l'Abruzzo a Open-Meteo fino al 2/11/2026; da allora legge data/abruzzo
+  // come gli altri, e il suo «ieri» mancante si dice.
   regioni=regioni.filter(function(rk){
     return !(REGIONS[rk]&&REGIONS[rk].dataSource==='open_meteo');
   });
@@ -5811,10 +5778,16 @@ function loadData(pastDate,nowDate,labelPeriodo){
       loadMeteoHubRegion(regionKey,pastDate,nowDate,labelPeriodo,function(dati){
         onRegionDone(dati,'🟢 MeteoHub',regionKey);
       });
-    } else {
-      loadOpenMeteoRegion(cfg.stations||[],pastDate,nowDate,labelPeriodo,function(dati){
-        onRegionDone(dati,'🌍 stime Open-Meteo',regionKey);
+    } else if(source==='abruzzo_misto'){
+      // senza file per il periodo (prima del 20/5/2026, o un guasto) l'Abruzzo resta senza dati, come le altre
+      // regioni: niente piu' ripiego su Open-Meteo (2/11/2026)
+      loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,function(dati,fonte){
+        onRegionDone(dati,fonte||'🟢 MeteoNetwork · 🌍 stime ICON-2I',regionKey);
       });
+    } else {
+      // ⚠️ NESSUNA REGIONE E' PIU' SU OPEN-METEO DAL BROWSER (3/11/2026, scheda 114 per la 111): l'ultima era l'Abruzzo,
+      // ora su file (abruzzo_misto). Una fonte che qui non si riconosce resta senza dati, come una regione senza file.
+      onRegionDone([],'',regionKey);
     }
   });
 }
@@ -6351,94 +6324,6 @@ function loadARPALombardiaRegion(pastDate,nowDate,labelPeriodo,cb){
       })
       .catch(function(){})
       .finally(function(){ pending--; if(pending<=0) finalizza(); });
-  });
-}
-
-// ─── Wrapper Open-Meteo → callback ───────────────────────────
-function loadOpenMeteoRegion(stations,pastDate,nowDate,labelPeriodo,cb){
-  var msRange=nowDate.getTime()-pastDate.getTime();
-  var BATCH=100;
-  var batches=[];
-  for(var i=0;i<stations.length;i+=BATCH) batches.push(stations.slice(i,i+BATCH));
-  var results={}, cop={};   // cop: valori veri (giorni o ore) per stazione, vedi onBatchDone
-  var pending=batches.length;
-  if(pending===0){cb([]);return;}
-  function onBatchDone(){
-    pending--;
-    if(pending>0) return;
-    // ⚠️ SENZA RISPOSTA NON E' ZERO (19/10/2026, quinto check, bug 3): se Open-Meteo non risponde (429, rete)
-    // la stazione resta fuori. Prima valeva 0 e la mappa diceva «✅ Nessuna pioggia» con 40 stazioni a zero:
-    // una giornata asciutta inventata. Se non risponde nessuna, arriva [] e la mappa dice che mancano i dati.
-    var _scarsa=copFiltro(cop);   // copertura sotto il 60% dei valori: fuori, come nelle reti vere
-    var out=stations.filter(function(s){return typeof results[s.n]==='number' && !_scarsa(s.n);})
-      .map(function(s){return {n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,mm:results[s.n]};});
-    cb(out);
-  }
-  function fmtD(d){var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
-  batches.forEach(function(batch){
-    var lats=batch.map(function(s){return s.lat;}).join(',');
-    var lons=batch.map(function(s){return s.lon;}).join(',');
-    var startDate=fmtD(pastDate);var endDate=fmtD(nowDate);
-    var days=Math.ceil(msRange/(24*3600000));
-    var isHourly=msRange<2*24*3600000;
-    var cutoff=new Date(new Date().getTime()-6*24*3600000);
-    /* ⚠️ LE DATE ESATTE DEL PERIODO (19/10/2026, quinto check, bug 2). Prima fino a 92 giorni si chiedeva
-       past_days=N, cioe' «gli ULTIMI N giorni fino a oggi», e poi si tenevano le date del periodo: se il periodo
-       non finiva ieri (finestra funghi, date personalizzate, un giorno singolo di due settimane fa) quelle date non
-       c'erano e l'Abruzzo usciva «✅ Nessuna pioggia». L'API forecast accetta start_date/end_date fino a ~92 giorni
-       indietro (oltre risponde «out of allowed range»): entro 90 giorni si usa lei, prima l'archivio, che ha ~5 giorni
-       di ritardo (cutoff) e per la coda recente si completa con la forecast, sempre a date esatte. */
-    // la fine non va oltre ieri: «Ultimi N mesi» finisce ADESSO e la somma di oggi sarebbe in parte previsione
-    // (prima la toglieva past_days, che si ferma a ieri)
-    var ieriD=new Date();ieriD.setDate(ieriD.getDate()-1);if(endDate>fmtD(ieriD))endDate=fmtD(ieriD);
-    var limiteForecast=new Date(new Date().getTime()-90*24*3600000);
-    /* ⚠️ L'ORA H DI OPEN-METEO E' LA PIOGGIA DA H-1 A H (20/10/2026, sesto check, bug 13). Il giorno quindi va
-       dalle 01:00 alle 00:00 del giorno DOPO comprese: 24 valori. Prima si prendeva dalle 23:00 del giorno prima
-       alle 23:00, 25 valori con dentro l'ultima ora di ieri l'altro. Verificato sulla chiamata vera: gli orari
-       sono ora italiana da T00:00, e il precipitation_sum giornaliero di Open-Meteo e' proprio la somma 01:00→24:00
-       (L'Aquila 10/10: 5,6 = 5,6; con 00:00→23:00 sarebbe 4,9). Cosi' «Ieri» torna con i 7/10/15 giorni. */
-    var dopoFine=isoPiu(endDate,1);   // il giorno dopo l'ultimo: serve la sua ora 00:00
-    var dopoCutoff=isoPiu(fmtD(cutoff),1);   // giorno di calendario, non +24 ore (bug 12)
-    var urls=[];
-    if(isHourly){
-      urls.push((pastDate>=limiteForecast ? 'https://api.open-meteo.com/v1/forecast' : 'https://archive-api.open-meteo.com/v1/archive')
-        +'?latitude='+lats+'&longitude='+lons+'&hourly=precipitation&timezone=Europe%2FRome&start_date='+startDate+'&end_date='+dopoFine);
-    } else if(pastDate>=limiteForecast){
-      urls.push('https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&daily=precipitation_sum&timezone=Europe%2FRome&start_date='+startDate+'&end_date='+endDate);
-    } else if(endDate<=fmtD(cutoff)){   // per GIORNO (20/10/2026, settimo check, bug 4): con nowDate (fine giornata, 23:59) un periodo che finiva proprio a D-6 cadeva nel ramo misto, e la seconda richiesta partiva il giorno dopo la sua fine: «Nessun dato»
-      urls.push('https://archive-api.open-meteo.com/v1/archive?latitude='+lats+'&longitude='+lons+'&start_date='+startDate+'&end_date='+endDate+'&daily=precipitation_sum&timezone=Europe%2FRome');
-    } else {
-      urls.push('https://archive-api.open-meteo.com/v1/archive?latitude='+lats+'&longitude='+lons+'&start_date='+startDate+'&end_date='+fmtD(cutoff)+'&daily=precipitation_sum&timezone=Europe%2FRome');
-      urls.push('https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&daily=precipitation_sum&timezone=Europe%2FRome&start_date='+dopoCutoff+'&end_date='+endDate);
-    }
-    var acc={};
-    function processOM(data){
-      var arr=Array.isArray(data)?data:[data];
-      arr.forEach(function(loc,i){
-        var st=batch[i];if(!st)return;
-        if(isHourly){
-          var hourly=loc.hourly;if(!hourly||!hourly.time)return;
-          var pastStr=startDate+'T00:00', nowStr=dopoFine+'T00:00';   // (00:00 del primo giorno, 00:00 del giorno dopo]
-          for(var j=0;j<hourly.time.length;j++){
-            var tStr=hourly.time[j].substring(0,16);
-            if(tStr>pastStr&&tStr<=nowStr){var v=parseFloat(hourly.precipitation[j]);if(!isNaN(v)){ cop[st.n]=(cop[st.n]||0)+1; if(v>0)acc[st.n]=(acc[st.n]||0)+v; }}
-          }
-        } else {
-          var daily=loc.daily;if(!daily||!daily.time)return;
-          for(var j=0;j<daily.time.length;j++){
-            if(daily.time[j]>=startDate&&daily.time[j]<=endDate){var v=parseFloat(daily.precipitation_sum[j]);if(!isNaN(v)){ cop[st.n]=(cop[st.n]||0)+1; if(v>0)acc[st.n]=(acc[st.n]||0)+v; }}
-          }
-        }
-      });
-    }
-    urls.reduce(function(chain,url){
-      return chain.then(function(){return fetch(url);}).then(function(r){if(!r.ok)throw new Error('OM '+r.status);return r.json();}).then(function(data){processOM(data);});
-    },Promise.resolve())
-    // ⚠️ SENZA UN VALORE NON E' ZERO (20/10/2026, sesto check, «da guardare» b): un giorno (o un'ora) a null non
-    // conta, come nelle reti vere, e una stazione senza nemmeno un valore resta fuori invece di fare 0 mm.
-    // `cop` conta i valori veri e onBatchDone ci passa sopra il filtro di copertura (60%) delle altre reti.
-    .then(function(){batch.forEach(function(s){ if(cop[s.n]){ results[s.n]=Math.round((acc[s.n]||0)*10)/10; } else delete results[s.n]; });onBatchDone();})
-    .catch(function(e){console.warn('OM error:',e.message);batch.forEach(function(s){delete results[s.n];});onBatchDone();});   // senza risposta resta fuori, vedi onBatchDone
   });
 }
 
@@ -7288,6 +7173,154 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
         .catch(function(){})
         .finally(done);
     }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ABRUZZO: PLUVIOMETRI VERI DOVE CI SONO, STIME ICON-2I DOVE NO (prova 26/10/2026, produzione: scheda 111)
+// ═══════════════════════════════════════════════════════════════
+// L'Abruzzo non pubblica i suoi pluviometri. Fino al 2/11/2026 la mappa lo calcolava dal vivo con Open-Meteo,
+// stime su 40 paesi. Ora tre famiglie di punti. In mappa i pallini sono UGUALI a quelli delle altre regioni (sua
+// decisione del 27/10: «fino a quando non si clicca sul pluvio deve sembrare come le altre regioni»); che cosa e'
+// lo dice il pallino aperto, col nome della rete accanto al nome (_rete) e la fonte (_fonte):
+//  - i pluviometri UFFICIALI di Lazio, Marche e Molise entro ABR_CONFINE_KM dal confine, letti dalle loro
+//    cartelle meteohub-* (come il Friuli con le cinque venete del Cadore), solo se quella regione non e'
+//    gia' accesa: accesa, i suoi dati ci sono gia'. SOLO COLORE dal 27/10/2026 (suo: «sono troppi, sembrano un
+//    bug»): colorano i bordi, ma niente pallino e fuori dai numeri (_fuori, vedi render);
+//  - le stazioni AMATORIALI MeteoNetwork dentro l'Abruzzo (data/abruzzo, rete 'mnw');
+//  - le STIME del modello ICON-2I (data/abruzzo, rete 'icon'), dappertutto tranne entro ABR_STIMA_KM da una
+//    MeteoNetwork: una stima accanto a una misura direbbe due cose diverse sullo stesso posto. Vicino ai
+//    pluviometri di confine invece restano: senza pallino quelli, togliere le stime lascerebbe vuota la fascia
+//    lungo i bordi.
+// Prima del 19/10/2026, dal 20/5 come le altre regioni del centro-sud, ci sono le stime del backfill fatto una volta
+// sola sugli stessi punti (source `open-meteo-backfill-abruzzo`, rete 'stima'): sono stime anche loro, ma non di
+// ICON, quindi un punto che nel periodo ne ha anche solo una si chiama «stima del modello» e non «stima ICON-2I».
+// Il collector e' .github/scripts/collect-abruzzo.js; ICON-2I si legge come spiega lib-icon2i.js.
+var ABR_DATA_BASE=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/data/':PILOT_DATA_BASE;   // in locale il disco, online GitHub (abruzzo.yml)
+var ABR_CONFINE_KM=15, ABR_STIMA_KM=10;
+var ABR_VICINE={lazio:'meteohub-lazio',marche:'meteohub-marche',molise:'meteohub-molise'};
+var ABR_ENTI={lazio:'Regione Lazio',marche:'Regione Marche',molise:'Regione Molise'};
+function abrKm(a1,o1,a2,o2){
+  var x=(o2-o1)*Math.cos((a1+a2)*Math.PI/360)*111.32, y=(a2-a1)*110.57;
+  return Math.sqrt(x*x+y*y);
+}
+// Le stazioni MeteoNetwork FERME (27/10/2026): il collector le segna in data/abruzzo/anagrafe.json (regola in
+// segnaFerme, collect-abruzzo.js) e qui non si disegnano; al loro posto torna la stima ICON, se serve. Quando
+// tornano a misurare il collector toglie il segno e rientrano da sole. Si legge una volta per pagina.
+var _abrFerme=null;
+var _abrDist={};
+function abrDistConfine(lat,lon){
+  var k=lat.toFixed(4)+','+lon.toFixed(4);
+  if(_abrDist[k]!==undefined) return _abrDist[k];
+  var best=Infinity;
+  (regionRings.abruzzo||[]).forEach(function(poly){
+    var r=poly[0];
+    for(var i=0;i<r.length;i+=2){ var d=abrKm(lat,lon,r[i][1],r[i][0]); if(d<best) best=d; }
+  });
+  return (_abrDist[k]=best);
+}
+function loadAbruzzoRegion(pastDate,nowDate,labelPeriodo,cb){
+  var attive=getActiveRegions();
+  // una vicina gia' accesa porta da se' i suoi pluviometri, nel colore e nei pallini: qui non si rileggono
+  var vicine=Object.keys(ABR_VICINE).filter(function(rk){ return attive.indexOf(rk)<0; });
+  var rainTot={}, meta={}, cop={}, daIcon={}, daBackfill={};
+  var dates=[];
+  var d=new Date(pastDate.getTime());
+  while(d<=nowDate){
+    var y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+    dates.push(y+'-'+mo+'-'+dy);
+    d.setDate(d.getDate()+1);
+  }
+  if(!dates.length){cb([],'');return;}
+  var pending=dates.length*(1+vicine.length)+(_abrFerme?0:1);
+
+  function finalizza(){
+    var _scarsa=copFiltro(cop);   // copertura sotto il 60% del periodo: niente pallino, come dappertutto
+    var veri=[], stime=[];
+    Object.keys(rainTot).forEach(function(key){
+      if(_scarsa(key)) return;
+      var s=meta[key];
+      if(s._src==='mnw' && _abrFerme && _abrFerme[s._cod]) return;   // ferma, vedi _abrFerme
+      if(s._src==='confine'){
+        var dc=abrDistConfine(s.lat,s.lon);
+        if(dc>ABR_CONFINE_KM) return;
+        s._fonte='Rete regionale via MeteoHub · '+Math.max(1,Math.round(dc))+' km fuori';
+      }
+      var soloIcon=s._src==='icon'&&daIcon[key]&&!daBackfill[key];   // vedi sopra: «stima ICON-2I» solo se e' tutta ICON
+      if(s._src==='icon') s._fonte=soloIcon?'Modello ICON-2I, non un pluviometro':'Stima del modello, non un pluviometro';
+      var o={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'',_src:s._src,_dir:s._dir,_fonte:s._fonte,
+             _rete:s._src==='icon'?(soloIcon?'stima ICON-2I':'stima del modello'):s._src==='mnw'?'MeteoNetwork':ABR_ENTI[s._reg],
+             _fuori:s._src==='confine',   // colora i bordi, ma niente pallino e fuori dai numeri dell'Abruzzo (render)
+             mm:Math.round((rainTot[key]||0)*10)/10};
+      (s._src==='icon'?stime:veri).push(o);
+    });
+    var misure=veri.filter(function(s){ return s._src==='mnw'; });
+    stime=stime.filter(function(t){
+      return !misure.some(function(v){return abrKm(t.lat,t.lon,v.lat,v.lon)<ABR_STIMA_KM;});
+    });
+    var full=veri.concat(stime);
+    // Nessun dato quando DENTRO l'Abruzzo non c'e' niente (file mancanti, o periodo che i file non coprono al 60%):
+    // i soli pluviometri di confine colorerebbero la regione dai bordi e farebbero i suoi numeri.
+    if(full.filter(function(s){return !s._fuori;}).length<5){cb([],'');return;}
+    full.sort(function(a,b){return a.n<b.n?-1:a.n>b.n?1:0;});
+    full.forEach(function(s){ s._cap=1; });
+    var parti=[], nC=0, nM=0;
+    veri.forEach(function(s){ if(s._src==='mnw') nM++; else nC++; });
+    if(nM) parti.push('MeteoNetwork');
+    if(nC) parti.push('pluviometri di confine');
+    var tutteIcon=stime.every(function(s){ return s._rete==='stima ICON-2I'; });
+    cb(full,(parti.length?'🟢 '+parti.join(' + '):'')+(stime.length?(parti.length?' · ':'')+(tutteIcon?'🌍 stime ICON-2I':'🌍 stime del modello'):''));
+  }
+  function done(){
+    if(--pending>0) return;
+    // la distanza dal confine vuole il confine: di solito c'e' gia' (lo chiede loadData), se no si aspetta
+    if(regionRings.abruzzo&&regionRings.abruzzo.length) finalizza(); else loadAllBorders(['abruzzo'],finalizza);
+  }
+
+  if(!_abrFerme){
+    fetch(ABR_DATA_BASE+'abruzzo/anagrafe.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(an){ var f={}; for(var c in (an.mnw||{})) if(an.mnw[c].ferma) f[c]=true; _abrFerme=f; })
+      .catch(function(){ _abrFerme={}; })   // senza anagrafe si disegna tutto, come prima
+      .finally(done);
+  }
+
+  dates.forEach(function(ds){
+    fetch(ABR_DATA_BASE+'abruzzo/'+ds+'.json')
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(data){
+        var backfill=/backfill/.test(data.source||'');   // le stime fatte una volta, prima del 19/10/2026
+        (data.stations||[]).forEach(function(s){
+          var key=s.id, mnw=s.rete==='mnw';
+          if(!meta[key]){
+            meta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p,_src:mnw?'mnw':'icon',_dir:'abruzzo',_cod:s.cod,
+                       _fonte:mnw?'Rete MeteoNetwork · stazione '+s.cod:''};   // le stime: la fonte la decide finalizza
+          }
+          if(!mnw) (backfill?daBackfill:daIcon)[key]=1;
+          rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
+        });
+      })
+      .catch(function(){})
+      .finally(done);
+
+    vicine.forEach(function(rk){
+      var dir=ABR_VICINE[rk], escluse=MH_ESCLUSE[rk]||{};
+      fetch(MH_DATA_BASE+dir+'/'+ds+'.json')
+        .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+        .then(function(d){return usaGiorno(d,rk);})
+        .then(function(data){
+          (data.stations||[]).forEach(function(s){
+            if(escluse[s.id]) return;                                                  // guasto, vedi MH_ESCLUSE
+            if(!(s.lat>41.3&&s.lat<43.25&&s.lon>12.6&&s.lon<15.3)) return;           // solo la fascia intorno all'Abruzzo
+            var key=dir+':'+(s.id||s.n);
+            if(!meta[key]) meta[key]={n:s.n,lat:s.lat,lon:s.lon,q:s.q,qt:s.qt,p:s.p||'',_src:'confine',_dir:dir,_reg:rk};
+            else if(!meta[key].q && s.q){ meta[key].q=s.q; meta[key].qt=s.qt; }
+            rainTot[key]=(rainTot[key]||0)+(s.mm||0); cop[key]=(cop[key]||0)+1;
+          });
+        })
+        .catch(function(){})
+        .finally(done);
+    });
   });
 }
 
@@ -11917,6 +11950,16 @@ function addDefaultMarkersForRegion(regionKey){
     loadFranciaStations(regionKey,function(st){ drawDefaultMarkers(st,cfg); });
     return;
   }
+  // Abruzzo: i pallini di partenza sono quelli di «ieri» in data/abruzzo (senza file di ieri, nessun pallino)
+  if(cfg && cfg.dataSource==='abruzzo_misto'){
+    var _ie=new Date(); _ie.setDate(_ie.getDate()-1);
+    var _da=new Date(_ie.getFullYear(),_ie.getMonth(),_ie.getDate()), _a=new Date(_da.getTime()+86399999);
+    loadAbruzzoRegion(_da,_a,'',function(st){
+      st=st.filter(function(s){ return !s._fuori; });   // i pluviometri di confine non hanno pallino (vedi render)
+      drawDefaultMarkers(st,cfg);
+    });
+    return;
+  }
   var stazioni=(cfg&&cfg.stations)?cfg.stations:[];
   drawDefaultMarkers(stazioni,cfg);
 }
@@ -11944,13 +11987,13 @@ function drawDefaultMarkers(stazioni,cfg){
       function showDef(cx,cy){
         if(hideTimer)clearTimeout(hideTimer);
         mk.setStyle({radius:10,weight:2,color:'#000'});
-        document.getElementById('tt-nome').textContent=st.n;
+        document.getElementById('tt-nome').textContent=nomeStazione(st);
         document.getElementById('tt-mm').textContent='–';
         document.getElementById('tt-prov').textContent=st.p;
         document.getElementById('tt-quota').textContent=testoQuota(st);
         document.getElementById('tt-rank').textContent='';
         tooltip.classList.add('tt-senza-periodo');
-        document.getElementById('tt-fonte').textContent=cfg?cfg.fonte:'—';
+        document.getElementById('tt-fonte').textContent=st._fonte||(cfg?cfg.fonte:'—');
         posTooltip(cx,cy);
         tooltip.style.display='block';
       }

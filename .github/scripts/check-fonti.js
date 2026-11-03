@@ -147,7 +147,11 @@ const REGIONI = [
   { dir: 'meteohub-basilicata', nome: 'Basilicata', wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
   { dir: 'meteohub-calabria',   nome: 'Calabria',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
   { dir: 'meteohub-sicilia',    nome: 'Sicilia',    wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
-  { dir: 'meteohub-sardegna',   nome: 'Sardegna',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' }
+  { dir: 'meteohub-sardegna',   nome: 'Sardegna',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
+  // Abruzzo (2/11/2026): MeteoNetwork + stime ICON-2I, collect-abruzzo.js. Da qui lo guarda anche il guardiano, che
+  // ri-lancia abruzzo.yml se il giro salta. Le stazioni contano anche i punti ICON: se ICON non si legge, il file
+  // resta con le sole MeteoNetwork (~15 su ~160) e dopo tre giorni suona «sotto metà».
+  { dir: 'abruzzo',             nome: 'Abruzzo (MeteoNetwork + stime ICON-2I)', wf: 'abruzzo.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' }
 ];
 
 const GAPS_METEOHUB = path.join(DATA_ROOT, 'meteohub-gaps.json');

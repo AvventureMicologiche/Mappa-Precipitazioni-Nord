@@ -505,9 +505,26 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   - ⚠️ `isReal()` di `check-meteohub-gaps.js` è un test **per inclusione** (`source.startsWith('meteohub')`): un file riparato con un source diverso NON è considerato reale lì dentro — va bene (il giorno viene semplicemente saltato, `buco` risulta null), ma tenerlo a mente prima di riparare altri giorni. `check-fonti.js` invece è per **esclusione** (`/open-meteo/`) e conta il file riparato come reale, che è il comportamento voluto.
 
 ### Abruzzo
-- **Fonte:** Open-Meteo, calcolato live dal browser (`dataSource: 'open_meteo'`) — assente dalle reti MeteoHub (404) e senza fonte regionale accessibile, per ora
-- Nessuna cartella dati, nessun collector, nessuna sorveglianza (niente che possa "smettere di arrivare"). Fonte dichiarata come stime in mappa
-- **PROVA in corso dal 27/10/2026 (togliere Open-Meteo):** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
+- **Fonte (dal 3/11/2026; preparato dalla scheda 111 il 2/11, messo in produzione dalla 114):** `dataSource:'abruzzo_misto'`,
+  `loadAbruzzoRegion` in `index.html`, legge
+  `data/abruzzo/` (`collect-abruzzo.js`, `abruzzo.yml`): stazioni MeteoNetwork dentro la regione + stime ICON-2I sui
+  145 punti dei paesi, tolte entro 10 km da una MeteoNetwork; i pluviometri di Lazio, Marche e Molise entro 15 km dal
+  confine colorano i bordi senza pallino e senza entrare nei numeri (`_fuori`). Pallini UGUALI alle altre regioni (sua
+  decisione del 27/10): la rete si legge solo aprendo il pallino (`nomeStazione`, `_rete`, `_fonte`). Fino al 2/11 era
+  Open-Meteo dal vivo su 40 paesi: tolto con la sua lista `stations`, niente piu' ripiego (file mancanti = nessun dato).
+  Assente da MeteoHub (404) e senza fonte regionale accessibile. Controllo del 3/11 sul 2/11 (giorno di pioggia, 75
+  pluviometri veri vicini): media veri 27,0 mm, ICON 28,2, Open-Meteo 27,9; ICON piu' vicino in 29 casi su 56, Open-Meteo
+  in 27: pari, a parita' vince ICON (sua regola).
+- **Il passato:** backfill fatto UNA VOLTA il 2/11/2026 (suo «parti dal 20/05», come i vicini del centro-sud): stime
+  d'archivio di Open-Meteo dal 20/5 al 18/10/2026 sugli stessi 145 punti (`open-meteo-backfill-abruzzo`, rete
+  `stima`, `stima:1`), 152 file, 2,8 MB, script nel banco `abruzzo-prova\backfill-abruzzo-openmeteo.js`. Totale
+  mediano del periodo 180 mm (Molise 140, Lazio 210, Marche 262). Il 19/10 ha solo le MeteoNetwork. `INIZIO_STORICO`
+  abruzzo = 20/5. Nel pallino un punto che nel periodo ha anche un giorno di backfill si chiama «stima del modello»,
+  solo ICON «stima ICON-2I»; Open-Meteo si nomina solo in fonti.html (sua decisione, licenza CC BY 4.0).
+- **Sorveglianza:** in `check-fonti.js` (`REGIONI`), quindi anche il guardiano, che ri-lancia `abruzzo.yml` se il
+  giro salta; `check-campi`, `check-doppioni` e `check-stazioni-ferme` continuano a saltare la cartella. L'avviso
+  «dati di ieri non pervenuti» della mappa vale anche per l'Abruzzo.
+- **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
   ICON senza librerie e' scritto in cima al collector. ⚠️ **La mappa di produzione NON legge questi file**: li
@@ -1033,9 +1050,11 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
 - **Le 1.100 pagine funghi gia' fatte (2/11/2026, scheda 113 bis)**: dicevano ancora «stima/stime Open-Meteo»
   nell'avviso (generatori giusti dal `d84b6308e0`, pagine mai rigenerate). Sostituite solo le 6.596 frasi, senza
   rigenerare (i numeri del giorno restano): blocco identico a `lib-pagina-funghi.js` e `genera-indice-funghi.js`.
-- **Da fare**: l'Abruzzo dal vivo, il ripiego della Lombardia (`loadOpenMeteoRegion` in `index.html`, da togliere
-  quando ICON copre i buchi), e decidere sulle stime gia' salvate (2.702 file interi, 1.599 stazioni-giorno `om` al
-  2/11), meglio chiedendo a Open-Meteo con una mail.
+- **Abruzzo dal vivo: tolto (3/11/2026; patch della scheda 111, messa dalla 114)**: MeteoNetwork + ICON-2I da
+  `data/abruzzo`, passato dal 20/5 con un backfill fatto una volta; vedi la scheda Abruzzo in «Architettura dati per regione».
+- **Stime gia' salvate (2.702 file interi, 1.599 stazioni-giorno `om` al 2/11): RESTANO** (suo, 2/11). Open-Meteo si
+  cita solo nella riga «Stime di riempimento» di fonti.html, perche' la licenza CC BY 4.0 lo chiede finche' le loro
+  stime sono sul sito; la riga si toglie quando escono dallo storico di 730 giorni (~fine ottobre 2028).
 - **Ripiego della Lombardia e ramo morto della Valle d'Aosta TOLTI (2/11/2026 sera, scheda 114)**, suo «cosa ci fa la
   lombardia con open meteo? ... la valle d'aosta chiudi sta cosa». In `index.html`: (1) in `loadARPALombardiaRegion`, con
   meno di 3 stazioni dai file, `cb([])` al posto delle stime Open-Meteo chieste dal browser: senza file la Lombardia
@@ -1047,6 +1066,11 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
   e `loadOpenMeteoRegion` restano senza chiamate e si tolgono. Prova sul sito vero col file nuovo
   (`check-10\prova-om-10.js`, `prova-om-bloccati-10.js` del banco): Lombardia 30 giorni e ieri, Valle d'Aosta, Abruzzo
   identici a online; coi file della Lombardia bloccati, online 58 stime Open-Meteo, nuovo 0 pallini, 0 richieste.
+- **ZERO OPEN-METEO DAL BROWSER (3/11/2026, scheda 114, insieme all'Abruzzo)**: con l'Abruzzo su file il ramo `else` dei
+  caricatori di `loadData` restava senza regioni e `loadOpenMeteoRegion` senza chiamate: tolti tutti e due (il ramo
+  `else` ora e' «nessun dato»). In `index.html` zero `open-meteo.com`. Open-Meteo resta, per sua decisione, solo nella
+  probabilita' di pioggia delle previsioni (`functions/api/previsioni.js`, sul server) e nei crediti di `fonti.html`.
+  **Da fare**: la mail a Open-Meteo e' facoltativa.
 
 ---
 
