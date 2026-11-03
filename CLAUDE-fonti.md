@@ -545,8 +545,10 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   MeteoNetwork non ferme e gli ufficiali di Lazio, Marche e Molise entro 15 km dal confine non esclusi (MH_ESCLUSE via
   `lib-escluse.js`). Nel file `mm` corretto, `grezzo` di ICON, `corr` il fattore; il pallino dice «Modello ICON-2I
   corretto coi pluviometri vicini»; una frase nella riga Abruzzo di `fonti.html`. Rifacendo un giorno si riparte da
-  `grezzo`; `SOLO_CORREZIONE=1` rifa' solo la correzione, senza rete. Giorni corretti: dal 26/10 (prima non c'e'
-  `icon-pluviometri`). Prova a occhi chiusi sui 14 giorni 20/10-2/11, 82 pluviometri nascosti coi vicini entro 10 km
+  `grezzo`; `SOLO_CORREZIONE=1` rifa' solo la correzione, senza rete. Giorni corretti: dal 21/10 (il 20/10, asciutto, non
+  ha `icon-pluviometri`). Il 3/11 si erano corretti solo dal 26/10; dal 21 al 25/10 li ha corretti la sera la scheda
+  116 (suo «Si', preparala»), con `SOLO_CORREZIONE=1 DATA=<giorno>`: `icon-pluviometri` c'era dal 21/10, salvato il 27/10
+  dalla prova. Il giorno che conta e' il 21/10: La Fossa 125,6→80,2, Roccaraso 53,3→13,8; il 22/10 Pescara 34,4→7,9. Prova a occhi chiusi sui 14 giorni 20/10-2/11, 82 pluviometri nascosti coi vicini entro 10 km
   (`claudio\abruzzo-prova\correzione-prova-115.js`): giorni bagnati da 13,5 a 9,2 mm di errore medio, errori oltre 20
   mm da 50 a 25; oltre 15 km la correzione peggiorava, da qui il taglio. Il 2/11, dei 102 punti in mappa 43 corretti:
   Caramanico 196,8→91, Sulmona 86→34, Manoppello 114→195, Fara Filiorum Petri 110→173 (vero: Cepagatti 2 163,6);

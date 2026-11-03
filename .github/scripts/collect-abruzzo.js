@@ -309,7 +309,7 @@ function scriviIconT(giorno, veri, t) {
 // il 2/11 Mafalda, esclusa perche' segna troppo poco, avrebbe portato San Salvo da 73 a 17,5 mm.
 // Nel file il valore di ICON resta in `grezzo` (rifacendo un giorno si riparte sempre da quello), il fattore in `corr`
 // (solo sui punti corretti); la mappa scrive «corretto coi pluviometri vicini» nel pallino. Senza il file
-// icon-pluviometri del giorno (prima del 27/10/2026) non si corregge niente e il file non cambia.
+// icon-pluviometri del giorno (prima del 21/10/2026) non si corregge niente e il file non cambia.
 const CORR_KM = 15, CORR_D0 = 15, CORR_MIN = 0.25, CORR_MAX = 4;
 const PER_VICINA = { 'meteohub-lazio': 'lazio', 'meteohub-marche': 'marche', 'meteohub-molise': 'molise' };
 function correggiIcon(giorno, stations, an, ESC) {
