@@ -47,7 +47,7 @@ Mappa interattiva delle precipitazioni di TUTTA ITALIA, SVIZZERA E AUSTRIA (Aust
    - **Cambiate 16 costanti in prod e 12 nel test** (`MAX_DAYS`/`RETENTION`), più `RETENTION_DAYS` in `check-gaps-nord.js` (che però nel run giornaliero non entra mai in gioco: `SCAN_DAYS` è 15, quel limite serve solo alla scansione profonda a mano). **NON toccati i backfill**, dove `365` è il parametro di quante giornate scaricare, non la retention.
 2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file.
 3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
-4. **Le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli; **centro-sud: MeteoHub**, rete dpcn — stazioni reali via piattaforma unica). Eccezione dichiarata: **Abruzzo = Open-Meteo live** (assente da MeteoHub, nessun collector). Open-Meteo resta solo come: (a) **backfill storico** — stime per i giorni prima dell'inizio del dato reale, `source: open-meteo-backfill-*`; (b) **gapfill** dei buchi (gaps-nord e meteohub-gaps, `source: open-meteo-gapfill` o stazioni `om:true`); (c) fallback dei loader se i file mancano.
+4. **Le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli; **centro-sud: MeteoHub**, rete dpcn — stazioni reali via piattaforma unica). Eccezione dichiarata: **Abruzzo = stazioni MeteoNetwork + stime del modello ICON-2I** sui punti dei paesi (assente da MeteoHub, nessuna fonte regionale accessibile; `data/abruzzo/`, `collect-abruzzo.js`, dal 3/11/2026; prima era Open-Meteo dal vivo). **I buchi** li tappano gaps-nord e meteohub-gaps con le **stime ICON-2I** (dal 2/11/2026: `source: icon-2i-gapfill`, stazioni `om:true` + `src:'icon-2i'`). **Nessun ripiego dei caricatori**: file mancanti = nessun dato. **Open-Meteo resta solo** (aggiornato il 3/11/2026, scheda 115): (a) nelle **stime già salvate**, che restano per la regola 1: lo storico prima della data di partenza (`open-meteo-archive`, `open-meteo-backfill-*`) e i buchi tappati fino al 2/11 (`open-meteo-gapfill`, stazioni `om:true` di allora); (b) nella **probabilità di pioggia** delle previsioni (`functions/api/previsioni.js`, sul server, interruttore `PROB`); (c) nei crediti di `fonti.html`, l'unico posto del sito dove si nomina (sua decisione del 3/11).
 5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
 
 ---
@@ -75,8 +75,9 @@ riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
    risolve; prima di quella data le stime dichiarate restano, il passato non si riscrive.
 7. **Storico di 730 giorni** (regola 1b): ogni collector ha il blocco «Pulizia retention» in fondo a `main()`.
 8. **La mappa mostra solo ieri e il passato**, mai la giornata di oggi (regola 3).
-9. **Dati veri delle stazioni.** Open-Meteo solo per lo storico vecchio, i buchi e la riserva dei loader, e lo stiamo
-   togliendo (regola 4; «Togliere Open-Meteo» in `CLAUDE-fonti.md`).
+9. **Dati veri delle stazioni.** I buchi si tappano con le stime ICON-2I (dal 2/11/2026), niente ripiego dei caricatori.
+   Open-Meteo resta solo nelle stime vecchie già salvate, nella probabilità di pioggia delle previsioni e nei crediti di
+   `fonti.html` (regola 4; «Togliere Open-Meteo» in `CLAUDE-fonti.md`).
 10. **Un controllo nuovo si costruisce solo se è semplice, utile e poco costoso da tenere vivo**: quale decisione
     cambia, quante volte il problema è successo davvero, quanto costa il giorno che sbaglia (regola 1).
 11. **Fini riga CRLF** in `index.html`, `fonti.html`, `guida/index.html` e in tutti i `CLAUDE*.md`: si modifica con
