@@ -140,6 +140,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le date sotto i periodi andavano a capo al telefono a cavallo dei mesi (2/11/2026, scheda 114, check-10)**: «dal 26/10» e niente a capo
 - **La pioggia non si spegne piu' zoomando e trascinando (3/11/2026, scheda 116)**: la tela piu' grande dello schermo segue zoom, pizzico e trascinamento
 - **Il tetto di zoom: pioggia 13, previsioni 14, boschi e satellite 19 (3/11/2026, scheda 116)**: `setMaxZoom` a ogni cambio di modo
+- **Le tessere che arrivavano in ritardo zoomando e il tremolio trascinando: tessere d'arrivo subito e respiro fermo nel moto (4/11/2026, scheda 117)**: due regole di Leaflet in `_fotoNostra`, `respiroT0`
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

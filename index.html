@@ -2938,6 +2938,27 @@ window._fotoNostra=function(pane,quandoNonArriva,piu){
   var o={pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true};
   for(var k in (piu||{})) o[k]=piu[k];   // la sfocata: maxNativeZoom 6, className, zIndex 0
   var l=L.tileLayer(FOTO_URL,o);
+  /* ⚠️ LE TESSERE DELLA VISTA D'ARRIVO SUBITO (4/11/2026, scheda 117, suo «zoommando avanti e indietro vedo a volte le
+     tessere che appaiono un po' in ritardo l'una dall'altra»). Leaflet 1.9.4 durante l'animazione dello zoom: (1)
+     zoomando INDIETRO prepara le tessere per lo zoom di partenza, che inquadra meno (`Math.max(_animateToZoom,getZoom())`
+     in _getTiledPixelBounds), e l'anello esterno nasce solo a fine animazione: 12-20 tessere ~300 ms dopo le altre,
+     anche dalla cache del browser; (2) zoomando AVANTI a cavallo di un livello (da 6,75 a 7,5) il livello d'arrivo dista
+     piu' di 1 dallo zoom di partenza e _update non chiede niente fino alla fine (470-650 ms). Qui, solo per la foto
+     nostra (Esri no, per il suo consumo), tutt'e due guardano lo zoom d'ARRIVO. Misurato sul sito vero (scratchpad
+     490e1f73\fluidita-117.js, PATCH=1): ritardate 0, ultime a 150-200 ms invece di 450-480; zoom avanti 175-310 ms invece
+     di 470-650; le stesse tessere, nessuna in piu'. */
+  l._getTiledPixelBounds=function(center){
+    var m=this._map, z=m._animatingZoom?m._animateToZoom:m.getZoom(),
+        s=m.getZoomScale(z,this._tileZoom), c=m.project(center,this._tileZoom).floor(), h=m.getSize().divideBy(s*2);
+    return new L.Bounds(c.subtract(h),c.add(h));
+  };
+  var aggiorna=l._update;
+  l._update=function(center){
+    var m=this._map; if(!m||!m._animatingZoom) return aggiorna.call(this,center);
+    var suo=m.hasOwnProperty('getZoom'), gz=m.getZoom;
+    m.getZoom=function(){ return m._animateToZoom; };   // il confronto col livello d'arrivo (2), solo dentro _update
+    try{ return aggiorna.call(this,center); } finally{ if(suo) m.getZoom=gz; else delete m.getZoom; }
+  };
   var arrivate=0, rotte=0, detto=false;
   l.on('tileload',function(){ arrivate++; });
   l.on('tileerror',function(e){
@@ -8127,12 +8148,37 @@ function aggiornaConfPulse(rk){
       // startTime=0 tutte battono sullo stesso tempo, e l'inversione dei
       // keyframes svizzeri diventa una controfase esatta. Misurato: senza,
       // lo sfasamento era ~400ms (un quarto di ciclo, casuale).
+      // Dal 4/11/2026 l'orologio comune e' respiroT0: 0 finche' il respiro non si e' mai fermato (vedi sotto).
       if(attivo && l._path.getAnimations){
-        l._path.getAnimations().forEach(function(a){ a.startTime=0; });
+        l._path.getAnimations().forEach(function(a){ a.startTime=respiroT0; });
       }
     }
   });
 }
+// IL RESPIRO SI FERMA MENTRE LA MAPPA SI MUOVE (4/11/2026, scheda 117, suo «se sposto la mappa a misura piena col mouse
+// trema leggermente»). Il respiro anima fill-opacity e stroke-opacity dei confini, e il browser ridisegna tutti i confini
+// a ogni fotogramma, anche trascinando. Misurato a 1920x1080 (scratchpad 490e1f73\fluidita-117.js): 42-51 fotogrammi al
+// secondo e 22-35 sopra i 25 ms; senza respiro 57-59 e 2-6; fermo nel moto 57-58 e 5-6 (a 1366x768 60 in tutti i casi).
+// Si ferma a movestart/zoomstart e a moveend riparte da dove era, tutti i confini con lo stesso inizio: respiroT0 lo
+// passa anche ad aggiornaConfPulse, cosi' un confine che riceve la classe dopo batte insieme agli altri.
+var respiroT0=0;
+(function(){
+  if(!document.timeline) return;
+  var fermo=null, ferme=[];
+  map.on('movestart zoomstart',function(){
+    if(fermo!==null) return;
+    fermo=document.timeline.currentTime; ferme=[];
+    document.querySelectorAll('#map path.conf-pulse').forEach(function(p){
+      if(p.getAnimations) p.getAnimations().forEach(function(a){ a.pause(); ferme.push(a); });
+    });
+  });
+  map.on('moveend zoomend',function(){
+    if(fermo===null) return;
+    respiroT0+=document.timeline.currentTime-fermo; fermo=null;
+    ferme.forEach(function(a){ a.startTime=respiroT0; });   // startTime su un'animazione ferma la fa ripartire
+    ferme=[];
+  });
+})();
 // Guida a lampeggio: pulsa il pannello del passo che manca (solo desktop).
 // Passo 1 = nessuna regione → pulsa "Seleziona regione"; passo 2 = regioni
 // scelte ma nessun periodo → pulsa "Seleziona periodo"; periodo scelto → stop.

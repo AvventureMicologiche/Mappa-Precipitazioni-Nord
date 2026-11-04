@@ -1596,3 +1596,31 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
   radar). Leaflet ferma rotellina e tasto + (che si spegne) e, uscendo dai boschi da piu' vicino, riporta la mappa al tetto.
 - Provato in locale (`scratchpad c5b15e68\tetto-116.js`, `tetto-sat-116.js`, server `server-116.js` su prova.localhost:9021):
   pioggia ferma al 13 col + spento; boschi al 19 e uscendo torna al 13; satellite al 19; previsioni al 14; 0 errori.
+
+## Le tessere che arrivavano in ritardo zoomando e il tremolio trascinando: tessere d'arrivo subito e respiro fermo nel moto (4/11/2026, scheda 117)
+
+- Suo, sulla pioggia all'apertura senza aver scelto niente: «se zoommo avanti e indietro vedo a volte le tessere che
+  appaiono un po' in ritardo l'una dall'altra» e «se sposto la mappa a misura piena col mouse trema leggermente».
+  Misurato sul sito vero, una pagina alla volta (`scratchpad 490e1f73\fluidita-117.js`: `PROVA=zoom` registra quando
+  nasce e quando arriva ogni tessera e da dove; `PROVA=trascina` fotogrammi e passi della mappa con un mouse vero, un
+  movimento ogni 8 ms; `VISTA`, `DPR`, `RIP`, `INDICE=<copia>`).
+- **Le tessere: non era la rete.** jsDelivr risponde dalla sua cache (Cloudflare HIT, mediana 95 ms, `immutable` per un
+  anno). Erano due regole di Leaflet 1.9.4 nell'animazione dello zoom: zoomando INDIETRO `_getTiledPixelBounds` prende
+  `Math.max(_animateToZoom, getZoom())`, cioe' l'area dello zoom di partenza, e l'anello esterno nasce a fine animazione
+  (12-20 tessere ~300 ms dopo le altre, anche dalla cache del browser: per questo «a volte», solo tornando indietro);
+  zoomando AVANTI a cavallo di un livello (da 6,75 a 7,5, livello 8) `_update` vede piu' di 1 fra lo zoom attuale e il
+  livello d'arrivo e non chiede niente fino alla fine (470-650 ms). In `_fotoNostra` (quindi anche la sfocata e la foto
+  delle previsioni) tutt'e due guardano lo zoom d'ARRIVO; Esri no, per non cambiarne il consumo. Copia sul sito vero:
+  ritardate 0, ultime a 150-200 ms invece di 450-480; zoom avanti 175-360 ms invece di 470-650; le stesse tessere.
+- **Il tremolio: il respiro dei confini.** `path.conf-pulse` anima fill-opacity e stroke-opacity, e il browser ridisegna
+  tutti i confini a ogni fotogramma, anche trascinando. A 1920x1080 (apertura allo zoom 6,25) 42-51 fotogrammi al secondo
+  e 22-35 sopra i 25 ms; a 1536x864 al 125% 54-56 e 10-14; a 1366x768 gia' 60. Ora (subito sotto `aggiornaConfPulse`) il
+  respiro si ferma a movestart/zoomstart e a moveend riparte da dove era, tutte le animazioni con lo stesso inizio
+  (`respiroT0`, che aggiornaConfPulse usa al posto dello 0 di prima: un confine che riceve la classe dopo batte con gli
+  altri, e alla ripartenza si rimette in passo anche quello che il passaggio del mouse aveva sfasato). Copia a 1920x1080:
+  58-59 fotogrammi e 3-6 sopra i 25 ms. Respiro fermo davvero nel moto e ripartito senza salti (`respiro-117.js`).
+- Non erano cause (misurate): il filtro di luce della foto, la sfocata sotto, lo zoom d'apertura frazionario (5,75 a
+  1366x768 e 1280x720, 6,25 a 1920x1080 e 2560x1440, 6 a 1440x900 e 1536x864).
+- Giro largo della copia (`scheda-109-quater\giro-errori.js`, 24 aperture, zoom fino in fondo e ritorno): uguale riga per
+  riga al sito online. ⚠️ Nelle prove col profilo pulito la finestra «Novita'» copre la mappa (c'e' un video): si mette
+  `localStorage.novitaVista`, se no il mouse finto preme sulla finestra e la mappa non si muove.
