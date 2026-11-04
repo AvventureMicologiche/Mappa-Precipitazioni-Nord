@@ -1048,3 +1048,33 @@ striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutt
   l'originale si', resta l'originale coi commenti e il generatore lo scrive nel log («senza-commenti: uno script
   lasciato coi commenti…»). Prova (scratchpad 3f257665 `prova-b7\`): il caso che rompe esce leggibile; su tutte le 1.504
   pagine generate del repo il risultato e' identico al byte, 7,1 s invece di 6,9.
+
+## La riserva della vetrina e' la scheda «Iscriviti», con scritte senza numeri e anche nel giro (4/11/2026, scheda 119)
+
+- La vetrina arriva da `data/vetrina.json` su raw; se raw tarda, la scorta di `window.fetch` (`_RISERVA_DATI`) la
+  prende dalla copia sul sito, e dopo 2,5 s `copiaSito()` riprova `/data/vetrina.json` per 0,8 s. Solo se falliscono
+  tutte si monta `RIPIEGO`, scritto in `index.html`, che col sorteggio `ELENCO=['update']` era fermo allo short
+  «Aggiornamento mappa» del 19/9. In pratica non usciva mai: GA4 dal 25/10, circa 160 clic in uscita verso YouTube
+  (`linkUrl`) e zero verso quello short (i parametri `vetrina` e `video` di `click_youtube` non sono dimensioni GA4).
+- Sua scelta: `ELENCO=[]`. Nessun video in gara, `costruisci` esce subito e resta il markup di sempre, la scheda
+  «Iscriviti», che non invecchia. Le `VETRINE` scritte in `index.html` restano ma non escono piu'. Con la riserva al
+  telefono anche l'invito alle previsioni resta fuori dal giro (scatta solo per chi non le ha mai aperte).
+- Prova `riserva-119.js` (scratchpad 6b0dade4, 9040 contro 9041, PC e telefono): raw e copie abortiti, la nuova monta
+  «Iscriviti», quella di prima lo short del 19/9; giro normale e rete lenta uguali a prima (la vetrina vera).
+- **Scritte senza numeri** (sue parole, «i numeri invecchiano e cambiano»; bocciate le frasi «simpatiche»): al PC
+  sotto il nome «Questo sito è gratuito» al posto di «Oltre 5.700 pluviometri veri», nel blu del nome (15,5 px, 700;
+  prima grigio da 13,5); sotto il filetto, al posto di «Grazie a tutti, più di 1.000 analisi al giorno…», DUE RIGHE
+  CENTRATE con l'a capo deciso, «Se ti è stato utile, clicca:» / «lascia un like e iscriviti» (17 px, 800, blu del
+  nome): suo «non c'e' mai simmetria», il paragrafo a bandiera sopra un bottone centrato era storto. Righe da 233 e
+  216 px; scheda 414x250 al PC, 368x226 sotto i 900 px. Al telefono «Questo sito è gratuito» / «Se ti è stato utile,
+  clicca: lascia un like e iscriviti» (la riga piccola da 10,5 sta su una riga sola, 219 px su 238 a 360 px; pillola
+  alta 45 come prima). Prova `foto-iscr-119.js`.
+- **Anche nel giro** (suo «lasciala nel loop insieme agli altri anche adesso»): la chiave `iscriviti` nel `sorteggio`
+  di `data/vetrina.json` non e' una voce di `vetrine` ma la scheda del markup. In `costruisci` entra in `scelte` senza
+  date; quando tocca a lei `rimettiScheda()` riporta la scheda del computer com'era (`_boxOrig`, salvato in `monta`:
+  `innerHTML`, `href`, `onclick` dello STESSO elemento, perche' l'osservatore della clessidra tiene il riferimento),
+  la pillola la riporta gia' `ripristinaPillola()`. Un `index.html` vecchio salta la chiave (`if(!v) return`), quindi
+  il file si puo' spingere prima del deploy. Prova `giro-119.js` (10 giri con `_vetrinaGira()`): al PC «Iscriviti» al
+  suo turno e la vetrina dopo ridisegnata giusta. Al telefono, dopo il turno dell'invito alle previsioni, la pillola
+  resta nascosta per uno o due passi: succede uguale col codice di prima (`giro-vecchio-119.js`), e' la prova che
+  gira senza analisi vere.

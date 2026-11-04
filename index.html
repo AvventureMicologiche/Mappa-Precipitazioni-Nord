@@ -994,7 +994,8 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    nome, e in CSS vince l'ultima. Il corpo vero si cambia li'. */
 #channel-logo .v-nome{font-size:23px;line-height:1.02;color:#1b3f6e;letter-spacing:-.3px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;font-weight:900;}
-#channel-logo .v-sotto{font-size:13.5px;font-weight:600;color:#3f5a7a;margin-top:4px;line-height:1.15;}
+/* 4/11/2026 (scheda 119): «Questo sito è gratuito» nel blu del nome e piu' deciso; prima era grigio da 13,5 */
+#channel-logo .v-sotto{font-size:15.5px;font-weight:700;color:#1b3f6e;margin-top:5px;line-height:1.15;}
 /* ⚠️ LA REGOLA CHE COMANDA sul nome del canale: e' l'ultima, quindi vince
    su quella scritta piu' in alto.
    ~~21 e non 23 (31/8/2026)~~ — 21 era giusto quando la colonna era larga
@@ -1011,9 +1012,11 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    sbilenca. ⚠️ Quando parte la vetrina l'innerHTML di #channel-logo viene
    riscritto, quindi questa riga sparisce da sola: la scheda col video non
    cambia di un pixel. */
+/* 4/11/2026 (scheda 119, suo: «non c'e' mai simmetria»): due righe di lunghezza uguale CENTRATE, come il bottone
+   sotto, nel blu e nel peso del nome; prima era un paragrafo a bandiera grigio da 14,5. */
 #channel-logo .v-grazie{margin-top:9px;padding-top:9px;
   border-top:1px solid rgba(27,63,110,.14);
-  font-size:14.5px;line-height:1.4;color:#3f5a7a;font-weight:600;}
+  font-size:17px;line-height:1.3;color:#1b3f6e;font-weight:800;text-align:center;}
 #channel-logo .v-grazie b{color:#1b3f6e;font-weight:800;}
 #channel-logo .v-btn.v-iscr{font-size:17px;margin-top:9px;padding:9px 0 10px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;}
@@ -2019,10 +2022,12 @@ html.apre-prev #fonte-tag{visibility:hidden !important}
         <div class="v-dx">
           <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
           <div class="v-nome">Avventure Micologiche</div>
-          <div class="v-sotto">Oltre 5.700 pluviometri veri</div>
+          <div class="v-sotto">Questo sito è gratuito</div>
         </div>
       </div>
-      <div class="v-grazie"><b>Grazie a tutti</b>, più di <b>1.000 analisi al giorno</b>. Se serve anche a te, <b>iscriviti al canale</b>: le uscite le raccontiamo lì.</div>
+      <!-- 4/11/2026 (scheda 119, sue parole): niente piu' numeri, che invecchiano («5.700 pluviometri», «1.000 analisi»).
+           Due righe lunghe uguali, centrate sopra il bottone centrato: l'a capo e' deciso qui. -->
+      <div class="v-grazie">Se ti è stato utile, clicca:<br>lascia un like e iscriviti</div>
       <div class="v-btn v-iscr">ISCRIVITI</div>
     </a>
     <!-- Rete di sicurezza del `prevetrina`. Sta QUI, fuori dal blocco della
@@ -2308,7 +2313,7 @@ html.apre-prev #fonte-tag{visibility:hidden !important}
          onclick="try{gtag('event','click_youtube',{pulsante:'pillola-mobile'})}catch(e){}"
          id="channel-pill" class="prevetrina">
         <img src="/archie-avatar.webp" alt="Archie">
-        <div class="cp-t">Più di 1.000 analisi al giorno<small>Grazie a tutti · iscriviti al canale</small></div>
+        <div class="cp-t">Questo sito è gratuito<small>Se ti è stato utile, clicca: lascia un like e iscriviti</small></div>
         <div class="cp-yt">
           <svg width="26" height="19" viewBox="0 0 42 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect width="42" height="30" rx="6" fill="#FF0000"/>
@@ -12336,7 +12341,12 @@ function loadDefaultMarkers(){
   var MOSTRA='alterna';
   // L'elenco di chi partecipa al sorteggio. Era un letterale in mezzo al
   // codice: ora e' una variabile, cosi' il file di dati puo' sostituirlo.
-  var ELENCO=['update'];
+  // ⚠️ VUOTO APPOSTA (4/11/2026, scheda 119, sua scelta): questo elenco vale solo per
+  // la RISERVA (GitHub oltre 2,5 s e copia sul sito oltre 0,8 s), che era ferma allo
+  // short «Aggiornamento mappa» del 19/9. Vuoto = nessun video in gara, `costruisci`
+  // esce e resta la scheda «Iscriviti», che non invecchia. Le VETRINE qui sotto restano
+  // scritte ma non escono piu': la vetrina vera sta in data/vetrina.json.
+  var ELENCO=[];
 
   var VETRINE={};
   VETRINE.guida={
@@ -12644,8 +12654,11 @@ function loadDefaultMarkers(){
     var ora=Date.now(), scelte=[];
     // 16/9/2026: in gara il solo post delle novita', al posto del lungo dei 25 giorni.
     // 19/9/2026: al suo posto lo Short «update mappa» (v10).
+    // ⚠️ LA CHIAVE 'iscriviti' NEL SORTEGGIO (4/11/2026, scheda 119, suo: «lasciala nel loop insieme agli altri»):
+    // non e' una vetrina del file ma la scheda «Iscriviti» scritta nel markup. Non scade mai; quando tocca a lei
+    // `rimettiScheda()` riporta la scheda del computer com'era (la pillola la riporta gia' `ripristinaPillola`).
     ELENCO.forEach(function(k){
-      var v=VETRINE[k]; if(!v) return;
+      var v=VETRINE[k]; if(!v){ if(k==='iscriviti') scelte.push(k); return; }
       if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
     });
@@ -12706,6 +12719,7 @@ function loadDefaultMarkers(){
     _giro.scelte=scelte; _giro.i=_k;
     window._vetrinaQuale=QUALE;
     if(QUALE==='previsioni') return;   // tocca all'invito: la pillola resta com'era, nascosta (body.inv-prev-on)
+    if(QUALE==='iscriviti'){ rimettiScheda(); return; }   // la scheda «Iscriviti» del markup, vedi sopra
     // La chiave vecchia non si legge piu': si toglie di mezzo una volta sola,
     // se no resta li' a sporcare il browser di chi c'era prima.
     try{ if(localStorage.getItem('vetrina')) localStorage.removeItem('vetrina'); }catch(e){}
@@ -12910,6 +12924,19 @@ function loadDefaultMarkers(){
     n.classList.remove('prevetrina');
     p.replaceWith(n);
   }
+  /* La scheda del computer com'era nel markup, per quando nel giro tocca a 'iscriviti' (4/11/2026, scheda 119).
+     Si rimette lo STESSO elemento, non un clone: l'osservatore della clessidra qui sopra (classe `nascosta`)
+     tiene il riferimento a quello. Si tolgono solo le classi della vetrina, `nascosta` resta com'e'. */
+  var _boxOrig=null;
+  function rimettiScheda(){
+    var b=document.getElementById('channel-logo');
+    if(!b || !_boxOrig) return;
+    b.innerHTML=_boxOrig.html;
+    if(_boxOrig.href) b.setAttribute('href',_boxOrig.href);
+    if(_boxOrig.onclick) b.setAttribute('onclick',_boxOrig.onclick);
+    b.removeAttribute('title');
+    b.classList.remove('vetrina','v-fb','v-ig');
+  }
   // Chiamata da loadData a ogni analisi dalla seconda in poi (sta fuori da questo
   // blocco, quindi passa da window). Con una vetrina sola, o inchiodata, non fa niente.
   window._vetrinaGira=function(){
@@ -12927,6 +12954,8 @@ function loadDefaultMarkers(){
     try{
       var _p=document.getElementById('channel-pill');
       if(_p) _pillOrig=_p.cloneNode(true);
+      var _b=document.getElementById('channel-logo');
+      if(_b) _boxOrig={html:_b.innerHTML, href:_b.getAttribute('href'), onclick:_b.getAttribute('onclick')};
       costruisci(cfg.mostra||'alterna', cfg.vetrine||{}, cfg.sorteggio||[]);
       if(window.console&&console.info) console.info('[vetrina] '+da);
     }catch(e){ if(window.console&&console.warn) console.warn('[vetrina] montaggio fallito', e); }
