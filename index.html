@@ -8175,7 +8175,11 @@ var respiroT0=0;
   map.on('moveend zoomend',function(){
     if(fermo===null) return;
     respiroT0+=document.timeline.currentTime-fermo; fermo=null;
-    ferme.forEach(function(a){ a.startTime=respiroT0; });   // startTime su un'animazione ferma la fa ripartire
+    // ⚠️ SOLO quelle ancora ferme (4/11/2026, regressione trovata da lui: «con emilia e le date selezionate la mappa
+    // pulsava ancora»). Quelle che CSS ha tolto durante il moto (classe tolta scegliendo una regione, o :hover) sono
+    // 'idle': uno startTime le farebbe rivivere come animazioni dello script, staccate dalla classe, che pulsano per
+    // sempre (Emilia scelta mentre la mappa scorre: 37 confini accesi; mouse su una regione nel moto: quella)
+    ferme.forEach(function(a){ if(a.playState==='paused') a.startTime=respiroT0; });   // startTime su un'animazione ferma la fa ripartire
     ferme=[];
   });
 })();

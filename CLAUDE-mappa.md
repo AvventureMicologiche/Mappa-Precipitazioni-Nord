@@ -1624,3 +1624,11 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
 - Giro largo della copia (`scheda-109-quater\giro-errori.js`, 24 aperture, zoom fino in fondo e ritorno): uguale riga per
   riga al sito online. ⚠️ Nelle prove col profilo pulito la finestra «Novita'» copre la mappa (c'e' un video): si mette
   `localStorage.novitaVista`, se no il mouse finto preme sulla finestra e la mappa non si muove.
+- ⚠️ **Regressione dello stesso giorno, trovata da lui** dopo la pubblicazione (deploy `a3aaebca`): «con emilia e le date
+  selezionate la mappa pulsava ancora… alcune regioni pulsano ancora». A moveend si rimetteva `startTime` anche sulle
+  animazioni che CSS aveva TOLTO durante il moto (classe tolta scegliendo una regione, `:hover` = animation:none): uno
+  startTime le fa rivivere come animazioni dello script, staccate dalla classe, che pulsano per sempre. Riprodotto
+  online (`scratchpad 490e1f73\respiro-orfano-117.js`): Emilia scelta mentre la mappa scorre = 37 confini accesi senza
+  classe; mouse su una regione nel moto = quella resta accesa anche dopo la scelta. Ora ripartono solo le animazioni
+  ancora `paused` (le tolte sono `idle`): 0 e 0, pausa e ripartenza come prima. Lezione: un'animazione CSS fermata con
+  l'API va rimessa in moto solo se e' ancora `paused`.
