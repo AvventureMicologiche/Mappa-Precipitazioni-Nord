@@ -875,4 +875,10 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   appeso): buono → 200 e riserva salvata; tagliato, 503 e tempo scaduto → 200 con `riserva: 1` e max-age 300, e la
   visita dopo non richiede MET; punto mai visto → 502 come prima; gruppo `?punti` → errore del punto come prima; MET
   di nuovo buono → previsione nuova. Con `VERA=1` una richiesta vera a MET (Genova): 7 giorni e 88 ore come prima.
+- **IN PRODUZIONE il 4/11/2026** (suoi «sì, sincronizza» e «sì, pubblica»): commit `5f9eee4a16`, deploy `83a19caa`.
+  Online Genova e Padova 200 con 7 giorni e 88 ore; Caserta e Salerno ancora 502 («MET Norway: Unterminated string…»,
+  la scritta nuova): MET li tagliava già da prima della pubblicazione, quindi una copia buona non c'era. La riserva li
+  copre dal primo giro buono in poi. Rischio di blocco da MET (sua domanda): basso, User-Agent col contatto, al massimo 4
+  decimali, cache sull'Expires, molto sotto i 20 al secondo; un blocco sarebbe 403 o 429, non un 200 tagliato. Non
+  usato: If-Modified-Since (con la cache sull'Expires cambierebbe poco).
 
