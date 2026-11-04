@@ -932,4 +932,11 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   tempi normali), celle piu' grandi per le etichette (MET corregge la temperatura con la quota del punto).
 - ⚠️ **Da sapere, non toccato**: a cache fredda una vista di regione chiede a MET ~140 paesi in 2-3 secondi (una ventina
   di `?punti=` insieme, 6 alla volta per chiamata): per quei secondi sopra i 20 al secondo. Nessun 429 visto.
+- **IN PRODUZIONE il 4/11/2026 alle 20:01** (suo «Sincronizza e pubblica»): commit `20aa529469`, deploy `91e1c5be`
+  (primo dell'elenco, nessuno piu' nuovo sotto). Online: `capoluoghi=italia` due volte di fila 0,21 e 0,15 s con 3
+  citta' in 503 (Campobasso, Aosta, Grosseto), max-age 120: l'area con errori ora resta in cache (prima 3,2 s a ogni
+  visita). ⚠️ Effetto del cambio di chiave: le copie dei PUNTI ripartono da zero (quelle di prima stavano sotto la
+  chiave con la data, e la seconda chiave della 118 bis non si legge piu'): Certaldo `q=130` alle 20:01 dava 502
+  «MET Norway 503». Ogni punto torna coperto dalla prima risposta buona di MET; le aree hanno la chiave di prima e
+  hanno tenuto le loro copie.
 
