@@ -1632,3 +1632,32 @@ Groenlandia est a Cipro. Gli zoom 4-8 sono solo Blue Marble: puliti.
   classe; mouse su una regione nel moto = quella resta accesa anche dopo la scelta. Ora ripartono solo le animazioni
   ancora `paused` (le tolte sono `idle`): 0 e 0, pausa e ripartenza come prima. Lezione: un'animazione CSS fermata con
   l'API va rimessa in moto solo se e' ancora `paused`.
+
+## La barra delle citta': solo pluviometri veri, niente scritta finta all'apertura, niente barra senza citta' (4/11/2026, scheda 118)
+
+Tre cose viste dalla 116 e lasciate lì, sistemate su suo «faile». Tutte nel modulo «LA BARRA CHE SCORRE NELLA PIOGGIA»
+in fondo a `index.html`.
+
+- **Le stime ICON non entrano piu' nella barra.** In Abruzzo la mappa ha anche le stime del modello sui paesi (`_src`
+  `'icon'`, `loadAbruzzoRegion`), coi pallini uguali agli altri per sua scelta del 27/10. La barra prendeva il pallino
+  piu' vicino entro 10 km e basta: Sulmona diceva la stima di Pettorano sul Gizio (7 gg 46 mm), Avezzano la stima di
+  Avezzano, contro la regola scritta in testa al modulo («il numero e' di quel pluviometro, non una stima»). Ora
+  `stima(s)` le salta: una citta' senza pluviometro vero entro 10 km esce dalla barra. Abruzzo 7 gg: da 7 citta' a 4
+  (Chieti, Teramo, Roccaraso, L'Aquila); Pescara c'e' quando la sua MeteoNetwork copre il periodo.
+- **«nessun pluviometro vicino ai capoluoghi» era un lampo di ogni apertura, non un difetto del giorno solo.**
+  `data/capoluoghi.json` si chiede alla prima analisi e arriva dopo: intanto `voci()` era vuota e la barra scriveva la
+  scritta per 0,4-1,1 s, in tutte le regioni e in tutti i periodi (misurato sul sito con un osservatore dalla nascita
+  della barra: Abruzzo, Sicilia, Toscana, Lombardia). La 116 l'aveva vista «su un giorno solo» perche' li' l'analisi e'
+  veloce e lo scatto cadeva nel lampo. Ora `scrivi()` non scrive niente finche' l'elenco non c'e'.
+- **Nessuna citta' = niente barra** (sua scelta «Barra nascosta» fra barra nascosta, stime con «stima» e scritta): senza
+  le stime l'Abruzzo sui 30 giorni e oltre non ha citta', perche' le MeteoNetwork ci sono dal 19-21/10 e restano sotto
+  il 60% dei giorni (sui 30 giorni passano verso l'8/11). `serve()` dice no e tornano titolo e tasti, come col pannello
+  ridotto. La scritta non c'e' piu'.
+- **`?r=piemonte&m=boschi` «allo zoom 13 anche online» era l'attrezzo.** Il sito apre i boschi con `boschi=1` e il radar
+  con `radar=ora` (come i link delle pagine); `m=` conosce solo `prev`. `scheda-109-quater\giro-errori.js` (banco) usava
+  `m=boschi` e `m=radar`: apriva la pioggia, col suo tetto 13. Corretto l'attrezzo: boschi 19, radar 13, verificato.
+- Prove con la copia sul sito vero (`INDICE=`, attrezzi in `scratchpad c1ffc0c8\`: `barra-lampo-118.js`,
+  `tre-cose-118.js`, `barra-vuota-118.js`): niente lampo nelle cinque aperture; Abruzzo 7 gg 4 citta', 30 gg niente
+  barra e titolo visibile, ritorno cambiando periodo (7 → 30 → 7 → ieri → 30) al PC e al telefono; Sicilia, Molise,
+  Toscana, Lombardia come prima; giro largo identico (gli «non pronta» di Austria 7 gg al telefono e di
+  `/meteo/val-bormida/` sono dell'attrezzo, uguali online).

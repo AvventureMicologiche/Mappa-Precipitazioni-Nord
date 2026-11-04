@@ -19385,13 +19385,18 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     if(da.toDateString()===a.toDateString()) return a.getDate()+' '+M(a);
     return da.getMonth()===a.getMonth()?da.getDate()+'–'+a.getDate()+' '+M(a):da.getDate()+' '+M(da)+'–'+a.getDate()+' '+M(a);
   }
+  /* ⚠️ SOLO PLUVIOMETRI VERI, NIENTE STIME ICON (4/11/2026, scheda 118). In Abruzzo la mappa ha anche le stime del modello
+     ICON-2I sui paesi (_src 'icon', loadAbruzzoRegion), coi pallini uguali agli altri: la barra prendeva la piu' vicina
+     e Sulmona diceva la stima di Pettorano sul Gizio (7 gg 46 mm), Avezzano la stima di Avezzano. Ora una citta' senza un
+     pluviometro vero entro 10 km resta fuori dalla barra (in Abruzzo Avezzano, e Sulmona quando Pacentro non misura) */
+  function stima(s){ return s&&s._src==='icon'; }
   function voci(){
     if(!ultimo||!capoluoghi||!P()) return [];
     var cc=[], v=[];
     P().regioni().forEach(function(k){ (DOPPIE[k]||[k]).forEach(function(kk){ cc=cc.concat(capoluoghi[kk]||[]); }); });
     cc.forEach(function(c){
       var best=null, bd=VICINO_KM;
-      ultimo.forEach(function(s){ var d=distKm(c,s); if(d<bd){ bd=d; best=s; } });
+      ultimo.forEach(function(s){ if(stima(s)) return; var d=distKm(c,s); if(d<bd){ bd=d; best=s; } });
       if(best) v.push({n:c.n, mm:best.mm, st:best, asciutto:best.mm<SOGLIA});
     });
     // prima le citta' bagnate, dalla piu' bagnata; poi quelle asciutte, nell'ordine del file
@@ -19411,10 +19416,19 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     }
     return na;
   }
+  /* ⚠️ PRIMA L'ELENCO DELLE CITTA', POI LA BARRA (4/11/2026, scheda 118). data/capoluoghi.json si chiede alla prima
+     analisi e arriva dopo: intanto voci() era vuota e la barra scriveva «nessun pluviometro vicino ai capoluoghi» per
+     0,4-1,1 s a OGNI apertura, in tutte le regioni (misurato sul sito: Abruzzo, Sicilia, Toscana, Lombardia). Senza
+     l'elenco la barra non si scrive; la scrive caricaCapoluoghi() appena arriva.
+     ⚠️ NESSUNA CITTA' = NIENTE BARRA (4/11/2026, scheda 118, sua scelta «Barra nascosta»). Senza le stime l'Abruzzo sui
+     30 giorni e oltre non ha citta' (le MeteoNetwork ci sono dal 19-21/10, sotto il 60% dei giorni): la barra non
+     compare e tornano titolo e tasti, come col pannello ridotto (serve()). Prima diceva «nessun pluviometro vicino ai
+     capoluoghi» */
   function scrivi(){
+    if(!capoluoghi) return;
     var na=barra();
     NV=voci();
-    var h=NV.length?NV.map(voceHtml).join(''):'<button class="v nota">nessun pluviometro vicino ai capoluoghi</button>';
+    var h=NV.map(voceHtml).join('');
     na.innerHTML='<div class="lab">'+escH(periodoCorto())+'</div><div class="t">'+h+'</div>';
     sistema();
     // il giro si chiude senza salti: una copia piu' larga della barra (si ripete quanto serve), poi si raddoppia
@@ -19428,7 +19442,7 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   // va mostrata? solo sulla pioggia con un'analisi disegnata; al telefono non col pannello ridotto
   function serve(){
     var c=document.body.classList, lp=el('legend-panel');
-    if(!ultimo||!P()||!P().pallini()||!lp||getComputedStyle(lp).display==='none') return false;
+    if(!ultimo||!NV.length||!P()||!P().pallini()||!lp||getComputedStyle(lp).display==='none') return false;
     if(c.contains('modo-prev')||c.contains('modo-radar')||c.contains('modo-boschi')) return false;
     if(tel()&&(lp.classList.contains('leg-mini')||!lp.classList.contains('leg-visible'))) return false;
     /* ⚠️ TELEFONO GIRATO (1/11/2026, scheda 105): a 852×393 la barra prendeva una riga sua, i tasti scendevano su
