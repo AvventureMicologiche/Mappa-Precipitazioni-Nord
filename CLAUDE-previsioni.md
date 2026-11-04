@@ -838,4 +838,11 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   nelle carte delle regioni) e **Padova**, dove MET rimandava per quel punto una risposta TAGLIATA a 26 KB («Unterminated
   string in JSON»), anche nella carta di Padova della pagina Veneto: la pagina scrive «Previsione non disponibile in
   questo momento» e passa da sola quando MET rinfresca.
+- **IN PRODUZIONE il 4/11/2026** (suoi «sì, sincronizza» e «sì, pubblica»): commit `8d5bb09e1e`, deploy `8a93a10d`.
+  Verificato online (`BASE=https://precipitazioni.avventuremicologiche.it INSIEME=2 node prova-citta-118bis.js`): 24
+  città + 4 regioni × PC e telefono, 47/56 a posto; i 9 guasti tutti dell'API: Caserta, Salerno e Padova senza
+  previsione (502: «Unterminated string in JSON at position 36641», «Unexpected end of JSON input», cioè il corpo della
+  risposta di MET arriva TAGLIATO in `perPunto` di `functions/api/previsioni.js`, `TEMPO_MET_MS` 8000) e qualche carta
+  della Liguria e della Toscana per lo stesso motivo. DA GUARDARE a parte, tocca tutte le pagine con le previsioni.
+  Sitemap `sitemap-adesso-citta.xml` online (24 indirizzi) e nell'indice `sitemap.xml`; home online = index.html del repo.
 
