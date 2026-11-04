@@ -1,43 +1,43 @@
 {
  "regione": "veneto",
- "generato": "2026-11-04T04:15:43.572Z",
+ "generato": "2026-11-04T12:35:01.571Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 185,
+   "stazioni": 186,
    "primo": "2026-11-03",
    "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Crespano del Grappa (TV)",
-     "nb": "Crespano del Grappa",
-     "mm": 1.2
+     "n": "Adria - Bellombra (RO)",
+     "nb": "Adria - Bellombra",
+     "mm": 0
     },
     {
-     "n": "Quero (BL)",
-     "nb": "Quero",
-     "mm": 1.2
+     "n": "Agna (PD)",
+     "nb": "Agna",
+     "mm": 0
     },
     {
-     "n": "Lamon - Sala (BL)",
-     "nb": "Lamon - Sala",
-     "mm": 1
+     "n": "Agordo (BL)",
+     "nb": "Agordo",
+     "mm": 0
     },
     {
-     "n": "Sant'Apollinare (Rovigo) (RO)",
-     "nb": "Sant'Apollinare (Rovigo)",
-     "mm": 1
+     "n": "Arcole (VR)",
+     "nb": "Arcole",
+     "mm": 0
     },
     {
      "n": "Auronzo (BL)",
      "nb": "Auronzo",
-     "mm": 0.4
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 0.8,
+   "media": 0.7,
    "giorni": 7,
    "stazioni": 186,
    "primo": "2026-10-28",
@@ -221,10 +221,10 @@
    "s": "colli-asolani",
    "n": "Colli Asolani",
    "ultimo": "2026-11-03",
-   "m1": 0.8,
-   "m7": 1.3,
-   "m30": 94.9,
-   "p1": true,
+   "m1": 0,
+   "m7": 0.5,
+   "m30": 94.1,
+   "p1": false,
    "p7": true,
    "p30": true
   },
