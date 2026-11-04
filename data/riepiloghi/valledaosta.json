@@ -1,62 +1,62 @@
 {
  "regione": "valledaosta",
- "generato": "2026-11-03T04:15:44.109Z",
+ "generato": "2026-11-04T04:15:43.571Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 65,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "stazioni": 64,
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Valsavarenche - Orvieille",
-     "mm": 0.6
+     "n": "Ayas - Alpe Aventine",
+     "mm": 1.2
     },
     {
-     "n": "Pontey - Ponte Dora Baltea",
-     "mm": 0.2
+     "n": "Gressoney-Saint-Jean - Bieltschocke",
+     "mm": 1.2
     },
     {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 0.1
+     "n": "Gressoney-la-Trinité - Diga Gabiet",
+     "mm": 1.1
     },
     {
-     "n": "Morgex - Lavancher",
-     "mm": 0.1
+     "n": "Gressoney-la-Trinité - D'Ejola",
+     "mm": 1
     },
     {
-     "n": "Aosta - Mont-Fleury",
-     "mm": 0
+     "n": "Gressoney-Saint-Jean - Weissmatten",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 0.3,
+   "media": 0.4,
    "giorni": 7,
    "stazioni": 65,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 3.2
-    },
-    {
      "n": "Gressoney-la-Trinité - Diga Gabiet",
-     "mm": 2.7
+     "mm": 3.8
     },
     {
-     "n": "Morgex - Lavancher",
-     "mm": 1.8
+     "n": "Gressoney-Saint-Jean - lago di Seebna",
+     "mm": 3
+    },
+    {
+     "n": "Ayas - Alpe Aventine",
+     "mm": 1.9
     },
     {
      "n": "Chamois - Lac de Lou",
-     "mm": 1.4
+     "mm": 1.8
     },
     {
-     "n": "Pontey - Ponte Dora Baltea",
-     "mm": 1.2
+     "n": "Gressoney-la-Trinité - D'Ejola",
+     "mm": 1.8
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 49.6,
    "giorni": 20,
    "stazioni": 69,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Lillianes - Granges",
@@ -73,15 +73,15 @@
     },
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 134.5
+     "mm": 134.3
     },
     {
      "n": "Pontboset - Fournier",
-     "mm": 124.6
+     "mm": 125.2
     },
     {
      "n": "Donnas - Clapey",
-     "mm": 121.2
+     "mm": 117.2
     },
     {
      "n": "Hône - Ayasse",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 65.3,
+   "media": 65.4,
    "giorni": 30,
    "stazioni": 70,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 168.3
+     "mm": 168
     },
     {
      "n": "Lillianes - Granges",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Pontboset - Fournier",
-     "mm": 143.4
+     "mm": 144
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 143.2
+     "mm": 142.5
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0,
   0.2,
   0,
@@ -148,15 +149,14 @@
   5.9,
   9.8,
   0.4,
-  0,
-  0.1
+  0
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-11-02",
+   "ultimo": "2026-11-03",
    "m1": 0,
    "m7": 0,
    "m30": 125.1,
@@ -167,18 +167,18 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-11-02",
-   "m1": 0.1,
-   "m7": 0.5,
-   "m30": 44.9,
-   "p1": true,
+   "ultimo": "2026-11-03",
+   "m1": 0,
+   "m7": 0.1,
+   "m30": 44.5,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-11-02",
+   "ultimo": "2026-11-03",
    "m1": 0,
    "m7": 0,
    "m30": 35.6,
@@ -189,12 +189,12 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-11-02",
-   "m1": 0,
-   "m7": 0,
-   "m30": 109.3,
-   "p1": false,
-   "p7": false,
+   "ultimo": "2026-11-03",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 109.5,
+   "p1": true,
+   "p7": true,
    "p30": true
   }
  ]

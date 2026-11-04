@@ -1,47 +1,47 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-03T17:00:51.226Z",
+ "generato": "2026-11-04T04:15:43.575Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
-   "stazioni": 308,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "stazioni": 306,
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Grimsel Hospiz (BE)",
-     "nb": "Grimsel Hospiz",
+     "n": "Seengen (AG)",
+     "nb": "Seengen",
+     "mm": 0.6
+    },
+    {
+     "n": "Les Charbonnières (VD)",
+     "nb": "Les Charbonnières",
      "mm": 0.4
     },
     {
-     "n": "Durnand (VS)",
-     "nb": "Durnand",
+     "n": "Chaumont (NE)",
+     "nb": "Chaumont",
      "mm": 0.3
     },
     {
-     "n": "Arosa (GR)",
-     "nb": "Arosa",
-     "mm": 0.2
+     "n": "Huttwil (BE)",
+     "nb": "Huttwil",
+     "mm": 0.3
     },
     {
-     "n": "Clusanfe (VS)",
-     "nb": "Clusanfe",
-     "mm": 0.2
-    },
-    {
-     "n": "Flawil (SG)",
-     "nb": "Flawil",
-     "mm": 0.2
+     "n": "Langenbruck (BL)",
+     "nb": "Langenbruck",
+     "mm": 0.3
     }
    ]
   },
   "7": {
    "media": 0.9,
    "giorni": 7,
-   "stazioni": 308,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "stazioni": 307,
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Altenrhein (SG)",
@@ -71,11 +71,11 @@
    ]
   },
   "20": {
-   "media": 55.2,
+   "media": 54.9,
    "giorni": 20,
    "stazioni": 308,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Camedo Paese (TI)",
@@ -107,9 +107,9 @@
   "30": {
    "media": 83.9,
    "giorni": 30,
-   "stazioni": 309,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "stazioni": 308,
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Chironico Cala (TI)",
@@ -134,12 +134,13 @@
     {
      "n": "Preonzo - Alpe Roscioro (TI)",
      "nb": "Preonzo - Alpe Roscioro",
-     "mm": 206.7
+     "mm": 206.6
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -168,9 +169,8 @@
   16.9,
   4.1,
   1.3,
-  0.9,
-  0.1
+  0.9
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": []
 }

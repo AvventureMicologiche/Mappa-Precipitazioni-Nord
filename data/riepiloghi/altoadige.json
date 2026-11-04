@@ -1,14 +1,22 @@
 {
  "regione": "altoadige",
- "generato": "2026-11-03T04:15:44.110Z",
+ "generato": "2026-11-04T04:15:43.573Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
+    {
+     "n": "Redagno",
+     "mm": 0.7
+    },
+    {
+     "n": "San Martino in Passiria",
+     "mm": 0.1
+    },
     {
      "n": "Alta Val Martello",
      "mm": 0
@@ -20,14 +28,6 @@
     {
      "n": "Barbiano Colma",
      "mm": 0
-    },
-    {
-     "n": "Bolzano",
-     "mm": 0
-    },
-    {
-     "n": "Bressanone",
-     "mm": 0
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Predoi",
@@ -47,8 +47,8 @@
      "mm": 1.4
     },
     {
-     "n": "Corvara",
-     "mm": 0.3
+     "n": "Redagno",
+     "mm": 0.7
     },
     {
      "n": "Ridanna",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 33.5,
+   "media": 32.9,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Santa Valburga",
@@ -73,28 +73,28 @@
     },
     {
      "n": "Fleres",
-     "mm": 75.8
+     "mm": 74.7
     },
     {
      "n": "San Vito di Braies",
-     "mm": 69.9
+     "mm": 69.3
     },
     {
      "n": "Ultimo Fontana Bianca",
      "mm": 55.8
     },
     {
-     "n": "Sesto",
-     "mm": 53.1
+     "n": "Plata in Passiria",
+     "mm": 52.3
     }
    ]
   },
   "30": {
-   "media": 46.4,
+   "media": 46.5,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Fleres",
@@ -128,6 +128,7 @@
   0,
   0,
   0,
+  0,
   0.5,
   0.2,
   3.9,
@@ -148,15 +149,14 @@
   9,
   0,
   0.4,
-  2.1,
-  0
+  2.1
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-11-02",
+   "ultimo": "2026-11-03",
    "m1": 0,
    "m7": 0,
    "m30": 50.1,
@@ -167,7 +167,7 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-11-02",
+   "ultimo": "2026-11-03",
    "m1": 0,
    "m7": 0,
    "m30": 42.9,

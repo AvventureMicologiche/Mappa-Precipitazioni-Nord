@@ -1,42 +1,42 @@
 {
  "regione": "calabria",
- "generato": "2026-11-03T04:15:44.111Z",
+ "generato": "2026-11-04T04:15:43.575Z",
  "periodi": {
   "1": {
-   "media": 31.6,
+   "media": 1.4,
    "giorni": 1,
    "stazioni": 139,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Pagliarelle",
-     "mm": 75.4
+     "n": "Cirò Marina",
+     "mm": 20.8
     },
     {
-     "n": "Cotronei",
-     "mm": 71.8
+     "n": "Oriolo",
+     "mm": 12.4
     },
     {
-     "n": "Catanzaro",
-     "mm": 66.2
+     "n": "Reggio Calabria",
+     "mm": 10
     },
     {
-     "n": "Petronà",
-     "mm": 64.6
+     "n": "Arasì",
+     "mm": 7.2
     },
     {
-     "n": "Petilia Policastro",
-     "mm": 62.8
+     "n": "Cecita",
+     "mm": 6.8
     }
    ]
   },
   "7": {
-   "media": 42.8,
+   "media": 44.2,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Petronà",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Sant'Elia-Jano",
-     "mm": 80.4
+     "mm": 80.6
     },
     {
      "n": "Cotronei",
@@ -56,16 +56,16 @@
     },
     {
      "n": "Gioia Tauro SS18",
-     "mm": 77.8
+     "mm": 78
     }
    ]
   },
   "20": {
-   "media": 64.5,
+   "media": 65.8,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Cotronei",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Petilia Policastro",
-     "mm": 183.2
+     "mm": 183.4
     },
     {
      "n": "Pagliarelle",
@@ -85,41 +85,42 @@
     },
     {
      "n": "Cardeto",
-     "mm": 144.8
+     "mm": 149.4
     }
    ]
   },
   "30": {
-   "media": 145.8,
+   "media": 147.1,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 302.2
+     "mm": 303
     },
     {
      "n": "Cardeto",
-     "mm": 282.2
+     "mm": 286.8
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 276.2
+     "mm": 277.6
     },
     {
      "n": "Cassari",
-     "mm": 264.8
+     "mm": 265.2
     },
     {
      "n": "Allai",
-     "mm": 257.8
+     "mm": 260.2
     }
    ]
   }
  },
  "serie": [
+  1.4,
   31.6,
   9,
   1.1,
@@ -148,18 +149,17 @@
   2,
   1.5,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-02",
-   "m1": 37,
-   "m7": 47.4,
-   "m30": 179,
+   "ultimo": "2026-11-03",
+   "m1": 0.2,
+   "m7": 47.5,
+   "m30": 179.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-02",
-   "m1": 26.7,
-   "m7": 35.1,
-   "m30": 107.8,
+   "ultimo": "2026-11-03",
+   "m1": 2.5,
+   "m7": 37.5,
+   "m30": 110.3,
    "p1": true,
    "p7": true,
    "p30": true

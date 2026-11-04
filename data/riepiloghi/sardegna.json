@@ -1,46 +1,46 @@
 {
  "regione": "sardegna",
- "generato": "2026-11-03T04:15:44.111Z",
+ "generato": "2026-11-04T04:15:43.575Z",
  "periodi": {
   "1": {
-   "media": 1.6,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 91,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "stazioni": 92,
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
     {
-     "n": "Alà dei Sardi",
-     "mm": 22.8
+     "n": "Iglesias",
+     "mm": 4.2
     },
     {
-     "n": "Mamone",
-     "mm": 13.8
+     "n": "Santadi",
+     "mm": 1
     },
     {
-     "n": "Monti",
-     "mm": 13.8
+     "n": "San Michele",
+     "mm": 0.8
     },
     {
-     "n": "Tempio",
-     "mm": 10.4
+     "n": "Is Cannoneris",
+     "mm": 0.6
     },
     {
-     "n": "Monte Novo",
-     "mm": 9.8
+     "n": "Punta Sebera",
+     "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 13.4,
+   "media": 13.5,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Alà dei Sardi",
-     "mm": 51.6
+     "mm": 51.4
     },
     {
      "n": "Baunei",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 47.4,
+   "media": 47.5,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Siniscola",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Villanova Monteleone",
-     "mm": 83.6
+     "mm": 83.4
     },
     {
      "n": "Bosa Marina",
@@ -93,8 +93,8 @@
    "media": 76.1,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Siniscola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   1.6,
   8.7,
   2.4,
@@ -148,9 +149,8 @@
   14.5,
   1,
   4.8,
-  1.5,
-  0.1
+  1.5
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": []
 }

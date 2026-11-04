@@ -1,100 +1,100 @@
 {
  "regione": "campania",
- "generato": "2026-11-03T04:15:44.110Z",
+ "generato": "2026-11-04T04:15:43.574Z",
  "periodi": {
   "1": {
-   "media": 31.6,
+   "media": 1.9,
    "giorni": 1,
-   "stazioni": 173,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-02",
+   "stazioni": 172,
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Castelfranco in Miscano",
-     "mm": 115.8
+     "mm": 16.4
     },
     {
-     "n": "Savignano Irpino",
-     "mm": 98.5
+     "n": "Mugnano Cardinale",
+     "mm": 12.8
     },
     {
-     "n": "S.Bartolomeo METEO",
-     "mm": 82.6
+     "n": "Bisaccia",
+     "mm": 12.4
     },
     {
-     "n": "Colle Sannita",
-     "mm": 81.3
+     "n": "Avella",
+     "mm": 12
     },
     {
-     "n": "Ariano Irpino METEO",
-     "mm": 80.4
+     "n": "Diga Osento",
+     "mm": 11.9
     }
    ]
   },
   "7": {
-   "media": 35.6,
+   "media": 37.6,
    "giorni": 7,
-   "stazioni": 167,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-02",
+   "stazioni": 172,
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Castelfranco in Miscano",
-     "mm": 116.6
-    },
-    {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 92.8
-    },
-    {
-     "n": "S.Bartolomeo METEO",
-     "mm": 84.4
+     "mm": 133
     },
     {
      "n": "Colle Sannita",
-     "mm": 82.7
+     "mm": 93.7
+    },
+    {
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 93.6
     },
     {
      "n": "Ariano Irpino METEO",
-     "mm": 80.6
+     "mm": 84.4
+    },
+    {
+     "n": "S.Bartolomeo METEO",
+     "mm": 84.2
     }
    ]
   },
   "20": {
-   "media": 76.7,
+   "media": 78.5,
    "giorni": 20,
    "stazioni": 174,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 182.1
-    },
-    {
-     "n": "Letino",
-     "mm": 138.8
-    },
-    {
-     "n": "Cusano Mutri",
-     "mm": 135.2
+     "mm": 182.9
     },
     {
      "n": "Castelfranco in Miscano",
-     "mm": 131
+     "mm": 147.4
     },
     {
-     "n": "Ailano",
-     "mm": 128
+     "n": "Cusano Mutri",
+     "mm": 141.6
+    },
+    {
+     "n": "Letino",
+     "mm": 139.2
+    },
+    {
+     "n": "San Martino Valle Caudina",
+     "mm": 135.3
     }
    ]
   },
   "30": {
-   "media": 173.4,
+   "media": 175.2,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-10-04",
-   "ultimo": "2026-11-02",
+   "primo": "2026-10-05",
+   "ultimo": "2026-11-03",
    "top": [
     {
      "n": "Monte Epomeo (Ischia)",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  1.9,
   31.6,
   4.7,
   0.5,
@@ -148,40 +149,39 @@
   25,
   0.4,
   1.4,
-  0,
   0
  ],
- "serieDa": "2026-11-02",
+ "serieDa": "2026-11-03",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-02",
-   "m1": 27.4,
-   "m7": 26.7,
+   "ultimo": "2026-11-03",
+   "m1": 0,
+   "m7": 26.6,
    "m30": 181.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-02",
-   "m1": 45.6,
+   "ultimo": "2026-11-03",
+   "m1": 0,
    "m7": 62.1,
    "m30": 176.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-02",
-   "m1": 62,
-   "m7": 62.5,
-   "m30": 222.2,
+   "ultimo": "2026-11-03",
+   "m1": 6.1,
+   "m7": 68.6,
+   "m30": 228.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-02",
-   "m1": 36.9,
-   "m7": 37.7,
-   "m30": 192.6,
+   "ultimo": "2026-11-03",
+   "m1": 3.5,
+   "m7": 41.2,
+   "m30": 196.1,
    "p1": true,
    "p7": true,
    "p30": true
