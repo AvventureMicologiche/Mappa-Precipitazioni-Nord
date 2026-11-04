@@ -16884,8 +16884,10 @@ body.inv-prev-on #channel-pill{display:none !important}
 .cas-nuovi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .cas-nuovi.uno{grid-template-columns:1fr}
 .cas-n{display:block;text-decoration:none;color:#e6edf6}
-.cas-n .qd{display:block;font-size:11.5px;font-weight:600;color:#93b1d6;margin-top:9px}
-.cas-n .ti{display:block;font-size:14.5px;font-weight:600;line-height:1.3;margin-top:4px}
+/* 4/11/2026 sera (sua foto dal telefono: il quiz non si vedeva): la riga sopra il titolo su UNA riga (data corta,
+   «Video · 31 ott») e il titolo al massimo su DUE: «2 settimane / fa» e il titolo in maiuscolo su tre righe costavano spazio */
+.cas-n .qd{display:block;font-size:11.5px;font-weight:600;color:#93b1d6;margin-top:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cas-n .ti{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14.5px;font-weight:600;line-height:1.3;margin-top:4px}
 .cas-iscr{margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);text-align:center}
 .cas-iscr .t1{font-size:16px;font-weight:700;line-height:1.3;color:#e6edf6}
 .cas-iscr .t2{font-size:14px;font-weight:500;line-height:1.35;color:#a9c1df;margin:4px 0 10px}
@@ -16927,6 +16929,10 @@ body.inv-prev-on #channel-pill{display:none !important}
   function titolo(t){ return String(t||'').replace(/#\S+/g,'').replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,'').replace(/[☀-➿️]/g,'').replace(/\s{2,}/g,' ').replace(/[\s|·-]+$/,'').trim(); }
   window._casIdDi=idDi; window._casTitolo=titolo;
   window._canaleVideo=function(){ return canale; };   // lo usa anche il giro della pillola al telefono (vetrina)
+  // la data corta dei nuovi: «oggi», «ieri», «31 ott» (sta su una riga accanto alla pastiglia NUOVO)
+  var MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  function breve(s){ var t=new Date(s), ora=new Date(), g=Math.round((new Date(ora.toDateString())-new Date(t.toDateString()))/864e5);
+    if(g<=0) return t>ora ? 'oggi alle '+t.getHours() : 'oggi'; if(g===1) return 'ieri'; return t.getDate()+' '+MESI[t.getMonth()]; }
   function quando(s){
     var t=new Date(s), ora=new Date(), g=Math.round((new Date(ora.toDateString())-new Date(t.toDateString()))/864e5);
     if(g<=0) return t>ora ? 'oggi alle '+t.getHours() : 'oggi';
@@ -16959,7 +16965,7 @@ body.inv-prev-on #channel-pill{display:none !important}
       h+='<div class="cas-nuovi'+(N.length===1?' uno':'')+'">';
       N.forEach(function(c){
         h+='<a class="cas-n" href="https://youtu.be/'+c.id+'" target="_blank" rel="noopener" onclick="'+ga('cassetta-nuovo',c.id)+'"><span class="cas-cop" style="background-image:url(&quot;'+esc(copDi(c,true))+'&quot;)"></span>'
-          +'<span class="qd"><i class="cas-nvp">NUOVO</i>'+(c.short?'Short':'Video')+' · '+quando(c.uscita)+'</span><span class="ti">'+esc(titoloDi(c))+'</span></a>'; });
+          +'<span class="qd"><i class="cas-nvp">NUOVO</i>'+(c.short?'Short':'Video')+' · '+breve(c.uscita)+'</span><span class="ti">'+esc(titoloDi(c))+'</span></a>'; });
       h+='</div>';
     }
     h+='<div class="cas-iscr"><div class="t1">La mappa è un progetto<br>gratuito e libero</div><div class="t2">Sostienici con un like e un\'iscrizione</div>'
@@ -16984,6 +16990,14 @@ body.inv-prev-on #channel-pill{display:none !important}
     // l'elenco tiene TRE video in vista (al telefono piu' un filo del quarto, che dice «scorre»), gli altri con la barra
     var L=cas.querySelector('.cas-lista'), R=L&&L.querySelectorAll('.cas-r');
     if(R&&R.length>3) L.style.maxHeight=Math.round(R[0].offsetHeight*3+R[1].offsetHeight*(innerWidth>600?0:0.35))+'px';
+    /* ⚠️ DEL QUIZ SI VEDE SEMPRE ALMENO L'INIZIO (4/11/2026 sera, sua foto: sul suo telefono, con la barra degli
+       indirizzi e quella dei tasti, il quiz era tutto sotto e nessuno sapeva che c'era). Se la cima del quiz non entra
+       con 46 px nella cassetta, l'elenco si accorcia di quel tanto, fino a un video e mezzo; sotto, si scorre. */
+    var Q=cas.querySelector('.cas-quiz');
+    if(L&&R&&R.length&&Q){
+      var manca=Q.getBoundingClientRect().top+46-cas.getBoundingClientRect().bottom;
+      if(manca>0) L.style.maxHeight=Math.round(Math.max(R[0].offsetHeight*1.5, L.getBoundingClientRect().height-manca))+'px';
+    }
     var visti=[]; try{ visti=JSON.parse(localStorage.getItem('cassettaVista')||'[]'); }catch(x){}
     var nonVisti=N.filter(function(c){ return visti.indexOf(c.id)<0; }).length;
     try{ gtag('event','cassetta',{azione:'apri', nuovi:nonVisti}); }catch(x){}

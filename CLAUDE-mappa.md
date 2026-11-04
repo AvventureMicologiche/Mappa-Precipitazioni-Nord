@@ -1706,3 +1706,11 @@ in fondo a `index.html`.
 - Prove in locale con `server-119.mjs` (9043: i file del worktree e la funzione vera; 9044 senza la funzione):
   `giro-tel-119.js` (telefono: analisi 1-3 giallo, 4 pillola «ARCHIE A CACCIA DOPO LA PIOGGIA», 5-7 giallo, 8 lo short;
   pallino «2», cassetta, Esc, pallino spento anche ricaricando; PC: giallo sempre, scheda grande che gira, cassetta).
+- **IN PRODUZIONE il 4/11/2026** (`b24c8a4dd3`, deploy `a04ba17a`): /api/canale 200 coi 10 video anche dai server di
+  Cloudflare; `giro-tel-119.js` col sito vero uguale alla prova in locale.
+- **Il quiz che non si vedeva** (stessa sera, sua foto dal telefono: con la barra degli indirizzi e quella dei tasti il
+  quiz era tutto sotto, «almeno un angolo per invogliare a scorrere»): nei nuovi la riga sopra il titolo su una riga con
+  la data corta («Video · 31 ott», `breve()`: «2 settimane / fa» andava a capo) e il titolo al massimo su due righe;
+  e se la cima del quiz non entra con 46 px nella cassetta, l'elenco degli altri video si accorcia di quel tanto, fino
+  a un video e mezzo. `quiz-in-vista-119.js`: 46 px di quiz a 412x760, 393x720, 360x780 e al PC 1366x768, 39 a 360x640
+  (elenco al minimo), 68 a 393x852, 130 al PC 1440x900; ISCRIVITI sempre senza scorrere.
