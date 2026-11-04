@@ -20,7 +20,8 @@
  *  Per un'ora bastano due richieste piccole: l'intestazione del messaggio (R, E, D, e il controllo che sia
  *  davvero `tp` di quel passo) e le sole RIGHE sopra i punti chiesti (l'Abruzzo ~114 KB invece di 1,2 MB).
  *  ⚠️ La posizione si calcola dalla FINE del file. Se l'intestazione non torna (file fatto in un altro modo)
- *  si scorre il file messaggio per messaggio: lento (~3 minuti a corsa) ma giusto.
+ *  si scorre il file messaggio per messaggio: lento (~4 minuti a corsa, una volta sola per pioggia e
+ *  temperatura) ma giusto.
  *
  * IL GIORNO ITALIANO: le ore che finiscono in (mezzanotte, mezzanotte] italiane. Ogni ora si prende dalla
  * corsa piu' recente partita PRIMA di lei (anticipo piu' corto = previsione migliore).
@@ -75,19 +76,29 @@ function intestazione(b) {
   return null;
 }
 
-const indici = {};   // file -> {passo: offset}, solo quando serve scorrere tutto
-async function scorri(file, tot) {
-  if (indici[file]) return indici[file];
-  const idx = {};
+const indici = {};    // file -> {passo: offset} della pioggia, solo quando serve scorrere tutto
+const indiciT = {};   // file -> {passo in ore: offset} della temperatura, idem
+// UNA PASSATA SOLA PER PIOGGIA E TEMPERATURA (4/11/2026, scheda 117). Una corsa in un altro ordine si scorre
+// messaggio per messaggio (~656 richieste piccole, ~4 minuti) e se ne tengono insieme i due indici. Prima la pioggia e
+// la temperatura la scorrevano ognuna per conto suo: 8 minuti e ~1.300 richieste a corsa, e il giro Abruzzo del 3/11
+// sera, con due corse cosi', ha preso 19 minuti sul tetto di 20.
+async function scorriTutto(file, tot) {
+  const idx = {}, idxT = {};
   let off = 0;
   while (off < tot) {
     const { buf } = await intervallo(file, off, Math.min(tot - 1, off + 1023));
     const m = intestazione(buf);
     if (!m) break;
     if (m.cat === 1 && m.num === 52 && m.tpl === 8) idx[m.passo] = off;
+    if (m.cat === 0 && m.num === 0 && m.sup === 103 && m.supV === 2) idxT[m.passo / 60] = off;
     off += m.len;
   }
-  return (indici[file] = idx);
+  indici[file] = idx;
+  indiciT[file] = idxT;
+}
+async function scorri(file, tot) {
+  if (!indici[file]) await scorriTutto(file, tot);
+  return indici[file];
 }
 
 const dimensioni = {};
@@ -102,7 +113,8 @@ async function oraIcon(file, s, punti, rig) {
     let { buf } = await intervallo(file, off, off + 511);
     let m = intestazione(buf);
     if (!m || m.cat !== 1 || m.num !== 52 || m.tpl !== 8 || m.passo !== s) {
-      // capita (2/11/2026: la corsa del 31/10 alle 00): l'indice si fa una volta, ~2 minuti, poi serve a tutti i passi
+      // capita (2/11/2026: la corsa del 31/10 alle 00): l'indice si fa una volta, ~4 minuti, poi serve a tutti i passi
+      // e anche alla temperatura (scorriTutto)
       if (!indici[file]) console.log(`   ⚠️ ${file.slice(0, 24)}: la pioggia non e' dove ci si aspetta, scorro il file`);
       off = (await scorri(file, tot))[s];
       if (off === undefined) throw new Error(`passo ${s} assente`);
@@ -176,26 +188,19 @@ async function stimaIcon(stazioni, giorno, corse) {
 // Nello stesso file, prima della pioggia, ci sono 8 variabili per ogni passo da 0 a 72 ore, lunghe T2M_LEN byte
 // l'una e in fila passo per passo: la prima e' la temperatura a 2 m (GRIB 0/0/0, superficie 103 a 2 m, in kelvin, il
 // passo in MINUTI), quindi il passo s sta a s * T2M_NVAR * T2M_LEN. Alcune corse sono messe in un altro ordine (31/10
-// e 2/11/2026 alle 00): allora si scorre il file una volta (~2 minuti) e si tiene l'indice, come per la pioggia.
+// e 2/11/2026 alle 00): allora si usa l'indice di scorriTutto, che il file lo scorre una volta sola per pioggia e
+// temperatura insieme (~4 minuti; se la pioggia l'ha gia' scorso, qui non si rilegge niente).
 // Il valore e' quello della CELLA, non la media 3x3: nella misura del 3/11 (claudio\abruzzo-prova\temperature-icon-
 // *-115.js, ~88 stazioni vere intorno all'Abruzzo, 28/10-2/11) la cella sbaglia meno (massima 1,7° contro 1,9°), la
 // media mescola il fondovalle col crinale.
 const T2M_LEN = 1158428, T2M_NVAR = 8;
 const eT2m = (m, s) => !!m && m.cat === 0 && m.num === 0 && m.sup === 103 && m.supV === 2 && m.passo === s * 60;
-const indiciT = {};   // file -> {passo in ore: offset}, solo per le corse in un altro ordine
 async function scorriT2m(file, tot) {
-  if (indiciT[file]) return indiciT[file];
-  console.log(`   ⚠️ ${file.slice(0, 24)}: la temperatura non e' dove ci si aspetta, scorro il file`);
-  const idx = {};
-  let off = 0;
-  while (off < tot) {
-    const { buf } = await intervallo(file, off, Math.min(tot - 1, off + 1023));
-    const m = intestazione(buf);
-    if (!m) break;
-    if (m.cat === 0 && m.num === 0 && m.sup === 103 && m.supV === 2) idx[m.passo / 60] = off;
-    off += m.len;
+  if (!indiciT[file]) {
+    console.log(`   ⚠️ ${file.slice(0, 24)}: la temperatura non e' dove ci si aspetta, scorro il file`);
+    await scorriTutto(file, tot);
   }
-  return (indiciT[file] = idx);
+  return indiciT[file];
 }
 // La temperatura (°C) del passo s della corsa in `file` nella cella di ogni punto.
 async function oraT2m(file, s, punti, rig) {

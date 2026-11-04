@@ -31,8 +31,10 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    # un giro di tre giorni dura ~1,5 minuti (misurato in locale il 27/10/2026); col secondo tentativo ~4
-    timeout-minutes: 20
+    # un giro di tre giorni dura 6-11 minuti (novembre 2026), e ogni corsa ICON in un altro ordine ne aggiunge ~4
+    # (si scorre tutta, lib-icon2i.js). Il 3/11 sera, con due corse cosi' lette due volte, 19 minuti: tetto da 20 a 30
+    # il 4/11/2026 (scheda 117). Col secondo tentativo il giro si rifa' da capo.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
         with:

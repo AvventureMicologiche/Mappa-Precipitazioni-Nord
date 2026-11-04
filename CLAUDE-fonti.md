@@ -576,6 +576,17 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   vere entro 25 km, nel cuore della Maiella e del Gran Sasso, restano senza). Le temperature vere non cambiano (2/11:
   4.623 righe prima e dopo). ⚠️ Giorni nuvolosi: alle prime notti serene riguardare le minime delle conche con lo
   stesso attrezzo (ICON nelle stazioni e' in `icon-pluviometri`, giorno per giorno).
+- **La durata del giro: una passata sola per le corse in altro ordine, tetto 30 (4/11/2026, scheda 117, suo «approvo
+  e procedi le 2 modifiche»):** il giro del 3/11 «delle 16:55», partito alle 22:17, ha preso 19 minuti sul tetto di 20
+  (`timeout-minutes`). Causa: due corse ICON coi messaggi in altro ordine (31/10 e 2/11 alle 00) e per ognuna
+  `lib-icon2i.js` scorreva il file DUE volte, una per la pioggia (`scorri`) e una per la temperatura (`scorriT2m`):
+  ~4 minuti e ~650 richieste piccole a MeteoHub l'una, 8 minuti a corsa (la nota della 115 diceva ~2). Ora
+  `scorriTutto` lo scorre una volta e tiene i due indici insieme: meta' tempo e meta' richieste. Prova senza rete
+  (`scratchpad 490e1f73\prova-passata-unica-117.js`, file GRIB finti in ordine e mescolati, fetch finto): sulla corsa
+  mescolata 1.374 richieste prima, 717 dopo, pioggia e temperature identiche al file in ordine, in tutti e due gli
+  ordini di lettura. Tetto di `abruzzo.yml` da 20 a 30: il giro normale dura 6-11 minuti, ogni corsa in altro ordine ne
+  aggiunge ~4, e col secondo tentativo il giro si rifa' da capo. Anche gaps-nord e meteohub-gaps usano `scorri`
+  (solo pioggia): nessuna richiesta in piu'.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
