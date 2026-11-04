@@ -1078,3 +1078,6 @@ striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutt
   suo turno e la vetrina dopo ridisegnata giusta. Al telefono, dopo il turno dell'invito alle previsioni, la pillola
   resta nascosta per uno o due passi: succede uguale col codice di prima (`giro-vecchio-119.js`), e' la prova che
   gira senza analisi vere.
+- **IN PRODUZIONE il 4/11/2026** (`bbf239f93d`, deploy `1336a6fa`): index online = repo, copia sul sito di
+  `data/vetrina.json` col sorteggio nuovo; online la riserva e il giro (`giro-online-119.js`) mostrano la scheda nuova
+  al PC, a 800 px e al telefono (360 e 393).
