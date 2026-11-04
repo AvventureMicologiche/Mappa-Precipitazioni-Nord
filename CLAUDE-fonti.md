@@ -587,6 +587,20 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   ordini di lettura. Tetto di `abruzzo.yml` da 20 a 30: il giro normale dura 6-11 minuti, ogni corsa in altro ordine ne
   aggiunge ~4, e col secondo tentativo il giro si rifa' da capo. Anche gaps-nord e meteohub-gaps usano `scorri`
   (solo pioggia): nessuna richiesta in piu'.
+- **La pioggia scaricata da spenta: Pescara 74,7 mm in un'ora il 3/11 (4/11/2026, scheda 118, suo «Sì, così»):** la
+  MeteoNetwork «Pescara» (abr142) il 2/11 era muta (sotto `MIN_ORE`, fuori dal file) e il 3/11 ha mandato 74,7 mm
+  nell'ora dalle 23 alle 24 UTC e zero in tutte le altre 20: la pioggia del 2/11 (Spoltore, a 3 km, 75) in una
+  lettura sola. In mappa era il massimo della giornata asciutta e il primo della barra «Ieri», e la correzione ICON
+  intorno saliva da 0,1 a 3,4 mm su sei punti (Pescara, Spoltore, Montesilvano, Francavilla, Citta' Sant'Angelo,
+  Collecorvino). L'ora prima c'era e valeva 0, quindi «dopo un'ora mancante» non la prendeva: la distingue l'ora dei
+  vicini (le quattro MeteoNetwork entro 15 km a 0). Regola in `meteoNetwork()`: una lettura oraria da `SCARICO_MM` (20)
+  in su mentre nella stessa ora almeno `SCARICO_VICINI` (2) altre MeteoNetwork entro `SCARICO_KM` (15) leggono meno di
+  1 mm = quel giorno la stazione non si usa (`out.scartate`); `main()` toglie anche il valore gia' nel file, che se no
+  restava («un giro andato male non cancella»). Perche' i vicini e non l'ora sola: nei pluviometri ufficiali di
+  MeteoHub le giornate con una sola ora da 20 mm in su sono 23 a settembre-ottobre, temporali veri. Prova senza rete
+  (`scratchpad c1ffc0c8\prova-scarico-118.js`, risposte MeteoHub salvate, fetch finto): 3/11 via abr142 e le altre 13
+  identiche; 2/11, il giorno del temporale (cinque stazioni con ore da 22 a 47 mm), 16 su 16 identiche. Dal 19/10 e'
+  successo solo quella volta. Il 3/11 lo riscrive da solo il giro dopo (ogni giro rifa' ieri e i due giorni prima).
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge

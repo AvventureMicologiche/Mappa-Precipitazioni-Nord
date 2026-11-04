@@ -107,12 +107,26 @@ async function json(url, ms = 60000) {
 // ─── 1. MeteoNetwork ───────────────────────────────────────────────────────
 // Un giorno a richiesta (da anonimi MeteoHub ne da' al massimo tre). Le letture sono accumuli che
 // FINISCONO al loro reftime (UTC): l'ora e' quella di (ref - 1 ms), il giorno e' (inizio, fine].
+//
+// ⚠️ LA PIOGGIA SCARICATA DA SPENTA (4/11/2026, scheda 118, suo «Sì, così»). Il 3/11 la MeteoNetwork «Pescara»
+// (abr142) ha scritto 74,7 mm in UN'ORA, quella che finisce alle 00 UTC, e zero in tutte le altre: il 2/11 era muta
+// (sotto MIN_ORE, niente nel file), e al ritorno ha mandato in una lettura sola la pioggia del giorno prima (Spoltore,
+// a 3 km, il 2/11 aveva 75). Nella stessa ora le quattro MeteoNetwork entro 15 km leggevano 0. In mappa era il
+// massimo della giornata asciutta e il primo della barra «Ieri», e gonfiava la correzione ICON intorno (grezzo 0,1 →
+// 3,4 mm su sei punti). L'ora prima c'era (0): «dopo un'ora mancante» non bastava, la distingue l'ora dei vicini.
+// La regola: una lettura oraria da SCARICO_MM in su mentre nella STESSA ora almeno SCARICO_VICINI altre MeteoNetwork
+// entro SCARICO_KM leggono meno di 1 mm = quel giorno la stazione non si usa. Il codice torna in `out.scartate`, e
+// main() toglie anche il valore gia' nel file, che se no «un giro andato male non cancella» rimetterebbe.
+// Dal 19/10 al 3/11 e' successo solo quella volta (nessun'altra MeteoNetwork con una sola ora da 15 mm in su). Nei
+// pluviometri ufficiali di MeteoHub le giornate con una sola ora da 20 mm in su sono temporali veri (23 a settembre-
+// ottobre): per questo la regola guarda i vicini e non l'ora sola, e vale solo qui. Zero richieste in piu'.
+const SCARICO_MM = 20, SCARICO_KM = 15, SCARICO_VICINI = 2;
 async function meteoNetwork(giorno) {
   const { start, end } = finestraGiorno(giorno);
   const f = t => new Date(t).toISOString().slice(0, 16).replace('T', ' ');
   const q = `reftime: >=${f(start)},<=${f(end)};product:B13011;license:CCBY_COMPLIANT`;
   const d = await json(`${MH}/api/observations?networks=mnw&q=${encodeURIComponent(q)}`, 120000);
-  const out = [];
+  const tutte = [];   // tutte le MeteoNetwork dell'Abruzzo con una serie, anche le bucate: fanno da vicine
   for (const x of d.data || []) {
     const { lat, lon } = x.stat;
     if (!(lat > 41.6 && lat < 43.0 && lon > 13.0 && lon < 14.9) || !inAbruzzo(lat, lon)) continue;
@@ -121,18 +135,35 @@ async function meteoNetwork(giorno) {
     // la serie piu' fitta, come collect-meteohub.js
     const serie = (x.prod || []).filter(p => p.var === 'B13011').sort((a, b) => b.val.length - a.val.length)[0];
     if (!serie) continue;
-    const ore = creaOre();
+    const ore = creaOre(), letture = {};
     let mm = 0;
     for (const v of serie.val) {
       const t = Date.parse(v.ref + 'Z');
       if (!(t > start && t <= end) || typeof v.val !== 'number') continue;
       const chiave = new Date(t - 1).toISOString().slice(0, 13);
       segna(ore, chiave, v.val);
+      letture[chiave] = Math.max(letture[chiave] || 0, v.val);
       if (v.val > 0) mm += v.val;
     }
-    const h = Object.keys(ore).length;
+    tutte.push({ cod, lat, lon, ore, letture, mm });
+  }
+  const out = [];
+  out.scartate = [];
+  for (const s of tutte) {
+    const h = Object.keys(s.ore).length;
     if (h < MIN_ORE) continue;   // giornata bucata: meglio nessun pallino che un totale di mezza giornata
-    out.push({ cod, lat, lon, h, mm: Math.round(mm * 10) / 10, i: intensita(ore) });
+    const scarico = Object.keys(s.letture).find(k => {
+      if (s.letture[k] < SCARICO_MM) return false;
+      const vicine = tutte.filter(o => o !== s && o.letture[k] != null && km(s.lat, s.lon, o.lat, o.lon) <= SCARICO_KM);
+      return vicine.length >= SCARICO_VICINI && vicine.every(o => o.letture[k] < 1);
+    });
+    if (scarico) {
+      console.log(`⚠️ ${giorno} ${s.cod}: ${s.letture[scarico]} mm nell'ora dalle ${scarico.slice(11)}:00 UTC del ${scarico.slice(8, 10)}/${scarico.slice(5, 7)}, ` +
+        `le vicine entro ${SCARICO_KM} km sotto 1 mm: pioggia scaricata da spenta, giorno scartato`);
+      out.scartate.push(s.cod);
+      continue;
+    }
+    out.push({ cod: s.cod, lat: s.lat, lon: s.lon, h, mm: Math.round(s.mm * 10) / 10, i: intensita(s.ore) });
   }
   return out;
 }
@@ -478,6 +509,8 @@ async function main() {
     let mnw = [];
     try { mnw = await meteoNetwork(giorno); await nomiMnw(an, mnw); }
     catch (e) { errori++; console.log(`⚠️ ${giorno} MeteoNetwork:`, e.message); }
+    // la pioggia scaricata da spenta (vedi meteoNetwork): via anche il valore gia' nel file, che se no resterebbe
+    (mnw.scartate || []).forEach(cod => { delete vecchie['mnw_' + cod]; });
     let temp = {};   // la temperatura e' a parte: se cade, la pioggia si scrive lo stesso
     try { temp = await temperatureMnw(giorno); }
     catch (e) { console.log(`⚠️ ${giorno} temperature MeteoNetwork:`, e.message); }
