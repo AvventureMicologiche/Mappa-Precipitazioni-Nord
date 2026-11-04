@@ -1781,3 +1781,20 @@ in fondo a `index.html`.
   `/archie-bosco.webp` 200 (32.206 byte); `prova-iscr-121.js` con `ONLINE=1` (niente intercettato tranne
   `vetrina.json`) dà le stesse misure della prova: PC 414x292, 800 px 368x290, giro coi video a 183, telefono senza
   scheda e senza foto, nessun errore.
+
+## La pillola del telefono gira sulle stesse voci della vetrina del computer (4/11/2026 sera, scheda 121)
+
+- **Sue parole**: «fai nel cellulare lo stesso giro del pc». Prima (scheda 119) `giroTelefono()` girava sugli ULTIMI 3
+  VIDEO del feed del canale (`/api/canale`, con la voce curata se il video stava nel sorteggio, se no titolo e
+  copertina di YouTube), il quiz e «Iscriviti».
+- **Ora** `giroTelefono()` prende il `sorteggio` di `data/vetrina.json` come la scheda del computer: stesso ordine,
+  stessi filtri di `costruisci` (`primaDiDa` e `fino`), `iscriviti` dove sta nell'elenco; senza voci accese resta
+  «Iscriviti». Prima voce a caso, poi la successiva, come al computer. Tolta `vetrinaDaVideo()`, che serviva solo al
+  giro vecchio. **Restano**: l'una su quattro (`_turnoPillola`, le altre tre analisi il giallo delle previsioni, sua
+  scelta della 119), la pillola «Iscriviti» con le parole di prima.
+- **Conseguenza detta a lui prima del sì**: un video appena uscito entra nella pillola solo quando ha la sua voce in
+  `vetrina.json`, come al computer; la cassetta dei video lo prende comunque da sola dal feed.
+- **Prova** (`giro-tel-121.js`, sito vero con l'`index.html` del worktree intercettato, 393x852, `_analisiN=4` e
+  `_vetrinaGira()` dieci volte): aggiornamento tartufo 2026 › quiz › chiodini › ep. 1 › ep. 2 › ep. 3 › ep. 4 ›
+  «Iscriviti» › di nuovo dall'inizio, le stesse 8 del computer e nello stesso ordine. Il computer gira come prima
+  (lungo25 › iscriviti › aggiornamento2026 › …). Nessun errore.

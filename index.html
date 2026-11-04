@@ -12951,32 +12951,27 @@ function loadDefaultMarkers(){
   }
   /* ⚠️ IL GIRO DELLA PILLOLA AL TELEFONO (4/11/2026, scheda 119, suo). Sotto i numeri, al telefono, c'e' il tasto giallo
      delle previsioni (vedi «LE PREVISIONI SEMPRE» nell'invito); UN'ANALISI SU QUATTRO (la quarta, l'ottava…; la prima
-     della visita mai) al suo posto torna la pillola, con un giro suo: gli ULTIMI 3 VIDEO del canale (/api/canale, lo
-     stesso della cassetta dei video), il quiz e «Iscriviti». Il primo giro parte da una voce a caso, poi la successiva.
-     Un video che sta anche nel sorteggio di data/vetrina.json usa la sua voce curata (copertina e gancio scelti da lui);
-     gli altri titolo e copertina di YouTube, due righe al massimo. Senza il feed: i video del sorteggio.
+     della visita mai) al suo posto torna la pillola.
+     ⚠️ DAL 4/11/2026 SERA (scheda 121, suo: «fai nel cellulare lo stesso giro del pc») LA PILLOLA GIRA SULLE STESSE VOCI
+     DELLA SCHEDA DEL COMPUTER: il `sorteggio` di data/vetrina.json, nello stesso ordine, con gli stessi filtri di
+     `costruisci` (`primaDiDa` e `fino`; `iscriviti` dove sta nell'elenco). Il primo giro parte da una voce a caso, poi
+     la successiva, come al computer. Prima (scheda 119) girava sugli ULTIMI 3 VIDEO del feed del canale, il quiz e
+     «Iscriviti»: un video appena uscito entrava da solo; ora entra quando ha la sua voce in vetrina.json, come al
+     computer (la cassetta dei video lo prende comunque da sola). Resta l'una su quattro.
      ⚠️ Al computer non cambia niente: la scheda grande gira come prima, e il giro della vetrina al telefono non si fa
      piu' (la pillola e' nascosta dal giallo fino al suo turno). */
   function telefonoV(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }
   window._turnoPillola=function(){ var n=window._analisiN||0; return telefonoV() && n>0 && n%4===0; };
   var _tel={i:-1};
-  function vetrinaDaVideo(c, cfg){
-    var vv=(cfg&&cfg.vetrine)||{}, att=(cfg&&cfg.sorteggio)||[], idDi=window._casIdDi||function(){ return ''; };
-    for(var j=0;j<att.length;j++){ var v=vv[att[j]]; if(v && v.tipo!=='gioco' && idDi(v.link)===c.id) return v; }
-    var t=(window._casTitolo||String)(c.titolo), nuovo=Date.now()-Date.parse(c.uscita)<14*864e5;
-    var oc=(nuovo?'Nuovo ':'')+(c.short?'short':'video'); oc=oc.charAt(0).toUpperCase()+oc.slice(1);
-    var e=t.replace(/[&<>"]/g,function(x){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]; });
-    return { link:'https://youtu.be/'+c.id, id:c.id, facebook:'', instagram:'', fino:'2099-12-31T23:59:59Z',
-      copertina:'https://i.ytimg.com/vi/'+c.id+'/mqdefault.jpg', occhiello:oc, occhielloP:oc,
-      gancio1:e, gancio2:'', gancioP:'<span class="cp-g">'+e+'</span>', ganciopx:15, canale:'Avventure Micologiche' };
-  }
   function giroTelefono(){
-    var cfg=_cfgMontata||RIPIEGO, vv=(cfg&&cfg.vetrine)||{}, voci=[], VT={};
-    var feed=(window._canaleVideo&&window._canaleVideo())||[];
-    feed.slice(0,3).forEach(function(c,i){ var k='canale'+(i+1); VT[k]=vetrinaDaVideo(c,cfg); voci.push(k); });
-    if(!voci.length) (cfg.sorteggio||[]).forEach(function(k){ var v=vv[k]; if(v && v.tipo!=='gioco' && voci.length<3){ VT[k]=v; voci.push(k); } });
-    if(vv.quiz){ VT.quiz=vv.quiz; voci.push('quiz'); }
-    voci.push('iscriviti');
+    var cfg=_cfgMontata||RIPIEGO, vv=(cfg&&cfg.vetrine)||{}, voci=[], VT={}, ora=Date.now();
+    // le stesse voci, nello stesso ordine, della scheda del computer (vedi `costruisci`, ramo 'alterna')
+    (cfg.sorteggio||[]).forEach(function(k){
+      var v=vv[k]; if(!v){ if(k==='iscriviti') voci.push(k); return; }
+      if(primaDiDa(v, ora) || ora > new Date(v.fino).getTime()) return;
+      VT[k]=v; voci.push(k);
+    });
+    if(!voci.length) voci.push('iscriviti');   // nessuna voce accesa: resta la pillola «Iscriviti», come al computer
     _tel.i = _tel.i<0 ? Math.floor(Math.random()*voci.length) : (_tel.i+1)%voci.length;
     var k=voci[_tel.i];
     ripristinaPillola();                   // la pillola di partenza e' gia' «Iscriviti»
