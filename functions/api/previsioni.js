@@ -8,7 +8,8 @@
 //
 // Fonti: MET Norway Locationforecast 2.0 (CC BY 4.0) per tempo, gradi, mm, vento;
 // Open-Meteo solo per la probabilita' di pioggia (MET non la da' in Italia). Staccabile: PROB=false.
-// Cache: Cache API di Cloudflare, per cella di ~1 km, durata dall'Expires di MET (tetto 1 ora).
+// Cache: Cache API di Cloudflare, per cella di ~1 km, fresca fino all'Expires di MET (tetto 1 ora); dal 4/11/2026 sera
+// (scheda 122) tenuta 12 ore come riserva per quando MET sbaglia, e gli errori senza copia ricordati 2 minuti.
 
 const UA = 'precipitazioni.avventuremicologiche.it (avventuremicologiche@gmail.com)';
 const PROB = true;
@@ -42,12 +43,12 @@ export async function onRequestGet({ request, env, waitUntil }) {
     // richiede. ⚠️ 15: a freddo un punto costa 3 sottorichieste (cache, MET, cache) e il tetto e' 50
     if (u.searchParams.has('punti')) {
       const d = await perPunti(u.searchParams.get('punti'), request);
-      return rispondi(d, cors, d.errore ? (d.capoluoghi ? 502 : 400) : 200, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
+      return rispondi(d, cors, d.errore ? (d.capoluoghi ? 502 : 400) : 200, (d.capoluoghi || []).some(x => x.errore || x.riserva) ? 120 : 1800);
     }
     if (u.searchParams.has('posti')) {
       const d = await perPosti(u.searchParams.get('posti'), env, request, conPr, waitUntil);
       const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
-      return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
+      return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore || x.riserva) ? 120 : 1800);
     }
     const zona = u.searchParams.get('zona'), zonedi = u.searchParams.get('zonedi');
     const area = paese ? paese[2] : zona || zonedi || u.searchParams.get('capoluoghi');
@@ -57,7 +58,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
       // ⚠️ (19/10/2026, quinto check, bug 5) nessuna citta' risponde = 502 e niente cache nel browser: prima era un 200
       // tenuto 10 minuti, e la mappa restava su «carico…»; qualcuna sola in errore = 200 ma per 2 minuti, poi si richiede
       const stato = d.errore ? (d.capoluoghi ? 502 : 404) : 200;
-      return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore) ? 120 : 1800);
+      return rispondi(d, cors, stato, (d.capoluoghi || []).some(x => x.errore || x.riserva) ? 120 : 1800);
     }
     // ⚠️ anche VUOTI (19/10/2026, bug 12): «?lat=&lon=» passava come 0,0 e rispondeva col Golfo di Guinea
     if (!(u.searchParams.get('lat') || '').trim() || !(u.searchParams.get('lon') || '').trim()) return rispondi({ errore: 'lat/lon mancanti' }, cors, 400);
@@ -66,8 +67,8 @@ export async function onRequestGet({ request, env, waitUntil }) {
     // ⚠️ (20/10/2026, sesto check, bug 16) una quota che non e' un numero («q=abc») passava come altitude=NaN e MET
     // rispondeva errore → 502: adesso vale come assente, e MET usa il suo terreno. Vuota o di soli spazi idem (+'' = 0).
     const qn = q == null || !q.trim() ? NaN : +q;
-    // riserva (4/11/2026): solo qui, un punto alla volta (vedi «LA PREVISIONE DI RISERVA» in perPunto)
-    const r = await perPunto(lat, lon, isFinite(qn) ? Math.round(qn) : null, request, true, undefined, false, undefined, true);
+    // la riserva (4/11/2026; dalla scheda 122 per tutti i punti, vedi «L'ULTIMA BUONA FA DA RISERVA» in perPunto)
+    const r = await perPunto(lat, lon, isFinite(qn) ? Math.round(qn) : null, request, true, undefined, false);
     return rispondi(r.dati, cors, r.dati.errore ? 502 : 200, r.maxAge);
   } catch (e) {
     return rispondi({ errore: String(e && e.message || e) }, cors, 502);
@@ -108,18 +109,48 @@ function rispondi(dati, h, status = 200, maxAge = 0) {
    normale: MET si richiede al massimo ogni 5 minuti per quel punto, non a ogni visita. Nessuna chiamata in piu' a MET.
    Una copia di ieri non passa per oggi: le pagine prendono i giorni per DATA e scartano quelli passati (bug 11).
    ⚠️ Non nelle richieste a gruppi (perArea, perPosti, perPunti): un punto a freddo costa gia' 3 sottorichieste e il tetto
-   e' 50 (vedi senzaCache); la riserva ne aggiunge una a ogni previsione buona. */
-const RISERVA_S = 12 * 3600, RISERVA_USA_S = 300;
-async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDato, riserva) {
+   e' 50 (vedi senzaCache); la riserva ne aggiunge una a ogni previsione buona.
+   ⚠️⚠️ DALLA SERA DEL 4/11 LA SECONDA CHIAVE NON C'E' PIU': vedi «L'ULTIMA BUONA FA DA RISERVA» qui sotto. */
+/* ⚠️ L'ULTIMA BUONA FA DA RISERVA, PER TUTTI I PUNTI (4/11/2026 sera, scheda 122, suo «sì, procedi»). Quella sera MET
+   rispondeva 503 («servizio non funzionante», un guasto suo, non un blocco: quello sarebbe 403 o 429) a una parte delle
+   richieste, a intermittenza. Le etichette dei paesi della mappa (?punti=) restavano «--°» e la scheda non si apriva;
+   con i capoluoghi della regione in errore la mappa delle previsioni restava grigia. La riserva del pomeriggio copriva
+   solo i punti singoli. E il guasto MOLTIPLICAVA le chiamate: gli errori non si tenevano in cache e la mappa richiede i
+   paesi falliti dopo 15 e 30 s, quindi una visita della Toscana (143 paesi) faceva 429 chiamate a MET in mezzo minuto,
+   proprio mentre MET stava male (il suo tetto: 20 richieste al secondo per tutto il sito).
+   Ora la copia NORMALE resta in cache 12 ore (TIENI_S) e porta con se' fino a quando e' fresca (X-Fresca-Fino:
+   l'Expires di MET fra 10 minuti e un'ora, come prima), di che giorno e' (X-Giorno) e quando era buona (X-Buona).
+   Fresca e di oggi: si usa. Scaduta, o di ieri (bug 11): si chiede a MET. Se MET sbaglia (stato non 200, corpo
+   tagliato, tempo scaduto) si risponde con la copia, segnata `riserva: 1` e `guasto`, rimessa fresca per 5 minuti
+   (RISERVA_USA_S): MET si richiede al massimo ogni 5 minuti per quel punto, non a ogni visita. Una copia vale come
+   riserva fino a 12 ore da quando era buona, non di piu'. Un errore SENZA copia si ricorda 2 minuti (ERRORE_S): i
+   tentativi della mappa e gli altri visitatori di quei 2 minuti non richiamano MET.
+   Sottorichieste: copia fresca 1; altrimenti cache, MET e una rimessa = 3 (piu' Open-Meteo per i punti singoli), come
+   prima per i gruppi e una in meno per i punti singoli (la seconda chiave non serve piu'). Chiamate a MET: le stesse in
+   tempi normali (si chiede solo dopo l'Expires), molte meno durante un guasto.
+   La chiave non ha piu' la data (c'e' X-Giorno): cosi' la copia di ieri copre anche dopo mezzanotte. Una copia di ieri
+   non passa per oggi: le pagine prendono i giorni per DATA e scartano quelli passati (bug 11). */
+const TIENI_S = 12 * 3600, RISERVA_USA_S = 300, ERRORE_S = 120;
+async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDato) {
   if (conProb === undefined) conProb = true;
   // cella di ~1 km: la cache vale per chiunque guardi lo stesso posto
   const la = lat.toFixed(2), lo = lon.toFixed(2), qq = q == null ? '' : String(Math.round(q / 10) * 10);
-  // ⚠️ la DATA italiana nella chiave (19/10/2026, quinto check, bug 11): a mezzanotte la cache di ieri non si usa
-  // piu', se no per fino a un'ora la previsione cominciava con ieri e il sito la chiamava «oggi»
-  const chiave = new Request(`https://cache.previsioni/punto?v=${VERSIONE}&d=${oraLocale(new Date().toISOString()).g}&lat=${la}&lon=${lo}&q=${qq}&ore=${conOre ? 1 : 0}&pr=${conProb ? 1 : 0}`);
+  // ⚠️ la DATA italiana (19/10/2026, quinto check, bug 11): a mezzanotte la copia di ieri non si usa piu' come fresca,
+  // se no per fino a un'ora la previsione cominciava con ieri e il sito la chiamava «oggi». Fino al 4/11 stava nella
+  // chiave; dalla scheda 122 sta in X-Giorno, e la copia di ieri resta buona come riserva
+  const oggi = oraLocale(new Date().toISOString()).g;
+  const chiave = new Request(`https://cache.previsioni/punto?v=${VERSIONE}&lat=${la}&lon=${lo}&q=${qq}&ore=${conOre ? 1 : 0}&pr=${conProb ? 1 : 0}`);
   const cache = caches.default;
-  const c = senzaCache ? null : await cache.match(chiave);
-  if (c) return { dati: await c.json(), maxAge: restante(c) };
+  let vecchia = null, buona = 0;
+  if (!senzaCache) {
+    const c = await cache.match(chiave);
+    if (c) {
+      const fino = +c.headers.get('X-Fresca-Fino') || 0, dati = await c.json();
+      if (fino > Date.now() && c.headers.get('X-Giorno') === oggi) return { dati, maxAge: Math.max(60, Math.round((fino - Date.now()) / 1000)) };
+      buona = +c.headers.get('X-Buona') || 0;
+      if (dati.giorni && Date.now() - buona < TIENI_S * 1000) vecchia = dati;   // un errore ricordato non fa da riserva
+    }
+  }
 
   /* ⚠️ LA % SI AGGANCIA PER ISTANTE, IN UTC (19/10/2026, quinto check, bug 12). Prima si chiedeva Open-Meteo in ora
      italiana e si agganciava per «giorno_ora» locale. Due difetti, misurati sul sito vero a Genova: la fascia di 6 ore
@@ -127,7 +158,6 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
      Open-Meteo in ora italiana il 25/10 da' 24 ore invece di 25 (non ripete le 02), quindi da li' le sue ore locali
      slittavano di una rispetto a MET (26/10: 11% e 8% contro 10% e 7%). Ora tutt'e due in UTC e si confrontano gli
      istanti: le ore di MET sono gia' UTC, e la fascia di 6 ore e' «sei ore da quell'istante». */
-  const chiaveR = riserva ? new Request(`https://cache.previsioni/riserva?v=${VERSIONE}&lat=${la}&lon=${lo}&q=${qq}&ore=${conOre ? 1 : 0}&pr=${conProb ? 1 : 0}`) : null;
   let met = null, prob = null, d = null, guasto = null;
   try {
     [met, prob] = await Promise.all([
@@ -136,14 +166,15 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
     ]);
     if (!met.ok) guasto = 'MET Norway ' + met.status;
     else d = await met.json();   // ⚠️ un corpo tagliato fallisce QUI (4/11/2026)
-  } catch (e) { if (!riserva) throw e; guasto = 'MET Norway: ' + String(e && e.message || e).slice(0, 120); }
+  } catch (e) { guasto = 'MET Norway: ' + String(e && e.message || e).slice(0, 120); }
   if (guasto) {
-    const r = chiaveR && await cache.match(chiaveR);
-    if (r) {
-      const dati = Object.assign(await r.json(), { riserva: 1, guasto });
-      await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RISERVA_USA_S}`, 'Date': new Date().toUTCString() } }));
+    if (senzaCache) return { dati: { errore: guasto }, maxAge: 0 };   // i gruppi delle aree: la riserva e' l'area di prima (previsioniDi)
+    if (vecchia) {   // l'ultima buona, fresca per 5 minuti, mai oltre le 12 ore da quando era buona
+      const dati = Object.assign(vecchia, { riserva: 1, guasto }), restaS = Math.max(1, TIENI_S - Math.round((Date.now() - buona) / 1000));
+      await metti(cache, chiave, dati, Math.min(RISERVA_USA_S, restaS), restaS, oggi, buona);
       return { dati, maxAge: RISERVA_USA_S };
     }
+    await metti(cache, chiave, { errore: guasto }, ERRORE_S, ERRORE_S, oggi, 0);   // nessuna copia: l'errore si ricorda 2 minuti
     return { dati: { errore: guasto }, maxAge: 0 };
   }
   const pr = prDato || {}; // istante UTC in ms → %
@@ -178,9 +209,15 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
   if (PROB && conProb && !Object.keys(pr).length) maxAge = 120;
   // fino a quando MET dice che questa e' la previsione in vigore (Expires): vedi «OGNI CITTA' QUANDO SCADE LA SUA»
   dati.scade = ex || (Date.now() + maxAge * 1000);
-  if (!senzaCache) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${maxAge}`, 'Date': new Date().toUTCString() } }));
-  if (chiaveR) await cache.put(chiaveR, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RISERVA_S}`, 'Date': new Date().toUTCString() } }));
+  // fresca fino all'Expires come prima, ma tenuta 12 ore come riserva (scheda 122)
+  if (!senzaCache) await metti(cache, chiave, dati, maxAge, TIENI_S, oggi, Date.now());
   return { dati, maxAge };
+}
+// una copia di un punto nella cache: fresca per frescaS secondi, tenuta tieniS (scheda 122, vedi perPunto)
+function metti(cache, chiave, dati, frescaS, tieniS, giorno, buona) {
+  return cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json',
+    'Cache-Control': `public, max-age=${Math.max(frescaS, tieniS)}`, 'Date': new Date().toUTCString(),
+    'X-Fresca-Fino': String(Date.now() + frescaS * 1000), 'X-Giorno': giorno, 'X-Buona': String(buona) } }));
 }
 
 // ── i capoluoghi di un'area, in parallelo (al massimo 12 → sotto i 50 subrequest) ──
@@ -256,17 +293,32 @@ async function probDi(punti) {
    citta' che scade, al massimo ogni 2 minuti. `valida` = la prima scadenza: fino a quell'istante tutte le citta' sono
    la previsione in vigore, e il sito scrive «agg.» con quell'ora o con l'ora di adesso, se viene prima (index.html,
    «AGGIORNATE A POCHI MINUTI FA»). MET non viene mai chiesta prima del suo tempo. */
+/* ⚠️ E LA CITTA' CHE SBAGLIA TIENE QUELLA DI PRIMA (4/11/2026 sera, scheda 122, vedi «L'ULTIMA BUONA FA DA RISERVA» in
+   perPunto). Qui la cache punto per punto non c'e' (senzaCache, il tetto di 50): la riserva e' la citta' com'era
+   nell'area di prima (`prima`), segnata `riserva: 1`, fino a 12 ore dalla sua scadenza. Prima della scheda 122 un'area
+   con anche una sola citta' in errore non si teneva in cache: con l'area di prima ancora in cache era coperta, ma senza
+   (la prima visita, o dopo 3 ore e mezza) ogni visita richiedeva a MET TUTTE le citta' (la Toscana 14) e la mappa le
+   richiedeva quattro volte in 6 secondi; se nessuna rispondeva, mappa grigia. E chi apriva le previsioni aspettava tutto
+   il calcolo sotto il fondo blu: la vista Italia (29 citta') 3,2 s il 4/11 alle 19:56, con la sola Aosta in 503 (suo:
+   «lo schermo rimane blu per 3 o 4 secondi»). Ora si tiene sempre: con errori o riserve fresca 2 minuti, poi il
+   ricalcolo (dietro, con daCache) chiede a MET solo quelle che non hanno una previsione valida. */
 async function previsioniDi(citta, area, request, cache, chiave, conProb, prima) {
-  const ora = Date.now(), tenute = {}, id = p => p.n + '|' + p.lat + '|' + p.lon;
-  ((prima && prima.capoluoghi) || []).forEach(x => { if (x.giorni && x.scade > ora) tenute[id(x)] = x; });   // valida anche per un secondo: si tiene, MET non si chiede prima
+  const ora = Date.now(), tenute = {}, vecchie = {}, id = p => p.n + '|' + p.lat + '|' + p.lon;
+  ((prima && prima.capoluoghi) || []).forEach(x => {
+    if (x.giorni && x.scade > ora) tenute[id(x)] = x;   // valida anche per un secondo: si tiene, MET non si chiede prima
+    if (x.giorni && x.scade > ora - TIENI_S * 1000) vecchie[id(x)] = x;   // la riserva, se MET sbaglia (scheda 122)
+  });
   const da = citta.map((p, i) => i).filter(i => !tenute[id(citta[i])]);   // le citta' da chiedere a MET
   const voleProb = conProb && PROB && da.length > 0;
   const probDa = voleProb ? await probDi(da.map(i => citta[i])) : null;
   const prob = {}; if (probDa) da.forEach((i, k) => { prob[i] = probDa[k]; });
   const uno = async (p, i) => {
     if (tenute[id(p)]) return tenute[id(p)];
-    try { const r = await perPunto(p.lat, p.lon, p.q, request, false, false, true, prob[i] || null); return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg, scade: r.dati.scade }) }; }
-    catch (e) { return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, errore: String(e && e.message || e) }; }
+    let r;
+    try { r = await perPunto(p.lat, p.lon, p.q, request, false, false, true, prob[i] || null); }
+    catch (e) { r = { dati: { errore: String(e && e.message || e) } }; }
+    if (r.dati.errore && vecchie[id(p)]) return Object.assign({}, vecchie[id(p)], { riserva: 1 });   // MET sbaglia: quella di prima (scheda 122)
+    return { n: p.n, lat: p.lat, lon: p.lon, q: p.q, ...(p.c ? { c: 1 } : {}), ...(p.r ? { r: p.r } : {}), ...(p.qui ? { qui: 1 } : {}), ...(p.s ? { s: p.s } : {}), ...(p.z ? { z: 1 } : {}), ...(p.sotto ? { sotto: p.sotto } : {}), ...(r.dati.errore ? { errore: r.dati.errore } : { giorni: r.dati.giorni, agg: r.dati.agg, scade: r.dati.scade }) };
   };
   const ris = [];
   for (let i = 0; i < citta.length; i += 6) ris.push(...await Promise.all(citta.slice(i, i + 6).map((p, k) => uno(p, i + k))));
@@ -274,12 +326,12 @@ async function previsioniDi(citta, area, request, cache, chiave, conProb, prima)
   const sc = ris.filter(x => x.giorni && x.scade).map(x => x.scade); if (sc.length) dati.valida = Math.min(...sc);
   if (!ris.some(x => x.giorni)) dati.errore = 'nessuna citta\' risponde';   // MET giu': errore in cima, vedi onRequestGet (bug 5)
   // chiesta la % e Open-Meteo non ha risposto: in cache solo 2 minuti, come per il punto singolo, e mai «vecchia» (daCache)
-  if (!ris.some(x => x.errore)) {
-    const completa = !(voleProb && !probDa);
-    const fino = dati.valida ? Math.max(120, Math.min(FRESCA, Math.round((dati.valida - Date.now()) / 1000))) : FRESCA;
-    const fresca = completa ? fino : 120;
-    await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${completa ? fresca + VECCHIA : fresca}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + fresca * 1000) } }));
-  }
+  // ⚠️ (scheda 122) anche con citta' in errore o di riserva si tiene, fresca 2 minuti: prima non si teneva, e ogni
+  // visita richiedeva a MET tutte le citta'. Nessuna citta': 2 minuti e mai «vecchia»; qualcuna: «vecchia» come sempre
+  const completa = !(voleProb && !probDa), pulita = !ris.some(x => x.errore || x.riserva);
+  const fino = dati.valida ? Math.max(120, Math.min(FRESCA, Math.round((dati.valida - Date.now()) / 1000))) : FRESCA;
+  const fresca = completa && pulita ? fino : 120, tieni = completa && !dati.errore ? fresca + VECCHIA : fresca;
+  await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${tieni}`, 'Date': new Date().toUTCString(), 'X-Fresca-Fino': String(Date.now() + fresca * 1000) } }));
   return dati;
 }
 
@@ -318,7 +370,8 @@ async function perPunti(testo, request) {
   if (!voci.length || voci.length > 15 || voci.some(v => v.length !== 2 || !v.every(isFinite) || Math.abs(v[0]) > 90 || Math.abs(v[1]) > 180)) return { errore: 'punti' };
   const ris = [];
   for (let i = 0; i < voci.length; i += 6) ris.push(...await Promise.all(voci.slice(i, i + 6).map(async ([la, lo]) => {
-    try { const r = await perPunto(la, lo, null, request, false, false, false); return r.dati.errore ? { lat: la, lon: lo, errore: r.dati.errore } : { lat: la, lon: lo, giorni: r.dati.giorni, agg: r.dati.agg }; }
+    // riserva: 1 = l'ultima buona, MET ha sbagliato (scheda 122); la mappa non la guarda, serve a chi controlla
+    try { const r = await perPunto(la, lo, null, request, false, false, false); return r.dati.errore ? { lat: la, lon: lo, errore: r.dati.errore } : { lat: la, lon: lo, giorni: r.dati.giorni, agg: r.dati.agg, ...(r.dati.riserva ? { riserva: 1 } : {}) }; }
     catch (e) { return { lat: la, lon: lo, errore: String(e && e.message || e) }; }
   })));
   const dati = { area: 'punti', agg: (ris.find(x => x.agg) || {}).agg || null, capoluoghi: ris, fonte: 'MET Norway (ECMWF)' };

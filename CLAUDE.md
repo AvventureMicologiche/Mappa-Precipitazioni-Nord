@@ -182,6 +182,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le pagine meteo con la foto nostra fino allo zoom 10 (3/11/2026, scheda 116)**: `fotoSat` nelle 89 pagine di zona e di paese, Esri a un quarto da vicino
 - **Le pagine «adesso» delle città, prima ondata: 24 capoluoghi (4/11/2026, scheda 118 bis)**: `/<regione>/adesso/<città>/`, `CITTA_ADESSO`, pluviometri vicini cotti ogni mattina, `sitemap-adesso-citta.xml`
 - **La previsione di riserva quando MET manda il JSON tagliato (4/11/2026, scheda 118 bis)**: `riserva` in `perPunto`, 12 ore senza data, 5 minuti nella cache normale, niente chiamate in più a MET
+- **La riserva per tutti i punti quando MET risponde 503, e i guasti che non moltiplicano piu' le chiamate (4/11/2026 sera, scheda 122)**: copia normale tenuta 12 ore (`X-Fresca-Fino`, `X-Giorno`, `X-Buona`), errori ricordati 2 minuti, aree tenute anche con errori; schermo blu e mappa grigia
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

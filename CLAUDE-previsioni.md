@@ -882,3 +882,54 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   decimali, cache sull'Expires, molto sotto i 20 al secondo; un blocco sarebbe 403 o 429, non un 200 tagliato. Non
   usato: If-Modified-Since (con la cache sull'Expires cambierebbe poco).
 
+## La riserva per tutti i punti quando MET risponde 503, e i guasti che non moltiplicano piu' le chiamate (4/11/2026 sera, scheda 122)
+
+- **Cosa succedeva.** La sera del 4/11 MET Norway rispondeva **503** («servizio non funzionante»: un guasto suo, non un
+  blocco, che sarebbe 403, ne' un «troppe richieste», che sarebbe 429; [StatusCodes](https://docs.api.met.no/doc/StatusCodes))
+  a una parte delle richieste, a intermittenza. Visto dalla 120 mentre girava un reel: 18:55 la Toscana buona; ~19:05
+  etichette «--°» per piu' di 30 s, nessuna scheda, mappa grigia; 19:10 Certaldo 502 «MET Norway 503». Visto dalla
+  122: 19:29 Certaldo buona; 19:36 `capoluoghi=toscana` con 4 citta' su 14 in 503; 19:56 `capoluoghi=italia` 3,2 s
+  con la sola Aosta in 503. Spia sui log dalle 19:35 alle 19:56 (`wrangler pages deployment tail <id> --format json`,
+  passiva, non chiama MET): 53 richieste di previsioni, 5 in 502 e **9 abbandonate** dal visitatore prima della
+  risposta. Prima delle 18:55 non si sa: la funzione non tiene log, il pannello di Cloudflare chiede il suo accesso.
+- **Cosa vedeva chi usava il sito** (simulato in Chrome senza finestra con le risposte d'errore finte, nessuna chiamata):
+  coi paesi in errore la foto della regione senza niente sopra, il banner fermo su «METEO…» e nessuna scheda (la scheda
+  si apre solo coi dati del primo paese, `veApri`); con anche i capoluoghi in errore la mappa GRIGIA coi confini e
+  «Previsioni non disponibili» (la vista non si disegna). Aprendo le previsioni, lo schermo blu di `apre-italia` per
+  3-4 secondi (suo, 19:55): l'area `italia` con anche una sola citta' in errore non restava in cache e ogni visitatore
+  aspettava che la funzione richiedesse a MET tutte e 29 le citta'.
+- **E il guasto moltiplicava le chiamate a MET.** Gli errori non si tenevano in cache e la mappa richiede i paesi
+  falliti dopo 15 e 30 s (`veChiedi`, fino a 3 volte): una visita della Toscana chiedeva 143 paesi tre volte, **429
+  chiamate a MET in mezzo minuto**, anche con le copie buone di mezz'ora prima (la riserva della 118 bis copriva solo
+  i punti singoli). Le aree con errori, senza l'area di prima in cache, richiedevano a MET tutte le citta' a ogni
+  visita. Il tetto di MET e' 20 richieste al secondo per tutto il sito
+  ([TermsOfService](https://docs.api.met.no/doc/TermsOfService)): due visitatori durante un guasto ci arrivavano. Le
+  riprese della 120 non hanno causato il 503.
+- **Il rimedio** (suo «sì, procedi»), solo `functions/api/previsioni.js`, `index.html` non cambia:
+  1. **L'ultima buona fa da riserva per tutti i punti** (`perPunto`, anche i `?punti=` delle etichette): la copia
+     normale resta in cache 12 ore (`TIENI_S`) con tre intestazioni: `X-Fresca-Fino` (l'Expires di MET, fra 10 minuti e
+     un'ora come prima), `X-Giorno` (bug 11: la copia di ieri non passa per fresca) e `X-Buona` (quando era buona). Se
+     MET sbaglia si risponde con la copia, `riserva: 1` e `guasto`, rimessa fresca 5 minuti (`RISERVA_USA_S`), mai oltre
+     12 ore da quando era buona. Prende il posto della seconda chiave della 118 bis (`cache.previsioni/riserva?…`, non
+     si scrive piu'). La chiave del punto non ha piu' la data, cosi' la copia di ieri copre anche dopo mezzanotte.
+  2. **Un errore senza copia si ricorda 2 minuti** (`ERRORE_S`): i tentativi della mappa e gli altri visitatori non
+     richiamano MET.
+  3. **Nelle aree la citta' che sbaglia tiene quella di prima** (`previsioniDi`, da `prima`, fino a 12 ore dalla sua
+     scadenza) e l'area si tiene SEMPRE: con errori o riserve fresca 2 minuti e poi «vecchia» come prima (daCache:
+     quella di prima subito, il ricalcolo dietro chiede a MET solo le citta' senza previsione valida); senza nessuna
+     citta' 2 minuti e mai vecchia. Cache-Control al browser 120 s anche quando c'e' una riserva.
+- **Chiamate a MET**: uguali in tempi normali (si chiede solo dopo l'Expires). Durante un guasto: la visita della
+  Toscana da 429 a 143 (una per paese ogni 5 minuti; i tentativi a 15 e 30 s non chiamano), capoluoghi toscani con 4
+  citta' in 503 da 14 a 4 ogni 2 minuti, area tutta in errore da 14 a ogni tentativo a 14 ogni 2 minuti.
+  **Sottorichieste**: un punto singolo 4 invece di 5, i gruppi `?punti=` 45 al massimo come prima (tetto 50).
+- **Prove senza rete** (scratchpad della 122): `prova-122.mjs` (cache finta che rispetta max-age, orologio finto,
+  MET finto buono, 503, tagliato, appeso; lo stesso giro sul codice di prima e su quello nuovo: 47 righe di casi, fra
+  cui la mezzanotte e il limite delle 12 ore) e `simula-nuovo.mjs` (la mappa vera in Chrome senza finestra, le
+  richieste a `/api/previsioni` servite dal codice nuovo con MET finto): +31 minuti con MET in 503 la Toscana si vede
+  identica a MET buono, 28 etichette coi gradi, scheda di Firenze aperta, banner pieno, una chiamata a MET per punto.
+  Foto in `immagini\scheda-122\`.
+- Scartati: richiedere MET subito (chiamate in piu', regola sua), cache piu' lunga dell'Expires (previsioni vecchie in
+  tempi normali), celle piu' grandi per le etichette (MET corregge la temperatura con la quota del punto).
+- ⚠️ **Da sapere, non toccato**: a cache fredda una vista di regione chiede a MET ~140 paesi in 2-3 secondi (una ventina
+  di `?punti=` insieme, 6 alla volta per chiamata): per quei secondi sopra i 20 al secondo. Nessun 429 visto.
+
