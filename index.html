@@ -104,6 +104,11 @@
   <meta name="theme-color" content="#1b3f6e">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 4/11/2026 (scheda 121): la foto in testa alla scheda «Iscriviti» del computer. E' uno sfondo CSS di una scheda
+     nascosta finche' non parte la vetrina (`prevetrina`), e il browser non scarica gli sfondi delle cose nascoste:
+     senza questa riga la foto arriverebbe dopo la scheda. Solo sopra i 600 px, dove la scheda c'e'.
+     ⚠️ DEVE STARE DOPO IL VIEWPORT: prima, il telefono la valuta sulla larghezza finta di 980 e la scarica (misurato). -->
+<link rel="preload" as="image" href="/archie-bosco.webp" media="(min-width:601px)">
 <title>Mappa Pluviometrica Italia: piogge e precipitazioni misurate</title>
 <!-- 13/10/2026: Leaflet dal NOSTRO dominio (stessa versione 1.9.4, copiata da unpkg in lib/): un collegamento a un sito
      esterno in meno all'apertura, che su un telefono con poca rete vale qualche decimo di secondo, e niente dipendenza da unpkg -->
@@ -965,37 +970,31 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
   transition:background .2s, box-shadow .2s;
 }
 #channel-logo:hover{background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.20);}
-/* Archie festeggia al passaggio del mouse: "tada" una tantum, niente loop */
-@keyframes archieTada{
-  0%{transform:scale(1);}
-  10%,20%{transform:scale(.92) rotate(-4deg);}
-  30%,50%,70%{transform:scale(1.1) rotate(4deg);}
-  40%,60%{transform:scale(1.1) rotate(-4deg);}
-  80%{transform:scale(1) rotate(0);}
-  100%{transform:scale(1);}
-}
-#channel-logo:hover .ch-ava{animation:archieTada .85s ease;}
-/* ⚠️ LA FACCIA E' DA 104 DAL 6/9/2026, e non e' un vezzo: allargando la
-   scheda a 414 la colonna del nome e' cresciuta di 46 px e quelli sono
-   diventati aria. Con la faccia da 104 la colonna torna a 268 e il blocco
-   e' pieno. */
-#channel-logo .ch-ava{
-  width:104px;height:104px;border-radius:50%;flex:none;
-  border:2px solid #1b3f6e;object-fit:cover;background:#f3efe6;
-}
-/* Le righe che esistono solo nella scheda «Iscriviti». La classe `v-iscr` sta
-   solo in QUESTO markup: quando parte la vetrina l'innerHTML viene riscritto e
-   quelle classi spariscono da sole, quindi la scheda col video non cambia di
-   un pixel. Testo grande e righe attaccate: la versione con le tre righe
-   piccole e distanziate lasciava un buco bianco in mezzo alla scheda. */
-#channel-logo .v-alto.v-iscr{align-items:center;}
-#channel-logo .v-occhio.v-iscr{font-size:12px;margin-bottom:3px;}
+/* ── La scheda «Iscriviti» (4/11/2026, scheda 121, sua scelta «la A») ──
+   La foto di Archie nel bosco in testa, il bollo «Canale YouTube» a cavallo del bordo, sotto tutto CENTRATO: nome,
+   «La mappa è un progetto / gratuito e libero» (l'a capo e' suo), «Sostienici con un like e un'iscrizione» (le
+   parole della cassetta dei video), bottone. Prima c'era la faccia tonda da 104 a sinistra con tre righe a bandiera
+   accanto: «le 3 righe superiori non hanno la simmetria». Le classi qui sotto stanno solo in QUESTO markup: quando
+   parte la vetrina l'innerHTML viene riscritto e spariscono da sole, la scheda col video non cambia di un pixel.
+   La foto esce dal riquadro bianco coi margini negativi (-12 e -13 = l'imbottitura di #channel-logo), cosi' il
+   contenitore resta quello della vetrina e non serve nessuna classe sul contenitore da mettere e togliere.
+   `archie-bosco.webp` e' un ritaglio 828x208 (doppia densita') di data/vetrine/archie-instagram.jpg, 32 KB. */
+#channel-logo .v-foto-iscr{position:relative;height:104px;margin:-12px -13px 0;border-radius:12px 12px 0 0;
+  background:#4a5a3a url(/archie-bosco.webp) center/cover no-repeat;}
+#channel-logo .v-bollo{position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;white-space:nowrap;line-height:1.2;
+  background:#fff;border-radius:14px;padding:5px 12px 5px 10px;box-shadow:0 2px 6px rgba(0,0,0,.18);
+  font-size:11.5px;font-weight:800;letter-spacing:.9px;color:#FF0000;text-transform:uppercase;}
+/* Il carattere e' scritto qui apposta: la scheda sta dentro la mappa e senza questa riga prende l'Arial di Leaflet
+   (misurato); il mockup approvato era in Segoe UI. */
+#channel-logo .v-corpo-iscr,#channel-logo .v-bollo{font-family:'Segoe UI',Arial,sans-serif;}
+#channel-logo .v-corpo-iscr{padding-top:20px;text-align:center;}
+#channel-logo .v-t1{font-size:16.5px;font-weight:700;color:#1b3f6e;line-height:1.28;margin-top:6px;}
+#channel-logo .v-t2{font-size:15px;font-weight:600;color:#3a5576;line-height:1.3;margin-top:4px;}
 /* ⚠️ QUESTA MISURA NON COMANDA: piu' sotto c'e' un'altra regola sul
    nome, e in CSS vince l'ultima. Il corpo vero si cambia li'. */
 #channel-logo .v-nome{font-size:23px;line-height:1.02;color:#1b3f6e;letter-spacing:-.3px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;font-weight:900;}
-/* 4/11/2026 (scheda 119): «Questo sito è gratuito» nel blu del nome e piu' deciso; prima era grigio da 13,5 */
-#channel-logo .v-sotto{font-size:15.5px;font-weight:700;color:#1b3f6e;margin-top:5px;line-height:1.15;}
 /* ⚠️ LA REGOLA CHE COMANDA sul nome del canale: e' l'ultima, quindi vince
    su quella scritta piu' in alto.
    ~~21 e non 23 (31/8/2026)~~ — 21 era giusto quando la colonna era larga
@@ -1004,21 +1003,10 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    margine, su UNA riga.
    ⚠️ NON si sale a 24: ne chiede 267,7 su 268, restano 0,3 px, e i
    caratteri resi altrove escono un filo piu' larghi.
-   ⚠️ Sotto i 900 px la scheda torna a 368 e la faccia a 80: li' la colonna
-   e' di nuovo 249 e il nome torna a 21, nel blocco @media piu' sotto. */
+   ⚠️ Sotto i 900 px la scheda torna a 368 e il nome torna a 21, nel blocco @media piu' sotto.
+   Dal 4/11/2026 (scheda 121) il nome sta a tutta larghezza sotto la foto, centrato: lo spazio c'e' in abbondanza. */
 #channel-logo .v-nome{font-size:23px;}
-/* Il ringraziamento sta SOTTO, a tutta larghezza: nella colonna stretta
-   andrebbe a capo quattro volte e la scheda diventerebbe una colonna
-   sbilenca. ⚠️ Quando parte la vetrina l'innerHTML di #channel-logo viene
-   riscritto, quindi questa riga sparisce da sola: la scheda col video non
-   cambia di un pixel. */
-/* 4/11/2026 (scheda 119, suo: «non c'e' mai simmetria»): due righe di lunghezza uguale CENTRATE, come il bottone
-   sotto, nel blu e nel peso del nome; prima era un paragrafo a bandiera grigio da 14,5. */
-#channel-logo .v-grazie{margin-top:9px;padding-top:9px;
-  border-top:1px solid rgba(27,63,110,.14);
-  font-size:17px;line-height:1.3;color:#1b3f6e;font-weight:800;text-align:center;}
-#channel-logo .v-grazie b{color:#1b3f6e;font-weight:800;}
-#channel-logo .v-btn.v-iscr{font-size:17px;margin-top:9px;padding:9px 0 10px;
+#channel-logo .v-btn.v-iscr{font-size:17px;margin-top:11px;padding:9px 0 10px;
   font-family:'Segoe UI Black','Arial Black','Segoe UI',Arial,sans-serif;}
 
 /* ── Pillola canale (schermi piccoli) ──
@@ -1147,10 +1135,7 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
 @media (max-width:900px){
   #channel-logo{width:368px;}
   #channel-logo .v-cop{width:130px;height:73px;}
-  /* Con la scheda stretta torna stretta anche la scheda del canale: con la
-     faccia da 104 la colonna del nome scende a 227 px e «Avventure
-     Micologiche» va a capo. Misurato a 800 px. */
-  #channel-logo .ch-ava{width:80px;height:80px;}
+  /* Con la scheda stretta il nome torna a 21 (era cosi' anche con la faccia tonda, tolta il 4/11/2026, scheda 121). */
   #channel-logo .v-nome{font-size:21px;}
 }
 #channel-logo .v-dx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;}
@@ -2019,17 +2004,15 @@ html.apre-prev #fonte-tag{visibility:hidden !important}
     <a href="https://www.youtube.com/@avventuremicologiche" target="_blank"
        onclick="try{gtag('event','click_youtube',{pulsante:'box-desktop'})}catch(e){}"
        id="channel-logo" class="prevetrina">
-      <div class="v-alto v-iscr">
-        <img src="/archie-avatar.webp" alt="Archie" class="ch-ava">
-        <div class="v-dx">
-          <div class="v-occhio v-iscr"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div>
-          <div class="v-nome">Avventure Micologiche</div>
-          <div class="v-sotto">Questo sito è gratuito</div>
-        </div>
+      <!-- 4/11/2026 (scheda 121, sua scelta «la A», con le parole della cassetta dei video): foto di Archie nel bosco
+           in testa, bollo a cavallo del bordo, sotto tutto centrato. L'a capo di «La mappa è un progetto / gratuito e
+           libero» e' suo. Niente numeri, che invecchiano (scheda 119). -->
+      <div class="v-foto-iscr" role="img" aria-label="Archie nel bosco"><div class="v-bollo"><svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg> Canale YouTube</div></div>
+      <div class="v-corpo-iscr">
+        <div class="v-nome">Avventure Micologiche</div>
+        <div class="v-t1">La mappa è un progetto<br>gratuito e libero</div>
+        <div class="v-t2">Sostienici con un like e un'iscrizione</div>
       </div>
-      <!-- 4/11/2026 (scheda 119, sue parole): niente piu' numeri, che invecchiano («5.700 pluviometri», «1.000 analisi»).
-           Due righe lunghe uguali, centrate sopra il bottone centrato: l'a capo e' deciso qui. -->
-      <div class="v-grazie">Se ti è stato utile, clicca:<br>lascia un like e iscriviti</div>
       <div class="v-btn v-iscr">ISCRIVITI</div>
     </a>
     <!-- Rete di sicurezza del `prevetrina`. Sta QUI, fuori dal blocco della

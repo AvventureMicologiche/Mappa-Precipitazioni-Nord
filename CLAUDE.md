@@ -144,6 +144,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La barra delle citta': solo pluviometri veri, niente scritta finta all'apertura, niente barra senza citta' (4/11/2026, scheda 118)**: `stima(s)`, `scrivi()` aspetta `capoluoghi`, `serve()` con `NV.length`
 - **La cassetta dei video, le previsioni sempre sotto i numeri e la pillola un'analisi su quattro (4/11/2026, scheda 119)**: icona YouTube col pallino, `/api/canale` dal feed del canale, `_turnoPillola`, giallo anche col radar
 - **Il video nuovo entra in un quarto d'ora, e la vetrina si accende col feed (4/11/2026 sera, scheda 120 bis)**: `FRESCA_S` 900 e `BROWSER_S` 120, `primaDiDa`, `aspettaFeed`, `_canaleFatto`
+- **La scheda «Iscriviti» del computer con la foto di Archie in testa (4/11/2026 sera, scheda 121)**: `.v-foto-iscr` e `archie-bosco.webp`, parole della cassetta, Segoe UI contro l'Arial di Leaflet, preload dopo il viewport
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

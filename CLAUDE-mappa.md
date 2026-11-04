@@ -1745,3 +1745,32 @@ in fondo a `index.html`.
 - **IN PRODUZIONE il 4/11/2026 alle 18:14** (`c540949faa`, deploy `63251fac`): index online uguale al repo,
   `/api/canale` con `max-age=120`; `vetrina-feed-online-120bis.js` (le stesse prove sul sito vero, vetrina.json finto
   intercettato) dà gli stessi risultati della prova in locale, senza errori.
+
+## La scheda «Iscriviti» del computer con la foto di Archie in testa (4/11/2026 sera, scheda 121)
+
+- **Sue parole**: «mi migliori l'iscriviti pc della vetrina? le 3 righe superiori non hanno la simmetria e comunque
+  la grafica è veramente brutta». Quattro alternative con le stesse parole (mockup statico
+  `D:\video youtube\claudio\mockup-iscriviti-121\index.html`, immagine `immagini\iscriviti-pc-alternative-121.png`):
+  A foto in testa, B tutta centrata con Archie che sporge, C come prima con le righe centrate, D foto a tutta scheda.
+  **Sua scelta: la A, con le parole della cassetta dei video**: «La mappa è un progetto / gratuito e libero» (l'a
+  capo è suo) e «Sostienici con un like e un'iscrizione». Spariscono «Questo sito è gratuito» e «Se ti è stato utile,
+  clicca: lascia un like e iscriviti».
+- **Come è fatta**: in testa `.v-foto-iscr`, 104 px, sfondo `/archie-bosco.webp` (ritaglio 828x208 di
+  `data/vetrine/archie-instagram.jpg`, Archie dietro il tronco nel bosco, 32 KB); esce dal riquadro bianco coi margini
+  negativi -12/-13 (l'imbottitura di `#channel-logo`), così il contenitore resta quello della vetrina e non serve
+  nessuna classe sul contenitore. Il bollo bianco «Canale YouTube» col logo rosso sta a cavallo del bordo della foto,
+  centrato. Sotto, TUTTO CENTRATO: nome (23 px, 21 sotto i 900), `.v-t1` 16,5/700 blu del nome, `.v-t2` 15/600 blu
+  grigio, bottone rosso di sempre (uguale alle vetrine dei video, `margin-top` 11). Tolte la faccia tonda `.ch-ava`
+  e la sua animazione, `.v-sotto`, `.v-grazie`, `.v-alto.v-iscr`, `.v-occhio.v-iscr`: stavano solo in questo markup.
+- **Due trappole misurate**: (1) la scheda sta dentro la mappa e prende l'**Arial di Leaflet**: nel mockup era Segoe
+  UI, e con l'Arial le righe venivano più larghe e più brutte; il carattere è scritto su `.v-corpo-iscr` e `.v-bollo`.
+  (2) La foto è uno sfondo CSS di una scheda nascosta (`prevetrina`) e il browser non scarica gli sfondi delle cose
+  nascoste: c'è un `<link rel="preload" … media="(min-width:601px)">`, che **deve stare DOPO il meta viewport**: messo
+  in cima alla testa, il telefono lo valutava sulla larghezza finta di 980 e scaricava la foto per niente.
+- **Misure**: PC 414x292 (prima 414x246), 800 px 368x290; righe centrate al decimo di pixel (nome 256, «La mappa è un
+  progetto» 186, «gratuito e libero» 126, «Sostienici…» 243). Il telefono non cambia (la pillola ha il suo markup) e
+  non scarica la foto.
+- **Prova** (`prova-iscr-121.js` nello scratchpad della 121: il sito vero col solo `index.html` e la foto del worktree
+  intercettati, niente server): PC e 800 px con `sorteggio` vuoto, giro vero con `_vetrinaGira()` («Iscriviti» al suo
+  turno con la foto, le vetrine dei video prima e dopo identiche, 183 px), telefono 393 (scheda nascosta, foto non
+  scaricata). Nessun errore.
