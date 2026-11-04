@@ -54,6 +54,11 @@ jobs:
       # Riscrive anche data/paesi-zone.json, che a dati uguali esce identico.
       - name: Rigenera le zone piogge cotte
         run: node .github/scripts/genera-pagine-zona-piogge.js
+      # 4/11/2026 (scheda 118 bis): le pagine «adesso» delle citta' (/<regione>/adesso/<citta>/) hanno scritti dentro i
+      # millimetri dei pluviometri vicini (ieri, 7 e 30 giorni), dai file gia' qui e dallo stesso giorno del riepilogo
+      # della regione. SOLO=citta: solo loro, non le 21 pagine regione «adesso», e la sitemap (le loro date).
+      - name: Rigenera le citta' «adesso» cotte
+        run: SOLO=citta node .github/scripts/genera-pagine-adesso.js
       - name: Cambiate?
         id: diff
         run: |

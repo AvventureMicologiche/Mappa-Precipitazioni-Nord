@@ -89,7 +89,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [], meteoPaesiB: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [], meteoPaesiB: [], adessoCitta: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: dataDi('index.html', '2026-10-31'), freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
@@ -128,6 +128,19 @@ function scriviSitemap(SITO, RADICE) {
   for (const d of fs.readdirSync(RADICE).sort()) {
     if (c_e(path.join(d, 'adesso', 'index.html')))
       voci.push({ loc: `${SITO}/${d}/adesso/`, lastmod: LASTMOD.adesso || NASCITA_REGIONI, freq: 'weekly', pri: '0.8' });
+  }
+  // Le pagine «adesso» delle CITTA' (4/11/2026, scheda 118 bis, genera-pagine-adesso.js): /<regione>/adesso/<citta>/,
+  // nella LORO sitemap (sitemap-adesso-citta.xml) per misurarle da sole. Hanno i millimetri dei pluviometri vicini
+  // scritti dentro e il giro del mattino le riscrive: la data e' quella dei numeri (data-ultimo), come le regioni cotte.
+  for (const d of fs.readdirSync(RADICE).sort()) {
+    const ad = path.join(RADICE, d, 'adesso');
+    if (!fs.existsSync(ad) || !fs.statSync(ad).isDirectory()) continue;
+    for (const s of fs.readdirSync(ad).sort()) {
+      const rel = path.join(d, 'adesso', s, 'index.html');
+      if (!c_e(rel)) continue;
+      const m = /data-ultimo="(\d{4}-\d\d-\d\d)"/.exec(fs.readFileSync(path.join(RADICE, rel), 'utf8'));
+      fam.adessoCitta.push({ loc: `${SITO}/${d}/adesso/${s}/`, lastmod: m ? m[1] : (LASTMOD.adessoCitta || LASTMOD.adesso), freq: 'daily', pri: '0.8' });
+    }
   }
   // Le pagine funghi restano a 0.7: la priorita' e' solo un peso RELATIVO
   // dentro il sito, e la pagina regione e' quella che vogliamo far uscire
@@ -244,7 +257,7 @@ function scriviSitemap(SITO, RADICE) {
                  localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml',
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
                  meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoPaesi: 'sitemap-meteo-paesi.xml',
-                 meteoPaesiB: 'sitemap-meteo-paesi-b.xml' };
+                 meteoPaesiB: 'sitemap-meteo-paesi-b.xml', adessoCitta: 'sitemap-adesso-citta.xml' };
   const figlie = [];
   let totale = 0;
   for (const k of Object.keys(NOMI)) {

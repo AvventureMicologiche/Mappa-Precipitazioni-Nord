@@ -779,3 +779,63 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   telefono 15 → 0; Val Brembana PC 30 → 6, telefono 12 → 2; Paluzza PC 22 → 4, telefono 12 → 0. 290 script compilati, 0
   errori.
 
+## Le pagine «adesso» delle città, prima ondata: 24 capoluoghi (4/11/2026, scheda 118 bis)
+
+- Sua decisione del 4/11 («Due tappe», scheda GA4 5): le «adesso» per i capoluoghi di provincia, ~20-25 prima e il resto
+  dopo due settimane di misura. Le 21 regioni sono la famiglia che rende di più (Search Console 18/10-3/11: 20.460 viste,
+  275 clic, 7,3 clic a pagina a 7 giorni contro 0,2 delle meteo), ma chi cerca «sta piovendo a Cagliari» o «dove sta
+  piovendo adesso a Roma» finiva sulla regione. Poi il suo «sì, procedi» sulla proposta.
+- **Le 24 città** (`CITTA_ADESSO` in `genera-pagine-adesso.js`, nomi di `data/capoluoghi.json`): le sei regioni dove le
+  «adesso» hanno preso più clic (Sardegna 53, Liguria 37, Puglia 34, Sicilia 32, Campania 17, Veneto 14), dentro ognuna
+  le città più grandi con un pluviometro vero vicino, più Roma (la più cercata per nome). Liguria Genova, Savona, La
+  Spezia, Imperia; Veneto Venezia, Verona, Padova; Lazio Roma; Campania Napoli, Salerno, Caserta; Puglia Bari, Lecce,
+  Taranto, Foggia; Sicilia Palermo, Catania, Messina, Siracusa, Ragusa; Sardegna Cagliari, Sassari, Olbia, Nuoro.
+  **La seconda tappa** (dopo ~18/11, quando lo dice lui) si aggiunge in `CITTA_ADESSO`: il resto si fa da solo
+  (pagine, pillole, sitemap, giro del mattino). Rimasti fuori apposta: Andria, Barletta, Brindisi, Trapani, Agrigento,
+  Carbonia, Oristano, Tempio e le altre regioni.
+- **Indirizzo** `/<regione>/adesso/<città>/` (`/liguria/adesso/la-spezia/`), percorso «Mappa pluviometrica › Liguria ›
+  Radar adesso › Genova». Titolo «Radar meteo Genova: sta piovendo adesso? In diretta» (la forma delle ricerche vere),
+  og:title «Sta piovendo a Genova? Il radar in diretta».
+- **Roba SUA in ogni pagina**, se no Google la tiene fuori come copia della regione:
+  1. il radar inquadrato sulla città (±0,75° e ±1,05°: zoom ~8,5 al PC, ~7,5 al telefono), punto rosso sulla città, il «−»
+     scende di tre tocchi; nomi sopra la foto: prima i comuni intorno sopra i 10.000 abitanti (`nomiCitta`);
+  2. la riga viva sulla città (`scriviRigaCitta` in `lib/pagina-adesso.js`): «Sta piovendo a Genova: pioggia debole.»,
+     «A Sassari adesso non piove. La pioggia più vicina è a ovest, a circa 30 km.» (sotto gli 8 km «Piove però a pochi
+     chilometri, verso sud»), «Tempo asciutto a Padova e in tutte le zone vicine.», «Entro le 11:40 la pioggia potrebbe
+     arrivare a…» / «Entro le 11:40 potrebbe smettere.»;
+  3. la previsione della città (`chiediQui`): adesso, le prossime 12 ore (con la % se ≥10), oggi, domani e dopodomani; la
+     barra che scorre porta le sue ore («METEO GENOVA · PROSSIME ORE»). È la STESSA domanda della sua carta nella pagina
+     regione (stesso punto e quota), quindi il server la ha già in cache: nessuna richiesta nuova a MET;
+  4. **i millimetri dei pluviometri vicini SCRITTI NELL'HTML** (`pluviometriVicini`, `bloccoPluviometri`): i veri entro
+     10 km, al massimo 5, dal più vicino (se nessuno, i 3 più vicini entro 20 km: Olbia, Siracusa), con distanza, quota e
+     ieri / 7 / 30 giorni, più la frase «Ieri, 3 novembre, al pluviometro Lecce, in città, sono caduti 51 mm…» e il più
+     bagnato dei vicini. Dai file giornalieri già nel repo (zero chiamate alle fonti), con le regole dei riepiloghi:
+     esclusi dalla mappa fuori (`lib-escluse.js`), 60% dei giorni per i totali, **giorno = quello del riepilogo della
+     regione** (fine dei 7 giorni di `data/riepiloghi/<regione>.json`), così la città e la regione dicono lo stesso
+     «ieri». ⚠️ Qui i giorni a stima (`om`, ICON-2I) NON entrano nelle somme (la pagina dice «misurati»): contano come
+     giorni mancanti. Fuori anche le stazioni senza pioggia (`mm` sempre null) e quelle coi tre trattini (Palermo UIR).
+     `data-ultimo` sulla frase = il giorno dei numeri; se la pagina è rimasta indietro il browser scrive «Il 3 novembre»
+     al posto di «Ieri, 3 novembre,» e la data nella colonna.
+- **Cotte ogni mattina**: in `pagine-regione.yml`, dopo le zone piogge, `SOLO=citta node .github/scripts/genera-pagine-adesso.js`
+  (solo le città, non le 21 regioni «adesso», più la sitemap). `SOLO=citta:genova` = una sola, sitemap non toccata.
+- **Collegamenti**: nelle «adesso» delle sette regioni il blocco «Il radar città per città» sotto «Apri il radar sulla
+  mappa completa» (pillole «Radar Genova →», evento `apri_adesso_citta` {da, posto}); ogni città ha le pillole delle altre
+  della sua regione, il link alla regione «adesso» e l'elenco delle altre 23. Eventi della pagina città: gli stessi della
+  regione (`adesso_radar`, `adesso_barra`, `adesso_cerca`) con in più `citta`.
+- **Sitemap a parte** `sitemap-adesso-citta.xml` (famiglia `adessoCitta` in `genera-sitemap.js`), lastmod = `data-ultimo`
+  della pagina, come le regioni cotte. `pagine-lastmod.json`: `adesso` e `adessoCitta` al 4/11. `VERSIONE_JS` 13.
+- **La casella «Cerca» subito sotto il radar**, nelle città e nelle 21 regioni (sua correzione dopo averle viste in
+  locale: è uno degli strumenti migliori per portare altri clic, e nelle città stava in fondo; poi «sì, anche lì» per le
+  regioni, dove stava dopo il tasto della mappa e le pillole). Etichetta delle città «☀️ Previsioni meteo in un'altra
+  località» (sua: la parola «località», non «posto»; niente h2), delle regioni «☀️ Cerca una località» come prima.
+  Al telefono 393: città da ~3.700 px a ~1.100 (1,3 schermate), regioni da 1,9 a 1,3-1,4 schermate. Le pagine meteo
+  (zona e paese) l'avevano già in cima (0,3-0,5 schermate), ma aprono la scheda nella pagina e non hanno etichetta.
+- Le 21 «adesso» regione cambiano in `?v=13`, nella casella spostata sotto il radar (e il numero dei pluviometri della
+  Toscana, 360 → 370), più il blocco delle pillole nelle sette con città.
+- Prova in locale (server del worktree sulla 9035, `prova-citta-118bis.js` nello scratchpad della 118 bis, scatti in
+  `immagini\118-bis\`): 24 città + 4 regioni × PC 1366 e telefono 393, radar, foto, riga viva, previsione con 12 ore e 3
+  giorni, barra, tabella, niente sbordi. Gli unici guasti erano dell'API: 502 a raffica con 4 browser insieme (anche
+  nelle carte delle regioni) e **Padova**, dove MET rimandava per quel punto una risposta TAGLIATA a 26 KB («Unterminated
+  string in JSON»), anche nella carta di Padova della pagina Veneto: la pagina scrive «Previsione non disponibile in
+  questo momento» e passa da sola quando MET rinfresca.
+

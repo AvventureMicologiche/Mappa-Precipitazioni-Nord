@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 12;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026)
+const VERSIONE_JS = 13;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -145,6 +145,113 @@ function nomiDi(r) {
     .filter(c => !visti.has(c.n) && visti.add(c.n));
 }
 
+/* ── LE PAGINE «ADESSO» DELLE CITTA' (4/11/2026, scheda 118 bis) ──────────────────────────────────────────────────────
+   Sua decisione del 4/11 («Due tappe»): le «adesso» per i capoluoghi di provincia, prima ~20-25, il resto dopo due
+   settimane di misura. Le 21 regioni sono la famiglia che rende di piu' su Google (18/10-3/11: 20.460 viste, 275 clic),
+   ma chi cerca «sta piovendo a Cagliari» o «dove sta piovendo adesso a Roma» finiva sulla pagina della regione. La
+   PRIMA ONDATA sono le sei regioni dove le «adesso» hanno preso piu' clic (Sardegna 53, Liguria 37, Puglia 34, Sicilia
+   32, Campania 17, Veneto 14), dentro ognuna le citta' piu' grandi con un pluviometro vero vicino, piu' Roma (la citta'
+   piu' cercata per nome). Indirizzo /<regione>/adesso/<citta>/, sitemap a parte (sitemap-adesso-citta.xml).
+   ⚠️ OGNI PAGINA HA ROBA SUA, se no Google la tiene fuori come copia della regione: il radar inquadrato sulla citta' e la
+   riga viva su di lei (lib/pagina-adesso.js, D.qui), la previsione della citta' ora per ora, e i millimetri dei
+   pluviometri piu' vicini (ieri, 7 e 30 giorni) SCRITTI NELL'HTML. Per questi la pagina e' «cotta» come le regioni e le
+   zone piogge: il giro del mattino (pagine-regione.yml, SOLO=citta) la riscrive coi numeri nuovi.
+   Le citta' si scrivono col nome di data/capoluoghi.json; quelle della seconda tappa si aggiungono qui. */
+const CITTA_ADESSO = {
+  liguria: ['Genova', 'Savona', 'La Spezia', 'Imperia'],
+  veneto: ['Venezia', 'Verona', 'Padova'],
+  lazio: ['Roma'],
+  campania: ['Napoli', 'Salerno', 'Caserta'],
+  puglia: ['Bari', 'Lecce', 'Taranto', 'Foggia'],
+  sicilia: ['Palermo', 'Catania', 'Messina', 'Siracusa', 'Ragusa'],
+  sardegna: ['Cagliari', 'Sassari', 'Olbia', 'Nuoro'],
+};
+const { slug, bello } = require('./lib-nomi.js');
+function cittaAdesso(k) {
+  return (CITTA_ADESSO[k] || []).map(n => {
+    const c = (CAPOLUOGHI[k] || []).find(x => x.n === n);
+    if (!c) throw new Error(`citta' «${n}» non trovata in capoluoghi.json (${k})`);
+    return { n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, s:c.s, reg:k, slug:slug(c.n) };
+  });
+}
+
+/* I PLUVIOMETRI VICINI E I LORO MILLIMETRI. Dai file giornalieri gia' nel repo (nessuna rete, nessuna chiamata alle
+   fonti), con le regole dei riepiloghi (genera-riepiloghi.js): le stesse cartelle della regione (REGIONI), i pluviometri
+   esclusi dalla mappa fuori (lib-escluse.js), un totale su 7 o 30 giorni vale solo con il 60% dei giorni in cui la rete
+   ha il file. ⚠️ IL GIORNO E' QUELLO DELLA PAGINA REGIONE: «ieri» e' l'ultimo giorno completo del suo riepilogo
+   (data/riepiloghi/<regione>.json, la fine dei 7 giorni), cosi' le due pagine dicono lo stesso giorno. ⚠️ Qui si scrive
+   «misurati» al pluviometro: i giorni a stima (stazione `om`, i buchi tappati con ICON-2I) non entrano nelle somme e
+   contano come giorni mancanti (nelle zone piogge entrano nei periodi lunghi perche' sono medie dichiarate).
+   Si prendono i pluviometri veri entro 10 km, al massimo 5, dal piu' vicino; se non ce n'e' nessuno, i tre piu' vicini
+   entro 20 km (Olbia: Golfo Aranci, 13 km), e la pagina dice dove sono. */
+const { leggi, giorniIndietro } = require('./lib-giorni.js');
+const { escluse, escluso } = require('./lib-escluse.js');
+let ESCLUSE = null;
+const COPERTURA = k => k === 'friuli' ? 0.8 : 0.6;   // come COPERTURA_REGIONE di genera-riepiloghi.js
+const kmDa = (a, b) => { const r = Math.PI / 180, x = (b.lon - a.lon) * r * Math.cos((a.lat + b.lat) / 2 * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * 6371; };
+function ultimoGiornoDi(k) {
+  try {
+    const p = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'riepiloghi', k + '.json'), 'utf8')).periodi || {};
+    return (p['7'] || p['1'] || {}).ultimo || null;
+  } catch (e) { return null; }
+}
+const fileCache = {};
+function staz(dir, g) { const c = dir + '/' + g; return c in fileCache ? fileCache[c] : (fileCache[c] = leggi(dir, g)); }
+function pluviometriVicini(r, c) {
+  if (!ESCLUSE) ESCLUSE = escluse(RADICE);
+  const fine = ultimoGiornoDi(r.k);
+  if (!fine) return null;
+  const gg = [fine].concat(giorniIndietro(fine, 29));   // 30 giorni, gg[0] = «ieri»
+  // i candidati: veri (non `om`) in almeno uno degli ultimi 7 giorni, non esclusi, entro 20 km
+  const cand = new Map();
+  for (const d of r.dirs) for (let i = 0; i < 7; i++) for (const s of staz(d, gg[i]) || []) {
+    const id = d + ':' + s.id;
+    // solo chi misura la pioggia: le stazioni con la sola temperatura hanno mm sempre null (Palermo UIR)
+    if (cand.has(id) || s.om || s.mm == null || s.lat == null || escluso(ESCLUSE, r.k, [s.id, s.n])) continue;
+    const km = kmDa(c, s);
+    if (km <= 20) cand.set(id, { id:s.id, dir:d, n:bello(s.n), lat:s.lat, lon:s.lon, q:s.q == null ? null : s.q, km });
+  }
+  let scelti = [...cand.values()].sort((a, b) => a.km - b.km || String(a.id).localeCompare(String(b.id)));
+  // due cartelle della stessa regione possono avere lo stesso pluviometro (gemelle, ~1 km): si tiene il primo
+  scelti = scelti.filter((p, i) => !scelti.slice(0, i).some(q => q.dir !== p.dir && kmDa(p, q) < 1));
+  const somma = (p, n) => {
+    let t = 0, visti = 0, disponibili = 0;
+    for (let i = 0; i < n; i++) {
+      const tutte = staz(p.dir, gg[i]); if (!tutte) continue;
+      disponibili++;
+      const s = tutte.find(x => String(x.id) === String(p.id));
+      if (!s || s.mm == null || s.om) continue;   // niente dato o stima: giorno mancante
+      t += s.mm; visti++;
+    }
+    return visti && visti >= disponibili * COPERTURA(r.k) ? Math.round(t * 10) / 10 : null;
+  };
+  for (const p of scelti) { p.m1 = somma(p, 1); p.m7 = somma(p, 7); p.m30 = somma(p, 30); }
+  // un pluviometro con tre trattini (quasi muto nel mese: Palermo UIR) non dice niente e resta fuori
+  scelti = scelti.filter(p => p.m1 != null || p.m7 != null || p.m30 != null);
+  const vicini = scelti.filter(p => p.km <= 10);
+  return { fine, lista: (vicini.length ? vicini : scelti).slice(0, vicini.length ? 5 : 3) };
+}
+
+// numeri e date scritti come nelle pagine meteo: «0», «2,2», «162»; «1,6 km», «13 km»; «3 novembre»
+const mmT = n => n == null ? '—' : n === 0 ? '0' : n < 10 ? n.toFixed(1).replace('.', ',') : String(Math.round(n));
+const kmT = k => k < 10 ? k.toFixed(1).replace('.', ',') + ' km' : Math.round(k) + ' km';
+const dataT = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('it-IT', { day:'numeric', month:'long', timeZone:'UTC' });
+const aCitta = n => (/^[Aa]/.test(n) ? 'ad ' : 'a ') + n;
+const agenziaDi = r => r.agenziaCorta || String(r.agenzia || '').replace(/\s*\(.*\)$/, '');
+
+// i nomi sopra la foto della pagina citta': la cartina e' sulla citta' (zoom ~8), quindi prima i comuni intorno sopra i
+// 10.000 abitanti, dal piu' popoloso, poi i nomi della regione (citta' e capoluoghi d'Italia, esteri)
+const PAESI_POP = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n').map(r => r.split('|'))
+  .filter(p => p.length >= 6 && +p[5] >= 10000).map(p => ({ n:p[0], lat:+(+p[1]).toFixed(3), lon:+(+p[2]).toFixed(3), pop:+p[5] }))
+  .sort((a, b) => b.pop - a.pop);
+function nomiCitta(r, c) {
+  const visti = new Set([c.n]);
+  const vicini = PAESI_POP.filter(p => Math.abs(p.lat - c.lat) < 1.3 && Math.abs(p.lon - c.lon) < 1.8).slice(0, 60)
+    .map(p => ({ n:p.n, lat:p.lat, lon:p.lon }));
+  return vicini.concat(cittaDi(r).map(x => ({ n:x.n, lat:x.lat, lon:x.lon })), nomiDi(r))
+    .filter(p => !visti.has(p.n) && visti.add(p.n));
+}
+
 const attr = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const nomeCortoDi = r => r.nomeTitolo || r.nome;
 const linkPrev = c => `${SITO}/previsioni/?r=${c.reg}&amp;pl=${c.lat},${c.lon}&amp;pn=${encodeURIComponent(c.n)}`;
@@ -247,6 +354,38 @@ const STILE_ADESSO = `
   .rb-testa{font-size:14.5px;} .rb-testa .quando{font-size:13.5px;}}
 `;
 
+// lo stile in piu' delle pagine citta' (4/11/2026, scheda 118 bis): la previsione della citta' e la tabella dei pluviometri
+const STILE_CITTA = `
+.cq{background:var(--grigio);border:1px solid var(--bordo);border-radius:14px;padding:14px 16px 12px;margin:12px 0 8px;}
+.cq-ora{display:flex;align-items:center;gap:14px;min-height:62px;}
+.cq-ora .cit-ic{font-size:46px;margin:0;}
+.cq-ora .cit-t{margin:0;}
+.cq-ora .cit-cond{margin:2px 0 0;}
+.cq-ore{display:flex;gap:8px;overflow-x:auto;padding:12px 0 8px;margin:10px 0 2px;border-top:1px solid var(--bordo);scrollbar-width:thin;}
+.cq-h{flex:0 0 auto;min-width:58px;text-align:center;font-size:13.5px;color:#445;background:#fff;border:1px solid var(--bordo);border-radius:10px;padding:6px 5px 7px;}
+.cq-h b{display:block;color:var(--blu-scuro);font-size:13px;}
+.cq-h .ic{display:block;font-size:22px;line-height:1.35;}
+.cq-h .t{font-weight:800;color:var(--blu-scuro);font-size:15px;}
+.cq-h .mmw{display:block;margin:1px 0 0;font-size:12.5px;}
+.cq-h .pc{display:block;font-size:11.5px;color:#5a6b7d;}
+.cq-gg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px;}
+.cq-g{background:#fff;border:1px solid var(--bordo);border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.5;}
+.cq-g b{color:var(--blu-scuro);}
+.cq-g .mmw{color:#1f6fd1;font-weight:700;white-space:nowrap;}
+/* il link alle previsioni sulla mappa: la pillola delle carte della regione, che li' sta dentro un <a> (qui e' lui il link) */
+.cq .cit-vai{display:inline-block;text-decoration:none;}
+.cq .cit-vai:hover{background:#eef4fd;}
+.pc-frase{font-size:16px;line-height:1.55;margin:6px 0 10px;}
+.pc-tab{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0 6px;}
+.pc-tab th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5a6b7d;text-align:right;padding:6px 8px;border-bottom:2px solid var(--bordo);white-space:nowrap;}
+.pc-tab th:first-child,.pc-tab td:first-child{text-align:left;}
+.pc-tab td{padding:8px;border-bottom:1px solid var(--bordo);text-align:right;font-variant-numeric:tabular-nums;font-weight:800;color:var(--blu-scuro);white-space:nowrap;}
+.pc-tab td:first-child{font-weight:700;color:#1f2d3a;white-space:normal;}
+.pc-tab td small{display:block;font-weight:500;color:#5a6b7d;font-size:12.5px;}
+@media(max-width:640px){.cq{padding:12px 12px 10px;} .cq-gg{gap:6px;} .cq-g{font-size:13px;padding:7px 7px;}
+  .pc-tab{font-size:14px;} .pc-tab td,.pc-tab th{padding:7px 4px;} .pc-tab th{font-size:11px;letter-spacing:0;}}
+`;
+
 // ⚠️ 31/10/2026 (scheda 104 bis, suo «tutte e sei»): «RADAR METEO <REGIONE>» IN TESTA.
 // Search Console 19-30/10: 11.729 viste e l'1,5% di clic. «radar meteo <regione>» ci
 // vede al 9°-21° posto, e su Google tutti quelli sopra cominciano il titolo cosi'.
@@ -286,6 +425,13 @@ function pagina(r) {
 <p>Il radar dice dove piove adesso. Quanta acqua è caduta davvero lo misurano i pluviometri a terra, millimetro per millimetro: ieri, negli ultimi 7, 20 e 30 giorni.</p>
 <a class="ieri-btn" href="${SITO}/${r.k}/">
   <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>I millimetri di ${stazDi(r, RADICE)} pluviometri${HA_ZONE.has(r.k) ? ', zona per zona' : ''}</small><i>→</i></a>
+`;
+  // le pagine delle citta' (4/11/2026, scheda 118 bis): dalla regione alla citta', subito sotto il radar
+  const cittaPag = cittaAdesso(r.k);
+  const radarCitta = !cittaPag.length ? '' : `
+<h2>Il radar città per città</h2>
+<p class="mv-nota">Il radar centrato sulla città, la previsione ora per ora e i millimetri dei pluviometri più vicini.</p>
+<div class="mv">${cittaPag.map(c => `<a class="mv-c" href="${SITO}/${r.k}/adesso/${c.slug}/" onclick="try{gtag('event','apri_adesso_citta',{da:'pagina-${r.k}-adesso',posto:'${c.slug}'})}catch(e){}">Radar ${c.n}</a>`).join('')}</div>
 `;
   const radarPluvio = r.senzaPagina
     ? `<p>Il radar guarda la pioggia in quota: può vedere gocce che evaporano prima di toccare terra, o perderla dietro le montagne.</p>`
@@ -348,19 +494,20 @@ ${briciolaHtml(briciola)}
   <div class="rb-stato" id="stato">Radar europeo OPERA, risoluzione 2 km.</div>
 </div>
 
-<div class="pila">
-  <a class="ieri-btn" href="${SITO}/?r=${r.k}&amp;radar=ora"
-     onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-adesso-mappa'})}catch(e){}">
-    <b>Apri il radar sulla mappa completa</b><small>Ingrandisci, spostati, guarda le regioni vicine</small><i>→</i></a>
-</div>
-
-<h2>Previsioni meteo ${r.prep} ${r.nome}</h2>
 <div class="pv-cerca">
   <label for="pv-in">☀️ Cerca una località</label>
   <div class="pv-riga"><input id="pv-in" type="search" placeholder="Paese o città" autocomplete="off" enterkeyhint="search"><button id="pv-vai" type="button">Cerca</button></div>
   <ul class="pv-lista" id="pv-lista"></ul>
   <p class="nota">Tutti i comuni d'Italia: si aprono le previsioni a 7 giorni, ora per ora.</p>
 </div>
+
+<div class="pila">
+  <a class="ieri-btn" href="${SITO}/?r=${r.k}&amp;radar=ora"
+     onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-adesso-mappa'})}catch(e){}">
+    <b>Apri il radar sulla mappa completa</b><small>Ingrandisci, spostati, guarda le regioni vicine</small><i>→</i></a>
+</div>
+${radarCitta}
+<h2>Previsioni meteo ${r.prep} ${r.nome}</h2>
 
 <h3 class="cit-tit">Previsioni nelle città ${gen}</h3>
 <p class="nota" id="pv-quando">Previsioni del modello ECMWF via MET Norway. La pioggia che cade adesso la mostra il radar qui sopra.</p>
@@ -406,19 +553,217 @@ ${navAltre('regione')}
 `;
 }
 
+/* ── LA PAGINA DI UNA CITTA' (4/11/2026, scheda 118 bis): vedi CITTA_ADESSO qui sopra ── */
+function titoloCitta(c) {
+  return [`Radar meteo ${c.n}: sta piovendo adesso? In diretta`, `Radar meteo ${c.n}: sta piovendo adesso?`, `Radar meteo ${c.n}: piove adesso?`].find(t => t.length <= 62);
+}
+function descrCitta(c) {
+  const a = aCitta(c.n);
+  return [`Sta piovendo ${a}? Radar meteo in diretta su ${c.n} e dintorni: la pioggia di adesso, le ultime 2 ore, la previsione e i pluviometri vicini.`,
+          `Sta piovendo ${a}? Radar meteo in diretta, la pioggia delle ultime 2 ore, la previsione e i pluviometri vicini.`,
+          `Sta piovendo ${a}? Il radar meteo in diretta e i pluviometri vicini.`].find(t => t.length <= 158);
+}
+// il blocco dei pluviometri, scritto coi numeri di oggi; data-ultimo = il giorno dei numeri (la sitemap lo legge)
+function bloccoPluviometri(r, c, pv) {
+  const IN = aCitta(c.n);
+  if (!pv || !pv.lista.length) return `
+<h2>La pioggia caduta ${IN}</h2>
+<p class="pc-frase">Nei 20 km intorno ${IN} non c'è un pluviometro della rete ${attr(agenziaDi(r))} con dati recenti. Quanta pioggia è caduta nel resto della regione lo dice la pagina <a href="${SITO}/${r.k}/">Dove ha piovuto ${r.prep} ${r.nome}</a>.</p>
+`;
+  const L0 = pv.lista, giorno = dataT(pv.fine);
+  // dove sta il pluviometro: «in città» sotto il chilometro, se no la distanza dal centro
+  const dove = p => p.km < 1 ? 'in città' : `a ${kmT(p.km)} dal centro`;
+  const p0 = L0.find(p => p.m1 != null) || L0[0];
+  const frase = [];
+  if (p0.m1 == null) frase.push(`<span class="pc-ieri">Il ${giorno}</span> il pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, non ha mandato dati.`);
+  else frase.push(`<span class="pc-ieri">Ieri, ${giorno},</span> al pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, ` + (p0.m1 > 0 ? `sono caduti <b>${mmT(p0.m1)} mm</b>.` : `non è caduta pioggia.`));
+  const lunghi = [p0.m7 != null ? `negli ultimi 7 giorni <b>${mmT(p0.m7)} mm</b>` : '', p0.m30 != null ? `negli ultimi 30 giorni <b>${mmT(p0.m30)} mm</b>` : ''].filter(Boolean);
+  if (lunghi.length) frase.push(lunghi.join(', ').replace(/^n/, 'N') + '.');
+  // il piu' bagnato dei vicini, se non e' il primo
+  const bagnato = L0.filter(p => p !== p0 && p.m1 != null && p.m1 > (p0.m1 || 0)).sort((a, b) => b.m1 - a.m1)[0];
+  if (bagnato) frase.push(`Fra i pluviometri vicini il più bagnato è stato <b>${attr(bagnato.n)}</b>, ${dove(bagnato)}, con <b>${mmT(bagnato.m1)} mm</b>.`);
+  if (p0.km > 10) frase.push(`Più vicino ${IN} non ci sono pluviometri della rete con dati recenti.`);
+  const righe = L0.map(p => `<tr><td>${attr(p.n)}<small>${dove(p)}${p.q != null ? ' · ' + Math.round(p.q) + ' m' : ''}</small></td><td>${mmT(p.m1)}</td><td>${mmT(p.m7)}</td><td>${mmT(p.m30)}</td></tr>`).join('\n');
+  return `
+<h2>La pioggia caduta ${IN}</h2>
+<p class="pc-frase" data-ultimo="${pv.fine}">${frase.join(' ')}</p>
+<table class="pc-tab">
+<thead><tr><th>${L0.length > 1 ? 'I pluviometri più vicini' : 'Il pluviometro più vicino'}</th><th>Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
+<tbody>
+${righe}
+</tbody>
+</table>
+<p class="nota">Millimetri misurati a terra (dati ${attr(agenziaDi(r))}), fino al ${giorno}. Un trattino: quel pluviometro non ha mandato abbastanza dati nel periodo.</p>
+<a class="ieri-btn" href="${SITO}/${r.k}/">
+  <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>I millimetri di ${stazDi(r, RADICE)} pluviometri${HA_ZONE.has(r.k) ? ', zona per zona' : ''}</small><i>→</i></a>
+`;
+}
+/* ⚠️ LA CASELLA «CERCA» SUBITO SOTTO IL RADAR (4/11/2026, sua correzione dopo averle viste in locale): per lui la casella
+   e' uno degli strumenti migliori per portare altri clic, e in fondo alla pagina non la vedeva nessuno. Spostata sotto il
+   radar anche nelle 21 pagine regione (suo «sì, anche lì»), dove stava dopo il tasto della mappa e le pillole delle citta'. Chi arriva per una
+   citta' deve trovare subito il modo di cercarne un'altra. Etichetta «Previsioni meteo in un'altra località» (sua: la
+   parola «località», non «posto»); niente h2, il titolo e' l'etichetta. Qui il commento e non nella pagina: i commenti
+   delle pagine sono pubblici. */
+function paginaCitta(r, c) {
+  const gen = GEN2[r.k], pv = pluviometriVicini(r, c), IN = aCitta(c.n);
+  const qui = { n:c.n, lat:c.lat, lon:c.lon, q:c.q, reg:r.k };
+  // citta = [la citta'] per il codice delle pagine regione (nomi davanti, «entro le…»); qui = il modo citta'
+  const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:IN, gen, sito:SITO, citta:[qui], qui, confine:confineDi(r),
+    foto:FOTO, nomi:nomiCitta(r, c) }).replace(/</g, '\\u003c');
+  const url = `${SITO}/${r.k}/adesso/${c.slug}/`, ga = `pagina-${r.k}-adesso-${c.slug}`;
+  const briciola = [['Mappa pluviometrica', SITO + '/'], [r.nome, `${SITO}/${r.k}/`], ['Radar adesso', `${SITO}/${r.k}/adesso/`], [c.n, null]];
+  const stessa = cittaAdesso(r.k).filter(x => x.slug !== c.slug);
+  const altre = LISTA.filter(x => x.k !== r.k).flatMap(x => cittaAdesso(x.k).map(y => ({ ...y, rn:x.nome })));
+  const p0 = pv && pv.lista[0];
+  const pluvioFrase = p0 ? ` ${IN.charAt(0).toUpperCase() + IN.slice(1)} il pluviometro più vicino è <b>${attr(p0.n)}</b>, ${p0.km < 1 ? 'in città' : 'a ' + kmT(p0.km) + ' dal centro'}${p0.q != null ? ', a ' + Math.round(p0.q) + ' m di quota' : ''}.` : '';
+  return `<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${attr(titoloCitta(c))}</title>
+<meta name="description" content="${attr(descrCitta(c))}">
+<link rel="canonical" href="${url}">
+${briciolaJson(briciola)}
+<meta property="og:title" content="${attr(`Sta piovendo ${IN}? Il radar in diretta`)}">
+<meta property="og:description" content="${attr(descrCitta(c))}">
+<meta property="og:image" content="${SITO}/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="${url}">
+<meta property="og:type" content="website">
+<!-- Google tag: il config solo sul dominio vero, come le pagine regione -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if (/(^|\\.)avventuremicologiche\\.it$/.test(location.hostname)) {
+    gtag('config', '${GA_ID}');
+  }
+</script>
+<link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css">
+<style>
+${STILE_BASE}
+${STILE_NUOVO}
+${STILE_IERI}
+${RILIEVO}${STILE_ADESSO}${STILE_CITTA}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${BRIC_CSS}${TESTATA_CSS}</style>
+</head>
+<body>
+${testata({ sito: SITO, canale: CANALE, reg: r.k, ga, attiva: '' })}
+<main>
+${briciolaHtml(briciola)}
+<h1>Radar meteo ${c.n}: sta piovendo adesso?</h1>
+<p class="sotto"><b>Radar della pioggia in diretta su ${c.n}</b> e dintorni: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
+<div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar su ${c.n}…</span></div>
+
+<div class="rb">
+  <div class="rb-testa"><span class="vivo"></span><b>IN DIRETTA</b><span class="quando" id="quando">carico il radar…</span></div>
+  <div id="mappa"></div>
+  <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${attr(c.n.toUpperCase())}</em></b><span>PROSSIME ORE</span></div><div class="t"></div></div>
+  <div class="tasti">
+    <a class="forte" data-id="ora">Adesso</a>
+    <a data-id="due">▶ −2 ore</a>
+    <a data-id="prev">+40 min</a>
+  </div>
+  <div class="rb-scala">
+    <div class="rb-barra"></div>
+    <div class="rb-num"><span>0,5</span><span>3</span><span>6</span><span>12</span><span>24</span><span>50 mm/h</span></div>
+    <div class="rb-par"><span>pioviggine</span><span>pioggia forte</span></div>
+  </div>
+  <div class="rb-stato" id="stato">Radar europeo OPERA, risoluzione 2 km.</div>
+</div>
+
+<div class="pv-cerca">
+  <label for="pv-in">☀️ Previsioni meteo in un'altra località</label>
+  <div class="pv-riga"><input id="pv-in" type="search" placeholder="Paese o città" autocomplete="off" enterkeyhint="search"><button id="pv-vai" type="button">Cerca</button></div>
+  <ul class="pv-lista" id="pv-lista"></ul>
+  <p class="nota">Tutti i comuni d'Italia: si aprono le previsioni a 7 giorni, ora per ora.</p>
+</div>
+
+<div class="pila">
+  <a class="ieri-btn" href="${SITO}/?r=${r.k}&amp;radar=ora"
+     onclick="try{gtag('event','apri_mappa',{da:'${ga}-mappa'})}catch(e){}">
+    <b>Apri il radar sulla mappa completa</b><small>Ingrandisci, spostati, guarda tutta la regione</small><i>→</i></a>
+</div>
+
+<h2>Previsioni meteo ${IN}</h2>
+<div class="cq" id="cq">
+  <div class="cq-ora"><span class="cit-ic" id="cq-ic"></span><div><div class="cit-t" id="cq-t">&nbsp;</div><div class="cit-cond" id="cq-c">Sto chiedendo la previsione…</div></div></div>
+  <div class="cq-ore" id="cq-ore"></div>
+  <div class="cq-gg" id="cq-gg"></div>
+  <a class="cit-vai" id="cq-vai" href="${linkPrev(qui)}">7 giorni, ora per ora →</a>
+</div>
+<p class="nota" id="pv-quando">Previsioni del modello ECMWF via MET Norway. La pioggia che cade adesso la mostra il radar qui sopra.</p>
+${bloccoPluviometri(r, c, pv)}
+<h2>Il radar nelle altre città</h2>
+${stessa.length ? `<div class="mv">${stessa.map(x => `<a class="mv-c" href="${SITO}/${r.k}/adesso/${x.slug}/">Radar ${x.n}</a>`).join('')}</div>\n` : ''}<p class="mv-nota">Tutta la regione: <a href="${SITO}/${r.k}/adesso/">Radar meteo ${r.nome}, dove sta piovendo adesso</a>.</p>
+<ul class="reg-lista">
+${altre.map(x => `<li><a href="${SITO}/${x.reg}/adesso/${x.slug}/">${x.n}</a></li>`).join('\n')}
+</ul>
+
+<div class="noioso">
+<h2>Come funziona il radar</h2>
+<p>Il radar meteo manda un fascio di onde radio e misura quanto ne torna indietro dalle gocce: più il colore è acceso, più forte piove.
+Le immagini sono quelle della rete radar europea OPERA, a 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 5 minuti
+e la pagina lo carica da sola. La riga in alto guarda il radar nel punto di ${c.n} e intorno: dice se piove in città, dov'è la pioggia più vicina e se nei prossimi 40 minuti potrebbe arrivare.</p>
+<h2>Le ultime 2 ore e i prossimi 40 minuti</h2>
+<p>«▶ −2 ore» fa scorrere i fotogrammi delle ultime due ore: si vede da dove arriva la pioggia e dove sta andando. «+40 min»
+sposta le macchie di adesso nella direzione in cui si muovono, per i prossimi quaranta minuti. Non è una previsione del tempo, vale solo per l'ora che viene.</p>
+<h2>Radar e pluviometri: perché a volte non coincidono</h2>
+<p>Il radar guarda la pioggia in quota: può vedere gocce che evaporano prima di toccare terra, o perderla dietro le montagne.
+I pluviometri la misurano a terra.${pluvioFrase}</p>
+<p><a href="${SITO}/guida/" onclick="try{gtag('event','click_guida',{pulsante:'${ga}'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni</a></p>
+${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'${ga}-fondo'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a>`, ga + '-fondo')}
+</div>
+</main>
+
+<footer>
+${navAltre('regione')}
+  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / EUMETNET OPERA (CC BY) ·
+  Previsioni: MET Norway (CC BY 4.0) ·
+  Pluviometri: ${attr(agenziaDi(r))} ·
+  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
+  <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
+  La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
+</footer>
+
+<script id="adesso-dati" type="application/json">${dati}</script>
+<script src="/lib/leaflet/1.9.4/leaflet.js"></script>
+<script src="/lib/pagina-adesso.js?v=${VERSIONE_JS}"></script>
+</body>
+</html>
+`;
+}
+const TUTTE_CITTA = () => LISTA.flatMap(r => cittaAdesso(r.k).map(c => [r, c]));
+
 if (require.main === module) {
   const senza = LISTA.filter(r => !GEN2[r.k]).map(r => r.k);
   if (senza.length) { console.error('⚠️ manca il genitivo per: ' + senza.join(', ')); process.exit(1); }
-  const SOLO = process.env.SOLO;   // SOLO=liguria: una pagina sola, per i campioni (sitemap non toccata, 28/10/2026)
-  for (const r of LISTA.filter(r => !SOLO || r.k === SOLO)) {
+  // SOLO=liguria: una pagina sola, per i campioni (sitemap non toccata, 28/10/2026). SOLO=citta (4/11/2026): solo le
+  // pagine delle citta', coi numeri nuovi, e la sitemap: e' il giro del mattino (pagine-regione.yml). SOLO=citta:genova:
+  // una citta' sola, sitemap non toccata
+  const SOLO = process.env.SOLO || '';
+  const soloCitta = /^citta(:|$)/.test(SOLO), unaCitta = soloCitta ? SOLO.split(':')[1] || '' : '';
+  if (!soloCitta) for (const r of LISTA.filter(r => !SOLO || r.k === SOLO)) {
     const html = pagina(r);
     const nc = cittaDi(r).length;
     if (!nc) { console.error(`⚠️ ${r.k}: nessuna città in capoluoghi.json`); process.exit(1); }
     scrivi(path.join(RADICE, r.k, 'adesso', 'index.html'), senzaCommenti(html), true);
     console.log(`  /${r.k}/adesso/  ${nc} città · ${Math.round(Buffer.byteLength(html) / 1024)} KB · «${titoloDi(r)}» (${titoloDi(r).length})`);
   }
-  if (SOLO) console.log(`(SOLO=${SOLO}: sitemap non toccata)`);
-  else console.log(`\n${LISTA.length} pagine scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
+  let nCitta = 0;
+  if (!SOLO || soloCitta) for (const [r, c] of TUTTE_CITTA().filter(([, c]) => !unaCitta || c.slug === unaCitta)) {
+    const html = paginaCitta(r, c), pv = pluviometriVicini(r, c);
+    scrivi(path.join(RADICE, r.k, 'adesso', c.slug, 'index.html'), senzaCommenti(html), true);
+    nCitta++;
+    console.log(`  /${r.k}/adesso/${c.slug}/  ${Math.round(Buffer.byteLength(html) / 1024)} KB · «${titoloCitta(c)}» (${titoloCitta(c).length}) · `
+      + (pv && pv.lista.length ? `${pv.lista.length} pluv. al ${pv.fine}: ` + pv.lista.map(p => `${p.n} ${kmT(p.km)} [${mmT(p.m1)}|${mmT(p.m7)}|${mmT(p.m30)}]`).join(', ')
+        : '⚠️ nessun pluviometro'));
+  }
+  if (unaCitta && !nCitta) { console.error(`⚠️ nessuna città «${unaCitta}» in CITTA_ADESSO`); process.exit(1); }
+  if (SOLO && !(soloCitta && !unaCitta)) console.log(`(SOLO=${SOLO}: sitemap non toccata)`);
+  else console.log(`\n${soloCitta ? 0 : LISTA.length} pagine regione e ${nCitta} pagine città scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
 }
 
-module.exports = { LISTA, confineDi };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
+module.exports = { LISTA, confineDi, CITTA_ADESSO };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
