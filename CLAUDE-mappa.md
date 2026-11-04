@@ -1742,3 +1742,6 @@ in fondo a `index.html`.
   finto con i chiodini a domani): feed su → chiodini in vetrina (log «(dopo il feed)»); senza feed → «Iscriviti»;
   video finto non nel feed → «Iscriviti»; file vero → nessuna attesa, giro uguale a prima con i chiodini dentro;
   sorteggio vero coi chiodini a domani → chiodini nel giro; telefono → «canale1» = chiodino curato. Nessun errore.
+- **IN PRODUZIONE il 4/11/2026 alle 18:14** (`c540949faa`, deploy `63251fac`): index online uguale al repo,
+  `/api/canale` con `max-age=120`; `vetrina-feed-online-120bis.js` (le stesse prove sul sito vero, vetrina.json finto
+  intercettato) dà gli stessi risultati della prova in locale, senza errori.
