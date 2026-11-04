@@ -1714,3 +1714,5 @@ in fondo a `index.html`.
   e se la cima del quiz non entra con 46 px nella cassetta, l'elenco degli altri video si accorcia di quel tanto, fino
   a un video e mezzo. `quiz-in-vista-119.js`: 46 px di quiz a 412x760, 393x720, 360x780 e al PC 1366x768, 39 a 360x640
   (elenco al minimo), 68 a 393x852, 130 al PC 1440x900; ISCRIVITI sempre senza scorrere.
+- **IN PRODUZIONE il 4/11/2026** (`5451187ba7`, deploy `b010eb33`, scheda 120): `quiz-in-vista` col sito vero dà gli
+  stessi numeri della prova in locale, su tutti e 7 gli schermi.
