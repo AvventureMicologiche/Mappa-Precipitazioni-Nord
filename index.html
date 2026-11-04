@@ -1059,6 +1059,8 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
      pillola cresce di 17 px invece di 8, cioe' l'opposto di un +5%. */
   #channel-pill .cp-t{color:#fff;font-size:13.5px;font-weight:700;line-height:1.25;flex:1;}
   #channel-pill .cp-t small{display:block;font-weight:400;font-size:10.5px;opacity:.85;margin-top:1px;}
+  /* i titoli veri di YouTube nel giro della pillola (4/11/2026, scheda 119): due righe al massimo, come i ganci */
+  #channel-pill .cp-g{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   #channel-pill .cp-yt{flex:none;display:flex;align-items:center;}
   /* LA COPERTINA AL POSTO DELL'AVATAR nella pillola della vetrina
      (20/9/2026). Il telefono e' il 90% del traffico e la copertina la
@@ -5663,7 +5665,10 @@ function loadData(pastDate,nowDate,labelPeriodo){
     // La vetrina passa alla successiva a ogni analisi chiesta, dalla seconda in poi:
     // la prima resta quella sorteggiata all'apertura (vedi `_vetrinaGira`). La
     // riprova automatica non conta, non e' una scelta dell'utente.
-    if(_analisiChieste++>0){ try{ if(window._vetrinaGira) window._vetrinaGira(); }catch(e){} }
+    // window._analisiN: lo legge il turno della pillola al telefono (_turnoPillola, 4/11/2026): `_analisiChieste` qui
+    // dentro non si vede da fuori
+    window._analisiN=++_analisiChieste;
+    if(_analisiChieste>1){ try{ if(window._vetrinaGira) window._vetrinaGira(); }catch(e){} }
   }
   _archivio.reset();   // contatori della riserva archivio: nuovi a ogni caricamento
   _stime={};           // giorni coperti da stime: si ricontano a ogni analisi
@@ -12937,9 +12942,44 @@ function loadDefaultMarkers(){
     b.removeAttribute('title');
     b.classList.remove('vetrina','v-fb','v-ig');
   }
+  /* ⚠️ IL GIRO DELLA PILLOLA AL TELEFONO (4/11/2026, scheda 119, suo). Sotto i numeri, al telefono, c'e' il tasto giallo
+     delle previsioni (vedi «LE PREVISIONI SEMPRE» nell'invito); UN'ANALISI SU QUATTRO (la quarta, l'ottava…; la prima
+     della visita mai) al suo posto torna la pillola, con un giro suo: gli ULTIMI 3 VIDEO del canale (/api/canale, lo
+     stesso della cassetta dei video), il quiz e «Iscriviti». Il primo giro parte da una voce a caso, poi la successiva.
+     Un video che sta anche nel sorteggio di data/vetrina.json usa la sua voce curata (copertina e gancio scelti da lui);
+     gli altri titolo e copertina di YouTube, due righe al massimo. Senza il feed: i video del sorteggio.
+     ⚠️ Al computer non cambia niente: la scheda grande gira come prima, e il giro della vetrina al telefono non si fa
+     piu' (la pillola e' nascosta dal giallo fino al suo turno). */
+  function telefonoV(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }
+  window._turnoPillola=function(){ var n=window._analisiN||0; return telefonoV() && n>0 && n%4===0; };
+  var _tel={i:-1};
+  function vetrinaDaVideo(c, cfg){
+    var vv=(cfg&&cfg.vetrine)||{}, att=(cfg&&cfg.sorteggio)||[], idDi=window._casIdDi||function(){ return ''; };
+    for(var j=0;j<att.length;j++){ var v=vv[att[j]]; if(v && v.tipo!=='gioco' && idDi(v.link)===c.id) return v; }
+    var t=(window._casTitolo||String)(c.titolo), nuovo=Date.now()-Date.parse(c.uscita)<14*864e5;
+    var oc=(nuovo?'Nuovo ':'')+(c.short?'short':'video'); oc=oc.charAt(0).toUpperCase()+oc.slice(1);
+    var e=t.replace(/[&<>"]/g,function(x){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]; });
+    return { link:'https://youtu.be/'+c.id, id:c.id, facebook:'', instagram:'', fino:'2099-12-31T23:59:59Z',
+      copertina:'https://i.ytimg.com/vi/'+c.id+'/mqdefault.jpg', occhiello:oc, occhielloP:oc,
+      gancio1:e, gancio2:'', gancioP:'<span class="cp-g">'+e+'</span>', ganciopx:15, canale:'Avventure Micologiche' };
+  }
+  function giroTelefono(){
+    var cfg=_cfgMontata||RIPIEGO, vv=(cfg&&cfg.vetrine)||{}, voci=[], VT={};
+    var feed=(window._canaleVideo&&window._canaleVideo())||[];
+    feed.slice(0,3).forEach(function(c,i){ var k='canale'+(i+1); VT[k]=vetrinaDaVideo(c,cfg); voci.push(k); });
+    if(!voci.length) (cfg.sorteggio||[]).forEach(function(k){ var v=vv[k]; if(v && v.tipo!=='gioco' && voci.length<3){ VT[k]=v; voci.push(k); } });
+    if(vv.quiz){ VT.quiz=vv.quiz; voci.push('quiz'); }
+    voci.push('iscriviti');
+    _tel.i = _tel.i<0 ? Math.floor(Math.random()*voci.length) : (_tel.i+1)%voci.length;
+    var k=voci[_tel.i];
+    ripristinaPillola();                   // la pillola di partenza e' gia' «Iscriviti»
+    window._vetrinaQuale=k;
+    if(k!=='iscriviti') costruisci(k, VT, []);
+  }
   // Chiamata da loadData a ogni analisi dalla seconda in poi (sta fuori da questo
   // blocco, quindi passa da window). Con una vetrina sola, o inchiodata, non fa niente.
   window._vetrinaGira=function(){
+    if(telefonoV()){ if(window._turnoPillola()) try{ giroTelefono(); }catch(e){ if(window.console&&console.warn) console.warn('[vetrina] giro del telefono fallito', e); } return; }
     if(!montata || !_cfgMontata || !_giro.scelte || _giro.scelte.length<2) return;
     if((_cfgMontata.mostra||'alterna')!=='alterna') return;
     try{
@@ -12957,6 +12997,8 @@ function loadDefaultMarkers(){
       var _b=document.getElementById('channel-logo');
       if(_b) _boxOrig={html:_b.innerHTML, href:_b.getAttribute('href'), onclick:_b.getAttribute('onclick')};
       costruisci(cfg.mostra||'alterna', cfg.vetrine||{}, cfg.sorteggio||[]);
+      window._vetrinaCfg=cfg;              // la legge la cassetta dei video (quiz, copertine curate), 4/11/2026
+      if(telefonoV()) giroTelefono();      // al telefono la pillola parte gia' da una voce del giro suo
       if(window.console&&console.info) console.info('[vetrina] '+da);
     }catch(e){ if(window.console&&console.warn) console.warn('[vetrina] montaggio fallito', e); }
     // ⚠️ SCOPRIRE LA SCHEDA E' L'ULTIMA COSA, E SI FA SEMPRE — anche se
@@ -16744,16 +16786,20 @@ body.inv-prev-on #channel-pill{display:none !important}
 <script>
 (function(){
   var el=null, visto=false;
-  function usate(){ try{ return localStorage.getItem('prevUsate')==='1'; }catch(e){ return true; } }   // senza memoria: come chi le ha gia' usate
   function telefono(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }   // dove c'e' la pillola del video
-  window._invitoNelGiro=function(){ return telefono()&&usate(); };   // lo chiede la vetrina, vedi «L'INVITO ALLE PREVISIONI NEL GIRO»
+  /* ⚠️ LE PREVISIONI SEMPRE (4/11/2026, scheda 119, suo): anche col RADAR, al telefono e al computer. Al telefono tutte
+     le analisi tranne UNA SU QUATTRO, che e' il turno della pillola (vedi «IL GIRO DELLA PILLOLA AL TELEFONO» nella
+     vetrina: gli ultimi 3 video del canale, il quiz, «Iscriviti»). Prima, al telefono, l'invito era sempre solo per chi
+     le previsioni non le aveva mai aperte (`prevUsate`) e per gli altri una voce del giro della vetrina; col radar mai.
+     I numeri del 31/10-3/11 al telefono: invito toccato 84 volte, pillola dei video 21. */
+  window._invitoNelGiro=function(){ return false; };   // non e' piu' una voce del giro della vetrina
   function serve(){
     if(window._prevAttivo) return false;
-    var st=window._storicoStato&&window._storicoStato(); if(!st||!st.analisi) return false;
-    var b=document.body.classList; if(b.contains('modo-radar')||b.contains('modo-boschi')||b.contains('modo-prev')) return false;
-    if(!telefono()) return true;                   // sopra i 600 px sempre: li' la pillola del video non c'e'
-    if(!usate()) return true;                      // chi le previsioni non le ha mai aperte: sempre l'invito
-    return window._vetrinaQuale==='previsioni';    // gli altri: quando nel giro della vetrina tocca a lui
+    var b=document.body.classList; if(b.contains('modo-boschi')||b.contains('modo-prev')) return false;
+    var radar=b.contains('modo-radar');            // col radar il riquadro c'e' anche senza un'analisi
+    var st=window._storicoStato&&window._storicoStato(); if(!radar&&(!st||!st.analisi)) return false;
+    if(!telefono()||radar) return true;            // al computer e col radar sempre
+    return !(window._turnoPillola&&window._turnoPillola());   // al telefono: tranne il turno della pillola
   }
   function posto(){
     var vp=window._paeseCercato&&window._paeseCercato(); if(vp&&vp.n&&!vp.priv) return vp.n;   // la posizione del GPS non si scrive
@@ -16791,6 +16837,177 @@ body.inv-prev-on #channel-pill{display:none !important}
   }
   function avvia(){ setInterval(aggiorna,800); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
+<!-- ═══ 📺 LA CASSETTA DEI VIDEO (4/11/2026, scheda 119, mockup approvato dopo sette giri) ═══════════════
+     L'icona YouTube della testata (telefono #hdr-yt, computer la .hdr-soc di YouTube) non porta piu' dritta al canale:
+     apre la CASSETTA. Sull'icona un PALLINO ROSSO col numero dei video nuovi che la persona non ha ancora visto, che
+     lampeggia finche' non la tocca; aperta la cassetta si spegne fino al video nuovo dopo (localStorage cassettaVista).
+     Dentro, dall'alto: i NUOVI (usciti da meno di 14 giorni, al massimo due, a colonne uguali, pastiglia NUOVO rossa
+     accanto a «Video · oggi», mai sulla copertina: copriva il titolo dell'anteprima); il riquadro «La mappa e' un
+     progetto gratuito e libero» col tasto ISCRIVITI che pulsa piano (alone tenue ogni 2,8 s: il rosso che si accendeva
+     «flashava»); ALTRI VIDEO a caso fra gli ultimi 10 del canale, elenco verticale con tre in vista e la barra; il QUIZ
+     in fondo in una zona sua. Telefono: sale dal basso; computer: si apre sotto l'icona, e la scheda grande a destra
+     resta com'era.
+     I video vengono DA SOLI dal feed pubblico del canale (/api/canale, functions/api/canale.js, un'ora di cache): un
+     video nuovo entra senza toccare niente. Un video che sta anche nel sorteggio di data/vetrina.json usa la sua voce
+     curata (copertina e gancio); gli altri titolo e copertina di YouTube. Sul blu il bianco e' smorzato (#e6edf6, pesi
+     600-700): pieno e in grassetto «flashava, sembrava sfocato».
+     GA: `cassetta` {azione: apri, nuovi} e i tocchi come `click_youtube` con pulsante cassetta-nuovo / -altri /
+     -iscriviti / -canale / -quiz. -->
+<style>
+.cas-host{position:relative}
+.cas-host .cas-bollo{display:block !important}   /* al telefono «body.con-sezioni #hdr-yt span» nasconde ogni span: il pallino e' un <b> */
+.cas-bollo{position:absolute;top:-7px;right:-8px;min-width:19px;height:19px;padding:0 5px;box-sizing:border-box;border-radius:10px;
+  background:#ff2424;color:#fff;border:2px solid #fff;font:800 11px/15px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-align:center;z-index:3;pointer-events:none}
+.cas-bollo:after{content:"";position:absolute;inset:-4px;border-radius:14px;border:2px solid #ff2424;animation:casOnda 1.6s ease-out infinite}
+@keyframes casOnda{0%{opacity:.9;transform:scale(.8)}100%{opacity:0;transform:scale(1.7)}}
+.cas-velo{position:fixed;inset:0;background:rgba(5,14,28,.55);z-index:9000;display:none}
+.cas-velo.on{display:block}
+.cas{position:fixed;z-index:9001;display:none;flex-direction:column;overflow:hidden;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#fff;
+  background:linear-gradient(180deg,#1d4373 0%,#15335a 55%,#102847 100%);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.cas.on{display:flex}
+@media(max-width:600px){.cas{left:0;right:0;bottom:0;max-height:90vh;border-radius:18px 18px 0 0}}
+@media(min-width:601px){.cas{top:56px;right:14px;width:420px;max-height:calc(100vh - 70px);border-radius:16px}}
+.cas-su{position:relative;height:42px;flex:none}
+.cas-maniglia{position:absolute;left:50%;top:9px;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:rgba(255,255,255,.35)}
+@media(min-width:601px){.cas-maniglia{display:none}.cas-su{height:40px}}
+.cas-su button{position:absolute;right:12px;top:6px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:16px;line-height:32px;cursor:pointer;z-index:2;padding:0}
+.cas-corpo{overflow:auto;padding:4px 16px 18px;-webkit-overflow-scrolling:touch}
+.cas-sez{display:flex;align-items:baseline;justify-content:space-between;margin:12px 0 6px}
+.cas-sez b{font-size:11.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#9fbde4}
+.cas-sez a{font-size:13px;font-weight:700;color:#e6edf6;text-decoration:none}
+.cas-cop{display:block;position:relative;aspect-ratio:16/9;border-radius:10px;background:#0b1e36 center/cover no-repeat;
+  box-shadow:0 4px 14px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.08) inset}
+.cas-yt{display:inline-block;width:15px;height:11px;vertical-align:-1px;margin-right:5px}
+.cas-nvp{display:inline-block;background:#e8202a;color:#fff;font:800 10px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.08em;padding:4px 6px 3px;border-radius:4px;margin-right:7px;vertical-align:1px;font-style:normal}
+.cas-nuovi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cas-nuovi.uno{grid-template-columns:1fr}
+.cas-n{display:block;text-decoration:none;color:#e6edf6}
+.cas-n .qd{display:block;font-size:11.5px;font-weight:600;color:#93b1d6;margin-top:9px}
+.cas-n .ti{display:block;font-size:14.5px;font-weight:600;line-height:1.3;margin-top:4px}
+.cas-iscr{margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);text-align:center}
+.cas-iscr .t1{font-size:16px;font-weight:700;line-height:1.3;color:#e6edf6}
+.cas-iscr .t2{font-size:14px;font-weight:500;line-height:1.35;color:#a9c1df;margin:4px 0 10px}
+.cas-isc{display:flex;align-items:center;justify-content:center;height:50px;border-radius:14px;box-sizing:border-box;text-decoration:none;
+  background:#e8202a;color:#fff;animation:casIsc 2.8s ease-in-out infinite}
+@keyframes casIsc{0%{box-shadow:0 0 0 0 rgba(255,90,90,.38),0 4px 14px rgba(232,32,42,.35)}
+  60%{box-shadow:0 0 0 9px rgba(255,90,90,0),0 4px 14px rgba(232,32,42,.35)}100%{box-shadow:0 0 0 0 rgba(255,90,90,0),0 4px 14px rgba(232,32,42,.35)}}
+@media(prefers-reduced-motion:reduce){.cas-isc{animation:none;box-shadow:0 4px 14px rgba(232,32,42,.35)}}
+.cas-isc b{display:flex;align-items:center;gap:8px;font:800 17px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.08em}
+.cas-isc b svg{width:22px;height:16px;flex:none}
+.cas-lista{overflow-y:auto;margin-right:-8px;padding-right:8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.4) transparent}
+.cas-lista::-webkit-scrollbar{width:4px}.cas-lista::-webkit-scrollbar-thumb{background:rgba(255,255,255,.4);border-radius:2px}
+.cas-r{display:flex;gap:12px;align-items:center;text-decoration:none;color:#e6edf6;padding:7px 0}
+.cas-r + .cas-r{border-top:1px solid rgba(255,255,255,.08)}
+.cas-r .cas-cop{flex:0 0 120px;border-radius:8px}
+.cas-r .tx{flex:1;min-width:0}
+.cas-r .qd{display:block;font-size:11.5px;font-weight:600;color:#93b1d6}
+.cas-r .ti{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;font-weight:600;line-height:1.28;margin-top:3px}
+.cas-quiz{display:flex;gap:12px;align-items:center;margin-top:12px;padding:12px;border-radius:14px;text-decoration:none;color:#3a2200;
+  background:linear-gradient(180deg,#ffd35a,#f4b41a);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.cas-quiz .cas-cop{flex:0 0 156px;border-radius:9px;box-shadow:0 2px 8px rgba(80,45,0,.3)}
+@media(max-width:380px){.cas-quiz .cas-cop{flex-basis:136px}}
+.cas-quiz .tx{flex:1;min-width:0}
+.cas-quiz .qd{display:block;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7a4a00}
+.cas-quiz .ti{display:block;font-size:17px;font-weight:800;line-height:1.15;margin-top:2px;color:#2a1800;white-space:nowrap}
+.cas-quiz .so{display:block;font-size:14.5px;font-weight:600;line-height:1.2;margin-top:1px;color:#5a3500;white-space:nowrap}
+@media(max-width:380px){.cas-quiz .ti{font-size:15.5px}.cas-quiz .so{font-size:13.5px}}
+.cas-quiz .bt{display:inline-block;margin-top:5px;padding:5px 13px;border-radius:8px;background:#2a1800;color:#ffd35a;font-size:13.5px;font-weight:800;letter-spacing:.04em}
+</style>
+<script>
+(function(){
+  var NUOVO_GIORNI=14, NUOVI_MAX=2, canale=[], velo=null, cas=null;
+  var CANALE='https://www.youtube.com/@avventuremicologiche';
+  var COP='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/main/data/vetrine/';
+  var YT='<svg class="cas-yt" viewBox="0 0 42 30" aria-hidden="true"><rect width="42" height="30" rx="7" fill="#ff2a2a"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>';
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(x){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]; }); }
+  function idDi(link){ var m=String(link||'').match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/); return m?m[1]:''; }
+  // il titolo vero di YouTube senza hashtag ed emoji (le emoji sono coppie di surrogati, piu' i simboli 2600-27BF)
+  function titolo(t){ return String(t||'').replace(/#\S+/g,'').replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,'').replace(/[☀-➿️]/g,'').replace(/\s{2,}/g,' ').replace(/[\s|·-]+$/,'').trim(); }
+  window._casIdDi=idDi; window._casTitolo=titolo;
+  window._canaleVideo=function(){ return canale; };   // lo usa anche il giro della pillola al telefono (vetrina)
+  function quando(s){
+    var t=new Date(s), ora=new Date(), g=Math.round((new Date(ora.toDateString())-new Date(t.toDateString()))/864e5);
+    if(g<=0) return t>ora ? 'oggi alle '+t.getHours() : 'oggi';
+    if(g===1) return 'ieri';
+    if(g<14) return g+' giorni fa';
+    if(g<60) return Math.round(g/7)+' settimane fa';
+    return Math.round(g/30)+' mesi fa';
+  }
+  function nuovo(c){ var t=Date.parse(c.uscita), ora=Date.now(); return ora-t<NUOVO_GIORNI*864e5 && t-ora<864e5; }
+  function cfg(){ return window._vetrinaCfg||null; }
+  // la voce curata della vetrina per quel video, se e' nel sorteggio di adesso (copertina e gancio scelti da lui)
+  function curata(id){ var c=cfg(); if(!c||!c.vetrine) return null; var s=c.sorteggio||[];
+    for(var i=0;i<s.length;i++){ var v=c.vetrine[s[i]]; if(v&&v.tipo!=='gioco'&&idDi(v.link)===id) return v; } return null; }
+  function copDi(c, grande){ var v=curata(c.id); if(v&&v.copertina) return /^https?:|\//.test(v.copertina)?v.copertina:COP+v.copertina;
+    return 'https://i.ytimg.com/vi/'+c.id+'/'+(grande?'hqdefault':'mqdefault')+'.jpg'; }
+  function titoloDi(c){ var v=curata(c.id); return v ? (v.gancio1+' '+(v.gancio2||'')).trim() : titolo(c.titolo); }
+  function ga(p,id){ return "try{gtag('event','click_youtube',{pulsante:'"+p+"',video:'"+(id||'')+"'})}catch(e){}"; }
+  // senza il feed (funzione giu', locale): i video del sorteggio della vetrina, senza «nuovi» e senza pallino
+  function videoDiRiserva(){ var c=cfg(), out=[]; if(!c||!c.vetrine) return out;
+    var ora=Date.now();   // come la vetrina: non prima di `da` (lo short programmato) e non dopo `fino`
+    (c.sorteggio||[]).forEach(function(k){ var v=c.vetrine[k], id=v&&idDi(v.link); if(v&&v.tipo!=='gioco'&&id&&!(v.da&&ora<Date.parse(v.da))&&!(v.fino&&ora>Date.parse(v.fino))) out.push({id:id, titolo:(v.gancio1+' '+(v.gancio2||'')).trim(), uscita:'', short:v.occhiello==='Short', riserva:true}); });
+    return out; }
+  function mescola(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
+  function apri(e){
+    if(e) e.preventDefault();
+    var tutti=canale.length?canale:videoDiRiserva(), N=tutti.filter(function(c){ return c.uscita&&nuovo(c); }).slice(0,NUOVI_MAX), h='';
+    var gia=N.map(function(c){ return c.id; });
+    h+='<div class="cas-su"><div class="cas-maniglia"></div><button type="button" aria-label="Chiudi">✕</button></div><div class="cas-corpo">';
+    if(N.length){
+      h+='<div class="cas-nuovi'+(N.length===1?' uno':'')+'">';
+      N.forEach(function(c){
+        h+='<a class="cas-n" href="https://youtu.be/'+c.id+'" target="_blank" rel="noopener" onclick="'+ga('cassetta-nuovo',c.id)+'"><span class="cas-cop" style="background-image:url(&quot;'+esc(copDi(c,true))+'&quot;)"></span>'
+          +'<span class="qd"><i class="cas-nvp">NUOVO</i>'+(c.short?'Short':'Video')+' · '+quando(c.uscita)+'</span><span class="ti">'+esc(titoloDi(c))+'</span></a>'; });
+      h+='</div>';
+    }
+    h+='<div class="cas-iscr"><div class="t1">La mappa è un progetto<br>gratuito e libero</div><div class="t2">Sostienici con un like e un\'iscrizione</div>'
+      +'<a class="cas-isc" href="'+CANALE+'?sub_confirmation=1" target="_blank" rel="noopener" onclick="'+ga('cassetta-iscriviti')+'"><b><svg viewBox="0 0 42 30" aria-hidden="true"><rect width="42" height="30" rx="7" fill="#fff"/><polygon points="16,7 16,23 31,15" fill="#e8202a"/></svg>ISCRIVITI</b></a></div>';
+    var altri=mescola(tutti.filter(function(c){ return gia.indexOf(c.id)<0; }));
+    if(altri.length){
+      h+='<div class="cas-sez"><b>Altri video</b><a href="'+CANALE+'/videos" target="_blank" rel="noopener" onclick="'+ga('cassetta-canale')+'">Vai al canale ›</a></div><div class="cas-lista">';
+      altri.forEach(function(c){
+        h+='<a class="cas-r" href="https://youtu.be/'+c.id+'" target="_blank" rel="noopener" onclick="'+ga('cassetta-altri',c.id)+'"><span class="cas-cop" style="background-image:url(&quot;'+esc(copDi(c,false))+'&quot;)"></span>'
+          +'<span class="tx"><span class="qd">'+YT+(c.short?'Short':'Video')+(c.uscita?' · '+quando(c.uscita):'')+'</span><span class="ti">'+esc(titoloDi(c))+'</span></span></a>'; });
+      h+='</div>';
+    }
+    var q=cfg()&&cfg().vetrine&&cfg().vetrine.quiz;
+    if(q) h+='<a class="cas-quiz" href="'+esc(q.link)+'" target="_blank" rel="noopener" onclick="'+ga('cassetta-quiz')+'"><span class="cas-cop" style="background-image:url(&quot;'+esc(/^https?:|\//.test(q.copertina)?q.copertina:COP+q.copertina)+'&quot;)"></span>'
+      +'<span class="tx"><span class="qd">🏆 Il gioco</span><span class="ti">'+esc(String(q.gancio1||'').replace(/:$/,''))+'</span><span class="so">'+esc((q.gancio2||'').charAt(0).toUpperCase()+(q.gancio2||'').slice(1))+'</span><span class="bt">GIOCA ›</span></span></a>';
+    h+='</div>';
+    if(!cas){ velo=document.createElement('div'); velo.className='cas-velo'; velo.onclick=chiudi; document.body.appendChild(velo);
+      cas=document.createElement('div'); cas.className='cas'; cas.setAttribute('role','dialog'); cas.setAttribute('aria-label','I video di Avventure Micologiche'); document.body.appendChild(cas); }
+    cas.innerHTML=h;
+    cas.querySelector('.cas-su button').onclick=chiudi;
+    velo.classList.add('on'); cas.classList.add('on');
+    // l'elenco tiene TRE video in vista (al telefono piu' un filo del quarto, che dice «scorre»), gli altri con la barra
+    var L=cas.querySelector('.cas-lista'), R=L&&L.querySelectorAll('.cas-r');
+    if(R&&R.length>3) L.style.maxHeight=Math.round(R[0].offsetHeight*3+R[1].offsetHeight*(innerWidth>600?0:0.35))+'px';
+    var visti=[]; try{ visti=JSON.parse(localStorage.getItem('cassettaVista')||'[]'); }catch(x){}
+    var nonVisti=N.filter(function(c){ return visti.indexOf(c.id)<0; }).length;
+    try{ gtag('event','cassetta',{azione:'apri', nuovi:nonVisti}); }catch(x){}
+    try{ localStorage.setItem('cassettaVista', JSON.stringify(visti.concat(gia.filter(function(i){ return visti.indexOf(i)<0; })).slice(-30))); }catch(x){}
+    bollo();
+  }
+  function chiudi(){ if(velo) velo.classList.remove('on'); if(cas) cas.classList.remove('on'); }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') chiudi(); });
+  // il pallino: i nuovi non ancora visti; nessuno = niente pallino
+  function bollo(){
+    var visti=[]; try{ visti=JSON.parse(localStorage.getItem('cassettaVista')||'[]'); }catch(x){}
+    var n=canale.filter(function(c){ return nuovo(c)&&visti.indexOf(c.id)<0; }).slice(0,9).length;
+    icone().forEach(function(a){ var b=a.querySelector('.cas-bollo');
+      if(!n){ if(b) b.remove(); return; }
+      if(!b){ b=document.createElement('b'); b.className='cas-bollo'; a.appendChild(b); }
+      b.textContent=n; });
+  }
+  function icone(){ return [document.getElementById('hdr-yt'), document.querySelector('.hdr-socials .hdr-soc[aria-label="YouTube"]')].filter(Boolean); }
+  function via(){
+    icone().forEach(function(a){ a.classList.add('cas-host'); a.addEventListener('click', apri); });
+    try{ fetch('/api/canale').then(function(r){ return r.ok?r.json():null; }).then(function(j){
+      if(j&&j.video&&j.video.length){ canale=j.video.filter(function(c){ return c&&/^[\w-]{11}$/.test(c.id)&&c.titolo&&c.uscita; }); bollo(); } }).catch(function(){}); }catch(x){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',via); else via();
 })();
 </script>
 <!-- ═══ 🌡 TEMPERATURE DI IERI ACCANTO AI PALLINI (3/10/2026, sua idea) ═══════════════

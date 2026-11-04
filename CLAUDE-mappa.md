@@ -1661,3 +1661,48 @@ in fondo a `index.html`.
   barra e titolo visibile, ritorno cambiando periodo (7 → 30 → 7 → ieri → 30) al PC e al telefono; Sicilia, Molise,
   Toscana, Lombardia come prima; giro largo identico (gli «non pronta» di Austria 7 gg al telefono e di
   `/meteo/val-bormida/` sono dell'attrezzo, uguali online).
+
+## La cassetta dei video, le previsioni sempre sotto i numeri e la pillola un'analisi su quattro (4/11/2026, scheda 119)
+
+- **Perche'.** GA4 31/10-3/11, solo telefono: l'invito giallo alle previsioni toccato 84 volte (682 persone lo hanno
+  visto), la pillola dei video 21, il tasto «Iscriviti» della testata 12. Sua decisione: le previsioni sempre sotto i
+  numeri, ma «non possiamo togliere i video e gli iscriviti». Provato e scartato: giallo e pillola uno sopra l'altro
+  (mappa da 533 a 489 px a 393, −8%: «non mi convince»), il video nuovo «una volta sola» («se non ha tempo in quel
+  momento e' fottuto»), due tasti affiancati.
+- **Il tasto giallo** («E nei prossimi giorni? ☀️ Previsioni …») ora e' SEMPRE sotto i numeri, anche col RADAR (prima
+  mai), al computer e al telefono; `serve()` nell'invito. Al telefono tutte le analisi tranne UNA SU QUATTRO (la 4a,
+  l'8a…; la prima della visita mai): `window._turnoPillola()`, che legge `window._analisiN` (scritto in `loadData`:
+  `_analisiChieste` sta in uno scope che da fuori non si vede). Non conta piu' `prevUsate` (prima: invito sempre solo
+  per chi non aveva mai aperto le previsioni, per gli altri una voce del giro). Col radar il giallo prende il posto
+  della pillola: al telefono la mappa resta uguale (360: −1 px) o guadagna (393: +15, la pillola era 61 px); al PC il
+  riquadro del radar si allunga di 41-49 px verso il basso (fondo a 739/900 e 665/768), nulla di coperto
+  (`radar-spazio-119.js`). A 1366x768 il giallo e' alto 33 px: e' la regola degli schermi bassi che c'era gia'.
+- **La pillola al telefono ha un giro suo** («IL GIRO DELLA PILLOLA AL TELEFONO» nella vetrina, `giroTelefono()`): gli
+  ULTIMI 3 VIDEO del canale, il quiz, «Iscriviti»; il primo da una voce a caso, poi la successiva a ogni turno. Un video
+  che sta nel sorteggio di `data/vetrina.json` usa la sua voce curata, gli altri titolo e copertina di YouTube (due
+  righe al massimo, `.cp-g`). Al telefono `_vetrinaGira` non fa piu' il giro della vetrina; al COMPUTER la scheda grande
+  gira come prima (sua scelta: «la vetrina su pc la lascerei cosi' com'e'»).
+- **La cassetta dei video** (blocco «📺 LA CASSETTA DEI VIDEO» dopo l'invito; mockup in sette giri, scratchpad 6b0dade4
+  `wt-119c\mock-cassetta.js`): l'icona YouTube della testata (telefono `#hdr-yt`, computer la `.hdr-soc` di YouTube)
+  apre la cassetta invece del canale. Pallino rosso col numero dei video nuovi non ancora visti, che lampeggia finche'
+  non la si tocca (`localStorage.cassettaVista`, gli id visti); il pallino e' un `<b>` perche' al telefono
+  `body.con-sezioni #hdr-yt span` nasconde ogni span. Dentro: i NUOVI (usciti da meno di 14 giorni, al massimo 2, a
+  colonne uguali, pastiglia NUOVO rossa accanto a «Video · 4 giorni fa», mai sulla copertina che copriva il titolo
+  dell'anteprima); «La mappa e' un progetto gratuito e libero / Sostienici con un like e un'iscrizione» col tasto
+  ISCRIVITI (solo quello: Archie e il nome del canale bocciati) che pulsa con un alone tenue ogni 2,8 s (il rosso che
+  si accendeva «flashava»); ALTRI VIDEO a caso fra gli ultimi 10, elenco verticale con tre in vista e la barra (al
+  telefono un filo del quarto), «Vai al canale ›»; il QUIZ in fondo, riquadro giallo-oro da 112 px. Fondo blu, bianco
+  smorzato #e6edf6 a 600-700 (pieno e in grassetto «sembrava sfocato»). ISCRIVITI sempre senza scorrere (467/852 a
+  393, 444/900 al PC); al PC la cassetta sta tutta nello schermo. Esc e il velo chiudono.
+- **I video vengono da soli** da `functions/api/canale.js` (`/api/canale`): il feed pubblico del canale
+  (`youtube.com/feeds/videos.xml?channel_id=UCBAul56IRwckppf-skNqVlA`, niente chiave), i 10 piu' recenti con id, titolo,
+  data, short; Cache API un'ora (al massimo una richiesta a YouTube all'ora per nodo), riserva di 7 giorni se YouTube
+  non risponde o manda una pagina senza video, 502 solo senza nessuna copia. Prova `prova-canale-119.mjs` 9/9 (cache e
+  YouTube finti). Senza la funzione la cassetta usa i video del sorteggio (non prima di `da`, non dopo `fino`), senza
+  nuovi e senza pallino; il giro del telefono idem.
+- **GA**: `cassetta` {azione: apri, nuovi} e i tocchi `click_youtube` con pulsante `cassetta-nuovo`, `-altri`,
+  `-iscriviti`, `-canale`, `-quiz`. Da guardare dopo una settimana: tocchi del giallo, della pillola (uno su quattro),
+  della cassetta.
+- Prove in locale con `server-119.mjs` (9043: i file del worktree e la funzione vera; 9044 senza la funzione):
+  `giro-tel-119.js` (telefono: analisi 1-3 giallo, 4 pillola «ARCHIE A CACCIA DOPO LA PIOGGIA», 5-7 giallo, 8 lo short;
+  pallino «2», cassetta, Esc, pallino spento anche ricaricando; PC: giallo sempre, scheda grande che gira, cassetta).
