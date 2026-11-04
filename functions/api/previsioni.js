@@ -66,7 +66,8 @@ export async function onRequestGet({ request, env, waitUntil }) {
     // ⚠️ (20/10/2026, sesto check, bug 16) una quota che non e' un numero («q=abc») passava come altitude=NaN e MET
     // rispondeva errore → 502: adesso vale come assente, e MET usa il suo terreno. Vuota o di soli spazi idem (+'' = 0).
     const qn = q == null || !q.trim() ? NaN : +q;
-    const r = await perPunto(lat, lon, isFinite(qn) ? Math.round(qn) : null, request, true);
+    // riserva (4/11/2026): solo qui, un punto alla volta (vedi «LA PREVISIONE DI RISERVA» in perPunto)
+    const r = await perPunto(lat, lon, isFinite(qn) ? Math.round(qn) : null, request, true, undefined, false, undefined, true);
     return rispondi(r.dati, cors, r.dati.errore ? 502 : 200, r.maxAge);
   } catch (e) {
     return rispondi({ errore: String(e && e.message || e) }, cors, 502);
@@ -95,7 +96,21 @@ function rispondi(dati, h, status = 200, maxAge = 0) {
    arrivava «Too many subrequests» (misurato online con 20 posti mai chiesti: 12 su 20). Era lo stesso tetto che a
    freddo lasciava senza previsioni le ultime zone della Toscana (21 zone, 64 sottorichieste). Cosi' un punto ne costa 1. */
 // prDato: la % gia' chiesta per tutto il gruppo (probDi), istante UTC in ms → %
-async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDato) {
+/* ⚠️ LA PREVISIONE DI RISERVA (4/11/2026, scheda 118 bis, suo «sì, procedi»). Quel giorno MET mandava per alcuni punti il
+   JSON TAGLIATO A META', con un Content-Length che gli dava ragione: Salerno 13.659 byte fermi alle 13 del giorno dopo,
+   anche chiesto dal PC e anche dopo il suo aggiornamento; Caserta intera dal PC e tagliata al server; Padova tagliata
+   per un'ora e poi buona. `met.json()` falliva («Unterminated string in JSON…», «Unexpected end of JSON input») e la
+   risposta era un 502 in 0,27 s: «Previsione non disponibile» su Salerno, Caserta e Padova e su qualche carta di Liguria
+   e Toscana. Gli errori non si tengono in cache, quindi ogni visita richiedeva a MET lo stesso file rotto.
+   Ora, con `riserva` (solo le richieste di UN punto, ?lat&lon: carte delle regioni e delle citta', scheda della mappa),
+   ogni previsione buona si tiene anche in una seconda chiave SENZA DATA per 12 ore; se MET sbaglia (stato non 200,
+   corpo tagliato, tempo scaduto) si risponde con quella, segnata `riserva: 1` e `guasto`, tenuta 5 minuti nella cache
+   normale: MET si richiede al massimo ogni 5 minuti per quel punto, non a ogni visita. Nessuna chiamata in piu' a MET.
+   Una copia di ieri non passa per oggi: le pagine prendono i giorni per DATA e scartano quelli passati (bug 11).
+   ⚠️ Non nelle richieste a gruppi (perArea, perPosti, perPunti): un punto a freddo costa gia' 3 sottorichieste e il tetto
+   e' 50 (vedi senzaCache); la riserva ne aggiunge una a ogni previsione buona. */
+const RISERVA_S = 12 * 3600, RISERVA_USA_S = 300;
+async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDato, riserva) {
   if (conProb === undefined) conProb = true;
   // cella di ~1 km: la cache vale per chiunque guardi lo stesso posto
   const la = lat.toFixed(2), lo = lon.toFixed(2), qq = q == null ? '' : String(Math.round(q / 10) * 10);
@@ -112,12 +127,25 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
      Open-Meteo in ora italiana il 25/10 da' 24 ore invece di 25 (non ripete le 02), quindi da li' le sue ore locali
      slittavano di una rispetto a MET (26/10: 11% e 8% contro 10% e 7%). Ora tutt'e due in UTC e si confrontano gli
      istanti: le ore di MET sono gia' UTC, e la fascia di 6 ore e' «sei ore da quell'istante». */
-  const [met, prob] = await Promise.all([
-    fetch(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${(+la).toFixed(4)}&lon=${(+lo).toFixed(4)}${qq ? '&altitude=' + qq : ''}`, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(TEMPO_MET_MS) }),
-    (PROB && conProb) ? fetch(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&hourly=precipitation_probability&timezone=GMT&forecast_days=8`, { signal: AbortSignal.timeout(TEMPO_PROB_MS) }).catch(() => null) : null,
-  ]);
-  if (!met.ok) return { dati: { errore: 'MET Norway ' + met.status }, maxAge: 0 };
-  const d = await met.json();
+  const chiaveR = riserva ? new Request(`https://cache.previsioni/riserva?v=${VERSIONE}&lat=${la}&lon=${lo}&q=${qq}&ore=${conOre ? 1 : 0}&pr=${conProb ? 1 : 0}`) : null;
+  let met = null, prob = null, d = null, guasto = null;
+  try {
+    [met, prob] = await Promise.all([
+      fetch(`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${(+la).toFixed(4)}&lon=${(+lo).toFixed(4)}${qq ? '&altitude=' + qq : ''}`, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(TEMPO_MET_MS) }),
+      (PROB && conProb) ? fetch(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&hourly=precipitation_probability&timezone=GMT&forecast_days=8`, { signal: AbortSignal.timeout(TEMPO_PROB_MS) }).catch(() => null) : null,
+    ]);
+    if (!met.ok) guasto = 'MET Norway ' + met.status;
+    else d = await met.json();   // ⚠️ un corpo tagliato fallisce QUI (4/11/2026)
+  } catch (e) { if (!riserva) throw e; guasto = 'MET Norway: ' + String(e && e.message || e).slice(0, 120); }
+  if (guasto) {
+    const r = chiaveR && await cache.match(chiaveR);
+    if (r) {
+      const dati = Object.assign(await r.json(), { riserva: 1, guasto });
+      await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RISERVA_USA_S}`, 'Date': new Date().toUTCString() } }));
+      return { dati, maxAge: RISERVA_USA_S };
+    }
+    return { dati: { errore: guasto }, maxAge: 0 };
+  }
   const pr = prDato || {}; // istante UTC in ms → %
   if (prob && prob.ok) { try { const o = await prob.json(); o.hourly.time.forEach((t, i) => { pr[Date.parse(t + 'Z')] = o.hourly.precipitation_probability[i]; }); } catch (e) {} }
 
@@ -151,6 +179,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
   // fino a quando MET dice che questa e' la previsione in vigore (Expires): vedi «OGNI CITTA' QUANDO SCADE LA SUA»
   dati.scade = ex || (Date.now() + maxAge * 1000);
   if (!senzaCache) await cache.put(chiave, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${maxAge}`, 'Date': new Date().toUTCString() } }));
+  if (chiaveR) await cache.put(chiaveR, new Response(JSON.stringify(dati), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RISERVA_S}`, 'Date': new Date().toUTCString() } }));
   return { dati, maxAge };
 }
 

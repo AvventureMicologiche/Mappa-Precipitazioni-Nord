@@ -843,6 +843,36 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   città + 4 regioni × PC e telefono, 47/56 a posto; i 9 guasti tutti dell'API: Caserta, Salerno e Padova senza
   previsione (502: «Unterminated string in JSON at position 36641», «Unexpected end of JSON input», cioè il corpo della
   risposta di MET arriva TAGLIATO in `perPunto` di `functions/api/previsioni.js`, `TEMPO_MET_MS` 8000) e qualche carta
-  della Liguria e della Toscana per lo stesso motivo. DA GUARDARE a parte, tocca tutte le pagine con le previsioni.
+  della Liguria e della Toscana per lo stesso motivo. Guardato subito dopo: vedi la sezione qui sotto, «La previsione
+  di riserva quando MET manda il JSON tagliato».
   Sitemap `sitemap-adesso-citta.xml` online (24 indirizzi) e nell'indice `sitemap.xml`; home online = index.html del repo.
+
+## La previsione di riserva quando MET manda il JSON tagliato (4/11/2026, scheda 118 bis)
+
+- **Cosa succedeva.** Il 4/11 MET Norway mandava per alcuni punti il JSON TAGLIATO A METÀ, con un Content-Length che
+  gli dava ragione: Salerno 13.659 byte fermi alle 13 del giorno dopo, anche chiesto dal PC con lo stesso indirizzo del
+  server (`lat=40.6800&lon=14.7600&altitude=10`) e anche dopo il suo aggiornamento delle 10:45 UTC; Caserta intera dal
+  PC (39.591 byte) e tagliata al server; Padova tagliata per un'ora e poi buona. In `perPunto` di
+  `functions/api/previsioni.js` `met.json()` falliva («Unterminated string in JSON at position…», «Unexpected end of
+  JSON input») e l'API rispondeva 502 in 0,27 s (non era il nostro tempo massimo di 8 s): «Previsione non disponibile»
+  su Salerno, Caserta, Padova e su qualche carta di Liguria e Toscana. Gli errori non si tengono in cache: ogni visita
+  richiedeva a MET lo stesso file rotto.
+- **Il rimedio** (suo «sì, procedi»): la previsione di riserva, SENZA nessuna chiamata in più a MET. Solo nelle
+  richieste di UN punto (`?lat&lon`: carte delle regioni e delle città, scheda ora per ora della mappa, `riserva` = 9°
+  argomento di `perPunto`): ogni previsione buona si tiene anche in una seconda chiave della cache SENZA DATA
+  (`cache.previsioni/riserva?…`) per 12 ore (`RISERVA_S`); se MET sbaglia (stato non 200, corpo tagliato, tempo
+  scaduto) si risponde 200 con quella, segnata `riserva: 1` e `guasto: "MET Norway: …"`, e la si tiene 5 minuti nella
+  cache normale (`RISERVA_USA_S`): MET si richiede al massimo ogni 5 minuti per quel punto, non a ogni visita. Senza
+  riserva (punto mai visto nelle 12 ore) resta il 502 di prima. Una copia di ieri non passa per oggi: le pagine
+  prendono i giorni per DATA (bug 11). `scade` resta quella vecchia, quindi «aggiornate alle» dice l'ora vera della
+  previsione. `VERSIONE` non cambia (la forma della risposta è la stessa, la cache resta buona).
+- ⚠️ **Non nelle richieste a gruppi** (`perArea`, `perPosti`, `perPunti`): un punto a freddo costa già 3 sottorichieste
+  e il tetto di Cloudflare è 50 (vedi `senzaCache`); la riserva ne aggiunge una a ogni previsione buona. Lì un punto
+  rotto resta `errore` come prima.
+- Scartati: richiedere subito a MET (una chiamata in più alla fonte, regola sua) e recuperare il pezzo intero del file
+  tagliato (a Salerno sarebbe rimasto circa un giorno su sette).
+- Prova senza wrangler (`prova-riserva.mjs` nello scratchpad della 118 bis: cache finta, MET finto buono, tagliato, 503,
+  appeso): buono → 200 e riserva salvata; tagliato, 503 e tempo scaduto → 200 con `riserva: 1` e max-age 300, e la
+  visita dopo non richiede MET; punto mai visto → 502 come prima; gruppo `?punti` → errore del punto come prima; MET
+  di nuovo buono → previsione nuova. Con `VERA=1` una richiesta vera a MET (Genova): 7 giorni e 88 ore come prima.
 
