@@ -1770,6 +1770,9 @@ in fondo a `index.html`.
 - **Misure**: PC 414x292 (prima 414x246), 800 px 368x290; righe centrate al decimo di pixel (nome 256, «La mappa è un
   progetto» 186, «gratuito e libero» 126, «Sostienici…» 243). Il telefono non cambia (la pillola ha il suo markup) e
   non scarica la foto.
+- **La pillola del telefono resta con le parole di prima** («Questo sito è gratuito / Se ti è stato utile, clicca:
+  lascia un like e iscriviti»): provate le parole nuove col suo a capo (mockup `mockup-iscriviti-121\pillola.html`),
+  la pillola passava da 45 a 61 px. Sua decisione: «no lascia quello di adesso ruba troppi pixel», «solo pc».
 - **Prova** (`prova-iscr-121.js` nello scratchpad della 121: il sito vero col solo `index.html` e la foto del worktree
   intercettati, niente server): PC e 800 px con `sorteggio` vuoto, giro vero con `_vetrinaGira()` («Iscriviti» al suo
   turno con la foto, le vetrine dei video prima e dopo identiche, 183 px), telefono 393 (scheda nascosta, foto non
