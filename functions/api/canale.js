@@ -5,13 +5,19 @@
 //   /api/canale  →  { video: [{ id, titolo, uscita, short }], letto: "2026-11-04T14:00:00.000Z" }   (i 10 piu' recenti)
 //
 // Fonte: il FEED PUBBLICO del canale (lo stesso degli aggregatori: niente chiave, niente quota). Cache API di Cloudflare:
-// un'ora fresca, quindi al massimo UNA richiesta a YouTube all'ora per nodo; se YouTube non risponde o manda altro, si
-// serve l'ultima lettura buona (riserva di 7 giorni), e la cassetta non resta mai vuota per un intoppo suo.
+// un quarto d'ora fresca, quindi al massimo QUATTRO richieste a YouTube all'ora per nodo; se YouTube non risponde o manda
+// altro, si serve l'ultima lettura buona (riserva di 7 giorni), e la cassetta non resta mai vuota per un intoppo suo.
+// ⚠️ UN QUARTO D'ORA E NON UN'ORA (4/11/2026, scheda 120 bis, suo «ok procedi»). Il primo giorno, con un'ora di cache qui
+// e 10 minuti nel browser, lo short dei chiodini uscito alle 17:00 non c'era ancora alle 17:52 da lui (il nodo aveva
+// letto alle 16:46): niente pallino, un nuovo solo, niente chiodini. Ora 15 minuti qui e 2 nel browser: un video
+// nuovo arriva entro ~20 minuti, e la vetrina del computer lo accende appena c'e' (vedi «LA VETRINA SI ACCENDE COL
+// FEED» in index.html). Il feed e' pubblico e leggero: quattro letture all'ora per nodo non sono niente.
 
 const FEED = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCBAul56IRwckppf-skNqVlA';
 const UA = 'precipitazioni.avventuremicologiche.it (avventuremicologiche@gmail.com)';
 const VERSIONE = 1;                       // alzare quando cambia la forma della risposta: la cache vecchia non si rilegge
-const FRESCA_S = 3600, RISERVA_S = 7 * 86400, TEMPO_MS = 6000, QUANTI = 10;
+const FRESCA_S = 900, RISERVA_S = 7 * 86400, TEMPO_MS = 6000, QUANTI = 10;
+const BROWSER_S = 120;                    // quanto la tiene il browser: 2 minuti (erano 10, 4/11/2026)
 const ORIGINI = /^https?:\/\/(precipitazioni\.avventuremicologiche\.it|avventurepluvio(-test)?\.pages\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/;
 
 export async function onRequestGet({ request, waitUntil }) {
@@ -21,7 +27,7 @@ export async function onRequestGet({ request, waitUntil }) {
   const riserva = new Request(`https://cache.canale/riserva?v=${VERSIONE}`);
   try {
     const c = await cache.match(fresca);
-    if (c) return rispondi(await c.text(), cors, 200, 600);
+    if (c) return rispondi(await c.text(), cors, 200, BROWSER_S);
     let dati = null;
     try {
       const r = await fetch(FEED, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(TEMPO_MS) });
@@ -34,11 +40,11 @@ export async function onRequestGet({ request, waitUntil }) {
         cache.put(riserva, new Response(testo, { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RISERVA_S}` } })),
       ]);
       if (typeof waitUntil === 'function') waitUntil(salva); else await salva;
-      return rispondi(testo, cors, 200, 600);
+      return rispondi(testo, cors, 200, BROWSER_S);
     }
     // YouTube giu' o feed strano: l'ultima lettura buona, tenuta poco nel browser cosi' si riprova presto
     const r2 = await cache.match(riserva);
-    if (r2) return rispondi(await r2.text(), cors, 200, 300);
+    if (r2) return rispondi(await r2.text(), cors, 200, 60);
     return rispondi(JSON.stringify({ errore: 'feed del canale non raggiungibile', video: [] }), cors, 502);
   } catch (e) {
     return rispondi(JSON.stringify({ errore: String(e && e.message || e), video: [] }), cors, 502);

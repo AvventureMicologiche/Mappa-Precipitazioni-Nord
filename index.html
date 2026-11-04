@@ -12650,6 +12650,29 @@ function loadDefaultMarkers(){
      «a giro»: a caso, con tre vetrine, una volta su tre ripesca quella appena vista).
      `_giro` ricorda l'elenco e quella in onda; `costruisci(..., true)` fa il passo. */
   var _giro={scelte:null, i:-1};
+  /* ⚠️ LA VETRINA SI ACCENDE COL FEED (4/11/2026, scheda 120 bis, sua domanda: «perche' la vetrina alle 18 non deve
+     entrare anche lei col feed?»). L'ora `da` di data/vetrina.json la scrive una scheda a mano quando sa l'uscita: lo
+     short dei chiodini era segnato alle 18:00 ed e' uscito alle 17:00. Adesso una vetrina il cui video e' gia' nel feed
+     del canale (/api/canale, lo stesso della cassetta dei video) e' accesa anche prima di `da`; `da` resta la riserva
+     quando il feed non si legge (funzione giu', in locale). Il contrario no: passata l'ora, la vetrina si accende anche
+     se il video nel feed non c'e' ancora (il feed tiene solo gli ultimi 10, e i video vecchi del sorteggio non ci sono).
+     `aspettaFeed`: al primo montaggio, SOLO se c'e' una vetrina con `da` nel futuro, si aspetta il feed al massimo
+     ATTESA_FEED ms prima di scegliere, se no il video appena uscito resterebbe fuori fino all'analisi dopo. */
+  var ATTESA_FEED=1000;
+  function idVideo(v){ var m=String((v&&v.link)||'').match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/); return m?m[1]:''; }
+  function nelFeed(v){
+    var id=idVideo(v), f=(window._canaleVideo&&window._canaleVideo())||[];
+    if(!id) return false;
+    for(var i=0;i<f.length;i++) if(f[i]&&f[i].id===id) return true;
+    return false;
+  }
+  function primaDiDa(v, ora){ return !!(v && v.da && ora < new Date(v.da).getTime() && !nelFeed(v)); }
+  function aspettaFeed(cfg){
+    var vv=(cfg&&cfg.vetrine)||{}, s=(cfg&&cfg.sorteggio)||[], ora=Date.now();
+    if(cfg && cfg.mostra && cfg.mostra!=='alterna') s=[cfg.mostra];
+    for(var i=0;i<s.length;i++){ var v=vv[s[i]]; if(v && v.da && ora < new Date(v.da).getTime() && idVideo(v)) return true; }
+    return false;
+  }
   function costruisci(MOSTRA, VETRINE, ELENCO, gira){
   var V=null, QUALE='';
   if(MOSTRA==='alterna'){
@@ -12664,7 +12687,7 @@ function loadDefaultMarkers(){
     // `rimettiScheda()` riporta la scheda del computer com'era (la pillola la riporta gia' `ripristinaPillola`).
     ELENCO.forEach(function(k){
       var v=VETRINE[k]; if(!v){ if(k==='iscriviti') scelte.push(k); return; }
-      if(v.da && ora < new Date(v.da).getTime()) return;   // non ancora accesa
+      if(primaDiDa(v, ora)) return;   // non ancora accesa (prima di `da` e non ancora nel feed del canale)
       if(ora <= new Date(v.fino).getTime()) scelte.push(k);
     });
     // ⚠️ LA SCHEDA «ISCRIVITI» IN GARA, MA SOLO FINO ALLE 17:59 DI OGGI.
@@ -12743,9 +12766,10 @@ function loadDefaultMarkers(){
   try{
     // ⚠️ Due estremi, non uno: `da` (se c'e') e `fino`. Li valuta il browser a
     // ogni apertura, quindi ne' l'accensione ne' lo spegnimento costano un
-    // deploy. Prima dell'ora di `da` si esce e resta la scheda «Iscriviti».
+    // deploy. Prima dell'ora di `da` si esce e resta la scheda «Iscriviti», a meno che il video sia gia' nel feed
+    // (vedi «LA VETRINA SI ACCENDE COL FEED», 4/11/2026).
     var _ora=Date.now();
-    if(V.da && _ora < new Date(V.da).getTime()) return;
+    if(primaDiDa(V, _ora)) return;
     if(!(_ora <= new Date(V.fino).getTime())) return;
 
     var ytPieno='<svg width="16" height="12" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>';
@@ -12987,8 +13011,21 @@ function loadDefaultMarkers(){
       costruisci('alterna', _cfgMontata.vetrine||{}, _cfgMontata.sorteggio||[], true);
     }catch(e){ if(window.console&&console.warn) console.warn('[vetrina] giro fallito', e); }
   };
-  function monta(cfg, da){
+  var _attesaFeed=false;
+  function monta(cfg, da, dopoFeed){
     if(montata) return;
+    // una vetrina con `da` nel futuro: prima il feed del canale, al massimo ATTESA_FEED ms (vedi «LA VETRINA SI ACCENDE
+    // COL FEED»). Chi arriva mentre una aspetta non passa: vince la prima arrivata, come prima.
+    if(!dopoFeed){
+      if(_attesaFeed) return;
+      if(!window._canaleFatto && aspettaFeed(cfg)){
+        _attesaFeed=true;
+        var vai=function(){ if(vai.fatto) return; vai.fatto=true; monta(cfg, da+' (dopo il feed)', true); };
+        (window._suCanale=window._suCanale||[]).push(vai);
+        setTimeout(vai, ATTESA_FEED);
+        return;
+      }
+    }
     montata=true;
     _cfgMontata=cfg;
     try{
@@ -16849,7 +16886,7 @@ body.inv-prev-on #channel-pill{display:none !important}
      «flashava»); ALTRI VIDEO a caso fra gli ultimi 10 del canale, elenco verticale con tre in vista e la barra; il QUIZ
      in fondo in una zona sua. Telefono: sale dal basso; computer: si apre sotto l'icona, e la scheda grande a destra
      resta com'era.
-     I video vengono DA SOLI dal feed pubblico del canale (/api/canale, functions/api/canale.js, un'ora di cache): un
+     I video vengono DA SOLI dal feed pubblico del canale (/api/canale, functions/api/canale.js, un quarto d'ora di cache dal 4/11 sera): un
      video nuovo entra senza toccare niente. Un video che sta anche nel sorteggio di data/vetrina.json usa la sua voce
      curata (copertina e gancio); gli altri titolo e copertina di YouTube. Sul blu il bianco e' smorzato (#e6edf6, pesi
      600-700): pieno e in grassetto «flashava, sembrava sfocato».
@@ -17018,8 +17055,10 @@ body.inv-prev-on #channel-pill{display:none !important}
   function icone(){ return [document.getElementById('hdr-yt'), document.querySelector('.hdr-socials .hdr-soc[aria-label="YouTube"]')].filter(Boolean); }
   function via(){
     icone().forEach(function(a){ a.classList.add('cas-host'); a.addEventListener('click', apri); });
+    // finito (bene o male) il feed, si sveglia la vetrina che lo aspettava (vedi «LA VETRINA SI ACCENDE COL FEED», 4/11/2026)
+    function fatto(){ window._canaleFatto=true; (window._suCanale||[]).forEach(function(f){ try{ f(); }catch(x){} }); }
     try{ fetch('/api/canale').then(function(r){ return r.ok?r.json():null; }).then(function(j){
-      if(j&&j.video&&j.video.length){ canale=j.video.filter(function(c){ return c&&/^[\w-]{11}$/.test(c.id)&&c.titolo&&c.uscita; }); bollo(); } }).catch(function(){}); }catch(x){}
+      if(j&&j.video&&j.video.length){ canale=j.video.filter(function(c){ return c&&/^[\w-]{11}$/.test(c.id)&&c.titolo&&c.uscita; }); bollo(); } fatto(); }).catch(fatto); }catch(x){ fatto(); }
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',via); else via();
 })();

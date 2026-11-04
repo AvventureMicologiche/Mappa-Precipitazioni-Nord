@@ -5,7 +5,7 @@
   "PER CAMBIARE VIDEO: aggiungi una voce in 'vetrine' e metti la sua chiave in 'sorteggio'.",
   "'sorteggio' e' l'elenco di chi partecipa: se ce n'e' una sola esce sempre quella, se ce ne sono due o tre il browser ne pesca una a ogni apertura. Vuoto = niente vetrina, resta la scheda «Iscriviti».",
   "'mostra': 'alterna' usa il sorteggio; una chiave qualsiasi inchioda quella vetrina; '' spegne tutto.",
-  "'da' (facoltativo) e 'fino' accendono e spengono la vetrina all'ora giusta da soli, senza toccare niente.",
+  "'da' (facoltativo) e 'fino' accendono e spengono la vetrina all'ora giusta da soli, senza toccare niente. Dal 4/11/2026 un video che compare nel feed del canale (/api/canale, entro ~20 minuti dall'uscita) si accende anche PRIMA di 'da': 'da' resta la riserva se il feed non si legge.",
   "'ganciopx' NON si tira a indovinare: si misura sulla colonna da 199 px del computer, se no il gancio va a capo.",
   "La copertina e' un .jpg in data/vetrine/ (dal 20/9/2026): mettilo li' e committalo, ANCHE QUELLO e' gratis. Nel campo 'copertina' va scritto solo il nome del file. Se invece contiene una barra o comincia per http si usa com'e'.",
   "Se questo file non si scarica o e' scritto male, index.html usa la configurazione incorporata e il sito funziona come prima.",

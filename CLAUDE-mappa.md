@@ -1716,3 +1716,29 @@ in fondo a `index.html`.
   (elenco al minimo), 68 a 393x852, 130 al PC 1440x900; ISCRIVITI sempre senza scorrere.
 - **IN PRODUZIONE il 4/11/2026** (`5451187ba7`, deploy `b010eb33`, scheda 120): `quiz-in-vista` col sito vero dà gli
   stessi numeri della prova in locale, su tutti e 7 gli schermi.
+
+## Il video nuovo entra in un quarto d'ora, e la vetrina si accende col feed (4/11/2026 sera, scheda 120 bis)
+
+- **Il fatto** (4/11, il primo giorno della cassetta): lo short dei chiodini (qCgUhj8XqAU) è uscito alle 17:00. Alle
+  17:52 lui non aveva il pallino, nei NUOVI c'era un video solo e i chiodini non c'erano. Il sito era giusto (Chrome
+  pulito: pallino 2, chiodino primo): a lui arrivava la lista di PRIMA. `/api/canale` aveva letto il feed alle 16:46 e
+  la teneva un'ora nel nodo, più 10 minuti nel browser. Il secondo nuovo di stamattina («Archie a caccia dopo la
+  pioggia», 21/10 15:15Z) era uscito dai NUOVI alle 16:15 per i 14 giorni. La vetrina del computer invece aspettava le
+  18:00 scritte a mano in `data/vetrina.json` dalla 118 (sua domanda: «perché la vetrina alle 18 non deve entrare anche
+  lei col feed?»).
+- **`functions/api/canale.js`**: `FRESCA_S` da 3600 a **900** (al massimo 4 letture del feed all'ora per nodo) e
+  `BROWSER_S` = **120** al posto dei 600 (la riserva, quando YouTube non risponde, 60 invece di 300). Un video nuovo
+  arriva in cassetta, pallino, pillola e vetrina entro ~20 minuti dall'uscita.
+- **`index.html`, «LA VETRINA SI ACCENDE COL FEED»**: `primaDiDa(v, ora)` al posto dei due controlli su `da` (sorteggio
+  e vetrina scelta): una vetrina il cui video (`idVideo`, dal link) è nel feed (`window._canaleVideo()`) è accesa
+  anche prima di `da`. `da` resta la riserva quando il feed non si legge. Il contrario no: passata l'ora si accende
+  anche se il video nel feed non c'è (il feed tiene solo gli ultimi 10, i video vecchi del sorteggio non ci sono).
+  `monta()` aspetta il feed al massimo `ATTESA_FEED` = 1000 ms, e SOLO se una vetrina del sorteggio (o quella
+  inchiodata) ha `da` nel futuro (`aspettaFeed`): il feed lo segnala la cassetta con `window._canaleFatto` e le
+  funzioni in `window._suCanale`, bene o male che vada. Chi arriva mentre una vetrina aspetta non passa (vince la
+  prima, come prima). Vale anche al telefono: la voce curata dei chiodini nel giro della pillola usciva «Iscriviti»
+  fino a `da`, ora esce appena il video è nel feed.
+- **Prova in locale** (`vetrina-feed-120bis.js`, server 9050 con la funzione vera e 9051 senza feed, vetrina.json
+  finto con i chiodini a domani): feed su → chiodini in vetrina (log «(dopo il feed)»); senza feed → «Iscriviti»;
+  video finto non nel feed → «Iscriviti»; file vero → nessuna attesa, giro uguale a prima con i chiodini dentro;
+  sorteggio vero coi chiodini a domani → chiodini nel giro; telefono → «canale1» = chiodino curato. Nessun errore.
