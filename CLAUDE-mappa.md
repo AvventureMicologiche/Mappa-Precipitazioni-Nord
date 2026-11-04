@@ -1798,3 +1798,5 @@ in fondo a `index.html`.
   `_vetrinaGira()` dieci volte): aggiornamento tartufo 2026 › quiz › chiodini › ep. 1 › ep. 2 › ep. 3 › ep. 4 ›
   «Iscriviti» › di nuovo dall'inizio, le stesse 8 del computer e nello stesso ordine. Il computer gira come prima
   (lungo25 › iscriviti › aggiornamento2026 › …). Nessun errore.
+- **IN PRODUZIONE il 4/11/2026 alle 19:28** (`b162fccb2d`, deploy `afcadc74`): index online uguale al repo;
+  `giro-tel-121.js` con `VECCHIO=1` (niente intercettato) sul sito vero dà lo stesso giro della prova, nessun errore.
