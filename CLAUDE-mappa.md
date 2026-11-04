@@ -1777,3 +1777,7 @@ in fondo a `index.html`.
   intercettati, niente server): PC e 800 px con `sorteggio` vuoto, giro vero con `_vetrinaGira()` («Iscriviti» al suo
   turno con la foto, le vetrine dei video prima e dopo identiche, 183 px), telefono 393 (scheda nascosta, foto non
   scaricata). Nessun errore.
+- **IN PRODUZIONE il 4/11/2026 alle 19:08** (`ea71781056`, deploy `95641545`): index online uguale al repo,
+  `/archie-bosco.webp` 200 (32.206 byte); `prova-iscr-121.js` con `ONLINE=1` (niente intercettato tranne
+  `vetrina.json`) dà le stesse misure della prova: PC 414x292, 800 px 368x290, giro coi video a 183, telefono senza
+  scheda e senza foto, nessun errore.
