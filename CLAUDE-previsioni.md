@@ -957,3 +957,39 @@ in tutto il sito.
 - **IN PRODUZIONE il 6/11/2026 alle 14:20** (`cd120aca9f`, deploy `46e4cd9c`): online index.html = repo, la stessa prova
   sul sito vero senza `INDICE=` uguale; «Che tempo farà» delle pagine funghi «1° 5°» al telefono e al PC.
 
+## Le pagine «adesso» delle città a ondate, e la seconda ondata: 20 città (5/11/2026, scheda 124)
+
+- **Perché a ondate** (suo «prima possibile, ma senza intasare Google che dopo ci tocca farle tutte a mano», poi «sì»
+  al posto della seconda tappa unica del ~18/11). Search Console del 5/11: Google l'indice `sitemap.xml` non lo rilegge
+  dal 24/10 e `sitemap-localita.xml` dal 20/10 (i 77 paesi del 1/11 a 4 giorni erano tutti sconosciuti), mentre una
+  sitemap inviata da sola con `sc.py invia` la legge il giorno stesso (meteo paesi B del 2/11: 12 su 20 dentro in 2
+  giorni senza giri a mano). Le 24 città del 4/11 a un giorno: 0 dentro, 12 rilevate, 12 sconosciute, perché la loro
+  sitemap non era mai stata inviata (inviata il 5/11). Ondate passate da ~20: Google ne prende 60-70% in 2-5 giorni, il
+  resto sta in un giro a mano (11 al giorno); i blocchi grossi restano fermi per settimane.
+- **Come si fa**: `ONDATE_ADESSO` in `genera-pagine-adesso.js` è un elenco di ondate (`{ regione: [città] }`), da cui
+  nascono `CITTA_ADESSO` e il numero dell'ondata di ogni città. La pagina città porta `<main data-ondata="N">` e
+  `genera-sitemap.js` la mette in `sitemap-adesso-citta.xml` (ondata 1, o nessun numero) o in
+  `sitemap-adesso-citta-N.xml` (dalla 2), scritta e messa nell'indice da sola. Il giro del mattino (`SOLO=citta`) la
+  tiene viva (`git add 'sitemap*.xml'`). **L'ondata nuova si aggiunge in fondo quando la precedente è al ~70%**
+  (Controllo URL via API, zero quota a mano), e la sua sitemap si invia a Google il giorno stesso della pubblicazione.
+- **Seconda ondata, 20 città**: i capoluoghi di regione che mancavano, Milano, Torino, Bologna, Firenze, Trieste,
+  Ancona, Perugia, Potenza, Catanzaro, Campobasso, Trento, Bolzano, Aosta; Reggio di Calabria al posto dell'Aquila
+  (l'Abruzzo non ha la pagina dei pluviometri: la città linkerebbe `/abruzzo/` che non c'è, più il percorso; da fare a
+  parte); e le più grandi rimaste nelle regioni della prima, Vicenza, Treviso, Andria, Brindisi, Trapani, Agrigento.
+  Barletta tolta dopo la prova: il suo unico pluviometro (6 km) non aveva né ieri né 7 giorni. Tutte già in
+  `data/capoluoghi.json`: nessun cambio alla mappa né alle aree delle previsioni. Rimangono fuori Biella e Vercelli,
+  che in `capoluoghi.json` non ci sono: aggiungerle cambia anche le etichette della mappa delle previsioni del
+  Piemonte (due punti in più a MET per area), quindi si decide con lui.
+- **Cosa cambia**: 20 pagine nuove, le 24 della prima ondata (elenco delle altre città, da 23 a 43), le pillole «Il
+  radar città per città» in 16 regioni «adesso» (le 13 nuove più Veneto, Puglia e Sicilia), `sitemap.xml`
+  con la figlia nuova. La previsione di ogni città è la stessa domanda della sua carta nella pagina regione: nessuna
+  richiesta nuova a MET.
+- Prova in locale (server python del worktree sulla 9070, `prova-citta-124.js` nello scratchpad della 124, copia di
+  quella della 118 bis, scatti in `immagini\124\`): 20 città + Lombardia, Puglia, Valle d'Aosta e Genova × PC 1366 e
+  telefono 393, **48/48 a posto** (radar, foto, riga viva, previsione con 12 ore e 3 giorni, barra, pluviometri, niente
+  sbordi).
+- ⚠️ **Il giorno della pubblicazione**: dopo il pull, generatore INTERO (`node .github/scripts/genera-pagine-adesso.js`,
+  non `SOLO=citta`, che non riscrive le pagine regione con le pillole), `adesso` in `.github/scripts/pagine-lastmod.json`
+  al giorno della pubblicazione (le pagine regione «adesso» cambiano), poi push, pubblicazione e
+  `python sc.py invia sitemap-adesso-citta-2.xml`.
+

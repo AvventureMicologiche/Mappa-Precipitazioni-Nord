@@ -156,22 +156,45 @@ function nomiDi(r) {
    riga viva su di lei (lib/pagina-adesso.js, D.qui), la previsione della citta' ora per ora, e i millimetri dei
    pluviometri piu' vicini (ieri, 7 e 30 giorni) SCRITTI NELL'HTML. Per questi la pagina e' «cotta» come le regioni e le
    zone piogge: il giro del mattino (pagine-regione.yml, SOLO=citta) la riscrive coi numeri nuovi.
-   Le citta' si scrivono col nome di data/capoluoghi.json; quelle della seconda tappa si aggiungono qui. */
-const CITTA_ADESSO = {
-  liguria: ['Genova', 'Savona', 'La Spezia', 'Imperia'],
-  veneto: ['Venezia', 'Verona', 'Padova'],
-  lazio: ['Roma'],
-  campania: ['Napoli', 'Salerno', 'Caserta'],
-  puglia: ['Bari', 'Lecce', 'Taranto', 'Foggia'],
-  sicilia: ['Palermo', 'Catania', 'Messina', 'Siracusa', 'Ragusa'],
-  sardegna: ['Cagliari', 'Sassari', 'Olbia', 'Nuoro'],
-};
+   Le citta' si scrivono col nome di data/capoluoghi.json.
+   ⚠️ A ONDATE (5/11/2026, scheda 124, suo sì al posto della seconda tappa unica del ~18/11): Google prende bene una
+   ventina di pagine nuove alla volta se ha la loro sitemap inviata il giorno stesso (sc.py invia), mentre i blocchi
+   grossi restano fermi per settimane. Ogni ondata e' un elemento di ONDATE_ADESSO e ha la SUA sitemap
+   (sitemap-adesso-citta.xml la prima, sitemap-adesso-citta-2.xml la seconda, e cosi' via): la pagina porta
+   data-ondata e genera-sitemap.js la mette nel file giusto. L'ondata nuova si aggiunge in fondo, quando la precedente
+   e' indicizzata al ~70%. Seconda ondata: i capoluoghi di regione che mancavano (L'Aquila no: l'Abruzzo non ha la
+   pagina dei pluviometri, la citta' linkerebbe una pagina che non c'e') piu' i sei piu' grandi rimasti nelle regioni
+   della prima, e Reggio di Calabria al posto dell'Aquila. */
+const ONDATE_ADESSO = [
+  { // prima ondata, 4/11/2026 (scheda 118 bis)
+    liguria: ['Genova', 'Savona', 'La Spezia', 'Imperia'],
+    veneto: ['Venezia', 'Verona', 'Padova'],
+    lazio: ['Roma'],
+    campania: ['Napoli', 'Salerno', 'Caserta'],
+    puglia: ['Bari', 'Lecce', 'Taranto', 'Foggia'],
+    sicilia: ['Palermo', 'Catania', 'Messina', 'Siracusa', 'Ragusa'],
+    sardegna: ['Cagliari', 'Sassari', 'Olbia', 'Nuoro'],
+  },
+  { // seconda ondata, preparata il 5/11/2026 (scheda 124)
+    lombardia: ['Milano'], piemonte: ['Torino'], emilia: ['Bologna'], toscana: ['Firenze'], friuli: ['Trieste'],
+    marche: ['Ancona'], umbria: ['Perugia'], basilicata: ['Potenza'], calabria: ['Catanzaro', 'Reggio di Calabria'],
+    molise: ['Campobasso'], trentino: ['Trento'], altoadige: ['Bolzano'], valledaosta: ['Aosta'],
+    veneto: ['Vicenza', 'Treviso'], puglia: ['Andria', 'Brindisi'], sicilia: ['Trapani', 'Agrigento'],
+  },
+];
+const CITTA_ADESSO = {}, ONDATA_DI = {};
+ONDATE_ADESSO.forEach((o, i) => {
+  for (const [k, nomi] of Object.entries(o)) {
+    CITTA_ADESSO[k] = (CITTA_ADESSO[k] || []).concat(nomi);
+    for (const n of nomi) ONDATA_DI[k + '/' + n] = i + 1;
+  }
+});
 const { slug, bello } = require('./lib-nomi.js');
 function cittaAdesso(k) {
   return (CITTA_ADESSO[k] || []).map(n => {
     const c = (CAPOLUOGHI[k] || []).find(x => x.n === n);
     if (!c) throw new Error(`citta' «${n}» non trovata in capoluoghi.json (${k})`);
-    return { n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, s:c.s, reg:k, slug:slug(c.n) };
+    return { n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, s:c.s, reg:k, slug:slug(c.n), ondata:ONDATA_DI[k + '/' + n] };
   });
 }
 
@@ -650,7 +673,7 @@ ${RILIEVO}${STILE_ADESSO}${STILE_CITTA}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${BRI
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga, attiva: '' })}
-<main>
+<main data-ondata="${c.ondata}">
 ${briciolaHtml(briciola)}
 <h1>Radar meteo ${c.n}: sta piovendo adesso?</h1>
 <p class="sotto"><b>Radar della pioggia in diretta su ${c.n}</b> e dintorni: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>

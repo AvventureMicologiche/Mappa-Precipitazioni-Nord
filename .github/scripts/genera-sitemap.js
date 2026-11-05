@@ -138,8 +138,13 @@ function scriviSitemap(SITO, RADICE) {
     for (const s of fs.readdirSync(ad).sort()) {
       const rel = path.join(d, 'adesso', s, 'index.html');
       if (!c_e(rel)) continue;
-      const m = /data-ultimo="(\d{4}-\d\d-\d\d)"/.exec(fs.readFileSync(path.join(RADICE, rel), 'utf8'));
-      fam.adessoCitta.push({ loc: `${SITO}/${d}/adesso/${s}/`, lastmod: m ? m[1] : (LASTMOD.adessoCitta || LASTMOD.adesso), freq: 'daily', pri: '0.8' });
+      const h = fs.readFileSync(path.join(RADICE, rel), 'utf8');
+      const m = /data-ultimo="(\d{4}-\d\d-\d\d)"/.exec(h);
+      // A ONDATE (5/11/2026, scheda 124): ogni ondata nella sua sitemap, per inviarla a Google il giorno stesso e
+      // misurarla da sola. data-ondata lo scrive genera-pagine-adesso.js; la prima (o nessun numero) resta qui.
+      const o = /<main data-ondata="(\d+)"/.exec(h), n = o ? +o[1] : 1;
+      const k = n > 1 ? 'adessoCitta' + n : 'adessoCitta';
+      (fam[k] = fam[k] || []).push({ loc: `${SITO}/${d}/adesso/${s}/`, lastmod: m ? m[1] : (LASTMOD.adessoCitta || LASTMOD.adesso), freq: 'daily', pri: '0.8' });
     }
   }
   // Le pagine funghi restano a 0.7: la priorita' e' solo un peso RELATIVO
@@ -258,6 +263,9 @@ function scriviSitemap(SITO, RADICE) {
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
                  meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoPaesi: 'sitemap-meteo-paesi.xml',
                  meteoPaesiB: 'sitemap-meteo-paesi-b.xml', adessoCitta: 'sitemap-adesso-citta.xml' };
+  // le ondate dopo la prima delle citta' «adesso» (5/11/2026): adessoCitta2 → sitemap-adesso-citta-2.xml, e cosi' via
+  for (const k of Object.keys(fam).filter(k => /^adessoCitta\d+$/.test(k)).sort((a, b) => a.slice(11) - b.slice(11)))
+    NOMI[k] = `sitemap-adesso-citta-${k.slice(11)}.xml`;
   const figlie = [];
   let totale = 0;
   for (const k of Object.keys(NOMI)) {

@@ -191,6 +191,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La previsione di riserva quando MET manda il JSON tagliato (4/11/2026, scheda 118 bis)**: `riserva` in `perPunto`, 12 ore senza data, 5 minuti nella cache normale, niente chiamate in più a MET
 - **La riserva per tutti i punti quando MET risponde 503, e i guasti che non moltiplicano piu' le chiamate (4/11/2026 sera, scheda 122)**: copia normale tenuta 12 ore (`X-Fresca-Fino`, `X-Giorno`, `X-Buona`), errori ricordati 2 minuti, aree tenute anche con errori; schermo blu e mappa grigia
 - **Minima e massima, sempre in quest'ordine (6/11/2026, scheda 125)**: «Che tempo farà» con minima e massima (prima solo la massima), giorni della scheda delle previsioni girati, minima blu e massima rossa ovunque
+- **Le pagine «adesso» delle città a ondate, e la seconda ondata: 20 città (5/11/2026, scheda 124)**: `ONDATE_ADESSO`, `data-ondata`, una sitemap per ondata da inviare il giorno stesso, la prossima al ~70%; il giorno della pubblicazione generatore intero
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
