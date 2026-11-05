@@ -1,71 +1,71 @@
 {
  "regione": "friuli",
- "generato": "2026-11-04T04:15:43.572Z",
+ "generato": "2026-11-05T04:15:41.643Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 138,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "stazioni": 142,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Passo Predil",
-     "mm": 0.8
-    },
-    {
-     "n": "Val Ugovizza",
-     "mm": 0.6
+     "n": "Passo Pramollo",
+     "mm": 2.6
     },
     {
      "n": "Fusine Alpe del Lago",
-     "mm": 0.4
+     "mm": 2
     },
     {
-     "n": "Monte Lussari",
-     "mm": 0.4
+     "n": "Coritis",
+     "mm": 0.8
     },
     {
-     "n": "Passo Pramollo",
-     "mm": 0.4
+     "n": "Fusine Valico",
+     "mm": 0.8
+    },
+    {
+     "n": "Passo Predil",
+     "mm": 0.8
     }
    ]
   },
   "7": {
    "media": 0.3,
    "giorni": 7,
-   "stazioni": 141,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "stazioni": 142,
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Prescudin",
-     "mm": 5.4
+     "mm": 5.2
     },
     {
-     "n": "Monte Lussari",
-     "mm": 2.2
+     "n": "Fusine Alpe del Lago",
+     "mm": 3.6
+    },
+    {
+     "n": "Passo Pramollo",
+     "mm": 3.4
     },
     {
      "n": "Passo Predil",
-     "mm": 2.2
+     "mm": 3
     },
     {
-     "n": "Saletto",
-     "mm": 2.2
-    },
-    {
-     "n": "Cave del Predil",
-     "mm": 1.8
+     "n": "Fusine Valico",
+     "mm": 2.6
     }
    ]
   },
   "20": {
-   "media": 99.2,
+   "media": 99.3,
    "giorni": 20,
    "stazioni": 142,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Malga Valine",
@@ -77,24 +77,24 @@
     },
     {
      "n": "Ca' Selva Invaso",
-     "mm": 309.4
+     "mm": 309.2
     },
     {
      "n": "Chievolis",
-     "mm": 305.5
+     "mm": 305.3
     },
     {
      "n": "Sella Chianzutan",
-     "mm": 284
+     "mm": 283.8
     }
    ]
   },
   "30": {
-   "media": 126.3,
+   "media": 126.4,
    "giorni": 30,
    "stazioni": 142,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Malga Valine",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0.2,
@@ -148,15 +149,14 @@
   5,
   15.5,
   1,
-  0,
   0
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0,
    "m30": 142,
@@ -167,9 +167,9 @@
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
-   "m7": 0.2,
+   "m7": 0.1,
    "m30": 278.2,
    "p1": false,
    "p7": true,
@@ -178,10 +178,10 @@
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-11-03",
-   "m1": 0.1,
-   "m7": 0.7,
-   "m30": 135.2,
+   "ultimo": "2026-11-04",
+   "m1": 1,
+   "m7": 1.7,
+   "m30": 136.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,7 +189,7 @@
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 162.5,
@@ -200,10 +200,10 @@
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-11-03",
-   "m1": 0.3,
-   "m7": 1.7,
-   "m30": 127.1,
+   "ultimo": "2026-11-04",
+   "m1": 0.9,
+   "m7": 2.6,
+   "m30": 128,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,10 +211,10 @@
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-11-03",
-   "m1": 0.1,
-   "m7": 1.2,
-   "m30": 135.2,
+   "ultimo": "2026-11-04",
+   "m1": 0.3,
+   "m7": 1.4,
+   "m30": 135.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -222,18 +222,18 @@
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-11-03",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 158.5,
-   "p1": false,
+   "ultimo": "2026-11-04",
+   "m1": 0.3,
+   "m7": 0.4,
+   "m30": 158.8,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.4,
    "m30": 117.6,
@@ -244,18 +244,18 @@
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-11-03",
-   "m1": 0,
-   "m7": 0.1,
-   "m30": 204.8,
-   "p1": false,
+   "ultimo": "2026-11-04",
+   "m1": 0.2,
+   "m7": 0.2,
+   "m30": 205,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 182.9,

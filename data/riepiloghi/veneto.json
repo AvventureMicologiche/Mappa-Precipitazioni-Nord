@@ -1,38 +1,38 @@
 {
  "regione": "veneto",
- "generato": "2026-11-04T12:35:01.571Z",
+ "generato": "2026-11-05T04:15:41.642Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 186,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Adria - Bellombra (RO)",
-     "nb": "Adria - Bellombra",
-     "mm": 0
+     "n": "Lusiana (VI)",
+     "nb": "Lusiana",
+     "mm": 1.1
     },
     {
-     "n": "Agna (PD)",
-     "nb": "Agna",
-     "mm": 0
+     "n": "Jesolo - Cortellazzo (VE)",
+     "nb": "Jesolo - Cortellazzo",
+     "mm": 0.6
     },
     {
-     "n": "Agordo (BL)",
-     "nb": "Agordo",
-     "mm": 0
+     "n": "Fossalta di Portogruaro (VE)",
+     "nb": "Fossalta di Portogruaro",
+     "mm": 0.4
     },
     {
-     "n": "Arcole (VR)",
-     "nb": "Arcole",
-     "mm": 0
+     "n": "Passo Pordoi (BL)",
+     "nb": "Passo Pordoi",
+     "mm": 0.4
     },
     {
-     "n": "Auronzo (BL)",
-     "nb": "Auronzo",
-     "mm": 0
+     "n": "Ru de Vaccia (Monte Campoduro) (BL)",
+     "nb": "Ru de Vaccia (Monte Campoduro)",
+     "mm": 0.2
     }
    ]
   },
@@ -40,8 +40,8 @@
    "media": 0.7,
    "giorni": 7,
    "stazioni": 186,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Col Indes (Tambre) (BL)",
@@ -64,9 +64,9 @@
      "mm": 5
     },
     {
-     "n": "Zero Branco (TV)",
-     "nb": "Zero Branco",
-     "mm": 4.8
+     "n": "Roncadin (Chies d'Alpago) (BL)",
+     "nb": "Roncadin (Chies d'Alpago)",
+     "mm": 4.6
     }
    ]
   },
@@ -74,13 +74,13 @@
    "media": 49.3,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 197.1
+     "mm": 196.9
     },
     {
      "n": "Col Indes (Tambre) (BL)",
@@ -90,12 +90,12 @@
     {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
-     "mm": 166.8
+     "mm": 166.6
     },
     {
      "n": "Tonezza del Cimone (VI)",
      "nb": "Tonezza del Cimone",
-     "mm": 153.8
+     "mm": 153.6
     },
     {
      "n": "Cansiglio - Tramedere (BL)",
@@ -105,11 +105,11 @@
    ]
   },
   "30": {
-   "media": 67.7,
+   "media": 67.6,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Castana (VI)",
@@ -117,19 +117,19 @@
      "mm": 212.1
     },
     {
-     "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
-     "nb": "Rifugio la Guardia (Recoaro Terme)",
-     "mm": 180.2
-    },
-    {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
      "mm": 180
     },
     {
+     "n": "Rifugio la Guardia (Recoaro Terme) (VI)",
+     "nb": "Rifugio la Guardia (Recoaro Terme)",
+     "mm": 179.8
+    },
+    {
      "n": "Staro (Valli del Pasubio) (VI)",
      "nb": "Staro (Valli del Pasubio)",
-     "mm": 179.5
+     "mm": 179.7
     },
     {
      "n": "Col Indes (Tambre) (BL)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   0.6,
@@ -168,15 +169,14 @@
   2.2,
   9.6,
   1.7,
-  0,
-  0.1
+  0
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.1,
    "m30": 159.5,
@@ -187,9 +187,9 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
-   "m7": 3,
+   "m7": 2.9,
    "m30": 151.4,
    "p1": false,
    "p7": true,
@@ -198,7 +198,7 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0,
    "m30": 82.9,
@@ -209,29 +209,29 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.8,
-   "m30": 174.3,
-   "p1": false,
+   "m30": 174.2,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
-   "m7": 0.5,
+   "m7": 0,
    "m30": 94.1,
    "p1": false,
-   "p7": true,
+   "p7": false,
    "p30": true
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0.9,
    "m30": 123.1,
@@ -242,7 +242,7 @@
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0,
    "m30": 76.1,

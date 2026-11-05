@@ -1,22 +1,14 @@
 {
  "regione": "altoadige",
- "generato": "2026-11-04T04:15:43.573Z",
+ "generato": "2026-11-05T04:15:41.643Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
-    {
-     "n": "Redagno",
-     "mm": 0.7
-    },
-    {
-     "n": "San Martino in Passiria",
-     "mm": 0.1
-    },
     {
      "n": "Alta Val Martello",
      "mm": 0
@@ -28,6 +20,14 @@
     {
      "n": "Barbiano Colma",
      "mm": 0
+    },
+    {
+     "n": "Bolzano",
+     "mm": 0
+    },
+    {
+     "n": "Bressanone",
+     "mm": 0
     }
    ]
   },
@@ -35,20 +35,20 @@
    "media": 0.1,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Predoi",
      "mm": 2
     },
     {
-     "n": "Fleres",
-     "mm": 1.4
-    },
-    {
      "n": "Redagno",
      "mm": 0.7
+    },
+    {
+     "n": "Fleres",
+     "mm": 0.1
     },
     {
      "n": "Ridanna",
@@ -64,8 +64,8 @@
    "media": 32.9,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Santa Valburga",
@@ -73,7 +73,7 @@
     },
     {
      "n": "Fleres",
-     "mm": 74.7
+     "mm": 74.5
     },
     {
      "n": "San Vito di Braies",
@@ -90,19 +90,19 @@
    ]
   },
   "30": {
-   "media": 46.5,
+   "media": 44.4,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Fleres",
-     "mm": 101.6
+     "mm": 93.6
     },
     {
      "n": "Santa Valburga",
-     "mm": 92.7
+     "mm": 89.4
     },
     {
      "n": "San Vito di Braies",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Ultimo Fontana Bianca",
-     "mm": 69.5
+     "mm": 65.8
     },
     {
-     "n": "Plan",
-     "mm": 68.9
+     "n": "Plata in Passiria",
+     "mm": 64.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0,
   9,
   0,
-  0.4,
-  2.1
+  0.4
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0,
-   "m30": 50.1,
+   "m30": 47.5,
    "p1": false,
    "p7": false,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-11-03",
+   "ultimo": "2026-11-04",
    "m1": 0,
    "m7": 0,
-   "m30": 42.9,
+   "m30": 41.9,
    "p1": false,
    "p7": false,
    "p30": true

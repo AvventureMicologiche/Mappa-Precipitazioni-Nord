@@ -1,42 +1,42 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-04T04:15:43.575Z",
+ "generato": "2026-11-05T04:15:41.645Z",
  "periodi": {
   "1": {
-   "media": 7,
+   "media": 2,
    "giorni": 1,
-   "stazioni": 411,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "stazioni": 420,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Isnello SP54",
-     "mm": 69.1
+     "n": "Giarre",
+     "mm": 70.2
     },
     {
-     "n": "Rosamarina Diga R2",
-     "mm": 61.7
+     "n": "Nunziata",
+     "mm": 70.2
     },
     {
-     "n": "Termini Imerese SIAS",
-     "mm": 58.6
+     "n": "Catania San Giorgio",
+     "mm": 61.4
     },
     {
-     "n": "Miraglia",
-     "mm": 53.5
+     "n": "Viagrande",
+     "mm": 60.8
     },
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 49
+     "n": "Piedimonte Etneo",
+     "mm": 52.1
     }
    ]
   },
   "7": {
-   "media": 45.2,
+   "media": 47.2,
    "giorni": 7,
-   "stazioni": 401,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "stazioni": 403,
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Isnello SP54",
@@ -47,79 +47,80 @@
      "mm": 149.8
     },
     {
+     "n": "Nunziata",
+     "mm": 144.9
+    },
+    {
      "n": "Cesarò Monte Soro SIAS",
-     "mm": 135.4
+     "mm": 135.6
     },
     {
      "n": "Isnello",
      "mm": 130.7
-    },
-    {
-     "n": "Miraglia",
-     "mm": 128.8
     }
    ]
   },
   "20": {
-   "media": 67.4,
+   "media": 69.8,
    "giorni": 20,
    "stazioni": 418,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Pagliara",
-     "mm": 310
+     "n": "Piedimonte Etneo",
+     "mm": 333.3
     },
     {
      "n": "Forza d'Agrò",
-     "mm": 285.2
+     "mm": 317.1
     },
     {
-     "n": "Piedimonte Etneo",
-     "mm": 281.2
+     "n": "Pagliara",
+     "mm": 311.6
     },
     {
      "n": "Letojanni",
-     "mm": 273.9
+     "mm": 293.8
     },
     {
-     "n": "Isnello SP54",
-     "mm": 268.5
+     "n": "Casalvecchio Siculo",
+     "mm": 281.9
     }
    ]
   },
   "30": {
-   "media": 104.5,
+   "media": 106.7,
    "giorni": 30,
-   "stazioni": 418,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "stazioni": 417,
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Pagliara",
-     "mm": 395.4
+     "n": "Forza d'Agrò",
+     "mm": 404.4
     },
     {
-     "n": "Forza d'Agrò",
-     "mm": 372.5
+     "n": "Pagliara",
+     "mm": 397
     },
     {
      "n": "Casalvecchio Siculo",
-     "mm": 352.8
+     "mm": 367.4
     },
     {
-     "n": "Mandanici",
-     "mm": 346.2
+     "n": "Piedimonte Etneo",
+     "mm": 366
     },
     {
      "n": "Letojanni",
-     "mm": 343.3
+     "mm": 363.2
     }
    ]
   }
  },
  "serie": [
+  2,
   7,
   28.9,
   3.8,
@@ -148,18 +149,17 @@
   4.5,
   2.3,
   0.4,
-  0.2,
-  0
+  0.2
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-03",
-   "m1": 30.9,
-   "m7": 97.5,
-   "m30": 223.3,
+   "ultimo": "2026-11-04",
+   "m1": 0.2,
+   "m7": 97.6,
+   "m30": 223.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-03",
-   "m1": 37.4,
-   "m7": 103.2,
-   "m30": 218.1,
+   "ultimo": "2026-11-04",
+   "m1": 0.1,
+   "m7": 103.3,
+   "m30": 218.3,
    "p1": true,
    "p7": true,
    "p30": true

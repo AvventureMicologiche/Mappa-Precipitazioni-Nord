@@ -1,32 +1,32 @@
 {
  "regione": "sardegna",
- "generato": "2026-11-04T04:15:43.575Z",
+ "generato": "2026-11-05T04:15:41.645Z",
  "periodi": {
   "1": {
    "media": 0.1,
    "giorni": 1,
    "stazioni": 92,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Iglesias",
-     "mm": 4.2
+     "n": "Monte Petrosu",
+     "mm": 3
     },
     {
-     "n": "Santadi",
-     "mm": 1
+     "n": "Monte Tului",
+     "mm": 2.2
     },
     {
-     "n": "San Michele",
-     "mm": 0.8
-    },
-    {
-     "n": "Is Cannoneris",
+     "n": "Monte Santa Vittoria",
      "mm": 0.6
     },
     {
-     "n": "Punta Sebera",
+     "n": "San Priamo",
+     "mm": 0.6
+    },
+    {
+     "n": "Santa Lucia di Capoterra",
      "mm": 0.6
     }
    ]
@@ -35,8 +35,8 @@
    "media": 13.5,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Alà dei Sardi",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Siniscola",
-     "mm": 49
+     "mm": 49.2
     },
     {
      "n": "Mamone",
@@ -61,15 +61,15 @@
    ]
   },
   "20": {
-   "media": 47.5,
+   "media": 47.6,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Siniscola",
-     "mm": 287.2
+     "mm": 287.4
     },
     {
      "n": "Baunei",
@@ -90,19 +90,19 @@
    ]
   },
   "30": {
-   "media": 76.1,
+   "media": 74.8,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Siniscola",
-     "mm": 311.2
+     "mm": 308.8
     },
     {
      "n": "Baunei",
-     "mm": 228.6
+     "mm": 224.4
     },
     {
      "n": "Badu Crabolu",
@@ -110,7 +110,7 @@
     },
     {
      "n": "Villanova Monteleone",
-     "mm": 147.2
+     "mm": 146.4
     },
     {
      "n": "Stintino",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.1,
   1.6,
   8.7,
@@ -148,9 +149,8 @@
   2.9,
   14.5,
   1,
-  4.8,
-  1.5
+  4.8
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": []
 }

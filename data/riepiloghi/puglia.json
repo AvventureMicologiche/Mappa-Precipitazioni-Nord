@@ -1,42 +1,42 @@
 {
  "regione": "puglia",
- "generato": "2026-11-04T04:15:43.574Z",
+ "generato": "2026-11-05T04:15:41.645Z",
  "periodi": {
   "1": {
-   "media": 13.9,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 126,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-03",
+   "stazioni": 124,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-04",
    "top": [
     {
-     "n": "Novoli",
-     "mm": 52.1
+     "n": "S.Marco in Lamis",
+     "mm": 2.4
     },
     {
-     "n": "Lecce",
-     "mm": 51.4
+     "n": "Carpino",
+     "mm": 1
     },
     {
-     "n": "Cellino S.Marco",
-     "mm": 44
+     "n": "Vico del Gargano",
+     "mm": 0.6
     },
     {
-     "n": "Latiano",
-     "mm": 43.4
+     "n": "Vieste",
+     "mm": 0.6
     },
     {
-     "n": "San Vito dei Normanni",
-     "mm": 39
+     "n": "Bosco Umbra",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 74.1,
+   "media": 74.3,
    "giorni": 7,
-   "stazioni": 128,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-03",
+   "stazioni": 127,
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Faeto",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Bosco Umbra",
-     "mm": 132.5
+     "mm": 132.7
     },
     {
      "n": "Lecce",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 99.3,
+   "media": 99.4,
    "giorni": 20,
    "stazioni": 128,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Faeto",
@@ -90,11 +90,11 @@
    ]
   },
   "30": {
-   "media": 151.2,
+   "media": 151.3,
    "giorni": 30,
    "stazioni": 128,
-   "primo": "2026-10-05",
-   "ultimo": "2026-11-03",
+   "primo": "2026-10-06",
+   "ultimo": "2026-11-04",
    "top": [
     {
      "n": "Vignacastrisi",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   13.9,
   43.7,
   2.4,
@@ -148,9 +149,8 @@
   12.4,
   11.7,
   1.4,
-  0,
   0
  ],
- "serieDa": "2026-11-03",
+ "serieDa": "2026-11-04",
  "zone": []
 }
