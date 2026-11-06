@@ -1116,4 +1116,9 @@ contro B, dati veri di Sassello e Verzi di Loano) e «ok modifica tutto con A».
   freddo prima della scala, temperatura subito sotto, linea dello zero, riga di stagione, nessun errore; l'unico 404 e'
   `/_anteprime-prova/`, che le pagine leggono solo in locale), `prova-date-125.js` (data finta: 6/11, 30/11, 20/12 col
   freddo; 21/12, gennaio, marzo, luglio, ottobre senza; testi per Nord, Sud, regioni e Italia giusti), scatti in
-  `claudio\immagini\125\`.
+  `claudio\immagini\125\`. In locale la mappa «Pioggia 20 giorni» del riquadro si vede solo con le anteprime in
+  `_anteprime-prova/` (fuori da git): prese quelle del giorno dal ramo `anteprime`.
+- **IN PRODUZIONE il 6/11/2026 alle 13:20** (suo «Sì, tutt'e due»): `d5b4aa96a5`, deploy `44911f27` (1.129 file
+  caricati) dal checkout condiviso allineato. Online Sassello, Melia, Garfagnana, Liguria e `/funghi/` = repo;
+  `sitemap-funghi.xml` online col 6/11; `prova-freddo-125.js` con `BASE=` il sito vero: tutto come in locale, nessun
+  errore.
