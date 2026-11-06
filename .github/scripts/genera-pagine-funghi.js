@@ -332,7 +332,7 @@ ${/* ⚠️ LA FINESTRA E LA CLASSIFICA NELLE PRIME TRE RIGHE (9/9/2026), come
      a funghi», e titolo e H1 adesso lo dicono. */''}
 <h1>Funghi ${r.prep} ${nome} oggi: dove stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Meteo funghi ${nome}: la pioggia vera di ${posti.length} pluviometri da bosco, per capire la crescita dei funghi.</p>
-${rigaStagione()}
+${rigaStagione(r.k)}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
 <div id="guasto"></div>

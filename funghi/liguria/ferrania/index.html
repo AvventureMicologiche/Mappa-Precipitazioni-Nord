@@ -186,6 +186,14 @@ nav.altre a{color:var(--blu);}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
 
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+
 
 .gg{display:flex;align-items:flex-end;gap:3px;height:150px;margin:14px 0 4px;}
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
@@ -492,7 +500,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <h1>Meteo funghi Ferrania oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi a Ferrania: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
 <div id="stagione"></div>
-<script>(function(){var m=new Date().getMonth()+1,t=null;if(m===12||m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===11||m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più. Le notti degli ultimi giorni sono qui sotto.";else if(m===12)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio al Nord e al Centro i funghi sono pochi: conta più il freddo della pioggia, e resistono solo dove le notti restano sopra zero, in basso e vicino al mare.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio al Nord e al Centro i funghi sono pochi: conta più il freddo della pioggia, e resistono solo dove le notti restano sopra zero, in basso e vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
 <div id="guasto"></div>
@@ -590,12 +598,12 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 in Val Bormida: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/val-bormida/">guarda tutta la zona</a>,
 con i suoi 19 pluviometri insieme.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>Da giugno 2026 a novembre 2026</b>, in 136 giorni di misura, ha contato <b>369 mm</b> di pioggia in <b>18 giornate</b> bagnate. Nelle altre 118 non è caduto niente, o così poco da non contare.
+<p><b>Da giugno 2026 a novembre 2026</b>, in 140 giorni di misura, ha contato <b>408 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 120 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>20 ottobre 2026</b>, con
 <b>104,8 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>ottobre 2026</b> con
 211 mm. Su 92 pluviometri
-da bosco della Liguria con lo stesso periodo alle spalle, questo è il <b>56º</b>
+da bosco della Liguria con lo stesso periodo alle spalle, questo è il <b>54º</b>
 per acqua caduta.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
 valgono regole proprie.</p>
@@ -621,6 +629,38 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 </footer>
 
 <script>
+
+  window.freddoFunghi = function (sT, oggi, nota) {
+    var FINO = 20;
+    var adesso = new Date(), mese = adesso.getMonth() + 1;
+    if (!(mese === 11 || (mese === 12 && adesso.getDate() <= FINO)) || !sT || !oggi) return;
+    var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    var gelo = 0, piu = null, quando = 0, conDato = 0;
+    for (var i = 1; i <= 10; i++) {
+      var g = sT[i - 1];
+      if (!g || g[0] == null) continue;
+      conDato++;
+      if (g[0] <= 0) gelo++;
+      if (piu == null || g[0] < piu) { piu = g[0]; quando = i; }
+    }
+    if (conDato < 5) return;
+    var p = String(oggi).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setDate(d.getDate() - quando);
+    var gn = d.getDate(), il = (gn === 1 || gn === 8 || gn === 11) ? 'l’' : 'il ';
+    var gradi = (Math.round(piu * 10 + 1e-9) / 10).toFixed(1).replace('.', ',').replace('-', '−');
+    var titolo = gelo ? (gelo === 1 ? '1 notte di gelo' : gelo + ' notti di gelo') : 'Nessuna gelata';
+    var riga = '<div class="freddo"><div class="ft"><span class="pallino" style="background:' + (gelo ? '#8fd0ff' : '#cfd8e3')
+      + '"></span>' + titolo + ' in 10 giorni</div><div class="dett fd">La notte più fredda' + (nota ? ', ' + nota : '')
+      + ': <b>' + gradi + '°</b> ' + il + gn + ' ' + MESI[d.getMonth()] + '.</div></div>';
+    var v = document.querySelector('#verdetto .verdetto');
+    if (v && !v.querySelector('.freddo')) {
+      var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
+      if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
+    }
+    var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
+    if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
+  };
+
 (function(){
   var REG = "liguria", ID = "FERRA", NOME = "Liguria";
   var REGS = "liguria,piemonte", POSTO = "Ferrania";
@@ -954,10 +994,15 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
         return pezzi;
       };
       var tacche = scalaT(lo, hi), svg = '', et = '';
+      var zero = cls === 'tt-temp' && lo <= 0 && hi >= 0;
       for (var g2 = 0; g2 < tacche.length; g2++) {
         var yy = y(tacche[g2]);
         svg += '<line class="griglia" x1="0" y1="' + yy.toFixed(1) + '" x2="100" y2="' + yy.toFixed(1) + '"/>';
-        et += '<span style="top:' + yy.toFixed(1) + '%">' + ((tacche[g2] % 1 === 0) ? String(tacche[g2]) : num(tacche[g2])) + '</span>';
+        if (!(zero && tacche[g2] === 0)) et += '<span style="top:' + yy.toFixed(1) + '%">' + ((tacche[g2] % 1 === 0) ? String(tacche[g2]) : num(tacche[g2])) + '</span>';
+      }
+      if (zero) {
+        svg += '<line class="zero" x1="0" y1="' + y(0).toFixed(1) + '" x2="100" y2="' + y(0).toFixed(1) + '"/>';
+        et += '<span class="z" style="top:' + y(0).toFixed(1) + '%">0°</span>';
       }
       for (var k3 = 0; k3 < colori.length; k3++) {
         var pz = linea(colori[k3].leggi);
@@ -979,7 +1024,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
               { cl: 'min', leggi: function (d) { return d ? d[0] : null; } },
               { cl: 'max', leggi: function (d) { return d ? d[1] : null; } }], lo, hi, '&deg;C')
           + '<p class="gg-leg"><i style="background:#d1603d"></i>massima &nbsp;'
-          + '<i style="background:#3a6ea8"></i>minima</p>';
+          + '<i style="background:#3a6ea8"></i>minima' + (lo <= 0 && hi >= 0 ? ' &nbsp;<i class="zero"></i>zero gradi' : '') + '</p>';
       }
       if (sW) {
         var vw = sW.filter(function (v) { return v != null; });
@@ -990,6 +1035,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
       }
       document.getElementById('meteo').innerHTML = H;
     }
+    if (sT && window.freddoFunghi) freddoFunghi(sT, j.oggi, '');
 
     document.getElementById('altri').innerHTML =
       '<p>' + tutti.slice().sort(function(a,b){ return a.n.localeCompare(b.n,'it'); })

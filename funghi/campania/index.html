@@ -217,6 +217,14 @@ nav.altre a{color:var(--blu);}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
 
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+
 /* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
 .capo-btns{gap:12px;margin-top:15px;}
 .capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
@@ -496,7 +504,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <h1>Funghi in Campania oggi: dove stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Meteo funghi Campania: la pioggia vera di 43 pluviometri da bosco, per capire la crescita dei funghi.</p>
 <div id="stagione"></div>
-<script>(function(){var m=new Date().getMonth()+1,t=null;if(m===12||m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===11||m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo in piena stagione.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda anche le notti, in montagna può già gelare.";else if(m===12)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Fino a marzo i funghi sono pochi, tranne dove le notti restano miti, vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
 <div id="guasto"></div>
@@ -781,9 +789,16 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Campania.</p>
     for (var k = 0; k < passi.length; k++) if ((hi - lo) / passi[k] <= 5) { p = passi[k]; break; }
     var y = function(v){ return 100 - (v - lo) / (hi - lo) * 100; };
     var svg = "", et = "";
+    /* la linea dello zero (6/11/2026, scheda 125): tratteggiata, quando il grafico ci arriva, cosi' le notti di gelo
+       si vedono a colpo d'occhio; la sua tacca si scrive in grassetto e blu, una volta sola */
+    var zero = lo <= 0 && hi >= 0;
     for (var t = Math.ceil(lo / p) * p; t <= hi; t += p) {
       svg += "<line class=\"griglia\" x1=\"0\" y1=\"" + y(t).toFixed(1) + "\" x2=\"100\" y2=\"" + y(t).toFixed(1) + "\"/>";
-      et += "<span style=\"top:" + y(t).toFixed(1) + "%\">" + t + "°</span>";
+      if (!(zero && t === 0)) et += "<span style=\"top:" + y(t).toFixed(1) + "%\">" + t + "°</span>";
+    }
+    if (zero) {
+      svg += "<line class=\"zero\" x1=\"0\" y1=\"" + y(0).toFixed(1) + "\" x2=\"100\" y2=\"" + y(0).toFixed(1) + "\"/>";
+      et += "<span class=\"z\" style=\"top:" + y(0).toFixed(1) + "%\">0°</span>";
     }
     function linea(c){ var pz = [], cur = [];
       for (var i = GIORNI; i >= 1; i--) { var d = sT[i-1];
@@ -797,7 +812,8 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Campania.</p>
       + (ieri ? "<p class=\"breve\">Ieri minima <b>" + (ieri[0] == null ? "—" : num(ieri[0]) + "°") + "</b>, massima <b>" + (ieri[1] == null ? "—" : num(ieri[1]) + "°") + "</b>" + (nota ? ", " + nota : "") + ".</p>" : "")
       + "<div class=\"tt-box\"><svg class=\"tt\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\">" + svg + "</svg>"
       + "<div class=\"tt-y\">" + et + "</div></div><div class=\"gg-x tt-x\">" + ax + "</div>"
-      + "<p class=\"gg-leg\"><i style=\"background:#d1603d\"></i>massima &nbsp; <i style=\"background:#3a6ea8\"></i>minima</p>";
+      + "<p class=\"gg-leg\"><i style=\"background:#d1603d\"></i>massima &nbsp; <i style=\"background:#3a6ea8\"></i>minima"
+      + (zero ? " &nbsp; <i class=\"zero\"></i>zero gradi" : "") + "</p>";
   }
 
 

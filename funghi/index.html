@@ -190,6 +190,14 @@ nav.altre a{color:var(--blu);}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
 
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+
 
 .regg{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:9px;margin-top:8px;}
 .regg a{display:block;text-decoration:none;border:1px solid var(--bordo);border-radius:9px;
@@ -397,7 +405,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › Piogge per funghi</p>
 <h1>Dove andare a funghi oggi</h1>
 <div id="stagione"></div>
-<script>(function(){var m=new Date().getMonth()+1,t=null;if(m===12||m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===11||m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Al Nord e al Centro siamo ai margini della stagione, al Sud e sulle isole in piena stagione.</b> Adesso conta il freddo quanto la pioggia: con le notti sotto zero i funghi si fermano.";else if(m===12)t="<b>Al Nord e al Centro siamo fuori stagione, al Sud e sulle isole ai margini.</b> Contano le notti: i funghi resistono dove restano sopra zero, in basso e vicino al mare.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 <p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella <b>da 13 a 20
 giorni fa</b>, misurata a terra dai pluviometri di 985 posti da bosco in 20

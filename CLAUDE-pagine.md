@@ -1081,3 +1081,39 @@ striscia). Su tutte le pagine non modello, 1.461: gzip da 52,8 a 39,8 MB in tutt
 - **IN PRODUZIONE il 4/11/2026** (`bbf239f93d`, deploy `1336a6fa`): index online = repo, copia sul sito di
   `data/vetrina.json` col sorteggio nuovo; online la riserva e il giro (`giro-online-119.js`) mostrano la scheda nuova
   al PC, a 800 px e al telefono (360 e 393).
+
+## Il freddo nelle pagine funghi, dal 1 novembre al 20 dicembre (6/11/2026, scheda 125)
+
+Suo «in questo periodo le piogge sono sempre meno importanti delle temperature, c'è qualcosa che possiamo fare o dire
+nelle pagine funghi?», poi «controlla anche cosa fa 3bmeteo», il mockup `claudio\mockup-funghi-freddo-125\` (variante A
+contro B, dati veri di Sassello e Verzi di Loano) e «ok modifica tutto con A».
+
+- **Cosa fa 3bmeteo** (`3bmeteo.com/meteo-funghi/<comune>`): un voto di 7 livelli giorno per giorno, «sperimentale»,
+  senza temperature ne' spiegazioni. Il 6/11/2026 la tabella era vuota («servizio in aggiornamento»); nelle copie di
+  archive.org di NOVEMBRE e DICEMBRE 2025 dava 14 giorni su 14 «Assente» ovunque, anche ad Adrano (Etna) il 10/11.
+- **La riga del freddo** (`JS_FREDDO` in `lib-stagione.js`, `window.freddoFunghi(sT, oggi, nota)`): nelle pagine di
+  PAESE e di ZONA, dentro il riquadro della pioggia fra il dettaglio e la scala, «4 notti di gelo in 10 giorni» (pallino
+  azzurro) o «Nessuna gelata in 10 giorni» (grigio), e sotto «La notte più fredda: −2,4° il 3 novembre». Dalle minime che
+  la pagina ha gia' (`serieT`; nelle zone la media dei pluviometri, e la riga dice «in media»); notte di gelo = minima
+  ≤ 0; con meno di 5 giorni su 10 col termometro la riga non esce. Nessun voto ne' previsione (impronta etica): dato
+  misurato, il giudizio a chi legge. Il blocco della temperatura (`#meteo`) SALE subito sotto il riquadro.
+- **Quando**: dal 1/11 al `FREDDO_FINO` dicembre (20), guardando il giorno di CHI LEGGE: niente da rigenerare. Dal 21/12
+  la pagina torna com'era. ⚠️ **Prima del 21/12 va fatta la «pausa» invernale** (suo: «poi dovremo mettere qualcosa di
+  pausa in modo da non rendere ridicola la pagina»): da decidere con lui, mockup prima.
+- **La riga di stagione** (`rigaStagione(reg, conFreddo)`): non piu' una per tutta Italia. Nord e Centro: novembre «ai
+  margini: adesso conta il freddo quanto la pioggia», dicembre-febbraio «fuori stagione» col freddo; Sud e isole (`SUD`:
+  Campania, Puglia, Basilicata, Calabria, Sicilia, Sardegna): novembre «in piena stagione», dicembre «ai margini»,
+  gennaio-febbraio «fuori stagione»; `/funghi/` (Italia) una frase per tutt'e due; marzo come prima. Le pagine di paese
+  e di zona aggiungono «Le notti degli ultimi giorni sono qui sotto» finche' c'e' la riga del freddo. Testi in `TESTI`.
+- **La linea dello zero** nel grafico delle temperature (paese, zona, regione): tratteggiata, tacca «0°» in grassetto,
+  voce «zero gradi» nella legenda, quando il grafico arriva a zero (anche fuori dal periodo del freddo). Stile in
+  `STILE_FREDDO`, dentro `STILE_NUOVO`: le pagine di paese lo prendono dalla pagina della regione.
+- **Pagine rigenerate** (`genera-pagine-funghi.js`, `-localita.js`, `-zona.js`, `genera-indice-funghi.js`): 1.120,
+  col ritratto dei pluviometri aggiornato come fa il rinnovo; `pagine-lastmod.json` funghi, indice, localita e zone al
+  6/11 e sitemap rifatte. Le regioni hanno solo la riga di stagione nuova e la linea dello zero (la media regionale delle
+  minime non dice dove gela: e' la proposta 4, la colonna delle minime accanto ai posti piu' bagnati, non fatta).
+- **Prove** (scratchpad della scheda 125): `prova-freddo-125.js` (8 pagine × telefono e PC dal server 9075: riga del
+  freddo prima della scala, temperatura subito sotto, linea dello zero, riga di stagione, nessun errore; l'unico 404 e'
+  `/_anteprime-prova/`, che le pagine leggono solo in locale), `prova-date-125.js` (data finta: 6/11, 30/11, 20/12 col
+  freddo; 21/12, gennaio, marzo, luglio, ottobre senza; testi per Nord, Sud, regioni e Italia giusti), scatti in
+  `claudio\immagini\125\`.

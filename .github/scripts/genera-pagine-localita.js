@@ -45,7 +45,7 @@ const { JS_AGGIORNATO, JS_STIME, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz, st
 // non al controllo di sintassi.
 const { LOCALITA, bello, slug: slugDaNome, slugRegione } = require('./lib-nomi.js');
 const { perLink } = require('./lib-vicine.js');
-const { rigaStagione } = require('./lib-stagione.js');
+const { rigaStagione, JS_FREDDO } = require('./lib-stagione.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // 20/10/2026, come le zone funghi
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
@@ -438,7 +438,7 @@ ${/* ⚠️ 24/9/2026, SCHEMA DETTATO DA LUI: prima i dati (ha piovuto abbastanz
      gente cerca davvero (Search Console, 90 giorni), e aggiunge la domanda. */''}
 <h1>${esc(H1)}</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ${esc(DOVE)}: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
-${rigaStagione()}
+${rigaStagione(REG, true)}
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
 <div id="guasto"></div>
@@ -545,6 +545,7 @@ ${coppiaQuiz(REG, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel="n
 </footer>
 
 <script>
+${JS_FREDDO}
 (function(){
   var REG = ${JSON.stringify(REG)}, ID = ${JSON.stringify(ID)}, NOME = ${JSON.stringify(NOME)};
   var REGS = ${JSON.stringify(REGS)}, POSTO = ${JSON.stringify(nomePosto)};
@@ -878,10 +879,17 @@ ${JS_STIME}
         return pezzi;
       };
       var tacche = scalaT(lo, hi), svg = '', et = '';
+      /* la linea dello zero nelle temperature (6/11/2026, scheda 125): tratteggiata, cosi' le notti di gelo si
+         vedono a colpo d'occhio; la sua tacca in grassetto e blu, una volta sola */
+      var zero = cls === 'tt-temp' && lo <= 0 && hi >= 0;
       for (var g2 = 0; g2 < tacche.length; g2++) {
         var yy = y(tacche[g2]);
         svg += '<line class="griglia" x1="0" y1="' + yy.toFixed(1) + '" x2="100" y2="' + yy.toFixed(1) + '"/>';
-        et += '<span style="top:' + yy.toFixed(1) + '%">' + ((tacche[g2] % 1 === 0) ? String(tacche[g2]) : num(tacche[g2])) + '</span>';
+        if (!(zero && tacche[g2] === 0)) et += '<span style="top:' + yy.toFixed(1) + '%">' + ((tacche[g2] % 1 === 0) ? String(tacche[g2]) : num(tacche[g2])) + '</span>';
+      }
+      if (zero) {
+        svg += '<line class="zero" x1="0" y1="' + y(0).toFixed(1) + '" x2="100" y2="' + y(0).toFixed(1) + '"/>';
+        et += '<span class="z" style="top:' + y(0).toFixed(1) + '%">0°</span>';
       }
       for (var k3 = 0; k3 < colori.length; k3++) {
         var pz = linea(colori[k3].leggi);
@@ -903,7 +911,7 @@ ${JS_STIME}
               { cl: 'min', leggi: function (d) { return d ? d[0] : null; } },
               { cl: 'max', leggi: function (d) { return d ? d[1] : null; } }], lo, hi, '&deg;C')
           + '<p class="gg-leg"><i style="background:#d1603d"></i>massima &nbsp;'
-          + '<i style="background:#3a6ea8"></i>minima</p>';
+          + '<i style="background:#3a6ea8"></i>minima' + (lo <= 0 && hi >= 0 ? ' &nbsp;<i class="zero"></i>zero gradi' : '') + '</p>';
       }
       if (sW) {
         var vw = sW.filter(function (v) { return v != null; });
@@ -914,6 +922,8 @@ ${JS_STIME}
       }
       document.getElementById('meteo').innerHTML = H;
     }
+    /* da novembre al 20 dicembre: la riga del freddo nel riquadro e la temperatura subito sotto (6/11/2026, scheda 125) */
+    if (sT && window.freddoFunghi) freddoFunghi(sT, j.oggi, '');
 
     /* ⚠️ L'elenco delle sorelle si disegna DAL FILE: un posto nuovo compare
        in tutte senza rigenerarne nessuna. Ordinato per nome. */

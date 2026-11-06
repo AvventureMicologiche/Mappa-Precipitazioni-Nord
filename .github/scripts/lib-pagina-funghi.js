@@ -15,6 +15,8 @@
  * dentro un template literal del generatore).
  */
 
+const { STILE_FREDDO } = require('./lib-stagione.js');   // la riga del freddo e la linea dello zero (6/11/2026, scheda 125)
+
 const STILE_NUOVO = `
 .gg{display:flex;align-items:flex-end;gap:3px;height:150px;margin:14px 0 4px;}
 .gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
@@ -75,7 +77,7 @@ const STILE_NUOVO = `
 .noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
-`;
+${STILE_FREDDO}`;
 
 /* eslint-disable no-unused-vars */
 function comune() {
@@ -205,9 +207,16 @@ function comune() {
     for (var k = 0; k < passi.length; k++) if ((hi - lo) / passi[k] <= 5) { p = passi[k]; break; }
     var y = function(v){ return 100 - (v - lo) / (hi - lo) * 100; };
     var svg = "", et = "";
+    /* la linea dello zero (6/11/2026, scheda 125): tratteggiata, quando il grafico ci arriva, cosi' le notti di gelo
+       si vedono a colpo d'occhio; la sua tacca si scrive in grassetto e blu, una volta sola */
+    var zero = lo <= 0 && hi >= 0;
     for (var t = Math.ceil(lo / p) * p; t <= hi; t += p) {
       svg += "<line class=\"griglia\" x1=\"0\" y1=\"" + y(t).toFixed(1) + "\" x2=\"100\" y2=\"" + y(t).toFixed(1) + "\"/>";
-      et += "<span style=\"top:" + y(t).toFixed(1) + "%\">" + t + "°</span>";
+      if (!(zero && t === 0)) et += "<span style=\"top:" + y(t).toFixed(1) + "%\">" + t + "°</span>";
+    }
+    if (zero) {
+      svg += "<line class=\"zero\" x1=\"0\" y1=\"" + y(0).toFixed(1) + "\" x2=\"100\" y2=\"" + y(0).toFixed(1) + "\"/>";
+      et += "<span class=\"z\" style=\"top:" + y(0).toFixed(1) + "%\">0°</span>";
     }
     function linea(c){ var pz = [], cur = [];
       for (var i = GIORNI; i >= 1; i--) { var d = sT[i-1];
@@ -221,7 +230,8 @@ function comune() {
       + (ieri ? "<p class=\"breve\">Ieri minima <b>" + (ieri[0] == null ? "—" : num(ieri[0]) + "°") + "</b>, massima <b>" + (ieri[1] == null ? "—" : num(ieri[1]) + "°") + "</b>" + (nota ? ", " + nota : "") + ".</p>" : "")
       + "<div class=\"tt-box\"><svg class=\"tt\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\">" + svg + "</svg>"
       + "<div class=\"tt-y\">" + et + "</div></div><div class=\"gg-x tt-x\">" + ax + "</div>"
-      + "<p class=\"gg-leg\"><i style=\"background:#d1603d\"></i>massima &nbsp; <i style=\"background:#3a6ea8\"></i>minima</p>";
+      + "<p class=\"gg-leg\"><i style=\"background:#d1603d\"></i>massima &nbsp; <i style=\"background:#3a6ea8\"></i>minima"
+      + (zero ? " &nbsp; <i class=\"zero\"></i>zero gradi" : "") + "</p>";
   }
 }
 

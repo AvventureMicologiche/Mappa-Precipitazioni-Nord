@@ -49,7 +49,7 @@ const fs = require('fs');
 const path = require('path');
 const { REGIONI, GEN, briciolaJson } = require('./genera-pagine-regione.js');
 const { bello, slug, slugRegione, elenco, diZona, postiDellaZona, diEnte } = require('./lib-nomi.js');
-const { rigaStagione } = require('./lib-stagione.js');
+const { rigaStagione, JS_FREDDO } = require('./lib-stagione.js');
 const { perLink } = require('./lib-vicine.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
 const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
@@ -275,7 +275,7 @@ ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: casa.k, ga:
 
 <h1>${esc(H1)}</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${nAttivi > 1 ? 'di ' + nAttivi + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
-${rigaStagione()}
+${rigaStagione(casa.k, true)}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
 <div id="guasto"></div>
@@ -391,6 +391,7 @@ ${coppiaQuiz(casa.k, `<a href="${CANALE}?sub_confirmation=1" target="_blank" rel
 ${JS_COMUNE}
 ${JS_AGGIORNATO}
 ${JS_STIME}
+${JS_FREDDO}
 
   function fresco(j){
     if(!j || !j.generato || !j.serie || !j.oggi) return false;
@@ -480,6 +481,8 @@ ${JS_STIME}
     document.getElementById("t-conta").href = link(daG, aG);
     document.getElementById("lnk-pioggia").href = link(daG, ieri);
     if (sT.some(function(x){ return x; })) scriviTemperatura(sT, ax, "media dei pluviometri della zona");
+    /* da novembre al 20 dicembre: la riga del freddo nel riquadro e la temperatura subito sotto (6/11/2026, scheda 125) */
+    if (window.freddoFunghi) freddoFunghi(sT, oggi, "in media");
 
     /* ⚠️ La tabella e GIA NELL HTML coi link: qui si riempiono le caselle e si
        RIORDINA dal piu bagnato spostando le righe, senza innerHTML. */

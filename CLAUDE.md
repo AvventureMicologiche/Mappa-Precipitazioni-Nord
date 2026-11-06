@@ -164,6 +164,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il rinnovo mensile delle pagine non era mai partito: ora prova dal 2 al 6 (2/11/2026, scheda 113)**: cron `2-6` + `gia-fatto` sul mese
 - **Il togli-commenti controlla che lo script si legga ancora (2/11/2026, scheda 114, check-10 B7)**: se togliendoli lo script si rompe, restano i commenti
 - **La riserva della vetrina e' la scheda «Iscriviti», con scritte senza numeri e anche nel giro (4/11/2026, scheda 119)**: `ELENCO=[]`, «Il sito è gratuito», chiave `iscriviti` nel sorteggio e `rimettiScheda()`
+- **Il freddo nelle pagine funghi, dal 1 novembre al 20 dicembre (6/11/2026, scheda 125)**: `JS_FREDDO` e `rigaStagione(reg, conFreddo)` in `lib-stagione.js`, notti di gelo nel riquadro, temperatura in alto, Nord e Sud separati, linea dello zero; la «pausa» invernale da fare prima del 21/12
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 
