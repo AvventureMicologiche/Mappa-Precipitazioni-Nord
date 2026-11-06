@@ -537,7 +537,8 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Sveglia (dal 3/11/2026, suo «Sì, mettila»):** `abruzzo.yml` e' nel giro del mattino delle 4:30 della sveglia
   Cloudflare (`MATTINO` di `sveglia-guardiano`, versione `1be359ee`, copia in `.github/cloudflare/`), prima dei
   riepiloghi delle 5:15: il cron di GitHub delle 4:55 UTC partiva verso le 13:30 italiane. Il guardiano (6:00-8:30)
-  resta come rete se anche quel giro manca.
+  resta come rete se anche quel giro manca. ⚠️ **Dal 6/11/2026 alle 4:50, da solo, non piu' nel giro delle 4:30**:
+  vedi «Il giro dell'Abruzzo dopo MeteoHub» qui sotto.
 - **ICON corretto coi pluviometri vicini (3/11/2026, scheda 115, suo «ha senso e va approfondito» e «Si', preparala»):**
   `correggiIcon` in `collect-abruzzo.js`. Un punto ICON con un pluviometro vero entro 15 km si moltiplica per quanto ICON
   ha sbagliato su di lui: rapporto (vero+1)/(ICON+1) nel punto del pluviometro (`icon-pluviometri`), in logaritmo, pesi
@@ -614,6 +615,21 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   Attrezzo `scratchpad a4ad099e\temperature-abruzzo-125.js` (`REG=`, `SUFF=`, `INDICE=`), prima e dopo in
   `claudio\immagini\125\`. **IN PRODUZIONE il 6/11/2026 alle 8:38** (`67b057d1ac`, deploy `883da0dd`, suo «Sì,
   tutt'e due»): online index.html e fonti.html = repo, sul sito vero stime e vere stesso stile.
+- **Il giro dell'Abruzzo dopo MeteoHub: alle 4:50 invece che alle 4:30 (6/11/2026, scheda 125, suo «non possiamo
+  fare qualcosa per tenere aggiornata meglio l'abruzzo?» e «Sì, preparalo»):** confrontando le versioni git di
+  `data/abruzzo/<giorno>.json` dal 31/10 al 5/11 (`scratchpad a4ad099e\abruzzo-versioni-125.js <giorni>`, zero rete)
+  ieri e' gia' completo col giro del mattino e i giri di GitHub (~13:30 e ~22:30) non cambiano quasi niente, TRANNE
+  per una gara: alle 4:30 la sveglia lanciava insieme `meteohub.yml` e `abruzzo.yml`, MeteoHub scrive i file di ieri
+  di Lazio, Marche e Molise fra le 4:33 e le 4:40 (ultimi 10 giorni) e l'Abruzzo, col checkout delle 4:30, non li
+  trovava (`pluviometriVeri` su `VICINE`: «quei punti li prende il giro dopo»). Correzione ICON della pioggia e delle
+  temperature senza i vicini fino al giro delle ~13:30, e `temperature-ieri.json` giusto solo coi riepiloghi del
+  pomeriggio (5/11: alle 15:57). Il 4/11 alle 13:53 27 punti hanno cambiato temperatura di 1-3° con ICON grezzo
+  identico (Carsoli massima 15,3→18, Rocca di Botte 11,6→14,8, Case Cerroni 7,8→10,2: Marsica e Alto Sangro, attaccati
+  al Lazio); il 3/11 la pioggia in 22 punti (fino a 9,9 mm, insieme alla regola di Pescara). Rimedio: `abruzzo.yml`
+  fuori da `MATTINO`, riga sua `['04:50', ['abruzzo.yml'], 45]` in `sveglia-guardiano`: stesso numero di giri, nessuna
+  chiamata in piu' alle fonti, finisce verso le 5:00, prima dei riepiloghi delle 5:15. Se MeteoHub un giorno tarda
+  oltre le 4:50 (o una vicina manca, come le Marche del 5/11), i giri di GitHub restano la riserva come prima. Da
+  verificare la mattina dopo con lo stesso attrezzo: il giorno di ieri non deve piu' cambiare al giro delle ~13:30.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge

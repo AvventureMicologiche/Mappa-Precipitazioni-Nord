@@ -30,11 +30,10 @@ const REPO = 'AvventureMicologiche/Mappa-Precipitazioni-Nord';
 // Toscana e Alto Adige dal 27/10/2026 (fase 1 dell'alleggerimento): il giorno lo chiudono la sera, ma il vento e
 // le temperature complete di ieri arrivano solo con un giro del giorno dopo. Lo facevano i cron di GitHub di notte
 // e del mattino, che adesso sono ridotti a riserva.
-// Abruzzo dal 3/11/2026 (MeteoNetwork + ICON-2I su file, scheda 114): il suo cron di GitHub (4:55 UTC) partiva verso
-// le 13:30 italiane; qui arriva prima dei riepiloghi delle 5:15, come le altre.
+// L'Abruzzo dal 6/11/2026 NON e' piu' qui ma alle 4:50, da solo: vedi la sua riga nella TABELLA.
 const MATTINO = ['meteohub.yml', 'svizzera.yml', 'lombardia.yml', 'piemonte.yml', 'liguria.yml',
   'veneto.yml', 'trentino.yml', 'austria.yml', 'francia.yml', 'valledaosta-cf.yml',
-  'friuli-osmer.yml', 'ticino.yml', 'emilia.yml', 'toscana.yml', 'altoadige.yml', 'abruzzo.yml'];
+  'friuli-osmer.yml', 'ticino.yml', 'emilia.yml', 'toscana.yml', 'altoadige.yml'];
 
 // [ora italiana, workflow, minuti per «GitHub l'ha gia' fatto» (0 = parte sempre)]
 const TABELLA = [
@@ -50,6 +49,13 @@ const TABELLA = [
   ['00:45', ['austria.yml', 'francia.yml', 'valledaosta-cf.yml', 'trentino.yml'], 30],
   // ── il giro principale del mattino, e una seconda passata
   ['04:30', MATTINO, 45],
+  // ── l'Abruzzo DOPO MeteoHub (6/11/2026, scheda 125). Dal 3/11 (scheda 114) era nel giro delle 4:30, perche' il suo
+  // cron di GitHub (4:55 UTC) partiva verso le 13:30 italiane. Ma corregge le stime ICON coi pluviometri e i
+  // termometri di ieri di Lazio, Marche e Molise, che il giro MeteoHub delle 4:30 scrive fra le 4:33 e le 4:40:
+  // partendo insieme a lui non li trovava, e le correzioni giuste arrivavano solo col giro di GitHub delle ~13:30
+  // (il 4/11 27 punti cambiati di 1-3 gradi). Alle 4:50 li trova, e finisce prima dei riepiloghi delle 5:15.
+  // Stesso numero di giri: nessuna chiamata in piu' alle fonti.
+  ['04:50', ['abruzzo.yml'], 45],
   ['05:15', ['riepiloghi.yml'], 20],
   ['05:45', ['meteohub.yml', 'svizzera.yml', 'emilia.yml', 'friuli-osmer.yml'], 45],
   // ── il guardiano resta come rete di sicurezza (ri-lancia cio' che manca ancora)
