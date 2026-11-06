@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dove ha piovuto in Val Canale: ieri e negli ultimi giorni</title>
-<meta name="description" content="Quanta pioggia è caduta in Val Canale: ieri, 5 novembre, 1,6 mm di media; negli ultimi 7 giorni 2,4 mm, in 30 giorni 176 mm. Pluviometro per pluviometro.">
+<meta name="description" content="Quanta pioggia è caduta in Val Canale: ieri, 5 novembre, 0 mm di media; negli ultimi 7 giorni 0,8 mm, in 30 giorni 174 mm. Pluviometro per pluviometro.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/zone/val-canale/">
 <meta property="og:title" content="Dove ha piovuto in Val Canale: ieri e ultimi giorni">
 <meta property="og:description" content="La pioggia misurata dai pluviometri della Val Canale: ieri, ultimi 7 e 30 giorni.">
@@ -131,6 +131,14 @@ footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
 .noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
 .noioso p{margin-bottom:8px;}
 .noioso a{color:var(--blu);}
+
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
 
 .gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
 .ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
@@ -384,7 +392,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="sotto"><b>Pluviometria della Val Canale</b>: i dati dei 6 pluviometri di ARPA Veneto e Meteotrentino, ieri e nell'ultimo mese.</p>
 
 <div id="attesa" style="display:none">Sto leggendo i pluviometri…</div>
-<div id="verdetto" data-giorno="2026-11-05"><div class="verdetto"><div class="si">Ieri, 5 novembre</div><div class="gr">1,6 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Valli del Pasubio</b> 9,6 mm.</div><div class="dett">Media di 6 pluviometri della zona.</div></div></div>
+<div id="verdetto" data-giorno="2026-11-05"><div class="verdetto"><div class="si">Ieri, 5 novembre</div><div class="gr">0 mm<small>di media</small></div><div class="top">Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.</div><div class="dett">Media di 6 pluviometri della zona.</div></div></div>
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Val Canale</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
@@ -398,15 +406,15 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="griglia">
   <div class="card">
     <h3>Ultimi 7 giorni</h3>
-    <div class="numerone" id="rip7-media">2,4 mm <small>di media</small></div>
-    <div id="rip7-top"><ol class="top-staz"><li>Valli del Pasubio — 10,2 mm</li><li>Staro (Valli del Pasubio) — 1,2 mm</li><li>Turcati (Recoaro Terme) — 1,0 mm</li></ol></div>
+    <div class="numerone" id="rip7-media">0,8 mm <small>di media</small></div>
+    <div id="rip7-top"><ol class="top-staz"><li>Staro (Valli del Pasubio) — 1,2 mm</li><li>Turcati (Recoaro Terme) — 1,0 mm</li><li>Passo Pian Delle Fugazze — 0,8 mm</li></ol></div>
     <p class="nota" id="rip7-date">Dal 30 ottobre al 5 novembre.</p>
     <a class="vai" id="cta7" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,trentino&amp;g=7&amp;pl=45.781,11.1816&amp;pn=Val%20Canale&amp;pz=1"
        onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-val-canale-7gg'})}catch(e){}">Apri la mappa →</a>
   </div>
   <div class="card">
     <h3>Ultimo mese</h3>
-    <div class="numerone" id="rip30-media">176 mm <small>di media</small></div>
+    <div class="numerone" id="rip30-media">174 mm <small>di media</small></div>
     <div id="rip30-top"><ol class="top-staz"><li>Passo Pian Delle Fugazze — 236,0 mm</li><li>Rifugio la Guardia (Recoaro Terme) — 179,8 mm</li><li>Staro (Valli del Pasubio) — 179,5 mm</li></ol></div>
     <p class="nota" id="rip30-date">Dal 7 ottobre al 5 novembre.</p>
     <a class="vai" id="cta30" href="https://precipitazioni.avventuremicologiche.it/?r=veneto,trentino&amp;g=30&amp;pl=45.781,11.1816&amp;pn=Val%20Canale&amp;pz=1"
@@ -419,12 +427,12 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <table class="tab">
 <thead><tr><th>Pluviometro</th><th id="th1">Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody id="righe">
-<tr data-id="137"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/valli-del-pasubio/">Valli del Pasubio</a><span class="com">VI · 602 m</span></td><td class="mm v1">9,6 mm</td><td class="mm v7">10,2 mm</td><td class="mm v30">154,0 mm</td></tr>
 <tr data-id="625"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/staro-valli-del-pasubio/">Staro (Valli del Pasubio)</a><span class="com">VI · 602 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,2 mm</td><td class="mm v30">179,5 mm</td></tr>
 <tr data-id="76"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/turcati-recoaro-terme/">Turcati (Recoaro Terme)</a><span class="com">VI · 714 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">1,0 mm</td><td class="mm v30">171,2 mm</td></tr>
 <tr data-id="T0425"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/passo-pian-delle-fugazze/">Passo Pian Delle Fugazze</a><span class="com">TN · 1170 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,8 mm</td><td class="mm v30">236,0 mm</td></tr>
 <tr data-id="73"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/contra-doppio-posina/">Contrà Doppio (Posina)</a><span class="com">VI · 724 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">133,8 mm</td></tr>
 <tr data-id="135"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/rifugio-la-guardia-recoaro-terme/">Rifugio la Guardia (Recoaro Terme)</a><span class="com">VI · 1130 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">179,8 mm</td></tr>
+<tr data-id="137"><td><a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/valli-del-pasubio/">Valli del Pasubio</a><span class="com">VI · 602 m</span></td><td class="mm v1">0 mm</td><td class="mm v7">0,6 mm</td><td class="mm v30">144,4 mm</td></tr>
 </tbody>
 </table>
 
