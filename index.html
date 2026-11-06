@@ -18006,7 +18006,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function chip(e,i,on,meteo,corto){   // corto: la scheda al telefono, «MAR 3» e niente riga della data (1/11/2026)
     var d=giornoData(e.g), o=isoRoma(Date.now()), dom=isoPiu(o,1), sera=e.g===o&&oraRoma()>=20;
     return '<div class="pv-gg'+(on?' on':'')+'" data-i="'+i+'"><small>'+(sera?'stasera':e.g===o?'oggi':e.g===dom?'domani':GI[d.getDay()]+(corto?' '+d.getDate():''))+'</small>'+(corto?'':d.getDate()+' '+MESI[d.getMonth()])
-      +(meteo?'<span class="ic">'+icona(e.s)+'</span><span class="tx"><span class="mx">'+e.mx+'°</span>'+(sera&&e.mx===e.mn?'':' <span class="mn">'+e.mn+'°</span>')+'</span>':'')+'</div>';
+      // prima la minima e poi la massima (6/11/2026, scheda 125, suo «più logico prima minime e poi massime», «sì, ovunque»)
+      +(meteo?'<span class="ic">'+icona(e.s)+'</span><span class="tx">'+(sera&&e.mx===e.mn?'':'<span class="mn">'+e.mn+'°</span> ')+'<span class="mx">'+e.mx+'°</span></span>':'')+'</div>';
   }
   function fmtOra(agg){ try{ return new Date(agg).toLocaleTimeString('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
 
@@ -18443,7 +18444,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       // vista Italia: la sola icona (come 3B, ilMeteo e Meteo.it), nomi e temperature stanno nel banner; il posto
       // scelto e le regioni hanno l'etichetta intera
       var html=it&&!x.sel?'<div class="pv-m vi-ico"><span class="ic">'+icona(e.s)+'</span></div>'
-        :'<div class="pv-m'+(x.sel?' sel':'')+'"><span class="ic">'+icona(e.s)+'</span><span class="nm">'+escH(c.n)+'<span class="tx"><span class="mx">'+e.mx+'°</span> <span class="mn">'+e.mn+'°</span></span></span></div>';
+        :'<div class="pv-m'+(x.sel?' sel':'')+'"><span class="ic">'+icona(e.s)+'</span><span class="nm">'+escH(c.n)+'<span class="tx"><span class="mn">'+e.mn+'°</span> <span class="mx">'+e.mx+'°</span></span></span></div>';   // minima prima (6/11/2026, scheda 125)
       var mk=L.marker([c.lat,c.lon],{icon:L.divIcon({className:'pv-ic',iconSize:null,iconAnchor:[0,0],html:html}),keyboard:false});
       mk.on('click',function(){ cercato=null; apriPunto(c); ga('capoluogo',{posto:c.n}); });
       gruppo.addLayer(mk);
@@ -18456,7 +18457,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var eCap=false; gruppo.eachLayer(function(l){ if(l.getLatLng&&Math.abs(l.getLatLng().lat-pp.lat)<0.01&&Math.abs(l.getLatLng().lng-pp.lon)<0.01) eCap=true; });
       if(!eCap&&jj&&jj.giorni){ var ep=jj.giorni.filter(function(x){ return x.g===g; })[0];
         if(ep){ var mp=L.marker([pp.lat,pp.lon],{icon:L.divIcon({className:'pv-ic',iconSize:null,iconAnchor:[0,0],
-          html:'<div class="pv-m sel"><span class="ic">'+icona(ep.s)+'</span><span class="nm">'+escH(pp.n)+'<span class="tx"><span class="mx">'+ep.mx+'°</span> <span class="mn">'+ep.mn+'°</span></span></span></div>'}),keyboard:false,zIndexOffset:500});
+          html:'<div class="pv-m sel"><span class="ic">'+icona(ep.s)+'</span><span class="nm">'+escH(pp.n)+'<span class="tx"><span class="mn">'+ep.mn+'°</span> <span class="mx">'+ep.mx+'°</span></span></span></div>'}),keyboard:false,zIndexOffset:500});   // minima prima (6/11/2026, scheda 125)
           mp.on('click',function(){ apriPunto(pp); ga('posto_riaperto',{posto:pp.n}); });
           gruppo.addLayer(mp); } } });
     /* ⚠️ AGGIORNATE A POCHI MINUTI FA (30/10/2026, suo: «3bmeteo e ilmeteo danno pochi minuti, noi non possiamo mettere

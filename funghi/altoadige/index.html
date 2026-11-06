@@ -1421,11 +1421,11 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco dell'Alto Adige.</p>
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
     var righe = cc.map(function (c, i) {
       return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
-        /* massima e minima (6/11/2026, scheda 125, suo «meglio sia minima che massima» e poi «come la mappa»): «10° 4°»
-           nello stesso ordine e colori delle etichette della mappa delle previsioni (massima rossa, poi minima blu);
-           prima c'era solo la massima */
+        /* minima e massima (6/11/2026, scheda 125, suo «meglio sia minima che massima», poi «più logico prima minime e poi
+           massime», «sì, ovunque»): «−2° 10°», minima blu e poi massima rossa, come da allora anche le etichette della
+           mappa delle previsioni; prima c'era solo la massima */
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>'
-          + '<b class="mk-t">' + String(g.mx).replace('-', '−') + '°' + (g.mn != null ? '<s> </s><b>' + String(g.mn).replace('-', '−') + '°</b>' : '') + '</b>'
+          + '<b class="mk-t">' + (g.mn != null ? '<b>' + String(g.mn).replace('-', '−') + '°</b><s> </s>' : '') + String(g.mx).replace('-', '−') + '°</b>'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           // la % di pioggia del giorno, la piu' alta delle sue ore (la Function con &pr=1, 25/10/2026)
           + (conPc ? '<em class="mk-pc' + (g.pc == null ? '' : g.pc < 10 ? ' z' : g.pc >= 60 ? ' alta' : '') + '">' + (g.pc == null ? '' : '💧 ' + g.pc + '%') + '</em>' : '') + '</span>'; }).join('') + '</a>';

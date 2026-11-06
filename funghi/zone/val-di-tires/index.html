@@ -1132,7 +1132,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
     var righe = cc.map(function (c, i) {
       return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>'
-          + '<b class="mk-t">' + String(g.mx).replace('-', '−') + '°' + (g.mn != null ? '<s> </s><b>' + String(g.mn).replace('-', '−') + '°</b>' : '') + '</b>'
+          + '<b class="mk-t">' + (g.mn != null ? '<b>' + String(g.mn).replace('-', '−') + '°</b><s> </s>' : '') + String(g.mx).replace('-', '−') + '°</b>'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           + (conPc ? '<em class="mk-pc' + (g.pc == null ? '' : g.pc < 10 ? ' z' : g.pc >= 60 ? ' alta' : '') + '">' + (g.pc == null ? '' : '💧 ' + g.pc + '%') + '</em>' : '') + '</span>'; }).join('') + '</a>';
     }).join('');
