@@ -1,22 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-25T06:00:36.968Z",
-      "inRitardo": [
-        "ticino"
-      ],
-      "lanciati": [
-        "ticino.yml"
-      ],
-      "mancanti": [
-        {
-          "dir": "ticino",
-          "giorno": "2026-10-24",
-          "buco": 4
-        }
-      ]
-    },
-    {
       "quando": "2026-10-25T06:30:30.226Z",
       "inRitardo": [
         "ticino"
@@ -1631,8 +1615,20 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-11-06T06:00:39.224Z",
+      "inRitardo": [],
+      "lanciati": [],
+      "mancanti": [
+        {
+          "dir": "meteohub-marche",
+          "giorno": "2026-11-05",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-11-06T05:30:40.203Z",
-  "riassunto": "44 giri con qualcosa ri-lanciato su 120 · 73 con qualche giorno mancante · 42 con un buco di 2+ giorni"
+  "aggiornato": "2026-11-06T06:00:39.224Z",
+  "riassunto": "43 giri con qualcosa ri-lanciato su 120 · 73 con qualche giorno mancante · 41 con un buco di 2+ giorni"
 }
