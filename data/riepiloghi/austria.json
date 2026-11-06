@@ -1,62 +1,52 @@
 {
  "regione": "austria",
- "generato": "2026-11-05T04:15:41.646Z",
+ "generato": "2026-11-06T04:15:39.355Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 266,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
+   "stazioni": 268,
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-05",
    "top": [
     {
-     "n": "Feistritz ob Bleiburg (Kärnten)",
-     "nb": "Feistritz ob Bleiburg",
-     "mm": 3.6
+     "n": "Arriach (Kärnten)",
+     "nb": "Arriach",
+     "mm": 0.1
     },
     {
-     "n": "Dellach (Kärnten)",
-     "nb": "Dellach",
-     "mm": 3.2
+     "n": "Abtenau (Salzburg)",
+     "nb": "Abtenau",
+     "mm": 0
     },
     {
-     "n": "Millstatt (Kärnten)",
-     "nb": "Millstatt",
-     "mm": 2.8
+     "n": "Achenkirch (Tirol)",
+     "nb": "Achenkirch",
+     "mm": 0
     },
     {
-     "n": "St.Veit an der Glan (Kärnten)",
-     "nb": "St.Veit an der Glan",
-     "mm": 2.8
+     "n": "Aflenz (Steiermark)",
+     "nb": "Aflenz",
+     "mm": 0
     },
     {
-     "n": "Weitensfeld (Kärnten)",
-     "nb": "Weitensfeld",
-     "mm": 2.8
+     "n": "Aigen im Ennstal (Steiermark)",
+     "nb": "Aigen im Ennstal",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 5.2,
+   "media": 4.5,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
-    {
-     "n": "Lilienfeld-Tarschberg (Niederösterreich)",
-     "nb": "Lilienfeld-Tarschberg",
-     "mm": 31.7
-    },
     {
      "n": "Kernhof-St. Aegyd am Neuwalde (Niederösterreich)",
      "nb": "Kernhof-St. Aegyd am Neuwalde",
-     "mm": 31.6
-    },
-    {
-     "n": "Lunz am See (Niederösterreich)",
-     "nb": "Lunz am See",
-     "mm": 27.5
+     "mm": 28.7
     },
     {
      "n": "Bad Eisenkappel (Kärnten)",
@@ -64,9 +54,19 @@
      "mm": 23.5
     },
     {
+     "n": "Lunz am See (Niederösterreich)",
+     "nb": "Lunz am See",
+     "mm": 22.6
+    },
+    {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 21.7
+     "mm": 21.8
+    },
+    {
+     "n": "Präbichl (Steiermark)",
+     "nb": "Präbichl",
+     "mm": 19.1
     }
    ]
   },
@@ -74,8 +74,8 @@
    "media": 35.5,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
@@ -85,7 +85,7 @@
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 112.8
+     "mm": 112.9
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
@@ -100,26 +100,21 @@
     {
      "n": "Kornat (Kärnten)",
      "nb": "Kornat",
-     "mm": 97.8
+     "mm": 99.6
     }
    ]
   },
   "30": {
-   "media": 51.5,
+   "media": 51.4,
    "giorni": 30,
-   "stazioni": 268,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "stazioni": 267,
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
      "mm": 194.4
-    },
-    {
-     "n": "Schröcken (Vorarlberg)",
-     "nb": "Schröcken",
-     "mm": 154
     },
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -135,11 +130,17 @@
      "n": "Kolm-Saigurn (Salzburg)",
      "nb": "Kolm-Saigurn",
      "mm": 144
+    },
+    {
+     "n": "Schröcken (Vorarlberg)",
+     "nb": "Schröcken",
+     "mm": 137.9
     }
    ]
   }
  },
  "serie": [
+  0,
   0.3,
   0.1,
   0.4,
@@ -168,9 +169,8 @@
   3.6,
   0.3,
   6.4,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": []
 }

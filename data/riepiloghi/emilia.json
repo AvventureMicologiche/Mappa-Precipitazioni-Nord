@@ -1,47 +1,47 @@
 {
  "regione": "emilia",
- "generato": "2026-11-05T04:15:41.642Z",
+ "generato": "2026-11-06T04:15:39.354Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 304,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-05",
    "top": [
     {
-     "n": "Rimini Ausa (Rimini)",
-     "nb": "Rimini Ausa",
-     "mm": 6.2
+     "n": "Lago Ballano (Parma)",
+     "nb": "Lago Ballano",
+     "mm": 1.4
     },
     {
-     "n": "Rimini urbana (Rimini)",
-     "nb": "Rimini urbana",
-     "mm": 5.6
+     "n": "Lago Pratignano (Modena)",
+     "nb": "Lago Pratignano",
+     "mm": 1.4
     },
     {
-     "n": "Due Tigli (Forlì-Cesena)",
-     "nb": "Due Tigli",
-     "mm": 4.8
+     "n": "Casoni di Romagna (Bologna)",
+     "nb": "Casoni di Romagna",
+     "mm": 1.2
     },
     {
-     "n": "Monte Grosso (Forlì-Cesena)",
-     "nb": "Monte Grosso",
-     "mm": 3.6
+     "n": "Monte Ceresa (Bologna)",
+     "nb": "Monte Ceresa",
+     "mm": 1
     },
     {
-     "n": "Riccione Urbana (Rimini)",
-     "nb": "Riccione Urbana",
-     "mm": 3.3
+     "n": "Monteombraro (Modena)",
+     "nb": "Monteombraro",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 6,
+   "media": 5.9,
    "giorni": 7,
-   "stazioni": 300,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "stazioni": 302,
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Corniolo (Forlì-Cesena)",
@@ -51,7 +51,7 @@
     {
      "n": "Monte Cerignone (Pesaro e Urbino)",
      "nb": "Monte Cerignone",
-     "mm": 56.9
+     "mm": 54.7
     },
     {
      "n": "Diga di Ridracoli (Forlì-Cesena)",
@@ -66,26 +66,26 @@
     {
      "n": "Montriolo (Forlì-Cesena)",
      "nb": "Montriolo",
-     "mm": 51.8
+     "mm": 51.6
     }
    ]
   },
   "20": {
-   "media": 32.9,
+   "media": 33,
    "giorni": 20,
    "stazioni": 306,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Lago Scaffaiolo (Modena)",
      "nb": "Lago Scaffaiolo",
-     "mm": 174.5
+     "mm": 174.9
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 173.6
+     "mm": 173.4
     },
     {
      "n": "Tarsogno (Parma)",
@@ -93,38 +93,38 @@
      "mm": 148.2
     },
     {
+     "n": "Lago Ballano (Parma)",
+     "nb": "Lago Ballano",
+     "mm": 140.5
+    },
+    {
      "n": "Montegroppo (Parma)",
      "nb": "Montegroppo",
      "mm": 139.5
-    },
-    {
-     "n": "Lago Ballano (Parma)",
-     "nb": "Lago Ballano",
-     "mm": 139.1
     }
    ]
   },
   "30": {
-   "media": 54.7,
+   "media": 54.5,
    "giorni": 30,
    "stazioni": 309,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Lago Scaffaiolo (Modena)",
      "nb": "Lago Scaffaiolo",
-     "mm": 315.5
+     "mm": 314.9
     },
     {
      "n": "Lago Ballano (Parma)",
      "nb": "Lago Ballano",
-     "mm": 282.3
+     "mm": 283.7
     },
     {
      "n": "Casoni di Santa Maria di Taro (Parma)",
      "nb": "Casoni di Santa Maria di Taro",
-     "mm": 261.1
+     "mm": 260.9
     },
     {
      "n": "Lagdei (Parma)",
@@ -134,12 +134,13 @@
     {
      "n": "Tarsogno (Parma)",
      "nb": "Tarsogno",
-     "mm": 221.9
+     "mm": 222.1
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0.5,
   0,
   1,
@@ -168,18 +169,17 @@
   0.1,
   2,
   8.5,
-  8.4,
-  0.3
+  8.4
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-11-04",
-   "m1": 0.9,
-   "m7": 3.2,
-   "m30": 58.9,
+   "ultimo": "2026-11-05",
+   "m1": 0.1,
+   "m7": 3.1,
+   "m30": 58.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-11-04",
-   "m1": 0.2,
-   "m7": 3,
-   "m30": 165.6,
+   "ultimo": "2026-11-05",
+   "m1": 0.3,
+   "m7": 3.2,
+   "m30": 165.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-11-04",
-   "m1": 2,
+   "ultimo": "2026-11-05",
+   "m1": 0.1,
    "m7": 4.6,
-   "m30": 123.5,
+   "m30": 118.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-11-04",
-   "m1": 0.5,
+   "ultimo": "2026-11-05",
+   "m1": 0,
    "m7": 3.2,
-   "m30": 71.1,
+   "m30": 71.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,20 +220,20 @@
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-11-04",
-   "m1": 0.1,
-   "m7": 3,
+   "ultimo": "2026-11-05",
+   "m1": 0,
+   "m7": 2.9,
    "m30": 67.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-11-04",
-   "m1": 1.9,
-   "m7": 26.5,
+   "ultimo": "2026-11-05",
+   "m1": 0.1,
+   "m7": 26.4,
    "m30": 58.9,
    "p1": true,
    "p7": true,
@@ -242,9 +242,9 @@
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-11-04",
-   "m1": 0.1,
-   "m7": 3.7,
+   "ultimo": "2026-11-05",
+   "m1": 0.7,
+   "m7": 4.3,
    "m30": 116.9,
    "p1": true,
    "p7": true,

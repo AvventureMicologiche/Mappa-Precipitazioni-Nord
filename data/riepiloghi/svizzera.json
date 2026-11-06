@@ -1,52 +1,62 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-05T11:16:39.817Z",
+ "generato": "2026-11-06T04:15:39.355Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.2,
    "giorni": 1,
-   "stazioni": 305,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
+   "stazioni": 306,
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-05",
    "top": [
     {
-     "n": "Robièi (TI)",
-     "nb": "Robièi",
-     "mm": 6.1
+     "n": "Col du Grand St-Bernard (VS)",
+     "nb": "Col du Grand St-Bernard",
+     "mm": 6.9
     },
     {
-     "n": "Bedretto (TI)",
-     "nb": "Bedretto",
-     "mm": 4.6
+     "n": "Chanrion (VS)",
+     "nb": "Chanrion",
+     "mm": 5.8
     },
     {
-     "n": "Airolo (TI)",
-     "nb": "Airolo",
-     "mm": 3.6
+     "n": "Arolla (VS)",
+     "nb": "Arolla",
+     "mm": 3.5
     },
     {
-     "n": "Piotta (TI)",
-     "nb": "Piotta",
-     "mm": 2.3
+     "n": "Stafel (VS)",
+     "nb": "Stafel",
+     "mm": 3
     },
     {
-     "n": "Novaggio (TI)",
-     "nb": "Novaggio",
-     "mm": 1.6
+     "n": "Fionnay (VS)",
+     "nb": "Fionnay",
+     "mm": 2.8
     }
    ]
   },
   "7": {
-   "media": 0.2,
+   "media": 0.4,
    "giorni": 7,
    "stazioni": 307,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
+    {
+     "n": "Col du Grand St-Bernard (VS)",
+     "nb": "Col du Grand St-Bernard",
+     "mm": 8
+    },
     {
      "n": "Robièi (TI)",
      "nb": "Robièi",
-     "mm": 6.1
+     "mm": 7.1
+    },
+    {
+     "n": "Chanrion (VS)",
+     "nb": "Chanrion",
+     "mm": 6.6
     },
     {
      "n": "Bedretto (TI)",
@@ -56,31 +66,21 @@
     {
      "n": "Airolo (TI)",
      "nb": "Airolo",
-     "mm": 3.6
-    },
-    {
-     "n": "Cabbio (TI)",
-     "nb": "Cabbio",
-     "mm": 3
-    },
-    {
-     "n": "Weissfluhjoch (GR)",
-     "nb": "Weissfluhjoch",
-     "mm": 2.9
+     "mm": 4.5
     }
    ]
   },
   "20": {
-   "media": 55,
+   "media": 55.2,
    "giorni": 20,
    "stazioni": 308,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
-     "mm": 162.6
+     "mm": 162.4
     },
     {
      "n": "Carena (TI)",
@@ -90,12 +90,12 @@
     {
      "n": "Robièi (TI)",
      "nb": "Robièi",
-     "mm": 150.3
+     "mm": 151.3
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 144
+     "mm": 144.2
     },
     {
      "n": "Chironico Cala (TI)",
@@ -105,16 +105,16 @@
    ]
   },
   "30": {
-   "media": 83.1,
+   "media": 82,
    "giorni": 30,
    "stazioni": 308,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Chironico Cala (TI)",
      "nb": "Chironico Cala",
-     "mm": 237
+     "mm": 236.2
     },
     {
      "n": "Säntis (AI)",
@@ -122,24 +122,25 @@
      "mm": 218.4
     },
     {
-     "n": "Carena (TI)",
-     "nb": "Carena",
-     "mm": 214
-    },
-    {
      "n": "Robièi (TI)",
      "nb": "Robièi",
-     "mm": 209.7
+     "mm": 210.7
     },
     {
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
-     "mm": 209.4
+     "mm": 208.8
+    },
+    {
+     "n": "Carena (TI)",
+     "nb": "Carena",
+     "mm": 206.6
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.1,
   0,
   0,
@@ -168,9 +169,8 @@
   4.8,
   0.3,
   16.9,
-  4.1,
-  1.3
+  4.1
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": []
 }

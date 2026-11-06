@@ -1,33 +1,33 @@
 {
  "regione": "calabria",
- "generato": "2026-11-05T04:15:41.645Z",
+ "generato": "2026-11-06T04:15:39.355Z",
  "periodi": {
   "1": {
-   "media": 1.7,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 139,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-05",
    "top": [
     {
-     "n": "Bovalino Marina",
-     "mm": 17.6
+     "n": "Roseto Capo Spulico",
+     "mm": 2.2
     },
     {
-     "n": "Staiti",
-     "mm": 16.2
+     "n": "Cosenza Crati",
+     "mm": 1.2
     },
     {
-     "n": "Ardore",
-     "mm": 15.4
+     "n": "Longobucco",
+     "mm": 1
     },
     {
-     "n": "Punta Stilo",
-     "mm": 12.6
+     "n": "Platì",
+     "mm": 0.4
     },
     {
-     "n": "Antonimina",
-     "mm": 11.2
+     "n": "San Luca",
+     "mm": 0.4
     }
    ]
   },
@@ -35,8 +35,8 @@
    "media": 45.9,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Petronà",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Pagliarelle",
-     "mm": 81.8
+     "mm": 81.6
     },
     {
      "n": "Cotronei",
@@ -61,11 +61,11 @@
    ]
   },
   "20": {
-   "media": 67.5,
+   "media": 66.9,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Cotronei",
@@ -84,8 +84,8 @@
      "mm": 169
     },
     {
-     "n": "Cardeto",
-     "mm": 149.6
+     "n": "Albi",
+     "mm": 140
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 148.9,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Canolo Nuovo",
@@ -106,7 +106,7 @@
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 277.8
+     "mm": 278
     },
     {
      "n": "Cassari",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   1.7,
   1.4,
   31.6,
@@ -148,17 +149,16 @@
   55.2,
   3.7,
   2,
-  1.5,
-  0
+  1.5
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-04",
-   "m1": 3.1,
-   "m7": 50.6,
+   "ultimo": "2026-11-05",
+   "m1": 0.1,
+   "m7": 50.7,
    "m30": 182.4,
    "p1": true,
    "p7": true,
@@ -167,11 +167,11 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-04",
-   "m1": 0.6,
+   "ultimo": "2026-11-05",
+   "m1": 0,
    "m7": 38.1,
-   "m30": 110.9,
-   "p1": true,
+   "m30": 110.8,
+   "p1": false,
    "p7": true,
    "p30": true
   }

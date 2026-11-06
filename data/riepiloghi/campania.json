@@ -1,24 +1,24 @@
 {
  "regione": "campania",
- "generato": "2026-11-05T04:15:41.645Z",
+ "generato": "2026-11-06T04:15:39.355Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 174,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Ceraso-Isca Vivaio Forestale",
      "mm": 0.2
     },
     {
-     "n": "Nisida METEO",
+     "n": "Luogosano",
      "mm": 0.2
     },
     {
-     "n": "Pozzuoli",
+     "n": "Quattroventi",
      "mm": 0.2
     },
     {
@@ -32,15 +32,23 @@
    ]
   },
   "7": {
-   "media": 37.6,
+   "media": 38.4,
    "giorni": 7,
-   "stazioni": 172,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "stazioni": 174,
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Castelfranco in Miscano",
      "mm": 133
+    },
+    {
+     "n": "Savignano Irpino",
+     "mm": 109.1
+    },
+    {
+     "n": "Bisaccia",
+     "mm": 108.9
     },
     {
      "n": "Colle Sannita",
@@ -49,14 +57,6 @@
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
      "mm": 93.6
-    },
-    {
-     "n": "Ariano Irpino METEO",
-     "mm": 84.4
-    },
-    {
-     "n": "S.Bartolomeo METEO",
-     "mm": 84.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 78.5,
    "giorni": 20,
    "stazioni": 174,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 175.2,
+   "media": 173.9,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
-     "n": "Monte Epomeo (Ischia)",
-     "mm": 357.4
+     "n": "Ischia",
+     "mm": 294.2
     },
     {
      "n": "Forio",
-     "mm": 339.4
-    },
-    {
-     "n": "Ischia",
-     "mm": 327.4
+     "mm": 286.8
     },
     {
      "n": "Castel Volturno",
-     "mm": 288.4
+     "mm": 284
     },
     {
-     "n": "Piano Liguori",
-     "mm": 281.2
+     "n": "Monte Epomeo (Ischia)",
+     "mm": 269.4
+    },
+    {
+     "n": "Omignano Scalo",
+     "mm": 265.5
     }
    ]
   }
  },
  "serie": [
+  0,
   0,
   1.9,
   31.6,
@@ -148,15 +149,14 @@
   31.3,
   30.1,
   25,
-  0.4,
-  1.4
+  0.4
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-04",
+   "ultimo": "2026-11-05",
    "m1": 0,
    "m7": 26.4,
    "m30": 181.8,
@@ -167,9 +167,9 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-04",
+   "ultimo": "2026-11-05",
    "m1": 0,
-   "m7": 62.1,
+   "m7": 62.2,
    "m30": 176.9,
    "p1": true,
    "p7": true,
@@ -178,7 +178,7 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-04",
+   "ultimo": "2026-11-05",
    "m1": 0,
    "m7": 68.6,
    "m30": 228.3,
@@ -189,7 +189,7 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-04",
+   "ultimo": "2026-11-05",
    "m1": 0,
    "m7": 41.2,
    "m30": 196.1,
