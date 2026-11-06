@@ -17078,8 +17078,9 @@ body.modo-radar #tq-btn,body.modo-boschi #tq-btn{display:none !important}
 .tq{display:inline-flex;gap:0;align-items:center;white-space:nowrap;font:800 12px/1.2 system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:-.3px;
   text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}   /* alone pieno: scelto da lui il 3/10 sopra le piogge forti */
 .tq .mn{color:#1856b8}.tq .mx{color:#c21f1f}.tq .sep{color:#6b7684;font-weight:400;margin:0 .5px}
-/* la temperatura STIMATA dei punti ICON dell'Abruzzo (3/11/2026, scheda 115): in corsivo e piu' chiara */
-.tq.st{font-style:italic;font-weight:600}.tq.st .mn{color:#6a8fcf}.tq.st .mx{color:#d77a7a}
+/* la temperatura STIMATA dei punti ICON dell'Abruzzo (classe .st) si scrive come quella delle stazioni vere (6/11/2026,
+   scheda 125, sua scelta come per i pallini): la stima si legge aprendo il pallino. Dal 3 al 5/11 era in corsivo e piu'
+   chiara, e l'Abruzzo, con quasi tutte stime, sembrava sbiadito accanto alle altre regioni. La classe resta per il diradamento */
 /* ⚠️ NIENTE attenuazione della pioggia con le temperature accese: provata e bocciata (3/10, suo) */
 /* con le temperature accese via il velo blu-grigio sulla regione, e non pulsa niente (3/10, suo):
    come col radar e coi boschi, chi ha acceso le temperature ha gia' scelto cosa guardare */
@@ -17163,7 +17164,7 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
   var TERM='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1f6fd1" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M14 14.8V4a2 2 0 0 0-4 0v10.8a4 4 0 1 0 4 0z"/><path d="M12 9v8"/></svg>';
   function disegnaTasto(){
     btn.innerHTML=POS==='riga' ? TERM+'<span>Temp. ieri</span>' : TERM+'<span>ieri</span>';
-    btn.title=on?'Nascondi le temperature del '+giorno:'Minima e massima del '+giorno+' accanto ai pluviometri (in corsivo le stime del modello)';
+    btn.title=on?'Nascondi le temperature del '+giorno:'Minima e massima del '+giorno+' accanto ai pluviometri';
     btn.classList.toggle('on',on);
     document.body.classList.toggle('tq-on',on);
     if(POS==='riga') copiaAspetto();

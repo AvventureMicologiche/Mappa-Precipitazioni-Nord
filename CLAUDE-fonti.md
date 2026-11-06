@@ -570,8 +570,9 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   minima e massima a parte) → `t`. Misura a occhi chiusi 28/10-2/11 (`claudio\abruzzo-prova\temperature-icon-*-115.js`,
   529 coppie): massima 1,7°→1,3° di errore medio (93% entro 3°), minima 1,4° (88% entro 3°). `genera-temperature-ieri.js`:
   le stime (`rete:'icon'`/`stima:1`) hanno come vicini solo stazioni vere e non fanno da testimone; nel file
-  [lat, lon, min, max, 1]. Mappa: `.tq.st` in corsivo e piu' chiara, nella casella passa prima la stazione vera; il
-  titolo del tasto dice «in corsivo le stime del modello». `fonti.html`: una frase nella riga Abruzzo. Riempite una
+  [lat, lon, min, max, 1]. Mappa: `.tq.st` in corsivo e piu' chiara (fino al 5/11: dal 6/11 scritta come le vere, vedi
+  sotto), nella casella passa prima la stazione vera; il titolo del tasto diceva «in corsivo le stime del modello».
+  `fonti.html`: una frase nella riga Abruzzo. Riempite una
   volta 28/10-2/11; il 2/11 passano il controllo 91 stime su 145 (54 dei 102 punti in mappa: quelli senza 3 stazioni
   vere entro 25 km, nel cuore della Maiella e del Gran Sasso, restano senza). Le temperature vere non cambiano (2/11:
   4.623 righe prima e dopo). ⚠️ Giorni nuvolosi: alle prime notti serene riguardare le minime delle conche con lo
@@ -601,6 +602,17 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   (`scratchpad c1ffc0c8\prova-scarico-118.js`, risposte MeteoHub salvate, fetch finto): 3/11 via abr142 e le altre 13
   identiche; 2/11, il giorno del temporale (cinque stazioni con ore da 22 a 47 mm), 16 su 16 identiche. Dal 19/10 e'
   successo solo quella volta. Il 3/11 lo riscrive da solo il giro dopo (ogni giro rifa' ieri e i due giorni prima).
+- **Le temperature stimate scritte come le vere (6/11/2026, scheda 125, suo «fammi un check sull'abruzzo se possiamo
+  uniformare l'estetica delle temperature» e «Sì, procedi»):** il 5/11 in Abruzzo 119 pallini, 68 con la temperatura, e
+  delle etichette visibili 21 su 27 al PC (1920) e 32 su 39 al telefono (393) erano stime ICON: in corsivo, 600 e coi
+  colori chiari (#6a8fcf/#d77a7a), la regione sembrava sbiadita accanto a Molise e Lazio. Tolta la riga `.tq.st` di
+  `index.html`, come i pallini delle stime dal 27/10 («fino a quando non si clicca deve sembrare come le altre
+  regioni»): la stima si legge aprendo il pallino. Tolti anche «(in corsivo le stime del modello)» dal titolo del tasto
+  e «e sulla mappa è scritta in corsivo» dalla riga Abruzzo di `fonti.html`. Restano la classe `st` (nel diradamento
+  la stazione vera passa prima nella casella) e le regole di `genera-temperature-ieri.js`. I punti senza temperatura
+  nel cuore della regione (51 su 119 il 5/11) sono nella media (Molise 11 su 26, Lazio 52 su 208): non toccati.
+  Attrezzo `scratchpad a4ad099e\temperature-abruzzo-125.js` (`REG=`, `SUFF=`, `INDICE=`), prima e dopo in
+  `claudio\immagini\125\`.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
