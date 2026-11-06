@@ -395,8 +395,9 @@ header{position:relative;flex-wrap:nowrap;}
 .mk-radar .mk-pul:after{animation:mkPul 1.6s ease-out infinite;}
 @keyframes mkPul{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.8);opacity:0}}
 @media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
-@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:2px;}.mk-cr span i{font-size:14px;}.mk-cr span b.mk-t{font-size:12.5px;letter-spacing:-.5px;}
-  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}}
+@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:1px;}.mk-cr span i{font-size:16px;}.mk-cr span b.mk-t{font-size:13px;letter-spacing:-.4px;}
+  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}
+  a.mk-cr > span{flex-direction:column;align-items:flex-start;}}
 .gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
 .gg .b.mk-fut b{color:#2f6db5;}
 .gg .b.mk-oggi{border-left:2px dashed #e0a800;margin-left:3px;padding-left:1px;}
@@ -1136,7 +1137,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
     var righe = cc.map(function (c, i) {
       return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>'
-          + '<b class="mk-t">' + (g.mn != null ? '<b>' + String(g.mn).replace('-', '−') + '</b><s>|</s>' : '') + String(g.mx).replace('-', '−') + '°</b>'
+          + '<b class="mk-t">' + String(g.mx).replace('-', '−') + '°' + (g.mn != null ? '<s> </s><b>' + String(g.mn).replace('-', '−') + '°</b>' : '') + '</b>'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           + (conPc ? '<em class="mk-pc' + (g.pc == null ? '' : g.pc < 10 ? ' z' : g.pc >= 60 ? ' alta' : '') + '">' + (g.pc == null ? '' : '💧 ' + g.pc + '%') + '</em>' : '') + '</span>'; }).join('') + '</a>';
     }).join('');

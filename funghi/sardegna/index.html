@@ -419,8 +419,11 @@ header{position:relative;flex-wrap:nowrap;}
 @media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
 /* (6/11/2026, scheda 125) con «minima|massima» icona e gradi devono stare su una riga anche a 360 px; e millimetri e %
    non vanno piu' a capo («2,9» sopra, «mm» sotto): sotto l'icona, senza il rientro di 24 px */
-@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:2px;}.mk-cr span i{font-size:14px;}.mk-cr span b.mk-t{font-size:12.5px;letter-spacing:-.5px;}
-  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}}
+@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:1px;}.mk-cr span i{font-size:16px;}.mk-cr span b.mk-t{font-size:13px;letter-spacing:-.4px;}
+  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}
+  /* l'icona SOPRA i gradi in tutte le caselle: con massima e minima «10° −2°» a 360 px non stavano accanto all'icona,
+     e andavano a capo solo alcune (righe storte). Cosi' tutte uguali */
+  a.mk-cr > span{flex-direction:column;align-items:flex-start;}}
 .gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
 .gg .b.mk-fut b{color:#2f6db5;}
 .gg .b.mk-oggi{border-left:2px dashed #e0a800;margin-left:3px;padding-left:1px;}
@@ -1410,10 +1413,11 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Sardegna.</p>
     var testa = '<div class="mk-cr mk-cr-t"><span></span>' + [0, 1, 2].map(function (d) { return '<span>' + nomeG(g0[d].g, d) + '</span>'; }).join('') + '</div>';
     var righe = cc.map(function (c, i) {
       return '<a class="mk-cr' + (i >= 6 ? ' mk-dopo' : '') + '" href="' + SITO + '/previsioni/?r=' + (c.r || K) + pl(c) + '" data-da="citta"><b>' + esc(c.n) + (c.qui ? '<small>al pluviometro</small>' : c.sotto ? '<small>' + esc(c.sotto) + '</small>' : '') + '</b>'
-        /* minima e massima (6/11/2026, scheda 125, suo «meglio sia minima che massima»): «4|10°» come le temperature
-           della mappa, la minima in blu e la massima in rosso; prima c'era solo la massima */
+        /* massima e minima (6/11/2026, scheda 125, suo «meglio sia minima che massima» e poi «come la mappa»): «10° 4°»
+           nello stesso ordine e colori delle etichette della mappa delle previsioni (massima rossa, poi minima blu);
+           prima c'era solo la massima */
         + [0, 1, 2].map(function (d) { var g = c.giorni[d]; return '<span><i>' + icona(g.s) + '</i>'
-          + '<b class="mk-t">' + (g.mn != null ? '<b>' + String(g.mn).replace('-', '−') + '</b><s>|</s>' : '') + String(g.mx).replace('-', '−') + '°</b>'
+          + '<b class="mk-t">' + String(g.mx).replace('-', '−') + '°' + (g.mn != null ? '<s> </s><b>' + String(g.mn).replace('-', '−') + '°</b>' : '') + '</b>'
           + ((g.mm || 0) >= 0.5 ? '<em>' + mm(g.mm) + ' mm</em>' : '')
           // la % di pioggia del giorno, la piu' alta delle sue ore (la Function con &pr=1, 25/10/2026)
           + (conPc ? '<em class="mk-pc' + (g.pc == null ? '' : g.pc < 10 ? ' z' : g.pc >= 60 ? ' alta' : '') + '">' + (g.pc == null ? '' : '💧 ' + g.pc + '%') + '</em>' : '') + '</span>'; }).join('') + '</a>';
