@@ -224,6 +224,13 @@ nav.altre a{color:var(--blu);}
 .tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
 .tt-y span.z{font-weight:800;color:#3a6ea8;}
 .gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+.verdetto .freddo .prox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.08);}
+.verdetto .freddo .prox b.g{color:#8fd0ff;}
+td.fr{text-align:right;white-space:nowrap;font-weight:700;color:#33415a;}
+td.fr.gelo{color:#1f6fd1;}
+td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-height:1.2;}
+.fr-m{display:none;}
+@media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
 
 /* BOTTONI IN RILIEVO (lib-pagina-funghi.js) */
 .capo-btns{gap:12px;margin-top:15px;}
@@ -826,6 +833,80 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
   }
 
 
+  var FINO = 20;
+  /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
+     FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
+     ferma, da marzo il contrario, da decidere) */
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+  /* LE PROSSIME NOTTI (6/11/2026, scheda 125): dalla previsione che la pagina ha gia' scaricato per «Che tempo farà»
+     (lib-meteo-regione.js la lascia in window._prevPagina e manda l'evento «previsioni-pagina»): nessuna chiamata in
+     piu'. Nel paese il punto del pluviometro (qui:1), nella zona la minima fra i suoi paesi, notte per notte. giorni[0]
+     e' oggi: le tre notti dopo, col nome del giorno della mattina. */
+  function prossime(j, zona) {
+    var c = (j && j.capoluoghi) || [];
+    var pts = zona ? c : c.filter(function (x) { return x.qui; });
+    if (!pts.length) pts = c.slice(0, 1);
+    if (!pts.length) return '';
+    var GS = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+    var notti = [];
+    for (var i = 1; i <= 3; i++) {
+      var mn = null, gg = null;
+      for (var k = 0; k < pts.length; k++) {
+        var d = pts[k].giorni && pts[k].giorni[i];
+        if (d && d.mn != null && (mn == null || d.mn < mn)) { mn = d.mn; gg = d.g; }
+      }
+      if (mn != null) notti.push({ mn: mn, g: gg });
+    }
+    if (notti.length < 2) return '';
+    var mins = notti.map(function (x) { return x.mn; });
+    var lo = Math.min.apply(null, mins), hi = Math.max.apply(null, mins);
+    var f = function (n) { return String(Math.round(n)).replace('-', '−') + '°'; };
+    var gel = notti.filter(function (x) { return x.mn <= 0; });
+    var nomi = gel.map(function (x) { var q = String(x.g).split('-'); return GS[new Date(+q[0], +q[1] - 1, +q[2]).getDay()]; });
+    var elenco = nomi.length === 1 ? nomi[0] : nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1];
+    return '<div class="dett prox">Prossime notti' + (zona ? ' nei paesi della zona' : '') + ': ' + (gel.length
+      ? '<b class="g">gelo previsto ' + elenco + '</b>, fino a <b>' + f(lo) + '</b>.'
+      : 'minime fra <b>' + f(lo) + '</b> e <b>' + f(hi) + '</b>, nessuna gelata prevista.') + '</div>';
+  }
+  window.freddoFunghi = function (sT, oggi, nota, zona) {
+    if (!window.freddoAttivo() || !sT || !oggi) return;
+    var MESI =['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    var gelo = 0, piu = null, quando = 0, conDato = 0;
+    for (var i = 1; i <= 10; i++) {
+      var g = sT[i - 1];
+      if (!g || g[0] == null) continue;
+      conDato++;
+      if (g[0] <= 0) gelo++;
+      if (piu == null || g[0] < piu) { piu = g[0]; quando = i; }
+    }
+    if (conDato < 5) return;   /* troppi giorni senza termometro: meglio niente che una riga zoppa */
+    var p = String(oggi).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setDate(d.getDate() - quando);
+    var gn = d.getDate(), il = (gn === 1 || gn === 8 || gn === 11) ? 'l’' : 'il ';
+    var gradi = (Math.round(piu * 10 + 1e-9) / 10).toFixed(1).replace('.', ',').replace('-', '−');
+    var titolo = gelo ? (gelo === 1 ? '1 notte di gelo' : gelo + ' notti di gelo') : 'Nessuna gelata';
+    var riga = '<div class="freddo"><div class="ft"><span class="pallino" style="background:' + (gelo ? '#8fd0ff' : '#cfd8e3')
+      + '"></span>' + titolo + ' in 10 giorni</div><div class="dett fd">La notte più fredda' + (nota ? ', ' + nota : '')
+      + ': <b>' + gradi + '°</b> ' + il + gn + ' ' + MESI[d.getMonth()] + '.</div></div>';
+    var v = document.querySelector('#verdetto .verdetto');
+    if (v && !v.querySelector('.freddo')) {
+      var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
+      if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
+    }
+    var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
+    if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
+    /* le prossime notti: subito se la previsione e' gia' arrivata, se no quando arriva */
+    var metti = function (j) {
+      var fr = document.querySelector('#verdetto .freddo');
+      if (!fr || fr.querySelector('.prox')) return;
+      var h = prossime(j, zona);
+      if (h) fr.insertAdjacentHTML('beforeend', h);
+    };
+    if (window._prevPagina) metti(window._prevPagina);
+    else document.addEventListener('previsioni-pagina', function (e) { metti(e.detail); });
+  };
+
+
   function meno(n){ var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-n); return d; }
   function menoDaI(s, n){ return iso(menoDa(s, n)); }
 
@@ -894,7 +975,8 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
           var v = j.posti[p[0]];
           if (!v) return;        // posto aggiunto dopo l'ultimo giro: si salta
           righe.push({ id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null });
+            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
+            fr: (j.freddo && j.freddo[p[0]]) || null });   /* [minima piu bassa, notti di gelo] degli ultimi 10 giorni (6/11/2026, scheda 125) */
         });
         if (righe.length) { mostra(righe, j.oggi); return; }
       }
@@ -1087,6 +1169,22 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
       + ilGg(aG).slice(0, -gg(aG).length) + '<b>' + gg(aG)
       + '</b>. Sono millimetri misurati a terra dai pluviometri, non una previsione.';
 
+    /* LA NOTTE PIU FREDDA (6/11/2026, scheda 125, mockup approvato): dal 1 novembre al 20 dicembre (freddoAttivo di
+       JS_FREDDO) una colonna in piu al computer e, al telefono, una riga sotto il nome solo per i posti a 3 gradi o meno.
+       I numeri li scrive genera-funghi.js (campo freddo del file della regione); senza, la colonna non esce. */
+    var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r.fr; }));
+    function gradiF(v){ return num(v).replace('-', '−') + '°'; }
+    function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+    function frTel(r){
+      if (!r.fr || r.fr[0] > 3) return '';
+      return '<span class="com fr-m' + (r.fr[1] ? ' gelo' : '') + '">'
+        + (r.fr[1] ? notti(r.fr[1]) + (r.fr[1] === 1 ? ', ' : ', fino a ') + gradiF(r.fr[0]) : 'notte più fredda ' + gradiF(r.fr[0])) + '</span>';
+    }
+    function frCella(r){
+      if (!r.fr) return '<td class="fr">—</td>';
+      return '<td class="fr' + (r.fr[1] ? ' gelo' : '') + '">' + gradiF(r.fr[0]) + (r.fr[1] ? '<small>' + notti(r.fr[1]) + '</small>' : '') + '</td>';
+    }
+
     var trs = righe.map(function(r, i){
       var quando = r.forte
         ? (r.forte.g===1?'ieri':r.forte.g+' giorni fa') + ' <span class="q2">' + num(r.forte.mm) + ' mm</span>'
@@ -1101,8 +1199,9 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
         + '<span class="com forte-m">' + (r.forte
              ? 'forte ' + (r.forte.g===1?'ieri':r.forte.g+' gg') + ' · ' + num(r.forte.mm) + ' mm'
              : 'niente di forte') + '</span>'
+        + (fredda ? frTel(r) : '')
         + '</a></td>'
-        + cella(r.mm) + cella(r.mm7) + cella(r.mm25, 'tagl')
+        + cella(r.mm) + cella(r.mm7) + (fredda ? frCella(r) : '') + cella(r.mm25, 'tagl')
         + '<td class="ultima tagl">' + quando + '</td></tr>';
     }).join('');
 
@@ -1110,8 +1209,10 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
       '<table><thead><tr><th class="num"></th><th>Località</th>'
       + '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>'
       + '<th><span class="hd-l">Ultimi 7 gg</span><span class="hd-c">7 gg</span></th>'
+      + (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '')
       + '<th class="tagl">Ultimi 25 gg</th><th class="tagl">Ultima pioggia forte</th>'
-      + '</tr></thead><tbody>' + trs + '</tbody></table>';
+      + '</tr></thead><tbody>' + trs + '</tbody></table>'
+      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. La colonna c’è da novembre al 20 dicembre.</p>' : '');
 
     /* ⚠️ «15 dei primi 15» era un modo storto di dire «tutti»: quando il conto
        coincide col totale si scrive cosi', se no «12 posti su 15». */
@@ -1419,7 +1520,11 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Veneto.</p>
     .then(function (j) { PRIMO = (j.primi && j.primi[0] && j.primi[0][2]) || '';
       return 'posti=' + (j.primi || []).slice(0, OPZ.primi).map(function (x) { return x[2] + '/' + x[3] + '/' + x[1]; }).join(','); });
   var citta = !blocco ? Promise.resolve(null)
-    : area.then(function (a) { return fetch(API + '?' + a + '&pr=1'); }).then(function (r) { return r.json(); }).then(daOggi).catch(function () { return null; });   // da oggi in poi (bug 11); &pr=1 la % (25/10/2026)
+    : area.then(function (a) { return fetch(API + '?' + a + '&pr=1'); }).then(function (r) { return r.json(); }).then(daOggi)
+      /* (6/11/2026, scheda 125) la stessa previsione la usano le «prossime notti» delle pagine funghi (JS_FREDDO in
+         lib-stagione.js): la si lascia alla pagina invece di richiederla, zero chiamate in piu' */
+      .then(function (j) { try { window._prevPagina = j; document.dispatchEvent(new CustomEvent('previsioni-pagina', { detail: j })); } catch (e) {} return j; })
+      .catch(function () { return null; });   // da oggi in poi (bug 11); &pr=1 la % (25/10/2026)
   /* ⚠️ SOLO UN RIEPILOGO FRESCO (20/10/2026, settimo check, bug 5): scritto da meno di 36 ore, la stessa regola della
      pagina. Se e' piu' vecchio la pagina regione ha gia' disegnato il grafico dai file del giorno, e ridisegnarlo col
      riepilogo vecchio faceva sparire i giorni nuovi: allora il grafico resta com'e', senza i giorni previsti. Le zone

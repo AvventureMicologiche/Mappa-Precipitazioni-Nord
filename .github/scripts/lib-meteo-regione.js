@@ -429,7 +429,11 @@ function meteoClient(K, NOME, SITO, ADESSO, OPZ) {
     .then(function (j) { PRIMO = (j.primi && j.primi[0] && j.primi[0][2]) || '';
       return 'posti=' + (j.primi || []).slice(0, OPZ.primi).map(function (x) { return x[2] + '/' + x[3] + '/' + x[1]; }).join(','); });
   var citta = !blocco ? Promise.resolve(null)
-    : area.then(function (a) { return fetch(API + '?' + a + '&pr=1'); }).then(function (r) { return r.json(); }).then(daOggi).catch(function () { return null; });   // da oggi in poi (bug 11); &pr=1 la % (25/10/2026)
+    : area.then(function (a) { return fetch(API + '?' + a + '&pr=1'); }).then(function (r) { return r.json(); }).then(daOggi)
+      /* (6/11/2026, scheda 125) la stessa previsione la usano le «prossime notti» delle pagine funghi (JS_FREDDO in
+         lib-stagione.js): la si lascia alla pagina invece di richiederla, zero chiamate in piu' */
+      .then(function (j) { try { window._prevPagina = j; document.dispatchEvent(new CustomEvent('previsioni-pagina', { detail: j })); } catch (e) {} return j; })
+      .catch(function () { return null; });   // da oggi in poi (bug 11); &pr=1 la % (25/10/2026)
   /* ⚠️ SOLO UN RIEPILOGO FRESCO (20/10/2026, settimo check, bug 5): scritto da meno di 36 ore, la stessa regola della
      pagina. Se e' piu' vecchio la pagina regione ha gia' disegnato il grafico dai file del giorno, e ridisegnarlo col
      riepilogo vecchio faceva sparire i giorni nuovi: allora il grafico resta com'e', senza i giorni previsti. Le zone

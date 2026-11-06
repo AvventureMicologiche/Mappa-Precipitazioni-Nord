@@ -482,7 +482,7 @@ ${JS_FREDDO}
     document.getElementById("lnk-pioggia").href = link(daG, ieri);
     if (sT.some(function(x){ return x; })) scriviTemperatura(sT, ax, "media dei pluviometri della zona");
     /* da novembre al 20 dicembre: la riga del freddo nel riquadro e la temperatura subito sotto (6/11/2026, scheda 125) */
-    if (window.freddoFunghi) freddoFunghi(sT, oggi, "in media");
+    if (window.freddoFunghi) freddoFunghi(sT, oggi, "in media", true);   /* true: le prossime notti fra i paesi della zona */
 
     /* ⚠️ La tabella e GIA NELL HTML coi link: qui si riempiono le caselle e si
        RIORDINA dal piu bagnato spostando le righe, senza innerHTML. */

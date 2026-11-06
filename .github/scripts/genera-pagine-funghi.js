@@ -39,7 +39,7 @@ const fs = require('fs');
 const path = require('path');
 const { REGIONI, GEN, navAltre, briciolaJson, stazDi } = require('./genera-pagine-regione.js');
 const { LOCALITA, bello, slug, slugRegione, postiDellaZona, diEnte, elenco } = require('./lib-nomi.js');
-const { rigaStagione } = require('./lib-stagione.js');
+const { rigaStagione, JS_FREDDO } = require('./lib-stagione.js');
 // 24/9/2026: verdetto, barre e finestra comuni con le pagine di zona
 const { STILE_NUOVO, JS_COMUNE, JS_STIME, RILIEVO, QUIZ_REGIONI, QUIZ_CSS, coppiaQuiz } = require('./lib-pagina-funghi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
@@ -497,6 +497,7 @@ ${navAltre('funghi')}
   var QUANTI = 15, FORTE = 30;
 ${JS_COMUNE}
 ${JS_STIME}
+${JS_FREDDO}
 
   function meno(n){ var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-n); return d; }
   function menoDaI(s, n){ return iso(menoDa(s, n)); }
@@ -566,7 +567,8 @@ ${JS_STIME}
           var v = j.posti[p[0]];
           if (!v) return;        // posto aggiunto dopo l'ultimo giro: si salta
           righe.push({ id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null });
+            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
+            fr: (j.freddo && j.freddo[p[0]]) || null });   /* [minima piu bassa, notti di gelo] degli ultimi 10 giorni (6/11/2026, scheda 125) */
         });
         if (righe.length) { mostra(righe, j.oggi); return; }
       }
@@ -759,6 +761,22 @@ ${JS_STIME}
       + ilGg(aG).slice(0, -gg(aG).length) + '<b>' + gg(aG)
       + '</b>. Sono millimetri misurati a terra dai pluviometri, non una previsione.';
 
+    /* LA NOTTE PIU FREDDA (6/11/2026, scheda 125, mockup approvato): dal 1 novembre al 20 dicembre (freddoAttivo di
+       JS_FREDDO) una colonna in piu al computer e, al telefono, una riga sotto il nome solo per i posti a 3 gradi o meno.
+       I numeri li scrive genera-funghi.js (campo freddo del file della regione); senza, la colonna non esce. */
+    var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r.fr; }));
+    function gradiF(v){ return num(v).replace('-', '−') + '°'; }
+    function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+    function frTel(r){
+      if (!r.fr || r.fr[0] > 3) return '';
+      return '<span class="com fr-m' + (r.fr[1] ? ' gelo' : '') + '">'
+        + (r.fr[1] ? notti(r.fr[1]) + (r.fr[1] === 1 ? ', ' : ', fino a ') + gradiF(r.fr[0]) : 'notte più fredda ' + gradiF(r.fr[0])) + '</span>';
+    }
+    function frCella(r){
+      if (!r.fr) return '<td class="fr">—</td>';
+      return '<td class="fr' + (r.fr[1] ? ' gelo' : '') + '">' + gradiF(r.fr[0]) + (r.fr[1] ? '<small>' + notti(r.fr[1]) + '</small>' : '') + '</td>';
+    }
+
     var trs = righe.map(function(r, i){
       var quando = r.forte
         ? (r.forte.g===1?'ieri':r.forte.g+' giorni fa') + ' <span class="q2">' + num(r.forte.mm) + ' mm</span>'
@@ -773,8 +791,9 @@ ${JS_STIME}
         + '<span class="com forte-m">' + (r.forte
              ? 'forte ' + (r.forte.g===1?'ieri':r.forte.g+' gg') + ' · ' + num(r.forte.mm) + ' mm'
              : 'niente di forte') + '</span>'
+        + (fredda ? frTel(r) : '')
         + '</a></td>'
-        + cella(r.mm) + cella(r.mm7) + cella(r.mm25, 'tagl')
+        + cella(r.mm) + cella(r.mm7) + (fredda ? frCella(r) : '') + cella(r.mm25, 'tagl')
         + '<td class="ultima tagl">' + quando + '</td></tr>';
     }).join('');
 
@@ -782,8 +801,10 @@ ${JS_STIME}
       '<table><thead><tr><th class="num"></th><th>Località</th>'
       + '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>'
       + '<th><span class="hd-l">Ultimi 7 gg</span><span class="hd-c">7 gg</span></th>'
+      + (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '')
       + '<th class="tagl">Ultimi 25 gg</th><th class="tagl">Ultima pioggia forte</th>'
-      + '</tr></thead><tbody>' + trs + '</tbody></table>';
+      + '</tr></thead><tbody>' + trs + '</tbody></table>'
+      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. La colonna c’è da novembre al 20 dicembre.</p>' : '');
 
     /* ⚠️ «15 dei primi 15» era un modo storto di dire «tutti»: quando il conto
        coincide col totale si scrive cosi', se no «12 posti su 15». */

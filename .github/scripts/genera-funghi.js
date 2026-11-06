@@ -282,6 +282,23 @@ for (const k of Object.keys(POSTI)) {
     // abbiamo guardato — scriverlo come «da quando abbiamo archivio» sarebbe
     // falso.
     cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE, posti: coperti,
+    // LA NOTTE PIU' FREDDA (6/11/2026, scheda 125): {id: [minima piu' bassa, notti di gelo]} degli ultimi 10 giorni,
+    // per la colonna della tabella delle regioni da novembre al 20 dicembre (lib-stagione.js, freddoAttivo). Solo chi
+    // ha il termometro almeno 5 giorni su 10; gelo = minima <= 0. Pochi byte: due numeri per posto.
+    freddo: (() => {
+      const fr = {};
+      for (const id of Object.keys(coperti)) {
+        let mn = null, gelo = 0, nd = 0;
+        for (let n = 1; n <= 10; n++) {
+          const vt = g.t[n] && g.t[n][id];
+          if (!vt || vt[0] == null) continue;
+          const v = uno(vt[0]);
+          nd++; if (v <= 0) gelo++; if (mn == null || v < mn) mn = v;
+        }
+        if (nd >= 5) fr[id] = [mn, gelo];
+      }
+      return fr;
+    })(),
   }) + '\n';
 
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si

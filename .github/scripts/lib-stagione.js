@@ -83,11 +83,44 @@ function rigaStagione(reg, conFreddo) {
    nessuna previsione (impronta etica). Fuori da quei giorni non fa niente e la pagina resta com'era.
    ⚠️ JavaScript semplice (ES5): esce dentro le pagine col toString(), come JS_COMUNE. */
 function freddo() {
-  window.freddoFunghi = function (sT, oggi, nota) {
-    var FINO = 20;
-    var adesso = new Date(), mese = adesso.getMonth() + 1;
-    if (!(mese === 11 || (mese === 12 && adesso.getDate() <= FINO)) || !sT || !oggi) return;
-    var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  var FINO = 20;
+  /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
+     FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
+     ferma, da marzo il contrario, da decidere) */
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+  /* LE PROSSIME NOTTI (6/11/2026, scheda 125): dalla previsione che la pagina ha gia' scaricato per «Che tempo farà»
+     (lib-meteo-regione.js la lascia in window._prevPagina e manda l'evento «previsioni-pagina»): nessuna chiamata in
+     piu'. Nel paese il punto del pluviometro (qui:1), nella zona la minima fra i suoi paesi, notte per notte. giorni[0]
+     e' oggi: le tre notti dopo, col nome del giorno della mattina. */
+  function prossime(j, zona) {
+    var c = (j && j.capoluoghi) || [];
+    var pts = zona ? c : c.filter(function (x) { return x.qui; });
+    if (!pts.length) pts = c.slice(0, 1);
+    if (!pts.length) return '';
+    var GS = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+    var notti = [];
+    for (var i = 1; i <= 3; i++) {
+      var mn = null, gg = null;
+      for (var k = 0; k < pts.length; k++) {
+        var d = pts[k].giorni && pts[k].giorni[i];
+        if (d && d.mn != null && (mn == null || d.mn < mn)) { mn = d.mn; gg = d.g; }
+      }
+      if (mn != null) notti.push({ mn: mn, g: gg });
+    }
+    if (notti.length < 2) return '';
+    var mins = notti.map(function (x) { return x.mn; });
+    var lo = Math.min.apply(null, mins), hi = Math.max.apply(null, mins);
+    var f = function (n) { return String(Math.round(n)).replace('-', '−') + '°'; };
+    var gel = notti.filter(function (x) { return x.mn <= 0; });
+    var nomi = gel.map(function (x) { var q = String(x.g).split('-'); return GS[new Date(+q[0], +q[1] - 1, +q[2]).getDay()]; });
+    var elenco = nomi.length === 1 ? nomi[0] : nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1];
+    return '<div class="dett prox">Prossime notti' + (zona ? ' nei paesi della zona' : '') + ': ' + (gel.length
+      ? '<b class="g">gelo previsto ' + elenco + '</b>, fino a <b>' + f(lo) + '</b>.'
+      : 'minime fra <b>' + f(lo) + '</b> e <b>' + f(hi) + '</b>, nessuna gelata prevista.') + '</div>';
+  }
+  window.freddoFunghi = function (sT, oggi, nota, zona) {
+    if (!window.freddoAttivo() || !sT || !oggi) return;
+    var MESI =['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
     var gelo = 0, piu = null, quando = 0, conDato = 0;
     for (var i = 1; i <= 10; i++) {
       var g = sT[i - 1];
@@ -112,6 +145,15 @@ function freddo() {
     }
     var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
     if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
+    /* le prossime notti: subito se la previsione e' gia' arrivata, se no quando arriva */
+    var metti = function (j) {
+      var fr = document.querySelector('#verdetto .freddo');
+      if (!fr || fr.querySelector('.prox')) return;
+      var h = prossime(j, zona);
+      if (h) fr.insertAdjacentHTML('beforeend', h);
+    };
+    if (window._prevPagina) metti(window._prevPagina);
+    else document.addEventListener('previsioni-pagina', function (e) { metti(e.detail); });
   };
 }
 const JS_FREDDO = freddo.toString().replace(/^function freddo\(\)\s*\{/, '').replace(/\}\s*$/, '')
@@ -127,6 +169,13 @@ const STILE_FREDDO = `
 .tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
 .tt-y span.z{font-weight:800;color:#3a6ea8;}
 .gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+.verdetto .freddo .prox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.08);}
+.verdetto .freddo .prox b.g{color:#8fd0ff;}
+td.fr{text-align:right;white-space:nowrap;font-weight:700;color:#33415a;}
+td.fr.gelo{color:#1f6fd1;}
+td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-height:1.2;}
+.fr-m{display:none;}
+@media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
 `;
 
 module.exports = { rigaStagione, TESTI, SUD, FREDDO_FINO, JS_FREDDO, STILE_FREDDO };

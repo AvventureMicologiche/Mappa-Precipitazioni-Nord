@@ -1122,3 +1122,33 @@ contro B, dati veri di Sassello e Verzi di Loano) e «ok modifica tutto con A».
   caricati) dal checkout condiviso allineato. Online Sassello, Melia, Garfagnana, Liguria e `/funghi/` = repo;
   `sitemap-funghi.xml` online col 6/11; `prova-freddo-125.js` con `BASE=` il sito vero: tutto come in locale, nessun
   errore.
+
+## Le prossime notti e la notte più fredda nelle pagine funghi (6/11/2026, scheda 125)
+
+Le proposte 4 e 5 del 6/11 (mockup `claudio\mockup-funghi-freddo-125\prossime.html`). Sua domanda «hanno senso solo
+adesso, come le gestiresti? durante l'estate non servono»: proposto un interruttore acceso dal freddo vero dentro
+ottobre-aprile, e lui: **«no lo facciamo solo per 1/11-20/12, perché d'inverno metteremo che la stagione è ferma, e poi
+da marzo metteremo il contrario, che bisogna guardare dove le temperature cominciano ad alzarsi per vedere i primi
+marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tutti i pezzi del freddo.
+
+- **Il periodo, uno per tutti**: `window.freddoAttivo()` in `JS_FREDDO` (`lib-stagione.js`), dal 1/11 al
+  `FREDDO_FINO` (20) dicembre, col giorno di chi legge. Lo usano la riga del freddo, le prossime notti e la colonna
+  delle regioni. Dentro il periodo i pezzi ci sono sempre (anche al Sud mite: «Nessuna gelata», «minime fra 11° e 12°»).
+- **Le prossime notti** (pagine di paese e di zona), nella riga del freddo del riquadro: «Prossime notti: gelo previsto
+  sabato, domenica e lunedì, fino a −5°» o «minime fra 3° e 5°, nessuna gelata prevista». Le tre notti dopo oggi
+  (`giorni[1..3]`, `mn`, col nome del giorno della mattina). Nel paese il punto del pluviometro (`qui:1`), nella zona
+  la minima fra i suoi paesi («nei paesi della zona», quarto argomento `true` di `freddoFunghi`). **Zero chiamate in
+  più**: la previsione e' quella che la pagina scarica gia' per «Che tempo farà»; `meteoClient` (`lib-meteo-regione.js`)
+  la lascia in `window._prevPagina` e manda l'evento `previsioni-pagina` (le altre famiglie che usano `meteoClient` la
+  prendono alla loro prossima rigenerazione, senza effetto).
+- **La notte più fredda** nella tabella delle regioni funghi (`genera-pagine-funghi.js`): al computer una colonna
+  «Notte più fredda, ultimi 10 gg» dopo «Ultimi 7 gg» (in azzurro sotto zero, con «4 notti di gelo» sotto); al telefono
+  la colonna sparisce e c'e' una riga sotto il nome come «forte 16 gg», SOLO per i posti a 3° o meno; una nota sotto la
+  tabella. I numeri li scrive `genera-funghi.js` nel campo `freddo` di `data/funghi/<regione>.json` (`{id: [minima,
+  notti di gelo]}`, ultimi 10 giorni, almeno 5 con termometro, gelo = minima ≤ 0): online la colonna compare col primo
+  giro di `riepiloghi.yml` dopo il push; senza il campo non esce.
+- **Prove** (`prova-prossime-125.js`, server 9076 + `ponte-api-125.js` su 8788, che in locale gira `/api/` al sito
+  vero perché le pagine in locale chiedono le previsioni a 127.0.0.1:8788): Sassello, Pragelato, Melia, Garfagnana,
+  regioni Liguria, Sicilia e Piemonte, telefono e PC, nessun errore. Scatti in `claudio\immagini\125\prossime\`.
+- **Da fare con lui**: la «pausa» invernale dal 21/12 (promemoria programmato l'8/12) e, da marzo, il contrario
+  (dove le temperature si alzano, marzuoli e morchelle).
