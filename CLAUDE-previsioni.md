@@ -940,3 +940,18 @@ pagina meteo (−46%). Numeri e attrezzi nella nota `112-ter-numeri-pagine-meteo
   «MET Norway 503». Ogni punto torna coperto dalla prima risposta buona di MET; le aree hanno la chiave di prima e
   hanno tenuto le loro copie.
 
+## Minima e massima, sempre in quest'ordine (6/11/2026, scheda 125)
+
+Suo «in Che tempo farà hai messo solo una temperatura, meglio sia minima che massima», poi «non è più logico prima
+minime e poi massime?» e «sì, ovunque». **Regola: prima la minima (blu `#1856b8`) e poi la massima (rossa `#c21f1f`)**,
+in tutto il sito.
+- La tabella «Che tempo farà» delle pagine (`meteoClient` in `lib-meteo-regione.js`) mostrava SOLO la massima, da
+  sempre: ora «−2° 10°» (`b.mk-t`). Sotto i 400 px l'icona sta SOPRA i gradi in tutte le caselle (a 360 px «10° −2°»
+  accanto all'icona non stava: 65 px in 63, e andavano a capo solo alcune caselle); millimetri e probabilita' senza
+  rientro e senza a capo. Le pagine funghi rigenerate subito; le altre famiglie col loro prossimo giro.
+- Nella mappa delle previsioni (`index.html`) le etichette dei paesi («Ponti 8° 11°»), la vista a etichette e la
+  striscia gialla avevano gia' la minima prima; al contrario c'erano i giorni della scheda (`chip`, `.pv-gg .tx`) e le
+  vecchie etichette `.pv-m`: girati. Dopo le 20 con minima e massima uguali la casella «stasera» ne scrive una.
+- Prova: `prova-mappa-ordine-125.js` (scratchpad della 125, `INDICE=` l'index.html del worktree sul sito vero):
+  /previsioni/ della Liguria e di Sassello, telefono e PC, 7 giorni su 7 e tutte le etichette con la minima prima.
+
