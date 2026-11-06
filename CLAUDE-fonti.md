@@ -612,7 +612,8 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   la stazione vera passa prima nella casella) e le regole di `genera-temperature-ieri.js`. I punti senza temperatura
   nel cuore della regione (51 su 119 il 5/11) sono nella media (Molise 11 su 26, Lazio 52 su 208): non toccati.
   Attrezzo `scratchpad a4ad099e\temperature-abruzzo-125.js` (`REG=`, `SUFF=`, `INDICE=`), prima e dopo in
-  `claudio\immagini\125\`.
+  `claudio\immagini\125\`. **IN PRODUZIONE il 6/11/2026 alle 8:38** (`67b057d1ac`, deploy `883da0dd`, suo «Sì,
+  tutt'e due»): online index.html e fonti.html = repo, sul sito vero stime e vere stesso stile.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
