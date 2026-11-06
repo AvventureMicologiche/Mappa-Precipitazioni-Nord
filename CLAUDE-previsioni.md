@@ -954,4 +954,6 @@ in tutto il sito.
   vecchie etichette `.pv-m`: girati. Dopo le 20 con minima e massima uguali la casella «stasera» ne scrive una.
 - Prova: `prova-mappa-ordine-125.js` (scratchpad della 125, `INDICE=` l'index.html del worktree sul sito vero):
   /previsioni/ della Liguria e di Sassello, telefono e PC, 7 giorni su 7 e tutte le etichette con la minima prima.
+- **IN PRODUZIONE il 6/11/2026 alle 14:20** (`cd120aca9f`, deploy `46e4cd9c`): online index.html = repo, la stessa prova
+  sul sito vero senza `INDICE=` uguale; «Che tempo farà» delle pagine funghi «1° 5°» al telefono e al PC.
 

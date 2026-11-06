@@ -1152,3 +1152,7 @@ marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tut
   regioni Liguria, Sicilia e Piemonte, telefono e PC, nessun errore. Scatti in `claudio\immagini\125\prossime\`.
 - **Da fare con lui**: la «pausa» invernale dal 21/12 (promemoria programmato l'8/12) e, da marzo, il contrario
   (dove le temperature si alzano, marzuoli e morchelle).
+- **IN PRODUZIONE il 6/11/2026 alle 14:20** (suo «Sì, tutt'e due»): `be76928bf1`..`86c839ca03`, deploy `46e4cd9c`
+  (1.129 file) dal checkout condiviso allineato, insieme a minima e massima di «Che tempo farà» (`CLAUDE-previsioni.md`).
+  Online = repo; sul sito vero le prossime notti a Sassello, Pragelato e Garfagnana; la colonna delle regioni ancora
+  assente come previsto, finche' `riepiloghi.yml` non riscrive `data/funghi/<regione>.json` col campo `freddo`.
