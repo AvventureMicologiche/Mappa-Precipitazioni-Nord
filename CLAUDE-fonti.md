@@ -630,6 +630,10 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   chiamata in piu' alle fonti, finisce verso le 5:00, prima dei riepiloghi delle 5:15. Se MeteoHub un giorno tarda
   oltre le 4:50 (o una vicina manca, come le Marche del 5/11), i giri di GitHub restano la riserva come prima. Da
   verificare la mattina dopo con lo stesso attrezzo: il giorno di ieri non deve piu' cambiare al giro delle ~13:30.
+  Prova senza rete `scratchpad a4ad099e\prova-sveglia-125.mjs` (GitHub finto). **IN PRODUZIONE il 6/11/2026 alle
+  9:35** (suo «Sì, tutt'e due»): copia del repo `2143150056`, copia del banco `claudio\cloudflare-sveglia\worker.js`
+  identica, `npx wrangler@4 deploy` da li', version `3caadc66`; il workers.dev mostra la riga 04:50, secret GH_TOKEN
+  presente. Primo giro vero: 7/11 alle 4:50.
 - **PROVA dal 27/10/2026 (togliere Open-Meteo), la storia fino al 2/11:** `collect-abruzzo.js` + `abruzzo.yml` (2 giri, 04:55 e
   15:55 UTC, ogni giro rifa' ieri e i due giorni prima) scrivono `data/abruzzo/`: stazioni MeteoNetwork dentro la
   regione (CC BY 4.0) e stime del modello ICON-2I (CC BY 4.0) dai file aperti di MeteoHub, anonimi. Come si legge
