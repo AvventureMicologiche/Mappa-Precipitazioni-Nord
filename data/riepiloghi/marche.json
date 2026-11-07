@@ -1,42 +1,13 @@
 {
  "regione": "marche",
- "generato": "2026-11-07T04:15:38.519Z",
+ "generato": "2026-11-07T05:31:01.637Z",
  "periodi": {
-  "1": {
-   "media": 0.1,
-   "giorni": 1,
-   "stazioni": 103,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-04",
-   "top": [
-    {
-     "n": "Misa",
-     "mm": 1.6
-    },
-    {
-     "n": "Fonte Avellana",
-     "mm": 1.4
-    },
-    {
-     "n": "Corinaldo",
-     "mm": 1
-    },
-    {
-     "n": "Pergola",
-     "mm": 1
-    },
-    {
-     "n": "San Lorenzo in Campo",
-     "mm": 0.8
-    }
-   ]
-  },
   "7": {
-   "media": 47.8,
+   "media": 47.9,
    "giorni": 7,
    "stazioni": 112,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Cantiano",
@@ -44,7 +15,7 @@
     },
     {
      "n": "Pintura di Bolognola",
-     "mm": 143.5
+     "mm": 142.9
     },
     {
      "n": "Umito",
@@ -58,18 +29,22 @@
      "n": "Piscina Acquasanta Terme",
      "mm": 107.2
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-05",
+    "al": "2026-11-05"
+   }
   },
   "20": {
-   "media": 55.9,
+   "media": 56.1,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 189.6
+     "mm": 189.4
     },
     {
      "n": "Umito",
@@ -87,39 +62,48 @@
      "n": "Piscina Acquasanta Terme",
      "mm": 117.4
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-05",
+    "al": "2026-11-05"
+   }
   },
   "30": {
-   "media": 97.4,
+   "media": 94.5,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-06",
-   "ultimo": "2026-11-04",
+   "primo": "2026-10-07",
+   "ultimo": "2026-11-05",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 245.2
+     "mm": 242.8
     },
     {
      "n": "Monte Petrano",
-     "mm": 206.2
+     "mm": 203.8
     },
     {
      "n": "Fonte Avellana",
-     "mm": 199.2
+     "mm": 196.2
     },
     {
      "n": "Umito",
-     "mm": 194.3
+     "mm": 193.2
     },
     {
      "n": "Pianello di Cagli",
-     "mm": 189.4
+     "mm": 188.6
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-05",
+    "al": "2026-11-05"
+   }
   }
  },
  "serie": [
+  0.3,
   0.1,
   0.5,
   15.4,
@@ -148,40 +132,39 @@
   10,
   3.8,
   12.7,
-  1.4,
-  3.2
+  1.4
  ],
- "serieDa": "2026-11-04",
+ "serieDa": "2026-11-05",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-04",
-   "m1": 0,
-   "m7": 31.6,
-   "m30": 72.9,
-   "p1": false,
+   "ultimo": "2026-11-05",
+   "m1": 0.1,
+   "m7": 31.4,
+   "m30": 72.7,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-04",
-   "m1": 0,
-   "m7": 58.4,
-   "m30": 99.3,
-   "p1": true,
+   "ultimo": "2026-11-05",
+   "m1": null,
+   "m7": 58.2,
+   "m30": 95.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-04",
-   "m1": 0,
+   "ultimo": "2026-11-05",
+   "m1": null,
    "m7": 102.6,
-   "m30": 146.3,
+   "m30": 144.7,
    "p1": false,
    "p7": true,
    "p30": true
