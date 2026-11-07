@@ -182,9 +182,28 @@ const ONDATE_ADESSO = [
     veneto: ['Vicenza', 'Treviso'], puglia: ['Andria', 'Brindisi'], sicilia: ['Trapani', 'Agrigento'],
   },
 ];
+/* ⚠️ A GOCCIA (7/11/2026, scheda 127, suo «ok programma una settimana così facciamo la prova»): la seconda ondata non
+   esce tutta insieme ma tre citta' al giorno, dall'8 al 14/11, mescolate con due «Meteo <paese>» (METEO_PAESI_C di
+   genera-pagine-meteo-zona.js), e ogni sera le pagine del giorno si chiedono a mano a Google. Prima le 24 della prima
+   ondata con la sola sitemap erano 0 su 24 a tre giorni, mentre le pagine chieste a mano entrano in poche ore e la quota
+   a mano e' 11 al giorno. Una citta' con la data qui sotto NON ESISTE finche' quel giorno non arriva (ora italiana; per
+   le prove OGGI=AAAA-MM-GG): niente pagina, pillole, elenchi ne' sitemap. Il giro del mattino (SOLO=citta) la scrive da
+   solo il suo giorno; le pillole delle pagine regione arrivano col generatore intero della sera. */
+const USCITA_ADESSO = {
+  'lombardia/Milano': '2026-11-08', 'toscana/Firenze': '2026-11-08', 'sicilia/Trapani': '2026-11-08',
+  'piemonte/Torino': '2026-11-09', 'umbria/Perugia': '2026-11-09', 'calabria/Reggio di Calabria': '2026-11-09',
+  'emilia/Bologna': '2026-11-10', 'trentino/Trento': '2026-11-10', 'puglia/Brindisi': '2026-11-10',
+  'friuli/Trieste': '2026-11-11', 'marche/Ancona': '2026-11-11', 'sicilia/Agrigento': '2026-11-11',
+  'altoadige/Bolzano': '2026-11-12', 'veneto/Vicenza': '2026-11-12', 'calabria/Catanzaro': '2026-11-12',
+  'veneto/Treviso': '2026-11-13', 'valledaosta/Aosta': '2026-11-13', 'puglia/Andria': '2026-11-13',
+  'basilicata/Potenza': '2026-11-14', 'molise/Campobasso': '2026-11-14',
+};
+const OGGI = process.env.OGGI || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
 const CITTA_ADESSO = {}, ONDATA_DI = {};
 ONDATE_ADESSO.forEach((o, i) => {
-  for (const [k, nomi] of Object.entries(o)) {
+  for (const [k, tutte] of Object.entries(o)) {
+    const nomi = tutte.filter(n => !USCITA_ADESSO[k + '/' + n] || USCITA_ADESSO[k + '/' + n] <= OGGI);
+    if (!nomi.length) continue;
     CITTA_ADESSO[k] = (CITTA_ADESSO[k] || []).concat(nomi);
     for (const n of nomi) ONDATA_DI[k + '/' + n] = i + 1;
   }

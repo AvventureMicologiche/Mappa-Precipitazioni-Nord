@@ -33,7 +33,7 @@ const { confineDi } = require('./genera-pagine-adesso.js');   // il confine dell
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
-const { METEO_PAESI_TUTTI, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
+const { METEO_PAESI_DA_SCRIVERE, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
   SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo, tabellaFissa } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -176,7 +176,8 @@ ${ALTRE}
 if (require.main === module) {
   (async () => {
     const SOLO = process.env.SOLO;
-    const posti = METEO_PAESI_TUTTI.filter(p => !SOLO || p.slug === SOLO);   // i primi 20 e, dal 2/11/2026, i 20 del gruppo B
+    // i primi 20, dal 2/11/2026 i 20 del gruppo B, dal 8/11/2026 quelli del gruppo C arrivati al loro giorno (`dal`)
+    const posti = METEO_PAESI_DA_SCRIVERE.filter(p => !SOLO || p.slug === SOLO);
     if (!posti.length) throw new Error('nessun posto con SOLO=' + SOLO);
     const punti = [];
     for (const p of posti) {

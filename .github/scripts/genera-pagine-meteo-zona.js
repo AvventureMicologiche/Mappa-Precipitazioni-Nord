@@ -161,7 +161,38 @@ const METEO_PAESI_B = [
   { loc: 'calabria/fabrizia', slug: 'fabrizia', n: 'Fabrizia', dove: 'a Fabrizia', di: 'di Fabrizia' },
   { loc: 'friuli/paluzza', slug: 'paluzza', n: 'Paluzza', dove: 'a Paluzza', di: 'di Paluzza' },
 ];
-const METEO_PAESI_TUTTI = METEO_PAESI.concat(METEO_PAESI_B);
+// ⚠️ IL TERZO GRUPPO, A GOCCIA (7/11/2026, scheda 127, suo «ok programma una settimana così facciamo la prova»): due
+// paesi al giorno dall'8 al 14/11 (tre l'ultimo), insieme a tre citta' «adesso» (USCITA_ADESSO di genera-pagine-adesso.js),
+// chiesti a mano a Google la sera stessa. Criterio del gruppo B: Google mostra gia' la pagina funghi a chi cerca «meteo
+// <paese>» SENZA «funghi» (Search Console 8/8-5/11, `candidati-settimana-127.py` nello scratchpad della 127): Corio 124
+// viste, Corleto Monforte 43, Crespano del Grappa 34, Santa Margherita di Staffora 33, poi 10-17. Tolti Borca di Cadore
+// (pluviometro a Cancia, 1.373 m, e il paese non e' fra quelli intorno) e Monte Cucco («meteo a cucca»: altra ricerca).
+// `dal` = il giorno in cui la pagina esce (ora italiana; per le prove OGGI=AAAA-MM-GG). Prima di quel giorno non si
+// scrive; e i LINK (pillole, pagina funghi, sitemap) compaiono solo quando la pagina c'e' davvero nel repo, cosi' il
+// giro del mattino che riscrive le regioni non linka una pagina che esce la sera.
+const METEO_PAESI_C = [
+  { loc: 'piemonte/corio', slug: 'corio', n: 'Corio', dove: 'a Corio', di: 'di Corio', dal: '2026-11-08' },
+  { loc: 'campania/corleto-monforte-savuco-serra-nu', slug: 'corleto-monforte', n: 'Corleto Monforte', dove: 'a Corleto Monforte', di: 'di Corleto Monforte', nomi: { 'Corleto Monforte-Savuco Serra Nu': 'Savuco' }, primo: 'Corleto Monforte', pluv: 'di Savuco, a Corleto Monforte', dal: '2026-11-08' },
+  { loc: 'veneto/crespano-del-grappa', slug: 'crespano-del-grappa', n: 'Crespano del Grappa', dove: 'a Crespano del Grappa', di: 'di Crespano del Grappa', dal: '2026-11-09' },
+  { loc: 'lombardia/santa-margherita-di-staffora-passo-del-giova', slug: 'santa-margherita-di-staffora', n: 'Santa Margherita di Staffora', dove: 'a Santa Margherita di Staffora', di: 'di Santa Margherita di Staffora', nomi: { 'Santa Margherita di Staffora Passo del Giovà': 'Passo del Giovà' }, primo: 'Santa Margherita di Staffora', pluv: 'del Passo del Giovà, a Santa Margherita di Staffora', dal: '2026-11-09' },
+  { loc: 'calabria/canolo-nuovo', slug: 'canolo-nuova', n: 'Canolo Nuova', dove: 'a Canolo Nuova', di: 'di Canolo Nuova', nomi: { 'Canolo Nuovo': 'Canolo Nuova' }, dal: '2026-11-10' },
+  { loc: 'piemonte/demonte', slug: 'demonte', n: 'Demonte', dove: 'a Demonte', di: 'di Demonte', dal: '2026-11-10' },
+  { loc: 'basilicata/t-atella-p-te-ss381', slug: 'atella', n: 'Atella', dove: 'ad Atella', di: 'di Atella', nomi: { 'T. Atella - P.te SS381': 'Torrente Atella' }, primo: 'Atella', pluv: 'sul torrente Atella, al ponte della statale 381', dal: '2026-11-11' },
+  { loc: 'marche/ussita', slug: 'ussita', n: 'Ussita', dove: 'a Ussita', di: 'di Ussita', dal: '2026-11-11' },
+  { loc: 'altoadige/selva-dei-molini', slug: 'selva-dei-molini', n: 'Selva dei Molini', dove: 'a Selva dei Molini', di: 'di Selva dei Molini', dal: '2026-11-12' },
+  { loc: 'lazio/vivaro-romano', slug: 'vivaro-romano', n: 'Vivaro Romano', dove: 'a Vivaro Romano', di: 'di Vivaro Romano', dal: '2026-11-12' },
+  { loc: 'toscana/passo-del-brattello', slug: 'passo-del-brattello', n: 'Passo del Brattello', dove: 'al Passo del Brattello', di: 'del Passo del Brattello', dal: '2026-11-13' },
+  { loc: 'calabria/san-sosti', slug: 'san-sosti', n: 'San Sosti', dove: 'a San Sosti', di: 'di San Sosti', dal: '2026-11-13' },
+  { loc: 'friuli/val-ugovizza', slug: 'val-ugovizza', n: 'Val Ugovizza', dove: 'in Val Ugovizza', di: 'della Val Ugovizza', dal: '2026-11-14' },
+  { loc: 'piemonte/chiusa-pesio', slug: 'chiusa-di-pesio', n: 'Chiusa di Pesio', dove: 'a Chiusa di Pesio', di: 'di Chiusa di Pesio', nomi: { 'Chiusa Pesio': 'Alta Valle Pesio' }, primo: 'Chiusa di Pesio', pluv: "dell'alta Valle Pesio, a 10 km da Chiusa di Pesio", dal: '2026-11-14' },
+  { loc: 'toscana/orecchiella', slug: 'orecchiella', n: 'Orecchiella', dove: "all'Orecchiella", di: "dell'Orecchiella", dal: '2026-11-14' },
+];
+const OGGI_METEO = process.env.OGGI || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+const paginaMeteoPaeseC_e = p => fs.existsSync(path.join(RADICE, 'meteo', p.loc.split('/')[0], p.slug, 'index.html'));
+// quelli da SCRIVERE (genera-pagine-meteo-paese.js): il loro giorno e' arrivato
+const METEO_PAESI_DA_SCRIVERE = METEO_PAESI.concat(METEO_PAESI_B, METEO_PAESI_C.filter(p => p.dal <= OGGI_METEO));
+// quelli da LINKARE: in piu' la pagina deve esserci gia'
+const METEO_PAESI_TUTTI = METEO_PAESI.concat(METEO_PAESI_B, METEO_PAESI_C.filter(p => p.dal <= OGGI_METEO && paginaMeteoPaeseC_e(p)));
 const indirizzoMeteoPaese = p => `${SITO}/meteo/${p.loc.split('/')[0]}/${p.slug}/`;
 
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -1221,7 +1252,7 @@ ${ALTRE}
    › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_C, METEO_PAESI_DA_SCRIVERE, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
