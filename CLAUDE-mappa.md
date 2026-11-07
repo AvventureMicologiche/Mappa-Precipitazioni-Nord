@@ -1829,3 +1829,26 @@ in fondo a `index.html`.
 - **IN PRODUZIONE il 7/11/2026 alle 7:40** (`1dd71add42`, deploy `8e050fdc`): online uguale al repo (index e pagine
   meteo con la chiave nuova); sul sito vero pioggia allo zoom 12 8 tessere su 8 con la chiave nuova, satellite dei boschi
   acceso con 18 su 18 con la sua, nessun errore.
+
+## I nomi dei paesi fra due zoom interi: la soglia scende a ogni quarto (7/11/2026, scheda 126)
+
+- **Perché.** Suo screen di Chrome su Parma (Lombardia + Emilia, «Ieri»): «a questo livello di zoom si vedono pochi
+  nomi di città, non se ne dovrebbero vedere di più?». Lo zoom, misurato dalle distanze fra i paesi nello screen, era
+  10,75 (la mappa va a quarti, `zoomSnap 0.25`). Il modulo «NOMI NOSTRI» prendeva `Math.floor` dello zoom e la soglia
+  di abitanti di quello zoom intero (`SOGLIA`: 10 = 8.000, 11 = 2.500, 12 = 700; le soglie «meno fitti» del 29/9 sono
+  sue): da 10 a 10,75 restava quella del 10 mentre lo schermo inquadrava sempre meno terra.
+- **Misura sul sito vero alla sua inquadratura** (PC 1920, Esri bloccato): nomi 62 a 10, 48 a 10,25, 30 a 10,5, **17
+  a 10,75** (il buco, uguale al suo screen), 36 all'11.
+- **Fatto.** Fra due zoom interi la soglia scende in proporzione geometrica (`s0 * (s1/s0)^frazione`; fra il 13 e il
+  14, dove la soglia è 0, in linea retta). A 10,75 è ~3.300 abitanti. Stessa vista: 62, 67, 58, **52**, 36; al
+  telefono a 10,75 da 12 a 21. Agli zoom interi non cambia niente. Vale anche col satellite dei boschi (stesso modulo).
+  Medesano (10.663) manca anche così: il suo nome toccherebbe quello di Collecchio (l'aria attorno ai nomi, +44 px in
+  larghezza e +20 in altezza, è rimasta com'era).
+- **Prove** (scratchpad della scheda 126): `nomi-zoom-126.js` (MODO=prima|dopo, ZOOM=lista), `prova-nomi-126.js`
+  (pagine del worktree intercettate sul sito vero: pioggia, previsioni Liguria, /meteo/garfagnana/, telefono;
+  `VECCHIO=1` le pagine online). Foto `immagini\126\nomi-zoom1075-oggi-proposta.png`.
+- ⚠️ **Il credito «Esri» dallo zoom 11 è GIUSTO, non toccarlo.** Leaflet decide lo zoom delle tessere con
+  `Math.round` (`GridLayer._setView`) ma le butta via col valore vero (`_pruneTiles`: zoom < `minZoom` →
+  `_removeAllTiles`). A 10,5 e 10,75 le tessere Esri si CHIEDONO (21 col tasto +, 15 con la rotellina a 10,75, provato
+  anche con Esri vero) e spariscono subito: in mappa resta la foto nostra. Tessere pagate e mai mostrate: è una
+  proposta a parte, non fatta qui.

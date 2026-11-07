@@ -16480,10 +16480,17 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
   function disegna(){
     var mp=m(); if(!mp||!gruppo) return;
     gruppo.clearLayers();
-    var z=Math.floor(mp.getZoom());
+    var zf=mp.getZoom(), z=Math.floor(zf);
     if(!nomiSi() || !ELENCO) return;
     forsePiccoli();
-    var zz=Math.max(5,z), soglia=SOGLIA[Math.min(zz,14)], px=CORPO[Math.min(zz,15)];
+    /* ⚠️ LA SOGLIA SCENDE A OGNI QUARTO DI ZOOM (7/11/2026, scheda 126, suo «a questo livello di zoom si vedono pochi nomi
+       di citta'»). La mappa va a quarti (zoomSnap 0,25) e la soglia era quella dello zoom intero di sotto: da 10 a 10,75
+       restava quella del 10 (8.000 abitanti) mentre lo schermo inquadrava sempre meno terra, e sulla sua inquadratura di
+       Parma (1920 px) i nomi calavano 62, 48, 30, 17 per risalire a 36 all'11. Ora fra due zoom interi la soglia scende
+       in proporzione (geometrica: a 10,75 circa 3.300) e la stessa vista da' 62, 67, 58, 52, 36. Agli zoom interi non
+       cambia niente; fra il 13 e il 14 (soglia 0) scende in linea retta */
+    var zz=Math.max(5,z), fr=z<5?0:zf-z, s0=SOGLIA[Math.min(zz,14)], s1=SOGLIA[Math.min(zz+1,14)];
+    var soglia=fr<=0?s0:(s1>0?Math.round(s0*Math.pow(s1/s0,fr)):Math.round(s0*(1-fr))), px=CORPO[Math.min(zz,15)];
     var b=mp.getBounds().pad(0.05), occupato=[], messi=0;
     for(var i=0;i<ELENCO.length && messi<260;i++){
       var p=ELENCO[i];

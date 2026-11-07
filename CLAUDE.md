@@ -147,6 +147,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La scheda «Iscriviti» del computer con la foto di Archie in testa (4/11/2026 sera, scheda 121)**: `.v-foto-iscr` e `archie-bosco.webp`, parole della cassetta, Segoe UI contro l'Arial di Leaflet, preload dopo il viewport
 - **La pillola del telefono gira sulle stesse voci della vetrina del computer (4/11/2026 sera, scheda 121)**: `giroTelefono()` dal `sorteggio`, niente piu' ultimi 3 del feed, resta l'una su quattro
 - **Due chiavi Esri: il satellite dei boschi conta a parte (7/11/2026, scheda 126 bis)**: `ESRI_ALTRO` per pioggia, previsioni e pagine meteo, tessere per schermata, prove del banco con Esri bloccato, zoom 12 scartato per ora
+- **I nomi dei paesi fra due zoom interi: la soglia scende a ogni quarto (7/11/2026, scheda 126)**: a 10,75 da 17 a 52 nomi; il credito Esri dall'11 è giusto (Leaflet chiede a 10,5 e butta via)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
