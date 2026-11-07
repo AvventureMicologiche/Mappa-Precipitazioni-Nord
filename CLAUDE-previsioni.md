@@ -992,4 +992,49 @@ in tutto il sito.
   non `SOLO=citta`, che non riscrive le pagine regione con le pillole), `adesso` in `.github/scripts/pagine-lastmod.json`
   al giorno della pubblicazione (le pagine regione «adesso» cambiano), poi push, pubblicazione e
   `python sc.py invia sitemap-adesso-citta-2.xml`.
+- ⚠️ **La seconda ondata NON è uscita tutta insieme**: dal 7/11 esce a goccia, tre città al giorno (vedi la sezione qui
+  sotto).
+
+## La settimana a goccia: 20 città «adesso» e 15 «Meteo <paese>», cinque pagine al giorno dall'8 al 14/11 (7/11/2026, scheda 127)
+
+- **Perché** (suo, 7/11 sera: «invece di mettere 20 pagine quasi uguali tutte insieme, ne mettiamo ogni giorno poche e
+  miste, non più di 10 al giorno», poi «ok programma una settimana così facciamo la prova» e «Sì, parti», con un sì solo
+  per pubblicare ogni giorno). I numeri: le 24 città della prima ondata con la sola sitemap (letta da Google il 5/11)
+  erano 0 su 24 dopo tre giorni, 12 rilevate e 12 sconosciute: non bocciate, mai aperte. Le pagine chieste a mano invece
+  entrano in poche ore (33 su 33 il 4, 5 e 6/11), e la quota a mano è 11 ogni 24 ore. Il numero da solo non è il
+  problema (le 20 «Meteo <paese>» B uscite insieme il 2/11: 12 dentro in 5 ore da sole): lo è per le città. Quindi
+  poche pagine al giorno, chieste la sera stessa: 5 nuove + 6 arretrate = 11.
+- **Calendario** (le date stanno nei generatori): 8/11 Milano, Firenze, Trapani + Corio, Corleto Monforte · 9/11
+  Torino, Perugia, Reggio di Calabria + Crespano del Grappa, Santa Margherita di Staffora · 10/11 Bologna, Trento,
+  Brindisi + Canolo Nuova, Demonte · 11/11 Trieste, Ancona, Agrigento + Atella, Ussita · 12/11 Bolzano, Vicenza,
+  Catanzaro + Selva dei Molini, Vivaro Romano · 13/11 Treviso, Aosta, Andria + Passo del Brattello, San Sosti · 14/11
+  Potenza, Campobasso + Val Ugovizza, Chiusa di Pesio, Orecchiella. Elenco per la scheda dei giri a mano:
+  `D:\video youtube\claudio\da-indicizzare\goccia-2026-11-08-14.txt`.
+- **Le città**: `USCITA_ADESSO` in `genera-pagine-adesso.js` dà il giorno a ogni città della seconda ondata; prima di
+  quel giorno (ora italiana, `OGGI=AAAA-MM-GG` per le prove) la città non esiste: niente pagina, pillole, elenchi né
+  sitemap. **Il giro del mattino la scrive da solo il suo giorno** (`SOLO=citta`; `git add -- '*/index.html'` prende
+  anche le cartelle nuove e `pubblica-pages.js` copia la cartella intera), anche col PC spento; le pillole «Il radar città
+  per città» delle pagine regione arrivano col generatore intero della sera.
+- **I paesi**: `METEO_PAESI_C` in `genera-pagine-meteo-zona.js`, ognuno col suo `dal`, criterio del gruppo B (Google
+  mostra già la pagina funghi a chi cerca «meteo <paese>» SENZA «funghi», Search Console 8/8-5/11: Corio 124 viste,
+  Corleto Monforte 43, Crespano 34, Santa Margherita 33, poi 10-17; le valli senza pagina meteo quasi zero ricerche, per
+  questo niente valli). Tolti Borca di Cadore (pluviometro a Cancia, 1.373 m, e il paese non è fra quelli intorno) e
+  Monte Cucco («meteo a cucca»). Pluviometri fuori dal paese, con `primo` sul paese: Corleto Monforte (Savuco, 4 km),
+  Santa Margherita di Staffora (Passo del Giovà, 10 km), Atella (torrente Atella al ponte della statale 381, 4 km),
+  Chiusa di Pesio («Alta Valle Pesio», 10 km). Canolo Nuova e Val Ugovizza col nome del posto del pluviometro.
+  **Due elenchi**: `METEO_PAESI_DA_SCRIVERE` (il giorno è arrivato: `genera-pagine-meteo-paese.js` scrive la pagina) e
+  `METEO_PAESI_TUTTI` (in più la pagina deve esserci nel repo: pillole «paese per paese», riga nelle pagine funghi,
+  sitemap). Così il giro del mattino, che riscrive le pagine regione, non linka una pagina che esce la sera.
+  Sitemap sua `sitemap-meteo-paesi-c.xml` (famiglia `meteoPaesiC`, data `meteoPaesiC` in `pagine-lastmod.json`).
+- **Il lotto della sera** (`lotto-127.js <worktree>` nello scratchpad della 127, ~25 s): paesi meteo due volte (la seconda
+  vede le pagine nate nella prima), valli meteo, «adesso» intero, `genera-pagine-regione.js` e `genera-pagine-funghi.js`
+  con `SOLO` sulle regioni dei paesi usciti, la riga «Meteo <paese>: previsioni ora per ora →» nelle pagine funghi di
+  quei paesi (una riga, senza rigenerarle, come la 112 ter), `adesso` e `meteoPaesiC` in `pagine-lastmod.json`; poi
+  commit, push, pubblicazione, `sc.py invia` delle due sitemap e la richiesta a mano. Cambiano anche `quote-paesi.json`
+  (quote dei paesi intorno ai nuovi) e, la prima volta, il CSS del freddo nelle 21 «adesso» regione (mai rigenerate dal
+  4/11) e `data-ondata="1"` nelle 24 città vecchie. A data di oggi (7/11) il lotto non cambia nessuna pagina meteo.
+- **Condizione**: se l'8/11 mattina le 11 città chieste a mano il 7/11 risultano «scansionata, non indicizzata», le
+  città si fermano (Google le giudica copie: si lavora prima sulle parole) e vanno avanti solo i paesi.
+- **Misura**: ogni lotto via API a 24 e 72 ore, contro le città della prima ondata (0/24 a tre giorni con la sola
+  sitemap) e le meteo paesi B (12/20 in 5 ore).
 

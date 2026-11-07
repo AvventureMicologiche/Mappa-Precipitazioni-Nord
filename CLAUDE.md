@@ -192,6 +192,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La riserva per tutti i punti quando MET risponde 503, e i guasti che non moltiplicano piu' le chiamate (4/11/2026 sera, scheda 122)**: copia normale tenuta 12 ore (`X-Fresca-Fino`, `X-Giorno`, `X-Buona`), errori ricordati 2 minuti, aree tenute anche con errori; schermo blu e mappa grigia
 - **Minima e massima, sempre in quest'ordine (6/11/2026, scheda 125)**: «Che tempo farà» con minima e massima (prima solo la massima), giorni della scheda delle previsioni girati, minima blu e massima rossa ovunque
 - **Le pagine «adesso» delle città a ondate, e la seconda ondata: 20 città (5/11/2026, scheda 124)**: `ONDATE_ADESSO`, `data-ondata`, una sitemap per ondata da inviare il giorno stesso, la prossima al ~70%; il giorno della pubblicazione generatore intero
+- **La settimana a goccia: 20 città «adesso» e 15 «Meteo <paese>», cinque pagine al giorno dall'8 al 14/11 (7/11/2026, scheda 127)**: `USCITA_ADESSO`, `METEO_PAESI_C` con `dal`, `METEO_PAESI_DA_SCRIVERE` contro `METEO_PAESI_TUTTI`, `sitemap-meteo-paesi-c.xml`, il lotto della sera e le richieste a mano
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
