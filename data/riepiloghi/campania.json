@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-06T04:15:39.355Z",
+ "generato": "2026-11-07T04:15:38.520Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 5.5,
    "giorni": 1,
    "stazioni": 174,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-05",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-06",
    "top": [
     {
-     "n": "Ceraso-Isca Vivaio Forestale",
-     "mm": 0.2
-    },
-    {
-     "n": "Luogosano",
-     "mm": 0.2
-    },
-    {
-     "n": "Quattroventi",
-     "mm": 0.2
-    },
-    {
-     "n": "Agerola",
-     "mm": 0
+     "n": "Moiano",
+     "mm": 15
     },
     {
      "n": "Agerola METEO",
-     "mm": 0
+     "mm": 14.4
+    },
+    {
+     "n": "Scala-S.Caterina",
+     "mm": 13.9
+    },
+    {
+     "n": "Capri",
+     "mm": 13.8
+    },
+    {
+     "n": "Agerola",
+     "mm": 13.4
     }
    ]
   },
   "7": {
-   "media": 38.4,
+   "media": 43.9,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-10-30",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-31",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Castelfranco in Miscano",
-     "mm": 133
+     "mm": 135.4
     },
     {
      "n": "Savignano Irpino",
-     "mm": 109.1
+     "mm": 111.5
     },
     {
      "n": "Bisaccia",
-     "mm": 108.9
-    },
-    {
-     "n": "Colle Sannita",
-     "mm": 93.7
+     "mm": 109.7
     },
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 93.6
+     "mm": 98.2
+    },
+    {
+     "n": "Colle Sannita",
+     "mm": 96.7
     }
    ]
   },
   "20": {
-   "media": 78.5,
+   "media": 84,
    "giorni": 20,
-   "stazioni": 174,
-   "primo": "2026-10-17",
-   "ultimo": "2026-11-05",
+   "stazioni": 175,
+   "primo": "2026-10-18",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 182.9
+     "mm": 187.7
     },
     {
      "n": "Castelfranco in Miscano",
-     "mm": 147.4
-    },
-    {
-     "n": "Cusano Mutri",
-     "mm": 141.6
-    },
-    {
-     "n": "Letino",
-     "mm": 139.2
+     "mm": 149.8
     },
     {
      "n": "San Martino Valle Caudina",
-     "mm": 135.3
+     "mm": 147.5
+    },
+    {
+     "n": "Cusano Mutri",
+     "mm": 146.6
+    },
+    {
+     "n": "Letino",
+     "mm": 143.8
     }
    ]
   },
   "30": {
-   "media": 173.9,
+   "media": 179,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-10-07",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-08",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Ischia",
-     "mm": 294.2
+     "mm": 300
     },
     {
      "n": "Forio",
-     "mm": 286.8
+     "mm": 293.4
     },
     {
      "n": "Castel Volturno",
-     "mm": 284
+     "mm": 289.8
     },
     {
      "n": "Monte Epomeo (Ischia)",
-     "mm": 269.4
+     "mm": 278.2
     },
     {
      "n": "Omignano Scalo",
-     "mm": 265.5
+     "mm": 271.5
     }
    ]
   }
  },
  "serie": [
+  5.5,
   0,
   0,
   1.9,
@@ -148,29 +149,28 @@
   0.2,
   31.3,
   30.1,
-  25,
-  0.4
+  25
  ],
- "serieDa": "2026-11-05",
+ "serieDa": "2026-11-06",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 26.4,
-   "m30": 181.8,
-   "p1": false,
+   "ultimo": "2026-11-06",
+   "m1": 10,
+   "m7": 36.3,
+   "m30": 191.4,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 62.2,
-   "m30": 176.9,
+   "ultimo": "2026-11-06",
+   "m1": 5.6,
+   "m7": 67.8,
+   "m30": 182.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,22 +178,22 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 68.6,
-   "m30": 228.3,
-   "p1": false,
+   "ultimo": "2026-11-06",
+   "m1": 11.3,
+   "m7": 79.9,
+   "m30": 239.5,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 41.2,
-   "m30": 196.1,
-   "p1": false,
+   "ultimo": "2026-11-06",
+   "m1": 7,
+   "m7": 48.2,
+   "m30": 203,
+   "p1": true,
    "p7": true,
    "p30": true
   }

@@ -1,125 +1,126 @@
 {
  "regione": "umbria",
- "generato": "2026-11-06T04:15:39.355Z",
+ "generato": "2026-11-07T04:15:38.519Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 17.7,
    "giorni": 1,
    "stazioni": 72,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-05",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-06",
    "top": [
     {
-     "n": "Forca Canapine",
-     "mm": 0.4
+     "n": "Melezzole",
+     "mm": 30
     },
     {
-     "n": "Allerona",
-     "mm": 0
+     "n": "Orvieto Scalo",
+     "mm": 28.2
     },
     {
-     "n": "Amelia",
-     "mm": 0
+     "n": "Todi",
+     "mm": 26.6
     },
     {
-     "n": "Ancaiano",
-     "mm": 0
+     "n": "Avigliano Umbro",
+     "mm": 26.2
     },
     {
-     "n": "Armenzano",
-     "mm": 0
+     "n": "Pornello",
+     "mm": 25.2
     }
    ]
   },
   "7": {
-   "media": 9.5,
+   "media": 26.4,
    "giorni": 7,
    "stazioni": 74,
-   "primo": "2026-10-30",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-31",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 75.2
-    },
-    {
-     "n": "Scheggia",
-     "mm": 61
-    },
-    {
-     "n": "Gualdo Tadino",
-     "mm": 56.6
+     "mm": 84.4
     },
     {
      "n": "Gubbio",
-     "mm": 50.6
+     "mm": 66.4
+    },
+    {
+     "n": "Gualdo Tadino",
+     "mm": 65.6
     },
     {
      "n": "San Benedetto Vecchio",
-     "mm": 48.8
+     "mm": 63
+    },
+    {
+     "n": "Scheggia",
+     "mm": 59.8
     }
    ]
   },
   "20": {
-   "media": 33,
+   "media": 50.1,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-17",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-18",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 103.4
-    },
-    {
-     "n": "Scheggia",
-     "mm": 86
+     "mm": 124
     },
     {
      "n": "Gubbio",
-     "mm": 75
+     "mm": 90.8
+    },
+    {
+     "n": "Scheggia",
+     "mm": 85.8
     },
     {
      "n": "San Benedetto Vecchio",
-     "mm": 71
+     "mm": 85.2
     },
     {
      "n": "Gualdo Tadino",
-     "mm": 67.6
+     "mm": 81.6
     }
    ]
   },
   "30": {
-   "media": 58.1,
+   "media": 69.7,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-10-07",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-08",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 146.2
+     "mm": 160.6
     },
     {
      "n": "San Benedetto Vecchio",
-     "mm": 146.2
-    },
-    {
-     "n": "Bocca Serriola",
-     "mm": 137.8
+     "mm": 156.8
     },
     {
      "n": "Pieve di Saddi",
-     "mm": 133.2
+     "mm": 138.6
     },
     {
-     "n": "Scheggia",
-     "mm": 128.4
+     "n": "Bocca Serriola",
+     "mm": 127.4
+    },
+    {
+     "n": "Gubbio",
+     "mm": 126
     }
    ]
   }
  },
  "serie": [
+  17.7,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0.4,
   0.4,
   2.1,
-  15.7,
-  5.6
+  15.7
  ],
- "serieDa": "2026-11-05",
+ "serieDa": "2026-11-06",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-11-05",
-   "m1": 0.1,
-   "m7": 42.2,
-   "m30": 133.5,
+   "ultimo": "2026-11-06",
+   "m1": 17.3,
+   "m7": 56,
+   "m30": 139.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,22 +167,22 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 3.7,
-   "m30": 46.5,
-   "p1": false,
+   "ultimo": "2026-11-06",
+   "m1": 7.4,
+   "m7": 11.1,
+   "m30": 51,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-11-05",
-   "m1": 0,
-   "m7": 0.2,
-   "m30": 53,
-   "p1": false,
+   "ultimo": "2026-11-06",
+   "m1": 25.4,
+   "m7": 25.5,
+   "m30": 70.5,
+   "p1": true,
    "p7": true,
    "p30": true
   }
