@@ -1193,3 +1193,7 @@ marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tut
   diff solo di quelle righe). Prova `PAGINA=/funghi/friuli/` e `/funghi/liguria/`: fiocchi 5 e 3, mai fuori dalle celle
   di gelo. ⚠️ Con la data finta al 21/12 la pagina della regione non disegna la tabella (cerca giorni che non esistono
   ancora, 404): è la prova, non la pagina; la regola delle date è quella di prima (`freddoAttivo`).
+- **IN PRODUZIONE il 7/11/2026 alle 7:19** (suo «Sì, tutt'e due»): `187a2b098c` + `e933a87d22` spinti, deploy
+  `bf91c455` (23 file nuovi) dal checkout condiviso allineato. Online = repo (sha1 di `/funghi/`, Friuli, Liguria,
+  Sicilia); sul sito vero il Friuli col fiocco (5, PC e telefono). `/funghi/` ancora senza colonna come previsto, finché
+  `riepiloghi.yml` non riscrive `data/funghi/italia.json` col settimo elemento.
