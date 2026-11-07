@@ -364,14 +364,15 @@ ${JS_FREDDO}
       var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r[6]; }));
       function gradiF(v){ return vir((Math.round(v * 10) / 10).toFixed(1)).replace('-', '−') + '°'; }
       function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+      /* il fiocco di neve dove ha gelato (7/11/2026, suo «per rendere più evidente il problema»), come nelle regioni */
       function frTel(f){
         if (!f || f[0] > 3) return '';
         return '<span class="com fr-m' + (f[1] ? ' gelo' : '') + '">'
-          + (f[1] ? notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
+          + (f[1] ? '❄ ' + notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
       }
       function frCella(f){
         if (!f) return '<td class="fr">—</td>';
-        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
+        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + (f[1] ? '❄ ' : '') + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
       }
       var max = righe[0][4] || 1;
       var h = '<table><thead><tr><th></th><th>Posto</th>' +
@@ -389,7 +390,7 @@ ${JS_FREDDO}
              (fredda ? frCella(r[6]) : '') + '</tr>';
       });
       document.getElementById('tabella').innerHTML = h + '</tbody></table>'
-        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. Si vede da novembre al 20 dicembre.</p>' : '');
+        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
       /* 1/11/2026: i posti con giorni STIMATI nella finestra (la rete non ha trasmesso) hanno l'asterisco, e lo si dice */
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '

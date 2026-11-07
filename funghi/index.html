@@ -698,11 +698,11 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
       function frTel(f){
         if (!f || f[0] > 3) return '';
         return '<span class="com fr-m' + (f[1] ? ' gelo' : '') + '">'
-          + (f[1] ? notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
+          + (f[1] ? '❄ ' + notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
       }
       function frCella(f){
         if (!f) return '<td class="fr">—</td>';
-        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
+        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + (f[1] ? '❄ ' : '') + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
       }
       var max = righe[0][4] || 1;
       var h = '<table><thead><tr><th></th><th>Posto</th>' +
@@ -720,7 +720,7 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
              (fredda ? frCella(r[6]) : '') + '</tr>';
       });
       document.getElementById('tabella').innerHTML = h + '</tbody></table>'
-        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. Si vede da novembre al 20 dicembre.</p>' : '');
+        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
         + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'

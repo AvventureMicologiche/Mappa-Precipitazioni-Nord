@@ -1193,14 +1193,16 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Calabria.</p>
     var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r.fr; }));
     function gradiF(v){ return num(v).replace('-', '−') + '°'; }
     function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+    /* il fiocco di neve dove ha gelato (7/11/2026, scheda 126, suo «per rendere più evidente il problema»), anche
+       nella classifica di /funghi/ */
     function frTel(r){
       if (!r.fr || r.fr[0] > 3) return '';
       return '<span class="com fr-m' + (r.fr[1] ? ' gelo' : '') + '">'
-        + (r.fr[1] ? notti(r.fr[1]) + (r.fr[1] === 1 ? ', ' : ', fino a ') + gradiF(r.fr[0]) : 'notte più fredda ' + gradiF(r.fr[0])) + '</span>';
+        + (r.fr[1] ? '❄ ' + notti(r.fr[1]) + (r.fr[1] === 1 ? ', ' : ', fino a ') + gradiF(r.fr[0]) : 'notte più fredda ' + gradiF(r.fr[0])) + '</span>';
     }
     function frCella(r){
       if (!r.fr) return '<td class="fr">—</td>';
-      return '<td class="fr' + (r.fr[1] ? ' gelo' : '') + '">' + gradiF(r.fr[0]) + (r.fr[1] ? '<small>' + notti(r.fr[1]) + '</small>' : '') + '</td>';
+      return '<td class="fr' + (r.fr[1] ? ' gelo' : '') + '">' + (r.fr[1] ? '❄ ' : '') + gradiF(r.fr[0]) + (r.fr[1] ? '<small>' + notti(r.fr[1]) + '</small>' : '') + '</td>';
     }
 
     var trs = righe.map(function(r, i){
@@ -1230,7 +1232,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Calabria.</p>
       + (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '')
       + '<th class="tagl">Ultimi 25 gg</th><th class="tagl">Ultima pioggia forte</th>'
       + '</tr></thead><tbody>' + trs + '</tbody></table>'
-      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. Si vede da novembre al 20 dicembre.</p>' : '');
+      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
 
     /* ⚠️ «15 dei primi 15» era un modo storto di dire «tutti»: quando il conto
        coincide col totale si scrive cosi', se no «12 posti su 15». */

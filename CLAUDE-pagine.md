@@ -1184,3 +1184,12 @@ marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tut
   intercettati, niente server; `ONLINE=1` dopo la pubblicazione): PC 20 celle, 5 in azzurro; telefono 393 e 360 la
   colonna nascosta e 13 righe sotto il nome, niente scorrimento di lato; 20/12 sì, 21/12 e 31/10 no; nessun errore.
   Scatti `claudio\immagini\126\classifica-*.png`.
+- **Il fiocco di neve ❄ dove ha gelato** (stesso giorno, suo «si può mettere anche i fiocchi di neve dove è andato
+  sotto zero giusto per rendere più evidente il problema»): davanti ai gradi nelle celle azzurre al computer («❄ −2,4°»)
+  e all'inizio della riga del telefono («❄ 5 notti di gelo, fino a −2,4°»), e nella nota («sotto zero è gelo ❄»). Solo
+  dove c'è almeno una notte di gelo (minima ≤ 0), cioè le stesse celle azzurre. Messo ANCHE nelle 20 tabelle delle
+  regioni (`frCella`/`frTel` di `genera-pagine-funghi.js`), perché è la stessa colonna e le due tabelle devono restare
+  uguali; pagine delle regioni rigenerate una per una con `SOLO=<regione>` (sitemap e `zone-regioni.json` non toccati,
+  diff solo di quelle righe). Prova `PAGINA=/funghi/friuli/` e `/funghi/liguria/`: fiocchi 5 e 3, mai fuori dalle celle
+  di gelo. ⚠️ Con la data finta al 21/12 la pagina della regione non disegna la tabella (cerca giorni che non esistono
+  ancora, 404): è la prova, non la pagina; la regola delle date è quella di prima (`freddoAttivo`).
