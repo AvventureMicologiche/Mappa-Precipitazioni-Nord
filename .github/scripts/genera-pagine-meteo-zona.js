@@ -62,7 +62,12 @@ const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipit
    dominio, scade il 29/9/2027) e la stessa luce (LUCE_SAT: +6% a tacca). Si leggono da index.html: se cambiano basta
    rigenerare. Senza chiave (repo di test) il servizio pubblico, come esri() della mappa. */
 const INDEX = fs.readFileSync(path.join(RADICE, 'index.html'), 'utf8');
-const SAT = (/var SAT_FOTO='([^']+)'/.exec(INDEX) || [])[1] || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+/* ⚠️ 7/11/2026 (scheda 126 bis): la chiave e' ESRI_ALTRO, la credenziale «Pioggia previsioni e pagine meteo», non piu'
+   quella di SAT_FOTO, che resta solo al satellite dei boschi: cosi' Esri conta a parte il satellite e tutto il resto.
+   Se ESRI_ALTRO non c'e' (repo di test), come prima. */
+const ALTRO = (/var ESRI_ALTRO='([^']+)'/.exec(INDEX) || [])[1];
+const SAT = ALTRO ? 'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=' + ALTRO
+  : (/var SAT_FOTO='([^']+)'/.exec(INDEX) || [])[1] || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
 /* LA FOTO NOSTRA FINO ALLO ZOOM 10, POI ESRI A UN QUARTO (3/11/2026, scheda 116, suo: «la nostra foto fino allo zoom 10
    nelle pagine /meteo/<zona>/, che oggi chiedono a Esri anche le tessere da lontano»). Come la mappa (modulo «LA FOTO

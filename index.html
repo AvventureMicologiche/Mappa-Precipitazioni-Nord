@@ -2904,7 +2904,8 @@ window._baseTiles=baseTiles;
      Mappa-Precipitazioni-Satellite servito da jsDelivr: zero tessere Esri su Italia, regioni e province. La sola ESA,
      scura e piatta, era stata bocciata accanto al meteo («e' un altro pianeta»).
    - Dallo zoom 11 Esri a «un quarto» delle tessere (512 px, zoomOffset -1; suo «un quarto va bene»): il tetto dei 2
-     milioni di tessere al mese lo usavano gia' meteo e boschi.
+     milioni di tessere al mese lo usavano gia' meteo e boschi. La chiave e' window._esriChiave (ESRI_ALTRO dal 7/11/2026,
+     scheda 126 bis), NON quella del satellite dei boschi: Esri conta a parte i due consumi.
    - La cartina OSM di sempre (baseTiles) non sta piu' sotto la foto (1/11/2026, osmSeServe): torna coi boschi, nelle
      previsioni e quando la foto non arriva. Coi boschi, col satellite dei boschi e nelle previsioni (che hanno la loro
      foto) la nostra si toglie (classe foto-on spenta).
@@ -2982,7 +2983,8 @@ window._fotoNostra=function(pane,quandoNonArriva,piu){
   sotto.getEvents=function(){ var e=L.TileLayer.prototype.getEvents.call(this); delete e.viewprereset; return e; };
   // quandoMappaDisegnata aspetta la foto che si vede, non piu' la cartina OSM (che sotto la foto non c'e')
   window._fondoFoto=function(){ return document.body.classList.contains('foto-on')&&map.hasLayer(lontano)?lontano:null; };
-  // creata tardi: la chiave Esri sta nel modulo del satellite dei boschi, piu' in fondo alla pagina (nel test non c'e')
+  // creata tardi: la chiave Esri (ESRI_ALTRO, la sua del 7/11/2026, non quella del satellite) sta nel modulo del satellite
+  // dei boschi, piu' in fondo alla pagina (nel test non c'e')
   function esri(){
     if(vicino) return vicino;
     var k=window._esriChiave; if(k===undefined) return null;
@@ -16227,7 +16229,13 @@ body:not(.bq-on) .bq-ist i{background:#a9bcae}
    la accende, ma solo se porta anche boschi=1. */
 (function(){
   var SAT_FOTO='https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=AAPTasR-h9fs0ra4WGWkS_scuow..PfyWRixgy2bU4q4L_xFWwxQH8YrVUnFpJFrW78wY_K72YLdviK5mAeSydBEk66vKIwvvowq2oQERMiN_iLMZxI_bI35DHJQ2Kq2GhIBqtgkKUm_cumAnMUoc_t8aNZ_sTL-EQViE0u0sdlMgMrvFKc5IRSYFy6MCE4fJ8EbE5BRae930oAWEbSlekZea3-2chpfwPsuEnxeX1m4HW2UGD0faHCNPYcdHE-AHoM1ox042-adkcZy4hAworYmCGu81zdrbY3s.AT1_VCr3FrpK';   // servizio A CHIAVE (prod): account ArcGIS Location Platform, chiave con referrer, scade 29/9/2027
-  window._esriChiave=SAT_FOTO.split('token=')[1]||'';   // la stessa chiave per la cartina della vista Italia delle previsioni (28/10/2026); nel test non c'e'
+  /* ⚠️ DUE CHIAVI ESRI (7/11/2026, scheda 126 bis, suo «sì tutte e tre»): SAT_FOTO qui sopra resta SOLO per il satellite
+     dei boschi (e la sua anteprima); la foto da vicino della pioggia, delle previsioni e delle pagine /meteo/ usa
+     ESRI_ALTRO, la credenziale «Pioggia previsioni e pagine meteo» (stessi privilegi e referrer, scade 29/9/2027). Cosi' in
+     location.arcgis.com → Developer credentials il consumo si legge separato: satellite da una parte, il resto dall'altra.
+     genera-pagine-meteo-zona.js legge ESRI_ALTRO da qui. Prima la chiave era una sola per tutto. */
+  var ESRI_ALTRO='AAPTaA4DcAtQ8BIClBoYz6ZBPrg..3ydb4ieKgy6Y98Xm6H-cJroJkh5HZEgvaiUoU7AzOHXD7s0BmjnZuGE74YwPMmntCibel8ysxFh34GJvVRHSHG8Fna7ilVtUrJ49dRhMtgoVJVNgCWAkr7Huq7bshJ-PjBSryC_vLt0tYS-SWUFuQzrpnQLcIe0giJgz7EZHCvt8anAK_nPc0QPlTVcO36q6sIpFAdCbw6SiI3H8YZB3HJ4SnFTDQjJ8i2InJ2xe0zWbEI0ppCsWoRkbcszgt4Tol3syGZc.AT1_xmsGMO92';
+  window._esriChiave=ESRI_ALTRO;   // la cartina da vicino della pioggia e delle previsioni (28/10/2026); nel test non c'e'
   // «Alternate» e non «World_Boundaries_and_Places»: quello scrive ogni capoluogo DUE volte,
   // la citta' col pallino e la provincia omonima (Asti, Cuneo, Pavia...: visto da lui il 29/9)
   var SAT_NOMI='https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer/tile/{z}/{y}/{x}';
@@ -18546,7 +18554,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        come prima. Se Esri si ferma, sotto resta la nostra del 10 ingrandita
        ⚠️ 3/11/2026 (scheda 116, suo «Sì, a un quarto»): Esri dallo zoom 11 a UN QUARTO delle tessere, come la pioggia
        (512 px, zoomOffset -1): un quarto delle richieste, foto un po' piu' morbida da vicino al PC. maxNativeZoom 18 =
-       Esri fino al suo 17, come prima */
+       Esri fino al suo 17, come prima
+       ⚠️ 7/11/2026 (scheda 126 bis): la chiave e' ESRI_ALTRO (window._esriChiave), non quella del satellite dei boschi */
     if(on&&!satL){
       /* ⚠️ maxZoom 19 (1/11/2026, scheda 105): senza, Leaflet la ferma al 18 e allo zoom 19 restava la nostra del 10
          ingrandita 512 volte, una macchia di colore (in produzione, prima, la cartina stradale) */
