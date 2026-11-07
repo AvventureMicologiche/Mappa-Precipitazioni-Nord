@@ -1877,3 +1877,5 @@ in fondo a `index.html`.
   «View usage» delle due credenziali (dal 7/11 ~7:40 «Pioggia previsioni e pagine meteo» è separata dal satellite dei
   boschi). Guardare le tessere al giorno della credenziale della pioggia dall'8/11 e quanto pesa contro il satellite:
   da lì si decide se vale la B (Esri dal 12), che costa nitidezza all'11. Con la lettura del 16/11 già in calendario.
+- **IN PRODUZIONE il 7/11/2026 ~21** (`54580f5d57`, deploy `9d6a471b`): online, stessi giri senza intercettare niente,
+  PC 121 tessere e 0 buttate, telefono 22 e 0; nomi e crediti come prima, nessun errore.
