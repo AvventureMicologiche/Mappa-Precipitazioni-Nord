@@ -146,6 +146,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il video nuovo entra in un quarto d'ora, e la vetrina si accende col feed (4/11/2026 sera, scheda 120 bis)**: `FRESCA_S` 900 e `BROWSER_S` 120, `primaDiDa`, `aspettaFeed`, `_canaleFatto`
 - **La scheda «Iscriviti» del computer con la foto di Archie in testa (4/11/2026 sera, scheda 121)**: `.v-foto-iscr` e `archie-bosco.webp`, parole della cassetta, Segoe UI contro l'Arial di Leaflet, preload dopo il viewport
 - **La pillola del telefono gira sulle stesse voci della vetrina del computer (4/11/2026 sera, scheda 121)**: `giroTelefono()` dal `sorteggio`, niente piu' ultimi 3 del feed, resta l'una su quattro
+- **Due chiavi Esri: il satellite dei boschi conta a parte (7/11/2026, scheda 126 bis)**: `ESRI_ALTRO` per pioggia, previsioni e pagine meteo, tessere per schermata, prove del banco con Esri bloccato, zoom 12 scartato per ora
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

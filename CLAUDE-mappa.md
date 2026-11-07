@@ -1800,3 +1800,32 @@ in fondo a `index.html`.
   (lungo25 › iscriviti › aggiornamento2026 › …). Nessun errore.
 - **IN PRODUZIONE il 4/11/2026 alle 19:28** (`b162fccb2d`, deploy `afcadc74`): index online uguale al repo;
   `giro-tel-121.js` con `VECCHIO=1` (niente intercettato) sul sito vero dà lo stesso giro della prova, nessun errore.
+
+## Due chiavi Esri: il satellite dei boschi conta a parte (7/11/2026, scheda 126 bis)
+
+- **Perché.** Consumo letto il 7/11 su location.arcgis.com: 301.566 tessere dal 30/10 (15,1% dei 2 M), dal 3/11 fra
+  27 e 36 mila al giorno, fine ciclo ~1,03-1,10 M. Sua domanda «come mai sono così alte e dove possiamo risparmiare
+  ancora? senza toccare il satellite ovviamente». Tutto passava da UNA chiave: Esri non diceva chi consuma.
+- **Misura per schermata** (sito vero, tessere CONTATE e BLOCCATE prima di partire, zero consumate; scratchpad della 126
+  bis `conta-esri-126bis.js`): aprire la mappa 0; pioggia e previsioni 0 fino al 10, poi 15 a schermata al PC (1920) e
+  3-6 al telefono; pagina /meteo/garfagnana/ letta tutta 6 al PC, 0 al telefono; satellite dei boschi tessere PIENE a
+  ogni zoom, 50 a schermata al PC e 15 al telefono. Stima: il grosso e' il satellite (64 utenti il 30/10).
+- **Fatto**: credenziale nuova nel portale (`avventurepluvio.maps.arcgis.com`, Contenuto → credenziali sviluppatore)
+  «Pioggia previsioni e pagine meteo», applicazione pubblica, Mappe di base 2/2 (Basemap Styles service + Tile mappa di
+  base statica), stessi 4 referrer di «Satellite mappa precipitazioni», **scade il 29/9/2027 come l'altra**. In
+  index.html `var ESRI_ALTRO` subito sotto `SAT_FOTO` e `window._esriChiave=ESRI_ALTRO` (foto da vicino della pioggia e
+  delle previsioni); `SAT_FOTO`/`ANTE_SAT` restano al satellite dei boschi. `genera-pagine-meteo-zona.js` legge
+  `ESRI_ALTRO` (se manca, SAT_FOTO come prima); 89 pagine meteo rigenerate. Zoom invariati.
+- **Come si legge**: location.arcgis.com → Developer credentials → «View usage» di ciascuna credenziale (oppure Usage →
+  scheda Developer credentials). ⚠️ Una tessera chiesta con un token sbagliato risponde lo stesso 200 con l'immagine:
+  la chiave non si collauda con curl, si guarda il consumo della credenziale.
+- **Prove sul sito vero con Esri bloccato** (banco, non il repo): `collaudo-lib.js` (CDP `Network.setBlockedURLs`) e
+  `prove-veloci.js` bloccano Esri di base; `ESRI=1` per provare proprio la foto Esri o il satellite; i `registra-*.js`
+  dei filmati mettono `ESRI=1` da soli. check-9 e check-10 avevano bruciato 5.378 tessere.
+- **Scartato per ora: Esri dallo zoom 12.** All'11 la tessera a un quarto e' la z10 di Esri, stessa griglia della nostra
+  del 10 ingrandita, ma nella foto prima/dopo (`immagini\126bis\zoom11-sassello-prima-dopo.png`, `-firenze-`) la nostra
+  e' piu' scura e morbida e le citta' quasi spariscono: non pubblicato senza il suo sguardo. Pronto sul ramo locale
+  `scheda-126bis-zoom12` (`9aa3732584`, non spinto): 0 tessere all'11 invece di 15/6 a schermata.
+- **IN PRODUZIONE il 7/11/2026 alle 7:40** (`1dd71add42`, deploy `8e050fdc`): online uguale al repo (index e pagine
+  meteo con la chiave nuova); sul sito vero pioggia allo zoom 12 8 tessere su 8 con la chiave nuova, satellite dei boschi
+  acceso con 18 su 18 con la sua, nessun errore.
