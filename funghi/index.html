@@ -605,6 +605,72 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
   function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
   function vir(n){ return String(n).replace('.', ','); }
 
+  var FINO = 20;
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+  function prossime(j, zona) {
+    var c = (j && j.capoluoghi) || [];
+    var pts = zona ? c : c.filter(function (x) { return x.qui; });
+    if (!pts.length) pts = c.slice(0, 1);
+    if (!pts.length) return '';
+    var GS = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+    var notti = [];
+    for (var i = 1; i <= 3; i++) {
+      var mn = null, gg = null;
+      for (var k = 0; k < pts.length; k++) {
+        var d = pts[k].giorni && pts[k].giorni[i];
+        if (d && d.mn != null && (mn == null || d.mn < mn)) { mn = d.mn; gg = d.g; }
+      }
+      if (mn != null) notti.push({ mn: mn, g: gg });
+    }
+    if (notti.length < 2) return '';
+    var mins = notti.map(function (x) { return x.mn; });
+    var lo = Math.min.apply(null, mins), hi = Math.max.apply(null, mins);
+    var f = function (n) { return String(Math.round(n)).replace('-', '−') + '°'; };
+    var gel = notti.filter(function (x) { return x.mn <= 0; });
+    var nomi = gel.map(function (x) { var q = String(x.g).split('-'); return GS[new Date(+q[0], +q[1] - 1, +q[2]).getDay()]; });
+    var elenco = nomi.length === 1 ? nomi[0] : nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1];
+    return '<div class="dett prox">Prossime notti' + (zona ? ' nei paesi della zona' : '') + ': ' + (gel.length
+      ? '<b class="g">gelo previsto ' + elenco + '</b>, fino a <b>' + f(lo) + '</b>.'
+      : 'minime fra <b>' + f(lo) + '</b> e <b>' + f(hi) + '</b>, nessuna gelata prevista.') + '</div>';
+  }
+  window.freddoFunghi = function (sT, oggi, nota, zona) {
+    if (!window.freddoAttivo() || !sT || !oggi) return;
+    var MESI =['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    var gelo = 0, piu = null, quando = 0, conDato = 0;
+    for (var i = 1; i <= 10; i++) {
+      var g = sT[i - 1];
+      if (!g || g[0] == null) continue;
+      conDato++;
+      if (g[0] <= 0) gelo++;
+      if (piu == null || g[0] < piu) { piu = g[0]; quando = i; }
+    }
+    if (conDato < 5) return;
+    var p = String(oggi).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setDate(d.getDate() - quando);
+    var gn = d.getDate(), il = (gn === 1 || gn === 8 || gn === 11) ? 'l’' : 'il ';
+    var gradi = (Math.round(piu * 10 + 1e-9) / 10).toFixed(1).replace('.', ',').replace('-', '−');
+    var titolo = gelo ? (gelo === 1 ? '1 notte di gelo' : gelo + ' notti di gelo') : 'Nessuna gelata';
+    var riga = '<div class="freddo"><div class="ft"><span class="pallino" style="background:' + (gelo ? '#8fd0ff' : '#cfd8e3')
+      + '"></span>' + titolo + ' in 10 giorni</div><div class="dett fd">La notte più fredda' + (nota ? ', ' + nota : '')
+      + ': <b>' + gradi + '°</b> ' + il + gn + ' ' + MESI[d.getMonth()] + '.</div></div>';
+    var v = document.querySelector('#verdetto .verdetto');
+    if (v && !v.querySelector('.freddo')) {
+      var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
+      if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
+    }
+    var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
+    if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
+    var metti = function (j) {
+      var fr = document.querySelector('#verdetto .freddo');
+      if (!fr || fr.querySelector('.prox')) return;
+      var h = prossime(j, zona);
+      if (h) fr.insertAdjacentHTML('beforeend', h);
+    };
+    if (window._prevPagina) metti(window._prevPagina);
+    else document.addEventListener('previsioni-pagina', function (e) { metti(e.detail); });
+  };
+
+
   function guasto(t){
     document.getElementById('finestra').innerHTML = t;
     document.getElementById('tabella').innerHTML = '';
@@ -626,18 +692,35 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
         return ((da === 1 || da === 8 || da === 11) ? 'dall’' : 'dal ') + (pa[1] === pb[1] ? da : gg(a))
           + ((db === 1 || db === 8 || db === 11) ? ' all’' : ' al ') + gg(b); }
 
+      var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r[6]; }));
+      function gradiF(v){ return vir((Math.round(v * 10) / 10).toFixed(1)).replace('-', '−') + '°'; }
+      function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+      function frTel(f){
+        if (!f || f[0] > 3) return '';
+        return '<span class="com fr-m' + (f[1] ? ' gelo' : '') + '">'
+          + (f[1] ? notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
+      }
+      function frCella(f){
+        if (!f) return '<td class="fr">—</td>';
+        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
+      }
       var max = righe[0][4] || 1;
       var h = '<table><thead><tr><th></th><th>Posto</th>' +
-              '<th>Pioggia</th></tr></thead><tbody>';
+              '<th>Pioggia</th>' +
+              (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '') +
+              '</tr></thead><tbody>';
       righe.forEach(function(r, i){
         var pc = Math.max(3, Math.round(100 * r[4] / max));
         h += '<tr><td class="pos">' + (i+1) + '</td>' +
              '<td><a class="loc" href="' + SITO + '/funghi/' + r[2] + '/' + r[3] + '/">' +
-             '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span></a></td>' +
+             '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span>' +
+             (fredda ? frTel(r[6]) : '') + '</a></td>' +
              '<td class="mm"><span class="barra" style="width:' + pc + '%"></span>' +
-             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td></tr>';
+             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td>' +
+             (fredda ? frCella(r[6]) : '') + '</tr>';
       });
-      document.getElementById('tabella').innerHTML = h + '</tbody></table>';
+      document.getElementById('tabella').innerHTML = h + '</tbody></table>'
+        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. Si vede da novembre al 20 dicembre.</p>' : '');
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
         + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'

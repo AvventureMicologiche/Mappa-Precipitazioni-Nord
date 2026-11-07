@@ -42,7 +42,7 @@ const path = require('path');
 const { REGIONI, briciolaJson, briciolaHtml, BRIC_CSS } = require('./genera-pagine-regione.js');
 const { LOCALITA, slug } = require('./lib-nomi.js');
 const { scriviSitemap } = require('./genera-sitemap.js');
-const { rigaStagione } = require('./lib-stagione.js');
+const { rigaStagione, JS_FREDDO } = require('./lib-stagione.js');   // JS_FREDDO: freddoAttivo, la colonna del freddo (7/11/2026)
 const { stileDelModello } = require('./lib-pagina-funghi.js');
 // 20/10/2026, scheda 90: l'indice come le altre pagine funghi (ricerca in testata, «Che tempo farà» sui venti posti
 // della classifica col bottone del radar, «Trova i boschi», e i due riquadri pioggia | boschi)
@@ -315,6 +315,7 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
   function gg(d){ var p=String(d).split('-'); return (+p[2])+' '+MESI[(+p[1])-1]; }
   function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
   function vir(n){ return String(n).replace('.', ','); }
+${JS_FREDDO}
 
   function guasto(t){
     document.getElementById('finestra').innerHTML = t;
@@ -355,18 +356,40 @@ ${/* ⚠️ Qui NON si chiama navAltre: quella scrive due elenchi, regioni e
          perche' quel pluviometro lo pubblica OMIRL. Quella colonna diceva DOVE
          STA LA PAGINA fingendo di dire dove sta il paese. La sigla della
          provincia invece e' giusta sempre, e basta a orientarsi. */
+      /* LA NOTTE PIU FREDDA (7/11/2026, scheda 126, suo «Sì, preparala»): la stessa colonna delle tabelle delle regioni
+         (genera-pagine-funghi.js), dal 1 novembre al 20 dicembre (freddoAttivo di JS_FREDDO): al computer una colonna,
+         al telefono una riga sotto il nome solo per i posti a 3 gradi o meno. La classifica resta per pioggia: e' un dato
+         misurato accanto, non un voto. I numeri sono il settimo della riga di italia.json (genera-funghi.js); senza,
+         la colonna non esce. */
+      var fredda = !!(window.freddoAttivo && window.freddoAttivo() && righe.some(function(r){ return r[6]; }));
+      function gradiF(v){ return vir((Math.round(v * 10) / 10).toFixed(1)).replace('-', '−') + '°'; }
+      function notti(n){ return n === 1 ? '1 notte di gelo' : n + ' notti di gelo'; }
+      function frTel(f){
+        if (!f || f[0] > 3) return '';
+        return '<span class="com fr-m' + (f[1] ? ' gelo' : '') + '">'
+          + (f[1] ? notti(f[1]) + (f[1] === 1 ? ', ' : ', fino a ') + gradiF(f[0]) : 'notte più fredda ' + gradiF(f[0])) + '</span>';
+      }
+      function frCella(f){
+        if (!f) return '<td class="fr">—</td>';
+        return '<td class="fr' + (f[1] ? ' gelo' : '') + '">' + gradiF(f[0]) + (f[1] ? '<small>' + notti(f[1]) + '</small>' : '') + '</td>';
+      }
       var max = righe[0][4] || 1;
       var h = '<table><thead><tr><th></th><th>Posto</th>' +
-              '<th>Pioggia</th></tr></thead><tbody>';
+              '<th>Pioggia</th>' +
+              (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '') +
+              '</tr></thead><tbody>';
       righe.forEach(function(r, i){
         var pc = Math.max(3, Math.round(100 * r[4] / max));
         h += '<tr><td class="pos">' + (i+1) + '</td>' +
              '<td><a class="loc" href="' + SITO + '/funghi/' + r[2] + '/' + r[3] + '/">' +
-             '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span></a></td>' +
+             '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span>' +
+             (fredda ? frTel(r[6]) : '') + '</a></td>' +
              '<td class="mm"><span class="barra" style="width:' + pc + '%"></span>' +
-             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td></tr>';
+             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td>' +
+             (fredda ? frCella(r[6]) : '') + '</tr>';
       });
-      document.getElementById('tabella').innerHTML = h + '</tbody></table>';
+      document.getElementById('tabella').innerHTML = h + '</tbody></table>'
+        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo. Si vede da novembre al 20 dicembre.</p>' : '');
       /* 1/11/2026: i posti con giorni STIMATI nella finestra (la rete non ha trasmesso) hanno l'asterisco, e lo si dice */
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '

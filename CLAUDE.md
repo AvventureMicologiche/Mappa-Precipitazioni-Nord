@@ -166,6 +166,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La riserva della vetrina e' la scheda «Iscriviti», con scritte senza numeri e anche nel giro (4/11/2026, scheda 119)**: `ELENCO=[]`, «Il sito è gratuito», chiave `iscriviti` nel sorteggio e `rimettiScheda()`
 - **Il freddo nelle pagine funghi, dal 1 novembre al 20 dicembre (6/11/2026, scheda 125)**: `JS_FREDDO` e `rigaStagione(reg, conFreddo)` in `lib-stagione.js`, notti di gelo nel riquadro, temperatura in alto, Nord e Sud separati, linea dello zero; la «pausa» invernale da fare prima del 21/12
 - **Le prossime notti e la notte più fredda nelle pagine funghi (6/11/2026, scheda 125)**: `freddoAttivo()`, `window._prevPagina` di `meteoClient`, campo `freddo` di `data/funghi/<regione>.json`, colonna nella tabella delle regioni
+- **La notte più fredda anche nella classifica di /funghi/ (7/11/2026, scheda 126)**: settimo elemento delle righe di `italia.json`, `JS_FREDDO` nella pagina indice, stessa colonna delle regioni
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 

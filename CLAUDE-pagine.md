@@ -1156,3 +1156,31 @@ marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tut
   (1.129 file) dal checkout condiviso allineato, insieme a minima e massima di «Che tempo farà» (`CLAUDE-previsioni.md`).
   Online = repo; sul sito vero le prossime notti a Sassello, Pragelato e Garfagnana; la colonna delle regioni ancora
   assente come previsto, finche' `riepiloghi.yml` non riscrive `data/funghi/<regione>.json` col campo `freddo`.
+
+## La notte più fredda anche nella classifica di /funghi/ (7/11/2026, scheda 126)
+
+- **Perché.** Sua domanda del 7/11: «ieri abbiamo sistemato le temperature e la scritta sulle pagine funghi, ma in
+  quelle generiche tipo la nostra selezione?». La pagina `/funghi/` («La nostra selezione», `genera-indice-funghi.js`)
+  aveva già la riga di stagione per tutta Italia (`rigaStagione()` senza regione: «Adesso conta il freddo quanto la
+  pioggia») e «Che tempo farà» con minima e massima, ma la classifica dei venti posti più bagnati d'Italia era solo
+  pioggia. Quel giorno i venti erano tutti al Nord: 5 con notti di gelo negli ultimi 10 giorni (Tramonti di Sotto 5,
+  fino a −2,4°), altri 8 a 3° o meno, 6 senza termometro. La riga in alto diceva «conta il freddo» e la tabella sotto
+  non lo faceva vedere.
+- **Cosa fa.** La stessa colonna delle tabelle delle regioni (nota qui sopra): dal 1 novembre al 20 dicembre
+  (`freddoAttivo()` di `JS_FREDDO`, ora incluso anche nella pagina indice) al computer la colonna «Notte più fredda,
+  ultimi 10 gg» (azzurra sotto zero, con «N notti di gelo» sotto, «—» senza termometro); al telefono una riga sotto la
+  sigla della provincia SOLO per i posti a 3° o meno; la stessa nota sotto la tabella. La classifica resta ordinata per
+  pioggia: il freddo è un dato misurato accanto, non un voto. Lo stile (`td.fr`, `.fr-m`) c'era già nella pagina,
+  perché viene dal modello della regione (`stileDelModello`).
+- **I numeri.** `genera-funghi.js` calcola la coppia `[minima, notti di gelo]` una volta sola per regione (prima era
+  dentro il file della regione, ora in `const freddo` prima della classifica nazionale) e la mette sia nel campo `freddo`
+  di `data/funghi/<regione>.json` (identico a prima: al giro di prova tutti i file delle regioni «invariato») sia come
+  SETTIMO elemento delle righe `primi` di `data/funghi/italia.json`: `[nome, prov, regione, slug, mm, stima, [minima,
+  gelo]]`. Quando c'è il freddo il sesto (l'asterisco delle stime) si scrive sempre, 0 o 1; senza termometro la riga
+  resta corta come prima. `meteoClient` (OPZ.primi) legge solo il secondo, terzo e quarto: non cambia niente.
+- **Online** la pagina va pubblicata (è statica); la colonna compare col primo giro di `riepiloghi.yml` dopo il push,
+  che riscrive `italia.json` col settimo elemento. Prima di allora la pagina resta com'era.
+- **Prove** (`scratchpad\prova-indice-126.js` della 126: sito vero con pagina e `italia.json` del worktree
+  intercettati, niente server; `ONLINE=1` dopo la pubblicazione): PC 20 celle, 5 in azzurro; telefono 393 e 360 la
+  colonna nascosta e 13 righe sotto il nome, niente scorrimento di lato; 20/12 sì, 21/12 e 31/10 no; nessun errore.
+  Scatti `claudio\immagini\126\classifica-*.png`.

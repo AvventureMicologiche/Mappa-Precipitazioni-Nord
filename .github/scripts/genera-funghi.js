@@ -256,6 +256,23 @@ for (const k of Object.keys(POSTI)) {
     if (coperto(g.mm, GIORNI, 1, p[0]) && coperto(g.mm, DA, A, p[0])) coperti[p[0]] = posti[p[0]];
   }
 
+  // LA NOTTE PIU' FREDDA (6/11/2026, scheda 125): {id: [minima piu' bassa, notti di gelo]} degli ultimi 10 giorni,
+  // per la colonna della tabella delle regioni da novembre al 20 dicembre (lib-stagione.js, freddoAttivo). Solo chi
+  // ha il termometro almeno 5 giorni su 10; gelo = minima <= 0. Pochi byte: due numeri per posto.
+  // (7/11/2026, scheda 126) calcolata qui sopra e non dentro il file della regione: la stessa coppia va anche nella
+  // classifica nazionale qui sotto, per la colonna della pagina /funghi/.
+  const freddo = {};
+  for (const id of Object.keys(coperti)) {
+    let mn = null, gelo = 0, nd = 0;
+    for (let n = 1; n <= 10; n++) {
+      const vt = g.t[n] && g.t[n][id];
+      if (!vt || vt[0] == null) continue;
+      const v = uno(vt[0]);
+      nd++; if (v <= 0) gelo++; if (mn == null || v < mn) mn = v;
+    }
+    if (nd >= 5) freddo[id] = [mn, gelo];
+  }
+
   // ⚠️ Entrano solo le regioni che hanno le pagine di paese: la classifica
   // nazionale e' fatta di righe CLICCABILI, e una riga senza pagina sarebbe un
   // nome scritto per niente. Oggi sono tutte e 19, ma la condizione resta.
@@ -267,7 +284,8 @@ for (const k of Object.keys(POSTI)) {
       // l'ottavo: 1 se nella finestra 13-20 c'e' almeno un giorno stimato (la pagina indice lo segna, 1/11/2026)
       let stF = 0;
       for (let n = DA; n >= A; n--) if (g.st[n] && g.st[n][p[0]]) stF = 1;
-      if (v > 0) italia.push([bello(p[1]), p[2], k, sln[p[0]], v, p[4], p[5], stF]);
+      // il nono: la notte piu' fredda [minima, notti di gelo], o null senza termometro (7/11/2026, scheda 126)
+      if (v > 0) italia.push([bello(p[1]), p[2], k, sln[p[0]], v, p[4], p[5], stF, freddo[p[0]] || null]);
     }
   }
 
@@ -282,23 +300,7 @@ for (const k of Object.keys(POSTI)) {
     // abbiamo guardato — scriverlo come «da quando abbiamo archivio» sarebbe
     // falso.
     cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE, posti: coperti,
-    // LA NOTTE PIU' FREDDA (6/11/2026, scheda 125): {id: [minima piu' bassa, notti di gelo]} degli ultimi 10 giorni,
-    // per la colonna della tabella delle regioni da novembre al 20 dicembre (lib-stagione.js, freddoAttivo). Solo chi
-    // ha il termometro almeno 5 giorni su 10; gelo = minima <= 0. Pochi byte: due numeri per posto.
-    freddo: (() => {
-      const fr = {};
-      for (const id of Object.keys(coperti)) {
-        let mn = null, gelo = 0, nd = 0;
-        for (let n = 1; n <= 10; n++) {
-          const vt = g.t[n] && g.t[n][id];
-          if (!vt || vt[0] == null) continue;
-          const v = uno(vt[0]);
-          nd++; if (v <= 0) gelo++; if (mn == null || v < mn) mn = v;
-        }
-        if (nd >= 5) fr[id] = [mn, gelo];
-      }
-      return fr;
-    })(),
+    freddo,   // la notte piu' fredda degli ultimi 10 giorni, calcolata qui sopra (6/11/2026, scheda 125)
   }) + '\n';
 
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
@@ -516,8 +518,15 @@ for (const k of Object.keys(POSTI)) {
     finestra: [giorni[DA - 1], giorni[A - 1]],
     // le regioni DEI POSTI BAGNATI, non quelle elaborate (19/10/2026, bug 16): l'indice scriveva «in 19 regioni» con 18
     quanti: tenute.length, regioni: new Set(tenute.map(r => r[2])).size,
-    // il sesto, 1, solo per i posti con giorni stimati nella finestra: la pagina indice li segna con l'asterisco
-    primi: tenute.slice(0, 25).map(r => r[7] ? [r[0], r[1], r[2], r[3], uno(r[4]), 1] : [r[0], r[1], r[2], r[3], uno(r[4])]),
+    // il sesto, 1, solo per i posti con giorni stimati nella finestra: la pagina indice li segna con l'asterisco.
+    // Il settimo (7/11/2026, scheda 126): la notte piu' fredda [minima, notti di gelo] degli ultimi 10 giorni, per la
+    // colonna della pagina /funghi/ da novembre al 20 dicembre; quando c'e', il sesto si scrive sempre (0 o 1).
+    primi: tenute.slice(0, 25).map(r => {
+      const riga = [r[0], r[1], r[2], r[3], uno(r[4])];
+      if (r[7] || r[8]) riga.push(r[7] ? 1 : 0);
+      if (r[8]) riga.push(r[8]);
+      return riga;
+    }),
   }) + '\n';
   const destN = path.join(USCITA, 'italia.json');
   const primaN = fs.existsSync(destN) ? fs.readFileSync(destN, 'utf8') : '';
