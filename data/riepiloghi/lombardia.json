@@ -1,9 +1,9 @@
 {
  "regione": "lombardia",
- "generato": "2026-11-07T04:15:38.518Z",
+ "generato": "2026-11-07T11:21:04.714Z",
  "periodi": {
   "1": {
-   "media": 2.8,
+   "media": 2.9,
    "giorni": 1,
    "stazioni": 251,
    "primo": "2026-11-06",
@@ -12,12 +12,12 @@
     {
      "n": "Fortunago (PV)",
      "nb": "Fortunago",
-     "mm": 20.8
+     "mm": 21.4
     },
     {
      "n": "Canevino (PV)",
      "nb": "Canevino",
-     "mm": 18.2
+     "mm": 19.4
     },
     {
      "n": "Santa Margherita di Staffora Casanova (PV)",
@@ -25,53 +25,53 @@
      "mm": 17.4
     },
     {
-     "n": "Ponte Nizza Vignola (PV)",
-     "nb": "Ponte Nizza Vignola",
-     "mm": 14.8
+     "n": "Voghera v. Cambiaso (PV)",
+     "nb": "Voghera v. Cambiaso",
+     "mm": 17.2
     },
     {
      "n": "Broni (PV)",
      "nb": "Broni",
-     "mm": 14.4
+     "mm": 15.8
     }
    ]
   },
   "7": {
-   "media": 3.3,
+   "media": 3.4,
    "giorni": 7,
    "stazioni": 251,
    "primo": "2026-10-31",
    "ultimo": "2026-11-06",
    "top": [
     {
+     "n": "Fortunago (PV)",
+     "nb": "Fortunago",
+     "mm": 22
+    },
+    {
      "n": "Santa Margherita di Staffora Casanova (PV)",
      "nb": "Santa Margherita di Staffora Casanova",
      "mm": 21.6
     },
     {
-     "n": "Fortunago (PV)",
-     "nb": "Fortunago",
-     "mm": 21.4
-    },
-    {
      "n": "Canevino (PV)",
      "nb": "Canevino",
-     "mm": 19
+     "mm": 20.2
     },
     {
-     "n": "Ponte Nizza Vignola (PV)",
-     "nb": "Ponte Nizza Vignola",
-     "mm": 16.2
+     "n": "Voghera v. Cambiaso (PV)",
+     "nb": "Voghera v. Cambiaso",
+     "mm": 18
     },
     {
-     "n": "Varzi Nivione (PV)",
-     "nb": "Varzi Nivione",
-     "mm": 15.6
+     "n": "Broni (PV)",
+     "nb": "Broni",
+     "mm": 16.4
     }
    ]
   },
   "20": {
-   "media": 68.8,
+   "media": 69,
    "giorni": 20,
    "stazioni": 252,
    "primo": "2026-10-18",
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 91,
+   "media": 91.1,
    "giorni": 30,
    "stazioni": 251,
    "primo": "2026-10-08",
@@ -140,7 +140,7 @@
   }
  },
  "serie": [
-  2.8,
+  2.9,
   0,
   0.2,
   0,
@@ -188,9 +188,9 @@
    "s": "valle-sabbia",
    "n": "Valle Sabbia",
    "ultimo": "2026-11-06",
-   "m1": 0.1,
-   "m7": 2.3,
-   "m30": 88.5,
+   "m1": 0.3,
+   "m7": 2.5,
+   "m30": 88.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -210,9 +210,9 @@
    "s": "val-brembana",
    "n": "Val Brembana",
    "ultimo": "2026-11-06",
-   "m1": 0.7,
-   "m7": 1.8,
-   "m30": 147.9,
+   "m1": 0.9,
+   "m7": 1.9,
+   "m30": 148.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -243,9 +243,9 @@
    "s": "val-serina",
    "n": "Val Serina",
    "ultimo": "2026-11-06",
-   "m1": 0.5,
-   "m7": 0.9,
-   "m30": 156.6,
+   "m1": 0.7,
+   "m7": 1.1,
+   "m30": 156.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -309,9 +309,9 @@
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
    "ultimo": "2026-11-06",
-   "m1": 1.9,
-   "m7": 2,
-   "m30": 88.7,
+   "m1": 2.5,
+   "m7": 2.5,
+   "m30": 89.3,
    "p1": true,
    "p7": true,
    "p30": true
