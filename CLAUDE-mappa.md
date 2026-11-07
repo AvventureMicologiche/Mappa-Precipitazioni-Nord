@@ -1852,7 +1852,7 @@ in fondo a `index.html`.
   `_removeAllTiles`). A 10,5 e 10,75 le tessere Esri si CHIEDONO (21 col tasto +, 15 con la rotellina a 10,75, provato
   anche con Esri vero) e spariscono subito: in mappa resta la foto nostra. Tessere pagate e mai mostrate: rimedio nella
   sezione qui sotto.
-- **IN PRODUZIONE il 7/11/2026 ~19:15** (`c1f50ca0f4`, deploy `740007f6`): online alla sua inquadratura 62/67/58/52/36
+- **IN PRODUZIONE il 7/11/2026 alle 18:39** (`c1f50ca0f4`, deploy `740007f6`): online alla sua inquadratura 62/67/58/52/36
   nomi al PC e 14/21/17 al telefono, crediti come prima, nessun errore.
 
 ## Esri da vicino non chiede più tessere sotto il suo zoom (7/11/2026, scheda 126)
@@ -1877,5 +1877,5 @@ in fondo a `index.html`.
   «View usage» delle due credenziali (dal 7/11 ~7:40 «Pioggia previsioni e pagine meteo» è separata dal satellite dei
   boschi). Guardare le tessere al giorno della credenziale della pioggia dall'8/11 e quanto pesa contro il satellite:
   da lì si decide se vale la B (Esri dal 12), che costa nitidezza all'11. Con la lettura del 16/11 già in calendario.
-- **IN PRODUZIONE il 7/11/2026 ~21** (`54580f5d57`, deploy `9d6a471b`): online, stessi giri senza intercettare niente,
+- **IN PRODUZIONE il 7/11/2026 alle 19:31** (`54580f5d57`, deploy `9d6a471b`): online, stessi giri senza intercettare niente,
   PC 121 tessere e 0 buttate, telefono 22 e 0; nomi e crediti come prima, nessun errore.
