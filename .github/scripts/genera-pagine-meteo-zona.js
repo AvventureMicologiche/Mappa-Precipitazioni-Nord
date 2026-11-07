@@ -488,9 +488,18 @@ function clientePagina(C) {
      dallo zoom 11 Esri a un quarto delle tessere (512 px, zoomOffset -1). La nostra resta sotto: se Esri si ferma si vede
      lei ingrandita. Se la nostra non arriva (3 errori senza una tessera arrivata) Esri a ogni zoom, come prima; jsDelivr
      alla prima richiesta di una tessera a volte risponde 403, quindi altri tre tentativi (2, 5, 12 s), come la mappa.
-     zmax e' lo zoom massimo della cartina (Leaflet lo prende dagli strati). Il credito di Esri solo quando c'e' lui. */
+     zmax e' lo zoom massimo della cartina (Leaflet lo prende dagli strati). Il credito di Esri solo quando c'e' lui.
+     ⚠️ 7/11/2026 (scheda 126): come EsriDaVicino della mappa (index.html, accanto a FOTO_CREDITI). Leaflet sceglie lo zoom
+     delle tessere arrotondando e le butta col valore vero: a 10,5 e 10,75 le tessere Esri si chiedevano (e si pagavano)
+     e sparivano subito. Sotto il minZoom il minimo si alza di uno solo mentre _setView decide: nessuna tessera. La classe
+     si crea qui dentro, quando Leaflet c'e' di sicuro. */
   function fotoSat(m, crEsri, zmax) {
-    var esri = L.tileLayer(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
+    var EsriDaVicino = L.TileLayer.extend({ _setView: function (c, z, a, b) {
+      var mz = this.options.minZoom;
+      if (z < mz) this.options.minZoom = mz + 1;
+      try { L.TileLayer.prototype._setView.call(this, c, z, a, b); } finally { this.options.minZoom = mz; }
+    } });
+    var esri = new EsriDaVicino(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
     var cr = false;
     function crediti() {
       var si = esri.options.minZoom === 0 || m.getZoom() >= 11, ac = m.attributionControl;

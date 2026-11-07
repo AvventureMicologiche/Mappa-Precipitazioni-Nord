@@ -2924,6 +2924,19 @@ var FOTO_LIMITI=[[34,-25],[72,45]];   // Europa: Islanda e Canarie comprese, Ura
 // corto (31/10/2026, suo: «nei crediti va a capo»): il testo intero, con la licenza di ESA, sta in fonti.html#satellite
 var FOTO_CREDITI='Foto: NASA, <a href="/fonti.html#satellite" target="_blank" rel="noopener">ESA WorldCover</a>';
 var FOTO_CREDITI_ESRI='da vicino Esri, Vantor, Earthstar Geographics';
+/* ⚠️ ESRI DA VICINO NON CHIEDE TESSERE SOTTO IL SUO ZOOM (7/11/2026, scheda 126, suo «facciamo la A»). Leaflet sceglie lo
+   zoom delle tessere ARROTONDANDO (GridLayer._setView: Math.round) e le butta col valore vero (_pruneTiles: zoom sotto
+   minZoom → _removeAllTiles): con lo zoom a quarti, a 10,5 e 10,75 le tessere Esri del minZoom 11 si chiedevano (e si
+   pagavano) e sparivano subito, e in mappa restava la foto nostra. Misurato sul sito vero (analisi-esri-126.js, tessere
+   DIVERSE, Esri bloccato): al PC 13 su 134 mai mostrate, al telefono 2 su 24; chi si ferma a 10,5-10,75 butta tutte
+   quelle chieste li' (15-21 a schermata al PC). Qui, sotto il minZoom, il minimo si alza di uno solo mentre _setView
+   decide: nessuna tessera, come Leaflet poi vorrebbe. Da 11 in su tutto uguale (stesse tessere in mappa, provato). La
+   usano la foto sotto la pioggia (qui sotto) e quella delle previsioni (viFondo, in un altro <script>); le pagine meteo
+   hanno la stessa regola in genera-pagine-meteo-zona.js. Il credito «Esri» dall'11 era gia' giusto: non toccarlo */
+var EsriDaVicino=L.TileLayer.extend({ _setView:function(c,z,a,b){ var m=this.options.minZoom;
+  if(z<m) this.options.minZoom=m+1;
+  try{ L.TileLayer.prototype._setView.call(this,c,z,a,b); } finally{ this.options.minZoom=m; } } });
+window._EsriDaVicino=EsriDaVicino;   // questo script e' tutto dentro una funzione: le previsioni la prendono da qui
 // usata anche dalla foto delle previsioni (viFondo), che e' in un altro <script>
 window._fotoNostra=function(pane,quandoNonArriva,piu){
   var o={pane:pane,minNativeZoom:4,maxNativeZoom:10,maxZoom:19,bounds:FOTO_LIMITI,crossOrigin:true};
@@ -2988,7 +3001,7 @@ window._fotoNostra=function(pane,quandoNonArriva,piu){
   function esri(){
     if(vicino) return vicino;
     var k=window._esriChiave; if(k===undefined) return null;
-    vicino=L.tileLayer(k?'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token='+k
+    vicino=new EsriDaVicino(k?'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token='+k
                         :'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                        {pane:'foto',minZoom:11,maxZoom:19,maxNativeZoom:19,tileSize:512,zoomOffset:-1,crossOrigin:'anonymous'});
     return vicino;
@@ -18566,7 +18579,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(on&&!satL){
       /* ⚠️ maxZoom 19 (1/11/2026, scheda 105): senza, Leaflet la ferma al 18 e allo zoom 19 restava la nostra del 10
          ingrandita 512 volte, una macchia di colore (in produzione, prima, la cartina stradale) */
-      var vicinoL=L.tileLayer(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxZoom:19,maxNativeZoom:18,tileSize:512,zoomOffset:-1});
+      // ⚠️ 7/11/2026 (scheda 126): EsriDaVicino (in testa, accanto a FOTO_CREDITI): niente tessere chieste e buttate a 10,5-10,75
+      var vicinoL=new (window._EsriDaVicino||L.TileLayer)(esri('World_Imagery'),{pane:'viFondo',minZoom:11,maxZoom:19,maxNativeZoom:18,tileSize:512,zoomOffset:-1});
       var nostraL=window._fotoNostra?window._fotoNostra('viFondo',function(){
         var mm=map(); if(!mm||!satL) return;
         satL.removeLayer(nostraL); satL.removeLayer(vicinoL); vicinoL.options.minZoom=0; satL.addLayer(vicinoL); creditoEsri(); }):null;

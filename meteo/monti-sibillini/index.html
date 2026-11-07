@@ -550,7 +550,12 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   }
 
   function fotoSat(m, crEsri, zmax) {
-    var esri = L.tileLayer(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
+    var EsriDaVicino = L.TileLayer.extend({ _setView: function (c, z, a, b) {
+      var mz = this.options.minZoom;
+      if (z < mz) this.options.minZoom = mz + 1;
+      try { L.TileLayer.prototype._setView.call(this, c, z, a, b); } finally { this.options.minZoom = mz; }
+    } });
+    var esri = new EsriDaVicino(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
     var cr = false;
     function crediti() {
       var si = esri.options.minZoom === 0 || m.getZoom() >= 11, ac = m.attributionControl;

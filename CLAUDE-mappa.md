@@ -1850,5 +1850,30 @@ in fondo a `index.html`.
 - ⚠️ **Il credito «Esri» dallo zoom 11 è GIUSTO, non toccarlo.** Leaflet decide lo zoom delle tessere con
   `Math.round` (`GridLayer._setView`) ma le butta via col valore vero (`_pruneTiles`: zoom < `minZoom` →
   `_removeAllTiles`). A 10,5 e 10,75 le tessere Esri si CHIEDONO (21 col tasto +, 15 con la rotellina a 10,75, provato
-  anche con Esri vero) e spariscono subito: in mappa resta la foto nostra. Tessere pagate e mai mostrate: è una
-  proposta a parte, non fatta qui.
+  anche con Esri vero) e spariscono subito: in mappa resta la foto nostra. Tessere pagate e mai mostrate: rimedio nella
+  sezione qui sotto.
+- **IN PRODUZIONE il 7/11/2026 ~19:15** (`c1f50ca0f4`, deploy `740007f6`): online alla sua inquadratura 62/67/58/52/36
+  nomi al PC e 14/21/17 al telefono, crediti come prima, nessun errore.
+
+## Esri da vicino non chiede più tessere sotto il suo zoom (7/11/2026, scheda 126)
+
+- **Perché.** Trovato guardando i nomi a 10,75 (sezione qui sopra): Leaflet sceglie lo zoom delle tessere con
+  `Math.round` (`GridLayer._setView`) e le pota col valore vero (`_pruneTiles`: zoom sotto `minZoom` →
+  `_removeAllTiles`). Con lo zoom a quarti, a 10,5 e 10,75 le tessere Esri (minZoom 11) si chiedevano, si pagavano e
+  sparivano subito. Sua scelta fra A (questo rimedio) e B (Esri dal 12, ramo `scheda-126bis-zoom12`): «facciamo la A».
+- **Analisi** (`analisi-esri-126.js` nello scratchpad della 126, MODO=oggi|rimedio|ramo; conta le tessere DIVERSE, perché
+  il browser tiene in memoria quelle già scaricate: con Esri vero 10,5 → 11 nello stesso posto = 0 richieste all'11).
+  Giri: ricerca di un paese, + da 9 a 12 e − indietro, rotellina al PC, previsioni Liguria + da 9,5 a 12, tre pagine
+  meteo. Prima: PC 134 tessere, **13 mai mostrate (10%)**; telefono 24, 2 (8%); pagine meteo nessuna buttata. Chi si
+  ferma a 10,5-10,75 buttava tutto quello che chiedeva lì: 15-21 tessere a schermata al PC, ~6 al telefono.
+- **Fatto.** `EsriDaVicino` in index.html (accanto a `FOTO_CREDITI`, esposta come `window._EsriDaVicino` perché lo script
+  è tutto dentro una funzione): sottoclasse di `L.TileLayer` che, sotto il suo minZoom, alza il minimo di uno solo
+  mentre `_setView` decide (try/finally): nessuna tessera, come Leaflet poi vorrebbe. La usano la foto sotto la pioggia
+  (`vicino`) e quella delle previsioni (`vicinoL`); stessa classe dentro `fotoSat` di `genera-pagine-meteo-zona.js`
+  (creata lì dentro, quando Leaflet c'è), 89 pagine meteo rigenerate (zone e paesi). Dopo: PC 0 buttate, telefono 0;
+  con Esri vero a 10,5 nessuna richiesta, all'11 15 tessere caricate e visibili, credito come prima, nessun errore.
+  ⚠️ Da sola, B sposterebbe lo spreco a 11,5-11,75; con questa classe no.
+- ⚠️ **CONTROLLO DEI CONSUMI fra qualche giorno (suo, 7/11):** su location.arcgis.com → Developer credentials →
+  «View usage» delle due credenziali (dal 7/11 ~7:40 «Pioggia previsioni e pagine meteo» è separata dal satellite dei
+  boschi). Guardare le tessere al giorno della credenziale della pioggia dall'8/11 e quanto pesa contro il satellite:
+  da lì si decide se vale la B (Esri dal 12), che costa nitidezza all'11. Con la lettura del 16/11 già in calendario.
