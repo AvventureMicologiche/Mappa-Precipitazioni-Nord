@@ -1038,3 +1038,23 @@ in tutto il sito.
 - **Misura**: ogni lotto via API a 24 e 72 ore, contro le città della prima ondata (0/24 a tre giorni con la sola
   sitemap) e le meteo paesi B (12/20 in 5 ore).
 
+## Il radar delle città «adesso» si apre come quello delle regioni (8/11/2026, scheda 127)
+
+- Suo, guardando Milano in locale: «è la logica che abbiamo scelto, avevamo detto che c'era troppo zoom e non si
+  vedevano le nuvole sulle regioni, per quale motivo sulle città devi fare diverso». Il 28/10 le «adesso» delle regioni
+  erano passate al radar su tutta Italia e un pezzo d'Europa («sulla regione è quasi sempre una cartina vuota»); le
+  città, nate il 4/11 (118 bis), si aprivano invece sulla città e un centinaio di km intorno (±0,75° e ±1,05°, tessere
+  allo zoom 8): lo stesso errore.
+- Ora in `lib/pagina-adesso.js` la città ha la STESSA inquadratura della sua regione (`fitBounds` dell'Italia esteso
+  alla regione, tessere allo zoom 5), il confine bianco della regione e il punto rosso sulla città; il «−» scende di un
+  tocco come nelle regioni (prima tre). **Il «+» si avvicina alla città** (`setView` su `QUI` finché la cartina non è
+  stata trascinata): col `zoomIn` normale di Leaflet si ingrandiva il centro dell'Italia e da Milano si finiva su
+  Bologna e Ancona. `VERSIONE_JS` 14.
+- I nomi sopra la foto (`nomiCitta` in `genera-pagine-adesso.js`): prima gli stessi della regione (le sue città, i
+  capoluoghi d'Italia, le città estere), poi i comuni intorno sopra i 10.000 abitanti, che compaiono avvicinandosi.
+  Coi vicini davanti, all'apertura usciva Savona accanto a Milano al posto di Firenze.
+- Prova in locale (server del worktree sulla 9090, `zoom-piu-127.js` e `confronta-zoom2-127.js` nello scratchpad della
+  127): Milano e Genova si aprono con gli stessi nomi e le stesse tessere di Lombardia e Liguria; col «+» Milano resta
+  al centro e al quarto tocco compaiono Monza, Bergamo, Como, Varese; riga viva, previsione e pluviometri come prima,
+  0 errori. Esce con il primo lotto della settimana a goccia (l'«adesso» intero rigenera tutte le 21 regioni e le città).
+
