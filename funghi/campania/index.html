@@ -124,7 +124,12 @@ a:active .vai-mappa{transform:translateY(2px);
 #stagione{display:none;background:#eef2f8;border:1px solid #ccd7e6;border-left:4px solid #7a93b5;
   border-radius:8px;padding:12px 15px;font-size:15.5px;color:#42506a;margin:0 0 20px;}
 #stagione b{color:var(--blu-scuro);}
-#attesa{color:#6a7789;font-size:16px;padding:18px 0;}
+/* L'attesa e' gia' il riquadro blu, vuoto, alto quasi come quello vero (8/11/2026, scheda 128): quando arriva, quello
+   che sta sotto e' gia' fuori dallo schermo e la pagina non salta. Mai piu' alto del vero, se no la pagina risale.
+   Vale anche per paesi e zone, che copiano questo stile. */
+#attesa{background:#0f2d4d;color:#c9d6e4;font-size:16px;border-radius:12px;padding:18px;margin:14px 0 8px;
+  min-height:440px;box-sizing:border-box;}
+@media(min-width:641px){#attesa{min-height:520px;}}
 #guasto{display:none;background:#fdecea;border:1px solid #f5c2bd;border-radius:8px;
   padding:13px 16px;font-size:16px;color:#8a2b20;margin-top:10px;}
 @media(max-width:640px){
@@ -997,7 +1002,11 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Campania.</p>
       scriviFinestra(s, o, null, 'in media');
       document.getElementById('t-conta').href = lk(daG, aG);
       if (sT.some(function(x){ return x; })) scriviTemperatura(sT, ax, 'media dei posti da bosco');
-    });
+    })
+    /* l'attesa (il riquadro blu vuoto) se ne va quando c'e' il riquadro vero, o quando si sa che non arriva; non
+       quando arriva la classifica, che e' un altro file: la pagina saliva e poi riscendeva (8/11/2026, scheda 128) */
+    .then(fineAttesa, fineAttesa);
+  function fineAttesa(){ document.getElementById('attesa').style.display = 'none'; }
 
   fetch(BASE + 'funghi/' + REG + '.json')
     .then(function(r){ return r.ok ? r.json() : null; })
@@ -1265,8 +1274,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Campania.</p>
     document.getElementById('notaforte').innerHTML =
       '«Pioggia forte» vuol dire almeno ' + FORTE + ' mm in un giorno solo: è quella che bagna '
       + 'davvero il terreno. ' + quanti + ' negli ultimi ' + GIORNI + ' giorni.';
-
-    document.getElementById('attesa').style.display = 'none';
+    /* l'attesa non si toglie qui ma con il riquadro (fineAttesa, 8/11/2026, scheda 128) */
   }
 }());
 </script>

@@ -1197,3 +1197,38 @@ marzuoli o morchelle, vedremo»**. Quindi un periodo solo, a calendario, per tut
   `bf91c455` (23 file nuovi) dal checkout condiviso allineato. Online = repo (sha1 di `/funghi/`, Friuli, Liguria,
   Sicilia); sul sito vero il Friuli col fiocco (5, PC e telefono). `/funghi/` ancora senza colonna come previsto, finché
   `riepiloghi.yml` non riscrive `data/funghi/italia.json` col settimo elemento.
+
+## Le pagine che non saltano mentre caricano: spazio tenuto ai blocchi che arrivano dopo (8/11/2026, scheda 128)
+
+Il punto 3 dell'analisi notturna, parte pagine (`analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`). Proposta, misure e
+foto nel banco: `proposte-128\SALTO-DELLE-PAGINE.md`, `immagini\128\salto-*.png`; suo «Sì, come consigli».
+
+- **Il difetto.** Il CLS (quanto si sposta la pagina mentre carica, uno dei Core Web Vitals) era 0,15-0,44 al telefono
+  e 0,10-0,27 al PC in tutte le famiglie funghi, meteo e zone. Sempre la stessa causa: un blocco che si riempie DOPO e
+  nasce basso (una riga o niente), poi diventa alto 500-1.000 px e spinge giù tutto quello che c'è sotto.
+- **La regola del rimedio.** Il blocco nasce già col suo spazio, un po' MENO di quello vero e mai di più: quando si
+  riempie, quello che sta sotto è già fuori dallo schermo, e gli spostamenti fuori dallo schermo non contano. Più alto
+  del vero no: arrivando, la pagina risalirebbe (è un salto anche quello).
+- **Funghi** (`genera-pagine-funghi.js`): `#attesa` è il riquadro blu vuoto, alto 440 px al telefono e 520 al PC
+  (`min-width:641px`); i riquadri veri fanno 740-950 e 540-700. Paesi e zone **copiano lo stile della regione**
+  (`stileDelModello`): escono col rinnovo del 2-6 dicembre, senza rigenerarli prima (sua scelta: niente 20-30 MB in più
+  nel repo; il voto di Google è comunque la media di 28 giorni). Nella regione l'attesa se ne va col riquadro
+  (`fineAttesa`, in coda al file dei giorni, anche se non arriva), non più con la classifica, che è un altro file: la
+  pagina saliva e poi riscendeva. Restano 10 pagine su 985 col riquadro corto («Dati incompleti», «in manutenzione»):
+  lì la pagina risale un po'.
+- **/funghi/** (`genera-indice-funghi.js`): `#tabella:empty` tiene 1.000 px al PC (la classifica ne fa ~1.360); al
+  telefono sta sotto lo schermo. Col guasto `minHeight` torna a 0.
+- **Meteo di zona e di paese** (`genera-pagine-meteo-zona.js`, `SCHEDA_HTML` usato anche da `genera-pagine-meteo-paese.js`):
+  la scheda delle ore è già nell'HTML, aperta (`on`) e con la classe `attesa` (600 px, «Sto leggendo le previsioni…»);
+  la classe se ne va in `disegnaScheda` e nel `catch` di `apri`, che la rimette a ogni paese toccato; `guasto()` chiude
+  la scheda. La scheda vera ha sempre almeno 8 ore (~750 px).
+- **Zone piogge** (`genera-pagine-zona-piogge.js`): `verdettoCotto(d, z)` cuoce il riquadro INTERO, col tasto «Apri
+  la mappa di ieri» e le quattro porte, uguale a `scriviIeri` del browser (che lo riscrive alto uguale). ⚠️ Se si
+  cambia uno, si cambia l'altro.
+- **Misure** (`proposte-128\attrezzi\salti-128.js`, telefono 4G lento + CPU×4, pagine del ramo su un server locale):
+  funghi paese, zona e regione, /funghi/, meteo di zona e di paese **0,00** al telefono e 0,00-0,01 al PC. Zone piogge
+  da 0,15-0,20 a **0,04-0,05**: resta la striscia (`lib-striscia.js`), che trasforma il tasto di ieri nella mappa dei
+  7 giorni (300 px) con uno script in fondo alla pagina, e al telefono la pagina si disegna una volta prima. È lo stesso
+  0,03-0,04 che hanno già le pagine regione: da proporre a parte. ⚠️ In locale la striscia cerca le anteprime in
+  `/_anteprime-prova/`: il server di prova le deve prendere dal ramo `anteprime`, se no la riga «Oppure…» sparisce e
+  la pagina sembra saltare di 49 px (succede solo in prova).
