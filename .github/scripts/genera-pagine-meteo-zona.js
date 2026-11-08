@@ -953,9 +953,29 @@ function clientePagina(C) {
     m.createPane('radar'); m.getPane('radar').style.zIndex = 450;
     m.createPane('segno'); m.getPane('segno').style.zIndex = 460;   // il segnalino sopra la pioggia
     if (C.ant.qui) {
-      m.setView([C.ant.qui.lat, C.ant.qui.lon], matchMedia('(pointer:coarse)').matches ? ZOOM_RADAR_TEL : ZOOM_RADAR_PC);
+      // senza animazione: i nomi qui sotto si misurano sull'inquadratura nuova (con l'animazione Leaflet la cambiava a
+      // fine corsa e i nomi venivano scelti sull'Europa: Istanbul, Madrid, Algeri)
+      m.setView([C.ant.qui.lat, C.ant.qui.lon], matchMedia('(pointer:coarse)').matches ? ZOOM_RADAR_TEL : ZOOM_RADAR_PC, { animate: false });
       L.circleMarker([C.ant.qui.lat, C.ant.qui.lon], { pane: 'segno', radius: 5, color: '#fff', weight: 2, fillColor: '#c8102e', fillOpacity: 1, interactive: false }).addTo(m);
     }
+    /* I NOMI SOPRA LA FOTO, come il radar delle pagine «adesso» (8/11/2026, scheda 127, suo: «nel radar valli vedo che
+       non ci sono le città», poi «come le adesso»): la foto non ha scritte, la cartina OSM di prima le aveva dentro.
+       Stesso elenco (C.ant.nomi: le citta' della regione, poi i capoluoghi d'Italia e le grandi citta' estere), stessi
+       12 px bianchi con l'ombra, una scritta che ne urterebbe una gia' messa si salta. In piu': niente nomi sul
+       segnalino ne' sotto la fonte e l'ora in alto. */
+    m.createPane('nomi'); m.getPane('nomi').style.zIndex = 470; m.getPane('nomi').style.pointerEvents = 'none';
+    var px = 12, sz = m.getSize(), occupato = [], misura = document.createElement('canvas').getContext('2d');
+    misura.font = '600 ' + px + 'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    if (C.ant.qui) { var cq = m.latLngToContainerPoint([C.ant.qui.lat, C.ant.qui.lon]); occupato.push({ x1: cq.x - 9, y1: cq.y - 9, x2: cq.x + 9, y2: cq.y + 9 }); }
+    (C.ant.nomi || []).forEach(function (p) {
+      var pt = m.latLngToContainerPoint([p.lat, p.lon]), tw = misura.measureText(p.n).width;
+      if (pt.x - tw / 2 < 3 || pt.x + tw / 2 > sz.x - 3 || pt.y - px - 8 < 26 || pt.y > sz.y - 6) return;
+      var w = tw + 44, h = px + 20, box = { x1: pt.x - w / 2, y1: pt.y - h - 5, x2: pt.x + w / 2, y2: pt.y - 5 };
+      for (var k = 0; k < occupato.length; k++) { var o = occupato[k]; if (box.x1 < o.x2 && box.x2 > o.x1 && box.y1 < o.y2 && box.y2 > o.y1) return; }
+      occupato.push(box);
+      L.marker([p.lat, p.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
+        html: '<span style="font-size:' + px + 'px">' + esc(p.n) + '</span>' }) }).addTo(m);
+    });
     fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
       var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
       L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR / OPERA (CC BY)' }).addTo(m);
@@ -1096,6 +1116,9 @@ const CSS_ANT = `
 .pz-ant-q{position:absolute;top:8px;right:8px;z-index:1000;font-style:normal;font-size:12px;font-weight:700;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;color:#0f3d6e}
 .pz-ant-q:empty{display:none}
 .pz-ant-v .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.7)}
+/* i nomi sopra la foto del riquadro radar, come nelle pagine «adesso» (8/11/2026, scheda 127) */
+.pz-ant-v .nome-paese{white-space:nowrap;pointer-events:none}
+.pz-ant-v .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
 /* le citta' dell'anteprima piu' piccole di quelle della mappa grande: e' un'anteprima, e cosi' ce ne stanno di piu' */
 .pz-ant-v .pz-et{padding:1px 5px 2px}.pz-ant-v .pz-et .r1{font-size:10.5px}.pz-ant-v .pz-et .ic{font-size:13px}.pz-ant-v .pz-et .nm{font-size:9.5px}
 /* quelle che col nome non ci stanno: prima senza nome, poi solo icona e massima (si toglie solo quella che non ci sta nemmeno cosi') */
@@ -1171,7 +1194,8 @@ function pagina(z, QUOTE_DI) {
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
     // qui: il segnalino del riquadro radar, il centro della zona (funghi-zone.json; 8/11/2026, scheda 127)
-    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa), qui: { lat: z.lat, lon: z.lon } }, ordineCitta(casa.k)) };
+    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa), qui: { lat: z.lat, lon: z.lon },
+      nomi: require('./genera-pagine-adesso.js').nomiRadar(casa.k) }, ordineCitta(casa.k)) };
 
   return `<!DOCTYPE html>
 <html lang="it">

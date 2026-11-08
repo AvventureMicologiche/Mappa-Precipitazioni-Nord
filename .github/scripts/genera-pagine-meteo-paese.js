@@ -29,7 +29,7 @@ const fs = require('fs');
 const path = require('path');
 const { REGIONI, briciolaJson } = require('./genera-pagine-regione.js');
 const { regioneDati } = require('./lib-posti.js');
-const { confineDi } = require('./genera-pagine-adesso.js');   // il confine della regione nelle anteprime dei bottoni
+const { confineDi, nomiRadar } = require('./genera-pagine-adesso.js');   // il confine della regione nelle anteprime dei bottoni, e i nomi del radar
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
@@ -88,7 +88,7 @@ function pagina(p, QUOTE_DI) {
     ant: Object.assign({ confine: confineDi(casa), qui: (function () {
       const x = (p.primo && lista.find(y => y.n === p.primo)) || lista.find(y => y.qui) || lista[0];
       return { lat: x.lat, lon: x.lon };
-    })() }, ordineCitta(reg)) };
+    })(), nomi: nomiRadar(reg) }, ordineCitta(reg)) };
   // ⚠️ Niente zona del pluviometro nei bottoni: quella delle pagine funghi a volte e' larga (Sassello sta nella «Val
   // Bormida», ma e' in valle dell'Erro). Le tre anteprime: mappeHtml in genera-pagine-meteo-zona.js.
 

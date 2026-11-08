@@ -819,4 +819,7 @@ if (require.main === module) {
   else console.log(`\n${soloCitta ? 0 : LISTA.length} pagine regione e ${nCitta} pagine città scritte, sitemap.xml con ${scriviSitemap(SITO, RADICE)} indirizzi.`);
 }
 
-module.exports = { LISTA, confineDi, CITTA_ADESSO };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
+// i nomi del radar di una regione, nello stesso ordine della sua pagina «adesso» (le sue citta', poi i capoluoghi d'Italia e
+// le grandi citta' estere): anche per il riquadro radar delle pagine meteo (8/11/2026, scheda 127, suo «come le adesso»)
+const nomiRadar = k => cittaDi({ k }).map(c => ({ n:c.n, lat:c.lat, lon:c.lon })).concat(nomiDi({ k }));
+module.exports = { LISTA, confineDi, CITTA_ADESSO, nomiRadar };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
