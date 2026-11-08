@@ -473,3 +473,42 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
   stessa; la temperatura toscana, che il SIR tiene solo per ieri, gia' prima arrivava tardi (17/10 avvisato il 19/10).
   Se alert-fonti salta un giorno intero (sveglia delle 11:45 e cron delle 16:40), quel giorno non si guarda.
 
+## Pluviometri fermi DA POCO: la terza porta, sorda negli ultimi 3 giorni di pioggia (8/11/2026, scheda 127)
+
+- **Come e' venuta fuori.** Nelle anteprime «Pluviometri 7 giorni» dell'8/11 (scatti della mappa, sotto i 2 mm
+  trasparente) c'erano buchi scuri: Sarezzo v. della Fonte (BS, il quadrato vicino a Brescia), Castiglione d'Orcia e
+  Orbetello (GR), Alpicella (SV). Pluviometri che in ottobre misuravano bene e nei giorni di pioggia di novembre
+  segnavano zero. Nessuna mail: la porta dei 45 giorni li avrebbe visti solo dal **7/12**, perche' la pioggia grossa
+  del 20-21/10, misurata bene, li teneva fra il 42 e il 77% dei vicini finche' non usciva dalla finestra. Lui: «se
+  non ce ne accorgevamo oggi, quando ce ne saremmo accorti?».
+- **La regola** (`check-stazioni-ferme.js`, sezione TERZA PORTA): un giorno di pioggia e' un giorno in cui la mediana
+  dei 5 vicini piu' prossimi entro 25 km (col dato quel giorno, almeno 4) fa 5 mm o piu'; la stazione e' sorda se segna
+  al massimo il 10% di quella mediana (e al massimo 0,2 mm). Scatta se **gli ultimi 3 giorni di pioggia dei 21** sono
+  tutti sordi. Si aggiunge alle altre due porte, non le sostituisce: gli imbuti che si intasano piano (Monastero
+  d'Ombrone, Vercelli) misurano a meta' e li vede solo la porta dei 45 giorni.
+- **La prova a secco** (tutti i lunedi' dal 16/2 su 6.034 stazioni, ogni segnalazione giudicata da cosa faceva la
+  stazione nei giorni di pioggia DOPO): regola di sempre 1,4 a settimana, 17 su 44 rientrate subito; finestre di 21 e
+  15 giorni 5,4 e 7,7 a settimana con META' rientrate subito (temporali estivi locali, ad agosto 50 falsi allarmi):
+  **scartate**; 2 giorni sordi 4,5 a settimana, 69 su 162 rientrate subito: scartata; **3 giorni sordi 1,6 a settimana,
+  13 su 54 rientrate subito, anticipo mediano 1 settimana, fino a 5** (Flascio dal 26/10 invece che dal 9/11,
+  Cantagallo tre settimane prima). Lo script della prova non e' nel repo.
+- **La neve.** Un pluviometro non riscaldato sotto la neve segna zero e non e' rotto. Senza guardia il 16/2 la porta
+  segnalava 5 stazioni lombarde d'alta quota e il 9/11 tre piemontesi sopra i 2.300 m. Il giorno non conta se la
+  stazione ha fatto una massima di 3 gradi o meno (campo `t[1]`); senza temperatura, sopra i 1.200 m da novembre ad
+  aprile. Con la guardia ne resta una (Bormio eliporto, 23/2).
+- **Il rientro e' diverso dalle altre porte.** I giorni sordi escono dai 21 anche se la stazione resta morta: col
+  rientro solito la si risegnalerebbe a ogni pioggia. Nel registro c'e' il campo `porta` (`totale`, `zero`, `bagnati`):
+  una `bagnati` resta finche' il suo ultimo giorno di pioggia non fa almeno il 30% della mediana dei vicini (se nei 21
+  giorni non piove, resta; se nei 45 non consegna piu', esce). Provato con un registro finto: Alpicella resta, Stella
+  S. Giustina (sana) esce, una chiave inesistente esce.
+- **Salta le escluse a mano nella mappa** (`LOMB_ESCLUSE`, `TOSCANA_ESCLUSE`, `LIGURIA_ESCLUSE`, `PIEMONTE_ESCLUSE`,
+  `EMILIA_ESCLUSE`, `FRANCIA_ESCLUSE`, `FRIULI_ESCLUSE`, lette contando le graffe perche' alcune stanno su una riga:
+  36 chiavi l'8/11), che guardando solo gli ultimi giorni ritroverebbe ogni lunedi'. La porta dei 45 giorni resta
+  com'era (salta solo `MH_ESCLUSE`).
+- **La mail** dice i tre giorni uno per uno («il 4/11 0 mm contro 7,6; ...») e che per controllarle basta la mappa a 7
+  giorni. **Il primo lunedi' sara' lunga**: provata sui dati dell'8/11, 11 stazioni (10 dalla terza porta, di cui 7
+  francesi, piu' Flascio dalla prima), poi ~1-2 a settimana, di piu' negli autunni piovosi. Sarezzo e Orbetello non ci
+  sono: hanno un solo giorno sordo; Castiglione d'Orcia ne ha due.
+- **L'esclusione resta a mano** (sua regola), e anche il rientro sulla mappa: il registro esce da solo, gli elenchi in
+  `index.html` no.
+

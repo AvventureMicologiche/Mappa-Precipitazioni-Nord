@@ -208,6 +208,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)**: l'errore ICON e' un avviso, il commit parte
 - **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
 - **La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)**: mail solo per buchi certi, 2 invece di 5
+- **Pluviometri fermi DA POCO: la terza porta, sorda negli ultimi 3 giorni di pioggia (8/11/2026, scheda 127)**: la porta dei 45 giorni li vedeva dopo un mese; prova a secco su tutti i lunedì, guardia della neve, rientro col campo `porta`, salta le escluse a mano
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare (12 KB)
 
