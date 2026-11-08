@@ -370,7 +370,7 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ant-v .pz-et.corta .nm,.pz-ant-v .pz-et.mini .nm,.pz-ant-v .pz-et.mini .mn{display:none}
 .pz-ant-v .pz-et.mini{padding:0 4px 1px}.pz-ant-v .pz-et.mini .ic{margin-right:1px}
 .pz-ant-v .pz-et.nome .mn{display:none}
-@media (min-width:700px){.pz-ant-v{height:300px}}
+@media (min-width:700px){.pz-ant-v{height:440px}}
 
 .cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
 .mv-nota{margin:0 0 10px;}
@@ -973,14 +973,21 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   }
   function ritagliaPluvio(a, j) {
     var q = C.ant && C.ant.qui, tw = a.clientWidth, th = a.clientHeight;
-    if (!q || !isFinite(j.z) || !isFinite(j.x0) || !isFinite(j.y0) || !j.w || !j.h || !tw || !th) return;
-    var W = 256 * Math.pow(2, j.z), sy = Math.sin(q.lat * Math.PI / 180);
-    var cx = (q.lon + 180) / 360 * W - j.x0, cy = (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * W - j.y0;
-    var mpx = 40075016.686 * Math.cos(q.lat * Math.PI / 180) / W;
-    var k = Math.min(1.1, Math.max(mpx / 1000 / (C.solo ? 0.2 : 0.3), tw / j.w, th / j.h));
-    var x = Math.min(0, Math.max(tw - j.w * k, tw / 2 - cx * k)), y = Math.min(0, Math.max(th - j.h * k, th / 2 - cy * k));
+    if (!isFinite(j.z) || !isFinite(j.x0) || !isFinite(j.y0) || !j.w || !j.h || !tw || !th) return;
+    var W = 256 * Math.pow(2, j.z);
+    function proj(lat, lon) { var sy = Math.sin(lat * Math.PI / 180); return [(lon + 180) / 360 * W - j.x0, (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * W - j.y0]; }
+    var k, mx, my;
+    if (j.reg && isFinite(j.reg.n) && isFinite(j.reg.s) && isFinite(j.reg.w) && isFinite(j.reg.e)) {
+      var nw = proj(j.reg.n, j.reg.w), se = proj(j.reg.s, j.reg.e);
+      k = 0.94 * Math.min(tw / Math.max(1, se[0] - nw[0]), th / Math.max(1, se[1] - nw[1]));
+      mx = (nw[0] + se[0]) / 2; my = (nw[1] + se[1]) / 2;
+    } else { k = tw / j.w; mx = j.w / 2; my = j.h / 2; }
+    k = Math.max(k, tw / j.w, th / j.h);
+    var x = Math.min(0, Math.max(tw - j.w * k, tw / 2 - mx * k)), y = Math.min(0, Math.max(th - j.h * k, th / 2 - my * k));
     a.style.backgroundSize = (j.w * k).toFixed(1) + 'px ' + (j.h * k).toFixed(1) + 'px';
     a.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+    if (!q) return;
+    var pq = proj(q.lat, q.lon), cx = pq[0], cy = pq[1];
     var pin = a.querySelector('i.ant-pin'), px = cx * k + x, py = cy * k + y;
     if (!pin) { pin = document.createElement('i'); pin.className = 'ant-pin'; a.appendChild(pin); }
     pin.style.left = px.toFixed(1) + 'px'; pin.style.top = py.toFixed(1) + 'px';
