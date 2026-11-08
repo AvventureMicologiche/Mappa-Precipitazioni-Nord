@@ -2056,3 +2056,8 @@ di JavaScript in 20 s, niente; il lavoro a mappa ferma lo facevano le **pulsazio
   mosso dal JavaScript a ogni fotogramma, proposta a parte (6a in PROPOSTE.md). Stati della mappa (`stati-mappa.js`, 40
   scene): 34 uguali, 6 nel rumore, nessun errore.
 - ⚠️ Una chiamata NUOVA che anima ombre o bordi va messa anche lei a giri contati.
+- **IN PRODUZIONE l'8/11/2026 alle 14:36** (suo «Sì, tutt'e due»): push `333415176f` alle 14:34, deploy `11d4d50f` dal
+  worktree intero della 128 bis allineato a origin/main (1 file cambiato). Verificato online senza intercettare niente:
+  pagina servita identica a `senzaCommenti(repo)`; `animazioni-accese.js` sul sito vero, 12 scene: tutte le pulsazioni
+  `finished`, a mappa ferma `/` 1 ricalcolo degli stili in 3 s (prima 180); `stati-mappa.js` 40 scene su 40, crediti in
+  30 strette su 30, nessun errore.
