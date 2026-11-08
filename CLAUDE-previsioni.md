@@ -1133,6 +1133,8 @@ in tutto il sito.
   fila (radar, previsioni, pluviometri) alti 440 invece di 300, per la simmetria (il radar a zoom 7 mostra piu' nord e
   sud, le previsioni stanno piu' larghe). Al telefono restano 359×250 e la regione ci sta intera. Provato su 8 pagine
   (Garfagnana, Sila, Corio, Carnia, Sassello, Val d'Aveto, Caronia, Tremalzo) al PC, al telefono e girato, 0 errori.
+- **IN PRODUZIONE**: il ritaglio col nome sul segnalino l'8/11 alle 12:46 (deploy `f3aac7c2`), la regione intera coi
+  riquadri a 440 alle 13:38 (deploy `7c04dfe9`, main `67bfd6e552`), controllati online.
 
 ## Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)
 
@@ -1161,4 +1163,6 @@ in tutto il sito.
   0 errori; foto in `immagini\128quater\consigliate\`. ⚠️ Trappola dell'attrezzo pagata: servendo `lib/` dal worktree il
   foglio `leaflet.css` va col suo tipo (`text/css`), se no il browser lo scarta e la cartina si rompe (tessere sparse,
   etichette tutte nascoste) senza nessun errore.
+- **IN PRODUZIONE l'8/11 alle 13:38** (deploy `7c04dfe9`, main `67bfd6e552`), insieme alla regione intera del riquadro
+  «Pluviometri»; controllati online Lombardia, Liguria e Trapani «adesso» (`?v=19`) e tre pagine meteo.
 
