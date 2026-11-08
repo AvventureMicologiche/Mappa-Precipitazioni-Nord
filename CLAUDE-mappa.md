@@ -2022,3 +2022,9 @@ il CLS 0,17 rimasto sulla mappa al telefono dopo la testata ferma della 127 bis.
 - ⚠️ Un riquadro nuovo appoggiato in basso al telefono va aggiunto a `RIQUADRI` dello script dei crediti (lo era già):
   `aspetta()` guarda quelli. Se un giorno il riquadro dei periodi non si aprisse più da solo, `aspetta()` arriva al
   tetto di 4,5 s e i crediti compaiono lo stesso.
+- **IN PRODUZIONE l'8/11/2026 alle 13:35** (suo «Sì, tutt'e due»): push `669413ad1e` alle 13:24, deploy `6c66b05c` dal
+  worktree della 128 bis allineato a origin/main (3 file cambiati); alle 13:38 è rientrato anche nel deploy `7c04dfe9`
+  della 128 quater. Verificato online senza intercettare niente: pagina servita identica a `senzaCommenti(repo)`; CLS al
+  telefono `/` 0,004 (due giri), `/previsioni/` 0,003, `/?r=toscana&g=1` 0,092, radar 0,057 (il resto è il riquadro del
+  radar che cresce montando la linea del tempo, non i crediti); `stati-mappa.js` sul sito vero 33 uguali e 7 nel rumore,
+  crediti visibili in 30 scene strette su 30, nessun errore.
