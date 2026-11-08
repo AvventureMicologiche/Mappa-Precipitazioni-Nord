@@ -215,6 +215,6 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Promozione a non-BETA**: la v4.0 del 18/7/2026
 - **Promozione del 27 agosto 2026 (v9.1)**: come si porta il test in prod contando le chiavi solo-prod
 - **⚠️ TEST E PROD NON SONO PIÙ «PROD + QUATTRO RIGHE» (31 agosto 2026)**: mai copiare `index.html` dal test: si portano i pezzi uno per uno
-- **I commenti fuori dalla copia pubblicata: la mappa da 431 a 191 KB (8/11/2026, scheda 127 ter, dall'analisi notturna)**: `senzaCommenti()` sui `.html` in `copiaFile()` di `pubblica-pages.js`, repo invariato, pagina dubbia copiata com'è; online ≠ repo byte per byte; IN PROD 8/11 11:08, deploy `7714b10b` (dal checkout condiviso 71 ripulite: 25 sono di `_mockup/`)
+- **I commenti fuori dalla copia pubblicata: la mappa da 431 a 191 KB (8/11/2026, scheda 127 ter, dall'analisi notturna)**: `senzaCommenti()` sui `.html` in `copiaFile()` di `pubblica-pages.js`, repo invariato, pagina dubbia copiata com'è; online ≠ repo byte per byte; IN PROD 8/11 11:08, deploy `7714b10b`; dall'8/11 ~11:20 anche `_mockup/` fuori dalla pubblicazione (prima finiva online dal checkout condiviso)
 
 ---

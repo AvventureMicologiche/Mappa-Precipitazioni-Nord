@@ -207,10 +207,12 @@ online dalle 11:05 col deploy `616a2d3c` ma coi commenti, perché partito prima 
 `senzaCommenti(index.html del repo)`. Function `/previsioni/`: titolo, canonico e 301 giusti. `controllo-anteprima.js
 7714b10b` (sito vero contro lo stesso deploy, 14 pagine × PC e telefono): nessun errore di pagina né in console, stessi
 nomi globali in 28 su 28.
-- ⚠️ **Dal checkout condiviso il log dice 71 pagine ripulite, non 46**: le 25 in più sono di `_mockup/`, che sta solo nel
-  checkout condiviso (fuori da git, esclusa in `.git/info/exclude`) e che la pubblicazione da lì carica online da prima
-  (`/_mockup/...` risponde 200). Da un clone pulito (worktree, giro del mattino) restano 46. Il segnale «un generatore ha
-  smesso di togliere i commenti» è un numero che cresce oltre questi due.
+- ⚠️ **Quel giorno dal checkout condiviso il log diceva 71 pagine ripulite, non 46**: le 25 in più erano di `_mockup/`,
+  che sta solo nel checkout condiviso (fuori da git, esclusa in `.git/info/exclude`) e che la pubblicazione da lì caricava
+  online da prima (`/_mockup/...` rispondeva 200, senza noindex). **Dall'8/11 ~11:20 (suo «ok toglili») `_mockup` è
+  in `CARTELLE_FUORI` di `pubblica-pages.js`**, come `_anteprime-prova` dal 22/10: non va più online e il log dice 46 da
+  qualunque copia. Provato con i mockup veri copiati nel worktree: 36 file in meno, nient'altro cambia. I mockup si
+  guardano in locale. Il segnale «un generatore ha smesso di togliere i commenti» è un numero che cresce oltre 46.
 
 ---
 
