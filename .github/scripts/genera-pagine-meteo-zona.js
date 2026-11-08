@@ -1048,11 +1048,37 @@ function clientePagina(C) {
   }
   /* la pioggia degli ULTIMI 7 GIORNI (28/10/2026, suo: «le piogge invece metti ultimi 7 gg»): <reg>-7g.webp, che
      genera-anteprime.js scatta per le regioni di queste pagine; finche' non c'e', quella di ieri */
+  /* ⚠️ RITAGLIATA SUL POSTO, COME LE STRISCE (8/11/2026, scheda 128 quater, suo «la 1 con la a» sul censimento delle
+     cartine). Prima la regione intera senza segnalino, e al PC il riquadro largo e basso la tagliava sopra e sotto: in
+     Meteo Garfagnana la Garfagnana restava fuori, mentre il radar qui sopra e' centrato sulla valle col segnalino e le
+     pagine sorelle dello stesso posto (zone piogge, funghi) usano il ritaglio di lib-striscia.js. Lo stesso conto: il
+     .json dell'immagine dice zoom e pixel mondo dell'angolo in alto a sinistra, la valle sta al centro a ~0,3 km per
+     pixel, il paese a ~0,2 (con lo stesso tetto di 1,1 delle strisce, oltre i pallini sgranano), e l'immagine copre
+     sempre il riquadro. Il segnalino rosso e' quello del radar (C.ant.qui), sulla valle e sul paese. Senza qui o senza i
+     numeri nel .json resta la regione intera di prima. Si rifa' se il riquadro cambia misura (telefono girato). */
+  function ritagliaPluvio(a, j) {
+    var q = C.ant && C.ant.qui, tw = a.clientWidth, th = a.clientHeight;
+    if (!q || !isFinite(j.z) || !isFinite(j.x0) || !isFinite(j.y0) || !j.w || !j.h || !tw || !th) return;
+    var W = 256 * Math.pow(2, j.z), sy = Math.sin(q.lat * Math.PI / 180);
+    var cx = (q.lon + 180) / 360 * W - j.x0, cy = (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * W - j.y0;
+    var mpx = 40075016.686 * Math.cos(q.lat * Math.PI / 180) / W;   // metri per pixel dell'immagine
+    var k = Math.min(1.1, Math.max(mpx / 1000 / (C.solo ? 0.2 : 0.3), tw / j.w, th / j.h));
+    var x = Math.min(0, Math.max(tw - j.w * k, tw / 2 - cx * k)), y = Math.min(0, Math.max(th - j.h * k, th / 2 - cy * k));
+    a.style.backgroundSize = (j.w * k).toFixed(1) + 'px ' + (j.h * k).toFixed(1) + 'px';
+    a.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+    var pin = a.querySelector('i.ant-pin'), px = cx * k + x, py = cy * k + y;
+    if (!pin) { pin = document.createElement('i'); pin.className = 'ant-pin'; a.appendChild(pin); }
+    pin.style.left = px.toFixed(1) + 'px'; pin.style.top = py.toFixed(1) + 'px';
+    pin.style.display = px < 0 || px > tw || py < 0 || py > th ? 'none' : '';   // un posto fuori dall'immagine: niente segnalino
+  }
   function antPluvio() {
     var b = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/_anteprime-prova/' : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/';
     function prova(f) { return fetch(b + REG + '-' + f + '.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) { j.f = f; return j; }); }
     prova('7g').catch(function () { return prova('ieri'); }).then(function (j) {
-      $('ant-pluvio').style.backgroundImage = 'url(' + b + REG + '-' + j.f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') + ')';
+      var box = $('ant-pluvio'), dopo = null;
+      box.style.backgroundImage = 'url(' + b + REG + '-' + j.f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') + ')';
+      ritagliaPluvio(box, j);
+      window.addEventListener('resize', function () { clearTimeout(dopo); dopo = setTimeout(function () { ritagliaPluvio(box, j); }, 150); });
       var corto = function (g) { return d(g).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }); };
       if (j.da && j.a) $('ant-pluvio-q').textContent = j.da === j.a ? (j.a === IERI ? 'ieri' : corto(j.a)) : 'dal ' + corto(j.da) + ' al ' + corto(j.a);
     }).catch(function () {});
@@ -1119,6 +1145,8 @@ const CSS_ANT = `
 .pz-ant-q:empty{display:none}
 .pz-ant-v .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.7)}
 /* i nomi sopra la foto del riquadro radar, come nelle pagine «adesso» (8/11/2026, scheda 127) */
+/* il segnalino del riquadro «Pluviometri» ritagliato sul posto, come quello del radar qui sopra (8/11/2026, scheda 128 quater) */
+.pz-ant-v i.ant-pin{position:absolute;width:10px;height:10px;margin:-7px 0 0 -7px;border-radius:50%;background:#c8102e;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)}
 .pz-ant-v .nome-paese{white-space:nowrap;pointer-events:none}
 .pz-ant-v .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
 /* le citta' dell'anteprima piu' piccole di quelle della mappa grande: e' un'anteprima, e cosi' ce ne stanno di piu' */
