@@ -1,108 +1,109 @@
 {
  "regione": "marche",
- "generato": "2026-11-08T04:15:38.701Z",
+ "generato": "2026-11-08T05:31:07.291Z",
  "periodi": {
   "7": {
-   "media": 47.9,
+   "media": 54.1,
    "giorni": 7,
    "stazioni": 112,
-   "primo": "2026-10-30",
-   "ultimo": "2026-11-05",
+   "primo": "2026-10-31",
+   "ultimo": "2026-11-06",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 159.6
-    },
-    {
-     "n": "Pintura di Bolognola",
-     "mm": 142.9
-    },
-    {
-     "n": "Umito",
-     "mm": 141.1
+     "mm": 176.7
     },
     {
      "n": "Arquata del Tronto",
-     "mm": 136
-    },
-    {
-     "n": "Piscina Acquasanta Terme",
-     "mm": 107.2
-    }
-   ],
-   "stime": {
-    "dal": "2026-11-05",
-    "al": "2026-11-05"
-   }
-  },
-  "20": {
-   "media": 56.1,
-   "giorni": 20,
-   "stazioni": 113,
-   "primo": "2026-10-17",
-   "ultimo": "2026-11-05",
-   "top": [
-    {
-     "n": "Cantiano",
-     "mm": 189.4
+     "mm": 137.7
     },
     {
      "n": "Umito",
-     "mm": 157.1
+     "mm": 134.7
     },
     {
      "n": "Pintura di Bolognola",
-     "mm": 154
-    },
-    {
-     "n": "Arquata del Tronto",
-     "mm": 151.8
-    },
-    {
-     "n": "Piscina Acquasanta Terme",
-     "mm": 117.4
-    }
-   ],
-   "stime": {
-    "dal": "2026-11-05",
-    "al": "2026-11-05"
-   }
-  },
-  "30": {
-   "media": 94.5,
-   "giorni": 30,
-   "stazioni": 113,
-   "primo": "2026-10-07",
-   "ultimo": "2026-11-05",
-   "top": [
-    {
-     "n": "Cantiano",
-     "mm": 242.8
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 203.8
+     "mm": 129.6
     },
     {
      "n": "Fonte Avellana",
-     "mm": 196.2
-    },
-    {
-     "n": "Umito",
-     "mm": 193.2
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 188.6
+     "mm": 108.2
     }
    ],
    "stime": {
     "dal": "2026-11-05",
-    "al": "2026-11-05"
+    "al": "2026-11-06"
+   }
+  },
+  "20": {
+   "media": 64.8,
+   "giorni": 20,
+   "stazioni": 113,
+   "primo": "2026-10-18",
+   "ultimo": "2026-11-06",
+   "top": [
+    {
+     "n": "Cantiano",
+     "mm": 209.3
+    },
+    {
+     "n": "Umito",
+     "mm": 161.1
+    },
+    {
+     "n": "Pintura di Bolognola",
+     "mm": 157.6
+    },
+    {
+     "n": "Arquata del Tronto",
+     "mm": 156.1
+    },
+    {
+     "n": "Fonte Avellana",
+     "mm": 130.8
+    }
+   ],
+   "stime": {
+    "dal": "2026-11-05",
+    "al": "2026-11-06"
+   }
+  },
+  "30": {
+   "media": 102,
+   "giorni": 30,
+   "stazioni": 113,
+   "primo": "2026-10-08",
+   "ultimo": "2026-11-06",
+   "top": [
+    {
+     "n": "Cantiano",
+     "mm": 260.1
+    },
+    {
+     "n": "Monte Petrano",
+     "mm": 219.1
+    },
+    {
+     "n": "Fonte Avellana",
+     "mm": 214.6
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 200.3
+    },
+    {
+     "n": "Umito",
+     "mm": 196.6
+    }
+   ],
+   "stime": {
+    "dal": "2026-11-05",
+    "al": "2026-11-06"
    }
   }
  },
  "serie": [
+  8.8,
   0.3,
   0.1,
   0.5,
@@ -131,18 +132,17 @@
   0.7,
   10,
   3.8,
-  12.7,
-  1.4
+  12.7
  ],
- "serieDa": "2026-11-05",
+ "serieDa": "2026-11-06",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-05",
-   "m1": 0.1,
-   "m7": 31.4,
-   "m30": 72.7,
+   "ultimo": "2026-11-06",
+   "m1": 14.1,
+   "m7": 46.9,
+   "m30": 83.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -150,10 +150,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-05",
+   "ultimo": "2026-11-06",
    "m1": null,
-   "m7": 58.2,
-   "m30": 95.4,
+   "m7": 56,
+   "m30": 99.6,
    "p1": false,
    "p7": true,
    "p30": true
@@ -161,10 +161,10 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-05",
+   "ultimo": "2026-11-06",
    "m1": null,
-   "m7": 102.6,
-   "m30": 144.7,
+   "m7": 101.5,
+   "m30": 146,
    "p1": false,
    "p7": true,
    "p30": true
