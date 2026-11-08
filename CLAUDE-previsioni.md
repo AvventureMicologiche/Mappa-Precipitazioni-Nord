@@ -1038,23 +1038,25 @@ in tutto il sito.
 - **Misura**: ogni lotto via API a 24 e 72 ore, contro le città della prima ondata (0/24 a tre giorni con la sola
   sitemap) e le meteo paesi B (12/20 in 5 ore).
 
-## Il radar delle città «adesso» si apre come quello delle regioni (8/11/2026, scheda 127)
+## Il radar delle città «adesso»: centrato sulla città, due zoom sopra l'Italia, senza confine (8/11/2026, scheda 127)
 
-- Suo, guardando Milano in locale: «è la logica che abbiamo scelto, avevamo detto che c'era troppo zoom e non si
-  vedevano le nuvole sulle regioni, per quale motivo sulle città devi fare diverso». Il 28/10 le «adesso» delle regioni
-  erano passate al radar su tutta Italia e un pezzo d'Europa («sulla regione è quasi sempre una cartina vuota»); le
-  città, nate il 4/11 (118 bis), si aprivano invece sulla città e un centinaio di km intorno (±0,75° e ±1,05°, tessere
-  allo zoom 8): lo stesso errore.
-- Ora in `lib/pagina-adesso.js` la città ha la STESSA inquadratura della sua regione (`fitBounds` dell'Italia esteso
-  alla regione, tessere allo zoom 5), il confine bianco della regione e il punto rosso sulla città; il «−» scende di un
-  tocco come nelle regioni (prima tre). **Il «+» si avvicina alla città** (`setView` su `QUI` finché la cartina non è
-  stata trascinata): col `zoomIn` normale di Leaflet si ingrandiva il centro dell'Italia e da Milano si finiva su
-  Bologna e Ancona. `VERSIONE_JS` 14.
-- I nomi sopra la foto (`nomiCitta` in `genera-pagine-adesso.js`): prima gli stessi della regione (le sue città, i
-  capoluoghi d'Italia, le città estere), poi i comuni intorno sopra i 10.000 abitanti, che compaiono avvicinandosi.
-  Coi vicini davanti, all'apertura usciva Savona accanto a Milano al posto di Firenze.
+- Il 28/10 le «adesso» delle regioni erano passate al radar su tutta Italia e un pezzo d'Europa («sulla regione è quasi
+  sempre una cartina vuota»); le città, nate il 4/11 (118 bis), si aprivano invece sulla città e un centinaio di km
+  intorno (±0,75° e ±1,05°, tessere allo zoom 8): troppo vicino, quasi sempre senza pioggia. Suo, l'8/11, guardando
+  Milano: «è la logica che abbiamo scelto [...] per quale motivo sulle città devi fare diverso». Prima prova (mai uscita,
+  `VERSIONE_JS` 14): la città con la stessa inquadratura della regione e il confine. Suo: «non ha senso che metti il
+  confine regionale, aumenta lo zoom centrando la città, proviamo 2 punti di zoom», e «dobbiamo modificare tutte le
+  pagine col radar, cominciamo dalla città» (le regioni vengono dopo, con lui).
+- **Ora** (`lib/pagina-adesso.js`, `VERSIONE_JS` 15): la città è CENTRATA, **due zoom sopra** l'inquadratura d'Italia
+  della sua regione (`getBoundsZoom` dell'Italia estesa alla regione col margine del `fitBounds`, senza spostare la
+  cartina: al PC 7 invece di 5, al telefono 6,75 invece di 4,75), punto rosso, **niente confine della regione** (il
+  livello si crea solo per misurare, `if(!QUI) lay.addTo(m)`). Il «−» scende di tre tocchi, fino al minimo della
+  regione. Il «+» si avvicina alla città (`setView` su `QUI` finché la cartina non è stata trascinata).
+- I nomi sopra la foto (`nomiCitta` in `genera-pagine-adesso.js`): prima le città della regione e i capoluoghi d'Italia,
+  poi i comuni intorno sopra i 10.000 abitanti, che compaiono avvicinandosi (coi vicini davanti, con la cartina larga
+  usciva Savona accanto a Milano al posto di Firenze).
 - Prova in locale (server del worktree sulla 9090, `zoom-piu-127.js` e `confronta-zoom2-127.js` nello scratchpad della
-  127): Milano e Genova si aprono con gli stessi nomi e le stesse tessere di Lombardia e Liguria; col «+» Milano resta
-  al centro e al quarto tocco compaiono Monza, Bergamo, Como, Varese; riga viva, previsione e pluviometri come prima,
-  0 errori. Esce con il primo lotto della settimana a goccia (l'«adesso» intero rigenera tutte le 21 regioni e le città).
+  127): Milano all'apertura Como, Brescia, Cremona, Sondrio, Torino, Genova, Bologna, Venezia e la pioggia sulla Liguria;
+  col «+» al secondo tocco Monza, Bergamo, Varese, Lecco, al terzo (zoom 10, il tetto) Sesto San Giovanni, Rho, Rozzano;
+  riga viva, previsione e pluviometri come prima, 0 errori.
 

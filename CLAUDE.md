@@ -193,7 +193,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Minima e massima, sempre in quest'ordine (6/11/2026, scheda 125)**: «Che tempo farà» con minima e massima (prima solo la massima), giorni della scheda delle previsioni girati, minima blu e massima rossa ovunque
 - **Le pagine «adesso» delle città a ondate, e la seconda ondata: 20 città (5/11/2026, scheda 124)**: `ONDATE_ADESSO`, `data-ondata`, una sitemap per ondata da inviare il giorno stesso, la prossima al ~70%; il giorno della pubblicazione generatore intero
 - **La settimana a goccia: 20 città «adesso» e 15 «Meteo <paese>», cinque pagine al giorno dall'8 al 14/11 (7/11/2026, scheda 127)**: `USCITA_ADESSO`, `METEO_PAESI_C` con `dal`, `METEO_PAESI_DA_SCRIVERE` contro `METEO_PAESI_TUTTI`, `sitemap-meteo-paesi-c.xml`, il lotto della sera e le richieste a mano
-- **Il radar delle città «adesso» si apre come quello delle regioni (8/11/2026, scheda 127)**: Italia e un pezzo d'Europa col punto rosso, il «+» verso la città, i nomi della regione prima dei paesi intorno, `VERSIONE_JS` 14
+- **Il radar delle città «adesso»: centrato sulla città, due zoom sopra l'Italia, senza confine (8/11/2026, scheda 127)**: `getBoundsZoom` + 2, niente confine della regione, il «+» verso la città, i nomi della regione prima dei paesi intorno, `VERSIONE_JS` 15; le regioni dopo
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
