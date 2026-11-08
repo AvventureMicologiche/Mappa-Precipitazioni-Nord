@@ -1062,3 +1062,33 @@ in tutto il sito.
   col «+» al secondo tocco Monza, Bergamo, Varese, Lecco, al terzo (zoom 10, il tetto) Sesto San Giovanni, Rho, Rozzano;
   riga viva, previsione e pluviometri come prima, 0 errori.
 
+## Il radar delle regioni «adesso» e il riquadro radar delle pagine meteo, come le città (8/11/2026, scheda 127)
+
+- **Regioni «adesso»** (suoi, 8/11: «regioni radar aumenta lo zoom e metti un segnalino in centro e i confini della
+  regione falli più leggeri», «la lombardia va bene», «il segnalino delle regioni deve essere sul capoluogo»): in
+  `lib/pagina-adesso.js` gli stessi due numeri delle città (`SOPRA_ITALIA_PC` 2, `SOPRA_ITALIA_TEL` 1,5); la cartina è
+  centrata sul punto PIÙ DENTRO la regione (il baricentro del pezzo più grande; se cade fuori, come in Liguria a
+  mezzaluna, il punto di una griglia 40×40 più lontano dal confine: `piuDentro`), così la regione si vede tutta; il
+  segnalino rosso sta sul **capoluogo di regione** (`CAPOLUOGO_REGIONE` in `genera-pagine-adesso.js`, `D.capo`:
+  `capoluoghi.json` è in ordine alfabetico); confine bianco più leggero (`BIANCO` 1,3 e .6, prima 2,2 e .9). «−» tre
+  tocchi, fino a un tocco sotto l'Italia. `VERSIONE_JS` 18 (14-17 mai uscite).
+- **Pagine meteo, valli e paesi** (suo: «ora le zone ma vale per ogni pagina, sostituisci lo sfondo radar mettendo il
+  satellite, usa lo stesso zoom che hai usato per la lombardia e metti segnalino»; prima ancora: «come è possibile che
+  abbiamo un radar ancora con la mappa vecchia?»): il riquadro «Radar piogge» (`antRadar` in
+  `genera-pagine-meteo-zona.js`, lo stesso per `genera-pagine-meteo-paese.js`) era ancora sulla cartina OSM coi nomi
+  stranieri, da Lisbona a Istanbul: il 30/10 l'anteprima «Previsioni» era passata alla foto e nel codice c'era scritto
+  «il radar resta sulla cartina», e il 2/11 la mappa col radar e le «adesso» sono passate alla foto senza portarselo
+  dietro. Ora è sulla FOTO (`miniMappa(…, true)`), centrato su `C.ant.qui` (il centro della zona da
+  `funghi-zone.json`; nelle pagine di paese il paese `primo`, se no il pluviometro), allo zoom della Lombardia «adesso»
+  (`ZOOM_RADAR_PC` 7, `ZOOM_RADAR_TEL` 6,25), col segnalino rosso nel pane `segno` sopra la pioggia. Senza nomi (le
+  «adesso» li hanno): da decidere con lui.
+- **Da fare, in nota (suo, 8/11):** il radar che si apre IN MOVIMENTO fino a +40 minuti (adesso + i fotogrammi previsti
+  di LibreWXR, che ne dà 6 fino a +60), sulla MAPPA e nelle pagine, ovunque si apre il radar. Prima di farlo: la mappa
+  (`index.html`) è anche della 127 bis; sono 5 fotogrammi invece di 1 per visita su un servizio gratuito (la home di
+  librewxr.net non scrive limiti, la pagina dei termini è da leggere); i fotogrammi dopo «adesso» sono previsioni e
+  vanno scritti «previsto per le».
+- Prove in locale (server `server-127.js` sulla 9091 nello scratchpad della 127: i file del worktree e `/api` girato
+  al sito vero; `regioni-127.js`, `ant-radar-locale-127.js`): 8 regioni al PC e al telefono 0 errori, segnalino su
+  Genova, Palermo, Cagliari; Garfagnana e Sassello sulla foto, 0 errori, Esri come online (6 al PC, dalla cartina grande
+  della pagina, non dal riquadro).
+
