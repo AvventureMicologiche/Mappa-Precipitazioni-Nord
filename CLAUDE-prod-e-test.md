@@ -134,3 +134,71 @@ sulla presenza.
 
 ---
 
+## I commenti fuori dalla copia pubblicata: la mappa da 431 a 191 KB (8/11/2026, scheda 127 ter, dall'analisi notturna)
+
+**Perché.** Punto 1 dell'analisi notturna della 127 bis (`D:\video youtube\claudio\analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`).
+`index.html` (che è anche `/previsioni/`, tramite la Function) pesa 1,34 MB e arrivava compresso in **431 KB**, ogni
+volta: Pages manda l'HTML con `max-age=0, must-revalidate` e **senza ETag né Last-Modified**, quindi il browser non può
+chiedere «è cambiata?» e la riscarica intera anche a chi torna. Dentro, 585 KB erano commenti del codice.
+
+**Cosa fa adesso `pubblica-pages.js`.** In `copiaFile()` ogni `.html` passa da `senzaCommenti()` di
+`lib-senza-commenti.js` (la stessa delle pagine generate, scheda 112 quater, e del controllo «lo script si legge ancora»,
+scheda 114) invece di essere copiato tale e quale. **Il repo non cambia**: i generatori continuano a leggere le pagine
+modello coi loro commenti, solo la copia che va online ne è senza. Restano i commenti HTML (segnaposto come
+PAGINE:INIZIO), le licenze `/*!`, il JSON-LD e gli script che la libreria non sa leggere (apice inverso).
+- **Robusto per il giro del mattino** (`pagine-regione.yml` usa lo stesso script): se il modulo non si carica, tutto
+  esce coi commenti come prima; pagina per pagina, se il file non è UTF-8 pulito, se contiene una «İ» (U+0130: in
+  `toLowerCase()` diventa più lunga e le posizioni dei `</script>` slitterebbero), se `senzaCommenti` dà errore, o se la
+  copia viene vuota, più lunga o senza `</html>`, **quella pagina si copia com'è** con un avviso nel log e si va avanti.
+  Mai una pubblicazione fermata per i commenti.
+- Nel log una riga in più: `senza commenti: 46 pagine ripulite (7.06 → 5.37 MB, -24%), 1485 gia' senza, 0 copiate
+  com'erano per prudenza`. Se il numero delle ripulite cresce di molto, un generatore ha smesso di togliere i commenti.
+
+**Le 46 pagine che cambiano** (le altre 1.485 erano già senza): la mappa, le 22 regioni (Austria e Svizzera comprese),
+le 20 funghi regione, la zona funghi della Garfagnana, `/guida/` e `fonti.html`. L'indice `/funghi/` era già pulito.
+
+**Pesi serviti da Cloudflare, prima (sito vero) e dopo (anteprima `prova-127ter`), brotli:**
+
+| pagina | prima | dopo |
+|---|---|---|
+| `/` e `/previsioni/` | 431 KB | **191 KB (-56%)** |
+| `/toscana/` (regione) | 37,2 KB | 27,9 KB (-25%) |
+| `/funghi/toscana/` | 51,6 KB | 38,5 KB (-25%) |
+| `/guida/` | 25,6 KB | 24,1 KB |
+
+**Al telefono** (4G lento 1,6 Mbit/s e processore ×4, `velocita.js` della 127 bis, sito vero contro anteprima, alle
+8:57 dell'8/11): la pagina della mappa arriva **in 1,2-1,9 s invece di 2,6-3,2** (`/`: prima visita 3,2 e 2,6 s → 1,9 e
+1,5; chi torna 2,6 → 1,2), `/previsioni/` in 1,3-1,5 s invece di 2,3-2,7. Il JavaScript in linea da leggere scende da
+984 a 503 KB, il CSS da 228 a 134. Gli altri tempi (LCP, mappa pronta) dipendono anche da dati e previsioni e ballano
+da un giro all'altro: il guadagno sicuro è quello della pagina, circa **1,2 s a ogni apertura**. Sulle regioni e sulle
+funghi regione, piccole, al telefono non si vede differenza.
+
+**Quanto costa al giro di pubblicazione: ~1,3 s.** Le 1.531 pagine sono 150 MB e `senzaCommenti` le scorre carattere
+per carattere: tutte insieme 17 s al PC, per togliere commenti solo da 46. Un filtro le salta prima (`FORSE_COMMENTI`:
+niente `/*` e nessun `//` fuori da un indirizzo vuol dire niente commenti): l'8/11 salta esattamente le 1.485 già pulite,
+nessuna con commenti. Se un giorno sbagliasse, quella pagina esce coi commenti, come prima.
+
+**Prove.** (1) La mappa del repo e la copia uscita dallo script aperte **a coppie, nello stesso momento** (stessa rete,
+stesso carico del PC), 10 scene × PC e telefono: stato della mappa identico in 18 su 20, le altre 2 diverse solo di
+posizione (scene del telefono che non si fermano in 30 s, con l'una e con l'altra); **stessi nomi globali in tutte e
+20** (se uno script si rompe, i suoi nomi mancano), nessun errore. ⚠️ Fatte una dopo l'altra (prima la vera, poi la
+copia) con 4 pagine insieme, stamattina col PC carico le stesse scene uscivano diverse per tempi, non per la copia: le
+prove di confronto si fanno a coppie. (2) L'anteprima contro il sito vero, 14 pagine × PC e telefono (mappa,
+previsioni, regioni, funghi regione, Garfagnana, guida, fonti, meteo, paese): nessun errore di pagina né in console,
+stessi nomi globali, stesso testo (a parte il minuto di «agg.» e la scheda della vetrina, estratta a sorte). (3) La
+Function di `/previsioni/` sull'HTML senza commenti: titolo, descrizione, canonico, scritta grande e rimando 301 giusti.
+(4) Le strade di ripiego su un repo finto: «İ» e byte non UTF-8 copiati identici, senza la libreria accanto tutto coi
+commenti e la pubblicazione va avanti. (5) Con lo script finale (filtro compreso) le pagine escono identiche byte per
+byte a quelle dell'anteprima provata.
+
+**⚠️ Da sapere dopo questo cambio.**
+- Online le 46 pagine **non sono più uguali al repo byte per byte**. Un controllo «online = repo» (come
+  `pagine-giro.js` della 127 bis) confronta con `senzaCommenti(<file del repo>)`, non col file.
+- Chi cerca un commento guardando il sorgente della pagina online non lo trova: i commenti si leggono nel repo.
+- Per vedere che cosa va online davvero: `--solo-cartella` e si guarda `_pages/`.
+- Attrezzi nel banco, `analisi-127bis\attrezzi\`: `ab-senza-commenti.js <index A> <index B>` (prova a coppie),
+  `controllo-anteprima.js [nome anteprima]` (anteprima contro sito vero), `pesi-senza-commenti.js <repo>` (pesi di
+  `_pages/` contro il repo, dopo `--solo-cartella`).
+
+---
+

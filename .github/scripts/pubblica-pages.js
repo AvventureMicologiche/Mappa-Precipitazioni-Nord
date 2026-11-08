@@ -19,6 +19,8 @@
 //     deploy (TETTO_FILE, con margine): i giorni dal piu' recente al piu' vecchio, e
 //     taglia i piu' vecchi solo se sfora (6/10 pomeriggio: prima erano 90 giorni fissi,
 //     ma la riserva serve anche per i giorni vecchi, e in prod ci sta tutto lo storico);
+//     i .html si copiano SENZA i commenti del CSS e del JavaScript (8/11/2026, vedi
+//     «I COMMENTI FUORI DALLA COPIA PUBBLICATA» qui sotto): il repo non cambia;
 //  2. scrive _headers (CORS su /data/* e sui geojson, cache 30 gg su quello che non
 //     cambia indirizzo) e _redirects (quello del repo + /index-5.html → /),
 //     cioe' l'equivalente di netlify.toml;
@@ -51,6 +53,49 @@ const FILE_FUORI = /^(netlify\.toml|.*\.md|backfill-.*\.js|populate-history.*\.j
 const dentroTessere = rel => rel.startsWith('tessere-boschi' + path.sep + 'italia');
 const giornoDi = nome => { const m = nome.match(/^(\d{4}-\d{2}-\d{2})\.json$/); return m && m[1]; };
 
+// ── I COMMENTI FUORI DALLA COPIA PUBBLICATA (8/11/2026, scheda 127 ter, punto 1 dell'analisi notturna della 127 bis) ──
+// La mappa (index.html) pesava 1,34 MB, 430 KB compressi, e 585 KB erano commenti del codice. Pages manda l'HTML senza
+// ETag: il browser non puo' chiedere «e' cambiata?» e la riscarica intera a ogni visita. Ora ogni .html che si pubblica
+// passa da senzaCommenti() (lib-senza-commenti.js, scheda 112 quater, 2/11): via i commenti del CSS e del JavaScript in
+// linea, restano i commenti HTML (segnaposto come PAGINE:INIZIO), le licenze /*! e gli script che non sa leggere. IL REPO
+// NON CAMBIA: i generatori continuano a leggere le pagine modello (regioni, funghi regione, indice funghi) coi loro
+// commenti, solo la copia online ne e' senza. Sulle pagine gia' ripulite dai generatori non cambia niente.
+// ⚠️ Lo usa anche il giro automatico del mattino (pagine-regione.yml): qualunque cosa vada storta su una pagina (modulo
+// che non si carica, errore, testo che non torna), quella pagina si copia COM'E' e si va avanti. Mai una pubblicazione
+// fermata per i commenti.
+let senzaCommenti = null;
+try { ({ senzaCommenti } = require('./lib-senza-commenti.js')); }
+catch (e) { console.warn('senza-commenti: modulo non caricato, le pagine escono coi commenti (' + e.message + ')'); }
+const sc = { pulite: 0, gia: 0, ripiego: 0, prima: 0, dopo: 0 };
+// Le pagine gia' pulite dai generatori sono 1.485 su 1.531 e 150 MB in tutto: senzaCommenti le scorre carattere per
+// carattere per niente (17 s al PC). Senza «/*» e senza un «//» che non sia dentro un indirizzo («https://», «"//cdn»)
+// una pagina non ha commenti da togliere e si salta: 1,3 s invece di 17, misurato l'8/11 (0 pagine con commenti saltate).
+// Se un giorno sbaglia, quella pagina esce coi commenti, come prima: non si rompe niente.
+const FORSE_COMMENTI = /\/\*|(^|[^:\\'"])\/\//;
+// la pagina senza commenti, o null se resta com'e' (gia' pulita, o un dubbio qualunque: allora si copia l'originale)
+function paginaSenzaCommenti(src, r) {
+  try {
+    const buf = fs.readFileSync(src), html = buf.toString('utf8');
+    // byte che non sono UTF-8 valido: rileggendoli cambierebbero, la pagina si copia tale e quale
+    if (!Buffer.from(html, 'utf8').equals(buf)) { sc.ripiego++; console.warn('senza-commenti: ' + r + ' non e\' UTF-8 pulito, copiata com\'e\''); return null; }
+    // senzaCommenti cerca i </script> in html.toLowerCase(): con una «İ» (U+0130) la copia minuscola e' piu' lunga e le
+    // posizioni slitterebbero. Non c'e' in nessuna pagina, ma se arriva la pagina resta com'e'.
+    if (html.includes('\u0130')) { sc.ripiego++; console.warn('senza-commenti: ' + r + ' contiene U+0130, copiata com\'e\''); return null; }
+    if (!FORSE_COMMENTI.test(html)) { sc.gia++; return null; }
+    const nuova = senzaCommenti(html);
+    if (nuova === html) { sc.gia++; return null; }
+    // una copia vuota, piu' lunga, o che ha perso la chiusura della pagina non va online
+    if (typeof nuova !== 'string' || !nuova.length || nuova.length > html.length ||
+      (/<\/html>/i.test(html) && !/<\/html>/i.test(nuova))) {
+      sc.ripiego++; console.warn('senza-commenti: ' + r + ' non torna dopo la pulizia, copiata com\'e\''); return null;
+    }
+    sc.pulite++; sc.prima += buf.length; sc.dopo += Buffer.byteLength(nuova);
+    return nuova;
+  } catch (e) {
+    sc.ripiego++; console.warn('senza-commenti: ' + r + ' errore (' + e.message + '), copiata com\'e\''); return null;
+  }
+}
+
 let copiati = 0, saltatiGiorni = 0, byte = 0;
 const giorni = []; // i file-giorno di data/: si copiano dopo, dal piu' recente, finche' ci stanno
 function copia(dir, rel) {
@@ -69,6 +114,10 @@ function copia(dir, rel) {
 function copiaFile(src, r) {
   const dst = path.join(OUT, r);
   fs.mkdirSync(path.dirname(dst), { recursive: true });
+  if (senzaCommenti && /\.html$/i.test(r)) {
+    const pulita = paginaSenzaCommenti(src, r);
+    if (pulita !== null) { fs.writeFileSync(dst, pulita); copiati++; byte += Buffer.byteLength(pulita); return; }
+  }
   fs.copyFileSync(src, dst); copiati++; byte += fs.statSync(src).size;
 }
 
@@ -106,6 +155,7 @@ fs.writeFileSync(path.join(OUT, '_headers'), h);
 
 const nFile = (function conta(d) { let n = 0; for (const e of fs.readdirSync(d, { withFileTypes: true })) n += e.isDirectory() ? conta(path.join(d, e.name)) : 1; return n; })(OUT);
 console.log(`_pages/: ${nFile} file (${(byte / 1e6).toFixed(0)} MB), file-giorno ${giorni.length - saltatiGiorni} su ${giorni.length} (riserva dal ${limite}${saltatiGiorni ? ', ' + saltatiGiorni + ' vecchi tagliati per il tetto' : ', tutto lo storico'}), ${geojson.length} geojson con cache lunga`);
+if (senzaCommenti) console.log(`senza commenti: ${sc.pulite} pagine ripulite (${(sc.prima / 1e6).toFixed(2)} → ${(sc.dopo / 1e6).toFixed(2)} MB${sc.prima ? ', -' + Math.round(100 - sc.dopo / sc.prima * 100) + '%' : ''}), ${sc.gia} gia' senza, ${sc.ripiego} copiate com'erano per prudenza`);
 if (nFile > 20000) { console.log('⚠️ troppi file per Pages (tetto 20.000): fermo.'); process.exit(2); }
 if (SOLO) { console.log('--solo-cartella: mi fermo qui. Prova: cd _pages && python -m http.server 8890'); process.exit(0); }
 

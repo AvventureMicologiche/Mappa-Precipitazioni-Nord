@@ -209,11 +209,12 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
 - **La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)**: mail solo per buchi certi, 2 invece di 5
 
-### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni (8 KB)
+### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare (12 KB)
 
 - **Migrazione Italia v5.0 (1 agosto 2026)**: le 22 regioni, il centro-sud via MeteoHub, il piano di uscita dal beta
 - **Promozione a non-BETA**: la v4.0 del 18/7/2026
 - **Promozione del 27 agosto 2026 (v9.1)**: come si porta il test in prod contando le chiavi solo-prod
 - **⚠️ TEST E PROD NON SONO PIÙ «PROD + QUATTRO RIGHE» (31 agosto 2026)**: mai copiare `index.html` dal test: si portano i pezzi uno per uno
+- **I commenti fuori dalla copia pubblicata: la mappa da 431 a 191 KB (8/11/2026, scheda 127 ter, dall'analisi notturna)**: `senzaCommenti()` sui `.html` in `copiaFile()` di `pubblica-pages.js`, repo invariato, pagina dubbia copiata com'è; online ≠ repo byte per byte
 
 ---
