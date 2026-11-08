@@ -156,7 +156,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le pulsazioni dei tasti si fermano dopo 5 giri (8/11/2026, scheda 128 bis)**: `newPulsa`, `loc-bordo-pulsa`, `loc-cartello-pulsa`, `geo-anello-pulsa` da `infinite` a `5 forwards`; a mappa ferma al telefono processore occupato da 9,8 a 0,27 s su 20; i tasti fermi identici al pixel; IN PROD 8/11 14:36 (deploy `11d4d50f`)
 - **Il pizzico nelle previsioni di regione: il ridisegno a pezzi (8/11/2026, scheda 128 bis)**: `veDisegna` riusa le etichette se la scena e' la stessa (`VE.mkLista`, `mk._html`), giorni e scheda ora per ora non si riscrivono se uguali; pizzico dentro al telefono 22-26 → 35 fps; IN PROD 8/11 15:14 (deploy `7931af2f`)
 - **I nastri che scorrono li muove il browser (8/11/2026, scheda 128 bis)**: banner del meteo e barra della pioggia con una Web Animation (`_nastroAnima`, `_nastroDove`), il JavaScript solo per dito e lancio; a mappa ferma al telefono da 9-10 a 0,3-0,5 s di processore su 20; IN PROD 8/11 16:11 (deploy `24e4c0ca`)
-- **Le etichette del meteo fuori dal gioco mentre si pizzica (8/11/2026, scheda 128 bis)**: `#map.pv-pizzico` col tocco a due dita nelle previsioni, via su `zoomend`; già prima invisibili durante il pizzico (filmato in 12 gg); pizzico dentro al telefono 31-36 → 38-47 fps
+- **Le etichette del meteo fuori dal gioco mentre si pizzica (8/11/2026, scheda 128 bis)**: `#map.pv-pizzico` col tocco a due dita nelle previsioni, via su `zoomend`; già prima invisibili durante il pizzico (filmato in 12 gg); pizzico dentro al telefono 31-36 → 38-47 fps; IN PROD 8/11 16:51 (deploy `f4627602`)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

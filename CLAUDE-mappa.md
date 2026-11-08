@@ -2152,3 +2152,9 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   s; pizzico fuori 60 → 58 (un blocco di ~0,1 s quando le etichette tornano); dito 60. A vedersi uguale (filmato).
   `controlla-pizzico.js`: dopo ogni zoom le stesse etichette visibili della pagina di prima (5, poi 14). Stati della mappa
   40 scene: 35 uguali, 5 nel rumore, nessun errore.
+- **IN PRODUZIONE l'8/11/2026 alle 16:51** (suo «Sì, tutt'e due»): push `18277abd56` alle 16:50, deploy `f4627602` dal
+  worktree intero della 128 bis allineato a origin/main. Verificato online senza intercettare niente: pagina servita
+  identica a `senzaCommenti(repo)`; `controlla-pizzico.js` sul sito vero: classe accesa col pizzico e spenta a fine zoom,
+  stesse etichette (5, poi 14); `fluidita.js prev-toscana-tel` sul sito vero, quattro giri: pizzico dentro 32, 37, 40, 45
+  fps (i primi due a browser freddo; prima della modifica, sul sito vero, 30 e 34), pizzico fuori 57-58, dito 59-60;
+  `stati-mappa.js` 40 scene su 40, le 12 delle previsioni uguali, nessun errore.
