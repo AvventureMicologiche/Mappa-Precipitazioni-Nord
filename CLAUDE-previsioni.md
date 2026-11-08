@@ -1047,9 +1047,11 @@ in tutto il sito.
   `VERSIONE_JS` 14): la città con la stessa inquadratura della regione e il confine. Suo: «non ha senso che metti il
   confine regionale, aumenta lo zoom centrando la città, proviamo 2 punti di zoom», e «dobbiamo modificare tutte le
   pagine col radar, cominciamo dalla città» (le regioni vengono dopo, con lui).
-- **Ora** (`lib/pagina-adesso.js`, `VERSIONE_JS` 15): la città è CENTRATA, **due zoom sopra** l'inquadratura d'Italia
-  della sua regione (`getBoundsZoom` dell'Italia estesa alla regione col margine del `fitBounds`, senza spostare la
-  cartina: al PC 7 invece di 5, al telefono 6,75 invece di 4,75), punto rosso, **niente confine della regione** (il
+- **Ora** (`lib/pagina-adesso.js`, `VERSIONE_JS` 16): la città è CENTRATA, **due zoom sopra** l'inquadratura d'Italia
+  della sua regione al computer e **uno e mezzo al telefono** (`SOPRA_ITALIA_PC` 2, `SOPRA_ITALIA_TEL` 1,5, tacche da
+  0,25; suo: «riduci lo zoom da cellulare ancora leggermente»; `getBoundsZoom` dell'Italia estesa alla regione col
+  margine del `fitBounds`, senza spostare la cartina: al PC 7 invece di 5, al telefono 6,25 invece di 4,75; Milano al
+  telefono da Zurigo a Firenze e da Nizza a Mantova), punto rosso, **niente confine della regione** (il
   livello si crea solo per misurare, `if(!QUI) lay.addTo(m)`). Il «−» scende di tre tocchi, fino al minimo della
   regione. Il «+» si avvicina alla città (`setView` su `QUI` finché la cartina non è stata trascinata).
 - I nomi sopra la foto (`nomiCitta` in `genera-pagine-adesso.js`): prima le città della regione e i capoluoghi d'Italia,
