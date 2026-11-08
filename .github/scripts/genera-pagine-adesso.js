@@ -281,8 +281,11 @@ const dataT = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('it-IT', { 
 const aCitta = n => (/^[Aa]/.test(n) ? 'ad ' : 'a ') + n;
 const agenziaDi = r => r.agenziaCorta || String(r.agenzia || '').replace(/\s*\(.*\)$/, '');
 
-// i nomi sopra la foto della pagina citta': la cartina e' sulla citta' (zoom ~8), quindi prima i comuni intorno sopra i
-// 10.000 abitanti, dal piu' popoloso, poi i nomi della regione (citta' e capoluoghi d'Italia, esteri)
+// i nomi sopra la foto della pagina citta'. ⚠️ Dall'8/11/2026 (scheda 127) la cartina si apre come quella della regione
+// (Italia e un pezzo d'Europa, vedi lib/pagina-adesso.js), quindi PRIMA gli stessi nomi della regione (le sue citta',
+// i capoluoghi d'Italia, le grandi citta' estere) e solo DOPO i comuni intorno sopra i 10.000 abitanti, dal piu'
+// popoloso, che compaiono avvicinandosi col «+» (prima, coi vicini davanti, all'apertura usciva Savona accanto a Milano
+// al posto di Firenze). La citta' stessa e' gia' in testa (D.citta).
 const PAESI_POP = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n').map(r => r.split('|'))
   .filter(p => p.length >= 6 && +p[5] >= 10000).map(p => ({ n:p[0], lat:+(+p[1]).toFixed(3), lon:+(+p[2]).toFixed(3), pop:+p[5] }))
   .sort((a, b) => b.pop - a.pop);
@@ -290,7 +293,7 @@ function nomiCitta(r, c) {
   const visti = new Set([c.n]);
   const vicini = PAESI_POP.filter(p => Math.abs(p.lat - c.lat) < 1.3 && Math.abs(p.lon - c.lon) < 1.8).slice(0, 60)
     .map(p => ({ n:p.n, lat:p.lat, lon:p.lon }));
-  return vicini.concat(cittaDi(r).map(x => ({ n:x.n, lat:x.lat, lon:x.lon })), nomiDi(r))
+  return cittaDi(r).map(x => ({ n:x.n, lat:x.lat, lon:x.lon })).concat(nomiDi(r), vicini)
     .filter(p => !visti.has(p.n) && visti.add(p.n));
 }
 
