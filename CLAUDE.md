@@ -200,6 +200,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il radar delle città «adesso»: centrato sulla città, due zoom sopra l'Italia, senza confine (8/11/2026, scheda 127)**: `getBoundsZoom` + 2 al PC e + 1,5 al telefono, niente confine della regione, il «+» verso la città, i nomi della regione prima dei paesi intorno
 - **Il radar delle regioni «adesso» e il riquadro radar delle pagine meteo, come le città (8/11/2026, scheda 127)**: segnalino sul capoluogo, confine leggero, `piuDentro`, `VERSIONE_JS` 18; riquadro delle valli e dei paesi sulla foto col segnalino; in nota il radar in movimento fino a +40 minuti
 - **Il riquadro «Pluviometri 7 giorni» delle pagine meteo ritagliato sul paese, e il nome sul segnalino (8/11/2026, scheda 128 quater)**: `ritagliaPluvio()` come `lib-striscia.js`, segnalino sul primo paese di `paesi-zone.json` col nome nel radar e nei pluviometri; dal censimento delle cartine
+- **Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)**: `SEGNO` in `m.zoomIn`, `v:1` e `ZAPRI`, `STRETTO` 8 px, `VERSIONE_JS` 19; la trappola di `leaflet.css` servito col tipo sbagliato nelle prove
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

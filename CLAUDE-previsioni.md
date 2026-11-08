@@ -1123,4 +1123,33 @@ in tutto il sito.
   cambia di 35 righe in piu' e 2 in meno (lo stile, le due funzioni, il punto `qui`), sitemap e lastmod no.
 - Le altre cose che stonano trovate dal censimento (il «+» delle regioni «adesso» lontano dal capoluogo, Trapani senza
   Palermo, il confine in tre pesi, la cartina della valle fino al 15) restano nel file del censimento: si decidono con lui.
+  (Fatte nel pomeriggio, vedi la sezione qui sotto.)
+
+## Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)
+
+- Suo «le consigliate» sulle quattro rimaste del censimento (`censimento-128quater\CENSIMENTO.md`, 1.2-1.5):
+- **Il «+» delle regioni «adesso» verso il capoluogo** (`lib/pagina-adesso.js`, `m.zoomIn`): andava verso il centro
+  della regione e al massimo Milano, Palermo e Genova col segnalino restavano fuori (Lombardia finiva su Bergamo, Sicilia
+  su Enna, Liguria su Imperia). Ora dall'inquadratura in su va su `SEGNO`, la citta' nelle pagine di citta' e il
+  capoluogo in quelle di regione: al massimo Milano con Monza e Lodi, Palermo, Genova con Savona. Sotto l'inquadratura
+  torna al centro di partenza come prima.
+- **I comuni intorno delle citta' dal primo «+» in su**: `nomiCitta()` in `genera-pagine-adesso.js` li segna con `v:1`,
+  `nomi()` li salta sotto `ZAPRI + 0,5` (lo zoom d'apertura). All'apertura entravano dove c'era posto: a Trapani Palermo
+  saltava (urta la scritta di Trapani) e Bagheria, 14 km piu' in la', ci stava; al telefono Sciacca e Cefalu'. Ora
+  all'apertura Trapani, Catania, Messina, Siracusa, Agrigento, Cagliari, Tunisi; Palermo e i paesi intorno al primo «+».
+  A Milano spariscono all'apertura Parma, Cuneo e Voghera. `VERSIONE_JS` 19, 21 regioni e 27 citta' rigenerate (le
+  regioni cambiano solo `?v=19`, le citta' anche `v:1` nei dati).
+- **Nel riquadro radar delle pagine meteo il segnalino e il nome del paese tengono intorno 8 px** (`antRadar`,
+  `STRETTO`): col respiro di 22 px fra le scritte toglievano la citta' vicina. Ora una citta' si salta solo se le sue
+  lettere arrivano a 8 px dal pallino o dal nome del paese; fra le citta' il respiro resta. Tornano Firenze e Bologna in
+  Garfagnana al telefono, Messina sui Nebrodi al PC, Palermo e Catania al telefono. ⚠️ A Sassello Genova resta fuori: sta
+  sulla stessa riga a 40 px e le due scritte si toccherebbero davvero (servirebbe il nome del paese sotto il segnalino).
+- **Il confine del riquadro «Previsioni» delle pagine meteo 1,3 e 0,6**, come le regioni «adesso» (era 1,5 e 0,75).
+- **La cartina della valle e del paese fino allo zoom 14** come le previsioni della mappa (era 15: al 14 e al 15 nessuna
+  etichetta, solo tessere Esri).
+- Prove: `censimento-128quater\attrezzi\censimento.js` con `WT=<worktree>` (pagine e `lib/` del worktree al posto di
+  quelle online, Esri bloccato), regioni e citta' «adesso» e pagine meteo al PC e al telefono, «−» e «+» fino in fondo,
+  0 errori; foto in `immagini\128quater\consigliate\`. ⚠️ Trappola dell'attrezzo pagata: servendo `lib/` dal worktree il
+  foglio `leaflet.css` va col suo tipo (`text/css`), se no il browser lo scarta e la cartina si rompe (tessere sparse,
+  etichette tutte nascoste) senza nessun errore.
 
