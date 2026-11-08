@@ -1124,6 +1124,15 @@ in tutto il sito.
 - Le altre cose che stonano trovate dal censimento (il «+» delle regioni «adesso» lontano dal capoluogo, Trapani senza
   Palermo, il confine in tre pesi, la cartina della valle fino al 15) restano nel file del censimento: si decidono con lui.
   (Fatte nel pomeriggio, vedi la sezione qui sotto.)
+- ⚠️ **Nel pomeriggio il ritaglio sulla valle e' diventato la REGIONE INTERA.** Suo, con la foto di Meteo Garfagnana al
+  PC: «la mappa è tagliata». Il riquadro al PC era 726×300 e alla scala delle strisce (0,3 km per pixel) in altezza
+  entravano ~90 km. Tre modi in foto (`censimento-128quater\mock-pluvio.html`, attrezzo `mock-pluvio.js`): A piu' alto
+  con la stessa scala (ancora tagliata), B vista piu' larga a 300 (il sud fuori), C regione intera a 440. Suo «C,
+  regione intera»: `ritagliaPluvio()` mette la regione intera come le strisce `regione` di `lib-striscia.js` (0,94 della
+  misura che ci sta, l'immagine copre sempre il riquadro), segnalino e nome del paese restano; al PC i tre riquadri della
+  fila (radar, previsioni, pluviometri) alti 440 invece di 300, per la simmetria (il radar a zoom 7 mostra piu' nord e
+  sud, le previsioni stanno piu' larghe). Al telefono restano 359×250 e la regione ci sta intera. Provato su 8 pagine
+  (Garfagnana, Sila, Corio, Carnia, Sassello, Val d'Aveto, Caronia, Tremalzo) al PC, al telefono e girato, 0 errori.
 
 ## Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)
 
