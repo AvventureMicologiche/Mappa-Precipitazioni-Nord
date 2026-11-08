@@ -213,6 +213,12 @@ nomi globali in 28 su 28.
   in `CARTELLE_FUORI` di `pubblica-pages.js`**, come `_anteprime-prova` dal 22/10: non va più online e il log dice 46 da
   qualunque copia. Provato con i mockup veri copiati nel worktree: 36 file in meno, nient'altro cambia. I mockup si
   guardano in locale. Il segnale «un generatore ha smesso di togliere i commenti» è un numero che cresce oltre 46.
+  **IN PRODUZIONE alle 11:21** (commit `0f1b123470`, deploy **`3bbd65b5`**, 0 file nuovi da caricare): `/_mockup/...`
+  dà 404, mappa e pagine come prima (`/` 192 KB br, uguale a `senzaCommenti(repo)`). ⚠️ Un solo indirizzo,
+  `/_mockup/etichette/1/`, rispondeva ancora 200 dal dominio vero: copia nella **cache di Cloudflare** (`CF-Cache-Status:
+  HIT`, `s-maxage=604800`, intestazione che non viene da `_headers`), fatta dal controllo delle 11:12; col deploy nuovo e
+  con `?x=1` è 404. Scade da sola entro 7 giorni; per toglierla subito: dashboard Cloudflare, Caching, Purge, indirizzo
+  singolo.
 
 ---
 
