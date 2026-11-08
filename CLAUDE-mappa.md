@@ -2104,3 +2104,26 @@ dopo la 127 bis). Proposta in `D:\video youtube\claudio\proposte-128bis\PROPOSTE
   online senza intercettare niente: pagina servita identica a `senzaCommenti(repo)`; `fluidita.js prev-toscana-tel` sul
   sito vero, pizzico dentro 34 e 30 fps (prima 22-26), pizzico fuori e dito 60; `stati-mappa.js` 40 scene su 40, quelle
   delle previsioni tutte uguali a prima, nessun errore.
+
+## I nastri che scorrono li muove il browser (8/11/2026, scheda 128 bis)
+
+Dall'analisi notturna, punto 8 («le due strisce che scorrono ridisegnate a ogni fotogramma dal JavaScript»), proposta in
+`D:\video youtube\claudio\proposte-128bis\PROPOSTE.md` (6a), suo «Sì, i nastri». Il banner del meteo (`#vi-nastro`,
+`naGira`) e la barra delle città della pioggia (`#pg-nastro`, `gira`) dal 29/10 li muoveva il JavaScript a ogni
+fotogramma (sua richiesta: trascinarli e lanciarli col dito): a mappa ferma, telefono CPU ×4, il processore occupato
+9-10 s su 20 (`mappa-ferma.js`), con il ricalcolo degli stili 60 volte al secondo.
+- **Come va ora** (commento «LO SCORRIMENTO NORMALE LO FA IL BROWSER» sopra `naGira`): il passo normale (45 px al
+  secondo) è una Web Animation (`window._nastroAnima`: da `translate3d(0)` a `-w` in `w/0,045` ms, ripetuta, che parte
+  dalla posizione di adesso con `currentTime`), che la scheda grafica fa da sola. `naGira`/`gira` girano solo per il
+  dito, lo slancio del lancio e il primo fotogramma di un nastro nuovo (la larghezza, come prima), poi ripassano la mano.
+  Al `pointerdown` `window._nastroDove` legge dove sta il nastro dall'animazione, la toglie e da lì lo muove il
+  JavaScript come prima. Mouse sopra: animazione in pausa (`naPausa`/`pausa`), via il mouse riparte; nastro nascosto
+  (`viPezzi`, `sistema()`): in pausa. Nastro riscritto (giorno nuovo, altra regione, altro periodo): l'elemento `.t` è
+  nuovo e l'animazione si rifà su di lui. Senza Web Animations resta il giro di prima. ⚠️ `NA.an`, `NA.tr`, `NA.anW`:
+  chi tocca `NA.pos` con l'animazione accesa deve passare da `_nastroDove`.
+- **Misure, main contro nuova servite allo stesso modo:** mappa ferma (telefono CPU ×4, 20 s) pioggia ieri Toscana
+  **10,3 → 0,51 s**, previsioni Italia **8,9 → 0,29 s**, previsioni Toscana **9,0 → 0,31 s**; `nastri-prova.js` (banner
+  del meteo e barra della pioggia, PC e telefono): stessa velocità (-90 px in 2 s), stesso trascinamento (+159 px), stesso
+  lancio, fermi col mouse sopra e ripartenza uguale, il tocco apre la stessa città (Torino, Grosseto); a riposo
+  `requestAnimationFrame` 120 volte in 2 s prima, 0 ora. Gesti (`fluidita.js`, Chrome visibile): uguali. Stati della mappa
+  40 scene, nessun errore (una del radar al telefono non partita in 25 s, riprovata: 3 su 3 accese in 4,3-4,5 s come main).

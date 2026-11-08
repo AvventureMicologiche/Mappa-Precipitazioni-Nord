@@ -18765,7 +18765,31 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      muovere piu' veloce o indietro»): niente animazione CSS, lo muove naGira() a 45 px al secondo. Col dito o col mouse
      lo si trascina avanti e indietro; lasciandolo prosegue con lo slancio del lancio, che si smorza fino al passo
      normale. Un tocco senza trascinare (meno di 6 px) apre la citta'. Col mouse sopra resta fermo, per leggere. */
-  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0};
+  /* ⚠️ LO SCORRIMENTO NORMALE LO FA IL BROWSER (8/11/2026, scheda 128 bis, analisi notturna punto 8, suo «Sì, i nastri»).
+     Mosso da naGira a ogni fotogramma, il banner teneva occupato il telefono (CPU ×4) il 35-50% del tempo anche a mappa
+     ferma (proposte-128bis\attrezzi\mappa-ferma.js): ricalcolo degli stili e disegno a ogni fotogramma. Ora il passo
+     normale (45 px al secondo) e' una Web Animation che parte dalla posizione di adesso e che la scheda grafica fa da
+     sola; naGira gira solo per il dito, per lo slancio del lancio e per il primo fotogramma di un nastro nuovo (la
+     larghezza), poi ripassa la mano (_nastroAnima). Toccandolo si legge dove sta (_nastroDove), l'animazione si toglie e
+     lo si trascina come prima. Col mouse sopra l'animazione si ferma; banner nascosto: in pausa. Senza Web Animations
+     (browser vecchi) resta naGira come prima. Le stesse due funzioni le usa la barra delle citta' della pioggia. */
+  window._nastroAnima=function(NA,tr){
+    if(!tr||!tr.animate||!(NA.w>0)) return false;
+    var dur=NA.w/0.045;
+    if(NA.an&&(NA.tr!==tr||NA.anW!==NA.w)){ NA.an.cancel(); NA.an=null; }   // nastro riscritto o larghezza cambiata
+    if(!NA.an){ NA.an=tr.animate([{transform:'translate3d(0px,0,0)'},{transform:'translate3d('+(-NA.w)+'px,0,0)'}],{duration:dur,iterations:Infinity}); NA.tr=tr; NA.anW=NA.w; }
+    NA.an.currentTime=(-NA.pos/NA.w)*dur;   // NA.pos sta fra -w e 0
+    if(NA.sopra) NA.an.pause(); else NA.an.play();
+    return true;
+  };
+  window._nastroDove=function(NA){
+    var an=NA.an; if(!an) return false;
+    var dur=NA.anW/0.045, t=an.currentTime||0;
+    NA.pos=-((t%dur)/dur)*NA.anW;
+    if(NA.tr) NA.tr.style.transform='translate3d('+NA.pos.toFixed(1)+'px,0,0)';
+    an.cancel(); NA.an=null; NA.tr=null; return true;
+  };
+  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0,an:null,tr:null,anW:0};
   function naGira(t){
     var na=el('vi-nastro'), tr=na&&na.querySelector('.t');
     if(!tr||na.style.display==='none'||!acceso){ NA.giro=0; NA.t0=0; return; }
@@ -18776,12 +18800,19 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!NA.w) NA.w=tr.scrollWidth/2;
     if(NA.w>0){ NA.pos%=NA.w; if(NA.pos>0) NA.pos-=NA.w; }
     tr.style.transform='translate3d('+NA.pos.toFixed(1)+'px,0,0)';
+    if(!NA.presa&&!NA.v&&window._nastroAnima(NA,tr)){ NA.giro=0; NA.t0=0; return; }   // passo normale: al browser
     NA.giro=requestAnimationFrame(naGira);
   }
-  function naParti(){ if(!NA.giro){ NA.t0=0; NA.giro=requestAnimationFrame(naGira); } }
+  function naParti(){
+    if(NA.giro) return;
+    var na=el('vi-nastro'), tr=na&&na.querySelector('.t');
+    if(NA.an&&NA.tr===tr&&NA.anW===NA.w&&NA.w>0){ if(!NA.sopra) NA.an.play(); return; }   // gia' affidato al browser
+    NA.t0=0; NA.giro=requestAnimationFrame(naGira);
+  }
+  function naPausa(){ if(NA.an) NA.an.pause(); }
   function naPrendi(na){
-    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); NA.v=0;
-      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} });
+    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); window._nastroDove(NA); NA.v=0;
+      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} naParti(); });
     na.addEventListener('pointermove',function(ev){ var p=NA.presa; if(!p) return;
       if(Math.abs(ev.clientX-p.x)>6) p.mosso=true; if(!p.mosso) return;
       NA.pos=p.pos+(ev.clientX-p.x);
@@ -18793,8 +18824,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       NA.v=Math.max(-3,Math.min(3,NA.v)); });
     na.addEventListener('pointercancel',function(){ NA.presa=null; });
     // fermo col mouse sopra, solo mouse: col dito «enter» arriva senza «leave» e il banner resterebbe fermo
-    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse') NA.sopra=true; });
-    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse') NA.sopra=false; });
+    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse'){ NA.sopra=true; naPausa(); } });
+    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse'){ NA.sopra=false; naParti(); } });
   }
   function viPezzi(g){
     viFondo();
@@ -18809,7 +18840,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     else if(tel()&&fo){ na.classList.remove('sopra-det'); na.style.bottom=''; if(na.nextSibling!==fo) pan.insertBefore(na,fo); }
     else { na.classList.remove('sopra-det'); na.style.bottom=''; if(na.parentNode!==el('map')) el('map').appendChild(na); }   // il «bottom» del telefono va tolto (difetto 22)
     na.style.display=su?'':'none'; document.body.classList.toggle('vi-nastro-on',!!su);
-    if(su) naParti();
+    if(su) naParti(); else naPausa();
     // niente vetrina nelle previsioni (suo, 28/10 sera sulla vista Italia; 29/10: «voglio che sembri un sito meteo vero»)
     document.body.classList.toggle('vi-senza-vetrina',!!su);
     document.documentElement.classList.remove('apre-italia');   // da qui in poi decidono le classi qui sopra
@@ -19965,7 +19996,7 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     na.classList.toggle('su',su);
     document.body.classList.toggle('pg-nastro-on',su);
     accorcia(na,su);
-    if(su) parti();
+    if(su) parti(); else pausa();
   }
   /* ⚠️ AL PC CON LO SCHERMO BASSO (1/11/2026, scheda 105, controllo prima della produzione): sotto gli ~820 px di finestra
      la colonna di sinistra (periodi e riquadro) arriva in fondo alla mappa e la barra le passava sotto: copriva il tasto
@@ -19992,8 +20023,11 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     setTimeout(scrivi,0);
   };
 
-  /* lo scorrimento: lo stesso di naGira/naPrendi del meteo */
-  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0};
+  /* lo scorrimento: lo stesso di naGira/naPrendi del meteo, e come lui il passo normale lo fa il browser (8/11/2026, scheda
+     128 bis: vedi «LO SCORRIMENTO NORMALE LO FA IL BROWSER» nel modulo delle previsioni). Se quelle due funzioni mancano,
+     resta il giro di prima */
+  var anima=function(NA,tr){ return window._nastroAnima?window._nastroAnima(NA,tr):false; }, dove=function(NA){ return window._nastroDove?window._nastroDove(NA):false; };
+  var NA={pos:0,w:0,t0:0,v:0,presa:null,sopra:false,giro:0,an:null,tr:null,anW:0};
   function gira(t){
     var na=el('pg-nastro'), tr=na&&na.querySelector('.t');
     if(!tr||!na.classList.contains('su')){ NA.giro=0; NA.t0=0; return; }
@@ -20004,12 +20038,19 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     if(!NA.w) NA.w=tr.scrollWidth/2;
     if(NA.w>0){ NA.pos%=NA.w; if(NA.pos>0) NA.pos-=NA.w; }
     tr.style.transform='translate3d('+NA.pos.toFixed(1)+'px,0,0)';
+    if(!NA.presa&&!NA.v&&anima(NA,tr)){ NA.giro=0; NA.t0=0; return; }   // passo normale: al browser
     NA.giro=requestAnimationFrame(gira);
   }
-  function parti(){ if(!NA.giro){ NA.t0=0; NA.giro=requestAnimationFrame(gira); } }
+  function parti(){
+    if(NA.giro) return;
+    var na=el('pg-nastro'), tr=na&&na.querySelector('.t');
+    if(NA.an&&NA.tr===tr&&NA.anW===NA.w&&NA.w>0){ if(!NA.sopra) NA.an.play(); return; }   // gia' affidato al browser
+    NA.t0=0; NA.giro=requestAnimationFrame(gira);
+  }
+  function pausa(){ if(NA.an) NA.an.pause(); }
   function prendi(na){
-    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); NA.v=0;
-      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} });
+    na.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); dove(NA); NA.v=0;
+      NA.presa={x:ev.clientX,pos:NA.pos,mosso:false,ux:ev.clientX,ut:ev.timeStamp}; try{ na.setPointerCapture(ev.pointerId); }catch(e){} parti(); });
     na.addEventListener('pointermove',function(ev){ var p=NA.presa; if(!p) return;
       if(Math.abs(ev.clientX-p.x)>6) p.mosso=true; if(!p.mosso) return;
       NA.pos=p.pos+(ev.clientX-p.x);
@@ -20021,8 +20062,8 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
       NA.v=Math.max(-3,Math.min(3,NA.v)); });
     na.addEventListener('pointercancel',function(){ NA.presa=null; });
     // ferma solo col MOUSE sopra: col dito «enter» arriva senza «leave» e resterebbe ferma
-    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse') NA.sopra=true; });
-    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse') NA.sopra=false; });
+    na.addEventListener('pointerenter',function(ev){ if(ev.pointerType==='mouse'){ NA.sopra=true; pausa(); } });
+    na.addEventListener('pointerleave',function(ev){ if(ev.pointerType==='mouse'){ NA.sopra=false; parti(); } });
   }
   // un tocco su una citta': la mappa va al suo pluviometro e si apre la scheda, come col tocco sul pallino
   function apri(x){

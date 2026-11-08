@@ -155,6 +155,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il riquadro dei periodi e i crediti al telefono non saltano più aprendo la mappa (8/11/2026, scheda 128 bis)**: `html.cr-attesa` e `aspetta()`, `initMobile` aspetta la riga dei tasti, crediti fermi mentre un riquadro scorre, riga del titolo a 25 px; CLS `/` al telefono 0,22 → 0,004; IN PROD 8/11 13:35 (deploy `6c66b05c`)
 - **Le pulsazioni dei tasti si fermano dopo 5 giri (8/11/2026, scheda 128 bis)**: `newPulsa`, `loc-bordo-pulsa`, `loc-cartello-pulsa`, `geo-anello-pulsa` da `infinite` a `5 forwards`; a mappa ferma al telefono processore occupato da 9,8 a 0,27 s su 20; i tasti fermi identici al pixel; IN PROD 8/11 14:36 (deploy `11d4d50f`)
 - **Il pizzico nelle previsioni di regione: il ridisegno a pezzi (8/11/2026, scheda 128 bis)**: `veDisegna` riusa le etichette se la scena e' la stessa (`VE.mkLista`, `mk._html`), giorni e scheda ora per ora non si riscrivono se uguali; pizzico dentro al telefono 22-26 → 35 fps; IN PROD 8/11 15:14 (deploy `7931af2f`)
+- **I nastri che scorrono li muove il browser (8/11/2026, scheda 128 bis)**: banner del meteo e barra della pioggia con una Web Animation (`_nastroAnima`, `_nastroDove`), il JavaScript solo per dito e lancio; a mappa ferma al telefono da 9-10 a 0,3-0,5 s di processore su 20
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
