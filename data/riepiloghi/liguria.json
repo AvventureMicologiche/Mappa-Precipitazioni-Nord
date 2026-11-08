@@ -1,47 +1,47 @@
 {
  "regione": "liguria",
- "generato": "2026-11-07T04:15:38.518Z",
+ "generato": "2026-11-08T04:15:38.700Z",
  "periodi": {
   "1": {
-   "media": 8.7,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 175,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-06",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-07",
    "top": [
     {
-     "n": "Monte Settepani (Osiglia)",
-     "nb": "Monte Settepani",
-     "mm": 20.6
+     "n": "Bosco di Rossano (Zeri)",
+     "nb": "Bosco di Rossano",
+     "mm": 2.8
     },
     {
-     "n": "Pratomollo (Borzonasca)",
-     "nb": "Pratomollo",
-     "mm": 18.4
+     "n": "Calice al C. - Molunghi (Calice al Cornoviglio)",
+     "nb": "Calice al C. - Molunghi",
+     "mm": 2
     },
     {
-     "n": "Santo Stefano d'Aveto (Santo Stefano d'Aveto)",
-     "nb": "Santo Stefano d'Aveto",
-     "mm": 17.6
+     "n": "Casoni di Suvero (Zignago)",
+     "nb": "Casoni di Suvero",
+     "mm": 1.8
     },
     {
-     "n": "Giacopiane - Lago (Borzonasca)",
-     "nb": "Giacopiane - Lago",
-     "mm": 17.2
+     "n": "Padivarma (Beverino)",
+     "nb": "Padivarma",
+     "mm": 1.8
     },
     {
-     "n": "Giacopiane - Diga (Borzonasca)",
-     "nb": "Giacopiane - Diga",
-     "mm": 16.6
+     "n": "Casale di Pignone (Pignone)",
+     "nb": "Casale di Pignone",
+     "mm": 1.6
     }
    ]
   },
   "7": {
-   "media": 20.1,
+   "media": 20.4,
    "giorni": 7,
-   "stazioni": 174,
-   "primo": "2026-10-31",
-   "ultimo": "2026-11-06",
+   "stazioni": 175,
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-07",
    "top": [
     {
      "n": "Colle del Melogno (Magliolo)",
@@ -51,12 +51,12 @@
     {
      "n": "Osiglia (Osiglia)",
      "nb": "Osiglia",
-     "mm": 73.6
+     "mm": 73.4
     },
     {
      "n": "Murialdo (Murialdo)",
      "nb": "Murialdo",
-     "mm": 68.8
+     "mm": 68.6
     },
     {
      "n": "Monte Settepani (Osiglia)",
@@ -71,11 +71,11 @@
    ]
   },
   "20": {
-   "media": 154.7,
+   "media": 138.6,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-10-18",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-19",
+   "ultimo": "2026-11-07",
    "top": [
     {
      "n": "Lavagnola (Savona)",
@@ -90,12 +90,12 @@
     {
      "n": "Stella Santa Giustina (Stella)",
      "nb": "Stella Santa Giustina",
-     "mm": 355
+     "mm": 355.2
     },
     {
      "n": "Piampaludo (Sassello)",
      "nb": "Piampaludo",
-     "mm": 325.8
+     "mm": 325.4
     },
     {
      "n": "Savona - Istituto Nautico (Savona)",
@@ -105,41 +105,42 @@
    ]
   },
   "30": {
-   "media": 176.9,
+   "media": 157.4,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-08",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-09",
+   "ultimo": "2026-11-07",
    "top": [
     {
      "n": "Lavagnola (Savona)",
      "nb": "Lavagnola",
-     "mm": 389.8
+     "mm": 387.6
     },
     {
      "n": "Ellera - Foglietto (Albisola Superiore)",
      "nb": "Ellera - Foglietto",
-     "mm": 382.2
+     "mm": 380.6
     },
     {
      "n": "Stella Santa Giustina (Stella)",
      "nb": "Stella Santa Giustina",
-     "mm": 359.4
+     "mm": 357.2
     },
     {
      "n": "Piampaludo (Sassello)",
      "nb": "Piampaludo",
-     "mm": 341.8
+     "mm": 339.6
     },
     {
-     "n": "Urbe - Vara Sup. (Urbe)",
-     "nb": "Urbe - Vara Sup.",
-     "mm": 318.8
+     "n": "Savona - Istituto Nautico (Savona)",
+     "nb": "Savona - Istituto Nautico",
+     "mm": 310.6
     }
    ]
   }
  },
  "serie": [
+  0.3,
   8.7,
   7.5,
   3.4,
@@ -168,18 +169,17 @@
   0,
   0.2,
   0.1,
-  1.9,
-  19.9
+  1.9
  ],
- "serieDa": "2026-11-06",
+ "serieDa": "2026-11-07",
  "zone": [
   {
    "s": "valle-dei-campassi",
    "n": "Valle dei Campassi",
-   "ultimo": "2026-11-06",
-   "m1": 12.4,
-   "m7": 17.9,
-   "m30": 162,
+   "ultimo": "2026-11-07",
+   "m1": 0.2,
+   "m7": 18.1,
+   "m30": 134.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "val-bormida",
    "n": "Val Bormida",
-   "ultimo": "2026-11-06",
-   "m1": 8.3,
-   "m7": 44.7,
-   "m30": 198.4,
+   "ultimo": "2026-11-07",
+   "m1": 0.2,
+   "m7": 44.8,
+   "m30": 183.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "val-varenna",
    "n": "Val Varenna",
-   "ultimo": "2026-11-06",
-   "m1": 12.9,
-   "m7": 27.8,
-   "m30": 243,
+   "ultimo": "2026-11-07",
+   "m1": 0.7,
+   "m7": 27.6,
+   "m30": 218.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-neva",
    "n": "Val Neva",
-   "ultimo": "2026-11-06",
-   "m1": 8.6,
+   "ultimo": "2026-11-07",
+   "m1": 0.1,
    "m7": 51.6,
-   "m30": 140.7,
+   "m30": 131.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "terra-brigasca",
    "n": "Terra brigasca",
-   "ultimo": "2026-11-06",
-   "m1": 8.7,
-   "m7": 44.6,
-   "m30": 128.8,
+   "ultimo": "2026-11-07",
+   "m1": 0.2,
+   "m7": 44.8,
+   "m30": 123.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,10 +231,10 @@
   {
    "s": "riviera-di-levante",
    "n": "Riviera di Levante",
-   "ultimo": "2026-11-06",
-   "m1": 12.3,
-   "m7": 16.4,
-   "m30": 226.9,
+   "ultimo": "2026-11-07",
+   "m1": 0.1,
+   "m7": 16.5,
+   "m30": 172.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "val-bisagno",
    "n": "Val Bisagno",
-   "ultimo": "2026-11-06",
-   "m1": 8.9,
-   "m7": 13.3,
-   "m30": 154.5,
+   "ultimo": "2026-11-07",
+   "m1": 0.1,
+   "m7": 13.4,
+   "m30": 134.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -253,10 +253,10 @@
   {
    "s": "val-cichero",
    "n": "Val Cichero",
-   "ultimo": "2026-11-06",
-   "m1": 15.2,
-   "m7": 18.8,
-   "m30": 223.9,
+   "ultimo": "2026-11-07",
+   "m1": 0.2,
+   "m7": 19,
+   "m30": 170.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -264,10 +264,10 @@
   {
    "s": "val-di-vara",
    "n": "Val di Vara",
-   "ultimo": "2026-11-06",
-   "m1": 5.6,
-   "m7": 5.8,
-   "m30": 194.8,
+   "ultimo": "2026-11-07",
+   "m1": 1.7,
+   "m7": 7.5,
+   "m30": 155.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -275,10 +275,10 @@
   {
    "s": "val-d-aveto",
    "n": "Val d'Aveto",
-   "ultimo": "2026-11-06",
-   "m1": 17.1,
-   "m7": 21.6,
-   "m30": 218.8,
+   "ultimo": "2026-11-07",
+   "m1": 0.3,
+   "m7": 21.9,
+   "m30": 153.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -286,10 +286,10 @@
   {
    "s": "val-varatella",
    "n": "Val Varatella",
-   "ultimo": "2026-11-06",
-   "m1": 9.2,
+   "ultimo": "2026-11-07",
+   "m1": 0,
    "m7": 53.1,
-   "m30": 227.7,
+   "m30": 218.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -297,10 +297,10 @@
   {
    "s": "val-roia",
    "n": "Val Roia",
-   "ultimo": "2026-11-06",
-   "m1": 7.6,
-   "m7": 36.3,
-   "m30": 118.9,
+   "ultimo": "2026-11-07",
+   "m1": 0.4,
+   "m7": 36.7,
+   "m30": 116.6,
    "p1": true,
    "p7": true,
    "p30": true

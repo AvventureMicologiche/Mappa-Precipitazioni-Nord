@@ -1,50 +1,50 @@
 {
  "regione": "valledaosta",
- "generato": "2026-11-07T04:15:38.518Z",
+ "generato": "2026-11-08T04:15:38.700Z",
  "periodi": {
   "1": {
-   "media": 4.8,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 65,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-06",
+   "stazioni": 64,
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-07",
    "top": [
     {
-     "n": "Courmayeur - Mont de la Saxe",
-     "mm": 9.9
-    },
-    {
-     "n": "Courmayeur - Dolonne",
-     "mm": 9
-    },
-    {
-     "n": "Valtournenche - Lago Goillet",
-     "mm": 9
-    },
-    {
-     "n": "Valtournenche - Breuil Cervinia",
-     "mm": 8.8
+     "n": "Aosta - Mont-Fleury",
+     "mm": 1
     },
     {
      "n": "Valtournenche - Maen",
-     "mm": 8.8
+     "mm": 0.8
+    },
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 0.4
+    },
+    {
+     "n": "Saint-Christophe - Aeroporto",
+     "mm": 0.4
+    },
+    {
+     "n": "Courmayeur - Ferrachet",
+     "mm": 0.3
     }
    ]
   },
   "7": {
-   "media": 12.8,
+   "media": 13.1,
    "giorni": 7,
    "stazioni": 65,
-   "primo": "2026-10-31",
-   "ultimo": "2026-11-06",
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-07",
    "top": [
     {
      "n": "Champorcher - Rifugio Dondena",
-     "mm": 23.8
+     "mm": 24
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 22.4
+     "mm": 22.6
     },
     {
      "n": "Valtournenche - Lago Goillet",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Valtournenche - Maen",
-     "mm": 20.6
+     "mm": 21.4
     },
     {
      "n": "Courmayeur - Dolonne",
@@ -61,19 +61,48 @@
    ]
   },
   "20": {
-   "media": 62.3,
+   "media": 59.8,
    "giorni": 20,
    "stazioni": 66,
-   "primo": "2026-10-18",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-19",
+   "ultimo": "2026-11-07",
    "top": [
     {
      "n": "Lillianes - Granges",
-     "mm": 153.6
+     "mm": 143
+    },
+    {
+     "n": "Pontboset - Fournier",
+     "mm": 129.8
     },
     {
      "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 143.7
+     "mm": 124.8
+    },
+    {
+     "n": "Champorcher - Rifugio Dondena",
+     "mm": 117.9
+    },
+    {
+     "n": "Donnas - Clapey",
+     "mm": 116.8
+    }
+   ]
+  },
+  "30": {
+   "media": 61.9,
+   "giorni": 30,
+   "stazioni": 69,
+   "primo": "2026-10-09",
+   "ultimo": "2026-11-07",
+   "top": [
+    {
+     "n": "Lillianes - Granges",
+     "mm": 153.8
+    },
+    {
+     "n": "Gressoney-Saint-Jean - lago di Seebna",
+     "mm": 144.6
     },
     {
      "n": "Pontboset - Fournier",
@@ -81,46 +110,18 @@
     },
     {
      "n": "Donnas - Clapey",
-     "mm": 130
+     "mm": 134
     },
     {
      "n": "Champorcher - Rifugio Dondena",
-     "mm": 125.2
-    }
-   ]
-  },
-  "30": {
-   "media": 67.5,
-   "giorni": 30,
-   "stazioni": 69,
-   "primo": "2026-10-08",
-   "ultimo": "2026-11-06",
-   "top": [
-    {
-     "n": "Lillianes - Granges",
-     "mm": 156.6
-    },
-    {
-     "n": "Gressoney-Saint-Jean - lago di Seebna",
-     "mm": 154.1
-    },
-    {
-     "n": "Pontboset - Fournier",
-     "mm": 144
-    },
-    {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 141.2
-    },
-    {
-     "n": "Donnas - Clapey",
-     "mm": 135.4
+     "mm": 125.4
     }
    ]
   }
  },
  "serie": [
-  4.8,
+  0.1,
+  4.9,
   6.9,
   1,
   0.2,
@@ -148,40 +149,39 @@
   0,
   0,
   0.1,
-  0,
-  5.9
+  0
  ],
- "serieDa": "2026-11-06",
+ "serieDa": "2026-11-07",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-11-06",
-   "m1": 6.5,
+   "ultimo": "2026-11-07",
+   "m1": 0,
    "m7": 9.4,
-   "m30": 119.2,
-   "p1": true,
+   "m30": 117.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-11-06",
-   "m1": 5.1,
+   "ultimo": "2026-11-07",
+   "m1": 0,
    "m7": 14.5,
-   "m30": 54.1,
-   "p1": true,
+   "m30": 51.6,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-11-06",
-   "m1": 3.5,
-   "m7": 8.8,
-   "m30": 40,
+   "ultimo": "2026-11-07",
+   "m1": 0.1,
+   "m7": 8.9,
+   "m30": 32.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-11-06",
-   "m1": 5.4,
+   "ultimo": "2026-11-07",
+   "m1": 0.1,
    "m7": 14.1,
-   "m30": 112.3,
+   "m30": 109.9,
    "p1": true,
    "p7": true,
    "p30": true
