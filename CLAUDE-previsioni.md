@@ -1087,6 +1087,9 @@ in tutto il sito.
   (`index.html`) è anche della 127 bis; sono 5 fotogrammi invece di 1 per visita su un servizio gratuito (la home di
   librewxr.net non scrive limiti, la pagina dei termini è da leggere); i fotogrammi dopo «adesso» sono previsioni e
   vanno scritti «previsto per le».
+  **Aggiornamento 8/11/2026 (scheda 128 ter):** la MAPPA è fatta e in produzione (vedi in `CLAUDE-mappa.md` «Il radar si
+  apre col +40 minuti in movimento»; termini letti, carico misurato). Restano le pagine «adesso» (`lib/pagina-adesso.js`,
+  tasti `ora`/`due`/`prev`) e il riquadro «Radar piogge» delle pagine meteo, dopo il 14/11, con lui.
 - Prove in locale (server `server-127.js` sulla 9091 nello scratchpad della 127: i file del worktree e `/api` girato
   al sito vero; `regioni-127.js`, `ant-radar-locale-127.js`): 8 regioni al PC e al telefono 0 errori, segnalino su
   Genova, Palermo, Cagliari; Garfagnana e Sassello sulla foto, 0 errori, Esri come online (6 al PC, dalla cartina grande

@@ -151,6 +151,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Esri da vicino non chiede più tessere sotto il suo zoom (7/11/2026, scheda 126)**: `EsriDaVicino`, tessere buttate a 10,5-10,75 da ~10% a 0; **controllo dei consumi per credenziale fra qualche giorno**, poi la scelta su Esri dal 12; IN PRODUZIONE
 - **L'ombra delle icone del meteo e i collegamenti preparati (8/11/2026, scheda 127 bis, dall'analisi notturna)**: tre drop-shadow sulle 92 icone della vista Italia → text-shadow e filter:none (trascinando da 34 a 59 fps); preconnect a jsDelivr, via quello ad ArcGIS su /previsioni/
 - **Etichette del meteo, testata del telefono, respiro e confini più leggeri (8/11/2026, scheda 127 bis, analisi notturna)**: `veDirada` misura in un colpo (135/135 identiche), `tel()` con matchMedia; testata ferma al telefono (CLS 0,50 → 0,22); respiro sull'opacità del pannello (apertura PC ferma 60 fps); `perDisegno` confini semplificati per il disegno; IN PROD 8/11 11:04 (deploy `616a2d3c`)
+- **Il radar si apre col +40 minuti in movimento (8/11/2026, scheda 128 ter)**: `APRI`, adesso + previsti fino a +40 tagliati per ora, soste 1,5 s, `entra(modo)` senza fotogramma buttato; carico misurato su LibreWXR; restano pagine «adesso» e meteo dopo il 14/11 e i crediti DPC; IN PROD 8/11 12:27 (deploy `40d5cceb`)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

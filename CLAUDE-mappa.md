@@ -1948,3 +1948,38 @@ parte PAGINE del punto 3 (funghi, meteo, zone che saltano caricando) la 127 nei 
   online (`analisi-127bis/attrezzi/verifica-online.js`): i sei segni nuovi nella pagina servita, al PC il respiro gira
   sul pannello (`confRespiro`), al telefono testata a 44 px e 14 etichette visibili su 214 nelle previsioni della
   Toscana, nessun errore.
+
+## Il radar si apre col +40 minuti in movimento (8/11/2026, scheda 128 ter)
+
+- **Suo**, l'8/11: «da adesso le apriamo col +40 min, in movimento, per la mappa e per le pagine ovunque uno clicca
+  radar, se non dà problemi»; poi, sulla proposta `D:\video youtube\claudio\proposte-128ter\PROPOSTA-RADAR-40.md` (tre
+  modi, misure, termini), «Vai con B», «Sì, parti» (la mappa), «Va bene», «Sincronizza e pubblica».
+- **Cosa fa ora** (blocco del radar di `index.html`, `APRI`, `PREVISTI_S`, `SOSTA`, `PASSO`): il tasto «Radar pioggia»
+  e i link `?radar=ora` e `?radar=prev` delle pagine aprono il «+40 min» acceso e il giro adesso, +10, +20, +30, +40.
+  Il primo fotogramma è la MISURA di adesso («Radar · h 12:00»), gli altri sono previsti («Previsione per le 12:10»,
+  strati con `_prev`). Sosta di 1,5 s su adesso e sull'ultimo, 0,7 s gli altri; «-2 ore» resta a 0,7 fisso; «Adesso»
+  ferma. `?radar=due` apre «-2 ore». Senza previsti da LibreWXR si torna su «Adesso» fermo (tasto e titolo compresi),
+  nessun ripiego. `ultimoBuono` (la scorta) prende solo le misure: «ultimo dato delle 12:40» alle 12:05 sarebbe falso.
+- ⚠️ **Il «+40» arrivava a +60**: LibreWXR dà 6 previsti (il 31/8 erano 5, fino a +50) e il tasto li mostrava tutti.
+  Ora si taglia per ORA (`f.time - ultimo.time <= 40 min`), non per numero, così regge se LibreWXR cambia il passo.
+- ⚠️ **Il link caricava un fotogramma di troppo**: `entra()` chiamava `vai('ora')` e poi il link `vai(q)`. Ora
+  `entra(modo)` entra già sul modo giusto: `?radar=due` 72 tessere invece di 78, `?radar=prev` 30 invece di 42.
+- Il timer è un `setTimeout` a catena (per le soste), fermato con `clearTimeout`.
+- **Il carico su LibreWXR** (misurato prima, nella proposta): tessere a zoom 6, 6 per fotogramma al PC e 4 al telefono;
+  apertura da elenco + 6 a elenco + 30 (al telefono da 46 a ~160 KB con poca pioggia). Con ~44 aperture al giorno (GA4,
+  62% telefono) tutto il sito passa da ~2.500 a ~4.000 richieste al giorno; LibreWXR ne serve ~350 al secondo. I termini
+  (librewxr.net/terms.html, 20/6/2026) scrivono che l'animazione è uso normale, le tessere stanno 5 minuti nella loro
+  cache Cloudflare.
+- Guida: la frase del radar («la pioggia in movimento… +40 min, acceso quando si apre»). La foto `guida/radar.jpg`
+  mostra ancora «Adesso» acceso: da rifare se lo chiede.
+- Prove (`proposte-128ter\misure\prova-radar-128ter.js`, server `server-128ter.js` sulla 9115): 28/28 al PC e al
+  telefono, 0 errori.
+- **Restano** (da proposta, NON fatti): le pagine «adesso» (`lib/pagina-adesso.js`) e il riquadro delle pagine meteo,
+  dopo il 14/11 (la 127 ci fa il lotto della goccia); le tre cose che abbassano le chiamate (le «adesso» si aggiornano
+  anche nascoste, elenco richiesto a ogni tocco); ⚠️ **sull'Italia LibreWXR usa il radar DPC (composito ITCOMP), non
+  OPERA**: «composito europeo OPERA» e «LibreWXR / OPERA (CC BY)» sono imprecisi e manca il credito «Radar-DPC»
+  (CC BY-SA 4.0). Tutti da decidere con lui.
+- **IN PRODUZIONE l'8/11/2026 alle 12:27**: push `7f8c35526a` alle 12:24 (sopra il `549a784299` della 128, già spinto:
+  il deploy contiene anche le sue pagine), deploy `40d5cceb` dal worktree allineato a origin/main. Verificato online
+  con la stessa prova (`BASE=https://precipitazioni.avventuremicologiche.it`): 28/28, PC e telefono, 0 errori; la
+  frase nuova nella guida c'è.
