@@ -1232,3 +1232,8 @@ foto nel banco: `proposte-128\SALTO-DELLE-PAGINE.md`, `immagini\128\salto-*.png`
   0,03-0,04 che hanno già le pagine regione: da proporre a parte. ⚠️ In locale la striscia cerca le anteprime in
   `/_anteprime-prova/`: il server di prova le deve prendere dal ramo `anteprime`, se no la riga «Oppure…» sparisce e
   la pagina sembra saltare di 49 px (succede solo in prova).
+- **IN PRODUZIONE l'8/11/2026 alle 12:25** (suo «Sì, tutt'e due»): `5b83d23076` codice + `549a784299` pagine e nota,
+  push esito 0, deploy `df9d5c8c` (231 file) dal checkout condiviso allineato. Sul sito vero, stesse misure: funghi
+  regione, /funghi/ e meteo **0,00** (telefono e PC), zone piogge **0,04**. Funghi di paese e di zona ancora come prima
+  (0,20-0,27), fino al rinnovo del 2-6 dicembre. ⚠️ Spingere su main È pubblicare: `pagine-regione.yml` rigenera le
+  zone piogge e, se cambiano, pubblica tutto main.
