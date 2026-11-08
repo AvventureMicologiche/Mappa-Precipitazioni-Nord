@@ -134,6 +134,9 @@ ${STILE}
   .regg{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:7px;}
   .regg a{padding:9px 10px;} .regg b{font-size:15px;}
 }
+/* La classifica arriva dopo (al computer 1.364 px): tiene il suo posto mentre arriva, se no spingeva giu' meteo e
+   boschi (8/11/2026, scheda 128). Al telefono sta sotto lo schermo e non serve. */
+@media(min-width:641px){#tabella:empty{min-height:1000px;}}
 ${METEO_CSS}${STRISCIA_CSS}
 #mk-meteo .mk-cr{grid-template-columns:1.45fr 1fr 1fr 1fr;}
 #mk-meteo .mk-cr b{white-space:normal;overflow:visible;line-height:1.2;font-size:14.5px;}
@@ -320,6 +323,7 @@ ${JS_FREDDO}
   function guasto(t){
     document.getElementById('finestra').innerHTML = t;
     document.getElementById('tabella').innerHTML = '';
+    document.getElementById('tabella').style.minHeight = '0';   // senza classifica non si tiene il posto
   }
 
   /* LA CLASSIFICA UNA VOLTA SOLA (21/10/2026, ottavo check, bug 11): la usa anche «Che tempo farà» (meteoClient,

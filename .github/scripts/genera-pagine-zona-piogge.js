@@ -193,8 +193,12 @@ function riepilogoZona(zslug, reg) {
   } catch (e) { /* niente riepilogo: la pagina nasce vuota come prima */ }
   return null;
 }
-// il riquadro di ieri come lo scrive scriviIeri nel browser, senza i bottoni (arrivano col javascript)
-function verdettoCotto(d) {
+// il riquadro di ieri come lo scrive scriviIeri nel browser. ⚠️ 8/11/2026 (scheda 128): INTERO, col tasto «Apri la mappa
+// di ieri» e le quattro porte, che prima arrivavano col javascript: il riquadro passava da ~200 a 660-800 px e spingeva
+// giu' il meteo (CLS 0,15-0,20). Ora la pagina arriva gia' finita e il javascript riscrive lo stesso riquadro, alto
+// uguale. Se si cambia scriviIeri qui sotto (nel <script> della pagina), si cambia anche qui.
+// `z`: { zslug, REGS, PIN (con &amp;), casaK } della zona
+function verdettoCotto(d, z) {
   if (!d) return '';
   const t = cGiorno(d.ultimo), top = (d.top || []).filter(s => s.mm >= 1);
   const dett = top.length ? 'Dove ha piovuto di più: ' + top.map(s => `<b>${esc(s.n)}</b> ${cNum(s.mm)} mm`).join(', ') + '.'
@@ -202,7 +206,17 @@ function verdettoCotto(d) {
     : 'Giornata asciutta: nessun pluviometro della zona ha misurato pioggia.';
   return `<div class="verdetto"><div class="si">${t === 'Ieri' ? 'Ieri, ' + cLungo(d.ultimo) : t}</div>`
     + `<div class="gr">${cMedia(d)} mm<small>di media</small></div><div class="top">${dett}</div>`
-    + `<div class="dett">${d.stazioni === 1 ? 'Un pluviometro solo della zona.' : 'Media di ' + d.stazioni + ' pluviometri della zona.'}</div></div>`;
+    + `<div class="dett">${d.stazioni === 1 ? 'Un pluviometro solo della zona.' : 'Media di ' + d.stazioni + ' pluviometri della zona.'}</div>`
+    + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutti i pluviometri: questa è l’ultima giornata intera.</div>')
+    + (!z ? '' : `<div class="capo-btns"><a class="ieri-btn" href="${SITO}/?r=${z.REGS}&amp;da=${d.ultimo}&amp;a=${d.ultimo}&amp;s=p&amp;${z.PIN}"`
+      + ` onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${z.zslug}-ieri-box'})}catch(e){}">`
+      + `<b>${t === 'Ieri' ? 'Apri la mappa di ieri' : 'Mappa di quel giorno'}</b><i>→</i><small>la pioggia in tutte le località</small></a></div>`
+      + '<div class="mk-porte">'
+      + [['☀️', 'Previsioni', '', 'porta-previsioni'], ['📡', 'Radar piogge', '&amp;radar=ora', 'porta-radar'],
+         ['🌲', 'Mappa boschi', '&amp;boschi=1', 'porta-boschi'], ['🛰️', 'Boschi + satellite', '&amp;boschi=1&amp;sat=1', 'porta-satellite']]
+        .map(p => `<a href="${SITO}${p[2] ? '/?r=' : '/previsioni/?r='}${z.casaK}${p[2]}&amp;${z.PIN}" onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${z.zslug}-${p[3]}'})}catch(e){}"><span>${p[0]}</span>${p[1]}</a>`).join('')
+      + '</div>')
+    + '</div>';
 }
 // la descrizione coi numeri: «Quanta pioggia è caduta nel Casentino: ieri, 30 ottobre, 0 mm di media; 7 giorni 6,4 mm…»
 function descrCotta(z, j, n, ente) {
@@ -351,7 +365,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'zona-piogge-' + zslug,
 <p class="sotto"><b>Pluviometria ${esc(di)}</b>: i dati dei ${ids.length} pluviometri ${esc(diEnte(elenco(agenzie)))}, ieri e nell'ultimo mese.</p>
 
 <div id="attesa"${RIP ? ' style="display:none"' : ''}>Sto leggendo i pluviometri…</div>
-<div id="verdetto"${RIP && RIP.periodi['1'] ? ` data-giorno="${RIP.periodi['1'].ultimo}"` : ''}>${RIP ? verdettoCotto(RIP.periodi['1']) : ''}</div>
+<div id="verdetto"${RIP && RIP.periodi['1'] ? ` data-giorno="${RIP.periodi['1'].ultimo}"` : ''}>${RIP ? verdettoCotto(RIP.periodi['1'], { zslug, REGS, PIN, casaK: casa.k }) : ''}</div>
 ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni dei paesi…', undefined, linkMeteo(zslug, z.n, 'zona-piogge-' + zslug))}
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>

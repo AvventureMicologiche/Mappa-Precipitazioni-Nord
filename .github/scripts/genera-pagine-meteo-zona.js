@@ -375,6 +375,7 @@ table.pz-tab td .mm{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700}
 .pz-scheda{display:none;border:2px solid #1a5fa8;border-radius:14px;padding:12px 14px;margin:14px 0;background:#fff;scroll-margin-top:12px}
 .pz-scheda.on{display:block}
+.pz-scheda.attesa{min-height:600px;box-sizing:border-box}
 .pz-scheda .testa{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .pz-scheda h3{margin:0;font-size:19px;color:#0f3d6e}
 .pz-scheda .sub{font-size:12.5px;color:#5a6b7d;margin-top:2px}
@@ -776,6 +777,7 @@ function clientePagina(C) {
     var ore = oreDi(j, g, ora);
     var q = s.x.quota != null ? s.x.quota : (j.q != null ? Math.round(j.q) : null);
     var conPc = ore.some(function (o) { return o.pc != null; });
+    $('scheda').classList.remove('attesa');   // lo spazio tenuto mentre arrivava (SCHEDA_HTML, 8/11/2026)
     $('scheda').innerHTML = '<div class="testa"><div><h3>' + esc(s.x.n) + '</h3><div class="sub">' + (q != null ? '~ ' + q + ' m · ' : '') + 'previsioni ora per ora' + (conPc ? ' · 💧 probabilità di pioggia' : '') + (AVVIO ? ' · tocca un altro paese o cercalo per cambiarlo' : '') + '</div></div><button class="chiudi" aria-label="Chiudi">×</button></div>'
       + '<div class="giorni">' + giorni.map(function (x) { return '<button data-g="' + x.g + '" class="' + (x.g === g ? 'sel' : '') + '"><b>' + nome(x.g) + '</b>' + icona(x.s) + ' ' + x.mn + '°/' + x.mx + '°<br>' + (x.mm >= 0.1 ? mm(x.mm) + ' mm' : '–') + (x.pc != null ? '<span class="pc' + tonoPc(x.pc) + '">' + pcTesto(x.pc) + '</span>' : '') + '</button>'; }).join('') + '</div>'
       // la % ora per ora (25/10/2026): la % del giorno da sola non basta per programmare un'uscita («ti da 100% per la
@@ -788,7 +790,7 @@ function clientePagina(C) {
   // da === 'avvio': la scheda che si apre DA SOLA sul paese principale (24/10/2026, suo: «se non clicchi un paese il
   // report orario non si vede»): niente scorrimento della pagina e niente evento GA, non e' un gesto di chi legge
   function apri(x, da) {
-    var sc = $('scheda'); sc.classList.add('on'); AVVIO = da === 'avvio';
+    var sc = $('scheda'); sc.classList.add('on'); sc.classList.add('attesa'); AVVIO = da === 'avvio';
     // il paese della scheda in blu, come la mappa (un posto cercato fuori dalla mappa non ne accende nessuno)
     SCELTO = x.n; [].forEach.call(document.querySelectorAll('#pz-mappa .pz-et'), function (l) { l.classList.toggle('scelto', (PAESI[+l.getAttribute('data-n')] || {}).n === x.n); });
     if (window.L && $('pz-mappa')) sistemaEtichette();
@@ -799,7 +801,7 @@ function clientePagina(C) {
     fetch(API + '?lat=' + (+x.lat).toFixed(3) + '&lon=' + (+x.lon).toFixed(3) + (x.quota != null ? '&q=' + x.quota : ''))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { SCHEDA = { x: x, j: j }; disegnaScheda(OGGI); })   // sempre su OGGI, con le ore (suo, 24/10)
-      .catch(function () { sc.innerHTML = '<div class="testa"><p class="nota">Previsioni di ' + esc(x.n) + ' non disponibili ora, riprova fra poco.</p><button class="chiudi" aria-label="Chiudi">×</button></div>'; });
+      .catch(function () { sc.classList.remove('attesa'); sc.innerHTML = '<div class="testa"><p class="nota">Previsioni di ' + esc(x.n) + ' non disponibili ora, riprova fra poco.</p><button class="chiudi" aria-label="Chiudi">×</button></div>'; });
   }
   $('scheda').addEventListener('click', function (e) {
     if (e.target.closest('.chiudi')) { $('scheda').classList.remove('on'); return; }
@@ -1072,7 +1074,7 @@ function clientePagina(C) {
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
   function daPluviometro(j) {
@@ -1145,6 +1147,11 @@ function mappeHtml({ reg, nomeReg, ga }) {
 function nastroHtml(titolo) {
   return `<div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${esc(titolo.toUpperCase())}</em></b><span>…</span></div><div class="t"></div></div>`;
 }
+// la scheda delle ore c'e' gia' nell'HTML, aperta e alta (8/11/2026, scheda 128). Si apre da sola sul paese principale
+// (suo, 24/10) ma arrivava per ultima: prima niente, poi una riga, poi ~1.000 px, e «il punto», i 7 giorni e la cartina
+// saltavano giu' due volte (CLS 0,23-0,44 al telefono, 0,17 al PC). I 600 px di .attesa sono meno della scheda vera (sempre
+// almeno 8 ore, ~750 px): quando arriva, quello che sta sotto e' gia' fuori dallo schermo. La classe se ne va col disegno.
+const SCHEDA_HTML = '<section class="pz-scheda on attesa" id="scheda" aria-live="polite"><p class="nota">Sto leggendo le previsioni…</p></section>';
 
 function pagina(z, QUOTE_DI) {
   const zslug = slug(z.n);
@@ -1233,7 +1240,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiv
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 ${nastroHtml(NOME)}
-<section class="pz-scheda" id="scheda" aria-live="polite"></section>
+${SCHEDA_HTML}
 
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometri…</div>
 
@@ -1291,7 +1298,7 @@ ${ALTRE}
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_C, METEO_PAESI_DA_SCRIVERE, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, SCHEDA_HTML, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {

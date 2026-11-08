@@ -33,7 +33,7 @@ const { confineDi, nomiRadar } = require('./genera-pagine-adesso.js');   // il c
 const { quotePaesi, chiave } = require('./lib-quota-paesi.js');
 const MZ = require('./genera-pagine-meteo-zona.js');
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
-const { METEO_PAESI_DA_SCRIVERE, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
+const { METEO_PAESI_DA_SCRIVERE, CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, SCHEDA_HTML, scrivi, esc, agenziaDi, indirizzoMeteoPaese,
   SITO, RAW, RILIEVO, GA_ID, CANALE, POSTI, SLUG_REG, MV_CSS, altreMeteo, tabellaFissa } = MZ;
 
 const RADICE = path.join(__dirname, '..', '..');
@@ -128,7 +128,7 @@ ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
 
 <div class="pz-cerca"><input id="cerca" type="search" autocomplete="off" placeholder="Cerca il tuo paese, anche una frazione" aria-label="Cerca un paese o una frazione"><div class="pz-drop" id="drop"></div></div>
 ${nastroHtml(p.n)}
-<section class="pz-scheda" id="scheda" aria-live="polite"></section>
+${SCHEDA_HTML}
 
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometro…</div>
 
