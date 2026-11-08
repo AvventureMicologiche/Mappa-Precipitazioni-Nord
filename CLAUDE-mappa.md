@@ -1944,3 +1944,7 @@ parte PAGINE del punto 3 (funghi, meteo, zone che saltano caricando) la 127 nei 
   0,03-0,13% di pixel diversi, solo sfumature dentro il tratto. Al PC i blocchi a ogni zoom calano di circa un quarto;
   sull'apertura conta il respiro, non i punti.
 - Controllo finale: stati della mappa vera e nuova in 10 scene × PC e telefono (`prova-senza-commenti.js` con `INDICE=`).
+- **IN PRODUZIONE l'8/11/2026 alle 11:04** (suo «Sì, tutt'e due»): push `3937c3ef96`, deploy `616a2d3c`. Verificato
+  online (`analisi-127bis/attrezzi/verifica-online.js`): i sei segni nuovi nella pagina servita, al PC il respiro gira
+  sul pannello (`confRespiro`), al telefono testata a 44 px e 14 etichette visibili su 214 nelle previsioni della
+  Toscana, nessun errore.
