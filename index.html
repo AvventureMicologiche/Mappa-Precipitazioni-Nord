@@ -27,6 +27,11 @@
        `Timing-Allow-Origin`. Si tiene perche' non cambia niente in pagina e
        non costa niente, non perche' si sia visto che aiuta. -->
   <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+  <!-- jsDelivr (8/11/2026, scheda 127 bis, analisi notturna): da li' arrivano la foto NOSTRA sotto pioggia e previsioni (la
+       prima cosa che si vede) e le tessere dei boschi, tutte chieste con crossOrigin (anonymous): per questo il
+       collegamento si prepara con crossorigin. Prima si preparava solo raw.githubusercontent, e su /previsioni/ quello
+       ad ArcGIS, che dal 31/10 alla vista Italia non serve piu' (vedi «LE PREVISIONI DELLA VISTA ITALIA SI CHIEDONO DA QUI»). -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <!-- Icona del sito, 26/10/2026 (scelta da lui nella scheda GA4 4: la G4 variante 2, goccia sfumata e fungo arancio
        su fondo cielo). Le altre pagine non hanno righe di icona e ricadono su /favicon.ico. File e mockup nel banco,
@@ -1872,13 +1877,15 @@ html.apre-prev #fonte-tag{visibility:hidden !important}
       /* LE PREVISIONI DELLA VISTA ITALIA SI CHIEDONO DA QUI (29/10/2026, suo: «velocizzare come si apre»): prima partivano
          a mappa pronta (misurato sul sito: al computer a 1,3 s, al telefono a 2,9 s, e i quattro gruppi delle icone solo
          dopo `italia`); ora mentre la pagina scende. chiedi() le prende da _previPronte: un indirizzo diverso dal suo (API,
-         API_V) le lascia li' e chiede come prima. E il collegamento al server del rilievo (Esri) si apre gia' adesso. */
+         API_V) le lascia li' e chiede come prima.
+         ⚠️ 8/11/2026 (scheda 127 bis): qui si apriva anche il collegamento a ibasemaps-api.arcgis.com, nato il 29/10 quando
+         la vista Italia era il rilievo Esri. Dal 31/10 la vista Italia e' la foto NOSTRA da jsDelivr ed Esri arriva solo
+         dallo zoom 11: tolto. Il collegamento a jsDelivr lo prepara il <link rel="preconnect"> in testa, per tutta la mappa. */
       try{ var pa=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&location.port!=='8788'?'http://127.0.0.1:8788/api/previsioni':'/api/previsioni';
         window._previPronte={};
         ['italia','italia-alto','italia-nord','italia-centro','italia-sud'].forEach(function(k){ var u=pa+'?capoluoghi='+k+'&v=14';
           window._previPronte[u]=fetch(u).then(function(r){ return r.json().then(function(j){ return {ok:r.ok,s:r.status,j:j}; }); })
             .catch(function(){ return {ok:false,s:0,j:{errore:'rete'}}; }); });
-        var pc=document.createElement('link'); pc.rel='preconnect'; pc.href='https://ibasemaps-api.arcgis.com'; document.head.appendChild(pc);
       }catch(e){}
       /* E CIO' CHE LA VISTA ITALIA NON MOSTRA ASPETTA (29/10/2026): la cartina OSM (sotto il rilievo non si vede), la
          vetrina (nascosta), le temperature di ieri e, al telefono, i confini delle regioni (411 KB compressi; li' non si
@@ -17603,7 +17610,12 @@ body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-i
    in diagonale. Scartati lo stesso giorno: etichette che si rimpiccioliscono o si diradano (cambiavano col giorno),
    scheda «Temperature», colonnina dei capoluoghi, citta' grandi col nome fra le icone, banner blu e rosso, sobrio,
    bianco e celeste, cartina a colori pieni. */
-.pv-m.vi-ico .ic{font-size:24px;filter:drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9)) drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+/* ⚠️ IL BORDO SCURO E' UN'OMBRA DEL TESTO, NON UN FILTRO (8/11/2026, scheda 127 bis, analisi notturna, suo «va bene 4»):
+   con tre filter:drop-shadow sulle 92 icone la scheda grafica rifaceva le ombre a ogni fotogramma e la vista Italia
+   trascinata al PC andava a 24-26 fps (GPU 8,8 s contro 1,5-2,5 degli altri modi). Le stesse tre ombre come
+   text-shadow (le icone sono emoji): stesso bordo, 60 fps. Non rimettere filter qui: anche quello leggero di .pv-m .ic
+   (una drop-shadow, qui sopra) va spento, se no resta e si torna a 52-57 fps (misurato). */
+.pv-m.vi-ico .ic{font-size:24px;filter:none;text-shadow:0 0 1px rgba(0,0,0,.9),0 0 1px rgba(0,0,0,.9),0 2px 3px rgba(0,0,0,.45)}
 /* 29/10/2026 sera (suo: «per la mappa Italia satellite, il resto verde»): la vista Italia sta sulla FOTO (Esri
    World_Imagery, la stessa chiave del satellite dello storico), una cartina sola invece di due */
 body.vi-fondo .leaflet-viFondo-pane{filter:brightness(var(--sat-luce,1)) saturate(1.1)}   /* --sat-luce: vedi LUCE_SAT */

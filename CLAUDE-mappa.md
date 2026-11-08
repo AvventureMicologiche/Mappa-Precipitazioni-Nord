@@ -1879,3 +1879,25 @@ in fondo a `index.html`.
   da lì si decide se vale la B (Esri dal 12), che costa nitidezza all'11. Con la lettura del 16/11 già in calendario.
 - **IN PRODUZIONE il 7/11/2026 alle 19:31** (`54580f5d57`, deploy `9d6a471b`): online, stessi giri senza intercettare niente,
   PC 121 tessere e 0 buttate, telefono 22 e 0; nomi e crediti come prima, nessun errore.
+
+## L'ombra delle icone del meteo e i collegamenti preparati (8/11/2026, scheda 127 bis, dall'analisi notturna)
+
+Dall'analisi notturna del 7/11 (`D:\video youtube\claudio\analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`, punti 4 e 7),
+suo «va bene 4 e 7». Attrezzi e misure in `analisi-127bis\` (banco).
+- **L'ombra delle icone della vista Italia (punto 4).** Trascinando la vista Italia delle previsioni al PC la mappa
+  andava a 24-30 fps (regione 58, pioggia 55) senza nessun compito lungo: la traccia dava 8,8 s di lavoro alla scheda
+  grafica contro 1,5-2,5 negli altri modi. Causa: `.pv-m.vi-ico .ic` con TRE `filter:drop-shadow` sulle 92 icone,
+  rifatte a ogni fotogramma. Prova con lo stile cambiato solo nella pagina (`prova-ombre.js`): 3 drop-shadow 24-26 fps;
+  senza ombra, una drop-shadow o text-shadow 60. Scelta: le STESSE tre ombre come `text-shadow` (le icone sono emoji),
+  per tenere il bordo scuro scelto da lui il 28/10, e `filter:none`: la regola generale `.pv-m .ic` ha una drop-shadow
+  leggera che le icone ereditavano, e con quella si restava a 52-57 fps. ⚠️ Non rimettere `filter` su quelle icone.
+  Provato sul sito vero con la pagina nuova intercettata (`prova-127bis.js`, due giri): trascinando **34 → 59 fps**;
+  icone a occhio identiche (`analisi-127bis\foto\127bis\icone-pc-vero.png` e `-nuovo.png`).
+- **I collegamenti preparati (punto 7).** In testa c'era il `preconnect` solo a raw.githubusercontent; mancava
+  `cdn.jsdelivr.net`, da cui arrivano la foto nostra e le tessere dei boschi (tutte con crossOrigin, quindi il preconnect
+  ha `crossorigin`). E lo script in testa di `/previsioni/` apriva il collegamento a `ibasemaps-api.arcgis.com`: nato il
+  29/10 col rilievo Esri della vista Italia, inutile dal 31/10 (foto nostra, Esri solo dallo zoom 11): tolto. Limite
+  ereditato dalla cosa sostituita. Provato: su `/` e `/previsioni/`, PC e telefono, preparati raw.githubusercontent e
+  jsDelivr (con crossorigin), ArcGIS non più. Stati della mappa uguali alla vera (`prova-senza-commenti.js` con
+  `INDICE=`, 10 scene × PC e telefono: 17 su 20 identici, gli altri 3 scene del telefono non ferme né con la vera né con
+  la nuova, stessi pallini e stazioni), nessun errore.
