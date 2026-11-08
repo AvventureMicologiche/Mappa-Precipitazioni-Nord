@@ -2099,3 +2099,8 @@ dopo la 127 bis). Proposta in `D:\video youtube\claudio\proposte-128bis\PROPOSTE
 - Restano i 50-70 ms a fotogramma durante il gesto (le 214 etichette spostate da Leaflet) e il diradamento dopo lo zoom
   (una misura di tutte le etichette): la variante A (etichette nascoste mentre si pizzica) e' in PROPOSTE.md, da vedere
   col filmato.
+- **IN PRODUZIONE l'8/11/2026 alle 15:14** (suo «Sì, tutt'e due»): push `76fb1790d3` alle 15:11, deploy `7931af2f` dal
+  worktree intero della 128 bis allineato a origin/main (11 file: la pagina e i dati arrivati nel frattempo). Verificato
+  online senza intercettare niente: pagina servita identica a `senzaCommenti(repo)`; `fluidita.js prev-toscana-tel` sul
+  sito vero, pizzico dentro 34 e 30 fps (prima 22-26), pizzico fuori e dito 60; `stati-mappa.js` 40 scene su 40, quelle
+  delle previsioni tutte uguali a prima, nessun errore.
