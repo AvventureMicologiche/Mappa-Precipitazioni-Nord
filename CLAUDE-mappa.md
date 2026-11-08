@@ -2127,3 +2127,8 @@ fotogramma (sua richiesta: trascinarli e lanciarli col dito): a mappa ferma, tel
   lancio, fermi col mouse sopra e ripartenza uguale, il tocco apre la stessa città (Torino, Grosseto); a riposo
   `requestAnimationFrame` 120 volte in 2 s prima, 0 ora. Gesti (`fluidita.js`, Chrome visibile): uguali. Stati della mappa
   40 scene, nessun errore (una del radar al telefono non partita in 25 s, riprovata: 3 su 3 accese in 4,3-4,5 s come main).
+- **IN PRODUZIONE l'8/11/2026 alle 16:11** (suo «Sì, tutt'e due»): push `a2ac39df39` alle 16:09, deploy `24e4c0ca` dal
+  worktree intero della 128 bis allineato a origin/main (4 file: la pagina e i dati arrivati nel frattempo). Verificato
+  online senza intercettare niente: pagina servita identica a `senzaCommenti(repo)`; `mappa-ferma.js` sul sito vero, 20 s:
+  `/` 0,29 s, pioggia ieri Toscana 0,51, previsioni 0,26 e 0,34, boschi 0,32, radar 1,56 (la sua animazione);
+  `stati-mappa.js` 40 scene su 40, crediti in 30 strette su 30, nessun errore.
