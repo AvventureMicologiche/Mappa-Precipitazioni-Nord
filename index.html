@@ -13487,6 +13487,20 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
      regione, in livelli di zoom. 1 = il doppio di spazio per lato. E' la
      manopola: 0,5 per stare piu' stretti, 1,5 per vedere mezza Europa. */
   var LARGHEZZA = 1;
+  /* ⚠️ SI APRE COL «+40 MIN» IN MOVIMENTO (8/11/2026, scheda 128 ter, suo «Vai con B»).
+     Il tasto «Radar pioggia» e i link ?radar=ora delle pagine non aprono piu' la foto ferma di
+     adesso: aprono il giro adesso, +10, +20, +30, +40. Il primo fotogramma e' la MISURA di
+     adesso, gli altri sono la previsione di LibreWXR (le macchie spostate dove stanno andando) e
+     la riga sotto lo dice: «Previsione per le». ?radar=due resta «-2 ore»; «Adesso» ferma.
+     Il carico e' stato misurato prima: 5 fotogrammi da 6 tessere al PC e 4 al telefono, circa
+     4.000 richieste al giorno per tutto il sito contro le ~2.500 di prima, e i termini di
+     LibreWXR scrivono che l'animazione e' uso normale (proposte-128ter\PROPOSTA-RADAR-40.md).
+     PREVISTI_S taglia i previsti a +40 minuti DAVVERO: LibreWXR ne manda fino a +60 (6, il 31/8
+     erano 5 fino a +50) e il tasto li mostrava tutti, con la scritta «+40» sbagliata. Si taglia
+     per ORA e non per numero, cosi' regge anche se LibreWXR cambia il passo. SOSTA: la pausa su
+     adesso e sull'ultimo previsto, come nel codice d'esempio di LibreWXR, per capire dove
+     comincia e dove finisce il giro. */
+  var APRI = 'prev', PREVISTI_S = 40 * 60, SOSTA = 1500, PASSO = 700;
 
   /* ⚠️ LA SCORTA: cosa succede quando LibreWXR non risponde.
      1. TETTO DI 3 SECONDI e una sola riprova. ⚠️ In teoria fa 6 secondi, MISURATO
@@ -13649,7 +13663,10 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       var q=new URLSearchParams(location.search).get('radar');
       if(q && ['ora','due','prev'].indexOf(q)>-1){
         var giri=0, att2=setInterval(function(){
-          if(regioniAttive().length){ clearInterval(att2); entra(); if(acceso){ try{ gtag('event','radar',{stato:'link'}); }catch(_){} } vai(q); }
+          // ⚠️ si entra GIA' sul modo del link (8/11/2026): prima entra() caricava «Adesso» e poi
+          //    vai(q) caricava i fotogrammi del link, uno strato scaricato e buttato. ?radar=ora apre
+          //    il +40 in movimento come il tasto (vedi APRI).
+          if(regioniAttive().length){ clearInterval(att2); entra(q==='due'?'due':APRI); if(acceso){ try{ gtag('event','radar',{stato:'link'}); }catch(_){} } }
           else if(++giri>75) clearInterval(att2);
         },200);
       }
@@ -13660,7 +13677,8 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     st.parentNode.insertBefore(sc,st); st.parentNode.insertBefore(n,st);
   }
 
-  function entra(){
+  function entra(modo){
+    modo=modo||APRI;   // il tasto «Radar pioggia» apre il +40 in movimento (8/11/2026, vedi APRI)
     if(!map()) return;
     if(!regioniAttive().length){
       if(window.innerWidth<=900&&window._chiediRegione){ window._chiediRegione(); return; }   // telefono: il fumetto sotto la barra (8/10)
@@ -13673,7 +13691,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     }
     acceso=true;
     document.body.classList.add('modo-radar');
-    window._radarModo=scelta||'ora';   // lo legge buildShareUrl
+    window._radarModo=modo;   // lo legge buildShareUrl
     el('btn-radar').innerHTML='\u2715 Chiudi radar';
     heat(false); pallini(false);
     var m=map();
@@ -13696,7 +13714,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        dai CONFINI della regione, che ci sono da subito. */
     inquadra();
     setTimeout(function(){ if(acceso) inquadra(); },550);
-    vai('ora');
+    vai(modo);
   }
   /* ⚠️ `ripristina` esiste per un difetto vero, visto il 31/8: uscendo dal
      radar rimettevo SEMPRE la vista di prima, anche quando si usciva
@@ -13860,7 +13878,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function pallini(si){ document.body.classList.toggle('senza-pallini', !si); }
 
   function pulisci(){
-    if(timer){ clearInterval(timer); timer=null; }
+    if(timer){ clearTimeout(timer); timer=null; }
     var m=map();
     strati.forEach(function(l){
       try{ m.removeLayer(l); }catch(e){}
@@ -13879,7 +13897,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        non sono in mano (li toglie `crea`), e se si cade si torna a segnare il
        tasto di prima: cosi' quello che si vede e' quello che dice la riga. */
     var prima=scelta;
-    if(timer){ clearInterval(timer); timer=null; }
+    if(timer){ clearTimeout(timer); timer=null; }
     scelta=id;
     if(acceso) window._radarModo=id;   // il link segue il tasto scelto
     segna(id);
@@ -13887,13 +13905,21 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     chiedi()
       .then(function(j){
         var h=j.host;
-        var lista;
-        if(id==='prev')      lista=(j.radar&&j.radar.nowcast)||[];
-        else if(id==='ora')  lista=((j.radar&&j.radar.past)||[]).slice(-1);
-        else                 lista=(j.radar&&j.radar.past)||[];
+        var lista, passati=(j.radar&&j.radar.past)||[], previsti=[];
+        if(id==='prev'){
+          /* il «+40» (8/11/2026, vedi APRI): ADESSO e i previsti fino a +40, non i soli previsti
+             fino a +60 come prima. Senza previsti si resta su «Adesso» fermo, e il tasto acceso
+             lo dice: nessun ripiego su altre fonti. */
+          var ult=passati[passati.length-1];
+          if(ult) previsti=((j.radar&&j.radar.nowcast)||[]).filter(function(f){ return f.time>ult.time && f.time-ult.time<=PREVISTI_S; });
+          if(previsti.length) lista=[ult].concat(previsti);
+          else { id='ora'; scelta='ora'; if(acceso) window._radarModo='ora'; segna('ora'); lista=passati.slice(-1); }
+        }
+        else if(id==='ora')  lista=passati.slice(-1);
+        else                 lista=passati;
         if(!lista.length) throw 0;
         var coda = '/256/{z}/{x}/{y}/2/1_1.png';
-        crea(lista.map(function(f){ return {t:f.time, u:h+f.path+coda}; }));
+        crea(lista.map(function(f){ return {t:f.time, u:h+f.path+coda, p:previsti.indexOf(f)>-1}; }));
       })
       .catch(function(){
         // si e' rimasti col fotogramma di prima: il tasto acceso torna quello
@@ -13930,7 +13956,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     strati=frames.map(function(f){
       var l=L.tileLayer(f.u,{opacity:0,pane:'radar',maxNativeZoom:6,
         attribution:'radar <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / OPERA (CC BY)'});
-      l._quando=f.t; l.addTo(m);
+      l._quando=f.t; l._prev=!!f.p; l.addTo(m);   // _prev: fotogramma previsto, non misurato (8/11/2026)
       return l;
     });
     var primo=strati.length-1;
@@ -13947,10 +13973,17 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
          Tetto di 8 secondi perche' una rete lenta non deve bloccare tutto:
          meglio un giro con qualche buco che un'animazione che non parte. */
       var pronti=0, tot=strati.length, partito=false;
+      /* Un passo alla volta con setTimeout, non piu' setInterval (8/11/2026): nel «+40» il
+         fotogramma di adesso e l'ultimo previsto restano SOSTA ms, gli altri PASSO. «-2 ore»
+         resta a PASSO fisso com'era. Lo ferma clearTimeout(timer), come prima clearInterval. */
+      var passo=function(){
+        var lungo=scelta==='prev' && (idx===0 || idx===strati.length-1);
+        timer=setTimeout(function(){ if(!acceso) return; accendi((idx+1)%strati.length,OP); passo(); }, lungo?SOSTA:PASSO);
+      };
       var avvia=function(){
         if(partito||timer||!acceso) return;
         partito=true;
-        timer=setInterval(function(){ accendi((idx+1)%strati.length,OP); },700);
+        passo();
       };
       strati.forEach(function(l){
         l.once('load',function(){ if(++pronti>=tot) avvia(); });
@@ -13982,7 +14015,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       +'<div class="rd-capi"><span>'+sx+'</span><span>'+dx+'</span></div>';
     [].forEach.call(box.querySelectorAll('.rd-tacche i'),function(t){
       t.addEventListener('click',function(){
-        if(timer){ clearInterval(timer); timer=null; }   // si ferma dove lo metti
+        if(timer){ clearTimeout(timer); timer=null; }   // si ferma dove lo metti
         accendi(+t.dataset.i,0.95);
       });
     });
@@ -13999,11 +14032,15 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     });
     var f=strati[i];
     var ora=new Date(f._quando*1000).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
-    ultimoBuono=ora;   // lo usa la scorta: e' l'ora dell'ultimo fotogramma mostrato
+    // lo usa la scorta: e' l'ora dell'ultimo fotogramma MISURATO mostrato. Un previsto no (8/11/2026):
+    // «ultimo dato delle 12:20» con l'orologio alle 11:45 sarebbe una bugia.
+    if(!f._prev) ultimoBuono=ora;
     // ⚠️ Le scritte non ripetono quello che dice gia' il tasto: «+40 min»
     //    dichiara da solo che e' una previsione, e ribadirlo sotto suona come
     //    una scusa.
-    if(scelta==='prev')     nota('Previsione per le '+ora+' \u00b7 LibreWXR');
+    // Dall'8/11/2026 il primo fotogramma del «+40» e' la misura di adesso e si scrive come tale:
+    // «Previsione per le» solo sui previsti (_prev).
+    if(f._prev)             nota('Previsione per le '+ora+' \u00b7 LibreWXR');
     else                    nota('Radar \u00b7 h '+ora+' \u00b7 composito europeo OPERA');
   }
   function nota(t){ var n=el('rd-nota'); if(n) n.textContent=t; }
