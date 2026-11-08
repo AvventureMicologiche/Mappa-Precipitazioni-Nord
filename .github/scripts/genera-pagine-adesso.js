@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 18;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026)
+const VERSIONE_JS = 19;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -291,13 +291,15 @@ const agenziaDi = r => r.agenziaCorta || String(r.agenzia || '').replace(/\s*\(.
 // i capoluoghi d'Italia, le grandi citta' estere) e solo DOPO i comuni intorno sopra i 10.000 abitanti, dal piu'
 // popoloso, che compaiono avvicinandosi col «+» (prima, coi vicini davanti, all'apertura usciva Savona accanto a Milano
 // al posto di Firenze). La citta' stessa e' gia' in testa (D.citta).
+// ⚠️ I comuni intorno portano `v:1` (8/11/2026, scheda 128 quater): lib/pagina-adesso.js li scrive solo dal primo «+» in
+// su. All'apertura entravano dove c'era posto: a Trapani Bagheria al posto di Palermo (che urta la scritta di Trapani).
 const PAESI_POP = fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n').map(r => r.split('|'))
   .filter(p => p.length >= 6 && +p[5] >= 10000).map(p => ({ n:p[0], lat:+(+p[1]).toFixed(3), lon:+(+p[2]).toFixed(3), pop:+p[5] }))
   .sort((a, b) => b.pop - a.pop);
 function nomiCitta(r, c) {
   const visti = new Set([c.n]);
   const vicini = PAESI_POP.filter(p => Math.abs(p.lat - c.lat) < 1.3 && Math.abs(p.lon - c.lon) < 1.8).slice(0, 60)
-    .map(p => ({ n:p.n, lat:p.lat, lon:p.lon }));
+    .map(p => ({ n:p.n, lat:p.lat, lon:p.lon, v:1 }));
   return cittaDi(r).map(x => ({ n:x.n, lat:x.lat, lon:x.lon })).concat(nomiDi(r), vicini)
     .filter(p => !visti.has(p.n) && visti.add(p.n));
 }

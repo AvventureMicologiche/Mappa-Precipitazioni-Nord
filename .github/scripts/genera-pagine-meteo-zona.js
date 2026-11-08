@@ -572,7 +572,9 @@ function clientePagina(C) {
          fino ad allora oltre lo zoom 13,5 tornava la cartina coi nomi delle strade, come faceva viFondo
          ⚠️ 3/11/2026 (scheda 116): la nostra fino al 10 e Esri a un quarto da vicino, vedi fotoSat */
       var sat = null;
-      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!sat) sat = fotoSat(mappa, 'da vicino Esri, Vantor, Earthstar Geographics', 15); };
+      // ⚠️ IL TETTO E' 14, COME LE PREVISIONI DELLA MAPPA (8/11/2026, scheda 128 quater, censimento delle cartine; tetto della
+      // mappa del 3/11, scheda 116): era 15, e al 14 e al 15 non restava nessuna etichetta, solo tessere Esri in piu'
+      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!sat) sat = fotoSat(mappa, 'da vicino Esri, Vantor, Earthstar Geographics', 14); };
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
@@ -934,8 +936,9 @@ function clientePagina(C) {
     if (sat) { $(id).classList.add('sat'); fotoSat(m, 'Esri', 12); }   // la nostra fino al 10, poi Esri a un quarto (3/11/2026)
     else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
     var b = larga ? L.latLngBounds(larga)
-      // sulla foto il confine bianco: il blu scuro sul mare scuro non si vedeva
-      : L.geoJSON(C.ant.confine, { interactive: false, style: sat ? { color: '#fff', weight: 1.5, fill: false, opacity: 0.75 } : { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
+      // sulla foto il confine bianco: il blu scuro sul mare scuro non si vedeva. Leggero come nelle regioni «adesso», 1,3 e
+      // 0,6 (8/11/2026, scheda 128 quater, censimento delle cartine: era 1,5 e 0,75, un terzo peso fra la mappa e le «adesso»)
+      : L.geoJSON(C.ant.confine, { interactive: false, style: sat ? { color: '#fff', weight: 1.3, fill: false, opacity: 0.6 } : { color: '#1b3f6e', weight: 2, fill: false, opacity: 0.9 } }).addTo(m).getBounds();
     // l'etichetta gialla sta SOTTO l'anteprima, non sopra (28/10/2026: copriva la Sicilia nel radar e le citta' della
     // costa nelle previsioni); in alto a sinistra c'e' la fonte, a destra l'ora
     m.fitBounds(b, { paddingTopLeft: [10, 26], paddingBottomRight: [10, 10] });
@@ -968,13 +971,19 @@ function clientePagina(C) {
     m.createPane('nomi'); m.getPane('nomi').style.zIndex = 470; m.getPane('nomi').style.pointerEvents = 'none';
     var px = 12, sz = m.getSize(), occupato = [], misura = document.createElement('canvas').getContext('2d');
     misura.font = '600 ' + px + 'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-    if (C.ant.qui) { var cq = m.latLngToContainerPoint([C.ant.qui.lat, C.ant.qui.lon]); occupato.push({ x1: cq.x - 9, y1: cq.y - 9, x2: cq.x + 9, y2: cq.y + 9 }); }
+    /* ⚠️ IL SEGNALINO E IL NOME DEL PAESE TENGONO INTORNO SOLO 8 PX (8/11/2026, scheda 128 quater, censimento delle
+       cartine, suo «le consigliate»). Col respiro di sempre (22 px per lato, quello fra le citta') toglievano la citta'
+       piu' vicina: Sassello senza Genova, Garfagnana al telefono senza Firenze, Lucca, Pisa, Genova e Bologna, Nebrodi al
+       telefono senza Palermo, Catania e Messina. Ora una citta' si salta solo se le sue lettere arrivano a 8 px dal
+       pallino o dalle lettere del paese; fra le citta' resta il respiro di sempre. */
+    var STRETTO = 8, vicino = [], alto = Math.round(px * 1.15) + 1;
+    if (C.ant.qui) { var cq = m.latLngToContainerPoint([C.ant.qui.lat, C.ant.qui.lon]); vicino.push({ x1: cq.x - 7, y1: cq.y - 7, x2: cq.x + 7, y2: cq.y + 7 }); }
     // il NOME DEL PAESE sopra il segnalino (8/11/2026, scheda 128 quater, suo: «perché non metti il nome del paese più
     // vicino al segnalino?», Castelnuovo nella Garfagnana, Sassello nel suo paese): per primo, come la citta' nella sua
     // pagina «adesso», stesso stile; 4 px piu' su degli altri nomi, se no tocca il pallino. Le citta' gli girano intorno.
     if (C.ant.qui && C.ant.qui.n) {
-      var wq = misura.measureText(C.ant.qui.n).width + 44;
-      occupato.push({ x1: cq.x - wq / 2, y1: cq.y - px - 29, x2: cq.x + wq / 2, y2: cq.y - 9 });
+      var tq = misura.measureText(C.ant.qui.n).width;
+      vicino.push({ x1: cq.x - tq / 2, y1: cq.y - 9 - alto, x2: cq.x + tq / 2, y2: cq.y - 9 });
       L.marker([C.ant.qui.lat, C.ant.qui.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
         html: '<span style="font-size:' + px + 'px;margin-top:-9px">' + esc(C.ant.qui.n) + '</span>' }) }).addTo(m);
     }
@@ -982,6 +991,8 @@ function clientePagina(C) {
       var pt = m.latLngToContainerPoint([p.lat, p.lon]), tw = misura.measureText(p.n).width;
       if (pt.x - tw / 2 < 3 || pt.x + tw / 2 > sz.x - 3 || pt.y - px - 8 < 26 || pt.y > sz.y - 6) return;
       var w = tw + 44, h = px + 20, box = { x1: pt.x - w / 2, y1: pt.y - h - 5, x2: pt.x + w / 2, y2: pt.y - 5 };
+      var lt = { x1: pt.x - tw / 2 - STRETTO, y1: pt.y - 5 - alto - STRETTO, x2: pt.x + tw / 2 + STRETTO, y2: pt.y - 5 + STRETTO };   // le sue lettere, piu' 8 px
+      for (var v = 0; v < vicino.length; v++) { var q = vicino[v]; if (lt.x1 < q.x2 && lt.x2 > q.x1 && lt.y1 < q.y2 && lt.y2 > q.y1) return; }
       for (var k = 0; k < occupato.length; k++) { var o = occupato[k]; if (box.x1 < o.x2 && box.x2 > o.x1 && box.y1 < o.y2 && box.y2 > o.y1) return; }
       occupato.push(box);
       L.marker([p.lat, p.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
