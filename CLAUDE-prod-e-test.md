@@ -200,5 +200,17 @@ byte a quelle dell'anteprima provata.
   `controllo-anteprima.js [nome anteprima]` (anteprima contro sito vero), `pesi-senza-commenti.js <repo>` (pesi di
   `_pages/` contro il repo, dopo `--solo-cartella`).
 
+**IN PRODUZIONE l'8/11/2026 alle 11:08** (suo «Sì, tutt'e due» e «Sì, insieme»): commit `84fcf77af0`, deploy Cloudflare
+**`7714b10b`**, pubblicato dal checkout condiviso su `732dec6ec4` (dentro anche i punti 2, 3, 5, 6 della 127 bis, già
+online dalle 11:05 col deploy `616a2d3c` ma coi commenti, perché partito prima del push). Online `/` = **192 KB** br (era
+434), `/previsioni/` 193, `/toscana/` 27,9, `/funghi/toscana/` 38,8; il `/` online è identico byte per byte a
+`senzaCommenti(index.html del repo)`. Function `/previsioni/`: titolo, canonico e 301 giusti. `controllo-anteprima.js
+7714b10b` (sito vero contro lo stesso deploy, 14 pagine × PC e telefono): nessun errore di pagina né in console, stessi
+nomi globali in 28 su 28.
+- ⚠️ **Dal checkout condiviso il log dice 71 pagine ripulite, non 46**: le 25 in più sono di `_mockup/`, che sta solo nel
+  checkout condiviso (fuori da git, esclusa in `.git/info/exclude`) e che la pubblicazione da lì carica online da prima
+  (`/_mockup/...` risponde 200). Da un clone pulito (worktree, giro del mattino) restano 46. Il segnale «un generatore ha
+  smesso di togliere i commenti» è un numero che cresce oltre questi due.
+
 ---
 
