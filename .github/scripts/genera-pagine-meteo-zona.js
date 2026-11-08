@@ -1077,16 +1077,29 @@ function clientePagina(C) {
      sempre il riquadro. Il segnalino rosso e' quello del radar (C.ant.qui), col nome: nelle valli il paese principale
      (Castelnuovo di Garfagnana), nelle pagine di paese il paese. Senza qui o senza i
      numeri nel .json resta la regione intera di prima. Si rifa' se il riquadro cambia misura (telefono girato). */
+  /* ⚠️ E POI LA REGIONE INTERA, COL SEGNALINO (8/11/2026 pomeriggio, scheda 128 quater). Il ritaglio sulla valle al PC
+     era tagliato: il riquadro e' 726 px largo e la scala delle strisce in altezza mostrava ~90 km (suo, con la foto di
+     Meteo Garfagnana: «la mappa è tagliata»; fra tre modi ha scelto «C, regione intera»). Ora la regione INTERA dentro il
+     riquadro, come le strisce delle pagine regione di lib-striscia.js (`regione`: 0,94 della misura che ci sta, e
+     l'immagine che copre sempre il riquadro), coi riquadri al PC alti 440 invece di 300 (tutti e tre, per la
+     simmetria: vedi CSS_ANT); segnalino e nome del paese restano. Senza i confini nel .json il centro dell'immagine. */
   function ritagliaPluvio(a, j) {
     var q = C.ant && C.ant.qui, tw = a.clientWidth, th = a.clientHeight;
-    if (!q || !isFinite(j.z) || !isFinite(j.x0) || !isFinite(j.y0) || !j.w || !j.h || !tw || !th) return;
-    var W = 256 * Math.pow(2, j.z), sy = Math.sin(q.lat * Math.PI / 180);
-    var cx = (q.lon + 180) / 360 * W - j.x0, cy = (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * W - j.y0;
-    var mpx = 40075016.686 * Math.cos(q.lat * Math.PI / 180) / W;   // metri per pixel dell'immagine
-    var k = Math.min(1.1, Math.max(mpx / 1000 / (C.solo ? 0.2 : 0.3), tw / j.w, th / j.h));
-    var x = Math.min(0, Math.max(tw - j.w * k, tw / 2 - cx * k)), y = Math.min(0, Math.max(th - j.h * k, th / 2 - cy * k));
+    if (!isFinite(j.z) || !isFinite(j.x0) || !isFinite(j.y0) || !j.w || !j.h || !tw || !th) return;
+    var W = 256 * Math.pow(2, j.z);
+    function proj(lat, lon) { var sy = Math.sin(lat * Math.PI / 180); return [(lon + 180) / 360 * W - j.x0, (0.5 - Math.log((1 + sy) / (1 - sy)) / (4 * Math.PI)) * W - j.y0]; }
+    var k, mx, my;
+    if (j.reg && isFinite(j.reg.n) && isFinite(j.reg.s) && isFinite(j.reg.w) && isFinite(j.reg.e)) {
+      var nw = proj(j.reg.n, j.reg.w), se = proj(j.reg.s, j.reg.e);
+      k = 0.94 * Math.min(tw / Math.max(1, se[0] - nw[0]), th / Math.max(1, se[1] - nw[1]));
+      mx = (nw[0] + se[0]) / 2; my = (nw[1] + se[1]) / 2;
+    } else { k = tw / j.w; mx = j.w / 2; my = j.h / 2; }
+    k = Math.max(k, tw / j.w, th / j.h);   // l'immagine copre sempre il riquadro
+    var x = Math.min(0, Math.max(tw - j.w * k, tw / 2 - mx * k)), y = Math.min(0, Math.max(th - j.h * k, th / 2 - my * k));
     a.style.backgroundSize = (j.w * k).toFixed(1) + 'px ' + (j.h * k).toFixed(1) + 'px';
     a.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+    if (!q) return;
+    var pq = proj(q.lat, q.lon), cx = pq[0], cy = pq[1];
     var pin = a.querySelector('i.ant-pin'), px = cx * k + x, py = cy * k + y;
     if (!pin) { pin = document.createElement('i'); pin.className = 'ant-pin'; a.appendChild(pin); }
     pin.style.left = px.toFixed(1) + 'px'; pin.style.top = py.toFixed(1) + 'px';
@@ -1186,7 +1199,9 @@ const CSS_ANT = `
 .pz-ant-v .pz-et.mini{padding:0 4px 1px}.pz-ant-v .pz-et.mini .ic{margin-right:1px}
 /* i capoluoghi di provincia non perdono mai il nome: se non ci stanno perdono la minima (28/10/2026) */
 .pz-ant-v .pz-et.nome .mn{display:none}
-@media (min-width:700px){.pz-ant-v{height:300px}}
+/* al PC alti 440 (8/11/2026, scheda 128 quater): con 300 la regione dei pluviometri non ci stava intera (suo: «la mappa è
+   tagliata», poi «C, regione intera»); tutti e tre i riquadri uguali, per la simmetria */
+@media (min-width:700px){.pz-ant-v{height:440px}}
 `;
 // reg e nomeReg della regione della pagina, ga il prefisso degli eventi; nella pagina va anche C.ant (confine e ordine)
 function mappeHtml({ reg, nomeReg, ga }) {
