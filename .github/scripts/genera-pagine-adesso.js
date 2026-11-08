@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 17;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026)
+const VERSIONE_JS = 18;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -121,6 +121,11 @@ function alleggerisci(g) {
 // quelli di provincia (28/10/2026, suo: «è più importante Savona di Millesimo»: Imperia prima di Sanremo), poi gli
 // altri; ognuno dal piu' popoloso
 const CAPOLUOGHI = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'capoluoghi.json'), 'utf8'));
+// i capoluoghi di regione (il segnalino del radar delle pagine regione, 8/11/2026): capoluoghi.json e' in ordine alfabetico
+const CAPOLUOGO_REGIONE = { lombardia:'Milano', piemonte:'Torino', valledaosta:'Aosta', liguria:'Genova', emilia:'Bologna',
+  veneto:'Venezia', friuli:'Trieste', trentino:'Trento', altoadige:'Bolzano', toscana:'Firenze', umbria:'Perugia',
+  marche:'Ancona', lazio:'Roma', abruzzo:"L'Aquila", molise:'Campobasso', campania:'Napoli', puglia:'Bari',
+  basilicata:'Potenza', calabria:'Catanzaro', sicilia:'Palermo', sardegna:'Cagliari' };
 const POP = {};
 for (const riga of fs.readFileSync(path.join(RADICE, 'data', 'elenco-paesi.txt'), 'utf8').split('\n')) {
   const c = riga.split('|'); if (c.length >= 6) POP[c[0]] = Math.max(POP[c[0]] || 0, +c[5]);
@@ -455,8 +460,11 @@ function pagina(r) {
   const citta = cittaDi(r), gen = GEN2[r.k];
   // dove/gen per la riga viva: «Non piove in Toscana», «bagna il 15% della Toscana»
   // foto e nomi: la cartina con la faccia della mappa (2/11/2026, scheda 111 ter)
+  // capo: il capoluogo di regione, dove sta il segnalino rosso del radar (8/11/2026, scheda 127, suo: «il segnalino delle
+  // regioni deve essere sul capoluogo»)
+  const cp = (CAPOLUOGHI[r.k] || []).find(x => x.n === CAPOLUOGO_REGIONE[r.k]);
   const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:`${r.prep} ${r.nome}`, gen, sito:SITO, citta, confine:confineDi(r),
-    foto:FOTO, nomi:nomiDi(r) }).replace(/</g, '\\u003c');
+    foto:FOTO, nomi:nomiDi(r), capo:cp ? { n:cp.n, lat:cp.lat, lon:cp.lon } : null }).replace(/</g, '\\u003c');
   // le pagine meteo della regione (qui e non in cima: genera-pagine-meteo-zona.js chiede confineDi a questo file)
   const valli = require('./genera-pagine-meteo-zona.js').linkMeteoRegione(r.k, 'pagina-' + r.k + '-adesso');
   // il percorso (31/10/2026, scheda 104 bis): la regione in mezzo solo se ha la sua pagina (l'Abruzzo no)
