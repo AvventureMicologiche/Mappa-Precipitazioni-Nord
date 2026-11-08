@@ -18595,15 +18595,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function disegna(){
     var rk=chiavi(), gb=giorniBase(); if(!gb) return;
     if(giorno>=gb.length) giorno=gb.length-1;
-    el('pv-gg').innerHTML=gb.map(function(e,i){ return chip(e,i,i===giorno,false); }).join('');
+    // i giorni si riscrivono solo se cambiano (8/11/2026, scheda 128 bis: vedi «IL RIDISEGNO A PEZZI» in veDisegna). ⚠️ Anche
+    // gli avvisi scrivono in #pv-gg: si confronta anche il primo nodo, come la scheda ora per ora
+    var ggH=gb.map(function(e,i){ return chip(e,i,i===giorno,false); }).join(''), ggE=el('pv-gg');
+    if(ggE._h!==ggH||!ggE._primo||ggE._primo!==ggE.firstChild){ ggE.innerHTML=ggH; ggE._h=ggH; ggE._primo=ggE.firstChild; }
     var g=gb[giorno].g, d=giornoData(g), agg=null, val=null;
-    gruppo.clearLayers();
+    // ⚠️ le etichette della vista a etichette (l._ve) NON si tolgono qui: le riusa veDisegna se la scena e' la stessa
+    var via=[]; gruppo.eachLayer(function(l){ if(!l._ve) via.push(l); }); via.forEach(function(l){ gruppo.removeLayer(l); });
     var it=italia(), lista=[];
     /* ⚠️ NELLA VISTA ITALIA LA VISTA A ETICHETTE SI CHIUDE (controllo del 30/10/2026): veDisegna qui non passa,
        quindi VE.scena restava quella di prima, e tornando nella stessa regione o valle (tendina, ricerca, Avanti) la
        vista non era «nuova»: VE.aperto0 restava vero e la scheda ora per ora non si apriva piu' da sola */
     if(it&&VE.scena){ VE.scena=''; VE.visti=[]; }
     var ve=!it&&veDisegna(g);   // regione, valle e paese: i paesi per abitanti, vedi «LA VISTA A ETICHETTE» (29/10/2026)
+    if(ve!==true){ var vv=[]; gruppo.eachLayer(function(l){ if(l._ve) vv.push(l); }); vv.forEach(function(l){ gruppo.removeLayer(l); }); VE.mkLista=null; }   // vista Italia, capoluoghi o elenco in arrivo: via anche loro
     rk.forEach(function(k){
       var a=aree[k]; if(!a||!a.capoluoghi) return; agg=agg||a.agg; if(a.valida&&(!val||a.valida<val)) val=a.valida;
       if(ve) return;
@@ -19015,15 +19020,32 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       VE.scena=sc.chiave; VE.lista=c.lista; VE.bounds=c.bounds; VE.tipo=c.tipo; VE.aperto0=!!punto; VE.nastro=''; VE.visti=[]; VE.nuova=true; VE.inquadrata=false; VE.z0=0; }
     var tt=el('pv-tt'); if(tt) tt.textContent='☀️ Previsioni · '+VE.titolo;   // il posto, non le sue regioni («Liguria + Piemonte»)
     var due=tel()&&VE.tipo==='regione';   // al telefono la regione e' stretta: etichette su due righe
-    VE.lista.forEach(function(p){
+    /* ⚠️ IL RIDISEGNO A PEZZI (8/11/2026, scheda 128 bis, analisi notturna punto 4, suo «Sì, il pizzico»). Dopo ogni zoom
+       arrivano a gruppi le previsioni dei paesi appena comparsi, e ogni gruppo ridisegnava TUTTO (veRidisegna → disegna):
+       tutte le etichette della vista tolte e rimesse (214 in Toscana), i giorni, la scheda ora per ora. Al telefono (CPU ×4)
+       0,27-0,30 s a ridisegno, due ridisegni per pizzico (conta-ridisegni.js della 128 bis). Ora, se la scena e' la stessa
+       (stesso VE.lista, le stesse etichette nello stesso ordine nel gruppo), le etichette restano: si riscrive il contenuto
+       solo di quelle che cambiano (i gradi arrivati, il paese scelto) e lo strato solo se cambia. Se la scena cambia si
+       rifanno tutte come prima, nell'ordine di VE.lista: veDirada conta su quell'ordine (prima i capoluoghi). Il tocco legge
+       il paese da mk._ve al momento del tocco. */
+    var vecchi=[]; gruppo.eachLayer(function(l){ if(l._ve) vecchi.push(l); });
+    var stessi=VE.mkLista===VE.lista&&vecchi.length===VE.lista.length&&vecchi.every(function(l,i){ return l._ve===VE.lista[i]; });
+    if(!stessi) vecchi.forEach(function(l){ gruppo.removeLayer(l); });
+    VE.lista.forEach(function(p,i){
       var e=veDati(p,g), sel=!!(punto&&Math.abs(punto.lat-p.lat)<0.005&&Math.abs(punto.lon-p.lon)<0.005);
       var gr='<span class="mn">'+(e?e.mn:'--')+'°</span> <span class="mx">'+(e?e.mx:'--')+'°</span>', ic='<span class="ic">'+(e?icona(e.s):'·')+'</span>';
       var cl='ve-et'+(sel?' scelto':'')+(p.altra?' altra':'')+(due?' due':'');
       var html=due?'<span class="'+cl+'"><span class="r1">'+ic+gr+'</span><b>'+escH(p.n)+'</b></span>':'<span class="'+cl+'">'+ic+'<b>'+escH(p.n)+'</b> '+gr+'</span>';
-      var mk=L.marker([p.lat,p.lon],{icon:L.divIcon({className:'pv-ic',iconSize:[0,0],iconAnchor:[0,0],html:html}),keyboard:false,zIndexOffset:sel?2000:p.cuore?1500:Math.min(1000,Math.round(p.pop/100))});
-      mk._ve=p;
-      mk.on('click',function(){ if(!p.cuore) cercato=null; apriPunto({n:p.n,lat:p.lat,lon:p.lon,q:p.q}); ga('paese_mappa',{posto:p.n}); });
+      var z=sel?2000:p.cuore?1500:Math.min(1000,Math.round(p.pop/100));
+      if(stessi){ var vk=vecchi[i];
+        if(vk._html!==html){ vk._html=html; vk.options.icon.options.html=html; var ve0=vk.getElement(); if(ve0) ve0.innerHTML=html; }
+        if(vk.options.zIndexOffset!==z) vk.setZIndexOffset(z);
+        return; }
+      var mk=L.marker([p.lat,p.lon],{icon:L.divIcon({className:'pv-ic',iconSize:[0,0],iconAnchor:[0,0],html:html}),keyboard:false,zIndexOffset:z});
+      mk._ve=p; mk._html=html;
+      mk.on('click',function(){ var q=mk._ve; if(!q.cuore) cercato=null; apriPunto({n:q.n,lat:q.lat,lon:q.lon,q:q.q}); ga('paese_mappa',{posto:q.n}); });
       gruppo.addLayer(mk); });
+    VE.mkLista=VE.lista;
     if(VE.nuova){ VE.nuova=false; setTimeout(function(){ if(acceso&&VE.scena) veInquadra(); },0); }
     return true;
   }
@@ -19262,6 +19284,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(ditoSu&&Date.now()-ditoT<8000&&det.querySelector('.oz,.rows')){ detRimandata=true; return; }
     var gb=daOggi(j.giorni); if(!gb.length) return;   // da oggi in poi: gi===0 e' davvero oggi (bug 11)
     var gi=Math.min(giorno,gb.length-1), e=gb[gi], g=e.g, d=giornoData(g), corta=tel();
+    /* ⚠️ NIENTE DA RIFARE, NIENTE DA RISCRIVERE (8/11/2026, scheda 128 bis, vedi «IL RIDISEGNO A PEZZI» in veDisegna): stesso
+       posto, stesso giorno, stessi dati e la scheda e' ancora quella scritta qui (il primo nodo e' lo stesso: «carico la
+       previsione…», la chiusura e il cenno la riscrivono). Prima si riscriveva tutta a ogni ridisegno, anche a ogni gruppo
+       di previsioni che arrivava dopo uno zoom, e la striscia delle ore ricalcolava l'impaginazione. */
+    var firma=[k,g,gi,corta,punto.n,punto.q,gb[0].g,gb.length].join('|');
+    if(det._dati===j&&det._firma===firma&&det._primo&&det._primo===det.firstChild&&det._primo.isConnected) return;
     var ore=(j.ore||[]).filter(function(o){ return o.g===g; });
     var chiave=k+'|'+g+'|'+corta, li=det.querySelector('.oz,.rows'), resta=li&&det._chiave===chiave?(corta?li.scrollLeft:li.scrollTop):null;
     function riga(o){
@@ -19304,7 +19332,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
                     :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
       +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span></div>';   // la fonte della % di pioggia si cita solo in fonti.html (sua decisione, 3/11/2026)
-    det._chiave=chiave;
+    det._chiave=chiave; det._dati=j; det._firma=firma; det._primo=det.firstChild;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }
     if(tel()) setTimeout(naSopraDet,0);   // l'altezza della scheda cambia col giorno e col paese

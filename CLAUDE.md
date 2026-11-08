@@ -154,6 +154,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il radar si apre col +40 minuti in movimento (8/11/2026, scheda 128 ter)**: `APRI`, adesso + previsti fino a +40 tagliati per ora, soste 1,5 s, `entra(modo)` senza fotogramma buttato; carico misurato su LibreWXR; restano pagine «adesso» e meteo dopo il 14/11 e i crediti DPC; IN PROD 8/11 12:27 (deploy `40d5cceb`)
 - **Il riquadro dei periodi e i crediti al telefono non saltano più aprendo la mappa (8/11/2026, scheda 128 bis)**: `html.cr-attesa` e `aspetta()`, `initMobile` aspetta la riga dei tasti, crediti fermi mentre un riquadro scorre, riga del titolo a 25 px; CLS `/` al telefono 0,22 → 0,004; IN PROD 8/11 13:35 (deploy `6c66b05c`)
 - **Le pulsazioni dei tasti si fermano dopo 5 giri (8/11/2026, scheda 128 bis)**: `newPulsa`, `loc-bordo-pulsa`, `loc-cartello-pulsa`, `geo-anello-pulsa` da `infinite` a `5 forwards`; a mappa ferma al telefono processore occupato da 9,8 a 0,27 s su 20; i tasti fermi identici al pixel; IN PROD 8/11 14:36 (deploy `11d4d50f`)
+- **Il pizzico nelle previsioni di regione: il ridisegno a pezzi (8/11/2026, scheda 128 bis)**: `veDisegna` riusa le etichette se la scena e' la stessa (`VE.mkLista`, `mk._html`), giorni e scheda ora per ora non si riscrivono se uguali; pizzico dentro al telefono 22-26 → 35 fps
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 

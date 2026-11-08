@@ -2061,3 +2061,41 @@ di JavaScript in 20 s, niente; il lavoro a mappa ferma lo facevano le **pulsazio
   pagina servita identica a `senzaCommenti(repo)`; `animazioni-accese.js` sul sito vero, 12 scene: tutte le pulsazioni
   `finished`, a mappa ferma `/` 1 ricalcolo degli stili in 3 s (prima 180); `stati-mappa.js` 40 scene su 40, crediti in
   30 strette su 30, nessun errore.
+
+## Il pizzico nelle previsioni di regione: il ridisegno a pezzi (8/11/2026, scheda 128 bis)
+
+Punto 4 di «Dopo l'8/11» dell'analisi notturna (pizzico dentro nelle previsioni della Toscana al telefono a 30 fps anche
+dopo la 127 bis). Proposta in `D:\video youtube\claudio\proposte-128bis\PROPOSTE.md` (4 B), suo «Sì, il pizzico».
+- **La causa** (`conta-ridisegni.js`: una copia della pagina che segna le chiamate; `traccia-pizzico.js`; telefono CPU
+  ×4). Le letture forzate che restavano (`naSopraDet`, `striscia`, `naGira`) NON erano ricalcoli in più: tolte, il
+  ricalcolo lo pagava il primo che leggeva dopo (provato, nessun guadagno: `proposte-128bis\prove\punto4-letture-nascoste-P4b.diff`).
+  Il costo vero: (1) durante il gesto Leaflet sposta una per una le 214 etichette a ogni fotogramma (50-70 ms l'uno; con
+  le etichette nascoste 54 fps: e' la variante A della proposta, non fatta); (2) dopo il gesto una CASCATA: diradamento →
+  arrivano a gruppi le previsioni dei paesi comparsi → `veRidisegna` → `disegna()` che toglieva e rimetteva TUTTE le
+  etichette, riscriveva i giorni e la scheda ora per ora (0,27-0,33 s) → nuovo diradamento → altri paesi → secondo
+  ridisegno. Al primo pizzico dentro 2 ridisegni e 4 diradamenti.
+- **Il rimedio, «IL RIDISEGNO A PEZZI»** (commento in `veDisegna`): `disegna()` toglie solo i segnaposto che non sono
+  della vista a etichette (`l._ve`); `veDisegna()`, se la scena e' la stessa (`VE.mkLista===VE.lista` e le stesse
+  etichette nello stesso ordine nel gruppo), le tiene e riscrive il contenuto solo di quelle che cambiano
+  (`mk._html`, `options.icon.options.html` e l'`innerHTML` dell'elemento) e lo strato solo se cambia
+  (`setZIndexOffset`); se la scena cambia le rifa' tutte nell'ordine di `VE.lista` (veDirada conta su quell'ordine). Il
+  tocco legge il paese da `mk._ve`. Vista Italia, capoluoghi o elenco in arrivo: via anche loro (`VE.mkLista=null`). In
+  piu' i giorni (`#pv-gg`) e la scheda ora per ora (`renderDet`, «NIENTE DA RIFARE, NIENTE DA RISCRIVERE») non si
+  riscrivono se sono uguali; tutt'e due confrontano anche il primo nodo, perche' altri (avvisi, «carico la
+  previsione…», chiusura) scrivono negli stessi riquadri.
+- **Misure** (pagina di main contro nuova servite allo stesso modo): `fluidita.js prev-toscana-tel` (Chrome visibile,
+  tre giri alternati) pizzico dentro **22-26 → 35 fps**, fotogramma piu' lungo 384-501 → 250-267 ms, compiti lunghi
+  1,24-1,58 → 0,85-0,96 s; pizzico fuori e dito restano a 60. `conta-ridisegni.js`: ogni ridisegno da 0,28-0,33 s a
+  0,06-0,13 s; secondo pizzico dentro 0,95 → 0,48 s di compiti lunghi.
+- **Stesse etichette:** `prova-etichette.js` (quella della 127 bis, con anche la vera servita allo stesso modo):
+  **135 su 135 identiche** (9 viste × PC, PC basso, telefono × 5 zoom), nessun errore. `giorno-e-tocco.js` (cambio di
+  giorno, tocco su un paese, ritorno al primo giorno; Toscana telefono e PC, Garfagnana telefono): etichette visibili,
+  scheda e giorno acceso uguali in tutti i passi. ⚠️ Una corsa di tempi che c'era già: cambiando giorno il diradamento
+  dentro `disegna()` parte prima che scheda e banner si siano rimessi (naSopraDet in setTimeout, tieniInVista), e per un
+  giro si vede un paese in più (in Garfagnana Bagni di Lucca), che veChiedi chiede alle previsioni; il giro dopo lo
+  rinasconde. Visto anche con la pagina di prima (`visti-diradamento.js`), con la nuova capita più spesso: al più un
+  punto in più chiesto alla nostra Function, a etichetta nascosta. Se un giorno serve: il diradamento di `disegna()`
+  dopo che il banner si è rimesso.
+- Restano i 50-70 ms a fotogramma durante il gesto (le 214 etichette spostate da Leaflet) e il diradamento dopo lo zoom
+  (una misura di tutte le etichette): la variante A (etichette nascoste mentre si pizzica) e' in PROPOSTE.md, da vedere
+  col filmato.
