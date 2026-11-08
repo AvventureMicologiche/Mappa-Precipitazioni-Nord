@@ -2132,3 +2132,23 @@ fotogramma (sua richiesta: trascinarli e lanciarli col dito): a mappa ferma, tel
   online senza intercettare niente: pagina servita identica a `senzaCommenti(repo)`; `mappa-ferma.js` sul sito vero, 20 s:
   `/` 0,29 s, pioggia ieri Toscana 0,51, previsioni 0,26 e 0,34, boschi 0,32, radar 1,56 (la sua animazione);
   `stati-mappa.js` 40 scene su 40, crediti in 30 strette su 30, nessun errore.
+
+## Le etichette del meteo fuori dal gioco mentre si pizzica (8/11/2026, scheda 128 bis)
+
+La variante A del punto 4 (proposta in `D:\video youtube\claudio\proposte-128bis\PROPOSTE.md`), suo «Sì, falla» dopo il
+filmato `D:\video youtube\claudio\12 gg\pizzico-previsioni-oggi-e-nuova.mp4` (`registra-pizzico.js`: telefono CPU ×4,
+fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel filmato).
+- **Il filmato ha mostrato una cosa che non sapevo:** già prima, durante il pizzico, le etichette NON si vedevano
+  (spariscono quando partono le dita e tornano a fine zoom, dentro e fuori). Leaflet però le spostava una per una a ogni
+  fotogramma (214 in Toscana, 50-70 ms a fotogramma al telefono lento): lavoro per etichette invisibili.
+- **La modifica** (blocco «LE ETICHETTE DEL METEO FUORI DAL GIOCO MENTRE SI PIZZICA», in fondo prima di `</body>`): col
+  tocco a DUE dita e solo nelle previsioni (`body.modo-prev`) `#map` prende `pv-pizzico`, che mette il pannello dei
+  segnaposto in `display:none`; su `zoomend` (che Leaflet manda prima di `moveend`, quindi veDirada misura etichette già
+  visibili) la classe si toglie. Due dita appoggiate senza zoomare: niente zoomend, si toglie 0,6 s dopo aver alzato le
+  dita. ⚠️ In `display:none` va TUTTO il pannello dei segnaposto: nelle previsioni ci sono solo le etichette e la
+  targhetta del posto cercato, che durante il pizzico non si vedevano già.
+- **Misure** (sopra il main col ridisegno a pezzi, `fluidita.js prev-toscana-tel`, Chrome visibile, tre giri alternati):
+  pizzico dentro **31-36 → 38-47 fps**, fotogrammi lenti (p95) 100-150 → 33-50 ms, compiti lunghi 0,97-1,15 → 0,55-0,82
+  s; pizzico fuori 60 → 58 (un blocco di ~0,1 s quando le etichette tornano); dito 60. A vedersi uguale (filmato).
+  `controlla-pizzico.js`: dopo ogni zoom le stesse etichette visibili della pagina di prima (5, poi 14). Stati della mappa
+  40 scene: 35 uguali, 5 nel rumore, nessun errore.

@@ -20342,5 +20342,29 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
 </script>
+<!-- ⚠️ LE ETICHETTE DEL METEO FUORI DAL GIOCO MENTRE SI PIZZICA (8/11/2026, scheda 128 bis, analisi notturna punto 4 A,
+     suo «Sì, falla» dopo il filmato 12 gg\pizzico-previsioni-oggi-e-nuova.mp4). Durante il pizzico le etichette non si
+     vedevano gia' (spariscono quando partono le dita e tornano a fine zoom), ma Leaflet le spostava una per una a ogni
+     fotogramma (214 in Toscana): 50-70 ms a fotogramma al telefono lento. Ora col tocco a DUE dita, solo nelle previsioni,
+     il loro pannello va in display:none e torna su «zoomend», che Leaflet manda PRIMA di «moveend»: veDirada le misura gia'
+     visibili. A vedersi uguale (filmato); pizzico dentro da 31-36 a 38-47 fps, pizzico fuori 58 invece di 60 (le etichette
+     che tornano). Due dita appoggiate senza zoomare: niente zoomend, tornano da sole 0,6 s dopo aver alzato le dita. -->
+
+<style>#map.pv-pizzico .leaflet-marker-pane{display:none}</style>
+<script>
+(function(){
+  function avvia(){
+    var m=window._mapDebug, mp=document.getElementById('map'); if(!m||!mp){ setTimeout(avvia,300); return; }
+    var su=false, tFine=0;
+    function fine(){ clearTimeout(tFine); if(!su) return; su=false; mp.classList.remove('pv-pizzico'); }
+    mp.addEventListener('touchstart',function(e){
+      if(e.touches&&e.touches.length>1&&document.body.classList.contains('modo-prev')){ clearTimeout(tFine); su=true; mp.classList.add('pv-pizzico'); } },{passive:true,capture:true});
+    m.on('zoomend',fine);
+    // due dita appoggiate senza zoomare: nessun zoomend, si torna da soli
+    mp.addEventListener('touchend',function(e){ if(su&&(!e.touches||!e.touches.length)){ clearTimeout(tFine); tFine=setTimeout(fine,600); } },{passive:true,capture:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
+})();
+</script>
 </body>
 </html>
