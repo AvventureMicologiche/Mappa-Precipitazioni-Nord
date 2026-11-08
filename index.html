@@ -512,6 +512,25 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
   path.conf-pulse{animation:confPulse 1.6s ease-in-out infinite;}
   path.conf-pulse:hover{animation:none;}
   @media(prefers-reduced-motion:reduce){path.conf-pulse{animation:none!important;}}
+  /* ⚠️ IL RESPIRO SI FA SUL PANNELLO, NON SU OGNI CONFINE (8/11/2026, scheda 127 bis, analisi notturna punto 5, suo «falli
+     tutti»). confPulse qui sopra cambia fill-opacity e stroke-opacity di ogni confine: la scheda grafica non lo sa fare
+     da sola e il browser ridipingeva tutti i confini a ogni fotogramma. Alla mappa appena aperta, FERMA, 48-54 fps
+     invece di 60, e 27-32 con la rotellina (prova-respiro.js: spento 60 e 49). Qui i confini che respirano restano
+     fermi al massimo (riempimento .16, bordo 1) e respira l'opacita' di tutto il loro <svg>, .55-1: il bordo va da .55 a
+     1 come prima, il riempimento da .09 a .16 (prima da .04). L'opacita' di un elemento intero la fa la scheda grafica.
+     Valgono solo dove prima il respiro girava: le stesse eccezioni di oggi (radar, boschi, temperature, previsioni non
+     vuote o d'Italia, apre-prev, movimento ridotto) qui sono scritte nel :not(); col mouse sopra un confine il
+     pannello si ferma pieno e quel confine prende il suo stile. :has() non c'e' nei browser vecchi: li' tutte e due le
+     regole cadono e resta confPulse com'era. Una ECCEZIONE NUOVA del respiro va aggiunta anche qui. */
+  @media(prefers-reduced-motion:no-preference){
+    html:not(.apre-prev) body:not(.modo-radar):not(.modo-boschi):not(.tq-on):not(.modo-prev) #map .leaflet-overlay-pane>svg:has(path.conf-pulse),
+    html:not(.apre-prev) body.modo-prev.pv-vuoto:not(.pv-italia):not(.modo-radar):not(.modo-boschi):not(.tq-on) #map .leaflet-overlay-pane>svg:has(path.conf-pulse){animation:confRespiro 1.6s ease-in-out infinite;will-change:opacity}
+    html:not(.apre-prev) body:not(.modo-radar):not(.modo-boschi):not(.tq-on):not(.modo-prev) #map .leaflet-overlay-pane>svg:has(path.conf-pulse) path.conf-pulse:not(:hover),
+    html:not(.apre-prev) body.modo-prev.pv-vuoto:not(.pv-italia):not(.modo-radar):not(.modo-boschi):not(.tq-on) #map .leaflet-overlay-pane>svg:has(path.conf-pulse) path.conf-pulse:not(:hover){animation:none;fill-opacity:.16;stroke-opacity:1}
+    #map .leaflet-overlay-pane>svg:has(path.conf-pulse:hover){animation:none !important}
+    #map.respiro-fermo .leaflet-overlay-pane>svg{animation-play-state:paused !important}   /* !important: la regola qui sopra e' piu' specifica */
+  }
+  @keyframes confRespiro{0%,100%{opacity:.55}50%{opacity:1}}
   /* Variante solo-anello per i pannelli blu (lo sfondo non deve sbiancare) */
   @keyframes panelPulseRing{
     0%{box-shadow:0 2px 12px rgba(0,0,0,.22),0 0 0 0 rgba(27,63,110,.8);}
@@ -1823,6 +1842,24 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
     cursor:pointer;font-family:inherit;text-align:center;
     overflow:hidden;}
   .naz-chip.on{background:#fff;border-color:#fff;color:#1b3f6e;}
+}
+/* ⚠️ L'ALTEZZA FINALE DELLA TESTATA FIN DAL PRIMO DISEGNO (8/11/2026, scheda 127 bis, analisi notturna punto 3, suo
+   «falli tutti»). Al telefono la testata nasceva di 46 px (qui sopra), diventava 38 quando il browser arrivava alla regola
+   «TELEFONO PIU' COMPATTO» (29/9, a meta' pagina, dopo 1 MB di codice) e 44 quando il modulo delle previsioni montava le
+   schede Storico/Previsioni (body.con-sezioni, regola del 7/10): tre altezze nei primi 3-4 secondi, e ogni volta mappa e
+   barra della regione si spostavano. Google lo conta (CLS): 0,50 sulla mappa al telefono, 0,36 solo per questo. Qui le
+   misure finali valgono da subito; :root alza la precedenza sopra «html body header» della regola compatta, che si
+   legge dopo. Le regole di allora restano dove sono (a cose montate danno gli stessi numeri). */
+@media(max-width:900px){
+  html:root body header{height:38px !important;padding:0 10px !important;gap:8px}
+  html:root body header > .hdr-l > a:first-child{width:24px !important;height:24px !important}
+  html:root body #reg-sheet{top:38px}
+  html:root body #region-panel{top:38px !important}
+}
+@media(max-width:600px){
+  html:root body header{height:44px !important}
+  html:root body #reg-sheet{top:44px}
+  html:root body #region-panel{top:44px !important}
 }
 </style>
 <!-- LINK ALLE PREVISIONI (?m=prev, 27/10/2026, suo: «prima mi flasha per qualche secondo la mappa pluviometrica e
@@ -8008,6 +8045,32 @@ function scartaIsoleFuoriQuadro(feat,cfg){
           geometry:{type:'MultiPolygon',coordinates:tenuti}};
 }
 
+/* ⚠️ I CONFINI SI DISEGNANO SEMPLIFICATI (8/11/2026, scheda 127 bis, analisi notturna punto 6, suo «falli tutti»).
+   italia-regioni-confine.geojson ha 70.908 punti (uno ogni pochi metri), e Leaflet a ogni fine zoom li riproietta TUTTI
+   (_projectLatlngs: ~80 ms a zoom al PC nelle previsioni) e a ogni fotogramma del respiro li ridipinge. Per DISEGNARLI
+   basta molto meno: Douglas-Peucker a 0,0001 gradi (~11 m) = 40.028 punti (-44%), a schermo meno di un pixel di
+   differenza fino allo zoom 13. Solo il disegno: i conti «dentro o fuori la regione» (regionRings, pipGeo) usano
+   SEMPRE il confine intero. Copia, mai modifica sul posto (il GeoJSON sta in cache e lo leggono altri). */
+var DISEGNO_TOLL=0.0001;
+function perDisegno(feat){
+  if(!feat||!feat.geometry) return feat;
+  var g=feat.geometry, t2=DISEGNO_TOLL*DISEGNO_TOLL;
+  function dp(p){   // Douglas-Peucker senza ricorsione; tiene sempre primo e ultimo punto (l'anello resta chiuso)
+    var n=p.length, tieni=new Uint8Array(n), pila=[0,n-1]; tieni[0]=tieni[n-1]=1;
+    while(pila.length){ var b=pila.pop(), a=pila.pop(), x1=p[a][0], y1=p[a][1], dx=p[b][0]-x1, dy=p[b][1]-y1, L=dx*dx+dy*dy, md=0, mi=-1;
+      for(var i=a+1;i<b;i++){ var t=L?((p[i][0]-x1)*dx+(p[i][1]-y1)*dy)/L:0; t=t<0?0:t>1?1:t;
+        var qx=x1+t*dx-p[i][0], qy=y1+t*dy-p[i][1], d=qx*qx+qy*qy; if(d>md){ md=d; mi=i; } }
+      if(md>t2){ tieni[mi]=1; pila.push(a,mi,mi,b); } }
+    var o=[]; for(var k=0;k<n;k++) if(tieni[k]) o.push(p[k]); return o;
+  }
+  function anello(r){ if(!r||r.length<8) return r; var s=dp(r); return s.length>=4?s:r; }
+  var c;
+  if(g.type==='Polygon') c=g.coordinates.map(anello);
+  else if(g.type==='MultiPolygon') c=g.coordinates.map(function(poly){ return poly.map(anello); });
+  else return feat;
+  return {type:feat.type,properties:feat.properties,geometry:{type:g.type,coordinates:c}};
+}
+
 function setRegionBorder(regionKey,cb){
   var cfg=REGIONS[regionKey]||REGIONS.lombardia;
   var filterField=cfg.geojsonFilterField||null;
@@ -8034,7 +8097,7 @@ function setRegionBorder(regionKey,cb){
     if(regionBorders[regionKey]){map.removeLayer(regionBorders[regionKey]);delete regionBorders[regionKey];}
 
     if(feat){
-      var layer=L.geoJSON(feat,{
+      var layer=L.geoJSON(perDisegno(feat),{   // disegno semplificato; i conti sotto (regionRings) col confine intero
         // Il tratteggio della Svizzera (confine di stato) resta anche sul bordo
         // disegnato durante l'analisi, così l'identità non sparisce coi dati.
         style:{color:'#1b3f6e',weight:1.5,opacity:0.6,fill:false,
@@ -8177,6 +8240,9 @@ function aggiornaConfPulse(rk){
 // Si ferma a movestart/zoomstart e a moveend riparte da dove era, tutti i confini con lo stesso inizio: respiroT0 lo
 // passa anche ad aggiornaConfPulse, cosi' un confine che riceve la classe dopo batte insieme agli altri.
 var respiroT0=0;
+// e il respiro fatto sul pannello (8/11/2026, vedi «IL RESPIRO SI FA SUL PANNELLO» nel CSS) si ferma uguale, con una classe
+map.on('movestart zoomstart',function(){ map.getContainer().classList.add('respiro-fermo'); });
+map.on('moveend zoomend',function(){ map.getContainer().classList.remove('respiro-fermo'); });
 (function(){
   if(!document.timeline) return;
   var fermo=null, ferme=[];
@@ -9225,7 +9291,7 @@ function buildRegionSelector(){
       });
       if(!feat) return;
       feat=scartaIsoleFuoriQuadro(feat,cfg);   // stesso contorno del bordo d'analisi
-      var layer=L.geoJSON(feat,{style:selStyle(selIsOn(rk),rk)}).addTo(map);
+      var layer=L.geoJSON(perDisegno(feat),{style:selStyle(selIsOn(rk),rk)}).addTo(map);   // semplificato: vedi perDisegno
       // ⚠️ CON UNA SCHEDA APERTA IL CLIC LA CHIUDE E BASTA (19/9/2026, segnalato
       // dall'utente: «se c'e' la heat deseleziona la regione, non il popup»).
       // Questo poligono ferma il clic, quindi map.on('click') non lo vedeva mai:
@@ -17871,7 +17937,11 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function escH(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function map(){ return window._mapDebug; }
   function regioni(){ return window._regioniAttive?window._regioniAttive():[]; }
-  function tel(){ return window.innerWidth<=900; }
+  // ⚠️ matchMedia e non innerWidth (8/11/2026, scheda 127 bis, analisi notturna punto 2): innerWidth letto dopo una modifica
+  // della pagina obbliga il browser a ricalcolare l'impaginazione (profilo al telefono: 0,6 s su tre zoom solo qui); la
+  // domanda CSS dice la stessa cosa (larghezza della finestra fino a 900) ed e' sempre aggiornata, anche girando il telefono
+  var MQ_TEL=window.matchMedia?window.matchMedia('(max-width:900px)'):null;
+  function tel(){ return MQ_TEL?MQ_TEL.matches:window.innerWidth<=900; }
   // il telefono girato: riquadro e scheda in una colonna a sinistra (vedi «IL TELEFONO GIRATO» nel CSS), 30/10/2026
   var COLONNA=330;
   function oriz(){ try{ return tel()&&!(window._schermoDritto&&window._schermoDritto())&&matchMedia('(max-height:500px) and (orientation:landscape)').matches; }catch(e){ return false; } }   // schermo dritto: vedi «IL TELEFONO DRITTO CON LA TASTIERA» in cima
@@ -18263,7 +18333,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     // la pillola della vetrina scende in fondo al riquadro (sul telefono vive nel pannello dello storico, qui nascosto)
     pillolaNelRiquadro(tel());
     posiziona();
-    if(!gruppo){ gruppo=L.layerGroup().addTo(map()); map().on('zoomend',lontano); map().on('zoomend moveend',dirada); map().on('zoomend',viFondo); }
+    if(!gruppo){ gruppo=L.layerGroup().addTo(map()); map().on('zoomend',lontano); map().on('moveend',dirada);   /* solo moveend (8/11/2026, scheda 127 bis): dopo uno zoom Leaflet manda zoomend E moveend, e si diradava due volte di fila */ map().on('zoomend',viFondo); }
     sorveglia(true);
     /* IL PAESE SCELTO NELLO STORICO (suo, 7/10 sera): cercato un paese, il sito sceglie le regioni e aspetta le
        date; se a quel punto si passa alle previsioni, il paese c'e' evidenziato con la sua scheda aperta, e
@@ -18538,9 +18608,14 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
        un'icona gia' messa, un riquadro o il banner si nasconde e ricompare ingrandendo; si misura l'icona sola, che e'
        quella che si vede e non cambia misura col giorno (le etichette coi nomi si, e Aosta andava e veniva). */
     if(it) presi.push.apply(presi,[el('vi-nastro')].filter(function(e){ return e&&e.style.display!=='none'&&e.offsetHeight; }).map(function(e){ return e.getBoundingClientRect(); }));
-    gruppo.eachLayer(function(l){ var e=l.getElement&&l.getElement(), d=e&&e.firstChild; if(!d) return;
-      e.style.visibility=''; if(!it) return;
-      var r=(d.classList.contains('vi-ico')?d.firstChild:d).getBoundingClientRect(); if(presi.some(function(p){ return tocca(p,r); })) e.style.visibility='hidden'; else presi.push(r); });
+    // ⚠️ prima tutte le scritture, poi tutte le letture (8/11/2026, scheda 127 bis: vedi «PRIMA TUTTE LE SCRITTURE» in
+    // veDirada): visibility non cambia le misure, quindi stesso risultato con un solo ricalcolo dell'impaginazione
+    var lista=[];
+    gruppo.eachLayer(function(l){ var e=l.getElement&&l.getElement(), d=e&&e.firstChild; if(d) lista.push([e,d]); });
+    lista.forEach(function(x){ x[0].style.visibility=''; });
+    if(!it) return;
+    var misure=lista.map(function(x){ var d=x[1]; return (d.classList.contains('vi-ico')?d.firstChild:d).getBoundingClientRect(); });
+    lista.forEach(function(x,i){ var r=misure[i]; if(presi.some(function(p){ return tocca(p,r); })) x[0].style.visibility='hidden'; else presi.push(r); });
   }
   /* LA CARTINA SENZA NOMI DELLA VISTA ITALIA (28/10/2026; suo: «le nuvole non staccano, e le icone coprono i nomi delle
      citta'»; 3B, ilMeteo e Meteo.it usano tutti una cartina senza scritte). Mare da Esri Ocean Base, sopra
@@ -18918,9 +18993,18 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     // allargata di uno scatto o piu' oltre l'inquadratura: i capoluoghi di REGIONE passano davanti a quelli di provincia
     // (vedi «ALLARGANDO SI VEDONO I CAPOLUOGHI DI REGIONE» in veCandidati: a zoom 6 Como e Cremona toglievano il posto a Torino e Bologna)
     var m0=map(); if(VE.z0&&m0&&m0.getZoom()<=VE.z0-1) tutte.sort(function(a,b){ return (b._ve.capitale||b._ve.capreg?1:0)-(a._ve.capitale||a._ve.capreg?1:0); });
+    /* ⚠️ PRIMA TUTTE LE SCRITTURE, POI TUTTE LE LETTURE (8/11/2026, scheda 127 bis, analisi notturna punto 2, suo «falli
+       tutti»). Prima ogni etichetta veniva rimessa a posto (visibile, senza su/giu) e SUBITO misurata: ogni misura dopo una
+       scrittura obbligava il browser a ricalcolare l'impaginazione di tutta la pagina, fino a 200 volte per giro. Al
+       telefono (CPU x4) un pizzico nelle previsioni della Toscana bloccava la mappa fino a 0,6 s: nel profilo 8,9 s su 16,6
+       erano getBoundingClientRect qui dentro. Ora si rimettono a posto tutte, si misurano tutte in un colpo (l._r0) e metti()
+       usa la misura. Stesso risultato: su/giu sono un transform della sola etichetta e visibility non cambia le misure,
+       quindi la posizione di ognuna non dipende da cosa e' successo alle altre. */
+    tutte.forEach(function(l){ var e=l.getElement(), d=e&&e.firstChild; if(!d) return; e.style.visibility=''; d.classList.remove('su','giu'); });
+    tutte.forEach(function(l){ var e=l.getElement(), d=e&&e.firstChild; l._r0=d?d.getBoundingClientRect():null; });
     var metti=function(l,scosta){ var e=l.getElement(), d=e&&e.firstChild; if(!d) return true;
-      e.style.visibility=''; d.classList.remove('su','giu');
-      var cp=l._ve.cap||l._ve.capitale||l._ve.capreg, m=cp?1:mg, r0=d.getBoundingClientRect(), r, g, pu, gp, ok=false, tiene=l._ve.cuore||d.classList.contains('scelto');
+      e.style.visibility=''; d.classList.remove('su','giu');   // per i capoluoghi che riprovano scostati (seconda passata): qui solo scritture
+      var cp=l._ve.cap||l._ve.capitale||l._ve.capreg, m=cp?1:mg, r0=l._r0||d.getBoundingClientRect(), r, g, pu, gp, ok=false, tiene=l._ve.cuore||d.classList.contains('scelto');
       var tocca=function(a){ if(cp&&a.cp) a=a.r; return [g,gp].some(function(q){ return q&&!(q.right<a.left||q.left>a.right||q.bottom<a.top||q.top>a.bottom); }); };   // capoluogo contro capoluogo basta 1 px
       // il cercato e il paese della scheda non cedono il posto agli altri, ma sotto un riquadro o fuori dalla mappa si
       // nascondono anche loro (difetto 10: Calizzano mezzo sotto la casella di ricerca); e chi non ha risposto (null) non
@@ -19664,7 +19748,11 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   var SOGLIA=1, VICINO_KM=10;
   var DOPPIE={'piemonte-vda':['piemonte','valledaosta'],'trentino-aa':['trentino','altoadige']};   // le voci della tendina che sono due regioni
   function el(id){ return document.getElementById(id); }
-  function tel(){ return window.innerWidth<=900; }
+  // ⚠️ matchMedia e non innerWidth (8/11/2026, scheda 127 bis, analisi notturna punto 2): innerWidth letto dopo una modifica
+  // della pagina obbliga il browser a ricalcolare l'impaginazione (profilo al telefono: 0,6 s su tre zoom solo qui); la
+  // domanda CSS dice la stessa cosa (larghezza della finestra fino a 900) ed e' sempre aggiornata, anche girando il telefono
+  var MQ_TEL=window.matchMedia?window.matchMedia('(max-width:900px)'):null;
+  function tel(){ return MQ_TEL?MQ_TEL.matches:window.innerWidth<=900; }
   function P(){ return window._pioggiaPer; }
   function escH(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function virgola(v){ return v<10?String(Math.round(v*10)/10).replace('.',','):String(Math.round(v)); }
@@ -19928,7 +20016,11 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   var APERTI_MS=5000, RIAPERTI_MS=8000, RIQUADRI=['legend-panel','time-panel','pv-det','pv-pan','vi-nastro','pg-nastro'];
   var mp=null, btn=null, tChiudi=0, rAF=0, ro=null;
   function el(id){ return document.getElementById(id); }
-  function tel(){ return window.innerWidth<=900; }
+  // ⚠️ matchMedia e non innerWidth (8/11/2026, scheda 127 bis, analisi notturna punto 2): innerWidth letto dopo una modifica
+  // della pagina obbliga il browser a ricalcolare l'impaginazione (profilo al telefono: 0,6 s su tre zoom solo qui); la
+  // domanda CSS dice la stessa cosa (larghezza della finestra fino a 900) ed e' sempre aggiornata, anche girando il telefono
+  var MQ_TEL=window.matchMedia?window.matchMedia('(max-width:900px)'):null;
+  function tel(){ return MQ_TEL?MQ_TEL.matches:window.innerWidth<=900; }
   function att(){ return mp&&mp.querySelector('.leaflet-control-attribution'); }
   function visibile(e){ if(!e) return null; var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return null;
     var r=e.getBoundingClientRect(); return r.width>0&&r.height>0?r:null; }

@@ -1905,3 +1905,42 @@ suo «va bene 4 e 7». Attrezzi e misure in `analisi-127bis\` (banco).
   identica al repo, `/previsioni/` con le stesse modifiche (preconnect jsDelivr, niente ArcGIS, `filter:none` +
   text-shadow). Misurato online senza intercettare niente (`fluidita.js prev-italia-pc`, Chrome visibile): trascinando
   la vista Italia **59 fps** (prima 30), rotellina 52-55 (prima 48-51), zoom animato 56 (prima 51-52), ferma 60.
+
+## Etichette del meteo, testata del telefono, respiro e confini più leggeri (8/11/2026, scheda 127 bis, analisi notturna)
+
+Punti 2, 3 (parte mappa), 5 e 6 del resoconto `D:\video youtube\claudio\analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`,
+suo «falli tutti». Il punto 1 (commenti fuori dalla copia pubblicata) lo fa la 127 ter nello script di pubblicazione; la
+parte PAGINE del punto 3 (funghi, meteo, zone che saltano caricando) la 127 nei generatori. Attrezzi in `analisi-127bis\`.
+- **Punto 2, le etichette del meteo diradate in un colpo.** Nelle previsioni di regione al telefono (CPU ×4) ogni
+  pizzico bloccava la mappa fino a 0,6-0,8 s: nel profilo 8,9 s su 16,6 erano `getBoundingClientRect` dentro
+  `veDirada`/`metti`, che per ogni etichetta scrivevano lo stile e subito misuravano (un ricalcolo dell'impaginazione per
+  etichetta). Ora `veDirada` e `dirada` rimettono a posto tutte le etichette, le misurano tutte insieme (`l._r0`) e poi
+  decidono (vedi «PRIMA TUTTE LE SCRITTURE, POI TUTTE LE LETTURE»). In più: `tel()` (tre copie) usa
+  `matchMedia('(max-width:900px)')` invece di `innerWidth`, che forzava anch'esso il ricalcolo (0,6 s); `dirada` agganciata
+  solo a `moveend` (dopo uno zoom Leaflet manda zoomend E moveend: si diradava due volte). Prova `prova-etichette.js`
+  (9 viste × 3 schermi × 5 zoom, pagina vera contro nuova, un giro di diradamento uguale prima della foto):
+  **135 su 135 identiche**, chi si vede, chi no, chi scostato su o giù. Al telefono, previsioni Toscana: pizzico dentro
+  da 11-19 a 30 fps, blocco più lungo da 0,6-0,8 a 0,27 s; pizzico fuori da 45 a 60 fps.
+- **Punto 3, la testata del telefono ferma.** Al telefono la testata nasceva di 46 px, diventava 38 quando il browser
+  arrivava alla regola «TELEFONO PIU' COMPATTO» (a metà pagina) e 44 quando le previsioni montavano le schede
+  Storico/Previsioni (`con-sezioni`): tre altezze nei primi secondi, e mappa e barra della regione che si spostavano.
+  Ora in testa (fine del primo `<style>`, «L'ALTEZZA FINALE DELLA TESTATA FIN DAL PRIMO DISEGNO») le misure finali
+  valgono da subito: 38 px fino a 900 di larghezza, 44 fino a 600. CLS (`spostamenti.js`, telefono 4G lento): `/` da
+  0,50 a 0,22, `/?r=toscana&g=1` da 0,51 a 0,34, `/previsioni/` da 0,10 a 0,03. Resta il riquadro dei periodi che si apre
+  e cresce dopo 2-3 s (0,17): da guardare a parte.
+- **Punto 5, il respiro dei confini sul pannello.** `confPulse` cambiava riempimento e bordo di ogni confine e il browser
+  ridipingeva tutto a ogni fotogramma: all'apertura al PC (nessuna regione scelta) 54 fps da ferma, 27-28 con la
+  rotellina. Ora (CSS «IL RESPIRO SI FA SUL PANNELLO») i confini che respirano stanno fermi al massimo (.16 e 1) e
+  respira l'opacità di tutto il loro `<svg>`, .55-1: il bordo va da .55 a 1 come prima, il riempimento da .09 invece di
+  .04 a .16. Stesse eccezioni di prima (radar, boschi, temperature, previsioni non vuote o d'Italia, apre-prev, movimento
+  ridotto) scritte nei `:not()`; col mouse sopra un confine il pannello si ferma pieno; fermo nel moto con
+  `#map.respiro-fermo` (stessi agganci del 4/11). Browser senza `:has()`: resta confPulse com'era. ⚠️ Un'eccezione
+  nuova del respiro va aggiunta anche lì. Misurato (Chrome visibile, riscaldato): ferma 54 → 60, rotellina 27-28 →
+  47-53, trascinando 43 → 59, zoom animato 29 → 55. Stati controllati vero contro nuovo (`prova-respiro2.js`): previsioni
+  d'Italia e regione scelta identici; radar e boschi senza regione non partono né prima né ora (chiedono una regione).
+- **Punto 6, i confini disegnati semplificati.** `perDisegno(feat)`: Douglas-Peucker a 0,0001° (~11 m), da 70.908 a
+  40.028 punti (-44%), solo per DISEGNARE (`setRegionBorder` e il selettore); i conti «dentro o fuori» (`regionRings`,
+  pipGeo) usano sempre il confine intero. Foto prima/dopo (`foto-confini.js`, `differenza-foto.js`): allo zoom 12-14
+  0,03-0,13% di pixel diversi, solo sfumature dentro il tratto. Al PC i blocchi a ogni zoom calano di circa un quarto;
+  sull'apertura conta il respiro, non i punti.
+- Controllo finale: stati della mappa vera e nuova in 10 scene × PC e telefono (`prova-senza-commenti.js` con `INDICE=`).
