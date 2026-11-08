@@ -360,7 +360,7 @@ h1{font-size:14px;font-weight:600;white-space:nowrap}
   #reg-sheet .gb-nota{color:#ffc8c2;}
   #reg-sheet #geo-btn.attesa .gb-nota{color:#b9d0ec;}
   /* ⚠️ Sul foglio blu un anello blu non si vede: qui e' bianco. */
-  #reg-sheet #geo-btn.loc-chiama{animation:geo-anello-pulsa-blu 1.7s ease-in-out infinite;}
+  #reg-sheet #geo-btn.loc-chiama{animation:geo-anello-pulsa-blu 1.7s ease-in-out 5 forwards;}   /* 5 giri: vedi «LE CHIAMATE PULSANO 5 VOLTE» */
   @keyframes geo-anello-pulsa-blu{
     0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.55);}
     50%{box-shadow:0 0 0 6px rgba(255,255,255,0);}}
@@ -449,7 +449,7 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    chiamata di sempre, sul fondo blu, non si vedrebbe. Pulsa finche' non
    scegli una regione o un paese (28/9/2026, sua richiesta); mentre scrivi
    si ferma, e se esci senza scegliere riparte. */
-#hint-cerca-slot #loc-input.loc-chiama{animation:loc-cartello-pulsa 1.7s ease-in-out infinite;}
+#hint-cerca-slot #loc-input.loc-chiama{animation:loc-cartello-pulsa 1.7s ease-in-out 5 forwards;}   /* 5 giri: vedi «LE CHIAMATE PULSANO 5 VOLTE» qui sotto */
 #hint-cerca-slot #loc-input.loc-chiama:focus{animation:none;}
 @keyframes loc-cartello-pulsa{
   0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}
@@ -467,7 +467,17 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    regione sulla mappa, oppure la casella (basta il fuoco, l'ha vista).
    ⚠️ Il respiro e' sul BORDO, non sull'opacita' del testo: un placeholder
    che sfarfalla si legge male e sembra un guasto. */
-#loc-input.loc-chiama{animation:loc-bordo-pulsa 1.7s ease-in-out infinite;}
+/* ⚠️ LE CHIAMATE PULSANO 5 VOLTE E POI SI FERMANO (8/11/2026, scheda 128 bis, analisi notturna punto 8, sua scelta «A: si
+   fermano dopo 8 s»). Pulsavano per sempre: la casella e il tasto della posizione (qui), «Lombardia ▼» e la casella
+   delle previsioni (loc-bordo-pulsa), il «new» della linguetta Previsioni, del Satellite della riga e dei boschi
+   (newPulsa). Animano ombre e bordi, che la scheda grafica non sa fare da sola: il browser li ridisegnava a ogni
+   fotogramma, 60 volte al secondo, anche a mappa ferma. Al telefono (CPU ×4) processore occupato 11,6 s su 20 a mappa
+   ferma, 0,1 s con le pulsazioni ferme (proposte-128bis\attrezzi\mappa-ferma.js). Ora 5 giri (8-8,5 s) e `forwards`:
+   restano sull'ultimo fotogramma, che e' quello fermo della pulsazione (bordo e ombra di base), quindi niente scatto.
+   Si riaccendono come prima quando la classe torna (uscendo dalla casella senza scegliere, il «new» che ricompare).
+   Il pallino della cassetta (casOnda) resta com'e': trasformazione e opacita', le fa la scheda grafica. Una chiamata
+   NUOVA che anima ombre o bordi: anche lei a giri contati. */
+#loc-input.loc-chiama{animation:loc-bordo-pulsa 1.7s ease-in-out 5 forwards;}
 @keyframes loc-bordo-pulsa{
   0%,100%{border-color:#d0d8e8;box-shadow:0 0 0 0 rgba(27,63,110,.42),0 2px 10px rgba(0,0,0,.13);}
   50%{border-color:#1b3f6e;box-shadow:0 0 0 6px rgba(27,63,110,0),0 2px 10px rgba(0,0,0,.13);}}
@@ -478,7 +488,7 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
    bordo: cosi' regge qualunque colore gli si dia domani. La classe la
    mettono nello STESSO istante (vedi locAvvia), se no vanno fuori fase e
    il respiro doppio da' l'idea di due cose scollegate. */
-#geo-btn.loc-chiama{animation:geo-anello-pulsa 1.7s ease-in-out infinite;}
+#geo-btn.loc-chiama{animation:geo-anello-pulsa 1.7s ease-in-out 5 forwards;}   /* 5 giri come la casella: «o tutti e due o nessuno» */
 @keyframes geo-anello-pulsa{
   0%,100%{box-shadow:0 0 0 0 rgba(27,63,110,.42);}
   50%{box-shadow:0 0 0 6px rgba(27,63,110,0);}}
@@ -13186,7 +13196,7 @@ function loadDefaultMarkers(){
 #bo-sat-btn::after{content:'new';position:absolute;top:-6px;right:-4px;
   background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;
   padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;
-  animation:newPulsa 1.6s ease-in-out infinite}
+  animation:newPulsa 1.6s ease-in-out 5 forwards}   /* 5 giri (8 s), poi fermo: vedi «LE CHIAMATE PULSANO 5 VOLTE» in testa (8/11/2026, 128 bis) */
 /* il «new» pulsa (2/10/2026, suo): si gonfia appena e manda un alone rosso */
 @keyframes newPulsa{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(225,43,43,.6)}
   50%{transform:scale(1.18);box-shadow:0 0 0 5px rgba(225,43,43,0)}}
@@ -17260,7 +17270,7 @@ body.modo-radar .rd-coppia.con-sat,body.modo-boschi .rd-coppia.con-sat{grid-temp
 body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi #time-panel .rd-coppia.con-sat > #btn-sat-riga{display:none !important}   /* piu' forte della regola «niente a capo» qui sotto */
 #btn-sat-riga{position:relative}
 #btn-sat-riga::after{content:'new';position:absolute;top:-6px;right:-4px;background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;
-  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out infinite}
+  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out 5 forwards}   /* 5 giri: «LE CHIAMATE PULSANO 5 VOLTE» */
 @media (prefers-reduced-motion:reduce){#btn-sat-riga::after{animation:none}}
 /* in un terzo di riga «🌧️ Radar pioggia» andava a capo (41 → 60 px): niente a capo, margini stretti, un filo piu' piccolo */
 #time-panel .rd-coppia.con-sat > *{display:flex !important;align-items:center;justify-content:center;gap:4px;white-space:nowrap;
@@ -17622,7 +17632,7 @@ body.con-sezioni header .hdr-l{align-self:stretch;gap:6px}
    quando le previsioni sono accese, come quello delle temperature */
 #sez-prev{position:relative}
 #sez-prev::after{content:'new';position:absolute;top:3px;right:2px;background:#e12b2b;color:#fff;font-size:8.5px;font-weight:700;
-  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out infinite}
+  letter-spacing:.3px;padding:1px 4px;border-radius:6px;line-height:1.35;pointer-events:none;animation:newPulsa 1.6s ease-in-out 5 forwards}   /* 5 giri: «LE CHIAMATE PULSANO 5 VOLTE» */
 #sez-prev.on::after{display:none}
 @media (prefers-reduced-motion:reduce){#sez-prev::after{animation:none}}
 @media(max-width:600px){
@@ -17714,7 +17724,7 @@ body.modo-prev.pv-italia #map path.conf-pulse{animation:none !important;fill-opa
 /* la scheda del canale (computer) resta nelle previsioni, ma non sotto la tabella di un posto */
 .modo-prev.pv-det-aperto #channel-logo{display:none !important}
 @media(min-width:601px){body.tq-on.modo-prev:not(.pv-det-aperto) #channel-logo:not(.prevetrina){display:block !important}}
-body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-in-out infinite !important}   /* !important: la regola della 75 spegne con !important le pulsazioni dello storico */
+body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:loc-bordo-pulsa 1.7s ease-in-out 5 forwards !important}   /* !important: la regola della 75 spegne con !important le pulsazioni dello storico. 5 giri: «LE CHIAMATE PULSANO 5 VOLTE» */
 @media(prefers-reduced-motion:reduce){body.modo-prev.pv-vuoto #reg-apri,body.modo-prev.pv-vuoto #pv-pan #loc-input{animation:none !important}}
 /* ── i capoluoghi sulla mappa ── */
 .pv-ic{background:none;border:none}
@@ -17874,7 +17884,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   body.tq-on.modo-prev #pv-pan #channel-pill:not(.prevetrina){display:flex !important}
   body.tq-on.modo-prev #pv-pan #channel-pill.cp-social:not(.prevetrina){display:block !important}
   /* la barra in alto respira finche' non si sceglie una regione o un paese, come la casella nello storico */
-  body.modo-prev.pv-vuoto #reg-apri{animation:loc-bordo-pulsa 1.7s ease-in-out infinite}
+  body.modo-prev.pv-vuoto #reg-apri{animation:loc-bordo-pulsa 1.7s ease-in-out 5 forwards}   /* 5 giri: «LE CHIAMATE PULSANO 5 VOLTE» */
   /* l'invito senza scelte e' un FUMETTO sotto la barra, che e' quella da toccare (variante C, suo 8/10): in fondo diceva «qui sopra» da lontano */
   #pv-fumetto{position:fixed;left:14px;right:14px;z-index:1500;background:#1b3f6e;color:#fff;border-radius:10px;padding:10px 12px;
     font:600 14px Helvetica,Arial,sans-serif;line-height:1.35;box-shadow:0 4px 12px rgba(0,0,0,.25);cursor:pointer;display:none}

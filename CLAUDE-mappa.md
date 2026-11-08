@@ -2028,3 +2028,31 @@ il CLS 0,17 rimasto sulla mappa al telefono dopo la testata ferma della 127 bis.
   telefono `/` 0,004 (due giri), `/previsioni/` 0,003, `/?r=toscana&g=1` 0,092, radar 0,057 (il resto è il riquadro del
   radar che cresce montando la linea del tempo, non i crediti); `stati-mappa.js` sul sito vero 33 uguali e 7 nel rumore,
   crediti visibili in 30 scene strette su 30, nessun errore.
+
+## Le pulsazioni dei tasti si fermano dopo 5 giri (8/11/2026, scheda 128 bis)
+
+Dall'analisi notturna, punto 8 («giri a tempo sempre accesi»), rimisurato dalla 128 bis: i giri a tempo costano 16-70 ms
+di JavaScript in 20 s, niente; il lavoro a mappa ferma lo facevano le **pulsazioni CSS**. Proposta in
+`D:\video youtube\claudio\proposte-128bis\PROPOSTE.md` (6a), sua scelta «A: si fermano dopo 8 s».
+- **La causa.** `mappa-ferma.js` (20 s senza toccare niente, telefono CPU ×4, contatori di Chrome) e
+  `animazioni-accese.js` (`document.getAnimations()` a mappa pronta): il browser ricalcolava gli stili 60 volte al
+  secondo in tutte le scene, anche dove il JavaScript non faceva niente. Erano le chiamate che pulsavano per sempre
+  animando **ombre e bordi** (`box-shadow`, `border-color`), che la scheda grafica non sa fare da sola: `newPulsa` (il
+  «new» di `#sez-prev`, `#btn-sat-riga`, `#bo-sat-btn`), `loc-bordo-pulsa` (la casella, «Lombardia ▼» e la casella
+  delle previsioni), `loc-cartello-pulsa` (la casella nel cartello blu) e le gemelle `geo-anello-pulsa(-blu)` del tasto
+  della posizione («o pulsano tutti e due o nessuno», 26/8). Il «new» del Satellite girava anche nelle previsioni al PC,
+  dove il tasto non si vede.
+- **Cosa cambia:** le nove righe da `infinite` a `5 forwards` (8-8,5 s), con il commento «LE CHIAMATE PULSANO 5 VOLTE E
+  POI SI FERMANO» accanto a `loc-bordo-pulsa`. `forwards` lascia l'ultimo fotogramma, che è quello fermo della
+  pulsazione: **0 pixel diversi** fra la pagina di prima fermata sul fotogramma 0 e la nuova dopo i 5 giri, in 7 foto
+  (PC e telefono, mappa e previsioni; `foto-pulsazioni.js` + `differenza-foto.js` della 127 bis). Si riaccendono come
+  prima quando la classe torna (uscendo dalla casella senza scegliere, il «new» che ricompare). Restano com'erano il
+  pallino della cassetta (`casOnda`: trasformazione e opacità, leggero), il respiro dei confini al PC (`confRespiro`,
+  già sull'opacità del pannello dalla 127 bis), la guida a lampeggio del PC (`panelPulse`, non nella sua lista), le
+  rotelle di caricamento e le finestre «Novità».
+- **Misure, telefono CPU ×4, 20 s a mappa ferma** (main contro nuova, servite allo stesso modo): `/` **9,8 s → 0,27 s**
+  di processore occupato; boschi 11,1 → 0,29; radar 9,3 → 1,7 (resta l'animazione del radar); pioggia ieri 11,6 → 10,2
+  e previsioni 10,5-11,4 → 9,7-10,0: lì resta il **nastro che scorre** (la barra delle città, il banner del meteo),
+  mosso dal JavaScript a ogni fotogramma, proposta a parte (6a in PROPOSTE.md). Stati della mappa (`stati-mappa.js`, 40
+  scene): 34 uguali, 6 nel rumore, nessun errore.
+- ⚠️ Una chiamata NUOVA che anima ombre o bordi va messa anche lei a giri contati.
