@@ -969,6 +969,15 @@ function clientePagina(C) {
     var px = 12, sz = m.getSize(), occupato = [], misura = document.createElement('canvas').getContext('2d');
     misura.font = '600 ' + px + 'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
     if (C.ant.qui) { var cq = m.latLngToContainerPoint([C.ant.qui.lat, C.ant.qui.lon]); occupato.push({ x1: cq.x - 9, y1: cq.y - 9, x2: cq.x + 9, y2: cq.y + 9 }); }
+    // il NOME DEL PAESE sopra il segnalino (8/11/2026, scheda 128 quater, suo: «perché non metti il nome del paese più
+    // vicino al segnalino?», Castelnuovo nella Garfagnana, Sassello nel suo paese): per primo, come la citta' nella sua
+    // pagina «adesso», stesso stile; 4 px piu' su degli altri nomi, se no tocca il pallino. Le citta' gli girano intorno.
+    if (C.ant.qui && C.ant.qui.n) {
+      var wq = misura.measureText(C.ant.qui.n).width + 44;
+      occupato.push({ x1: cq.x - wq / 2, y1: cq.y - px - 29, x2: cq.x + wq / 2, y2: cq.y - 9 });
+      L.marker([C.ant.qui.lat, C.ant.qui.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
+        html: '<span style="font-size:' + px + 'px;margin-top:-9px">' + esc(C.ant.qui.n) + '</span>' }) }).addTo(m);
+    }
     (C.ant.nomi || []).forEach(function (p) {
       var pt = m.latLngToContainerPoint([p.lat, p.lon]), tw = misura.measureText(p.n).width;
       if (pt.x - tw / 2 < 3 || pt.x + tw / 2 > sz.x - 3 || pt.y - px - 8 < 26 || pt.y > sz.y - 6) return;
@@ -1054,7 +1063,8 @@ function clientePagina(C) {
      pagine sorelle dello stesso posto (zone piogge, funghi) usano il ritaglio di lib-striscia.js. Lo stesso conto: il
      .json dell'immagine dice zoom e pixel mondo dell'angolo in alto a sinistra, la valle sta al centro a ~0,3 km per
      pixel, il paese a ~0,2 (con lo stesso tetto di 1,1 delle strisce, oltre i pallini sgranano), e l'immagine copre
-     sempre il riquadro. Il segnalino rosso e' quello del radar (C.ant.qui), sulla valle e sul paese. Senza qui o senza i
+     sempre il riquadro. Il segnalino rosso e' quello del radar (C.ant.qui), col nome: nelle valli il paese principale
+     (Castelnuovo di Garfagnana), nelle pagine di paese il paese. Senza qui o senza i
      numeri nel .json resta la regione intera di prima. Si rifa' se il riquadro cambia misura (telefono girato). */
   function ritagliaPluvio(a, j) {
     var q = C.ant && C.ant.qui, tw = a.clientWidth, th = a.clientHeight;
@@ -1070,6 +1080,14 @@ function clientePagina(C) {
     if (!pin) { pin = document.createElement('i'); pin.className = 'ant-pin'; a.appendChild(pin); }
     pin.style.left = px.toFixed(1) + 'px'; pin.style.top = py.toFixed(1) + 'px';
     pin.style.display = px < 0 || px > tw || py < 0 || py > th ? 'none' : '';   // un posto fuori dall'immagine: niente segnalino
+    // e il NOME DEL PAESE sopra, come nel radar qui sopra (8/11/2026, scheda 128 quater); dentro il riquadro anche vicino al bordo
+    if (q.n) {
+      var nm = a.querySelector('span.ant-nome');
+      if (!nm) { nm = document.createElement('span'); nm.className = 'ant-nome'; nm.textContent = q.n; a.appendChild(nm); }
+      var meta = nm.offsetWidth / 2;
+      nm.style.left = Math.min(tw - meta - 3, Math.max(meta + 3, px)).toFixed(1) + 'px'; nm.style.top = py.toFixed(1) + 'px';
+      nm.style.display = pin.style.display;
+    }
   }
   function antPluvio() {
     var b = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? '/_anteprime-prova/' : 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/';
@@ -1147,6 +1165,7 @@ const CSS_ANT = `
 /* i nomi sopra la foto del riquadro radar, come nelle pagine «adesso» (8/11/2026, scheda 127) */
 /* il segnalino del riquadro «Pluviometri» ritagliato sul posto, come quello del radar qui sopra (8/11/2026, scheda 128 quater) */
 .pz-ant-v i.ant-pin{position:absolute;width:10px;height:10px;margin:-7px 0 0 -7px;border-radius:50%;background:#c8102e;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)}
+.pz-ant-v .ant-nome{position:absolute;transform:translate(-50%,-100%);margin-top:-9px;white-space:nowrap;color:#fff;font:600 12px/1.15 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
 .pz-ant-v .nome-paese{white-space:nowrap;pointer-events:none}
 .pz-ant-v .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
 /* le citta' dell'anteprima piu' piccole di quelle della mappa grande: e' un'anteprima, e cosi' ce ne stanno di piu' */
@@ -1228,8 +1247,11 @@ function pagina(z, QUOTE_DI) {
     diValle: 'della ' + VALLE, sat: SAT, foto: FOTO, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
-    // qui: il segnalino del riquadro radar, il centro della zona (funghi-zone.json; 8/11/2026, scheda 127)
-    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa), qui: { lat: z.lat, lon: z.lon },
+    // qui: il segnalino dei riquadri radar e pluviometri. Dall'8/11/2026 (scheda 128 quater, suo: «se apri la
+    // garfagnana dai le previsioni di castelnuovo e allora mettilo nella mappa») il PAESE PRINCIPALE della zona, il primo
+    // di paesi-zone.json, quello della scheda che si apre da sola, col suo nome accanto; prima il centro della zona
+    // (funghi-zone.json, scheda 127)
+    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa), qui: { lat: paesi[0].lat, lon: paesi[0].lon, n: paesi[0].n },
       nomi: require('./genera-pagine-adesso.js').nomiRadar(casa.k) }, ordineCitta(casa.k)) };
 
   return `<!DOCTYPE html>
