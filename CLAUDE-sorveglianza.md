@@ -512,3 +512,31 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
 - **L'esclusione resta a mano** (sua regola), e anche il rientro sulla mappa: il registro esce da solo, gli elenchi in
   `index.html` no.
 
+## La spia dei doppioni suona solo col picco sullo zero (8/11/2026, scheda 129 bis)
+
+- **Il falso allarme.** Mail di `check-doppioni.js` delle 11:45 dell'8/11: emilia, 6 stazioni con lo stesso valore il
+  6 e il 7/11 (su 310 bagnate), 34,5 mm. Era pioggia vera: due giorni di pioggia diffusa (2.802 e 2.065 mm sulla rete),
+  271 stazioni sopra 1 mm in tutti e due, pluviometri ARPAE a scatti di 0,2 (306 valori su 310). Differenze fra i due
+  giorni: a zero 6, a ±0,2 4 e 2, a ±0,4 7 e 6, nessun picco sullo zero; i vicini simili nei due giorni (Rontana
+  10,6 e 10,6, Monte Albano 10 e 9,2, Tebano 10,6 e 11,2). Il file del 7/11 nasce l'8/11 alle 4:30 dall'aggregato
+  giornaliero ARPAE e non cambia nei giri dopo: nessun giro serale che possa trascinare. L'Emilia non ha `i`, quindi il
+  testimone delle ore del 20/10 non poteva aiutare. E la stessa mail sarebbe tornata il 9/11: lo script guarda anche
+  la coppia di giorni prima.
+- **La regola nuova, `attesePerCaso()`.** Una copia mette tante stazioni a differenza zero; il caso ne mette a zero
+  piu' o meno quante a un passo o due dello strumento. Coppie = stazioni con almeno 1 mm in tutti e due i giorni;
+  `passo()` della rete = 1 o 0,2 se almeno l'80% dei valori lo e', se no 0,1; attese per caso = stazioni a uno o due
+  passi dallo zero, diviso 4. La mail parte se, oltre alla soglia di prima (5 stazioni o 30 mm), le uguali sono almeno
+  `PICCO_VOLTE` (3) volte le attese e almeno `PICCO_PIU` (4) in piu'. La mail scrive le attese accanto alle uguali, il
+  log «sopra la soglia ma senza picco sullo zero». `PICCO_VOLTE=0 PICCO_PIU=-99` = la regola di prima.
+- **Provata con lo script vero giorno per giorno**, dal 2/7 al 7/11 su tutte le cartelle, con la Toscana di
+  agosto-settembre letta com'era prima della riparazione (`e6ed9a13d0^`): **da 19 coppie con mail a 11, nessuna
+  nuova.** Restano i 7 giorni toscani malati (5-47 uguali contro 0-1,3 attese), l'Alto Adige del 31/7-3/8 (bug #18 di
+  ritorno) e il Piemonte del 24-25/8 (6 contro 0,8, mai guardato). Cadono emilia 6-7/11 e 7-8/10 (5 contro 1,3),
+  veneto 17-18/7 e 20-21/10, francia-occitania 20-21/8, lombardia 20-21/8 e 9-10/9, valledaosta-cf 24-25/8. Si perde la
+  mail per una o due stazioni grosse uguali sopra i 30 mm: col caso non si distinguono, e nessun giorno toscano malato
+  dipendeva da quella. Attrezzi nel banco: `proposte-129bis\prova-doppioni-129bis-80.js` (le due regole su tutto lo
+  storico) e `storico-script-vero-129bis.js` (lo script vero, GIORNO per GIORNO).
+- ⚠️ **Provandolo di giorno con `GIORNO=<oggi>` la Toscana suona sempre**: il file di oggi e' ancora quello del giorno,
+  con la finestra Δ24h piena della pioggia di ieri (l'8/11 alle 19, 7 uguali). Alle 11:45 il controllo guarda solo
+  giorni chiusi.
+

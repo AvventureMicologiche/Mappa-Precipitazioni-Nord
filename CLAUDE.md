@@ -218,6 +218,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
 - **La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)**: mail solo per buchi certi, 2 invece di 5
 - **Pluviometri fermi DA POCO: la terza porta, sorda negli ultimi 3 giorni di pioggia (8/11/2026, scheda 127)**: la porta dei 45 giorni li vedeva dopo un mese; prova a secco su tutti i lunedì, guardia della neve, rientro col campo `porta`, salta le escluse a mano
+- **La spia dei doppioni suona solo col picco sullo zero (8/11/2026, scheda 129 bis)**: `attesePerCaso()` e `passo()`, uguali almeno 3 volte le attese e 4 in più; falso allarme emilia 6-7/11; storico da 19 mail a 11, Toscana malata 7 su 7
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare (12 KB)
 

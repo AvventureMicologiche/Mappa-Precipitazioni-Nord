@@ -26,9 +26,12 @@
  * giorni. Su 40 giorni di tutte le regioni (agosto-settembre 2026) le
  * coincidenze vere non hanno mai superato 2 stazioni fuori dalla Toscana,
  * mentre i giorni malati toscani stavano a 5-47 stazioni e 48-566 mm.
+ * Dall'8/11/2026 la soglia da sola non basta: serve anche il PICCO SULLO ZERO
+ * (vedi sotto, `attesePerCaso`).
  *
  * Prova in locale:  node .github/scripts/check-doppioni.js          (ieri e l'altro ieri)
  *                   GIORNO=2026-09-18 node .github/scripts/check-doppioni.js
+ *                   PICCO_VOLTE=0 PICCO_PIU=-99 ...  = la regola di prima, senza picco
  * Senza GITHUB_OUTPUT non scrive output ne' mail .eml, stampa e basta.
  */
 'use strict';
@@ -40,6 +43,8 @@ const MIN_STAZ   = parseInt(process.env.MIN_STAZ || '5', 10);
 const MIN_MM     = parseFloat(process.env.MIN_MM || '30');
 const SOGLIA_MM  = 1;      // sotto, le coincidenze sono normali
 const COPPIE     = 2;      // quante coppie di giorni guardare all'indietro
+const PICCO_VOLTE = parseFloat(process.env.PICCO_VOLTE || '3');  // uguali almeno 3 volte le attese per caso
+const PICCO_PIU   = parseFloat(process.env.PICCO_PIU || '4');    // e almeno 4 in piu' delle attese
 
 const fmt = d => d.toISOString().slice(0, 10);
 /* ⚠️ LE ORE DI PIOGGIA FANNO DA TESTIMONE (20/10/2026). Le reti con la serie oraria scrivono anche
@@ -51,6 +56,39 @@ const fmt = d => d.toISOString().slice(0, 10);
    Toscana, Alto Adige e Trentino (le reti dei bug #17-#19) `i` non ce l'hanno: li' il controllo e' quello di prima. */
 const oreDiverse = (p, s) => Array.isArray(p.i) && Array.isArray(s.i) && (p.i[0] !== s.i[0] || Math.abs((+p.i[1] || 0) - (+s.i[1] || 0)) >= 0.05);
 const eStima = j => !!j && typeof j.source === 'string' && /open-meteo|icon-2i-gapfill/i.test(j.source);
+
+/* ⚠️ IL PICCO SULLO ZERO (8/11/2026, scheda 129 bis). Una COPIA mette tante stazioni a differenza
+   zero fra un giorno e l'altro; il CASO ne mette a zero piu' o meno quante a un passo o due dello
+   strumento (+-0,2 e +-0,4 mm per i pluviometri a scatti di 0,2). Nato dal falso allarme emilia
+   6-7/11/2026: due giorni di pioggia diffusa (271 stazioni sopra 1 mm in tutti e due), scatti di 0,2
+   mm, 6 uguali contro 4 e 2 a +-0,2 e 7 e 6 a +-0,4. L'Emilia `i` non ce l'ha, il testimone delle ore
+   non poteva aiutare. Le attese per caso = stazioni a uno o due passi dallo zero, diviso i quattro
+   passi; la mail parte se le uguali sono almeno PICCO_VOLTE volte le attese E PICCO_PIU in piu'.
+   Provato su tutte le cartelle dal 1/7 al 7/11/2026 (4.657 coppie, Toscana letta com'era prima della
+   riparazione del 30/9): i 7 giorni toscani malati (rapporto 19-128) e l'Alto Adige del 31/7-3/8
+   (bug #18 di ritorno) restano tutti; cadono 8 allarmi da 1-6 stazioni (emilia 6-7/11 e 7-8/10,
+   veneto 17-18/7 e 20-21/10, francia-occitania 20-21/8, lombardia 20-21/8 e 9-10/9, valledaosta
+   24-25/8), da 19 a 11. Si perde la mail per una o due stazioni grosse uguali sopra i 30 mm: col caso
+   non si distinguono, e nessun giorno toscano malato dipendeva da quella. */
+function passo(vals) {
+  const v = vals.filter(x => x > 0);
+  if (!v.length) return 0.1;
+  const multipli = q => v.filter(x => Math.abs(Math.round(x / q) * q - x) < 0.011).length / v.length;
+  if (multipli(1) >= 0.8) return 1;      // alcune Meteo-France, scatti di 1 mm
+  if (multipli(0.2) >= 0.8) return 0.2;  // ARPAE, ARPA Lombardia, ARPAV...
+  return 0.1;
+}
+function attesePerCaso(prima, b, chiave) {
+  const coppie = [];
+  for (const s of b.stations) {
+    const p = prima.get(chiave(s));
+    const x = p ? (+p.mm || 0) : 0, y = +s.mm || 0;
+    if (p && x >= SOGLIA_MM && y >= SOGLIA_MM) coppie.push([x, y]);
+  }
+  const q = passo(coppie.flat());
+  const vicine = coppie.filter(([x, y]) => { const d = Math.abs(y - x); return d > q - 0.011 && d < 2 * q + 0.011; }).length;
+  return { attese: vicine / 4, passo: q };
+}
 
 function leggi(regione, giorno) {
   const p = path.join(DATA_DIR, regione, giorno + '.json');
@@ -85,10 +123,14 @@ for (const r of regioni) {
       return !oreDiverse(p, s);
     });
     const mm = identiche.reduce((t, s) => t + (+s.mm || 0), 0);
-    if (identiche.length) console.log(`${r.padEnd(20)} ${giorni[i - 1]} -> ${giorni[i]}: ${identiche.length} identiche su ${bagnate.length} bagnate, ${mm.toFixed(1)} mm`);
-    if (identiche.length >= MIN_STAZ || mm >= MIN_MM) {
+    const { attese, passo: q } = attesePerCaso(prima, b, chiave);
+    if (identiche.length) console.log(`${r.padEnd(20)} ${giorni[i - 1]} -> ${giorni[i]}: ${identiche.length} identiche su ${bagnate.length} bagnate, ${mm.toFixed(1)} mm, attese per caso ${attese.toFixed(1)} (passo ${q})`);
+    const sopra = identiche.length >= MIN_STAZ || mm >= MIN_MM;
+    const picco = identiche.length >= PICCO_VOLTE * attese && identiche.length - attese >= PICCO_PIU;
+    if (sopra && !picco) console.log(`${''.padEnd(20)} sopra la soglia ma senza picco sullo zero: per caso, nessuna mail`);
+    if (sopra && picco) {
       identiche.sort((x, y) => (+y.mm || 0) - (+x.mm || 0));
-      allarmi.push({ regione: r, da: giorni[i - 1], a: giorni[i], n: identiche.length, bagnate: bagnate.length, mm, esempi: identiche.slice(0, 5).map(s => `${s.n || s.id} ${String(s.mm).replace('.', ',')}`) });
+      allarmi.push({ regione: r, da: giorni[i - 1], a: giorni[i], n: identiche.length, bagnate: bagnate.length, mm, attese, esempi: identiche.slice(0, 5).map(s => `${s.n || s.id} ${String(s.mm).replace('.', ',')}`) });
     }
   }
 }
@@ -104,15 +146,16 @@ if (!allarmi.length) {
 
 const vir = n => String(n).replace('.', ',');
 const righe = allarmi.map(x =>
-  `• ${x.regione}: ${x.n} stazioni con lo stesso valore il ${x.da} e il ${x.a} (su ${x.bagnate} bagnate), ${vir(x.mm.toFixed(1))} mm doppi.\n` +
+  `• ${x.regione}: ${x.n} stazioni con lo stesso valore il ${x.da} e il ${x.a} (su ${x.bagnate} bagnate; per caso se ne aspetterebbero ${vir(x.attese.toFixed(1))}), ${vir(x.mm.toFixed(1))} mm doppi.\n` +
   `  Per esempio: ${x.esempi.join('; ')}.`
 ).join('\n\n');
 
 const corpo =
 `In queste regioni la pioggia di un giorno si ritrova IDENTICA, al decimo, il
-giorno dopo, su piu' stazioni insieme. Una coincidenza vera sopra 1 mm capita
-su una o due stazioni, non su cinque: e' la firma della pioggia trascinata sul
-giorno dopo (bug #17, #18, #19). Il caso toscano di settembre 2026 si e'
+giorno dopo, su molte piu' stazioni di quante ne darebbe il caso (il metro
+sono le stazioni che cambiano di un passo o due dello strumento, 0,2-0,4 mm):
+e' la firma della pioggia trascinata sul giorno dopo (bug #17, #18, #19).
+Il caso toscano di settembre 2026 si e'
 presentato esattamente cosi' e nessuno l'ha visto per cinque settimane.
 
 ${righe}
