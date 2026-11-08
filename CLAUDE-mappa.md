@@ -1901,3 +1901,7 @@ suo «va bene 4 e 7». Attrezzi e misure in `analisi-127bis\` (banco).
   jsDelivr (con crossorigin), ArcGIS non più. Stati della mappa uguali alla vera (`prova-senza-commenti.js` con
   `INDICE=`, 10 scene × PC e telefono: 17 su 20 identici, gli altri 3 scene del telefono non ferme né con la vera né con
   la nuova, stessi pallini e stazioni), nessun errore.
+- **IN PRODUZIONE l'8/11/2026 alle 8:23** (`3bd0055b18`, deploy `4dcf9e15`, 26 file), suo «Sì, tutt'e due». Online `/`
+  identica al repo, `/previsioni/` con le stesse modifiche (preconnect jsDelivr, niente ArcGIS, `filter:none` +
+  text-shadow). Misurato online senza intercettare niente (`fluidita.js prev-italia-pc`, Chrome visibile): trascinando
+  la vista Italia **59 fps** (prima 30), rotellina 52-55 (prima 48-51), zoom animato 56 (prima 51-52), ferma 60.
