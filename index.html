@@ -1523,6 +1523,7 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
     gap:8px !important;
     flex-wrap:nowrap !important;
     overflow:hidden;
+    min-height:25px;   /* alta uguale da chiusa e da aperta (8/11/2026, scheda 128 bis): la «i» c'e' solo da aperta e la riga passava da 19,6 a 25 px, spostando di 5 px tutto il riquadro a ogni apertura */
   }
   /* Su telefono resta la sola ℹ️: il testo per esteso veniva troncato
      ("I dati escludono la gior…"). Toccando l'icona compare in un fumetto. */
@@ -1861,7 +1862,18 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
   html:root body #reg-sheet{top:44px}
   html:root body #region-panel{top:44px !important}
 }
+/* ⚠️ I CREDITI AL TELEFONO ASPETTANO IL RIQUADRO DEI PERIODI (8/11/2026, scheda 128 bis, analisi notturna punto 3, suo
+   «il punto 3»). Fino a 900 px i crediti stanno sopra i riquadri in basso (scheda 106), ma nascevano in fondo alla mappa,
+   dietro la striscia dei periodi, e lo script dei crediti (in fondo alla pagina) li portava sopra il riquadro aperto tutto
+   in una volta: un salto di ~280 px che Google conta anche se sta dietro un altro riquadro (CLS 0,13-0,17 sui 0,22 della
+   mappa al telefono). Ora nascono nascosti (html.cr-attesa, messa qui sotto) e compaiono una volta sola, al loro posto,
+   quando il riquadro si e' aperto ed e' fermo: vedi aspetta() nello script dei crediti. La scorta: dopo 6 s la classe la
+   toglie questo script stesso, qualunque cosa succeda dopo. */
+@media(max-width:900px){
+  html.cr-attesa #map .leaflet-control-attribution,html.cr-attesa #cr-i{display:none !important}
+}
 </style>
+<script>(function(){ try{ if(window.matchMedia&&matchMedia('(max-width:900px)').matches){ var d=document.documentElement; d.classList.add('cr-attesa'); setTimeout(function(){ d.classList.remove('cr-attesa'); },6000); } }catch(e){} })();</script>
 <!-- LINK ALLE PREVISIONI (?m=prev, 27/10/2026, suo: «prima mi flasha per qualche secondo la mappa pluviometrica e
      poi appare la pagina previsioni»). Le previsioni partono solo a mappa pronta, e fino a quel momento si vedeva lo
      storico: linguetta «Storico piogge» accesa, periodi, aiuto. Con un link alle previsioni la pagina nasconde da
@@ -11667,9 +11679,14 @@ if(_btnShot){
   // barra degli indirizzi, quindi chi la chiudeva a mano se la ritrovava aperta
   // al primo scorrimento. Ora il ripristino automatico vale solo passando dal
   // PC al telefono (rotazione, finestra ridimensionata).
-  var _mai=true;
+  var _mai=true, _attese=0;
   function initMobile(){
     if(isMobile()){
+      // ⚠️ SI APRE QUANDO E' COMPLETO (8/11/2026, scheda 128 bis, analisi notturna punto 3): a pagina letta tutta e con la
+      // riga «Radar | Boschi | Satellite» montata (la costruiscono gli script piu' avanti). Aprendosi prima, a meta' pagina,
+      // il riquadro saliva e POI si allungava di una riga e cambiava misura ai tasti (gli stili in fondo alla pagina):
+      // appoggiato al fondo, la sua cima saliva ancora (CLS). Si apre ~0,7 s piu' tardi al telefono lento delle prove. Tetto 3 s.
+      if(_mai&&(document.readyState==='loading'||!document.querySelector('#time-panel .rd-coppia.con-sat'))&&_attese++<20){ setTimeout(initMobile,150); return; }
       if(_mai){ tp.classList.add('open'); _mai=false; }
     }else{
       tp.classList.remove('open'); _mai=true;
@@ -20067,10 +20084,18 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
   // scheda, riquadro e banner del meteo e la barra della pioggia nascono dopo: si seguono quando ci sono
   function segui(){ RIQUADRI.forEach(function(id){ var e=el(id); if(!e||e._crSeguito) return; e._crSeguito=true;
     try{ if(ro) ro.observe(e); new MutationObserver(rimisura).observe(e,{attributes:true,attributeFilter:['class','style']}); }catch(x){} }); }
+  // ⚠️ MENTRE UN RIQUADRO SCORRE I CREDITI STANNO FERMI (8/11/2026, scheda 128 bis): a meta' corsa (periodi che si aprono,
+  // legenda che sale) si misurava un riquadro ne' aperto ne' chiuso e i crediti facevano due salti, o scendevano in fondo
+  // per un attimo. Ora si rimisura alla fine: transitionend, o fra 350 ms se la corsa si interrompe. Senza getAnimations
+  // (browser di prima del 2020) si misura come prima.
+  var tScorre=0;
+  function scorre(){ for(var i=0;i<RIQUADRI.length;i++){ var e=el(RIQUADRI[i]); if(!e||!e.getAnimations) continue;
+    var a=e.getAnimations(); for(var k=0;k<a.length;k++) if(a[k].playState==='running'&&a[k].transitionProperty==='transform') return true; } return false; }
   function misura(){
     rAF=0; if(!mp) return;
     segui();
     if(!tel()){ mp.style.removeProperty('--cr-giu'); mp.style.removeProperty('--cr-sx'); mp.classList.remove('cr-chiusi'); return; }
+    if(scorre()){ clearTimeout(tScorre); tScorre=setTimeout(rimisura,350); return; }
     var mt=mp.getBoundingClientRect(), lim=mt.bottom, sx=0;
     var rr=RIQUADRI.map(function(id){ return visibile(el(id)); }).filter(Boolean);
     rr.forEach(function(r){ if(r.width<=mt.width*0.6&&r.left<=mt.left+12&&r.bottom>=mt.bottom-2&&r.top<mt.bottom-40) sx=Math.max(sx,Math.round(r.right-mt.left)); });
@@ -20103,10 +20128,30 @@ html:root body:not(.modo-prev) #vic-riga{padding-left:0 !important;padding-right
     }catch(e){}
     document.addEventListener('transitionend',rimisura,true);
     window.addEventListener('resize',function(){ rimisura(); if(!tel()) mp.classList.remove('cr-chiusi'); });
-    misura(); apri(APERTI_MS);
+    misura();
+    if(document.documentElement.classList.contains('cr-attesa')) aspetta(); else apri(APERTI_MS);
+  }
+  // ⚠️ I CREDITI COMPAIONO A RIQUADRO FERMO (8/11/2026, scheda 128 bis; il perche' sta in testa alla pagina, «I CREDITI AL
+  // TELEFONO ASPETTANO IL RIQUADRO DEI PERIODI»). Si aspetta che il riquadro dei periodi si sia aperto da solo (fino a 600 px,
+  // initMobile), che la riga «Radar | Boschi | Satellite» ci sia e che i riquadri in basso stiano fermi per due giri da
+  // 150 ms; poi i soliti 5 secondi e la «i». Dove il riquadro dei periodi non c'e' (radar, boschi, previsioni al telefono)
+  // basta che i riquadri stiano fermi. Tetto 4,5 s, e la scorta di 6 s in testa.
+  var MQ_STRETTO=window.matchMedia?window.matchMedia('(max-width:600px)'):null;
+  function aspetta(){
+    var t0=Date.now(), firma='', uguali=0;
+    (function guarda(){
+      var tp=el('time-panel'), acceso=tp&&getComputedStyle(tp).display!=='none';
+      var f=RIQUADRI.map(function(id){ var r=visibile(el(id)); return r?Math.round(r.top)+','+Math.round(r.height):'-'; }).join('|');
+      var apre=acceso&&MQ_STRETTO&&MQ_STRETTO.matches&&!tp.classList.contains('open');
+      var monta=acceso&&!document.querySelector('#time-panel .rd-coppia.con-sat');
+      if(f===firma) uguali++; else { firma=f; uguali=0; }
+      if((uguali>=2&&!apre&&!monta)||Date.now()-t0>4500){ document.documentElement.classList.remove('cr-attesa'); misura(); apri(APERTI_MS); return; }
+      setTimeout(guarda,150);
+    })();
   }
   // nello scatto i crediti interi, sempre (la foto gira: la «i» non direbbe niente)
-  window._creditiInteri=function(doc){ var m=doc.getElementById('map'); if(m) m.classList.remove('cr-chiusi'); var b=doc.getElementById('cr-i'); if(b) b.style.display='none'; };
+  window._creditiInteri=function(doc){ var m=doc.getElementById('map'); if(m) m.classList.remove('cr-chiusi'); var b=doc.getElementById('cr-i'); if(b) b.style.display='none';
+    if(doc.documentElement) doc.documentElement.classList.remove('cr-attesa'); };   // scatto nei primi secondi: i crediti ci vanno lo stesso (8/11, 128 bis)
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',avvia); else avvia();
 })();
 </script>

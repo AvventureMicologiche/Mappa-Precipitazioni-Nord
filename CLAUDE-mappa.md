@@ -1983,3 +1983,42 @@ parte PAGINE del punto 3 (funghi, meteo, zone che saltano caricando) la 127 nei 
   il deploy contiene anche le sue pagine), deploy `40d5cceb` dal worktree allineato a origin/main. Verificato online
   con la stessa prova (`BASE=https://precipitazioni.avventuremicologiche.it`): 28/28, PC e telefono, 0 errori; la
   frase nuova nella guida c'è.
+
+## Il riquadro dei periodi e i crediti al telefono non saltano più aprendo la mappa (8/11/2026, scheda 128 bis)
+
+Punto 3 di «Dopo l'8/11» dell'analisi notturna (`D:\video youtube\claudio\analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`):
+il CLS 0,17 rimasto sulla mappa al telefono dopo la testata ferma della 127 bis. Proposte e misure in
+`D:\video youtube\claudio\proposte-128bis\PROPOSTE.md`, suo «Il punto 3». Attrezzi in `proposte-128bis\attrezzi\`.
+- **La causa, fotogramma per fotogramma** (`spia-periodi.js`, telefono 393×760, 4G lento + CPU ×4). Al telefono il
+  riquadro dei periodi nasce chiuso (striscia di 44 px) e `initMobile` lo apriva 200 ms dopo il suo script, a metà
+  pagina. Già aperto: (1) si allungava di una riga, quando gli script più avanti montavano «Radar | Boschi | Satellite»
+  (~228 → 277 px; è appoggiato al fondo, quindi la cima sale); (2) i tasti cambiavano misura con gli stili in fondo alla
+  pagina (periodi 40 → 31 → 45 px); (3) **i crediti saltavano di ~280 px**: nascevano in fondo alla mappa, dietro la
+  striscia, e lo script dei crediti li portava sopra il riquadro tutto in una volta. Google conta anche quello che sta
+  dietro un altro riquadro: da solo 0,13-0,17. In più, aprendosi, la riga del titolo cresceva di 5 px (la «i» c'è solo
+  da aperta): 0,023 a ogni apertura.
+- **Quattro ritocchi, solo fino a 900 px (crediti) o 600 (riquadro):**
+  - A. **I crediti nascono nascosti** (`html.cr-attesa`, messa da uno script di una riga in testa, dopo la testata della
+    127 bis) e compaiono una volta sola al loro posto: `aspetta()` nello script dei crediti attende il riquadro aperto
+    da solo, la riga dei tasti montata e i riquadri fermi per due giri da 150 ms; poi i soliti 5 s e la «i». Tetto
+    4,5 s, e la scorta di 6 s nello script in testa. `_creditiInteri` (lo scatto) toglie anche `cr-attesa`.
+  - B. **`initMobile` apre il riquadro quando è completo**: pagina letta tutta e `.rd-coppia.con-sat` presente, tetto
+    3 s. Si apre ~0,7 s più tardi al telefono lento delle prove, già alla sua altezza.
+  - C. **I crediti fermi mentre un riquadro scorre** (`scorre()`, `getAnimations` delle transizioni di `transform`):
+    si rimisura a fine corsa (`transitionend`) o fra 350 ms. Prima, a metà corsa, facevano due salti o scendevano in
+    fondo per un attimo (il cambio periodi → legenda).
+  - D. **`.tp-title-row` con `min-height:25px`** sotto i 600 px: alta uguale da chiusa e da aperta.
+- **Misure, pagina vera contro nuova servite allo stesso modo (`INDICE=`), su main `1f999aa966`:** `/` CLS **0,217 →
+  0,004**; `/?r=toscana&g=1` 0,168 → 0,090; `/?r=toscana&radar=ora` 0,257 → 0,037; `/previsioni/` 0,029 → 0,003. Nei
+  giri di prova: A da sola 0,03-0,15 (se la riga dei tasti arriva dopo l'apertura il riquadro cresce lo stesso), A+B
+  0,026, tutti e quattro 0,004-0,005. Al PC non cambia niente (0,006).
+- **Resta 0,09 col link di un periodo**: a 7-9 s, quando arrivano i numeri, la riga «Calcolo…» allunga il riquadro di
+  29 px e poi al posto dei periodi sale la legenda, più bassa; crediti e tasto delle temperature la seguono. È il
+  passaggio voluto da un riquadro all'altro: prima di toccarlo, il rapporto «Core Web Vitals» di Search Console.
+- **Stati della mappa uguali** (`stati-mappa.js`, la prova della 127 bis con in più tablet 768×1024 e telefono girato
+  740×360: 10 posti × 4 schermi): 32 uguali, 8 diverse solo dove la scena non si ferma nemmeno con main (o al PC, dove
+  la modifica non agisce), lo stesso rumore di vera contro vera (7 diverse). Crediti presenti e `cr-attesa` tolta in
+  tutte le scene strette, nessun errore.
+- ⚠️ Un riquadro nuovo appoggiato in basso al telefono va aggiunto a `RIQUADRI` dello script dei crediti (lo era già):
+  `aspetta()` guarda quelli. Se un giorno il riquadro dei periodi non si aprisse più da solo, `aspetta()` arriva al
+  tetto di 4,5 s e i crediti compaiono lo stesso.
