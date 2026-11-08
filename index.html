@@ -18397,7 +18397,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     // la pillola della vetrina scende in fondo al riquadro (sul telefono vive nel pannello dello storico, qui nascosto)
     pillolaNelRiquadro(tel());
     posiziona();
-    if(!gruppo){ gruppo=L.layerGroup().addTo(map()); map().on('zoomend',lontano); map().on('moveend',dirada);   /* solo moveend (8/11/2026, scheda 127 bis): dopo uno zoom Leaflet manda zoomend E moveend, e si diradava due volte di fila */ map().on('zoomend',viFondo); }
+    if(!gruppo){ gruppo=L.layerGroup().addTo(map()); map().on('zoomend',lontano); map().on('moveend',dirada);   /* solo moveend (8/11/2026, scheda 127 bis): dopo uno zoom Leaflet manda zoomend E moveend, e si diradava due volte di fila */ map().on('zoomend',viFondo); map().on('zoomend',viSoglia); }
     sorveglia(true);
     /* IL PAESE SCELTO NELLO STORICO (suo, 7/10 sera): cercato un paese, il sito sceglie le regioni e aspetta le
        date; se a quel punto si passa alle previsioni, il paese c'e' evidenziato con la sua scheda aperta, e
@@ -18602,7 +18602,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var g=gb[giorno].g, d=giornoData(g), agg=null, val=null;
     // ⚠️ le etichette della vista a etichette (l._ve) NON si tolgono qui: le riusa veDisegna se la scena e' la stessa
     var via=[]; gruppo.eachLayer(function(l){ if(!l._ve) via.push(l); }); via.forEach(function(l){ gruppo.removeLayer(l); });
-    var it=italia(), lista=[];
+    var it=italia(), lista=[], nomi=it&&viNomi();   // vedi «I NOMI DALLO ZOOM 7 NELLA VISTA ITALIA»
+    viNomiFatti=nomi;
     /* ⚠️ NELLA VISTA ITALIA LA VISTA A ETICHETTE SI CHIUDE (controllo del 30/10/2026): veDisegna qui non passa,
        quindi VE.scena restava quella di prima, e tornando nella stessa regione o valle (tendina, ricerca, Avanti) la
        vista non era «nuova»: VE.aperto0 restava vero e la scheda ora per ora non si apriva piu' da sola */
@@ -18615,7 +18616,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       a.capoluoghi.forEach(function(c){
         var e=(c.giorni||[]).filter(function(x){ return x.g===g; })[0]; if(!e) return;
         var sel=punto&&punto.n===c.n&&Math.abs(punto.lat-c.lat)<0.01;
-        lista.push({c:c,e:e,sel:sel});
+        lista.push({c:c,e:e,sel:sel,cp:k==='italia'});   // cp: le 29 di «italia», i capoluoghi della vista Italia
       });
     });
     lista.sort(function(x,y){ return (y.sel?1:0)-(x.sel?1:0); });   // il posto scelto per primo, cosi' dirada() lo tiene
@@ -18624,7 +18625,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       // scelto e le regioni hanno l'etichetta intera
       var html=it&&!x.sel?'<div class="pv-m vi-ico"><span class="ic">'+icona(e.s)+'</span></div>'
         :'<div class="pv-m'+(x.sel?' sel':'')+'"><span class="ic">'+icona(e.s)+'</span><span class="nm">'+escH(c.n)+'<span class="tx"><span class="mn">'+e.mn+'°</span> <span class="mx">'+e.mx+'°</span></span></span></div>';   // minima prima (6/11/2026, scheda 125)
-      var mk=L.marker([c.lat,c.lon],{icon:L.divIcon({className:'pv-ic',iconSize:null,iconAnchor:[0,0],html:html}),keyboard:false});
+      if(nomi){ var due=tel(), gr='<span class="mn">'+e.mn+'°</span> <span class="mx">'+e.mx+'°</span>', ic='<span class="ic">'+icona(e.s)+'</span>', cl='ve-et'+(x.sel?' scelto':'')+(due?' due':'');
+        html=due?'<span class="'+cl+'"><span class="r1">'+ic+gr+'</span><b>'+escH(c.n)+'</b></span>':'<span class="'+cl+'">'+ic+'<b>'+escH(c.n)+'</b> '+gr+'</span>'; }   // come veDisegna
+      var mk=L.marker([c.lat,c.lon],{icon:L.divIcon({className:'pv-ic',iconSize:nomi?[0,0]:null,iconAnchor:[0,0],html:html}),keyboard:false,zIndexOffset:nomi?(x.sel?2000:x.cp?1000:0):0});
+      if(nomi) mk._vi={cp:x.cp,sel:x.sel};
       mk.on('click',function(){ cercato=null; apriPunto(c); ga('capoluogo',{posto:c.n}); });
       gruppo.addLayer(mk);
     });
@@ -18668,6 +18672,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function dirada(){
     if(!gruppo||!acceso) return;
     if(VE.scena&&!italia()){ veDirada(); return; }
+    if(viNomiFatti&&italia()){ viDiradaNomi(); return; }   // dallo zoom 7: vedi «I NOMI DALLO ZOOM 7 NELLA VISTA ITALIA»
     var it=italia(), presi=[];
     // anche i crediti di Leaflet e la scritta della fonte (controllo del 30/10/2026, difetto 9: a 1536x702 un'icona della
     // Sicilia finiva sotto i crediti), come fa gia' veDirada
@@ -18685,6 +18690,56 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     if(!it) return;
     var misure=lista.map(function(x){ var d=x[1]; return (d.classList.contains('vi-ico')?d.firstChild:d).getBoundingClientRect(); });
     lista.forEach(function(x,i){ var r=misure[i]; if(presi.some(function(p){ return tocca(p,r); })) x[0].style.visibility='hidden'; else presi.push(r); });
+  }
+  /* I NOMI DALLO ZOOM 7 NELLA VISTA ITALIA (8/11/2026, scheda 129; idea 6d dell'analisi notturna, sua scelta «Leggera,
+     soglia 7» sul mockup `mockup-vista-italia-zoom\` del banco). Ingrandendo la vista Italia restavano solo le icone,
+     senza nomi ne' gradi (foto dell'analisi a zoom 8 sull'Alto Adige). Ora da VI_NOMI in su i 92 punti hanno l'etichetta
+     della vista a etichette (.ve-et: icona, nome, minima, massima; al telefono su due righe) e si diradano con le regole
+     di veDirada: prima il posto scelto, poi le 29 di «italia» che stanno al loro posto (fra loro basta 1 px), poi quelle
+     che non ci stanno salgono o scendono con la punta e il puntino giallo, poi gli altri punti (14 px al computer, 6 al
+     telefono), al massimo 28 etichette al computer e 14 al telefono, mai sotto un riquadro o fuori dalla mappa. Sotto il 7
+     tutto come prima (solo icone). Nessuna chiamata in piu': i dati sono quelli delle aree gia' caricate. Non si entra in
+     nessuna regione: barra, banner, indirizzo e Indietro restano quelli della vista Italia (la versione «piena», che
+     entrava da sola nella regione al centro, e' scartata per ora). Al computer la vista Italia si apre a 6 (due «+»), al
+     telefono a 5,25 (un pizzico). Nel mockup, sugli scatti delle 17:03: a 7 24 etichette al computer 1440×900 e 14 al
+     telefono 393×852, a 8 25 e 5. Il disegno si rifa' solo passando la soglia (viSoglia, su zoomend) */
+  var VI_NOMI=7, viNomiFatti=false;
+  function viNomi(){ var m=map(); return !!m&&m.getZoom()>=VI_NOMI; }
+  function viSoglia(){ if(acceso&&gruppo&&italia()&&viNomi()!==viNomiFatti) disegna(); }
+  function viDiradaNomi(){
+    var mb=el('map').getBoundingClientRect(), fermi=[];
+    // gli stessi riquadri di veDirada, piu' i tasti dello zoom
+    ['pv-pan','pv-det','vi-nastro','region-panel','pv-cerca-tel','channel-logo','btn-reset-regions','fonte-tag'].map(el)
+      .concat([].slice.call(document.querySelectorAll('#map .leaflet-control-attribution, #map .fonte-tag, #map .leaflet-control-zoom')))
+      .forEach(function(e){ if(!e) return;
+      if(e.id==='pv-det'&&!e.classList.contains('vivo')) return;
+      var s=getComputedStyle(e); if(s.display==='none'||s.visibility==='hidden') return;
+      var r=e.getBoundingClientRect(); if(r.width>0&&r.height>0) fermi.push(r); });
+    var mg=tel()?6:14, tetto=tel()?14:28, presi=[], visti=0, tutte=[];
+    gruppo.eachLayer(function(l){ var e=l.getElement&&l.getElement(), d=e&&e.firstChild; if(d) tutte.push({e:e,d:d,vi:l._vi}); });
+    // prima tutte le scritture, poi tutte le letture (vedi «PRIMA TUTTE LE SCRITTURE» in veDirada)
+    tutte.forEach(function(x){ x.e.style.visibility=''; x.d.classList.remove('su','giu'); });
+    tutte.forEach(function(x){ x.r0=x.d.getBoundingClientRect(); });
+    // il posto scelto (e la targhetta del posto cercato, che non e' un punto della vista) non cede il posto agli altri
+    var metti=function(x,scosta){
+      x.e.style.visibility=''; x.d.classList.remove('su','giu');   // il capoluogo che riprova scostato era stato nascosto al primo giro
+      var cp=!!(x.vi&&x.vi.cp), tiene=!x.vi||x.vi.sel, m=cp?1:mg, r0=x.r0, ok=false, r, g, pu, gp;
+      var tocca=function(a){ if(cp&&a.cp) a=a.r; return [g,gp].some(function(q){ return q&&!(q.right<a.left||q.left>a.right||q.bottom<a.top||q.top>a.bottom); }); };   // capoluogo contro capoluogo basta 1 px
+      var passi=scosta?[-(r0.height/2+14),r0.height/2+14]:[0];
+      for(var i=0;i<passi.length&&!ok;i++){ var dy=passi[i], cx=(r0.left+r0.right)/2;
+        r={left:r0.left,right:r0.right,top:r0.top+dy,bottom:r0.bottom+dy}; g={left:r.left-m,right:r.right+m,top:r.top-m,bottom:r.bottom+m};
+        pu=dy?{left:cx-7,right:cx+7,top:dy<0?r.bottom:r.top-19,bottom:dy<0?r.bottom+19:r.top}:null; gp=pu&&{left:pu.left-m,right:pu.right+m,top:pu.top-m,bottom:pu.bottom+m};
+        var fuori=[r,pu].some(function(q){ return q&&(q.left<mb.left||q.right>mb.right||q.top<mb.top||q.bottom>mb.bottom); });
+        ok=!(fuori||fermi.some(tocca)||(!tiene&&((!cp&&visti>=tetto)||presi.some(tocca))));
+        if(ok&&dy) x.d.classList.add(dy<0?'su':'giu'); }
+      if(!ok) x.e.style.visibility='hidden';   // il CONTENITORE, come dirada e veDirada
+      else { [r,pu].forEach(function(q){ if(q) presi.push(cp?{left:q.left-mg/2,right:q.right+mg/2,top:q.top-mg/2,bottom:q.bottom+mg/2,cp:1,r:q}:g); }); visti++; }
+      return ok; };
+    var dopo=[];
+    tutte.filter(function(x){ return !x.vi||x.vi.sel; }).forEach(function(x){ metti(x,false); });
+    tutte.filter(function(x){ return x.vi&&!x.vi.sel&&x.vi.cp; }).forEach(function(x){ if(!metti(x,false)) dopo.push(x); });
+    dopo.forEach(function(x){ metti(x,true); });
+    tutte.filter(function(x){ return x.vi&&!x.vi.sel&&!x.vi.cp; }).forEach(function(x){ metti(x,false); });
   }
   /* LA CARTINA SENZA NOMI DELLA VISTA ITALIA (28/10/2026; suo: «le nuvole non staccano, e le icone coprono i nomi delle
      citta'»; 3B, ilMeteo e Meteo.it usano tutti una cartina senza scritte). Mare da Esri Ocean Base, sopra
