@@ -924,7 +924,7 @@ function clientePagina(C) {
      pagine regione), la mappa della pioggia di ieri (l'anteprima delle pagine regione, ramo «anteprime»). Si
      caricano quando i bottoni arrivano vicino allo schermo; se una non arriva resta il fondo grigio e il bottone va. */
   // larga = [[sud, ovest], [nord, est]] al posto del confine della regione (il radar)
-  // sat: la foto dal satellite come la mappa grande (l'anteprima «Previsioni», 30/10/2026); il radar resta sulla cartina
+  // sat: la foto dal satellite come la mappa grande (l'anteprima «Previsioni», 30/10/2026; dall'8/11/2026 anche il radar)
   function miniMappa(id, larga, sat) {
     var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
     // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
@@ -941,10 +941,21 @@ function clientePagina(C) {
   }
   /* ⚠️ IL RADAR SU TUTTA ITALIA E UN PEZZO D'EUROPA, uguale per tutte le pagine (28/10/2026, suo: «il radar non dice
      nulla, perché quasi sempre senza nuvole: facciamolo con tutta l'Italia e anche un pezzo di Nord Europa, almeno
-     qualche nuvola si vede»). Sulla sola regione era quasi sempre una cartina vuota. */
+     qualche nuvola si vede»). Sulla sola regione era quasi sempre una cartina vuota.
+     ⚠️ DALL'8/11/2026 (scheda 127, suo: «ora le zone ma vale per ogni pagina, sostituisci lo sfondo radar mettendo il
+     satellite, usa lo stesso zoom che hai usato per la lombardia e metti segnalino»): la FOTO della mappa invece della
+     cartina OSM (rimasta indietro quando il 2/11 la mappa col radar e le «adesso» sono passate alla foto), centrata sulla
+     valle o sul paese della pagina (C.ant.qui) con lo zoom della Lombardia «adesso» (7 al PC, 6,25 al telefono) e il
+     segnalino rosso. */
+  var ZOOM_RADAR_PC = 7, ZOOM_RADAR_TEL = 6.25;
   function antRadar() {
-    var m = miniMappa('ant-radar', [[37.2, 6.5], [50.2, 18.5]]);
+    var m = miniMappa('ant-radar', [[37.2, 6.5], [50.2, 18.5]], true);
     m.createPane('radar'); m.getPane('radar').style.zIndex = 450;
+    m.createPane('segno'); m.getPane('segno').style.zIndex = 460;   // il segnalino sopra la pioggia
+    if (C.ant.qui) {
+      m.setView([C.ant.qui.lat, C.ant.qui.lon], matchMedia('(pointer:coarse)').matches ? ZOOM_RADAR_TEL : ZOOM_RADAR_PC);
+      L.circleMarker([C.ant.qui.lat, C.ant.qui.lon], { pane: 'segno', radius: 5, color: '#fff', weight: 2, fillColor: '#c8102e', fillOpacity: 1, interactive: false }).addTo(m);
+    }
     fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
       var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
       L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR / OPERA (CC BY)' }).addTo(m);
@@ -1159,7 +1170,8 @@ function pagina(z, QUOTE_DI) {
     diValle: 'della ' + VALLE, sat: SAT, foto: FOTO, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
-    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa) }, ordineCitta(casa.k)) };
+    // qui: il segnalino del riquadro radar, il centro della zona (funghi-zone.json; 8/11/2026, scheda 127)
+    ant: Object.assign({ confine: require('./genera-pagine-adesso.js').confineDi(casa), qui: { lat: z.lat, lon: z.lon } }, ordineCitta(casa.k)) };
 
   return `<!DOCTYPE html>
 <html lang="it">

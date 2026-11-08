@@ -83,7 +83,12 @@ function pagina(p, QUOTE_DI) {
     sat: MZ.SAT, foto: MZ.FOTO, quote, pluv: [], solo: true, paese: p.loc, giorni: 'funghi/' + reg + '-giorni.json', id,
     nomi: p.nomi || null, primo: p.primo || null, intorno: p.n + ' e i paesi intorno', alPluv, evento: 'meteo_paese',
     nastro: p.n,   // il blocco rosso della barra sotto la mappa: «METEO SASSELLO», come il titolo della pagina
-    ant: Object.assign({ confine: confineDi(casa) }, ordineCitta(reg)) };
+    // qui: il segnalino del riquadro radar (8/11/2026, scheda 127): il paese della pagina (`primo`, se il pluviometro
+    // sta fuori dal paese), se no il pluviometro
+    ant: Object.assign({ confine: confineDi(casa), qui: (function () {
+      const x = (p.primo && lista.find(y => y.n === p.primo)) || lista.find(y => y.qui) || lista[0];
+      return { lat: x.lat, lon: x.lon };
+    })() }, ordineCitta(reg)) };
   // ⚠️ Niente zona del pluviometro nei bottoni: quella delle pagine funghi a volte e' larga (Sassello sta nella «Val
   // Bormida», ma e' in valle dell'Erro). Le tre anteprime: mappeHtml in genera-pagine-meteo-zona.js.
 
