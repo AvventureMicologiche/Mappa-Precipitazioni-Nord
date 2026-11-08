@@ -1095,3 +1095,32 @@ in tutto il sito.
   Genova, Palermo, Cagliari; Garfagnana e Sassello sulla foto, 0 errori, Esri come online (6 al PC, dalla cartina grande
   della pagina, non dal riquadro).
 
+## Il riquadro «Pluviometri 7 giorni» delle pagine meteo ritagliato sul paese, e il nome sul segnalino (8/11/2026, scheda 128 quater)
+
+- Dal **censimento delle cartine dentro le pagine** (banco, `censimento-128quater\CENSIMENTO.md`: 27 pagine al PC e al
+  telefono, una riga per cartina, foto in `immagini\128quater\`). Il terzo riquadro delle 91 pagine meteo («💧
+  Pluviometri <regione>», `antPluvio()` in `genera-pagine-meteo-zona.js`, `<reg>-7g.webp`) mostrava la regione intera
+  senza segnalino, e al PC (726×300) la tagliava sopra e sotto: in Meteo Garfagnana la Garfagnana restava fuori, mentre
+  il radar subito sopra e' centrato sulla valle col segnalino e le pagine sorelle dello stesso posto (zone piogge,
+  funghi) usano il ritaglio di `lib-striscia.js`. Suo «la 1 con la a».
+- **Ora** (`ritagliaPluvio()`): lo stesso conto delle strisce. Il `.json` dell'immagine dice zoom e pixel mondo
+  dell'angolo; la valle sta al centro a ~0,3 km per pixel, il paese a ~0,2, con lo stesso tetto di 1,1 (oltre i pallini
+  sgranano) e l'immagine che copre sempre il riquadro (vicino al bordo della regione il segnalino non e' piu' al
+  centro: Carnia, Tremalzo, Val d'Aveto). Segnalino rosso come quello del radar (`i.ant-pin`, 14 px, `#c8102e`), nascosto
+  se il posto cade fuori dall'immagine; si rifa' se il riquadro cambia misura. Senza `qui` o senza i numeri nel `.json`
+  resta la regione intera di prima. Il tocco porta ancora a `/?r=<reg>&g=7` (la regione).
+- **Il segnalino sul paese principale, col nome** (suo, sulla prova: «perché non metti il nome del paese più vicino al
+  segnalino? se apri la garfagnana dai le previsioni di castelnuovo e allora mettilo nella mappa, lo stesso sul
+  sassello»): nelle valli `C.ant.qui` e' il primo paese di `data/paesi-zone.json`, quello della scheda che si apre da
+  sola (Castelnuovo di Garfagnana, San Fratello, Ampezzo), non piu' il centro della zona di `funghi-zone.json`; nelle
+  pagine di paese il paese (`n: p.n` in `genera-pagine-meteo-paese.js`). Il nome sta sopra il segnalino in TUTTI E DUE i
+  riquadri: nel radar per primo (le citta' gli girano intorno, 4 px piu' su degli altri nomi), nei pluviometri
+  `span.ant-nome`, tenuto dentro il riquadro anche al bordo.
+- Prove (sito vero, pagine del worktree intercettate, Esri bloccato; `censimento-128quater\attrezzi\prova-pluvio.js`,
+  `PAGINE=`, `ONLINE=1` per il prima): 12 pagine (Garfagnana, Nebrodi, Carnia, Romagna toscana, Val d'Aveto, Sila,
+  Val Brembana, Tremalzo, Sassello, Caronia, Corio, Corleto Monforte) al PC, al telefono e girato, segnalino e nome
+  sempre visibili, 0 errori; foto in `immagini\128quater\prova-1-1\`. Rigenerate 49 valli e 42 paesi: ogni pagina
+  cambia di 35 righe in piu' e 2 in meno (lo stile, le due funzioni, il punto `qui`), sitemap e lastmod no.
+- Le altre cose che stonano trovate dal censimento (il «+» delle regioni «adesso» lontano dal capoluogo, Trapani senza
+  Palermo, il confine in tre pesi, la cartina della valle fino al 15) restano nel file del censimento: si decidono con lui.
+

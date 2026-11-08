@@ -198,6 +198,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La settimana a goccia: 20 città «adesso» e 15 «Meteo <paese>», cinque pagine al giorno dall'8 al 14/11 (7/11/2026, scheda 127)**: `USCITA_ADESSO`, `METEO_PAESI_C` con `dal`, `METEO_PAESI_DA_SCRIVERE` contro `METEO_PAESI_TUTTI`, `sitemap-meteo-paesi-c.xml`, il lotto della sera e le richieste a mano
 - **Il radar delle città «adesso»: centrato sulla città, due zoom sopra l'Italia, senza confine (8/11/2026, scheda 127)**: `getBoundsZoom` + 2 al PC e + 1,5 al telefono, niente confine della regione, il «+» verso la città, i nomi della regione prima dei paesi intorno
 - **Il radar delle regioni «adesso» e il riquadro radar delle pagine meteo, come le città (8/11/2026, scheda 127)**: segnalino sul capoluogo, confine leggero, `piuDentro`, `VERSIONE_JS` 18; riquadro delle valli e dei paesi sulla foto col segnalino; in nota il radar in movimento fino a +40 minuti
+- **Il riquadro «Pluviometri 7 giorni» delle pagine meteo ritagliato sul paese, e il nome sul segnalino (8/11/2026, scheda 128 quater)**: `ritagliaPluvio()` come `lib-striscia.js`, segnalino sul primo paese di `paesi-zone.json` col nome nel radar e nei pluviometri; dal censimento delle cartine
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
