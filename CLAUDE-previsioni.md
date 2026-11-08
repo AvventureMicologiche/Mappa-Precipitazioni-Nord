@@ -1166,3 +1166,35 @@ in tutto il sito.
 - **IN PRODUZIONE l'8/11 alle 13:38** (deploy `7c04dfe9`, main `67bfd6e552`), insieme alla regione intera del riquadro
   «Pluviometri»; controllati online Lombardia, Liguria e Trapani «adesso» (`?v=19`) e tre pagine meteo.
 
+## La vista Italia ingrandita: dallo zoom 7 tornano nomi e gradi (8/11/2026, scheda 129)
+
+Dall'analisi notturna dell'8/11 (`analisi-127bis\ELENCO-PROBLEMI-E-SOLUZIONI.md`, punto 9 «Idee (non difetti)», ripresa
+dalla 128 bis come idea 6d): nella vista Italia (`/previsioni/` senza regione) ingrandendo fino allo zoom 8-9 restavano
+solo le icone, senza nomi ne' temperature. Non era un difetto: la mappa ingrandita non diceva niente di piu'. Mockup di
+due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono); sua scelta **«Leggera, soglia 7»**.
+- **La leggera** (`index.html`, blocco «I NOMI DALLO ZOOM 7 NELLA VISTA ITALIA» dopo `dirada()`): da `VI_NOMI` = 7 in su,
+  in `disegna()` i 92 punti hanno l'etichetta `.ve-et` della vista a etichette (icona, nome, minima, massima; al telefono
+  su due righe, `.due`; il posto scelto `.scelto` in blu) al posto della sola icona, e ogni marcatore porta
+  `_vi={cp,sel}` (`cp` = le 29 di «italia»). `dirada()` passa a `viDiradaNomi()`, che ripete le regole di `veDirada`:
+  prima il posto scelto e la targhetta del cercato, poi i capoluoghi che stanno al loro posto (fra loro basta 1 px), poi
+  quelli che non ci stanno salgono o scendono con la punta e il puntino giallo (`.su`/`.giu`), poi gli altri punti (14 px
+  al computer, 6 al telefono), tetto 28 e 14 che conta tutti, mai sotto un riquadro (gli stessi di veDirada piu' i tasti
+  dello zoom) o fuori dalla mappa. Sotto il 7 tutto come prima (solo icone, `dirada()` di sempre).
+- **Il disegno si rifa' solo passando la soglia**: `viSoglia()` su zoomend confronta `viNomi()` con `viNomiFatti`
+  (scritto da `disegna()`) e ridisegna solo se cambia; dentro la soglia basta il diradamento su moveend.
+- **Nessuna chiamata in piu'**: i dati sono quelli delle aree della vista Italia gia' caricate.
+- **Non si entra in nessuna regione**: barra, banner «METEO ITALIA», indirizzo e Indietro restano quelli della vista
+  Italia. Scartata la «piena» (oltre la soglia si entrava da soli nella vista a etichette della regione al centro): si
+  sceglieva una regione senza averla scelta (barra, banner, scheda che si apre da sola, indirizzo `?r=`, Indietro da
+  decidere) e piu' chiamate alla Function e a MET. Idea rimasta: la piena semmai solo da zoom 10 in su.
+- ⚠️ Trappola pagata in prova: in `metti` il capoluogo che non ci sta viene nascosto al primo giro e riprova scostato;
+  senza rimettere `visibility` a vuoto all'inizio di `metti` restava nascosto anche scostato (Verona a volte spariva).
+  veDirada lo fa gia'.
+- Numeri (8/11 sera): PC 1440×900 a 7 21 etichette (Brescia scostata), a 8 24, a 9 10; telefono 393×852 a 7 14
+  (Firenze scostata), a 8 7, a 9 3. Al PC la vista Italia si apre a 6 (due «+»), al telefono a 5,25 (un pizzico).
+- Prove: scratchpad della 129, `prova-129.js` e `prova-129b.js` con `prove-veloci.js` e `INDICE=` (index del worktree
+  sul sito vero, Esri bloccato), `ONLINE=1` per il sito pubblicato: soglia in su e in giu', tocco su Milano (blu, scheda),
+  domani, zoom 11 e 14, Lombardia scelta da zoom 7, Indietro, linguetta Storico; 0 errori. Foto in
+  `mockup-vista-italia-zoom\prova\` nel banco.
+- **IN PRODUZIONE l'8/11 alle 19:03** (push `ade8d1f33a`, deploy `0dc4f871`); controllato online PC e telefono, stessi numeri.
+
