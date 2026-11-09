@@ -1323,4 +1323,8 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   Open-Meteo un'ora avanti; zero % rosse con l'ora asciutta in mappa PC e telefono, meteo Sassello, «adesso» Genova; la
   riga del piede sta su una riga a 1366 e a 393. Rigenerate 21 regioni e 30 città «adesso», 49 valli e 44 paesi meteo.
 - **Resta** il contrasto vero fra i due modelli: la % alta con l'ora asciutta si vede ancora, ma grigia e spiegata.
+- **IN PRODUZIONE il 9/11/2026 alle 11:32** (suo «Sì, tutt'e due»): push `5598e42c53`, deploy `e1fef552` dal worktree
+  intero della 130 (prima va spento `wrangler pages dev`: la sua `.wrangler` nel worktree blocca la pubblicazione con
+  EPERM). Online: un punto nuovo dà la % uguale a Open-Meteo un'ora avanti in 37 ore su 37; mappa con la riga del
+  piede, «adesso» `?v=23` col grigio, meteo con `.tv-nota`; `prova-settimana-127.js` della Goccia `ONLINE=1` 6/6.
 
