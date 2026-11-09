@@ -17778,7 +17778,7 @@ body.vz-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.
    compatti (posizionaDet mette «stretta»), crediti su una riga */
 #pv-det.stretta .hd .q2{display:none}#pv-det.stretta .hd .nm{font-size:19px}#pv-det.stretta .gg-r{padding:5px 10px 4px}
 #pv-det.stretta .pv-gg{padding:3px 1px 2px}#pv-det.stretta .pv-gg .ic{font-size:13px}#pv-det.stretta .ft{padding:6px 12px;gap:4px}#pv-det.stretta .ft .b{padding:7px 6px}
-#pv-det .ft .fo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pv-det .ft .fo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#pv-det .ft .fo.pn{white-space:normal}   /* la riga della % (9/11/2026, scheda 130): piuttosto che tagliata va a capo */
 /* ⚠️ SCHERMI BASSI: LA COLONNA DI SINISTRA SI COMPATTA (30/10/2026, scheda 101, sua scelta «A» fra tre provate).
    Con la mappa sotto i 760 px (finestre sotto i ~890) la scheda ora per ora sotto il riquadro mostrava 0 ore a
    1536×702 (schermo 1920 al 125%) e a 1366×768. Ora «Indietro» sale accanto allo zoom, il riquadro si accorcia e, a
@@ -19383,14 +19383,22 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var mm=Math.round(o.mm*10)/10, pc=o.pc;
       return '<div class="r"><span class="h">'+h+'</span><span class="ic">'+icona(o.s)+'</span><span>'+Math.round(o.t)+'°</span>'
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+' mm')+'</span>'
-        +'<span class="pc'+(pc==null?'':pc<10?' z':pc>=60?' alta':'')+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+' km/h</span></div>';
+        +'<span class="pc'+tonoPc(pc,mm)+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+' km/h</span></div>';
     }
+    /* ⚠️ LA % SBIADITA QUANDO L'ORA E' ASCIUTTA (9/11/2026, scheda 130, suo «A + C» dal suo screen di Ovada: 85-93% sotto
+       le nuvole e il trattino). La % viene dall'insieme di simulazioni di ICON (Open-Meteo), icona e mm dalla previsione
+       singola di ECMWF (MET): quando i due modelli mettono la pioggia in ore diverse la tabella si contraddiceva. Misurato
+       su 10 citta' del Nord-Ovest, 620 ore: 33 in contrasto forte; la % presa dalle simulazioni ECMWF ne dava 41 (passo di
+       3 ore, % larga), scartata. Ora con l'ora asciutta (meno di 0,1 mm) la % resta scritta ma grigia, mai rossa, e sotto
+       la tabella una riga dice cos'e'. Uguale nelle pagine meteo (genera-pagine-meteo-zona.js) e «adesso» (pagina-adesso.js).
+       L'altra meta' del lavoro e' nel server: la % arrivava un'ora in ritardo (prDa in functions/api/previsioni.js). */
+    function tonoPc(pc,mm){ return pc==null?'':(pc<10||mm<0.1)?' z':pc>=60?' alta':''; }
     function colonna(o){   // la stessa ora, in piedi
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10, pc=o.pc;
       return '<div class="c'+(o.h6?' c6':'')+'" data-g="'+o.g+'"><b>'+h+'</b><i>'+icona(o.s)+'</i><span class="t">'+Math.round(o.t)+'°</span>'
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+'<small> mm</small>')+'</span>'
-        +'<span class="pc'+(pc==null?'':pc<10?' z':pc>=60?' alta':'')+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
+        +'<span class="pc'+tonoPc(pc,mm)+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
     }
     var righe='', fino='';
     if(corta){   // al telefono: tutte le ore dei giorni in cima, di seguito
@@ -19417,7 +19425,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
                     :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span></div>';   // la fonte della % di pioggia si cita solo in fonti.html (sua decisione, 3/11/2026)
+      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span>'+(righe&&(j.ore||[]).some(function(o){ return o.pc!=null; })?'<span class="fo pn">Prob.: quante simulazioni danno pioggia · icona e mm: la più probabile</span>':'')+'</div>';   // la fonte della % di pioggia si cita solo in fonti.html (sua decisione, 3/11/2026)
     det._chiave=chiave; det._dati=j; det._firma=firma; det._primo=det.firstChild;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }

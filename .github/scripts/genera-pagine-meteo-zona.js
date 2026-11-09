@@ -757,7 +757,9 @@ function clientePagina(C) {
     var prima = ore[0] && ore[0].g;
     return ore.map(function (o) {
       // mm solo se piove, la % sempre (come «assente» di 3B): quasi sempre una riga sola
-      var pc = conPc && o.pc != null ? '<span class="pc' + tonoPc(o.pc) + '">' + pcTesto(o.pc) + '</span>' : '';
+      // con l'ora asciutta la % resta ma grigia, mai rossa (9/11/2026, scheda 130, vedi «LA % SBIADITA» in index.html:
+      // la % e' delle simulazioni di ICON, icona e mm della previsione singola di ECMWF, e non sempre vanno d'accordo)
+      var pc = conPc && o.pc != null ? '<span class="pc' + (o.mm < 0.1 ? ' z' : tonoPc(o.pc)) + '">' + pcTesto(o.pc) + '</span>' : '';
       return (o.g !== prima ? (prima = o.g, '<tr class="sep"><td colspan="5">' + maiusc(nome(o.g, true)) + '</td></tr>') : '')
         + '<tr' + (o.h6 ? ' class="f6"' : '') + '><td class="h">' + (o.h6 ? '<b>' + FASCIA(o.h) + '</b>' + o.h + '-' + ((o.h + 6) % 24) : String(o.h).padStart(2, '0')) + '</td>'
         + '<td><span class="ic">' + icona(o.s) + '</span><span class="pa">' + parola(o.s) + '</span></td><td class="t">' + Math.round(o.t) + '°</td>'
@@ -788,6 +790,7 @@ function clientePagina(C) {
       // pioggia della sera ma devi programmare di giorno», suo). Nelle fasce di 6 ore e' la piu' alta (maxProb)
       + (ore.length ? (g !== OGGI && ore.some(function (o) { return o.h6; }) ? '<p class="tv-nota">Da qui in poi il modello dà le previsioni a fasce di 6 ore.</p>' : '')
           + '<table class="tv"><tbody>' + righeOre(ore, conPc) + '</tbody></table>'
+          + (conPc ? '<p class="tv-nota">💧 Probabilità: quante simulazioni danno pioggia. Icona e mm: la previsione più probabile.</p>' : '')
         : '<p class="nota">Ore non disponibili per questo giorno.</p>')
       + '<div class="pz-porte">' + porte(s.x) + '</div>';
   }

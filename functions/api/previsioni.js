@@ -178,7 +178,7 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
     return { dati: { errore: guasto }, maxAge: 0 };
   }
   const pr = prDato || {}; // istante UTC in ms → %
-  if (prob && prob.ok) { try { const o = await prob.json(); o.hourly.time.forEach((t, i) => { pr[Date.parse(t + 'Z')] = o.hourly.precipitation_probability[i]; }); } catch (e) {} }
+  if (prob && prob.ok) { try { prDa(await prob.json(), pr); } catch (e) {} }   // ogni % sull'ora che comincia, come MET (prDa)
 
   const giorni = {}, ore = [];
   for (const t of d.properties.timeseries) {
@@ -281,7 +281,7 @@ async function probDi(punti) {
     if (!r.ok) return null;
     const j = await r.json(), l = Array.isArray(j) ? j : [j];
     if (l.length !== punti.length) return null;
-    return l.map(o => { const pr = {}; o.hourly.time.forEach((t, i) => { pr[Date.parse(t + 'Z')] = o.hourly.precipitation_probability[i]; }); return pr; });
+    return l.map(o => prDa(o, {}));
   } catch (e) { return null; }
 }
 
@@ -444,6 +444,15 @@ function scegliSimbolo(righe) {
 }
 export { scegliSimbolo };   // per le prove in locale (prova-simbolo.mjs nello scratchpad della scheda 86)
 // la % di una fascia di 6 ore: il massimo delle sei ore da quell'istante, anche oltre mezzanotte (bug 12, 19/10/2026)
+/* ⚠️ LA % DI OPEN-METEO E' DELL'ORA CHE FINISCE (9/11/2026, scheda 130, dal suo screen di Ovada). Open-Meteo scrive la
+   probabilita' sull'istante in cui l'ora FINISCE («preceding hour probability»: quella delle 01 e' la pioggia fra le 00
+   e le 01), MET scrive i mm sull'istante in cui l'ora COMINCIA (next_1_hours). Agganciate per istante, la % arrivava
+   un'ora in ritardo rispetto a icona e mm. Qui ogni % va sull'istante in cui la sua ora comincia, come MET: le ore, le
+   fasce di 6 ore (maxProb) e il «fino al» del giorno tornano giusti da soli. VERSIONE non alzata apposta: la forma della
+   risposta non cambia e la copia fresca dura al massimo un'ora; alzarla avrebbe richiesto a MET tutti i punti insieme.
+   Resta il resto del contrasto: la % e' dell'insieme ICON, icona e mm di ECMWF (nella scheda la % si sbiadisce quando
+   l'ora e' asciutta, vedi «LA % SBIADITA» in index.html). */
+function prDa(o, pr) { o.hourly.time.forEach((t, i) => { pr[Date.parse(t + 'Z') - 3600000] = o.hourly.precipitation_probability[i]; }); return pr; }
 function maxProb(pr, ms) { let m = null; for (let k = 0; k < 6; k++) { const p = pr[ms + k * 3600000]; if (p != null) m = Math.max(m ?? 0, p); } return m; }
 function restante(resp) {
   const m = /max-age=(\d+)/.exec(resp.headers.get('Cache-Control') || ''), d = Date.parse(resp.headers.get('Date') || '');
