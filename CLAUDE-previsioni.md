@@ -1225,3 +1225,29 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   deploy `ed947597` dal worktree intero della 130 allineato. Verificato online con `LIB=sito prova-nascosta-130.js`:
   Milano PC e Sardegna telefono, da nascoste zero richieste, «+40» 24 e 16 tessere, nessun errore; pagine con `?v=21`.
 
+## Il radar delle pagine «adesso» e delle pagine meteo si apre col «+40» in movimento, solo mentre si vede (9/11/2026, scheda 130)
+
+- **Perché.** Ultimo pezzo del modo A dopo la valutazione delle regole di LibreWXR (crediti e pagine nascoste già in
+  produzione la mattina stessa). Lui pensava che col «+40 vero» le pagine si aprissero già in movimento; poi: «se non
+  ci sono problemi di richieste eccessive facciamo anche le meteo, ovviamente tutto solo mentre si vede sullo schermo,
+  cioè tutto ottimizzato per essere leggero sul cellulare e non intasare il fornitore di dati». Anticipato dal 14/11
+  d'accordo con la Goccia (codice e pagine nello stesso commit).
+- **«adesso»** (`lib/pagina-adesso.js`, `VERSIONE_JS` 22; nel generatore solo la classe `forte` sul tasto «+40 min»):
+  si apre su `carica('prev')`; «+40 min» = il radar di adesso («radar delle») e poi i previsti fino a +40 («previsto
+  per le», `_prev` su ogni strato), come la mappa: `SOSTA` 1,5 s su adesso e sull'ultimo, `PASSO` 0,7 s sugli altri,
+  `passo()` a `setTimeout` (prima un `setInterval` sempre acceso). Il movimento parte quando le tessere sono arrivate
+  (`_pronti`, tetto 8 s) e si ferma con la pagina dietro (`visibilitychange`) o la cartina fuori dallo schermo
+  (`IntersectionObserver` su `#mappa`). Il rinfresco (`controlla()`) rifà anche «+40» col fotogramma nuovo, non solo
+  «Adesso». Riga sotto il radar: «Prima la pioggia di adesso, poi le macchie spostate dove stanno andando…».
+- **Meteo** (`antRadar` in `genera-pagine-meteo-zona.js`, valli e paesi): il radar di adesso subito come prima; i
+  previsti fino a +40 si chiedono SOLO la prima volta che il riquadro è davvero sullo schermo (un terzo almeno), il
+  movimento gira solo finché si vede e la pagina è davanti; senza IntersectionObserver resta fermo su adesso.
+- **Prova** (`scratchpad\radar40\prova-movimento-130.js`, elenco chiesto una volta e servito dalla prova, visibilità
+  finta): 8 pagine × PC/telefono, 5 fotogrammi che girano (adesso + 4 previsti), fermi con la cartina fuori e con la
+  pagina dietro, ripartono al ritorno, zero tessere in più mentre gira, nessun errore. Tessere all'apertura: «adesso»
+  26-40 (prima ~14), meteo 0 finché il riquadro non si vede, poi 20-30. Al telefono (CPU ×4) il radar in movimento
+  costa ~1 s di processore su 8 in più; ⚠️ la pagina «adesso» è pesante da sé anche col radar fermo (5,5-5,8 s su 8
+  nella pagina di prima): non è il radar, da guardare a parte (pallino «IN DIRETTA», barra che scorre?).
+- **Pagine:** 21 regioni e 30 città «adesso» (solo `?v=22` e il tasto acceso), 49 valli e 44 paesi meteo (solo il
+  blocco del riquadro radar). Con questo il modo A è finito.
+
