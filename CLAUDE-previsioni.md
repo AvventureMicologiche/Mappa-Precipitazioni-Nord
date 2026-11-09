@@ -1293,4 +1293,7 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
 - **Misure dopo** (stesso attrezzo, pagine rigenerate): ferma in vista 0,04-0,1 s su 10, scorsa in fondo 0,01, col
   radar in movimento in vista 0,18 (prima 5,1-5,3). 21 regioni e 30 città rigenerate, solo le righe di stile;
   `VERSIONE_JS` invariato (lo stile sta nella pagina).
+- **IN PRODUZIONE il 9/11/2026 alle 8:51** (suo «Sì, tutt'e due»): push `cdf6a5443a` sopra la terza ondata della Goccia
+  (`5b78a12d38`), deploy `9f516401` dal worktree intero della 130 allineato. Online, telefono CPU ×4: Milano e Sardegna
+  ferme 0,09-0,1 s su 10, in fondo 0,01, col +40 0,2; `prova-settimana-127.js` della Goccia `ONLINE=1` 6/6.
 
