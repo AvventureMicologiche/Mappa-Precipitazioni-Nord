@@ -351,8 +351,12 @@ const STILE_ADESSO = `
 .rb-testa{display:flex;align-items:center;gap:10px;background:#0f2d4d;color:#fff;padding:10px 14px;font-size:15.5px;}
 .rb-testa b{font-weight:800;letter-spacing:.3px;}
 .rb-testa .quando{margin-left:auto;opacity:.9;font-size:14.5px;white-space:nowrap;}
-.vivo{width:11px;height:11px;border-radius:50%;background:#ff3b30;flex:none;box-shadow:0 0 0 0 rgba(255,59,48,.7);animation:vivo 1.6s infinite;}
-@keyframes vivo{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 9px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+/* il pallino «IN DIRETTA» pulsa sempre, ma l'alone e' un disco a parte che si allarga e sfuma (transform + opacity: lo
+   muove la scheda grafica). Prima l'alone era un box-shadow animato: il telefono lo ridisegnava 60 volte al secondo,
+   anche fuori schermo, 5,5 s di processore su 10 a pagina ferma (CPU x4); cosi' 0,12 (9/11/2026, scheda 130, suo «B») */
+.vivo{width:11px;height:11px;border-radius:50%;background:#ff3b30;flex:none;position:relative;}
+.vivo::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;border-radius:50%;background:rgba(255,59,48,.7);animation:vivo 1.6s infinite;will-change:transform,opacity;}
+@keyframes vivo{0%{transform:scale(1);opacity:.7}70%{transform:scale(2.6);opacity:0}100%{transform:scale(2.6);opacity:0}}
 /* fondo = il mare aperto della foto, come nella mappa (body.foto-on #map): al telefono fra due tessere resta un filo di
    fondo (la mappa cade a mezzo pixel). Se la foto non arriva torna la cartina (.osm), col suo mare */
 #mappa{height:470px;background:#123a52;}
