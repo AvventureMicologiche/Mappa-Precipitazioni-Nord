@@ -2167,10 +2167,13 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   CC BY-SA 4.0** (README di LibreWXR: fonte «Dipartimento della Protezione Civile, Presidenza del Consiglio dei
   Ministri»). Noi scrivevamo ovunque «OPERA (CC BY)»: era l'unica loro regola che non rispettavamo. Valutazione intera in
   `D:\video youtube\claudio\proposte-130\VALUTAZIONE-LIBREWXR-40.md`, proposta in `PROPOSTA-CREDITI-RADAR.md` accanto.
-- **Cosa dice adesso.** Mappa col radar acceso: crediti «radar LibreWXR · Radar-DPC (CC BY-SA 4.0) · OPERA (CC BY
-  4.0)» coi link (LibreWXR, `radar.protezionecivile.it`, la licenza), i due pezzi in `white-space:nowrap` (a 1440 il
-  riquadro va su due righe come prima e spezzava «Radar-» / «DPC»); riga sotto il radar «Protezione Civile e OPERA».
-  Pagine «adesso» (`lib/pagina-adesso.js` + generatore): stessi crediti, riga «Radar della Protezione Civile
+- **Cosa dice adesso.** Mappa col radar acceso: crediti «radar LibreWXR · Radar-DPC · OPERA», «Radar-DPC» (nowrap)
+  porta alla riga del radar di fonti (`fonti.html#radar`, `id` nuovo), dove ci sono licenza e fonte: la licenza CC 4.0
+  ammette il link a una pagina con le informazioni. Prima prova con le licenze per esteso: a 1920 andava a capo
+  («OPERA (CC BY 4.0)» da solo sotto, suo screen); misurato (`scratchpad\radar40\misura-crediti-130.js`): oggi online 1
+  riga da 1536 in su, per esteso 2 righe ovunque, corto 1 riga a 1920-1600 e 2 da 1536 in giù (riquadro al 34% dello
+  schermo). Riga sotto il radar «Protezione Civile e OPERA».
+  Pagine «adesso» (`lib/pagina-adesso.js` + generatore): stessi crediti corti nella cartina (per esteso nel piede), riga «Radar della Protezione Civile
   sull'Italia, OPERA fuori, circa 2 km.», «Come funziona il radar» e piede; `VERSIONE_JS` 20. Riquadro «Radar piogge»
   delle pagine meteo: «radar LibreWXR · Radar-DPC · OPERA» (le licenze per esteso in «tutte le fonti e licenze»).
   `fonti.html` e guida: Protezione Civile sull'Italia, OPERA fuori, **184 radar in 27 paesi** (erano 155 e 24); sotto la

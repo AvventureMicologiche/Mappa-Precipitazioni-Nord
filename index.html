@@ -13982,7 +13982,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     var OP = 0.95;
     strati=frames.map(function(f){
       var l=L.tileLayer(f.u,{opacity:0,pane:'radar',maxNativeZoom:6,
-        attribution:'radar <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <span style="white-space:nowrap"><a href="https://radar.protezionecivile.it/" target="_blank" rel="noopener">Radar-DPC</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener">CC BY-SA 4.0</a>)</span> · <span style="white-space:nowrap">OPERA (CC BY 4.0)</span>'});   // sull'Italia LibreWXR usa il radar della Protezione Civile, licenza CC BY-SA (9/11/2026, scheda 130); i pezzi non si spezzano al trattino
+        attribution:'radar <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="/fonti.html#radar" target="_blank" rel="noopener" style="white-space:nowrap">Radar-DPC</a> · OPERA'});   // sull'Italia LibreWXR usa il radar della Protezione Civile (Radar-DPC, CC BY-SA 4.0): qui il nome, la licenza a un clic nella riga del radar di fonti (9/11/2026, scheda 130; con le licenze per esteso a 1920 andava a capo)
       l._quando=f.t; l._prev=!!f.p; l.addTo(m);   // _prev: fotogramma previsto, non misurato (8/11/2026)
       return l;
     });
