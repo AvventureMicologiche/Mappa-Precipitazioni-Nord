@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 19;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater)
+const VERSIONE_JS = 20;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater; 20: i crediti del radar, Radar-DPC sull'Italia, 9/11/2026, scheda 130)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -546,7 +546,7 @@ ${briciolaHtml(briciola)}
     <div class="rb-num"><span>0,5</span><span>3</span><span>6</span><span>12</span><span>24</span><span>50 mm/h</span></div>
     <div class="rb-par"><span>pioviggine</span><span>pioggia forte</span></div>
   </div>
-  <div class="rb-stato" id="stato">Radar europeo OPERA, risoluzione 2 km.</div>
+  <div class="rb-stato" id="stato">Radar della Protezione Civile sull'Italia, OPERA fuori, circa 2 km.</div>
 </div>
 
 <div class="pv-cerca">
@@ -578,7 +578,7 @@ ${altre}
 <div class="noioso">
 <h2>Come funziona il radar</h2>
 <p>Il radar meteo manda un fascio di onde radio e misura quanto ne torna indietro dalle gocce: più il colore è acceso, più forte piove.
-Le immagini sono quelle della rete radar europea OPERA, a 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 5 minuti
+Sull'Italia le immagini sono quelle della rete radar della Protezione Civile (Radar-DPC), fuori dall'Italia quelle della rete europea OPERA, a circa 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 10 minuti
 e la pagina lo carica da sola.</p>
 <h2>Le ultime 2 ore e i prossimi 40 minuti</h2>
 <p>«▶ −2 ore» fa scorrere i fotogrammi delle ultime due ore: si vede da dove arriva la pioggia e dove sta andando. «+40 min»
@@ -593,7 +593,7 @@ ${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-
 
 <footer>
 ${navAltre('regione')}
-  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / EUMETNET OPERA (CC BY) ·
+  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="https://radar.protezionecivile.it/" target="_blank" rel="noopener">Radar-DPC</a>, Dipartimento della Protezione Civile (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener">CC BY-SA 4.0</a>) · EUMETNET OPERA (CC BY 4.0) ·
   Previsioni: MET Norway (CC BY 4.0) ·
   <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
@@ -725,7 +725,7 @@ ${briciolaHtml(briciola)}
     <div class="rb-num"><span>0,5</span><span>3</span><span>6</span><span>12</span><span>24</span><span>50 mm/h</span></div>
     <div class="rb-par"><span>pioviggine</span><span>pioggia forte</span></div>
   </div>
-  <div class="rb-stato" id="stato">Radar europeo OPERA, risoluzione 2 km.</div>
+  <div class="rb-stato" id="stato">Radar della Protezione Civile sull'Italia, OPERA fuori, circa 2 km.</div>
 </div>
 
 <div class="pv-cerca">
@@ -759,7 +759,7 @@ ${altre.map(x => `<li><a href="${SITO}/${x.reg}/adesso/${x.slug}/">${x.n}</a></l
 <div class="noioso">
 <h2>Come funziona il radar</h2>
 <p>Il radar meteo manda un fascio di onde radio e misura quanto ne torna indietro dalle gocce: più il colore è acceso, più forte piove.
-Le immagini sono quelle della rete radar europea OPERA, a 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 5 minuti
+Sull'Italia le immagini sono quelle della rete radar della Protezione Civile (Radar-DPC), fuori dall'Italia quelle della rete europea OPERA, a circa 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 10 minuti
 e la pagina lo carica da sola. La riga in alto guarda il radar nel punto di ${c.n} e intorno: dice se piove in città, dov'è la pioggia più vicina e se nei prossimi 40 minuti potrebbe arrivare.</p>
 <h2>Le ultime 2 ore e i prossimi 40 minuti</h2>
 <p>«▶ −2 ore» fa scorrere i fotogrammi delle ultime due ore: si vede da dove arriva la pioggia e dove sta andando. «+40 min»
@@ -775,7 +775,7 @@ ${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-
 
 <footer>
 ${navAltre('regione')}
-  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / EUMETNET OPERA (CC BY) ·
+  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="https://radar.protezionecivile.it/" target="_blank" rel="noopener">Radar-DPC</a>, Dipartimento della Protezione Civile (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener">CC BY-SA 4.0</a>) · EUMETNET OPERA (CC BY 4.0) ·
   Previsioni: MET Norway (CC BY 4.0) ·
   Pluviometri: ${attr(agenziaDi(r))} ·
   <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
