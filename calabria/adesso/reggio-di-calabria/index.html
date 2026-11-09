@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar meteo Reggio di Calabria: sta piovendo adesso?</title>
+<meta name="description" content="Sta piovendo a Reggio di Calabria? Radar meteo in diretta, la pioggia delle ultime 2 ore, la previsione e i pluviometri vicini.">
+<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/calabria/adesso/reggio-di-calabria/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Calabria","item":"https://precipitazioni.avventuremicologiche.it/calabria/"},{"@type":"ListItem","position":3,"name":"Radar adesso","item":"https://precipitazioni.avventuremicologiche.it/calabria/adesso/"},{"@type":"ListItem","position":4,"name":"Reggio di Calabria"}]}</script>
+<meta property="og:title" content="Sta piovendo a Reggio di Calabria? Il radar in diretta">
+<meta property="og:description" content="Sta piovendo a Reggio di Calabria? Radar meteo in diretta, la pioggia delle ultime 2 ore, la previsione e i pluviometri vicini.">
+<meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/calabria/adesso/reggio-di-calabria/">
+<meta property="og:type" content="website">
+<!-- Google tag: il config solo sul dominio vero, come le pagine regione -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if (/(^|\.)avventuremicologiche\.it$/.test(location.hostname)) {
+    gtag('config', 'G-9R7MXXS0V4');
+  }
+</script>
+<link rel="stylesheet" href="/lib/leaflet/1.9.4/leaflet.css">
+<style>
+:root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header a{color:#fff;text-decoration:none;}
+header .logo{font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;}
+main{max-width:760px;margin:0 auto;padding:22px 16px 4px;}
+h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
+h1,h2{text-wrap:balance;}
+p,li{text-wrap:pretty;}
+.sotto{color:#555;font-size:17px;margin-bottom:12px;}
+h2{color:var(--blu-scuro);font-size:22px;margin:34px 0 10px;}
+p{margin-bottom:12px;}
+.cta{display:block;text-align:center;background:var(--blu);color:#fff;font-size:19px;font-weight:600;padding:15px 18px;border-radius:9px;text-decoration:none;margin:22px 0;}
+.cta:hover{background:#2a5490;}
+.griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0;}
+.card{background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:14px 15px;display:flex;flex-direction:column;}
+.card h3{margin:0 0 4px;font-size:17px;color:var(--blu-scuro);}
+.numerone{font-size:30px;font-weight:700;color:var(--blu-scuro);line-height:1.2;}
+.numerone small{font-size:14px;font-weight:400;color:#555;}
+.card .vai{margin-top:auto;padding-top:10px;font-size:15px;font-weight:600;color:var(--blu);text-decoration:none;}
+.attesa{color:#777;font-style:italic;}
+.nota{font-size:14px;color:#666;margin-top:8px;}
+.top-staz{margin:6px 0 0;font-size:15px;}
+.top-staz li{margin:3px 0 3px 20px;}
+.verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
+.verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
+#attesa{color:#6a7789;font-size:16px;padding:18px 0;}
+ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
+ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
+ol.zone-dove li:before{content:counter(z);min-width:22px;text-align:right;color:#8a97a6;font-size:13px;}
+ol.zone-dove a{font-weight:600;color:var(--blu);text-decoration:none;}
+ol.zone-dove .zmm{margin-left:auto;font-weight:700;white-space:nowrap;color:var(--blu-scuro);}
+ol.zone-dove .zmm small{font-weight:400;color:#6a7789;font-size:13px;margin-left:6px;}
+footer{border-top:1px solid var(--bordo);margin-top:8px;padding:14px 16px 24px;font-size:14px;color:#555;text-align:center;}
+footer a{color:var(--blu);}
+nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
+nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
+nav.altre p{line-height:1.9;}
+nav.altre a{color:var(--blu);}
+footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
+.capo-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px;}
+.capo-btn{display:inline-block;text-decoration:none;color:#0f2d4d;font-weight:700;font-size:14.5px;
+  padding:9px 15px 10px;border-radius:9px;border:1px solid #b9c7da;
+  background:linear-gradient(180deg,#ffffff 0%,#f5f8fd 48%,#e8eef8 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 3px 0 #aebfd4, 0 6px 13px rgba(0,0,0,.28);}
+@media(max-width:480px){h1{font-size:25px;}body{font-size:16px;}}
+
+.gg{display:flex;align-items:flex-end;gap:3px;height:150px;margin:14px 0 4px;}
+.gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
+.gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
+.gg .b.dentro i{background:var(--blu);}
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
+  font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
+.gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
+.gg-x span{flex:1;text-align:center;}
+.gg-leg{font-size:13.5px;color:#555;margin-top:8px;}
+.gg-leg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;}
+.tt-box{position:relative;padding-right:42px;margin:14px 0 2px;}
+.tt{width:100%;height:150px;display:block;overflow:visible;}
+.tt .griglia{stroke:#e6eaf0;stroke-width:1;vector-effect:non-scaling-stroke;}
+.tt polyline{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
+.tt .max{stroke:#d1603d;}
+.tt .min{stroke:#3a6ea8;}
+.tt-y{position:absolute;top:0;right:0;width:42px;height:150px;pointer-events:none;}
+.tt-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;color:#6b7a8d;line-height:1;padding-left:5px;}
+.tt-x{padding-right:42px;}
+.vic td:last-child,.vic th:last-child{text-align:right;}
+.vic .qui{background:#eef4fd;}
+.verdetto{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px;}
+.verdetto .si{font-size:27px;font-weight:800;line-height:1.2;}
+.verdetto .pallino{display:inline-block;width:15px;height:15px;border-radius:50%;margin-right:9px;vertical-align:2px;}
+.verdetto .gr{font-size:44px;font-weight:800;line-height:1.1;margin-top:10px;}
+.verdetto .gr small{font-size:18px;font-weight:600;opacity:.85;margin-left:6px;}
+.verdetto .dett{font-size:16px;opacity:.9;margin-top:6px;}
+.scala{display:flex;gap:4px;margin-top:14px;}
+.scala div{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.18);}
+.scala-t{display:flex;font-size:11.5px;opacity:.75;margin-top:4px;}
+.scala-t span{flex:1;text-align:center;}
+.breve{font-size:16px;color:#333;margin:6px 0 4px;}
+.fin{display:flex;gap:6px;align-items:flex-end;height:170px;margin:16px 0 4px;}
+.fin .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;}
+.fin .c i{display:block;background:var(--blu);border-radius:4px 4px 0 0;min-height:3px;}
+.fin .c b{font-size:13px;color:var(--blu-scuro);margin-bottom:3px;}
+.fin{position:relative}.fin-nulla{position:absolute;left:0;right:0;top:38%;text-align:center;color:#5a6b80;font-size:14px;font-weight:600}
+.fin-x{display:flex;gap:6px;font-size:12px;color:#6b7a8d;}
+.fin-x span{flex:1;text-align:center;line-height:1.25;}
+.gg .b.nodato i,.fin .c.nodato i{background:none;border:1px dashed #9fb3cc;border-bottom:0;height:14%;}
+.fin .c.nodato b{color:#8a97a6;font-weight:400;}
+.img-mappa{width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);margin-top:10px;}
+.tasti{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.tasti a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;color:var(--blu-scuro);
+  padding:11px 6px;border:1px solid #b9c7da;border-radius:9px;background:linear-gradient(180deg,#fff,#eef3fa);}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);}
+.tasti a.t-prev{grid-column:1 / -1;}
+@media(max-width:640px){.verdetto .gr{font-size:38px;} .tasti{grid-template-columns:repeat(2,1fr);}}
+.banda-prev{display:flex;align-items:center;gap:12px;margin:10px 0 4px;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,#1f6fd1,#3f8fe8);color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(31,111,209,.25);}
+.banda-prev .ic{font-size:30px;line-height:1;flex:none;}
+.banda-prev b{display:block;font-size:17px;line-height:1.2;}
+.banda-prev span{display:block;font-size:13px;opacity:.92;margin-top:2px;}
+.banda-prev .fr{margin-left:auto;font-size:22px;flex:none;}
+.banda-prev:hover{background:linear-gradient(135deg,#1b5fb3,#3580d6);}
+.noioso{margin-top:34px;padding-top:6px;border-top:1px solid var(--bordo);color:#555;font-size:15px;}
+.noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
+.noioso p{margin-bottom:8px;}
+.noioso a{color:var(--blu);}
+
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+.verdetto .freddo .prox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.08);}
+.verdetto .freddo .prox b.g{color:#8fd0ff;}
+td.fr{text-align:right;white-space:nowrap;font-weight:700;color:#33415a;}
+td.fr.gelo{color:#1f6fd1;}
+td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-height:1.2;}
+.fr-m{display:none;}
+@media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
+
+.gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
+.ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
+  text-decoration:none;background:#fff;color:#10263f;padding:14px 16px 15px 20px;border-radius:14px;line-height:1.35;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 6px 0 #7f97b6,0 12px 22px rgba(0,0,0,.38);
+  transition:transform .08s,box-shadow .08s;}
+.ieri-btn b{font-size:19px;font-weight:700;}
+.ieri-btn small{font-size:15px;font-weight:500;color:#3f5672;}
+.ieri-btn i{grid-row:1/span 2;grid-column:2;font-style:normal;width:40px;height:40px;border-radius:50%;
+  background:#2a5490;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 0 #183a68;}
+.ieri-btn:hover{background:#f3f7fc;}
+.ieri-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+@media(max-width:480px){.ieri-btn b{font-size:17.5px;}.ieri-btn small{font-size:14px;}}
+.capo-btns{gap:12px;margin-top:15px;}
+.capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 5px 0 #7f97b6,0 10px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s;}
+.capo-btn:hover{background:#f3f7fc;}
+.capo-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+.banda-prev:active{transform:translateY(4px);box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;background:var(--blu);color:#fff;font-size:16px;font-weight:700;
+  padding:11px 14px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
+.yt-btn svg{width:26px;height:18px;flex:none;}
+.yt-btn svg rect{fill:#fff;}
+.yt-btn svg polygon{fill:#e12b2b;}
+.yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
+.yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
+
+.rb{border:1px solid var(--bordo);border-radius:14px;overflow:hidden;background:#fff;margin:14px 0 8px;box-shadow:0 8px 20px rgba(15,45,77,.14);}
+.rb-testa{display:flex;align-items:center;gap:10px;background:#0f2d4d;color:#fff;padding:10px 14px;font-size:15.5px;}
+.rb-testa b{font-weight:800;letter-spacing:.3px;}
+.rb-testa .quando{margin-left:auto;opacity:.9;font-size:14.5px;white-space:nowrap;}
+.vivo{width:11px;height:11px;border-radius:50%;background:#ff3b30;flex:none;box-shadow:0 0 0 0 rgba(255,59,48,.7);animation:vivo 1.6s infinite;}
+@keyframes vivo{0%{box-shadow:0 0 0 0 rgba(255,59,48,.7)}70%{box-shadow:0 0 0 9px rgba(255,59,48,0)}100%{box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+#mappa{height:470px;background:#123a52;}
+#mappa.osm{background:#aad3df;}
+#mappa .leaflet-foto-pane{filter:brightness(1.3) saturate(1.1);}
+.nome-paese{white-space:nowrap;pointer-events:none;}
+.nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6);}
+.rb .tasti{grid-template-columns:repeat(3,1fr);margin:0;padding:12px 12px 4px;}
+.rb .tasti a{cursor:pointer;user-select:none;}
+.rb-scala{padding:8px 14px 12px;}
+.rb-barra{height:11px;border-radius:4px;background:linear-gradient(90deg,#00a3e0 0%,#005588 26%,#ffee00 45%,#ffaa00 63%,#ff4400 81%,#c10000 100%);}
+.rb-num{display:flex;justify-content:space-between;font-size:12px;color:#6b7a8d;margin-top:3px;}
+.rb-par{display:flex;justify-content:space-between;font-size:13px;color:#445;margin-top:1px;font-weight:600;}
+.rb-stato{font-size:13.5px;color:#6b7a8d;padding:0 14px 12px;margin-top:-4px;}
+.rb-stato.err{color:#b3261e;font-weight:600;}
+.pila{display:grid;gap:18px;margin:22px 0 10px;}
+.reg-lista{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 14px;margin:10px 0 4px;padding:0;list-style:none;}
+.reg-lista a{display:block;padding:7px 2px;border-bottom:1px solid var(--bordo);font-weight:600;color:var(--blu);text-decoration:none;font-size:16px;}
+.reg-lista a:hover{text-decoration:underline;}
+.leaflet-container{font:inherit;}
+.leaflet-container .leaflet-control-attribution{font-size:11px;line-height:1.4;}
+#mappa .fondo img.leaflet-tile{mix-blend-mode:normal;}
+.pv-cerca{position:relative;background:#fff;border:2px solid var(--blu);border-radius:14px;padding:14px 16px 12px;margin:12px 0 6px;box-shadow:0 6px 16px rgba(15,45,77,.14);}
+.pv-cerca label{display:block;font-weight:800;font-size:18px;color:var(--blu-scuro);margin-bottom:8px;}
+.pv-riga{display:flex;gap:10px;}
+.pv-riga input{flex:1;min-width:0;font:inherit;font-size:17px;padding:11px 13px;border:1px solid #b9c7da;border-radius:10px;color:#10263f;}
+.pv-riga input:focus{outline:2px solid #3f8fe8;outline-offset:0;border-color:#3f8fe8;}
+.pv-riga button{font:inherit;font-size:16px;font-weight:700;color:#fff;background:var(--blu);border:none;border-radius:10px;padding:0 18px;cursor:pointer;box-shadow:0 3px 0 #0c2440;}
+.pv-cerca .nota{margin:8px 0 0;font-size:13.5px;}
+.pv-lista{position:absolute;left:16px;right:16px;top:100%;margin-top:-6px;z-index:900;list-style:none;padding:4px 0;background:#fff;border:1px solid #c9d6e6;border-radius:10px;box-shadow:0 12px 28px rgba(15,45,77,.25);display:none;}
+.pv-lista.aperta{display:block;}
+.pv-lista li{display:flex;align-items:baseline;gap:8px;padding:10px 14px;cursor:pointer;font-size:16.5px;}
+.pv-lista li:hover,.pv-lista li.su{background:#eef4fd;}
+.pv-lista li small{color:#6b7a8d;font-size:13.5px;margin-left:auto;white-space:nowrap;}
+.pv-lista li.vuoto{color:#6b7a8d;cursor:default;}
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+#pv-quando{margin:0 0 10px;}
+.citta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.cit{flex:0 0 calc((100% - 24px) / 3);display:flex;flex-direction:column;background:var(--grigio);border:1px solid var(--bordo);border-radius:14px;padding:12px 14px 13px;text-decoration:none;color:#334;transition:background .1s;}
+.cit:hover{background:#e7eef9;}
+.cit-testa{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;}
+.cit-testa b{font-size:17px;color:var(--blu-scuro);line-height:1.25;}
+.cit-ic{font-size:34px;line-height:1;margin-top:-2px;}
+.cit-t{font-size:34px;font-weight:800;color:var(--blu-scuro);line-height:1.05;margin-top:-6px;}
+.cit-t small{font-size:13.5px;font-weight:600;color:#6b7a8d;margin-left:6px;letter-spacing:0;}
+.cit-cond{font-size:14px;color:#555;margin:2px 0 8px;}
+.cit-gg{font-size:14px;line-height:1.55;padding-bottom:10px;}
+.cit-gg b{color:var(--blu-scuro);}
+.cit-gg .mmw,.cit-cond .mmw{color:#1f6fd1;font-weight:700;white-space:nowrap;margin-left:3px;}
+.cit-vai{margin-top:auto;align-self:flex-start;font-size:14px;font-weight:700;color:var(--blu);background:#fff;border:1px solid #c9d6e6;border-radius:20px;padding:4px 13px;white-space:nowrap;}
+.ad-ora{background:#eef5fb;border-left:4px solid var(--blu);border-radius:8px;padding:11px 14px 12px;margin:4px 0 12px;font-size:16px;line-height:1.5;color:#1f2d3a;min-height:48px;}
+.ad-ora b{color:var(--blu-scuro);}
+.ad-q{display:flex;align-items:center;gap:7px;font-size:12px;color:#5a6b7d;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+.ad-q::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff3b30;flex:none;}
+#ad-t{display:block;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+.pz-nastro{position:relative;height:44px;overflow:hidden;background:#ffd400;border-top:1px solid #e0b800;scroll-margin-top:12px;display:flex;align-items:center;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pz-nastro[hidden]{display:none}
+.pz-nastro .lab{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;padding:0 30px 0 16px;background:#c8102e;color:#fff;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);font:900 13px/1.1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.05em;white-space:nowrap}
+.pz-nastro .lab span{font-size:12px;font-weight:800;color:#ffe36b;letter-spacing:.06em}
+.pz-nastro .lab b{font-weight:900}.pz-nastro .lab em{font-style:normal}.pz-nastro .lab.corto em{display:none}
+.pz-nastro .t{display:flex;white-space:nowrap;will-change:transform;cursor:grab}
+.pz-nastro .v{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#111;font:700 14px system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;padding:0 16px;border-right:2px solid #c8102e;cursor:pointer}
+.pz-nastro .v b{font-weight:900;text-transform:uppercase;letter-spacing:.03em}.pz-nastro .v .ic{font-size:18px}
+.pz-nastro .v .mn{color:#5c4a00;font-weight:700}.pz-nastro .v .mx{color:#111;font-weight:900}
+@media (max-width:600px){.pz-nastro{height:40px}
+  .pz-nastro .lab{flex-direction:column;align-items:flex-start;justify-content:center;gap:0;font-size:10.5px;line-height:1.05;padding:0 22px 0 10px;white-space:normal;max-width:38%}.pz-nastro .lab span{font-size:10px}
+  .pz-nastro .v{font-size:13px;padding:0 12px;gap:5px}.pz-nastro .v .ic{font-size:15px}}
+@media(max-width:640px){.citta{gap:10px;} .cit{flex-basis:calc((100% - 10px) / 2);padding:11px 12px 12px;}
+  .cit-t{font-size:30px;} .cit-ic{font-size:30px;} .cit-gg{font-size:13.5px;} .cit-vai{font-size:13.5px;padding:4px 11px;}
+  #mappa{height:380px;} .reg-lista{grid-template-columns:repeat(2,1fr);}
+  .leaflet-container .leaflet-control-attribution{font-size:10.5px;}
+  .rb-testa{font-size:14.5px;} .rb-testa .quando{font-size:13.5px;}}
+
+.cq{background:var(--grigio);border:1px solid var(--bordo);border-radius:14px;padding:14px 16px 12px;margin:12px 0 8px;}
+.cq-ora{display:flex;align-items:center;gap:14px;min-height:62px;}
+.cq-ora .cit-ic{font-size:46px;margin:0;}
+.cq-ora .cit-t{margin:0;}
+.cq-ora .cit-cond{margin:2px 0 0;}
+.cq-ore{display:flex;gap:8px;overflow-x:auto;padding:12px 0 8px;margin:10px 0 2px;border-top:1px solid var(--bordo);scrollbar-width:thin;}
+.cq-h{flex:0 0 auto;min-width:58px;text-align:center;font-size:13.5px;color:#445;background:#fff;border:1px solid var(--bordo);border-radius:10px;padding:6px 5px 7px;}
+.cq-h b{display:block;color:var(--blu-scuro);font-size:13px;}
+.cq-h .ic{display:block;font-size:22px;line-height:1.35;}
+.cq-h .t{font-weight:800;color:var(--blu-scuro);font-size:15px;}
+.cq-h .mmw{display:block;margin:1px 0 0;font-size:12.5px;}
+.cq-h .pc{display:block;font-size:11.5px;color:#5a6b7d;}
+.cq-gg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px;}
+.cq-g{background:#fff;border:1px solid var(--bordo);border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.5;}
+.cq-g b{color:var(--blu-scuro);}
+.cq-g .mmw{color:#1f6fd1;font-weight:700;white-space:nowrap;}
+.cq .cit-vai{display:inline-block;text-decoration:none;}
+.cq .cit-vai:hover{background:#eef4fd;}
+.pc-frase{font-size:16px;line-height:1.55;margin:6px 0 10px;}
+.pc-tab{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0 6px;}
+.pc-tab th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#5a6b7d;text-align:right;padding:6px 8px;border-bottom:2px solid var(--bordo);white-space:nowrap;}
+.pc-tab th:first-child,.pc-tab td:first-child{text-align:left;}
+.pc-tab td{padding:8px;border-bottom:1px solid var(--bordo);text-align:right;font-variant-numeric:tabular-nums;font-weight:800;color:var(--blu-scuro);white-space:nowrap;}
+.pc-tab td:first-child{font-weight:700;color:#1f2d3a;white-space:normal;}
+.pc-tab td small{display:block;font-weight:500;color:#5a6b7d;font-size:12.5px;}
+@media(max-width:640px){.cq{padding:12px 12px 10px;} .cq-gg{gap:6px;} .cq-g{font-size:13px;padding:7px 7px;}
+  .pc-tab{font-size:14px;} .pc-tab td,.pc-tab th{padding:7px 4px;} .pc-tab th{font-size:11px;letter-spacing:0;}}
+
+.bric{font-size:14px;color:#666;margin-bottom:6px;}
+.bric a{color:var(--blu);}
+
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+.tB a{text-decoration:none;opacity:1}
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+.tB .t-in:has(.mk-lente) .t-it{display:none}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
+</style>
+</head>
+<body>
+<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a href="https://precipitazioni.avventuremicologiche.it/?r=calabria" onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-adesso-reggio-di-calabria-testata-storico'})}catch(e){}">Storico piogge</a><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=calabria" onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-adesso-reggio-di-calabria-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'pagina-calabria-adesso-reggio-di-calabria'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
+  </div></div>
+</header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
+<main data-ondata="2">
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/calabria/">Calabria</a> › <a href="https://precipitazioni.avventuremicologiche.it/calabria/adesso/">Radar adesso</a> › Reggio di Calabria</p>
+<h1>Radar meteo Reggio di Calabria: sta piovendo adesso?</h1>
+<p class="sotto"><b>Radar della pioggia in diretta su Reggio di Calabria</b> e dintorni: le macchie colorate sono la pioggia che sta cadendo adesso. Si aggiorna da solo ogni 5 minuti.</p>
+<div class="ad-ora" aria-live="polite"><span class="ad-q" id="ad-q">Adesso</span><span id="ad-t">Sto guardando il radar su Reggio di Calabria…</span></div>
+
+<div class="rb">
+  <div class="rb-testa"><span class="vivo"></span><b>IN DIRETTA</b><span class="quando" id="quando">carico il radar…</span></div>
+  <div id="mappa"></div>
+  <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> REGGIO DI CALABRIA</em></b><span>PROSSIME ORE</span></div><div class="t"></div></div>
+  <div class="tasti">
+    <a class="forte" data-id="ora">Adesso</a>
+    <a data-id="due">▶ −2 ore</a>
+    <a data-id="prev">+40 min</a>
+  </div>
+  <div class="rb-scala">
+    <div class="rb-barra"></div>
+    <div class="rb-num"><span>0,5</span><span>3</span><span>6</span><span>12</span><span>24</span><span>50 mm/h</span></div>
+    <div class="rb-par"><span>pioviggine</span><span>pioggia forte</span></div>
+  </div>
+  <div class="rb-stato" id="stato">Radar europeo OPERA, risoluzione 2 km.</div>
+</div>
+
+<div class="pv-cerca">
+  <label for="pv-in">☀️ Previsioni meteo in un'altra località</label>
+  <div class="pv-riga"><input id="pv-in" type="search" placeholder="Paese o città" autocomplete="off" enterkeyhint="search"><button id="pv-vai" type="button">Cerca</button></div>
+  <ul class="pv-lista" id="pv-lista"></ul>
+  <p class="nota">Tutti i comuni d'Italia: si aprono le previsioni a 7 giorni, ora per ora.</p>
+</div>
+
+<div class="pila">
+  <a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;radar=ora"
+     onclick="try{gtag('event','apri_mappa',{da:'pagina-calabria-adesso-reggio-di-calabria-mappa'})}catch(e){}">
+    <b>Apri il radar sulla mappa completa</b><small>Ingrandisci, spostati, guarda tutta la regione</small><i>→</i></a>
+</div>
+
+<h2>Previsioni meteo a Reggio di Calabria</h2>
+<div class="cq" id="cq">
+  <div class="cq-ora"><span class="cit-ic" id="cq-ic"></span><div><div class="cit-t" id="cq-t">&nbsp;</div><div class="cit-cond" id="cq-c">Sto chiedendo la previsione…</div></div></div>
+  <div class="cq-ore" id="cq-ore"></div>
+  <div class="cq-gg" id="cq-gg"></div>
+  <a class="cit-vai" id="cq-vai" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=calabria&amp;pl=38.109,15.643&amp;pn=Reggio%20di%20Calabria">7 giorni, ora per ora →</a>
+</div>
+<p class="nota" id="pv-quando">Previsioni del modello ECMWF via MET Norway. La pioggia che cade adesso la mostra il radar qui sopra.</p>
+
+<h2>La pioggia caduta a Reggio di Calabria</h2>
+<p class="pc-frase" data-ultimo="2026-11-08"><span class="pc-ieri">Ieri, 8 novembre,</span> al pluviometro <b>Reggio Calabria</b>, in città, non è caduta pioggia. Negli ultimi 7 giorni <b>39 mm</b>, negli ultimi 30 giorni <b>155 mm</b>.</p>
+<table class="pc-tab">
+<thead><tr><th>I pluviometri più vicini</th><th>Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
+<tbody>
+<tr><td>Reggio Calabria<small>in città · 16 m</small></td><td>0</td><td>39</td><td>155</td></tr>
+<tr><td>Pietrastorta<small>a 4,3 km dal centro · 370 m</small></td><td>0</td><td>39</td><td>170</td></tr>
+<tr><td>Arasì<small>a 8,3 km dal centro · 516 m</small></td><td>0</td><td>48</td><td>179</td></tr>
+<tr><td>Reggio Calabria - Catona<small>a 8,5 km dal centro · 5 m</small></td><td>0</td><td>42</td><td>116</td></tr>
+</tbody>
+</table>
+<p class="nota">Millimetri misurati a terra (dati MeteoHub), fino al 8 novembre. Un trattino: quel pluviometro non ha mandato abbastanza dati nel periodo.</p>
+<a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/calabria/">
+  <b>Dove ha piovuto ieri in Calabria</b><small>I millimetri di oltre 130 pluviometri, zona per zona</small><i>→</i></a>
+
+<h2>Il radar nelle altre città</h2>
+<p class="mv-nota">Tutta la regione: <a href="https://precipitazioni.avventuremicologiche.it/calabria/adesso/">Radar meteo Calabria, dove sta piovendo adesso</a>.</p>
+<ul class="reg-lista">
+<li><a href="https://precipitazioni.avventuremicologiche.it/lombardia/adesso/milano/">Milano</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/piemonte/adesso/torino/">Torino</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/liguria/adesso/genova/">Genova</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/liguria/adesso/savona/">Savona</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/liguria/adesso/la-spezia/">La Spezia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/liguria/adesso/imperia/">Imperia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/veneto/adesso/venezia/">Venezia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/veneto/adesso/verona/">Verona</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/veneto/adesso/padova/">Padova</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/toscana/adesso/firenze/">Firenze</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/umbria/adesso/perugia/">Perugia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/lazio/adesso/roma/">Roma</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/campania/adesso/napoli/">Napoli</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/campania/adesso/salerno/">Salerno</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/campania/adesso/caserta/">Caserta</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/bari/">Bari</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/lecce/">Lecce</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/taranto/">Taranto</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/foggia/">Foggia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/palermo/">Palermo</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/catania/">Catania</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/messina/">Messina</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/siracusa/">Siracusa</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/ragusa/">Ragusa</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/trapani/">Trapani</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sardegna/adesso/cagliari/">Cagliari</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sardegna/adesso/sassari/">Sassari</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sardegna/adesso/olbia/">Olbia</a></li>
+<li><a href="https://precipitazioni.avventuremicologiche.it/sardegna/adesso/nuoro/">Nuoro</a></li>
+</ul>
+
+<div class="noioso">
+<h2>Come funziona il radar</h2>
+<p>Il radar meteo manda un fascio di onde radio e misura quanto ne torna indietro dalle gocce: più il colore è acceso, più forte piove.
+Le immagini sono quelle della rete radar europea OPERA, a 2 km di risoluzione, distribuite da LibreWXR. Un fotogramma nuovo arriva ogni 5 minuti
+e la pagina lo carica da sola. La riga in alto guarda il radar nel punto di Reggio di Calabria e intorno: dice se piove in città, dov'è la pioggia più vicina e se nei prossimi 40 minuti potrebbe arrivare.</p>
+<h2>Le ultime 2 ore e i prossimi 40 minuti</h2>
+<p>«▶ −2 ore» fa scorrere i fotogrammi delle ultime due ore: si vede da dove arriva la pioggia e dove sta andando. «+40 min»
+sposta le macchie di adesso nella direzione in cui si muovono, per i prossimi quaranta minuti. Non è una previsione del tempo, vale solo per l'ora che viene.</p>
+<h2>Radar e pluviometri: perché a volte non coincidono</h2>
+<p>Il radar guarda la pioggia in quota: può vedere gocce che evaporano prima di toccare terra, o perderla dietro le montagne.
+I pluviometri la misurano a terra. A Reggio di Calabria il pluviometro più vicino è <b>Reggio Calabria</b>, in città, a 16 m di quota.</p>
+<p><a href="https://precipitazioni.avventuremicologiche.it/guida/" onclick="try{gtag('event','click_guida',{pulsante:'pagina-calabria-adesso-reggio-di-calabria'})}catch(e){}">📖 Guida alla mappa: come si usa, tutte le funzioni</a></p>
+<p style="margin:22px 0 4px;"><a href="https://www.youtube.com/@avventuremicologiche" target="_blank" rel="noopener" class="yt-btn"
+   onclick="try{gtag('event','click_youtube',{pulsante:'pagina-calabria-adesso-reggio-di-calabria-fondo'})}catch(e){}"><svg width="21" height="15" viewBox="0 0 42 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="42" height="30" rx="6" fill="#e12b2b"/><polygon points="16,7 16,23 31,15" fill="#fff"/></svg>Vieni a trovarci su YouTube</a></p>
+</div>
+</main>
+
+<footer>
+<nav class="altre">
+  <div style="background:#f4fbf3;border:1px solid #cfe8cf;border-radius:9px;padding:1px 15px 11px;margin-top:16px;">
+    <b style="color:#2d6a30">🍄 Dove ha piovuto di più?</b>
+    <p><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:#2d6a30;font-weight:600">La nostra selezione, le località più bagnate</a>
+    <span style="color:#7a8b9a">·</span> oppure le pagine funghi, regione per regione: <a href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/">Lombardia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/">Piemonte</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/valledaosta/">Valle d'Aosta</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/">Liguria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/">Emilia-Romagna</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/">Veneto</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/">Friuli</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/">Trentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/">Alto Adige</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/">Toscana</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/">Umbria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/">Marche</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/lazio/">Lazio</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/molise/">Molise</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/">Campania</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/puglia/">Puglia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/">Basilicata</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/calabria/">Calabria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/">Sicilia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/sardegna/">Sardegna</a></p>
+  </div>
+</nav>
+  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> / EUMETNET OPERA (CC BY) ·
+  Previsioni: MET Norway (CC BY 4.0) ·
+  Pluviometri: MeteoHub ·
+  <a href="https://precipitazioni.avventuremicologiche.it/fonti">tutte le fonti e licenze</a> ·
+  <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
+  La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
+</footer>
+
+<script id="adesso-dati" type="application/json">{"k":"calabria","nome":"Calabria","dove":"a Reggio di Calabria","gen":"della Calabria","sito":"https://precipitazioni.avventuremicologiche.it","citta":[{"n":"Reggio di Calabria","lat":38.109,"lon":15.643,"q":12,"reg":"calabria"}],"qui":{"n":"Reggio di Calabria","lat":38.109,"lon":15.643,"q":12,"reg":"calabria"},"confine":{"type":"Feature","properties":{},"geometry":{"type":"MultiPolygon","coordinates":[[[[15.974,39.468],[15.961,39.476],[15.949,39.497],[15.925,39.527],[15.881,39.545],[15.874,39.555],[15.868,39.575],[15.864,39.579],[15.861,39.594],[15.852,39.617],[15.844,39.628],[15.832,39.668],[15.816,39.68],[15.81,39.706],[15.805,39.715],[15.809,39.718],[15.808,39.73],[15.793,39.779],[15.786,39.816],[15.783,39.82],[15.776,39.822],[15.775,39.828],[15.777,39.832],[15.772,39.832],[15.769,39.835],[15.772,39.842],[15.779,39.848],[15.79,39.85],[15.792,39.86],[15.78,39.893],[15.756,39.924],[15.766,39.93],[15.773,39.961],[15.781,39.967],[15.795,39.971],[15.802,39.983],[15.815,39.995],[15.819,39.996],[15.82,40.002],[15.839,40.003],[15.848,40.006],[15.857,40],[15.868,39.988],[15.879,39.996],[15.89,39.995],[15.897,39.982],[15.916,39.992],[15.923,40],[15.928,40.001],[15.964,39.991],[15.969,39.992],[15.978,39.984],[16.002,39.988],[16.007,39.996],[16.015,39.997],[16.03,39.993],[16.034,39.984],[16.03,39.978],[16.026,39.976],[16.023,39.978],[16.007,39.959],[16.013,39.942],[16.022,39.935],[16.016,39.926],[16.036,39.917],[16.042,39.912],[16.044,39.902],[16.049,39.895],[16.055,39.899],[16.081,39.896],[16.09,39.903],[16.105,39.907],[16.134,39.905],[16.138,39.901],[16.146,39.911],[16.158,39.92],[16.189,39.908],[16.2,39.9],[16.215,39.896],[16.219,39.909],[16.219,39.919],[16.214,39.927],[16.221,39.928],[16.238,39.925],[16.267,39.935],[16.283,39.931],[16.305,39.934],[16.316,39.929],[16.344,39.902],[16.352,39.899],[16.355,39.902],[16.36,39.92],[16.35,39.923],[16.34,39.933],[16.34,39.937],[16.347,39.95],[16.358,39.954],[16.362,39.96],[16.361,39.966],[16.376,39.989],[16.39,40.001],[16.399,40.017],[16.393,40.041],[16.395,40.05],[16.401,40.058],[16.406,40.073],[16.414,40.08],[16.415,40.085],[16.412,40.092],[16.415,40.104],[16.41,40.12],[16.421,40.131],[16.421,40.144],[16.431,40.133],[16.44,40.13],[16.453,40.135],[16.47,40.134],[16.494,40.125],[16.503,40.13],[16.518,40.129],[16.53,40.118],[16.54,40.124],[16.562,40.13],[16.566,40.128],[16.577,40.129],[16.586,40.133],[16.604,40.129],[16.62,40.132],[16.628,40.13],[16.643,40.12],[16.644,40.117],[16.624,40.101],[16.605,40.08],[16.603,40.068],[16.604,40.055],[16.599,40.043],[16.599,40.037],[16.61,40.015],[16.613,39.987],[16.623,39.972],[16.629,39.968],[16.628,39.959],[16.599,39.926],[16.558,39.892],[16.538,39.871],[16.519,39.844],[16.502,39.826],[16.492,39.808],[16.488,39.793],[16.487,39.772],[16.493,39.749],[16.507,39.735],[16.515,39.733],[16.529,39.724],[16.525,39.69],[16.526,39.68],[16.518,39.668],[16.525,39.659],[16.529,39.661],[16.529,39.666],[16.538,39.657],[16.567,39.641],[16.596,39.628],[16.622,39.621],[16.685,39.621],[16.736,39.616],[16.756,39.624],[16.775,39.619],[16.791,39.605],[16.805,39.598],[16.818,39.588],[16.823,39.573],[16.833,39.561],[16.861,39.544],[16.867,39.538],[16.902,39.525],[16.916,39.516],[16.942,39.507],[16.94,39.506],[16.941,39.504],[16.945,39.501],[16.961,39.495],[17.015,39.487],[17.022,39.484],[17.029,39.478],[17.037,39.457],[17.046,39.444],[17.083,39.42],[17.107,39.412],[17.119,39.405],[17.136,39.402],[17.156,39.402],[17.155,39.396],[17.137,39.377],[17.134,39.361],[17.111,39.316],[17.111,39.289],[17.105,39.27],[17.107,39.251],[17.12,39.236],[17.126,39.225],[17.14,39.215],[17.148,39.205],[17.118,39.146],[17.11,39.124],[17.108,39.107],[17.111,39.095],[17.115,39.091],[17.135,39.083],[17.135,39.087],[17.126,39.096],[17.133,39.09],[17.138,39.08],[17.132,39.078],[17.13,39.074],[17.132,39.065],[17.137,39.056],[17.146,39.047],[17.175,39.032],[17.193,39.028],[17.205,39.03],[17.207,39.028],[17.202,39.021],[17.188,39.02],[17.166,38.997],[17.161,38.984],[17.16,38.971],[17.167,38.964],[17.17,38.958],[17.169,38.955],[17.15,38.945],[17.11,38.909],[17.101,38.905],[17.097,38.894],[17.093,38.893],[17.09,38.895],[17.093,38.906],[17.087,38.912],[17.062,38.918],[17.041,38.919],[17.031,38.916],[17.027,38.908],[17.022,38.906],[17.011,38.911],[16.999,38.928],[16.986,38.937],[16.951,38.938],[16.876,38.925],[16.798,38.904],[16.726,38.873],[16.673,38.843],[16.635,38.826],[16.627,38.826],[16.615,38.82],[16.603,38.809],[16.596,38.797],[16.571,38.772],[16.567,38.766],[16.572,38.761],[16.57,38.755],[16.559,38.748],[16.559,38.741],[16.543,38.728],[16.535,38.714],[16.537,38.702],[16.545,38.694],[16.554,38.692],[16.559,38.681],[16.556,38.655],[16.561,38.617],[16.571,38.589],[16.57,38.577],[16.573,38.566],[16.572,38.532],[16.576,38.507],[16.58,38.503],[16.583,38.455],[16.573,38.429],[16.562,38.417],[16.499,38.361],[16.461,38.337],[16.366,38.307],[16.348,38.305],[16.336,38.301],[16.32,38.29],[16.311,38.277],[16.285,38.255],[16.276,38.242],[16.193,38.158],[16.167,38.139],[16.161,38.128],[16.157,38.095],[16.143,38.044],[16.144,38.029],[16.111,37.974],[16.097,37.956],[16.064,37.926],[16.047,37.922],[16.019,37.923],[15.995,37.917],[15.953,37.921],[15.932,37.929],[15.919,37.93],[15.902,37.927],[15.883,37.927],[15.84,37.919],[15.803,37.92],[15.788,37.916],[15.764,37.916],[15.745,37.926],[15.733,37.926],[15.722,37.933],[15.71,37.936],[15.696,37.95],[15.678,37.954],[15.646,37.991],[15.637,38.006],[15.634,38.02],[15.64,38.021],[15.653,38.029],[15.657,38.041],[15.653,38.044],[15.648,38.054],[15.652,38.061],[15.652,38.067],[15.635,38.075],[15.63,38.097],[15.631,38.103],[15.648,38.116],[15.648,38.122],[15.656,38.135],[15.653,38.141],[15.654,38.15],[15.651,38.159],[15.64,38.17],[15.641,38.179],[15.634,38.185],[15.633,38.222],[15.636,38.232],[15.669,38.239],[15.679,38.247],[15.693,38.251],[15.714,38.255],[15.739,38.254],[15.75,38.257],[15.794,38.28],[15.815,38.299],[15.825,38.315],[15.828,38.322],[15.833,38.356],[15.839,38.364],[15.86,38.382],[15.863,38.389],[15.862,38.392],[15.86,38.39],[15.861,38.394],[15.876,38.422],[15.89,38.439],[15.902,38.439],[15.908,38.445],[15.905,38.444],[15.902,38.447],[15.908,38.46],[15.916,38.469],[15.911,38.473],[15.899,38.447],[15.892,38.445],[15.898,38.45],[15.91,38.475],[15.918,38.505],[15.93,38.532],[15.931,38.547],[15.929,38.55],[15.915,38.555],[15.904,38.563],[15.894,38.576],[15.863,38.597],[15.844,38.613],[15.827,38.619],[15.836,38.645],[15.849,38.66],[15.871,38.672],[15.89,38.676],[15.895,38.68],[15.91,38.681],[15.926,38.688],[15.948,38.691],[15.961,38.7],[15.973,38.715],[15.982,38.722],[16.032,38.728],[16.107,38.712],[16.119,38.718],[16.131,38.716],[16.147,38.724],[16.158,38.735],[16.181,38.747],[16.189,38.756],[16.214,38.812],[16.22,38.839],[16.221,38.903],[16.217,38.924],[16.211,38.931],[16.201,38.931],[16.187,38.936],[16.171,38.948],[16.159,38.949],[16.154,38.954],[16.151,38.966],[16.136,38.991],[16.117,39.008],[16.105,39.025],[16.099,39.029],[16.096,39.049],[16.092,39.056],[16.082,39.095],[16.066,39.14],[16.063,39.16],[16.063,39.192],[16.06,39.201],[16.052,39.296],[16.044,39.313],[16.039,39.341],[16.03,39.358],[16.003,39.427],[15.993,39.446],[15.974,39.468]]],[[[15.801,39.7],[15.803,39.7],[15.801,39.697],[15.801,39.7]]],[[[15.774,39.876],[15.781,39.873],[15.769,39.871],[15.774,39.876]]]]}},"foto":{"u":"https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Satellite@ef0c3dbb1354e99832e751597926e41933b8d63e/europa/{z}/{x}/{y}.webp","lim":[[34,-25],[72,45]],"cr":"Foto: NASA, \u003ca href=\"/fonti.html#satellite\" target=\"_blank\" rel=\"noopener\">ESA WorldCover\u003c/a>"},"nomi":[{"n":"Catanzaro","lat":38.906,"lon":16.594},{"n":"Cosenza","lat":39.293,"lon":16.256},{"n":"Crotone","lat":39.08,"lon":17.125},{"n":"Vibo Valentia","lat":38.676,"lon":16.102},{"n":"Roma","lat":41.893,"lon":12.484},{"n":"Milano","lat":45.467,"lon":9.19},{"n":"Napoli","lat":40.84,"lon":14.251},{"n":"Torino","lat":45.073,"lon":7.681},{"n":"Palermo","lat":38.116,"lon":13.362},{"n":"Genova","lat":44.411,"lon":8.933},{"n":"Bologna","lat":44.494,"lon":11.342},{"n":"Firenze","lat":43.769,"lon":11.256},{"n":"Bari","lat":41.126,"lon":16.867},{"n":"Venezia","lat":45.435,"lon":12.338},{"n":"Trieste","lat":45.649,"lon":13.768},{"n":"Cagliari","lat":39.215,"lon":9.111},{"n":"Perugia","lat":43.107,"lon":12.388},{"n":"Trento","lat":46.069,"lon":11.121},{"n":"Bolzano","lat":46.499,"lon":11.357},{"n":"Ancona","lat":43.617,"lon":13.519},{"n":"L'Aquila","lat":42.351,"lon":13.398},{"n":"Potenza","lat":40.639,"lon":15.805},{"n":"Campobasso","lat":41.558,"lon":14.659},{"n":"Aosta","lat":45.738,"lon":7.32},{"n":"Catania","lat":37.503,"lon":15.087},{"n":"Verona","lat":45.438,"lon":10.994},{"n":"Messina","lat":38.194,"lon":15.556},{"n":"Udine","lat":46.063,"lon":13.235},{"n":"Sassari","lat":40.727,"lon":8.56},{"n":"Grosseto","lat":42.76,"lon":11.114},{"n":"Brescia","lat":45.54,"lon":10.219},{"n":"Lecce","lat":40.354,"lon":18.172},{"n":"Istanbul","lat":41.006,"lon":28.976},{"n":"Londra","lat":51.507,"lon":-0.128},{"n":"Smirne","lat":38.419,"lon":27.128},{"n":"Berlino","lat":52.517,"lon":13.395},{"n":"Madrid","lat":40.417,"lon":-3.704},{"n":"Algeri","lat":36.773,"lon":3.059},{"n":"Bursa","lat":40.183,"lon":29.067},{"n":"Atene","lat":37.976,"lon":23.735},{"n":"Parigi","lat":48.853,"lon":2.348},{"n":"Kocaeli","lat":40.765,"lon":29.941},{"n":"Vienna","lat":48.208,"lon":16.372},{"n":"Minsk","lat":53.903,"lon":27.562},{"n":"Bucarest","lat":44.436,"lon":26.103},{"n":"Varsavia","lat":52.232,"lon":21.007},{"n":"Amburgo","lat":53.55,"lon":10.001},{"n":"Barcellona","lat":41.383,"lon":2.177},{"n":"Budapest","lat":47.498,"lon":19.04},{"n":"Rabat","lat":34.022,"lon":-6.841},{"n":"Monaco di Baviera","lat":48.137,"lon":11.575},{"n":"Magnesia","lat":38.613,"lon":27.433},{"n":"Sofia","lat":42.698,"lon":23.322},{"n":"Balıkesir","lat":39.647,"lon":27.888},{"n":"Praga","lat":50.087,"lon":14.421},{"n":"Belgrado","lat":44.818,"lon":20.457},{"n":"Fes","lat":34.035,"lon":-5.016},{"n":"Aydın","lat":37.848,"lon":27.844},{"n":"Colonia","lat":50.938,"lon":6.96},{"n":"Denizli","lat":37.783,"lon":29.097},{"n":"Birmingham","lat":52.48,"lon":-1.903},{"n":"Salé","lat":34.045,"lon":-6.814},{"n":"Sfax","lat":34.739,"lon":10.76},{"n":"Tangeri","lat":35.77,"lon":-5.803},{"n":"Breslavia","lat":51.109,"lon":17.033},{"n":"Amsterdam","lat":52.373,"lon":4.893},{"n":"Marsiglia","lat":43.296,"lon":5.378},{"n":"Orano","lat":35.704,"lon":-0.65},{"n":"Cracovia","lat":50.062,"lon":19.937},{"n":"Valencia","lat":39.47,"lon":-0.376},{"n":"Salonicco","lat":40.64,"lon":22.935},{"n":"Leeds","lat":53.797,"lon":-1.544},{"n":"Chișinău","lat":47.025,"lon":28.832},{"n":"Tunisi","lat":36.8,"lon":10.186},{"n":"Leopoli","lat":49.842,"lon":24.032},{"n":"Francoforte sul Meno","lat":50.111,"lon":8.682},{"n":"Bouira","lat":36.374,"lon":3.901},{"n":"Siviglia","lat":37.389,"lon":-5.995},{"n":"Łódź","lat":51.769,"lon":19.457},{"n":"Saragozza","lat":41.652,"lon":-0.881},{"n":"Zagabria","lat":45.813,"lon":15.977},{"n":"Düsseldorf","lat":51.225,"lon":6.776},{"n":"Lipsia","lat":51.341,"lon":12.375},{"n":"Stoccarda","lat":48.778,"lon":9.18},{"n":"Copenaghen","lat":55.687,"lon":12.57},{"n":"Glasgow","lat":55.861,"lon":-4.25},{"n":"Dortmund","lat":51.514,"lon":7.465},{"n":"Vilnius","lat":54.687,"lon":25.283},{"n":"Kütahya","lat":39.42,"lon":29.986},{"n":"Rotterdam","lat":51.924,"lon":4.478},{"n":"Dresda","lat":51.049,"lon":13.738},{"n":"Essen","lat":51.458,"lon":7.016},{"n":"Tirana","lat":41.328,"lon":19.818},{"n":"Hannover","lat":52.374,"lon":9.739},{"n":"Dublino","lat":53.349,"lon":-6.261},{"n":"Lisbona","lat":38.708,"lon":-9.137},{"n":"Malaga","lat":36.721,"lon":-4.422},{"n":"Brema","lat":53.076,"lon":8.807},{"n":"Sheffield","lat":53.381,"lon":-1.47},{"n":"Poznań","lat":52.408,"lon":16.933},{"n":"Norimberga","lat":49.454,"lon":11.077},{"n":"L'Aia","lat":52.08,"lon":4.311},{"n":"Lione","lat":45.758,"lon":4.832},{"n":"Kénitra","lat":34.265,"lon":-6.57},{"n":"Anversa","lat":51.221,"lon":4.4},{"n":"Tolosa","lat":43.605,"lon":1.444},{"n":"Manchester","lat":53.48,"lon":-2.245},{"n":"Oujda","lat":34.678,"lon":-1.929},{"n":"Kaliningrad","lat":54.71,"lon":20.511},{"n":"Edimburgo","lat":55.953,"lon":-3.188},{"n":"Danzica","lat":54.348,"lon":18.654},{"n":"Duisburg","lat":51.435,"lon":6.76},{"n":"Murcia","lat":37.992,"lon":-1.131},{"n":"Bristol","lat":51.454,"lon":-2.597},{"n":"Costantina","lat":36.364,"lon":6.608},{"n":"Zurigo","lat":47.374,"lon":8.541},{"n":"Liverpool","lat":53.407,"lon":-2.992},{"n":"Bratislava","lat":48.144,"lon":17.108},{"n":"Skopje","lat":41.996,"lon":21.432},{"n":"Stettino","lat":53.43,"lon":14.551},{"n":"Brno","lat":49.192,"lon":16.611},{"n":"Uşak","lat":38.674,"lon":29.406},{"n":"Vinnycja","lat":49.232,"lon":28.468},{"n":"Bochum","lat":51.482,"lon":7.22},{"n":"Wuppertal","lat":51.264,"lon":7.178},{"n":"Hrodna","lat":53.684,"lon":23.834},{"n":"Alicante","lat":38.344,"lon":-0.488},{"n":"Bilbao","lat":43.263,"lon":-2.935},{"n":"Nizza","lat":43.701,"lon":7.268},{"n":"Varna","lat":43.207,"lon":27.917},{"n":"Cardiff","lat":51.482,"lon":-3.179},{"n":"Brėst","lat":52.094,"lon":23.685},{"n":"Coventry","lat":52.408,"lon":-1.51},{"n":"Bonn","lat":50.735,"lon":7.103},{"n":"Lublino","lat":51.251,"lon":22.57},{"n":"Plovdiv","lat":42.142,"lon":24.75},{"n":"Belfast","lat":54.596,"lon":-5.93},{"n":"Blida","lat":36.471,"lon":2.828},{"n":"Graz","lat":47.071,"lon":15.438},{"n":"Bydgoszcz","lat":53.122,"lon":18},{"n":"Palma di Maiorca","lat":39.57,"lon":2.65},{"n":"Bielefeld","lat":52.019,"lon":8.531},{"n":"Nante","lat":47.219,"lon":-1.554},{"n":"Cluj-Napoca","lat":46.769,"lon":23.59},{"n":"Wakefield","lat":53.683,"lon":-1.497},{"n":"Newcastle upon Tyne","lat":54.974,"lon":-1.613},{"n":"Tétouan","lat":35.57,"lon":-5.375},{"n":"Timișoara","lat":45.754,"lon":21.226},{"n":"Malmö","lat":55.605,"lon":13},{"n":"Kaunas","lat":54.898,"lon":23.904},{"n":"Münster","lat":51.962,"lon":7.625},{"n":"Mannheim","lat":49.489,"lon":8.467},{"n":"Leicester","lat":52.636,"lon":-1.133},{"n":"Nottingham","lat":52.953,"lon":-1.15},{"n":"Montpellier","lat":43.611,"lon":3.877},{"n":"Augusta","lat":48.369,"lon":10.898},{"n":"Patrasso","lat":38.246,"lon":21.735},{"n":"Siracusa","lat":37.06,"lon":15.293,"v":1},{"n":"Gela","lat":37.065,"lon":14.25,"v":1},{"n":"Lamezia Terme","lat":38.975,"lon":16.319,"v":1},{"n":"Ragusa","lat":36.925,"lon":14.731,"v":1},{"n":"Caltanissetta","lat":37.492,"lon":14.062,"v":1},{"n":"Vittoria","lat":36.949,"lon":14.538,"v":1},{"n":"Modica","lat":36.859,"lon":14.761,"v":1},{"n":"Acireale","lat":37.612,"lon":15.166,"v":1},{"n":"Paternò","lat":37.577,"lon":14.903,"v":1},{"n":"Misterbianco","lat":37.521,"lon":15.006,"v":1},{"n":"Barcellona Pozzo di Gotto","lat":38.147,"lon":15.219,"v":1},{"n":"Licata","lat":37.102,"lon":13.937,"v":1},{"n":"Caltagirone","lat":37.238,"lon":14.513,"v":1},{"n":"Adrano","lat":37.662,"lon":14.833,"v":1},{"n":"Canicattì","lat":37.36,"lon":13.85,"v":1},{"n":"Rende","lat":39.332,"lon":16.18,"v":1},{"n":"Milazzo","lat":38.221,"lon":15.243,"v":1},{"n":"Avola","lat":36.908,"lon":15.135,"v":1},{"n":"Mascalucia","lat":37.573,"lon":15.053,"v":1},{"n":"Comiso","lat":36.946,"lon":14.605,"v":1},{"n":"Aci Catena","lat":37.603,"lon":15.142,"v":1},{"n":"Giarre","lat":37.73,"lon":15.185,"v":1},{"n":"Niscemi","lat":37.145,"lon":14.385,"v":1},{"n":"Enna","lat":37.567,"lon":14.279,"v":1},{"n":"Gravina di Catania","lat":37.561,"lon":15.062,"v":1},{"n":"Belpasso","lat":37.591,"lon":14.977,"v":1},{"n":"Lentini","lat":37.285,"lon":14.999,"v":1},{"n":"Noto","lat":36.892,"lon":15.067,"v":1},{"n":"Biancavilla","lat":37.641,"lon":14.87,"v":1},{"n":"San Cataldo","lat":37.487,"lon":13.99,"v":1},{"n":"Floridia","lat":37.082,"lon":15.153,"v":1},{"n":"Piazza Armerina","lat":37.384,"lon":14.366,"v":1},{"n":"San Giovanni la Punta","lat":37.577,"lon":15.094,"v":1},{"n":"Rosolini","lat":36.82,"lon":14.954,"v":1},{"n":"Tremestieri Etneo","lat":37.576,"lon":15.072,"v":1},{"n":"Bronte","lat":37.788,"lon":14.833,"v":1},{"n":"Gioia Tauro","lat":38.43,"lon":15.897,"v":1},{"n":"Palmi","lat":38.357,"lon":15.85,"v":1},{"n":"Montalto Uffugo","lat":39.406,"lon":16.158,"v":1},{"n":"Aci Castello","lat":37.556,"lon":15.145,"v":1},{"n":"Carlentini","lat":37.276,"lon":15.015,"v":1},{"n":"San Giovanni in Fiore","lat":39.254,"lon":16.697,"v":1},{"n":"Aci Sant'Antonio","lat":37.606,"lon":15.126,"v":1},{"n":"Scordia","lat":37.296,"lon":14.846,"v":1},{"n":"Siderno","lat":38.269,"lon":16.298,"v":1},{"n":"Palagonia","lat":37.328,"lon":14.746,"v":1},{"n":"Paola","lat":39.36,"lon":16.042,"v":1},{"n":"Isola di Capo Rizzuto","lat":38.959,"lon":17.096,"v":1},{"n":"Taurianova","lat":38.353,"lon":16.013,"v":1},{"n":"Cirò Marina","lat":39.365,"lon":17.131,"v":1},{"n":"Rosarno","lat":38.488,"lon":15.983,"v":1},{"n":"Cefalù","lat":38.04,"lon":14.022,"v":1}]}</script>
+<script src="/lib/leaflet/1.9.4/leaflet.js"></script>
+<script src="/lib/pagina-adesso.js?v=19"></script>
+</body>
+</html>
