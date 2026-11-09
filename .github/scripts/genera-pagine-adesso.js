@@ -193,15 +193,18 @@ const ONDATE_ADESSO = [
    ondata con la sola sitemap erano 0 su 24 a tre giorni, mentre le pagine chieste a mano entrano in poche ore e la quota
    a mano e' 11 al giorno. Una citta' con la data qui sotto NON ESISTE finche' quel giorno non arriva (ora italiana; per
    le prove OGGI=AAAA-MM-GG): niente pagina, pillole, elenchi ne' sitemap. Il giro del mattino (SOLO=citta) la scrive da
-   solo il suo giorno; le pillole delle pagine regione arrivano col generatore intero della sera. */
+   solo il suo giorno; le pillole delle pagine regione arrivano col generatore intero della sera.
+   ⚠️ 9/11/2026, sua scelta («Prima la 1», con la GA4 5; «Sì, spostale» nella Goccia): da 5 a 10 pagine nuove al giorno,
+   perche' entra solo quello che si chiede a mano (22/22 chieste il 7-8/11 dentro, 0/31 con la sola sitemap). Sei citta'
+   il 10 e l'11/11, due il 12/11, insieme ai «Meteo <paese>» (4, 4, 3). */
 const USCITA_ADESSO = {
   'lombardia/Milano': '2026-11-08', 'toscana/Firenze': '2026-11-08', 'sicilia/Trapani': '2026-11-08',
   'piemonte/Torino': '2026-11-09', 'umbria/Perugia': '2026-11-09', 'calabria/Reggio di Calabria': '2026-11-09',
   'emilia/Bologna': '2026-11-10', 'trentino/Trento': '2026-11-10', 'puglia/Brindisi': '2026-11-10',
-  'friuli/Trieste': '2026-11-11', 'marche/Ancona': '2026-11-11', 'sicilia/Agrigento': '2026-11-11',
-  'altoadige/Bolzano': '2026-11-12', 'veneto/Vicenza': '2026-11-12', 'calabria/Catanzaro': '2026-11-12',
-  'veneto/Treviso': '2026-11-13', 'valledaosta/Aosta': '2026-11-13', 'puglia/Andria': '2026-11-13',
-  'basilicata/Potenza': '2026-11-14', 'molise/Campobasso': '2026-11-14',
+  'friuli/Trieste': '2026-11-10', 'marche/Ancona': '2026-11-10', 'sicilia/Agrigento': '2026-11-10',
+  'altoadige/Bolzano': '2026-11-11', 'veneto/Vicenza': '2026-11-11', 'calabria/Catanzaro': '2026-11-11',
+  'veneto/Treviso': '2026-11-11', 'valledaosta/Aosta': '2026-11-11', 'puglia/Andria': '2026-11-11',
+  'basilicata/Potenza': '2026-11-12', 'molise/Campobasso': '2026-11-12',
 };
 const OGGI = process.env.OGGI || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
 const CITTA_ADESSO = {}, ONDATA_DI = {};

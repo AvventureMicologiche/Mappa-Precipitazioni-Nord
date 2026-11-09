@@ -170,6 +170,8 @@ const METEO_PAESI_B = [
 // `dal` = il giorno in cui la pagina esce (ora italiana; per le prove OGGI=AAAA-MM-GG). Prima di quel giorno non si
 // scrive; e i LINK (pillole, pagina funghi, sitemap) compaiono solo quando la pagina c'e' davvero nel repo, cosi' il
 // giro del mattino che riscrive le regioni non linka una pagina che esce la sera.
+// ⚠️ 9/11/2026, sua scelta («Prima la 1», con la GA4 5; «Sì, spostale» nella Goccia): da 5 a 10 pagine nuove al giorno.
+// Quattro paesi il 10 e l'11/11, tre il 12/11, insieme alle citta' «adesso» (6, 6, 2).
 const METEO_PAESI_C = [
   { loc: 'piemonte/corio', slug: 'corio', n: 'Corio', dove: 'a Corio', di: 'di Corio', dal: '2026-11-08' },
   { loc: 'campania/corleto-monforte-savuco-serra-nu', slug: 'corleto-monforte', n: 'Corleto Monforte', dove: 'a Corleto Monforte', di: 'di Corleto Monforte', nomi: { 'Corleto Monforte-Savuco Serra Nu': 'Savuco' }, primo: 'Corleto Monforte', pluv: 'di Savuco, a Corleto Monforte', dal: '2026-11-08' },
@@ -177,15 +179,15 @@ const METEO_PAESI_C = [
   { loc: 'lombardia/santa-margherita-di-staffora-passo-del-giova', slug: 'santa-margherita-di-staffora', n: 'Santa Margherita di Staffora', dove: 'a Santa Margherita di Staffora', di: 'di Santa Margherita di Staffora', nomi: { 'Santa Margherita di Staffora Passo del Giovà': 'Passo del Giovà' }, primo: 'Santa Margherita di Staffora', pluv: 'del Passo del Giovà, a Santa Margherita di Staffora', dal: '2026-11-09' },
   { loc: 'calabria/canolo-nuovo', slug: 'canolo-nuova', n: 'Canolo Nuova', dove: 'a Canolo Nuova', di: 'di Canolo Nuova', nomi: { 'Canolo Nuovo': 'Canolo Nuova' }, dal: '2026-11-10' },
   { loc: 'piemonte/demonte', slug: 'demonte', n: 'Demonte', dove: 'a Demonte', di: 'di Demonte', dal: '2026-11-10' },
-  { loc: 'basilicata/t-atella-p-te-ss381', slug: 'atella', n: 'Atella', dove: 'ad Atella', di: 'di Atella', nomi: { 'T. Atella - P.te SS381': 'Torrente Atella' }, primo: 'Atella', pluv: 'sul torrente Atella, al ponte della statale 381', dal: '2026-11-11' },
-  { loc: 'marche/ussita', slug: 'ussita', n: 'Ussita', dove: 'a Ussita', di: 'di Ussita', dal: '2026-11-11' },
-  { loc: 'altoadige/selva-dei-molini', slug: 'selva-dei-molini', n: 'Selva dei Molini', dove: 'a Selva dei Molini', di: 'di Selva dei Molini', dal: '2026-11-12' },
-  { loc: 'lazio/vivaro-romano', slug: 'vivaro-romano', n: 'Vivaro Romano', dove: 'a Vivaro Romano', di: 'di Vivaro Romano', dal: '2026-11-12' },
-  { loc: 'toscana/passo-del-brattello', slug: 'passo-del-brattello', n: 'Passo del Brattello', dove: 'al Passo del Brattello', di: 'del Passo del Brattello', dal: '2026-11-13' },
-  { loc: 'calabria/san-sosti', slug: 'san-sosti', n: 'San Sosti', dove: 'a San Sosti', di: 'di San Sosti', dal: '2026-11-13' },
-  { loc: 'friuli/val-ugovizza', slug: 'val-ugovizza', n: 'Val Ugovizza', dove: 'in Val Ugovizza', di: 'della Val Ugovizza', dal: '2026-11-14' },
-  { loc: 'piemonte/chiusa-pesio', slug: 'chiusa-di-pesio', n: 'Chiusa di Pesio', dove: 'a Chiusa di Pesio', di: 'di Chiusa di Pesio', nomi: { 'Chiusa Pesio': 'Alta Valle Pesio' }, primo: 'Chiusa di Pesio', pluv: "dell'alta Valle Pesio, a 10 km da Chiusa di Pesio", dal: '2026-11-14' },
-  { loc: 'toscana/orecchiella', slug: 'orecchiella', n: 'Orecchiella', dove: "all'Orecchiella", di: "dell'Orecchiella", dal: '2026-11-14' },
+  { loc: 'basilicata/t-atella-p-te-ss381', slug: 'atella', n: 'Atella', dove: 'ad Atella', di: 'di Atella', nomi: { 'T. Atella - P.te SS381': 'Torrente Atella' }, primo: 'Atella', pluv: 'sul torrente Atella, al ponte della statale 381', dal: '2026-11-10' },
+  { loc: 'marche/ussita', slug: 'ussita', n: 'Ussita', dove: 'a Ussita', di: 'di Ussita', dal: '2026-11-10' },
+  { loc: 'altoadige/selva-dei-molini', slug: 'selva-dei-molini', n: 'Selva dei Molini', dove: 'a Selva dei Molini', di: 'di Selva dei Molini', dal: '2026-11-11' },
+  { loc: 'lazio/vivaro-romano', slug: 'vivaro-romano', n: 'Vivaro Romano', dove: 'a Vivaro Romano', di: 'di Vivaro Romano', dal: '2026-11-11' },
+  { loc: 'toscana/passo-del-brattello', slug: 'passo-del-brattello', n: 'Passo del Brattello', dove: 'al Passo del Brattello', di: 'del Passo del Brattello', dal: '2026-11-11' },
+  { loc: 'calabria/san-sosti', slug: 'san-sosti', n: 'San Sosti', dove: 'a San Sosti', di: 'di San Sosti', dal: '2026-11-11' },
+  { loc: 'friuli/val-ugovizza', slug: 'val-ugovizza', n: 'Val Ugovizza', dove: 'in Val Ugovizza', di: 'della Val Ugovizza', dal: '2026-11-12' },
+  { loc: 'piemonte/chiusa-pesio', slug: 'chiusa-di-pesio', n: 'Chiusa di Pesio', dove: 'a Chiusa di Pesio', di: 'di Chiusa di Pesio', nomi: { 'Chiusa Pesio': 'Alta Valle Pesio' }, primo: 'Chiusa di Pesio', pluv: "dell'alta Valle Pesio, a 10 km da Chiusa di Pesio", dal: '2026-11-12' },
+  { loc: 'toscana/orecchiella', slug: 'orecchiella', n: 'Orecchiella', dove: "all'Orecchiella", di: "dell'Orecchiella", dal: '2026-11-12' },
 ];
 const OGGI_METEO = process.env.OGGI || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
 const paginaMeteoPaeseC_e = p => fs.existsSync(path.join(RADICE, 'meteo', p.loc.split('/')[0], p.slug, 'index.html'));
