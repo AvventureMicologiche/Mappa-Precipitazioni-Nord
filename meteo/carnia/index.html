@@ -722,7 +722,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   function righeOre(ore, conPc) {
     var prima = ore[0] && ore[0].g;
     return ore.map(function (o) {
-      var pc = conPc && o.pc != null ? '<span class="pc' + tonoPc(o.pc) + '">' + pcTesto(o.pc) + '</span>' : '';
+      var pc = conPc && o.pc != null ? '<span class="pc' + (o.mm < 0.1 ? ' z' : tonoPc(o.pc)) + '">' + pcTesto(o.pc) + '</span>' : '';
       return (o.g !== prima ? (prima = o.g, '<tr class="sep"><td colspan="5">' + maiusc(nome(o.g, true)) + '</td></tr>') : '')
         + '<tr' + (o.h6 ? ' class="f6"' : '') + '><td class="h">' + (o.h6 ? '<b>' + FASCIA(o.h) + '</b>' + o.h + '-' + ((o.h + 6) % 24) : String(o.h).padStart(2, '0')) + '</td>'
         + '<td><span class="ic">' + icona(o.s) + '</span><span class="pa">' + parola(o.s) + '</span></td><td class="t">' + Math.round(o.t) + '°</td>'
@@ -749,6 +749,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       + '<div class="giorni">' + giorni.map(function (x) { return '<button data-g="' + x.g + '" class="' + (x.g === g ? 'sel' : '') + '"><b>' + nome(x.g) + '</b>' + icona(x.s) + ' ' + x.mn + '°/' + x.mx + '°<br>' + (x.mm >= 0.1 ? mm(x.mm) + ' mm' : '–') + (x.pc != null ? '<span class="pc' + tonoPc(x.pc) + '">' + pcTesto(x.pc) + '</span>' : '') + '</button>'; }).join('') + '</div>'
       + (ore.length ? (g !== OGGI && ore.some(function (o) { return o.h6; }) ? '<p class="tv-nota">Da qui in poi il modello dà le previsioni a fasce di 6 ore.</p>' : '')
           + '<table class="tv"><tbody>' + righeOre(ore, conPc) + '</tbody></table>'
+          + (conPc ? '<p class="tv-nota">💧 Probabilità: quante simulazioni danno pioggia. Icona e mm: la previsione più probabile.</p>' : '')
         : '<p class="nota">Ore non disponibili per questo giorno.</p>')
       + '<div class="pz-porte">' + porte(s.x) + '</div>';
   }
