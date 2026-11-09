@@ -913,7 +913,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     });
     fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
       var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
-      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR / OPERA (CC BY)' }).addTo(m);
+      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR · Radar-DPC · OPERA' }).addTo(m);
       $('ant-radar-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
     }).catch(function () {});
   }
