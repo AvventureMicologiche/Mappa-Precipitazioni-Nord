@@ -1250,4 +1250,9 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   nella pagina di prima): non è il radar, da guardare a parte (pallino «IN DIRETTA», barra che scorre?).
 - **Pagine:** 21 regioni e 30 città «adesso» (solo `?v=22` e il tasto acceso), 49 valli e 44 paesi meteo (solo il
   blocco del riquadro radar). Con questo il modo A è finito.
+- **IN PRODUZIONE il 9/11/2026 alle 8:32** (suo «Sì, tutt'e due»): push `f7a8980196` sopra `0aaafafa9c` della Goccia
+  (goccia a 10 al giorno: stessi due generatori, solo le date; rebase pulito, rigenerando zero file cambiati), deploy
+  `76baf573` dal worktree intero della 130 allineato. Online: Milano PC e telefono, Garfagnana PC e telefono, movimento,
+  fermo fuori schermo e dietro, zero errori; `prova-settimana-127.js` della Goccia con `ONLINE=1` su Torino, Umbria,
+  Crespano: 6/6.
 
