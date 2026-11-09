@@ -1279,3 +1279,18 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   `USCITA_ADESSO`. Chi legge le date con una regex deve accettare tutti e due i tipi di apici (il `lotto-127.js` della
   Goccia è stato corretto).
 
+## Il pallino «IN DIRETTA» delle pagine «adesso» pulsa leggero (9/11/2026, scheda 130)
+
+- **Perché.** Dopo il radar col +40 in movimento, misurando la pagina al telefono è venuto fuori che pesava già da sé:
+  suo «controlla». `peso-adesso-130.js` (scratchpad `radar40\`, sito vero, telefono 393×760 con CPU ×4, 10 s fermi):
+  l'unica animazione accesa era il pallino rosso `.vivo` che animava `box-shadow` all'infinito, 600 ricalcoli di stile
+  in 10 s anche col pallino fuori dallo schermo: **5,5 s di processore su 10**. Stessa cosa delle pulsazioni della
+  mappa (128 bis, 8/11). Sta solo nelle «adesso» (`genera-pagine-adesso.js`).
+- **Rimedio B** (sua scelta fra A «si ferma dopo 5 giri» e B «pulsa leggero»): il pallino resta pieno e l'alone è
+  un `::after` a parte che si allarga (scala 2,6, come i 9 px dell'ombra) e sfuma (`transform` + `opacity`, li muove la
+  scheda grafica), sempre acceso perché dice «in diretta». A vederlo uguale (`immagini\130\pallini-oggi-e-B.png`,
+  `pallino-nuovo.png` nel banco).
+- **Misure dopo** (stesso attrezzo, pagine rigenerate): ferma in vista 0,04-0,1 s su 10, scorsa in fondo 0,01, col
+  radar in movimento in vista 0,18 (prima 5,1-5,3). 21 regioni e 30 città rigenerate, solo le righe di stile;
+  `VERSIONE_JS` invariato (lo stile sta nella pagina).
+

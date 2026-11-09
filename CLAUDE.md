@@ -210,6 +210,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **La vista Italia ingrandita: dallo zoom 7 tornano nomi e gradi (8/11/2026, scheda 129)**: `VI_NOMI`, `viSoglia` su zoomend, `viDiradaNomi` con le regole di veDirada, `_vi={cp,sel}`; la «leggera» scelta sul mockup, la «piena» (entrare da soli nella regione) scartata; IN PROD 8/11 19:03 (deploy `0dc4f871`)
 - **Le pagine «adesso» non chiedono il radar quando nessuno le guarda, e il «+40» è vero (9/11/2026, scheda 130)**: `controlla()` ogni 5 minuti solo a pagina visibile, radar e riga viva solo col fotogramma nuovo, `leggiElenco()` unico, `previsti()` a +40; da nascosta zero richieste (prima ~190 l'ora); `VERSIONE_JS` 21
 - **Il radar delle pagine «adesso» e delle pagine meteo si apre col «+40» in movimento, solo mentre si vede (9/11/2026, scheda 130)**: `carica('prev')` con adesso + previsti a +40, `SOSTA`/`PASSO` come la mappa, fermo con pagina dietro o cartina fuori (`IntersectionObserver`); meteo: previsti chiesti solo col riquadro sullo schermo; `VERSIONE_JS` 22
+- **Il pallino «IN DIRETTA» delle pagine «adesso» pulsa leggero (9/11/2026, scheda 130)**: alone `::after` con `transform` + `opacity` al posto del `box-shadow` animato; al telefono a pagina ferma da 5,5 a 0,1 s di processore su 10
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 
