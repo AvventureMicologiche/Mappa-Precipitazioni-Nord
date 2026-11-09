@@ -207,6 +207,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Il riquadro «Pluviometri 7 giorni» delle pagine meteo ritagliato sul paese, e il nome sul segnalino (8/11/2026, scheda 128 quater)**: `ritagliaPluvio()` come `lib-striscia.js`, segnalino sul primo paese di `paesi-zone.json` col nome nel radar e nei pluviometri; dal censimento delle cartine
 - **Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)**: `SEGNO` in `m.zoomIn`, `v:1` e `ZAPRI`, `STRETTO` 8 px, `VERSIONE_JS` 19; la trappola di `leaflet.css` servito col tipo sbagliato nelle prove
 - **La vista Italia ingrandita: dallo zoom 7 tornano nomi e gradi (8/11/2026, scheda 129)**: `VI_NOMI`, `viSoglia` su zoomend, `viDiradaNomi` con le regole di veDirada, `_vi={cp,sel}`; la «leggera» scelta sul mockup, la «piena» (entrare da soli nella regione) scartata; IN PROD 8/11 19:03 (deploy `0dc4f871`)
+- **Le pagine «adesso» non chiedono il radar quando nessuno le guarda, e il «+40» è vero (9/11/2026, scheda 130)**: `controlla()` ogni 5 minuti solo a pagina visibile, radar e riga viva solo col fotogramma nuovo, `leggiElenco()` unico, `previsti()` a +40; da nascosta zero richieste (prima ~190 l'ora); `VERSIONE_JS` 21
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

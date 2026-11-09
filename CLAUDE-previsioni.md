@@ -1198,3 +1198,27 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   `mockup-vista-italia-zoom\prova\` nel banco.
 - **IN PRODUZIONE l'8/11 alle 19:03** (push `ade8d1f33a`, deploy `0dc4f871`); controllato online PC e telefono, stessi numeri.
 
+## Le pagine «adesso» non chiedono il radar quando nessuno le guarda, e il «+40» è vero (9/11/2026, scheda 130)
+
+- **Perché.** Dalla valutazione delle regole di LibreWXR (`D:\video youtube\claudio\proposte-130\VALUTAZIONE-LIBREWXR-40.md`,
+  modo A scelto da lui: prima in regola, poi il +40 nelle pagine): radar e riga viva si rifacevano ogni 5 minuti anche in
+  una scheda dimenticata in fondo al browser, ~190 richieste l'ora a LibreWXR, ~4.500 al giorno per scheda. Le
+  previsioni della stessa pagina guardavano già la visibilità (31/10). Proposta in `PROPOSTA-ADESSO-NASCOSTE.md`, sua
+  scelta «C, col +40 vero».
+- **Cosa fa adesso `lib/pagina-adesso.js`** (`VERSIONE_JS` 21): `controlla()` ogni 5 minuti (`GIRO`), solo se
+  `document.visibilityState` è `visible`, legge l'elenco dei fotogrammi; radar (solo su «Adesso», come prima) e riga
+  viva si rifanno solo se c'è un fotogramma misurato più nuovo di `ultimo`. Tornando sulla pagina, se l'ultima occhiata
+  è di 5 minuti fa o più, subito (`visibilitychange`). `leggiElenco()`: radar e riga viva leggono lo stesso elenco,
+  tenuto un minuto (prima uno a testa all'apertura e a ogni tocco). `previsti()`: «+40 min» e riga viva tagliati per
+  ORA a +40 (`PREVISTI_S`, come la mappa): prima arrivavano a +60 (6 previsti), ora 4. `window._radarControlla` per le
+  prove; segnali della Goccia intatti.
+- **Prova** (`scratchpad\radar40\prova-nascosta-130.js`, tempo accelerato 100 volte anche su `Date.now`, visibilità
+  finta, elenco chiesto una volta a LibreWXR e poi servito dalla prova): da nascosta 25 minuti, prima 10 elenchi e 10
+  tessere, ora **zero**; guardata senza fotogrammi nuovi solo l'elenco, zero tessere; col fotogramma nuovo radar e riga
+  viva una volta (8-9 tessere); al ritorno l'elenco subito; «+40 min» 24 tessere invece di 44 al PC. Milano PC,
+  Lombardia telefono, Palermo PC, nessun errore. In locale nel browser della prova la cache delle immagini nasconde
+  parte delle richieste vecchie: nella realtà, finiti i 5 minuti della cache, il vecchio le richiedeva tutte.
+- **Pagine:** 21 regioni e 30 città rigenerate, cambia solo `?v=21`. Le pagine meteo non c'entrano (il riquadro radar
+  non si rinfresca).
+- **Resta del modo A:** il +40 in movimento all'apertura delle pagine «adesso» e del riquadro meteo, dopo il 14/11.
+
