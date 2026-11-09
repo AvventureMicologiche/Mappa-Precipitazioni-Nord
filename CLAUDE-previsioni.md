@@ -1221,4 +1221,7 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
 - **Pagine:** 21 regioni e 30 città rigenerate, cambia solo `?v=21`. Le pagine meteo non c'entrano (il riquadro radar
   non si rinfresca).
 - **Resta del modo A:** il +40 in movimento all'apertura delle pagine «adesso» e del riquadro meteo, dopo il 14/11.
+- **IN PRODUZIONE il 9/11/2026 alle 8:07** (suo «Sì, tutt'e due»): push `308b3ace71` (3 commit sopra `fa93b701a7`),
+  deploy `ed947597` dal worktree intero della 130 allineato. Verificato online con `LIB=sito prova-nascosta-130.js`:
+  Milano PC e Sardegna telefono, da nascoste zero richieste, «+40» 24 e 16 tessere, nessun errore; pagine con `?v=21`.
 
