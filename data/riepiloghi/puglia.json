@@ -1,6 +1,6 @@
 {
  "regione": "puglia",
- "generato": "2026-11-09T04:15:42.166Z",
+ "generato": "2026-11-09T05:31:02.732Z",
  "periodi": {
   "1": {
    "media": 1.7,
@@ -32,96 +32,108 @@
    ]
   },
   "7": {
-   "media": 59.1,
-   "giorni": 6,
+   "media": 60,
+   "giorni": 7,
    "stazioni": 128,
    "primo": "2026-11-02",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Faeto",
-     "mm": 183.7
+     "mm": 185.5
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 170.6
+     "mm": 172
     },
     {
      "n": "Panni",
-     "mm": 123.4
+     "mm": 123.6
     },
     {
      "n": "Orsara di Puglia",
-     "mm": 115.2
+     "mm": 115.5
     },
     {
-     "n": "Lecce",
-     "mm": 113.2
+     "n": "Biccari",
+     "mm": 114.5
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "20": {
-   "media": 101.1,
-   "giorni": 19,
+   "media": 102,
+   "giorni": 20,
    "stazioni": 129,
    "primo": "2026-10-20",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Faeto",
-     "mm": 202.3
+     "mm": 204.1
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 192.8
+     "mm": 194.2
     },
     {
      "n": "Lesina",
-     "mm": 186.5
+     "mm": 186.9
     },
     {
      "n": "Lecce",
-     "mm": 167.4
+     "mm": 167.5
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 165.4
+     "mm": 166.4
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "30": {
-   "media": 128.6,
-   "giorni": 29,
+   "media": 129.4,
+   "giorni": 30,
    "stazioni": 128,
    "primo": "2026-10-10",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Orto di Zolfo",
-     "mm": 214
+     "mm": 215.4
     },
     {
      "n": "Ostuni",
-     "mm": 212.4
+     "mm": 213.6
     },
     {
      "n": "Faeto",
-     "mm": 209.7
+     "mm": 211.5
     },
     {
      "n": "Vico del Gargano",
-     "mm": 207.1
+     "mm": 209.4
     },
     {
      "n": "Lesina",
-     "mm": 205.9
+     "mm": 206.3
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   }
  },
  "serie": [
   1.7,
-  null,
+  0.8,
   0.5,
   0,
   0,

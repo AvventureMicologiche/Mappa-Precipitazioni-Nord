@@ -1,6 +1,6 @@
 {
  "regione": "campania",
- "generato": "2026-11-09T04:15:42.166Z",
+ "generato": "2026-11-09T05:31:02.732Z",
  "periodi": {
   "1": {
    "media": 0.1,
@@ -32,77 +32,85 @@
    ]
   },
   "7": {
-   "media": 38.9,
-   "giorni": 6,
+   "media": 40.6,
+   "giorni": 7,
    "stazioni": 174,
    "primo": "2026-11-02",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Castelfranco in Miscano",
-     "mm": 134.8
+     "mm": 135.9
     },
     {
      "n": "Savignano Irpino",
-     "mm": 111.5
-    },
-    {
-     "n": "Colle Sannita",
-     "mm": 95.5
+     "mm": 112.7
     },
     {
      "n": "Bisaccia",
-     "mm": 93
+     "mm": 100.2
+    },
+    {
+     "n": "Colle Sannita",
+     "mm": 100
     },
     {
      "n": "San Martino Valle Caudina",
-     "mm": 89.5
+     "mm": 92.3
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "20": {
-   "media": 84.7,
-   "giorni": 19,
-   "stazioni": 173,
+   "media": 86.1,
+   "giorni": 20,
+   "stazioni": 174,
    "primo": "2026-10-20",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 187.9
+     "mm": 188.4
     },
     {
      "n": "Castelfranco in Miscano",
-     "mm": 150
+     "mm": 151.1
     },
     {
      "n": "San Martino Valle Caudina",
-     "mm": 147.7
+     "mm": 150.5
     },
     {
      "n": "Cusano Mutri",
-     "mm": 146.4
+     "mm": 146.7
     },
     {
      "n": "Letino",
      "mm": 143.8
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "30": {
-   "media": 124.7,
-   "giorni": 29,
+   "media": 126.5,
+   "giorni": 30,
    "stazioni": 174,
    "primo": "2026-10-10",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Omignano Scalo",
-     "mm": 237.5
+     "mm": 239.3
     },
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 226.1
+     "mm": 226.6
     },
     {
      "n": "Torchiara",
@@ -110,18 +118,22 @@
     },
     {
      "n": "Cava Casa Riceri",
-     "mm": 204.3
+     "mm": 204.4
     },
     {
      "n": "Alfano",
      "mm": 202.5
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   }
  },
  "serie": [
   0.1,
-  null,
+  1.7,
   5.5,
   0,
   0,
@@ -158,8 +170,8 @@
    "n": "Monti Lattari",
    "ultimo": "2026-11-08",
    "m1": 0,
-   "m7": 31.8,
-   "m30": 133.2,
+   "m7": 32,
+   "m30": 133.4,
    "p1": false,
    "p7": true,
    "p30": true
@@ -169,8 +181,8 @@
    "n": "Cilento",
    "ultimo": "2026-11-08",
    "m1": 0.1,
-   "m7": 51.4,
-   "m30": 157,
+   "m7": 52.7,
+   "m30": 158.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -180,8 +192,8 @@
    "n": "Valle Caudina",
    "ultimo": "2026-11-08",
    "m1": 0.1,
-   "m7": 79.5,
-   "m30": 153.4,
+   "m7": 83.1,
+   "m30": 157,
    "p1": true,
    "p7": true,
    "p30": true
@@ -191,8 +203,8 @@
    "n": "Monti del Partenio",
    "ultimo": "2026-11-08",
    "m1": 0.1,
-   "m7": 47.4,
-   "m30": 121.4,
+   "m7": 48.5,
+   "m30": 122.4,
    "p1": true,
    "p7": true,
    "p30": true

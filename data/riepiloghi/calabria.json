@@ -1,6 +1,6 @@
 {
  "regione": "calabria",
- "generato": "2026-11-09T04:15:42.166Z",
+ "generato": "2026-11-09T05:31:02.732Z",
  "periodi": {
   "1": {
    "media": 0.1,
@@ -32,37 +32,41 @@
    ]
   },
   "7": {
-   "media": 35.9,
-   "giorni": 6,
+   "media": 42.4,
+   "giorni": 7,
    "stazioni": 139,
    "primo": "2026-11-02",
    "ultimo": "2026-11-08",
    "top": [
     {
+     "n": "Rizziconi",
+     "mm": 84.2
+    },
+    {
+     "n": "Gioia Tauro SS18",
+     "mm": 82.7
+    },
+    {
+     "n": "Arena",
+     "mm": 79.4
+    },
+    {
      "n": "Pagliarelle",
      "mm": 76.2
     },
     {
-     "n": "Cotronei",
-     "mm": 71.8
-    },
-    {
-     "n": "Catanzaro",
-     "mm": 67
-    },
-    {
      "n": "Petronà",
-     "mm": 65.8
-    },
-    {
-     "n": "Sellia Superiore",
-     "mm": 64.8
+     "mm": 76.2
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "20": {
-   "media": 67.8,
-   "giorni": 19,
+   "media": 74.3,
+   "giorni": 20,
    "stazioni": 139,
    "primo": "2026-10-20",
    "ultimo": "2026-11-08",
@@ -81,47 +85,55 @@
     },
     {
      "n": "Petronà",
-     "mm": 169.4
+     "mm": 179.8
     },
     {
      "n": "Albi",
-     "mm": 141.6
+     "mm": 144.7
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   },
   "30": {
-   "media": 142.8,
-   "giorni": 29,
+   "media": 149.4,
+   "giorni": 30,
    "stazioni": 139,
    "primo": "2026-10-10",
    "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Canolo Nuovo",
-     "mm": 295.8
+     "mm": 298.3
     },
     {
      "n": "Cardeto",
-     "mm": 280.2
+     "mm": 285.3
     },
     {
      "n": "Roccaforte del Greco",
-     "mm": 256.2
+     "mm": 257.3
     },
     {
-     "n": "Cotronei",
-     "mm": 244.2
+     "n": "Staiti",
+     "mm": 252.9
     },
     {
      "n": "Allai",
-     "mm": 243.8
+     "mm": 244.9
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-07",
+    "al": "2026-11-07"
+   }
   }
  },
  "serie": [
   0.1,
-  null,
+  6.6,
   1,
   0.1,
   1.7,
@@ -158,8 +170,8 @@
    "n": "Serre calabresi",
    "ultimo": "2026-11-08",
    "m1": 0.1,
-   "m7": 42.2,
-   "m30": 174.2,
+   "m7": 50.2,
+   "m30": 182.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -170,7 +182,7 @@
    "ultimo": "2026-11-08",
    "m1": 0.1,
    "m7": 31.1,
-   "m30": 111.9,
+   "m30": 112,
    "p1": true,
    "p7": true,
    "p30": true
