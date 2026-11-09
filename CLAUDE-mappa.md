@@ -2188,3 +2188,7 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
 - **Restano del modo A** (sua scelta dell'8/11): 2. le «adesso» ferme quando la pagina è nascosta e aggiornate ogni 10
   minuti (oggi una scheda dimenticata fa ~4.500 richieste al giorno); 3. il +40 delle «adesso» tagliato davvero (oggi
   arriva a +60, anche nella riga viva) e l'elenco dei fotogrammi chiesto una volta. Poi, dopo il 14/11, il +40 nelle pagine.
+- **IN PRODUZIONE il 9/11/2026 alle 7:41** (suo «Sì, tutt'e due»): push `ea0cec6054` (5 commit sopra `d3be0c24d6`), deploy
+  `995dfc4d` dal worktree intero della 130 allineato, dopo il deploy della Goccia del mattino (`161d30e6`). Verificato
+  online: mappa a 1920 una riga, 1440 due, telefono come prima; fonti e guida; Milano e Sicilia «adesso» con
+  `pagina-adesso.js?v=20` e il link `fonti.html#radar`; Garfagnana e Crespano col riquadro nuovo; nessun errore nuovo.
