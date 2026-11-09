@@ -1,71 +1,71 @@
 {
  "regione": "basilicata",
- "generato": "2026-11-08T04:15:38.702Z",
+ "generato": "2026-11-09T04:15:42.166Z",
  "periodi": {
   "1": {
-   "media": 0.6,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 60,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-06",
+   "stazioni": 61,
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-08",
    "top": [
     {
-     "n": "Maratea",
-     "mm": 6.2
+     "n": "Anzi",
+     "mm": 0.2
     },
     {
-     "n": "Castrocucco",
-     "mm": 3
+     "n": "Forenza",
+     "mm": 0.2
     },
     {
-     "n": "Marsico Nuovo",
-     "mm": 2.2
+     "n": "Lagopesole",
+     "mm": 0.2
     },
     {
-     "n": "Guardia Perticara",
-     "mm": 2
+     "n": "Laurenzana",
+     "mm": 0.2
     },
     {
-     "n": "Ripacandida",
-     "mm": 1.4
+     "n": "Lavello",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 61.6,
-   "giorni": 7,
+   "media": 51.1,
+   "giorni": 6,
    "stazioni": 61,
-   "primo": "2026-10-31",
-   "ultimo": "2026-11-06",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-08",
    "top": [
     {
-     "n": "Melfi",
-     "mm": 101.2
+     "n": "Albano di Lucania",
+     "mm": 87.2
     },
     {
      "n": "S.Nicola",
-     "mm": 99
+     "mm": 85
     },
     {
-     "n": "Monticchio Bagni",
-     "mm": 98.7
+     "n": "Vaglio di Basilicata",
+     "mm": 79.9
     },
     {
-     "n": "Albano di Lucania",
-     "mm": 97.8
+     "n": "Melfi",
+     "mm": 78.4
     },
     {
      "n": "Tricarico",
-     "mm": 93.7
+     "mm": 78.3
     }
    ]
   },
   "20": {
-   "media": 92.9,
-   "giorni": 20,
-   "stazioni": 62,
-   "primo": "2026-10-18",
-   "ultimo": "2026-11-06",
+   "media": 92.3,
+   "giorni": 19,
+   "stazioni": 61,
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "S.Nicola",
@@ -84,42 +84,44 @@
      "mm": 132.6
     },
     {
-     "n": "M.te Vulture",
-     "mm": 132.6
+     "n": "Vaglio di Basilicata",
+     "mm": 131.2
     }
    ]
   },
   "30": {
-   "media": 138.5,
-   "giorni": 30,
+   "media": 121,
+   "giorni": 29,
    "stazioni": 62,
-   "primo": "2026-10-08",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-10",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "S.Nicola",
-     "mm": 221
+     "mm": 210.4
     },
     {
      "n": "Abriola a Sellata Pierfaone",
-     "mm": 194
+     "mm": 170.3
     },
     {
-     "n": "Lagonegro",
-     "mm": 188.9
-    },
-    {
-     "n": "Tramutola",
-     "mm": 183
+     "n": "M.te Vulture",
+     "mm": 165
     },
     {
      "n": "Monticchio Bagni",
-     "mm": 179.6
+     "mm": 163.4
+    },
+    {
+     "n": "Potenza",
+     "mm": 160.4
     }
    ]
   }
  },
  "serie": [
+  0,
+  null,
   0.6,
   0,
   0,
@@ -147,10 +149,8 @@
   0.1,
   11.8,
   0.1,
-  15.8,
-  11,
-  7.3
+  15.8
  ],
- "serieDa": "2026-11-06",
+ "serieDa": "2026-11-08",
  "zone": []
 }

@@ -1,71 +1,71 @@
 {
  "regione": "lazio",
- "generato": "2026-11-08T04:15:38.701Z",
+ "generato": "2026-11-09T04:15:42.165Z",
  "periodi": {
   "1": {
-   "media": 9.2,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 208,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-06",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-08",
    "top": [
     {
-     "n": "Monte Romano",
-     "mm": 28.2
+     "n": "Amatrice",
+     "mm": 4.5
+    },
+    {
+     "n": "Formello",
+     "mm": 0.6
+    },
+    {
+     "n": "Arrone a Maccarese",
+     "mm": 0.2
+    },
+    {
+     "n": "Arsoli",
+     "mm": 0.2
     },
     {
      "n": "Bagnoregio",
-     "mm": 27
-    },
-    {
-     "n": "Marta",
-     "mm": 27
-    },
-    {
-     "n": "Graffignano",
-     "mm": 26.8
-    },
-    {
-     "n": "Paglia a Proceno",
-     "mm": 26.4
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 15.7,
-   "giorni": 7,
+   "media": 13.1,
+   "giorni": 6,
    "stazioni": 209,
-   "primo": "2026-10-31",
-   "ultimo": "2026-11-06",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "San Biagio Saracinisco",
-     "mm": 98.5
-    },
-    {
-     "n": "Ponza",
-     "mm": 72.1
-    },
-    {
-     "n": "Valle del Rio",
-     "mm": 59.8
+     "mm": 91.1
     },
     {
      "n": "Settefrati",
-     "mm": 51
+     "mm": 44.2
     },
     {
-     "n": "Amaseno a Fossanova",
-     "mm": 44.1
+     "n": "Amatrice",
+     "mm": 42.1
+    },
+    {
+     "n": "Valle del Rio",
+     "mm": 40.4
+    },
+    {
+     "n": "Ponza",
+     "mm": 39.2
     }
    ]
   },
   "20": {
    "media": 65.2,
-   "giorni": 20,
+   "giorni": 19,
    "stazioni": 209,
-   "primo": "2026-10-18",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Osteria di Castro",
@@ -90,36 +90,38 @@
    ]
   },
   "30": {
-   "media": 115.9,
-   "giorni": 30,
+   "media": 75.6,
+   "giorni": 29,
    "stazioni": 209,
-   "primo": "2026-10-08",
-   "ultimo": "2026-11-06",
+   "primo": "2026-10-10",
+   "ultimo": "2026-11-08",
    "top": [
     {
-     "n": "Latina",
-     "mm": 379.7
-    },
-    {
      "n": "Osteria di Castro",
-     "mm": 366.9
+     "mm": 303.1
     },
     {
      "n": "Amaseno a Fossanova",
-     "mm": 341.6
+     "mm": 265.3
     },
     {
-     "n": "SS.Cosma e Damiano",
-     "mm": 302.8
+     "n": "Latina",
+     "mm": 260.8
     },
     {
-     "n": "Ufente a Ponte Ferraioli",
-     "mm": 292.5
+     "n": "San Biagio Saracinisco",
+     "mm": 253.3
+    },
+    {
+     "n": "Vallecorsa",
+     "mm": 217.2
     }
    ]
   }
  },
  "serie": [
+  0.1,
+  null,
   9.2,
   0,
   0,
@@ -147,19 +149,17 @@
   0,
   1,
   0.2,
-  9.1,
-  13.9,
-  26.6
+  9.1
  ],
- "serieDa": "2026-11-06",
+ "serieDa": "2026-11-08",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-11-06",
-   "m1": 6.9,
-   "m7": 8.7,
-   "m30": 93.4,
+   "ultimo": "2026-11-08",
+   "m1": 0.2,
+   "m7": 7.8,
+   "m30": 61,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,32 +167,32 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-11-06",
-   "m1": 6.5,
-   "m7": 10.7,
-   "m30": 94.6,
-   "p1": true,
+   "ultimo": "2026-11-08",
+   "m1": 0,
+   "m7": 7.1,
+   "m30": 62.3,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-11-06",
-   "m1": 12.7,
-   "m7": 12.8,
-   "m30": 72.7,
-   "p1": true,
+   "ultimo": "2026-11-08",
+   "m1": 0,
+   "m7": 12.7,
+   "m30": 52.7,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-11-06",
-   "m1": 6.4,
+   "ultimo": "2026-11-08",
+   "m1": 0.1,
    "m7": 13.3,
-   "m30": 83.7,
+   "m30": 50.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-11-06",
-   "m1": 4.2,
-   "m7": 16.5,
-   "m30": 150.2,
+   "ultimo": "2026-11-08",
+   "m1": 0.1,
+   "m7": 10.7,
+   "m30": 94.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,21 +211,21 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-11-06",
-   "m1": 9.6,
-   "m7": 12.7,
-   "m30": 89.8,
-   "p1": true,
+   "ultimo": "2026-11-08",
+   "m1": 0,
+   "m7": 12.4,
+   "m30": 67.2,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-11-06",
-   "m1": 5.2,
-   "m7": 5.2,
-   "m30": 84.2,
+   "ultimo": "2026-11-08",
+   "m1": 0.1,
+   "m7": 5.3,
+   "m30": 59.7,
    "p1": true,
    "p7": true,
    "p30": true

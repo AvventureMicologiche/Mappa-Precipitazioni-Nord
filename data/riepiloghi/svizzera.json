@@ -1,47 +1,47 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-08T06:31:02.395Z",
+ "generato": "2026-11-09T04:15:42.167Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 304,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-07",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-08",
    "top": [
     {
-     "n": "Sonvico (TI)",
-     "nb": "Sonvico",
-     "mm": 6.6
+     "n": "Napf (BE)",
+     "nb": "Napf",
+     "mm": 2.2
     },
     {
-     "n": "Soglio (GR)",
-     "nb": "Soglio",
-     "mm": 6.5
+     "n": "Clusanfe (VS)",
+     "nb": "Clusanfe",
+     "mm": 2.1
     },
     {
-     "n": "Colla (TI)",
-     "nb": "Colla",
-     "mm": 4.8
+     "n": "Giubiasco IDA (TI)",
+     "nb": "Giubiasco IDA",
+     "mm": 2
     },
     {
-     "n": "S. Bernardino (GR)",
-     "nb": "S. Bernardino",
-     "mm": 4.2
+     "n": "Vicosoprano (GR)",
+     "nb": "Vicosoprano",
+     "mm": 2
     },
     {
-     "n": "Novaggio (TI)",
-     "nb": "Novaggio",
-     "mm": 4
+     "n": "Einsiedeln (SZ)",
+     "nb": "Einsiedeln",
+     "mm": 1.9
     }
    ]
   },
   "7": {
-   "media": 4.7,
+   "media": 4.9,
    "giorni": 7,
-   "stazioni": 306,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-07",
+   "stazioni": 305,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Fionnay (VS)",
@@ -51,7 +51,7 @@
     {
      "n": "Clusanfe (VS)",
      "nb": "Clusanfe",
-     "mm": 18.5
+     "mm": 20.6
     },
     {
      "n": "Barrage Grande Dixence (VS)",
@@ -71,65 +71,65 @@
    ]
   },
   "20": {
-   "media": 51.5,
+   "media": 51,
    "giorni": 20,
    "stazioni": 308,
-   "primo": "2026-10-19",
-   "ultimo": "2026-11-07",
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Carena (TI)",
      "nb": "Carena",
-     "mm": 153
+     "mm": 152.8
     },
     {
      "n": "Colla (TI)",
      "nb": "Colla",
-     "mm": 146
+     "mm": 143.8
     },
     {
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
-     "mm": 132.4
-    },
-    {
-     "n": "Robièi (TI)",
-     "nb": "Robièi",
-     "mm": 129.3
+     "mm": 131
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 127.7
+     "mm": 125.2
+    },
+    {
+     "n": "Alpe di Neggia (TI)",
+     "nb": "Alpe di Neggia",
+     "mm": 124.2
     }
    ]
   },
   "30": {
-   "media": 65.3,
+   "media": 65.1,
    "giorni": 30,
    "stazioni": 308,
-   "primo": "2026-10-09",
-   "ultimo": "2026-11-07",
+   "primo": "2026-10-10",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Camedo Paese (TI)",
      "nb": "Camedo Paese",
-     "mm": 170.6
+     "mm": 171
     },
     {
      "n": "Säntis (AI)",
      "nb": "Säntis",
-     "mm": 166.9
+     "mm": 167.6
     },
     {
      "n": "Carena (TI)",
      "nb": "Carena",
-     "mm": 165
+     "mm": 166.8
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 162.4
+     "mm": 161.8
     },
     {
      "n": "Robièi (TI)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.2,
   0.7,
   3.6,
   0.2,
@@ -168,9 +169,8 @@
   0.2,
   0,
   0,
-  4.8,
-  0.3
+  4.8
  ],
- "serieDa": "2026-11-07",
+ "serieDa": "2026-11-08",
  "zone": []
 }

@@ -1,91 +1,91 @@
 {
  "regione": "austria",
- "generato": "2026-11-08T04:15:38.702Z",
+ "generato": "2026-11-09T04:15:42.167Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 267,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-07",
+   "stazioni": 268,
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-08",
    "top": [
+    {
+     "n": "Schwarzau im Freiwald (Niederösterreich)",
+     "nb": "Schwarzau im Freiwald",
+     "mm": 1.1
+    },
+    {
+     "n": "Loibl Tunnel (Kärnten)",
+     "nb": "Loibl Tunnel",
+     "mm": 0.8
+    },
+    {
+     "n": "Liebenau-Gugu (Oberösterreich)",
+     "nb": "Liebenau-Gugu",
+     "mm": 0.7
+    },
+    {
+     "n": "Bad Zell (Oberösterreich)",
+     "nb": "Bad Zell",
+     "mm": 0.6
+    },
+    {
+     "n": "Lunz am See (Niederösterreich)",
+     "nb": "Lunz am See",
+     "mm": 0.5
+    }
+   ]
+  },
+  "7": {
+   "media": 1.1,
+   "giorni": 7,
+   "stazioni": 267,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-08",
+   "top": [
+    {
+     "n": "Kornat (Kärnten)",
+     "nb": "Kornat",
+     "mm": 9.8
+    },
     {
      "n": "Sillian (Tirol)",
      "nb": "Sillian",
      "mm": 8.4
     },
     {
-     "n": "Kornat (Kärnten)",
-     "nb": "Kornat",
-     "mm": 7.8
-    },
-    {
-     "n": "St.Jakob im Defereggental (Tirol)",
-     "nb": "St.Jakob im Defereggental",
-     "mm": 4.6
-    },
-    {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 4.3
-    },
-    {
-     "n": "Virgen (Tirol)",
-     "nb": "Virgen",
-     "mm": 4.2
-    }
-   ]
-  },
-  "7": {
-   "media": 4,
-   "giorni": 7,
-   "stazioni": 268,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-07",
-   "top": [
-    {
-     "n": "Bad Eisenkappel (Kärnten)",
-     "nb": "Bad Eisenkappel",
-     "mm": 23.5
-    },
-    {
-     "n": "Loibl Tunnel (Kärnten)",
-     "nb": "Loibl Tunnel",
-     "mm": 22.4
+     "mm": 7.1
     },
     {
      "n": "Kernhof-St. Aegyd am Neuwalde (Niederösterreich)",
      "nb": "Kernhof-St. Aegyd am Neuwalde",
-     "mm": 18.7
+     "mm": 6.8
     },
     {
-     "n": "Lunz am See (Niederösterreich)",
-     "nb": "Lunz am See",
-     "mm": 16.9
-    },
-    {
-     "n": "Rudolfshütte (Salzburg)",
-     "nb": "Rudolfshütte",
-     "mm": 15.7
+     "n": "Bad Eisenkappel (Kärnten)",
+     "nb": "Bad Eisenkappel",
+     "mm": 5.8
     }
    ]
   },
   "20": {
-   "media": 35.3,
+   "media": 35.4,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-19",
-   "ultimo": "2026-11-07",
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 138.8
+     "mm": 139
     },
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 113.5
+     "mm": 114.3
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
@@ -105,21 +105,21 @@
    ]
   },
   "30": {
-   "media": 45.4,
+   "media": 45.1,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-10-09",
-   "ultimo": "2026-11-07",
+   "primo": "2026-10-10",
+   "ultimo": "2026-11-08",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 174.8
+     "mm": 170.9
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
      "nb": "Kolm-Saigurn",
-     "mm": 137.7
+     "mm": 134
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
@@ -127,19 +127,20 @@
      "mm": 120.2
     },
     {
-     "n": "Feuerkogel (Oberösterreich)",
-     "nb": "Feuerkogel",
-     "mm": 117.5
-    },
-    {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 115.4
+     "mm": 115.9
+    },
+    {
+     "n": "Kornat (Kärnten)",
+     "nb": "Kornat",
+     "mm": 115.1
     }
    ]
   }
  },
  "serie": [
+  0,
   0.3,
   0,
   0,
@@ -168,9 +169,8 @@
   0.8,
   0.7,
   0.8,
-  3.6,
-  0.3
+  3.6
  ],
- "serieDa": "2026-11-07",
+ "serieDa": "2026-11-08",
  "zone": []
 }
