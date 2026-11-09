@@ -1000,10 +1000,42 @@ function clientePagina(C) {
       L.marker([p.lat, p.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
         html: '<span style="font-size:' + px + 'px">' + esc(p.n) + '</span>' }) }).addTo(m);
     });
+    /* ⚠️ IL RIQUADRO IN MOVIMENTO FINO A +40 MINUTI, SOLO MENTRE SI VEDE (9/11/2026, scheda 130, suo: «facciamo anche le
+       meteo, ovviamente tutto solo mentre si vede sullo schermo… leggero sul cellulare e non intasare il fornitore di
+       dati»). Subito il radar di adesso, come prima («radar delle»). I previsti fino a +40 (come la mappa e le «adesso»)
+       si chiedono SOLO la prima volta che il riquadro e' davvero sullo schermo (almeno un terzo), non quando ci si
+       avvicina; il movimento parte quando sono arrivati (tetto 8 s), pausa di 1,5 s su adesso e sull'ultimo, 0,7 s sugli
+       altri, e si ferma appena il riquadro esce dallo schermo o la pagina va dietro. Senza IntersectionObserver resta
+       fermo su adesso. Sull'Italia il radar e' quello della Protezione Civile; le licenze per esteso in «tutte le fonti e
+       licenze» (9/11/2026, scheda 130). */
     fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
       var p = (j.radar && j.radar.past) || [], f = p[p.length - 1]; if (!f) return;
-      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR · Radar-DPC · OPERA' }).addTo(m);   // sull'Italia il radar della Protezione Civile; le licenze per esteso in «tutte le fonti e licenze» (9/11/2026, scheda 130)
-      $('ant-radar-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+      var CODA = '/256/{z}/{x}/{y}/2/1_1.png', q = $('ant-radar-q');
+      var oraDi = function (t) { return new Date(t * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' }); };
+      var strati = [L.tileLayer(j.host + f.path + CODA, { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR · Radar-DPC · OPERA' }).addTo(m)];
+      strati[0]._t = f.time;
+      q.textContent = 'radar delle ' + oraDi(f.time);
+      var dopo = ((j.radar && j.radar.nowcast) || []).filter(function (n) { return n.time > f.time && n.time - f.time <= 2400; });
+      if (!dopo.length || !('IntersectionObserver' in window)) return;
+      var i = 0, timer = null, vede = false, chiesti = false, pronti = false, arrivati = 0;
+      var accendi = function (k) { i = k; strati.forEach(function (l, x) { l.setOpacity(x === k ? 0.95 : 0); }); q.textContent = (strati[k]._prev ? 'previsto per le ' : 'radar delle ') + oraDi(strati[k]._t); };
+      var ferma = function () { if (timer) { clearTimeout(timer); timer = null; } };
+      var passo = function () {
+        ferma(); if (!pronti || !vede || document.visibilityState !== 'visible') return;
+        timer = setTimeout(function () { timer = null; accendi((i + 1) % strati.length); passo(); }, (i === 0 || i === strati.length - 1) ? 1500 : 700);
+      };
+      var chiedi = function () {
+        if (chiesti) return; chiesti = true;
+        dopo.forEach(function (n) {
+          var l = L.tileLayer(j.host + n.path + CODA, { pane: 'radar', opacity: 0, maxNativeZoom: 6, maxZoom: 12 });
+          l._t = n.time; l._prev = true;
+          l.once('load', function () { if (++arrivati === dopo.length) { pronti = true; passo(); } });
+          l.addTo(m); strati.push(l);
+        });
+        setTimeout(function () { if (!pronti) { pronti = true; passo(); } }, 8000);
+      };
+      new IntersectionObserver(function (e) { vede = e[e.length - 1].intersectionRatio >= 0.33; if (vede) { chiedi(); passo(); } else ferma(); }, { threshold: [0, 0.33, 0.66, 1] }).observe($('ant-radar'));
+      document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') passo(); else ferma(); });
     }).catch(function () {});
   }
   function antPrev() {

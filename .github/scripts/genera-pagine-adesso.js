@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 21;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater; 20: i crediti del radar, Radar-DPC sull'Italia, 9/11/2026, scheda 130; 21: radar e riga viva fermi a pagina nascosta, rifatti solo col fotogramma nuovo, elenco unico e «+40» vero, 9/11/2026, scheda 130)
+const VERSIONE_JS = 22;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater; 20: i crediti del radar, Radar-DPC sull'Italia, 9/11/2026, scheda 130; 21: radar e riga viva fermi a pagina nascosta, rifatti solo col fotogramma nuovo, elenco unico e «+40» vero, 9/11/2026, scheda 130; 22: si apre col «+40» in movimento, fermo se la pagina o la cartina non si vedono, 9/11/2026, scheda 130)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -540,9 +540,9 @@ ${briciolaHtml(briciola)}
   <div id="mappa"></div>
   <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${attr(nomeCortoDi(r).toUpperCase())}</em></b><span>OGGI</span></div><div class="t"></div></div>
   <div class="tasti">
-    <a class="forte" data-id="ora">Adesso</a>
+    <a data-id="ora">Adesso</a>
     <a data-id="due">▶ −2 ore</a>
-    <a data-id="prev">+40 min</a>
+    <a class="forte" data-id="prev">+40 min</a>
   </div>
   <div class="rb-scala">
     <div class="rb-barra"></div>
@@ -719,9 +719,9 @@ ${briciolaHtml(briciola)}
   <div id="mappa"></div>
   <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> ${attr(c.n.toUpperCase())}</em></b><span>PROSSIME ORE</span></div><div class="t"></div></div>
   <div class="tasti">
-    <a class="forte" data-id="ora">Adesso</a>
+    <a data-id="ora">Adesso</a>
     <a data-id="due">▶ −2 ore</a>
-    <a data-id="prev">+40 min</a>
+    <a class="forte" data-id="prev">+40 min</a>
   </div>
   <div class="rb-scala">
     <div class="rb-barra"></div>
