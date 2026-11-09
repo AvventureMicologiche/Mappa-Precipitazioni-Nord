@@ -211,6 +211,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le pagine «adesso» non chiedono il radar quando nessuno le guarda, e il «+40» è vero (9/11/2026, scheda 130)**: `controlla()` ogni 5 minuti solo a pagina visibile, radar e riga viva solo col fotogramma nuovo, `leggiElenco()` unico, `previsti()` a +40; da nascosta zero richieste (prima ~190 l'ora); `VERSIONE_JS` 21
 - **Il radar delle pagine «adesso» e delle pagine meteo si apre col «+40» in movimento, solo mentre si vede (9/11/2026, scheda 130)**: `carica('prev')` con adesso + previsti a +40, `SOSTA`/`PASSO` come la mappa, fermo con pagina dietro o cartina fuori (`IntersectionObserver`); meteo: previsti chiesti solo col riquadro sullo schermo; `VERSIONE_JS` 22
 - **Il pallino «IN DIRETTA» delle pagine «adesso» pulsa leggero (9/11/2026, scheda 130)**: alone `::after` con `transform` + `opacity` al posto del `box-shadow` animato; al telefono a pagina ferma da 5,5 a 0,1 s di processore su 10
+- **La % di pioggia ora per ora: sull'ora giusta, e grigia quando l'ora è asciutta (9/11/2026, scheda 130)**: la % è dell'insieme ICON (Open-Meteo), icona e mm di ECMWF (MET); `prDa()` sposta la % di un'ora, `tonoPc(pc,mm)` e la riga che spiega in mappa, meteo e «adesso»; % dalle simulazioni ECMWF scartata (41 contrasti contro 33)
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
 

@@ -1297,3 +1297,30 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   (`5b78a12d38`), deploy `9f516401` dal worktree intero della 130 allineato. Online, telefono CPU ×4: Milano e Sardegna
   ferme 0,09-0,1 s su 10, in fondo 0,01, col +40 0,2; `prova-settimana-127.js` della Goccia `ONLINE=1` 6/6.
 
+## La % di pioggia ora per ora: sull'ora giusta, e grigia quando l'ora è asciutta (9/11/2026, scheda 130)
+
+- **Il suo screen** (Ovada, mappa delle previsioni, 9/11 mattina): 85-93% di notte con l'icona delle nuvole e il trattino
+  nei mm. «C'è uno scostamento tra quello che dicono le % di pioggia e il resto».
+- **Due cause.** (1) **Due modelli diversi**: icona e mm sono la previsione singola di ECMWF (MET Norway), la % è di
+  Open-Meteo, che senza `models=` la calcola sull'insieme di simulazioni di **ICON** (DWD): confrontata con
+  `&models=icon_seamless`, identica numero per numero. Quando i due modelli mettono la pioggia in ore diverse la tabella
+  si contraddice (Ovada 9-10/11: ECMWF pioggerella 20-23, ICON 00-02). (2) **Un'ora di sfasamento, nostro**: Open-Meteo
+  scrive la % sull'istante in cui l'ora FINISCE («preceding hour probability», dalla sua documentazione), MET i mm
+  sull'istante in cui COMINCIA; agganciate per istante la % arrivava un'ora in ritardo.
+- **Misura** (10 città del Nord-Ovest, 620 ore, `scratchpad\ovada\misura.js` della 130): 33 ore in contrasto forte (≥60%
+  senza pioggia, o ≥0,3 mm sotto il 20%). Correggere l'ora: 33. La % dalle simulazioni ECMWF (`&models=ecmwf_ifs025`,
+  stesse chiamate): 41, tutte «80% sotto le nuvole» (passo di 3 ore, % larga e spalmata): **scartata**.
+- **Sua scelta «A + C»**. **A**, server: `prDa()` in `functions/api/previsioni.js` mette ogni % sull'istante in cui la sua
+  ora comincia (`- 3600000`), nei due posti dove si legge Open-Meteo (`perPunto` e `probDi`); ore, fasce di 6 ore
+  (`maxProb`) e «fino al» del giorno tornano da soli. `VERSIONE` **non** alzata apposta: forma uguale, la copia fresca
+  dura al massimo un'ora, e alzarla avrebbe richiesto a MET tutti i punti insieme. **C**: con l'ora asciutta (meno di
+  0,1 mm) la % resta scritta ma **grigia, mai rossa**, in tutti e tre i posti dove c'è la % oraria: scheda della mappa
+  (`tonoPc(pc,mm)` in `renderDet`, riga «Prob.: quante simulazioni danno pioggia · icona e mm: la più probabile» nel
+  piede, `.fo.pn` che va a capo invece di tagliarsi), pagine meteo (`righeOre` in `genera-pagine-meteo-zona.js`, più
+  `.tv-nota` sotto la tabella), pagine «adesso» (`.cq-h .pc.z` in `lib/pagina-adesso.js`, `VERSIONE_JS` 23; lì la %
+  compare solo dal 10% e la riga non serve).
+- **Prove** in locale con `wrangler pages dev` su 8788 (`scratchpad\ovada\prova-prob.js`): la % nuova è quella di
+  Open-Meteo un'ora avanti; zero % rosse con l'ora asciutta in mappa PC e telefono, meteo Sassello, «adesso» Genova; la
+  riga del piede sta su una riga a 1366 e a 393. Rigenerate 21 regioni e 30 città «adesso», 49 valli e 44 paesi meteo.
+- **Resta** il contrasto vero fra i due modelli: la % alta con l'ora asciutta si vede ancora, ma grigia e spiegata.
+
