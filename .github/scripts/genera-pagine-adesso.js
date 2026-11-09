@@ -186,6 +186,20 @@ const ONDATE_ADESSO = [
     molise: ['Campobasso'], trentino: ['Trento'], altoadige: ['Bolzano'], valledaosta: ['Aosta'],
     veneto: ['Vicenza', 'Treviso'], puglia: ['Andria', 'Brindisi'], sicilia: ['Trapani', 'Agrigento'],
   },
+  { // terza ondata, preparata il 9/11/2026 (Goccia, ex scheda 127, suo «Sì, preparala»): i 60 capoluoghi di provincia
+    // rimasti che sono in capoluoghi.json e hanno pluviometri veri vicini (attrezzo terza-ondata-127.js nello scratchpad
+    // della 127). Fuori l'Abruzzo (niente pagina dei pluviometri, come L'Aquila nella seconda) e i sei che in
+    // capoluoghi.json mancano (Biella, Vercelli, Cesena, Carrara, Urbino, Trani). Oristano e' la piu' debole: nessun
+    // pluviometro entro 10 km, i tre piu' vicini entro 20 (Bauladu, 15 km), come Olbia. Ogni regione dalla piu' popolosa.
+    lombardia: ['Brescia', 'Monza', 'Bergamo', 'Como', 'Varese', 'Cremona', 'Pavia', 'Lecco', 'Mantova', 'Lodi', 'Sondrio'],
+    toscana: ['Prato', 'Livorno', 'Arezzo', 'Pistoia', 'Lucca', 'Pisa', 'Grosseto', 'Massa', 'Siena'],
+    emilia: ['Modena', 'Parma', "Reggio nell'Emilia", 'Ravenna', 'Rimini', 'Ferrara', 'Forlì', 'Piacenza'],
+    lazio: ['Latina', 'Viterbo', 'Frosinone', 'Rieti'], umbria: ['Terni'],
+    piemonte: ['Novara', 'Alessandria', 'Asti', 'Cuneo', 'Verbania'], friuli: ['Udine', 'Pordenone', 'Gorizia'],
+    puglia: ['Barletta'], marche: ['Pesaro', 'Ascoli Piceno', 'Macerata', 'Fermo'],
+    calabria: ['Cosenza', 'Crotone', 'Vibo Valentia'], sicilia: ['Caltanissetta', 'Enna'], campania: ['Benevento', 'Avellino'],
+    basilicata: ['Matera'], veneto: ['Rovigo', 'Belluno'], sardegna: ['Carbonia', 'Tempio Pausania', 'Oristano'], molise: ['Isernia'],
+  },
 ];
 /* ⚠️ A GOCCIA (7/11/2026, scheda 127, suo «ok programma una settimana così facciamo la prova»): la seconda ondata non
    esce tutta insieme ma tre citta' al giorno, dall'8 al 14/11, mescolate con due «Meteo <paese>» (METEO_PAESI_C di
@@ -205,6 +219,26 @@ const USCITA_ADESSO = {
   'altoadige/Bolzano': '2026-11-11', 'veneto/Vicenza': '2026-11-11', 'calabria/Catanzaro': '2026-11-11',
   'veneto/Treviso': '2026-11-11', 'valledaosta/Aosta': '2026-11-11', 'puglia/Andria': '2026-11-11',
   'basilicata/Potenza': '2026-11-12', 'molise/Campobasso': '2026-11-12',
+  // terza ondata, 10 al giorno dal 13 al 18/11 (suo «Sì, preparala» del 9/11): dalle piu' popolose, al massimo due per
+  // regione al giorno, cosi' ogni giorno e' misto
+  'lombardia/Brescia': '2026-11-13', 'toscana/Prato': '2026-11-13', 'emilia/Modena': '2026-11-13', 'emilia/Parma': '2026-11-13',
+  'toscana/Livorno': '2026-11-13', 'lombardia/Monza': '2026-11-13', 'lazio/Latina': '2026-11-13', 'umbria/Terni': '2026-11-13',
+  'piemonte/Novara': '2026-11-13', 'friuli/Udine': '2026-11-13',
+  "emilia/Reggio nell'Emilia": '2026-11-14', 'emilia/Ravenna': '2026-11-14', 'lombardia/Bergamo': '2026-11-14',
+  'toscana/Arezzo': '2026-11-14', 'puglia/Barletta': '2026-11-14', 'marche/Pesaro': '2026-11-14',
+  'piemonte/Alessandria': '2026-11-14', 'toscana/Pistoia': '2026-11-14', 'lombardia/Como': '2026-11-14', 'piemonte/Asti': '2026-11-14',
+  'emilia/Rimini': '2026-11-15', 'emilia/Ferrara': '2026-11-15', 'toscana/Lucca': '2026-11-15', 'toscana/Pisa': '2026-11-15',
+  'lombardia/Varese': '2026-11-15', 'lombardia/Cremona': '2026-11-15', 'calabria/Cosenza': '2026-11-15', 'lazio/Viterbo': '2026-11-15',
+  'sicilia/Caltanissetta': '2026-11-15', 'campania/Benevento': '2026-11-15',
+  'emilia/Forlì': '2026-11-16', 'emilia/Piacenza': '2026-11-16', 'toscana/Grosseto': '2026-11-16', 'toscana/Massa': '2026-11-16',
+  'lombardia/Pavia': '2026-11-16', 'basilicata/Matera': '2026-11-16', 'calabria/Crotone': '2026-11-16', 'piemonte/Cuneo': '2026-11-16',
+  'campania/Avellino': '2026-11-16', 'friuli/Pordenone': '2026-11-16',
+  'toscana/Siena': '2026-11-17', 'veneto/Rovigo': '2026-11-17', 'marche/Ascoli Piceno': '2026-11-17', 'lombardia/Lecco': '2026-11-17',
+  'lombardia/Mantova': '2026-11-17', 'lazio/Frosinone': '2026-11-17', 'lazio/Rieti': '2026-11-17', 'marche/Macerata': '2026-11-17',
+  'veneto/Belluno': '2026-11-17', 'friuli/Gorizia': '2026-11-17',
+  'lombardia/Lodi': '2026-11-18', 'marche/Fermo': '2026-11-18', 'calabria/Vibo Valentia': '2026-11-18', 'piemonte/Verbania': '2026-11-18',
+  'sardegna/Carbonia': '2026-11-18', 'sicilia/Enna': '2026-11-18', 'molise/Isernia': '2026-11-18', 'lombardia/Sondrio': '2026-11-18',
+  'sardegna/Tempio Pausania': '2026-11-18', 'sardegna/Oristano': '2026-11-18',
 };
 const OGGI = process.env.OGGI || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
 const CITTA_ADESSO = {}, ONDATA_DI = {};

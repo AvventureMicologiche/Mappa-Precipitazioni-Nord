@@ -1256,3 +1256,26 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   fermo fuori schermo e dietro, zero errori; `prova-settimana-127.js` della Goccia con `ONLINE=1` su Torino, Umbria,
   Crespano: 6/6.
 
+## La goccia a 10 al giorno e la terza ondata delle città: 60 capoluoghi dal 13 al 18/11 (9/11/2026, Goccia, ex 127)
+
+- **Perché 10 al giorno** (sua scelta «Prima la 1», con la GA4 5; «Sì, spostale»): entra solo quello che si chiede a
+  mano (22/22 delle pagine chieste il 7-8/11 dentro in pochi minuti, 0/31 città con la sola sitemap). La quota della sera
+  (11) va quasi tutta sulle pagine nuove: 10 nuove + 1 arretrata. Le 25 pronte della seconda ondata e dei «Meteo
+  <paese>» C sono state spostate sul 10, 11 e 12/11 (6+4, 6+4, 2+3): cambiano solo le date di `USCITA_ADESSO` e `dal`.
+- **Terza ondata** (suo «Sì, preparala»): terzo elemento di `ONDATE_ADESSO`, 60 capoluoghi di provincia, 10 al giorno
+  dal 13 al 18/11 in `USCITA_ADESSO`, dalle città più popolose e al massimo due per regione al giorno (il 18/11 tre
+  sarde, perché Oristano è in coda). Sitemap sua: `sitemap-adesso-citta-3.xml`, la fa da sola `genera-sitemap.js` da
+  `data-ondata="3"`. Le città le scrive e pubblica da solo il giro del mattino (`SOLO=citta`); le pillole delle regioni
+  arrivano col lotto della sera.
+- **Scelta delle 60** (attrezzo di sola lettura `terza-ondata-127.js` nello scratchpad della 127): i capoluoghi
+  (`lib-capoluoghi.js`) che sono in `data/capoluoghi.json`, con pluviometri veri vicini, con la stessa regola di
+  `pluviometriVicini`. **Oristano** è la più debole: nessun pluviometro entro 10 km, i tre più vicini entro 20 (Bauladu,
+  15 km), come Olbia.
+- **Fuori, da fare a parte:**
+  - l'**Abruzzo** (L'Aquila, Pescara, Chieti, Teramo): niente pagina dei pluviometri, quindi niente millimetri;
+  - **Biella, Vercelli, Cesena, Carrara, Urbino, Trani**: mancano in `capoluoghi.json`, e aggiungerle cambia anche la
+    sezione Previsioni.
+- ⚠️ **Nome con l'apostrofo:** `"emilia/Reggio nell'Emilia"` sta fra virgolette, in `ONDATE_ADESSO` e in
+  `USCITA_ADESSO`. Chi legge le date con una regex deve accettare tutti e due i tipi di apici (il `lotto-127.js` della
+  Goccia è stato corretto).
+
