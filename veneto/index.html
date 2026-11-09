@@ -380,6 +380,13 @@ div.mk-str.mk-grandi a span b{font-size:12.5px;white-space:nowrap;} div.mk-str.m
 div.mk-str.mk-grandi.mk-giallo a span{background:linear-gradient(180deg,rgba(249,201,62,.94),rgba(237,164,12,.94));border-top:0;
   box-shadow:0 2px 0 rgba(160,106,8,.85),0 4px 10px rgba(0,0,0,.3);}
 
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+
 .bric{font-size:14px;color:#666;margin-bottom:6px;}
 .bric a{color:var(--blu);}
 
@@ -459,6 +466,9 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <h2>Che tempo farà in Veneto</h2>
 <div class="mk-tuo"><input type="search" autocomplete="off" aria-label="Cerca un paese o una frazione" placeholder="Il tuo paese, anche una frazione"><div class="mk-drop"></div></div>
 <div class="mk-citta"><p class="mk-attesa">Sto leggendo le previsioni delle città…</p></div>
+<h3 class="cit-tit">Previsioni meteo paese per paese</h3>
+<div class="mv"><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/veneto/crespano-del-grappa/" onclick="try{gtag('event','apri_meteo_paese',{da:'pagina-veneto'})}catch(e){}">Meteo Crespano del Grappa</a></div>
+
 </section>
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
