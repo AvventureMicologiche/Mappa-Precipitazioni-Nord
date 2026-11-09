@@ -2158,3 +2158,30 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   stesse etichette (5, poi 14); `fluidita.js prev-toscana-tel` sul sito vero, quattro giri: pizzico dentro 32, 37, 40, 45
   fps (i primi due a browser freddo; prima della modifica, sul sito vero, 30 e 34), pizzico fuori 57-58, dito 59-60;
   `stati-mappa.js` 40 scene su 40, le 12 delle previsioni uguali, nessun errore.
+
+## I crediti del radar: sull'Italia è il radar della Protezione Civile (9/11/2026, scheda 130)
+
+- **Perché.** Valutando le regole di LibreWXR prima di mettere il +40 nelle pagine (suo, 8/11 sera: «non l'abbiamo
+  fatta per non intasare il fornitore di dati, prima valuta se rientriamo nelle sue policy»), è venuto fuori che
+  sull'Italia LibreWXR non usa OPERA (l'Italia non c'è) ma il composito della Protezione Civile, **Radar-DPC, licenza
+  CC BY-SA 4.0** (README di LibreWXR: fonte «Dipartimento della Protezione Civile, Presidenza del Consiglio dei
+  Ministri»). Noi scrivevamo ovunque «OPERA (CC BY)»: era l'unica loro regola che non rispettavamo. Valutazione intera in
+  `D:\video youtube\claudio\proposte-130\VALUTAZIONE-LIBREWXR-40.md`, proposta in `PROPOSTA-CREDITI-RADAR.md` accanto.
+- **Cosa dice adesso.** Mappa col radar acceso: crediti «radar LibreWXR · Radar-DPC (CC BY-SA 4.0) · OPERA (CC BY
+  4.0)» coi link (LibreWXR, `radar.protezionecivile.it`, la licenza), i due pezzi in `white-space:nowrap` (a 1440 il
+  riquadro va su due righe come prima e spezzava «Radar-» / «DPC»); riga sotto il radar «Protezione Civile e OPERA».
+  Pagine «adesso» (`lib/pagina-adesso.js` + generatore): stessi crediti, riga «Radar della Protezione Civile
+  sull'Italia, OPERA fuori, circa 2 km.», «Come funziona il radar» e piede; `VERSIONE_JS` 20. Riquadro «Radar piogge»
+  delle pagine meteo: «radar LibreWXR · Radar-DPC · OPERA» (le licenze per esteso in «tutte le fonti e licenze»).
+  `fonti.html` e guida: Protezione Civile sull'Italia, OPERA fuori, **184 radar in 27 paesi** (erano 155 e 24); sotto la
+  foto `guida/radar.jpg` «Radar: LibreWXR, Radar-DPC, licenza CC BY-SA 4.0».
+- **Trovato strada facendo:** le «adesso» scrivevano «un fotogramma nuovo arriva ogni 5 minuti»: è ogni **10** (l'elenco
+  dei fotogrammi va di 10 in 10). Corretto nel testo; la pagina si rinfresca ancora ogni 5 minuti (punto 2 del modo A).
+- **Pagine:** 21 regioni e 30 città «adesso», 49 valli e 44 paesi meteo rigenerati nello stesso commit del codice
+  (accordo con la Goccia, ex 127): cambiano solo le righe dei crediti, «ogni 10» e `?v=20`. Prove
+  (`scratchpad\radar40\prova-crediti-130.js` e `prova-pagine-130.js`, Esri bloccato): mappa PC 1440 e 1366 e telefono,
+  riquadro dei crediti grande come prima; 10 pagine × PC e telefono, crediti dentro la cartina, nessun errore nuovo.
+- **Per il futuro:** un video o un post col radar sull'Italia porta «Radar: LibreWXR, Radar-DPC, CC BY-SA 4.0».
+- **Restano del modo A** (sua scelta dell'8/11): 2. le «adesso» ferme quando la pagina è nascosta e aggiornate ogni 10
+  minuti (oggi una scheda dimenticata fa ~4.500 richieste al giorno); 3. il +40 delle «adesso» tagliato davvero (oggi
+  arriva a +60, anche nella riga viva) e l'elenco dei fotogrammi chiesto una volta. Poi, dopo il 14/11, il +40 nelle pagine.
