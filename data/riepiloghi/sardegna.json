@@ -1,62 +1,62 @@
 {
  "regione": "sardegna",
- "generato": "2026-11-09T05:31:02.733Z",
+ "generato": "2026-11-10T04:15:41.699Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 92,
-   "primo": "2026-11-08",
-   "ultimo": "2026-11-08",
+   "primo": "2026-11-09",
+   "ultimo": "2026-11-09",
    "top": [
     {
-     "n": "Monte Novo",
+     "n": "Punta Sebera",
      "mm": 0.4
     },
     {
-     "n": "Monte sa Scova",
-     "mm": 0.4
+     "n": "Flumineddu ad Allai",
+     "mm": 0.2
     },
     {
-     "n": "Monte Santa Vittoria",
-     "mm": 0.4
+     "n": "Is Cannoneris",
+     "mm": 0.2
     },
     {
-     "n": "Monte Tului",
-     "mm": 0.4
+     "n": "Lanusei",
+     "mm": 0.2
     },
     {
-     "n": "Ardara",
+     "n": "Mandas",
      "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 13.6,
+   "media": 12.1,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-08",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-09",
    "top": [
     {
      "n": "Golfo Aranci",
-     "mm": 240.4
+     "mm": 240.2
     },
     {
      "n": "Monte Petrosu",
-     "mm": 116.6
+     "mm": 113.8
     },
     {
      "n": "Siniscola",
-     "mm": 85
+     "mm": 81.6
     },
     {
      "n": "La Maddalena",
-     "mm": 81.2
+     "mm": 77.2
     },
     {
      "n": "Monte Tului",
-     "mm": 35.6
+     "mm": 34.4
     }
    ],
    "stime": {
@@ -65,31 +65,31 @@
    }
   },
   "20": {
-   "media": 56.6,
+   "media": 35,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-20",
-   "ultimo": "2026-11-08",
+   "primo": "2026-10-21",
+   "ultimo": "2026-11-09",
    "top": [
     {
-     "n": "Siniscola",
-     "mm": 351.2
-    },
-    {
      "n": "Golfo Aranci",
-     "mm": 270.2
-    },
-    {
-     "n": "Baunei",
-     "mm": 215.4
+     "mm": 254.6
     },
     {
      "n": "Monte Petrosu",
-     "mm": 152.4
+     "mm": 136
     },
     {
-     "n": "Orosei",
-     "mm": 152.2
+     "n": "Siniscola",
+     "mm": 131.8
+    },
+    {
+     "n": "La Maddalena",
+     "mm": 108.8
+    },
+    {
+     "n": "Baunei",
+     "mm": 63.4
     }
    ],
    "stime": {
@@ -98,11 +98,11 @@
    }
   },
   "30": {
-   "media": 63.4,
+   "media": 60.3,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-10-10",
-   "ultimo": "2026-11-08",
+   "primo": "2026-10-11",
+   "ultimo": "2026-11-09",
    "top": [
     {
      "n": "Siniscola",
@@ -114,11 +114,11 @@
     },
     {
      "n": "Baunei",
-     "mm": 231.6
+     "mm": 231.4
     },
     {
      "n": "Orosei",
-     "mm": 153
+     "mm": 153.2
     },
     {
      "n": "Monte Petrosu",
@@ -132,6 +132,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0,
   1.5,
@@ -160,9 +161,8 @@
   0,
   0,
   0.6,
-  0.2,
-  3.2
+  0.2
  ],
- "serieDa": "2026-11-08",
+ "serieDa": "2026-11-09",
  "zone": []
 }

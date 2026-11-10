@@ -1,96 +1,96 @@
 {
  "regione": "austria",
- "generato": "2026-11-09T04:15:42.167Z",
+ "generato": "2026-11-10T04:15:41.699Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 1.2,
    "giorni": 1,
-   "stazioni": 268,
-   "primo": "2026-11-08",
-   "ultimo": "2026-11-08",
+   "stazioni": 266,
+   "primo": "2026-11-09",
+   "ultimo": "2026-11-09",
    "top": [
     {
-     "n": "Schwarzau im Freiwald (Niederösterreich)",
-     "nb": "Schwarzau im Freiwald",
-     "mm": 1.1
+     "n": "Alberschwende (Vorarlberg)",
+     "nb": "Alberschwende",
+     "mm": 29.1
     },
     {
-     "n": "Loibl Tunnel (Kärnten)",
-     "nb": "Loibl Tunnel",
-     "mm": 0.8
+     "n": "Bregenz (Vorarlberg)",
+     "nb": "Bregenz",
+     "mm": 27.8
     },
     {
-     "n": "Liebenau-Gugu (Oberösterreich)",
-     "nb": "Liebenau-Gugu",
-     "mm": 0.7
+     "n": "Sulzberg (Vorarlberg)",
+     "nb": "Sulzberg",
+     "mm": 27.8
     },
     {
-     "n": "Bad Zell (Oberösterreich)",
-     "nb": "Bad Zell",
-     "mm": 0.6
+     "n": "Dornbirn (Vorarlberg)",
+     "nb": "Dornbirn",
+     "mm": 22.7
     },
     {
-     "n": "Lunz am See (Niederösterreich)",
-     "nb": "Lunz am See",
-     "mm": 0.5
+     "n": "Tannheim (Tirol)",
+     "nb": "Tannheim",
+     "mm": 22.2
     }
    ]
   },
   "7": {
-   "media": 1.1,
+   "media": 1.9,
    "giorni": 7,
    "stazioni": 267,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-08",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-09",
    "top": [
     {
-     "n": "Kornat (Kärnten)",
-     "nb": "Kornat",
-     "mm": 9.8
+     "n": "Alberschwende (Vorarlberg)",
+     "nb": "Alberschwende",
+     "mm": 29.5
     },
     {
-     "n": "Sillian (Tirol)",
-     "nb": "Sillian",
-     "mm": 8.4
+     "n": "Bregenz (Vorarlberg)",
+     "nb": "Bregenz",
+     "mm": 28
     },
     {
-     "n": "Kötschach-Mauthen (Kärnten)",
-     "nb": "Kötschach-Mauthen",
-     "mm": 7.1
+     "n": "Sulzberg (Vorarlberg)",
+     "nb": "Sulzberg",
+     "mm": 28
     },
     {
-     "n": "Kernhof-St. Aegyd am Neuwalde (Niederösterreich)",
-     "nb": "Kernhof-St. Aegyd am Neuwalde",
-     "mm": 6.8
+     "n": "Dornbirn (Vorarlberg)",
+     "nb": "Dornbirn",
+     "mm": 23.2
     },
     {
-     "n": "Bad Eisenkappel (Kärnten)",
-     "nb": "Bad Eisenkappel",
-     "mm": 5.8
+     "n": "Tannheim (Tirol)",
+     "nb": "Tannheim",
+     "mm": 22.2
     }
    ]
   },
   "20": {
-   "media": 35.4,
+   "media": 36.6,
    "giorni": 20,
    "stazioni": 268,
-   "primo": "2026-10-20",
-   "ultimo": "2026-11-08",
+   "primo": "2026-10-21",
+   "ultimo": "2026-11-09",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 139
+     "mm": 139.2
     },
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 114.3
+     "mm": 114.5
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 110
+     "mm": 110.1
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
@@ -105,41 +105,42 @@
    ]
   },
   "30": {
-   "media": 45.1,
+   "media": 42.7,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-10-10",
-   "ultimo": "2026-11-08",
+   "primo": "2026-10-11",
+   "ultimo": "2026-11-09",
    "top": [
     {
      "n": "Rudolfshütte (Salzburg)",
      "nb": "Rudolfshütte",
-     "mm": 170.9
+     "mm": 165.3
     },
     {
      "n": "Kolm-Saigurn (Salzburg)",
      "nb": "Kolm-Saigurn",
-     "mm": 134
+     "mm": 129.5
     },
     {
      "n": "Kötschach-Mauthen (Kärnten)",
      "nb": "Kötschach-Mauthen",
-     "mm": 120.2
+     "mm": 117.5
     },
     {
      "n": "Loibl Tunnel (Kärnten)",
      "nb": "Loibl Tunnel",
-     "mm": 115.9
+     "mm": 115.3
     },
     {
      "n": "Kornat (Kärnten)",
      "nb": "Kornat",
-     "mm": 115.1
+     "mm": 112.6
     }
    ]
   }
  },
  "serie": [
+  1.2,
   0,
   0.3,
   0,
@@ -168,9 +169,8 @@
   3.4,
   0.8,
   0.7,
-  0.8,
-  3.6
+  0.8
  ],
- "serieDa": "2026-11-08",
+ "serieDa": "2026-11-09",
  "zone": []
 }
