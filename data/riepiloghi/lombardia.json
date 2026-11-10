@@ -1,9 +1,9 @@
 {
  "regione": "lombardia",
- "generato": "2026-11-10T04:15:41.697Z",
+ "generato": "2026-11-10T13:00:29.234Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 0.6,
    "giorni": 1,
    "stazioni": 251,
    "primo": "2026-11-09",
@@ -25,19 +25,19 @@
      "mm": 3.8
     },
     {
-     "n": "Canevino (PV)",
-     "nb": "Canevino",
-     "mm": 3.2
-    },
-    {
      "n": "Gerola Alta Pescegallo (SO)",
      "nb": "Gerola Alta Pescegallo",
-     "mm": 3
+     "mm": 3.6
+    },
+    {
+     "n": "Canevino (PV)",
+     "nb": "Canevino",
+     "mm": 3.4
     }
    ]
   },
   "7": {
-   "media": 7.4,
+   "media": 7.5,
    "giorni": 7,
    "stazioni": 252,
    "primo": "2026-11-03",
@@ -56,7 +56,7 @@
     {
      "n": "Canevino (PV)",
      "nb": "Canevino",
-     "mm": 24.4
+     "mm": 24.6
     },
     {
      "n": "Santa Margherita di Staffora Casanova (PV)",
@@ -71,7 +71,7 @@
    ]
   },
   "20": {
-   "media": 52.7,
+   "media": 52.8,
    "giorni": 20,
    "stazioni": 252,
    "primo": "2026-10-21",
@@ -80,7 +80,7 @@
     {
      "n": "Gerola Alta Pescegallo (SO)",
      "nb": "Gerola Alta Pescegallo",
-     "mm": 137.2
+     "mm": 137.8
     },
     {
      "n": "Vilminore di Scalve Presolana (BG)",
@@ -90,7 +90,7 @@
     {
      "n": "Ardesio Valcanale (BG)",
      "nb": "Ardesio Valcanale",
-     "mm": 124.2
+     "mm": 124.6
     },
     {
      "n": "Ponte in Valtellina Lago Reguzzo (SO)",
@@ -119,7 +119,7 @@
     {
      "n": "Gerola Alta Pescegallo (SO)",
      "nb": "Gerola Alta Pescegallo",
-     "mm": 182.6
+     "mm": 183.2
     },
     {
      "n": "Vilminore di Scalve Presolana (BG)",
@@ -129,18 +129,18 @@
     {
      "n": "Ardesio Valcanale (BG)",
      "nb": "Ardesio Valcanale",
-     "mm": 170.8
+     "mm": 171.2
     },
     {
-     "n": "Oltre il Colle Zambla (BG)",
-     "nb": "Oltre il Colle Zambla",
-     "mm": 169.4
+     "n": "Carona Lago Fregabolgia (BG)",
+     "nb": "Carona Lago Fregabolgia",
+     "mm": 169.8
     }
    ]
   }
  },
  "serie": [
-  0.5,
+  0.6,
   0.2,
   3.6,
   2.9,
@@ -177,8 +177,8 @@
    "s": "val-grigna",
    "n": "Val Grigna",
    "ultimo": "2026-11-09",
-   "m1": 0.1,
-   "m7": 2.7,
+   "m1": 0.2,
+   "m7": 2.8,
    "m30": 68.7,
    "p1": true,
    "p7": true,
@@ -221,9 +221,9 @@
    "s": "val-sedornia",
    "n": "Val Sedornia",
    "ultimo": "2026-11-09",
-   "m1": 0.4,
-   "m7": 3.3,
-   "m30": 93.5,
+   "m1": 0.5,
+   "m7": 3.4,
+   "m30": 93.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -254,9 +254,9 @@
    "s": "valmalenco",
    "n": "Valmalenco",
    "ultimo": "2026-11-09",
-   "m1": 0.3,
-   "m7": 2.6,
-   "m30": 57.5,
+   "m1": 0.4,
+   "m7": 2.8,
+   "m30": 57.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -288,7 +288,7 @@
    "n": "Valle dei Ratti",
    "ultimo": "2026-11-09",
    "m1": 0.2,
-   "m7": 9.8,
+   "m7": 9.9,
    "m30": 92.1,
    "p1": true,
    "p7": true,
@@ -298,9 +298,9 @@
    "s": "val-paisco",
    "n": "Val Paisco",
    "ultimo": "2026-11-09",
-   "m1": 1,
+   "m1": 1.1,
    "m7": 3.3,
-   "m30": 53.6,
+   "m30": 53.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -309,9 +309,9 @@
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
    "ultimo": "2026-11-09",
-   "m1": 0.1,
-   "m7": 8.6,
-   "m30": 69,
+   "m1": 0.2,
+   "m7": 8.7,
+   "m30": 69.1,
    "p1": true,
    "p7": true,
    "p30": true
