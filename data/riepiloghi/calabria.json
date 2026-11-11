@@ -1,116 +1,104 @@
 {
  "regione": "calabria",
- "generato": "2026-11-10T04:15:41.699Z",
+ "generato": "2026-11-11T04:15:47.030Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.6,
    "giorni": 1,
    "stazioni": 138,
-   "primo": "2026-11-09",
-   "ultimo": "2026-11-09",
+   "primo": "2026-11-10",
+   "ultimo": "2026-11-10",
    "top": [
     {
-     "n": "Filadelfia",
-     "mm": 0.4
+     "n": "Mormanno",
+     "mm": 9.2
     },
     {
-     "n": "Albidona",
-     "mm": 0.2
+     "n": "Tortora",
+     "mm": 8.4
     },
     {
-     "n": "Cardeto",
-     "mm": 0.2
+     "n": "Papasidero",
+     "mm": 7.4
     },
     {
-     "n": "Castrovillari - Camerata",
-     "mm": 0.2
+     "n": "Cutro",
+     "mm": 5.2
     },
     {
-     "n": "Cecita",
-     "mm": 0.2
+     "n": "Lungro",
+     "mm": 5.2
     }
    ]
   },
   "7": {
-   "media": 10.8,
+   "media": 10.1,
    "giorni": 7,
-   "stazioni": 139,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-09",
+   "stazioni": 138,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Arena",
-     "mm": 46.2
+     "mm": 46
     },
     {
      "n": "Palmi",
-     "mm": 45.1
+     "mm": 44.9
     },
     {
      "n": "Gioia Tauro SS18",
-     "mm": 35.1
-    },
-    {
-     "n": "Rizziconi",
-     "mm": 31
+     "mm": 34.9
     },
     {
      "n": "Ponte Vecchio",
      "mm": 27.6
+    },
+    {
+     "n": "Staiti",
+     "mm": 27.3
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   },
   "20": {
-   "media": 72.4,
+   "media": 59,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-21",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-22",
+   "ultimo": "2026-11-10",
    "top": [
     {
-     "n": "Cotronei",
-     "mm": 198.6
+     "n": "Gioia Tauro SS18",
+     "mm": 116.1
     },
     {
-     "n": "Petilia Policastro",
-     "mm": 183
+     "n": "Rizziconi",
+     "mm": 104.2
     },
     {
-     "n": "Pagliarelle",
-     "mm": 180.8
+     "n": "Gambarie",
+     "mm": 103.1
     },
     {
      "n": "Petronà",
-     "mm": 165.8
+     "mm": 100.6
     },
     {
-     "n": "Albi",
-     "mm": 136.3
+     "n": "Arena",
+     "mm": 96.2
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   },
   "30": {
-   "media": 94.6,
+   "media": 92.3,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-11",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-12",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Cotronei",
      "mm": 204.8
-    },
-    {
-     "n": "Canolo Nuovo",
-     "mm": 195.7
     },
     {
      "n": "Petilia Policastro",
@@ -123,15 +111,16 @@
     {
      "n": "Petronà",
      "mm": 186.6
+    },
+    {
+     "n": "Canolo Nuovo",
+     "mm": 182.9
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   }
  },
  "serie": [
+  0.6,
   0,
   0.1,
   6.6,
@@ -160,18 +149,17 @@
   0,
   0,
   4.2,
-  12.2,
-  2.9
+  12.2
  ],
- "serieDa": "2026-11-09",
+ "serieDa": "2026-11-10",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-09",
+   "ultimo": "2026-11-10",
    "m1": 0,
-   "m7": 13.2,
-   "m30": 114.6,
+   "m7": 13,
+   "m30": 105.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -179,10 +167,10 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-09",
-   "m1": 0.1,
-   "m7": 4.4,
-   "m30": 64.7,
+   "ultimo": "2026-11-10",
+   "m1": 1.3,
+   "m7": 3.3,
+   "m30": 65,
    "p1": true,
    "p7": true,
    "p30": true

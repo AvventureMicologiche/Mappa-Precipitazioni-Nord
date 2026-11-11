@@ -1,137 +1,126 @@
 {
  "regione": "puglia",
- "generato": "2026-11-10T04:15:41.699Z",
+ "generato": "2026-11-11T04:15:47.030Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.5,
    "giorni": 1,
-   "stazioni": 127,
-   "primo": "2026-11-09",
-   "ultimo": "2026-11-09",
+   "stazioni": 126,
+   "primo": "2026-11-10",
+   "ultimo": "2026-11-10",
    "top": [
     {
-     "n": "Maglie",
-     "mm": 0.8
+     "n": "Orto di Zolfo",
+     "mm": 3.6
     },
     {
-     "n": "Cellino S.Marco",
-     "mm": 0.4
+     "n": "Biccari",
+     "mm": 2
     },
     {
-     "n": "Loconia",
-     "mm": 0.4
+     "n": "Volturara Appula",
+     "mm": 2
     },
     {
-     "n": "Martina Franca",
-     "mm": 0.4
+     "n": "Arpinova",
+     "mm": 1.8
     },
     {
-     "n": "Mass.Monteruga",
-     "mm": 0.4
+     "n": "Castelluccio dei Sauri",
+     "mm": 1.8
     }
    ]
   },
   "7": {
-   "media": 16.6,
+   "media": 3.6,
    "giorni": 7,
-   "stazioni": 128,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-09",
+   "stazioni": 127,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Manduria",
-     "mm": 55.6
+     "mm": 30.8
     },
     {
-     "n": "Novoli",
-     "mm": 53.8
+     "n": "Mass.Monteruga",
+     "mm": 14.7
     },
     {
-     "n": "Lecce",
-     "mm": 52.9
+     "n": "Avetrana",
+     "mm": 13.6
     },
     {
-     "n": "Latiano",
-     "mm": 51.6
+     "n": "Carpino",
+     "mm": 13
     },
     {
-     "n": "Cellino S.Marco",
-     "mm": 48.5
+     "n": "Taranto",
+     "mm": 12
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   },
   "20": {
-   "media": 102,
+   "media": 83.1,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-10-21",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-22",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Faeto",
-     "mm": 204.1
+     "mm": 195.5
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 194.4
+     "mm": 188.2
     },
     {
      "n": "Lesina",
-     "mm": 186.9
-    },
-    {
-     "n": "Lecce",
-     "mm": 167.7
+     "mm": 170.4
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 166.4
+     "mm": 154.6
+    },
+    {
+     "n": "Bosco Umbra",
+     "mm": 139.7
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   },
   "30": {
-   "media": 121.4,
+   "media": 113.4,
    "giorni": 30,
    "stazioni": 128,
-   "primo": "2026-10-11",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-12",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Orto di Zolfo",
-     "mm": 213.8
-    },
-    {
-     "n": "Ostuni",
-     "mm": 212
+     "mm": 217.4
     },
     {
      "n": "Faeto",
-     "mm": 208.7
+     "mm": 210.3
     },
     {
-     "n": "Vico del Gargano",
-     "mm": 207.6
+     "n": "Ostuni",
+     "mm": 207.8
     },
     {
      "n": "Lesina",
-     "mm": 205.3
+     "mm": 196.4
+    },
+    {
+     "n": "Poggio Imperiale",
+     "mm": 180.4
     }
-   ],
-   "stime": {
-    "dal": "2026-11-07",
-    "al": "2026-11-07"
-   }
+   ]
   }
  },
  "serie": [
+  0.5,
   0.1,
   1.7,
   0.8,
@@ -160,9 +149,8 @@
   0,
   0,
   1.7,
-  8.9,
-  8.8
+  8.9
  ],
- "serieDa": "2026-11-09",
+ "serieDa": "2026-11-10",
  "zone": []
 }

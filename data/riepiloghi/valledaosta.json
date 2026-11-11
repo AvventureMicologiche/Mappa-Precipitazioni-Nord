@@ -1,100 +1,100 @@
 {
  "regione": "valledaosta",
- "generato": "2026-11-10T04:15:41.697Z",
+ "generato": "2026-11-11T04:15:47.028Z",
  "periodi": {
   "1": {
-   "media": 1.9,
+   "media": 3.9,
    "giorni": 1,
    "stazioni": 64,
-   "primo": "2026-11-09",
-   "ultimo": "2026-11-09",
+   "primo": "2026-11-10",
+   "ultimo": "2026-11-10",
    "top": [
     {
-     "n": "Courmayeur - Dolonne",
-     "mm": 13
-    },
-    {
-     "n": "Courmayeur - Mont de la Saxe",
-     "mm": 13
-    },
-    {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 7.9
+     "mm": 25.3
     },
     {
-     "n": "Saint-Rhémy-en-Bosses - Crévacol",
-     "mm": 7.2
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "mm": 16.3
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 6.2
+     "mm": 12.7
+    },
+    {
+     "n": "Courmayeur - Mont de la Saxe",
+     "mm": 12.3
+    },
+    {
+     "n": "Valgrisenche - Menthieu",
+     "mm": 11
     }
    ]
   },
   "7": {
-   "media": 15.1,
+   "media": 18.8,
    "giorni": 7,
    "stazioni": 64,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-09",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-10",
    "top": [
     {
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 49.9
+    },
+    {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 35.6
+     "mm": 47.5
     },
     {
      "n": "Courmayeur - Dolonne",
-     "mm": 32.6
+     "mm": 43.4
+    },
+    {
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "mm": 40.1
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 25.3
-    },
-    {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 24.7
-    },
-    {
-     "n": "Champorcher - Rifugio Dondena",
-     "mm": 24
+     "mm": 37.9
     }
    ]
   },
   "20": {
-   "media": 41.6,
+   "media": 30.4,
    "giorni": 20,
    "stazioni": 66,
-   "primo": "2026-10-21",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-22",
+   "ultimo": "2026-11-10",
    "top": [
     {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 104.3
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 111.9
     },
     {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 96.9
+     "n": "Courmayeur - Ferrachet",
+     "mm": 104
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 79.4
+     "mm": 83.9
     },
     {
-     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
-     "mm": 79.1
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "mm": 67
     },
     {
-     "n": "Lillianes - Granges",
-     "mm": 64.6
+     "n": "Courmayeur - Dolonne",
+     "mm": 66.4
     }
    ]
   },
   "30": {
-   "media": 64.4,
+   "media": 68.2,
    "giorni": 30,
    "stazioni": 66,
-   "primo": "2026-10-11",
-   "ultimo": "2026-11-09",
+   "primo": "2026-10-12",
+   "ultimo": "2026-11-10",
    "top": [
     {
      "n": "Lillianes - Granges",
@@ -113,16 +113,17 @@
      "mm": 134.2
     },
     {
-     "n": "Champorcher - Rifugio Dondena",
-     "mm": 125.4
+     "n": "Courmayeur - Ferrachet",
+     "mm": 133.3
     }
    ]
   }
  },
  "serie": [
+  3.9,
   1.9,
   0.1,
-  0.1,
+  0,
   4.9,
   6.9,
   1,
@@ -148,15 +149,14 @@
   0,
   0.1,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-09",
+ "serieDa": "2026-11-10",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-11-09",
+   "ultimo": "2026-11-10",
    "m1": 0,
    "m7": 9.5,
    "m30": 117.4,
@@ -167,21 +167,21 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-11-09",
-   "m1": 0,
-   "m7": 14.5,
-   "m30": 51.7,
-   "p1": false,
+   "ultimo": "2026-11-10",
+   "m1": 0.5,
+   "m7": 15.1,
+   "m30": 52.3,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-11-09",
-   "m1": 2.3,
-   "m7": 11.2,
-   "m30": 34.4,
+   "ultimo": "2026-11-10",
+   "m1": 4.1,
+   "m7": 15.3,
+   "m30": 38.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,11 +189,11 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-11-09",
-   "m1": 0.1,
-   "m7": 14.2,
+   "ultimo": "2026-11-10",
+   "m1": 0,
+   "m7": 14,
    "m30": 109.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }
