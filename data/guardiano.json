@@ -1,20 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-10-30T05:30:38.228Z",
-      "inRitardo": [],
-      "lanciati": [
-        "riepiloghi.yml"
-      ],
-      "mancanti": [
-        {
-          "dir": "meteohub-puglia",
-          "giorno": "2026-10-29",
-          "buco": 2
-        }
-      ]
-    },
-    {
       "quando": "2026-10-30T06:00:37.689Z",
       "inRitardo": [],
       "lanciati": [],
@@ -2073,8 +2059,16 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-11-11T05:30:39.213Z",
+      "inRitardo": [],
+      "lanciati": [
+        "riepiloghi.yml"
+      ],
+      "mancanti": []
     }
   ],
-  "aggiornato": "2026-11-11T05:00:39.556Z",
-  "riassunto": "32 giri con qualcosa ri-lanciato su 120 · 61 con qualche giorno mancante · 8 con un buco di 2+ giorni"
+  "aggiornato": "2026-11-11T05:30:39.213Z",
+  "riassunto": "32 giri con qualcosa ri-lanciato su 120 · 60 con qualche giorno mancante · 7 con un buco di 2+ giorni"
 }
