@@ -1,71 +1,71 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-11T04:15:47.030Z",
+ "generato": "2026-11-12T04:15:39.765Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 420,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "stazioni": 419,
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Novara di Sicilia SIAS",
-     "mm": 6.2
+     "mm": 19.6
     },
     {
      "n": "Gangi",
      "mm": 1.4
     },
     {
-     "n": "Fiorita",
+     "n": "Fermata Bruca",
+     "mm": 0.9
+    },
+    {
+     "n": "Rocca di Caprileone",
      "mm": 0.8
     },
     {
-     "n": "Militello Rosmarino",
-     "mm": 0.8
-    },
-    {
-     "n": "Caltagirone SP227",
+     "n": "Mirto",
      "mm": 0.6
     }
    ]
   },
   "7": {
-   "media": 9.5,
+   "media": 7.6,
    "giorni": 7,
    "stazioni": 418,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
-     "n": "Viagrande",
-     "mm": 137.3
+     "n": "Cesarò",
+     "mm": 99.4
     },
     {
      "n": "Lavinaio",
-     "mm": 126.6
+     "mm": 86.9
+    },
+    {
+     "n": "Viagrande",
+     "mm": 76.5
     },
     {
      "n": "Mascalucia",
-     "mm": 109.5
+     "mm": 70.6
     },
     {
-     "n": "Giarre",
-     "mm": 100
-    },
-    {
-     "n": "Cesarò",
-     "mm": 99.6
+     "n": "Linguaglossa SIAS",
+     "mm": 61.8
     }
    ]
   },
   "20": {
-   "media": 60.4,
+   "media": 60.1,
    "giorni": 20,
-   "stazioni": 421,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "stazioni": 422,
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Isnello SP54",
@@ -77,49 +77,50 @@
     },
     {
      "n": "Caronia Pomiere SIAS",
-     "mm": 198.2
-    },
-    {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 197
+     "mm": 197.4
     },
     {
      "n": "Miraglia",
-     "mm": 195.7
+     "mm": 194.9
+    },
+    {
+     "n": "Cesarò Monte Soro SIAS",
+     "mm": 194
     }
    ]
   },
   "30": {
-   "media": 83.7,
+   "media": 80.3,
    "giorni": 30,
-   "stazioni": 418,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "stazioni": 419,
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Pagliara",
-     "mm": 377.1
+     "mm": 372.9
     },
     {
      "n": "Piedimonte Etneo",
-     "mm": 374.2
+     "mm": 372.8
     },
     {
      "n": "Forza d'Agrò",
-     "mm": 347.4
-    },
-    {
-     "n": "Mandanici",
-     "mm": 317.7
+     "mm": 341.6
     },
     {
      "n": "Letojanni",
-     "mm": 315.8
+     "mm": 314
+    },
+    {
+     "n": "Mandanici",
+     "mm": 310.3
     }
    ]
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0,
@@ -148,18 +149,17 @@
   0.1,
   0,
   0,
-  3.3,
-  3.5
+  3.3
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-10",
+   "ultimo": "2026-11-11",
    "m1": 0,
-   "m7": 5,
-   "m30": 168.5,
+   "m7": 4.8,
+   "m30": 143.9,
    "p1": false,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-10",
+   "ultimo": "2026-11-11",
    "m1": 0,
-   "m7": 6.8,
-   "m30": 189.5,
+   "m7": 6.7,
+   "m30": 164.2,
    "p1": false,
    "p7": true,
    "p30": true

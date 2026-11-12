@@ -1,75 +1,75 @@
 {
  "regione": "marche",
- "generato": "2026-11-11T04:15:47.030Z",
+ "generato": "2026-11-12T04:15:39.765Z",
  "periodi": {
   "1": {
-   "media": 8.4,
+   "media": 0.7,
    "giorni": 1,
-   "stazioni": 110,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "stazioni": 111,
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
-     "n": "Monte Petrano",
-     "mm": 38
+     "n": "Biscubio",
+     "mm": 9.6
     },
     {
-     "n": "Campodiegoli",
-     "mm": 22.6
+     "n": "Carpegna",
+     "mm": 5.2
+    },
+    {
+     "n": "Esanatoglia2",
+     "mm": 5.2
+    },
+    {
+     "n": "Piobbico",
+     "mm": 5.2
     },
     {
      "n": "Monte Nerone",
-     "mm": 20.9
-    },
-    {
-     "n": "Serravalle di Carda",
-     "mm": 20.9
-    },
-    {
-     "n": "Biscubio",
-     "mm": 20.6
+     "mm": 5.1
     }
    ]
   },
   "7": {
-   "media": 23.4,
+   "media": 24,
    "giorni": 7,
    "stazioni": 110,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 65.9
-    },
-    {
-     "n": "Monte Nerone",
-     "mm": 47.6
-    },
-    {
-     "n": "Fonte Avellana",
-     "mm": 46.3
-    },
-    {
-     "n": "Serravalle di Carda",
-     "mm": 44.9
+     "mm": 67.3
     },
     {
      "n": "Biscubio",
-     "mm": 44.5
+     "mm": 54.1
+    },
+    {
+     "n": "Monte Nerone",
+     "mm": 52.7
+    },
+    {
+     "n": "Serravalle di Carda",
+     "mm": 48
+    },
+    {
+     "n": "Fonte Avellana",
+     "mm": 46.1
     }
    ]
   },
   "20": {
-   "media": 73.5,
+   "media": 73.7,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 215.4
+     "mm": 212.8
     },
     {
      "n": "Pintura di Bolognola",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Fonte Avellana",
-     "mm": 145.5
+     "mm": 143.5
     },
     {
      "n": "Arquata del Tronto",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 89.2,
+   "media": 79.7,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 235.6
-    },
-    {
-     "n": "Fonte Avellana",
-     "mm": 174.1
+     "mm": 230.2
     },
     {
      "n": "Pintura di Bolognola",
-     "mm": 170.6
+     "mm": 167.3
     },
     {
      "n": "Umito",
-     "mm": 166.7
+     "mm": 164.9
     },
     {
      "n": "Arquata del Tronto",
-     "mm": 159.3
+     "mm": 156.5
+    },
+    {
+     "n": "Fonte Avellana",
+     "mm": 154.7
     }
    ]
   }
  },
  "serie": [
+  0.7,
   8.4,
   0.7,
   1.2,
@@ -148,18 +149,17 @@
   0.1,
   0.1,
   0,
-  0.1,
-  10.3
+  0.1
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-10",
-   "m1": 10.8,
-   "m7": 32.1,
-   "m30": 75.4,
+   "ultimo": "2026-11-11",
+   "m1": 5.4,
+   "m7": 37.5,
+   "m30": 75.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-10",
-   "m1": 6.9,
+   "ultimo": "2026-11-11",
+   "m1": 0.1,
    "m7": 16.8,
-   "m30": 97.3,
+   "m30": 93.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,11 +178,11 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-10",
-   "m1": 3.7,
+   "ultimo": "2026-11-11",
+   "m1": 0,
    "m7": 7.9,
-   "m30": 129.9,
-   "p1": true,
+   "m30": 124.2,
+   "p1": false,
    "p7": true,
    "p30": true
   }

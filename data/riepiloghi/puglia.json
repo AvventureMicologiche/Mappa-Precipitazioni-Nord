@@ -1,33 +1,33 @@
 {
  "regione": "puglia",
- "generato": "2026-11-11T11:16:40.313Z",
+ "generato": "2026-11-12T04:15:39.765Z",
  "periodi": {
   "1": {
-   "media": 0.5,
+   "media": 0,
    "giorni": 1,
    "stazioni": 126,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
+     "n": "S.M. di Leuca",
+     "mm": 1
+    },
+    {
+     "n": "Alessano",
+     "mm": 0.8
+    },
+    {
+     "n": "Presicce",
+     "mm": 0.8
+    },
+    {
      "n": "Orto di Zolfo",
-     "mm": 3.6
-    },
-    {
-     "n": "Biccari",
-     "mm": 2
-    },
-    {
-     "n": "Volturara Appula",
-     "mm": 2
+     "mm": 0.4
     },
     {
      "n": "Arpinova",
-     "mm": 1.8
-    },
-    {
-     "n": "Castelluccio dei Sauri",
-     "mm": 1.8
+     "mm": 0.2
     }
    ]
   },
@@ -35,12 +35,12 @@
    "media": 3.6,
    "giorni": 7,
    "stazioni": 127,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Manduria",
-     "mm": 30.8
+     "mm": 31
     },
     {
      "n": "Mass.Monteruga",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Carpino",
-     "mm": 13
+     "mm": 12
     },
     {
      "n": "Taranto",
@@ -61,19 +61,19 @@
    ]
   },
   "20": {
-   "media": 81.7,
+   "media": 81.4,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Faeto",
-     "mm": 193.7
+     "mm": 193.3
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 188.2
+     "mm": 188
     },
     {
      "n": "Lesina",
@@ -81,7 +81,7 @@
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 154.6
+     "mm": 153.2
     },
     {
      "n": "Panni",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 112,
+   "media": 102.8,
    "giorni": 30,
-   "stazioni": 128,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "stazioni": 129,
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
-     "n": "Orto di Zolfo",
-     "mm": 217.4
-    },
-    {
      "n": "Faeto",
-     "mm": 208.5
+     "mm": 205.1
     },
     {
-     "n": "Ostuni",
-     "mm": 207.4
+     "n": "Orto di Zolfo",
+     "mm": 200
     },
     {
      "n": "Lesina",
-     "mm": 196.4
+     "mm": 187.5
+    },
+    {
+     "n": "Lecce",
+     "mm": 168.1
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 180.4
+     "mm": 167.8
     }
    ]
   }
  },
  "serie": [
+  0,
   0.5,
   0.1,
   1.7,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  1.7,
-  8.9
+  1.7
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": []
 }

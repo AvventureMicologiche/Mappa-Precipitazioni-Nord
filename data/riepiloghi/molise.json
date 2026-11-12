@@ -1,50 +1,46 @@
 {
  "regione": "molise",
- "generato": "2026-11-11T04:15:47.030Z",
+ "generato": "2026-11-12T04:15:39.765Z",
  "periodi": {
   "1": {
-   "media": 1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 26,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 5.6
+     "mm": 0.2
     },
     {
-     "n": "Forlì del Sannio",
-     "mm": 2.2
+     "n": "Castelmauro",
+     "mm": 0.2
     },
     {
-     "n": "Tappino a Gambatesa",
-     "mm": 1.8
+     "n": "Fornelli",
+     "mm": 0.2
     },
     {
-     "n": "Trigno a Pescolanciano",
-     "mm": 1.8
+     "n": "Pietrabbondante",
+     "mm": 0.2
     },
     {
-     "n": "Gambatesa",
-     "mm": 1.6
+     "n": "Bonefro",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 4.2,
+   "media": 4.1,
    "giorni": 7,
    "stazioni": 26,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 12.6
-    },
-    {
-     "n": "Castelmauro",
-     "mm": 6.9
+     "mm": 12.8
     },
     {
      "n": "Campochiaro Quirino",
@@ -57,69 +53,74 @@
     {
      "n": "Campochiaro",
      "mm": 6.4
+    },
+    {
+     "n": "Campobasso",
+     "mm": 5.6
     }
    ]
   },
   "20": {
-   "media": 83.7,
+   "media": 82.1,
    "giorni": 20,
    "stazioni": 26,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 196.2
+     "mm": 195.6
     },
     {
      "n": "Bonefro",
-     "mm": 151.7
+     "mm": 146
     },
     {
      "n": "Capracotta",
-     "mm": 140.4
+     "mm": 140.2
     },
     {
      "n": "Termoli",
-     "mm": 118.7
+     "mm": 109.9
     },
     {
      "n": "Ponte Barrea",
-     "mm": 114.5
+     "mm": 108.8
     }
    ]
   },
   "30": {
-   "media": 119.7,
+   "media": 113.2,
    "giorni": 30,
    "stazioni": 27,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 326.1
+     "mm": 299
     },
     {
      "n": "Roccamandolfi",
      "mm": 200
     },
     {
-     "n": "Bonefro",
-     "mm": 188.3
+     "n": "Capracotta",
+     "mm": 177
     },
     {
-     "n": "Capracotta",
-     "mm": 179.8
+     "n": "Bonefro",
+     "mm": 164.7
     },
     {
      "n": "Termoli",
-     "mm": 164.4
+     "mm": 135.5
     }
    ]
   }
  },
  "serie": [
+  0,
   1,
   0,
   0.1,
@@ -148,9 +149,8 @@
   0,
   0,
   0.1,
-  0.9,
-  6.5
+  0.9
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": []
 }

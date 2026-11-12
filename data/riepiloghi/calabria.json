@@ -1,71 +1,71 @@
 {
  "regione": "calabria",
- "generato": "2026-11-11T04:15:47.030Z",
+ "generato": "2026-11-12T04:15:39.765Z",
  "periodi": {
   "1": {
-   "media": 0.6,
+   "media": 0,
    "giorni": 1,
    "stazioni": 138,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
-     "n": "Mormanno",
-     "mm": 9.2
+     "n": "Fitterizzi Meteo",
+     "mm": 0.2
     },
     {
-     "n": "Tortora",
-     "mm": 8.4
+     "n": "Licciardi",
+     "mm": 0.2
     },
     {
-     "n": "Papasidero",
-     "mm": 7.4
+     "n": "Monte Curcio-Camigl.",
+     "mm": 0.2
     },
     {
-     "n": "Cutro",
-     "mm": 5.2
+     "n": "Acri",
+     "mm": 0
     },
     {
-     "n": "Lungro",
-     "mm": 5.2
+     "n": "Albi",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 10.1,
+   "media": 8.4,
    "giorni": 7,
    "stazioni": 138,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Arena",
-     "mm": 46
+     "mm": 44.8
     },
     {
      "n": "Palmi",
-     "mm": 44.9
+     "mm": 41.3
     },
     {
      "n": "Gioia Tauro SS18",
-     "mm": 34.9
+     "mm": 34.3
     },
     {
-     "n": "Ponte Vecchio",
-     "mm": 27.6
+     "n": "Isola Capo Rizzuto",
+     "mm": 26.2
     },
     {
-     "n": "Staiti",
-     "mm": 27.3
+     "n": "Papasidero",
+     "mm": 26.1
     }
    ]
   },
   "20": {
-   "media": 59,
+   "media": 58.5,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Gioia Tauro SS18",
@@ -73,11 +73,11 @@
     },
     {
      "n": "Rizziconi",
-     "mm": 104.2
+     "mm": 104
     },
     {
      "n": "Gambarie",
-     "mm": 103.1
+     "mm": 101.9
     },
     {
      "n": "Petronà",
@@ -85,41 +85,42 @@
     },
     {
      "n": "Arena",
-     "mm": 96.2
+     "mm": 96
     }
    ]
   },
   "30": {
-   "media": 92.3,
+   "media": 80.1,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Cotronei",
-     "mm": 204.8
+     "mm": 200.6
     },
     {
      "n": "Petilia Policastro",
-     "mm": 190.2
-    },
-    {
-     "n": "Pagliarelle",
-     "mm": 187
+     "mm": 186
     },
     {
      "n": "Petronà",
-     "mm": 186.6
+     "mm": 183
     },
     {
-     "n": "Canolo Nuovo",
-     "mm": 182.9
+     "n": "Pagliarelle",
+     "mm": 182.6
+    },
+    {
+     "n": "Cardeto",
+     "mm": 162.1
     }
    ]
   }
  },
  "serie": [
+  0,
   0.6,
   0,
   0.1,
@@ -148,29 +149,28 @@
   0.7,
   0,
   0,
-  4.2,
-  12.2
+  4.2
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-10",
+   "ultimo": "2026-11-11",
    "m1": 0,
-   "m7": 13,
-   "m30": 105.8,
-   "p1": true,
+   "m7": 9.9,
+   "m30": 89.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-10",
-   "m1": 1.3,
-   "m7": 3.3,
-   "m30": 65,
+   "ultimo": "2026-11-11",
+   "m1": 0.1,
+   "m7": 2.8,
+   "m30": 56.7,
    "p1": true,
    "p7": true,
    "p30": true

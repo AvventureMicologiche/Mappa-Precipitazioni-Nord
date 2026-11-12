@@ -1,78 +1,82 @@
 {
  "regione": "trentino",
- "generato": "2026-11-11T04:15:47.029Z",
+ "generato": "2026-11-12T04:15:39.764Z",
  "periodi": {
   "1": {
-   "media": 1.5,
+   "media": 0.7,
    "giorni": 1,
-   "stazioni": 101,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-10",
+   "stazioni": 103,
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-11",
    "top": [
     {
-     "n": "Daone (Malga Bissina)",
-     "mm": 12.4
+     "n": "Passo Sommo",
+     "mm": 3.4
+    },
+    {
+     "n": "Lavarone (Chiesa)",
+     "mm": 3
+    },
+    {
+     "n": "Folgaria",
+     "mm": 2.4
     },
     {
      "n": "Passo Tonale",
-     "mm": 10.8
+     "mm": 2.4
     },
     {
-     "n": "Tremalzo",
-     "mm": 5.6
-    },
-    {
-     "n": "Brentonico (Santa Caterina)",
-     "mm": 5
-    },
-    {
-     "n": "Ala (Ronchi)",
-     "mm": 4.6
+     "n": "Passo Pian Delle Fugazze",
+     "mm": 2.2
     }
    ]
   },
   "7": {
-   "media": 4.7,
+   "media": 5.4,
    "giorni": 7,
-   "stazioni": 102,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-10",
+   "stazioni": 101,
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Daone (Malga Bissina)",
-     "mm": 13.6
-    },
-    {
-     "n": "Pieve Tesino (Malga Sorgazza)",
-     "mm": 12.2
+     "mm": 15.4
     },
     {
      "n": "Passo Tonale",
-     "mm": 11.6
+     "mm": 14
+    },
+    {
+     "n": "Pieve Tesino (Malga Sorgazza)",
+     "mm": 13.2
+    },
+    {
+     "n": "Passo Pian Delle Fugazze",
+     "mm": 12.2
     },
     {
      "n": "Tremalzo",
-     "mm": 10.6
-    },
-    {
-     "n": "Brentonico (Santa Caterina)",
-     "mm": 10.2
+     "mm": 11.6
     }
    ]
   },
   "20": {
-   "media": 12.1,
+   "media": 11.2,
    "giorni": 20,
    "stazioni": 104,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Rovereto (Malga Zugna)",
-     "mm": 43
+     "mm": 44.6
     },
     {
      "n": "Passo Pian Delle Fugazze",
+     "mm": 24.4
+    },
+    {
+     "n": "Ala (Ronchi)",
      "mm": 22.2
     },
     {
@@ -80,46 +84,43 @@
      "mm": 21.8
     },
     {
-     "n": "Ala (Ronchi)",
+     "n": "Daone (Malga Bissina)",
      "mm": 21
-    },
-    {
-     "n": "San Martino di Castrozza",
-     "mm": 20.8
     }
    ]
   },
   "30": {
-   "media": 66.2,
+   "media": 66.8,
    "giorni": 30,
    "stazioni": 104,
-   "primo": "2026-10-12",
-   "ultimo": "2026-11-10",
+   "primo": "2026-10-13",
+   "ultimo": "2026-11-11",
    "top": [
     {
      "n": "Passo Pian Delle Fugazze",
-     "mm": 226
+     "mm": 228
     },
     {
      "n": "Monte Grostè (Rifugio Graffer)",
-     "mm": 124.4
+     "mm": 124.6
     },
     {
      "n": "Daone (Pracul)",
-     "mm": 112
-    },
-    {
-     "n": "Val D'Ambiez",
-     "mm": 111
+     "mm": 113.8
     },
     {
      "n": "Lavarone (Chiesa)",
-     "mm": 110.2
+     "mm": 113.2
+    },
+    {
+     "n": "Val D'Ambiez",
+     "mm": 112
     }
    ]
   }
  },
  "serie": [
+  0.7,
   1.5,
   0.4,
   0.3,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
-  0.2
+  0
  ],
- "serieDa": "2026-11-10",
+ "serieDa": "2026-11-11",
  "zone": [
   {
    "s": "valle-del-chiese",
    "n": "Valle del Chiese",
-   "ultimo": "2026-11-10",
-   "m1": 4.3,
-   "m7": 8.2,
-   "m30": 87,
+   "ultimo": "2026-11-11",
+   "m1": 1.1,
+   "m7": 9.3,
+   "m30": 88.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "altopiano-del-tesino",
    "n": "Altopiano del Tesino",
-   "ultimo": "2026-11-10",
-   "m1": 2.1,
-   "m7": 7,
-   "m30": 52.9,
+   "ultimo": "2026-11-11",
+   "m1": 1.1,
+   "m7": 8.1,
+   "m30": 53.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "val-terragnolo",
    "n": "Val Terragnolo",
-   "ultimo": "2026-11-10",
-   "m1": 1.7,
-   "m7": 6.7,
-   "m30": 82.1,
+   "ultimo": "2026-11-11",
+   "m1": 2.5,
+   "m7": 9.2,
+   "m30": 84.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,7 +189,7 @@
   {
    "s": "val-di-non",
    "n": "Val di Non",
-   "ultimo": "2026-11-10",
+   "ultimo": "2026-11-11",
    "m1": 0,
    "m7": 2.3,
    "m30": 54.4,
@@ -200,10 +200,10 @@
   {
    "s": "giudicarie",
    "n": "Giudicarie",
-   "ultimo": "2026-11-10",
-   "m1": 0.6,
-   "m7": 3.6,
-   "m30": 64.4,
+   "ultimo": "2026-11-11",
+   "m1": 1.3,
+   "m7": 4.9,
+   "m30": 65.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,11 +211,11 @@
   {
    "s": "valle-dei-laghi",
    "n": "Valle dei Laghi",
-   "ultimo": "2026-11-10",
-   "m1": 0,
-   "m7": 5.3,
-   "m30": 60.9,
-   "p1": false,
+   "ultimo": "2026-11-11",
+   "m1": 0.5,
+   "m7": 5.7,
+   "m30": 61.4,
+   "p1": true,
    "p7": true,
    "p30": true
   }
