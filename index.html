@@ -13065,18 +13065,23 @@ function loadDefaultMarkers(){
     b.classList.remove('vetrina','v-fb','v-ig');
   }
   /* ⚠️ IL GIRO DELLA PILLOLA AL TELEFONO (4/11/2026, scheda 119, suo). Sotto i numeri, al telefono, c'e' il tasto giallo
-     delle previsioni (vedi «LE PREVISIONI SEMPRE» nell'invito); UN'ANALISI SU QUATTRO (la quarta, l'ottava…; la prima
-     della visita mai) al suo posto torna la pillola.
+     delle previsioni (vedi «LE PREVISIONI SEMPRE» nell'invito); alle analisi pari (la seconda, la quarta…; la prima
+     della visita mai) al suo posto torna la pillola. Fino al 12/11/2026 era un'analisi su quattro: vedi qui sotto.
      ⚠️ DAL 4/11/2026 SERA (scheda 121, suo: «fai nel cellulare lo stesso giro del pc») LA PILLOLA GIRA SULLE STESSE VOCI
      DELLA SCHEDA DEL COMPUTER: il `sorteggio` di data/vetrina.json, nello stesso ordine, con gli stessi filtri di
      `costruisci` (`primaDiDa` e `fino`; `iscriviti` dove sta nell'elenco). Il primo giro parte da una voce a caso, poi
      la successiva, come al computer. Prima (scheda 119) girava sugli ULTIMI 3 VIDEO del feed del canale, il quiz e
      «Iscriviti»: un video appena uscito entrava da solo; ora entra quando ha la sua voce in vetrina.json, come al
-     computer (la cassetta dei video lo prende comunque da sola). Resta l'una su quattro.
+     computer (la cassetta dei video lo prende comunque da sola).
+     ⚠️ DAL 12/11/2026 (scheda 131, suo: «La 1, a turno») GIALLO E PILLOLA SI DANNO IL TURNO: giallo alla 1a, 3a, 5a
+     analisi…, pillola alla 2a, 4a, 6a… (prima l'una su quattro). Perche': GA4 5-11/11 contro 28/10-3/11, al telefono,
+     al giorno: pillola da 6,6 a 0,7 tocchi, uscite verso YouTube da 10 a 2, giallo fermo a 21; e chi fa analisi al
+     telefono ne fa in media 2,76 a visita, alla quarta arrivavano in pochi. La prima che si vede (anche quella che
+     parte da sola aprendo un link) resta al giallo.
      ⚠️ Al computer non cambia niente: la scheda grande gira come prima, e il giro della vetrina al telefono non si fa
      piu' (la pillola e' nascosta dal giallo fino al suo turno). */
   function telefonoV(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }
-  window._turnoPillola=function(){ var n=window._analisiN||0; return telefonoV() && n>0 && n%4===0; };
+  window._turnoPillola=function(){ var n=window._analisiN||0; return telefonoV() && n>0 && n%2===0; };
   var _tel={i:-1};
   function giroTelefono(){
     var cfg=_cfgMontata||RIPIEGO, vv=(cfg&&cfg.vetrine)||{}, voci=[], VT={}, ora=Date.now();
@@ -16968,8 +16973,8 @@ body.inv-prev-on #channel-pill{display:none !important}
   var el=null, visto=false;
   function telefono(){ try{ return matchMedia('(max-width:600px)').matches; }catch(e){ return false; } }   // dove c'e' la pillola del video
   /* ⚠️ LE PREVISIONI SEMPRE (4/11/2026, scheda 119, suo): anche col RADAR, al telefono e al computer. Al telefono tutte
-     le analisi tranne UNA SU QUATTRO, che e' il turno della pillola (vedi «IL GIRO DELLA PILLOLA AL TELEFONO» nella
-     vetrina: gli ultimi 3 video del canale, il quiz, «Iscriviti»). Prima, al telefono, l'invito era sempre solo per chi
+     le analisi dispari (1a, 3a, 5a…); le pari sono il turno della pillola (dal 12/11/2026, scheda 131; prima una su
+     quattro; vedi «IL GIRO DELLA PILLOLA AL TELEFONO» nella vetrina: le voci della scheda del computer). Prima, al telefono, l'invito era sempre solo per chi
      le previsioni non le aveva mai aperte (`prevUsate`) e per gli altri una voce del giro della vetrina; col radar mai.
      I numeri del 31/10-3/11 al telefono: invito toccato 84 volte, pillola dei video 21. */
   window._invitoNelGiro=function(){ return false; };   // non e' piu' una voce del giro della vetrina
