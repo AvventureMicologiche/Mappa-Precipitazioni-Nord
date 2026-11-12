@@ -80,8 +80,10 @@ riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
    `fonti.html` (regola 4; «Togliere Open-Meteo» in `CLAUDE-fonti.md`).
 10. **Un controllo nuovo si costruisce solo se è semplice, utile e poco costoso da tenere vivo**: quale decisione
     cambia, quante volte il problema è successo davvero, quanto costa il giorno che sbaglia (regola 1).
-11. **Fini riga CRLF** in `index.html`, `fonti.html`, `guida/index.html` e in tutti i `CLAUDE*.md`: si modifica con
-    Edit, mai con `sed -i` in Git Bash, che spoglia i CRLF di tutto il file. Prima del commit, `git diff --stat`.
+11. **Fini riga LF** in `index.html`, `fonti.html`, `guida/index.html` e in tutti i `CLAUDE*.md` (controllato il
+    12/11/2026: zero righe CRLF; fino ad allora questa regola diceva CRLF). Si modifica con Edit, che tiene i fini riga
+    del file com'erano, e prima del commit si guarda `git diff --stat`: una riga cambiata deve dare un diff di una riga.
+    Se il diff tocca tutto il file, i fini riga sono cambiati: non si committa.
 12. **Prima del push: commit, `git pull --rebase`, poi push.** I collector spingono in `data/` di continuo. L'esito del
     push si legge da `$?`, non da una pipe (`git push | tail` dice sempre «riuscito»). Si pubblica dopo il pull: con due
     schede sullo stesso sito, se no una rimette online l'`index.html` vecchio.

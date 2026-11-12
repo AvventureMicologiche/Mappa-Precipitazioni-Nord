@@ -2225,5 +2225,5 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
 - **Da misurare**: dopo una settimana in produzione la scheda GA4 5 rifà la misura coi numeri al giorno (tocchi della
   pillola, uscite verso YouTube, tocchi del giallo, utenti al telefono), contro la settimana 5-11/11.
 - **Notato strada facendo**: `index.html`, `fonti.html`, `guida/index.html` e i sette `CLAUDE*.md` oggi sono tutti a fine
-  riga LF (zero righe CRLF, `index.html` anche nella versione committata), mentre la regola 11 del CLAUDE.md dice ancora CRLF. Il diff resta pulito con Edit; la regola
-  e' da aggiornare col suo sì.
+  riga LF (zero righe CRLF, `index.html` anche nella versione committata), mentre la regola 11 del CLAUDE.md diceva ancora CRLF. Il diff resta pulito con Edit. Regola
+  11 corretta in LF il 12/11 col suo «Sì, correggila».
