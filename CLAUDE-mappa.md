@@ -2224,6 +2224,11 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   nella copia del sito, `giro-tel-131.js` sul sito vero uguale alla prova in locale, nessun errore.
 - **Da misurare**: dopo una settimana in produzione la scheda GA4 5 rifà la misura coi numeri al giorno (tocchi della
   pillola, uscite verso YouTube, tocchi del giallo, utenti al telefono), contro la settimana 5-11/11.
-- **Notato strada facendo**: `index.html`, `fonti.html`, `guida/index.html` e i sette `CLAUDE*.md` oggi sono tutti a fine
-  riga LF (zero righe CRLF, `index.html` anche nella versione committata), mentre la regola 11 del CLAUDE.md diceva ancora CRLF. Il diff resta pulito con Edit. Regola
-  11 corretta in LF il 12/11 col suo «Sì, correggila».
+- **⚠️ Trappola presa strada facendo: `grep -c $'\r$'` in Git Bash dice 0 anche su un file tutto CRLF.** Il grep di Git
+  per Windows toglie i `\r` prima di cercare (senza `-U`), quindi il conto viene sempre zero. Così il 12/11 ho creduto
+  che `index.html` e i `CLAUDE*.md` fossero diventati LF e ho cambiato la regola 11 in «LF» (`9464e47069`, col suo sì
+  dato su un dato sbagliato). Contati in byte con Python, sono tutti CRLF: `index.html` 20.438 righe CRLF su 20.438
+  (anche in HEAD), `fonti.html`, `guida/index.html`, i `CLAUDE*.md` e `data/vetrina.json` uguali. La regola 11 è
+  rimessa com'era (CRLF) lo stesso giorno. **I fini riga si contano in byte**, per esempio
+  `python -c "b=open('index.html','rb').read(); print(b.count(b'\r\n'), b.count(b'\n')-b.count(b'\r\n'))"`
+  (CRLF e LF soli), oppure con `grep -cU`.
