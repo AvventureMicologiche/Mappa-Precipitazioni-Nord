@@ -2192,3 +2192,38 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   `995dfc4d` dal worktree intero della 130 allineato, dopo il deploy della Goccia del mattino (`161d30e6`). Verificato
   online: mappa a 1920 una riga, 1440 due, telefono come prima; fonti e guida; Milano e Sicilia «adesso» con
   `pagina-adesso.js?v=20` e il link `fonti.html#radar`; Garfagnana e Crespano col riquadro nuovo; nessun errore nuovo.
+
+## Al telefono giallo e pillola a turno, e il chiodino fuori dalla vetrina (12/11/2026, scheda 131)
+
+- **Perche'** (misura della scheda GA4 5, settimana 5-11/11 contro 28/10-3/11, pagine della mappa, al telefono, al
+  giorno): la pillola dei video da 6,6 a 0,7 tocchi, le uscite vere verso YouTube da 10 a 2, il giallo delle previsioni
+  fermo a 21 tocchi con gli utenti scesi da 426 a 323. Chi fa analisi al telefono ne fa in media 2,76 a visita
+  (`analisi_regione`): con l'una su quattro della scheda 119 alla pillola arrivavano in pochi. Scartate il 4/11 (e non
+  riproposte): giallo e pillola uno sopra l'altro, il video nuovo «una volta sola», due tasti affiancati. Sua scelta del
+  12/11: «La 1, a turno».
+- **Ora** `window._turnoPillola` fa `n%2===0` (era `n%4===0`): giallo alla 1a, 3a, 5a analisi…, pillola alla 2a, 4a,
+  6a…. Una riga sola di codice, piu' i commenti. Al COMPUTER e col RADAR non cambia niente: `serve()` dell'invito dà il
+  giallo prima di guardare il turno, e la scheda grande della vetrina gira come prima, a ogni analisi.
+- **Controllato prima**: `window._analisiN` (scritto in `loadData`) conta anche l'analisi che parte da sola aprendo un
+  link (`?r=…&g=…`, ramo dei link condivisi); la riprova automatica no (`_retryCall`). Aprendo `/` senza link resta
+  vuoto: nessuna analisi finche' la persona non sceglie. In tutti e due i casi la prima analisi vista e' la 1, quindi
+  al giallo. `_vetrinaGira` chiama `giroTelefono()` solo al turno della pillola, e ogni turno passa alla voce dopo
+  (prima voce a caso dal montaggio).
+- **Il chiodino fuori dal giro** (stessa sera, suo «togliamo il chiodino»): tolta la chiave `chiodini` dal `sorteggio` di
+  `data/vetrina.json`, quindi esce dalla pillola del telefono e dalla scheda grande del PC. La voce resta in `vetrine`
+  (si rimette rimettendo la chiave). Il giro e' ora: aggiornamento di novembre › quiz › EP. 1 › EP. 2 › EP. 3 › EP. 4 ›
+  «Iscriviti». Nella cassetta dei video lo short resta, perche' la cassetta prende gli ultimi 10 dal feed del canale; ma
+  fuori dal sorteggio mostra titolo e copertina di YouTube invece della voce curata (`curata(id)` guarda il sorteggio).
+- **Prove** (`scratchpad fe9f9e60…\giro-tel-131.js`, `BASE=http://127.0.0.1:9140` per il server locale,
+  `VETRINA_LOCALE=1` per leggere la vetrina del repo invece di GitHub raw, `SOLO_GIRO=1` solo 393 e PC): telefono 393 e
+  360, nove analisi di fila cambiando periodo, giallo alle dispari e pillola alle pari con la voce che cambia a ogni
+  turno; PC 1440 giallo sempre e scheda grande che gira. L'avviso «non pronta in 25 s (periodi)» dei telefoni e' di
+  `prove-veloci.js`, che col solo `g=7` nel link aspetta la scena sbagliata: le analisi vanno tutte a buon fine.
+- **IN PRODUZIONE il 12/11/2026** (suo «ok quando sei a posto pubblica»): push `f86d544027` (turno) e `cbe8e49c6f`
+  (vetrina), deploy `8a5e7251`. Verificato online: `_turnoPillola` con `n%2===0`, vetrina senza chiodino su GitHub raw e
+  nella copia del sito, `giro-tel-131.js` sul sito vero uguale alla prova in locale, nessun errore.
+- **Da misurare**: dopo una settimana in produzione la scheda GA4 5 rifà la misura coi numeri al giorno (tocchi della
+  pillola, uscite verso YouTube, tocchi del giallo, utenti al telefono), contro la settimana 5-11/11.
+- **Notato strada facendo**: `index.html`, `fonti.html`, `guida/index.html` e i sette `CLAUDE*.md` oggi sono tutti a fine
+  riga LF (zero righe CRLF, `index.html` anche nella versione committata), mentre la regola 11 del CLAUDE.md dice ancora CRLF. Il diff resta pulito con Edit; la regola
+  e' da aggiornare col suo sì.
