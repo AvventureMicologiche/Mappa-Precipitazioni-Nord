@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-12T04:15:39.765Z",
+ "generato": "2026-11-13T04:15:40.110Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 17.4,
    "giorni": 1,
    "stazioni": 111,
-   "primo": "2026-11-11",
-   "ultimo": "2026-11-11",
+   "primo": "2026-11-12",
+   "ultimo": "2026-11-12",
    "top": [
     {
-     "n": "Biscubio",
-     "mm": 9.6
+     "n": "Sant Angelo in Vado",
+     "mm": 81.6
     },
     {
-     "n": "Carpegna",
-     "mm": 5.2
+     "n": "Monte Petrano",
+     "mm": 81.4
     },
     {
-     "n": "Esanatoglia2",
-     "mm": 5.2
+     "n": "Fonte Avellana",
+     "mm": 71.4
     },
     {
-     "n": "Piobbico",
-     "mm": 5.2
+     "n": "Pianello di Cagli",
+     "mm": 65.6
     },
     {
-     "n": "Monte Nerone",
-     "mm": 5.1
+     "n": "Cagli Civita",
+     "mm": 57
     }
    ]
   },
   "7": {
-   "media": 24,
+   "media": 41.1,
    "giorni": 7,
    "stazioni": 110,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-11",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Monte Petrano",
-     "mm": 67.3
+     "mm": 148.7
     },
     {
-     "n": "Biscubio",
-     "mm": 54.1
-    },
-    {
-     "n": "Monte Nerone",
-     "mm": 52.7
-    },
-    {
-     "n": "Serravalle di Carda",
-     "mm": 48
+     "n": "Sant Angelo in Vado",
+     "mm": 120.7
     },
     {
      "n": "Fonte Avellana",
-     "mm": 46.1
+     "mm": 117.5
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 108.3
+    },
+    {
+     "n": "Monte Nerone",
+     "mm": 102
     }
    ]
   },
   "20": {
-   "media": 73.7,
+   "media": 90.6,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-23",
-   "ultimo": "2026-11-11",
+   "primo": "2026-10-24",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 212.8
-    },
-    {
-     "n": "Pintura di Bolognola",
-     "mm": 160.4
-    },
-    {
-     "n": "Umito",
-     "mm": 149.9
+     "mm": 267.8
     },
     {
      "n": "Fonte Avellana",
-     "mm": 143.5
+     "mm": 213.7
     },
     {
-     "n": "Arquata del Tronto",
-     "mm": 141.3
+     "n": "Monte Petrano",
+     "mm": 196.9
+    },
+    {
+     "n": "Monte Nerone",
+     "mm": 181.2
+    },
+    {
+     "n": "Pintura di Bolognola",
+     "mm": 175.8
     }
    ]
   },
   "30": {
-   "media": 79.7,
+   "media": 96.7,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-11",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Cantiano",
-     "mm": 230.2
-    },
-    {
-     "n": "Pintura di Bolognola",
-     "mm": 167.3
-    },
-    {
-     "n": "Umito",
-     "mm": 164.9
-    },
-    {
-     "n": "Arquata del Tronto",
-     "mm": 156.5
+     "mm": 285.8
     },
     {
      "n": "Fonte Avellana",
-     "mm": 154.7
+     "mm": 226.1
+    },
+    {
+     "n": "Monte Petrano",
+     "mm": 216.3
+    },
+    {
+     "n": "Monte Nerone",
+     "mm": 197.2
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 186.9
     }
    ]
   }
  },
  "serie": [
+  17.4,
   0.7,
   8.4,
   0.7,
@@ -148,18 +149,17 @@
   0.1,
   0.1,
   0.1,
-  0,
-  0.1
+  0
  ],
- "serieDa": "2026-11-11",
+ "serieDa": "2026-11-12",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-11",
-   "m1": 5.4,
-   "m7": 37.5,
-   "m30": 75.8,
+   "ultimo": "2026-11-12",
+   "m1": 30.4,
+   "m7": 67.8,
+   "m30": 106.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-11",
-   "m1": 0.1,
-   "m7": 16.8,
-   "m30": 93.6,
+   "ultimo": "2026-11-12",
+   "m1": 20,
+   "m7": 36.8,
+   "m30": 113.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,11 +178,11 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-11",
-   "m1": 0,
-   "m7": 7.9,
-   "m30": 124.2,
-   "p1": false,
+   "ultimo": "2026-11-12",
+   "m1": 9.4,
+   "m7": 17.3,
+   "m30": 130.3,
+   "p1": true,
    "p7": true,
    "p30": true
   }

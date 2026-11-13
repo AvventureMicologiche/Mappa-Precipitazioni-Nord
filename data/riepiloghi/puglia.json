@@ -1,33 +1,33 @@
 {
  "regione": "puglia",
- "generato": "2026-11-12T04:15:39.765Z",
+ "generato": "2026-11-13T04:15:40.111Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 126,
-   "primo": "2026-11-11",
-   "ultimo": "2026-11-11",
+   "stazioni": 124,
+   "primo": "2026-11-12",
+   "ultimo": "2026-11-12",
    "top": [
     {
-     "n": "S.M. di Leuca",
-     "mm": 1
-    },
-    {
-     "n": "Alessano",
+     "n": "Galatina",
      "mm": 0.8
     },
     {
-     "n": "Presicce",
-     "mm": 0.8
+     "n": "Peschici",
+     "mm": 0.6
     },
     {
-     "n": "Orto di Zolfo",
+     "n": "Volturara Appula",
+     "mm": 0.6
+    },
+    {
+     "n": "Avetrana",
      "mm": 0.4
     },
     {
-     "n": "Arpinova",
-     "mm": 0.2
+     "n": "Corigliano d'Otranto",
+     "mm": 0.4
     }
    ]
   },
@@ -35,20 +35,20 @@
    "media": 3.6,
    "giorni": 7,
    "stazioni": 127,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-11",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Manduria",
-     "mm": 31
+     "mm": 31.2
     },
     {
      "n": "Mass.Monteruga",
-     "mm": 14.7
+     "mm": 14.9
     },
     {
      "n": "Avetrana",
-     "mm": 13.6
+     "mm": 14
     },
     {
      "n": "Carpino",
@@ -64,24 +64,24 @@
    "media": 81.4,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-10-23",
-   "ultimo": "2026-11-11",
+   "primo": "2026-10-24",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Faeto",
-     "mm": 193.3
+     "mm": 193.7
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 188
+     "mm": 188.4
     },
     {
      "n": "Lesina",
-     "mm": 170.4
+     "mm": 169.8
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 153.2
+     "mm": 152.8
     },
     {
      "n": "Panni",
@@ -90,19 +90,19 @@
    ]
   },
   "30": {
-   "media": 102.8,
+   "media": 101.3,
    "giorni": 30,
    "stazioni": 129,
-   "primo": "2026-10-13",
-   "ultimo": "2026-11-11",
+   "primo": "2026-10-14",
+   "ultimo": "2026-11-12",
    "top": [
     {
      "n": "Faeto",
-     "mm": 205.1
+     "mm": 204.3
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 200
+     "mm": 199
     },
     {
      "n": "Lesina",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0.5,
   0.1,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0,
-  1.7
+  0
  ],
- "serieDa": "2026-11-11",
+ "serieDa": "2026-11-12",
  "zone": []
 }
