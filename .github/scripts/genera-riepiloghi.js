@@ -399,9 +399,9 @@ function fuoriConfine(r, fuori) {
      «quanta pioggia è caduta» lo fa nei due-tre giorni dopo. Un giorno nuovo oltre soglia la allunga.
    - I GIORNI DELL'EVENTO: dal primo all'ultimo giorno consecutivo con almeno 5 pluviometri oltre i 30 mm attorno
      all'ultimo giorno oltre soglia (la tempesta del 9-12/11: il 9 era gia' pioggia vera, anche se sotto i 100 mm).
-   - Solo pluviometri veri (soloVere: niente stime), con la pioggia in TUTTI i giorni dell'evento; la classifica solo
-     con chi sta DENTRO il confine (sua scelta del 13/11: nella pagina Liguria in modalita' evento solo comuni liguri, la
-     Lunigiana fuori), la media coi pluviometri della pagina (gli stessi delle altre schede, `fuori` compreso). */
+   - Solo pluviometri veri (soloVere: niente stime), con la pioggia in TUTTI i giorni dell'evento; classifica E media
+     solo con chi sta DENTRO il confine (sua scelta del 13/11: nella pagina Liguria in modalita' evento solo comuni liguri,
+     la Lunigiana fuori). La soglia invece conta i pluviometri della pagina (`fuori`: dentro o a meno di 2 km). */
 const EV = { sogliaMm: 200, sogliaN: 8, codaMm: 30, codaN: 5, dopo: 3, maxGiorni: 10, top: 10 };   // soglia sulle 48 ore
 const giorniFra = (a, b) => Math.round((Date.parse(a + 'T12:00:00Z') - Date.parse(b + 'T12:00:00Z')) / 864e5);
 function eventoRegione(r, da, fuori) {
@@ -459,7 +459,9 @@ function eventoRegione(r, da, fuori) {
   const fino = new Date(Date.parse(giorni[s0] + 'T12:00:00Z') + EV.dopo * 864e5).toISOString().slice(0, 10);
   return {
     dal: gg[0], al: gg[gg.length - 1], fino, soglia, giorni: gg,
-    stazioni: pieni.length, media: Math.round(pieni.reduce((a, t) => a + t.tot, 0) / pieni.length * 10) / 10,
+    // la media coi pluviometri DENTRO il confine, come la classifica (13/11/2026, suo: in Liguria «fissiamo» anche la
+    // media, che contava ancora la Lunigiana). Senza confine (estere) tutti.
+    stazioni: casa.length, media: Math.round(casa.reduce((a, t) => a + t.tot, 0) / Math.max(1, casa.length) * 10) / 10,
     oltre100: idx.map(i => oltre(i, 100)), top, max24, ...(punta ? { punta } : {}),
   };
 }

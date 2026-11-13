@@ -407,7 +407,8 @@ const RADAR_CSS = `
 .rd-testa b{font-size:16px;letter-spacing:.3px;text-transform:uppercase}
 .rd-testa i.rd-pal{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e53935;margin-right:8px;vertical-align:1px}
 .rd-testa span{font-size:14px;opacity:.85;white-space:nowrap}
-a.rd-mappa{display:block;margin:12px 16px 0;border-radius:10px;overflow:hidden;background:#1d3d63}
+.rd-frase{padding:10px 16px 0;font-size:17px;line-height:1.5;margin:0}
+a.rd-mappa{display:block;margin:10px 16px 0;border-radius:10px;overflow:hidden;background:#1d3d63}
 #rd-map{height:260px;background:#1d3d63}
 @media(min-width:700px){#rd-map{height:420px}}
 .rd-giu{padding:12px 16px 14px}
@@ -443,6 +444,7 @@ function radarHtml(r) {
   return `
 <section class="rd-box" id="rd-box">
 <div class="rd-testa"><b><i class="rd-pal"></i>Sta piovendo adesso ${r.prep} ${r.nome}?</b><span id="rd-q"></span></div>
+<p class="rd-frase" id="rd-t">Guarda dove sta piovendo adesso ${r.prep} ${r.nome}: il radar della pioggia, aggiornato ogni 10 minuti.</p>
 <a class="rd-mappa" href="${SITO}/${r.k}/adesso/" ${ga('riquadro-radar')} aria-label="Radar meteo ${r.nome}: dove sta piovendo adesso"><div id="rd-map"></div></a>
 <div class="rd-giu">
 <a class="rd-vai" href="${SITO}/${r.k}/adesso/" ${ga('riquadro-radar-tasto')}>Guarda il radar in diretta: le ultime 2 ore e i prossimi 40 minuti →</a>
@@ -482,7 +484,100 @@ function radarRiquadro(C) {
     fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
       var pp = (j.radar && j.radar.past) || [], f = pp[pp.length - 1]; if (!f) return;
       L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR · Radar-DPC · OPERA' }).addTo(m);
-      document.getElementById('rd-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+      document.getElementById('rd-q').textContent = 'radar delle ' + ora(f.time);
+      frase(j, f, conf.getBounds());
+    }).catch(function () {});
+  }
+  /* ── LA FRASE «Le città sono all'asciutto, ma piove nella zona di La Spezia…» (13/11/2026, scheda 132) ──
+     Come la riga viva delle pagine radar della regione (scriviRiga di lib/pagina-adesso.js, qui COPIATA: quel file non
+     si tocca), con le stesse citta' e lo stesso confine (letti dalla pagina radar, C.citta, C.dove, C.gen). Il radar in
+     grigi (schema 0, zoom 6, ~2 km a pixel): ogni grigio e' dBZ + 32, da dBZ a mm/h con Marshall-Palmer; nel punto di ogni
+     citta', su tutta la regione, la pioggia piu' vicina entro 150 km, e nei prossimi 40 minuti dove arriva. Si fa una
+     volta, quando il riquadro arriva vicino allo schermo. Se qualcosa non risponde resta la frase scritta nell'HTML. */
+  function ora(t) { return new Date(t * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' }); }
+  function frase(j, f, bordi) {
+    var box = document.getElementById('rd-t'); if (!box || !C.citta || !C.citta.length || !window.Promise) return;
+    var Z6 = 6, MONDO = 256 * Math.pow(2, Z6), RAGGIO = 1.5;
+    function inPx(lat, lon) { var s = Math.sin(lat * Math.PI / 180); return { x: (lon + 180) / 360 * MONDO, y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * MONDO }; }
+    function daPx(x, y) { var n = Math.PI * (1 - 2 * y / MONDO); return { lat: Math.atan((Math.exp(n) - Math.exp(-n)) / 2) * 180 / Math.PI, lon: x / MONDO * 360 - 180 }; }
+    function mmOra(v) { return v < 42 ? 0 : Math.pow(Math.pow(10, (v - 32) / 10) / 200, 1 / 1.6); }
+    function classe(r) { return r < 0.3 ? 0 : r < 2 ? 1 : r < 6 ? 2 : r < 24 ? 3 : 4; }
+    var CLASSI = ['', 'debole', 'moderata', 'forte', 'molto forte'];
+    function km(a, b) { var r = Math.PI / 180, x = (b.lon - a.lon) * r * Math.cos((a.lat + b.lat) / 2 * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * 6371; }
+    function verso(a, b) { var x = (b.lon - a.lon) * Math.cos(a.lat * Math.PI / 180), y = b.lat - a.lat;
+      return ['nord', 'nord-est', 'est', 'sud-est', 'sud', 'sud-ovest', 'ovest', 'nord-ovest'][Math.round(((Math.atan2(x, y) * 180 / Math.PI + 360) % 360) / 45) % 8]; }
+    function elenco(l) { return l.length < 2 ? l.join('') : l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1]; }
+    function aD(t) { return /^(<b>)?[Aa]/.test(t) ? 'ad ' + t : 'a ' + t; }
+    function escN(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+    function immagine(u) { return new Promise(function (ok, ko) { var i = new Image(); i.crossOrigin = 'anonymous'; i.onload = function () { ok(i); }; i.onerror = ko; i.src = u; }); }
+    function mosaico(fpath, x0, y0, x1, y1) {
+      var tx0 = Math.floor(x0 / 256), ty0 = Math.floor(y0 / 256), tx1 = Math.floor(x1 / 256), ty1 = Math.floor(y1 / 256), lista = [];
+      for (var tx = tx0; tx <= tx1; tx++) for (var ty = ty0; ty <= ty1; ty++) lista.push([tx, ty]);
+      return Promise.all(lista.map(function (t) { return immagine(j.host + fpath + '/256/' + Z6 + '/' + t[0] + '/' + t[1] + '/0/0_0.png'); })).then(function (imm) {
+        var c = document.createElement('canvas'); c.width = (tx1 - tx0 + 1) * 256; c.height = (ty1 - ty0 + 1) * 256;
+        var g = c.getContext('2d'); imm.forEach(function (im, k) { g.drawImage(im, (lista[k][0] - tx0) * 256, (lista[k][1] - ty0) * 256); });
+        return { ox: tx0 * 256, oy: ty0 * 256, w: c.width, h: c.height, d: g.getImageData(0, 0, c.width, c.height).data };
+      });
+    }
+    function vDi(M, x, y) { x = Math.floor(x - M.ox); y = Math.floor(y - M.oy); if (x < 0 || y < 0 || x >= M.w || y >= M.h) return 0; var k = (y * M.w + x) * 4; return M.d[k + 3] ? M.d[k] : 0; }
+    function nellaCitta(M, c) { var p = inPx(c.lat, c.lon), v = 0; for (var dx = -1; dx <= 1; dx++) for (var dy = -1; dy <= 1; dy++) v = Math.max(v, vDi(M, p.x + dx, p.y + dy)); return mmOra(v); }
+    function maschera(M) {
+      var c = document.createElement('canvas'); c.width = M.w; c.height = M.h; var g = c.getContext('2d'); g.beginPath();
+      var ge = C.confine.geometry, pols = ge.type === 'Polygon' ? [ge.coordinates] : ge.coordinates;
+      pols.forEach(function (pol) { pol.forEach(function (an) { an.forEach(function (q, i) { var p = inPx(q[1], q[0]);
+        if (i) g.lineTo(p.x - M.ox, p.y - M.oy); else g.moveTo(p.x - M.ox, p.y - M.oy); }); g.closePath(); }); });
+      g.fill('evenodd'); return g.getImageData(0, 0, M.w, M.h).data;
+    }
+    var a = inPx(bordi.getNorth() + RAGGIO, bordi.getWest() - RAGGIO), b = inPx(bordi.getSouth() - RAGGIO, bordi.getEast() + RAGGIO);
+    var dopo = ((j.radar && j.radar.nowcast) || []).filter(function (n) { return n.time > f.time && n.time - f.time <= 2400; });
+    var xs = C.citta.map(function (c) { return inPx(c.lat, c.lon); });
+    var cx0 = Math.min.apply(null, xs.map(function (p) { return p.x; })) - 2, cy0 = Math.min.apply(null, xs.map(function (p) { return p.y; })) - 2;
+    var cx1 = Math.max.apply(null, xs.map(function (p) { return p.x; })) + 2, cy1 = Math.max.apply(null, xs.map(function (p) { return p.y; })) + 2;
+    Promise.all([mosaico(f.path, a.x, a.y, b.x, b.y)].concat(dopo.map(function (n) {
+      return mosaico(n.path, cx0, cy0, cx1, cy1).then(function (M) { M.t = n.time; return M; }, function () { return null; });
+    }))).then(function (tutti) {
+      var M = tutti[0], dopoM = tutti.slice(1).filter(Boolean);
+      var mk = maschera(M), tot = 0, bagnati = 0, per = [null], vicina = null;
+      for (var c0 = 1; c0 <= 4; c0++) per[c0] = { n: 0, lat: 0, lon: 0 };
+      var xa = Math.max(0, Math.floor(a.x - M.ox)), xb = Math.min(M.w - 1, Math.ceil(b.x - M.ox)), ya = Math.max(0, Math.floor(a.y - M.oy)), yb = Math.min(M.h - 1, Math.ceil(b.y - M.oy));
+      for (var y = ya; y <= yb; y++) for (var x = xa; x <= xb; x++) {
+        var k = (y * M.w + x) * 4, cl = M.d[k + 3] ? classe(mmOra(M.d[k])) : 0, den = mk[k + 3] > 0;
+        if (den) tot++;
+        if (!cl) continue;
+        var p = daPx(x + M.ox, y + M.oy);
+        if (den) { bagnati++; per[cl].n++; per[cl].lat += p.lat; per[cl].lon += p.lon; }
+        else C.citta.forEach(function (c) { var d = km(c, p); if (!vicina || d < vicina.d) vicina = { d: d, c: c, p: p }; });
+      }
+      var forte = 0; for (var c1 = 4; c1 >= 1 && !forte; c1--) if (per[c1].n >= 4 || (c1 === 1 && per[1].n)) forte = c1;
+      if (vicina && vicina.d > 150) vicina = null;
+      var citta = C.citta.map(function (c) { return { n: c.n, c: c, k: classe(nellaCitta(M, c)) }; });
+      var piove = citta.filter(function (z) { return z.k; }), asciutte = citta.filter(function (z) { return !z.k; });
+      var NUM = ['', 'una', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci'];
+      var quante = function (n) { return NUM[n] || String(n); };
+      var COME = ['', 'piove debolmente', 'piove', 'piove forte', 'piove a dirotto'], t = [];
+      if (piove.length) {
+        var pezzi = [];
+        for (var cl2 = 4; cl2 >= 1; cl2--) { var qui = piove.filter(function (z) { return z.k === cl2; }).map(function (z) { return '<b>' + escN(z.n) + '</b>'; });
+          if (qui.length) pezzi.push((pezzi.length ? '' : 'Pioggia ') + CLASSI[cl2] + ' su ' + elenco(qui)); }
+        t.push(pezzi.join(', ') + '.');
+        t.push(!asciutte.length ? 'Piove in tutte le città.' : asciutte.length <= 4 ? 'È asciutto ' + aD(elenco(asciutte.map(function (z) { return escN(z.n); }))) + '.'
+          : 'Nelle altre ' + quante(asciutte.length) + ' città è asciutto.');
+      } else if (forte) {
+        var cen = { lat: per[forte].lat / per[forte].n, lon: per[forte].lon / per[forte].n };
+        var dove = C.citta.slice().sort(function (u, v) { return km(u, cen) - km(v, cen); })[0];
+        t.push('Le città sono all\'asciutto, ma ' + COME[forte] + ' nella zona di <b>' + escN(dove.n) + '</b>.');
+      } else {
+        t.push('<b>Tempo asciutto ' + escN(C.dove) + '</b>' + (vicina ? '. La pioggia più vicina è a ' + verso(vicina.c, vicina.p) + ' di ' + escN(vicina.c.n)
+          + ', a circa ' + Math.max(5, Math.round(vicina.d / 5) * 5) + ' km.' : ' e in tutte le zone vicine.'));
+      }
+      if (bagnati && tot && (piove.length || forte)) { var q = Math.round(bagnati / tot * 100);
+        t.push('Le precipitazioni interessano ' + (bagnati / tot < 0.01 ? "meno dell'1%" : (/^(8|11$|1$)/.test(String(q)) ? "l'" : 'il ') + q + '% circa') + ' ' + escN(C.gen) + '.'); }
+      var arriva = [], ult = null;
+      asciutte.forEach(function (z) { for (var i = 0; i < dopoM.length; i++) if (classe(nellaCitta(dopoM[i], z.c))) { arriva.push(z.n); ult = Math.max(ult || 0, dopoM[i].t); break; } });
+      var oltre = arriva.length - 4;
+      if (arriva.length) t.push('Entro le ' + ora(ult) + ' la pioggia potrebbe raggiungere ' + (piove.length ? 'anche ' : '')
+        + (oltre > 0 ? arriva.slice(0, 4).map(escN).join(', ') + (oltre === 1 ? ' e un\'altra città' : ' e altre ' + quante(oltre) + ' città') : elenco(arriva.map(escN))) + '.');
+      box.innerHTML = t.join(' ');
     }).catch(function () {});
   }
   function via() {
@@ -499,6 +594,12 @@ function radarScript(r) {
   if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
   const A = require('./genera-pagine-adesso.js');
   const C = { foto: FOTO_MAPPA, confine: A.confineDi(r), nomi: A.nomiRadar(r.k) };
+  // le citta' della frase, e come si dice la regione: gli stessi della pagina radar (il suo blocco adesso-dati)
+  try {
+    const h = fs.readFileSync(path.join(__dirname, '..', '..', r.k, 'adesso', 'index.html'), 'utf8');
+    const D = JSON.parse(/<script id="adesso-dati" type="application\/json">([\s\S]*?)<\/script>/.exec(h)[1]);
+    C.citta = (D.citta || []).map(c => ({ n: c.n, lat: c.lat, lon: c.lon })); C.dove = D.dove; C.gen = D.gen;
+  } catch (e) { /* senza: niente frase viva, resta quella scritta */ }
   return `<script>\n(${radarRiquadro.toString()})(${JSON.stringify(C)});\n</script>`;
 }
 
