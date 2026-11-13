@@ -1263,7 +1263,8 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
 - **Dove sta**: `genera-riepiloghi.js` scrive il campo `evento` nel riepilogo della regione (`eventoRegione`: giorni,
   media, i 10 più bagnati con la pioggia giorno per giorno, il massimo in 24 ore, la punta oraria, quanti oltre 100 mm
   ogni giorno). La classifica tiene solo chi sta DENTRO il confine (sua scelta: nella pagina Liguria solo comuni liguri,
-  la Lunigiana fuori); la media è sui pluviometri della pagina, `fuori` compreso, come le altre schede.
+  la Lunigiana fuori); dal secondo giro del 13/11 anche la MEDIA solo con quelli dentro (suo «fissiamo»: in Liguria 116 mm
+  su 170 invece di 118 su 174). La soglia invece conta i pluviometri della pagina (`fuori`: dentro o a meno di 2 km).
   `numeriRegione` (`lib-numeri-regione.js`, gira anche nel browser) disegna il riquadro in cima «Maltempo, dal 9 al 12
   novembre», la tabella giorno per giorno (`out.evento`, nel `#evento` della pagina) e porta `lnk-img` ai giorni
   dell'evento. `genera-pagine-regione.js`: titolo `titoloEvento` («Pluviometria Liguria: quanta pioggia è caduta col
@@ -1286,9 +1287,12 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   `genera-pagine-adesso.js`, solo letti), tasto giallo alla pagina radar e i radar delle città che esistono. Sta dopo
   «Che tempo farà»; in modalità evento subito sotto il riquadro della pioggia caduta. Leaflet e radar si chiedono solo
   quando il riquadro arriva vicino allo schermo (IntersectionObserver): UNA richiesta all'elenco dei fotogrammi e le
-  tessere di un fotogramma. Svizzera e Austria non hanno la pagina radar: niente riquadro. Il mockup aveva anche la
-  frase «Le città sono all'asciutto, ma piove…» della pagina radar: non c'è, serve l'analisi dei pixel di
-  `lib/pagina-adesso.js`.
+  tessere di un fotogramma. Svizzera e Austria non hanno la pagina radar: niente riquadro. **La frase** sopra la cartina
+  («Le città sono all'asciutto, ma piove debolmente nella zona di La Spezia. Le precipitazioni interessano il 2% circa
+  della Liguria.»): `frase()` dentro `radarRiquadro`, COPIA di `scriviRiga` di `lib/pagina-adesso.js` (quel file non si
+  tocca), con le città, `dove` e `gen` letti dal blocco `adesso-dati` della pagina radar della regione. Radar in grigi
+  (schema 0, zoom 6) + i fotogrammi previsti a +40 minuti sul pezzo delle città. ⚠️ Se si cambia la riga viva delle
+  pagine radar, si cambia anche questa. Nell'HTML resta una frase fissa, per chi non ha javascript e per Google.
 - **Come si prova in locale**: `node .github/scripts/genera-riepiloghi.js` (scrive i riepiloghi in `data/`, non si
   committano), `SOLO=liguria node .github/scripts/genera-pagine-regione.js`, server sulla radice; le anteprime di prova
   con `OUT=<radice>/_anteprime-prova FFMPEG=… CHROME=… node .github/scripts/genera-anteprime.js liguria`.
