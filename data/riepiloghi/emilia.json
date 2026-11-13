@@ -1,6 +1,6 @@
 {
  "regione": "emilia",
- "generato": "2026-11-13T04:15:40.108Z",
+ "generato": "2026-11-13T12:47:37.039Z",
  "periodi": {
   "1": {
    "media": 37.4,
@@ -250,5 +250,145 @@
    "p7": true,
    "p30": true
   }
- ]
+ ],
+ "evento": {
+  "dal": "2026-11-09",
+  "al": "2026-11-12",
+  "fino": "2026-11-15",
+  "soglia": [
+   "2026-11-12"
+  ],
+  "giorni": [
+   "2026-11-09",
+   "2026-11-10",
+   "2026-11-11",
+   "2026-11-12"
+  ],
+  "stazioni": 287,
+  "media": 77.9,
+  "oltre100": [
+   0,
+   4,
+   4,
+   15
+  ],
+  "top": [
+   {
+    "n": "Lago Scaffaiolo (Modena)",
+    "nb": "Lago Scaffaiolo",
+    "mm": 670.2,
+    "g": [
+     70.4,
+     153.9,
+     200.4,
+     245.5
+    ]
+   },
+   {
+    "n": "Lago Ballano (Parma)",
+    "nb": "Lago Ballano",
+    "mm": 466.5,
+    "g": [
+     79.4,
+     102.5,
+     114.6,
+     170
+    ]
+   },
+   {
+    "n": "Succiso (Reggio nell'Emilia)",
+    "nb": "Succiso",
+    "mm": 323.2,
+    "g": [
+     31.6,
+     76.4,
+     88.4,
+     126.8
+    ]
+   },
+   {
+    "n": "Lagdei (Parma)",
+    "nb": "Lagdei",
+    "mm": 296.9,
+    "g": [
+     50,
+     39.2,
+     62.5,
+     145.2
+    ]
+   },
+   {
+    "n": "Passo delle Radici (Lucca)",
+    "nb": "Passo delle Radici",
+    "mm": 293.1,
+    "g": [
+     10.6,
+     66.6,
+     118.9,
+     97
+    ]
+   },
+   {
+    "n": "Pievepelago (Modena)",
+    "nb": "Pievepelago",
+    "mm": 282.5,
+    "g": [
+     7.2,
+     56.1,
+     106.6,
+     112.6
+    ]
+   },
+   {
+    "n": "Ospitaletto (Reggio nell'Emilia)",
+    "nb": "Ospitaletto",
+    "mm": 275.4,
+    "g": [
+     19.3,
+     54.2,
+     96.2,
+     105.7
+    ]
+   },
+   {
+    "n": "Civago (Reggio nell'Emilia)",
+    "nb": "Civago",
+    "mm": 274.7,
+    "g": [
+     8,
+     54.8,
+     96.3,
+     115.6
+    ]
+   },
+   {
+    "n": "Cottede (Bologna)",
+    "nb": "Cottede",
+    "mm": 274.2,
+    "g": [
+     26.6,
+     94.2,
+     46.2,
+     107.2
+    ]
+   },
+   {
+    "n": "Monteacuto delle Alpi (Bologna)",
+    "nb": "Monteacuto delle Alpi",
+    "mm": 273.4,
+    "g": [
+     9.2,
+     72.5,
+     70.1,
+     121.6
+    ]
+   }
+  ],
+  "max24": {
+   "n": "Lago Scaffaiolo (Modena)",
+   "nb": "Lago Scaffaiolo",
+   "g": "2026-11-12",
+   "mm": 245.5
+  }
+ }
 }
