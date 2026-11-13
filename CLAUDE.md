@@ -181,6 +181,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le prossime notti e la notte più fredda nelle pagine funghi (6/11/2026, scheda 125)**: `freddoAttivo()`, `window._prevPagina` di `meteoClient`, campo `freddo` di `data/funghi/<regione>.json`, colonna nella tabella delle regioni
 - **La notte più fredda anche nella classifica di /funghi/ (7/11/2026, scheda 126)**: settimo elemento delle righe di `italia.json`, `JS_FREDDO` nella pagina indice, stessa colonna delle regioni
 - **Le pagine che non saltano mentre caricano: spazio tenuto ai blocchi che arrivano dopo (8/11/2026, scheda 128)**: `#attesa` riquadro blu 440/520 px (paesi e zone funghi col rinnovo di dicembre), `fineAttesa`, `#tabella:empty`, `SCHEDA_HTML` del meteo, `verdettoCotto` intero nelle zone; CLS da 0,15-0,44 a 0,00 (zone 0,04)
+- **La modalità evento delle pagine regione e il riquadro del radar (13/11/2026, scheda 132)**: soglia 5 pluviometri oltre 100 mm (`eventoRegione` in `genera-riepiloghi.js`), tre mattine dopo l'ultimo giorno, titolo e riquadro «Maltempo», tabella giorno per giorno, foto `<k>-evento`, mail col link (`avviso-evento.js`, registro `data/eventi-avvisati.json`); riquadro «Sta piovendo adesso?» col radar fermo su tutte le regioni italiane
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
 

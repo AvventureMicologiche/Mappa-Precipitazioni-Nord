@@ -1237,3 +1237,55 @@ foto nel banco: `proposte-128\SALTO-DELLE-PAGINE.md`, `immagini\128\salto-*.png`
   regione, /funghi/ e meteo **0,00** (telefono e PC), zone piogge **0,04**. Funghi di paese e di zona ancora come prima
   (0,20-0,27), fino al rinnovo del 2-6 dicembre. ⚠️ Spingere su main È pubblicare: `pagine-regione.yml` rigenera le
   zone piogge e, se cambiano, pubblica tutto main.
+
+---
+
+## La modalità evento delle pagine regione e il riquadro del radar (13/11/2026, scheda 132)
+
+Dopo la tempesta del 9-12/11 (670 mm al Lago Scaffaiolo, il nubifragio della Spezia l'11). Prima idea della scheda:
+tre pagine nuove («tempesta Charles», «pioggia caduta ieri in Liguria», «La Spezia»). Lui: due rifacevano pagine che
+ci sono già (`/liguria/`, `/liguria/adesso/la-spezia/`) e «tempesta Charles» non la cerca nessuno (su Google il nome
+va con Portogallo e Canarie; in Search Console zero ricerche col nome). **Sua idea: niente pagine nuove, le pagine che
+ci sono cambiano da sole quando piove forte, con le parole che la gente cerca, poi tornano normali.** Mockup approvati
+nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-radar\`. Lavoro in `proposte-132\`.
+
+- **La soglia** (`EV` in `genera-riepiloghi.js`): un giorno con almeno **5 pluviometri della regione oltre i 100 mm**
+  in 24 ore (solo pluviometri veri, niente stime). Provata su tutto il 2026 (`proposte-132\attrezzi\soglia-evento.py`):
+  Liguria 4 volte (20-21/8, 9/9, 20/10, 11-12/11), Toscana 3 (21/8, 8/10, 10-12/11). Solo nubifragi veri.
+- **La durata**: dalla mattina dopo il primo giorno oltre soglia a **tre mattine dopo l'ultimo** (`fino`, compreso);
+  un giorno nuovo oltre soglia la allunga. **I giorni dell'evento**: dal primo all'ultimo giorno consecutivo con almeno 5
+  pluviometri oltre i 30 mm attorno all'ultimo giorno oltre soglia (massimo 10).
+- **Dove sta**: `genera-riepiloghi.js` scrive il campo `evento` nel riepilogo della regione (`eventoRegione`: giorni,
+  media, i 10 più bagnati con la pioggia giorno per giorno, il massimo in 24 ore, la punta oraria, quanti oltre 100 mm
+  ogni giorno). La classifica tiene solo chi sta DENTRO il confine (sua scelta: nella pagina Liguria solo comuni liguri,
+  la Lunigiana fuori); la media è sui pluviometri della pagina, `fuori` compreso, come le altre schede.
+  `numeriRegione` (`lib-numeri-regione.js`, gira anche nel browser) disegna il riquadro in cima «Maltempo, dal 9 al 12
+  novembre», la tabella giorno per giorno (`out.evento`, nel `#evento` della pagina) e porta `lnk-img` ai giorni
+  dell'evento. `genera-pagine-regione.js`: titolo `titoloEvento` («Pluviometria Liguria: quanta pioggia è caduta col
+  maltempo, 9-12 novembre», «Pluviometria» resta in testa, tetto 75), descrizione `descrEvento`, scritta grande
+  `h1Evento` («Maltempo in Liguria: …» per le TITOLO_IERI, «Pluviometria Toscana: …» per le altre, perché in Toscana
+  Google mostra l'h1), frase `sottoEvento`. Finito l'evento il campo sparisce e la pagina torna com'era da sola.
+- **Le foto**: `genera-anteprime.js` (`eventoAcceso`, `scattaEvento`) scatta per le regioni in evento anche
+  `<k>-evento.jpg` (pagina intera sui giorni dell'evento) e `<k>-evento.webp/.json` (mappa pulita); `anteprime.yml` le
+  copia sul ramo. La cartina in cima (`lib-striscia.js`, dai `data-ev-*` del riquadro) e la foto grande (script della
+  pagina) le usano SOLO se il JSON dice gli stessi giorni dell'evento: il giro delle anteprime parte dopo la pagina, e
+  fino ad allora restano i 7 giorni e i 20 giorni di sempre. ⚠️ Il ramo tiene anche le foto di eventi vecchi: per
+  questo il controllo sui giorni.
+- **La mail** (`avviso-evento.js`, passi «Avviso maltempo» e «Manda la mail del maltempo» di `pagine-regione.yml`):
+  sua richiesta, «quando c'è un evento mi mandi mail col link». Dopo la pubblicazione, una sola per evento: il registro
+  `data/eventi-avvisati.json` tiene `{regione: primo giorno}` e si salva col commit delle pagine. Dentro: giorni, il più
+  bagnato, 24 ore, un'ora, il link e il giorno in cui torna normale. Invio con curl come `alert-fonti.yml`.
+- **Il riquadro del radar** su tutte le pagine regione italiane (`radarHtml`, `radarScript`, `radarRiquadro`): suo
+  «mettiamo il radar anche nelle regioni». «Sta piovendo adesso in <regione>?», l'ultimo fotogramma FERMO di LibreWXR
+  sulla foto nostra (jsDelivr, niente Esri), confine e nomi come le «adesso» (`confineDi` e `nomiRadar` di
+  `genera-pagine-adesso.js`, solo letti), tasto giallo alla pagina radar e i radar delle città che esistono. Sta dopo
+  «Che tempo farà»; in modalità evento subito sotto il riquadro della pioggia caduta. Leaflet e radar si chiedono solo
+  quando il riquadro arriva vicino allo schermo (IntersectionObserver): UNA richiesta all'elenco dei fotogrammi e le
+  tessere di un fotogramma. Svizzera e Austria non hanno la pagina radar: niente riquadro. Il mockup aveva anche la
+  frase «Le città sono all'asciutto, ma piove…» della pagina radar: non c'è, serve l'analisi dei pixel di
+  `lib/pagina-adesso.js`.
+- **Come si prova in locale**: `node .github/scripts/genera-riepiloghi.js` (scrive i riepiloghi in `data/`, non si
+  committano), `SOLO=liguria node .github/scripts/genera-pagine-regione.js`, server sulla radice; le anteprime di prova
+  con `OUT=<radice>/_anteprime-prova FFMPEG=… CHROME=… node .github/scripts/genera-anteprime.js liguria`.
+  `node .github/scripts/avviso-evento.js` senza GITHUB_OUTPUT stampa la mail e non tocca il registro.
+- **Il primo evento**: Liguria, Toscana ed Emilia-Romagna, dal 9 al 12 novembre, accese fino al 15, normali lunedì 16.
