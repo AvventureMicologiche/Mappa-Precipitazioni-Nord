@@ -1,22 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-11-01T05:00:38.742Z",
-      "inRitardo": [
-        "slovenia"
-      ],
-      "lanciati": [
-        "slovenia.yml"
-      ],
-      "mancanti": [
-        {
-          "dir": "slovenia",
-          "giorno": "2026-10-30",
-          "buco": 1
-        }
-      ]
-    },
-    {
       "quando": "2026-11-01T05:30:44.215Z",
       "inRitardo": [],
       "lanciati": [
@@ -2019,8 +2003,29 @@
       "inRitardo": [],
       "lanciati": [],
       "mancanti": []
+    },
+    {
+      "quando": "2026-11-13T05:00:42.107Z",
+      "inRitardo": [
+        "slovenia"
+      ],
+      "lanciati": [
+        "slovenia.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "slovenia",
+          "giorno": "2026-11-11",
+          "buco": 1
+        },
+        {
+          "dir": "meteohub-umbria",
+          "giorno": "2026-11-12",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-11-12T22:10:34.704Z",
+  "aggiornato": "2026-11-13T05:00:42.107Z",
   "riassunto": "32 giri con qualcosa ri-lanciato su 120 · 52 con qualche giorno mancante · 2 con un buco di 2+ giorni"
 }
