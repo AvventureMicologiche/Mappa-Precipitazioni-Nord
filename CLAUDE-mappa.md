@@ -2232,3 +2232,49 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   rimessa com'era (CRLF) lo stesso giorno. **I fini riga si contano in byte**, per esempio
   `python -c "b=open('index.html','rb').read(); print(b.count(b'\r\n'), b.count(b'\n')-b.count(b'\r\n'))"`
   (CRLF e LF soli), oppure con `grep -cU`.
+
+## Il radar in un giro solo, da -2 ore a +40 minuti, con la barra di ilMeteo (13/11/2026, scheda 133)
+
+- **Suo**, il 13/11: il radar di ilMeteo fa un giro solo da -2 ore alla previsione, con una barra di avanzamento; noi
+  avevamo tre tasti (Adesso · -2 ore · +40 min) e ogni giro andava per conto suo. Mockup di tre barre (A tacche, B come
+  ilMeteo, C ora sul cursore), poi suo «previsioni in giallo?» e «B, come ilMeteo». Mockup e proposta in
+  `D:/video youtube/claudio/proposte-133/` (`mockup-radar-giro/`, `PROPOSTA-RADAR-GIRO.md`).
+- **Cosa fa ora** (blocco «MODO RADAR» di `index.html`): `vai()` chiede una lista sola, misure delle ultime 2 ore
+  (`past`, 12 fotogrammi) + previsti fino a +40 (`PREVISTI_S`, tagliati per ora: 4). `crea()` aggiunge in mappa PER PRIMO
+  lo strato di adesso (`AD`, l'ultima misura) e lo accende: chi apre vede subito la pioggia di adesso, ferma; quando tutti
+  gli strati hanno il `load` (tetto 8 s) il giro parte da -2 ore. `passo()`: 0,7 s, 1,5 su adesso e sull'ultimo.
+  `fermo` = l'ha fermato chi guarda (❚❚ o un tocco sulla barra): allora il giro non riparte da solo; `giroN` evita che il
+  tetto di 8 s di un'entrata vecchia faccia partire il giro di una nuova. Titolo `titolo()`: «Radar pioggia · da -2 ore a
+  +40 min», senza previsti «· ultime 2 ore» (nessun ripiego).
+- **La barra** (`linea()`, classi `rd-giro`, `rd-play`, `rd-ora`, `rd-pezzi`, `rd-lingua`, `rd-cursore`): ▶/❚❚, l'ora in
+  una casella (gialla nella previsione), un pezzo `<i>` per fotogramma (blu le misure, `.p` gialli a righe i previsti), la
+  linguetta «previsione» larga quanto i previsti ma mai sotto 68 px, il cursore messo in PERCENTUALE (`(i+0,5)/n`): col
+  pannello ancora nascosto la misura del pezzo darebbe zero. Tocco e trascinamento con i pointer event e
+  `touch-action:none` sulla barra: provato col mouse e col dito, la mappa sotto non si sposta. Il giallo è quello delle
+  previsioni del sito (`#ffdf5e` → `#ffcc1f`, bordo `#e0ad00`, scritta blu): suo, sul mockup.
+- **Tolti**: i tasti `.rd-d` e `#rd-durate`, la linea `.rd-tacche`/`.rd-capi`, le loro regole sparse (`#reg-sheet .rd-d`,
+  la «forma di Previsioni», il tratteggio del «+40», `.rd-durate` negli spazi), le variabili `APRI` e `scelta`, `segna()`.
+- **Link**: `?radar=ora|due|prev` aprono tutti il giro (`entra()` senza modo); `window._radarModo` è sempre `'ora'`, quindi
+  il link condiviso scrive `radar=ora`, che capiscono tutte le versioni. Testo della condivisione: «Dove va la pioggia: le
+  ultime 2 ore e i prossimi 40 minuti al radar».
+- **GA4**: l'evento `radar` non conta più `tasto-ora`, `tasto-due`, `tasto-prev`; conta `pausa`, `riparti` e `barra`
+  (restano `acceso` e `link`).
+- **Carico su LibreWXR, misurato** sulla Liguria: 16 fotogrammi, **96 tessere** all'apertura al PC (1366) e al telefono
+  (393), 144 a 360 px; il «+40» di prima aveva 5 fotogrammi invece di 16, quindi circa un terzo. Si scaricano UNA volta
+  all'apertura: il giro riaccende gli strati e non chiede niente (rientrando col tasto, altre 96).
+- **Guida**: frase della «diretta radar» riscritta per il giro; `guida/radar.jpg` rifatta il 13/11 alle 15:10 (pioggia
+  su Umbria, Romagna e alto Adriatico, giro fermato su adesso) con `scratchpad/scatta-radar-giro.js` della 133 (lo stesso
+  ritaglio di `scatta-guida-radar.js` del banco, 1440x1000, clip 893x656, più il tocco su adesso prima dello scatto);
+  testo alternativo e didascalia nuovi.
+- **Prove** (server locale 9143 dal worktree, Esri bloccato; `scratchpad/prova-giro.js` della 133): giro, soste e ordine
+  misurati (adesso 1,4 s mentre arrivano le tessere, poi 13:20 → 15:10 a 0,7 s, 1,5 s su 15:10 e 15:50); ❚❚, ▶, tocco e
+  trascinamento al PC e col dito; link ora/due/prev e link condiviso; uscita col tasto e con un periodo, rientro; zoom 13;
+  LibreWXR muto (il modo non si apre); PC 1366 e 1920, telefono 393 e 360 dritto e ridotto (pannello 275 → 171 px, la
+  barra resta), telefono girato. Nessun errore. Mappa intera con `prove-veloci.js` (pioggia, boschi, radar, PC e
+  telefono) a posto; `/previsioni/` in locale non parte perché manca la funzione delle previsioni (succede anche senza
+  questa modifica).
+- ⚠️ **Già così prima, non toccato**: col telefono girato il titolo del radar va a capo su 4 righe (78 px), anche sul sito
+  vero con la scritta vecchia «prossimi 40 minuti». Allo zoom 13 la foto sotto è Esri da vicino (8 tessere, bloccate
+  nelle prove): è la regola della foto, non del radar.
+- **Resta**: lo stesso giro nelle pagine «adesso» e nei riquadri radar (`lib/pagina-adesso.js`) dopo il 18/11 (Goccia),
+  proposta a parte con le sue misure.

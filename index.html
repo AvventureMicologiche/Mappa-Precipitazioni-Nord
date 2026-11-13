@@ -1695,9 +1695,9 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
        . boschi  -> via anche l'elenco dei colori e la riga delle carte usate;
          resta la riga «Legenda boschi» col tasto «Confronta con piogge»,
          perche' quello e' un comando, non una didascalia (231 -> ~105 px);
-       . radar   -> via la riga «composito europeo OPERA»; restano le durate
-         (Adesso / -2 ore / +40 min: sono i comandi del radar) e la sua scala
-         (286 -> ~170 px).
+       . radar   -> via la riga sotto (ora e fonte del fotogramma); restano la
+         barra del giro (dal 13/11/2026; prima i tasti Adesso / -2 ore / +40 min:
+         sono i comandi del radar) e la sua scala (275 -> 171 px, misurato).
      ⚠️ Gli avvisi rossi non sono in questo elenco e non ci devono finire:
      stanno in questo pannello proprio perche' il pannello periodo sotto e'
      spento e nessuno li leggerebbe. */
@@ -13207,31 +13207,44 @@ function loadDefaultMarkers(){
   50%{transform:scale(1.18);box-shadow:0 0 0 5px rgba(225,43,43,0)}}
 @media (prefers-reduced-motion:reduce){#bo-sat-btn::after{animation:none}}
 .modo-radar #btn-radar::after{display:none}
-/* tre tasti al posto della riga delle statistiche: il pannello non cresce */
-.rd-durate{display:none;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 4px}
-.modo-radar .rd-durate{display:grid}
-.rd-d{
-  padding:8px 2px;text-align:center;font-size:12.5px;font-weight:600;
-  border:1px solid #cfd8e6;border-radius:7px;background:#f0f4fb;color:#1b3f6e;
-  cursor:pointer;white-space:nowrap;
-}
-.rd-d.on{background:#1b3f6e;color:#fff;border-color:#1b3f6e}
-/* ⚠️ I due tasti che non sono una misura si distinguono col BORDO
-   TRATTEGGIATO, non col fondo: bianchi in mezzo agli altri azzurrini
-   sembravano spenti o di un'altra famiglia. */
-.rd-d.rd-prev{border-style:dashed}
-.rd-d.rd-prev.on{background:#5a6470;border-color:#5a6470;color:#fff}
-/* La linea del tempo: una tacca per fotogramma, i capi scritti sotto. */
+/* ⚠️ UN GIRO SOLO DA -2 ORE A +40 MINUTI (13/11/2026, scheda 133, suo «B, come ilMeteo»). Al posto dei tre tasti
+   (Adesso · -2 ore · +40 min, ognuno col suo giro) e della linea a tacche c'e' la barra di ilMeteo: ▶/❚❚, l'ora in una
+   casella, i pezzi blu delle misure e quelli gialli a righe della previsione con la linguetta «previsione», il cursore.
+   GIALLO e non grigio (suo, sul mockup): e' il giallo delle previsioni del sito (linguetta «Previsioni», banner,
+   bottone del meteo), scritto in blu; quello della scala qui sotto (#ffee00, ~5,6 mm/h) e' piu' acceso e senza scritte.
+   Mockup e proposta in D:\video youtube\claudio\proposte-133\. */
 /* ⚠️ Legata ALLA CLASSE DEL MODO, non a uno stile scritto a mano: con
    `display:block` messo dal codice la linea restava a video anche dopo essere
-   usciti dal radar, come succedeva ai pallini prima del 31/8. */
-.rd-linea{display:none;margin:1px 0 5px}
+   usciti dal radar, come succedeva ai pallini prima del 31/8.
+   Il margine sopra e' il posto della linguetta, che sporge dalla barra. */
+.rd-linea{display:none;margin:21px 0 8px}
 .modo-radar .rd-linea.viva{display:block}
-.rd-tacche{display:flex;gap:3px}
-.rd-tacche i{flex:1;height:6px;border-radius:3px;background:#dbe3ef;cursor:pointer;transition:background .12s}
-.rd-tacche i.vis{background:#a8c2e2}
-.rd-tacche i.on{background:#1b3f6e}
-.rd-capi{display:flex;justify-content:space-between;font-size:10.5px;color:#7a8698;margin-top:2px}
+.rd-giro{display:flex;align-items:stretch;height:30px;border:1px solid #c3d0e2;border-radius:8px;background:#fff;box-sizing:border-box}
+.rd-play{width:32px;flex:0 0 auto;margin:0;padding:0;border:0;border-right:1px solid #c3d0e2;border-radius:7px 0 0 7px;
+  background:#f1f5fa;color:#1b3f6e;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:-1px;cursor:pointer}
+.rd-ora{min-width:48px;display:flex;align-items:center;justify-content:center;padding:0 6px;border-right:1px solid #c3d0e2;
+  font-size:13px;font-weight:800;color:#1b3f6e;font-variant-numeric:tabular-nums}
+.rd-ora.p{background:linear-gradient(180deg,#ffdf5e,#ffcc1f)}
+/* touch-action:none: il dito che trascina il cursore non deve trascinare anche la mappa o la pagina */
+.rd-pezzi{flex:1;position:relative;display:flex;align-items:center;gap:1px;margin:0 8px;cursor:pointer;touch-action:none}
+.rd-pezzi i{flex:1;height:12px;background:#1f6fd1}
+.rd-pezzi i:first-of-type{border-radius:3px 0 0 3px}
+.rd-pezzi i:last-of-type{border-radius:0 3px 3px 0}
+.rd-pezzi i.p{background:repeating-linear-gradient(135deg,#ffc400 0 4px,#ffe07a 4px 8px)}
+/* larga quanto la previsione (la mette lo script), mai meno della parola: al PC 4 pezzi su 16 possono essere pochi */
+.rd-lingua{position:absolute;bottom:calc(100% + 1px);right:-8px;min-width:68px;height:16px;line-height:15px;box-sizing:border-box;
+  background:linear-gradient(180deg,#ffdf5e,#ffcc1f);color:#1b3f6e;border:1px solid #e0ad00;border-bottom:0;border-radius:7px 7px 0 0;
+  font-size:10px;font-weight:800;text-align:center;letter-spacing:.2px;pointer-events:none}
+.rd-cursore{position:absolute;top:50%;width:9px;height:20px;background:#fff;border:1px solid #6f7a88;border-radius:3px;box-sizing:border-box;
+  transform:translate(-50%,-50%);box-shadow:0 1px 2px rgba(0,0,0,.25);pointer-events:none}
+@media(max-width:900px){
+  .rd-giro{height:36px}
+  .rd-play{width:40px;font-size:13px}
+  .rd-ora{min-width:56px;font-size:15px}
+  .rd-pezzi i{height:14px}
+  .rd-lingua{font-size:11px}
+  .rd-cursore{width:11px;height:24px}
+}
 .rd-nota{display:none;font-size:11.5px;line-height:1.35;color:#5a6470;margin:0 0 4px}
 /* ⚠️ LA LEGENDA E' VERA, non inventata: i colori sono quelli della tabella
    ufficiale dello schema «Universal Blue» (rainviewer_api_colors_table.csv,
@@ -13428,10 +13441,6 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 @media(min-width:901px){.modo-radar #btn-reset-regions{display:block !important}}
 .modo-radar #legend-panel{display:block !important}
 @media(max-width:900px){.modo-radar #legend-panel{transform:translateY(0) !important}}
-@media(max-width:900px){
-  #reg-sheet .rd-d{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-  #reg-sheet .rd-d.on{background:#fff;color:#1b3f6e}
-}
 /* ⚠️ LE NUVOLE. L'immagine a infrarossi copre il 100% della tessera e il
    cielo sereno non e' nero: e' un grigio medio (luminosita' 92 su 255,
    misurata). Messa cosi' e' un velo sulla mappa, ed e' il motivo per cui
@@ -13512,27 +13521,32 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
    ═══════════════════════════════════════════════════════════════ */
 (function(){
   var API='https://api.librewxr.net/public/weather-maps.json';
-  var acceso=false, scelta=null, vistaPrec=null, gestiEntrata=0, vistaSuaEntrata=false;   // vedi esci() (1/11/2026)
+  var acceso=false, vistaPrec=null, gestiEntrata=0, vistaSuaEntrata=false;   // vedi esci() (1/11/2026)
   var strati=[], idx=-1, timer=null, fisso=null;
   var cache=null, cacheQuando=0, ultimoBuono=null;
   /* Quanto piu' largo sta il radar rispetto all'inquadratura normale della
      regione, in livelli di zoom. 1 = il doppio di spazio per lato. E' la
      manopola: 0,5 per stare piu' stretti, 1,5 per vedere mezza Europa. */
   var LARGHEZZA = 1;
-  /* ⚠️ SI APRE COL «+40 MIN» IN MOVIMENTO (8/11/2026, scheda 128 ter, suo «Vai con B»).
-     Il tasto «Radar pioggia» e i link ?radar=ora delle pagine non aprono piu' la foto ferma di
-     adesso: aprono il giro adesso, +10, +20, +30, +40. Il primo fotogramma e' la MISURA di
-     adesso, gli altri sono la previsione di LibreWXR (le macchie spostate dove stanno andando) e
-     la riga sotto lo dice: «Previsione per le». ?radar=due resta «-2 ore»; «Adesso» ferma.
-     Il carico e' stato misurato prima: 5 fotogrammi da 6 tessere al PC e 4 al telefono, circa
-     4.000 richieste al giorno per tutto il sito contro le ~2.500 di prima, e i termini di
-     LibreWXR scrivono che l'animazione e' uso normale (proposte-128ter\PROPOSTA-RADAR-40.md).
+  /* ⚠️ UN GIRO SOLO, DA -2 ORE A +40 MINUTI (13/11/2026, scheda 133, suo «B, come ilMeteo»).
+     Dall'8/11 (scheda 128 ter) il tasto apriva il «+40» (adesso, +10 ... +40) e «-2 ore» era un
+     altro giro col suo tasto: chi apriva non vedeva mai insieme da dove arriva la pioggia e dove
+     va. Ora il giro e' uno: le misure delle ultime 2 ore e i previsti fino a +40, con la barra di
+     ilMeteo (vedi .rd-giro). Mentre i fotogrammi arrivano si vede ADESSO, fermo; quando ci sono
+     tutti il giro parte da -2 ore. ❚❚ ferma, ▶ riparte, un tocco o il dito sulla barra porta su
+     quell'ora e ferma. I link ?radar=ora|due|prev delle pagine aprono tutti il giro.
+     Il carico: ~16 fotogrammi invece di 5, ~96 tessere a ogni apertura al PC e ~64 al telefono
+     (erano ~30 e ~20), scaricate UNA volta all'apertura: il giro riaccende gli strati che ha e
+     non chiede niente. I termini di LibreWXR scrivono che l'animazione e' uso normale
+     (D:\video youtube\claudio\proposte-133\PROPOSTA-RADAR-GIRO.md).
      PREVISTI_S taglia i previsti a +40 minuti DAVVERO: LibreWXR ne manda fino a +60 (6, il 31/8
-     erano 5 fino a +50) e il tasto li mostrava tutti, con la scritta «+40» sbagliata. Si taglia
-     per ORA e non per numero, cosi' regge anche se LibreWXR cambia il passo. SOSTA: la pausa su
-     adesso e sull'ultimo previsto, come nel codice d'esempio di LibreWXR, per capire dove
-     comincia e dove finisce il giro. */
-  var APRI = 'prev', PREVISTI_S = 40 * 60, SOSTA = 1500, PASSO = 700;
+     erano 5 fino a +50). Si taglia per ORA e non per numero, cosi' regge anche se LibreWXR cambia
+     il passo. SOSTA: la pausa su adesso e sull'ultimo previsto, come nel codice d'esempio di
+     LibreWXR, per capire dove comincia e dove finisce il giro. */
+  var PREVISTI_S = 40 * 60, SOSTA = 1500, PASSO = 700;
+  /* lo stato del giro: AD = il fotogramma di adesso (l'ultima misura), fermo = l'ha fermato chi guarda (❚❚ o un tocco
+     sulla barra: allora il giro non riparte da solo), partito = i fotogrammi sono pronti e il giro e' cominciato */
+  var AD = -1, fermo = false, partito = false, giroN = 0;
 
   /* ⚠️ LA SCORTA: cosa succede quando LibreWXR non risponde.
      1. TETTO DI 3 SECONDI e una sola riprova. ⚠️ In teoria fa 6 secondi, MISURATO
@@ -13631,12 +13645,10 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
          radar si vede dal 3/9), le temperature (tq), le date dell'analisi sotto, e il
          centro restava a quattro decimali anche dopo «La mia posizione» (la privacy
          vuole due). Dal 17/10 buildShareUrl col radar acceso funziona anche senza
-         periodo e scrive gia' radar=<modo> (window._radarModo segue il tasto). */
+         periodo e scrive gia' radar=<modo>. Dal 13/11/2026 (giro unico) il modo e' sempre «ora»:
+         lo capiscono tutte le versioni del sito, e qui apre il giro. */
       var url=window.buildShareUrl&&window.buildShareUrl(); if(!url) return;
-      var testo={ora:'Sta piovendo adesso? Guarda il radar',
-                 due:'La pioggia delle ultime due ore, al radar',
-                 prev:'Dove va la pioggia nei prossimi 40 minuti',
-                }[scelta||'ora'];
+      var testo='Dove va la pioggia: le ultime 2 ore e i prossimi 40 minuti al radar';
       try{ gtag('event','share_map',{regioni:regioniAttive().join(',')}); }catch(x){}
       var fatto=function(){
         var v=bs.dataset.label||bs.textContent;
@@ -13665,23 +13677,6 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
 
     var lp=el('legend-panel'); if(!lp) return;
     var st=lp.querySelector('.stats-row');
-    var d=document.createElement('div'); d.className='rd-durate'; d.id='rd-durate';
-    [{id:'ora',  t:'Adesso',       tit:'la pioggia che sta cadendo adesso'},
-     {id:'due',  t:'\u25B6 -2 ore', tit:'le ultime due ore, animate'},   // il meno dice che e' passato
-     {id:'prev', t:'+40 min',      tit:'dove si sposta nei prossimi 40 minuti: previsione, non misura'},
-    ].forEach(function(x){
-      var c=document.createElement('div');
-      c.className='rd-d'+(x.id==='prev'?' rd-prev':''); c.dataset.id=x.id;
-      c.textContent=x.t; c.title=x.tit;
-      c.addEventListener('click',function(){
-        // ⚠️ Ripremendo il tasto gia' acceso si torna ad «Adesso»: durante
-        //    un'animazione quello e' il gesto naturale per fermarla, e non
-        //    serve un tasto in piu' per farlo.
-        try{ gtag('event','radar',{stato:'tasto-'+x.id}); }catch(_){}
-        if(scelta===x.id && x.id!=='ora') vai('ora'); else vai(x.id);
-      });
-      d.appendChild(c);
-    });
     var sc=document.createElement('div'); sc.className='rd-scala'; sc.id='rd-scala';
     sc.innerHTML='<div class="rd-barra"></div>'
       +'<div class="rd-num"><span>0,5</span><span>3</span><span>6</span>'
@@ -13695,22 +13690,20 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       var q=new URLSearchParams(location.search).get('radar');
       if(q && ['ora','due','prev'].indexOf(q)>-1){
         var giri=0, att2=setInterval(function(){
-          // ⚠️ si entra GIA' sul modo del link (8/11/2026): prima entra() caricava «Adesso» e poi
-          //    vai(q) caricava i fotogrammi del link, uno strato scaricato e buttato. ?radar=ora apre
-          //    il +40 in movimento come il tasto (vedi APRI).
-          if(regioniAttive().length){ clearInterval(att2); entra(q==='due'?'due':APRI); if(acceso){ try{ gtag('event','radar',{stato:'link'}); }catch(_){} } }
+          // ⚠️ si entra direttamente (8/11/2026): prima entra() caricava «Adesso» e poi vai(q) caricava i
+          //    fotogrammi del link, uno strato scaricato e buttato. Dal 13/11 ora, due e prev aprono tutti il giro.
+          if(regioniAttive().length){ clearInterval(att2); entra(); if(acceso){ try{ gtag('event','radar',{stato:'link'}); }catch(_){} } }
           else if(++giri>75) clearInterval(att2);
         },200);
       }
     }catch(e){}
     var ln=document.createElement('div'); ln.className='rd-linea'; ln.id='rd-linea';
     var n=document.createElement('div'); n.className='rd-nota'; n.id='rd-nota';
-    st.parentNode.insertBefore(d,st); st.parentNode.insertBefore(ln,st);
+    st.parentNode.insertBefore(ln,st);
     st.parentNode.insertBefore(sc,st); st.parentNode.insertBefore(n,st);
   }
 
-  function entra(modo){
-    modo=modo||APRI;   // il tasto «Radar pioggia» apre il +40 in movimento (8/11/2026, vedi APRI)
+  function entra(){
     if(!map()) return;
     if(!regioniAttive().length){
       if(window.innerWidth<=900&&window._chiediRegione){ window._chiediRegione(); return; }   // telefono: il fumetto sotto la barra (8/10)
@@ -13723,7 +13716,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     }
     acceso=true;
     document.body.classList.add('modo-radar');
-    window._radarModo=modo;   // lo legge buildShareUrl
+    window._radarModo='ora';   // lo legge buildShareUrl: link «radar=ora», che apre il giro (13/11/2026)
     el('btn-radar').innerHTML='\u2715 Chiudi radar';
     heat(false); pallini(false);
     var m=map();
@@ -13746,7 +13739,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
        dai CONFINI della regione, che ci sono da subito. */
     inquadra();
     setTimeout(function(){ if(acceso) inquadra(); },550);
-    vai(modo);
+    vai();
   }
   /* ⚠️ `ripristina` esiste per un difetto vero, visto il 31/8: uscendo dal
      radar rimettevo SEMPRE la vista di prima, anche quando si usciva
@@ -13759,6 +13752,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
   function esci(ripristina){
     if(!acceso) return;
     acceso=false; sorveglia(false); pulisci(); ultimoBuono=null; window._radarModo=null; window._radarVistaLink=null;
+    fermo=false;   // chi rientra trova il giro che gira, anche se l'aveva fermato (13/11/2026)
     document.body.classList.remove('modo-radar');
     el('btn-radar').innerHTML='<span class="rd-ic">\uD83C\uDF27\uFE0F</span> Radar<span class="rd-lunga"> pioggia</span>';
     heat(true); pallini(true);
@@ -13920,58 +13914,40 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     if(fisso){ try{ m.removeLayer(fisso); }catch(e){} fisso=null; }
   }
 
-  function vai(id){
-    /* \u26a0\ufe0f QUI C'ERA `pulisci()`, ED ERA IL BUCO DELLA SCORTA (visto il 31/8).
+  function vai(){
+    /* ⚠️ QUI C'ERA `pulisci()`, ED ERA IL BUCO DELLA SCORTA (visto il 31/8).
        Buttavo gli strati PRIMA di chiedere: se poi la richiesta cadeva, la
-       riga annunciava \u00abultimo dato delle 17:50\u00bb con lo schermo vuoto, perche'
+       riga annunciava «ultimo dato delle 17:50» con lo schermo vuoto, perche'
        quel fotogramma l'avevo appena tolto io. Misurato: zero tessere a video.
-       Adesso si ferma la sola animazione, gli strati restano finche' i nuovi
-       non sono in mano (li toglie `crea`), e se si cade si torna a segnare il
-       tasto di prima: cosi' quello che si vede e' quello che dice la riga. */
-    var prima=scelta;
+       Adesso si ferma la sola animazione e gli strati restano finche' i nuovi
+       non sono in mano (li toglie `crea`): quello che si vede e' quello che
+       dice la riga. */
     if(timer){ clearTimeout(timer); timer=null; }
-    scelta=id;
-    if(acceso) window._radarModo=id;   // il link segue il tasto scelto
-    segna(id);
-    nota('carico\u2026');
+    titolo(true);
+    nota('carico…');
     chiedi()
       .then(function(j){
-        var h=j.host;
-        var lista, passati=(j.radar&&j.radar.past)||[], previsti=[];
-        if(id==='prev'){
-          /* il «+40» (8/11/2026, vedi APRI): ADESSO e i previsti fino a +40, non i soli previsti
-             fino a +60 come prima. Senza previsti si resta su «Adesso» fermo, e il tasto acceso
-             lo dice: nessun ripiego su altre fonti. */
-          var ult=passati[passati.length-1];
-          if(ult) previsti=((j.radar&&j.radar.nowcast)||[]).filter(function(f){ return f.time>ult.time && f.time-ult.time<=PREVISTI_S; });
-          if(previsti.length) lista=[ult].concat(previsti);
-          else { id='ora'; scelta='ora'; if(acceso) window._radarModo='ora'; segna('ora'); lista=passati.slice(-1); }
-        }
-        else if(id==='ora')  lista=passati.slice(-1);
-        else                 lista=passati;
+        var h=j.host, passati=(j.radar&&j.radar.past)||[], previsti=[];
+        /* IL GIRO (13/11/2026): le misure delle ultime 2 ore e i previsti fino a +40, tagliati per ORA (vedi
+           PREVISTI_S). Senza previsti il giro e' delle sole misure e il titolo lo dice: nessun ripiego. */
+        var ult=passati[passati.length-1];
+        if(ult) previsti=((j.radar&&j.radar.nowcast)||[]).filter(function(f){ return f.time>ult.time && f.time-ult.time<=PREVISTI_S; });
+        var lista=passati.concat(previsti);
         if(!lista.length) throw 0;
+        titolo(previsti.length>0);
         var coda = '/256/{z}/{x}/{y}/2/1_1.png';
         crea(lista.map(function(f){ return {t:f.time, u:h+f.path+coda, p:previsti.indexOf(f)>-1}; }));
       })
-      .catch(function(){
-        // si e' rimasti col fotogramma di prima: il tasto acceso torna quello
-        if(ultimoBuono && strati.length && prima && prima!==id){
-          scelta=prima; if(acceso) window._radarModo=prima; segna(prima);
-        }
-        caduta();
-      });
+      .catch(function(){ caduta(); });
   }
-  function segna(id){
-    [].forEach.call(document.querySelectorAll('.rd-d'),function(c){ c.classList.toggle('on', c.dataset.id===id); });
-    var t=el('leg-title');
-    /* ⚠️ «RADAR» DA SOLO NON BASTA (5/9/2026): chi legge «radar» si
-       aspetta le nuvole, e invece le macchie colorate sono la PIOGGIA che
-       cade. Il titolo del pannello e' l'unico posto sopra la scala dei
-       colori, quindi lo dice li' — e non costa un pixel, perche' la riga
-       c'era gia'. */
-    var tit={ora:'Radar pioggia · adesso', due:'Radar pioggia · ultime 2 ore',
-             prev:'Radar pioggia · prossimi 40 minuti'}[id];
-    if(t){ if(t._vecchio==null) t._vecchio=t.textContent; t.textContent=tit; }
+  /* ⚠️ «RADAR» DA SOLO NON BASTA (5/9/2026): chi legge «radar» si
+     aspetta le nuvole, e invece le macchie colorate sono la PIOGGIA che
+     cade. Il titolo del pannello e' l'unico posto sopra la scala dei
+     colori, quindi lo dice li'. Dal 13/11/2026 dice anche quanto dura il giro. */
+  function titolo(conPrevisti){
+    var t=el('leg-title'); if(!t) return;
+    if(t._vecchio==null) t._vecchio=t.textContent;
+    t.textContent=conPrevisti?'Radar pioggia · da -2 ore a +40 min':'Radar pioggia · ultime 2 ore';
   }
 
   // TUTTI gli strati insieme, opacita' 0, e si accende solo quello giusto:
@@ -13988,34 +13964,35 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     strati=frames.map(function(f){
       var l=L.tileLayer(f.u,{opacity:0,pane:'radar',maxNativeZoom:6,
         attribution:'radar <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="/fonti.html#radar" target="_blank" rel="noopener" style="white-space:nowrap">Radar-DPC</a> · OPERA'});   // sull'Italia LibreWXR usa il radar della Protezione Civile (Radar-DPC, CC BY-SA 4.0): qui il nome, la licenza a un clic nella riga del radar di fonti (9/11/2026, scheda 130; con le licenze per esteso a 1920 andava a capo)
-      l._quando=f.t; l._prev=!!f.p; l.addTo(m);   // _prev: fotogramma previsto, non misurato (8/11/2026)
+      l._quando=f.t; l._prev=!!f.p;   // _prev: fotogramma previsto, non misurato (8/11/2026)
       return l;
     });
-    var primo=strati.length-1;
-    if(frames.length>1 && scelta!=='ora') primo=0;
+    /* ADESSO e' l'ultima misura. Il suo strato entra in mappa PER PRIMO (13/11/2026): le sue tessere partono
+       prima delle altre e chi apre vede subito la pioggia di adesso, ferma, mentre arrivano le altre. */
+    AD=0; strati.forEach(function(l,k){ if(!l._prev) AD=k; });
+    strati[AD].addTo(m);
+    strati.forEach(function(l,k){ if(k!==AD) l.addTo(m); });
+    partito=false;
+    var questo=++giroN;
     linea(frames);
-    accendi(primo,OP);
+    accendi(AD,OP);
     if(frames.length>1){
       /* ⚠️ SI ASPETTA CHE SIANO PRONTI TUTTI, NON SOLO IL PRIMO (31/8/2026).
          Prima si partiva al `load` del solo fotogramma zero: gli altri
          stavano ancora scaricando le tessere e, quando toccava a loro, si
          accendeva uno strato mezzo vuoto. E' il tremolio del «+40 min», che
-         ha solo sei fotogrammi e quindi ci ripassa sopra in fretta.
+         aveva solo sei fotogrammi e quindi ci ripassava sopra in fretta.
          Adesso si conta quanti sono arrivati e si parte quando ci sono tutti.
          Tetto di 8 secondi perche' una rete lenta non deve bloccare tutto:
-         meglio un giro con qualche buco che un'animazione che non parte. */
-      var pronti=0, tot=strati.length, partito=false;
-      /* Un passo alla volta con setTimeout, non piu' setInterval (8/11/2026): nel «+40» il
-         fotogramma di adesso e l'ultimo previsto restano SOSTA ms, gli altri PASSO. «-2 ore»
-         resta a PASSO fisso com'era. Lo ferma clearTimeout(timer), come prima clearInterval. */
-      var passo=function(){
-        var lungo=scelta==='prev' && (idx===0 || idx===strati.length-1);
-        timer=setTimeout(function(){ if(!acceso) return; accendi((idx+1)%strati.length,OP); passo(); }, lungo?SOSTA:PASSO);
-      };
+         meglio un giro con qualche buco che un'animazione che non parte.
+         Dal 13/11/2026 il giro parte da -2 ore (il fotogramma 0), se chi guarda non l'ha gia' fermato.
+         `questo`: un'uscita e un rientro entro 8 secondi non fanno partire il giro nuovo col tetto del vecchio. */
+      var pronti=0, tot=strati.length;
       var avvia=function(){
-        if(partito||timer||!acceso) return;
+        if(partito||!acceso||questo!==giroN) return;
         partito=true;
-        passo();
+        if(fermo||timer) return;
+        accendi(0,OP); passo();
       };
       strati.forEach(function(l){
         l.once('load',function(){ if(++pronti>=tot) avvia(); });
@@ -14023,57 +14000,81 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
       setTimeout(avvia,8000);
     }
   }
-  /* ⚠️ LA LINEA DEL TEMPO. Senza, appena l'animazione fa un giro non si sa
-     piu' dove si e': i sei fotogrammi del «+40 min» durano quattro secondi e
-     l'ora scritta sotto cambia troppo in fretta per raccapezzarsi. Una tacca
-     per fotogramma, quella accesa dice a che punto siamo, e ai due capi c'e'
-     scritto dove comincia e dove finisce. Le tacche si possono anche cliccare:
-     ferma il giro e resta li'. */
+  /* Un passo alla volta con setTimeout, non setInterval (8/11/2026): adesso e l'ultimo fotogramma (il +40)
+     restano SOSTA ms, gli altri PASSO. Lo ferma clearTimeout(timer). */
+  function passo(){
+    if(timer) clearTimeout(timer);
+    var lungo=idx===AD || idx===strati.length-1;
+    timer=setTimeout(function(){ timer=null; if(!acceso) return; accendi((idx+1)%strati.length,0.95); passo(); }, lungo?SOSTA:PASSO);
+  }
+  function ferma(){ fermo=true; if(timer){ clearTimeout(timer); timer=null; } tasto(); }
+  function riparti(){ fermo=false; partito=true; tasto(); passo(); }
+  function tasto(){
+    var b=document.querySelector('#rd-linea .rd-play'); if(!b) return;
+    b.textContent=fermo?'▶︎':'❚❚';
+    b.title=fermo?'Fai ripartire il giro':'Ferma il giro';
+    b.setAttribute('aria-label',b.title);
+  }
+  /* ⚠️ LA BARRA DEL GIRO (13/11/2026; fino ad allora la linea a tacche del 31/8). Senza, appena l'animazione
+     fa un giro non si sa piu' dove si e'. E' la barra di ilMeteo: ▶/❚❚, l'ora in una casella (gialla nella
+     previsione), un pezzo per fotogramma (blu le misure, gialli a righe i previsti, con la linguetta «previsione»),
+     il cursore sul fotogramma acceso. Un tocco o il dito sulla barra portano su quell'ora e fermano il giro;
+     ▶ riparte da li'. Le scritte non ripetono la parola «previsione»: la dicono gia' la linguetta e la riga
+     sotto («Previsione per le»). */
   function linea(frames){
     var box=el('rd-linea'); if(!box) return;
     if(frames.length<2){ box.classList.remove('viva'); box.innerHTML=''; return; }
     box.classList.add('viva');
     var q=function(t){ return new Date(t*1000).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); };
-    /* ⚠️ AI CAPI CI VA L'ORA, NON I MINUTI (31/8). Scrivendo «+50 min» a destra
-       si finiva con due numeri diversi a schermo nello stesso momento, perche'
-       il tasto dice «+40 min»: i fotogrammi del nowcast arrivano a 50 minuti,
-       il tasto e' un nome. Con l'ora dell'orologio non c'e' niente da
-       confrontare e si capisce meglio: «adesso -> 21:00». */
-    var sx=(scelta==='prev')?'adesso':q(frames[0].t);
-    var dx=(scelta==='prev')?q(frames[frames.length-1].t):'adesso';
-    var tacche='';
-    for(var i=0;i<frames.length;i++) tacche+='<i data-i="'+i+'" title="'+q(frames[i].t)+'"></i>';
-    box.innerHTML='<div class="rd-tacche">'+tacche+'</div>'
-      +'<div class="rd-capi"><span>'+sx+'</span><span>'+dx+'</span></div>';
-    [].forEach.call(box.querySelectorAll('.rd-tacche i'),function(t){
-      t.addEventListener('click',function(){
-        if(timer){ clearTimeout(timer); timer=null; }   // si ferma dove lo metti
-        accendi(+t.dataset.i,0.95);
-      });
+    var pezzi='', np=0;
+    for(var i=0;i<frames.length;i++){
+      if(frames[i].p) np++;
+      pezzi+='<i'+(frames[i].p?' class="p"':'')+' title="'+q(frames[i].t)+'"></i>';
+    }
+    box.innerHTML='<div class="rd-giro"><button type="button" class="rd-play"></button><div class="rd-ora"></div>'
+      +'<div class="rd-pezzi">'+pezzi
+      +(np?'<div class="rd-lingua" style="width:calc('+(np*100/frames.length).toFixed(2)+'% + 8px)">previsione</div>':'')
+      +'<div class="rd-cursore"></div></div></div>';
+    tasto();
+    box.querySelector('.rd-play').addEventListener('click',function(){
+      if(fermo){ riparti(); try{ gtag('event','radar',{stato:'riparti'}); }catch(_){} }
+      else     { ferma();   try{ gtag('event','radar',{stato:'pausa'}); }catch(_){} }
     });
+    var bar=box.querySelector('.rd-pezzi'), giu=false;
+    var dove=function(e){
+      var r=bar.getBoundingClientRect(); if(!r.width||!strati.length) return;
+      var k=Math.floor((e.clientX-r.left)/r.width*strati.length);
+      k=Math.max(0,Math.min(strati.length-1,k));
+      if(k!==idx) accendi(k,0.95);
+    };
+    bar.addEventListener('pointerdown',function(e){
+      giu=true; try{ bar.setPointerCapture(e.pointerId); }catch(_){}
+      ferma(); dove(e);
+      try{ gtag('event','radar',{stato:'barra'}); }catch(_){}
+    });
+    bar.addEventListener('pointermove',function(e){ if(giu) dove(e); });
+    bar.addEventListener('pointerup',function(){ giu=false; });
+    bar.addEventListener('pointercancel',function(){ giu=false; });
   }
   function accendi(i,OP){
     idx=i;
     strati.forEach(function(l,k){
       l.setOpacity(k===i?OP:0);
     });
-    var box=el('rd-linea');
-    if(box) [].forEach.call(box.querySelectorAll('.rd-tacche i'),function(t,k){
-      t.classList.toggle('on',k===i);
-      t.classList.toggle('vis',k<=i);      // quanto se n'e' gia' visto
-    });
     var f=strati[i];
     var ora=new Date(f._quando*1000).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+    var box=el('rd-linea');
+    if(box){
+      var o=box.querySelector('.rd-ora'); if(o){ o.textContent=ora; o.classList.toggle('p',f._prev); }
+      // il cursore in percentuale e non misurando il pezzo: col pannello ancora nascosto la misura darebbe zero
+      var c=box.querySelector('.rd-cursore'); if(c) c.style.left=((i+0.5)/strati.length*100).toFixed(2)+'%';
+    }
     // lo usa la scorta: e' l'ora dell'ultimo fotogramma MISURATO mostrato. Un previsto no (8/11/2026):
     // «ultimo dato delle 12:20» con l'orologio alle 11:45 sarebbe una bugia.
     if(!f._prev) ultimoBuono=ora;
-    // ⚠️ Le scritte non ripetono quello che dice gia' il tasto: «+40 min»
-    //    dichiara da solo che e' una previsione, e ribadirlo sotto suona come
-    //    una scusa.
-    // Dall'8/11/2026 il primo fotogramma del «+40» e' la misura di adesso e si scrive come tale:
-    // «Previsione per le» solo sui previsti (_prev).
-    if(f._prev)             nota('Previsione per le '+ora+' \u00b7 LibreWXR');
-    else                    nota('Radar \u00b7 h '+ora+' \u00b7 Protezione Civile e OPERA');
+    // Dall'8/11/2026 «Previsione per le» solo sui previsti (_prev); le misure si scrivono come tali.
+    if(f._prev)             nota('Previsione per le '+ora+' · LibreWXR');
+    else                    nota('Radar · h '+ora+' · Protezione Civile e OPERA');
   }
   function nota(t){ var n=el('rd-nota'); if(n) n.textContent=t; }
 
@@ -19800,7 +19801,7 @@ html:root #time-panel .tp-btn{padding:6px 2px 6px !important;line-height:1.15 !i
 /* ── la forma di «Previsioni» ── */
 html:root body:not(.modo-prev) #time-panel .tp-btn,html:root body:not(.modo-prev) #time-panel .tp-custom-btn,
 html:root body:not(.modo-prev) #btn-shot,html:root body:not(.modo-prev) #btn-share,html:root body:not(.modo-prev) #leg-back-btn,
-html:root body:not(.modo-prev) #bo-tend-btn,html:root body:not(.modo-prev) #bo-sat-btn,html:root body:not(.modo-prev) .rd-d,
+html:root body:not(.modo-prev) #bo-tend-btn,html:root body:not(.modo-prev) #bo-sat-btn,
 html:root body:not(.modo-prev) .vic-chip,html:root body:not(.modo-prev) #reg-apri,html:root body:not(.modo-prev) #leg-azione,
 html:root body:not(.modo-prev) #tq-btn,html:root body:not(.modo-prev) #legend-panel #bo-nascondi,html:root body:not(.modo-prev) #legend-panel #bo-piogge,
 html:root body:not(.modo-prev) #custom-box #cd-apply{
@@ -19808,22 +19809,20 @@ html:root body:not(.modo-prev) #custom-box #cd-apply{
   box-shadow:0 3px 0 #a8b8ce !important;color:#1b3f6e !important;font-weight:700 !important;transform:none !important;transition:none !important}
 html:root body:not(.modo-prev) #time-panel .tp-btn:active,html:root body:not(.modo-prev) #time-panel .tp-custom-btn:active,
 html:root body:not(.modo-prev) #btn-shot:active,html:root body:not(.modo-prev) #btn-share:active,html:root body:not(.modo-prev) #leg-back-btn:active,
-html:root body:not(.modo-prev) #bo-tend-btn:active,html:root body:not(.modo-prev) #bo-sat-btn:active,html:root body:not(.modo-prev) .rd-d:active,
+html:root body:not(.modo-prev) #bo-tend-btn:active,html:root body:not(.modo-prev) #bo-sat-btn:active,
 html:root body:not(.modo-prev) .vic-chip:active,html:root body:not(.modo-prev) #reg-apri:active,html:root body:not(.modo-prev) #leg-azione:active,
 html:root body:not(.modo-prev) #tq-btn:active{transform:translateY(1px) !important;box-shadow:0 2px 0 #a8b8ce !important}
 @media(hover:hover){html:root body:not(.modo-prev) #time-panel .tp-btn:hover,html:root body:not(.modo-prev) #time-panel .tp-custom-btn:hover,
   html:root body:not(.modo-prev) #btn-shot:hover,html:root body:not(.modo-prev) #btn-share:hover,html:root body:not(.modo-prev) #leg-back-btn:hover,
-  html:root body:not(.modo-prev) #bo-tend-btn:hover,html:root body:not(.modo-prev) #bo-sat-btn:hover,html:root body:not(.modo-prev) .rd-d:hover{border-color:#90b0d8 !important}}
+  html:root body:not(.modo-prev) #bo-tend-btn:hover,html:root body:not(.modo-prev) #bo-sat-btn:hover{border-color:#90b0d8 !important}}
 /* acceso: il blu del meteo, col gradino blu scuro */
 html:root body:not(.modo-prev) #time-panel .tp-btn.active,html:root body:not(.modo-prev) #time-panel .tp-custom-btn.active,
-html:root body:not(.modo-prev) .rd-d.on,html:root body:not(.modo-prev) #tq-btn.on,html:root body:not(.modo-prev) #custom-box #cd-apply{
+html:root body:not(.modo-prev) #tq-btn.on,html:root body:not(.modo-prev) #custom-box #cd-apply{
   background:linear-gradient(180deg,#3d8ce8,#1f6fd1) !important;border-color:#1a5fb5 !important;box-shadow:0 3px 0 #124a8a !important;color:#fff !important}
 html:root body:not(.modo-prev) #time-panel .tp-btn.active .tp-d{color:#dbeaff}
 /* funghi: la stessa forma in verde */
 html:root body:not(.modo-prev) #time-panel .tp-funghi-btn{background:linear-gradient(180deg,#f8fdf5,#e2f3da) !important;border-color:#9fcf9f !important;box-shadow:0 3px 0 #7cae7e !important;color:#2d6a30 !important}
 html:root body:not(.modo-prev) #time-panel .tp-funghi-btn.active{background:linear-gradient(180deg,#3f8a43,#2d6a30) !important;border-color:#24572a !important;box-shadow:0 3px 0 #183d1c !important;color:#fff !important}
-/* «+40 min» del radar e' una previsione, non una misura: resta tratteggiato */
-html:root body:not(.modo-prev) .rd-d.rd-prev:not(.on){border-style:dashed !important}
 /* «riduci»: lo stesso tasto in tutte le funzioni, solo piu' basso */
 html:root body:not(.modo-prev) #leg-azione{padding:3px 14px !important}
 /* ⚠️ i quattro tasti dei boschi al telefono hanno regole loro piu' forti (.tessera.tessera.tessera con !important, «TELEFONO,
@@ -19849,7 +19848,6 @@ html:root body:not(.modo-prev) #time-panel #btn-custom,html:root body:not(.modo-
 html:root body:not(.modo-prev) #time-panel .rd-coppia{gap:6px !important}
 html:root body:not(.modo-prev) #legend-panel .leg-header{column-gap:6px !important;row-gap:9px !important;margin-top:0 !important}
 html:root body.conf-c.modo-boschi #legend-panel .leg-header{column-gap:6px !important;row-gap:9px !important;margin-bottom:9px !important}
-html:root body:not(.modo-prev) #legend-panel .rd-durate{gap:6px !important;margin-top:9px !important}
 html:root body:not(.modo-prev) #legend-panel .stats-row{gap:6px !important}
 html:root body:not(.modo-prev) #legend-panel .inv-prev{margin-top:9px !important}
 html:root body:not(.modo-prev) #legend-panel #leg-handle{margin-bottom:8px !important}

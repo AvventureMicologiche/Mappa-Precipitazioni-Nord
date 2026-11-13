@@ -159,6 +159,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **Le etichette del meteo fuori dal gioco mentre si pizzica (8/11/2026, scheda 128 bis)**: `#map.pv-pizzico` col tocco a due dita nelle previsioni, via su `zoomend`; già prima invisibili durante il pizzico (filmato in 12 gg); pizzico dentro al telefono 31-36 → 38-47 fps; IN PROD 8/11 16:51 (deploy `f4627602`)
 - **I crediti del radar: sull'Italia è il radar della Protezione Civile (9/11/2026, scheda 130)**: Radar-DPC CC BY-SA 4.0 al posto di «OPERA» su mappa, «adesso», meteo, fonti e guida; «ogni 10 minuti»; `VERSIONE_JS` 20; restano i punti 2 e 3 del modo A prima del +40 nelle pagine
 - **Al telefono giallo e pillola a turno, e il chiodino fuori dalla vetrina (12/11/2026, scheda 131)**: `_turnoPillola` con `n%2===0` (giallo alle dispari, pillola alle pari), `chiodini` fuori dal `sorteggio`; IN PROD 12/11 (deploy `8a5e7251`); misura GA4 dopo una settimana
+- **Il radar in un giro solo, da -2 ore a +40 minuti, con la barra di ilMeteo (13/11/2026, scheda 133)**: via i tre tasti, `vai()` con misure e previsti, adesso fermo finché arrivano le tessere, `fermo`/`giroN`, barra `rd-giro` con la previsione gialla, link sempre `radar=ora`, GA4 `pausa`/`riparti`/`barra`; 96 tessere all'apertura; guida e `radar.jpg` rifatte
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
