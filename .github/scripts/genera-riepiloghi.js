@@ -387,8 +387,14 @@ function fuoriConfine(r, fuori) {
    giorni dell'evento) e poi torna normale. Qui si decide SE c'e' un evento e se ne scrivono i numeri nel riepilogo
    (campo `evento`): la pagina li disegna con numeriRegione, il giro delle anteprime ne scatta la foto, avviso-evento.js
    manda la mail. Una regola sola per tutti e tre.
-   - SOGLIA: un giorno con almeno 5 pluviometri della regione oltre i 100 mm in 24 ore. Provata su tutto il 2026: in
-     Liguria 4 volte (20-21/8, 9/9, 20/10, 11-12/11), in Toscana 3 (21/8, 8/10, 10-12/11). Solo i nubifragi veri.
+   - SOGLIA: almeno 8 pluviometri della regione oltre i 200 mm in 48 ore (la pioggia di un giorno piu' quella del giorno
+     prima, pluviometro per pluviometro). Sua scelta del 13/11 sulle soglie contate su tutto il 2026 con la regola della
+     pagina (solo i pluviometri dentro la regione o a meno di 2 km dal confine, `fuori`): «5 oltre 100 mm in un giorno»,
+     la prima, scattava 23 volte in un anno in tutta Italia («100 sono pochi, troppo pochi»); questa 7 volte, solo gli
+     eventi grossi: Lombardia 21/8, Liguria 21/8, 21/10 e 12/11, Friuli 21-22/10, Emilia 12/11, Toscana 11-12/11. Con 10
+     (la sua prima scelta) la Liguria si fermava a 9 il 12/11 e restava fuori dal nubifragio della Spezia: il primo conto
+     prendeva anche la Lunigiana. Sulle 48 ore e non su un giorno: La Spezia ha preso oltre 100 mm l'11 e di nuovo il 12.
+     Conti: proposte-132\attrezzi\soglie-48ore-confine.js nel banco.
    - DURATA: dalla mattina dopo il primo giorno oltre soglia a TRE mattine dopo l'ultimo (`fino`, compreso): chi cerca
      «quanta pioggia è caduta» lo fa nei due-tre giorni dopo. Un giorno nuovo oltre soglia la allunga.
    - I GIORNI DELL'EVENTO: dal primo all'ultimo giorno consecutivo con almeno 5 pluviometri oltre i 30 mm attorno
@@ -396,7 +402,7 @@ function fuoriConfine(r, fuori) {
    - Solo pluviometri veri (soloVere: niente stime), con la pioggia in TUTTI i giorni dell'evento; la classifica solo
      con chi sta DENTRO il confine (sua scelta del 13/11: nella pagina Liguria in modalita' evento solo comuni liguri, la
      Lunigiana fuori), la media coi pluviometri della pagina (gli stessi delle altre schede, `fuori` compreso). */
-const EV = { sogliaMm: 100, sogliaN: 5, codaMm: 30, codaN: 5, dopo: 3, maxGiorni: 10, top: 10 };
+const EV = { sogliaMm: 200, sogliaN: 8, codaMm: 30, codaN: 5, dopo: 3, maxGiorni: 10, top: 10 };   // soglia sulle 48 ore
 const giorniFra = (a, b) => Math.round((Date.parse(a + 'T12:00:00Z') - Date.parse(b + 'T12:00:00Z')) / 864e5);
 function eventoRegione(r, da, fuori) {
   if (da === null) return null;
@@ -415,16 +421,19 @@ function eventoRegione(r, da, fuori) {
     return (cache[g] = m);
   };
   const oltre = (i, mm) => { const m = del(i); if (!m) return 0; let n = 0; for (const v of m.values()) if (v.mm >= mm) n++; return n; };
+  // i pluviometri oltre la soglia in 48 ore: il giorno i piu' quello prima (giorni[i + 1]), stesso pluviometro
+  const oltre48 = i => { const a = del(i), b = del(i + 1); if (!a || !b) return 0; let n = 0;
+    for (const [id, v] of a) { const w = b.get(id); if (w && v.mm + w.mm >= EV.sogliaMm) n++; } return n; };
   // l'ultimo giorno oltre soglia, fra l'ultimo giorno completo e quelli che tengono ancora accesa la pagina oggi
   let s0 = -1;
-  for (let i = da; i < giorni.length && giorniFra(oggi, giorni[i]) <= EV.dopo; i++) if (oltre(i, EV.sogliaMm) >= EV.sogliaN) { s0 = i; break; }
+  for (let i = da; i < giorni.length && giorniFra(oggi, giorni[i]) <= EV.dopo; i++) if (oltre48(i) >= EV.sogliaN) { s0 = i; break; }
   if (s0 < 0) return null;
   let iDal = s0, iAl = s0;   // giorni e' dal piu' recente: iDal e' l'indice piu' alto
   while (iDal + 1 < giorni.length && iDal - iAl + 1 < EV.maxGiorni && oltre(iDal + 1, EV.codaMm) >= EV.codaN) iDal++;
   while (iAl - 1 >= da && iDal - iAl + 1 < EV.maxGiorni && oltre(iAl - 1, EV.codaMm) >= EV.codaN) iAl--;
   const gg = giorni.slice(iAl, iDal + 1).reverse();   // in ordine di calendario
   const idx = gg.map(g => giorni.indexOf(g));
-  const soglia = idx.filter(i => oltre(i, EV.sogliaMm) >= EV.sogliaN).map(i => giorni[i]);
+  const soglia = idx.filter(i => oltre48(i) >= EV.sogliaN).map(i => giorni[i]);
   // i pluviometri con la pioggia in tutti i giorni dell'evento
   const tot = new Map();
   idx.forEach((i, k) => { for (const [id, v] of del(i)) {
@@ -451,7 +460,7 @@ function eventoRegione(r, da, fuori) {
   return {
     dal: gg[0], al: gg[gg.length - 1], fino, soglia, giorni: gg,
     stazioni: pieni.length, media: Math.round(pieni.reduce((a, t) => a + t.tot, 0) / pieni.length * 10) / 10,
-    oltre100: idx.map(i => oltre(i, EV.sogliaMm)), top, max24, ...(punta ? { punta } : {}),
+    oltre100: idx.map(i => oltre(i, 100)), top, max24, ...(punta ? { punta } : {}),
   };
 }
 

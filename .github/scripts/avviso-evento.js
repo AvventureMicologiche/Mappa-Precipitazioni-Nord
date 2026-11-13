@@ -88,7 +88,7 @@ if (!nuovi.length) {
     '',
     'La foto della mappa sui giorni dell\'evento arriva col giro delle anteprime, di solito entro mezz\'ora dalla pubblicazione: fino ad allora resta quella di sempre.',
     '',
-    `Soglia: almeno 5 pluviometri della regione oltre i 100 mm in 24 ore. Una mail sola per evento (registro data/eventi-avvisati.json).`,
+    `Soglia: almeno 8 pluviometri della regione oltre i 200 mm in 48 ore. Una mail sola per evento (registro data/eventi-avvisati.json).`,
     '',
     '— Mappa Pluviometrica, avviso automatico (.github/scripts/avviso-evento.js)',
   ].join('\n');
