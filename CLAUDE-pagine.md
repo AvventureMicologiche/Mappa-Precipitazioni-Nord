@@ -1249,9 +1249,14 @@ va con Portogallo e Canarie; in Search Console zero ricerche col nome). **Sua id
 ci sono cambiano da sole quando piove forte, con le parole che la gente cerca, poi tornano normali.** Mockup approvati
 nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-radar\`. Lavoro in `proposte-132\`.
 
-- **La soglia** (`EV` in `genera-riepiloghi.js`): un giorno con almeno **5 pluviometri della regione oltre i 100 mm**
-  in 24 ore (solo pluviometri veri, niente stime). Provata su tutto il 2026 (`proposte-132\attrezzi\soglia-evento.py`):
-  Liguria 4 volte (20-21/8, 9/9, 20/10, 11-12/11), Toscana 3 (21/8, 8/10, 10-12/11). Solo nubifragi veri.
+- **La soglia** (`EV` in `genera-riepiloghi.js`): almeno **8 pluviometri della regione oltre i 200 mm in 48 ore** (la
+  pioggia di un giorno più quella del giorno prima, stesso pluviometro; solo pluviometri veri, niente stime; solo quelli
+  della pagina, cioè dentro la regione o a meno di 2 km dal confine). Sua scelta, contata su tutto il 2026
+  (`proposte-132\attrezzi\soglie-48ore-confine.js`): **7 volte in un anno** in tutta Italia (Lombardia 21/8, Liguria
+  21/8, 21/10 e 12/11, Friuli 21-22/10, Emilia 12/11, Toscana 11-12/11). La prima prova, «5 oltre 100 mm in un giorno»,
+  scattava 23 volte («100 sono pochi, troppo pochi»). ⚠️ Con 10 (la sua prima scelta) la Liguria si fermava a 9 il
+  12/11: il primo conto prendeva anche la Lunigiana, la pagina no. Le soglie si contano SEMPRE con la regola della pagina.
+  Sulle 48 ore perché La Spezia ha preso oltre 100 mm l'11 e di nuovo il 12: su un giorno solo restava fuori.
 - **La durata**: dalla mattina dopo il primo giorno oltre soglia a **tre mattine dopo l'ultimo** (`fino`, compreso);
   un giorno nuovo oltre soglia la allunga. **I giorni dell'evento**: dal primo all'ultimo giorno consecutivo con almeno 5
   pluviometri oltre i 30 mm attorno all'ultimo giorno oltre soglia (massimo 10).
