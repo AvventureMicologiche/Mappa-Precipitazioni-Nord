@@ -431,6 +431,30 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 /* a 360 px «Mappa Pluviometrica» andava su due righe */
 @media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
   .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
+
+.ev-tab{margin:22px 0}
+.ev-scorri{overflow-x:auto}
+.ev-tab table{width:100%;border-collapse:collapse;font-size:15px}
+.ev-tab th{text-align:left;border-bottom:2px solid var(--bordo);padding:6px 4px;font-size:14px}
+.ev-tab td{padding:6px 4px;border-bottom:1px solid #eef1f6}
+.ev-tab .n{text-align:right;white-space:nowrap}
+.ev-tab td.f{font-weight:700}
+
+.rd-box{border:1px solid var(--bordo);border-radius:14px;overflow:hidden;margin:22px 0;background:#fff}
+.rd-testa{background:#10294a;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rd-testa b{font-size:16px;letter-spacing:.3px;text-transform:uppercase}
+.rd-testa i.rd-pal{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e53935;margin-right:8px;vertical-align:1px}
+.rd-testa span{font-size:14px;opacity:.85;white-space:nowrap}
+a.rd-mappa{display:block;margin:12px 16px 0;border-radius:10px;overflow:hidden;background:#1d3d63}
+#rd-map{height:260px;background:#1d3d63}
+@media(min-width:700px){#rd-map{height:420px}}
+.rd-giu{padding:12px 16px 14px}
+a.rd-vai{display:block;text-align:center;background:linear-gradient(#ffd54a,#f5b301);color:#10294a;font-weight:800;border-radius:10px;padding:11px 10px;text-decoration:none;font-size:16px}
+.rd-citta{margin-top:10px;font-size:15px;text-align:center}
+.rd-nota{margin-top:8px;font-size:13px;color:#667;text-align:center;line-height:1.45}
+.rd-box .nome-paese{white-space:nowrap;pointer-events:none}
+.rd-box .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-size:12px;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
+.rd-box .leaflet-control-attribution{font-size:10px}
 </style>
 </head>
 <body>
@@ -453,12 +477,14 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
 <div id="attesa" style="display:none"></div>
 <div id="verdetto"><div class="verdetto"><div class="si">Ieri, 12 novembre</div><div class="gr">8,2 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Loibl Tunnel (Kärnten)</b> 41,2 mm, <b>Kolm-Saigurn (Salzburg)</b> 24,0 mm, <b>Rudolfshütte (Salzburg)</b> 23,5 mm.</div><div class="dett">Media di 262 pluviometri.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=austria&amp;da=2026-11-12&amp;a=2026-11-12&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-ieri-box'})}catch(e){}"><b>Apri la mappa di ieri</b><i>→</i><small>la pioggia in tutte le località</small></a></div><div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=austria" onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/?r=austria&amp;radar=ora" onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-porta-radar'})}catch(e){}"><span>📡</span>Radar piogge</a><a href="https://precipitazioni.avventuremicologiche.it/?r=austria&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-porta-boschi'})}catch(e){}"><span>🌲</span>Mappa boschi</a><a href="https://precipitazioni.avventuremicologiche.it/?r=austria&amp;boschi=1&amp;sat=1" onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-porta-satellite'})}catch(e){}"><span>🛰️</span>Boschi + satellite</a></div></div></div>
+<div id="evento"></div>
 <!-- 19/10/2026: al posto della striscia blu «Che tempo farà», il blocco meteo (lib-meteo-regione.js):
      la casella per il proprio paese, che apre la mappa delle previsioni, e le città principali. -->
 <section class="mk-meteo" id="meteo">
 <h2>Che tempo farà in Austria</h2>
 <div class="mk-citta"><p class="mk-attesa">Sto leggendo le previsioni delle città…</p></div>
 </section>
+
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
 <div id="grafico"><div class="gg"><div class="b" title="14 ottobre: 3,4 mm"><b>3,4</b><i style="height:26%"></i></div><div class="b" title="15 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="16 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="17 ottobre: 0,4 mm"><i style="height:3%"></i></div><div class="b" title="18 ottobre: 0,1 mm"><i style="height:2%"></i></div><div class="b" title="19 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="20 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="21 ottobre: 11,3 mm"><b>11</b><i style="height:86%"></i></div><div class="b" title="22 ottobre: 4,4 mm"><i style="height:33%"></i></div><div class="b" title="23 ottobre: 0,9 mm"><i style="height:7%"></i></div><div class="b" title="24 ottobre: 4,1 mm"><i style="height:31%"></i></div><div class="b" title="25 ottobre: 5,7 mm"><b>5,7</b><i style="height:43%"></i></div><div class="b" title="26 ottobre: 0,8 mm"><i style="height:6%"></i></div><div class="b" title="27 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="28 ottobre: 2,5 mm"><b>2,5</b><i style="height:19%"></i></div><div class="b" title="29 ottobre: 0,7 mm"><i style="height:5%"></i></div><div class="b" title="30 ottobre: 0,0 mm"><i style="height:2%"></i></div><div class="b" title="31 ottobre: 0,8 mm"><i style="height:6%"></i></div><div class="b" title="1 novembre: 2,9 mm"><b>2,9</b><i style="height:22%"></i></div><div class="b" title="2 novembre: 0,4 mm"><i style="height:3%"></i></div><div class="b" title="3 novembre: 0,1 mm"><i style="height:2%"></i></div><div class="b" title="4 novembre: 0,3 mm"><i style="height:2%"></i></div><div class="b" title="5 novembre: 0,0 mm"><i style="height:2%"></i></div><div class="b dentro" title="6 novembre: 0,0 mm"><i style="height:2%"></i></div><div class="b dentro" title="7 novembre: 0,3 mm"><i style="height:2%"></i></div><div class="b dentro" title="8 novembre: 0,0 mm"><i style="height:2%"></i></div><div class="b dentro" title="9 novembre: 1,3 mm"><i style="height:10%"></i></div><div class="b dentro" title="10 novembre: 3,4 mm"><b>3,4</b><i style="height:26%"></i></div><div class="b dentro" title="11 novembre: 0,7 mm"><i style="height:5%"></i></div><div class="b dentro" title="12 novembre: 8,2 mm"><b>8,2</b><i style="height:62%"></i></div></div><div class="gg-x"><span>14/10</span><span></span><span></span><span></span><span></span><span>19/10</span><span></span><span></span><span></span><span></span><span>24/10</span><span></span><span></span><span></span><span></span><span>29/10</span><span></span><span></span><span></span><span></span><span>3/11</span><span></span><span></span><span></span><span></span><span>8/11</span><span></span><span></span><span></span><span>12/11</span></div><p class="gg-leg"><i style="background:var(--blu)"></i>ultimi 7 giorni &nbsp; <i style="background:#b9cbe2"></i>i giorni prima &nbsp;·&nbsp; media dei pluviometri della regione, in mm</p></div>
@@ -511,10 +537,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   <a class="t-prev" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=austria"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni in Austria, pluviometro per pluviometro.</p>
+<p class="breve" id="breve-img">La pioggia degli ultimi 20 giorni in Austria, pluviometro per pluviometro.</p>
 <a href="https://precipitazioni.avventuremicologiche.it/?r=austria&amp;da=2026-10-24&amp;a=2026-11-12&amp;s=p" id="lnk-img" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'pagina-austria-anteprima'})}catch(e){}">
-  <img class="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/austria.jpg" alt="La mappa delle piogge in Austria: le zone più bagnate, stazione per stazione"
+  <img class="img-mappa" id="img-mappa" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/austria.jpg" alt="La mappa delle piogge in Austria: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"></a>
 
 
@@ -642,6 +668,17 @@ temperatura, vento e umidità.</p>
   if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima del modello, non una misura.'
     : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime del modello, non misure.') + '</div>';
 
+  /* ── LA MODALITA' EVENTO (13/11/2026, scheda 132): se il riepilogo dice che c'e' un nubifragio in corso o appena
+     finito (campo `evento`, lo scrive genera-riepiloghi.js con la sua soglia), il riquadro in cima parla dei giorni
+     dell'evento invece che di ieri, sotto arriva la tabella giorno per giorno (out.evento) e la foto grande della mappa
+     porta a quei giorni. Fino a `fino` compreso, poi la pagina torna com'era da sola. ── */
+  var ev = j.evento && j.evento.fino && oggi <= j.evento.fino && j.evento.top && j.evento.top.length && j.evento.giorni && j.evento.giorni.length ? j.evento : null;
+  function ilGiorno(s) { var g = +String(s).split('-')[2]; return (g === 1 || g === 8 || g === 11 ? 'l’' : 'il ') + lungo(s); }
+  function evPeriodo(e) { return e.dal === e.al ? ilGiorno(e.al) : dalAl(e.dal, e.al).replace(/^D/, 'd'); }
+  function numC(n) { var s = num(n); return s.slice(-2) === ',0' ? s.slice(0, -2) : s; }   // «318», «388,2»
+  function evForte(e) { var k = 0; for (var i = 1; i < e.oltre100.length; i++) if (e.oltre100[i] >= e.oltre100[k]) k = i; return { g: e.giorni[k], n: e.oltre100[k] }; }
+  if (ev) out.ev = { dal: ev.dal, al: ev.al, fino: ev.fino, et: evPeriodo(ev), giorni: ev.giorni.length };
+
   // ── IERI, in cima: la risposta alla domanda del titolo ──
   var d = p['1'];
   if (!d || !d.giorni) out.verdetto = avviso;
@@ -650,12 +687,23 @@ temperatura, vento e umidità.</p>
     if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm'; }).join(', ') + '.';
     else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm ' + (/^[aA]/.test(d.top[0].n) ? 'ad ' : 'a ') + esc(d.top[0].n) + (/\.$/.test(d.top[0].n) ? '' : '.');   // «T.P.» non prende un altro punto (18/10/2026)
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
-    out.verdetto = avviso + '<div class="verdetto">'
-      + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
+    var testa = '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
       + '<div class="gr">' + mediaMm(d) + ' mm<small>di media</small></div>'
       + '<div class="top">' + dett + '</div>'
       + '<div class="dett">' + (d.stazioni === 1 ? 'Un pluviometro solo.' : 'Media di ' + d.stazioni + ' pluviometri.') + '</div>'
-      + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>')
+      + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>');
+    var attrEv = '';
+    if (ev) {
+      // in modalita' evento: i giorni dell'evento, la media, i tre piu' bagnati e il giorno piu' forte. Il bottone
+      // «Apri la mappa di ieri» resta (lib-striscia.js ne fa la cartina dell'evento, coi data-ev qui sotto)
+      var fo = evForte(ev);
+      testa = '<div class="si">Maltempo, ' + evPeriodo(ev) + '</div>'
+        + '<div class="gr">' + mm(ev.media) + ' mm<small>' + (ev.giorni.length > 1 ? 'di media in ' + ev.giorni.length + ' giorni' : 'di media') + '</small></div>'
+        + '<div class="top">Dove ha piovuto di più: ' + ev.top.slice(0, 3).map(function (s) { return '<b>' + esc(s.n) + '</b> ' + numC(s.mm) + ' mm'; }).join(', ') + '.</div>'
+        + '<div class="dett">Media di ' + ev.stazioni + ' pluviometri.' + (fo.n > 0 ? ' Il giorno più forte è stato ' + ilGiorno(fo.g) + ': ' + fo.n + (fo.n === 1 ? ' pluviometro oltre' : ' pluviometri oltre') + ' i 100 mm in 24 ore.' : '') + '</div>';
+      attrEv = ' data-ev-da="' + ev.dal + '" data-ev-a="' + ev.al + '" data-ev-et="' + esc(evPeriodo(ev)) + '"';
+    }
+    out.verdetto = avviso + '<div class="verdetto"' + attrEv + '>' + testa
       // 11/10/2026, sua scelta B fra quattro: bottone pieno a tutta larghezza,
       // titolo e sottotitolo su due righe volute (la frase lunga andava a capo
       // e non sembrava piu' un bottone). Forma dei banner della home.
@@ -730,6 +778,23 @@ temperatura, vento e umidità.</p>
     out.zone[z.s] = { val: z.m7, html: zmm(z.m7, z.p7) + ' mm' + (z.m1 != null ? '<small>' + giornoZ + ' ' + (Math.round(z.m1 * 10) === 0 && z.p1 ? 'meno di 0,1' : mm(z.m1)) + '</small>' : '') };
   });
 
+  // ── La tabella dell'evento, giorno per giorno (13/11/2026, scheda 132), e la foto grande sui suoi giorni ──
+  out.evento = '';
+  if (ev) {
+    out.tasti['lnk-img'] = link(ev.dal, ev.al);
+    var fe = evForte(ev), testaG = ev.giorni.map(function (g, i) {
+      var q = String(g).split('-'), prima = i ? String(ev.giorni[i - 1]).split('-') : q;
+      return '<th class="n">' + (+q[2]) + (i && q[1] !== prima[1] ? '/' + (+q[1]) : '') + '</th>'; }).join('');
+    out.evento = '<section class="ev-tab"><h2>Quanta pioggia è caduta col maltempo, giorno per giorno</h2>'
+      + '<div class="ev-scorri"><table><thead><tr><th>Pluviometro</th>' + testaG + '<th class="n">totale</th></tr></thead><tbody>'
+      + ev.top.map(function (s) { return '<tr><td>' + esc(s.n) + '</td>' + s.g.map(function (v) { return '<td class="n">' + mm(v) + '</td>'; }).join('')
+        + '<td class="n f">' + numC(s.mm) + '</td></tr>'; }).join('')
+      + '</tbody></table></div><p class="nota">Millimetri giorno per giorno, ' + evPeriodo(ev) + '.'
+      + (fe.n > 0 ? ' ' + (ilGiorno(fe.g).charAt(0).toUpperCase() + ilGiorno(fe.g).slice(1)) + ' ' + fe.n + (fe.n === 1 ? ' pluviometro ha passato' : ' pluviometri hanno passato') + ' i 100 mm in 24 ore' : '')
+      + (ev.punta ? (fe.n > 0 ? '; la' : ' La') + ' pioggia più forte in un’ora è stata ' + numC(ev.punta.mm) + ' mm ' + (/^[aA]/.test(ev.punta.nb || ev.punta.n) ? 'ad ' : 'a ') + esc(ev.punta.nb || ev.punta.n) + ', ' + ilGiorno(ev.punta.g) : '')
+      + (fe.n > 0 || ev.punta ? '.' : '') + '</p></section>';
+  }
+
   return out;
 }
 
@@ -738,6 +803,16 @@ temperatura, vento e umidità.</p>
     var N=numeriRegione(j, iso(new Date()), K, SITO);
     Object.keys(N.tasti).forEach(function(id){ var el=document.getElementById(id); if(el) el.href=N.tasti[id]; });
     document.getElementById('verdetto').innerHTML=N.verdetto;
+    // la modalita' evento (13/11/2026): la tabella giorno per giorno, e la foto grande sui giorni dell'evento solo
+    // se lo scatto c'e' ed e' di quei giorni (il giro delle anteprime parte dopo la pagina: fino ad allora resta la
+    // foto dei 20 giorni con la sua scritta)
+    var evx=document.getElementById('evento'); if(evx) evx.innerHTML=N.evento||'';
+    if(N.ev){ fetch('https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/'+K+'-evento.json').then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }).then(function(g){
+      if(!g||g.da!==N.ev.dal||g.a!==N.ev.al) return;
+      var im=document.getElementById('img-mappa'), br=document.getElementById('breve-img');
+      if(im){ im.src='https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/'+K+'-evento.jpg?v='+encodeURIComponent(String(g.generato||'').slice(0,13)); im.alt='La mappa delle piogge del maltempo, '+N.ev.et; }
+      if(br) br.textContent='La pioggia del maltempo '+"in Austria"+', '+N.ev.et+', pluviometro per pluviometro.';
+    }); }
     document.getElementById('grafico').innerHTML=N.grafico;
     ['7','20','30'].forEach(function(k){
       var x=N.periodi[k];
@@ -1219,7 +1294,7 @@ temperatura, vento e umidità.</p>
   }
   function carica(tipo, base) {
     if (geo[tipo]) return geo[tipo];
-    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : '-mappa');
+    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : tipo === 'evento' ? '-evento' : '-mappa');
     geo[tipo] = fetch(base + f + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { return { j: j, url: base + f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') }; })
       .catch(function () { return null; });
@@ -1269,11 +1344,27 @@ temperatura, vento e umidità.</p>
         opp.addEventListener('click', function () { ga('ieri'); });
         d.parentNode.insertBefore(opp, d.nextSibling);
       }
-      carica('7g', PIOGGIA).then(function (g7) {
+      var sette = function () { carica('7g', PIOGGIA).then(function (g7) {
         if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) { a1._g = g7; ritaglia(a1, g7); return; }
         if (opp) { opp.parentNode.removeChild(opp); a1.setAttribute('href', vecchio.getAttribute('href')); a1.setAttribute('data-t', 'ieri'); sp.innerHTML = ieriHtml; }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
-      });
+      }); };
+      /* ⚠️ LA MODALITA' EVENTO (13/11/2026, scheda 132): se la scheda ha i data-ev (numeriRegione, quando il riepilogo dice
+         che c'e' un nubifragio), la cartina e' quella dei giorni dell'evento (<reg>-evento, dal giro delle anteprime), la
+         pillola dice quei giorni e il riquadro apre la mappa di quei giorni. Se lo scatto manca o e' di altri giorni (il
+         giro delle anteprime parte dopo la pagina), tutto come sempre: i 7 giorni. */
+      var vd = document.querySelector('#verdetto .verdetto[data-ev-da]');
+      var evDa = vd && vd.getAttribute('data-ev-da'), evA = vd && vd.getAttribute('data-ev-a'), evEt = vd && vd.getAttribute('data-ev-et');
+      if (evDa && evA && c7) {
+        var c7h = c7.getAttribute('href'), sp7 = sp.innerHTML;
+        a1.setAttribute('href', c7h.replace(/([?&]da=)[^&]+/, '$1' + evDa).replace(/([?&]a=)[^&]+/, '$1' + evA)); a1.setAttribute('data-t', 'evento');
+        sp.innerHTML = '<b>💧 Pioggia ' + evEt + '<em> · apri la mappa</em> →</b>';
+        carica('evento', PIOGGIA).then(function (ge) {
+          if (ge && ge.j.da === evDa && ge.j.a === evA) { a1._g = ge; ritaglia(a1, ge); return; }
+          a1.setAttribute('href', c7h); a1.setAttribute('data-t', '7giorni'); sp.innerHTML = sp7;
+          sette();
+        });
+      } else sette();
       return;
     }
     // (21/10/2026, ottavo check, bug 9) solo il bottone NORMALE diventa la striscia: «Vedi i vicini sulla mappa» (pluviometro
@@ -1300,5 +1391,6 @@ temperatura, vento e umidità.</p>
     [].forEach.call(document.querySelectorAll('.mk-str a'), function (a) { if (a._g) ritaglia(a, a._g); }); }, 150); });
 })({"reg":"austria","tipo":"regione","ieri":true,"modo":"bottone","ga":"pagina-austria"});
 </script>
+
 </body>
 </html>
