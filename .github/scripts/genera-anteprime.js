@@ -179,6 +179,39 @@ async function scattaBoschi(browser, k) {
   } finally { await page.close(); }
 }
 
+/* ── LA FOTO DELL'EVENTO (13/11/2026, scheda 132, modalita' evento delle pagine regione) ──
+   Se il riepilogo della regione ha un `evento` ancora acceso oggi (genera-riepiloghi.js), oltre alle solite si scattano
+   la pagina intera sui giorni dell'evento (<k>-evento.jpg, la foto grande della pagina) e la mappa pulita (<k>-evento.webp
+   + .json, la cartina in cima). La pagina le usa solo se il JSON dice gli stessi giorni del suo evento: fino al primo
+   giro restano le foto di sempre. Finito l'evento non si scattano piu' (restano sul ramo, ma nessuno le chiede). */
+function eventoAcceso(k) {
+  try {
+    const e = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'riepiloghi', k + '.json'), 'utf8')).evento;
+    const oggi = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
+    return e && e.dal && e.al && e.fino && oggi <= e.fino ? e : null;
+  } catch (e) { return null; }
+}
+async function scattaEvento(browser, k, ev) {
+  const page = await browser.newPage();
+  await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
+  await page.evaluateOnNewDocument(() => { try { localStorage.setItem('novitaVista', '2099'); } catch (e) {} });
+  try {
+    await page.goto(SITO + '?r=' + k + '&da=' + ev.dal + '&a=' + ev.al, { waitUntil: 'networkidle2', timeout: 120000 });
+    await page.waitForFunction(() => { const s = document.getElementById('tp-status'); return s && s.textContent.indexOf('✅') === 0; }, { timeout: 180000, polling: 500 });
+    await new Promise(r => setTimeout(r, 3500));
+    await page.evaluate(() => { const el = document.getElementById('channel-logo'); if (el) el.style.display = 'none'; });
+    await new Promise(r => setTimeout(r, 400));
+    const png = path.join(OUT_DIR, k + '-evento.png');
+    await page.screenshot({ path: png });
+    execFileSync(process.env.FFMPEG || 'ffmpeg', ['-y', '-loglevel', 'error', '-i', png, '-vf', 'scale=' + LARGHEZZA + ':-2', '-q:v', QUALITA, path.join(OUT_DIR, k + '-evento.jpg')]);
+    fs.unlinkSync(png);
+    const kb = Math.round(fs.statSync(path.join(OUT_DIR, k + '-evento.jpg')).size / 1024);
+    return ', evento ' + ev.dal + '→' + ev.al + ' ' + kb + ' KB, pulita ' + await scattaPulita(page, k, 'evento', { tipo: 'evento', da: ev.dal, a: ev.al }) + ' KB';
+  } catch (e) {
+    return ', evento FALLITA (' + e.message.slice(0, 60) + ')';
+  } finally { await page.close(); }
+}
+
 async function scatta(browser, k) {
   const url = SITO + '?r=' + k + '&da=' + iso(giornoFa(GIORNI)) + '&a=' + iso(giornoFa(1));
   const page = await browser.newPage();
@@ -219,6 +252,8 @@ async function scatta(browser, k) {
     try { pulita = ', pulita ' + await scattaPulita(page, k) + ' KB'; } catch (e) { pulita = ', pulita FALLITA (' + e.message.slice(0, 60) + ')'; }
     pulita += await scattaIeri(browser, k);
     pulita += await scattaIeri(browser, k, 7);
+    const ev = eventoAcceso(k);   // la modalita' evento (13/11/2026)
+    if (ev) pulita += await scattaEvento(browser, k, ev);
     // (21/10/2026, ottavo check, bug 2) uno scatto pulito o «di ieri» fallito lascia sul ramo l'immagine vecchia: si
     // segnala nel registro del giro come avviso di GitHub, cosi' si vede senza aprire il registro intero
     if (/FALLITA/.test(pulita)) console.log('::warning::anteprime ' + k + ':' + pulita);

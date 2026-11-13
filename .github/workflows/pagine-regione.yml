@@ -89,6 +89,18 @@ jobs:
             [ "$i" = "3" ] || sleep 30
           done
           echo "Pubblicazione fallita dopo 3 tentativi: niente commit, il prossimo giro riprova da solo"; exit 1
+      # 13/11/2026 (scheda 132): la MODALITA' EVENTO delle pagine regione (genera-riepiloghi.js). Se stamattina una
+      # pagina e' entrata in modalita' evento, una mail con i link (sua richiesta), una sola per evento: il registro
+      # data/eventi-avvisati.json si salva col commit qui sotto. Dopo la pubblicazione, cosi' il link porta gia' alla
+      # pagina nuova. Se lo script si rompe la pagina resta pubblicata: manca solo la mail.
+      - name: Avviso maltempo
+        id: avviso
+        if: steps.diff.outputs.cambiate == 'si'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: node .github/scripts/avviso-evento.js
+        continue-on-error: true
       - name: Commit e push
         # solo dopo una pubblicazione riuscita (o non chiesta): un `if` senza success()/always() lo sottintende
         if: steps.diff.outputs.cambiate == 'si'
@@ -104,6 +116,8 @@ jobs:
           # senza mai salvare. Ora si aggiungono tutte, e --autostash fa partire il rebase anche se resta altro, che
           # si dichiara nel registro del giro.
           git add -- '*/index.html' 'sitemap*.xml' .github/scripts/pagine-impronte.json
+          # il registro delle mail della modalita' evento (13/11/2026), se il passo «Avviso maltempo» l'ha scritto
+          if [ -f data/eventi-avvisati.json ]; then git add data/eventi-avvisati.json; fi
           git diff --quiet || { echo "⚠️ file modificati NON aggiunti al commit:"; git status --short; }
           git commit -m "pagine regione cotte $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
@@ -114,6 +128,32 @@ jobs:
             sleep 10
           done
           [ "$ok" = "1" ] || { echo "Push fallito dopo 5 tentativi"; exit 1; }
+      # La mail della modalita' evento (13/11/2026): dopo il commit, cosi' il registro e' salvo e la stessa tempesta non
+      # ne manda una seconda. Invio con curl come alert-fonti.yml: la password delle app di Gmail non esce dal runner.
+      - name: Manda la mail del maltempo
+        if: steps.avviso.outputs.mail == 'true'
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          if [ -z "$MAIL_USER" ] || [ -z "$MAIL_PASS" ] || [ -z "$MAIL_TO" ]; then
+            echo "::error::Mancano i secret MAIL_USER / MAIL_PASS / MAIL_TO: la mail non parte."
+            exit 1
+          fi
+          ok=0
+          for i in 1 2 3; do
+            if curl --silent --show-error --ssl-reqd \
+                 --url 'smtps://smtp.gmail.com:465' \
+                 --user "$MAIL_USER:$MAIL_PASS" \
+                 --mail-from "$MAIL_USER" \
+                 --mail-rcpt "$MAIL_TO" \
+                 --upload-file evento-mail.eml; then ok=1; break; fi
+            echo "Invio fallito (tentativo $i/3), riprovo fra 20s..."
+            sleep 20
+          done
+          [ "$ok" = "1" ] || { echo "::error::Mail non inviata dopo 3 tentativi"; exit 1; }
+          echo "Mail inviata."
       # Le anteprime (la foto della mappa a 20 giorni nelle pagine regione) si rifanno
       # quando le pagine cambiano, cioe' quando arriva il giorno nuovo (12/10/2026).
       # ⚠️ Il loro cron delle 05:40 UTC GitHub lo fa partire ~6 ore tardi tutti i giorni

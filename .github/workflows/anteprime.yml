@@ -100,6 +100,8 @@ jobs:
           cp "$OUT"/*-ieri.webp "$OUT"/*-ieri.json . 2>/dev/null || true
           # e gli ultimi 7 giorni, per il bottone «Pluviometri» delle pagine «Meteo <paese>» (28/10/2026)
           cp "$OUT"/*-7g.webp "$OUT"/*-7g.json . 2>/dev/null || true
+          # e i giorni dell'evento, per le pagine regione in modalita' evento (13/11/2026); la foto intera e' un *.jpg
+          cp "$OUT"/*-evento.webp "$OUT"/*-evento.json . 2>/dev/null || true
           git add -A
           git commit -q -m "anteprime mappa $(date -u +%Y-%m-%d)"
           # --force perche' ogni giro riscrive il ramo da capo: e' voluto, e'

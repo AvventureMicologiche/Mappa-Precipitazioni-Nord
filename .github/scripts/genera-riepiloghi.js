@@ -381,6 +381,80 @@ function fuoriConfine(r, fuori) {
   }
   return fuori;
 }
+/* ── LA MODALITA' EVENTO (13/11/2026, scheda 132, sua idea dopo i nubifragi della tempesta del 9-12/11) ──────────
+   Niente pagine nuove per i nubifragi: quando in una regione piove forte su piu' pluviometri, la sua pagina cambia da
+   sola per qualche giorno (titolo, scritta grande, riquadro in cima, tabella giorno per giorno, foto della mappa sui
+   giorni dell'evento) e poi torna normale. Qui si decide SE c'e' un evento e se ne scrivono i numeri nel riepilogo
+   (campo `evento`): la pagina li disegna con numeriRegione, il giro delle anteprime ne scatta la foto, avviso-evento.js
+   manda la mail. Una regola sola per tutti e tre.
+   - SOGLIA: un giorno con almeno 5 pluviometri della regione oltre i 100 mm in 24 ore. Provata su tutto il 2026: in
+     Liguria 4 volte (20-21/8, 9/9, 20/10, 11-12/11), in Toscana 3 (21/8, 8/10, 10-12/11). Solo i nubifragi veri.
+   - DURATA: dalla mattina dopo il primo giorno oltre soglia a TRE mattine dopo l'ultimo (`fino`, compreso): chi cerca
+     «quanta pioggia è caduta» lo fa nei due-tre giorni dopo. Un giorno nuovo oltre soglia la allunga.
+   - I GIORNI DELL'EVENTO: dal primo all'ultimo giorno consecutivo con almeno 5 pluviometri oltre i 30 mm attorno
+     all'ultimo giorno oltre soglia (la tempesta del 9-12/11: il 9 era gia' pioggia vera, anche se sotto i 100 mm).
+   - Solo pluviometri veri (soloVere: niente stime), con la pioggia in TUTTI i giorni dell'evento; la classifica solo
+     con chi sta DENTRO il confine (sua scelta del 13/11: nella pagina Liguria in modalita' evento solo comuni liguri, la
+     Lunigiana fuori), la media coi pluviometri della pagina (gli stessi delle altre schede, `fuori` compreso). */
+const EV = { sogliaMm: 100, sogliaN: 5, codaMm: 30, codaN: 5, dopo: 3, maxGiorni: 10, top: 10 };
+const giorniFra = (a, b) => Math.round((Date.parse(a + 'T12:00:00Z') - Date.parse(b + 'T12:00:00Z')) / 864e5);
+function eventoRegione(r, da, fuori) {
+  if (da === null) return null;
+  const cache = {};
+  const del = i => {
+    const g = giorni[i]; if (!g) return null;
+    if (cache[g]) return cache[g];
+    const m = new Map();
+    for (const dir of r.dirs) {
+      const staz = soloVere(leggi(dir, g)); if (!staz) continue;
+      for (const s of staz) {
+        if (s.mm == null) continue; const id = dir + ':' + s.id; if (fuori.has(id)) continue;
+        m.set(id, { mm: s.mm, n: s.n, p: s.p, lat: s.lat, lon: s.lon, punta: Array.isArray(s.i) && s.i[1] != null ? s.i[1] : null });
+      }
+    }
+    return (cache[g] = m);
+  };
+  const oltre = (i, mm) => { const m = del(i); if (!m) return 0; let n = 0; for (const v of m.values()) if (v.mm >= mm) n++; return n; };
+  // l'ultimo giorno oltre soglia, fra l'ultimo giorno completo e quelli che tengono ancora accesa la pagina oggi
+  let s0 = -1;
+  for (let i = da; i < giorni.length && giorniFra(oggi, giorni[i]) <= EV.dopo; i++) if (oltre(i, EV.sogliaMm) >= EV.sogliaN) { s0 = i; break; }
+  if (s0 < 0) return null;
+  let iDal = s0, iAl = s0;   // giorni e' dal piu' recente: iDal e' l'indice piu' alto
+  while (iDal + 1 < giorni.length && iDal - iAl + 1 < EV.maxGiorni && oltre(iDal + 1, EV.codaMm) >= EV.codaN) iDal++;
+  while (iAl - 1 >= da && iDal - iAl + 1 < EV.maxGiorni && oltre(iAl - 1, EV.codaMm) >= EV.codaN) iAl--;
+  const gg = giorni.slice(iAl, iDal + 1).reverse();   // in ordine di calendario
+  const idx = gg.map(g => giorni.indexOf(g));
+  const soglia = idx.filter(i => oltre(i, EV.sogliaMm) >= EV.sogliaN).map(i => giorni[i]);
+  // i pluviometri con la pioggia in tutti i giorni dell'evento
+  const tot = new Map();
+  idx.forEach((i, k) => { for (const [id, v] of del(i)) {
+    const t = tot.get(id) || { n: v.n, p: v.p, lat: v.lat, lon: v.lon, g: new Array(gg.length).fill(null), punta: null };
+    t.g[k] = v.mm; if (v.punta != null && (!t.punta || v.punta > t.punta.mm)) t.punta = { g: gg[k], mm: v.punta };
+    tot.set(id, t);
+  } });
+  const pieni = [...tot.entries()].filter(([, t]) => t.g.every(x => x != null)).map(([id, t]) => Object.assign(t, { id, tot: t.g.reduce((a, b) => a + b, 0) }));
+  if (!pieni.length) return null;
+  const anelli = CONFINI[r.k];
+  const casa = anelli && anelli.length ? pieni.filter(t => typeof t.lat === 'number' && dentro(anelli, t.lon, t.lat)) : pieni;
+  const prov = {}; for (const t of casa) if (t.p) prov[t.id] = t.p;
+  const et = etichette(prov), bello = require('./lib-nomi.js').bello;
+  // «Sarzana», non «Sarzana (Sarzana)»: la Liguria mette il comune in `p`, e a volte e' il nome stesso del pluviometro
+  const nome = t => { const nb = bello(t.n), n = et(t.id, nb); return n === nb || n === nb + ' (' + nb + ')' ? { n: nb } : { n, nb }; };
+  const top = casa.slice().sort((a, b) => Math.round(b.tot * 10) - Math.round(a.tot * 10) || pariMerito(a.n, b.n, a.id, b.id)).slice(0, EV.top)
+    .map(t => Object.assign(nome(t), { mm: Math.round(t.tot * 10) / 10, g: t.g.map(x => Math.round(x * 10) / 10) }));
+  let max24 = null, punta = null;
+  for (const t of casa) {
+    t.g.forEach((v, k) => { if (!max24 || v > max24.mm) max24 = Object.assign(nome(t), { g: gg[k], mm: Math.round(v * 10) / 10 }); });
+    if (t.punta && (!punta || t.punta.mm > punta.mm)) punta = Object.assign(nome(t), t.punta);
+  }
+  const fino = new Date(Date.parse(giorni[s0] + 'T12:00:00Z') + EV.dopo * 864e5).toISOString().slice(0, 10);
+  return {
+    dal: gg[0], al: gg[gg.length - 1], fino, soglia, giorni: gg,
+    stazioni: pieni.length, media: Math.round(pieni.reduce((a, t) => a + t.tot, 0) / pieni.length * 10) / 10,
+    oltre100: idx.map(i => oltre(i, EV.sogliaMm)), top, max24, ...(punta ? { punta } : {}),
+  };
+}
+
 for (const r of REGIONI) {
   const fuori = fuoriConfine(r, esclusiDallaMappa(r, gemelleDaScartare(r.dirs, giorni)));
   const periodi = {};
@@ -402,6 +476,9 @@ for (const r of REGIONI) {
   const serie = giorni.slice(da, da + GIORNI_SERIE).map(g => mediaGiorno(r, g, fuori));
   // serieDa (17/10/2026): la data di serie[0], scritta e non dedotta da periodi['1']
   perRegione[r.k] = { periodi, serie, serieDa: giorni[da] };
+  // la modalita' evento (13/11/2026, vedi eventoRegione): il campo c'e' solo quando la pagina deve cambiare
+  const ev = eventoRegione(r, da, fuori);
+  if (ev) { perRegione[r.k].evento = ev; console.log(`  EVENTO ${r.k}: ${ev.dal} -> ${ev.al}, fino al ${ev.fino}, media ${ev.media} mm su ${ev.stazioni}, primo ${ev.top[0] && ev.top[0].n} ${ev.top[0] && ev.top[0].mm}`); }
 }
 
 // ── LE ZONE: i riepiloghi delle pagine «dove ha piovuto» di zona (13/9/2026) ──
@@ -548,7 +625,7 @@ for (const r of REGIONI) {
   if (!x) continue;
   const dest = path.join(USCITA, r.k + '.json');
   const testo = JSON.stringify({ regione: r.k, generato: new Date().toISOString(),
-    periodi: x.periodi, serie: x.serie, serieDa: x.serieDa, zone: zonePer[r.k] || [] }, null, 1) + '\n';
+    periodi: x.periodi, serie: x.serie, serieDa: x.serieDa, zone: zonePer[r.k] || [], ...(x.evento ? { evento: x.evento } : {}) }, null, 1) + '\n';
   const prima = fs.existsSync(dest) ? fs.readFileSync(dest, 'utf8') : '';
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
   // riscrive, cosi' un run in piu' non produce un commit di sole date.

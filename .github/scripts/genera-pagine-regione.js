@@ -346,6 +346,162 @@ function descrCotta(r, j, N) {
   return null;
 }
 
+/* ── LA MODALITA' EVENTO: titolo, descrizione e frase sotto la scritta grande (13/11/2026, scheda 132) ──
+   Quando il riepilogo ha il campo `evento` (genera-riepiloghi.js, soglia e durata stanno li') e oggi e' dentro la sua
+   durata, la pagina parla del nubifragio: le parole sono quelle che la gente cerca il giorno dopo («maltempo», «quanta
+   pioggia è caduta», i millimetri in 24 ore e in un'ora, i nomi dei posti), prese da Search Console e dai suggerimenti
+   di Google del 13/11 (proposte-132 nel banco). «Pluviometria <regione>» resta in testa al titolo: porta quasi meta'
+   delle apparizioni. Finito l'evento tutto torna come prima da solo. Approvato da lui sui mockup del 13/11. */
+const perCorto = e => {   // «9-12 novembre», «30 ottobre-2 novembre», «12 novembre»
+  const a = e.dal.split('-'), b = e.al.split('-');
+  if (e.dal === e.al) return lungoIso(e.al);
+  return a[1] === b[1] ? `${+a[2]}-${lungoIso(e.al)}` : `${lungoIso(e.dal)}-${lungoIso(e.al)}`;
+};
+const numC = v => { const s = virgola(v); return s.endsWith(',0') ? s.slice(0, -2) : s; };   // «318», «388,2»
+function titoloEvento(r, e) {
+  const nome = r.nomeTitolo || r.nome, per = perCorto(e);
+  return [`Pluviometria ${nome}: quanta pioggia è caduta col maltempo, ${per}`, `Pluviometria ${nome}: quanta pioggia è caduta, ${per}`,
+          `Pluviometria ${nome}: maltempo del ${per}`].find(t => t.length <= 75) || `Pluviometria ${nome}: quanta pioggia è caduta`;
+}
+function h1Evento(r, EV) {
+  return TITOLO_IERI.has(r.k) ? `Maltempo ${r.prep} ${r.nome}: quanta pioggia è caduta ${EV.et}`
+    : `Pluviometria ${r.nomeTitolo || r.nome}: quanta pioggia è caduta col maltempo, ${EV.et}`;
+}
+function descrEvento(r, e, EV) {
+  const t0 = e.top[0], mx = e.max24, pu = e.punta, nn = x => x.nb || x.n;
+  const gg = e.giorni.length > 1 ? `in ${e.giorni.length} giorni ` : '';
+  const quattro = `${numC(t0.mm)} mm ${gg}${aDi(nn(t0))}`;
+  const ventiquattro = !mx ? null : nn(mx) === nn(t0) ? `di cui ${numC(mx.mm)} mm in 24 ore ${ilData(mx.g)}` : `${numC(mx.mm)} mm in 24 ore ${aDi(nn(mx))}`;
+  const ora = pu ? `${numC(pu.mm)} mm in un'ora ${aDi(nn(pu))}` : null;
+  const forme = [
+    [quattro, ventiquattro, ora].filter(Boolean).join(', ') + `. I millimetri di ${e.stazioni} pluviometri.`,
+    [quattro, ventiquattro, ora].filter(Boolean).join(', ') + '.',
+    [quattro, ventiquattro].filter(Boolean).join(', ') + '.',
+    quattro + '.',
+  ].map(t => `Maltempo ${EV.et}: ${t}`);
+  return forme.find(t => t.length <= 158) || forme[forme.length - 1];
+}
+const GIORNI_P = ['Un giorno', 'Due giorni', 'Tre giorni', 'Quattro giorni', 'Cinque giorni', 'Sei giorni', 'Sette giorni', 'Otto giorni', 'Nove giorni', 'Dieci giorni'];
+function sottoEvento(r, e, EV) {
+  const mx = e.max24, pu = e.punta, nn = x => x.nb || x.n;
+  const pezzi = [mx ? `${numC(mx.mm)} mm in 24 ore ${aDi(nn(mx))} ${ilData(mx.g)}` : null,
+    pu ? `${numC(pu.mm)} mm in un'ora ${aDi(nn(pu))} ${mx && mx.g === pu.g ? 'lo stesso giorno' : ilData(pu.g)}` : null].filter(Boolean);
+  return `<b>${GIORNI_P[e.giorni.length - 1] || e.giorni.length + ' giorni'} di maltempo</b>, ${EV.et}${pezzi.length ? ': ' + pezzi.join(', ') : ''}. ` +
+    `I millimetri misurati a terra da ${r.staz} pluviometri ${diEnte(r.agenzia)}.`;
+}
+
+/* ── IL RIQUADRO DEL RADAR SULLE PAGINE REGIONE (13/11/2026, scheda 132, sua scelta sul mockup) ──
+   Suo: «mettiamo il radar anche nelle regioni». Le citta' hanno il radar in cima e la pioggia caduta in una casella
+   sotto; la regione aveva solo un tasto verso /<regione>/adesso/. Le due pagine restano DUE (prendono ricerche diverse:
+   «pluviometro liguria» qui, «allerta meteo liguria» sulla pagina radar), qui va il loro specchio: «Sta piovendo adesso
+   in <regione>?» con l'ultimo fotogramma del radar FERMO, il tasto alla diretta e i radar delle citta'. Sta dopo «Che
+   tempo farà»; in modalita' evento sale subito sotto il riquadro della pioggia caduta.
+   ⚠️ LEGGERO: niente Leaflet ne' radar finche' il riquadro non arriva vicino allo schermo (IntersectionObserver, come le
+   pagine meteo); poi UNA richiesta all'elenco dei fotogrammi di LibreWXR e le tessere di un fotogramma solo (niente
+   movimento: quello sta nella pagina radar). Fondo: la foto nostra (jsDelivr) fino allo zoom 10, nessuna tessera Esri.
+   Confine e nomi come le pagine «adesso» (confineDi e nomiRadar di genera-pagine-adesso.js, che qui si leggono e basta).
+   Le estere (Svizzera, Austria) non hanno la pagina radar: niente riquadro. */
+const RADAR_CSS = `
+.rd-box{border:1px solid var(--bordo);border-radius:14px;overflow:hidden;margin:22px 0;background:#fff}
+.rd-testa{background:#10294a;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rd-testa b{font-size:16px;letter-spacing:.3px;text-transform:uppercase}
+.rd-testa i.rd-pal{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e53935;margin-right:8px;vertical-align:1px}
+.rd-testa span{font-size:14px;opacity:.85;white-space:nowrap}
+a.rd-mappa{display:block;margin:12px 16px 0;border-radius:10px;overflow:hidden;background:#1d3d63}
+#rd-map{height:260px;background:#1d3d63}
+@media(min-width:700px){#rd-map{height:420px}}
+.rd-giu{padding:12px 16px 14px}
+a.rd-vai{display:block;text-align:center;background:linear-gradient(#ffd54a,#f5b301);color:#10294a;font-weight:800;border-radius:10px;padding:11px 10px;text-decoration:none;font-size:16px}
+.rd-citta{margin-top:10px;font-size:15px;text-align:center}
+.rd-nota{margin-top:8px;font-size:13px;color:#667;text-align:center;line-height:1.45}
+.rd-box .nome-paese{white-space:nowrap;pointer-events:none}
+.rd-box .nome-paese span{position:absolute;left:0;top:0;transform:translate(-50%,-100%);margin-top:-5px;color:#fff;font-weight:600;font-size:12px;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.15;text-shadow:0 0 3px rgba(0,0,0,.85),0 1px 2px rgba(0,0,0,.6)}
+.rd-box .leaflet-control-attribution{font-size:10px}
+`;
+// la tabella dell'evento (out.evento di numeriRegione)
+const EVENTO_CSS = `
+.ev-tab{margin:22px 0}
+.ev-scorri{overflow-x:auto}
+.ev-tab table{width:100%;border-collapse:collapse;font-size:15px}
+.ev-tab th{text-align:left;border-bottom:2px solid var(--bordo);padding:6px 4px;font-size:14px}
+.ev-tab td{padding:6px 4px;border-bottom:1px solid #eef1f6}
+.ev-tab .n{text-align:right;white-space:nowrap}
+.ev-tab td.f{font-weight:700}
+`;
+// la foto nostra della mappa, letta da index.html come in genera-pagine-meteo-zona.js
+const FOTO_MAPPA = (() => {
+  let INDEX = ''; try { INDEX = fs.readFileSync(path.join(__dirname, '..', '..', 'index.html'), 'utf8'); } catch (e) { return null; }
+  const commit = /var FOTO_COMMIT='([0-9a-f]{40})'/.exec(INDEX), url = /var FOTO_URL='([^']+)'\+FOTO_COMMIT\+'([^']+)'/.exec(INDEX);
+  const lim = /var FOTO_LIMITI=(\[\[[^;]+\]\]);/.exec(INDEX), cr = /var FOTO_CREDITI='([^']+)'/.exec(INDEX);
+  return commit && url && lim && cr ? { u: url[1] + commit[1] + url[2], lim: JSON.parse(lim[1]), cr: cr[1] } : null;
+})();
+function radarHtml(r) {
+  if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
+  const A = require('./genera-pagine-adesso.js');
+  const citta = (A.CITTA_ADESSO[r.k] || []).filter(n => fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso', slug(n), 'index.html')));
+  const ga = da => `onclick="try{gtag('event','apri_adesso',{da:'pagina-${r.k}-${da}'})}catch(e){}"`;
+  return `
+<section class="rd-box" id="rd-box">
+<div class="rd-testa"><b><i class="rd-pal"></i>Sta piovendo adesso ${r.prep} ${r.nome}?</b><span id="rd-q"></span></div>
+<a class="rd-mappa" href="${SITO}/${r.k}/adesso/" ${ga('riquadro-radar')} aria-label="Radar meteo ${r.nome}: dove sta piovendo adesso"><div id="rd-map"></div></a>
+<div class="rd-giu">
+<a class="rd-vai" href="${SITO}/${r.k}/adesso/" ${ga('riquadro-radar-tasto')}>Guarda il radar in diretta: le ultime 2 ore e i prossimi 40 minuti →</a>
+${citta.length ? `<div class="rd-citta">Radar città per città: ${citta.map(n => `<a href="${SITO}/${r.k}/adesso/${slug(n)}/" ${ga('riquadro-radar-citta')}>${n}</a>`).join(' · ')}</div>` : ''}
+<p class="rd-nota">L'immagine del radar si rifà ogni 10 minuti: i colori sono la pioggia che cade adesso, i millimetri della pagina sono quelli già caduti.</p>
+</div></section>`;
+}
+// gira nel browser (copiata con toString): solo ES5
+function radarRiquadro(C) {
+  var box = document.getElementById('rd-box'); if (!box || !C) return;
+  var fatto = false;
+  function prendi(src, css) { return new Promise(function (ok, ko) { var e = document.createElement(css ? 'link' : 'script');
+    if (css) { e.rel = 'stylesheet'; e.href = src; } else e.src = src; e.onload = ok; e.onerror = ko; document.head.appendChild(e); }); }
+  function disegna() {
+    var m = L.map('rd-map', { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
+    m.attributionControl = L.control.attribution({ prefix: false, position: 'bottomright' }).addTo(m);
+    if (C.foto) L.tileLayer(C.foto.u, { minNativeZoom: 4, maxNativeZoom: 10, maxZoom: 12, bounds: C.foto.lim, crossOrigin: true, attribution: C.foto.cr }).addTo(m);
+    else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
+    var conf = L.geoJSON(C.confine, { interactive: false, style: { color: '#fff', weight: 1.3, fill: false, opacity: 0.6 } }).addTo(m);
+    // la regione intera e un po' di intorno: la pioggia arriva da fuori
+    m.fitBounds(conf.getBounds(), { padding: [12, 12], animate: false });
+    m.setZoom(m.getZoom() - 1, { animate: false });
+    m.createPane('radar'); m.getPane('radar').style.zIndex = 450;
+    m.createPane('nomi'); m.getPane('nomi').style.zIndex = 470; m.getPane('nomi').style.pointerEvents = 'none';
+    // i nomi come le pagine «adesso»: prima le citta' della regione, una scritta che ne urterebbe un'altra si salta
+    var sz = m.getSize(), occ = [], misura = document.createElement('canvas').getContext('2d');
+    misura.font = '600 12px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    (C.nomi || []).forEach(function (p) {
+      var pt = m.latLngToContainerPoint([p.lat, p.lon]), tw = misura.measureText(p.n).width;
+      if (pt.x - tw / 2 < 3 || pt.x + tw / 2 > sz.x - 3 || pt.y - 20 < 4 || pt.y > sz.y - 18) return;
+      var b = { x1: pt.x - tw / 2 - 22, y1: pt.y - 37, x2: pt.x + tw / 2 + 22, y2: pt.y - 5 };
+      for (var k = 0; k < occ.length; k++) { var o = occ[k]; if (b.x1 < o.x2 && b.x2 > o.x1 && b.y1 < o.y2 && b.y2 > o.y1) return; }
+      occ.push(b);
+      L.marker([p.lat, p.lon], { pane: 'nomi', interactive: false, keyboard: false, icon: L.divIcon({ className: 'nome-paese', iconSize: [0, 0], iconAnchor: [0, 0],
+        html: '<span>' + String(p.n).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' }) }).addTo(m);
+    });
+    fetch('https://api.librewxr.net/public/weather-maps.json').then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+      var pp = (j.radar && j.radar.past) || [], f = pp[pp.length - 1]; if (!f) return;
+      L.tileLayer(j.host + f.path + '/256/{z}/{x}/{y}/2/1_1.png', { pane: 'radar', opacity: 0.95, maxNativeZoom: 6, maxZoom: 12, attribution: 'radar LibreWXR · Radar-DPC · OPERA' }).addTo(m);
+      document.getElementById('rd-q').textContent = 'radar delle ' + new Date(f.time * 1000).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+    }).catch(function () {});
+  }
+  function via() {
+    if (fatto) return; fatto = true;
+    (window.L ? Promise.resolve() : Promise.all([prendi('/lib/leaflet/1.9.4/leaflet.css', true), prendi('/lib/leaflet/1.9.4/leaflet.js')]))
+      .then(disegna).catch(function () {});
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) { if (e.some(function (x) { return x.isIntersecting; })) { io.disconnect(); via(); } }, { rootMargin: '300px' });
+    io.observe(box);
+  } else setTimeout(via, 3000);
+}
+function radarScript(r) {
+  if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
+  const A = require('./genera-pagine-adesso.js');
+  const C = { foto: FOTO_MAPPA, confine: A.confineDi(r), nomi: A.nomiRadar(r.k) };
+  return `<script>\n(${radarRiquadro.toString()})(${JSON.stringify(C)});\n</script>`;
+}
+
 // ⚠️ SOLO LE REGIONI SANE (11/10/2026, sua scelta). Restano col guscio quelle
 // che nel mese hanno avuto problemi veri: Basilicata (6 buchi MeteoHub in un
 // mese), Molise (5, e 28 pluviometri), Puglia (4, e il guasto POLARIS), Sicilia
@@ -441,6 +597,8 @@ function pagina(r, radice){
   const rip = radice && COTTE.includes(r.k) ? riepilogoFresco(radice, r.k) : null;
   if (radice) r = { ...r, staz: stazDi(r, radice) };   // il numero dei pluviometri dal riepilogo, vedi stazDi
   const N = rip ? numeriRegione(rip, oggiItalia(), r.k, SITO) : null;
+  // la modalita' evento (13/11/2026): N.ev c'e' solo se il riepilogo ha un evento ancora acceso oggi
+  const EV = N && N.ev ? N.ev : null, RIEV = EV ? rip.evento : null;
   // il valore cotto se c'e', se no quello del guscio
   const cotto = (fn, guscio) => N ? fn() : guscio;
   // ⚠️ TITOLO E DESCRIZIONE rifatti il 23/8/2026 sui dati di Search Console, e
@@ -471,7 +629,7 @@ function pagina(r, radice){
   // tutti e due «dove ha piovuto», tiene il nostro. Quindi nelle regioni col titolo «mappa» l'h1
   // comincia con «Pluviometria <regione>» come il titolo; Lazio, Umbria e Liguria (TITOLO_IERI)
   // restano «Dove ha piovuto in ...» e fanno da confronto. og:title non cambia.
-  const h1 = TITOLO_IERI.has(r.k) ? titolo : `Pluviometria ${nomeCorto}: dove ha piovuto`;
+  const h1 = EV ? h1Evento(r, EV) : TITOLO_IERI.has(r.k) ? titolo : `Pluviometria ${nomeCorto}: dove ha piovuto`;
   // ⚠️ 13/9/2026: «PLUVIOMETRIA» IN TESTA. Search Console, 28 giorni: la gente
   // cerca «pluviometria toscana» (1.527 viste, nono posto, 0,6% di clic),
   // «pluviometria emilia romagna», «dati pluviometrici basilicata», e il
@@ -501,8 +659,8 @@ function pagina(r, radice){
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${attr(TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? reteDi(rip) : r.staz))}</title>
-<meta name="description" content="${attr(TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? reteDi(rip) : r.staz))}">
+<title>${attr(EV ? titoloEvento(r, EV) : TITOLO_IERI.has(r.k) ? ((N && titoloCotto(r, rip, N)) || titoloTag) : titoloMappa(r, N ? reteDi(rip) : r.staz))}</title>
+<meta name="description" content="${attr(EV ? descrEvento(r, RIEV, EV) : TITOLO_IERI.has(r.k) ? ((N && descrCotta(r, rip, N)) || descr) : descrMappa(r, rip, N, N ? reteDi(rip) : r.staz))}">
 <link rel="canonical" href="${SITO}/${r.k}/">
 ${briciolaJson(BRICIOLA)}
 <meta property="og:title" content="${titolo}: ieri e negli ultimi giorni">
@@ -531,14 +689,14 @@ ${briciolaJson(BRICIOLA)}
 ${STILE_BASE}
 ${STILE_NUOVO}
 ${STILE_IERI}
-${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${valli ? MZ.MV_CSS : ''}${BRIC_CSS}${TESTATA_CSS}</style>
+${RILIEVO}${QUIZ_REGIONI[r.k] ? QUIZ_CSS : ''}${IERI_GRANDE}${METEO_CSS}${STRISCIA_CSS}${valli ? MZ.MV_CSS : ''}${BRIC_CSS}${TESTATA_CSS}${EVENTO_CSS}${RADAR_CSS}</style>
 </head>
 <body>
 ${testata({ sito: SITO, canale: CANALE, reg: r.k, ga: 'pagina-' + r.k, attiva: 'storico' })}
 <main>
 ${briciolaHtml(BRICIOLA)}
 <h1>${h1}</h1>
-<p class="sotto"><b>Pluviometria ${gen}</b>: i dati di ${r.staz} pluviometri ${diEnte(r.agenzia)}, ieri e nell'ultimo mese, ${r.geo}.</p>
+<p class="sotto">${EV ? sottoEvento(r, RIEV, EV) : `<b>Pluviometria ${gen}</b>: i dati di ${r.staz} pluviometri ${diEnte(r.agenzia)}, ieri e nell'ultimo mese, ${r.geo}.`}</p>
 
 <!-- ⚠️ 25/9/2026: LO SCHEMA «PRIMA I DATI», lo stesso delle pagine funghi del
      24/9 (deciso da lui guardando Santo Stefano d'Aveto): in cima la risposta
@@ -546,9 +704,11 @@ ${briciolaHtml(BRICIOLA)}
      le mappe. Le spiegazioni stanno in fondo, in piccolo. -->
 <div id="attesa"${N ? ' style="display:none"></div>' : '>Sto leggendo i pluviometri…</div>'}
 <div id="verdetto">${cotto(() => N.verdetto, '')}</div>
+<div id="evento">${EV ? N.evento : ''}</div>${EV ? radarHtml(r) : ''}
 <!-- 19/10/2026: al posto della striscia blu «Che tempo farà», il blocco meteo (lib-meteo-regione.js):
      la casella per il proprio paese, che apre la mappa delle previsioni, e le città principali. -->
 ${meteoHtml(r, null, null, null, valli)}
+${EV ? '' : radarHtml(r)}
 
 <h2 id="h-grafico">La pioggia degli ultimi 30 giorni</h2>
 <div id="grafico">${cotto(() => N.grafico, '')}</div>
@@ -618,10 +778,10 @@ ${zz.map(z => `<li data-z="${slug(z.n)}"><a href="${SITO}/zone/${slug(z.n)}/">${
   <a class="t-prev" href="${SITO}/previsioni/?r=${r.k}"
      onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
 </div>
-<p class="breve">La pioggia degli ultimi 20 giorni ${r.prep} ${r.nome}, pluviometro per pluviometro.</p>
+<p class="breve" id="breve-img">La pioggia degli ultimi 20 giorni ${r.prep} ${r.nome}, pluviometro per pluviometro.</p>
 <a href="${cotto(() => attr(N.tasti['lnk-img']), `${SITO}/?r=${r.k}&amp;g=20`)}" id="lnk-img" style="display:block;text-decoration:none;"
    onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-anteprima'})}catch(e){}">
-  <img class="img-mappa" src="${ANTEPRIME}/${r.k}.jpg" alt="La mappa delle piogge ${r.prep} ${r.nome}: le zone più bagnate, stazione per stazione"
+  <img class="img-mappa" id="img-mappa" src="${ANTEPRIME}/${r.k}.jpg" alt="La mappa delle piogge ${r.prep} ${r.nome}: le zone più bagnate, stazione per stazione"
        width="1600" height="1000" loading="lazy"></a>
 ${FUNGHI.includes(r.k) ? `
 <h2>Piogge per funghi ${r.prep} ${nomeCorto}</h2>
@@ -713,6 +873,16 @@ ${navAltre('regione', r.k)}
     var N=numeriRegione(j, iso(new Date()), K, SITO);
     Object.keys(N.tasti).forEach(function(id){ var el=document.getElementById(id); if(el) el.href=N.tasti[id]; });
     document.getElementById('verdetto').innerHTML=N.verdetto;
+    // la modalita' evento (13/11/2026): la tabella giorno per giorno, e la foto grande sui giorni dell'evento solo
+    // se lo scatto c'e' ed e' di quei giorni (il giro delle anteprime parte dopo la pagina: fino ad allora resta la
+    // foto dei 20 giorni con la sua scritta)
+    var evx=document.getElementById('evento'); if(evx) evx.innerHTML=N.evento||'';
+    if(N.ev){ fetch('${ANTEPRIME}/'+K+'-evento.json').then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }).then(function(g){
+      if(!g||g.da!==N.ev.dal||g.a!==N.ev.al) return;
+      var im=document.getElementById('img-mappa'), br=document.getElementById('breve-img');
+      if(im){ im.src='${ANTEPRIME}/'+K+'-evento.jpg?v='+encodeURIComponent(String(g.generato||'').slice(0,13)); im.alt='La mappa delle piogge del maltempo, '+N.ev.et; }
+      if(br) br.textContent='La pioggia del maltempo '+${JSON.stringify(r.prep + ' ' + r.nome)}+', '+N.ev.et+', pluviometro per pluviometro.';
+    }); }
     document.getElementById('grafico').innerHTML=N.grafico;
     ['7','20','30'].forEach(function(k){
       var x=N.periodi[k];
@@ -820,6 +990,7 @@ ${navAltre('regione', r.k)}
 (${meteoClient.toString()})(${JSON.stringify(r.k)}, ${JSON.stringify(r.nome)}, ${JSON.stringify(SITO)}, ${fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso')) ? 'true' : 'false'});
 </script>
 ${strisciaScript({ reg: r.k, tipo: 'regione', ieri: true, modo: 'bottone', ga: 'pagina-' + r.k })}
+${radarScript(r)}
 </body>
 </html>
 `;

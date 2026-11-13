@@ -66,6 +66,17 @@ function numeriRegione(j, oggi, K, SITO) {
   if (st) avviso = '<div class="avviso-stime">⚠️ ' + (st.dal === st.al ? (gst === 1 || gst === 8 || gst === 11 ? 'L’' : 'Il ') + lungo(st.al) + ' i pluviometri non hanno trasmesso: quel giorno è una stima del modello, non una misura.'
     : dalAl(st.dal, st.al) + ' i pluviometri non hanno trasmesso: quei giorni sono stime del modello, non misure.') + '</div>';
 
+  /* ── LA MODALITA' EVENTO (13/11/2026, scheda 132): se il riepilogo dice che c'e' un nubifragio in corso o appena
+     finito (campo `evento`, lo scrive genera-riepiloghi.js con la sua soglia), il riquadro in cima parla dei giorni
+     dell'evento invece che di ieri, sotto arriva la tabella giorno per giorno (out.evento) e la foto grande della mappa
+     porta a quei giorni. Fino a `fino` compreso, poi la pagina torna com'era da sola. ── */
+  var ev = j.evento && j.evento.fino && oggi <= j.evento.fino && j.evento.top && j.evento.top.length && j.evento.giorni && j.evento.giorni.length ? j.evento : null;
+  function ilGiorno(s) { var g = +String(s).split('-')[2]; return (g === 1 || g === 8 || g === 11 ? 'l’' : 'il ') + lungo(s); }
+  function evPeriodo(e) { return e.dal === e.al ? ilGiorno(e.al) : dalAl(e.dal, e.al).replace(/^D/, 'd'); }
+  function numC(n) { var s = num(n); return s.slice(-2) === ',0' ? s.slice(0, -2) : s; }   // «318», «388,2»
+  function evForte(e) { var k = 0; for (var i = 1; i < e.oltre100.length; i++) if (e.oltre100[i] >= e.oltre100[k]) k = i; return { g: e.giorni[k], n: e.oltre100[k] }; }
+  if (ev) out.ev = { dal: ev.dal, al: ev.al, fino: ev.fino, et: evPeriodo(ev), giorni: ev.giorni.length };
+
   // ── IERI, in cima: la risposta alla domanda del titolo ──
   var d = p['1'];
   if (!d || !d.giorni) out.verdetto = avviso;
@@ -74,12 +85,23 @@ function numeriRegione(j, oggi, K, SITO) {
     if (top.length) dett = 'Dove ha piovuto di più: ' + top.map(function (s) { return '<b>' + esc(s.n) + '</b> ' + (s.mm === 0 ? '0' : num(s.mm)) + ' mm'; }).join(', ') + '.';
     else if (d.top && d.top.length && d.top[0].mm > 0) dett = 'Giornata quasi asciutta: il massimo è stato ' + num(d.top[0].mm) + ' mm ' + (/^[aA]/.test(d.top[0].n) ? 'ad ' : 'a ') + esc(d.top[0].n) + (/\.$/.test(d.top[0].n) ? '' : '.');   // «T.P.» non prende un altro punto (18/10/2026)
     else dett = 'Giornata asciutta: nessun pluviometro ha misurato pioggia.';
-    out.verdetto = avviso + '<div class="verdetto">'
-      + '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
+    var testa = '<div class="si">' + (t === 'Ieri' ? 'Ieri, ' + lungo(d.ultimo) : t) + '</div>'
       + '<div class="gr">' + mediaMm(d) + ' mm<small>di media</small></div>'
       + '<div class="top">' + dett + '</div>'
       + '<div class="dett">' + (d.stazioni === 1 ? 'Un pluviometro solo.' : 'Media di ' + d.stazioni + ' pluviometri.') + '</div>'
-      + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>')
+      + (t === 'Ieri' ? '' : '<div class="dett">I dati di ieri non sono ancora arrivati da tutte le reti: questa è l’ultima giornata intera.</div>');
+    var attrEv = '';
+    if (ev) {
+      // in modalita' evento: i giorni dell'evento, la media, i tre piu' bagnati e il giorno piu' forte. Il bottone
+      // «Apri la mappa di ieri» resta (lib-striscia.js ne fa la cartina dell'evento, coi data-ev qui sotto)
+      var fo = evForte(ev);
+      testa = '<div class="si">Maltempo, ' + evPeriodo(ev) + '</div>'
+        + '<div class="gr">' + mm(ev.media) + ' mm<small>' + (ev.giorni.length > 1 ? 'di media in ' + ev.giorni.length + ' giorni' : 'di media') + '</small></div>'
+        + '<div class="top">Dove ha piovuto di più: ' + ev.top.slice(0, 3).map(function (s) { return '<b>' + esc(s.n) + '</b> ' + numC(s.mm) + ' mm'; }).join(', ') + '.</div>'
+        + '<div class="dett">Media di ' + ev.stazioni + ' pluviometri.' + (fo.n > 0 ? ' Il giorno più forte è stato ' + ilGiorno(fo.g) + ': ' + fo.n + (fo.n === 1 ? ' pluviometro oltre' : ' pluviometri oltre') + ' i 100 mm in 24 ore.' : '') + '</div>';
+      attrEv = ' data-ev-da="' + ev.dal + '" data-ev-a="' + ev.al + '" data-ev-et="' + esc(evPeriodo(ev)) + '"';
+    }
+    out.verdetto = avviso + '<div class="verdetto"' + attrEv + '>' + testa
       // 11/10/2026, sua scelta B fra quattro: bottone pieno a tutta larghezza,
       // titolo e sottotitolo su due righe volute (la frase lunga andava a capo
       // e non sembrava piu' un bottone). Forma dei banner della home.
@@ -153,6 +175,23 @@ function numeriRegione(j, oggi, K, SITO) {
     var giornoZ = !z.ultimo || z.ultimo === ieri ? 'ieri' : (+String(z.ultimo).split('-')[2]) + ' ' + MESI[(+String(z.ultimo).split('-')[1]) - 1];
     out.zone[z.s] = { val: z.m7, html: zmm(z.m7, z.p7) + ' mm' + (z.m1 != null ? '<small>' + giornoZ + ' ' + (Math.round(z.m1 * 10) === 0 && z.p1 ? 'meno di 0,1' : mm(z.m1)) + '</small>' : '') };
   });
+
+  // ── La tabella dell'evento, giorno per giorno (13/11/2026, scheda 132), e la foto grande sui suoi giorni ──
+  out.evento = '';
+  if (ev) {
+    out.tasti['lnk-img'] = link(ev.dal, ev.al);
+    var fe = evForte(ev), testaG = ev.giorni.map(function (g, i) {
+      var q = String(g).split('-'), prima = i ? String(ev.giorni[i - 1]).split('-') : q;
+      return '<th class="n">' + (+q[2]) + (i && q[1] !== prima[1] ? '/' + (+q[1]) : '') + '</th>'; }).join('');
+    out.evento = '<section class="ev-tab"><h2>Quanta pioggia è caduta col maltempo, giorno per giorno</h2>'
+      + '<div class="ev-scorri"><table><thead><tr><th>Pluviometro</th>' + testaG + '<th class="n">totale</th></tr></thead><tbody>'
+      + ev.top.map(function (s) { return '<tr><td>' + esc(s.n) + '</td>' + s.g.map(function (v) { return '<td class="n">' + mm(v) + '</td>'; }).join('')
+        + '<td class="n f">' + numC(s.mm) + '</td></tr>'; }).join('')
+      + '</tbody></table></div><p class="nota">Millimetri giorno per giorno, ' + evPeriodo(ev) + '.'
+      + (fe.n > 0 ? ' ' + (ilGiorno(fe.g).charAt(0).toUpperCase() + ilGiorno(fe.g).slice(1)) + ' ' + fe.n + (fe.n === 1 ? ' pluviometro ha passato' : ' pluviometri hanno passato') + ' i 100 mm in 24 ore' : '')
+      + (ev.punta ? (fe.n > 0 ? '; la' : ' La') + ' pioggia più forte in un’ora è stata ' + numC(ev.punta.mm) + ' mm ' + (/^[aA]/.test(ev.punta.nb || ev.punta.n) ? 'ad ' : 'a ') + esc(ev.punta.nb || ev.punta.n) + ', ' + ilGiorno(ev.punta.g) : '')
+      + (fe.n > 0 || ev.punta ? '.' : '') + '</p></section>';
+  }
 
   return out;
 }
