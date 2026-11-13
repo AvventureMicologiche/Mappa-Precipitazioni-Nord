@@ -1659,7 +1659,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Lazio.</p>
   }
   function carica(tipo, base) {
     if (geo[tipo]) return geo[tipo];
-    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : '-mappa');
+    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : tipo === 'evento' ? '-evento' : '-mappa');
     geo[tipo] = fetch(base + f + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { return { j: j, url: base + f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') }; })
       .catch(function () { return null; });
@@ -1709,11 +1709,27 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Lazio.</p>
         opp.addEventListener('click', function () { ga('ieri'); });
         d.parentNode.insertBefore(opp, d.nextSibling);
       }
-      carica('7g', PIOGGIA).then(function (g7) {
+      var sette = function () { carica('7g', PIOGGIA).then(function (g7) {
         if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) { a1._g = g7; ritaglia(a1, g7); return; }
         if (opp) { opp.parentNode.removeChild(opp); a1.setAttribute('href', vecchio.getAttribute('href')); a1.setAttribute('data-t', 'ieri'); sp.innerHTML = ieriHtml; }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
-      });
+      }); };
+      /* ⚠️ LA MODALITA' EVENTO (13/11/2026, scheda 132): se la scheda ha i data-ev (numeriRegione, quando il riepilogo dice
+         che c'e' un nubifragio), la cartina e' quella dei giorni dell'evento (<reg>-evento, dal giro delle anteprime), la
+         pillola dice quei giorni e il riquadro apre la mappa di quei giorni. Se lo scatto manca o e' di altri giorni (il
+         giro delle anteprime parte dopo la pagina), tutto come sempre: i 7 giorni. */
+      var vd = document.querySelector('#verdetto .verdetto[data-ev-da]');
+      var evDa = vd && vd.getAttribute('data-ev-da'), evA = vd && vd.getAttribute('data-ev-a'), evEt = vd && vd.getAttribute('data-ev-et');
+      if (evDa && evA && c7) {
+        var c7h = c7.getAttribute('href'), sp7 = sp.innerHTML;
+        a1.setAttribute('href', c7h.replace(/([?&]da=)[^&]+/, '$1' + evDa).replace(/([?&]a=)[^&]+/, '$1' + evA)); a1.setAttribute('data-t', 'evento');
+        sp.innerHTML = '<b>💧 Pioggia ' + evEt + '<em> · apri la mappa</em> →</b>';
+        carica('evento', PIOGGIA).then(function (ge) {
+          if (ge && ge.j.da === evDa && ge.j.a === evA) { a1._g = ge; ritaglia(a1, ge); return; }
+          a1.setAttribute('href', c7h); a1.setAttribute('data-t', '7giorni'); sp.innerHTML = sp7;
+          sette();
+        });
+      } else sette();
       return;
     }
     // (21/10/2026, ottavo check, bug 9) solo il bottone NORMALE diventa la striscia: «Vedi i vicini sulla mappa» (pluviometro
