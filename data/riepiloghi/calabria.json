@@ -1,33 +1,33 @@
 {
  "regione": "calabria",
- "generato": "2026-11-13T04:15:40.111Z",
+ "generato": "2026-11-14T04:15:51.001Z",
  "periodi": {
   "1": {
-   "media": 1.2,
+   "media": 1,
    "giorni": 1,
-   "stazioni": 127,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "stazioni": 139,
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Laino Borgo",
-     "mm": 26.4
-    },
-    {
-     "n": "Papasidero",
-     "mm": 17
-    },
-    {
-     "n": "San Sosti",
-     "mm": 14.8
+     "n": "Mormanno",
+     "mm": 32.6
     },
     {
      "n": "Campo Tenese",
-     "mm": 13.8
+     "mm": 26.6
+    },
+    {
+     "n": "Laino Borgo",
+     "mm": 21.4
     },
     {
      "n": "Lungro",
-     "mm": 12
+     "mm": 11.4
+    },
+    {
+     "n": "San Sosti",
+     "mm": 7
     }
    ]
   },
@@ -35,41 +35,49 @@
    "media": 9.4,
    "giorni": 7,
    "stazioni": 138,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Arena",
-     "mm": 44.8
+     "n": "Laino Borgo",
+     "mm": 58.5
+    },
+    {
+     "n": "Campo Tenese",
+     "mm": 56.2
+    },
+    {
+     "n": "Mormanno",
+     "mm": 54.8
     },
     {
      "n": "Papasidero",
-     "mm": 43.1
+     "mm": 48.1
     },
     {
-     "n": "Palmi",
-     "mm": 41.3
-    },
-    {
-     "n": "Laino Borgo",
-     "mm": 37.3
-    },
-    {
-     "n": "Gioia Tauro SS18",
-     "mm": 34.3
+     "n": "Arena",
+     "mm": 43.8
     }
    ]
   },
   "20": {
-   "media": 59.2,
+   "media": 59.1,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Gioia Tauro SS18",
-     "mm": 115.7
+     "mm": 114.9
+    },
+    {
+     "n": "Mormanno",
+     "mm": 112.6
+    },
+    {
+     "n": "Campo Tenese",
+     "mm": 108.8
     },
     {
      "n": "Rizziconi",
@@ -78,23 +86,15 @@
     {
      "n": "Petronà",
      "mm": 100.6
-    },
-    {
-     "n": "Gambarie",
-     "mm": 98.1
-    },
-    {
-     "n": "Arena",
-     "mm": 94.6
     }
    ]
   },
   "30": {
-   "media": 77,
+   "media": 77.9,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Cotronei",
@@ -113,13 +113,14 @@
      "mm": 179.8
     },
     {
-     "n": "Cardeto",
-     "mm": 156.7
+     "n": "Mormanno",
+     "mm": 167.8
     }
    ]
   }
  },
  "serie": [
+  1,
   1.2,
   0,
   0.6,
@@ -148,18 +149,17 @@
   0,
   0.1,
   0.7,
-  0,
   0
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-12",
+   "ultimo": "2026-11-13",
    "m1": 0,
-   "m7": 9.8,
-   "m30": 81.5,
+   "m7": 8.1,
+   "m30": 81.2,
    "p1": false,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-12",
-   "m1": 0.9,
-   "m7": 3.6,
-   "m30": 55.2,
+   "ultimo": "2026-11-13",
+   "m1": 0.8,
+   "m7": 3.2,
+   "m30": 56,
    "p1": true,
    "p7": true,
    "p30": true

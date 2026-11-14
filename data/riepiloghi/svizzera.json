@@ -1,81 +1,81 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-13T04:15:40.111Z",
+ "generato": "2026-11-14T04:15:51.001Z",
  "periodi": {
   "1": {
-   "media": 12.8,
+   "media": 2.5,
    "giorni": 1,
    "stazioni": 305,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
+    {
+     "n": "Bristen (UR)",
+     "nb": "Bristen",
+     "mm": 14.5
+    },
     {
      "n": "Eggersriet (SG)",
      "nb": "Eggersriet",
-     "mm": 32.9
+     "mm": 12.1
     },
     {
-     "n": "Emosson (VS)",
-     "nb": "Emosson",
-     "mm": 32
+     "n": "Luzern (LU)",
+     "nb": "Luzern",
+     "mm": 10.3
     },
     {
-     "n": "Col du Grand St-Bernard (VS)",
-     "nb": "Col du Grand St-Bernard",
-     "mm": 30.5
+     "n": "Grimsel Hospiz (BE)",
+     "nb": "Grimsel Hospiz",
+     "mm": 9.1
     },
     {
-     "n": "Trient (VS)",
-     "nb": "Trient",
-     "mm": 28.3
-    },
-    {
-     "n": "Novazzano (TI)",
-     "nb": "Novazzano",
-     "mm": 25
+     "n": "Appenzell (AI)",
+     "nb": "Appenzell",
+     "mm": 8.6
     }
    ]
   },
   "7": {
-   "media": 35.7,
+   "media": 34.5,
    "giorni": 7,
    "stazioni": 305,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Clusanfe (VS)",
      "nb": "Clusanfe",
-     "mm": 143.2
-    },
-    {
-     "n": "Champéry (VS)",
-     "nb": "Champéry",
-     "mm": 87
-    },
-    {
-     "n": "Trient (VS)",
-     "nb": "Trient",
-     "mm": 83.5
+     "mm": 133.1
     },
     {
      "n": "Eggersriet (SG)",
      "nb": "Eggersriet",
-     "mm": 82.6
+     "mm": 94.6
     },
     {
-     "n": "Emosson (VS)",
-     "nb": "Emosson",
-     "mm": 80.4
+     "n": "Trient (VS)",
+     "nb": "Trient",
+     "mm": 79.9
+    },
+    {
+     "n": "Champéry (VS)",
+     "nb": "Champéry",
+     "mm": 79
+    },
+    {
+     "n": "Güttingen (TG)",
+     "nb": "Güttingen",
+     "mm": 77.5
     }
    ]
   },
   "20": {
-   "media": 50.7,
+   "media": 49.4,
    "giorni": 20,
    "stazioni": 308,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Clusanfe (VS)",
@@ -85,46 +85,46 @@
     {
      "n": "Emosson (VS)",
      "nb": "Emosson",
-     "mm": 148.4
-    },
-    {
-     "n": "La Dôle (VD)",
-     "nb": "La Dôle",
-     "mm": 132.8
+     "mm": 134.1
     },
     {
      "n": "Tsanfleuron (VS)",
      "nb": "Tsanfleuron",
-     "mm": 127.3
+     "mm": 118.3
     },
     {
-     "n": "Säntis (AI)",
-     "nb": "Säntis",
-     "mm": 121.4
-    }
-   ]
-  },
-  "30": {
-   "media": 91.1,
-   "giorni": 30,
-   "stazioni": 308,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
-   "top": [
-    {
-     "n": "Clusanfe (VS)",
-     "nb": "Clusanfe",
-     "mm": 236.8
+     "n": "Champéry (VS)",
+     "nb": "Champéry",
+     "mm": 114.7
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 212
+     "mm": 111.4
+    }
+   ]
+  },
+  "30": {
+   "media": 93.2,
+   "giorni": 30,
+   "stazioni": 308,
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
+   "top": [
+    {
+     "n": "Clusanfe (VS)",
+     "nb": "Clusanfe",
+     "mm": 243.5
+    },
+    {
+     "n": "La Dôle (VD)",
+     "nb": "La Dôle",
+     "mm": 212.3
     },
     {
      "n": "Robièi (TI)",
      "nb": "Robièi",
-     "mm": 185.9
+     "mm": 186.8
     },
     {
      "n": "Camedo Paese (TI)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  2.5,
   12.8,
   3.5,
   10.6,
@@ -168,9 +169,8 @@
   5.1,
   2.9,
   0,
-  0,
-  0.3
+  0
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": []
 }

@@ -1,125 +1,126 @@
 {
  "regione": "basilicata",
- "generato": "2026-11-13T04:15:40.111Z",
+ "generato": "2026-11-14T04:15:51.001Z",
  "periodi": {
   "1": {
-   "media": 2.9,
+   "media": 3,
    "giorni": 1,
-   "stazioni": 61,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "stazioni": 62,
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Castelsaraceno",
-     "mm": 27.6
+     "mm": 45.2
     },
     {
-     "n": "Lagonegro",
-     "mm": 25.3
+     "n": "Pescopagano",
+     "mm": 32.4
     },
     {
      "n": "Rotonda",
-     "mm": 19.7
-    },
-    {
-     "n": "Castrocucco",
-     "mm": 18.5
+     "mm": 24.5
     },
     {
      "n": "Episcopia-Pizzutello",
-     "mm": 17.9
+     "mm": 15.7
+    },
+    {
+     "n": "Lagonegro",
+     "mm": 15.3
     }
    ]
   },
   "7": {
-   "media": 6.5,
+   "media": 8.9,
    "giorni": 7,
    "stazioni": 60,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Castelsaraceno",
-     "mm": 29.2
-    },
-    {
-     "n": "Castrocucco",
-     "mm": 28.9
-    },
-    {
-     "n": "Lagonegro",
-     "mm": 28.7
-    },
-    {
-     "n": "Maratea",
-     "mm": 28.4
+     "mm": 73.6
     },
     {
      "n": "Rotonda",
-     "mm": 26.7
+     "mm": 51.2
+    },
+    {
+     "n": "Lagonegro",
+     "mm": 43.2
+    },
+    {
+     "n": "Pescopagano",
+     "mm": 42.6
+    },
+    {
+     "n": "Castrocucco",
+     "mm": 36.7
     }
    ]
   },
   "20": {
-   "media": 78.6,
+   "media": 79.8,
    "giorni": 20,
    "stazioni": 61,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
+    {
+     "n": "Castelsaraceno",
+     "mm": 127.6
+    },
     {
      "n": "Albano di Lucania",
      "mm": 126.1
     },
     {
-     "n": "Monticchio Bagni",
-     "mm": 125.4
-    },
-    {
-     "n": "S.Nicola",
-     "mm": 120.8
+     "n": "Pescopagano",
+     "mm": 122.6
     },
     {
      "n": "Vaglio di Basilicata",
      "mm": 120.7
     },
     {
-     "n": "Lagopesole",
-     "mm": 119.3
+     "n": "Monticchio Bagni",
+     "mm": 119.2
     }
    ]
   },
   "30": {
-   "media": 98.9,
+   "media": 101.8,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "S.Nicola",
      "mm": 170.2
     },
     {
+     "n": "Castelsaraceno",
+     "mm": 162.1
+    },
+    {
+     "n": "Pescopagano",
+     "mm": 157
+    },
+    {
      "n": "M.te Vulture",
      "mm": 144.3
     },
     {
-     "n": "Monticchio Bagni",
-     "mm": 141.9
-    },
-    {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 141.8
-    },
-    {
-     "n": "Albano di Lucania",
-     "mm": 139.2
+     "n": "Rotonda",
+     "mm": 143.5
     }
    ]
   }
  },
  "serie": [
+  3,
   2.9,
   0.1,
   0.4,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0.1,
-  0
+  0.1
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": []
 }

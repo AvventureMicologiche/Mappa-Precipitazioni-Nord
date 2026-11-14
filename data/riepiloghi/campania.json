@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-13T04:15:40.110Z",
+ "generato": "2026-11-14T04:15:51.001Z",
  "periodi": {
   "1": {
-   "media": 6.1,
+   "media": 19,
    "giorni": 1,
-   "stazioni": 171,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "stazioni": 173,
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Cusano Mutri",
-     "mm": 39.9
+     "n": "Bagnoli Irpino",
+     "mm": 136.8
     },
     {
-     "n": "Letino",
-     "mm": 35.9
+     "n": "Castiglione del Genovesi",
+     "mm": 116.4
     },
     {
-     "n": "Sanza",
-     "mm": 25
+     "n": "Montella METEO",
+     "mm": 103.1
     },
     {
-     "n": "Boiara",
-     "mm": 22.4
+     "n": "Montella",
+     "mm": 100.5
     },
     {
-     "n": "Rofrano",
-     "mm": 20.3
+     "n": "Altavilla Irpina",
+     "mm": 91.9
     }
    ]
   },
   "7": {
-   "media": 17.3,
+   "media": 30.5,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Albori",
-     "mm": 62.8
+     "n": "Bagnoli Irpino",
+     "mm": 148.4
+    },
+    {
+     "n": "Castiglione del Genovesi",
+     "mm": 130
     },
     {
      "n": "Maiori",
-     "mm": 62.8
+     "mm": 127.5
     },
     {
-     "n": "Amalfi-Pogerola",
-     "mm": 57.6
+     "n": "Montella METEO",
+     "mm": 121.8
     },
     {
      "n": "Cetara (Serbatoio comunale)",
-     "mm": 50.8
-    },
-    {
-     "n": "Morcone",
-     "mm": 49.4
+     "mm": 118.5
     }
    ]
   },
   "20": {
-   "media": 62.9,
+   "media": 74.9,
    "giorni": 20,
    "stazioni": 174,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Castelfranco in Miscano",
-     "mm": 143.1
+     "n": "Montella METEO",
+     "mm": 191.8
     },
     {
-     "n": "Colle Sannita",
-     "mm": 133.2
+     "n": "Montella",
+     "mm": 182.8
+    },
+    {
+     "n": "Caposele",
+     "mm": 176.7
+    },
+    {
+     "n": "Bagnoli Irpino",
+     "mm": 170.4
     },
     {
      "n": "Cusano Mutri",
-     "mm": 129.4
-    },
-    {
-     "n": "Bisaccia",
-     "mm": 125.9
-    },
-    {
-     "n": "Savignano Irpino",
-     "mm": 124.6
+     "mm": 169.6
     }
    ]
   },
   "30": {
-   "media": 96.1,
+   "media": 114.9,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 198.8
-    },
-    {
      "n": "Cusano Mutri",
-     "mm": 189
+     "mm": 249.6
     },
     {
-     "n": "Letino",
-     "mm": 181.7
+     "n": "Montella METEO",
+     "mm": 228.6
     },
     {
-     "n": "San Martino Valle Caudina",
-     "mm": 156.1
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 226.6
     },
     {
-     "n": "Colle Sannita",
-     "mm": 153.9
+     "n": "Giffoni Valle Piana",
+     "mm": 226
+    },
+    {
+     "n": "Montella",
+     "mm": 215.6
     }
    ]
   }
  },
  "serie": [
+  19,
   6.1,
   2.1,
   1.8,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-12",
-   "m1": 5.3,
-   "m7": 20.2,
-   "m30": 82.4,
+   "ultimo": "2026-11-13",
+   "m1": 17.3,
+   "m7": 24.1,
+   "m30": 96.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-12",
-   "m1": 14.1,
-   "m7": 24.9,
-   "m30": 121.8,
+   "ultimo": "2026-11-13",
+   "m1": 36.7,
+   "m7": 56,
+   "m30": 158.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-12",
-   "m1": 4.9,
-   "m7": 19.8,
-   "m30": 141.5,
+   "ultimo": "2026-11-13",
+   "m1": 9.8,
+   "m7": 18.3,
+   "m30": 151.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-12",
-   "m1": 9,
-   "m7": 17.4,
-   "m30": 106.8,
+   "ultimo": "2026-11-13",
+   "m1": 52,
+   "m7": 62.4,
+   "m30": 158.8,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,71 +1,71 @@
 {
  "regione": "sardegna",
- "generato": "2026-11-13T04:15:40.111Z",
+ "generato": "2026-11-14T04:15:51.001Z",
  "periodi": {
   "1": {
-   "media": 6.5,
+   "media": 3.5,
    "giorni": 1,
-   "stazioni": 92,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "stazioni": 84,
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Villanova Monteleone",
-     "mm": 27.4
-    },
-    {
-     "n": "Montresta",
-     "mm": 24.4
-    },
-    {
-     "n": "Torralba",
-     "mm": 23.2
-    },
-    {
      "n": "Fonni",
-     "mm": 22.8
+     "mm": 27.6
     },
     {
-     "n": "Tempio",
-     "mm": 16.2
+     "n": "Villa Verde",
+     "mm": 15.4
+    },
+    {
+     "n": "Macomer",
+     "mm": 14.2
+    },
+    {
+     "n": "Monte sa Scova",
+     "mm": 13
+    },
+    {
+     "n": "Monte Santa Vittoria",
+     "mm": 11.8
     }
    ]
   },
   "7": {
-   "media": 8.3,
+   "media": 10,
    "giorni": 7,
    "stazioni": 92,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Montresta",
-     "mm": 35.8
+     "n": "Fonni",
+     "mm": 50.6
     },
     {
      "n": "Villanova Monteleone",
-     "mm": 30.6
+     "mm": 32.2
     },
     {
-     "n": "Fonni",
-     "mm": 28.6
+     "n": "Macomer",
+     "mm": 29
+    },
+    {
+     "n": "Montresta",
+     "mm": 27.2
     },
     {
      "n": "Torralba",
-     "mm": 25.4
-    },
-    {
-     "n": "Ossoni",
-     "mm": 22.3
+     "mm": 25.2
     }
    ]
   },
   "20": {
-   "media": 32.7,
+   "media": 35.9,
    "giorni": 20,
    "stazioni": 92,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Golfo Aranci",
@@ -81,20 +81,20 @@
     },
     {
      "n": "La Maddalena",
-     "mm": 112
+     "mm": 122.4
     },
     {
-     "n": "Monte Tului",
-     "mm": 61.6
+     "n": "Fonni",
+     "mm": 77.4
     }
    ]
   },
   "30": {
-   "media": 66.1,
+   "media": 69.4,
    "giorni": 30,
    "stazioni": 92,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Siniscola",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  3.5,
   6.5,
   0.2,
   0,
@@ -148,9 +149,8 @@
   0.2,
   0.1,
   0.1,
-  0,
   0
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": []
 }

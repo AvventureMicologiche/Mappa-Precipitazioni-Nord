@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-13T04:15:40.110Z",
+ "generato": "2026-11-14T04:15:51.000Z",
  "periodi": {
   "1": {
-   "media": 17.4,
+   "media": 34.7,
    "giorni": 1,
    "stazioni": 111,
-   "primo": "2026-11-12",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Sant Angelo in Vado",
-     "mm": 81.6
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 81.4
-    },
-    {
      "n": "Fonte Avellana",
-     "mm": 71.4
+     "mm": 113.4
     },
     {
-     "n": "Pianello di Cagli",
-     "mm": 65.6
+     "n": "Spindoli",
+     "mm": 92.8
     },
     {
-     "n": "Cagli Civita",
-     "mm": 57
+     "n": "Pioraco 2",
+     "mm": 82.4
+    },
+    {
+     "n": "Sorti",
+     "mm": 80.6
+    },
+    {
+     "n": "Sefro",
+     "mm": 69.2
     }
    ]
   },
   "7": {
-   "media": 41.1,
+   "media": 66.9,
    "giorni": 7,
    "stazioni": 110,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-12",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-13",
    "top": [
     {
+     "n": "Fonte Avellana",
+     "mm": 208.7
+    },
+    {
      "n": "Monte Petrano",
-     "mm": 148.7
+     "mm": 174.2
     },
     {
      "n": "Sant Angelo in Vado",
-     "mm": 120.7
-    },
-    {
-     "n": "Fonte Avellana",
-     "mm": 117.5
-    },
-    {
-     "n": "Pianello di Cagli",
-     "mm": 108.3
+     "mm": 149.2
     },
     {
      "n": "Monte Nerone",
-     "mm": 102
+     "mm": 143.4
+    },
+    {
+     "n": "Pianello di Cagli",
+     "mm": 133
     }
    ]
   },
   "20": {
-   "media": 90.6,
+   "media": 122.5,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Cantiano",
-     "mm": 267.8
+     "n": "Fonte Avellana",
+     "mm": 322.9
     },
     {
-     "n": "Fonte Avellana",
-     "mm": 213.7
+     "n": "Cantiano",
+     "mm": 301
     },
     {
      "n": "Monte Petrano",
-     "mm": 196.9
+     "mm": 239.1
     },
     {
      "n": "Monte Nerone",
-     "mm": 181.2
+     "mm": 232.6
     },
     {
-     "n": "Pintura di Bolognola",
-     "mm": 175.8
+     "n": "Serravalle di Carda",
+     "mm": 218.1
     }
    ]
   },
   "30": {
-   "media": 96.7,
+   "media": 130.7,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-14",
-   "ultimo": "2026-11-12",
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
    "top": [
     {
-     "n": "Cantiano",
-     "mm": 285.8
+     "n": "Fonte Avellana",
+     "mm": 339.5
     },
     {
-     "n": "Fonte Avellana",
-     "mm": 226.1
+     "n": "Cantiano",
+     "mm": 330.8
     },
     {
      "n": "Monte Petrano",
-     "mm": 216.3
+     "mm": 260.9
     },
     {
      "n": "Monte Nerone",
-     "mm": 197.2
+     "mm": 258.5
     },
     {
-     "n": "Pianello di Cagli",
-     "mm": 186.9
+     "n": "Serravalle di Carda",
+     "mm": 236.1
     }
    ]
   }
  },
  "serie": [
+  34.7,
   17.4,
   0.7,
   8.4,
@@ -148,18 +149,17 @@
   0.1,
   0.1,
   0.1,
-  0.1,
-  0
+  0.1
  ],
- "serieDa": "2026-11-12",
+ "serieDa": "2026-11-13",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-12",
-   "m1": 30.4,
-   "m7": 67.8,
-   "m30": 106.1,
+   "ultimo": "2026-11-13",
+   "m1": 24.9,
+   "m7": 76.6,
+   "m30": 130.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-12",
-   "m1": 20,
-   "m7": 36.8,
-   "m30": 113.4,
+   "ultimo": "2026-11-13",
+   "m1": 48.8,
+   "m7": 81.2,
+   "m30": 162,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-12",
-   "m1": 9.4,
-   "m7": 17.3,
-   "m30": 130.3,
+   "ultimo": "2026-11-13",
+   "m1": 27.4,
+   "m7": 40.8,
+   "m30": 148.5,
    "p1": true,
    "p7": true,
    "p30": true
