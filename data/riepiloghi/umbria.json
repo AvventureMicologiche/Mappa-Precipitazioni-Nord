@@ -1,6 +1,6 @@
 {
  "regione": "umbria",
- "generato": "2026-11-14T04:15:51.000Z",
+ "generato": "2026-11-14T05:31:03.385Z",
  "periodi": {
   "1": {
    "media": 28.4,
@@ -32,68 +32,43 @@
    ]
   },
   "7": {
-   "media": 37.4,
-   "giorni": 6,
+   "media": 62.8,
+   "giorni": 7,
    "stazioni": 74,
    "primo": "2026-11-07",
    "ultimo": "2026-11-13",
    "top": [
     {
      "n": "Scheggia",
-     "mm": 120.3
+     "mm": 145.3
     },
     {
      "n": "Monte Cucco",
-     "mm": 93.3
+     "mm": 121.5
     },
     {
      "n": "Torre dell'Olmo",
-     "mm": 75.5
+     "mm": 102.6
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 71.7
+     "mm": 100.8
     },
     {
-     "n": "Bocca Serriola",
-     "mm": 65.7
+     "n": "Petrelle",
+     "mm": 99.8
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-12",
+    "al": "2026-11-12"
+   }
   },
   "20": {
-   "media": 64.2,
-   "giorni": 19,
+   "media": 89.6,
+   "giorni": 20,
    "stazioni": 74,
    "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
-   "top": [
-    {
-     "n": "Monte Cucco",
-     "mm": 189.3
-    },
-    {
-     "n": "Scheggia",
-     "mm": 181.7
-    },
-    {
-     "n": "Torre dell'Olmo",
-     "mm": 116.7
-    },
-    {
-     "n": "Pieve di Saddi",
-     "mm": 108.2
-    },
-    {
-     "n": "Gualdo Tadino",
-     "mm": 107.6
-    }
-   ]
-  },
-  "30": {
-   "media": 87.6,
-   "giorni": 29,
-   "stazioni": 74,
-   "primo": "2026-10-15",
    "ultimo": "2026-11-13",
    "top": [
     {
@@ -102,26 +77,63 @@
     },
     {
      "n": "Scheggia",
-     "mm": 206.5
+     "mm": 206.7
     },
     {
      "n": "Torre dell'Olmo",
-     "mm": 141.7
+     "mm": 143.8
     },
     {
-     "n": "Ancaiano",
-     "mm": 134.7
+     "n": "Petrelle",
+     "mm": 139
     },
     {
      "n": "Pieve di Saddi",
-     "mm": 131.4
+     "mm": 136.2
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-12",
+    "al": "2026-11-12"
+   }
+  },
+  "30": {
+   "media": 113,
+   "giorni": 30,
+   "stazioni": 74,
+   "primo": "2026-10-15",
+   "ultimo": "2026-11-13",
+   "top": [
+    {
+     "n": "Monte Cucco",
+     "mm": 245.7
+    },
+    {
+     "n": "Scheggia",
+     "mm": 231.5
+    },
+    {
+     "n": "Petrelle",
+     "mm": 171.6
+    },
+    {
+     "n": "Torre dell'Olmo",
+     "mm": 168.8
+    },
+    {
+     "n": "Pieve di Saddi",
+     "mm": 159.4
+    }
+   ],
+   "stime": {
+    "dal": "2026-11-12",
+    "al": "2026-11-12"
+   }
   }
  },
  "serie": [
   28.4,
-  null,
+  25.4,
   0.4,
   9.1,
   0.5,
@@ -158,8 +170,8 @@
    "n": "Valtiberina",
    "ultimo": "2026-11-13",
    "m1": 28.6,
-   "m7": 92.8,
-   "m30": 170.4,
+   "m7": 110.1,
+   "m30": 187.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -169,8 +181,8 @@
    "n": "Valnerina",
    "ultimo": "2026-11-13",
    "m1": 52.2,
-   "m7": 60.3,
-   "m30": 96.1,
+   "m7": 85.4,
+   "m30": 121.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -180,8 +192,8 @@
    "n": "Monti Amerini",
    "ultimo": "2026-11-13",
    "m1": 17.6,
-   "m7": 29.3,
-   "m30": 85.3,
+   "m7": 50.5,
+   "m30": 106.6,
    "p1": true,
    "p7": true,
    "p30": true
