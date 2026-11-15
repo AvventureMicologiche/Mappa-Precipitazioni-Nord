@@ -1,57 +1,57 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-15T04:15:46.829Z",
+ "generato": "2026-11-15T05:31:06.948Z",
  "periodi": {
   "1": {
-   "media": 2.5,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 305,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-13",
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-14",
    "top": [
     {
-     "n": "Bristen (UR)",
-     "nb": "Bristen",
-     "mm": 14.5
+     "n": "La Dôle (VD)",
+     "nb": "La Dôle",
+     "mm": 3.2
     },
     {
-     "n": "Eggersriet (SG)",
-     "nb": "Eggersriet",
-     "mm": 12.1
+     "n": "Bière (VD)",
+     "nb": "Bière",
+     "mm": 3
     },
     {
-     "n": "Luzern (LU)",
-     "nb": "Luzern",
-     "mm": 10.3
+     "n": "Longirod (VD)",
+     "nb": "Longirod",
+     "mm": 2.5
     },
     {
-     "n": "Grimsel Hospiz (BE)",
-     "nb": "Grimsel Hospiz",
-     "mm": 9.1
+     "n": "Nyon / Changins (VD)",
+     "nb": "Nyon / Changins",
+     "mm": 2.5
     },
     {
-     "n": "Appenzell (AI)",
-     "nb": "Appenzell",
-     "mm": 8.6
+     "n": "Cossonay (VD)",
+     "nb": "Cossonay",
+     "mm": 2.3
     }
    ]
   },
   "7": {
-   "media": 34.5,
+   "media": 33.9,
    "giorni": 7,
    "stazioni": 305,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-13",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Clusanfe (VS)",
      "nb": "Clusanfe",
-     "mm": 133.1
+     "mm": 132.2
     },
     {
      "n": "Eggersriet (SG)",
      "nb": "Eggersriet",
-     "mm": 94.6
+     "mm": 94.4
     },
     {
      "n": "Trient (VS)",
@@ -59,57 +59,57 @@
      "mm": 79.9
     },
     {
-     "n": "Champéry (VS)",
-     "nb": "Champéry",
-     "mm": 79
-    },
-    {
      "n": "Güttingen (TG)",
      "nb": "Güttingen",
-     "mm": 77.5
-    }
-   ]
-  },
-  "20": {
-   "media": 49.4,
-   "giorni": 20,
-   "stazioni": 308,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
-   "top": [
-    {
-     "n": "Clusanfe (VS)",
-     "nb": "Clusanfe",
-     "mm": 198.8
+     "mm": 77.4
     },
     {
      "n": "Emosson (VS)",
      "nb": "Emosson",
-     "mm": 134.1
+     "mm": 76.5
+    }
+   ]
+  },
+  "20": {
+   "media": 39.3,
+   "giorni": 20,
+   "stazioni": 308,
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-14",
+   "top": [
+    {
+     "n": "Clusanfe (VS)",
+     "nb": "Clusanfe",
+     "mm": 150.7
     },
     {
-     "n": "Tsanfleuron (VS)",
-     "nb": "Tsanfleuron",
-     "mm": 118.3
+     "n": "Eggersriet (SG)",
+     "nb": "Eggersriet",
+     "mm": 101.7
     },
     {
      "n": "Champéry (VS)",
      "nb": "Champéry",
-     "mm": 114.7
+     "mm": 93.3
     },
     {
-     "n": "La Dôle (VD)",
-     "nb": "La Dôle",
-     "mm": 111.4
+     "n": "Trient (VS)",
+     "nb": "Trient",
+     "mm": 88.7
+    },
+    {
+     "n": "Altenrhein (SG)",
+     "nb": "Altenrhein",
+     "mm": 85.9
     }
    ]
   },
   "30": {
-   "media": 93.2,
+   "media": 93.3,
    "giorni": 30,
    "stazioni": 308,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Clusanfe (VS)",
@@ -119,7 +119,7 @@
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 212.3
+     "mm": 215.5
     },
     {
      "n": "Robièi (TI)",
@@ -134,12 +134,13 @@
     {
      "n": "Carena (TI)",
      "nb": "Carena",
-     "mm": 184.2
+     "mm": 184.4
     }
    ]
   }
  },
  "serie": [
+  0.1,
   2.5,
   12.8,
   3.5,
@@ -168,9 +169,8 @@
   0.7,
   5.1,
   2.9,
-  0,
   0
  ],
- "serieDa": "2026-11-13",
+ "serieDa": "2026-11-14",
  "zone": []
 }
