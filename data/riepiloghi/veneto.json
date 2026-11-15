@@ -1,72 +1,72 @@
 {
  "regione": "veneto",
- "generato": "2026-11-14T04:15:51.000Z",
+ "generato": "2026-11-15T04:15:46.828Z",
  "periodi": {
   "1": {
-   "media": 8,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 183,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-13",
+   "stazioni": 186,
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-14",
    "top": [
     {
-     "n": "Bibione (VE)",
-     "nb": "Bibione",
-     "mm": 27.7
+     "n": "Rio Popena (Val delle Barache) (BL)",
+     "nb": "Rio Popena (Val delle Barache)",
+     "mm": 3.8
     },
     {
-     "n": "Eraclea - Torre di Fine (VE)",
-     "nb": "Eraclea - Torre di Fine",
-     "mm": 23.2
+     "n": "Rio Gravasecca (Pra dell'Agnello) (BL)",
+     "nb": "Rio Gravasecca (Pra dell'Agnello)",
+     "mm": 2.2
     },
     {
-     "n": "Vangadizza (Legnago) (VR)",
-     "nb": "Vangadizza (Legnago)",
-     "mm": 20.4
+     "n": "Auronzo (BL)",
+     "nb": "Auronzo",
+     "mm": 0.6
+    },
+    {
+     "n": "Isola Vicentina (VI)",
+     "nb": "Isola Vicentina",
+     "mm": 0.2
     },
     {
      "n": "Masi (PD)",
      "nb": "Masi",
-     "mm": 19.6
-    },
-    {
-     "n": "Balduina (Sant'Urbano) (PD)",
-     "nb": "Balduina (Sant'Urbano)",
-     "mm": 19.2
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 56.1,
+   "media": 51.9,
    "giorni": 7,
    "stazioni": 184,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-13",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "nb": "Eraclea - Torre di Fine",
-     "mm": 128
+     "mm": 125
     },
     {
      "n": "Bibione (VE)",
      "nb": "Bibione",
-     "mm": 122.4
+     "mm": 120.4
     },
     {
      "n": "Lugugnana (Portogruaro) (VE)",
      "nb": "Lugugnana (Portogruaro)",
-     "mm": 109
+     "mm": 105.8
     },
     {
      "n": "Fossalta di Portogruaro (VE)",
      "nb": "Fossalta di Portogruaro",
-     "mm": 105
+     "mm": 102.4
     },
     {
      "n": "Jesolo - Cortellazzo (VE)",
      "nb": "Jesolo - Cortellazzo",
-     "mm": 102.8
+     "mm": 99.2
     }
    ]
   },
@@ -74,13 +74,13 @@
    "media": 58,
    "giorni": 20,
    "stazioni": 186,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "nb": "Eraclea - Torre di Fine",
-     "mm": 128.6
+     "mm": 128.4
     },
     {
      "n": "Bibione (VE)",
@@ -108,8 +108,8 @@
    "media": 106.4,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Col Indes (Tambre) (BL)",
@@ -119,7 +119,7 @@
     {
      "n": "Castana (VI)",
      "nb": "Castana",
-     "mm": 231.5
+     "mm": 231.3
     },
     {
      "n": "Cansiglio - Tramedere (BL)",
@@ -129,17 +129,18 @@
     {
      "n": "Soffranco (BL)",
      "nb": "Soffranco",
-     "mm": 207.8
+     "mm": 207.6
     },
     {
      "n": "Bibione (VE)",
      "nb": "Bibione",
-     "mm": 205.9
+     "mm": 205.7
     }
    ]
   }
  },
  "serie": [
+  0,
   8,
   31.4,
   5.4,
@@ -168,18 +169,17 @@
   0,
   0.3,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-13",
+ "serieDa": "2026-11-14",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-11-13",
-   "m1": 2.2,
-   "m7": 33.9,
-   "m30": 174.3,
+   "ultimo": "2026-11-14",
+   "m1": 0.1,
+   "m7": 30.6,
+   "m30": 174.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,66 +187,66 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-11-13",
-   "m1": 9.2,
-   "m7": 60,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 51.7,
    "m30": 202.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-11-13",
-   "m1": 6.9,
-   "m7": 31.5,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 25.1,
    "m30": 107.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-11-13",
-   "m1": 2.5,
-   "m7": 44.7,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 41.6,
    "m30": 192.5,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-11-13",
-   "m1": 4,
-   "m7": 42.3,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 37.9,
    "m30": 127.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-11-13",
-   "m1": 5.1,
-   "m7": 48.8,
-   "m30": 165.8,
-   "p1": true,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 45.7,
+   "m30": 165.7,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-11-13",
-   "m1": 5.7,
-   "m7": 32.5,
-   "m30": 98.6,
-   "p1": true,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 26.3,
+   "m30": 98.5,
+   "p1": false,
    "p7": true,
    "p30": true
   }

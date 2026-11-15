@@ -1,62 +1,62 @@
 {
  "regione": "umbria",
- "generato": "2026-11-14T05:31:03.385Z",
+ "generato": "2026-11-15T04:15:46.829Z",
  "periodi": {
   "1": {
-   "media": 28.4,
+   "media": 0.3,
    "giorni": 1,
-   "stazioni": 70,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-13",
+   "stazioni": 71,
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-14",
    "top": [
     {
-     "n": "Scheggia",
-     "mm": 76
+     "n": "Forca Canapine",
+     "mm": 3.6
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 61
+     "mm": 2.6
+    },
+    {
+     "n": "Cascia",
+     "mm": 2
     },
     {
      "n": "Forsivo",
-     "mm": 54.8
+     "mm": 1.2
     },
     {
-     "n": "Vallo di Nera",
-     "mm": 50.6
-    },
-    {
-     "n": "Foligno",
-     "mm": 49.6
+     "n": "Norcia",
+     "mm": 1.2
     }
    ]
   },
   "7": {
-   "media": 62.8,
+   "media": 62.9,
    "giorni": 7,
-   "stazioni": 74,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-13",
+   "stazioni": 72,
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Scheggia",
-     "mm": 145.3
+     "mm": 145.4
     },
     {
      "n": "Monte Cucco",
-     "mm": 121.5
-    },
-    {
-     "n": "Torre dell'Olmo",
-     "mm": 102.6
+     "mm": 121.8
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 100.8
+     "mm": 103.1
+    },
+    {
+     "n": "Torre dell'Olmo",
+     "mm": 102.9
     },
     {
      "n": "Petrelle",
-     "mm": 99.8
+     "mm": 97.8
     }
    ],
    "stime": {
@@ -65,15 +65,15 @@
    }
   },
   "20": {
-   "media": 89.6,
+   "media": 89.9,
    "giorni": 20,
    "stazioni": 74,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 217.5
+     "mm": 218.1
     },
     {
      "n": "Scheggia",
@@ -81,11 +81,11 @@
     },
     {
      "n": "Torre dell'Olmo",
-     "mm": 143.8
+     "mm": 144.2
     },
     {
      "n": "Petrelle",
-     "mm": 139
+     "mm": 139.2
     },
     {
      "n": "Pieve di Saddi",
@@ -98,27 +98,27 @@
    }
   },
   "30": {
-   "media": 113,
+   "media": 113.3,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 245.7
+     "mm": 246.5
     },
     {
      "n": "Scheggia",
-     "mm": 231.5
+     "mm": 231.7
     },
     {
      "n": "Petrelle",
-     "mm": 171.6
+     "mm": 171.8
     },
     {
      "n": "Torre dell'Olmo",
-     "mm": 168.8
+     "mm": 169.4
     },
     {
      "n": "Pieve di Saddi",
@@ -132,6 +132,7 @@
   }
  },
  "serie": [
+  0.3,
   28.4,
   25.4,
   0.4,
@@ -160,18 +161,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-13",
+ "serieDa": "2026-11-14",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-11-13",
-   "m1": 28.6,
-   "m7": 110.1,
-   "m30": 187.8,
+   "ultimo": "2026-11-14",
+   "m1": 0.2,
+   "m7": 124,
+   "m30": 187.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -179,10 +179,10 @@
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-11-13",
-   "m1": 52.2,
-   "m7": 85.4,
-   "m30": 121.2,
+   "ultimo": "2026-11-14",
+   "m1": 1.7,
+   "m7": 84.6,
+   "m30": 122.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -190,10 +190,10 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-11-13",
-   "m1": 17.6,
-   "m7": 50.5,
-   "m30": 106.6,
+   "ultimo": "2026-11-14",
+   "m1": 0.3,
+   "m7": 50.8,
+   "m30": 106.9,
    "p1": true,
    "p7": true,
    "p30": true

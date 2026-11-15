@@ -1,91 +1,91 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-14T04:15:51.001Z",
+ "generato": "2026-11-15T04:15:46.829Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 421,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-13",
+   "stazioni": 424,
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-14",
    "top": [
     {
-     "n": "Mazzarino SP13",
-     "mm": 1.1
+     "n": "Castanea delle Furie",
+     "mm": 2.8
     },
     {
-     "n": "Biviere di Cesarò",
-     "mm": 0.8
+     "n": "Messina San Michele",
+     "mm": 2.6
     },
     {
-     "n": "Contrada Paradiso",
-     "mm": 0.8
+     "n": "Messina SP44",
+     "mm": 1.8
     },
     {
-     "n": "Tre Poggi",
-     "mm": 0.8
+     "n": "Salice",
+     "mm": 1.6
     },
     {
-     "n": "Case Mangalaviti",
-     "mm": 0.6
+     "n": "Chiusa Sclafani",
+     "mm": 1.2
     }
    ]
   },
   "7": {
-   "media": 1.5,
+   "media": 0.3,
    "giorni": 7,
-   "stazioni": 421,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-13",
+   "stazioni": 420,
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-14",
    "top": [
     {
+     "n": "Gangi",
+     "mm": 4.8
+    },
+    {
+     "n": "Fanaco Diga R2",
+     "mm": 3.3
+    },
+    {
      "n": "Castanea delle Furie",
-     "mm": 42
+     "mm": 3
     },
     {
-     "n": "Messina SS113",
-     "mm": 34.1
+     "n": "Messina San Michele",
+     "mm": 2.6
     },
     {
-     "n": "Messina SIAS",
-     "mm": 33.4
-    },
-    {
-     "n": "Salice",
-     "mm": 29.6
-    },
-    {
-     "n": "Messina SP44",
-     "mm": 28.9
+     "n": "Prizzi Diga R2",
+     "mm": 2.5
     }
    ]
   },
   "20": {
-   "media": 58.3,
+   "media": 54.9,
    "giorni": 20,
-   "stazioni": 422,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
+   "stazioni": 423,
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Isnello SP54",
-     "mm": 261.9
-    },
-    {
-     "n": "Cesarò",
-     "mm": 200.2
+     "mm": 213.7
     },
     {
      "n": "Viagrande",
      "mm": 191.9
     },
     {
-     "n": "Miraglia",
-     "mm": 187.7
+     "n": "Cesarò",
+     "mm": 186.4
     },
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 187
+     "n": "Nunziata",
+     "mm": 170.1
+    },
+    {
+     "n": "Lavinaio",
+     "mm": 161.5
     }
    ]
   },
@@ -93,8 +93,8 @@
    "media": 77,
    "giorni": 30,
    "stazioni": 421,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Piedimonte Etneo",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0,
   0,
   0.1,
@@ -148,26 +149,25 @@
   4.1,
   1.5,
   0.4,
-  0.1,
-  0
+  0.1
  ],
- "serieDa": "2026-11-13",
+ "serieDa": "2026-11-14",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-13",
-   "m1": 0.3,
-   "m7": 0.8,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 0.5,
    "m30": 138.2,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-13",
+   "ultimo": "2026-11-14",
    "m1": 0,
    "m7": 0.2,
    "m30": 153,

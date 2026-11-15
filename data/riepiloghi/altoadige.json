@@ -1,42 +1,71 @@
 {
  "regione": "altoadige",
- "generato": "2026-11-14T04:15:51.000Z",
+ "generato": "2026-11-15T04:15:46.828Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-13",
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-14",
    "top": [
     {
-     "n": "Sesto",
-     "mm": 6.1
+     "n": "Alta Val Martello",
+     "mm": 0
     },
     {
-     "n": "Solda",
-     "mm": 4.6
+     "n": "Anterselva di Sopra",
+     "mm": 0
     },
     {
-     "n": "Fleres",
-     "mm": 4.4
+     "n": "Barbiano Colma",
+     "mm": 0
     },
     {
-     "n": "Dobbiaco",
-     "mm": 2.4
+     "n": "Bolzano",
+     "mm": 0
     },
     {
-     "n": "Monguelfo",
-     "mm": 2.4
+     "n": "Bressanone",
+     "mm": 0
     }
    ]
   },
   "7": {
-   "media": 21.7,
+   "media": 19.9,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-13",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-14",
+   "top": [
+    {
+     "n": "Terento",
+     "mm": 31.6
+    },
+    {
+     "n": "Vandoies",
+     "mm": 31.6
+    },
+    {
+     "n": "Anterselva di Sopra",
+     "mm": 29.6
+    },
+    {
+     "n": "Riva di Tures",
+     "mm": 28.7
+    },
+    {
+     "n": "Fundres",
+     "mm": 26.9
+    }
+   ]
+  },
+  "20": {
+   "media": 21.8,
+   "giorni": 20,
+   "stazioni": 57,
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Vandoies",
@@ -56,45 +85,16 @@
     },
     {
      "n": "Riva di Tures",
-     "mm": 31.9
-    }
-   ]
-  },
-  "20": {
-   "media": 22.3,
-   "giorni": 20,
-   "stazioni": 57,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-13",
-   "top": [
-    {
-     "n": "Vandoies",
-     "mm": 36.8
-    },
-    {
-     "n": "Terento",
-     "mm": 35.8
-    },
-    {
-     "n": "Sesto",
-     "mm": 35
-    },
-    {
-     "n": "Fundres",
-     "mm": 33.2
-    },
-    {
-     "n": "Riva di Tures",
-     "mm": 32.9
+     "mm": 32
     }
    ]
   },
   "30": {
-   "media": 54.6,
+   "media": 54.5,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-15",
-   "ultimo": "2026-11-13",
+   "primo": "2026-10-16",
+   "ultimo": "2026-11-14",
    "top": [
     {
      "n": "Santa Valburga",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Fleres",
-     "mm": 97.2
+     "mm": 97
     },
     {
      "n": "San Vito di Braies",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0.7,
   15.8,
   0.7,
@@ -148,30 +149,29 @@
   0,
   0.2,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-13",
+ "serieDa": "2026-11-14",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-11-13",
-   "m1": 0.2,
-   "m7": 14.8,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 14.2,
    "m30": 53,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-11-13",
-   "m1": 0.6,
-   "m7": 22.6,
-   "m30": 51.8,
-   "p1": true,
+   "ultimo": "2026-11-14",
+   "m1": 0,
+   "m7": 21.8,
+   "m30": 51.7,
+   "p1": false,
    "p7": true,
    "p30": true
   }
