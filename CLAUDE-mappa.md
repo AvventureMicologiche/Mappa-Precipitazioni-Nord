@@ -2278,3 +2278,30 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   nelle prove): è la regola della foto, non del radar.
 - **Resta**: lo stesso giro nelle pagine «adesso» e nei riquadri radar (`lib/pagina-adesso.js`) dopo il 18/11 (Goccia),
   proposta a parte con le sue misure.
+
+## Il riquadro del pluviometro al tocco, prima del periodo (16/11/2026, scheda 134)
+
+- **Il caso.** Segnalato a lui (Android): «se uno accende il bottone temperature i pluviometri non sono selezionabili»,
+  con la regione scelta e senza giorni. Provato sul sito vero con Esri bloccato: con un periodo (Ieri, 7 gg, temperature
+  prima o dopo) il tocco apre la scheda completa, anche toccando i numeri; SENZA periodo al telefono il tocco non apriva
+  niente, con o senza temperature. Le temperature sono solo l'unica cosa che si guarda senza periodo, e lì si tocca.
+- **La causa.** I pallini bianchi (`drawDefaultMarkers`) aprivano il riquadro «Scegli un periodo» con un gestore
+  `touchstart` sul pallino, che Leaflet 1.9 ai cerchi non manda mai (la mappa ascolta solo `click` e `mouse*`: nessun
+  cambio di `#st-tooltip`, misurato); il loro `click` al telefono esce subito (`innerWidth<=900`, apposta); la scheda
+  completa (`openStationHistory`) senza periodo esce perché non ha millimetri.
+- **Il rimedio (sua scelta «il riquadro al tocco»).** `riquadroBianco(mk,st,cx,cy)`, accanto a `showTooltip`: una
+  funzione sola per il mouse del computer e per il tocco del telefono. Ogni pallino bianco porta `m._def` (la stazione) e
+  `m._defFonte`; `pallinoBiancoVicino()` lo cerca entro `TAP_TOLL` come `stazioneVicina` fa coi pallini dell'analisi.
+  In `map.on('click')`, col dito e senza periodo (non nei boschi, nel radar e nelle previsioni), il pallino vicino apre
+  il riquadro e lo evidenzia (`evidenziaMarker`), il tocco nel vuoto lo chiude. Si chiude anche su `movestart zoomstart`
+  e in `clearMarkers` (periodo scelto, regione cambiata). Il `mouseout` dei pallini bianchi col dito esce subito: la
+  sua uscita finta chiudeva il riquadro appena aperto. Tolti `touchstart` e `touchend`.
+- **Le temperature nel riquadro.** Con le temperature accese una riga «Temperatura 15 nov» (con «(stima)» per i punti
+  ICON) con minima blu e massima rossa schiarite per il fondo scuro (`.tt-row-tq`, `.tt-tq-mn`, `.tt-tq-mx`, classe
+  `tt-con-tq`), dal modulo delle temperature con `window._tqDi(lat,lon)` (stessa chiave delle etichette, `null` se
+  spente). Vale anche al computer, nel riquadro del mouse. `showTooltip` (col periodo) toglie la classe.
+- **Prove** (`scratchpad\temp-bug\prova-riquadro.js` della 134, locale 9144, Esri bloccato): telefono 393 e 360 9/9
+  ognuno (tocco centrato, evidenziato a raggio 8, vuoto chiude, tocco a 4-6 px, spostamento chiude, riga delle
+  temperature uguale ai dati, periodo chiude, col periodo la scheda completa come prima), computer 5/5 (mouse sul
+  pallino, mouse nel vuoto, riga delle temperature, col periodo la scheda come prima); zero errori, a parte il 404 di
+  `/api/canale` che in locale manca. Foto `shots\134-riquadro-*.png` del banco.

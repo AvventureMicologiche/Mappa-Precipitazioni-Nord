@@ -867,6 +867,11 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
 #st-tooltip.tt-senza-periodo .tt-big,#st-tooltip.tt-senza-periodo .tt-row-rank{display:none}
 .tt-row{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;color:#aaa}
 .tt-row b{color:#ddd;font-weight:600}
+/* la riga delle temperature di ieri: solo nel riquadro dei pallini bianchi (prima del periodo) e solo con le
+   temperature accese (16/11/2026, scheda 134). Blu e rosso dei numeri sulla mappa, schiariti per il fondo scuro */
+.tt-row-tq{display:none}
+#st-tooltip.tt-con-tq .tt-row-tq{display:flex}
+.tt-tq-mn{color:#8cc4ff}.tt-tq-mx{color:#ff9a8f}
 /* ⚠️ Su fondo scuro (#1e1e1e) si SCHIARISCE per leggere meglio, il contrario
    di quello che si fa sul bianco. Misurato il 25/8: #555 dava 2,2:1, #888 da'
    4,7. E qui il blu del pannello sarebbe un peggioramento (3,3:1): il colore
@@ -2023,6 +2028,7 @@ html.apre-prev #fonte-tag{visibility:hidden !important}
       </div>
       <div class="tt-row"><span>Provincia</span><b id="tt-prov"></b></div>
       <div class="tt-row"><span>Quota</span><b id="tt-quota"></b></div>
+      <div class="tt-row tt-row-tq"><span id="tt-tq-tit">Temperatura</span><b id="tt-tq"></b></div>
       <div class="tt-row tt-row-rank"><span>Ranking</span><b id="tt-rank"></b></div>
       <div class="tt-fonte" id="tt-fonte"></div>
     </div>
@@ -3746,11 +3752,39 @@ function showTooltip(s,rank,mx,my){
   document.getElementById('tt-quota').textContent=testoQuota(s);
   document.getElementById('tt-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';   // fuori regione: senza posizione
   document.getElementById('tt-fonte').textContent=fonte;
-  tooltip.classList.remove('tt-senza-periodo');
+  tooltip.classList.remove('tt-senza-periodo','tt-con-tq');
   posTooltip(mx,my);
   tooltip.style.display='block';
 }
 function hideTooltip(){tooltip.style.display='none';}
+/* ⚠️ IL RIQUADRO DEI PALLINI BIANCHI, PRIMA DEL PERIODO (16/11/2026, scheda 134, segnalato a lui: «se uno accende il
+   bottone temperature i pluviometri non sono selezionabili», Android, regione scelta e niente giorni). Lo apriva un
+   gestore 'touchstart' sul pallino, che Leaflet 1.9 ai cerchi non manda mai (la mappa ascolta solo click e mouse*):
+   al telefono, senza periodo, il tocco non apriva niente, con o senza temperature (provato sul sito vero: nessun
+   cambio di #st-tooltip). Le temperature sono solo l'unica cosa che si guarda senza periodo, e li' si tocca.
+   Ora una funzione sola per il mouse del computer e per il tocco del telefono (map.on('click') con
+   pallinoBiancoVicino). Con le temperature accese, la riga di ieri (window._tqDi, nel modulo delle temperature).
+   mk._defFonte la scrive drawDefaultMarkers, che ha cfg. */
+function riquadroBianco(mk,st,cx,cy){
+  if(hideTimer)clearTimeout(hideTimer);
+  if(TAP_DITO) evidenziaMarker(mk); else mk.setStyle({radius:10,weight:2,color:'#000'});
+  document.getElementById('tt-nome').textContent=nomeStazione(st);
+  document.getElementById('tt-mm').textContent='–';
+  document.getElementById('tt-prov').textContent=st.p;
+  document.getElementById('tt-quota').textContent=testoQuota(st);
+  document.getElementById('tt-rank').textContent='';
+  document.getElementById('tt-fonte').textContent=mk._defFonte||'—';
+  var ll=mk.getLatLng(), t=window._tqDi?window._tqDi(ll.lat,ll.lng):null;
+  if(t){
+    var gr=function(v){ return (Math.round(v)+'°').replace('-','−'); };
+    document.getElementById('tt-tq-tit').textContent='Temperatura '+t.giorno+(t.stima?' (stima)':'');
+    document.getElementById('tt-tq').innerHTML='<span class="tt-tq-mn">'+gr(t.mn)+'</span> | <span class="tt-tq-mx">'+gr(t.mx)+'</span>';
+  }
+  tooltip.classList.add('tt-senza-periodo');
+  tooltip.classList.toggle('tt-con-tq',!!t);
+  posTooltip(cx,cy);
+  tooltip.style.display='block';
+}
 
 // ═══════════════════════════════════════════════════════════════
 // PANNELLO STAZIONE CON GRAFICO STORICO
@@ -4844,6 +4878,20 @@ function pallinoVicino(punto,toll){
   return best;
 }
 
+// Il pallino BIANCO (prima del periodo) piu' vicino entro TAP_TOLL, per il tocco del telefono (16/11/2026, scheda 134):
+// stessa misura di stazioneVicina, che invece cerca solo i pallini dell'analisi (m._st)
+function pallinoBiancoVicino(punto){
+  if(!punto) return null;
+  var best=null,bestD=TAP_TOLL;
+  activeMarkers.forEach(function(m){
+    if(!m._def||!map.hasLayer(m)) return;
+    var p; try{ p=map.latLngToContainerPoint(m.getLatLng()); }catch(e){ return; }
+    var d=Math.sqrt((p.x-punto.x)*(p.x-punto.x)+(p.y-punto.y)*(p.y-punto.y));
+    if(d<bestD){ bestD=d; best=m; }
+  });
+  return best;
+}
+
 // Quale pallino ho aperto: con i vicini a pochi pixel, senza questo non si
 // capisce su quale si e' finiti.
 var _mEvid=null;
@@ -4910,6 +4958,14 @@ map.on('click',function(e){
      trova piu' il pannello, il segno di disableClickPropagation nemmeno, e si apriva il pluviometro piu'
      vicino a quel punto. La mappa, le tessere e i pallini non si staccano mai durante un clic. */
   if(_t&&_t.nodeType===1&&!document.documentElement.contains(_t)) return;
+  /* ⚠️ PRIMA DEL PERIODO, COL DITO (16/11/2026, scheda 134): il tocco su un pallino bianco, o entro TAP_TOLL, apre il
+     suo riquadro «Scegli un periodo» (riquadroBianco); il tocco nel vuoto lo chiude. Non nei boschi (pallini
+     nascosti), nel radar e nelle previsioni. Col periodo i pallini sono quelli dell'analisi: vale stazioneVicina. */
+  if(TAP_DITO&&(!currentPast||!currentNow)&&!window._boschiAcceso&&!/(^| )modo-(radar|prev)( |$)/.test(document.body.className)){
+    var pb=pallinoBiancoVicino(e&&e.containerPoint);
+    if(pb){ var oe=e.originalEvent||{}; riquadroBianco(pb,pb._def,oe.clientX||0,oe.clientY||0); return; }
+    hideTooltip();
+  }
   var m=stazioneVicina(e&&e.containerPoint);
   if(m){
     var ev=e.originalEvent||{};
@@ -4929,11 +4985,18 @@ map.on('click',function(e){
   }
   closeStationHistory();
 });
+// il riquadro dei pallini bianchi al telefono si chiude spostando o zoomando la mappa (16/11/2026, scheda 134)
+map.on('movestart zoomstart',function(){
+  if(TAP_DITO&&tooltip.style.display==='block'&&tooltip.classList.contains('tt-senza-periodo')){ hideTooltip(); evidenziaMarker(null); }
+});
 
 // ═══════════════════════════════════════════════════════════════
 // MARKER
 // ═══════════════════════════════════════════════════════════════
-function clearMarkers(){activeMarkers.forEach(function(m){m.remove();});activeMarkers=[];_mEvid=null;}
+function clearMarkers(){
+  // i pallini se ne vanno (periodo scelto, regione cambiata): il riquadro di un pallino bianco con loro (16/11/2026)
+  if(tooltip.classList.contains('tt-senza-periodo')) hideTooltip();
+  activeMarkers.forEach(function(m){m.remove();});activeMarkers=[];_mEvid=null;}
 
 function addMarkers(dati,sorted){
   dati.forEach(function(s){
@@ -12201,26 +12264,15 @@ function drawDefaultMarkers(stazioni,cfg){
       color:'#333',weight:1.25,pane:'markerPane'
     }).addTo(map);
     activeMarkers.push(m);
+    // il pallino bianco porta la sua stazione e la sua fonte: col dito lo trova pallinoBiancoVicino (16/11/2026, scheda 134)
+    m._def=s; m._defFonte=s._fonte||(cfg?cfg.fonte:'—');
     (function(mk,st){
-      function showDef(cx,cy){
-        if(hideTimer)clearTimeout(hideTimer);
-        mk.setStyle({radius:10,weight:2,color:'#000'});
-        document.getElementById('tt-nome').textContent=nomeStazione(st);
-        document.getElementById('tt-mm').textContent='–';
-        document.getElementById('tt-prov').textContent=st.p;
-        document.getElementById('tt-quota').textContent=testoQuota(st);
-        document.getElementById('tt-rank').textContent='';
-        tooltip.classList.add('tt-senza-periodo');
-        document.getElementById('tt-fonte').textContent=st._fonte||(cfg?cfg.fonte:'—');
-        posTooltip(cx,cy);
-        tooltip.style.display='block';
-      }
-      // col dito il riquadro lo apre il touchstart qui sotto: niente passaggi del mouse finti (18/10/2026)
-      mk.on('mouseover',function(e){if(TAP_DITO)return;showDef(e.originalEvent.clientX,e.originalEvent.clientY);});
+      /* col dito il riquadro lo apre il tocco sulla mappa (map.on('click') → riquadroBianco), niente passaggi del mouse
+         finti (18/10/2026). Il 'touchstart' che stava qui non scattava mai: tolto il 16/11/2026 (vedi riquadroBianco) */
+      mk.on('mouseover',function(e){if(TAP_DITO)return;riquadroBianco(mk,st,e.originalEvent.clientX,e.originalEvent.clientY);});
       mk.on('mousemove',function(e){if(TAP_DITO)return;posTooltip(e.originalEvent.clientX,e.originalEvent.clientY);});
-      mk.on('mouseout',function(){mk.setStyle({radius:4,weight:1.25,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
-      mk.on('touchstart',function(e){var t=e.originalEvent.touches[0];showDef(t.clientX,t.clientY);e.originalEvent.stopPropagation();});
-      mk.on('touchend',function(e){e.originalEvent.stopPropagation();});
+      // col dito anche l'uscita e' finta (il puntatore resta dove si e' toccato): chiuderebbe il riquadro appena aperto
+      mk.on('mouseout',function(){if(TAP_DITO)return;mk.setStyle({radius:4,weight:1.25,color:'#333'});hideTimer=setTimeout(hideTooltip,150);});
       /* ⚠️ IL CLIC SUL PALLINO VALE COME IL CLIC SULLA REGIONE (29/9/2026, collaudo): prima del
          periodo i pallini bianchi coprono il 43% della regione e al clic non facevano niente, quindi
          per togliere una regione bisognava centrare lo spazio fra un pallino e l'altro. Solo sul PC
@@ -17316,6 +17368,9 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
   // un link condiviso con le temperature accese (tq=1) le riaccende appena ci sono dati e pallini
   var daLink=new URLSearchParams(location.search).get('tq')==='1';
   window._tqAcceso=function(){ return on; };
+  // per il riquadro dei pallini bianchi (riquadroBianco, 16/11/2026, scheda 134): minima, massima, stima e giorno di
+  // ieri di un pluviometro, solo con le temperature accese. Stessa chiave delle etichette
+  window._tqDi=function(lat,lon){ if(!on||!dati) return null; var t=dati[chiave(lat,lon)]; return t?{mn:t[0],mx:t[1],stima:!!t[2],giorno:giorno}:null; };
   function m(){ return window._mapDebug; }
   function chiave(lat,lon){ return (+lat).toFixed(4)+','+(+lon).toFixed(4); }
   function carica(){

@@ -160,6 +160,7 @@ legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
 - **I crediti del radar: sull'Italia è il radar della Protezione Civile (9/11/2026, scheda 130)**: Radar-DPC CC BY-SA 4.0 al posto di «OPERA» su mappa, «adesso», meteo, fonti e guida; «ogni 10 minuti»; `VERSIONE_JS` 20; restano i punti 2 e 3 del modo A prima del +40 nelle pagine
 - **Al telefono giallo e pillola a turno, e il chiodino fuori dalla vetrina (12/11/2026, scheda 131)**: `_turnoPillola` con `n%2===0` (giallo alle dispari, pillola alle pari), `chiodini` fuori dal `sorteggio`; IN PROD 12/11 (deploy `8a5e7251`); misura GA4 dopo una settimana
 - **Il radar in un giro solo, da -2 ore a +40 minuti, con la barra di ilMeteo (13/11/2026, scheda 133)**: via i tre tasti, `vai()` con misure e previsti, adesso fermo finché arrivano le tessere, `fermo`/`giroN`, barra `rd-giro` con la previsione gialla, link sempre `radar=ora`, GA4 `pausa`/`riparti`/`barra`; 96 tessere all'apertura; guida e `radar.jpg` rifatte
+- **Il riquadro del pluviometro al tocco, prima del periodo (16/11/2026, scheda 134)**: al telefono senza periodo il tocco non apriva niente (`touchstart` che Leaflet 1.9 non manda); `riquadroBianco`, `pallinoBiancoVicino`, `m._def`, riga delle temperature di ieri con `window._tqDi`
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
 
