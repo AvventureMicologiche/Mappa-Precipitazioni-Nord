@@ -97,6 +97,10 @@ riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
   esatto del titolo, (data, scheda) e al massimo sei parole. Nell'indice niente nomi di funzioni, numeri o stato
   («IN PROD», deploy): stanno nella nota. Il 16/11/2026 l'indice era arrivato a 23 KB su 35 ed è stato riportato a
   una riga per nota.
+- **La nota è corta: 5 o 6 righe** (sua decisione del 16/11/2026). Dice tre cose: cosa cambia, dove sta nel codice
+  (il nome della funzione o della classe) e la trappola. Il perché lungo sta nel commento ⚠️ del codice e nel
+  messaggio del commit: qui non si ripete. Dal 1 al 16/11 le note erano in media di 31 righe. Quelle già scritte
+  restano come sono.
 - Una correzione a una fonte si scrive dentro la scheda della sua regione in `CLAUDE-fonti.md` (sotto
   «Architettura dati per regione»), come si è sempre fatto, non in fondo.
 - In questo file non entrano note di lavoro: solo regole che valgono sempre e righe d'indice. Una regola nuova entra
