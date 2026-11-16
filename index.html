@@ -3727,7 +3727,8 @@ var hideTimer=null;
    (4 tocchi su 14 nella prova del 16/11).
    AL COMPUTER a destra del mouse, o a sinistra se non c'e' posto, con la larghezza VERA: il conto supponeva 215 px, il
    riquadro ne e' largo 234 (256 con le temperature) e vicino al bordo destro usciva tagliato fino a 41 px (#map ha
-   overflow hidden). */
+   overflow hidden). E DENTRO LA MAPPA ANCHE IN BASSO: col telefono girato (852x393, oltre i 600 px vale questo conto)
+   la mappa e' alta circa 300 px e il riquadro usciva sotto di 25-34 px (16/11 sera, scheda 135; sua scelta «A»). */
 function posTooltip(mx,my){
   var w=tooltip.offsetWidth||215, h=tooltip.offsetHeight;
   if(getComputedStyle(tooltip).position==='fixed'){
@@ -3742,6 +3743,7 @@ function posTooltip(mx,my){
   var tx=mx-r.left+16,ty=my-r.top-60;
   if(tx+w>mapEl.clientWidth)tx=mx-r.left-w-5;
   if(tx<4)tx=4;
+  if(ty+h>mapEl.clientHeight-8)ty=mapEl.clientHeight-h-8;
   if(ty<0)ty=4;
   tooltip.style.left=tx+'px';tooltip.style.top=ty+'px';
 }
