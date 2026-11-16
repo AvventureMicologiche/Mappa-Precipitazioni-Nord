@@ -93,8 +93,10 @@ riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
 ## Come si scrive una nota nuova
 
 - Il lavoro finito scrive la sua nota **in fondo al file del suo argomento**, con un titolo `## ` che dice cosa, quando
-  e quale scheda (come le note di adesso), e aggiunge **una riga** nell'indice qui sotto, sotto quel file: titolo
-  esatto e due parole.
+  e quale scheda (come le note di adesso), e aggiunge **una riga** nell'indice qui sotto, sotto quel file: l'inizio
+  esatto del titolo, (data, scheda) e al massimo sei parole. Nell'indice niente nomi di funzioni, numeri o stato
+  («IN PROD», deploy): stanno nella nota. Il 16/11/2026 l'indice era arrivato a 23 KB su 35 ed è stato riportato a
+  una riga per nota.
 - Una correzione a una fonte si scrive dentro la scheda della sua regione in `CLAUDE-fonti.md` (sotto
   «Architettura dati per regione»), come si è sempre fatto, non in fondo.
 - In questo file non entrano note di lavoro: solo regole che valgono sempre e righe d'indice. Una regola nuova entra
@@ -106,137 +108,138 @@ riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
 
 ## Indice: dove sta ogni sezione
 
-Una riga per sezione, col titolo ESATTO del file: `grep -n "^## <inizio del titolo>" <file>` dà la riga, e si
-legge solo quella sezione. I file stanno tutti qui in radice, accanto a questo.
+Una riga per nota. Il testo prima della prima parentesi o dei due punti è l'inizio ESATTO del titolo:
+`grep -n "^## <quel testo>" <file>` dà la riga, e si legge solo quella sezione. Le date sono del 2026, il numero
+dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 
-### `CLAUDE-fonti.md`: le fonti dati, regione per regione (123 KB)
+### `CLAUDE-fonti.md`: le fonti dati, regione per regione
 
-- **Architettura dati per regione**: una scheda per regione e Stato: collector, formula, orari, trappole. Dentro: Lombardia · Piemonte · Emilia Romagna · Veneto · Trentino · Alto Adige · Toscana · Liguria · Austria · Francia intera · Svizzera intera · Ticino · Centro-Sud via MeteoHub · Abruzzo · Valle d'Aosta · Friuli Venezia Giulia · Slovenia.
-- **Bug risolti (cronologico)**: i bug dei collector di giugno e luglio 2026, numerati
-- **Coerenza fra reti confinanti (4 agosto 2026)**: `check-confini.js`, le gemelle al confine
-- **La quota delle stazioni (26 agosto 2026)**: altitudini mancanti o sbagliate, terrarium
-- **La direzione del vento: campo `wd` (2 ottobre 2026)**: da dove viene il vento, salvato dal 2/10
-- **Togliere Open-Meteo (dal 25/10/2026)**: il piano pezzo per pezzo e a che punto è
+- Architettura dati per regione: una scheda per regione e Stato (collector, formula, orari, trappole)
+- Bug risolti (cronologico): i bug dei collector di giugno e luglio
+- Coerenza fra reti confinanti (4/8): `check-confini.js`, le gemelle al confine
+- La quota delle stazioni (26/8): altitudini mancanti o sbagliate
+- La direzione del vento (2/10): il campo `wd`
+- Togliere Open-Meteo (dal 25/10): il piano pezzo per pezzo
 
-### `CLAUDE-mappa.md`: l'interfaccia della mappa (121 KB)
+### `CLAUDE-mappa.md`: l'interfaccia della mappa
 
-- **UI Features**: le funzioni una per voce, dalle più nuove (1/11) alle più vecchie (luglio): ore meteo in orizzontale, finestre «Novità», invito alle previsioni, Mappa|Satellite, grafici stazione, crediti, anteprima social, multiregione, centratura, foto condivisa
-- **Inquadratura su telefono — metodo di misura, strumenti e stato (9 agosto 2026)**: come si misura la centratura delle regioni, la corsa dei 50 ms
-- **L'etichetta del tasto posizione (30 agosto 2026, v9.2)**: il tasto «La mia posizione» e i suoi numeri GA4
-- **I pallini di partenza e le due voci rimaste aperte (30 agosto 2026)**: le stazioni disegnate all'apertura, quote del Piemonte
-- **«Diretta radar» in produzione (31 agosto 2026, v9.3)**: il modo radar della mappa
-- **La scheda «Iscriviti» e il ringraziamento (31 agosto 2026)**: la pillola «Iscriviti» al PC e al telefono
-- **L'intensita' della pioggia: ore bagnate e punta oraria (12 settembre 2026)**: il campo `i` dei file giornalieri, e perché la stessa pioggia in otto ore vale di più
-- **La mappa boschi (v10.2, 21 settembre 2026)**: carte forestali in dieci colori, legenda, tocco sul bosco, licenze, collaudo
-- **La barra in basso sul telefono (v10.1, 20 settembre 2026)**: la mappa dal 33% al 61% dello schermo, la legenda ridotta
-- **La forma dei tasti e la barra che scorre nella pioggia (31/10/2026, scheda 104 ter)**: i tasti della pioggia nella forma di «Previsioni», la barra delle città
-- **La foto dal satellite sotto la pioggia e nelle previsioni (31/10/2026, scheda 104)**: foto nostra fino allo zoom 10, Esri da vicino
-- **Il riquadro della pioggia al telefono e il banner del meteo (31/10/2026 sera, scheda 104)**: gli spazi misurati del riquadro in basso sotto i 600 px, il banner del meteo
-- **Telefono girato, crediti al telefono e blocco rosso del meteo (1/11/2026 sera, scheda 106)**: la pioggia col telefono in orizzontale, i crediti sopra il riquadro, «METEO» + giorno
-- **La velocita' della pioggia dopo le date (1/11/2026 sera, scheda 106 bis)**: il calcolo dei colori 20-50 volte più veloce, niente velo grigio sulla foto, foto precaricata con la sfocata sotto, niente OSM sotto la foto (credito OSM tenuto)
-- **Telefono dritto con la tastiera, barra della Sicilia e angoli del telefono girato (2/11/2026, scheda 109 quater)**: classe `schermo-dritto` (niente zoom 19 con la tastiera), scheda del pluviometro senza pallino, angoli del riquadro girato
-- **La scheda del pluviometro col telefono girato (2/11/2026, scheda 109 quater)**: la scheda finisce sopra la barra delle città e scorre dentro, non esce più dallo schermo
-- **Le macchie squadrate sul mare della foto dal satellite (2/11/2026, scheda 111 quater)**: il mare delle coste lo decide la carta ESA WorldCover, il ghiaccio azzurrino di Blue Marble, jsDelivr da riscaldare tutto
-- **Le date sotto i periodi andavano a capo al telefono a cavallo dei mesi (2/11/2026, scheda 114, check-10)**: «dal 26/10» e niente a capo
-- **La pioggia non si spegne piu' zoomando e trascinando (3/11/2026, scheda 116)**: la tela piu' grande dello schermo segue zoom, pizzico e trascinamento
-- **Il tetto di zoom: pioggia 13, previsioni 14, boschi e satellite 19 (3/11/2026, scheda 116)**: `setMaxZoom` a ogni cambio di modo
-- **Le tessere che arrivavano in ritardo zoomando e il tremolio trascinando: tessere d'arrivo subito e respiro fermo nel moto (4/11/2026, scheda 117)**: due regole di Leaflet in `_fotoNostra`, `respiroT0`
-- **La barra delle citta': solo pluviometri veri, niente scritta finta all'apertura, niente barra senza citta' (4/11/2026, scheda 118)**: `stima(s)`, `scrivi()` aspetta `capoluoghi`, `serve()` con `NV.length`
-- **La cassetta dei video, le previsioni sempre sotto i numeri e la pillola un'analisi su quattro (4/11/2026, scheda 119)**: icona YouTube col pallino, `/api/canale` dal feed del canale, `_turnoPillola`, giallo anche col radar
-- **Il video nuovo entra in un quarto d'ora, e la vetrina si accende col feed (4/11/2026 sera, scheda 120 bis)**: `FRESCA_S` 900 e `BROWSER_S` 120, `primaDiDa`, `aspettaFeed`, `_canaleFatto`
-- **La scheda «Iscriviti» del computer con la foto di Archie in testa (4/11/2026 sera, scheda 121)**: `.v-foto-iscr` e `archie-bosco.webp`, parole della cassetta, Segoe UI contro l'Arial di Leaflet, preload dopo il viewport
-- **La pillola del telefono gira sulle stesse voci della vetrina del computer (4/11/2026 sera, scheda 121)**: `giroTelefono()` dal `sorteggio`, niente piu' ultimi 3 del feed, resta l'una su quattro
-- **Due chiavi Esri: il satellite dei boschi conta a parte (7/11/2026, scheda 126 bis)**: `ESRI_ALTRO` per pioggia, previsioni e pagine meteo, tessere per schermata, prove del banco con Esri bloccato, zoom 12 scartato per ora
-- **I nomi dei paesi fra due zoom interi: la soglia scende a ogni quarto (7/11/2026, scheda 126)**: a 10,75 da 17 a 52 nomi; il credito Esri dall'11 è giusto (Leaflet chiede a 10,5 e butta via); IN PRODUZIONE
-- **Esri da vicino non chiede più tessere sotto il suo zoom (7/11/2026, scheda 126)**: `EsriDaVicino`, tessere buttate a 10,5-10,75 da ~10% a 0; **controllo dei consumi per credenziale fra qualche giorno**, poi la scelta su Esri dal 12; IN PRODUZIONE
-- **L'ombra delle icone del meteo e i collegamenti preparati (8/11/2026, scheda 127 bis, dall'analisi notturna)**: tre drop-shadow sulle 92 icone della vista Italia → text-shadow e filter:none (trascinando da 34 a 59 fps); preconnect a jsDelivr, via quello ad ArcGIS su /previsioni/
-- **Etichette del meteo, testata del telefono, respiro e confini più leggeri (8/11/2026, scheda 127 bis, analisi notturna)**: `veDirada` misura in un colpo (135/135 identiche), `tel()` con matchMedia; testata ferma al telefono (CLS 0,50 → 0,22); respiro sull'opacità del pannello (apertura PC ferma 60 fps); `perDisegno` confini semplificati per il disegno; IN PROD 8/11 11:04 (deploy `616a2d3c`)
-- **Il radar si apre col +40 minuti in movimento (8/11/2026, scheda 128 ter)**: `APRI`, adesso + previsti fino a +40 tagliati per ora, soste 1,5 s, `entra(modo)` senza fotogramma buttato; carico misurato su LibreWXR; restano pagine «adesso» e meteo dopo il 14/11 e i crediti DPC; IN PROD 8/11 12:27 (deploy `40d5cceb`)
-- **Il riquadro dei periodi e i crediti al telefono non saltano più aprendo la mappa (8/11/2026, scheda 128 bis)**: `html.cr-attesa` e `aspetta()`, `initMobile` aspetta la riga dei tasti, crediti fermi mentre un riquadro scorre, riga del titolo a 25 px; CLS `/` al telefono 0,22 → 0,004; IN PROD 8/11 13:35 (deploy `6c66b05c`)
-- **Le pulsazioni dei tasti si fermano dopo 5 giri (8/11/2026, scheda 128 bis)**: `newPulsa`, `loc-bordo-pulsa`, `loc-cartello-pulsa`, `geo-anello-pulsa` da `infinite` a `5 forwards`; a mappa ferma al telefono processore occupato da 9,8 a 0,27 s su 20; i tasti fermi identici al pixel; IN PROD 8/11 14:36 (deploy `11d4d50f`)
-- **Il pizzico nelle previsioni di regione: il ridisegno a pezzi (8/11/2026, scheda 128 bis)**: `veDisegna` riusa le etichette se la scena e' la stessa (`VE.mkLista`, `mk._html`), giorni e scheda ora per ora non si riscrivono se uguali; pizzico dentro al telefono 22-26 → 35 fps; IN PROD 8/11 15:14 (deploy `7931af2f`)
-- **I nastri che scorrono li muove il browser (8/11/2026, scheda 128 bis)**: banner del meteo e barra della pioggia con una Web Animation (`_nastroAnima`, `_nastroDove`), il JavaScript solo per dito e lancio; a mappa ferma al telefono da 9-10 a 0,3-0,5 s di processore su 20; IN PROD 8/11 16:11 (deploy `24e4c0ca`)
-- **Le etichette del meteo fuori dal gioco mentre si pizzica (8/11/2026, scheda 128 bis)**: `#map.pv-pizzico` col tocco a due dita nelle previsioni, via su `zoomend`; già prima invisibili durante il pizzico (filmato in 12 gg); pizzico dentro al telefono 31-36 → 38-47 fps; IN PROD 8/11 16:51 (deploy `f4627602`)
-- **I crediti del radar: sull'Italia è il radar della Protezione Civile (9/11/2026, scheda 130)**: Radar-DPC CC BY-SA 4.0 al posto di «OPERA» su mappa, «adesso», meteo, fonti e guida; «ogni 10 minuti»; `VERSIONE_JS` 20; restano i punti 2 e 3 del modo A prima del +40 nelle pagine
-- **Al telefono giallo e pillola a turno, e il chiodino fuori dalla vetrina (12/11/2026, scheda 131)**: `_turnoPillola` con `n%2===0` (giallo alle dispari, pillola alle pari), `chiodini` fuori dal `sorteggio`; IN PROD 12/11 (deploy `8a5e7251`); misura GA4 dopo una settimana
-- **Il radar in un giro solo, da -2 ore a +40 minuti, con la barra di ilMeteo (13/11/2026, scheda 133)**: via i tre tasti, `vai()` con misure e previsti, adesso fermo finché arrivano le tessere, `fermo`/`giroN`, barra `rd-giro` con la previsione gialla, link sempre `radar=ora`, GA4 `pausa`/`riparti`/`barra`; 96 tessere all'apertura; guida e `radar.jpg` rifatte
-- **Il riquadro del pluviometro al tocco, prima del periodo (16/11/2026, scheda 134)**: al telefono senza periodo il tocco non apriva niente (`touchstart` che Leaflet 1.9 non manda); `riquadroBianco`, `pallinoBiancoVicino`, `m._def`, riga delle temperature di ieri con `window._tqDi`
+- UI Features: le funzioni da luglio al 1/11, una per voce
+- Inquadratura su telefono (9/8): la centratura delle regioni, la corsa dei 50 ms
+- L'etichetta del tasto posizione (30/8)
+- I pallini di partenza (30/8): le stazioni all'apertura
+- «Diretta radar» in produzione (31/8): il modo radar
+- La scheda «Iscriviti» e il ringraziamento (31/8)
+- L'intensita' della pioggia (12/9): il campo `i`, le ore bagnate
+- La mappa boschi (21/9)
+- La barra in basso sul telefono (20/9)
+- La forma dei tasti e la barra che scorre (31/10, 104 ter)
+- La foto dal satellite sotto la pioggia (31/10, 104): foto nostra fino allo zoom 10, Esri da vicino
+- Il riquadro della pioggia al telefono (31/10, 104)
+- Telefono girato, crediti al telefono (1/11, 106)
+- La velocita' della pioggia dopo le date (1/11, 106 bis)
+- Telefono dritto con la tastiera (2/11, 109 quater)
+- La scheda del pluviometro col telefono girato (2/11, 109 quater)
+- Le macchie squadrate sul mare (2/11, 111 quater)
+- Le date sotto i periodi andavano a capo (2/11, 114)
+- La pioggia non si spegne piu' zoomando (3/11, 116)
+- Il tetto di zoom (3/11, 116)
+- Le tessere che arrivavano in ritardo zoomando (4/11, 117)
+- La barra delle citta' (4/11, 118)
+- La cassetta dei video (4/11, 119): la vetrina dei video, la pillola
+- Il video nuovo entra in un quarto d'ora (4/11, 120 bis)
+- La scheda «Iscriviti» del computer (4/11, 121): la foto di Archie
+- La pillola del telefono gira (4/11, 121)
+- Due chiavi Esri (7/11, 126 bis)
+- I nomi dei paesi fra due zoom interi (7/11, 126)
+- Esri da vicino non chiede più tessere (7/11, 126)
+- L'ombra delle icone del meteo (8/11, 127 bis)
+- Etichette del meteo, testata del telefono (8/11, 127 bis)
+- Il radar si apre col +40 minuti (8/11, 128 ter)
+- Il riquadro dei periodi e i crediti al telefono (8/11, 128 bis): niente salti all'apertura
+- Le pulsazioni dei tasti (8/11, 128 bis)
+- Il pizzico nelle previsioni di regione (8/11, 128 bis)
+- I nastri che scorrono (8/11, 128 bis)
+- Le etichette del meteo fuori dal gioco (8/11, 128 bis): durante il pizzico
+- I crediti del radar (9/11, 130): Radar-DPC
+- Al telefono giallo e pillola a turno (12/11, 131)
+- Il radar in un giro solo (13/11, 133): da -2 ore a +40 minuti
+- Il riquadro del pluviometro al tocco (16/11, 134)
 
-### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO) (75 KB)
+### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
-- **Riepiloghi delle pagine regione (24 agosto 2026)**: i numeri delle pagine regione calcolati prima, non dal browser
-- **«Diretta radar» sulle 1.085 pagine, e il segnaposto nei link (3 settembre 2026)**: il blocco «Sta piovendo adesso?» col tasto al radar su 1.085 pagine
-- **Il ritratto del pluviometro, e perche' e' una faccenda di indicizzazione (4 settembre 2026)**: le 948 pagine di località e le 114 di zona con testi diversi l'una dall'altra
-- **Le due categorie di pagine (13 settembre 2026)**: piogge e funghi non si mescolano (sua decisione)
-- **La vetrina si configura da un file di dati (20 settembre 2026)**: la vetrina si cambia in un file di dati, senza pubblicare
-- **Zone piogge e zone funghi anche meteo (19-20 ottobre 2026)**: `meteoClient` nelle zone, solo ES5
-- **La testata del sito e le idee delle pagine meteo su tutte le famiglie (28/10/2026 sera)**: `lib-testata.js` e le idee delle pagine meteo portate sulle altre famiglie
-- **Controllo SEO del 31/10/2026 (scheda 104 bis): le parole di sei famiglie**: Search Console 3-30/10 e le sei correzioni di titoli e testi
-- **Correzioni del 1/11/2026 (scheda 105 bis, dopo l'analisi delle famiglie di pagine)**: `/slovenia/` tolta, stime dichiarate, e l'elenco «DA FARE SENZA URGENZA»
-- **Le citazioni volgari nei commenti delle pagine (2/11/2026, scheda 109)**: i commenti del CSS delle pagine sono pubblici, le sue frasi si parafrasano
-- **Le strisce delle regioni lunghe intere, e la pagina di paese della guida (2/11/2026, scheda 111 bis)**: anteprime allungate in altezza in `genera-anteprime.js` (regioni lunghe intere nei riquadri), boschi di 4 regioni, `guida/scheda-paese.jpg` e il suo elenco
-- **I commenti fuori dalle pagine generate (2/11/2026, scheda 112 quater)**: `lib-senza-commenti.js` scrivendo le pagine non modello (-24,5% compresse); le pagine modello (regioni, funghi regione, Garfagnana) restano coi commenti
-- **Il rinnovo mensile delle pagine non era mai partito: ora prova dal 2 al 6 (2/11/2026, scheda 113)**: cron `2-6` + `gia-fatto` sul mese
-- **Il togli-commenti controlla che lo script si legga ancora (2/11/2026, scheda 114, check-10 B7)**: se togliendoli lo script si rompe, restano i commenti
-- **La riserva della vetrina e' la scheda «Iscriviti», con scritte senza numeri e anche nel giro (4/11/2026, scheda 119)**: `ELENCO=[]`, «Il sito è gratuito», chiave `iscriviti` nel sorteggio e `rimettiScheda()`
-- **Il freddo nelle pagine funghi, dal 1 novembre al 20 dicembre (6/11/2026, scheda 125)**: `JS_FREDDO` e `rigaStagione(reg, conFreddo)` in `lib-stagione.js`, notti di gelo nel riquadro, temperatura in alto, Nord e Sud separati, linea dello zero; la «pausa» invernale da fare prima del 21/12
-- **Le prossime notti e la notte più fredda nelle pagine funghi (6/11/2026, scheda 125)**: `freddoAttivo()`, `window._prevPagina` di `meteoClient`, campo `freddo` di `data/funghi/<regione>.json`, colonna nella tabella delle regioni
-- **La notte più fredda anche nella classifica di /funghi/ (7/11/2026, scheda 126)**: settimo elemento delle righe di `italia.json`, `JS_FREDDO` nella pagina indice, stessa colonna delle regioni
-- **Le pagine che non saltano mentre caricano: spazio tenuto ai blocchi che arrivano dopo (8/11/2026, scheda 128)**: `#attesa` riquadro blu 440/520 px (paesi e zone funghi col rinnovo di dicembre), `fineAttesa`, `#tabella:empty`, `SCHEDA_HTML` del meteo, `verdettoCotto` intero nelle zone; CLS da 0,15-0,44 a 0,00 (zone 0,04)
-- **La modalità evento delle pagine regione e il riquadro del radar (13/11/2026, scheda 132)**: soglia 8 pluviometri oltre 200 mm in 48 ore (`eventoRegione` in `genera-riepiloghi.js`, 7 volte nel 2026), tre mattine dopo l'ultimo giorno, titolo e riquadro «Maltempo», tabella giorno per giorno, foto `<k>-evento`, mail col link (`avviso-evento.js`, registro `data/eventi-avvisati.json`); riquadro «Sta piovendo adesso?» col radar fermo su tutte le regioni italiane
+- Riepiloghi delle pagine regione (24/8)
+- «Diretta radar» sulle 1.085 pagine (3/9)
+- Il ritratto del pluviometro (4/9): testi diversi per l'indicizzazione
+- Le due categorie di pagine (13/9): piogge e funghi non si mescolano
+- La vetrina si configura da un file di dati (20/9)
+- Zone piogge e zone funghi anche meteo (19-20/10)
+- La testata del sito (28/10): `lib-testata.js`
+- Controllo SEO del 31/10/2026 (104 bis): le parole di sei famiglie
+- Correzioni del 1/11/2026 (105 bis): l'elenco «DA FARE SENZA URGENZA»
+- Le citazioni volgari nei commenti (2/11, 109)
+- Le strisce delle regioni lunghe intere (2/11, 111 bis)
+- I commenti fuori dalle pagine generate (2/11, 112 quater)
+- Il rinnovo mensile delle pagine (2/11, 113)
+- Il togli-commenti controlla (2/11, 114)
+- La riserva della vetrina (4/11, 119)
+- Il freddo nelle pagine funghi (6/11, 125): la pausa invernale da fare prima del 21/12
+- Le prossime notti e la notte più fredda (6/11, 125)
+- La notte più fredda anche nella classifica (7/11, 126)
+- Le pagine che non saltano mentre caricano (8/11, 128)
+- La modalità evento delle pagine regione (13/11, 132): «Maltempo»
 
-### `CLAUDE-previsioni.md`: le previsioni meteo (59 KB)
+### `CLAUDE-previsioni.md`: le previsioni meteo
 
-- **Pagine «Previsioni meteo <zona>» (/meteo/<zona>/, 24/10/2026)**: `/meteo/<zona>/` e le pagine «Meteo <paese>»
-- **`/previsioni/`: la mappa delle previsioni con un indirizzo suo (28/10/2026)**: titolo, descrizione e canonico suoi; il sottodominio `meteo.` scartato
-- **Previsioni senza regione: la vista Italia (27/10/2026)**: la vista Italia, poi icone, vista a etichette, controlli del 30-31/10
-- **Lo sfarfallio aprendo le previsioni dalla home (1/11/2026 sera, scheda 108)**: la foto della pioggia fuori da `apre-italia`, coperta col CSS in testa
-- **Lo zoom minimo delle cartine delle pagine meteo (2/11/2026, scheda 109)**: non piu' fino al planisfero, al massimo 4 livelli sotto l'inquadratura
-- **I confini coi link di una regione e la scheda della sera (2/11/2026, scheda 109 quater)**: confini nascosti sotto `apre-vista`, «stasera» dopo le 20, niente DOM 8 acceso la sera
-- **Lo zoom minimo della cartina delle pagine «adesso» (2/11/2026, scheda 110 bis)**: un tocco del «−» sotto l'inquadratura, l'Europa del radar, non piu' il planisfero
-- **Il radar delle pagine «adesso» sulla foto della mappa (2/11/2026, scheda 111 ter)**: foto nostra, confine bianco e nomi come la mappa col radar, zoom fino al 10, ripiego sulla cartina
-- **«Ieri a Caronia» era la pioggia di Pomiere: il punto di stamattina coi pluviometri fuori dal paese (2/11/2026, scheda 113)**: con `primo` il punto dice dove e' stata misurata la pioggia
-- **Il credito della probabilita' di pioggia solo in fonti.html (3/11/2026, scheda 114)**: via dalla scheda, dalle 89 pagine meteo e dalla guida
-- **La fase B delle previsioni: i link su /previsioni/ e 20 «Meteo <paese>» nuovi (2/11/2026, scheda 112 ter)**: i numeri delle pagine meteo, i link da `?m=prev` a `/previsioni/?r=`, `METEO_PAESI_B` scelti dalle ricerche «meteo <paese>»
-- **Le previsioni da vicino a un quarto delle tessere Esri (3/11/2026, scheda 116)**: dallo zoom 11 come la pioggia, 512 px e zoomOffset -1
-- **Le pagine meteo con la foto nostra fino allo zoom 10 (3/11/2026, scheda 116)**: `fotoSat` nelle 89 pagine di zona e di paese, Esri a un quarto da vicino
-- **Le pagine «adesso» delle città, prima ondata: 24 capoluoghi (4/11/2026, scheda 118 bis)**: `/<regione>/adesso/<città>/`, `CITTA_ADESSO`, pluviometri vicini cotti ogni mattina, `sitemap-adesso-citta.xml`
-- **La previsione di riserva quando MET manda il JSON tagliato (4/11/2026, scheda 118 bis)**: `riserva` in `perPunto`, 12 ore senza data, 5 minuti nella cache normale, niente chiamate in più a MET
-- **La riserva per tutti i punti quando MET risponde 503, e i guasti che non moltiplicano piu' le chiamate (4/11/2026 sera, scheda 122)**: copia normale tenuta 12 ore (`X-Fresca-Fino`, `X-Giorno`, `X-Buona`), errori ricordati 2 minuti, aree tenute anche con errori; schermo blu e mappa grigia
-- **Minima e massima, sempre in quest'ordine (6/11/2026, scheda 125)**: «Che tempo farà» con minima e massima (prima solo la massima), giorni della scheda delle previsioni girati, minima blu e massima rossa ovunque
-- **Le pagine «adesso» delle città a ondate, e la seconda ondata: 20 città (5/11/2026, scheda 124)**: `ONDATE_ADESSO`, `data-ondata`, una sitemap per ondata da inviare il giorno stesso, la prossima al ~70%; il giorno della pubblicazione generatore intero
-- **La settimana a goccia: 20 città «adesso» e 15 «Meteo <paese>», cinque pagine al giorno dall'8 al 14/11 (7/11/2026, scheda 127)**: `USCITA_ADESSO`, `METEO_PAESI_C` con `dal`, `METEO_PAESI_DA_SCRIVERE` contro `METEO_PAESI_TUTTI`, `sitemap-meteo-paesi-c.xml`, il lotto della sera e le richieste a mano
-- **La goccia a 10 al giorno e la terza ondata: 60 capoluoghi dal 13 al 18/11 (9/11/2026, Goccia, ex 127)**: 10 nuove + 1 arretrata a sera, terzo elemento di `ONDATE_ADESSO`, `sitemap-adesso-citta-3.xml`, fuori l'Abruzzo e i sei che mancano in `capoluoghi.json`, `"emilia/Reggio nell'Emilia"` fra virgolette
-- **Il radar delle città «adesso»: centrato sulla città, due zoom sopra l'Italia, senza confine (8/11/2026, scheda 127)**: `getBoundsZoom` + 2 al PC e + 1,5 al telefono, niente confine della regione, il «+» verso la città, i nomi della regione prima dei paesi intorno
-- **Il radar delle regioni «adesso» e il riquadro radar delle pagine meteo, come le città (8/11/2026, scheda 127)**: segnalino sul capoluogo, confine leggero, `piuDentro`, `VERSIONE_JS` 18; riquadro delle valli e dei paesi sulla foto col segnalino; in nota il radar in movimento fino a +40 minuti
-- **Il riquadro «Pluviometri 7 giorni» delle pagine meteo ritagliato sul paese, e il nome sul segnalino (8/11/2026, scheda 128 quater)**: `ritagliaPluvio()` come `lib-striscia.js`, segnalino sul primo paese di `paesi-zone.json` col nome nel radar e nei pluviometri; dal censimento delle cartine
-- **Le altre quattro del censimento delle cartine: «+» al capoluogo, comuni intorno dal primo «+», nomi vicini al segnalino, confine e tetto 14 (8/11/2026, scheda 128 quater)**: `SEGNO` in `m.zoomIn`, `v:1` e `ZAPRI`, `STRETTO` 8 px, `VERSIONE_JS` 19; la trappola di `leaflet.css` servito col tipo sbagliato nelle prove
-- **La vista Italia ingrandita: dallo zoom 7 tornano nomi e gradi (8/11/2026, scheda 129)**: `VI_NOMI`, `viSoglia` su zoomend, `viDiradaNomi` con le regole di veDirada, `_vi={cp,sel}`; la «leggera» scelta sul mockup, la «piena» (entrare da soli nella regione) scartata; IN PROD 8/11 19:03 (deploy `0dc4f871`)
-- **Le pagine «adesso» non chiedono il radar quando nessuno le guarda, e il «+40» è vero (9/11/2026, scheda 130)**: `controlla()` ogni 5 minuti solo a pagina visibile, radar e riga viva solo col fotogramma nuovo, `leggiElenco()` unico, `previsti()` a +40; da nascosta zero richieste (prima ~190 l'ora); `VERSIONE_JS` 21
-- **Il radar delle pagine «adesso» e delle pagine meteo si apre col «+40» in movimento, solo mentre si vede (9/11/2026, scheda 130)**: `carica('prev')` con adesso + previsti a +40, `SOSTA`/`PASSO` come la mappa, fermo con pagina dietro o cartina fuori (`IntersectionObserver`); meteo: previsti chiesti solo col riquadro sullo schermo; `VERSIONE_JS` 22
-- **Il pallino «IN DIRETTA» delle pagine «adesso» pulsa leggero (9/11/2026, scheda 130)**: alone `::after` con `transform` + `opacity` al posto del `box-shadow` animato; al telefono a pagina ferma da 5,5 a 0,1 s di processore su 10
-- **La % di pioggia ora per ora: sull'ora giusta, e grigia quando l'ora è asciutta (9/11/2026, scheda 130)**: la % è dell'insieme ICON (Open-Meteo), icona e mm di ECMWF (MET); `prDa()` sposta la % di un'ora, `tonoPc(pc,mm)` e la riga che spiega in mappa, meteo e «adesso»; % dalle simulazioni ECMWF scartata (41 contrasti contro 33)
+- Pagine «Previsioni meteo <zona>» (24/10): anche le «Meteo <paese>»
+- `/previsioni/`: la mappa delle previsioni (28/10)
+- Previsioni senza regione: la vista Italia (27/10)
+- Lo sfarfallio aprendo le previsioni (1/11, 108)
+- Lo zoom minimo delle cartine delle pagine meteo (2/11, 109)
+- I confini coi link di una regione (2/11, 109 quater)
+- Lo zoom minimo della cartina delle pagine «adesso» (2/11, 110 bis)
+- Il radar delle pagine «adesso» sulla foto (2/11, 111 ter)
+- La fase B delle previsioni (2/11, 112 ter)
+- «Ieri a Caronia» era la pioggia di Pomiere (2/11, 113)
+- Il credito della probabilita' di pioggia (3/11, 114)
+- Le previsioni da vicino a un quarto delle tessere Esri (3/11, 116)
+- Le pagine meteo con la foto nostra (3/11, 116)
+- Le pagine «adesso» delle città, prima ondata (4/11, 118 bis)
+- La previsione di riserva quando MET manda il JSON tagliato (4/11, 118 bis)
+- La riserva per tutti i punti quando MET risponde 503 (4/11, 122)
+- Minima e massima (6/11, 125)
+- Le pagine «adesso» delle città a ondate (5/11, 124)
+- La settimana a goccia (7/11, 127)
+- Il radar delle città «adesso» (8/11, 127)
+- Il radar delle regioni «adesso» (8/11, 127)
+- Il riquadro «Pluviometri 7 giorni» (8/11, 128 quater)
+- Le altre quattro del censimento delle cartine (8/11, 128 quater)
+- La vista Italia ingrandita (8/11, 129)
+- Le pagine «adesso» non chiedono il radar (9/11, 130)
+- Il radar delle pagine «adesso» e delle pagine meteo (9/11, 130): il «+40» in movimento
+- La goccia a 10 al giorno (9/11, Goccia): la terza ondata
+- Il pallino «IN DIRETTA» (9/11, 130)
+- La % di pioggia ora per ora (9/11, 130)
 
-### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check (35 KB)
+### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
-- **Resilienza a GitHub raw (17 agosto 2026)**: l'incidente del 17/8 e i ripieghi quando raw non risponde
-- **Sorveglianza automatica (31 luglio 2026)**: buchi, allarme fonti via mail, pluviometri fermi, guardiano, campi che spariscono
-- **Check periodico dati**: cosa si controlla ogni ~5 giorni
-- **Sesto check (20/10/2026)**: difetti dei workflow e dati riparati
-- **«Da guardare» del settimo e ottavo check (21/10/2026)**: tempi massimi, conflitti di push, i 13 punti aperti
-- **La mail «RIENTRATA» di check-fonti diceva la data sbagliata (2/11/2026, scheda 113)**: «Allarme partito il», buchi lievi spiegati
-- **meteohub-gaps non salvava niente se ICON-2I non si leggeva (2/11/2026, scheda 114, check-10)**: l'errore ICON e' un avviso, il commit parte
-- **Due piccoli dei buchi dal check-10: chiusure a 20 giorni e quota delle stime (2/11/2026, scheda 114)**: B3 e B4, scartati B2 e B6
-- **La mail dei campi spariti suonava per un giro in ritardo: ora guarda l'altro ieri (3/11/2026, scheda 115 bis)**: mail solo per buchi certi, 2 invece di 5
-- **Pluviometri fermi DA POCO: la terza porta, sorda negli ultimi 3 giorni di pioggia (8/11/2026, scheda 127)**: la porta dei 45 giorni li vedeva dopo un mese; prova a secco su tutti i lunedì, guardia della neve, rientro col campo `porta`, salta le escluse a mano
-- **La spia dei doppioni suona solo col picco sullo zero (8/11/2026, scheda 129 bis)**: `attesePerCaso()` e `passo()`, uguali almeno 3 volte le attese e 4 in più; falso allarme emilia 6-7/11; storico da 19 mail a 11, Toscana malata 7 su 7
+- Resilienza a GitHub raw (17/8)
+- Sorveglianza automatica (31/7): buchi, allarme fonti, pluviometri fermi, guardiano
+- Check periodico dati: cosa si controlla ogni ~5 giorni
+- Sesto check (20/10)
+- «Da guardare» del settimo e ottavo check (21/10)
+- La mail «RIENTRATA» di check-fonti (2/11, 113)
+- meteohub-gaps non salvava niente (2/11, 114)
+- Due piccoli dei buchi dal check-10 (2/11, 114)
+- La mail dei campi spariti (3/11, 115 bis)
+- Pluviometri fermi DA POCO (8/11, 127)
+- La spia dei doppioni (8/11, 129 bis)
 
-### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare (12 KB)
+### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 
-- **Migrazione Italia v5.0 (1 agosto 2026)**: le 22 regioni, il centro-sud via MeteoHub, il piano di uscita dal beta
-- **Promozione a non-BETA**: la v4.0 del 18/7/2026
-- **Promozione del 27 agosto 2026 (v9.1)**: come si porta il test in prod contando le chiavi solo-prod
-- **⚠️ TEST E PROD NON SONO PIÙ «PROD + QUATTRO RIGHE» (31 agosto 2026)**: mai copiare `index.html` dal test: si portano i pezzi uno per uno
-- **I commenti fuori dalla copia pubblicata: la mappa da 431 a 191 KB (8/11/2026, scheda 127 ter, dall'analisi notturna)**: `senzaCommenti()` sui `.html` in `copiaFile()` di `pubblica-pages.js`, repo invariato, pagina dubbia copiata com'è; online ≠ repo byte per byte; IN PROD 8/11 11:08, deploy `7714b10b`; dall'8/11 ~11:20 anche `_mockup/` fuori dalla pubblicazione (prima finiva online dal checkout condiviso)
+- Migrazione Italia v5.0 (1/8)
+- Promozione a non-BETA (18/7, v4.0)
+- Promozione del 27 agosto 2026 (v9.1): come si porta il test in prod
+- ⚠️ TEST E PROD NON SONO PIÙ (31/8): mai copiare `index.html` dal test
+- I commenti fuori dalla copia pubblicata (8/11, 127 ter): online ≠ repo byte per byte
 
 ---
