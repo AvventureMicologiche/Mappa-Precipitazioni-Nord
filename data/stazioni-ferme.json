@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-09",
+  "aggiornato": "2026-11-16",
   "finestra": 45,
   "ferme": [
     {
@@ -19,28 +19,12 @@
       "dal": "2026-09-14"
     },
     {
-      "chiave": "francia-centro/28386001",
-      "nome": "Thimert",
-      "regione": "francia-centro",
+      "chiave": "meteohub-lazio/42.00000_12.37278",
+      "nome": "La Storta",
+      "regione": "meteohub-lazio",
       "perc": 0,
       "porta": "bagnati",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "francia-corsica/20135002",
-      "nome": "Isolaccio Di Fiumorbo",
-      "regione": "francia-corsica",
-      "perc": 0,
-      "porta": "bagnati",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "francia-loira/72172003",
-      "nome": "Le Luart",
-      "regione": "francia-loira",
-      "perc": 0,
-      "porta": "bagnati",
-      "dal": "2026-11-09"
+      "dal": "2026-11-16"
     },
     {
       "chiave": "meteohub-sicilia/37.90806_15.14528",
@@ -51,18 +35,42 @@
       "dal": "2026-11-09"
     },
     {
-      "chiave": "liguria/SRZAN",
-      "nome": "Sarzana",
-      "regione": "liguria",
-      "perc": 0.3,
+      "chiave": "toscana/TOS11000058",
+      "nome": "Castiglione d'Orcia",
+      "regione": "toscana",
+      "perc": 0,
       "porta": "bagnati",
+      "dal": "2026-11-16"
+    },
+    {
+      "chiave": "meteohub-molise/41.74222_14.38306",
+      "nome": "Pietrabbondante",
+      "regione": "meteohub-molise",
+      "perc": 0.4,
+      "porta": "bagnati",
+      "dal": "2026-11-16"
+    },
+    {
+      "chiave": "meteohub-sicilia/37.86972_14.88861",
+      "nome": "Flascio a Ponte Flascio",
+      "regione": "meteohub-sicilia",
+      "perc": 5.5,
+      "porta": "totale",
       "dal": "2026-11-09"
     },
     {
-      "chiave": "francia-corsica/20169007",
-      "nome": "Ponte-Leccia",
-      "regione": "francia-corsica",
-      "perc": 0.4,
+      "chiave": "toscana/TOS03002613",
+      "nome": "Monastero d'Ombrone",
+      "regione": "toscana",
+      "perc": 8.1,
+      "porta": "totale",
+      "dal": "2026-11-02"
+    },
+    {
+      "chiave": "francia-loira/72172003",
+      "nome": "Le Luart",
+      "regione": "francia-loira",
+      "perc": 0,
       "porta": "bagnati",
       "dal": "2026-11-09"
     },
@@ -73,54 +81,6 @@
       "perc": 0.7,
       "porta": "bagnati",
       "dal": "2026-11-09"
-    },
-    {
-      "chiave": "liguria/ALPIC",
-      "nome": "Alpicella",
-      "regione": "liguria",
-      "perc": 1,
-      "porta": "bagnati",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "francia-provenza/84069001",
-      "nome": "Malaucene",
-      "regione": "francia-provenza",
-      "perc": 2.6,
-      "porta": "bagnati",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "francia-aura/74119002",
-      "nome": "Evian",
-      "regione": "francia-aura",
-      "perc": 4.9,
-      "porta": "bagnati",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "meteohub-sicilia/37.86972_14.88861",
-      "nome": "Flascio a Ponte Flascio",
-      "regione": "meteohub-sicilia",
-      "perc": 5.4,
-      "porta": "totale",
-      "dal": "2026-11-09"
-    },
-    {
-      "chiave": "toscana/TOS01001151",
-      "nome": "Cantagallo",
-      "regione": "toscana",
-      "perc": 6.5,
-      "porta": "totale",
-      "dal": "2026-10-05"
-    },
-    {
-      "chiave": "toscana/TOS03002613",
-      "nome": "Monastero d'Ombrone",
-      "regione": "toscana",
-      "perc": 12,
-      "porta": "totale",
-      "dal": "2026-11-02"
     }
   ]
 }
