@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-15T04:15:46.829Z",
+ "generato": "2026-11-16T04:15:46.080Z",
  "periodi": {
   "1": {
-   "media": 2.1,
+   "media": 29,
    "giorni": 1,
-   "stazioni": 174,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-14",
+   "stazioni": 173,
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-15",
    "top": [
     {
-     "n": "Contursi Meteo",
-     "mm": 26.6
+     "n": "Tramonti",
+     "mm": 165.8
     },
     {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 14.4
+     "n": "Pellezzano",
+     "mm": 107.1
     },
     {
-     "n": "Salerno Genio Civile",
-     "mm": 13.8
+     "n": "Cologna",
+     "mm": 106.5
     },
     {
-     "n": "Costa dei Corvi",
-     "mm": 10.2
+     "n": "Cava dei Tirreni",
+     "mm": 86.6
     },
     {
-     "n": "Bellosguardo",
-     "mm": 9.2
+     "n": "Laurino-Villa Littorio",
+     "mm": 83.5
     }
    ]
   },
   "7": {
-   "media": 30.9,
+   "media": 59.7,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-11-08",
-   "ultimo": "2026-11-14",
+   "primo": "2026-11-09",
+   "ultimo": "2026-11-15",
    "top": [
     {
+     "n": "Tramonti",
+     "mm": 214.8
+    },
+    {
      "n": "Bagnoli Irpino",
-     "mm": 153.2
+     "mm": 190.8
     },
     {
      "n": "Castiglione del Genovesi",
-     "mm": 132.3
+     "mm": 179.9
     },
     {
-     "n": "Maiori",
-     "mm": 129.6
-    },
-    {
-     "n": "Montella METEO",
-     "mm": 124
+     "n": "Cologna",
+     "mm": 179.2
     },
     {
      "n": "Cetara (Serbatoio comunale)",
-     "mm": 121.6
+     "mm": 165.8
     }
    ]
   },
   "20": {
-   "media": 76.6,
+   "media": 105.5,
    "giorni": 20,
    "stazioni": 174,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-15",
    "top": [
     {
+     "n": "Tramonti",
+     "mm": 255.5
+    },
+    {
      "n": "Montella METEO",
-     "mm": 193.6
+     "mm": 233.6
+    },
+    {
+     "n": "Giffoni Valle Piana",
+     "mm": 232.9
     },
     {
      "n": "Montella",
-     "mm": 184
-    },
-    {
-     "n": "Caposele",
-     "mm": 176.7
+     "mm": 217.3
     },
     {
      "n": "Bagnoli Irpino",
-     "mm": 174.4
-    },
-    {
-     "n": "Rofrano",
-     "mm": 171.5
+     "mm": 211.2
     }
    ]
   },
   "30": {
-   "media": 117,
+   "media": 145.8,
    "giorni": 30,
    "stazioni": 174,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-15",
    "top": [
     {
-     "n": "Cusano Mutri",
-     "mm": 249.6
+     "n": "Tramonti",
+     "mm": 313.1
     },
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 241
-    },
-    {
-     "n": "Montella METEO",
-     "mm": 230.8
+     "mm": 293.9
     },
     {
      "n": "Giffoni Valle Piana",
-     "mm": 229.6
+     "mm": 292.7
     },
     {
-     "n": "Rofrano",
-     "mm": 218.7
+     "n": "Cusano Mutri",
+     "mm": 287.5
+    },
+    {
+     "n": "Montella METEO",
+     "mm": 270.8
     }
    ]
   }
  },
  "serie": [
+  29,
   2.1,
   19,
   6.1,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-14",
+ "serieDa": "2026-11-15",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-14",
-   "m1": 1.5,
-   "m7": 25.5,
-   "m30": 97.8,
+   "ultimo": "2026-11-15",
+   "m1": 33.7,
+   "m7": 52.4,
+   "m30": 124.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-14",
-   "m1": 4.3,
-   "m7": 59.1,
-   "m30": 162.8,
+   "ultimo": "2026-11-15",
+   "m1": 30.3,
+   "m7": 89.3,
+   "m30": 193.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-14",
-   "m1": 0.7,
-   "m7": 15.4,
-   "m30": 152,
+   "ultimo": "2026-11-15",
+   "m1": 19.4,
+   "m7": 34.8,
+   "m30": 171.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-14",
-   "m1": 3.6,
-   "m7": 65,
-   "m30": 162.4,
+   "ultimo": "2026-11-15",
+   "m1": 17,
+   "m7": 81.9,
+   "m30": 179.3,
    "p1": true,
    "p7": true,
    "p30": true

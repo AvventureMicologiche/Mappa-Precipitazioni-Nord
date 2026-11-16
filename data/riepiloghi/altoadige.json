@@ -1,13 +1,13 @@
 {
  "regione": "altoadige",
- "generato": "2026-11-15T04:15:46.828Z",
+ "generato": "2026-11-16T04:15:46.079Z",
  "periodi": {
   "1": {
    "media": 0,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-14",
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Alta Val Martello",
@@ -32,11 +32,11 @@
    ]
   },
   "7": {
-   "media": 19.9,
+   "media": 19.7,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-11-08",
-   "ultimo": "2026-11-14",
+   "primo": "2026-11-09",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Terento",
@@ -52,7 +52,7 @@
     },
     {
      "n": "Riva di Tures",
-     "mm": 28.7
+     "mm": 28.6
     },
     {
      "n": "Fundres",
@@ -64,8 +64,8 @@
    "media": 21.8,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Vandoies",
@@ -93,8 +93,8 @@
    "media": 54.5,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Santa Valburga",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0,
   0,
   0.7,
   15.8,
@@ -148,17 +149,16 @@
   0.3,
   0,
   0.2,
-  0,
   0
  ],
- "serieDa": "2026-11-14",
+ "serieDa": "2026-11-15",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-11-14",
+   "ultimo": "2026-11-15",
    "m1": 0,
-   "m7": 14.2,
+   "m7": 13.7,
    "m30": 53,
    "p1": false,
    "p7": true,
@@ -167,9 +167,9 @@
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-11-14",
+   "ultimo": "2026-11-15",
    "m1": 0,
-   "m7": 21.8,
+   "m7": 21.7,
    "m30": 51.7,
    "p1": false,
    "p7": true,

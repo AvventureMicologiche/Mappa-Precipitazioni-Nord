@@ -1,46 +1,50 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-15T04:15:46.829Z",
+ "generato": "2026-11-16T04:15:46.080Z",
  "periodi": {
   "1": {
    "media": 0.1,
    "giorni": 1,
-   "stazioni": 424,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-14",
+   "stazioni": 421,
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-15",
    "top": [
     {
-     "n": "Castanea delle Furie",
-     "mm": 2.8
+     "n": "Allume",
+     "mm": 3.6
     },
     {
-     "n": "Messina San Michele",
-     "mm": 2.6
+     "n": "Scopello",
+     "mm": 2
     },
     {
-     "n": "Messina SP44",
+     "n": "Torretta",
      "mm": 1.8
     },
     {
-     "n": "Salice",
+     "n": "Leni SIAS",
      "mm": 1.6
     },
     {
-     "n": "Chiusa Sclafani",
-     "mm": 1.2
+     "n": "Fiumedinisi SIAS",
+     "mm": 1.4
     }
    ]
   },
   "7": {
    "media": 0.3,
    "giorni": 7,
-   "stazioni": 420,
-   "primo": "2026-11-08",
-   "ultimo": "2026-11-14",
+   "stazioni": 421,
+   "primo": "2026-11-09",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Gangi",
-     "mm": 4.8
+     "mm": 3.7
+    },
+    {
+     "n": "Allume",
+     "mm": 3.6
     },
     {
      "n": "Fanaco Diga R2",
@@ -48,36 +52,32 @@
     },
     {
      "n": "Castanea delle Furie",
-     "mm": 3
+     "mm": 3.2
     },
     {
      "n": "Messina San Michele",
-     "mm": 2.6
-    },
-    {
-     "n": "Prizzi Diga R2",
-     "mm": 2.5
+     "mm": 2.8
     }
    ]
   },
   "20": {
-   "media": 54.9,
+   "media": 52.9,
    "giorni": 20,
    "stazioni": 423,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-15",
    "top": [
-    {
-     "n": "Isnello SP54",
-     "mm": 213.7
-    },
     {
      "n": "Viagrande",
      "mm": 191.9
     },
     {
+     "n": "Isnello SP54",
+     "mm": 189.3
+    },
+    {
      "n": "Cesarò",
-     "mm": 186.4
+     "mm": 182
     },
     {
      "n": "Nunziata",
@@ -93,8 +93,8 @@
    "media": 77,
    "giorni": 30,
    "stazioni": 421,
-   "primo": "2026-10-16",
-   "ultimo": "2026-11-14",
+   "primo": "2026-10-17",
+   "ultimo": "2026-11-15",
    "top": [
     {
      "n": "Piedimonte Etneo",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Pagliara",
-     "mm": 355.8
+     "mm": 356.6
     },
     {
      "n": "Forza d'Agrò",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.1,
   0,
   0,
@@ -148,18 +149,17 @@
   5.5,
   4.1,
   1.5,
-  0.4,
-  0.1
+  0.4
  ],
- "serieDa": "2026-11-14",
+ "serieDa": "2026-11-15",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-14",
+   "ultimo": "2026-11-15",
    "m1": 0,
-   "m7": 0.5,
-   "m30": 138.2,
+   "m7": 0.3,
+   "m30": 136.3,
    "p1": false,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-14",
+   "ultimo": "2026-11-15",
    "m1": 0,
-   "m7": 0.2,
-   "m30": 153,
+   "m7": 0,
+   "m30": 152.8,
    "p1": false,
    "p7": true,
    "p30": true
