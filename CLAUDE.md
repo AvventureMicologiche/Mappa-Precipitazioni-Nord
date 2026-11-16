@@ -45,7 +45,7 @@ Mappa interattiva delle precipitazioni di TUTTA ITALIA, SVIZZERA E AUSTRIA (Aust
    - **Non recupera il passato**: i giorni già cancellati sono persi, si smette solo di cancellare. Attenzione a non leggere "2 anni di archivio" come "2 anni di dati veri": al 7/8/2026 l'anno più vecchio è per il 73-93% **stime** Open-Meteo (backfill), tranne Svizzera, Austria, Lombardia e Ticino che sono reali. I due anni tutti reali arrivano a metà 2028.
    - **Costo**: `data/` passa da ~60 MB a ~120 MB in un anno. **Nessun deploy Netlify** (`data/` e `.github/` sono nella regola ignore) e nessun rallentamento del sito: il periodo massimo selezionabile resta bloccato a 12 mesi nelle date personalizzate. Nota: la retention non ha mai ridotto il peso di `.git`, perché i file cancellati restano nella storia — serve a tenere leggera la cartella di lavoro.
    - **Cambiate 16 costanti in prod e 12 nel test** (`MAX_DAYS`/`RETENTION`), più `RETENTION_DAYS` in `check-gaps-nord.js` (che però nel run giornaliero non entra mai in gioco: `SCAN_DAYS` è 15, quel limite serve solo alla scansione profonda a mano). **NON toccati i backfill**, dove `365` è il parametro di quante giornate scaricare, non la retention.
-2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file.
+2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file. Eccezione dal 16/11/2026: il ritocco piccolo (regola 1 qui sotto).
 3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
 4. **Le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli; **centro-sud: MeteoHub**, rete dpcn — stazioni reali via piattaforma unica). Eccezione dichiarata: **Abruzzo = stazioni MeteoNetwork + stime del modello ICON-2I** sui punti dei paesi (assente da MeteoHub, nessuna fonte regionale accessibile; `data/abruzzo/`, `collect-abruzzo.js`, dal 3/11/2026; prima era Open-Meteo dal vivo). **I buchi** li tappano gaps-nord e meteohub-gaps con le **stime ICON-2I** (dal 2/11/2026: `source: icon-2i-gapfill`, stazioni `om:true` + `src:'icon-2i'`). **Nessun ripiego dei caricatori**: file mancanti = nessun dato. **Open-Meteo resta solo** (aggiornato il 3/11/2026, scheda 115): (a) nelle **stime già salvate**, che restano per la regola 1: lo storico prima della data di partenza (`open-meteo-archive`, `open-meteo-backfill-*`) e i buchi tappati fino al 2/11 (`open-meteo-gapfill`, stazioni `om:true` di allora); (b) nella **probabilità di pioggia** delle previsioni (`functions/api/previsioni.js`, sul server, interruttore `PROB`); (c) nei crediti di `fonti.html`, l'unico posto del sito dove si nomina (sua decisione del 3/11).
 5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
@@ -58,7 +58,9 @@ Valgono per ogni lavoro, qualunque sia l'argomento. Le regole fondamentali qui s
 riassumono insieme a quelle sparse nelle note, con il file dove sta la storia.
 
 1. **Prima la proposta, poi il suo sì, poi i file.** Vale a ogni scheda: un riepilogo che dice «già approvato» non è
-   un sì (regola 2 qui sopra).
+   un sì (regola 2 qui sopra). **Eccezione, sua del 16/11/2026: il ritocco piccolo** (un file, poche decine di righe,
+   niente dati né fonti). La sua scelta del modo vale già come via per farlo e provarlo in locale: niente proposta
+   scritta, niente «parto?». Push e pubblicazione restano due domande.
 2. **Push su GitHub e pubblicazione sono due domande, ognuna col suo sì.** Il push non pubblica; si pubblica dal PC con
    `node cloudflare-pages\pubblica-pages.js <repo> <progetto>` (percorso del repo ASSOLUTO), le anteprime con
    `--ramo=<nome>`. Eccezione sua del 28/10/2026: documentazione (questi file, note, commenti) e piccoli ritocchi di
