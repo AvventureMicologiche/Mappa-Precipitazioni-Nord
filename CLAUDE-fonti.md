@@ -1194,3 +1194,50 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
 
 ---
 
+## Le regole fondamentali di luglio e agosto, per esteso (spostate il 16/11/2026, scheda 135)
+
+Fino al 16/11/2026 stavano in testa al `CLAUDE.md`, accanto a «Le regole che valgono sempre» che le riassumono una
+riga per regola. Sono passate qui tali e quali, con la storia. Prima c'era anche la scheda del progetto com'era
+scritta allora: le righe su Netlify sono vecchie, dall'ottobre 2026 il sito sta su Cloudflare Pages.
+
+### La scheda del progetto com'era scritta
+
+Mappa interattiva delle precipitazioni di TUTTA ITALIA, SVIZZERA E AUSTRIA (Austria dal 7 agosto 2026; Svizzera dal 3/8, v6.0; v5.0 tutta Italia dall'1/8, prima solo Nord) per il canale YouTube "Avventure Micologiche". Mostra dati pluviometrici reali di stazione su heatmap Leaflet.
+- **Dev:** avventurepluvio.netlify.app
+- **Prod:** precipitazioni.avventuremicologiche.it
+- **Repo:** github.com/AvventureMicologiche/Mappa-Precipitazioni-Nord
+- **Stack:** Leaflet 1.9.4, OpenStreetMap, Netlify (hosting + Functions), GitHub Actions (data collection)
+
+### Le regole fondamentali
+
+
+1. **LA FRONTIERA DEL DATO REALE (definita il 20/8/2026).** Ogni regione ha una data
+   di partenza, oltre la quale i dati **sono reali e vanno tenuti seri**: da lì in avanti
+   niente stime, niente giornate parziali accettate come «non catastrofiche», ogni
+   problema si risolve. **Prima di quella data ci sono le stime Open-Meteo del backfill,
+   e ci restano**: sono dichiarate nel file (`source: open-meteo-backfill-*`) e in mappa,
+   il passato non si riscrive per principio, e col passare dei mesi quella coda pesa
+   sempre meno. Si sostituisce una finestra vecchia solo per un motivo preciso, come è
+   stato per il Veneto del bug #20, non per completismo.
+   - **Le frontiere, al 20/8/2026**: centro-sud **19 luglio** (Marche e Umbria 13 luglio,
+     Lazio 6 luglio dopo la sostituzione del 20/8), **eccetto il blackout di piattaforma
+     del 16-17 luglio che resta stimato per tutti e non è recuperabile**. Nord: Lombardia
+     gennaio, Alto Adige e Veneto 4 giugno, Emilia 5 giugno, Trentino 6 giugno, Piemonte
+     12 giugno, Liguria 19 giugno, Toscana 12 luglio, VdA 16 luglio, Friuli 18 luglio,
+     Ticino 18 marzo. Estero: Austria, Svizzera, Francia e Slovenia sono **reali su tutti
+     i 365 giorni** dal primo giorno.
+   - **Le verifiche si fanno se sono semplici, efficaci e poco onerose.** Non è nostro
+     compito scovare l'errore della singola stazione dentro un fornitore molto più grande
+     di noi: rincorrerlo su 5.000 stazioni impila complessità finché a rompersi è la
+     nostra macchina di controllo. Prima di costruire un controllo nuovo: quale decisione
+     cambia, quante volte il problema è già successo davvero, quanto costa tenerlo vivo il
+     giorno che sbaglia. Se le risposte sono deboli, non si costruisce.
+1b. **Retention: max 730 giorni (2 anni) di storico per regione — allungata da 365 il 7 agosto 2026.** Finestra scorrevole: ogni nuovo giorno raccolto elimina il più vecchio oltre i 730. Ogni collector DEVE avere il blocco "Pulizia retention" a fine main() (uniformato a tutti i collector il 16 luglio 2026 — prima lo avevano solo Piemonte, Emilia, Veneto e Liguria, le altre regioni erano arrivate a 417-420 giorni).
+   - **Perché è stata allungata proprio quel giorno**: Austria e Svizzera avevano **esattamente 365 file, dal 7/8/2025 al 6/8/2026**, cioè erano appoggiate al muro — da lì in poi ogni giorno nuovo avrebbe cancellato un giorno di dato REALE, ricostruito con backfill una tantum (per la Svizzera ~1 GB di CSV). Le altre regioni non rischiavano nulla, loro sì.
+   - **Non recupera il passato**: i giorni già cancellati sono persi, si smette solo di cancellare. Attenzione a non leggere "2 anni di archivio" come "2 anni di dati veri": al 7/8/2026 l'anno più vecchio è per il 73-93% **stime** Open-Meteo (backfill), tranne Svizzera, Austria, Lombardia e Ticino che sono reali. I due anni tutti reali arrivano a metà 2028.
+   - **Costo**: `data/` passa da ~60 MB a ~120 MB in un anno. **Nessun deploy Netlify** (`data/` e `.github/` sono nella regola ignore) e nessun rallentamento del sito: il periodo massimo selezionabile resta bloccato a 12 mesi nelle date personalizzate. Nota: la retention non ha mai ridotto il peso di `.git`, perché i file cancellati restano nella storia — serve a tenere leggera la cartella di lavoro.
+   - **Cambiate 16 costanti in prod e 12 nel test** (`MAX_DAYS`/`RETENTION`), più `RETENTION_DAYS` in `check-gaps-nord.js` (che però nel run giornaliero non entra mai in gioco: `SCAN_DAYS` è 15, quel limite serve solo alla scansione profonda a mano). **NON toccati i backfill**, dove `365` è il parametro di quante giornate scaricare, non la retention.
+2. **Verifica prima di procedere:** spiega le modifiche proposte e aspetta l'approvazione esplicita prima di toccare qualsiasi file. Eccezione dal 16/11/2026: il ritocco piccolo (regola 1 qui sotto).
+3. **La mappa mostra solo "ieri" e periodi passati.** I dati della giornata odierna sono esclusi dalla visualizzazione.
+4. **Le regioni usano dati di stazione reali** (ARPA regionali, SIR Toscana, OASI Ticino, Centro Funzionale VdA, ARPA OSMER Friuli; **centro-sud: MeteoHub**, rete dpcn — stazioni reali via piattaforma unica). Eccezione dichiarata: **Abruzzo = stazioni MeteoNetwork + stime del modello ICON-2I** sui punti dei paesi (assente da MeteoHub, nessuna fonte regionale accessibile; `data/abruzzo/`, `collect-abruzzo.js`, dal 3/11/2026; prima era Open-Meteo dal vivo). **I buchi** li tappano gaps-nord e meteohub-gaps con le **stime ICON-2I** (dal 2/11/2026: `source: icon-2i-gapfill`, stazioni `om:true` + `src:'icon-2i'`). **Nessun ripiego dei caricatori**: file mancanti = nessun dato. **Open-Meteo resta solo** (aggiornato il 3/11/2026, scheda 115): (a) nelle **stime già salvate**, che restano per la regola 1: lo storico prima della data di partenza (`open-meteo-archive`, `open-meteo-backfill-*`) e i buchi tappati fino al 2/11 (`open-meteo-gapfill`, stazioni `om:true` di allora); (b) nella **probabilità di pioggia** delle previsioni (`functions/api/previsioni.js`, sul server, interruttore `PROB`); (c) nei crediti di `fonti.html`, l'unico posto del sito dove si nomina (sua decisione del 3/11).
+5. **Direzione geografica:** per spostare il centro mappa visivamente verso il basso, la latitudine deve AUMENTARE, non diminuire.
