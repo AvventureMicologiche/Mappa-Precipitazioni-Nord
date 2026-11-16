@@ -2305,3 +2305,11 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
   temperature uguale ai dati, periodo chiude, col periodo la scheda completa come prima), computer 5/5 (mouse sul
   pallino, mouse nel vuoto, riga delle temperature, col periodo la scheda come prima); zero errori, a parte il 404 di
   `/api/canale` che in locale manca. Foto `shots\134-riquadro-*.png` del banco.
+- **Dove sta, al telefono: vicino al dito (16/11 sera, suo Pixel 9a, sua scelta «B, vicino al dito»).** La vecchia regola
+  «Tooltip in alto» (`left` e `right` a 8px) più il `left` scritto dal dito STIRAVA il riquadro fino al bordo destro
+  (220-416 px) e, toccando a 180-220 px da sinistra, lo faceva uscire a sinistra. Ora `posTooltip` lo misura (chi lo apre
+  lo mostra prima) e lo mette sopra il dito, o sotto se in alto non c'è posto, sempre a 8 px dai bordi; il perché sta nel
+  commento ⚠️ sopra `posTooltip`. Al computer lo stesso conto usa la larghezza vera (non più 215 px fissi). Prove
+  `temp-bug\prova-dito.js`: 412, 393 e 360 px dentro lo schermo e pallino scoperto, PC intero al bordo destro.
+  ⚠️ Con due pallini a 3-7 px il tocco apre quello disegnato SOPRA (il telefono sposta il tocco sul suo cerchio): non è
+  un difetto, il dito lì non può scegliere e il pallino aperto diventa nero.

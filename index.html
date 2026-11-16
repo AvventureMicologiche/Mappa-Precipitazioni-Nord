@@ -1770,11 +1770,15 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
   .fonte-tag{color:#4a5f7d;}
   .stat{padding:4px 4px;}
 
-  /* Tooltip in alto */
+  /* Il riquadro del pluviometro: VICINO AL DITO, lo mette posTooltip (16/11/2026, scheda 134, sua scelta «B, vicino
+     al dito»). ⚠️ Era «Tooltip in alto», fisso a tutta larghezza con left e right a 8px. Dal 16/11 il riquadro si apre
+     al tocco e posTooltip scrive il left dal dito: il right:8px restava e lo STIRAVA fino al bordo destro (largo 220-416
+     px), e toccando fra 180 e 220 px da sinistra usciva a sinistra (Pixel 9a, suo screen). Ora largo quanto il testo
+     (min-width 185 come al computer), mai piu' largo dello schermo meno 16 px. */
   #st-tooltip{
     position:fixed !important;
-    top:52px;left:8px;right:8px;bottom:auto !important;
-    min-width:0 !important;z-index:3000;
+    top:52px;left:8px;bottom:auto !important;
+    max-width:calc(100vw - 16px);box-sizing:border-box;z-index:3000;
   }
   .tt-mm{font-size:18px;}
   h1{font-size:12px;}
@@ -3713,10 +3717,31 @@ var tooltip=document.getElementById('st-tooltip');
 var mapEl=document.getElementById('map-wrap');
 var hideTimer=null;
 
+/* ⚠️ IL RIQUADRO SI MISURA: chi lo apre lo mostra PRIMA di chiamare posTooltip (nello stesso istante, niente
+   sfarfallio), perche' un riquadro nascosto e' largo zero (16/11/2026, scheda 134).
+   AL TELEFONO e' `position:fixed` (regola di max-width:600px) e sta VICINO AL DITO, in coordinate dello schermo:
+   sopra il dito e staccato di 22 px, perche' il pallino toccato (grande e nero) resti visibile, centrato e sempre a
+   8 px dai bordi. Se sopra non c'e' posto (pallino subito sotto la barra delle regioni) va sotto il dito, anche sopra
+   il pannello dei periodi: il riquadro non prende i tocchi (pointer-events:none) e a 360x640 fra la barra e il
+   pannello restano 250 px per un riquadro alto 156, quindi tenerlo fuori dal pannello voleva dire coprire il pallino
+   (4 tocchi su 14 nella prova del 16/11).
+   AL COMPUTER a destra del mouse, o a sinistra se non c'e' posto, con la larghezza VERA: il conto supponeva 215 px, il
+   riquadro ne e' largo 234 (256 con le temperature) e vicino al bordo destro usciva tagliato fino a 41 px (#map ha
+   overflow hidden). */
 function posTooltip(mx,my){
+  var w=tooltip.offsetWidth||215, h=tooltip.offsetHeight;
+  if(getComputedStyle(tooltip).position==='fixed'){
+    var mr=mapEl.getBoundingClientRect(), su=Math.max(mr.top,0)+6, giu=Math.min(mr.bottom,window.innerHeight)-6;
+    var x=Math.min(Math.max(8,mx-w/2),window.innerWidth-w-8);
+    var y=my-h-22;
+    if(y<su){ y=my+22; if(y+h>giu) y=Math.max(su,giu-h); }
+    tooltip.style.left=Math.round(x)+'px';tooltip.style.top=Math.round(y)+'px';
+    return;
+  }
   var r=mapEl.getBoundingClientRect();
   var tx=mx-r.left+16,ty=my-r.top-60;
-  if(tx+215>mapEl.clientWidth)tx=mx-r.left-220;
+  if(tx+w>mapEl.clientWidth)tx=mx-r.left-w-5;
+  if(tx<4)tx=4;
   if(ty<0)ty=4;
   tooltip.style.left=tx+'px';tooltip.style.top=ty+'px';
 }
@@ -3753,8 +3778,8 @@ function showTooltip(s,rank,mx,my){
   document.getElementById('tt-rank').textContent=rank?('#'+rank+' / '+totalStations):'—';   // fuori regione: senza posizione
   document.getElementById('tt-fonte').textContent=fonte;
   tooltip.classList.remove('tt-senza-periodo','tt-con-tq');
+  tooltip.style.display='block';   // prima si mostra, poi si posiziona: posTooltip lo misura
   posTooltip(mx,my);
-  tooltip.style.display='block';
 }
 function hideTooltip(){tooltip.style.display='none';}
 /* ⚠️ IL RIQUADRO DEI PALLINI BIANCHI, PRIMA DEL PERIODO (16/11/2026, scheda 134, segnalato a lui: «se uno accende il
@@ -3782,8 +3807,8 @@ function riquadroBianco(mk,st,cx,cy){
   }
   tooltip.classList.add('tt-senza-periodo');
   tooltip.classList.toggle('tt-con-tq',!!t);
+  tooltip.style.display='block';   // prima si mostra, poi si posiziona: posTooltip lo misura
   posTooltip(cx,cy);
-  tooltip.style.display='block';
 }
 
 // ═══════════════════════════════════════════════════════════════
