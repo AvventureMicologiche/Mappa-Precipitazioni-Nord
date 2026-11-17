@@ -1298,3 +1298,11 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   con `OUT=<radice>/_anteprime-prova FFMPEG=… CHROME=… node .github/scripts/genera-anteprime.js liguria`.
   `node .github/scripts/avviso-evento.js` senza GITHUB_OUTPUT stampa la mail e non tocca il registro.
 - **Il primo evento**: Liguria, Toscana ed Emilia-Romagna, dal 9 al 12 novembre, accese fino al 15, normali lunedì 16.
+
+## «Pluviometria Toscana» in testa alla descrizione (17/11/2026, scheda 136)
+
+- Solo /toscana/, di prova: la descrizione comincia con «Pluviometria Toscana: mappa di N pluviometri SIR aggiornata ogni
+  mattina.», poi i mm come prima. Le altre regioni non cambiano, la modalità evento (`descrEvento`) nemmeno.
+- Dove: `DESCR_PLUVIO` e `apre` in `descrMappa` di `genera-pagine-regione.js`.
+- La trappola: la descrizione resta sotto i 158 caratteri scalando le forme; con un nome lungo cade prima la coda e poi i
+  7 giorni. Misura: CTR di «pluviometria toscana» su /toscana/ dopo 2-3 settimane, contro 0,49-0,53% del 27/10-16/11.

@@ -301,10 +301,19 @@ const nomeBello = n => {
 };
 // «1,4 mm» come la scheda, non «1 mm»: sotto i 10 mm il decimale (18/10/2026, descrizioni delle pagine regione)
 const mmD = v => v < 10 ? String(Math.round(v * 10) / 10).replace('.', ',') : String(Math.round(v));
+// ⚠️ «PLUVIOMETRIA TOSCANA» IN TESTA ALLA DESCRIZIONE (17/11/2026, scheda 136, sua scelta: solo Toscana, di prova).
+// Dal 28/10 Google mostra la h1 come titolo, ma al posto di questa descrizione mette il riquadro «Ultimi 7 giorni»
+// della pagina: una descrizione che comincia con le parole della ricerca ha piu' probabilita' di essere usata.
+// Misura: CTR di «pluviometria toscana» su /toscana/ dopo 2-3 settimane (base 0,49-0,53% dal 27/10 al 16/11, pos ~5,7).
+// La modalita' evento (descrEvento) resta com'e'.
+const DESCR_PLUVIO = new Set(['toscana']);
 function descrMappa(r, j, N, n) {
   const ag = r.agenziaCorta || r.agenzia;
   const di = /^Provincia/.test(ag) ? 'della ' : /^Centro/.test(ag) ? 'del ' : '';
-  const apre = `Mappa di ${n} pluviometri ${di}${ag} aggiornata ogni mattina.`;
+  // «SIR Toscana» diventa «SIR»: la regione e' gia' in testa
+  const apre = DESCR_PLUVIO.has(r.k)
+    ? `Pluviometria ${r.nomeTitolo || r.nome}: mappa di ${n} pluviometri ${di}${ag.replace(' ' + r.nome, '')} aggiornata ogni mattina.`
+    : `Mappa di ${n} pluviometri ${di}${ag} aggiornata ogni mattina.`;
   const coda = 'Tocca un paese e vedi il grafico.';
   // senza numeri freschi non si promette «ieri» (19/10/2026, bug 16): la Slovenia, 34 ore di ritardo, ieri non l'ha mai
   if (!N) return [`${apre} Quanto ha piovuto negli ultimi 7, 20 e 30 giorni. ${coda}`, `${apre} Ultimi 7 e 30 giorni. ${coda}`, apre].find(t => t.length <= 158);
