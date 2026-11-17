@@ -1,125 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-16T04:15:46.079Z",
+ "generato": "2026-11-17T04:15:39.488Z",
  "periodi": {
   "1": {
-   "media": 4.9,
+   "media": 7.8,
    "giorni": 1,
    "stazioni": 113,
-   "primo": "2026-11-15",
-   "ultimo": "2026-11-15",
+   "primo": "2026-11-16",
+   "ultimo": "2026-11-16",
    "top": [
     {
-     "n": "Spindoli",
-     "mm": 19.6
+     "n": "Camponocecchio",
+     "mm": 27.6
     },
     {
-     "n": "Esanatoglia2",
-     "mm": 17
-    },
-    {
-     "n": "Pioraco 2",
-     "mm": 14.2
-    },
-    {
-     "n": "Sefro",
-     "mm": 14.2
+     "n": "Gualdo",
+     "mm": 27.2
     },
     {
      "n": "Sorti",
-     "mm": 14.2
+     "mm": 25.3
+    },
+    {
+     "n": "Monte Prata",
+     "mm": 18.9
+    },
+    {
+     "n": "Capodacqua",
+     "mm": 18.6
     }
    ]
   },
   "7": {
-   "media": 67.7,
+   "media": 74.7,
    "giorni": 7,
    "stazioni": 111,
-   "primo": "2026-11-09",
-   "ultimo": "2026-11-15",
+   "primo": "2026-11-10",
+   "ultimo": "2026-11-16",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 215.6
+     "mm": 219.8
     },
     {
      "n": "Monte Petrano",
-     "mm": 177.4
+     "mm": 176.4
+    },
+    {
+     "n": "Sorti",
+     "mm": 158.9
+    },
+    {
+     "n": "Monte Nerone",
+     "mm": 151.5
     },
     {
      "n": "Sant Angelo in Vado",
      "mm": 150.6
-    },
-    {
-     "n": "Monte Nerone",
-     "mm": 148.3
-    },
-    {
-     "n": "Spindoli",
-     "mm": 144.4
     }
    ]
   },
   "20": {
-   "media": 128.3,
+   "media": 136,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-15",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-16",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 331.7
+     "mm": 338.1
     },
     {
      "n": "Cantiano",
-     "mm": 305.8
+     "mm": 311
     },
     {
      "n": "Monte Petrano",
-     "mm": 245.3
+     "mm": 249.3
     },
     {
      "n": "Monte Nerone",
-     "mm": 240.7
+     "mm": 247.3
     },
     {
      "n": "Serravalle di Carda",
-     "mm": 222.4
+     "mm": 226.9
     }
    ]
   },
   "30": {
-   "media": 136.6,
+   "media": 144.2,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-17",
-   "ultimo": "2026-11-15",
+   "primo": "2026-10-18",
+   "ultimo": "2026-11-16",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 348.3
+     "mm": 354.7
     },
     {
      "n": "Cantiano",
-     "mm": 335.4
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 267.1
+     "mm": 340.6
     },
     {
      "n": "Monte Nerone",
-     "mm": 266.8
+     "mm": 273.4
+    },
+    {
+     "n": "Monte Petrano",
+     "mm": 271.1
     },
     {
      "n": "Serravalle di Carda",
-     "mm": 240.4
+     "mm": 244.9
     }
    ]
   }
  },
  "serie": [
+  7.8,
   4.9,
   1.1,
   34.7,
@@ -148,18 +149,17 @@
   4.6,
   0.2,
   0.1,
-  0.1,
   0.1
  ],
- "serieDa": "2026-11-15",
+ "serieDa": "2026-11-16",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-15",
-   "m1": 2.4,
-   "m7": 74.9,
-   "m30": 133.6,
+   "ultimo": "2026-11-16",
+   "m1": 7.5,
+   "m7": 81.6,
+   "m30": 141,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-15",
-   "m1": 10.3,
-   "m7": 88.5,
-   "m30": 174.2,
+   "ultimo": "2026-11-16",
+   "m1": 16.6,
+   "m7": 104.7,
+   "m30": 190.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-15",
-   "m1": 10,
-   "m7": 52.8,
-   "m30": 162.4,
+   "ultimo": "2026-11-16",
+   "m1": 15.4,
+   "m7": 67.3,
+   "m30": 177.8,
    "p1": true,
    "p7": true,
    "p30": true
