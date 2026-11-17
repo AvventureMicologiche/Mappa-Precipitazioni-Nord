@@ -545,6 +545,6 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
 - Fuori Castiglione d'Orcia (`TOSCANA_ESCLUSE`), Pietrabbondante e La Storta (`MH_ESCLUSE`, chiave nuova `lazio`):
   sorde in ogni giorno di pioggia da fine ottobre. Rientrate Gabbro, Sassa, Gamberame, Camaiore e Gragnano (in riga dal
   20-21/10). Il perché sta nei commenti delle liste in `index.html`; ricontrollo con `storia-sospette.js` (scheda 96).
-- ⚠️ Una voce tolta si lascia nel commento SENZA la forma `'id':`: `lib-escluse.js` (`senzaCommenti`) non toglie i
-  commenti dalle righe CRLF, e un `// 'TOS…':1` per le pagine resterebbe escluso mentre la mappa lo rimette.
+- ⚠️ `lib-escluse.js` (`senzaCommenti`) non toglieva i commenti dalle righe CRLF: un `// 'TOS…':1` per le pagine
+  restava escluso mentre la mappa lo rimetteva. Corretta lo stesso giorno (divide anche sul `\r`), liste vere uguali.
 

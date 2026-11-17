@@ -41,7 +41,10 @@ function blocco(h, nome) {
   }
   return null;
 }
-const senzaCommenti = t => t.split('\n').map(r => r.replace(/\/\/.*$/, '')).join('\n');
+// ⚠️ 17/11/2026 (scheda 137): si divide anche sul \r. index.html e' CRLF, e con `/\/\/.*$/` il punto non passava il \r
+// in fondo alla riga: i commenti restavano dentro, e una voce tolta e lasciata come `// 'TOS…':1` per le pagine
+// restava esclusa mentre la mappa la rimetteva. Sul file del 17/11 nessuna voce cambiava; era una trappola.
+const senzaCommenti = t => t.split(/\r?\n/).map(r => r.replace(/\/\/.*$/, '')).join('\n');
 const chiavi = t => [...t.matchAll(/['"]([^'"]+)['"]\s*:/g)].map(m => m[1]);
 
 // { regione: Set(chiavi) }
