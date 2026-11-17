@@ -369,6 +369,12 @@ const CSS = `
 @media (max-width:600px){.pz-et{padding:1px 5px 2px}.pz-et .r1{font-size:11px}.pz-et .ic{font-size:14px}.pz-et .nm{font-size:10px}
   #pz-mappa .pz-et{flex-direction:column;gap:0;padding:1px 5px 2px}#pz-mappa .pz-et .r1{display:flex;align-items:center;gap:3px}
   #pz-mappa .pz-et .ic{font-size:14px}#pz-mappa .pz-et .nm{font-size:10px}}
+/* ⚠️ AL TELEFONO SULLA CARTINA SOLO ICONA, MINIMA/MASSIMA E NOME (17/11/2026, scheda 137, suo «Dopo 1» dopo il confronto in
+   claudio\mockup-etichette-telefono\): con 💧% e mm l'etichetta arrivava a 158 px su 361 di cartina e nei giorni di
+   pioggia se ne vedevano 2-4 (Valle Caudina 2 su 12; senza: 5). Come la mappa di 3B (nome e gradi). La % e i mm restano
+   nei 7 giorni, nella tabella, nella scheda ora per ora e sulla cartina del computer; la nota sotto la mappa al telefono
+   non parla piu' della 💧 (.pz-nota-pp). Le etichette si misurano dopo lo stile: il diradamento ne tiene conto da solo. */
+@media (max-width:600px){#pz-mappa .pz-et .pp,#pz-mappa .pz-et .gc,.pz-nota-pp{display:none}}
 .pz-zoom{color:#1a5fa8;font-weight:700}
 .pz-scorri{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0}
 table.pz-tab{border-collapse:collapse;min-width:640px;width:100%;font-size:13px}
@@ -630,7 +636,7 @@ function clientePagina(C) {
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora. 💧 è la probabilità di pioggia, scritta dal 10% in su.' + (nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 

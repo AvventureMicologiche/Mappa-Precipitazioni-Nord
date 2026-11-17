@@ -199,6 +199,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il pallino «IN DIRETTA» (9/11, 130)
 - La % di pioggia ora per ora (9/11, 130)
 - Il gruppo D delle pagine meteo di zona (17/11, 137): 20 valli, sitemap sua
+- Al telefono la cartina delle pagine meteo senza % e mm (17/11, 137)
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 

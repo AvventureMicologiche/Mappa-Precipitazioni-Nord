@@ -1337,3 +1337,11 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   funghi delle 11 regioni (le pagine regione lo prendono dal giro del mattino). ⚠️ Rigenerare funghi regione e «adesso»
   porta dentro codice e dati di altre schede (modalità evento della 132, città della Goccia): lì cambia SOLO quella riga.
 
+## Al telefono la cartina delle pagine meteo senza % e mm (17/11/2026, scheda 137)
+
+- Sotto i 600 px le etichette di `#pz-mappa` mostrano solo icona, minima/massima e nome (`.pp` e `.gc` nascoste, come
+  3B); la nota sotto la mappa perde la frase della 💧 (`.pz-nota-pp`). Valli e «Meteo <paese>», computer invariato.
+- Perché: nei giorni di pioggia l'etichetta arrivava a 158 px su 361 e se ne vedevano 2-4 (Valle Caudina 2 su 12, ora
+  5). Sua scelta «Dopo 1» dal confronto `claudio\mockup-etichette-telefono\`. ⚠️ Così i mm forti (33 in Val Cichero) al
+  telefono non stanno sulla cartina: li dicono icona, 7 giorni, tabella e scheda.
+
