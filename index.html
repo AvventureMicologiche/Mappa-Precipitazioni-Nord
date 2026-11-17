@@ -7707,7 +7707,9 @@ var MH_ESCLUSE={
   // danno 250 m di quota diversa e non si sa quale sia quella vera.
   // Sarno SPM20 40.82944/14.61417 gemella di Sarno a 1,4 km (97,6 mm tutt'e due): resta
   // Sarno. ⚠️ Sarno CF (40.83528/14.59528) NON e' un doppione: misura numeri suoi e resta.
-  campania:{'41.11500_14.82500':true,'40.68889_14.51444':true,'40.78694_14.91222':true,'40.82944_14.61417':true},
+  // ── Gragnano RIENTRATA il 17/11/2026 (scheda 137, ricontrollo di tutta la lista, suo «Sì, tutto»): in riga coi
+  // vicini in tutti e dieci i giorni di pioggia dal 21/10 (novembre 94% della mediana dei cinque vicini).
+  campania:{'41.11500_14.82500':true,'40.78694_14.91222':true,'40.82944_14.61417':true},
   // S.Severo (FG), 41.68583/15.39267, esclusa il 26/10/2026: MUTA. Non fa 1 mm dal 17/8, e in
   // ottobre zero in tutti i 7 giorni di pioggia dei vicini (9/10 Torremaggiore 14,2, Lucera 16;
   // 21/10 Torremaggiore e Bari Ufficio Idrografico 13). Restano Torremaggiore a 8,6 km e Bari
@@ -7731,7 +7733,17 @@ var MH_ESCLUSE={
   // Ricontrollo di tutta la lista il 3/11/2026, giorno per giorno sugli ultimi 90 giorni (giorni
   // con mediana dei vicini >= 5 mm): restano fuori tutte. Trinita' Diga R2 e' in riga solo dal
   // 1/11 (11,3 e 38,9 mm), Riesi_DRPC va a sbalzi (settembre zero, ottobre 188%): da riguardare.
-  molise:{'41.94222_14.70306':true}
+  // Pietrabbondante (IS), 41.74222/14.38306, 1034 m, esclusa il 17/11/2026 (scheda 137, suo «Sì, tutte e
+  // tre»): SI E' FERMATA. In riga fino al 21/10 (19,6 contro 13,8-45,9), poi ZERO in tutti e sei i giorni
+  // bagnati dal 24/10: 2/11 0 contro 24-110, 13/11 0 contro 2-36, 15/11 0,2 contro 4-27. Massime 11-16
+  // gradi: non e' neve. Trovata dal controllo del lunedi' del 16/11 (terza porta). Entro 10 km resta solo
+  // Trigno a Pescolanciano (7 km), come Mafalda: uno zero fisso non e' un dato da tenere.
+  molise:{'41.94222_14.70306':true,'41.74222_14.38306':true},
+  // La Storta (Roma), 42.00000/12.37278, esclusa il 17/11/2026 (scheda 137): SI E' FERMATA. In riga coi
+  // vicini fino al 21/10 (ottobre 94% della mediana), poi zero nei quattro giorni bagnati dal 6/11: 6/11 0
+  // contro 8-15, 15/11 0 contro 12-32. Trovata dal controllo del 16/11. Restano Ottavia (4,7 km), Flaminio
+  // (7,0), Osteria Nuova (7,2), Monte Mario e Formello (8,0).
+  lazio:{'42.00000_12.37278':true}
   // ── RIENTRATA il 10/9/2026: Poggio San Vicino (MC, 43.36842_13.07953) ────
   // Esclusa il 21/8/2026 perche' faceva 0,0 mm in 37 giorni. Ha ripreso a
   // misurare quello stesso giorno: 21,8 mm il 21/8, 36,4 il 25/8, 18,0 il
@@ -7938,15 +7950,20 @@ else if(!stMeta[key].q && s.q){ stMeta[key].q=s.q; stMeta[key].qt=s.qt; }   // l
 // sospetta, perche' un dato dubbio e' comunque meglio di una macchia bianca.
 // Misure sui 40 giorni di dato reale SIR, 12/7-20/8/2026.
 var TOSCANA_ESCLUSE={
+  // ── Quattro RIENTRATE il 17/11/2026 (scheda 137, ricontrollo di tutta la lista, suo «Sì, tutto») ──────────
+  // In riga coi cinque vicini in ogni giorno di pioggia dal 20/10 (ottobre e novembre fra parentesi, % della mediana
+  // dei vicini): Gabbro (107%, 105%), Sassa (125%, 103%), Gamberame (56%, 77%), Camaiore (64%, 78%, sorda solo il
+  // 22/10). Le loro righe qui sotto restano commentate, per la storia.
   // ── Fermi: consegnano il dato ogni giorno, ed e' sempre zero ──────────────
-  'TOS02004059':1, // Camaiore (LU): 6,5 mm, il 10% di 64. Segnalata dallo stesso controllo, non esclusa allora perche' la whitelist la teneva gia' fuori dalla mappa. Ne restano 13 entro 10 km.
-  'TOS03001965':1, // Gabbro (LI): 0,4 mm in 45 giorni con Valle Benedetta a 42 mm a 2,4 km. Ne restano 4 entro 10 km.
-  'TOS01002181':1, // Sassa (PI): 0,2 mm in 45 giorni, i cinque vicini fra 15 e 26 mm. Il controllo automatico non la prende, perche' la mediana dei vicini resta sotto i 50 mm di soglia, ma uno zero secco per 45 giorni nelle Colline Metallifere non e' una misura. Ne restano 6 entro 10 km.
+  // RIENTRATA 17/11/2026 (era TOS02004059): Camaiore (LU): 6,5 mm, il 10% di 64. Segnalata dallo stesso controllo, non esclusa allora perche' la whitelist la teneva gia' fuori dalla mappa. Ne restano 13 entro 10 km.
+  // RIENTRATA 17/11/2026 (era TOS03001965): Gabbro (LI): 0,4 mm in 45 giorni con Valle Benedetta a 42 mm a 2,4 km. Ne restano 4 entro 10 km.
+  // RIENTRATA 17/11/2026 (era TOS01002181): Sassa (PI): 0,2 mm in 45 giorni, i cinque vicini fra 15 e 26 mm. Il controllo automatico non la prende, perche' la mediana dei vicini resta sotto i 50 mm di soglia, ma uno zero secco per 45 giorni nelle Colline Metallifere non e' una misura. Ne restano 6 entro 10 km.
   // ── Sospetti: leggono troppo poco rispetto a chi hanno intorno ────────────
-  'TOS01004779':1, // Gamberame (PO): 3,4 mm in 45 giorni contro 76,1 dei cinque vicini (4,5%). Segue i vicini fino al 21/8 (29,8 contro 20-64), dal 25/8 cala, a settembre 0,0 con i vicini a 32-84; il 9/10 segna ancora 3,2: e' sordo, non spento. Il grafico a 30 giorni del SIR dice lo stesso. Trovato dal controllo automatico il 12/10/2026. Ne restano 5 entro 10 km (Prato Universita' 4,7, Vaiano acquedotto 4,9).
+  // RIENTRATA 17/11/2026 (era TOS01004779): Gamberame (PO): 3,4 mm in 45 giorni contro 76,1 dei cinque vicini (4,5%). Segue i vicini fino al 21/8 (29,8 contro 20-64), dal 25/8 cala, a settembre 0,0 con i vicini a 32-84; il 9/10 segna ancora 3,2: e' sordo, non spento. Il grafico a 30 giorni del SIR dice lo stesso. Trovato dal controllo automatico il 12/10/2026. Ne restano 5 entro 10 km (Prato Universita' 4,7, Vaiano acquedotto 4,9).
   'TOS03001802':1, // Cimone - Monte Serra (PI): 21,3 mm, il 42% di 51, ma soprattutto il 42% di Monte Serra, che sta a 1,8 km sulla stessa cima. Due pluviometri cosi' vicini non vedono due piogge diverse. Ne restano 7 entro 10 km.
   'TOS01001151':1, // Cantagallo (PO), esclusa il 7/10/2026: sorda in 4 giorni bagnati su 5 dal 20/8, il 10% dei vicini. Il 21/8 2,8 mm contro i 99 di Acquerino a 4,3 km e i 52-65 di Vernio, Gavigno e Treppio. Il SIR pubblica proprio quegli zeri. Trovata dal controllo del 5/10. Ne restano 4 entro 7 km.
   'TOS03002613':1, // Monastero d'Ombrone (SI), esclusa il 3/11/2026: un imbuto che si intasa piano, come Vercelli e Carlantino. Luglio 89% della mediana dei cinque vicini, agosto 38%, settembre 39%, ottobre 14% (12,8 mm contro 90,8); sorda in 9 giorni bagnati su 15 in 120 giorni (8/10 4,2 contro 12-53, 21/10 1,0 contro 6-28). Trovata dal controllo del lunedi' del 2/11. ⚠️ Entro 10 km nessuno (Castelnuovo Berardenga a 11,7, Madonna a Brolio a 12,4): contro la regola dei tre, fuori lo stesso perche' un 14% e' una macchia secca falsa, e il colore lo danno i vicini a 12-14 km. Ricontrollo di tutta la lista lo stesso giorno: quattro rientrano, qui sotto.
+  'TOS11000058':1, // Castiglione d'Orcia (SI), esclusa il 17/11/2026 (scheda 137, suo «Sì, tutte e tre»): SI E' FERMATA. Settembre 87% della mediana dei cinque vicini, ottobre 46%, poi ZERO in tutti e sette i giorni bagnati dal 1/11: 6/11 0 contro 19-38, 12/11 0 contro 15-108, 13/11 0 contro 16-30. Trovata dal controllo del lunedi' del 16/11 (terza porta). E' uno dei sei pluviometri della Val d'Orcia (funghi-zone.json): abbassava la pioggia della zona. Ne restano 5 entro 10 km (Vivo d'Orcia 3,3, Ripa d'Orcia 7,9, Vetta Amiata 1 7,9, Abbadia S. Salvatore 8,5, Laghetto Verde 9,4).
   // ── Quattro rientrate il 3/11/2026 (ricontrollo della scheda 114 bis, sua scelta) ──────────
   // Sorde il 20-25/8, quando erano state escluse, e da settembre in riga coi cinque vicini in OGNI
   // giorno con la loro mediana >= 5 mm, sugli ultimi 90 giorni:

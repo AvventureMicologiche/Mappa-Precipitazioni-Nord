@@ -214,6 +214,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La mail dei campi spariti (3/11, 115 bis)
 - Pluviometri fermi DA POCO (8/11, 127)
 - La spia dei doppioni (8/11, 129 bis)
+- Tre escluse e cinque rientrate dalla mail del 16/11 (17/11, 137)
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 
