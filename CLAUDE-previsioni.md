@@ -1328,3 +1328,12 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   EPERM). Online: un punto nuovo dà la % uguale a Open-Meteo un'ora avanti in 37 ore su 37; mappa con la riga del
   piede, «adesso» `?v=23` col grigio, meteo con `.tv-nota`; `prova-settimana-127.js` della Goccia `ONLINE=1` 6/6.
 
+## Il gruppo D delle pagine meteo di zona: 20 valli (17/11/2026, scheda 137)
+
+- `ZONE_METEO_D` in `genera-pagine-meteo-zona.js`: le 20 valli successive per visite GA4 di 28 giorni (dalla Val d'Orcia
+  alla Calvana; Veneto e Alto Adige le prime), sitemap loro `sitemap-meteo-d.xml` (`meteoD` in `genera-sitemap.js`). La
+  Vallonina è in `METEO_ASSORBITE`: 9 paesi su 12 sono dei Monti Reatini, le sue pagine zona linkano quella.
+- Link: riga `linkMeteo` in 21 zone piogge + 21 zone funghi; blocco `linkMeteoRegione` nelle pagine meteo, «adesso» e
+  funghi delle 11 regioni (le pagine regione lo prendono dal giro del mattino). ⚠️ Rigenerare funghi regione e «adesso»
+  porta dentro codice e dati di altre schede (modalità evento della 132, città della Goccia): lì cambia SOLO quella riga.
+

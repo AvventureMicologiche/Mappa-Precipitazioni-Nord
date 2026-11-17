@@ -362,6 +362,13 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .pz-ant-v .pz-et.nome .mn{display:none}
 @media (min-width:700px){.pz-ant-v{height:440px}}
 
+.cit-tit{font-size:18px;color:var(--blu-scuro);margin:22px 0 2px;}
+.mv-nota{margin:0 0 10px;}
+.mv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
+.mv-c{display:inline-block;padding:8px 14px;border:1px solid #c9d6e6;border-radius:20px;background:#fff;color:var(--blu);font-weight:700;font-size:15px;text-decoration:none;}
+.mv-c:hover{background:#eef4fd;}
+.mv-c::after{content:" →";}
+
 header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
 .tB a{text-decoration:none;opacity:1}
 .tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
@@ -454,6 +461,10 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=umbria" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-prev'})}catch(e){}"><div class="pz-ant-v" id="ant-prev"></div><i class="pz-ant-q" id="ant-prev-q"></i><span class="pz-ant-t">☀️ Previsioni Umbria<small>Il tempo città per città, ora per ora</small></span></a>
   <a class="pz-ant-c" href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;g=7" onclick="try{gtag('event','apri_mappa',{da:'meteo-valtiberina-pluvio'})}catch(e){}"><div class="pz-ant-v" id="ant-pluvio"></div><i class="pz-ant-q" id="ant-pluvio-q"></i><span class="pz-ant-t">💧 Pluviometri Umbria<small>La pioggia degli ultimi 7 giorni, pluviometro per pluviometro</small></span></a>
 </div>
+<h2>Previsioni meteo in Umbria</h2>
+<h3 class="cit-tit">Previsioni meteo valle per valle</h3>
+<p class="nota mv-nota">I paesi di ogni valle, ognuno alla sua quota: previsioni a 7 giorni, ora per ora.</p>
+<div class="mv"><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/monti-amerini/" onclick="try{gtag('event','apri_meteo_zona',{da:'meteo-valtiberina'})}catch(e){}">Meteo Monti Amerini</a><a class="mv-c" href="https://precipitazioni.avventuremicologiche.it/meteo/valnerina/" onclick="try{gtag('event','apri_meteo_zona',{da:'meteo-valtiberina'})}catch(e){}">Meteo Valnerina</a></div>
 
 <h2>Come funziona questa pagina</h2>
 <p>Le previsioni sono quelle del modello ECMWF, distribuite da MET Norway (CC BY 4.0), chieste per ognuno dei 9 paesi e aggiornate più volte al giorno. La pioggia caduta è misurata dai pluviometri di SIR Toscana e MeteoHub: non è una stima. Le due cose stanno separate anche nel grafico, perché una è un dato e l'altra una previsione.</p>

@@ -198,6 +198,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La goccia a 10 al giorno (9/11, Goccia): la terza ondata
 - Il pallino «IN DIRETTA» (9/11, 130)
 - La % di pioggia ora per ora (9/11, 130)
+- Il gruppo D delle pagine meteo di zona (17/11, 137): 20 valli, sitemap sua
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 

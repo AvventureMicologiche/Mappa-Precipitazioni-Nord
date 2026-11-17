@@ -89,7 +89,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoPaesi: [], meteoPaesiB: [], meteoPaesiC: [], adessoCitta: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoD: [], meteoPaesi: [], meteoPaesiB: [], meteoPaesiC: [], adessoCitta: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: dataDi('index.html', '2026-10-31'), freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
@@ -229,8 +229,9 @@ function scriviSitemap(SITO, RADICE) {
   // Le pagine «PREVISIONI METEO» di zona, dal 24/10/2026 (genera-pagine-meteo-zona.js): un TEST su 11 zone, con la
   // sua sitemap per misurarle da sole in Search Console. Priorita' 0.7 come le zone piogge; data del guscio fissa.
   // Dal 24/10 sera due gruppi: le zone di ZONE_METEO_B (genera-pagine-meteo-zona.js) vanno in sitemap-meteo-b.xml.
-  // Dal 30/10/2026 il terzo, ZONE_METEO_C, in sitemap-meteo-c.xml.
-  const MZ = path.join(RADICE, 'meteo'), MB = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_B), MC = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_C);
+  // Dal 30/10/2026 il terzo, ZONE_METEO_C, in sitemap-meteo-c.xml. Dal 17/11/2026 (scheda 137) il quarto, ZONE_METEO_D,
+  // in sitemap-meteo-d.xml.
+  const MZ = path.join(RADICE, 'meteo'), MB = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_B), MC = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_C), MD = new Set(require('./genera-pagine-meteo-zona.js').ZONE_METEO_D);
   const PB = new Set(require('./genera-pagine-meteo-zona.js').METEO_PAESI_B.map(p => p.loc.split('/')[0] + '/' + p.slug));
   // dal 8/11/2026 (scheda 127) il terzo gruppo, METEO_PAESI_C, a goccia, in sitemap-meteo-paesi-c.xml
   const PC = new Set(require('./genera-pagine-meteo-zona.js').METEO_PAESI_C.map(p => p.loc.split('/')[0] + '/' + p.slug));
@@ -238,7 +239,7 @@ function scriviSitemap(SITO, RADICE) {
     // (la pagina madre /meteo/ c'e' stata solo il 28/10/2026: dalla sera rimanda a /previsioni/, che sta in sitemap-mappa.xml)
     for (const d of fs.readdirSync(MZ).sort()) {
       if (c_e(path.join('meteo', d, 'index.html')))
-        fam[MB.has(d) ? 'meteoB' : MC.has(d) ? 'meteoC' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });
+        fam[MB.has(d) ? 'meteoB' : MC.has(d) ? 'meteoC' : MD.has(d) ? 'meteoD' : 'meteo'].push({ loc: SITO + '/meteo/' + d + '/', lastmod: LASTMOD.meteo || LASTMOD.regioni, freq: 'daily', pri: '0.7' });
       // le pagine «Meteo <paese>» (28/10/2026, genera-pagine-meteo-paese.js) stanno in meteo/<regione>/<paese>/, con la
       // LORO sitemap: un altro test da misurare a parte. Dal 2/11/2026 il secondo gruppo, METEO_PAESI_B, in
       // sitemap-meteo-paesi-b.xml (scelto con un altro criterio: si misura da solo)
@@ -263,7 +264,7 @@ function scriviSitemap(SITO, RADICE) {
   const NOMI = { mappa: 'sitemap-mappa.xml', funghi: 'sitemap-funghi.xml',
                  localita: 'sitemap-localita.xml', zone: 'sitemap-zone.xml',
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
-                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoPaesi: 'sitemap-meteo-paesi.xml',
+                 meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoD: 'sitemap-meteo-d.xml', meteoPaesi: 'sitemap-meteo-paesi.xml',
                  meteoPaesiB: 'sitemap-meteo-paesi-b.xml', meteoPaesiC: 'sitemap-meteo-paesi-c.xml', adessoCitta: 'sitemap-adesso-citta.xml' };
   // le ondate dopo la prima delle citta' «adesso» (5/11/2026): adessoCitta2 → sitemap-adesso-citta-2.xml, e cosi' via
   for (const k of Object.keys(fam).filter(k => /^adessoCitta\d+$/.test(k)).sort((a, b) => a.slice(11) - b.slice(11)))

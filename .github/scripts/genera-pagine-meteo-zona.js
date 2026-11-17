@@ -97,12 +97,20 @@ const ZONE_METEO_B = ['valle-po', 'valle-di-viu', 'colline-livornesi', 'val-treb
 const ZONE_METEO_C = ['riviera-di-levante', 'monti-cantari', 'val-di-merse', 'monti-del-partenio', 'valmalenco', 'carnia',
   'sabina', 'valle-sabbia', 'valdelsa', 'val-veddasca', 'altopiano-del-tesino', 'romagna-toscana',
   'val-di-luce', 'serre-calabresi', 'val-nure', 'monti-prenestini', 'val-borbera', 'monti-sabini'];
-const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B, ZONE_METEO_C);
+// D (17/11/2026, scheda 137, suo: «sì, il gruppo D», dopo la misura di A, B e C della 136): le 20 successive per visite
+// GA4 (28 gg, stesso criterio del C, `scratchpad eb6ebf27 zone-d.py`), dalla Val d'Orcia (16) alla Calvana (5). Fuori
+// la Vallonina, doppione dei Monti Reatini (9 paesi su 12): sta in METEO_ASSORBITE. Sitemap loro, sitemap-meteo-d.xml.
+const ZONE_METEO_D = ['val-d-orcia', 'monti-amerini', 'valle-sessera', 'monte-pisano', 'valle-vermenagna', 'val-cichero',
+  'valle-del-fitalia', 'valbelluna', 'piana-del-cavaliere', 'comelico', 'val-canale', 'valnerina', 'stretti-di-giaredo',
+  'valle-caudina', 'val-d-ala', 'valle-dei-laghi', 'val-bisagno', 'monte-di-mezzo', 'val-pesarina', 'calvana'];
+const ZONE_METEO_TUTTE = ZONE_METEO.concat(ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_D);
 // ⚠️ DUE ZONE DEL GRUPPO C TOLTE (1/11/2026, scheda 105 bis, analisi delle famiglie di pagine, suo «procedi come hai
 // detto»): Val Serina aveva 8 paesi su 12 in comune con la Val Brembana, Candalla 7 su 9 con le Alpi Apuane. Due pagine
 // quasi uguali si rubano le ricerche a vicenda. Le loro pagine meteo non ci sono piu' (rimando 301 in _redirects) e le
 // pagine zona piogge e zona funghi di quelle due zone linkano la pagina meteo che le contiene (linkMeteo).
-const METEO_ASSORBITE = { 'val-serina': 'val-brembana', candalla: 'alpi-apuane' };
+// Dal 17/11/2026 (scheda 137, gruppo D) anche la Vallonina: 9 paesi su 12 sono quelli dei Monti Reatini, e la pagina
+// meteo sua non e' mai nata.
+const METEO_ASSORBITE = { 'val-serina': 'val-brembana', candalla: 'alpi-apuane', vallonina: 'monti-reatini' };
 
 // ⚠️ LE PAGINE «METEO <PAESE>» DEL TEST (28/10/2026, suo: «20 pagine meteo paese di prova, i paesi più cliccati»): le
 // 20 pagine paese funghi con piu' clic da Google negli ultimi 28 giorni (Search Console; GA4 dice lo stesso). Le scrive
@@ -1408,7 +1416,7 @@ ${ALTRE}
    › <zona>». C'era dal 28/10 mattina (paginaIndice): le 31 zone per regione, i 20 paesi e il bottone verso /previsioni/.
    Google le zone e i paesi li trova dalle loro sitemap e dai link delle pagine piogge e funghi (linkMeteo, linkMeteoPaese). */
 
-module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_C, METEO_PAESI_DA_SCRIVERE, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
+module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_D, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_C, METEO_PAESI_DA_SCRIVERE, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
   CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, SCHEDA_HTML, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
