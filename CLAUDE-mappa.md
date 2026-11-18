@@ -2327,3 +2327,10 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   `map.on('click')` non lo vedeva. Ora, con `TAP_DITO` e la regione già scelta, aprono loro `riquadroBianco`; la sagoma
   usa `pallinoBiancoVicino` e chiude toccando il vuoto. Prova `claudio\check-139\prova-tablet.js` (`TERRA=1`).
 - ⚠️ Nelle prove col dito: al telefono la mappa ha 6 s di `cr-attesa`; un tocco «nel vuoto» sul confine sceglie la regione accanto.
+
+## La cassetta dei video col feed di YouTube giù (18/11/2026, scheda 139)
+
+- In `functions/api/canale.js`, quando il feed non risponde e si serve la riserva, la riserva si rimette anche come copia
+  fresca per `RIPROVA_S` (3 minuti): il nodo riprova il feed al massimo ogni 3 minuti, invece che a ogni apertura della
+  mappa (fino a 6 s di attesa ciascuna). Prova con rete finta `claudio\check-139\pa-canale-feed-giu.mjs`: 10 aperture
+  in 10 minuti, prima 10 letture del feed, ora 3. Senza riserva nel nodo resta il 502, come prima.

@@ -35,6 +35,7 @@ const path  = require('path');
 
 const HOST     = 'www.meteo.fvg.it';
 const DATA_DIR = path.join(__dirname, '..', '..', 'data', 'friuli-osmer');
+const STATO_FINESTRA = path.join(__dirname, '..', '..', 'data', 'friuli-osmer-finestra.json');   // vedi «LA FINESTRA LUNGA» in main
 // L'archivio OSMER continua a ingerire le ore di un giorno per diversi giorni
 // (una stazione supera la soglia solo quando ha ~24 ore complete). Perciò si
 // riscarica SEMPRE una finestra larga e si fa MERGE col file esistente (vedi
@@ -298,7 +299,7 @@ async function main() {
   const italyNow = new Date(now.getTime() + getItalyOffset(now) * 3600000);
   const noon = new Date(fmtDate(italyNow) + 'T12:00:00Z').getTime();
 
-  let targetDays;
+  let targetDays, lunga = false;
   if (process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim()) {
     targetDays = [process.env.DATE_OVERRIDE.trim()];
   } else {
@@ -307,14 +308,20 @@ async function main() {
     // raccogliere le ore che OSMER ingerisce tardi: basta il primo giro della giornata. Gli altri fanno ieri e
     // l'altro ieri (3 date UTC, ~140 richieste). «Gia' fatta oggi» = il file di tre giorni fa, che solo la finestra
     // lunga riscrive, ha `collected` di oggi. Misurato il 26-27/10: ieri ha gia' 40 stazioni all'1 di notte.
+    // ⚠️ (18/11/2026, check-139) Dal 2/11 mergeDay non riscrive un giorno senza stazioni fresche: con OSMER che apre il
+    // form ma manda le serie vuote, il `collected` di tre giorni fa restava vecchio e OGNI giro rifaceva i 7 giorni
+    // (~700 richieste in piu' al giorno, proprio con la fonte malata). Ora la finestra lunga si segna anche a parte, in
+    // STATO_FINESTRA (giorno italiano), scritto quando il giro lungo arriva in fondo; il `collected` resta come seconda prova.
     let giorni = GIORNI_WINDOW;
     if (!process.env.GIORNI_FINESTRA && GIORNI_WINDOW > 2) {
+      try { if (JSON.parse(fs.readFileSync(STATO_FINESTRA, 'utf8')).fatta === fmtDate(italyNow)) giorni = 2; } catch (e) {}
       try {
         const f3 = path.join(DATA_DIR, `${fmtDate(new Date(noon - 3 * 24 * 3600000))}.json`);
         const c = new Date(JSON.parse(fs.readFileSync(f3, 'utf8')).collected);
         if (fmtDate(new Date(c.getTime() + getItalyOffset(c) * 3600000)) === fmtDate(italyNow)) giorni = 2;
       } catch (e) { /* file mancante o illeggibile: finestra lunga */ }
     }
+    lunga = giorni > 2;
     console.log(`  Finestra: ${giorni} giorni` + (giorni === 2 ? ' (quella lunga e\' gia\' stata fatta oggi)' : ''));
     targetDays = [];
     for (let i = 1; i <= giorni; i++) targetDays.push(fmtDate(new Date(noon - i * 24 * 3600000)));
@@ -363,6 +370,8 @@ async function main() {
     await completaQuote(stations);   // stazioni nuove, non ancora in quote-terreno.json (14/10/2026)
     mergeDay(dStr, stations);
   }
+  // la finestra lunga e' arrivata in fondo: oggi non si rifa' piu', anche se OSMER non ha mandato niente (18/11/2026)
+  if (lunga) fs.writeFileSync(STATO_FINESTRA, JSON.stringify({ fatta: fmtDate(italyNow), nota: 'collect-friuli-osmer.js: giorno italiano dell\'ultima finestra lunga (7 giorni)' }) + '\n');
 
   // ── Pulizia file > 730 giorni (retention finestra scorrevole) ──
   const MAX_DAYS = 730;

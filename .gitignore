@@ -10,3 +10,9 @@ evento-mail.eml
 # sviluppa, non nel repo (aggiunta il 28/8/2026, prima era solo non tracciata:
 # bastava un `git add -A` distratto per portarsela dentro)
 .claude/
+
+# La cartella che pubblica-pages.js costruisce e poi cancella, il suo lucchetto e la cache di wrangler (18/11/2026,
+# check-139): se la pubblicazione si interrompe non devono finire in un commit
+_pages/
+.pubblica-in-corso
+.wrangler/

@@ -445,6 +445,11 @@ const FOTO_MAPPA = (() => {
   const lim = /var FOTO_LIMITI=(\[\[[^;]+\]\]);/.exec(INDEX), cr = /var FOTO_CREDITI='([^']+)'/.exec(INDEX);
   return commit && url && lim && cr ? { u: url[1] + commit[1] + url[2], lim: JSON.parse(lim[1]), cr: cr[1] } : null;
 })();
+/* ⚠️ I CREDITI DEL RADAR NEL PIEDE (18/11/2026, check-139): il riquadro mostra le immagini di Radar-DPC (CC BY-SA 4.0)
+   col solo testo corto della cartina, e nel piede c'era solo «tutte le fonti e licenze». Ora la stessa riga del piede
+   delle pagine «adesso» (genera-pagine-adesso.js), solo dove il riquadro c'e' (non nelle ESTERE). Nel piede e non nei
+   crediti della cartina: il riquadro sta dentro un <a>, e un link li' sarebbe un link dentro un link. */
+const CREDITI_RADAR = `  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="https://radar.protezionecivile.it/" target="_blank" rel="noopener">Radar-DPC</a>, Dipartimento della Protezione Civile (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener">CC BY-SA 4.0</a>) · EUMETNET OPERA (CC BY 4.0) ·\n`;
 function radarHtml(r) {
   if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
   const A = require('./genera-pagine-adesso.js');
@@ -928,7 +933,7 @@ ${coppiaQuiz(r.k, `<a href="${CANALE}" target="_blank" rel="noopener" class="yt-
 <footer>
 ${navAltre('regione', r.k)}
   Dati: ${fonteFooter} ·
-  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
+${radarHtml(r) ? CREDITI_RADAR : ''}  <a href="${SITO}/fonti">tutte le fonti e licenze</a> ·
   <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
   La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
 </footer>

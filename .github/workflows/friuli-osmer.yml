@@ -66,6 +66,8 @@ jobs:
           git config user.email "bot@bot.com"
           mkdir -p data/friuli-osmer
           git add data/friuli-osmer/
+          # il giorno dell'ultima finestra lunga (18/11/2026): se resta fuori, l'albero sporco blocca il pull --rebase
+          if [ -f data/friuli-osmer-finestra.json ]; then git add data/friuli-osmer-finestra.json; fi
           git diff --staged --quiet || git commit -m "friuli-osmer $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do

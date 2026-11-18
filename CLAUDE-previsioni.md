@@ -1360,3 +1360,10 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   invece di 2. Sua scelta «A»: si tiene fino all'Expires di MET, la % manca fino al rinfresco e `probStato` lo dice.
 - ⚠️ La colonna «PROB.» può restare vuota fino a un'ora su quel punto. Prova `claudio\check-139\pa-previsioni-senza-pc.mjs`.
 
+## Il radar delle pagine «adesso» fuori dallo schermo non si ricarica (18/11/2026, scheda 139)
+
+- In `lib/pagina-adesso.js`, col fotogramma nuovo `controlla()` rifaceva `carica()` anche con la cartina fuori vista: ora
+  segna `daRifare` e ricarica quando l'IntersectionObserver la rivede. Se l'elenco non arriva, la testata dice «radar non
+  raggiungibile» invece di restare su «carico il radar…». `VERSIONE_JS` a 24 (le città la prendono col giro del mattino).
+- Prova con LibreWXR finto `claudio\check-139\prova-adesso-radar.js`: fuori vista prima 4 tessere nuove, ora 0.
+

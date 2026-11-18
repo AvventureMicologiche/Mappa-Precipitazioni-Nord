@@ -666,6 +666,11 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
 - **Due protezioni qualità nel loader `loadOSMERFriuliRegion`:** (1) **filtro copertura** — una stazione OSMER è mostrata solo se presente in ≥80% dei giorni REALI del periodo (nasconde le stazioni a serie oraria bucata, es. Forni di Sopra, San Pietro al Natisone, che davano una macchia secca falsa; l'IDW dei vicini copre); (2) **5 stazioni ARPA Veneto** (Sella Ciampigotto, Santo Stefano di Cadore, Costalta, Domegge, Casamazzagno) lette da `data/veneto`, non filtrate, caricate solo se il Veneto non è già selezionato (no doppioni). Fonte → 'ARPA OSMER FVG + ARPA Veneto'. **Dal 27/10/2026 SOLO COLORE** (suo: «sembrano un bug a prima vista»): campo `_fuori`, in `render` niente pallino e fuori da stazioni, massimo, media, minimo e classifica del Friuli; restano nell'IDW, dove aiutano l'alta Carnia. Stesso campo per i pluviometri di confine della prova Abruzzo. (Prima: pallino col grafico storico vuoto)
 - **Temperatura/vento (dall'11/8/2026):** lo STESSO CSV orario ha le colonne `Temp. °C`, `Vento med km/h` e `Vento max km/h` (**già km/h**, dichiarato nell'intestazione) — zero richieste extra; la mappa oraria in cache è passata a oggetti `{mm,t,vm,vx}`. Backfill dal 27/6 lanciando il collector con `GIORNI_FINESTRA=45` (l'archivio risponde su qualsiasi giorno passato)
 - **In mappa:** `dataSource: 'osmer_fvg'`, URL dati da `PILOT_DATA_BASE`
+- **La finestra lunga una volta al giorno anche con OSMER vuoto (18/11/2026, scheda 139).** Dal 2/11 `mergeDay` non
+  riscrive un giorno senza stazioni fresche, quindi il `collected` di tre giorni fa restava vecchio e con le serie vuote
+  ogni giro rifaceva 7 giorni (~370 richieste invece di ~140). Ora `main` segna il giorno in
+  `data/friuli-osmer-finestra.json` (`STATO_FINESTRA`), messo nel `git add` di `friuli-osmer.yml`. Prova a OSMER finto
+  in `claudio\check-139\finto-osmer.js`: prima 7 giorni a ogni giro, ora 7 e poi 2.
 
 **LA RETE REGIONALE COMPLETA, dal 21 agosto 2026 — da 46 a 150 stazioni.**
 L'archivio OSMER che leggevamo espone ~41 pluviometri; la stessa ARPA FVG

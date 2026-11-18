@@ -17,6 +17,7 @@ const FEED = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCBAul56IRwckp
 const UA = 'precipitazioni.avventuremicologiche.it (avventuremicologiche@gmail.com)';
 const VERSIONE = 1;                       // alzare quando cambia la forma della risposta: la cache vecchia non si rilegge
 const FRESCA_S = 900, RISERVA_S = 7 * 86400, TEMPO_MS = 6000, QUANTI = 10;
+const RIPROVA_S = 180;                    // col feed giu', ogni quanto il nodo lo riprova (18/11/2026, vedi «L'ERRORE SI RICORDA»)
 const BROWSER_S = 120;                    // quanto la tiene il browser: 2 minuti (erano 10, 4/11/2026)
 const ORIGINI = /^https?:\/\/(precipitazioni\.avventuremicologiche\.it|avventurepluvio(-test)?\.pages\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/;
 
@@ -44,7 +45,15 @@ export async function onRequestGet({ request, waitUntil }) {
     }
     // YouTube giu' o feed strano: l'ultima lettura buona, tenuta poco nel browser cosi' si riprova presto
     const r2 = await cache.match(riserva);
-    if (r2) return rispondi(await r2.text(), cors, 200, 60);
+    if (r2) {
+      /* ⚠️ L'ERRORE SI RICORDA (18/11/2026, check-139): prima la riserva si serviva e basta, e ogni apertura della mappa
+         richiedeva di nuovo il feed (aspettando fino a TEMPO_MS se era appeso): 10 aperture, 10 letture. Ora la riserva
+         si rimette anche come copia fresca per RIPROVA_S: il nodo riprova il feed al massimo ogni 3 minuti. */
+      const testo = await r2.text();
+      const ricorda = cache.put(fresca, new Response(testo, { headers: { 'Content-Type': 'application/json', 'Cache-Control': `public, max-age=${RIPROVA_S}` } }));
+      if (typeof waitUntil === 'function') waitUntil(ricorda); else await ricorda;
+      return rispondi(testo, cors, 200, 60);
+    }
     return rispondi(JSON.stringify({ errore: 'feed del canale non raggiungibile', video: [] }), cors, 502);
   } catch (e) {
     return rispondi(JSON.stringify({ errore: String(e && e.message || e), video: [] }), cors, 502);

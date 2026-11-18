@@ -1314,3 +1314,11 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   Centro col pluviometro senza termometro (o con meno di 5 minime in 10 giorni), e sotto non c'era niente.
 - Rigenerate col suo sì le 145 (elenco in `claudio\check-139\elenco-145-nord.txt`); le altre prendono il codice al
   rinnovo del 2-6/12, il Sud (frase dal 1 al 20/12) compreso. ⚠️ `SOLO` riscrive `data/paesi-localita/<reg>.json`.
+
+## I crediti del radar nel piede delle pagine regione, e due frasi della guida (18/11/2026, scheda 139)
+
+- Nel piede delle pagine regione col riquadro del radar c'è la riga «Radar: LibreWXR · Radar-DPC (CC BY-SA 4.0) · OPERA»,
+  come nelle «adesso» (`CREDITI_RADAR` accanto a `radarHtml` in `genera-pagine-regione.js`; non nelle ESTERE). Entra col
+  giro del mattino.
+- Guida: l'Abruzzo non è più «tutto stime» (MeteoNetwork dove c'è, «Restano tre casi»), e la % di pioggia è «di un secondo
+  modello (vedi le fonti)», non di ECMWF. Open-Meteo resta nominato solo in `fonti.html`.

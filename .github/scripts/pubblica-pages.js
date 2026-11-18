@@ -43,6 +43,7 @@ const RAMO = ((process.argv.find(a => a.startsWith('--ramo=')) || '').slice(7)).
 if (process.argv.some(a => a.startsWith('--ramo=')) && (!RAMO || RAMO === 'main')) { console.log('--ramo vuole un nome diverso da «main» (main e\' la produzione)'); process.exit(1); }
 const OUT = path.join(REPO, '_pages');
 const TETTO_FILE = 19500; // Pages: 20.000 per deploy, con un po' di margine
+const FORZA = process.argv.includes('--forza');
 
 // ── cosa NON si pubblica ──
 // 22/10/2026: fuori anche `_anteprime-prova` (le mappe di prova che le pagine leggono solo in locale, escluse da git con
@@ -52,7 +53,10 @@ const TETTO_FILE = 19500; // Pages: 20.000 per deploy, con un po' di margine
 // I mockup si guardano in locale, in Chrome.
 const CARTELLE_FUORI = new Set(['.git', '.github', '.netlify', '.claude', 'netlify', 'prove', '_pages', 'node_modules', 'functions', '.wrangler', '_anteprime-prova', '_mockup']);
 // 6/10 pomeriggio: fuori anche alert-mail.eml (mail di allarme costruita al volo, e' in .gitignore) e i due file di git.
-const FILE_FUORI = /^(netlify\.toml|.*\.md|backfill-.*\.js|populate-history.*\.js|diagnose-.*\.js|_headers|_redirects|alert-mail\.eml|\.gitattributes|\.gitignore)$/;
+const FILE_FUORI = /^(netlify\.toml|.*\.md|backfill-.*\.js|populate-history.*\.js|diagnose-.*\.js|_headers|_redirects|alert-mail\.eml|\.gitattributes|\.gitignore|\.pubblica-in-corso)$/;
+// ⚠️ (18/11/2026, check-139) FILE_FUORI vale solo in radice: andavano online data/piemonte/README.md e data/veneto/README.md,
+// e `evento-mail.eml` di avviso-evento.js se restava nel checkout. Note e mail fuori a tutti i livelli.
+const FUORI_OVUNQUE = /\.(md|eml)$/i;
 const dentroTessere = rel => rel.startsWith('tessere-boschi' + path.sep + 'italia');
 const giornoDi = nome => { const m = nome.match(/^(\d{4}-\d{2}-\d{2})\.json$/); return m && m[1]; };
 
@@ -110,6 +114,7 @@ function copia(dir, rel) {
       copia(src, r); continue;
     }
     if (!rel && FILE_FUORI.test(e.name)) continue;
+    if (FUORI_OVUNQUE.test(e.name)) continue;   // .md ed .eml a tutti i livelli (18/11/2026, vedi FUORI_OVUNQUE)
     if (rel.startsWith('data') && giornoDi(e.name)) { giorni.push({ g: giornoDi(e.name), src, r }); continue; }
     copiaFile(src, r);
   }
@@ -122,6 +127,45 @@ function copiaFile(src, r) {
     if (pulita !== null) { fs.writeFileSync(dst, pulita); copiati++; byte += Buffer.byteLength(pulita); return; }
   }
   fs.copyFileSync(src, dst); copiati++; byte += fs.statSync(src).size;
+}
+
+// ── PRIMA DI COMINCIARE (18/11/2026, check-139) ──
+// ⚠️ UNA PUBBLICAZIONE ALLA VOLTA, E MAI _pages/ LASCIATA NEL REPO. Se wrangler cadeva o si fermava con Ctrl+C (o oltre
+// i 20.000 file) _pages/ restava nel checkout: ~17.500 file che git non ignorava. E due schede che pubblicavano dallo
+// stesso checkout si cancellavano _pages/ a vicenda. Ora un lucchetto (.pubblica-in-corso, vale 30 minuti) e la pulizia
+// all'uscita, comunque finisca (--solo-cartella tiene _pages/, apposta).
+// ⚠️ DAL PC SOLO COL REPO PULITO E IN PARI. La copia prende il checkout com'e': le modifiche non committate di altre
+// schede e un main locale indietro andavano online (regola 12 del CLAUDE.md, che il codice non controllava). In
+// produzione dal PC ci si ferma con un avviso, --forza per passare. Il giro automatico su GitHub e le anteprime no.
+const LUCCHETTO = path.join(REPO, '.pubblica-in-corso');
+try {
+  const l = JSON.parse(fs.readFileSync(LUCCHETTO, 'utf8'));
+  if (Date.now() - l.da < 30 * 60000 && !FORZA) {
+    console.log(`⚠️ C'e' gia' una pubblicazione in corso da questo checkout (partita alle ${new Date(l.da).toLocaleTimeString('it-IT')}): fermo. Se sei sicuro che non gira, rilancia con --forza.`);
+    process.exit(3);
+  }
+} catch (e) { /* nessun lucchetto */ }
+fs.writeFileSync(LUCCHETTO, JSON.stringify({ pid: process.pid, da: Date.now() }));
+process.on('exit', () => {
+  try { fs.rmSync(LUCCHETTO, { force: true }); } catch (e) {}
+  if (!SOLO) try { fs.rmSync(OUT, { recursive: true, force: true }); } catch (e) {}
+  try { fs.rmSync(path.join(REPO, '.wrangler'), { recursive: true, force: true }); } catch (e) {}
+});
+process.on('SIGINT', () => process.exit(130));
+if (!RAMO && !SOLO && !process.env.GITHUB_ACTIONS && !FORZA) {
+  const git = a => execSync('git ' + a, { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+  const problemi = [];
+  try {
+    const sporchi = git('status --porcelain').split('\n').filter(Boolean).map(r => r.slice(3).replace(/^"|"$/g, ''))
+      // functions/ non si copia ma va online lo stesso (wrangler la prende dal repo): conta anche lei
+      .filter(f => !f.startsWith('data/') && !(CARTELLE_FUORI.has(f.split('/')[0]) && f.split('/')[0] !== 'functions') && !FILE_FUORI.test(f) && !FUORI_OVUNQUE.test(f));
+    if (sporchi.length) problemi.push(`${sporchi.length} file non committati che andrebbero online (${sporchi.slice(0, 5).join(', ')}${sporchi.length > 5 ? '…' : ''})`);
+    git('fetch -q origin main');
+    const [avanti, indietro] = git('rev-list --left-right --count HEAD...origin/main').trim().split(/\s+/).map(Number);
+    if (indietro) problemi.push(`il main locale e' indietro di ${indietro} commit rispetto a GitHub: prima git pull --rebase`);
+    if (avanti) problemi.push(`${avanti} commit locali non ancora su GitHub: prima il push`);
+  } catch (e) { console.log('⚠️ controllo di git non riuscito (' + String(e.message).split('\n')[0] + '): proseguo'); }
+  if (problemi.length) { console.log('⚠️ Non pubblico:\n  - ' + problemi.join('\n  - ') + '\nSe e\' voluto, rilancia con --forza.'); process.exit(4); }
 }
 
 fs.rmSync(OUT, { recursive: true, force: true });

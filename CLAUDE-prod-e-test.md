@@ -220,5 +220,13 @@ nomi globali in 28 su 28.
   con `?x=1` è 404. Scade da sola entro 7 giorni; per toglierla subito: dashboard Cloudflare, Caching, Purge, indirizzo
   singolo.
 
+## La pubblicazione dal PC si ferma col checkout sporco (18/11/2026, scheda 139)
+
+- `pubblica-pages.js`: un lucchetto `.pubblica-in-corso` (30 minuti; un'altra corsa = uscita 3), `_pages/` e `.wrangler/`
+  tolte all'uscita comunque finisca (anche Ctrl+C) e messe in `.gitignore`; `.md` ed `.eml` fuori a tutti i livelli
+  (`FUORI_OVUNQUE`). In produzione dal PC si ferma (uscita 4) se ci sono file non committati che andrebbero online,
+  `functions/` compresa, o se `main` non è uguale a GitHub. `--forza` per passare; GitHub e le anteprime non controllano.
+- ⚠️ `--solo-cartella` lascia `_pages/` apposta: va tolta a mano.
+
 ---
 

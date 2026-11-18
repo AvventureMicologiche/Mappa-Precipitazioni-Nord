@@ -143,6 +143,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il riquadro del pluviometro al tocco (16/11, 134)
 - La testata del telefono (6-7/8): solo «Mappa Pluviometrica» sotto i 600 px
 - Il riquadro del pluviometro al tocco anche sui tablet larghi (18/11, 139)
+- La cassetta dei video col feed di YouTube giù (18/11, 139)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
@@ -168,6 +169,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La modalità evento delle pagine regione (13/11, 132): «Maltempo»
 - «Pluviometria Toscana» in testa alla descrizione (17/11, 136): prova solo su /toscana/
 - La frase delle notti solo dove c'è la riga del freddo (18/11, 139)
+- I crediti del radar nel piede delle pagine regione, e due frasi della guida (18/11, 139)
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 
@@ -204,6 +206,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Al telefono la cartina delle pagine meteo senza % e mm (17/11, 137)
 - Le «Meteo <paese>» leggevano il pluviometro al contrario (18/11, 139)
 - Senza la % MET resta fino alla sua scadenza (18/11, 139)
+- Il radar delle pagine «adesso» fuori dallo schermo non si ricarica (18/11, 139)
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
@@ -228,5 +231,6 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Promozione del 27 agosto 2026 (v9.1): come si porta il test in prod
 - ⚠️ TEST E PROD NON SONO PIÙ (31/8): mai copiare `index.html` dal test
 - I commenti fuori dalla copia pubblicata (8/11, 127 ter): online ≠ repo byte per byte
+- La pubblicazione dal PC si ferma col checkout sporco (18/11, 139)
 
 ---
