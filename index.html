@@ -9458,6 +9458,14 @@ function buildRegionSelector(){
            anche per il radar, sua scelta). Le citta' delle previsioni hanno il loro clic; una regione non
            scelta si aggiunge come sempre; si toglie con la ✕ sotto «↩ Indietro» (nelle previsioni: Indietro,
            poi la ✕). Al telefono questi poligoni non ci sono. */
+        /* ⚠️ COL DITO, PRIMA DEL PERIODO (18/11/2026, check-139): sui tablet larghi il tocco vicino a un pallino bianco
+           prende questo poligono, che ferma il clic, e map.on('click') del 16/11 non lo vedeva. Stesso ramo: il pallino
+           entro TAP_TOLL apre il suo riquadro, il tocco nel vuoto lo chiude (pVisti esclude radar, boschi e previsioni). */
+        if(TAP_DITO&&selIsOn(rk)&&(!currentPast||!currentNow)&&pVisti){
+          var pb=pallinoBiancoVicino(e.containerPoint);
+          if(pb){ var ob=e.originalEvent||{}; riquadroBianco(pb,pb._def,ob.clientX||0,ob.clientY||0); } else hideTooltip();
+          return;
+        }
         if(selIsOn(rk)&&window.innerWidth>900&&/(^| )modo-(radar|prev)( |$)/.test(document.body.className)) return;
         /* ⚠️ E ORA DAPPERTUTTO, ANCHE PRIMA DELLE DATE (13/10/2026, sua regola: «applica la regola anche allo
            storico»): una regione GIA' SCELTA non si spegne col clic, si toglie solo con la sua ✕ sotto «↩ Indietro»
@@ -12329,7 +12337,10 @@ function drawDefaultMarkers(stazioni,cfg){
         if(histEl.style.display==='block'&&Date.now()-histOpenedAt>=400){ closeStationHistory(); return; }
         /* dal 13/10/2026 una regione GIA' SCELTA non si toglie col clic (neanche sul pallino): si toglie con la ✕.
            Il pallino resta col suo riquadro «Scegli un periodo per vedere i millimetri». */
-        if(selIsOn(rk)) return;
+        /* ⚠️ COL DITO SOPRA I 900 PX (18/11/2026, check-139): qui il tocco si fermava (stopPropagation, regione gia'
+           scelta) e map.on('click') del 16/11 non lo vedeva: su iPad girato, iPad Pro e tablet Android girati il
+           riquadro bianco non si apriva mai. Lo apre il tocco stesso, come al telefono. */
+        if(selIsOn(rk)){ if(TAP_DITO){ var ot=e.originalEvent||{}; riquadroBianco(mk,st,ot.clientX||0,ot.clientY||0); } return; }
         hideTooltip(); toggleRegionFromMap(rk);
       });
     }(m,s));

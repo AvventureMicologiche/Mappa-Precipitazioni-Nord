@@ -2319,3 +2319,11 @@ fotogrammi veri del browser rimontati coi loro tempi, tondi delle dita solo nel 
 Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
 
 **Header e titoli, dal 6-7/8/2026**: su desktop `Mappa Pluviometrica Italia · Svizzera · Austria`; **sotto i 600px resta solo "Mappa Pluviometrica"** (`.hdr-paesi` nascosto) perché col titolo intero l'header traboccava spingendo "Iscriviti" fuori schermo — 9px a 360 di larghezza già col solo "+ Svizzera", 62px aggiungendo l'Austria. `<title>` e `og:title` restano per esteso ("Italia, Svizzera e Austria"): servono a chi condivide, non allo schermo. (Dal 31/10/2026 il `<title>` dice «piogge e precipitazioni» al posto degli Stati: vedi «Controllo SEO del 31/10/2026» in fondo; og:title resta per esteso.)
+
+## Il riquadro del pluviometro al tocco anche sui tablet larghi (18/11/2026, scheda 139)
+
+- Sopra i 900 px col dito (iPad girato, iPad Pro anche dritto, Android girati) il riquadro bianco del 16/11 non si apriva:
+  il `click` del pallino bianco (`drawDefaultMarkers`) e quello della sagoma (`buildRegionSelector`) fermano il tocco e
+  `map.on('click')` non lo vedeva. Ora, con `TAP_DITO` e la regione già scelta, aprono loro `riquadroBianco`; la sagoma
+  usa `pallinoBiancoVicino` e chiude toccando il vuoto. Prova `claudio\check-139\prova-tablet.js` (`TERRA=1`).
+- ⚠️ Nelle prove col dito: al telefono la mappa ha 6 s di `cr-attesa`; un tocco «nel vuoto» sul confine sceglie la regione accanto.

@@ -142,6 +142,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il radar in un giro solo (13/11, 133): da -2 ore a +40 minuti
 - Il riquadro del pluviometro al tocco (16/11, 134)
 - La testata del telefono (6-7/8): solo «Mappa Pluviometrica» sotto i 600 px
+- Il riquadro del pluviometro al tocco anche sui tablet larghi (18/11, 139)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
