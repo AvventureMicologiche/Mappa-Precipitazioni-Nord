@@ -217,6 +217,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Pluviometri fermi DA POCO (8/11, 127)
 - La spia dei doppioni (8/11, 129 bis)
 - Tre escluse e cinque rientrate dalla mail del 16/11 (17/11, 137)
+- L'Abruzzo conta le stazioni vere e le stime a parte (18/11, 139)
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 

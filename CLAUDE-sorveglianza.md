@@ -548,3 +548,11 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
 - ⚠️ `lib-escluse.js` (`senzaCommenti`) non toglieva i commenti dalle righe CRLF: un `// 'TOS…':1` per le pagine
   restava escluso mentre la mappa lo rimetteva. Corretta lo stesso giorno (divide anche sul `\r`), liste vere uguali.
 
+## L'Abruzzo conta le stazioni vere e le stime a parte (18/11/2026, scheda 139)
+
+- `analizza` di `check-fonti.js` contava insieme le 8-17 MeteoNetwork e i 145 punti ICON-2I: senza MeteoNetwork restava
+  al 91% e nessuna mail. Ora conta a parte stazioni vere (`n`) e punti stimati (`nStime`, `rete:'icon'` o `stima:1`),
+  ognuno col suo riferimento; il giorno è malato se cala uno dei due, e mail e oggetto dicono «senza le stime ICON-2I».
+- Prova `claudio\check-139\prova-abruzzo-fonti.js`: cambia solo l'Abruzzo; MeteoNetwork sparita = ferma, a 3 = sotto
+  metà, ICON mancante = sotto metà come prima. ⚠️ Con ~15 vere la soglia è 7,5: il 17/11 erano 8.
+

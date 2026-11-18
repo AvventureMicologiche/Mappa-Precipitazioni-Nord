@@ -149,8 +149,8 @@ const REGIONI = [
   { dir: 'meteohub-sicilia',    nome: 'Sicilia',    wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
   { dir: 'meteohub-sardegna',   nome: 'Sardegna',   wf: 'meteohub.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' },
   // Abruzzo (2/11/2026): MeteoNetwork + stime ICON-2I, collect-abruzzo.js. Da qui lo guarda anche il guardiano, che
-  // ri-lancia abruzzo.yml se il giro salta. Le stazioni contano anche i punti ICON: se ICON non si legge, il file
-  // resta con le sole MeteoNetwork (~15 su ~160) e dopo tre giorni suona «sotto metà».
+  // ri-lancia abruzzo.yml se il giro salta. Dal 18/11/2026 (check-139) le stazioni sono le sole MeteoNetwork (~15) e i
+  // punti ICON (~145) si contano a parte: suona «sotto metà» se cala una delle due cose (vedi analizza).
   { dir: 'abruzzo',             nome: 'Abruzzo (MeteoNetwork + stime ICON-2I)', wf: 'abruzzo.yml', sito: 'https://meteohub.agenziaitaliameteo.it/' }
 ];
 
@@ -200,8 +200,14 @@ function analizza(dir, noon, rifMin) {
   for (let i = 1; i <= MAX_INDIETRO + FINESTRA_LUNGA; i++) {
     const g = fmtDate(new Date(noon - i * 86400000));
     const j = leggi(path.join(dir, g + '.json'));
-    const n = (j && j.stations || []).length;
-    giorni.push({ g, reale: !!j && !eStima(j) && n > 0, n, fonte: (j && j.source) || '(senza campo source)' });
+    // ⚠️ I PUNTI STIMATI NON SONO STAZIONI (18/11/2026, check-139). Nel file dell'Abruzzo ci sono sempre 145 punti
+    // ICON-2I (`rete:'icon'`, `stima:1`) e solo 8-17 MeteoNetwork: contati insieme, MeteoNetwork poteva sparire (145 su
+    // ~160, il 91%) senza nessuna mail. Ora stazioni vere e punti stimati si contano a parte, ognuno col suo riferimento
+    // (vedi `sotto` qui sotto). Fuori dall'Abruzzo `nStime` e' sempre 0 e non cambia niente.
+    const tutte = (j && j.stations) || [];
+    const nStime = tutte.filter(s => s.rete === 'icon' || s.stima === 1).length;
+    const n = tutte.length - nStime;
+    giorni.push({ g, reale: !!j && !eStima(j) && n > 0, n, nStime, fonte: (j && j.source) || '(senza campo source)' });
   }
 
   // 1. giorni interamente mancanti, da ieri all'indietro
@@ -224,11 +230,15 @@ function analizza(dir, noon, rifMin) {
   //    con la sola mediana a 14 giorni, 20 giorni di Liguria a 20 stazioni su
   //    199 non suonavano affatto.
   const reali = giorni.filter(x => x.reale);
-  const finestra = reali.slice(1, 1 + FINESTRA_LUNGA).map(x => x.n);
-  let malati = 0, riferimento = 0;
+  const prima = reali.slice(1, 1 + FINESTRA_LUNGA);
+  const finestra = prima.map(x => x.n);
+  let malati = 0, riferimento = 0, rifStime = 0;
   if (finestra.length >= MIN_RIFERIMENTO) {
     riferimento = Math.max(mediana(finestra.slice(0, FINESTRA_MEDIANA)), mediana(finestra), rifMin || 0);
-    while (malati < reali.length && riferimento > 0 && reali[malati].n < SOGLIA_STAZIONI * riferimento) malati++;
+    // i punti stimati (solo Abruzzo): il giorno e' malato anche se ICON non si legge e restano le sole MeteoNetwork
+    rifStime = mediana(prima.slice(0, FINESTRA_MEDIANA).map(x => x.nStime));
+    const sotto = x => x.n < SOGLIA_STAZIONI * riferimento || (rifStime > 0 && x.nStime < SOGLIA_STAZIONI * rifStime);
+    while (malati < reali.length && riferimento > 0 && sotto(reali[malati])) malati++;
   }
 
   return {
@@ -238,9 +248,13 @@ function analizza(dir, noon, rifMin) {
     fonte: primoReale ? primoReale.fonte : '?',
     malati,
     stazioniIeri: reali.length ? reali[0].n : 0,
-    riferimento
+    riferimento,
+    stimeIeri: reali.length ? reali[0].nStime : 0,
+    rifStime
   };
 }
+// l'Abruzzo senza le stime ICON-2I: le stazioni vere possono essere al 100% e il giorno malato lo stesso
+const senzaStime = st => st.rifStime > 0 && st.stimeIeri < SOGLIA_STAZIONI * st.rifStime;
 
 /* ---------- eventi-buco MeteoHub (dal registro, misura pre-copertura) ---------- */
 // Il conteggio stazioni da solo NON basta per MeteoHub: check-meteohub-gaps.js
@@ -296,6 +310,7 @@ function blocco(r, st, soglia, dal, tipo) {
       `  ${r.nome}`,
       `    fonte              ${st.fonte}`,
       `    stazioni ieri      ${st.stazioniIeri} — normalmente ${st.riferimento} (${perc}%)`,
+      ...(st.rifStime ? [`    punti stimati ieri ${st.stimeIeri} — normalmente ${st.rifStime}${senzaStime(st) ? ' (ICON-2I non letto)' : ''}`] : []),
       `    giorni sotto metà  ${st.malati} (soglia ${soglia} giorni, sotto il ${Math.round(SOGLIA_STAZIONI * 100)}%)`,
       `    in questo stato da ${itaDate(dal)}`,
       ...coda(r)
@@ -422,7 +437,7 @@ function main() {
         ? `ferma da ${st.mancanti} giorni`
         : tipo === 'eventi'
         ? `eventi-buco MeteoHub da ${st.eventi} giorni consecutivi`
-        : `${st.stazioniIeri} stazioni su ${st.riferimento} da ${st.malati} giorni`;
+        : `${st.stazioniIeri} stazioni su ${st.riferimento}${senzaStime(st) ? ', senza le stime ICON-2I,' : ''} da ${st.malati} giorni`;
       // Se cambia la natura del guasto (si spegne del tutto dopo essersi
       // svuotata) si riparte da capo: è un'altra notizia, va mandata.
       if (prec.stato !== 'allarme' || prec.tipo !== tipo) {
@@ -515,6 +530,8 @@ function main() {
         ? `🔴 Pluviometro: ${p.r.nome} ferma da ${p.st.mancanti} giorni`
         : p.tipo === 'eventi'
         ? `🔴 Pluviometro: ${p.r.nome} con buchi MeteoHub da ${p.st.eventi} giorni`
+        : senzaStime(p.st)
+        ? `🔴 Pluviometro: ${p.r.nome} senza le stime ICON-2I da ${p.st.malati} giorni`
         : `🔴 Pluviometro: ${p.r.nome} a ${Math.round(p.st.stazioniIeri / (p.st.riferimento || 1) * 100)}% delle stazioni`;
     } else {
       subject = `🔴 Pluviometro: ${problemi.length} regioni in guasto`;
