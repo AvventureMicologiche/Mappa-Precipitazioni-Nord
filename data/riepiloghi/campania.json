@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-17T12:10:54.536Z",
+ "generato": "2026-11-18T11:59:57.125Z",
  "periodi": {
   "1": {
-   "media": 17,
+   "media": 2.3,
    "giorni": 1,
-   "stazioni": 174,
-   "primo": "2026-11-16",
-   "ultimo": "2026-11-16",
+   "stazioni": 175,
+   "primo": "2026-11-17",
+   "ultimo": "2026-11-17",
    "top": [
     {
-     "n": "San Martino Valle Caudina",
-     "mm": 70.6
+     "n": "Morcone",
+     "mm": 24.2
     },
     {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 64.8
+     "n": "Contursi Meteo",
+     "mm": 15.4
     },
     {
-     "n": "Cava Casa Riceri",
-     "mm": 57.7
+     "n": "Dragonea",
+     "mm": 14.1
     },
     {
-     "n": "Pietrastornina",
-     "mm": 50
+     "n": "Albori",
+     "mm": 12.5
     },
     {
-     "n": "Senerchia",
-     "mm": 49.9
+     "n": "Montella METEO",
+     "mm": 12.4
     }
    ]
   },
   "7": {
-   "media": 76.7,
+   "media": 77.1,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-11-10",
-   "ultimo": "2026-11-16",
+   "primo": "2026-11-11",
+   "ultimo": "2026-11-17",
    "top": [
     {
-     "n": "Tramonti",
-     "mm": 234.8
+     "n": "Bagnoli Irpino",
+     "mm": 243.5
     },
     {
-     "n": "Bagnoli Irpino",
-     "mm": 233.9
+     "n": "Tramonti",
+     "mm": 235.8
     },
     {
      "n": "Castiglione del Genovesi",
-     "mm": 220.4
+     "mm": 228.4
     },
     {
      "n": "Cologna",
-     "mm": 210.9
+     "mm": 215.4
     },
     {
      "n": "Cava Casa Riceri",
-     "mm": 202.6
+     "mm": 212.7
     }
    ]
   },
   "20": {
-   "media": 122.1,
+   "media": 124.4,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-16",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-17",
    "top": [
     {
      "n": "Tramonti",
-     "mm": 275.5
+     "mm": 276.9
     },
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 269.4
+     "mm": 271.2
     },
     {
      "n": "Montella METEO",
-     "mm": 258.2
+     "mm": 270.6
     },
     {
      "n": "Giffoni Valle Piana",
-     "mm": 257
+     "mm": 265.8
     },
     {
-     "n": "Bagnoli Irpino",
-     "mm": 253.7
+     "n": "Castiglione del Genovesi",
+     "mm": 262.3
     }
    ]
   },
   "30": {
-   "media": 162.4,
+   "media": 164.7,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-18",
-   "ultimo": "2026-11-16",
+   "primo": "2026-10-19",
+   "ultimo": "2026-11-17",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 358.7
+     "mm": 360.5
     },
     {
      "n": "Tramonti",
-     "mm": 333.1
+     "mm": 334.5
     },
     {
      "n": "Cusano Mutri",
-     "mm": 318.8
+     "mm": 329.2
     },
     {
      "n": "Giffoni Valle Piana",
-     "mm": 316.8
+     "mm": 325.6
     },
     {
      "n": "Cava Casa Riceri",
-     "mm": 307.7
+     "mm": 319.8
     }
    ]
   }
  },
  "serie": [
+  2.3,
   17,
   29,
   2.1,
@@ -148,18 +149,17 @@
   2,
   31.5,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-16",
+ "serieDa": "2026-11-17",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-16",
-   "m1": 10.1,
-   "m7": 70.1,
-   "m30": 132.8,
+   "ultimo": "2026-11-17",
+   "m1": 2.6,
+   "m7": 71.1,
+   "m30": 135.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-16",
-   "m1": 24.9,
-   "m7": 114.1,
-   "m30": 218,
+   "ultimo": "2026-11-17",
+   "m1": 1.4,
+   "m7": 111.8,
+   "m30": 219.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-16",
-   "m1": 35.9,
-   "m7": 70.7,
-   "m30": 207.3,
+   "ultimo": "2026-11-17",
+   "m1": 1.5,
+   "m7": 72.1,
+   "m30": 208.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-16",
-   "m1": 43.2,
-   "m7": 125,
-   "m30": 222.5,
+   "ultimo": "2026-11-17",
+   "m1": 0.8,
+   "m7": 125.5,
+   "m30": 223.3,
    "p1": true,
    "p7": true,
    "p30": true
