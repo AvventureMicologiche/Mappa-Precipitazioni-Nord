@@ -1306,3 +1306,11 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
 - Dove: `DESCR_PLUVIO` e `apre` in `descrMappa` di `genera-pagine-regione.js`.
 - La trappola: la descrizione resta sotto i 158 caratteri scalando le forme; con un nome lungo cade prima la coda e poi i
   7 giorni. Misura: CTR di «pluviometria toscana» su /toscana/ dopo 2-3 settimane, contro 0,49-0,53% del 27/10-16/11.
+
+## La frase delle notti solo dove c'è la riga del freddo (18/11/2026, scheda 139)
+
+- «Le notti degli ultimi giorni sono qui sotto» esce nascosta (`#stag-notti` in `rigaStagione` di `lib-stagione.js`) e la
+  mostra `freddoFunghi` quando mette la riga del freddo. Prima la leggevano anche 145 pagine di paese del Nord e del
+  Centro col pluviometro senza termometro (o con meno di 5 minime in 10 giorni), e sotto non c'era niente.
+- Rigenerate col suo sì le 145 (elenco in `claudio\check-139\elenco-145-nord.txt`); le altre prendono il codice al
+  rinnovo del 2-6/12, il Sud (frase dal 1 al 20/12) compreso. ⚠️ `SOLO` riscrive `data/paesi-localita/<reg>.json`.

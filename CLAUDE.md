@@ -166,6 +166,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Le pagine che non saltano mentre caricano (8/11, 128)
 - La modalità evento delle pagine regione (13/11, 132): «Maltempo»
 - «Pluviometria Toscana» in testa alla descrizione (17/11, 136): prova solo su /toscana/
+- La frase delle notti solo dove c'è la riga del freddo (18/11, 139)
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 

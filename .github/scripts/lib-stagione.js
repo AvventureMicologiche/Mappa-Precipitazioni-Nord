@@ -59,9 +59,13 @@ const TESTI = {
 /* reg: la regione della pagina (senza: tutta Italia). conFreddo: la pagina ha la riga del freddo (paese e zona), e
    allora finche' la riga c'e' la frase rimanda li'. Il mese e il giorno sono quelli di CHI LEGGE: giusta ogni giorno
    senza rigenerare niente. */
+/* ⚠️ LA FRASE DELLE NOTTI ESCE NASCOSTA (18/11/2026, check-139): la riga del freddo c'e' solo se il pluviometro ha il
+   termometro (almeno 5 minime su 10 giorni, freddoFunghi). In 145 pagine di paese su 844 del Nord e del Centro non c'era,
+   e la frase rimandava a una riga che non esiste. Ora sta in #stag-notti nascosto, e la mostra freddoFunghi quando mette
+   la riga. */
 function rigaStagione(reg, conFreddo) {
   const a = !reg ? 'italia' : SUD.includes(reg) ? 'sud' : 'nord';
-  const S = conFreddo ? TESTI.nottiSotto : '';
+  const S = conFreddo ? '<span id="stag-notti" style="display:none">' + TESTI.nottiSotto + '</span>' : '';
   const nov = a === 'sud' ? TESTI.pienaSud : a === 'nord' ? TESTI.margineFreddo + S : TESTI.italiaNov;
   const dic = a === 'sud' ? TESTI.margineFreddo : a === 'nord' ? TESTI.fuoriNord : TESTI.italiaDic;
   const dicS = a === 'sud' ? S : '';
@@ -143,6 +147,9 @@ function freddo() {
       var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
       if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
     }
+    /* la frase «le notti degli ultimi giorni sono qui sotto» della riga di stagione: solo adesso che la riga c'e' */
+    var sn = document.getElementById('stag-notti');
+    if (sn && v && v.querySelector('.freddo')) sn.style.display = '';
     var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
     if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
     /* le prossime notti: subito se la previsione e' gia' arrivata, se no quando arriva */
