@@ -1322,3 +1322,13 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   giro del mattino.
 - Guida: l'Abruzzo non è più «tutto stime» (MeteoNetwork dove c'è, «Restano tre casi»), e la % di pioggia è «di un secondo
   modello (vedi le fonti)», non di ECMWF. Open-Meteo resta nominato solo in `fonti.html`.
+
+## Modalità evento, giro del mattino e date delle funghi nella sitemap (18/11/2026, scheda 139)
+
+- Evento: `eventoRegione` (`genera-riepiloghi.js`) toglie in coda i giorni senza 5 pluviometri oltre 30 mm e calcola
+  `fino` dall'ultimo rimasto oltre soglia (`s1`): il giorno asciutto dopo un nubifragio non entra più. La descrizione dice
+  i pluviometri della rete (`r.staz`, come il sottotitolo); la mail parla del radar solo dove c'è (`ESTERE`).
+- `radarHtml` e `radarScript` sono avvolti (`senzaRadar`): se `genera-pagine-adesso.js` non si carica la pagina esce senza
+  riquadro e il giro va avanti; in `pagine-regione.yml` il passo delle città ha `continue-on-error`.
+- Sitemap: `/funghi/`, regioni, paesi e zone funghi con `dataDi`. ⚠️ Le prime impronte vengono dall'ultimo commit
+  (`claudio\check-139\semina-impronte.js`); una pagina funghi nuova parte dalla data scritta in `pagine-lastmod.json`.

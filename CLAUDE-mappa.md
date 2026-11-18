@@ -2334,3 +2334,10 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   fresca per `RIPROVA_S` (3 minuti): il nodo riprova il feed al massimo ogni 3 minuti, invece che a ogni apertura della
   mappa (fino a 6 s di attesa ciascuna). Prova con rete finta `claudio\check-139\pa-canale-feed-giu.mjs`: 10 aperture
   in 10 minuti, prima 10 letture del feed, ora 3. Senza riserva nel nodo resta il 502, come prima.
+
+## Il riquadro bianco si chiude cambiando modo (18/11/2026, scheda 139)
+
+- Un `MutationObserver` sulla classe del body, accanto a `map.on('movestart zoomstart')`, chiude il riquadro «Scegli un
+  periodo» appena arriva `modo-boschi`, `modo-prev` o `modo-radar`. Prima, entrando nei Boschi da zoom 10 in su (vista
+  ferma, niente movestart), restava sopra la mappa forestale. Prova `claudio\check-139\prova-riquadro-boschi.js`
+  (telefono, `/?r=piemonte` avvicinata): prima restava aperto, ora si chiude.

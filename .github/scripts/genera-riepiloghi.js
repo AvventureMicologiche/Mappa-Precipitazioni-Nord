@@ -431,6 +431,13 @@ function eventoRegione(r, da, fuori) {
   let iDal = s0, iAl = s0;   // giorni e' dal piu' recente: iDal e' l'indice piu' alto
   while (iDal + 1 < giorni.length && iDal - iAl + 1 < EV.maxGiorni && oltre(iDal + 1, EV.codaMm) >= EV.codaN) iDal++;
   while (iAl - 1 >= da && iDal - iAl + 1 < EV.maxGiorni && oltre(iAl - 1, EV.codaMm) >= EV.codaN) iAl--;
+  /* ⚠️ NIENTE GIORNO ASCIUTTO IN CODA (18/11/2026, check-139). La soglia guarda 48 ore, quindi il giorno DOPO un nubifragio
+     di un giorno solo la passa anche se e' asciutto (0 + 250 >= 200): diventava s0, entrava nell'evento senza il controllo
+     dei 5 pluviometri oltre 30 mm che vale per gli altri giorni («due giorni di maltempo» con una colonna di zeri) e la
+     pagina restava accesa un giorno in piu'. Ora in coda (i piu' recenti) restano solo i giorni bagnati come gli altri, e
+     `fino` parte dall'ultimo giorno rimasto che passa la soglia (s1). */
+  while (iAl < iDal && oltre(iAl, EV.codaMm) < EV.codaN) iAl++;
+  let s1 = iAl; while (s1 < iDal && oltre48(s1) < EV.sogliaN) s1++;
   const gg = giorni.slice(iAl, iDal + 1).reverse();   // in ordine di calendario
   const idx = gg.map(g => giorni.indexOf(g));
   const soglia = idx.filter(i => oltre48(i) >= EV.sogliaN).map(i => giorni[i]);
@@ -456,7 +463,7 @@ function eventoRegione(r, da, fuori) {
     t.g.forEach((v, k) => { if (!max24 || v > max24.mm) max24 = Object.assign(nome(t), { g: gg[k], mm: Math.round(v * 10) / 10 }); });
     if (t.punta && (!punta || t.punta.mm > punta.mm)) punta = Object.assign(nome(t), t.punta);
   }
-  const fino = new Date(Date.parse(giorni[s0] + 'T12:00:00Z') + EV.dopo * 864e5).toISOString().slice(0, 10);
+  const fino = new Date(Date.parse(giorni[s1] + 'T12:00:00Z') + EV.dopo * 864e5).toISOString().slice(0, 10);
   return {
     dal: gg[0], al: gg[gg.length - 1], fino, soglia, giorni: gg,
     // la media coi pluviometri DENTRO il confine, come la classifica (13/11/2026, suo: in Liguria «fissiamo» anche la

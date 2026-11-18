@@ -17,7 +17,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { REGIONI, COTTE, SITO } = require('./genera-pagine-regione.js');
+const { REGIONI, COTTE, SITO, ESTERE } = require('./genera-pagine-regione.js');
 
 const RADICE = path.join(__dirname, '..', '..');
 const REGISTRO = path.join(RADICE, 'data', 'eventi-avvisati.json');
@@ -65,6 +65,8 @@ if (!nuovi.length) {
   output('mail', 'false');
 } else {
   const nomi = nuovi.map(x => x.r.nome);
+  const conRadar = nuovi.filter(x => !ESTERE.includes(x.r.k)).length;
+  const frRadar = !conRadar ? '' : conRadar === nuovi.length ? ", e c'è il riquadro del radar subito sotto" : ", e nelle regioni italiane c'è il riquadro del radar subito sotto";
   const subject = '🌧️ Maltempo: ' + (nomi.length === 1 ? 'la pagina ' + nomi[0] + ' è' : 'le pagine ' + nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1] + ' sono') + ' in modalità evento';
   const righe = nuovi.map(({ r, e }) => {
     const t = e.top && e.top[0], mx = e.max24, pu = e.punta, nn = x => x.nb || x.n;
@@ -82,7 +84,8 @@ if (!nuovi.length) {
   const body = [
     'Ciao,',
     '',
-    `da stamattina ${nomi.length === 1 ? 'questa pagina regione è' : 'queste pagine regione sono'} in modalità evento: titolo, riquadro in cima e tabella giorno per giorno parlano del maltempo, e c'è il riquadro del radar subito sotto.`,
+    // il riquadro del radar non c'e' nelle ESTERE (Svizzera, Austria...): la frase solo dove c'e' (18/11/2026, check-139)
+    `da stamattina ${nomi.length === 1 ? 'questa pagina regione è' : 'queste pagine regione sono'} in modalità evento: titolo, riquadro in cima e tabella giorno per giorno parlano del maltempo${frRadar}.`,
     '',
     righe.join('\n\n'),
     '',

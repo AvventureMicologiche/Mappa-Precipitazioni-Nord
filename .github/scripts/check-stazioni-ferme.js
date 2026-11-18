@@ -382,7 +382,9 @@ function leggiEscluseMappa() {
     }
   } catch (e) { console.warn('Warn: elenchi delle escluse non letti (' + e.message + ')'); }
   console.log(`Escluse a mano lette dalla mappa (per la terza porta): ${fuori.length}`);
-  return s => fuori.some(e => s.regione.startsWith(e.pref) &&
+  // ⚠️ anche la cartella MeteoHub della stessa regione (18/11/2026, check-139): FRIULI_ESCLUSE ha Pontebba di
+  // `meteohub-friuli` (46.50607_13.30752), e col solo prefisso «friuli» la terza porta la giudicava lo stesso
+  return s => fuori.some(e => (s.regione.startsWith(e.pref) || s.regione.startsWith('meteohub-' + e.pref)) &&
     (e.key === String(s.id).toUpperCase() || e.key === String(s.nome || '').toUpperCase()));
 }
 const esclusaMappa = leggiEscluseMappa();

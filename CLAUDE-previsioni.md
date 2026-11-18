@@ -1367,3 +1367,9 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   raggiungibile» invece di restare su «carico il radar…». `VERSIONE_JS` a 24 (le città la prendono col giro del mattino).
 - Prova con LibreWXR finto `claudio\check-139\prova-adesso-radar.js`: fuori vista prima 4 tessere nuove, ora 0.
 
+## Le pagine città dicono «Ieri» solo se è ieri (18/11/2026, scheda 139)
+
+- `bloccoPluviometri` di `genera-pagine-adesso.js`: se il giorno dei numeri (`pv.fine`) non è ieri rispetto a `OGGI`,
+  «Il 16 novembre» e «16/11» in colonna, come già faceva il browser; il 18/11 erano 53 città su 104 (reti MeteoHub).
+  «L’8», «L’11», «L’1» nel generatore e nella correzione di `lib/pagina-adesso.js` (`VERSIONE_JS` 24).
+

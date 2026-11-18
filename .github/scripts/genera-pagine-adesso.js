@@ -39,7 +39,7 @@ const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata de
 const { capoluogo } = require('./lib-capoluoghi.js');
 
 const RADICE = path.resolve(__dirname, '..', '..');
-const VERSIONE_JS = 24;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater; 20: i crediti del radar, Radar-DPC sull'Italia, 9/11/2026, scheda 130; 21: radar e riga viva fermi a pagina nascosta, rifatti solo col fotogramma nuovo, elenco unico e «+40» vero, 9/11/2026, scheda 130; 22: si apre col «+40» in movimento, fermo se la pagina o la cartina non si vedono, 9/11/2026, scheda 130; 23: la % dell'ora asciutta piu' chiara, 9/11/2026, scheda 130; 24: col fotogramma nuovo il radar fuori dallo schermo non si ricarica, 18/11/2026, check-139)
+const VERSIONE_JS = 24;   // si alza quando cambia lib/pagina-adesso.js: il browser riprende il file nuovo (5: /api/cerca, 25/10/2026; 6: la barra che scorre, 7: la riga viva, 30/10/2026; 8: «aggiornate alle» a pochi minuti e carte che si rinfrescano, 31/10/2026; 9: «e un'altra città», 1/11/2026; 10: zoom minimo, non piu' fino al planisfero, 2/11/2026; 11: il radar sulla foto della mappa, 2/11/2026; 12: le previsioni su /previsioni/, 2/11/2026; 13: le pagine delle citta', 4/11/2026; 14: le citta' si aprono come le regioni, 8/11/2026, mai uscita; 15: le citta' centrate, due zoom sopra l'Italia, senza confine della regione, 8/11/2026; 16: al telefono uno zoom e mezzo, 8/11/2026; 17: le regioni come le citta', segnalino al centro e confine piu' leggero, 8/11/2026, mai uscita; 18: il segnalino delle regioni sul capoluogo, 8/11/2026; 19: il «+» delle regioni verso il capoluogo e i comuni intorno delle citta' dal primo «+», 8/11/2026, scheda 128 quater; 20: i crediti del radar, Radar-DPC sull'Italia, 9/11/2026, scheda 130; 21: radar e riga viva fermi a pagina nascosta, rifatti solo col fotogramma nuovo, elenco unico e «+40» vero, 9/11/2026, scheda 130; 22: si apre col «+40» in movimento, fermo se la pagina o la cartina non si vedono, 9/11/2026, scheda 130; 23: la % dell'ora asciutta piu' chiara, 9/11/2026, scheda 130; 24: col fotogramma nuovo il radar fuori dallo schermo non si ricarica, e «L’8» nella correzione di «Ieri», 18/11/2026, check-139)
 
 /* LA FOTO DELLA MAPPA SOTTO IL RADAR (2/11/2026, scheda 111 ter; regola sua del 2/11: le immagini e le cartine delle
    pagine hanno sempre la stessa faccia della mappa). La foto NOSTRA della pioggia di index.html (modulo «LA FOTO DAL
@@ -667,13 +667,19 @@ function bloccoPluviometri(r, c, pv) {
 <h2>La pioggia caduta ${IN}</h2>
 <p class="pc-frase">Nei 20 km intorno ${IN} non c'è un pluviometro della rete ${attr(agenziaDi(r))} con dati recenti. Quanta pioggia è caduta nel resto della regione lo dice la pagina <a href="${SITO}/${r.k}/">Dove ha piovuto ${r.prep} ${r.nome}</a>.</p>
 `;
+  /* ⚠️ «IERI» SOLO SE E' IERI (18/11/2026, check-139): il giorno dei numeri e' la fine del riepilogo della regione, e per le
+     reti MeteoHub che arrivano tardi e' l'altroieri. L'HTML diceva lo stesso «Ieri, 16 novembre,» (53 citta' su 104 il
+     18/11): il browser lo correggeva, Google no. Ora «Il 16 novembre» e «16/11» in colonna, come la correzione del
+     browser; e «L'8», «L'11», «L'1» come nel resto del sito. */
   const L0 = pv.lista, giorno = dataT(pv.fine);
+  const ieri = pv.fine === new Date(Date.parse(OGGI + 'T12:00:00Z') - 864e5).toISOString().slice(0, 10);
+  const ilG = g => (/^(1|8|11) /.test(g) ? 'L’' : 'Il ') + g;
   // dove sta il pluviometro: «in città» sotto il chilometro, se no la distanza dal centro
   const dove = p => p.km < 1 ? 'in città' : `a ${kmT(p.km)} dal centro`;
   const p0 = L0.find(p => p.m1 != null) || L0[0];
   const frase = [];
-  if (p0.m1 == null) frase.push(`<span class="pc-ieri">Il ${giorno}</span> il pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, non ha mandato dati.`);
-  else frase.push(`<span class="pc-ieri">Ieri, ${giorno},</span> al pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, ` + (p0.m1 > 0 ? `sono caduti <b>${mmT(p0.m1)} mm</b>.` : `non è caduta pioggia.`));
+  if (p0.m1 == null) frase.push(`<span class="pc-ieri">${ilG(giorno)}</span> il pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, non ha mandato dati.`);
+  else frase.push(`<span class="pc-ieri">${ieri ? `Ieri, ${giorno},` : ilG(giorno)}</span> al pluviometro <b>${attr(p0.n)}</b>, ${dove(p0)}, ` + (p0.m1 > 0 ? `sono caduti <b>${mmT(p0.m1)} mm</b>.` : `non è caduta pioggia.`));
   const lunghi = [p0.m7 != null ? `negli ultimi 7 giorni <b>${mmT(p0.m7)} mm</b>` : '', p0.m30 != null ? `negli ultimi 30 giorni <b>${mmT(p0.m30)} mm</b>` : ''].filter(Boolean);
   if (lunghi.length) frase.push(lunghi.join(', ').replace(/^n/, 'N') + '.');
   // il piu' bagnato dei vicini, se non e' il primo
@@ -685,7 +691,7 @@ function bloccoPluviometri(r, c, pv) {
 <h2>La pioggia caduta ${IN}</h2>
 <p class="pc-frase" data-ultimo="${pv.fine}">${frase.join(' ')}</p>
 <table class="pc-tab">
-<thead><tr><th>${L0.length > 1 ? 'I pluviometri più vicini' : 'Il pluviometro più vicino'}</th><th>Ieri</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
+<thead><tr><th>${L0.length > 1 ? 'I pluviometri più vicini' : 'Il pluviometro più vicino'}</th><th>${ieri ? 'Ieri' : +pv.fine.slice(8) + '/' + +pv.fine.slice(5, 7)}</th><th>7 giorni</th><th>30 giorni</th></tr></thead>
 <tbody>
 ${righe}
 </tbody>

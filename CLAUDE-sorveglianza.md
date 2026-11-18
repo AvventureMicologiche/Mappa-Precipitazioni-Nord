@@ -556,3 +556,9 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
 - Prova `claudio\check-139\prova-abruzzo-fonti.js`: cambia solo l'Abruzzo; MeteoNetwork sparita = ferma, a 3 = sotto
   metà, ICON mancante = sotto metà come prima. ⚠️ Con ~15 vere la soglia è 7,5: il 17/11 erano 8.
 
+## La terza porta riconosce le escluse anche nella cartella MeteoHub (18/11/2026, scheda 139)
+
+- In `leggiEscluseMappa` di `check-stazioni-ferme.js` il prefisso di regione vale anche per `meteohub-<regione>`: Pontebba
+  (`46.50607_13.30752`, in `FRIULI_ESCLUSE` per la cartella `meteohub-friuli`) restava giudicabile e poteva arrivare
+  «nuova» nella mail del lunedì. ⚠️ Una chiave di una lista vale ora per le due cartelle della regione.
+

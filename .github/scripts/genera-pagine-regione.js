@@ -383,7 +383,9 @@ function descrEvento(r, e, EV) {
   const ventiquattro = !mx ? null : nn(mx) === nn(t0) ? `di cui ${numC(mx.mm)} mm in 24 ore ${ilData(mx.g)}` : `${numC(mx.mm)} mm in 24 ore ${aDi(nn(mx))}`;
   const ora = pu ? `${numC(pu.mm)} mm in un'ora ${aDi(nn(pu))}` : null;
   const forme = [
-    [quattro, ventiquattro, ora].filter(Boolean).join(', ') + `. I millimetri di ${e.stazioni} pluviometri.`,
+    // il numero della RETE, come sottotitolo e titolo (18/11/2026, check-139): `e.stazioni` sono i pluviometri con tutti i
+    // giorni dell'evento, giusto per la media del riquadro ma non qui (Toscana 14/11: «368» qui, «oltre 370» sotto)
+    [quattro, ventiquattro, ora].filter(Boolean).join(', ') + `. I millimetri di ${r.staz} pluviometri.`,
     [quattro, ventiquattro, ora].filter(Boolean).join(', ') + '.',
     [quattro, ventiquattro].filter(Boolean).join(', ') + '.',
     quattro + '.',
@@ -450,7 +452,19 @@ const FOTO_MAPPA = (() => {
    delle pagine «adesso» (genera-pagine-adesso.js), solo dove il riquadro c'e' (non nelle ESTERE). Nel piede e non nei
    crediti della cartina: il riquadro sta dentro un <a>, e un link li' sarebbe un link dentro un link. */
 const CREDITI_RADAR = `  Radar: <a href="https://librewxr.net/" target="_blank" rel="noopener">LibreWXR</a> · <a href="https://radar.protezionecivile.it/" target="_blank" rel="noopener">Radar-DPC</a>, Dipartimento della Protezione Civile (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it" target="_blank" rel="noopener">CC BY-SA 4.0</a>) · EUMETNET OPERA (CC BY 4.0) ·\n`;
-function radarHtml(r) {
+/* ⚠️ IL RADAR NON FERMA IL GIRO (18/11/2026, check-139). Dal 13/11 radarHtml e radarScript caricano
+   genera-pagine-adesso.js, che in cima legge index.html, le foto, i capoluoghi, l'elenco dei paesi e i confini: un errore
+   li' (il blocco FOTO_URL riscritto in un'altra forma, una citta' che manca in capoluoghi.json) fermava il passo 1 del giro
+   del mattino, e con lui tutte le pagine regione, zone e citta' di quel giorno. Ora la pagina esce senza il riquadro e
+   il registro lo dice; FOTO_MAPPA qui sopra fa gia' cosi'. */
+const radarRotto = new Set();
+function senzaRadar(r, e) {
+  if (!radarRotto.has(r.k)) console.warn(`  ⚠️ ${r.k}: riquadro del radar saltato (${String(e && e.message || e).split('\n')[0]})`);
+  radarRotto.add(r.k); return '';
+}
+function radarHtml(r) { try { return radarHtmlVero(r); } catch (e) { return senzaRadar(r, e); } }
+function radarScript(r) { try { return radarHtml(r) ? radarScriptVero(r) : ''; } catch (e) { return senzaRadar(r, e); } }
+function radarHtmlVero(r) {
   if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
   const A = require('./genera-pagine-adesso.js');
   const citta = (A.CITTA_ADESSO[r.k] || []).filter(n => fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso', slug(n), 'index.html')));
@@ -604,7 +618,7 @@ function radarRiquadro(C) {
     io.observe(box);
   } else setTimeout(via, 3000);
 }
-function radarScript(r) {
+function radarScriptVero(r) {
   if (ESTERE.includes(r.k) || !fs.existsSync(path.join(__dirname, '..', '..', r.k, 'adesso'))) return '';
   const A = require('./genera-pagine-adesso.js');
   const C = { foto: FOTO_MAPPA, confine: A.confineDi(r), nomi: A.nomiRadar(r.k) };

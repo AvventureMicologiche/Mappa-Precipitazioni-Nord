@@ -5016,6 +5016,12 @@ map.on('click',function(e){
 map.on('movestart zoomstart',function(){
   if(TAP_DITO&&tooltip.style.display==='block'&&tooltip.classList.contains('tt-senza-periodo')){ hideTooltip(); evidenziaMarker(null); }
 });
+/* ⚠️ ...E CAMBIANDO MODO (18/11/2026, check-139): entrando nei Boschi da zoom 10 in su la vista resta ferma (niente
+   movestart) e il riquadro «Scegli un periodo» restava sopra la mappa forestale; nelle Previsioni lo nasconde il CSS ma
+   restava aperto, e poteva ricomparire tornando allo Storico. Ora si chiude appena il body prende un modo. */
+if(window.MutationObserver) new MutationObserver(function(){
+  if(/(^| )modo-(boschi|prev|radar)( |$)/.test(document.body.className)&&tooltip.style.display==='block'&&tooltip.classList.contains('tt-senza-periodo')){ hideTooltip(); evidenziaMarker(null); }
+}).observe(document.body,{attributes:true,attributeFilter:['class']});
 
 // ═══════════════════════════════════════════════════════════════
 // MARKER

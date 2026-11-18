@@ -156,11 +156,16 @@ function scriviSitemap(SITO, RADICE) {
   // alle 19 regioni e alle 114 zone. Ha una data sua: il rinnovo stagionale non
   // la tocca, non avendo il ritratto dell'archivio dentro.
   if (c_e(path.join('funghi', 'index.html')))
-    fam.funghi.push({ loc: `${SITO}/funghi/`, lastmod: LASTMOD.indice, freq: 'weekly', pri: '0.8' });
+    fam.funghi.push({ loc: `${SITO}/funghi/`, lastmod: dataDi(path.join('funghi', 'index.html'), LASTMOD.indice), freq: 'weekly', pri: '0.8' });
 
+  /* ⚠️ ANCHE LE FUNGHI COI LORO GIORNI (18/11/2026, check-139): /funghi/, le funghi di regione, i paesi e le zone funghi
+     avevano la data scritta in pagine-lastmod.json, e restava al 6/11 per pagine cambiate il 7, l'8, il 17 e il 18/11
+     (145 paesi). Ora dataDi, come mappa, guida e forestali; la data scritta resta la base. Le impronte sono partite dal
+     giorno dell'ultimo commit di ogni pagina (claudio\check-139\semina-impronte.js). Queste pagine il giro del mattino
+     non le riscrive: la data cambia solo quando cambiano davvero (a mano o col rinnovo). */
   for (const k of Object.keys(FUNGHI)) {
     if (c_e(path.join('funghi', k, 'index.html')))
-      fam.funghi.push({ loc: `${SITO}/funghi/${k}/`, lastmod: NASCITA_FUNGHI, freq: 'weekly', pri: '0.7' });
+      fam.funghi.push({ loc: `${SITO}/funghi/${k}/`, lastmod: dataDi(path.join('funghi', k, 'index.html'), NASCITA_FUNGHI), freq: 'weekly', pri: '0.7' });
   }
 
   // Le pagine di LOCALITA', dal 2/9/2026. Si trovano guardando le cartelle,
@@ -174,7 +179,7 @@ function scriviSitemap(SITO, RADICE) {
     if (!fs.existsSync(base)) continue;
     for (const d of fs.readdirSync(base).sort()) {
       if (!c_e(path.join('funghi', k, d, 'index.html'))) continue;
-      fam.localita.push({ loc: `${SITO}/funghi/${k}/${d}/`, lastmod: NASCITA_LOCALITA, freq: 'weekly', pri: '0.6' });
+      fam.localita.push({ loc: `${SITO}/funghi/${k}/${d}/`, lastmod: dataDi(path.join('funghi', k, d, 'index.html'), NASCITA_LOCALITA), freq: 'weekly', pri: '0.6' });
     }
   }
 
@@ -185,7 +190,7 @@ function scriviSitemap(SITO, RADICE) {
   if (fs.existsSync(zone)) {
     for (const d of fs.readdirSync(zone).sort()) {
       if (!c_e(path.join('funghi', 'zone', d, 'index.html'))) continue;
-      fam.zone.push({ loc: SITO + '/funghi/zone/' + d + '/', lastmod: NASCITA_ZONE, freq: 'weekly', pri: '0.6' });
+      fam.zone.push({ loc: SITO + '/funghi/zone/' + d + '/', lastmod: dataDi(path.join('funghi', 'zone', d, 'index.html'), NASCITA_ZONE), freq: 'weekly', pri: '0.6' });
     }
   }
 

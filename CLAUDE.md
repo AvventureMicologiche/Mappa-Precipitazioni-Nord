@@ -144,6 +144,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La testata del telefono (6-7/8): solo «Mappa Pluviometrica» sotto i 600 px
 - Il riquadro del pluviometro al tocco anche sui tablet larghi (18/11, 139)
 - La cassetta dei video col feed di YouTube giù (18/11, 139)
+- Il riquadro bianco si chiude cambiando modo (18/11, 139)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
@@ -170,6 +171,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - «Pluviometria Toscana» in testa alla descrizione (17/11, 136): prova solo su /toscana/
 - La frase delle notti solo dove c'è la riga del freddo (18/11, 139)
 - I crediti del radar nel piede delle pagine regione, e due frasi della guida (18/11, 139)
+- Modalità evento, giro del mattino e date delle funghi nella sitemap (18/11, 139)
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 
@@ -207,6 +209,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Le «Meteo <paese>» leggevano il pluviometro al contrario (18/11, 139)
 - Senza la % MET resta fino alla sua scadenza (18/11, 139)
 - Il radar delle pagine «adesso» fuori dallo schermo non si ricarica (18/11, 139)
+- Le pagine città dicono «Ieri» solo se è ieri (18/11, 139)
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
@@ -223,6 +226,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La spia dei doppioni (8/11, 129 bis)
 - Tre escluse e cinque rientrate dalla mail del 16/11 (17/11, 137)
 - L'Abruzzo conta le stazioni vere e le stime a parte (18/11, 139)
+- La terza porta riconosce le escluse anche nella cartella MeteoHub (18/11, 139)
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 
