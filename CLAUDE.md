@@ -34,7 +34,8 @@ Valgono per ogni lavoro, qualunque sia l'argomento. Dove serve c'è il file che 
 2. **Push su GitHub e pubblicazione sono due domande, ognuna col suo sì.** Il push non pubblica; si pubblica dal PC con
    `node cloudflare-pages\pubblica-pages.js <repo> <progetto>` (percorso del repo ASSOLUTO), le anteprime con
    `--ramo=<nome>`. Eccezione sua del 28/10/2026: documentazione (questi file, note, commenti) e piccoli ritocchi di
-   SOLO testo si committano e spingono subito, con `[skip netlify]`. ⚠️ Quello che sta su main va online da solo col
+   SOLO testo si committano e spingono subito. Nei messaggi dei commit niente `[skip netlify]`: Netlify è spento e non
+   la legge nessuno (suo, 18/11/2026). ⚠️ Quello che sta su main va online da solo col
    giro `pagine-regione.yml` del mattino dopo, che pubblica tutto main (i `.md` della radice restano fuori).
 3. **Si prova in locale**: `python -m http.server` dentro il repo, i dati veri arrivano da GitHub raw comunque. Mai
    aprire il sito da `file://` (Chrome blocca i GeoJSON, i confini non si caricano). Sul test si pubblica solo se lo
