@@ -11,7 +11,7 @@ on:
         required: false
         default: ''
   schedule:
-    # Ogni run raccoglie ieri + altroieri + auto-riparazione fino a 7gg.
+    # Ogni run raccoglie ieri + altroieri; i giorni vecchi (fino a 20 con l'account) una volta al giorno (18/11/2026).
     # Orari sfalsati rispetto a ticino.yml (xx:30) per ridurre i conflitti
     # di push tra workflow concorrenti.
     # ⚠️ RISERVE DELLA SVEGLIA (27/10/2026, fase 1 dell'alleggerimento delle fonti): i giri del mattino li lancia
@@ -35,8 +35,10 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    # tetto (21/10/2026): una fonte che non risponde non tiene appeso il giro per 6 ore;
-    # il giro piu' lungo misurato e' di 9 minuti
+    # tetto (21/10/2026): una fonte che non risponde non tiene appeso il giro per 6 ore.
+    # ⚠️ (18/11/2026, check-139) dal 10/11 i giri duravano 16-19 minuti per la riparazione dei giorni vecchi e il 17/11
+    # hanno passato i 20: nove annullati prima del commit. Ora le riparazioni partono solo nei primi 10 minuti
+    # (RIPARA_TETTO_MIN in collect-meteohub.js), dopo i giorni freschi di tutte le reti: un giro normale fa 3-5 minuti.
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
@@ -84,6 +86,8 @@ jobs:
           git config user.name "bot"
           git config user.email "bot@bot.com"
           git add data/meteohub-*/
+          # i giorni vecchi gia' riprovati (18/11/2026): se resta fuori, l'albero sporco blocca il pull --rebase
+          if [ -f data/meteohub-riparazioni.json ]; then git add data/meteohub-riparazioni.json; fi
           git diff --staged --quiet || git commit -m "meteohub $(date -u +%Y-%m-%d) [skip netlify]"
           ok=0
           for i in 1 2 3 4 5; do

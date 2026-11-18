@@ -320,9 +320,12 @@ async function collectMeteoHub(netCfg, w) { return meteoDelGiorno(await scaricaM
 // ARPA), `quote: false` salta la quota dal terreno (il Piemonte ha quella dell'ente). Senza `opz` non cambia niente.
 // `opz.meteo: false` salta le cinque richieste meteo (fase 3, 27/10/2026): il ritorno al giorno singolo di collectDue
 // le chiede solo per i giorni che non hanno ancora il meteo completo. Il ripiego del Piemonte non lo passa: come prima.
+// `opz.minimo` (18/11/2026, check-139): sotto questo numero di stazioni il giorno non si scrive (writeDay ne vuole 10),
+// quindi niente cinque richieste meteo e niente quote. La riparazione del 7/11 (zero stazioni) le faceva lo stesso.
 async function collectDay(netCfg, dateStr, opz = {}) {
   const w = utcWindowForItalianDay(dateStr);
   const out = pioggiaDaRaw(await fetchJSON(urlProdotto(netCfg, w, 'B13011')), w, netCfg, opz);
+  if (opz.minimo && out.length < opz.minimo) return out;
   // t/w: un guasto qui non deve mai far fallire la pioggia
   if (opz.meteo !== false) try {
     const meteo = await collectMeteoHub(netCfg, w);
@@ -549,8 +552,36 @@ function writeDay(dir, dateStr, stations, net, soglia, src, meteoCompleto) {
   return true;
 }
 
+/* ⚠️ RIPARAZIONE CON PARSIMONIA (18/11/2026, check-139). Dal 2/11 (RIPARA_FINO a 20 con l'account) ogni giro
+   richiedeva tutti i giorni vecchi ancora con stime o sotto soglia: il 7/11 (MeteoHub fermo, zero stazioni) in 10
+   reti, piu' giorni parziali che tornano sempre uguali (Campania 29/10 a 148 sotto la soglia 159), 1-2 minuti l'uno,
+   fino a 8 giri al giorno. Il 17/11 il giro ha passato i 20 minuti di meteohub.yml: nove giri annullati prima del
+   commit, e il 17/11 fuori dalla mappa in 11 reti anche se il dato c'era. Ora:
+   (1) prima i giorni freschi (ieri e altroieri) di TUTTE le reti, poi le riparazioni;
+   (2) un giorno vecchio si riprova al massimo una volta al giorno (giorno italiano, in STATO_RIPARA);
+   (3) un giorno tornato vuoto (meno di 10 stazioni, che writeDay non scrive) RIPARA_VUOTI_MAX volte di fila non si
+       richiede piu': resta coperto dalle stime ICON-2I di meteohub-gaps;
+   (4) le riparazioni partono solo nei primi RIPARA_TETTO_MIN minuti del giro: il resto passa al giro dopo e il commit
+       arriva sempre;
+   (5) per un giorno vuoto niente richieste meteo (collectDay `minimo`).
+   Con DATE_OVERRIDE (giro a mano) tutto come prima: niente riparazioni e niente stato. */
+const STATO_RIPARA = path.join(DATA_ROOT, 'meteohub-riparazioni.json');
+const RIPARA_TETTO_MIN = 10;
+const RIPARA_VUOTI_MAX = 2;
+function leggiStatoRiparazioni(noon, fino) {
+  const reti = (leggiFile(STATO_RIPARA) || {}).reti || {};
+  const limite = fmtDate(new Date(noon - (fino + 1) * 24 * 3600000));   // i giorni usciti dalla finestra si dimenticano
+  for (const r of Object.keys(reti)) for (const d of Object.keys(reti[r])) if (d < limite) delete reti[r][d];
+  return {
+    nota: 'collect-meteohub.js: giorni vecchi gia\' riprovati. ultimo = giorno italiano del tentativo, vuoti = volte di fila con meno di 10 stazioni',
+    reti
+  };
+}
+function scriviStatoRiparazioni(stato) { fs.writeFileSync(STATO_RIPARA, JSON.stringify(stato, null, 1) + '\n'); }
+
 async function main() {
   console.log('=== collect-meteohub avviato (pilota) ===');
+  const avvio = Date.now();
   try {
     MH_TOKEN = await loginMeteoHub();
     console.log(MH_TOKEN ? '  accesso MeteoHub con account (archivio aperto)' : '  accesso MeteoHub anonimo (ultimi ~10 giorni)');
@@ -567,6 +598,18 @@ async function main() {
   const soloRete = (process.env.SOLO_RETE || '').trim();
   const daFare = soloRete ? NETWORKS.filter(n => n.net === soloRete) : NETWORKS;
   if (soloRete && !daFare.length) throw new Error(`SOLO_RETE=${soloRete} non è fra le reti configurate`);
+
+  const conData = !!(process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim());
+  // Con l'account (MH_TOKEN) l'archivio e' aperto oltre i ~10 giorni pubblici: si riprova fino a 20 giorni
+  // indietro (2/11/2026, scheda 109: la Puglia del 26-30/10 MeteoHub la stava ricaricando a meta', 9-17 ore su 24,
+  // e il 26 sarebbe uscito dalla finestra il 4/11). Si richiedono solo i giorni ancora con stime o sotto soglia,
+  // con parsimonia (18/11/2026, vedi STATO_RIPARA).
+  const RIPARA_FINO = MH_TOKEN ? 20 : 9;
+  const stato = conData ? null : leggiStatoRiparazioni(noon, RIPARA_FINO);
+  const riparazioni = [];   // i giorni vecchi da riprovare, DOPO i giorni freschi di tutte le reti
+  // Il meteo di un giorno si dichiara completo (`meteo_completo`) solo se chiesto almeno ORE_DOPO ore dopo la sua fine:
+  // un giro che corre a cavallo della mezzanotte lo chiede, ma il giro dopo lo richiede ancora.
+  const tardi = d => Date.now() >= Date.parse(utcWindowForItalianDay(d).refTo + 'Z') + ORE_DOPO * 3600000;
 
   for (const netCfg of daFare) {
     console.log(`--- Rete ${netCfg.net}`);
@@ -616,10 +659,6 @@ async function main() {
       // ancora i giorni parziali sopra le 10 stazioni (Molise 29/7: 23 su 28),
       // che non venivano riletti MAI.
       targetDays = [1, 2].map(i => fmtDate(new Date(noon - i * 24 * 3600000)));
-      // Con l'account (MH_TOKEN) l'archivio e' aperto oltre i ~10 giorni pubblici: si riprova fino a 20 giorni
-      // indietro (2/11/2026, scheda 109: la Puglia del 26-30/10 MeteoHub la stava ricaricando a meta', 9-17 ore su 24,
-      // e il 26 sarebbe uscito dalla finestra il 4/11). Si richiedono solo i giorni ancora con stime o sotto soglia.
-      const RIPARA_FINO = MH_TOKEN ? 20 : 9;
       for (let i = 3; i <= RIPARA_FINO; i++) {
         const dStr = fmtDate(new Date(noon - i * 24 * 3600000));
         const j = leggiFile(path.join(dir, `${dStr}.json`));
@@ -629,15 +668,16 @@ async function main() {
         else if ((j.count || 0) < 10) motivo = `solo ${j.count || 0} righe`;
         else if (haStime(j)) motivo = `contiene stime (${reali} stazioni reali)`;
         else if (soglia >= 10 && reali < soglia) motivo = `${reali} stazioni reali sotto la soglia ${soglia}`;
-        if (motivo) { targetDays.push(dStr); console.log(`  ↻ ${dStr}: ${motivo}, riprovo`); }
+        if (!motivo) continue;
+        const gia = (stato.reti[netCfg.net] || {})[dStr];
+        if (gia && gia.vuoti >= RIPARA_VUOTI_MAX) console.log(`  · ${dStr}: ${motivo}, tornato vuoto ${gia.vuoti} volte di fila: non lo richiedo piu'`);
+        else if (gia && gia.ultimo === todayStr) console.log(`  · ${dStr}: ${motivo}, gia' riprovato oggi`);
+        else { riparazioni.push({ netCfg, dir, soglia, dStr }); console.log(`  ↻ ${dStr}: ${motivo}, riprovo dopo i giorni freschi`); }
       }
     }
 
-    // Il meteo di un giorno si dichiara completo (`meteo_completo`) solo se chiesto almeno ORE_DOPO ore dopo la sua fine:
-    // un giro che corre a cavallo della mezzanotte lo chiede, ma il giro dopo lo richiede ancora.
-    const tardi = d => Date.now() >= Date.parse(utcWindowForItalianDay(d).refTo + 'Z') + ORE_DOPO * 3600000;
     let singoli = targetDays;
-    if (!(process.env.DATE_OVERRIDE && process.env.DATE_OVERRIDE.trim())) {
+    if (!conData) {
       // ieri + altroieri in una richiesta, col meteo solo dove manca (fase 3, 27/10/2026: vedi collectDue)
       const coppia = targetDays.slice(0, 2);
       singoli = targetDays.slice(2);
@@ -678,6 +718,32 @@ async function main() {
       });
     if (deleted > 0) console.log(`  Pulizia retention: ${deleted} file oltre i ${MAX_DAYS} giorni eliminati`);
   }
+
+  // ── Riparazione dei giorni vecchi, dopo i giorni freschi di tutte le reti (18/11/2026, vedi STATO_RIPARA) ──
+  for (let k = 0; k < riparazioni.length; k++) {
+    const minuti = (Date.now() - avvio) / 60000;
+    if (minuti >= RIPARA_TETTO_MIN) {
+      console.log(`--- Riparazioni: ${minuti.toFixed(1)} minuti di giro, tetto ${RIPARA_TETTO_MIN}: ${riparazioni.length - k} giorni passano al giro dopo`);
+      break;
+    }
+    const { netCfg, dir, soglia, dStr } = riparazioni[k];
+    const voci = (stato.reti[netCfg.net] = stato.reti[netCfg.net] || {});
+    const prima = voci[dStr] || {};
+    console.log(`--- Riparo ${netCfg.net} ${dStr}`);
+    try {
+      const st = await collectDay(netCfg, dStr, { minimo: 10 });
+      writeDay(dir, dStr, st, netCfg.net, soglia, netCfg.src, !!st.meteoCompleto && tardi(dStr));
+      const vuoti = st.length < 10 ? (prima.vuoti || 0) + 1 : 0;
+      voci[dStr] = { ultimo: todayStr, vuoti, stazioni: st.length };
+      if (vuoti >= RIPARA_VUOTI_MAX) console.log(`  ${dStr}: vuoto ${vuoti} volte di fila, non lo richiedo piu'`);
+    } catch (e) {
+      console.warn(`  Warn: ${netCfg.net} ${dStr} fallito: ${e.message}`);
+      voci[dStr] = Object.assign({}, prima, { ultimo: todayStr });   // un errore non conta come vuoto
+    }
+    scriviStatoRiparazioni(stato);   // a ogni giorno: un giro che cade a meta' non rifa' quelli gia' provati
+    await sleep(1000);
+  }
+  if (stato) scriviStatoRiparazioni(stato);   // anche senza riparazioni: toglie i giorni usciti dalla finestra
 
   console.log('=== collect-meteohub completato ===');
 }

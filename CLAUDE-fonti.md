@@ -490,6 +490,12 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   cadere (Marche) e tagliata a meta' (Sicilia); richieste 138 → 74 al primo giro, 19 al secondo. `collectDay` resta
   com'era per il ripiego del Piemonte. Un effetto in piu': una temperatura tolta da `pulisci-temperature.js` non torna
   piu' al giro dopo, perche' il meteo di quel giorno non si richiede.
+- **La riparazione con parsimonia (18/11/2026, scheda 139).** Dal 17/11 i giri passavano i 20 minuti di `meteohub.yml`
+  (nove annullati prima del commit, 17/11 fuori dalla mappa in 11 reti): la riparazione a 20 giorni chiedeva a ogni giro
+  il 7/11 vuoto in 10 reti e giorni che tornano uguali. Ora in `main()` prima i giorni freschi di tutte le reti, poi i
+  vecchi: una volta al giorno (`data/meteohub-riparazioni.json`), mai piu' dopo due giorni vuoti di fila
+  (`RIPARA_VUOTI_MAX`), solo nei primi 10 minuti del giro (`RIPARA_TETTO_MIN`), senza meteo se vuoti (`collectDay` `minimo`).
+  ⚠️ Lo stato va nel `git add` del workflow: fuori, l'albero sporco blocca il `pull --rebase`.
 - **Gap check:** `.github/scripts/check-meteohub-gaps.js` + `meteohub-gaps.yml` (dal 30/10/2026 sveglia alle 6:15 italiane, dopo i giri MeteoHub delle 4:30 e 5:45; il cron 08:40 UTC resta di riserva: partiva verso le 15:30 UTC, e la stima di un giorno perso arrivava a G+2 di pomeriggio) — rileva buchi totali e parziali (<90% della mediana), registro permanente `data/meteohub-gaps.json`, copertura Open-Meteo dopo la grazia (file interi `source: open-meteo-gapfill`, integrazioni parziali `om:true`). **`GRACE_DAYS = 2`**: il buco del giorno G viene coperto quando si arriva a G+2 (verificato nel codice il 4/8/2026 — la doc diceva ancora 3, scarto che porta a conclusioni sbagliate ai check: un file comparso a G+2 è una STIMA, non un recupero)
 - **Misura della frequenza:** `.github/scripts/analizza-buchi-meteohub.js` (da lanciare a mano) — legge il registro e dà eventi per settimana, distanza fra un evento e l'altro e quota di giorni finiti a stime, rete per rete. È il numero su cui si decide l'uscita dal beta, al posto del "mi sembra che peggiori"
 - **Dati reali da:** Marche/Umbria 13 luglio 2026 (16-17/7 blackout piattaforma, stimati), le altre 8 dal 19 luglio; prima backfill Open-Meteo (`source: open-meteo-backfill-*`) dal 14-20 maggio
