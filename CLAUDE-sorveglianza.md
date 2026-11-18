@@ -562,3 +562,10 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
   (`46.50607_13.30752`, in `FRIULI_ESCLUSE` per la cartella `meteohub-friuli`) restava giudicabile e poteva arrivare
   «nuova» nella mail del lunedì. ⚠️ Una chiave di una lista vale ora per le due cartelle della regione.
 
+## Le pagine leggono le escluse come la mappa (18/11/2026, scheda 139)
+
+- `lib-escluse.js` ritaglia ogni `var *_ESCLUSE={…}` saltando stringhe e commenti, lo valuta con `vm` e tiene le chiavi
+  col valore vero, come la mappa. Prima contava le graffe e pescava le chiavi con una regex: una graffa in un commento,
+  una regione MeteoHub fra apici o una chiave a 0 separavano pagine e mappa senza avviso. Sul file del 18/11 le liste
+  sono identiche a prima in 14 regioni; una lista che non si valuta si salta con un avviso, come una che non si trova.
+

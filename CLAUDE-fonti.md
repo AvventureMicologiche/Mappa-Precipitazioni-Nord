@@ -649,6 +649,11 @@ Observations** (`public-api.meteofrance.fr/public/DPPaquetObs/v2`), Licence Ouve
   dalla sorveglianza apposta: `check-campi.js`, `check-doppioni.js` e `check-stazioni-ferme.js` saltano la cartella;
   `check-fonti.js` e il guardiano non la conoscono. ⚠️ I file ICON restano ~8 giorni e MeteoNetwork ~10: un buco
   piu' lungo non si recupera
+- **Due ritocchi del 18/11/2026 (scheda 139).** (1) Nella regola dello scarico (`meteoNetwork`) le MeteoNetwork segnate
+  `ferma` nell'anagrafe non fanno più da testimoni: una stazione che non misura «vede» sempre sotto 1 mm, e con due così
+  vicine un temporale vero si scartava (prova a MeteoHub finto `claudio\check-139\prova-abruzzo-scarico.js`). (2) La
+  «Pulizia retention» in fondo a `main`, sui giorni e su `icon-pluviometri/` (era l'unico collector senza, regola 7).
+  Da quel giorno `check-fonti.js` conta a parte stazioni vere e punti ICON (nota in `CLAUDE-sorveglianza.md`).
 
 ### Valle d'Aosta
 - **Fonte:** Centro Funzionale Regione VdA (`presidi2.regione.vda.it`), dati reali di stazione — **dal 26 luglio 2026, al posto di Open-Meteo**

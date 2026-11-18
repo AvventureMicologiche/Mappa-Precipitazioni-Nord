@@ -145,6 +145,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il riquadro del pluviometro al tocco anche sui tablet larghi (18/11, 139)
 - La cassetta dei video col feed di YouTube giù (18/11, 139)
 - Il riquadro bianco si chiude cambiando modo (18/11, 139)
+- Il radar lasciato mentre carica non resta acceso (18/11, 139)
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
@@ -227,6 +228,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Tre escluse e cinque rientrate dalla mail del 16/11 (17/11, 137)
 - L'Abruzzo conta le stazioni vere e le stime a parte (18/11, 139)
 - La terza porta riconosce le escluse anche nella cartella MeteoHub (18/11, 139)
+- Le pagine leggono le escluse come la mappa (18/11, 139)
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 

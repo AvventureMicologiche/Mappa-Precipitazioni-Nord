@@ -2341,3 +2341,10 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   periodo» appena arriva `modo-boschi`, `modo-prev` o `modo-radar`. Prima, entrando nei Boschi da zoom 10 in su (vista
   ferma, niente movestart), restava sopra la mappa forestale. Prova `claudio\check-139\prova-riquadro-boschi.js`
   (telefono, `/?r=piemonte` avvicinata): prima restava aperto, ora si chiude.
+
+## Il radar lasciato mentre carica non resta acceso (18/11/2026, scheda 139)
+
+- In `vai()` del radar conta solo l'ultima richiesta dell'elenco (`giriVai`) e solo col radar ancora acceso (`valida`):
+  prima, uscendo mentre l'elenco arrivava, `crea` metteva gli strati sopra la pioggia e il titolo della legenda restava
+  «Radar pioggia». Prova con LibreWXR finto e risposta a 2 s `claudio\check-139\prova-radar-uscita.js`: prima 3 tessere
+  dopo l'uscita, ora 0, legenda «mm cumulati». ⚠️ `giriVai` sta prima di `vai`: se no col radar aperto subito vale NaN.

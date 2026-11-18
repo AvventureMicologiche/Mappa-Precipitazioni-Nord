@@ -14027,6 +14027,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     if(fisso){ try{ m.removeLayer(fisso); }catch(e){} fisso=null; }
   }
 
+  var giriVai=0;   // vedi «USCITI MENTRE CARICAVA» in vai(): prima della funzione, cosi' vale anche se il radar si apre subito
   function vai(){
     /* ⚠️ QUI C'ERA `pulisci()`, ED ERA IL BUCO DELLA SCORTA (visto il 31/8).
        Buttavo gli strati PRIMA di chiedere: se poi la richiesta cadeva, la
@@ -14038,8 +14039,14 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
     if(timer){ clearTimeout(timer); timer=null; }
     titolo(true);
     nota('carico…');
+    /* ⚠️ USCITI MENTRE CARICAVA (18/11/2026, check-139): se si lasciava il radar (un periodo, «Chiudi radar», Indietro)
+       mentre arrivava l'elenco, il `then` metteva lo stesso i 16 strati sopra la pioggia (fino al radar dopo) e scriveva
+       «Radar pioggia» nel titolo della legenda; il `catch` «Radar non raggiungibile» nella riga dell'analisi. Ora conta
+       solo l'ultima richiesta, e solo se il radar e' ancora acceso. */
+    var mio=++giriVai, valida=function(){ return acceso && mio===giriVai; };
     chiedi()
       .then(function(j){
+        if(!valida()) return;
         var h=j.host, passati=(j.radar&&j.radar.past)||[], previsti=[];
         /* IL GIRO (13/11/2026): le misure delle ultime 2 ore e i previsti fino a +40, tagliati per ORA (vedi
            PREVISTI_S). Senza previsti il giro e' delle sole misure e il titolo lo dice: nessun ripiego. */
@@ -14051,7 +14058,7 @@ body.senza-pallini #map .leaflet-marker-pane .loc-pin svg{display:block}
         var coda = '/256/{z}/{x}/{y}/2/1_1.png';
         crea(lista.map(function(f){ return {t:f.time, u:h+f.path+coda, p:previsti.indexOf(f)>-1}; }));
       })
-      .catch(function(){ caduta(); });
+      .catch(function(){ if(valida()) caduta(); });
   }
   /* ⚠️ «RADAR» DA SOLO NON BASTA (5/9/2026): chi legge «radar» si
      aspetta le nuvole, e invece le macchie colorate sono la PIOGGIA che

@@ -121,7 +121,10 @@ async function json(url, ms = 60000) {
 // pluviometri ufficiali di MeteoHub le giornate con una sola ora da 20 mm in su sono temporali veri (23 a settembre-
 // ottobre): per questo la regola guarda i vicini e non l'ora sola, e vale solo qui. Zero richieste in piu'.
 const SCARICO_MM = 20, SCARICO_KM = 15, SCARICO_VICINI = 2;
-async function meteoNetwork(giorno) {
+// `ferme` (18/11/2026, check-139): i codici segnati `ferma` nell'anagrafe. Non fanno da testimoni dello scarico: una
+// stazione che non misura la pioggia «vede» sempre sotto 1 mm, e con due cosi' vicine un temporale vero veniva scartato.
+async function meteoNetwork(giorno, ferme) {
+  ferme = ferme || new Set();
   const { start, end } = finestraGiorno(giorno);
   const f = t => new Date(t).toISOString().slice(0, 16).replace('T', ' ');
   const q = `reftime: >=${f(start)},<=${f(end)};product:B13011;license:CCBY_COMPLIANT`;
@@ -154,7 +157,7 @@ async function meteoNetwork(giorno) {
     if (h < MIN_ORE) continue;   // giornata bucata: meglio nessun pallino che un totale di mezza giornata
     const scarico = Object.keys(s.letture).find(k => {
       if (s.letture[k] < SCARICO_MM) return false;
-      const vicine = tutte.filter(o => o !== s && o.letture[k] != null && km(s.lat, s.lon, o.lat, o.lon) <= SCARICO_KM);
+      const vicine = tutte.filter(o => o !== s && !ferme.has(o.cod) && o.letture[k] != null && km(s.lat, s.lon, o.lat, o.lon) <= SCARICO_KM);
       return vicine.length >= SCARICO_VICINI && vicine.every(o => o.letture[k] < 1);
     });
     if (scarico) {
@@ -507,7 +510,7 @@ async function main() {
     (prima && prima.stations || []).forEach(s => { vecchie[s.id] = s; });
 
     let mnw = [];
-    try { mnw = await meteoNetwork(giorno); await nomiMnw(an, mnw); }
+    try { mnw = await meteoNetwork(giorno, new Set(Object.keys(an.mnw || {}).filter(c => an.mnw[c].ferma))); await nomiMnw(an, mnw); }
     catch (e) { errori++; console.log(`⚠️ ${giorno} MeteoNetwork:`, e.message); }
     // la pioggia scaricata da spenta (vedi meteoNetwork): via anche il valore gia' nel file, che se no resterebbe
     (mnw.scartate || []).forEach(cod => { delete vecchie['mnw_' + cod]; });
@@ -570,6 +573,19 @@ async function main() {
   }
   segnaFerme(an);
   fs.writeFileSync(ANAGRAFE, JSON.stringify(an, null, 1));
+
+  // ── Pulizia file > 730 giorni (retention finestra scorrevole) ── (18/11/2026, check-139: era l'unico collector senza,
+  // regola 7 del CLAUDE.md; tocca i giorni della regione e quelli di icon-pluviometri, primo file il 20/5/2026)
+  const MAX_DAYS = 730;
+  const cutoffStr = new Date(Date.now() - MAX_DAYS * 864e5).toISOString().slice(0, 10);
+  let deleted = 0;
+  for (const dir of [CARTELLA, path.join(CARTELLA, 'icon-pluviometri')]) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (/^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f.slice(0, 10) < cutoffStr) { fs.unlinkSync(path.join(dir, f)); deleted++; }
+    }
+  }
+  if (deleted > 0) console.log(`  Pulizia retention: ${deleted} file oltre i ${MAX_DAYS} giorni eliminati`);
   if (errori) process.exitCode = 1;
 }
 

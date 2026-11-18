@@ -30,22 +30,34 @@ const PER_LISTA = {
   // aggiungerla con la chiave delle cartelle (francia-corsica, francia-provenza…), non 'francia'.
 };
 
-// Il testo fra la graffa di apertura e quella che la chiude.
+/* ⚠️ LE LISTE SI LEGGONO COME LE LEGGE LA MAPPA (18/11/2026, check-139). Prima si contavano le graffe e si pescavano le
+   chiavi con una regex: una graffa dentro un commento (`// vedi {…}`) spostava la fine della lista, una regione MeteoHub
+   scritta fra apici ('lazio':{…}) non si leggeva, e una chiave col valore 0 (per la mappa «non esclusa») risultava
+   esclusa. Le pagine si sarebbero separate dalla mappa senza avviso. Ora l'oggetto si ritaglia saltando stringhe e
+   commenti, si VALUTA (vm, come fa la mappa) e valgono le chiavi col valore vero. Il 18/11 le liste uscivano identiche
+   a quelle di prima (claudio\check-139). Il 17/11 (scheda 137) la trappola dei commenti sulle righe CRLF. */
+const vm = require('vm');
+// L'oggetto `var NOME={...}` intero, graffe comprese: le graffe dentro stringhe e commenti non contano.
 function blocco(h, nome) {
-  const i = h.indexOf('var ' + nome + '={');
-  if (i < 0) return null;
+  const m = new RegExp('var ' + nome + '\\s*=\\s*\\{').exec(h);
+  if (!m) return null;
+  const da = m.index + m[0].length - 1;
   let d = 0;
-  for (let j = h.indexOf('{', i); j < h.length; j++) {
-    if (h[j] === '{') d++;
-    else if (h[j] === '}' && --d === 0) return h.slice(h.indexOf('{', i) + 1, j);
+  for (let j = da; j < h.length; j++) {
+    const c = h[j];
+    if (c === '/' && h[j + 1] === '/') { const f = h.indexOf('\n', j); j = f < 0 ? h.length : f; continue; }
+    if (c === '/' && h[j + 1] === '*') { const f = h.indexOf('*/', j + 2); j = f < 0 ? h.length : f + 1; continue; }
+    if (c === "'" || c === '"') { let k = j + 1; while (k < h.length && h[k] !== c) { if (h[k] === '\\') k++; k++; } j = k; continue; }
+    if (c === '{') d++;
+    else if (c === '}' && --d === 0) return h.slice(da, j + 1);
   }
   return null;
 }
-// ⚠️ 17/11/2026 (scheda 137): si divide anche sul \r. index.html e' CRLF, e con `/\/\/.*$/` il punto non passava il \r
-// in fondo alla riga: i commenti restavano dentro, e una voce tolta e lasciata come `// 'TOS…':1` per le pagine
-// restava esclusa mentre la mappa la rimetteva. Sul file del 17/11 nessuna voce cambiava; era una trappola.
-const senzaCommenti = t => t.split(/\r?\n/).map(r => r.replace(/\/\/.*$/, '')).join('\n');
-const chiavi = t => [...t.matchAll(/['"]([^'"]+)['"]\s*:/g)].map(m => m[1]);
+function valuta(t, nome) {
+  try { return vm.runInNewContext('(' + t + ')', {}, { timeout: 1000 }); }
+  catch (e) { console.warn(`  ⚠️ lib-escluse: ${nome} non si valuta (${e.message}): pagine senza questa lista`); return null; }
+}
+const vere = o => Object.keys(o).filter(k => o[k]);
 
 // { regione: Set(chiavi) }
 function escluse(radice) {
@@ -54,12 +66,14 @@ function escluse(radice) {
   for (const [nome, reg] of Object.entries(PER_LISTA)) {
     const b = blocco(h, nome);
     if (b == null) { console.warn(`  ⚠️ lib-escluse: ${nome} non trovata in index.html`); continue; }
-    out[reg] = new Set(chiavi(senzaCommenti(b)));
+    const o = valuta(b, nome);
+    if (o) out[reg] = new Set(vere(o));
   }
   const mh = blocco(h, 'MH_ESCLUSE');
+  const o = mh == null ? null : valuta(mh, 'MH_ESCLUSE');
   if (mh == null) console.warn('  ⚠️ lib-escluse: MH_ESCLUSE non trovata in index.html');
-  else for (const m of senzaCommenti(mh).matchAll(/([a-z]+)\s*:\s*\{([^}]*)\}/g)) {
-    out[m[1]] = new Set([...(out[m[1]] || []), ...chiavi(m[2])]);
+  else if (o) for (const reg of Object.keys(o)) {
+    if (o[reg] && typeof o[reg] === 'object') out[reg] = new Set([...(out[reg] || []), ...vere(o[reg])]);
   }
   return out;
 }
