@@ -1046,10 +1046,13 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;
-    var n = s.length, sette = 0, conti = 0;
-    for (var i = Math.max(0, n - 7); i < n; i++) if (s[i] != null) { sette += s[i]; conti++; }
-    return { serie: s.slice().reverse(), ultimoGiorno: j.ultimo, periodi: {
-      '1': s[n - 1] == null ? null : { media: s[n - 1], ultimo: j.ultimo, top: [] },
+    var k = j.oggi && j.ultimo ? Math.round((Date.parse(j.oggi + 'T12:00:00Z') - Date.parse(j.ultimo + 'T12:00:00Z')) / 864e5) - 1 : 0;
+    s = s.slice(k > 0 ? k : 0);
+    if (!s.length) return null;
+    var sette = 0, conti = 0;
+    for (var i = 0; i < Math.min(7, s.length); i++) if (s[i] != null) { sette += s[i]; conti++; }
+    return { serie: s, ultimoGiorno: j.ultimo, periodi: {
+      '1': s[0] == null ? null : { media: s[0], ultimo: j.ultimo, top: [] },
       '7': conti ? { media: sette, ultimo: j.ultimo, top: [] } : null } };
   }
   Promise.all([fetch(API + (C.paese ? '?paese=' + C.paese : '?zona=' + C.slug) + '&pr=1').then(function (r) { return r.json(); }),

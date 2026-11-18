@@ -1195,14 +1195,22 @@ function clientePagina(C) {
 
   function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
-     dal piu' vecchio al piu' nuovo, messa nella forma del riepilogo di zona (serie dal piu' nuovo, periodi 1 e 7) */
+     dal piu' NUOVO (0 = ieri, come in lib-pagina-funghi.js), cioe' gia' nella forma del riepilogo di zona; periodi 1 e 7.
+     ⚠️ (18/11/2026, check-139) dal 28/10 la si leggeva come se fosse dal piu' vecchio: «ieri» e «7 giorni» erano i
+     giorni piu' lontani del file e il grafico era rovesciato.
+     ⚠️ s[0] e' il giorno prima di `j.oggi`, non `j.ultimo`: se la regione quel giorno non l'ha ancora (MeteoHub in
+     ritardo, Lazio e Marche il 18/11) s[0] e' null e `ultimo` e' il giorno prima. Si parte da `ultimo`, come il
+     riepilogo delle zone, se no «ieri» resta vuoto e le date del grafico scivolano di un giorno. */
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;
-    var n = s.length, sette = 0, conti = 0;
-    for (var i = Math.max(0, n - 7); i < n; i++) if (s[i] != null) { sette += s[i]; conti++; }
-    return { serie: s.slice().reverse(), ultimoGiorno: j.ultimo, periodi: {
-      '1': s[n - 1] == null ? null : { media: s[n - 1], ultimo: j.ultimo, top: [] },
+    var k = j.oggi && j.ultimo ? Math.round((Date.parse(j.oggi + 'T12:00:00Z') - Date.parse(j.ultimo + 'T12:00:00Z')) / 864e5) - 1 : 0;
+    s = s.slice(k > 0 ? k : 0);
+    if (!s.length) return null;
+    var sette = 0, conti = 0;
+    for (var i = 0; i < Math.min(7, s.length); i++) if (s[i] != null) { sette += s[i]; conti++; }
+    return { serie: s, ultimoGiorno: j.ultimo, periodi: {
+      '1': s[0] == null ? null : { media: s[0], ultimo: j.ultimo, top: [] },
       '7': conti ? { media: sette, ultimo: j.ultimo, top: [] } : null } };
   }
   Promise.all([fetch(API + (C.paese ? '?paese=' + C.paese : '?zona=' + C.slug) + '&pr=1').then(function (r) { return r.json(); }),

@@ -1345,3 +1345,11 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   5). Sua scelta «Dopo 1» dal confronto `claudio\mockup-etichette-telefono\`. ⚠️ Così i mm forti (33 in Val Cichero) al
   telefono non stanno sulla cartina: li dicono icona, 7 giorni, tabella e scheda.
 
+## Le «Meteo <paese>» leggevano il pluviometro al contrario (18/11/2026, scheda 139)
+
+- Dal 28/10 le 55 pagine prendevano «Ieri», «Ultimi 7 giorni» e il grafico dai giorni più lontani del file dei 25
+  giorni, perché `daPluviometro` (in `clientePagina` di `genera-pagine-meteo-zona.js`) lo leggeva dal più vecchio.
+  Ora parte dal più nuovo, e da `ultimo` quando la regione non ha ancora ieri (Lazio e Marche il 18/11, MeteoHub in
+  ritardo). Rigenerate le 55 con `genera-pagine-meteo-paese.js`: 11 righe a pagina, nient'altro.
+- ⚠️ Nel file `s[0]` è il giorno prima di `oggi`, non `ultimo`. Le pagine di zona non usano la funzione.
+
