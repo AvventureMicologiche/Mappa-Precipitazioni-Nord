@@ -57,7 +57,11 @@ const FOTO = fotoDellaMappa();
 const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
 
 // le regioni: l'anagrafe italiana + l'Abruzzo dopo il Lazio (stesso ordine nord-sud delle altre liste)
-const ABRUZZO = { k:'abruzzo', nome:'Abruzzo', prep:'in', senzaPagina:true };
+// ⚠️ Dal 18/11/2026 (quarta ondata, suo «fai le 10 città mancanti») anche le citta' abruzzesi hanno la pagina: i
+// pluviometri vicini vengono da data/abruzzo/ (collect-abruzzo.js, gli stessi della mappa), ma SOLO le stazioni
+// MeteoNetwork (reteVera): i 145 punti ICON-2I della stessa cartella sono stime (rete 'icon', stima:1) e qui non entrano.
+// L'Abruzzo non ha la pagina dei pluviometri: i link «Dove ha piovuto» portano alla mappa (/?r=abruzzo).
+const ABRUZZO = { k:'abruzzo', nome:'Abruzzo', prep:'in', senzaPagina:true, dirs:['abruzzo'], reteVera:'mnw', agenzia:'MeteoNetwork' };
 const LISTA = [];
 for (const r of REGIONI) {
   if (ESTERE.includes(r.k)) continue;
@@ -200,7 +204,24 @@ const ONDATE_ADESSO = [
     calabria: ['Cosenza', 'Crotone', 'Vibo Valentia'], sicilia: ['Caltanissetta', 'Enna'], campania: ['Benevento', 'Avellino'],
     basilicata: ['Matera'], veneto: ['Rovigo', 'Belluno'], sardegna: ['Carbonia', 'Tempio Pausania', 'Oristano'], molise: ['Isernia'],
   },
+  { // quarta ondata, 18/11/2026 (Goccia, suo «fai le 10 città mancanti», «falle adesso»): tutte insieme, sitemap sua
+    // (sitemap-adesso-citta-4.xml). Le quattro abruzzesi coi pluviometri MeteoNetwork (vedi ABRUZZO), e le sei che in
+    // capoluoghi.json non ci sono: stanno in CITTA_FUORI_ELENCO qui sotto, cosi' la mappa delle previsioni non cambia.
+    abruzzo: ["L'Aquila", 'Pescara', 'Chieti', 'Teramo'],
+    piemonte: ['Biella', 'Vercelli'], emilia: ['Cesena'], toscana: ['Carrara'], marche: ['Urbino'], puglia: ['Trani'],
+  },
 ];
+/* LE CITTA' CHE IN data/capoluoghi.json NON CI SONO (18/11/2026, quarta ondata). capoluoghi.json e' anche l'elenco delle
+   etichette di /previsioni/ e delle carte delle pagine regione, e /api/previsioni?capoluoghi= chiede MET per ognuna:
+   aggiungerle li' cambierebbe la mappa delle previsioni e le chiamate. Qui servono solo alla loro pagina: coordinate da
+   data/elenco-paesi.txt, quota del comune. */
+const CITTA_FUORI_ELENCO = {
+  piemonte: [{ n:'Biella', lat:45.567, lon:8.054, q:420, s:'BI' }, { n:'Vercelli', lat:45.324, lon:8.423, q:130, s:'VC' }],
+  emilia: [{ n:'Cesena', lat:44.137, lon:12.242, q:44, s:'FC' }],
+  toscana: [{ n:'Carrara', lat:44.077, lon:10.097, q:100, s:'MS' }],
+  marche: [{ n:'Urbino', lat:43.725, lon:12.637, q:485, s:'PU' }],
+  puglia: [{ n:'Trani', lat:41.274, lon:16.417, q:7, s:'BT' }],
+};
 /* ⚠️ A GOCCIA (7/11/2026, scheda 127, suo «ok programma una settimana così facciamo la prova»): la seconda ondata non
    esce tutta insieme ma tre citta' al giorno, dall'8 al 14/11, mescolate con due «Meteo <paese>» (METEO_PAESI_C di
    genera-pagine-meteo-zona.js), e ogni sera le pagine del giorno si chiedono a mano a Google. Prima le 24 della prima
@@ -253,7 +274,7 @@ ONDATE_ADESSO.forEach((o, i) => {
 const { slug, bello } = require('./lib-nomi.js');
 function cittaAdesso(k) {
   return (CITTA_ADESSO[k] || []).map(n => {
-    const c = (CAPOLUOGHI[k] || []).find(x => x.n === n);
+    const c = (CAPOLUOGHI[k] || []).find(x => x.n === n) || (CITTA_FUORI_ELENCO[k] || []).find(x => x.n === n);
     if (!c) throw new Error(`citta' «${n}» non trovata in capoluoghi.json (${k})`);
     return { n:c.n, lat:c.lat, lon:c.lon, q:c.q == null ? null : c.q, s:c.s, reg:k, slug:slug(c.n), ondata:ONDATA_DI[k + '/' + n] };
   });
@@ -283,15 +304,18 @@ const fileCache = {};
 function staz(dir, g) { const c = dir + '/' + g; return c in fileCache ? fileCache[c] : (fileCache[c] = leggi(dir, g)); }
 function pluviometriVicini(r, c) {
   if (!ESCLUSE) ESCLUSE = escluse(RADICE);
-  const fine = ultimoGiornoDi(r.k);
+  // l'Abruzzo non ha il riepilogo della regione: il giorno e' l'ultimo file della sua cartella prima di oggi
+  const fine = ultimoGiornoDi(r.k) || (r.reteVera ? fs.readdirSync(path.join(RADICE, 'data', r.dirs[0]))
+    .filter(f => /^\d{4}-\d\d-\d\d\.json$/.test(f) && f.slice(0, 10) < OGGI).sort().map(f => f.slice(0, 10)).pop() : null);
   if (!fine) return null;
+  const finta = s => s.om || (r.reteVera && s.rete !== r.reteVera);   // stima ICON-2I o tappo: non e' un pluviometro
   const gg = [fine].concat(giorniIndietro(fine, 29));   // 30 giorni, gg[0] = «ieri»
   // i candidati: veri (non `om`) in almeno uno degli ultimi 7 giorni, non esclusi, entro 20 km
   const cand = new Map();
   for (const d of r.dirs) for (let i = 0; i < 7; i++) for (const s of staz(d, gg[i]) || []) {
     const id = d + ':' + s.id;
     // solo chi misura la pioggia: le stazioni con la sola temperatura hanno mm sempre null (Palermo UIR)
-    if (cand.has(id) || s.om || s.mm == null || s.lat == null || escluso(ESCLUSE, r.k, [s.id, s.n])) continue;
+    if (cand.has(id) || finta(s) || s.mm == null || s.lat == null || escluso(ESCLUSE, r.k, [s.id, s.n])) continue;
     const km = kmDa(c, s);
     if (km <= 20) cand.set(id, { id:s.id, dir:d, n:bello(s.n), lat:s.lat, lon:s.lon, q:s.q == null ? null : s.q, km });
   }
@@ -304,7 +328,7 @@ function pluviometriVicini(r, c) {
       const tutte = staz(p.dir, gg[i]); if (!tutte) continue;
       disponibili++;
       const s = tutte.find(x => String(x.id) === String(p.id));
-      if (!s || s.mm == null || s.om) continue;   // niente dato o stima: giorno mancante
+      if (!s || s.mm == null || finta(s)) continue;   // niente dato o stima: giorno mancante
       t += s.mm; visti++;
     }
     return visti && visti >= disponibili * COPERTURA(r.k) ? Math.round(t * 10) / 10 : null;
@@ -663,9 +687,11 @@ function descrCitta(c) {
 // il blocco dei pluviometri, scritto coi numeri di oggi; data-ultimo = il giorno dei numeri (la sitemap lo legge)
 function bloccoPluviometri(r, c, pv) {
   const IN = aCitta(c.n);
+  // senza la pagina dei pluviometri (l'Abruzzo) il «Dove ha piovuto» porta alla mappa, sulla regione
+  const dovePiove = r.senzaPagina ? `${SITO}/?r=${r.k}` : `${SITO}/${r.k}/`;
   if (!pv || !pv.lista.length) return `
 <h2>La pioggia caduta ${IN}</h2>
-<p class="pc-frase">Nei 20 km intorno ${IN} non c'è un pluviometro della rete ${attr(agenziaDi(r))} con dati recenti. Quanta pioggia è caduta nel resto della regione lo dice la pagina <a href="${SITO}/${r.k}/">Dove ha piovuto ${r.prep} ${r.nome}</a>.</p>
+<p class="pc-frase">Nei 20 km intorno ${IN} non c'è un pluviometro della rete ${attr(agenziaDi(r))} con dati recenti. Quanta pioggia è caduta nel resto della regione lo dice ${r.senzaPagina ? 'la mappa' : 'la pagina'} <a href="${dovePiove}">Dove ha piovuto ${r.prep} ${r.nome}</a>.</p>
 `;
   /* ⚠️ «IERI» SOLO SE E' IERI (18/11/2026, check-139): il giorno dei numeri e' la fine del riepilogo della regione, e per le
      reti MeteoHub che arrivano tardi e' l'altroieri. L'HTML diceva lo stesso «Ieri, 16 novembre,» (53 citta' su 104 il
@@ -697,8 +723,8 @@ ${righe}
 </tbody>
 </table>
 <p class="nota">Millimetri misurati a terra (dati ${attr(agenziaDi(r))}), fino al ${giorno}. Un trattino: quel pluviometro non ha mandato abbastanza dati nel periodo.</p>
-<a class="ieri-btn" href="${SITO}/${r.k}/">
-  <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>I millimetri di ${stazDi(r, RADICE)} pluviometri${HA_ZONE.has(r.k) ? ', zona per zona' : ''}</small><i>→</i></a>
+<a class="ieri-btn" href="${dovePiove}">
+  <b>Dove ha piovuto ieri ${r.prep} ${r.nome}</b><small>${r.senzaPagina ? 'I pluviometri sulla mappa' : `I millimetri di ${stazDi(r, RADICE)} pluviometri${HA_ZONE.has(r.k) ? ', zona per zona' : ''}`}</small><i>→</i></a>
 `;
 }
 /* ⚠️ LA CASELLA «CERCA» SUBITO SOTTO IL RADAR (4/11/2026, sua correzione dopo averle viste in locale): per lui la casella
@@ -714,7 +740,8 @@ function paginaCitta(r, c) {
   const dati = JSON.stringify({ k:r.k, nome:nomeCortoDi(r), dove:IN, gen, sito:SITO, citta:[qui], qui, confine:confineDi(r),
     foto:FOTO, nomi:nomiCitta(r, c) }).replace(/</g, '\\u003c');
   const url = `${SITO}/${r.k}/adesso/${c.slug}/`, ga = `pagina-${r.k}-adesso-${c.slug}`;
-  const briciola = [['Mappa pluviometrica', SITO + '/'], [r.nome, `${SITO}/${r.k}/`], ['Radar adesso', `${SITO}/${r.k}/adesso/`], [c.n, null]];
+  const briciola = [['Mappa pluviometrica', SITO + '/']].concat(r.senzaPagina   // l'Abruzzo: niente pagina dei pluviometri
+    ? [['Radar meteo ' + r.nome, `${SITO}/${r.k}/adesso/`]] : [[r.nome, `${SITO}/${r.k}/`], ['Radar adesso', `${SITO}/${r.k}/adesso/`]], [[c.n, null]]);
   const stessa = cittaAdesso(r.k).filter(x => x.slug !== c.slug);
   const altre = LISTA.filter(x => x.k !== r.k).flatMap(x => cittaAdesso(x.k).map(y => ({ ...y, rn:x.nome })));
   const p0 = pv && pv.lista[0];

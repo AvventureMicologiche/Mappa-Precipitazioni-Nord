@@ -1373,3 +1373,12 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   «Il 16 novembre» e «16/11» in colonna, come già faceva il browser; il 18/11 erano 53 città su 104 (reti MeteoHub).
   «L’8», «L’11», «L’1» nel generatore e nella correzione di `lib/pagina-adesso.js` (`VERSIONE_JS` 24).
 
+## La quarta ondata delle città «adesso» (18/11/2026, Goccia)
+
+- Le 10 che mancavano, tutte insieme (`sitemap-adesso-citta-4.xml`): L'Aquila, Pescara, Chieti, Teramo, Biella, Vercelli,
+  Cesena, Carrara, Urbino, Trani. Le sei fuori da `capoluoghi.json` stanno in `CITTA_FUORI_ELENCO` di
+  `genera-pagine-adesso.js`, così `/previsioni/` e `/api/previsioni?capoluoghi=` non cambiano.
+- Abruzzo: `ABRUZZO` ha `dirs:['abruzzo']` e `reteVera:'mnw'`; in `pluviometriVicini` `finta()` tiene fuori i 145 punti
+  ICON-2I. Niente pagina dei pluviometri: il «Dove ha piovuto» porta a `/?r=abruzzo`. ⚠️ Il MeteoNetwork «L'Aquila» segna
+  0 da 30 giorni (Pizzoli 70 mm il 2/11): muto, da decidere con lui.
+

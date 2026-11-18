@@ -212,6 +212,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Senza la % MET resta fino alla sua scadenza (18/11, 139)
 - Il radar delle pagine «adesso» fuori dallo schermo non si ricarica (18/11, 139)
 - Le pagine città dicono «Ieri» solo se è ieri (18/11, 139)
+- La quarta ondata delle città «adesso» (18/11, Goccia): Abruzzo e sei fuori elenco
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
