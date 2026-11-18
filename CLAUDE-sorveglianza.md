@@ -569,3 +569,23 @@ guardata su un iPhone» (`/?r=lombardia,puglia,sicilia&da=2026-10-01&a=2026-10-2
   una regione MeteoHub fra apici o una chiave a 0 separavano pagine e mappa senza avviso. Sul file del 18/11 le liste
   sono identiche a prima in 14 regioni; una lista che non si valuta si salta con un avviso, come una che non si trova.
 
+## Doppioni toscani: il testimone di mezzogiorno (18/11/2026, scheda 139)
+
+- Mail di `check-doppioni` del 18/11: Toscana, 11 stazioni con lo stesso valore il 16 e il 17/11. **Non era il bug
+  #17/#21**: tutt'e due le sere chiuse alle 23:40, finestre Δ24h che non si toccano. Dalla storia di git del file del 17
+  (un giro per versione): 10 erano a zero o quasi alle 14:14 e sono salite in serata fino al valore del 16 (San Donato
+  in Collina 3,2 → 12,2), e la lettura del 18 alle 14, che copre la sera del 17, le conferma. Il 16 ha piovuto di
+  mattina, il 17 di sera; nel Senese 2-4 mm tutt'e due i giorni.
+- **L'undicesima era vera: Venturina (`TOS11000004`) bloccata il 17**: 6,6 tutto il giorno, anche alle 14:14 con le 8
+  vicine entro 15 km a zero, niente t/u, e il 18 a 0 con le vicine a 4-5. Il SIR ripete l'ultimo Δ24h di una stazione
+  che non trasmette. Tolta dal file del 17 (`repaired`, `repaired_note`), il valore vero non si conosce.
+- **Rimedio, `m12`**: il primo giro dopo mezzogiorno (non di chiusura, solo sul giorno di oggi) scrive in ogni stazione
+  quanto segnava il file e nel file `m12_ora`; i giri dopo lo ricopiano. In `check-doppioni` una coppia uguale non conta
+  se il giorno dopo la stazione è salita di almeno 0,5 mm dopo mezzogiorno: la parte di ieri dentro la finestra può solo
+  calare e una stazione bloccata non si muove, quindi chi sale ha misurato pioggia vera. Senza `m12` (pomeriggio
+  saltato, file vecchi, altre reti) il controllo è quello di prima. Al file del 17 `m12` è stato rimesso dalla versione
+  delle 14:14, sennò domani la coppia 16→17 rimandava la mail.
+- Prove in sandbox con la pagina SIR finta (`-r finta-sir.js`, nessuna richiesta esce): mattino senza `m12`, 14:14 lo
+  scrive, 18:00 e chiusura lo tengono, chiusura senza pomeriggio e `DATE_OVERRIDE` non lo scrivono. Il controllo: file
+  di prima = mail come prima; col testimone 9 salite su 11, restano 2, niente mail; copia finta di 30 stazioni = mail.
+

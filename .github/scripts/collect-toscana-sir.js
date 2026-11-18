@@ -298,10 +298,16 @@ async function main() {
     } catch (e) {}
   }
   let finalStations = stations;
+  let m12Ora = null;          // il testimone di mezzogiorno, vedi sotto
+  const m12Prima = {};
   if (fs.existsSync(outFile)) {
     try {
       const existing = JSON.parse(fs.readFileSync(outFile, 'utf8'));
       if (existing.date === dateStr && existing.stations) {
+        if (existing.m12_ora) {
+          m12Ora = existing.m12_ora;
+          existing.stations.forEach(s => { if (typeof s.m12 === 'number') m12Prima[s.id] = s.m12; });
+        }
         const existMap = {};
         existing.stations.forEach(s => { existMap[s.id] = s.mm || 0; });
         finalStations = stations.map(s => {
@@ -325,6 +331,24 @@ async function main() {
     }
   }
 
+  // ⚠️ IL TESTIMONE DI MEZZOGIORNO (18/11/2026, scheda 139). Il primo giro dopo mezzogiorno
+  // scrive in ogni stazione `m12`, quanto segnava il file in quel momento, e nel file
+  // `m12_ora`; i giri dopo lo ricopiano e basta. Serve a check-doppioni: una pioggia
+  // TRASCINATA da ieri c'e' gia' a mezzogiorno (la parte di ieri dentro la finestra Δ24h,
+  // che scivola in avanti, puo' solo calare; o la stazione e' bloccata), una pioggia vera
+  // caduta la sera no, e il valore sale dopo mezzogiorno. Nato dal falso allarme del 16-17/11/2026: 11 stazioni con lo
+  // stesso valore, 10 erano a zero alle 14:14 del 17 e sono salite in serata (San Donato in
+  // Collina da 3,2 a 12,2); l'undicesima, Venturina, segnava 6,6 tutto il giorno: bloccata.
+  // Niente testimone dalle chiusure (dalle 22 la sera e' gia' contata) ne' sui giorni passati
+  // riscritti a mano (DATE_OVERRIDE): li' check-doppioni resta quello di prima.
+  if (m12Ora) {
+    finalStations.forEach(s => { if (m12Prima[s.id] !== undefined) s.m12 = m12Prima[s.id]; });
+  } else if (!isClosing && italyHour >= 12 && dateStr === fmtDate(italyNow)) {
+    m12Ora = nowRun.toISOString();
+    finalStations.forEach(s => { s.m12 = s.mm; });
+    console.log(`  Testimone di mezzogiorno scritto: m12 su ${finalStations.length} stazioni`);
+  }
+
   // closing_late: la spia. Se il giro di chiusura e' arrivato dopo mezzanotte lo si scrive nel
   // file, cosi' si vede senza andare a leggere i log di GitHub.
   if (giaChiusoInOrario) {
@@ -335,7 +359,7 @@ async function main() {
     collected: new Date().toISOString(),
     source:    'sir-toscana',
     count:     finalStations.length
-  }, closingLate ? { closing_late: nowRun.toISOString() } : {}, { stations: finalStations })));
+  }, closingLate ? { closing_late: nowRun.toISOString() } : {}, m12Ora ? { m12_ora: m12Ora } : {}, { stations: finalStations })));
   console.log(`✅ Scritto ${outFile} (${finalStations.length} stazioni)`);
   }
 

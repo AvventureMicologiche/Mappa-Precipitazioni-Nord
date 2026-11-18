@@ -230,6 +230,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - L'Abruzzo conta le stazioni vere e le stime a parte (18/11, 139)
 - La terza porta riconosce le escluse anche nella cartella MeteoHub (18/11, 139)
 - Le pagine leggono le escluse come la mappa (18/11, 139)
+- ⚠️ Doppioni toscani: il testimone di mezzogiorno `m12` (18/11, 139)
 
 ### `CLAUDE-prod-e-test.md`: prod e test, migrazioni e promozioni, la ricetta del pubblicare
 
