@@ -204,9 +204,13 @@ async function perPunto(lat, lon, q, request, conOre, conProb, senzaCache, prDat
   let maxAge = TETTO_CACHE;
   const ex = Date.parse(met.headers.get('Expires') || ''); if (ex) maxAge = Math.round((ex - Date.now()) / 1000);
   maxAge = Math.max(MIN_CACHE, Math.min(TETTO_CACHE, maxAge));
-  // ⚠️ senza la % (Open-Meteo non ha risposto) si tiene solo 2 minuti: prima restava in cache fino a un'ora e la
-  // colonna «PROB.» usciva vuota per tutti (Mantova, foto della guida, 8/10)
-  if (PROB && conProb && !Object.keys(pr).length) maxAge = 120;
+  /* ⚠️ SENZA LA % SI TIENE FINO ALL'EXPIRES DI MET (18/11/2026, check-139, sua scelta «A»). Dall'8/10 una risposta
+     senza la % (Open-Meteo in errore, 429 o oltre TEMPO_PROB_MS) restava fresca solo 2 minuti, perche' la colonna
+     «PROB.» non restasse vuota un'ora (Mantova, foto della guida). Ma alla visita dopo si richiedevano MET E Open-Meteo:
+     con un 429 di Open-Meteo, una visita al minuto sullo stesso punto per 31 minuti faceva 16 chiamate a ciascuno invece
+     di 2 (prova `check-139\pa-previsioni-senza-pc.mjs`), contro la regola di MET di non chiedere prima dell'Expires e
+     contro la nostra «mai chiamate in piu' alle fonti». Ora la % manca fino al rinfresco normale (10-60 minuti), e la
+     risposta lo dice in `probStato`. */
   // fino a quando MET dice che questa e' la previsione in vigore (Expires): vedi «OGNI CITTA' QUANDO SCADE LA SUA»
   dati.scade = ex || (Date.now() + maxAge * 1000);
   // fresca fino all'Expires come prima, ma tenuta 12 ore come riserva (scheda 122)

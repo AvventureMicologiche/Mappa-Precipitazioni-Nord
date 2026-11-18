@@ -1353,3 +1353,10 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   ritardo). Rigenerate le 55 con `genera-pagine-meteo-paese.js`: 11 righe a pagina, nient'altro.
 - ⚠️ Nel file `s[0]` è il giorno prima di `oggi`, non `ultimo`. Le pagine di zona non usano la funzione.
 
+## Senza la % MET resta fino alla sua scadenza (18/11/2026, scheda 139)
+
+- In `perPunto` di `functions/api/previsioni.js` una risposta senza la % di Open-Meteo restava fresca 2 minuti (dall'8/10):
+  alla visita dopo si richiedevano MET e Open-Meteo. Con un 429 di Open-Meteo, 16 chiamate a ciascuno in 31 minuti
+  invece di 2. Sua scelta «A»: si tiene fino all'Expires di MET, la % manca fino al rinfresco e `probStato` lo dice.
+- ⚠️ La colonna «PROB.» può restare vuota fino a un'ora su quel punto. Prova `claudio\check-139\pa-previsioni-senza-pc.mjs`.
+
