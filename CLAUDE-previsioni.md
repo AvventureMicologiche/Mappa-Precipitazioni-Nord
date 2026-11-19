@@ -1380,5 +1380,6 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   `genera-pagine-adesso.js`, così `/previsioni/` e `/api/previsioni?capoluoghi=` non cambiano.
 - Abruzzo: `ABRUZZO` ha `dirs:['abruzzo']` e `reteVera:'mnw'`; in `pluviometriVicini` `finta()` tiene fuori i 145 punti
   ICON-2I. Niente pagina dei pluviometri: il «Dove ha piovuto» porta a `/?r=abruzzo`. ⚠️ Il MeteoNetwork «L'Aquila» segna
-  0 da 30 giorni (Pizzoli 70 mm il 2/11): muto, da decidere con lui.
+  0 da 30 giorni (Pizzoli 70 mm il 2/11): muto. Il 19/11 (suo «saltiamo l'aquila, togliamola») la pagina è tolta,
+  con rinvio 301 a `/abruzzo/adesso/` in `_redirects`; restano 9.
 

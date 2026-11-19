@@ -207,7 +207,10 @@ const ONDATE_ADESSO = [
   { // quarta ondata, 18/11/2026 (Goccia, suo «fai le 10 città mancanti», «falle adesso»): tutte insieme, sitemap sua
     // (sitemap-adesso-citta-4.xml). Le quattro abruzzesi coi pluviometri MeteoNetwork (vedi ABRUZZO), e le sei che in
     // capoluoghi.json non ci sono: stanno in CITTA_FUORI_ELENCO qui sotto, cosi' la mappa delle previsioni non cambia.
-    abruzzo: ["L'Aquila", 'Pescara', 'Chieti', 'Teramo'],
+    // ⚠️ L'Aquila TOLTA il 19/11/2026 (suo «saltiamo l'aquila, togliamola»): il MeteoNetwork «L'Aquila», il piu' vicino,
+    // segnava 0 mm in tutti i 30 giorni (Pizzoli, a 10 km, 70 mm il 2/11) e la pagina diceva «0 mm». Rinvio 301 alla
+    // pagina della regione in _redirects.
+    abruzzo: ['Pescara', 'Chieti', 'Teramo'],
     piemonte: ['Biella', 'Vercelli'], emilia: ['Cesena'], toscana: ['Carrara'], marche: ['Urbino'], puglia: ['Trani'],
   },
 ];
