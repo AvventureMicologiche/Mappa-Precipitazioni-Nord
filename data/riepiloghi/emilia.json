@@ -1,145 +1,146 @@
 {
  "regione": "emilia",
- "generato": "2026-11-18T18:01:27.735Z",
+ "generato": "2026-11-19T04:15:46.524Z",
  "periodi": {
   "1": {
-   "media": 6.9,
+   "media": 0.3,
    "giorni": 1,
-   "stazioni": 290,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-17",
+   "stazioni": 291,
+   "primo": "2026-11-18",
+   "ultimo": "2026-11-18",
    "top": [
+    {
+     "n": "Monte Romano (Ravenna)",
+     "nb": "Monte Romano",
+     "mm": 12.5
+    },
     {
      "n": "Lago Ballano (Parma)",
      "nb": "Lago Ballano",
-     "mm": 129.4
+     "mm": 10
+    },
+    {
+     "n": "Lago Scaffaiolo (Modena)",
+     "nb": "Lago Scaffaiolo",
+     "mm": 9.4
     },
     {
      "n": "Lago Paduli (Massa-Carrara)",
      "nb": "Lago Paduli",
-     "mm": 116
+     "mm": 7.4
     },
     {
-     "n": "Succiso (Reggio nell'Emilia)",
-     "nb": "Succiso",
-     "mm": 96.8
-    },
-    {
-     "n": "Collagna (Reggio nell'Emilia)",
-     "nb": "Collagna",
-     "mm": 78.5
-    },
-    {
-     "n": "Ospitaletto (Reggio nell'Emilia)",
-     "nb": "Ospitaletto",
-     "mm": 72.5
+     "n": "Campigna (Forlì-Cesena)",
+     "nb": "Campigna",
+     "mm": 6.6
     }
    ]
   },
   "7": {
-   "media": 81.1,
+   "media": 68.1,
    "giorni": 7,
-   "stazioni": 294,
-   "primo": "2026-11-11",
-   "ultimo": "2026-11-17",
+   "stazioni": 293,
+   "primo": "2026-11-12",
+   "ultimo": "2026-11-18",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
      "nb": "Lago Ballano",
-     "mm": 513.3
+     "mm": 408.7
     },
     {
      "n": "Lago Paduli (Massa-Carrara)",
      "nb": "Lago Paduli",
-     "mm": 401.4
-    },
-    {
-     "n": "Succiso (Reggio nell'Emilia)",
-     "nb": "Succiso",
-     "mm": 372
-    },
-    {
-     "n": "Ospitaletto (Reggio nell'Emilia)",
-     "nb": "Ospitaletto",
-     "mm": 352.2
+     "mm": 311.5
     },
     {
      "n": "Pracchia (Pistoia)",
      "nb": "Pracchia",
-     "mm": 348.8
+     "mm": 290.4
+    },
+    {
+     "n": "Succiso (Reggio nell'Emilia)",
+     "nb": "Succiso",
+     "mm": 287.8
+    },
+    {
+     "n": "Lagdei (Parma)",
+     "nb": "Lagdei",
+     "mm": 268.5
     }
    ]
   },
   "20": {
-   "media": 125.9,
+   "media": 126.1,
    "giorni": 20,
    "stazioni": 304,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-18",
    "top": [
     {
      "n": "Lago Ballano (Parma)",
      "nb": "Lago Ballano",
-     "mm": 710.2
+     "mm": 720.2
     },
     {
      "n": "Lago Scaffaiolo (Modena)",
      "nb": "Lago Scaffaiolo",
-     "mm": 682.8
+     "mm": 692.2
     },
     {
      "n": "Lago Paduli (Massa-Carrara)",
      "nb": "Lago Paduli",
-     "mm": 570.7
+     "mm": 578.1
     },
     {
      "n": "Pracchia (Pistoia)",
      "nb": "Pracchia",
-     "mm": 512
+     "mm": 513.8
     },
     {
      "n": "Succiso (Reggio nell'Emilia)",
      "nb": "Succiso",
-     "mm": 493.6
+     "mm": 497.8
     }
    ]
   },
   "30": {
-   "media": 149.4,
+   "media": 149.5,
    "giorni": 30,
    "stazioni": 306,
-   "primo": "2026-10-19",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-18",
    "top": [
     {
      "n": "Lago Scaffaiolo (Modena)",
      "nb": "Lago Scaffaiolo",
-     "mm": 853.9
+     "mm": 863.3
     },
     {
      "n": "Lago Ballano (Parma)",
      "nb": "Lago Ballano",
-     "mm": 833.4
+     "mm": 843.4
     },
     {
      "n": "Lago Paduli (Massa-Carrara)",
      "nb": "Lago Paduli",
-     "mm": 664.2
+     "mm": 671.6
     },
     {
      "n": "Succiso (Reggio nell'Emilia)",
      "nb": "Succiso",
-     "mm": 608.5
+     "mm": 612.5
     },
     {
      "n": "Pracchia (Pistoia)",
      "nb": "Pracchia",
-     "mm": 608.3
+     "mm": 609.9
     }
    ]
   }
  },
  "serie": [
+  0.3,
   6.9,
   2.6,
   1.4,
@@ -168,18 +169,17 @@
   8.1,
   0,
   5.8,
-  10,
-  0.2
+  10
  ],
- "serieDa": "2026-11-17",
+ "serieDa": "2026-11-18",
  "zone": [
   {
    "s": "valle-del-carlone",
    "n": "Valle del Carlone",
-   "ultimo": "2026-11-17",
-   "m1": 1.1,
-   "m7": 33.9,
-   "m30": 99.5,
+   "ultimo": "2026-11-18",
+   "m1": 0.1,
+   "m7": 32.6,
+   "m30": 97.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "alta-val-d-enza",
    "n": "Alta Val d'Enza",
-   "ultimo": "2026-11-17",
-   "m1": 63.7,
-   "m7": 280.3,
-   "m30": 459,
+   "ultimo": "2026-11-18",
+   "m1": 3.1,
+   "m7": 218.6,
+   "m30": 462,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "val-trebbia",
    "n": "Val Trebbia",
-   "ultimo": "2026-11-17",
-   "m1": 6.8,
-   "m7": 76.7,
-   "m30": 185.6,
+   "ultimo": "2026-11-18",
+   "m1": 0,
+   "m7": 70.9,
+   "m30": 182.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-nure",
    "n": "Val Nure",
-   "ultimo": "2026-11-17",
-   "m1": 2.4,
-   "m7": 49.6,
-   "m30": 132.7,
+   "ultimo": "2026-11-18",
+   "m1": 0,
+   "m7": 46.9,
+   "m30": 132.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,21 +220,21 @@
   {
    "s": "val-di-taro",
    "n": "Val di Taro",
-   "ultimo": "2026-11-17",
-   "m1": 4.7,
-   "m7": 60.8,
-   "m30": 122.1,
-   "p1": true,
+   "ultimo": "2026-11-18",
+   "m1": 0,
+   "m7": 52.8,
+   "m30": 122,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "romagna-toscana",
    "n": "Romagna toscana",
-   "ultimo": "2026-11-17",
-   "m1": 8.6,
-   "m7": 71.8,
-   "m30": 140.8,
+   "ultimo": "2026-11-18",
+   "m1": 1.2,
+   "m7": 70.5,
+   "m30": 141.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "val-d-enza",
    "n": "Val d'Enza",
-   "ultimo": "2026-11-17",
-   "m1": 22.2,
-   "m7": 183.5,
-   "m30": 294.8,
+   "ultimo": "2026-11-18",
+   "m1": 0.3,
+   "m7": 135.2,
+   "m30": 295.1,
    "p1": true,
    "p7": true,
    "p30": true

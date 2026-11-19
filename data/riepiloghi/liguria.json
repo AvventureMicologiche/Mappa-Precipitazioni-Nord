@@ -1,81 +1,81 @@
 {
  "regione": "liguria",
- "generato": "2026-11-18T04:15:39.192Z",
+ "generato": "2026-11-19T04:15:46.524Z",
  "periodi": {
   "1": {
-   "media": 14.2,
+   "media": 0.2,
    "giorni": 1,
    "stazioni": 175,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-17",
+   "primo": "2026-11-18",
+   "ultimo": "2026-11-18",
    "top": [
+    {
+     "n": "Cabanne (Rezzoaglio)",
+     "nb": "Cabanne",
+     "mm": 2.2
+    },
     {
      "n": "Cichero (San Colombano Certenoli)",
      "nb": "Cichero",
-     "mm": 76
+     "mm": 2
+    },
+    {
+     "n": "Colle Belenda (Pigna)",
+     "nb": "Colle Belenda",
+     "mm": 2
+    },
+    {
+     "n": "Vicomorasso (Sant'Olcese)",
+     "nb": "Vicomorasso",
+     "mm": 2
     },
     {
      "n": "Cuccarello (Sesta Godano)",
      "nb": "Cuccarello",
-     "mm": 73.4
-    },
-    {
-     "n": "Reppia (Ne)",
-     "nb": "Reppia",
-     "mm": 67.2
-    },
-    {
-     "n": "Bosco di Rossano (Zeri)",
-     "nb": "Bosco di Rossano",
-     "mm": 65.4
-    },
-    {
-     "n": "Calice al C. - Molunghi (Calice al Cornoviglio)",
-     "nb": "Calice al C. - Molunghi",
-     "mm": 64.8
+     "mm": 1.8
     }
    ]
   },
   "7": {
-   "media": 110.5,
+   "media": 93.1,
    "giorni": 7,
    "stazioni": 175,
-   "primo": "2026-11-11",
-   "ultimo": "2026-11-17",
+   "primo": "2026-11-12",
+   "ultimo": "2026-11-18",
    "top": [
     {
-     "n": "Castelnuovo Magra - Montecchio (Castelnuovo Magra)",
-     "nb": "Castelnuovo Magra - Montecchio",
-     "mm": 360.8
+     "n": "Bosco di Rossano (Zeri)",
+     "nb": "Bosco di Rossano",
+     "mm": 246.3
     },
     {
      "n": "Novegigola (Tresana)",
      "nb": "Novegigola",
-     "mm": 310.2
+     "mm": 240
     },
     {
-     "n": "Monte Rocchetta (Lerici)",
-     "nb": "Monte Rocchetta",
-     "mm": 299
+     "n": "Cuccarello (Sesta Godano)",
+     "nb": "Cuccarello",
+     "mm": 228.6
     },
     {
-     "n": "Riccò del Golfo (Riccò del Golfo di Spezia)",
-     "nb": "Riccò del Golfo",
-     "mm": 291.2
+     "n": "Casale di Pignone (Pignone)",
+     "nb": "Casale di Pignone",
+     "mm": 220.8
     },
     {
-     "n": "Bosco di Rossano (Zeri)",
-     "nb": "Bosco di Rossano",
-     "mm": 290.7
+     "n": "Calice al C. - Molunghi (Calice al Cornoviglio)",
+     "nb": "Calice al C. - Molunghi",
+     "mm": 217.4
     }
    ]
   },
   "20": {
-   "media": 163.2,
+   "media": 163.4,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-30",
+   "ultimo": "2026-11-18",
    "top": [
     {
      "n": "Novegigola (Tresana)",
@@ -85,7 +85,7 @@
     {
      "n": "Castelnuovo Magra - Montecchio (Castelnuovo Magra)",
      "nb": "Castelnuovo Magra - Montecchio",
-     "mm": 459
+     "mm": 460.4
     },
     {
      "n": "Piana Battolla - Ponte (Follo)",
@@ -95,26 +95,26 @@
     {
      "n": "Riccò del Golfo (Riccò del Golfo di Spezia)",
      "nb": "Riccò del Golfo",
-     "mm": 383.6
+     "mm": 383.4
     },
     {
      "n": "Bosco di Rossano (Zeri)",
      "nb": "Bosco di Rossano",
-     "mm": 376.4
+     "mm": 376.8
     }
    ]
   },
   "30": {
-   "media": 281.3,
+   "media": 276.6,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-19",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-20",
+   "ultimo": "2026-11-18",
    "top": [
     {
      "n": "Novegigola (Tresana)",
      "nb": "Novegigola",
-     "mm": 601.5
+     "mm": 601.1
     },
     {
      "n": "Piana Battolla - Ponte (Follo)",
@@ -124,22 +124,23 @@
     {
      "n": "Castelnuovo Magra - Montecchio (Castelnuovo Magra)",
      "nb": "Castelnuovo Magra - Montecchio",
-     "mm": 528.2
+     "mm": 529.6
     },
     {
      "n": "Riccò del Golfo (Riccò del Golfo di Spezia)",
      "nb": "Riccò del Golfo",
-     "mm": 514.2
+     "mm": 512.8
     },
     {
      "n": "Bosco di Rossano (Zeri)",
      "nb": "Bosco di Rossano",
-     "mm": 508.8
+     "mm": 508.4
     }
    ]
   }
  },
  "serie": [
+  0.2,
   14.2,
   1.7,
   1.3,
@@ -168,18 +169,17 @@
   11.9,
   0.1,
   43.2,
-  57.7,
-  4.9
+  57.7
  ],
- "serieDa": "2026-11-17",
+ "serieDa": "2026-11-18",
  "zone": [
   {
    "s": "valle-dei-campassi",
    "n": "Valle dei Campassi",
-   "ultimo": "2026-11-17",
-   "m1": 9.7,
-   "m7": 89.3,
-   "m30": 229.2,
+   "ultimo": "2026-11-18",
+   "m1": 0.1,
+   "m7": 85.3,
+   "m30": 225.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "val-bormida",
    "n": "Val Bormida",
-   "ultimo": "2026-11-17",
-   "m1": 0,
+   "ultimo": "2026-11-18",
+   "m1": 0.1,
    "m7": 26.4,
-   "m30": 214.6,
+   "m30": 208.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "val-varenna",
    "n": "Val Varenna",
-   "ultimo": "2026-11-17",
-   "m1": 0.2,
-   "m7": 50.9,
-   "m30": 284,
+   "ultimo": "2026-11-18",
+   "m1": 0.1,
+   "m7": 49.5,
+   "m30": 272.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "val-neva",
    "n": "Val Neva",
-   "ultimo": "2026-11-17",
+   "ultimo": "2026-11-18",
    "m1": 0,
-   "m7": 44.4,
-   "m30": 186,
+   "m7": 42.4,
+   "m30": 184.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "terra-brigasca",
    "n": "Terra brigasca",
-   "ultimo": "2026-11-17",
-   "m1": 0.2,
-   "m7": 77,
-   "m30": 228.4,
+   "ultimo": "2026-11-18",
+   "m1": 0.3,
+   "m7": 71.9,
+   "m30": 228.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,10 +231,10 @@
   {
    "s": "riviera-di-levante",
    "n": "Riviera di Levante",
-   "ultimo": "2026-11-17",
-   "m1": 35.1,
-   "m7": 181.1,
-   "m30": 362.4,
+   "ultimo": "2026-11-18",
+   "m1": 0.8,
+   "m7": 170.8,
+   "m30": 356.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,10 +242,10 @@
   {
    "s": "val-bisagno",
    "n": "Val Bisagno",
-   "ultimo": "2026-11-17",
-   "m1": 15.5,
-   "m7": 122.3,
-   "m30": 236.3,
+   "ultimo": "2026-11-18",
+   "m1": 0.6,
+   "m7": 120.1,
+   "m30": 235.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -253,10 +253,10 @@
   {
    "s": "val-cichero",
    "n": "Val Cichero",
-   "ultimo": "2026-11-17",
-   "m1": 52.5,
-   "m7": 185.7,
-   "m30": 379.9,
+   "ultimo": "2026-11-18",
+   "m1": 0.8,
+   "m7": 165,
+   "m30": 370.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -264,10 +264,10 @@
   {
    "s": "val-di-vara",
    "n": "Val di Vara",
-   "ultimo": "2026-11-17",
-   "m1": 67.7,
-   "m7": 276.6,
-   "m30": 479.1,
+   "ultimo": "2026-11-18",
+   "m1": 0.5,
+   "m7": 231.4,
+   "m30": 478.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -275,10 +275,10 @@
   {
    "s": "val-d-aveto",
    "n": "Val d'Aveto",
-   "ultimo": "2026-11-17",
-   "m1": 34.8,
-   "m7": 158.1,
-   "m30": 329.1,
+   "ultimo": "2026-11-18",
+   "m1": 1.1,
+   "m7": 135.3,
+   "m30": 323.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -286,22 +286,22 @@
   {
    "s": "val-varatella",
    "n": "Val Varatella",
-   "ultimo": "2026-11-17",
+   "ultimo": "2026-11-18",
    "m1": 0,
-   "m7": 38.4,
-   "m30": 267.2,
-   "p1": false,
+   "m7": 38.2,
+   "m30": 262.8,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-roia",
    "n": "Val Roia",
-   "ultimo": "2026-11-17",
-   "m1": 0.3,
-   "m7": 92.4,
+   "ultimo": "2026-11-18",
+   "m1": 0,
+   "m7": 90.4,
    "m30": 239.3,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }
