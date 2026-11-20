@@ -1,50 +1,54 @@
 {
  "regione": "puglia",
- "generato": "2026-11-19T11:56:59.320Z",
+ "generato": "2026-11-20T04:15:51.938Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 1.3,
    "giorni": 1,
-   "stazioni": 129,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-17",
+   "stazioni": 130,
+   "primo": "2026-11-19",
+   "ultimo": "2026-11-19",
    "top": [
     {
-     "n": "Poggio Imperiale",
-     "mm": 6.2
+     "n": "Anzano di Puglia",
+     "mm": 25.3
     },
     {
-     "n": "San Giovanni Rotondo",
-     "mm": 6
+     "n": "Monteleone di Puglia",
+     "mm": 19.2
     },
     {
-     "n": "Lesina",
-     "mm": 5.6
+     "n": "Candela",
+     "mm": 13.6
     },
     {
-     "n": "S.Marco in Lamis",
-     "mm": 5.6
+     "n": "Panni",
+     "mm": 13
     },
     {
-     "n": "Bosco Umbra",
-     "mm": 4
+     "n": "S.Agata di Puglia",
+     "mm": 12.6
     }
    ]
   },
   "7": {
-   "media": 12.8,
-   "giorni": 7,
+   "media": 14,
+   "giorni": 6,
    "stazioni": 129,
-   "primo": "2026-11-11",
-   "ultimo": "2026-11-17",
+   "primo": "2026-11-13",
+   "ultimo": "2026-11-19",
    "top": [
     {
+     "n": "Anzano di Puglia",
+     "mm": 42
+    },
+    {
      "n": "Faeto",
-     "mm": 34.2
+     "mm": 38.6
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 33.6
+     "mm": 35
     },
     {
      "n": "Taranto",
@@ -52,57 +56,53 @@
     },
     {
      "n": "Alberona",
-     "mm": 30.8
-    },
-    {
-     "n": "San Giovanni Rotondo",
-     "mm": 30
+     "mm": 32.6
     }
    ]
   },
   "20": {
-   "media": 88.4,
-   "giorni": 20,
+   "media": 83.1,
+   "giorni": 19,
    "stazioni": 129,
-   "primo": "2026-10-29",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-31",
+   "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Faeto",
-     "mm": 221.9
+     "mm": 226.7
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 211.6
+     "mm": 213.6
     },
     {
-     "n": "Lesina",
-     "mm": 147.9
-    },
-    {
-     "n": "Bosco Umbra",
-     "mm": 146.4
+     "n": "Panni",
+     "mm": 152.6
     },
     {
      "n": "Biccari",
-     "mm": 145.4
+     "mm": 146.4
+    },
+    {
+     "n": "Alberona",
+     "mm": 144.9
     }
    ]
   },
   "30": {
-   "media": 113.9,
-   "giorni": 30,
+   "media": 115.1,
+   "giorni": 29,
    "stazioni": 129,
-   "primo": "2026-10-19",
-   "ultimo": "2026-11-17",
+   "primo": "2026-10-21",
+   "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Faeto",
-     "mm": 238.1
+     "mm": 242.9
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 231.6
+     "mm": 233.8
     },
     {
      "n": "Lesina",
@@ -120,6 +120,8 @@
   }
  },
  "serie": [
+  1.3,
+  null,
   0.4,
   3.8,
   7.9,
@@ -147,10 +149,8 @@
   3.8,
   0.1,
   0.4,
-  20.3,
-  0,
-  0
+  20.3
  ],
- "serieDa": "2026-11-17",
+ "serieDa": "2026-11-19",
  "zone": []
 }
