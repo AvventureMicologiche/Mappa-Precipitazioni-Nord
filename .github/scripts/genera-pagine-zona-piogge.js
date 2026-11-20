@@ -49,6 +49,9 @@ const { METEO_CSS, meteoHtml, meteoClient } = require('./lib-meteo-regione.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
+// il bottone lungo verso la pagina radar della regione, sotto «Previsioni» (20/11/2026, scheda 140): vedi bottoneRadar in
+// genera-pagine-adesso.js (chiesto qui dentro e non in cima: quel file chiede genera-pagine-regione.js)
+const tastoRadarRegione = (k, da) => require('./genera-pagine-adesso.js').tastoRadar(k, da);
 // il link alle pagine «Previsioni meteo <zona>» (24/10/2026, test su 11 zone): l'elenco sta nel loro generatore
 const { linkMeteo } = require('./genera-pagine-meteo-zona.js');   // la mappa di ieri nel bottone in cima (20/10/2026)
 
@@ -394,7 +397,7 @@ ${righe}
   <a href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-prev" href="${SITO}/previsioni/?r=${casa.k}&amp;${PIN}"
-     onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>
+     onclick="try{gtag('event','apri_mappa',{da:'zona-piogge-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>${tastoRadarRegione(casa.k, `zona-piogge-${zslug}`)}
 </div>
 <p class="breve">La pioggia degli ultimi 20 giorni ${casa.prep} ${esc(nomeReg)}; il link apre la mappa già inquadrata ${esc(z.dove)}.</p>
 <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}&amp;z=10&amp;c=${z.lat},${z.lon}" id="lnk-img" style="display:block;text-decoration:none;"

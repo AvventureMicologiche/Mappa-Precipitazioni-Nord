@@ -51,6 +51,9 @@ const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-r
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
+// il bottone lungo verso la pagina radar della regione, sotto «Previsioni» (20/11/2026, scheda 140): vedi bottoneRadar in
+// genera-pagine-adesso.js (chiesto qui dentro e non in cima: quel file chiede lib-pagina-funghi.js)
+const tastoRadarRegione = (k, da) => require('./genera-pagine-adesso.js').tastoRadar(k, da);
 const { linkMeteoPaese } = require('./genera-pagine-meteo-zona.js');   // «Meteo <paese>» dei 20 posti del test (28/10/2026)
 // Il ritratto del pluviometro, cotto dentro la pagina il giorno che si
 // genera: totale dell'archivio, giorni di pioggia, giorno piu' bagnato,
@@ -466,7 +469,7 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
   <a class="t-radar" href="${SITO}/?r=${REG}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="${SITO}/previsioni/?r=${REG}&amp;${PIN}"
-     onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-previsioni'})}catch(e){}">☀️ Previsioni</a>
+     onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-previsioni'})}catch(e){}">☀️ Previsioni</a>${tastoRadarRegione(REG, `localita-${REG}`)}
 </div>
 <p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="${SITO}/?r=${REG}&amp;g=20" id="lnk-pioggia"

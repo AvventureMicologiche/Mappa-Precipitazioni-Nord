@@ -59,6 +59,9 @@ const { haBoschi, cartaBreve, cartaDi, fonteNota } = require('./lib-boschi.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
 const { METEO_CSS, meteoHtml, boschiHtml, meteoClient } = require('./lib-meteo-regione.js');   // «Che tempo farà» (20/10/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
+// il bottone lungo verso la pagina radar della regione, sotto «Previsioni» (20/11/2026, scheda 140): vedi bottoneRadar in
+// genera-pagine-adesso.js (chiesto qui dentro e non in cima: quel file chiede lib-pagina-funghi.js)
+const tastoRadarRegione = (k, da) => require('./genera-pagine-adesso.js').tastoRadar(k, da);
 
 /* ── «CHE TEMPO FARÀ NELLE ZONE DEI FUNGHI» (20/10/2026, scheda 89, dal mockup approvato sulla Toscana) ──
    Al posto della striscia blu: una riga per ogni zona dei funghi della regione, con la previsione al CENTRO della
@@ -364,7 +367,7 @@ ${meteoHtml(r, ZONE.some(z => z.reg === r.k) ? 'Che tempo farà nelle zone dei f
   <a href="${SITO}/?r=${r.k}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-prev" href="${SITO}/previsioni/?r=${r.k}"
-     onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>
+     onclick="try{gtag('event','apri_mappa',{da:'funghi-${r.k}-previsioni'})}catch(e){}">☀️ Previsioni</a>${tastoRadarRegione(r.k, `funghi-${r.k}`)}
 </div>
 <div id="testa" style="display:none"></div>
 

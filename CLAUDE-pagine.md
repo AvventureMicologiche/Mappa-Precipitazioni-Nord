@@ -1359,3 +1359,14 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   poi rimessi): paese, zona, regione e indice × stagione, `?inverno=1`, 5/12 e 1/3 a orologio finto, 16 su 16 senza
   errori; foto in `immagini\139-pausa-funghi\`. Rigenerate 985 pagine di paese, 114 di zona, 20 di regione e l'indice,
   sitemap e impronte; nei `data/paesi-localita` le quote dei paesi arrivate dopo il 1/11.
+
+## Il bottone «📡 Radar piogge e meteo <Regione>» verso le pagine radar (20/11/2026, scheda 140)
+
+- Le 21 pagine radar hanno «Radar meteo <regione>» nel titolo dal 31/10 ma stavano a posizione ~9,6, con link da una
+  trentina di pagine. Ora 1.357 pagine hanno un bottone verso `/<regione>/adesso/`: tasto lungo sotto «☀️ Previsioni» in
+  paesi, zone e regioni funghi e nelle zone piogge; quarta scheda gialla (`.pz-ant-solo`) in fondo a «Guarda le nostre
+  mappe» nelle valli meteo e nelle «Meteo <paese>». Il «📡 Radar piogge» verso la mappa resta. Evento `apri_adesso`.
+- Codice: `bottoneRadar` e `tastoRadar` in `genera-pagine-adesso.js` (null per Svizzera, Austria, Slovenia), chiamati
+  dentro le funzioni dei generatori e non in cima: quel file chiede `genera-pagine-regione.js` e `lib-pagina-funghi.js`.
+- ⚠️ Trappola: il nome della regione sta in uno `span` che non va a capo («Emilia-/Romagna» spezzato era brutto); nelle
+  meteo al telefono la scritta va su due righe (scelta sua). Prova `claudio\analisi-pagine-140\prova-bottone-radar.js`.

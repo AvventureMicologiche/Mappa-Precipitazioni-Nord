@@ -1261,6 +1261,8 @@ const CSS_ANT = `
 /* al PC alti 440 (8/11/2026, scheda 128 quater): con 300 la regione dei pluviometri non ci stava intera (suo: «la mappa è
    tagliata», poi «C, regione intera»); tutti e tre i riquadri uguali, per la simmetria */
 @media (min-width:700px){.pz-ant-v{height:440px}}
+/* la quarta scheda, verso la pagina radar della regione (20/11/2026, scheda 140): solo la fascia gialla, senza anteprima */
+.pz-ant-solo .pz-ant-t{border-top:0}
 `;
 // reg e nomeReg della regione della pagina, ga il prefisso degli eventi; nella pagina va anche C.ant (confine e ordine)
 function mappeHtml({ reg, nomeReg, ga }) {
@@ -1270,8 +1272,15 @@ function mappeHtml({ reg, nomeReg, ga }) {
 <div class="pz-ant" id="ant">
   ${bottone(`${SITO}/?r=${reg}&amp;radar=ora`, 'radar', '📡 Radar piogge', 'Dove sta piovendo adesso, in Italia e in Europa')}
   ${bottone(`${SITO}/previsioni/?r=${reg}`, 'prev', `☀️ Previsioni ${esc(nomeReg)}`, 'Il tempo città per città, ora per ora')}
-  ${bottone(`${SITO}/?r=${reg}&amp;g=7`, 'pluvio', `💧 Pluviometri ${esc(nomeReg)}`, 'La pioggia degli ultimi 7 giorni, pluviometro per pluviometro')}
+  ${bottone(`${SITO}/?r=${reg}&amp;g=7`, 'pluvio', `💧 Pluviometri ${esc(nomeReg)}`, 'La pioggia degli ultimi 7 giorni, pluviometro per pluviometro')}${radarRegione(reg, ga)}
 </div>`;
+}
+// la quarta scheda: la pagina radar della regione, solo con la fascia gialla (20/11/2026, scheda 140, suo «A, scritta
+// intera»: al telefono va su due righe). Vedi bottoneRadar in genera-pagine-adesso.js; vuota per chi non ha la pagina radar
+function radarRegione(reg, ga) {
+  const b = require('./genera-pagine-adesso.js').bottoneRadar(reg);
+  return !b ? '' : `\n  <a class="pz-ant-c pz-ant-solo" href="${b.url}" onclick="try{gtag('event','apri_adesso',{da:'${ga}'})}catch(e){}">`
+    + `<span class="pz-ant-t">${b.testo}<small>Dove sta piovendo adesso, regione e città</small></span></a>`;
 }
 
 // la barra che scorre sopra la scheda (vedi .pz-nastro): il blocco rosso c'e' gia' nell'HTML, cosi' la pagina non salta

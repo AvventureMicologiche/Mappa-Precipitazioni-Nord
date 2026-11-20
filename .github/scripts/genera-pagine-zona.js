@@ -56,6 +56,9 @@ const { haBoschi, cartaBreve, cartaDi, fonteDa } = require('./lib-boschi.js');
 const { STRISCIA_CSS, strisciaScript } = require('./lib-striscia.js');   // la mappa nella scheda in cima (20/10/2026)
 const { senzaCommenti } = require('./lib-senza-commenti.js');   // i commenti restano qui, non nelle pagine (2/11/2026)
 const { TESTATA_CSS, TESTATA_CSS_FUNGHI, testata } = require('./lib-testata.js');   // la testata del sito (28/10/2026)
+// il bottone lungo verso la pagina radar della regione, sotto «Previsioni» (20/11/2026, scheda 140): vedi bottoneRadar in
+// genera-pagine-adesso.js (chiesto qui dentro e non in cima: quel file chiede lib-pagina-funghi.js)
+const tastoRadarRegione = (k, da) => require('./genera-pagine-adesso.js').tastoRadar(k, da);
 // Il ritratto dell'archivio, cotto dentro la pagina: il perche' sta in cima
 // a lib-clima.js. Qui e' di zona, cioe' la media dei suoi pluviometri.
 const { clima, buono, dataBella, meseBello, migliaia, virgola, artGiorno, aNome } = require('./lib-clima.js');
@@ -302,7 +305,7 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
   <a class="t-radar" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="${SITO}/previsioni/?r=${casa.k}&amp;${PIN}"
-     onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>
+     onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-previsioni'})}catch(e){}">☀️ Previsioni</a>${tastoRadarRegione(casa.k, `zona-${zslug}`)}
 </div>
 <p class="breve">Ogni pallino è un pluviometro: cerca quello più bagnato vicino ai tuoi boschi.</p>
 <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}" id="lnk-pioggia"

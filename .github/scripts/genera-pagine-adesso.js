@@ -902,4 +902,25 @@ if (require.main === module) {
 // i nomi del radar di una regione, nello stesso ordine della sua pagina «adesso» (le sue citta', poi i capoluoghi d'Italia e
 // le grandi citta' estere): anche per il riquadro radar delle pagine meteo (8/11/2026, scheda 127, suo «come le adesso»)
 const nomiRadar = k => cittaDi({ k }).map(c => ({ n:c.n, lat:c.lat, lon:c.lon })).concat(nomiDi({ k }));
-module.exports = { LISTA, confineDi, CITTA_ADESSO, nomiRadar };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)
+
+/* ⚠️ IL BOTTONE «📡 RADAR PIOGGE E METEO <REGIONE>» DELLE ALTRE PAGINE (20/11/2026, scheda 140). Le 21 pagine radar
+   delle regioni hanno «Radar meteo <regione>» nel titolo dal 31/10, ma stanno a posizione ~9,6 e ricevevano link da una
+   trentina di pagine: i bottoni «📡 Radar piogge» del resto del sito portano alla MAPPA (e ci restano). Questo bottone porta
+   alla pagina radar della regione, con le parole che si cercano. Scelte sue: bottone lungo sotto «Previsioni», uguale agli
+   altri (non una riga di testo «in mezzo alle date»); «aggiungi radar piogge» (molti non sanno cosa vuol dire radar);
+   «tieni anche meteo» (la ricerca e' «radar meteo <regione>»); nelle pagine meteo la scritta intera, anche se al
+   telefono va su due righe. Il nome della regione non va mai a capo a meta' («Emilia-/Romagna»). null per chi non ha la
+   pagina radar (Svizzera, Austria, Slovenia). */
+function bottoneRadar(k) {
+  const r = LISTA.find(x => x.k === k);
+  if (!r) return null;
+  return { url: `${SITO}/${r.k}/adesso/`,
+           testo: `📡 Radar piogge e meteo <span style="white-space:nowrap">${nomeCortoDi(r)}</span>` };
+}
+// lo stesso bottone come tasto lungo della griglia «.tasti», subito dopo «☀️ Previsioni» (zone piogge, funghi di paese,
+// di zona e di regione); da = chi lo manda, per l'evento apri_adesso
+function tastoRadar(k, da) {
+  const b = bottoneRadar(k);
+  return !b ? '' : `\n  <a href="${b.url}" style="grid-column:1 / -1"\n     onclick="try{gtag('event','apri_adesso',{da:'${da}'})}catch(e){}">${b.testo}</a>`;
+}
+module.exports = { LISTA, confineDi, CITTA_ADESSO, nomiRadar, bottoneRadar, tastoRadar };   // confineDi anche per le anteprime delle pagine «Meteo <paese>» (28/10/2026)

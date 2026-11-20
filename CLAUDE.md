@@ -177,6 +177,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - I crediti del radar nel piede delle pagine regione, e due frasi della guida (18/11, 139)
 - Modalità evento, giro del mattino e date delle funghi nella sitemap (18/11, 139)
 - ⚠️ La pausa d'inverno delle pagine funghi (20/11, 139): dal 1/12 a fine febbraio, `?inverno=1`
+- Il bottone «📡 Radar piogge e meteo <Regione>» verso le pagine radar (20/11, 140): 1.357 pagine
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 
