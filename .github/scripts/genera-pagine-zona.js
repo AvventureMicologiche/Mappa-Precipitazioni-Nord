@@ -287,9 +287,9 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
 <div id="grafico"></div>
 <p class="nota" id="ieri"></p>
 
-<h2 id="h-conta">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
-<p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
-<div id="finestra"></div>
+<h2 id="h-conta" class="solo-stagione">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
+<p class="breve solo-stagione" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
+<div id="finestra" class="solo-stagione"></div>
 
 <h2>Dove ha piovuto di più ${esc(z.dove)}? Guardalo sulla mappa</h2>
 <style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
@@ -298,7 +298,7 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
   <a href="${SITO}/?r=${REGS}&amp;g=7&amp;${PIN_A}">Ultimi 7 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Ultimi 20 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=30&amp;${PIN_A}">Ultimi 30 gg</a>
-  <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Range crescita funghi 13-20 gg fa</a>
+  <a class="forte solo-stagione" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN_A}">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="${SITO}/?r=${casa.k}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'zona-${zslug}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="${SITO}/previsioni/?r=${casa.k}&amp;${PIN}"
@@ -311,7 +311,7 @@ ${meteoHtml(casa, `Che tempo farà ${esc(z.dove)}`, 'Sto leggendo le previsioni 
        width="1600" height="1000" loading="lazy"></a>
 
 <h2 style="font-size:18px">I pluviometri della zona, dal più bagnato</h2>
-<table class="vic"><thead><tr><th>Località</th><th>13-20 gg fa</th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
+<table class="vic"><thead><tr><th>Località</th><th><span class="solo-stagione">13-20 gg fa</span><span class="solo-inverno">Ultimi 20</span></th><th>Ultimi 7</th><th class="tagl">Ultimi 25</th></tr></thead>
 <tbody id="tabella">
 ${righeTab}
 </tbody></table>
@@ -494,8 +494,9 @@ ${JS_FREDDO}
     /* i giorni in cui la zona ha almeno un dato: se manca tutta la rete non pesa sul singolo (17/10/2026) */
     function giorniZona(da, a){ var c = 0; for (var n = da; n >= a; n--) if (righe.some(function(p){ return serie[p[0]][n-1] != null; })) c++; return c; }
     righe.forEach(function(p){ var ss = serie[p[0]];
-      if (conD(ss,GIORNI,1) < giorniZona(GIORNI,1)*0.6 || conD(ss,20,13) < giorniZona(20,13)*0.6) return;
-      dati[p[0]] = { mm: somma(ss,20,13), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
+      /* W0 (INV e W0 da JS_COMUNE): d'inverno gli ultimi 20 giorni, la pausa del 20/11/2026 */
+      if (conD(ss,GIORNI,1) < giorniZona(GIORNI,1)*0.6 || conD(ss,20,W0) < giorniZona(20,W0)*0.6) return;
+      dati[p[0]] = { mm: somma(ss,20,W0), mm7: somma(ss,7,1), mm25: somma(ss,GIORNI,1) }; });
     var corpo = document.getElementById("tabella");
     var trs = [].slice.call(corpo.querySelectorAll("tr[data-id]"));
     var mx = 1; Object.keys(dati).forEach(function(id){ mx = Math.max(mx, dati[id].mm); });

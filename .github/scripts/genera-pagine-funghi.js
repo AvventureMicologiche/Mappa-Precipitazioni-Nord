@@ -350,13 +350,13 @@ ${meteoHtml(r, ZONE.some(z => z.reg === r.k) ? 'Che tempo farà nelle zone dei f
 <div id="grafico"></div>
 <p class="nota">Media dei pluviometri da bosco ${gen}, giorno per giorno.</p>
 
-<h2 id="h-conta">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
-<p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
-<div id="finestra"></div>
+<h2 id="h-conta" class="solo-stagione">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
+<p class="breve solo-stagione" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
+<div id="finestra" class="solo-stagione"></div>
 
 <h2>Dove è andata meglio? Apri le mappe</h2>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="${SITO}/?r=${r.k}&amp;g=20">13-20 gg fa</a>
+  <a class="forte solo-stagione" id="t-conta" href="${SITO}/?r=${r.k}&amp;g=20">13-20 gg fa</a>
   <a href="${SITO}/?r=${r.k}&amp;g=1">Ieri</a>
   <a href="${SITO}/?r=${r.k}&amp;g=7">Ultimi 7 gg</a>
   <a href="${SITO}/?r=${r.k}&amp;g=20">Ultimi 20 gg</a>
@@ -385,7 +385,7 @@ ${(function(){
   return `
 <h2>Le zone dove andare a funghi ${gen}</h2>
 <p class="nota">Le valli da bosco ${gen}, <b>dalla più bagnata</b>. Il numero è la pioggia
-caduta da 13 a 20 giorni fa, in media sui pluviometri della zona: lo stesso che trovi
+caduta <span class="solo-stagione">da 13 a 20 giorni fa</span><span class="solo-inverno">negli ultimi 20 giorni</span>, in media sui pluviometri della zona: lo stesso che trovi
 aprendola.</p>
 <ol class="zone-dove" id="zone-dove">
 ` + zz.map(z =>
@@ -570,13 +570,16 @@ ${JS_FREDDO}
     .then(function(r){ return r.ok ? r.json() : null; })
     .catch(function(){ return null; })
     .then(function(j){
-      if (j && fresco(j)) {
+      /* d'inverno la classifica e' sugli ultimi 20 giorni, il campo venti di genera-funghi.js (20/11/2026, pausa
+         d'inverno): un file vecchio, senza, si ricalcola dai giorni come quando e' fermo */
+      if (j && fresco(j) && (!INV || j.venti)) {
         var righe = [];
         POSTI.forEach(function(p){
           var v = j.posti[p[0]];
           if (!v) return;        // posto aggiunto dopo l'ultimo giro: si salta
+          if (INV && j.venti[p[0]] == null) return;   // troppi giorni senza dato negli ultimi 20
           righe.push({ id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
+            mm:INV ? j.venti[p[0]] : v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
             fr: (j.freddo && j.freddo[p[0]]) || null });   /* [minima piu bassa, notti di gelo] degli ultimi 10 giorni (6/11/2026, scheda 125) */
         });
         if (righe.length) { mostra(righe, j.oggi); return; }
@@ -653,9 +656,10 @@ ${JS_FREDDO}
         var avv = avvisoStime({ oggi: iso(meno(0)), stime: stime }, visti, false);
         if (avv) ver.insertAdjacentHTML('afterbegin', avv);
       }
-      mostra(POSTI.filter(function(p){ return !SOSPESI[p[0]] && coperto(p[0], GIORNI, 1) && coperto(p[0], 20, 13); }).map(function(p){
+      // W0: d'inverno gli ultimi 20 giorni (20/11/2026, pausa d'inverno)
+      mostra(POSTI.filter(function(p){ return !SOSPESI[p[0]] && coperto(p[0], GIORNI, 1) && coperto(p[0], 20, W0); }).map(function(p){
         return { id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-          mm:somma(20,13,p[0]), mm7:somma(7,1,p[0]), mm25:somma(GIORNI,1,p[0]),
+          mm:somma(20,W0,p[0]), mm7:somma(7,1,p[0]), mm25:somma(GIORNI,1,p[0]),
           forte:ultimaForte(p[0]) };
       }), iso(meno(0)));
     });
@@ -700,7 +704,11 @@ ${JS_FREDDO}
           mm[reg] = {};
           /* 17/10/2026: solo se e' dello STESSO giorno, se no la finestra 13-20 e' spostata;
              la parte della zona resta fuori dalla media, come quando il file non arriva */
-          if (j && j.posti && (!oggiISO || j.oggi === oggiISO)) Object.keys(j.posti).forEach(function(id){ mm[reg][id] = j.posti[id][0]; });
+          // d'inverno gli ultimi 20 giorni (campo venti, 20/11/2026): senza, la parte della zona resta fuori
+          if (j && j.posti && (!oggiISO || j.oggi === oggiISO)) {
+            if (INV) Object.keys(j.venti || {}).forEach(function(id){ mm[reg][id] = j.venti[id]; });
+            else Object.keys(j.posti).forEach(function(id){ mm[reg][id] = j.posti[id][0]; });
+          }
         });
     })).then(function(){
       voci.forEach(function(li){
@@ -744,15 +752,18 @@ ${JS_FREDDO}
     /* senza pioggia da nessuna parte (19/10/2026, quinto check, bug 16) il riquadro diceva «Dove ha piovuto di più?
        Nomeposto, 0,0 mm» (Basilicata): adesso lo dice e basta, come la frase «Nessuna pioggia» delle località */
     var asciutto = !(primo.mm >= 0.05);
+    /* d'inverno (20/11/2026, pausa d'inverno) gli ultimi 20 giorni: niente «13-20» nelle scritte e nei link */
+    var finDa = INV ? a20 : aG;
     document.getElementById('testa').innerHTML =
-      '<div class="capo"><div class="et">' + (asciutto ? 'Nessuna pioggia 13-20 giorni fa' : 'Dove ha piovuto di più 13-20 giorni fa?') + '</div>'
-      + (asciutto ? '<div class="pic">In quegli otto giorni nessun posto da bosco della regione ha preso pioggia.</div>'
+      '<div class="capo"><div class="et">' + (INV ? (asciutto ? 'Nessuna pioggia negli ultimi 20 giorni' : 'Dove ha piovuto di più negli ultimi 20 giorni?')
+        : (asciutto ? 'Nessuna pioggia 13-20 giorni fa' : 'Dove ha piovuto di più 13-20 giorni fa?')) + '</div>'
+      + (asciutto ? '<div class="pic">' + (INV ? 'In questi 20 giorni' : 'In quegli otto giorni') + ' nessun posto da bosco della regione ha preso pioggia.</div>'
       : '<div class="gr">' + esc(primo.n) + ', ' + num(primo.mm) + ' mm</div>'
       + '<div class="pic">' + luogo(primo) + ' · ' + primo.q + ' m'
       + (primo.forte ? ' · ultima pioggia forte ' + (primo.forte.g===1?'ieri':primo.forte.g+' giorni fa')
                         + ' (' + num(primo.forte.mm) + ' mm)' : '') + '</div>')
       + '<div class="capo-btns">'
-      + '<a class="capo-btn" href="' + link(primo, daG, aG) + '">Apri mappa · 13-20 gg fa</a>'
+      + (INV ? '' : '<a class="capo-btn" href="' + link(primo, daG, aG) + '">Apri mappa · 13-20 gg fa</a>')
       + '<a class="capo-btn" href="' + link(primo, daG, a20) + '">Apri mappa · ultimi 20 gg</a>'
       + '<a class="capo-btn" href="' + link(null, daG, a20) + '">' + NOME + ' · ultimi 20 gg</a>'
       + '</div></div>';
@@ -766,8 +777,8 @@ ${JS_FREDDO}
        averla gia' detta. Qui restano le DATE, che in cima non ci possono
        stare: cambiano ogni giorno e il titolo e' cotto nel guscio. */
     document.getElementById('finestra2').innerHTML =
-      'Gli otto giorni della finestra sono fra ' + ilGg(daG).slice(0, -gg(daG).length) + '<b>' + gg(daG) + '</b> e '
-      + ilGg(aG).slice(0, -gg(aG).length) + '<b>' + gg(aG)
+      (INV ? 'I 20 giorni sono fra ' : 'Gli otto giorni della finestra sono fra ') + ilGg(daG).slice(0, -gg(daG).length) + '<b>' + gg(daG) + '</b> e '
+      + ilGg(finDa).slice(0, -gg(finDa).length) + '<b>' + gg(finDa)
       + '</b>. Sono millimetri misurati a terra dai pluviometri, non una previsione.';
 
     /* LA NOTTE PIU FREDDA (6/11/2026, scheda 125, mockup approvato): dal 1 novembre al 20 dicembre (freddoAttivo di
@@ -793,7 +804,7 @@ ${JS_FREDDO}
         ? (r.forte.g===1?'ieri':r.forte.g+' giorni fa') + ' <span class="q2">' + num(r.forte.mm) + ' mm</span>'
         : '<span class="vuoto">niente di forte</span>';
       return '<tr><td class="pos">' + (i+1) + '</td>'
-        + '<td><a class="loc" href="' + link(r, daG, aG) + '" title="Apri la mappa su ' + esc(r.n) + '">'
+        + '<td><a class="loc" href="' + link(r, daG, finDa) + '" title="Apri la mappa su ' + esc(r.n) + '">'
         + '<b>' + esc(r.n) + '</b><span class="com">' + luogo(r) + ' · ' + r.q + ' m</span>'
         /* ⚠️ SUL TELEFONO la colonna «ultima pioggia forte» e' nascosta, e senza
            questa riga la nota che la spiega parlava di una cosa invisibile.
@@ -810,12 +821,13 @@ ${JS_FREDDO}
 
     document.getElementById('tabella').innerHTML =
       '<table><thead><tr><th class="num"></th><th>Località</th>'
-      + '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>'
+      + (INV ? '<th><span class="hd-l">Ultimi 20 gg</span><span class="hd-c">20 gg</span></th>'
+        : '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>')
       + '<th><span class="hd-l">Ultimi 7 gg</span><span class="hd-c">7 gg</span></th>'
       + (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '')
       + '<th class="tagl">Ultimi 25 gg</th><th class="tagl">Ultima pioggia forte</th>'
       + '</tr></thead><tbody>' + trs + '</tbody></table>'
-      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
+      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede a novembre.</p>' : '');
 
     /* ⚠️ «15 dei primi 15» era un modo storto di dire «tutti»: quando il conto
        coincide col totale si scrive cosi', se no «12 posti su 15». */
@@ -840,7 +852,7 @@ ${JS_FREDDO}
 (${meteoClient.toString()})(${JSON.stringify(r.k)}, ${JSON.stringify(nome)}, ${JSON.stringify(SITO)}, ${fs.existsSync(path.join(RADICE, r.k, 'adesso')) ? 'true' : 'false'}, ${JSON.stringify(ZONE.some(z => z.reg === r.k) ? {
   ga: 'funghi-' + r.k, area: 'zonedi=' + r.k, id: 'mk-meteo', grafico: false, boschi: haBoschi(r.k) ? 'mk-boschi' : '', ordine: 'zone-dove',
   guasto: 'Le previsioni delle zone', tutte: 'Mostra tutte le zone (#)', tocca: 'Tocca una zona per vederla ora per ora sulla mappa',
-  sopra: 'Dalla zona più bagnata 13-20 giorni fa, alla quota media dei suoi pluviometri' }
+  sopra: 'Dalla zona più bagnata, alla quota media dei suoi pluviometri' }
   : { ga: 'funghi-' + r.k, id: 'mk-meteo', grafico: false, boschi: haBoschi(r.k) ? 'mk-boschi' : '' })});
 </script>
 ${strisciaScript({ reg: r.k, tipo: 'regione', ga: 'funghi-' + r.k })}

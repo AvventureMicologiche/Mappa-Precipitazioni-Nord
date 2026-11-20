@@ -1923,7 +1923,16 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
 @media(max-width:900px){
   html.cr-attesa #map .leaflet-control-attribution,html.cr-attesa #cr-i{display:none !important}
 }
+/* ⚠️ «PIOGGE PER FUNGHI» E' STAGIONALE (20/11/2026, scheda 139, suo: «lo farei stagionale come le pagine… dal
+   1 dicembre»). Da dicembre a febbraio il tasto non c'e': su una mappa d'inverno faceva sembrare il sito dedicato
+   solo ai funghi. Torna il 1 marzo, con le pagine funghi. La classe la mette lo script qui sotto con la data di chi
+   legge: niente da cambiare a mano. I link condivisi portano le date, non il tasto, e si aprono uguali. Nei boschi
+   al PC (dopo «Confronta con piogge») «Date personalizzate» stava affiancato al tasto: rimasto solo, prende tutta la
+   riga. Prova: claudio\check-139\prova-tasto-funghi.js (sei date finte, telefono, PC e boschi). */
+html.funghi-fermo #btn-funghi{display:none !important}
+html.funghi-fermo body.modo-boschi #time-panel .tp-content > #btn-custom{grid-column:1 / -1}
 </style>
+<script>(function(){ var m=new Date().getMonth()+1; if(m===12||m<=2) document.documentElement.classList.add('funghi-fermo'); })();</script>
 <script>(function(){ try{ if(window.matchMedia&&matchMedia('(max-width:900px)').matches){ var d=document.documentElement; d.classList.add('cr-attesa'); setTimeout(function(){ d.classList.remove('cr-attesa'); },6000); } }catch(e){} })();</script>
 <!-- LINK ALLE PREVISIONI (?m=prev, 27/10/2026, suo: «prima mi flasha per qualche secondo la mappa pluviometrica e
      poi appare la pagina previsioni»). Le previsioni partono solo a mappa pronta, e fino a quel momento si vedeva lo

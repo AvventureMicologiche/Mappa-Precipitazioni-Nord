@@ -148,6 +148,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il riquadro bianco si chiude cambiando modo (18/11, 139)
 - Il radar lasciato mentre carica non resta acceso (18/11, 139)
 - La vetrina del libro (20/11, Promo libro): libro 3D, giro uno su tre
+- ⚠️ «Piogge per funghi» stagionale (20/11, 139): da dicembre a febbraio il tasto non c'è
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
@@ -175,6 +176,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La frase delle notti solo dove c'è la riga del freddo (18/11, 139)
 - I crediti del radar nel piede delle pagine regione, e due frasi della guida (18/11, 139)
 - Modalità evento, giro del mattino e date delle funghi nella sitemap (18/11, 139)
+- ⚠️ La pausa d'inverno delle pagine funghi (20/11, 139): dal 1/12 a fine febbraio, `?inverno=1`
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 

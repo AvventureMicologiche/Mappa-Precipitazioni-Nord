@@ -82,6 +82,10 @@ ${STILE_FREDDO}`;
 /* eslint-disable no-unused-vars */
 function comune() {
   var GIORNI = 25;
+  /* LA PAUSA D'INVERNO (20/11/2026, scheda 139, vedi INVERNO in lib-stagione.js): la classe la mette rigaStagione sotto
+     il titolo. INV vale per tutta la pagina (anche il codice di zona e di regione dopo questo pezzo); W0 e' il primo
+     giorno delle classifiche: 13 in stagione (la finestra 13-20), 1 d'inverno (gli ultimi 20 giorni). */
+  var INV = document.documentElement.classList.contains("funghi-inverno"), W0 = INV ? 1 : 13;
   var MESI = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
   var GS = ["dom","lun","mar","mer","gio","ven","sab"];
   function iso(d){ var p = function(n){ return String(n).padStart(2,"0"); };
@@ -136,6 +140,15 @@ function comune() {
       : "Nessuna giornata sopra i 10 mm.";
     var sc = "";
     for (var q = 0; q < 4; q++) sc += "<div" + (q <= k ? " style=\"background:" + liv.c + "\"" : "") + "></div>";
+    /* d'inverno la pioggia senza giudizio: niente pallino, niente «Ha piovuto bene», niente scala (20/11/2026) */
+    if (INV) {
+      document.getElementById("verdetto").innerHTML = "<div class=\"verdetto\">"
+        + "<div class=\"si neutro\">Pioggia degli ultimi 20 giorni</div>"
+        + "<div class=\"gr\">" + Math.round(m20) + " mm<small>" + sotto.replace(/,? ?negli ultimi 20 giorni/, "") + "</small></div>"
+        + "<div class=\"dett\">" + (big.length ? "I giorni più bagnati: " : "") + dett + "</div>"
+        + "<div class=\"capo-btns\"><a class=\"capo-btn\" href=\"" + href + "\">Vedi sulla mappa</a></div></div>";
+      return;
+    }
     document.getElementById("verdetto").innerHTML = "<div class=\"verdetto\">"
       + "<div class=\"si\"><span class=\"pallino\" style=\"background:" + liv.c + "\"></span>" + liv.t + "</div>"
       + "<div class=\"gr\">" + Math.round(m20) + " mm<small>" + sotto + "</small></div>"
@@ -168,10 +181,13 @@ function comune() {
         + "<i style=\"height:" + Math.max(2, Math.round(v/max*86)) + "%\"></i></div>";
       ax += "<span>" + ((i === GIORNI || i === 1 || i % 5 === 0) ? (d.getDate() + "/" + (d.getMonth()+1)) : "") + "</span>";
     }
+    /* d'inverno la legenda della fascia non c'e' (le barre sono tutte uguali): resta solo «nessun dato», se serve */
+    var nodato = s.slice(0, GIORNI).some(function(x){ return x == null; })
+      ? "<i style=\"background:none;border:1px dashed #9fb3cc;box-sizing:border-box\"></i>nessun dato" : "";
     document.getElementById("grafico").innerHTML = "<div class=\"gg\">" + barre + "</div><div class=\"gg-x\">" + ax + "</div>"
-      + "<p class=\"gg-leg\"><i style=\"background:var(--blu)\"></i>da 13 a 20 giorni fa &nbsp; "
-      + "<i style=\"background:#b9cbe2\"></i>gli altri giorni"
-      + (s.slice(0, GIORNI).some(function(x){ return x == null; }) ? " &nbsp; <i style=\"background:none;border:1px dashed #9fb3cc;box-sizing:border-box\"></i>nessun dato" : "") + "</p>";
+      + (INV ? (nodato ? "<p class=\"gg-leg\">" + nodato + "</p>" : "")
+      : "<p class=\"gg-leg\"><i style=\"background:var(--blu)\"></i>da 13 a 20 giorni fa &nbsp; "
+      + "<i style=\"background:#b9cbe2\"></i>gli altri giorni" + (nodato ? " &nbsp; " + nodato : "") + "</p>");
     return ax;
   }
 

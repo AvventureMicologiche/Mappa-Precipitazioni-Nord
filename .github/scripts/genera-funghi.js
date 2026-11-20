@@ -210,6 +210,7 @@ const saltati = [];
 // un altro script perche' i millimetri li ha gia' in mano questo: rileggerli da
 // fuori vorrebbe dire una seconda copia della ricetta, che prima o poi diverge.
 const italia = [];
+const italia20 = [];   // la stessa sugli ultimi 20 giorni, per la pausa d'inverno (20/11/2026, scheda 139)
 for (const k of Object.keys(POSTI)) {
   const r = REGIONI.find(x => x.k === k);
   // Se una regione sparisce dall'anagrafe delle pagine si ferma tutto: meglio
@@ -255,6 +256,11 @@ for (const k of Object.keys(POSTI)) {
     if (escluso(ESCLUSE, regioneDati(k, p), p)) { sospesi[p[0]] = 1; continue; }
     if (coperto(g.mm, GIORNI, 1, p[0]) && coperto(g.mm, DA, A, p[0])) coperti[p[0]] = posti[p[0]];
   }
+  // LA PAUSA D'INVERNO (20/11/2026, scheda 139, INVERNO in lib-stagione.js): dal 1 dicembre a fine febbraio le classifiche
+  // delle pagine sono sugli ULTIMI 20 GIORNI. {id: mm} per chi entra in `posti` ed e' coperto anche sui 20 giorni: la
+  // pagina della regione lo prende al posto del primo numero. Stessa regola di copertura della finestra 13-20.
+  const venti = {};
+  for (const id of Object.keys(coperti)) if (coperto(g.mm, 20, 1, id)) venti[id] = somma(g.mm, 20, 1, id);
 
   // LA NOTTE PIU' FREDDA (6/11/2026, scheda 125): {id: [minima piu' bassa, notti di gelo]} degli ultimi 10 giorni,
   // per la colonna della tabella delle regioni da novembre al 20 dicembre (lib-stagione.js, freddoAttivo). Solo chi
@@ -286,6 +292,11 @@ for (const k of Object.keys(POSTI)) {
       for (let n = DA; n >= A; n--) if (g.st[n] && g.st[n][p[0]]) stF = 1;
       // il nono: la notte piu' fredda [minima, notti di gelo], o null senza termometro (7/11/2026, scheda 126)
       if (v > 0) italia.push([bello(p[1]), p[2], k, sln[p[0]], v, p[4], p[5], stF, freddo[p[0]] || null]);
+      // la stessa riga sugli ultimi 20 giorni, per la classifica d'inverno (20/11/2026): asterisco sui 20 giorni
+      const v20 = venti[p[0]];
+      let st20 = 0;
+      for (let n = 20; n >= 1; n--) if (g.st[n] && g.st[n][p[0]]) st20 = 1;
+      if (v20 > 0) italia20.push([bello(p[1]), p[2], k, sln[p[0]], v20, p[4], p[5], st20, freddo[p[0]] || null]);
     }
   }
 
@@ -301,6 +312,7 @@ for (const k of Object.keys(POSTI)) {
     // falso.
     cercatoFino: oltre.arrivatoA, tetto: FINESTRA_FORTE, posti: coperti,
     freddo,   // la notte piu' fredda degli ultimi 10 giorni, calcolata qui sopra (6/11/2026, scheda 125)
+    venti,    // gli ultimi 20 giorni, per la pausa d'inverno (20/11/2026, scheda 139)
   }) + '\n';
 
   // Il campo `generato` cambia a ogni giro: se il resto e' identico non si
@@ -494,9 +506,11 @@ for (const k of Object.keys(POSTI)) {
     const dx = (a[6] - b[6]) * 111.2 * Math.cos(a[5] * Math.PI / 180);
     return Math.sqrt(dx * dx + dy * dy) < 1;
   };
+  // la stessa regola per le due classifiche, finestra 13-20 e ultimi 20 giorni (20/11/2026, pausa d'inverno)
+  const tieni = lista => {
   const tenute = [];
   let gemelle = 0;
-  for (const r of italia) {
+  for (const r of lista) {
     const g = tenute.findIndex(t => vicino(t, r));
     if (g < 0) { tenute.push(r); continue; }
     gemelle++;
@@ -512,6 +526,17 @@ for (const k of Object.keys(POSTI)) {
      sorella: al primo giro il Brugneto usciva sopra un posto che ne aveva 14
      in piu'. */
   tenute.sort((a, b) => b[4] - a[4]);
+  return { tenute, gemelle };
+  };
+  const { tenute, gemelle } = tieni(italia);
+  italia20.sort((a, b) => b[4] - a[4]);
+  const tenute20 = tieni(italia20).tenute;
+  const riga = r => {
+    const x = [r[0], r[1], r[2], r[3], uno(r[4])];
+    if (r[7] || r[8]) x.push(r[7] ? 1 : 0);
+    if (r[8]) x.push(r[8]);
+    return x;
+  };
 
   const testoN = JSON.stringify({
     generato: new Date().toISOString(), oggi,
@@ -521,12 +546,12 @@ for (const k of Object.keys(POSTI)) {
     // il sesto, 1, solo per i posti con giorni stimati nella finestra: la pagina indice li segna con l'asterisco.
     // Il settimo (7/11/2026, scheda 126): la notte piu' fredda [minima, notti di gelo] degli ultimi 10 giorni, per la
     // colonna della pagina /funghi/ da novembre al 20 dicembre; quando c'e', il sesto si scrive sempre (0 o 1).
-    primi: tenute.slice(0, 25).map(r => {
-      const riga = [r[0], r[1], r[2], r[3], uno(r[4])];
-      if (r[7] || r[8]) riga.push(r[7] ? 1 : 0);
-      if (r[8]) riga.push(r[8]);
-      return riga;
-    }),
+    primi: tenute.slice(0, 25).map(riga),
+    // LA PAUSA D'INVERNO (20/11/2026, scheda 139): la stessa classifica sugli ultimi 20 giorni, che /funghi/ mostra
+    // da dicembre a febbraio al posto di primi (lib-stagione.js, INVERNO). Stesse gemelle, stesso formato.
+    finestra20: [giorni[19], giorni[0]],
+    quanti20: tenute20.length, regioni20: new Set(tenute20.map(r => r[2])).size,
+    primi20: tenute20.slice(0, 25).map(riga),
   }) + '\n';
   const destN = path.join(USCITA, 'italia.json');
   const primaN = fs.existsSync(destN) ? fs.readFileSync(destN, 'utf8') : '';

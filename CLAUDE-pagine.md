@@ -1332,3 +1332,30 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   riquadro e il giro va avanti; in `pagine-regione.yml` il passo delle città ha `continue-on-error`.
 - Sitemap: `/funghi/`, regioni, paesi e zone funghi con `dataDi`. ⚠️ Le prime impronte vengono dall'ultimo commit
   (`claudio\check-139\semina-impronte.js`); una pagina funghi nuova parte dalla data scritta in `pagine-lastmod.json`.
+
+## La pausa d'inverno delle pagine funghi (20/11/2026, scheda 139)
+
+- Sue scelte: «stagionale come le pagine… anticipiamo dal 1 dicembre», «tutto dal 1/12» (anche il Sud), e sul mockup
+  (`claudio\mockup-pausa-funghi-139\`) «la A col formato del messaggio della B ma senza i bottoni», con le tabelle sugli
+  ultimi 20 giorni e il grafico senza la fascia. Il resto della pagina (pioggia, mappe, boschi, meteo) resta.
+- Dal 1 dicembre a fine febbraio, col giorno di CHI LEGGE: niente da rigenerare il 1/12 né il 1/3. Tutto in
+  `lib-stagione.js` (INVERNO): `rigaStagione`, già sotto il titolo di paese, zona, regione e indice, scrive prima lo script
+  che mette `funghi-inverno` su `<html>`, lo stile e il messaggio «❄️ Stagione ferma fino a marzo» (`.pausa-inv
+  .solo-inverno`), poi la riga di stagione, che d'inverno è nascosta. `FREDDO_FINO` è 0: la riga del freddo, le prossime
+  notti e la colonna «Notte più fredda» solo a novembre.
+- D'inverno: il riquadro blu è «Pioggia degli ultimi 20 giorni» senza pallino né scala; spariscono la pioggia che conta
+  con le otto barre, «Com'è caduta», il tasto «Range crescita funghi» (classe `.solo-stagione`) e la fascia del grafico
+  con la sua legenda; le classifiche usano `W0` = 1 invece di 13 (vicini, posti più bagnati, tabella della zona, ripiego
+  della regione). Le scritte doppie stanno nell'HTML in due `span` (`.solo-stagione`/`.solo-inverno`), quelle dei
+  riquadri nel codice con `INV`.
+- I numeri: `genera-funghi.js` scrive `venti` ({id: mm dei 20 giorni}, stessa copertura) nel file della regione, e
+  `primi20`/`finestra20`/`quanti20`/`regioni20` in `italia.json`, con le stesse gemelle. La regione prende `venti` al posto
+  del primo numero di `posti` (un file senza `venti` si ricalcola dai giorni); `/funghi/` scambia `primi` con `primi20` in
+  un posto solo (`window._italia`), così anche «Che tempo farà» ha gli stessi venti posti.
+- Per guardarla prima: `?inverno=1` su qualunque pagina funghi (e `?inverno=0` per la pagina di stagione). I campi nuovi li
+  scrive il primo giro di `riepiloghi.yml` dopo il push: fino ad allora con `?inverno=1` la regione si ricalcola dai giorni
+  e `/funghi/` resta sulla classifica 13-20.
+- Prova `claudio\check-139\prova-pausa-funghi.js` (server statico interno, dati di `genera-funghi` rifatti in locale e
+  poi rimessi): paese, zona, regione e indice × stagione, `?inverno=1`, 5/12 e 1/3 a orologio finto, 16 su 16 senza
+  errori; foto in `immagini\139-pausa-funghi\`. Rigenerate 985 pagine di paese, 114 di zona, 20 di regione e l'indice,
+  sitemap e impronte; nei `data/paesi-localita` le quote dei paesi arrivate dopo il 1/11.

@@ -159,10 +159,13 @@ ${/* ⚠️ LA FINESTRA DEVE ESSERE CHIARA NELLE PRIME TRE RIGHE, non dopo due
 ${briciolaHtml(BRICIOLA)}
 <h1>Dove andare a funghi oggi</h1>
 ${rigaStagione()}
-<p class="sotto">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
+<p class="sotto solo-stagione">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella <b>da 13 a 20
 giorni fa</b>, misurata a terra dai pluviometri di ${N_POSTI} posti da bosco in ${CON_FUNGHI.length}
 regioni. Dove ne è caduta di più è dove vale la pena andare a cercare.</p>
+<p class="sotto solo-inverno">Qui sotto i posti da bosco dove è piovuto di più <b>negli ultimi 20 giorni</b>,
+misurati a terra dai pluviometri di ${N_POSTI} posti in ${CON_FUNGHI.length} regioni. Da marzo la classifica
+torna sulla pioggia da 13 a 20 giorni fa, quella che fa nascere i funghi.</p>
 
 <div class="patto">
   <p><b>A cosa serve:</b> a pianificare le tue uscite. La pioggia vera, misurata a terra
@@ -330,8 +333,16 @@ ${JS_FREDDO}
      OPZ.primi) da window._italia, cosi' le due tabelle hanno sempre gli stessi posti nello stesso ordine. Se GitHub
      non risponde (429) si ripiega sulla copia del sito, ferma all'ultima pubblicazione. */
   function leggi(u, o){ return fetch(u, o).then(function(r){ if(!r.ok) throw 0; return r.json(); }); }
+  /* LA PAUSA D'INVERNO (20/11/2026, scheda 139, vedi INVERNO in lib-stagione.js): d'inverno la classifica e' quella
+     degli ultimi 20 giorni (primi20 di genera-funghi.js). Si scambia qui, in un posto solo, cosi' anche «Che tempo farà»
+     (meteoClient, da window._italia) ha gli stessi posti. Un file vecchio senza primi20 resta com'era. */
+  var INV = document.documentElement.classList.contains('funghi-inverno');
   window._italia = leggi(BASE + 'funghi/italia.json', {cache:'no-store'})
-    .catch(function(){ return leggi('/data/funghi/italia.json'); });
+    .catch(function(){ return leggi('/data/funghi/italia.json'); })
+    .then(function(j){
+      if (INV && j && j.primi20) { j.primi = j.primi20; j.finestra = j.finestra20; j.quanti = j.quanti20; j.regioni = j.regioni20; j.venti = true; }
+      return j;
+    });
   window._italia
     .then(function(j){
       var righe = (j.primi || []).slice(0, QUANTI);
@@ -347,7 +358,7 @@ ${JS_FREDDO}
          averla gia' detta. Qui servono solo le DATE, che in cima non ci sono
          perche' cambiano ogni giorno e il titolo e' cotto nel guscio. */
       document.getElementById('finestra').innerHTML =
-        'Gli otto giorni della finestra sono <b>' + dalAl(j.finestra[0], j.finestra[1])
+        (j.venti ? 'I 20 giorni sono <b>' : 'Gli otto giorni della finestra sono <b>') + dalAl(j.finestra[0], j.finestra[1])
         + '</b>. Sono millimetri misurati a terra dai pluviometri, non una previsione.';
       /* 17/10/2026: «dal 8 ottobre al 15 ottobre» → «dall’8 al 15 ottobre», come le altre pagine */
       function dalAl(a, b){ var pa = a.split('-'), pb = b.split('-'), da = +pa[2], db = +pb[2];
@@ -394,7 +405,7 @@ ${JS_FREDDO}
              (fredda ? frCella(r[6]) : '') + '</tr>';
       });
       document.getElementById('tabella').innerHTML = h + '</tbody></table>'
-        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
+        + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede a novembre.</p>' : '');
       /* 1/11/2026: i posti con giorni STIMATI nella finestra (la rete non ha trasmesso) hanno l'asterisco, e lo si dice */
       var nSt = righe.filter(function(r){ return r[5]; }).length;
       if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
@@ -411,7 +422,7 @@ ${JS_FREDDO}
       }
 
       document.getElementById('notaclass').textContent =
-        'Su ' + j.quanti + ' posti da bosco che in quegli otto giorni hanno preso acqua, in ' +
+        'Su ' + j.quanti + ' posti da bosco che ' + (j.venti ? 'in questi 20 giorni' : 'in quegli otto giorni') + ' hanno preso acqua, in ' +
         j.regioni + ' regioni. Clicca un posto e vedi la sua pioggia giorno per giorno.';
     })
     .catch(function(){

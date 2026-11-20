@@ -506,6 +506,19 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Funghi in Puglia oggi: dove stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Meteo funghi Puglia: la pioggia vera di 4 pluviometri da bosco, per capire la crescita dei funghi.</p>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<style>
+html:not(.funghi-inverno) .solo-inverno{display:none !important}
+html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
+html.funghi-inverno .gg .b i{background:var(--blu)}
+.pausa-inv{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px}
+.pausa-inv .si{font-size:25px;font-weight:800;line-height:1.2}
+.pausa-inv .fiocco{font-size:26px;margin-right:8px;vertical-align:-2px}
+.pausa-inv .dett{font-size:16px;opacity:.9;margin-top:8px;line-height:1.5}
+.pausa-inv .torna{margin-top:12px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.08);font-size:15px;line-height:1.45}
+.verdetto .si.neutro{font-size:22px;font-weight:700;opacity:.9}
+</style>
+<div class="pausa-inv solo-inverno"><div class="si"><span class="fiocco">❄️</span>Stagione ferma fino a marzo</div><div class="dett">Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la pioggia di 13-20 giorni fa conta poco. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div><div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>
 <div id="stagione"></div>
 <script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo in piena stagione.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda anche le notti, in montagna può già gelare.";else if(m===12)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Fino a marzo i funghi sono pochi, tranne dove le notti restano miti, vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 
@@ -527,13 +540,13 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <div id="grafico"></div>
 <p class="nota">Media dei pluviometri da bosco della Puglia, giorno per giorno.</p>
 
-<h2 id="h-conta">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
-<p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
-<div id="finestra"></div>
+<h2 id="h-conta" class="solo-stagione">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
+<p class="breve solo-stagione" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
+<div id="finestra" class="solo-stagione"></div>
 
 <h2>Dove è andata meglio? Apri le mappe</h2>
 <div class="tasti">
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;g=20">13-20 gg fa</a>
+  <a class="forte solo-stagione" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;g=20">13-20 gg fa</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;g=1">Ieri</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;g=7">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;g=20">Ultimi 20 gg</a>
@@ -649,6 +662,10 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
   var QUANTI = 15, FORTE = 30;
 
   var GIORNI = 25;
+  /* LA PAUSA D'INVERNO (20/11/2026, scheda 139, vedi INVERNO in lib-stagione.js): la classe la mette rigaStagione sotto
+     il titolo. INV vale per tutta la pagina (anche il codice di zona e di regione dopo questo pezzo); W0 e' il primo
+     giorno delle classifiche: 13 in stagione (la finestra 13-20), 1 d'inverno (gli ultimi 20 giorni). */
+  var INV = document.documentElement.classList.contains("funghi-inverno"), W0 = INV ? 1 : 13;
   var MESI = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
   var GS = ["dom","lun","mar","mer","gio","ven","sab"];
   function iso(d){ var p = function(n){ return String(n).padStart(2,"0"); };
@@ -703,6 +720,15 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
       : "Nessuna giornata sopra i 10 mm.";
     var sc = "";
     for (var q = 0; q < 4; q++) sc += "<div" + (q <= k ? " style=\"background:" + liv.c + "\"" : "") + "></div>";
+    /* d'inverno la pioggia senza giudizio: niente pallino, niente «Ha piovuto bene», niente scala (20/11/2026) */
+    if (INV) {
+      document.getElementById("verdetto").innerHTML = "<div class=\"verdetto\">"
+        + "<div class=\"si neutro\">Pioggia degli ultimi 20 giorni</div>"
+        + "<div class=\"gr\">" + Math.round(m20) + " mm<small>" + sotto.replace(/,? ?negli ultimi 20 giorni/, "") + "</small></div>"
+        + "<div class=\"dett\">" + (big.length ? "I giorni più bagnati: " : "") + dett + "</div>"
+        + "<div class=\"capo-btns\"><a class=\"capo-btn\" href=\"" + href + "\">Vedi sulla mappa</a></div></div>";
+      return;
+    }
     document.getElementById("verdetto").innerHTML = "<div class=\"verdetto\">"
       + "<div class=\"si\"><span class=\"pallino\" style=\"background:" + liv.c + "\"></span>" + liv.t + "</div>"
       + "<div class=\"gr\">" + Math.round(m20) + " mm<small>" + sotto + "</small></div>"
@@ -735,10 +761,13 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
         + "<i style=\"height:" + Math.max(2, Math.round(v/max*86)) + "%\"></i></div>";
       ax += "<span>" + ((i === GIORNI || i === 1 || i % 5 === 0) ? (d.getDate() + "/" + (d.getMonth()+1)) : "") + "</span>";
     }
+    /* d'inverno la legenda della fascia non c'e' (le barre sono tutte uguali): resta solo «nessun dato», se serve */
+    var nodato = s.slice(0, GIORNI).some(function(x){ return x == null; })
+      ? "<i style=\"background:none;border:1px dashed #9fb3cc;box-sizing:border-box\"></i>nessun dato" : "";
     document.getElementById("grafico").innerHTML = "<div class=\"gg\">" + barre + "</div><div class=\"gg-x\">" + ax + "</div>"
-      + "<p class=\"gg-leg\"><i style=\"background:var(--blu)\"></i>da 13 a 20 giorni fa &nbsp; "
-      + "<i style=\"background:#b9cbe2\"></i>gli altri giorni"
-      + (s.slice(0, GIORNI).some(function(x){ return x == null; }) ? " &nbsp; <i style=\"background:none;border:1px dashed #9fb3cc;box-sizing:border-box\"></i>nessun dato" : "") + "</p>";
+      + (INV ? (nodato ? "<p class=\"gg-leg\">" + nodato + "</p>" : "")
+      : "<p class=\"gg-leg\"><i style=\"background:var(--blu)\"></i>da 13 a 20 giorni fa &nbsp; "
+      + "<i style=\"background:#b9cbe2\"></i>gli altri giorni" + (nodato ? " &nbsp; " + nodato : "") + "</p>");
     return ax;
   }
 
@@ -835,11 +864,14 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
   }
 
 
-  var FINO = 20;
+  var FINO = 0;
   /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
      FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
-     ferma, da marzo il contrario, da decidere) */
-  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+     ferma, da marzo il contrario, da decidere). Dal 20/11/2026 FINO e' 0: solo novembre. Con ?inverno=1 (la pausa forzata
+     per guardarla) il freddo non c'e', come a dicembre. */
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
+    if (document.documentElement.classList.contains('funghi-inverno')) return false;
+    return m === 11 || (m === 12 && a.getDate() <= FINO); };
   /* LE PROSSIME NOTTI (6/11/2026, scheda 125): dalla previsione che la pagina ha gia' scaricato per «Che tempo farà»
      (lib-meteo-regione.js la lascia in window._prevPagina e manda l'evento «previsioni-pagina»): nessuna chiamata in
      piu'. Nel paese il punto del pluviometro (qui:1), nella zona la minima fra i suoi paesi, notte per notte. giorni[0]
@@ -895,6 +927,9 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
       var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
       if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
     }
+    /* la frase «le notti degli ultimi giorni sono qui sotto» della riga di stagione: solo adesso che la riga c'e' */
+    var sn = document.getElementById('stag-notti');
+    if (sn && v && v.querySelector('.freddo')) sn.style.display = '';
     var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
     if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
     /* le prossime notti: subito se la previsione e' gia' arrivata, se no quando arriva */
@@ -975,13 +1010,16 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
     .then(function(r){ return r.ok ? r.json() : null; })
     .catch(function(){ return null; })
     .then(function(j){
-      if (j && fresco(j)) {
+      /* d'inverno la classifica e' sugli ultimi 20 giorni, il campo venti di genera-funghi.js (20/11/2026, pausa
+         d'inverno): un file vecchio, senza, si ricalcola dai giorni come quando e' fermo */
+      if (j && fresco(j) && (!INV || j.venti)) {
         var righe = [];
         POSTI.forEach(function(p){
           var v = j.posti[p[0]];
           if (!v) return;        // posto aggiunto dopo l'ultimo giro: si salta
+          if (INV && j.venti[p[0]] == null) return;   // troppi giorni senza dato negli ultimi 20
           righe.push({ id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-            mm:v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
+            mm:INV ? j.venti[p[0]] : v[0], mm7:v[1], mm25:v[2], forte: v[3] ? { g:v[3], mm:v[4] } : null,
             fr: (j.freddo && j.freddo[p[0]]) || null });   /* [minima piu bassa, notti di gelo] degli ultimi 10 giorni (6/11/2026, scheda 125) */
         });
         if (righe.length) { mostra(righe, j.oggi); return; }
@@ -1058,9 +1096,10 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
         var avv = avvisoStime({ oggi: iso(meno(0)), stime: stime }, visti, false);
         if (avv) ver.insertAdjacentHTML('afterbegin', avv);
       }
-      mostra(POSTI.filter(function(p){ return !SOSPESI[p[0]] && coperto(p[0], GIORNI, 1) && coperto(p[0], 20, 13); }).map(function(p){
+      // W0: d'inverno gli ultimi 20 giorni (20/11/2026, pausa d'inverno)
+      mostra(POSTI.filter(function(p){ return !SOSPESI[p[0]] && coperto(p[0], GIORNI, 1) && coperto(p[0], 20, W0); }).map(function(p){
         return { id:p[0], n:p[1], sig:p[2], q:p[3], lat:p[4], lon:p[5], rete:p[7],
-          mm:somma(20,13,p[0]), mm7:somma(7,1,p[0]), mm25:somma(GIORNI,1,p[0]),
+          mm:somma(20,W0,p[0]), mm7:somma(7,1,p[0]), mm25:somma(GIORNI,1,p[0]),
           forte:ultimaForte(p[0]) };
       }), iso(meno(0)));
     });
@@ -1105,7 +1144,11 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
           mm[reg] = {};
           /* 17/10/2026: solo se e' dello STESSO giorno, se no la finestra 13-20 e' spostata;
              la parte della zona resta fuori dalla media, come quando il file non arriva */
-          if (j && j.posti && (!oggiISO || j.oggi === oggiISO)) Object.keys(j.posti).forEach(function(id){ mm[reg][id] = j.posti[id][0]; });
+          // d'inverno gli ultimi 20 giorni (campo venti, 20/11/2026): senza, la parte della zona resta fuori
+          if (j && j.posti && (!oggiISO || j.oggi === oggiISO)) {
+            if (INV) Object.keys(j.venti || {}).forEach(function(id){ mm[reg][id] = j.venti[id]; });
+            else Object.keys(j.posti).forEach(function(id){ mm[reg][id] = j.posti[id][0]; });
+          }
         });
     })).then(function(){
       voci.forEach(function(li){
@@ -1149,15 +1192,18 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
     /* senza pioggia da nessuna parte (19/10/2026, quinto check, bug 16) il riquadro diceva «Dove ha piovuto di più?
        Nomeposto, 0,0 mm» (Basilicata): adesso lo dice e basta, come la frase «Nessuna pioggia» delle località */
     var asciutto = !(primo.mm >= 0.05);
+    /* d'inverno (20/11/2026, pausa d'inverno) gli ultimi 20 giorni: niente «13-20» nelle scritte e nei link */
+    var finDa = INV ? a20 : aG;
     document.getElementById('testa').innerHTML =
-      '<div class="capo"><div class="et">' + (asciutto ? 'Nessuna pioggia 13-20 giorni fa' : 'Dove ha piovuto di più 13-20 giorni fa?') + '</div>'
-      + (asciutto ? '<div class="pic">In quegli otto giorni nessun posto da bosco della regione ha preso pioggia.</div>'
+      '<div class="capo"><div class="et">' + (INV ? (asciutto ? 'Nessuna pioggia negli ultimi 20 giorni' : 'Dove ha piovuto di più negli ultimi 20 giorni?')
+        : (asciutto ? 'Nessuna pioggia 13-20 giorni fa' : 'Dove ha piovuto di più 13-20 giorni fa?')) + '</div>'
+      + (asciutto ? '<div class="pic">' + (INV ? 'In questi 20 giorni' : 'In quegli otto giorni') + ' nessun posto da bosco della regione ha preso pioggia.</div>'
       : '<div class="gr">' + esc(primo.n) + ', ' + num(primo.mm) + ' mm</div>'
       + '<div class="pic">' + luogo(primo) + ' · ' + primo.q + ' m'
       + (primo.forte ? ' · ultima pioggia forte ' + (primo.forte.g===1?'ieri':primo.forte.g+' giorni fa')
                         + ' (' + num(primo.forte.mm) + ' mm)' : '') + '</div>')
       + '<div class="capo-btns">'
-      + '<a class="capo-btn" href="' + link(primo, daG, aG) + '">Apri mappa · 13-20 gg fa</a>'
+      + (INV ? '' : '<a class="capo-btn" href="' + link(primo, daG, aG) + '">Apri mappa · 13-20 gg fa</a>')
       + '<a class="capo-btn" href="' + link(primo, daG, a20) + '">Apri mappa · ultimi 20 gg</a>'
       + '<a class="capo-btn" href="' + link(null, daG, a20) + '">' + NOME + ' · ultimi 20 gg</a>'
       + '</div></div>';
@@ -1171,8 +1217,8 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
        averla gia' detta. Qui restano le DATE, che in cima non ci possono
        stare: cambiano ogni giorno e il titolo e' cotto nel guscio. */
     document.getElementById('finestra2').innerHTML =
-      'Gli otto giorni della finestra sono fra ' + ilGg(daG).slice(0, -gg(daG).length) + '<b>' + gg(daG) + '</b> e '
-      + ilGg(aG).slice(0, -gg(aG).length) + '<b>' + gg(aG)
+      (INV ? 'I 20 giorni sono fra ' : 'Gli otto giorni della finestra sono fra ') + ilGg(daG).slice(0, -gg(daG).length) + '<b>' + gg(daG) + '</b> e '
+      + ilGg(finDa).slice(0, -gg(finDa).length) + '<b>' + gg(finDa)
       + '</b>. Sono millimetri misurati a terra dai pluviometri, non una previsione.';
 
     /* LA NOTTE PIU FREDDA (6/11/2026, scheda 125, mockup approvato): dal 1 novembre al 20 dicembre (freddoAttivo di
@@ -1198,7 +1244,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
         ? (r.forte.g===1?'ieri':r.forte.g+' giorni fa') + ' <span class="q2">' + num(r.forte.mm) + ' mm</span>'
         : '<span class="vuoto">niente di forte</span>';
       return '<tr><td class="pos">' + (i+1) + '</td>'
-        + '<td><a class="loc" href="' + link(r, daG, aG) + '" title="Apri la mappa su ' + esc(r.n) + '">'
+        + '<td><a class="loc" href="' + link(r, daG, finDa) + '" title="Apri la mappa su ' + esc(r.n) + '">'
         + '<b>' + esc(r.n) + '</b><span class="com">' + luogo(r) + ' · ' + r.q + ' m</span>'
         /* ⚠️ SUL TELEFONO la colonna «ultima pioggia forte» e' nascosta, e senza
            questa riga la nota che la spiega parlava di una cosa invisibile.
@@ -1215,12 +1261,13 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
 
     document.getElementById('tabella').innerHTML =
       '<table><thead><tr><th class="num"></th><th>Località</th>'
-      + '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>'
+      + (INV ? '<th><span class="hd-l">Ultimi 20 gg</span><span class="hd-c">20 gg</span></th>'
+        : '<th><span class="hd-l">mm range 13-20 gg fa</span><span class="hd-c">13-20 gg fa</span></th>')
       + '<th><span class="hd-l">Ultimi 7 gg</span><span class="hd-c">7 gg</span></th>'
       + (fredda ? '<th class="fr">Notte più fredda<br><span style="font-weight:400">ultimi 10 gg</span></th>' : '')
       + '<th class="tagl">Ultimi 25 gg</th><th class="tagl">Ultima pioggia forte</th>'
       + '</tr></thead><tbody>' + trs + '</tbody></table>'
-      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede da novembre al 20 dicembre.</p>' : '');
+      + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede a novembre.</p>' : '');
 
     /* ⚠️ «15 dei primi 15» era un modo storto di dire «tutti»: quando il conto
        coincide col totale si scrive cosi', se no «12 posti su 15». */
@@ -1619,7 +1666,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
   }
   function carica(tipo, base) {
     if (geo[tipo]) return geo[tipo];
-    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : '-mappa');
+    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : tipo === 'evento' ? '-evento' : '-mappa');
     geo[tipo] = fetch(base + f + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { return { j: j, url: base + f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') }; })
       .catch(function () { return null; });
@@ -1669,11 +1716,27 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco della Puglia.</p>
         opp.addEventListener('click', function () { ga('ieri'); });
         d.parentNode.insertBefore(opp, d.nextSibling);
       }
-      carica('7g', PIOGGIA).then(function (g7) {
+      var sette = function () { carica('7g', PIOGGIA).then(function (g7) {
         if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) { a1._g = g7; ritaglia(a1, g7); return; }
         if (opp) { opp.parentNode.removeChild(opp); a1.setAttribute('href', vecchio.getAttribute('href')); a1.setAttribute('data-t', 'ieri'); sp.innerHTML = ieriHtml; }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
-      });
+      }); };
+      /* ⚠️ LA MODALITA' EVENTO (13/11/2026, scheda 132): se la scheda ha i data-ev (numeriRegione, quando il riepilogo dice
+         che c'e' un nubifragio), la cartina e' quella dei giorni dell'evento (<reg>-evento, dal giro delle anteprime), la
+         pillola dice quei giorni e il riquadro apre la mappa di quei giorni. Se lo scatto manca o e' di altri giorni (il
+         giro delle anteprime parte dopo la pagina), tutto come sempre: i 7 giorni. */
+      var vd = document.querySelector('#verdetto .verdetto[data-ev-da]');
+      var evDa = vd && vd.getAttribute('data-ev-da'), evA = vd && vd.getAttribute('data-ev-a'), evEt = vd && vd.getAttribute('data-ev-et');
+      if (evDa && evA && c7) {
+        var c7h = c7.getAttribute('href'), sp7 = sp.innerHTML;
+        a1.setAttribute('href', c7h.replace(/([?&]da=)[^&]+/, '$1' + evDa).replace(/([?&]a=)[^&]+/, '$1' + evA)); a1.setAttribute('data-t', 'evento');
+        sp.innerHTML = '<b>💧 Pioggia ' + evEt + '<em> · apri la mappa</em> →</b>';
+        carica('evento', PIOGGIA).then(function (ge) {
+          if (ge && ge.j.da === evDa && ge.j.a === evA) { a1._g = ge; ritaglia(a1, ge); return; }
+          a1.setAttribute('href', c7h); a1.setAttribute('data-t', '7giorni'); sp.innerHTML = sp7;
+          sette();
+        });
+      } else sette();
       return;
     }
     // (21/10/2026, ottavo check, bug 9) solo il bottone NORMALE diventa la striscia: «Vedi i vicini sulla mappa» (pluviometro

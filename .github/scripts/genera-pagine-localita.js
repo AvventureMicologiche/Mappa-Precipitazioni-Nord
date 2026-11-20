@@ -450,10 +450,10 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
 <div id="grafico"></div>
 <p class="nota" id="ieri"></p>
 
-<h2 id="h-conta">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
-<p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
-<div id="finestra"></div>
-<div id="intensita"></div>
+<h2 id="h-conta" class="solo-stagione">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
+<p class="breve solo-stagione" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
+<div id="finestra" class="solo-stagione"></div>
+<div id="intensita" class="solo-stagione"></div>
 
 <h2>Dove ha piovuto di più intorno ${esc(INTORNO)}? Guardalo sulla mappa</h2>
 <style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
@@ -462,7 +462,7 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
   <a href="${SITO}/?r=${REGS}&amp;g=7&amp;${PIN}">Ultimi 7 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}">Ultimi 20 gg</a>
   <a href="${SITO}/?r=${REGS}&amp;g=30&amp;${PIN}">Ultimi 30 gg</a>
-  <a class="forte" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}">Range crescita funghi 13-20 gg fa</a>
+  <a class="forte solo-stagione" id="t-conta" href="${SITO}/?r=${REGS}&amp;g=20&amp;${PIN}">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="${SITO}/?r=${REG}&amp;${PIN}&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-${REG}-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="${SITO}/previsioni/?r=${REG}&amp;${PIN}"
@@ -476,7 +476,7 @@ ${meteoHtml(r, `Che tempo farà ${esc(DOVE)}`, 'Sto leggendo le previsioni dei p
        width="1600" height="1000" loading="lazy"></a>
 
 <h2 style="font-size:18px">I pluviometri più vicini</h2>
-<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
+<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th><span class="solo-stagione">13-20 gg fa</span><span class="solo-inverno">Ultimi 20 gg</span></th></tr></thead>
 <tbody id="vicini">
 ${VICINI5.map(v => `<tr${v.io ? ' class="qui"' : ''} data-id="${esc(v.id)}"><td>${v.io
   ? `<b>${esc(v.n)}</b> <span class="com">(sei qui)</span>`
@@ -608,6 +608,9 @@ ${JS_STIME}
            {fino:60,t:'Poca pioggia',c:'#e6a100'},
            {fino:100,t:'Ha piovuto bene',c:'#5bb85d'},
            {fino:1e9,t:'Ha piovuto benissimo',c:'#2e9d44'}];
+  /* LA PAUSA D'INVERNO (20/11/2026, scheda 139, vedi INVERNO in lib-stagione.js): la classe la mette rigaStagione sotto
+     il titolo. W0 e' il primo giorno delle classifiche: 13 in stagione (la finestra 13-20), 1 d'inverno (ultimi 20). */
+  var INV = document.documentElement.classList.contains('funghi-inverno'), W0 = INV ? 1 : 13;
 
   fetch(BASE + 'funghi/' + REG + '-giorni.json')
     .then(function(r){ return r.ok ? r.json() : null; })
@@ -671,7 +674,15 @@ ${JS_STIME}
         + '<div class="si"><span class="pallino" style="background:#8a97a6"></span>Dati incompleti</div>'
         + '<div class="dett">' + perche + (r20 < 12 ? '' : ' Guarda i pluviometri vicini qui sotto.') + '</div>'
         + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
-    } else
+    } else if (INV)
+    /* d'inverno la pioggia senza giudizio: niente pallino, niente «Ha piovuto bene», niente scala (20/11/2026) */
+    document.getElementById('verdetto').innerHTML = '<div class="verdetto">'
+      + '<div class="si neutro">Pioggia degli ultimi 20 giorni</div>'
+      + '<div class="gr">'+Math.round(m20)+' mm<small>misurati dal pluviometro</small></div>'
+      + '<div class="dett">'+(big.length ? 'I giorni più bagnati: ' : '')+dett+'</div>'
+      + (g20 < r20 ? '<div class="dett" style="opacity:.85;margin-top:6px">Questo pluviometro non ha mandato dati per ' + (r20 - g20) + (r20 - g20 === 1 ? ' giorno' : ' giorni') + ' su ' + r20 + ': il totale può essere più basso del vero.</div>' : '')
+      + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
+    else
     document.getElementById('verdetto').innerHTML = '<div class="verdetto">'
       + '<div class="si"><span class="pallino" style="background:'+liv.c+'"></span>'+liv.t+'</div>'
       + '<div class="gr">'+Math.round(m20)+' mm<small>negli ultimi 20 giorni</small></div>'
@@ -714,9 +725,11 @@ ${JS_STIME}
     document.getElementById('grafico').innerHTML =
       '<div class="gg">' + barre + '</div><div class="gg-x">' + ascisse + '</div>'
       + '<p class="gg-int" id="ggint"></p>'
-      + '<p class="gg-leg"><i style="background:var(--blu)"></i>da 13 a 20 giorni fa &nbsp; '
+      /* d'inverno la legenda della fascia non c'e' (barre tutte uguali): resta solo «nessun dato», se serve */
+      + (INV ? (conDati(s, GIORNI, 1) < GIORNI ? '<p class="gg-leg"><i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato</p>' : '')
+      : '<p class="gg-leg"><i style="background:var(--blu)"></i>da 13 a 20 giorni fa &nbsp; '
       + '<i style="background:#b9cbe2"></i>gli altri giorni'
-      + (conDati(s, GIORNI, 1) < GIORNI ? ' &nbsp; <i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato' : '') + '</p>';
+      + (conDati(s, GIORNI, 1) < GIORNI ? ' &nbsp; <i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato' : '') + '</p>');
 
     /* durata e punta del giorno toccato (serieI: solo i giorni da 5 mm in su).
        17/10/2026, suo: la barra risponde SEMPRE, anche dove la stazione non ha
@@ -811,7 +824,8 @@ ${JS_STIME}
       if (sospesi[p[0]]) return null;
       var ss = j.serie[p[0]];
       /* chi ha troppi giorni senza dato non entra: in classifica sembrerebbe il piu' asciutto */
-      return ss && coperto(ss,25,1) && coperto(ss,20,13) ? { id:p[0], n:p[1], sig:p[2], q:p[3], slug:p[7], mm:somma(ss,20,13), d:km(LAT, LON, p[4], p[5]) } : null;
+      // W0: d'inverno gli ultimi 20 giorni (20/11/2026, pausa d'inverno)
+      return ss && coperto(ss,25,1) && coperto(ss,20,W0) ? { id:p[0], n:p[1], sig:p[2], q:p[3], slug:p[7], mm:somma(ss,20,W0), d:km(LAT, LON, p[4], p[5]) } : null;
     }).filter(Boolean);
     function pag(x){ return SITO + '/funghi/' + REG + '/' + x.slug + '/'; }
     var perId = {};
@@ -839,7 +853,7 @@ ${JS_STIME}
     var ordinati = tutti.slice().sort(function(a,b){ return b.mm - a.mm; });
     var pos = ordinati.findIndex(function(x){ return x.id === ID; }) + 1;
     var primi = ordinati.slice(0, 6), mxp = Math.max(1, primi.length ? primi[0].mm : 1);
-    document.getElementById('migliori').innerHTML = '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead><tbody>'
+    document.getElementById('migliori').innerHTML = '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>' + (INV ? 'Ultimi 20 gg' : '13-20 gg fa') + '</th></tr></thead><tbody>'
       + primi.map(function(x){
           var qui = x.id === ID;
           return '<tr' + (qui ? ' class="qui"' : '') + '><td>' + (qui ? '<b>' + esc(x.n) + '</b> <span class="com">(sei qui)</span>'

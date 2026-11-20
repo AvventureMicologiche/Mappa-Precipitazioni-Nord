@@ -2358,3 +2358,16 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   due fino a Natale; si spegne il 6/1/2027 (`fino`). I cambi sono solo in `data/vetrina.json`.
 - ⚠️ Da 950 px larga 400 a `right:10px` SOLO lei (le altre 414); sotto i 900 il titolo e' a 46 px con `!important`
   perche' `ganciopx` sta in linea. ⚠️ Si pubblica il codice PRIMA di spingere la voce: con l'index vecchio esce come video.
+
+## «Piogge per funghi» stagionale (20/11/2026, scheda 139)
+
+- Suo: il tasto d'inverno fa sembrare il sito solo dei funghi, ma lega agli appassionati; «lo farei stagionale come le
+  pagine… dal 1 dicembre». Da dicembre a febbraio `#btn-funghi` non c'è: uno script nella testata mette `funghi-fermo` su
+  `<html>` col mese di chi legge, la regola CSS lo nasconde con `!important`. Torna il 1 marzo, insieme alle pagine funghi
+  (la pausa d'inverno, in `CLAUDE-pagine.md`). I link condivisi portano le date, non il tasto: si aprono uguali.
+- Nei Boschi al PC (dopo «Confronta con piogge», `bo-scegli-date`) «Date personalizzate» rimasto solo prende tutta la riga.
+- Nella guida una frase sotto «Il tasto Piogge per funghi»: c'è da marzo a novembre, d'inverno la stessa finestra la si
+  fa con «Date personalizzate».
+- Prova `claudio\check-139\prova-tasto-funghi.js` (orologio finto: oggi, 5/12, 15/1, 28/2 sera, 1/3, 30/11 notte; telefono,
+  PC e Boschi): 24 su 24; `prova-schermo.js` 75 controlli dentro. ⚠️ Notato e non toccato: nei Boschi al PC, nei primi
+  giorni del mese, le date a cavallo di due mesi («28 nov–4 dic») allargano la riga dei periodi oltre il riquadro.

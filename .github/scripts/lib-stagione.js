@@ -27,9 +27,43 @@
    stagione e dicembre ai margini. Le pagine di paese e di zona hanno anche la riga del freddo nel riquadro della
    pioggia (JS_FREDDO qui sotto), e la loro riga di stagione lo dice: «le notti degli ultimi giorni sono qui sotto».
    Il freddo si mostra fino al FREDDO_FINO dicembre (suo: «fino a fine dicembre o poco prima»): DOPO va messa una
-   «pausa» invernale della pagina, da decidere con lui. Marzo resta com'era. */
+   «pausa» invernale della pagina, da decidere con lui. Marzo resta com'era.
+   ⚠️ DAL 20/11/2026 (scheda 139, suo «anticipiamo dal 1 dicembre… vale anche per le pagine», poi «tutto dal 1/12»,
+   Sud compreso) FREDDO_FINO e' 0: il freddo si vede solo a novembre, dal 1 dicembre c'e' la pausa (INVERNO qui sotto). */
 const SUD = ['campania', 'puglia', 'basilicata', 'calabria', 'sicilia', 'sardegna'];
-const FREDDO_FINO = 20;
+const FREDDO_FINO = 0;
+
+/* ⚠️ LA PAUSA D'INVERNO (20/11/2026, scheda 139). Sue scelte: «stagionale come le pagine… dal 1 dicembre», «tutto
+   dal 1/12» (anche il Sud), e sul mockup `claudio\mockup-pausa-funghi-139\` «la A col formato del messaggio della B
+   ma senza i bottoni», con le tabelle sugli ultimi 20 giorni e il grafico senza la fascia dei 13-20.
+   Dal 1 dicembre a fine febbraio, col giorno di CHI LEGGE (niente da rigenerare il 1/12 ne' il 1/3):
+   - in cima il messaggio «❄️ Stagione ferma fino a marzo» (schedaInverno) al posto della riga di stagione;
+   - il riquadro della pioggia resta, senza giudizio: «Pioggia degli ultimi 20 giorni», niente pallino ne' scala;
+   - sparisce quello che vale solo per la finestra dei 13-20 giorni: la pioggia che conta con le sue otto barre, «Com'e'
+     caduta», il tasto «Range crescita funghi», la fascia e la sua legenda nel grafico (classe .solo-stagione);
+   - le classifiche (vicini, posti piu' bagnati, zone, /funghi/) passano sugli ultimi 20 giorni (campi `venti` e
+     `primi20` scritti da genera-funghi.js).
+   La classe `funghi-inverno` su <html> la mette lo script di rigaStagione, subito sotto il titolo: tutto quello che
+   viene dopo nasce gia' giusto. Il tasto della mappa segue lo stesso calendario (index.html, classe funghi-fermo).
+   Per guardarla in un altro mese: ?inverno=1 (e ?inverno=0 per la pagina di stagione). */
+const INVERNO_SI = 'var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;'
+  + 'if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");';
+const STILE_INVERNO = `<style>
+html:not(.funghi-inverno) .solo-inverno{display:none !important}
+html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
+html.funghi-inverno .gg .b i{background:var(--blu)}
+.pausa-inv{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px}
+.pausa-inv .si{font-size:25px;font-weight:800;line-height:1.2}
+.pausa-inv .fiocco{font-size:26px;margin-right:8px;vertical-align:-2px}
+.pausa-inv .dett{font-size:16px;opacity:.9;margin-top:8px;line-height:1.5}
+.pausa-inv .torna{margin-top:12px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.08);font-size:15px;line-height:1.45}
+.verdetto .si.neutro{font-size:22px;font-weight:700;opacity:.9}
+</style>`;
+const SCHEDA_INVERNO = '<div class="pausa-inv solo-inverno">'
+  + '<div class="si"><span class="fiocco">❄️</span>Stagione ferma fino a marzo</div>'
+  + '<div class="dett">Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la pioggia di 13-20 giorni fa conta '
+  + 'poco. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div>'
+  + '<div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>';
 
 const TESTI = {
   // ⚠️ niente «i millimetri sono veri» (1/11/2026): la riga sta sopra l'avviso delle stime, quando un pluviometro non ha
@@ -70,7 +104,9 @@ function rigaStagione(reg, conFreddo) {
   const dic = a === 'sud' ? TESTI.margineFreddo : a === 'nord' ? TESTI.fuoriNord : TESTI.italiaDic;
   const dicS = a === 'sud' ? S : '';
   const inv = a === 'sud' ? TESTI.fuoriSud : a === 'nord' ? TESTI.fuoriNord : TESTI.fuori;
-  return '<div id="stagione"></div>\n<script>(function(){'
+  // la pausa d'inverno PRIMA della riga: lo script mette la classe, poi stile e messaggio (vedi INVERNO qui sopra)
+  return '<script>(function(){try{' + INVERNO_SI + '}catch(e){}})();</script>\n' + STILE_INVERNO + '\n' + SCHEDA_INVERNO + '\n'
+    + '<div id="stagione"></div>\n<script>(function(){'
     + 'var d=new Date(),m=d.getMonth()+1,t=null;'
     + 'if(m===11)t=' + JSON.stringify(nov) + ';'
     + 'else if(m===12)t=' + JSON.stringify(dic) + (dicS ? '+(d.getDate()<=' + FREDDO_FINO + '?' + JSON.stringify(dicS) + ':"")' : '') + ';'
@@ -90,8 +126,11 @@ function freddo() {
   var FINO = 20;
   /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
      FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
-     ferma, da marzo il contrario, da decidere) */
-  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+     ferma, da marzo il contrario, da decidere). Dal 20/11/2026 FINO e' 0: solo novembre. Con ?inverno=1 (la pausa forzata
+     per guardarla) il freddo non c'e', come a dicembre. */
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
+    if (document.documentElement.classList.contains('funghi-inverno')) return false;
+    return m === 11 || (m === 12 && a.getDate() <= FINO); };
   /* LE PROSSIME NOTTI (6/11/2026, scheda 125): dalla previsione che la pagina ha gia' scaricato per «Che tempo farà»
      (lib-meteo-regione.js la lascia in window._prevPagina e manda l'evento «previsioni-pagina»): nessuna chiamata in
      piu'. Nel paese il punto del pluviometro (qui:1), nella zona la minima fra i suoi paesi, notte per notte. giorni[0]

@@ -101,7 +101,9 @@ a:active .vai-mappa{transform:translateY(2px);
 #stagione{display:none;background:#eef2f8;border:1px solid #ccd7e6;border-left:4px solid #7a93b5;
   border-radius:8px;padding:12px 15px;font-size:15.5px;color:#42506a;margin:0 0 20px;}
 #stagione b{color:var(--blu-scuro);}
-#attesa{color:#6a7789;font-size:16px;padding:18px 0;}
+#attesa{background:#0f2d4d;color:#c9d6e4;font-size:16px;border-radius:12px;padding:18px;margin:14px 0 8px;
+  min-height:440px;box-sizing:border-box;}
+@media(min-width:641px){#attesa{min-height:520px;}}
 #guasto{display:none;background:#fdecea;border:1px solid #f5c2bd;border-radius:8px;
   padding:13px 16px;font-size:16px;color:#8a2b20;margin-top:10px;}
 @media(max-width:640px){
@@ -502,8 +504,21 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Ambola oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ad Ambola: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<style>
+html:not(.funghi-inverno) .solo-inverno{display:none !important}
+html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
+html.funghi-inverno .gg .b i{background:var(--blu)}
+.pausa-inv{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px}
+.pausa-inv .si{font-size:25px;font-weight:800;line-height:1.2}
+.pausa-inv .fiocco{font-size:26px;margin-right:8px;vertical-align:-2px}
+.pausa-inv .dett{font-size:16px;opacity:.9;margin-top:8px;line-height:1.5}
+.pausa-inv .torna{margin-top:12px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.08);font-size:15px;line-height:1.45}
+.verdetto .si.neutro{font-size:22px;font-weight:700;opacity:.9}
+</style>
+<div class="pausa-inv solo-inverno"><div class="si"><span class="fiocco">❄️</span>Stagione ferma fino a marzo</div><div class="dett">Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la pioggia di 13-20 giorni fa conta poco. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div><div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>
 <div id="stagione"></div>
-<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo in piena stagione.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda anche le notti, in montagna può già gelare.";else if(m===12)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più."+(d.getDate()<=20?" Le notti degli ultimi giorni sono qui sotto.":"");else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Fino a marzo i funghi sono pochi, tranne dove le notti restano miti, vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo in piena stagione.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda anche le notti, in montagna può già gelare.";else if(m===12)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più."+(d.getDate()<=0?"<span id=\"stag-notti\" style=\"display:none\"> Le notti degli ultimi giorni sono qui sotto.</span>":"");else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Fino a marzo i funghi sono pochi, tranne dove le notti restano miti, vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
 <div id="guasto"></div>
@@ -523,10 +538,10 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 <div id="grafico"></div>
 <p class="nota" id="ieri"></p>
 
-<h2 id="h-conta">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
-<p class="breve" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
-<div id="finestra"></div>
-<div id="intensita"></div>
+<h2 id="h-conta" class="solo-stagione">Però attenzione: la pioggia che conta è quella caduta da 13 a 20 giorni fa</h2>
+<p class="breve solo-stagione" id="p-conta">Il fungo spunta 12-13 giorni dopo una bella pioggia: i funghi di oggi nascono da queste otto giornate.</p>
+<div id="finestra" class="solo-stagione"></div>
+<div id="intensita" class="solo-stagione"></div>
 
 <h2>Dove ha piovuto di più intorno ad Ambola? Guardalo sulla mappa</h2>
 <style>@media(max-width:880px){#tasti,.tasti{grid-template-columns:repeat(2,1fr)}#t-conta,.tasti a.t-radar{grid-column:1 / -1}}</style>
@@ -535,7 +550,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=7&amp;pl=37.86,14.6114&amp;pn=Ambola">Ultimi 7 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.86,14.6114&amp;pn=Ambola">Ultimi 20 gg</a>
   <a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=30&amp;pl=37.86,14.6114&amp;pn=Ambola">Ultimi 30 gg</a>
-  <a class="forte" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.86,14.6114&amp;pn=Ambola">Range crescita funghi 13-20 gg fa</a>
+  <a class="forte solo-stagione" id="t-conta" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;g=20&amp;pl=37.86,14.6114&amp;pn=Ambola">Range crescita funghi 13-20 gg fa</a>
   <a class="t-radar" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;pl=37.86,14.6114&amp;pn=Ambola&amp;radar=ora"
      onclick="try{gtag('event','apri_mappa',{da:'localita-sicilia-radar'})}catch(e){}">📡 Radar piogge</a>
   <a class="t-radar t-prev" href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=sicilia&amp;pl=37.86,14.6114&amp;pn=Ambola"
@@ -549,7 +564,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
        width="1600" height="1000" loading="lazy"></a>
 
 <h2 style="font-size:18px">I pluviometri più vicini</h2>
-<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead>
+<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th><span class="solo-stagione">13-20 gg fa</span><span class="solo-inverno">Ultimi 20 gg</span></th></tr></thead>
 <tbody id="vicini">
 <tr class="qui" data-id="37.86000_14.61139"><td><b>Ambola</b> <span class="com">(sei qui)</span><span class="com">ME · 1255 m</span></td>
 <td>—</td>
@@ -601,12 +616,12 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 sui Nebrodi: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/nebrodi/">guarda tutta la zona</a>,
 con i suoi 5 pluviometri insieme.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>Da luglio 2026 a novembre 2026</b>, in 108 giorni di misura, ha contato <b>224 mm</b> di pioggia in <b>19 giornate</b> bagnate. Nelle altre 89 non è caduto niente, o così poco da non contare.
+<p><b>Da luglio 2026 a novembre 2026</b>, in 120 giorni di misura, ha contato <b>231 mm</b> di pioggia in <b>20 giornate</b> bagnate. Nelle altre 100 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>2 novembre 2026</b>, con
 <b>47,6 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>ottobre 2026</b> con
 77 mm. Su 30 pluviometri
-da bosco della Sicilia con lo stesso periodo alle spalle, questo è il <b>23º</b>
+da bosco della Sicilia con lo stesso periodo alle spalle, questo è il <b>22º</b>
 per acqua caduta.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
 valgono regole proprie.</p>
@@ -631,8 +646,10 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 
 <script>
 
-  var FINO = 20;
-  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1; return m === 11 || (m === 12 && a.getDate() <= FINO); };
+  var FINO = 0;
+  window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
+    if (document.documentElement.classList.contains('funghi-inverno')) return false;
+    return m === 11 || (m === 12 && a.getDate() <= FINO); };
   function prossime(j, zona) {
     var c = (j && j.capoluoghi) || [];
     var pts = zona ? c : c.filter(function (x) { return x.qui; });
@@ -684,6 +701,8 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
       var dove = v.querySelector('.scala') || v.querySelector('.capo-btns');
       if (dove) dove.insertAdjacentHTML('beforebegin', riga); else v.insertAdjacentHTML('beforeend', riga);
     }
+    var sn = document.getElementById('stag-notti');
+    if (sn && v && v.querySelector('.freddo')) sn.style.display = '';
     var mt = document.getElementById('meteo'), vd = document.getElementById('verdetto');
     if (mt && vd && mt.innerHTML && vd.nextSibling !== mt) vd.parentNode.insertBefore(mt, vd.nextSibling);
     var metti = function (j) {
@@ -796,6 +815,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
            {fino:60,t:'Poca pioggia',c:'#e6a100'},
            {fino:100,t:'Ha piovuto bene',c:'#5bb85d'},
            {fino:1e9,t:'Ha piovuto benissimo',c:'#2e9d44'}];
+  var INV = document.documentElement.classList.contains('funghi-inverno'), W0 = INV ? 1 : 13;
 
   fetch(BASE + 'funghi/' + REG + '-giorni.json')
     .then(function(r){ return r.ok ? r.json() : null; })
@@ -855,7 +875,14 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
         + '<div class="si"><span class="pallino" style="background:#8a97a6"></span>Dati incompleti</div>'
         + '<div class="dett">' + perche + (r20 < 12 ? '' : ' Guarda i pluviometri vicini qui sotto.') + '</div>'
         + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
-    } else
+    } else if (INV)
+    document.getElementById('verdetto').innerHTML = '<div class="verdetto">'
+      + '<div class="si neutro">Pioggia degli ultimi 20 giorni</div>'
+      + '<div class="gr">'+Math.round(m20)+' mm<small>misurati dal pluviometro</small></div>'
+      + '<div class="dett">'+(big.length ? 'I giorni più bagnati: ' : '')+dett+'</div>'
+      + (g20 < r20 ? '<div class="dett" style="opacity:.85;margin-top:6px">Questo pluviometro non ha mandato dati per ' + (r20 - g20) + (r20 - g20 === 1 ? ' giorno' : ' giorni') + ' su ' + r20 + ': il totale può essere più basso del vero.</div>' : '')
+      + '<div class="capo-btns"><a class="capo-btn" href="'+link(daG, ieri)+'">Vedi sulla mappa</a></div></div>';
+    else
     document.getElementById('verdetto').innerHTML = '<div class="verdetto">'
       + '<div class="si"><span class="pallino" style="background:'+liv.c+'"></span>'+liv.t+'</div>'
       + '<div class="gr">'+Math.round(m20)+' mm<small>negli ultimi 20 giorni</small></div>'
@@ -889,9 +916,10 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
     document.getElementById('grafico').innerHTML =
       '<div class="gg">' + barre + '</div><div class="gg-x">' + ascisse + '</div>'
       + '<p class="gg-int" id="ggint"></p>'
-      + '<p class="gg-leg"><i style="background:var(--blu)"></i>da 13 a 20 giorni fa &nbsp; '
+      + (INV ? (conDati(s, GIORNI, 1) < GIORNI ? '<p class="gg-leg"><i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato</p>' : '')
+      : '<p class="gg-leg"><i style="background:var(--blu)"></i>da 13 a 20 giorni fa &nbsp; '
       + '<i style="background:#b9cbe2"></i>gli altri giorni'
-      + (conDati(s, GIORNI, 1) < GIORNI ? ' &nbsp; <i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato' : '') + '</p>';
+      + (conDati(s, GIORNI, 1) < GIORNI ? ' &nbsp; <i style="background:none;border:1px dashed #9fb3cc;box-sizing:border-box"></i>nessun dato' : '') + '</p>');
 
     var sI = (j.serieI && j.serieI[ID]) || null;
     var reteOre = !!(j.serieI && Object.keys(j.serieI).length);
@@ -968,7 +996,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
     var tutti = j.anagrafe.map(function(p){
       if (sospesi[p[0]]) return null;
       var ss = j.serie[p[0]];
-      return ss && coperto(ss,25,1) && coperto(ss,20,13) ? { id:p[0], n:p[1], sig:p[2], q:p[3], slug:p[7], mm:somma(ss,20,13), d:km(LAT, LON, p[4], p[5]) } : null;
+      return ss && coperto(ss,25,1) && coperto(ss,20,W0) ? { id:p[0], n:p[1], sig:p[2], q:p[3], slug:p[7], mm:somma(ss,20,W0), d:km(LAT, LON, p[4], p[5]) } : null;
     }).filter(Boolean);
     function pag(x){ return SITO + '/funghi/' + REG + '/' + x.slug + '/'; }
     var perId = {};
@@ -991,7 +1019,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
     var ordinati = tutti.slice().sort(function(a,b){ return b.mm - a.mm; });
     var pos = ordinati.findIndex(function(x){ return x.id === ID; }) + 1;
     var primi = ordinati.slice(0, 6), mxp = Math.max(1, primi.length ? primi[0].mm : 1);
-    document.getElementById('migliori').innerHTML = '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>13-20 gg fa</th></tr></thead><tbody>'
+    document.getElementById('migliori').innerHTML = '<table class="vic"><thead><tr><th>Località</th><th>Distanza</th><th>' + (INV ? 'Ultimi 20 gg' : '13-20 gg fa') + '</th></tr></thead><tbody>'
       + primi.map(function(x){
           var qui = x.id === ID;
           return '<tr' + (qui ? ' class="qui"' : '') + '><td>' + (qui ? '<b>' + esc(x.n) + '</b> <span class="com">(sei qui)</span>'
@@ -1384,7 +1412,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
   }
   function carica(tipo, base) {
     if (geo[tipo]) return geo[tipo];
-    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : '-mappa');
+    var f = OPZ.reg + (tipo === 'ieri' ? '-ieri' : tipo === '7g' ? '-7g' : tipo === 'evento' ? '-evento' : '-mappa');
     geo[tipo] = fetch(base + f + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (j) { return { j: j, url: base + f + '.webp' + (j.generato ? '?v=' + encodeURIComponent(j.generato.slice(0, 13)) : '') }; })
       .catch(function () { return null; });
@@ -1416,11 +1444,23 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
         opp.addEventListener('click', function () { ga('ieri'); });
         d.parentNode.insertBefore(opp, d.nextSibling);
       }
-      carica('7g', PIOGGIA).then(function (g7) {
+      var sette = function () { carica('7g', PIOGGIA).then(function (g7) {
         if (g7 && c7 && (!daL || !g7.j.a || g7.j.a === daL)) { a1._g = g7; ritaglia(a1, g7); return; }
         if (opp) { opp.parentNode.removeChild(opp); a1.setAttribute('href', vecchio.getAttribute('href')); a1.setAttribute('data-t', 'ieri'); sp.innerHTML = ieriHtml; }
         carica('ieri', PIOGGIA).then(function (g) { if (g && (!daL || !g.j.da || g.j.da === daL)) { a1._g = g; ritaglia(a1, g); } });
-      });
+      }); };
+      var vd = document.querySelector('#verdetto .verdetto[data-ev-da]');
+      var evDa = vd && vd.getAttribute('data-ev-da'), evA = vd && vd.getAttribute('data-ev-a'), evEt = vd && vd.getAttribute('data-ev-et');
+      if (evDa && evA && c7) {
+        var c7h = c7.getAttribute('href'), sp7 = sp.innerHTML;
+        a1.setAttribute('href', c7h.replace(/([?&]da=)[^&]+/, '$1' + evDa).replace(/([?&]a=)[^&]+/, '$1' + evA)); a1.setAttribute('data-t', 'evento');
+        sp.innerHTML = '<b>💧 Pioggia ' + evEt + '<em> · apri la mappa</em> →</b>';
+        carica('evento', PIOGGIA).then(function (ge) {
+          if (ge && ge.j.da === evDa && ge.j.a === evA) { a1._g = ge; ritaglia(a1, ge); return; }
+          a1.setAttribute('href', c7h); a1.setAttribute('data-t', '7giorni'); sp.innerHTML = sp7;
+          sette();
+        });
+      } else sette();
       return;
     }
     if (vecchio.textContent.replace(/\s+/g, ' ').trim() !== 'Vedi sulla mappa') return;
