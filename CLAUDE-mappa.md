@@ -2348,3 +2348,13 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   prima, uscendo mentre l'elenco arrivava, `crea` metteva gli strati sopra la pioggia e il titolo della legenda restava
   «Radar pioggia». Prova con LibreWXR finto e risposta a 2 s `claudio\check-139\prova-radar-uscita.js`: prima 3 tessere
   dopo l'uscita, ora 0, legenda «mm cumulati». ⚠️ `giriVai` sta prima di `vai`: se no col radar aperto subito vale NaN.
+
+## La vetrina del libro (20/11/2026, scheda «Promo libro»)
+
+- `"tipo":"libro"` in `data/vetrina.json`: in `costruisci` (`libro3d()`) un libro 3D che gira al posto della copertina, fondo
+  blu, titolo Bebas Neue col rilievo, bottone giallo; la pillola del telefono prende `.cp-libro`, alta 61 come le altre.
+  CSS «LA VETRINA DEL LIBRO». Facce da `copertina` e `dorso` in `data/vetrine/`; link alla sezione #libro della home.
+- Giro: 4 «libro» su 11 voci del sorteggio fino all'uscita; all'uscita da solo per 3 giorni col link Amazon, poi uno su
+  due fino a Natale; si spegne il 6/1/2027 (`fino`). I cambi sono solo in `data/vetrina.json`.
+- ⚠️ Da 950 px larga 400 a `right:10px` SOLO lei (le altre 414); sotto i 900 il titolo e' a 46 px con `!important`
+  perche' `ganciopx` sta in linea. ⚠️ Si pubblica il codice PRIMA di spingere la voce: con l'index vecchio esce come video.

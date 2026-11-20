@@ -147,6 +147,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La cassetta dei video col feed di YouTube giù (18/11, 139)
 - Il riquadro bianco si chiude cambiando modo (18/11, 139)
 - Il radar lasciato mentre carica non resta acceso (18/11, 139)
+- La vetrina del libro (20/11, Promo libro): libro 3D, giro uno su tre
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
