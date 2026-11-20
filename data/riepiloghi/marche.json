@@ -1,6 +1,6 @@
 {
  "regione": "marche",
- "generato": "2026-11-20T04:15:51.937Z",
+ "generato": "2026-11-20T05:31:08.638Z",
  "periodi": {
   "1": {
    "media": 9.8,
@@ -32,96 +32,108 @@
    ]
   },
   "7": {
-   "media": 63.6,
-   "giorni": 6,
+   "media": 64.1,
+   "giorni": 7,
    "stazioni": 113,
    "primo": "2026-11-13",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Montecavallo",
-     "mm": 179.4
+     "mm": 181.8
     },
     {
      "n": "Fonte Avellana",
-     "mm": 170.8
+     "mm": 171
     },
     {
      "n": "Sorti",
-     "mm": 163.6
+     "mm": 164.7
     },
     {
      "n": "Endesa",
-     "mm": 153.8
+     "mm": 155.5
     },
     {
      "n": "Ussita",
-     "mm": 151.6
+     "mm": 153.8
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "20": {
-   "media": 148.8,
-   "giorni": 19,
+   "media": 149.3,
+   "giorni": 20,
    "stazioni": 113,
    "primo": "2026-10-31",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 374.3
+     "mm": 374.5
     },
     {
      "n": "Cantiano",
-     "mm": 346.4
+     "mm": 346.6
     },
     {
      "n": "Monte Petrano",
-     "mm": 293.7
+     "mm": 293.8
     },
     {
      "n": "Montecavallo",
-     "mm": 282.5
+     "mm": 284.9
     },
     {
      "n": "Monte Nerone",
-     "mm": 271.7
+     "mm": 271.9
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "30": {
-   "media": 159.5,
-   "giorni": 29,
+   "media": 160,
+   "giorni": 30,
    "stazioni": 113,
    "primo": "2026-10-21",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 394.5
+     "mm": 394.7
     },
     {
      "n": "Cantiano",
-     "mm": 376.8
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 316.9
+     "mm": 377
     },
     {
      "n": "Montecavallo",
-     "mm": 315.9
+     "mm": 318.3
+    },
+    {
+     "n": "Monte Petrano",
+     "mm": 317
     },
     {
      "n": "Monte Nerone",
-     "mm": 305.5
+     "mm": 305.7
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   }
  },
  "serie": [
   9.8,
-  null,
+  0.5,
   6.2,
   7.8,
   4.9,
@@ -169,8 +181,8 @@
    "n": "Val di Bove",
    "ultimo": "2026-11-19",
    "m1": 33.9,
-   "m7": 126.3,
-   "m30": 238.8,
+   "m7": 127.7,
+   "m30": 240.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -180,8 +192,8 @@
    "n": "Monti Sibillini",
    "ultimo": "2026-11-19",
    "m1": 16.5,
-   "m7": 76.8,
-   "m30": 207.1,
+   "m7": 78.3,
+   "m30": 208.6,
    "p1": true,
    "p7": true,
    "p30": true

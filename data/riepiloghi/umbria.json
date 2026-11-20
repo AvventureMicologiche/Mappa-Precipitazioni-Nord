@@ -1,6 +1,6 @@
 {
  "regione": "umbria",
- "generato": "2026-11-20T04:15:51.937Z",
+ "generato": "2026-11-20T05:31:08.638Z",
  "periodi": {
   "1": {
    "media": 18.3,
@@ -32,96 +32,108 @@
    ]
   },
   "7": {
-   "media": 82.3,
-   "giorni": 6,
+   "media": 82.8,
+   "giorni": 7,
    "stazioni": 71,
    "primo": "2026-11-13",
    "ultimo": "2026-11-19",
    "top": [
     {
-     "n": "Ancaiano",
-     "mm": 158.6
+     "n": "Monteleone di Spoleto",
+     "mm": 168
     },
     {
-     "n": "Monteleone di Spoleto",
-     "mm": 158.4
+     "n": "Ancaiano",
+     "mm": 161.6
     },
     {
      "n": "Armenzano",
-     "mm": 128.4
+     "mm": 128.9
     },
     {
      "n": "Castagnacupa",
-     "mm": 127.8
+     "mm": 128.7
     },
     {
      "n": "Forsivo",
-     "mm": 124
+     "mm": 126.4
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "20": {
-   "media": 141.5,
-   "giorni": 19,
+   "media": 141.9,
+   "giorni": 20,
    "stazioni": 74,
    "primo": "2026-10-31",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 250.7
+     "mm": 251.1
     },
     {
      "n": "Scheggia",
-     "mm": 250.1
-    },
-    {
-     "n": "Ancaiano",
-     "mm": 213.8
+     "mm": 250.4
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 211.4
+     "mm": 221
+    },
+    {
+     "n": "Ancaiano",
+     "mm": 216.8
     },
     {
      "n": "Torre dell'Olmo",
-     "mm": 203.2
+     "mm": 203.7
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "30": {
-   "media": 162.6,
-   "giorni": 29,
+   "media": 163,
+   "giorni": 30,
    "stazioni": 74,
    "primo": "2026-10-21",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Monte Cucco",
-     "mm": 285.1
+     "mm": 285.5
     },
     {
      "n": "Scheggia",
-     "mm": 275.1
+     "mm": 275.4
     },
     {
      "n": "Ancaiano",
-     "mm": 270.6
+     "mm": 273.6
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 243
+     "mm": 252.6
     },
     {
      "n": "Castagnacupa",
-     "mm": 235.8
+     "mm": 236.7
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   }
  },
  "serie": [
   18.3,
-  null,
+  0.5,
   11.3,
   8.7,
   15.3,
@@ -158,8 +170,8 @@
    "n": "Valtiberina",
    "ultimo": "2026-11-19",
    "m1": 9.8,
-   "m7": 57.5,
-   "m30": 211.9,
+   "m7": 57.6,
+   "m30": 212.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -169,8 +181,8 @@
    "n": "Valnerina",
    "ultimo": "2026-11-19",
    "m1": 23.3,
-   "m7": 125.9,
-   "m30": 194.8,
+   "m7": 129.3,
+   "m30": 198.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -180,8 +192,8 @@
    "n": "Monti Amerini",
    "ultimo": "2026-11-19",
    "m1": 28.2,
-   "m7": 101.6,
-   "m30": 179.8,
+   "m7": 101.8,
+   "m30": 179.9,
    "p1": true,
    "p7": true,
    "p30": true

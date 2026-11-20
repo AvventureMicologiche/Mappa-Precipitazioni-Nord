@@ -1,6 +1,6 @@
 {
  "regione": "puglia",
- "generato": "2026-11-20T04:15:51.938Z",
+ "generato": "2026-11-20T05:31:08.638Z",
  "periodi": {
   "1": {
    "media": 1.3,
@@ -32,52 +32,56 @@
    ]
   },
   "7": {
-   "media": 14,
-   "giorni": 6,
+   "media": 14.9,
+   "giorni": 7,
    "stazioni": 129,
    "primo": "2026-11-13",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Anzano di Puglia",
-     "mm": 42
+     "mm": 42.7
     },
     {
      "n": "Faeto",
-     "mm": 38.6
+     "mm": 38.9
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 35
+     "mm": 35.1
     },
     {
      "n": "Taranto",
-     "mm": 33.6
+     "mm": 33.8
     },
     {
      "n": "Alberona",
-     "mm": 32.6
+     "mm": 32.7
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "20": {
-   "media": 83.1,
-   "giorni": 19,
+   "media": 84,
+   "giorni": 20,
    "stazioni": 129,
    "primo": "2026-10-31",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Faeto",
-     "mm": 226.7
+     "mm": 227
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 213.6
+     "mm": 213.7
     },
     {
      "n": "Panni",
-     "mm": 152.6
+     "mm": 152.8
     },
     {
      "n": "Biccari",
@@ -85,24 +89,28 @@
     },
     {
      "n": "Alberona",
-     "mm": 144.9
+     "mm": 145
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   },
   "30": {
-   "media": 115.1,
-   "giorni": 29,
+   "media": 116,
+   "giorni": 30,
    "stazioni": 129,
    "primo": "2026-10-21",
    "ultimo": "2026-11-19",
    "top": [
     {
      "n": "Faeto",
-     "mm": 242.9
+     "mm": 243.2
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 233.8
+     "mm": 233.9
     },
     {
      "n": "Lesina",
@@ -114,14 +122,18 @@
     },
     {
      "n": "Lecce",
-     "mm": 180.7
+     "mm": 184.3
     }
-   ]
+   ],
+   "stime": {
+    "dal": "2026-11-18",
+    "al": "2026-11-18"
+   }
   }
  },
  "serie": [
   1.3,
-  null,
+  0.9,
   0.4,
   3.8,
   7.9,
