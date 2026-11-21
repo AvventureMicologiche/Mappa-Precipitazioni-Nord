@@ -402,16 +402,15 @@ ${JS_FREDDO}
              '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span>' +
              (fredda ? frTel(r[6]) : '') + '</a></td>' +
              '<td class="mm"><span class="barra" style="width:' + pc + '%"></span>' +
-             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td>' +
+             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm</span></td>' +
              (fredda ? frCella(r[6]) : '') + '</tr>';
       });
       document.getElementById('tabella').innerHTML = h + '</tbody></table>'
         + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede a novembre.</p>' : '');
-      /* 1/11/2026: i posti con giorni STIMATI nella finestra (la rete non ha trasmesso) hanno l'asterisco, e lo si dice */
-      var nSt = righe.filter(function(r){ return r[5]; }).length;
-      if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
-        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'
-          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
+      /* ⚠️ NIENTE ASTERISCHI E NIENTE AVVISO DELLE STIME (21/11/2026, scheda 141, suo: «per qualche giorno di stima
+         vecchia dobbiamo sottolineare?»). Dal 1/11 i posti con giorni stimati nella finestra avevano l'asterisco e una
+         riga gialla; la finestra dei 13-20 giorni è sempre vecchia, e le stime vecchie non si sottolineano più (come
+         l'avviso delle pagine funghi, che esce solo per ieri e l'altro ieri). r[5] resta nel JSON, non si usa. */
 
       /* i due riquadri sulla regione del primo posto (20/10/2026): le sue anteprime, e i link che la aprono a 20 giorni
          (pioggia) e coi boschi accesi */

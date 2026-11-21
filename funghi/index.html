@@ -434,7 +434,7 @@ html.funghi-inverno .gg .b i{background:var(--blu)}
 </style>
 <div class="pausa-inv solo-inverno"><div class="si"><span class="fiocco">❄️</span>Chiusa la stagione dei funghi epigei</div><div class="dett">Resta aperta la stagione dei tartufi, secondo i calendari regionali. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div><div id="fungo-mese-inv"></div><div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>
 <div id="stagione"></div>
-<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Al Nord e al Centro siamo ai margini della stagione, al Sud e sulle isole in piena stagione.</b> Adesso conta il freddo quanto la pioggia: con le notti sotto zero i funghi si fermano.";else if(m===12)t="<b>Al Nord e al Centro siamo fuori stagione, al Sud e sulle isole ai margini.</b> Contano le notti: i funghi resistono dove restano sopra zero, in basso e vicino al mare.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Per i funghi epigei, al Nord e al Centro siamo ai margini della stagione, al Sud e sulle isole in piena stagione.</b> Adesso conta il freddo quanto la pioggia: con le notti sotto zero i funghi si fermano.";else if(m===12)t="<b>Per i funghi epigei, al Nord e al Centro siamo fuori stagione, al Sud e sulle isole ai margini.</b> Contano le notti: i funghi resistono dove restano sopra zero, in basso e vicino al mare.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le piogge di fine estate.";else if(m===3)t="<b>Siamo ai margini della stagione dei funghi epigei.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
 <div id="fungo-mese-su"></div>
 <p class="sotto solo-stagione">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella <b>da 13 a 20
@@ -747,15 +747,11 @@ forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap, licen
              '<b>' + esc(r[0]) + '</b><span class="com">' + esc(r[1]) + '</span>' +
              (fredda ? frTel(r[6]) : '') + '</a></td>' +
              '<td class="mm"><span class="barra" style="width:' + pc + '%"></span>' +
-             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm' + (r[5] ? '*' : '') + '</span></td>' +
+             '<span class="v">' + vir(r[4].toFixed(1)) + ' mm</span></td>' +
              (fredda ? frCella(r[6]) : '') + '</tr>';
       });
       document.getElementById('tabella').innerHTML = h + '</tbody></table>'
         + (fredda ? '<p class="nota">«Notte più fredda» è la minima più bassa degli ultimi 10 giorni, misurata dal termometro accanto al pluviometro: sotto zero è gelo ❄. Si vede a novembre.</p>' : '');
-      var nSt = righe.filter(function(r){ return r[5]; }).length;
-      if (nSt) document.getElementById('finestra').innerHTML += ' <span style="display:block;margin-top:6px;color:#5a4300">⚠️ '
-        + (nSt === 1 ? 'Nel posto con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: il pluviometro non ha trasmesso.'
-          : 'Nei ' + nSt + ' posti con l’asterisco qualche giorno della finestra è una stima del modello, non una misura: i pluviometri non hanno trasmesso.') + '</span>';
 
       var reg = righe[0][2], rq = document.getElementById('riquadri');
       if (rq && /^[a-z]+$/.test(reg)) {

@@ -1416,6 +1416,10 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   lib-fungo-mese (che rifà le pagine). Testo col JavaScript apposta: lo stesso testo in 1.100 pagine sarebbe un doppione
   per Google. `?fungomese=12` per guardare un altro mese. Novembre: tartufo bianco. Dicembre: PRIMA il nero pregiato,
   POI il bianco (video: i suoi due link sul nero e i due video sul bianco più visti).
+- In stagione la frase «Il fungo del mese è il …» sta DENTRO il riquadro della riga di stagione (#stagione, `.fdm-stag`),
+  come d'inverno sta nel riquadro della pausa; l'etichetta verde resta solo per i mesi senza riga di stagione.
+  Le righe di stagione dicono «dei funghi epigei» (TESTI di lib-stagione). «I nostri video», mai «i miei».
+- `/funghi/`: niente asterischi né riga gialla delle stime nella classifica (genera-indice-funghi.js).
 - L'avviso giallo delle stime nelle pagine funghi esce SOLO se mancano ieri o l'altro ieri (suo: «un conto se sono
   giorni recentissimi, altrimenti non dire nulla»), in `stime()` di lib-pagina-funghi. Le pagine piogge e la classifica
   di `/funghi/` (asterischi) non toccate.

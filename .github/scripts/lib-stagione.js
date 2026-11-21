@@ -79,27 +79,28 @@ const SCHEDA_INVERNO = '<div class="pausa-inv solo-inverno">'
   + '<div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>';
 
 const TESTI = {
+  // «dei funghi epigei» nelle righe di margine e piena stagione (suo, 21/11/2026): i tartufi hanno la loro stagione
   // ⚠️ niente «i millimetri sono veri» (1/11/2026): la riga sta sopra l'avviso delle stime, quando un pluviometro non ha
   // trasmesso, e le due frasi si contraddicevano
   fuori: '<b>Siamo fuori stagione.</b> Da dicembre a febbraio i funghi sono pochi quasi '
     + 'ovunque, e la finestra dei 13-20 giorni conta poco: per usarla davvero aspetta le '
     + 'piogge di fine estate.',
-  margine: '<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto '
+  margine: '<b>Siamo ai margini della stagione dei funghi epigei.</b> A quest’epoca la buttata dipende molto '
     + 'dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.',
   // dal 6/11/2026 (scheda 125), i testi della tabella del mockup `claudio\mockup-funghi-freddo-125\`
-  margineFreddo: '<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti '
+  margineFreddo: '<b>Siamo ai margini della stagione dei funghi epigei: adesso conta il freddo quanto la pioggia.</b> Con le notti '
     + 'sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più.',
   nottiSotto: ' Le notti degli ultimi giorni sono qui sotto.',
-  pienaSud: '<b>Siamo in piena stagione.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda '
+  pienaSud: '<b>Siamo in piena stagione dei funghi epigei.</b> Qui novembre è uno dei mesi migliori: conta la pioggia, ma guarda '
     + 'anche le notti, in montagna può già gelare.',
   fuoriNord: '<b>Siamo fuori stagione.</b> Da dicembre a febbraio al Nord e al Centro i funghi sono pochi: conta più '
     + 'il freddo della pioggia, e resistono solo dove le notti restano sopra zero, in basso e vicino al mare.',
   fuoriSud: '<b>Siamo fuori stagione.</b> Fino a marzo i funghi sono pochi, tranne dove le notti restano miti, '
     + 'vicino al mare.',
   // la pagina /funghi/ di tutta Italia: non sa di che regione e' chi legge
-  italiaNov: '<b>Al Nord e al Centro siamo ai margini della stagione, al Sud e sulle isole in piena stagione.</b> '
+  italiaNov: '<b>Per i funghi epigei, al Nord e al Centro siamo ai margini della stagione, al Sud e sulle isole in piena stagione.</b> '
     + 'Adesso conta il freddo quanto la pioggia: con le notti sotto zero i funghi si fermano.',
-  italiaDic: '<b>Al Nord e al Centro siamo fuori stagione, al Sud e sulle isole ai margini.</b> Contano le notti: i '
+  italiaDic: '<b>Per i funghi epigei, al Nord e al Centro siamo fuori stagione, al Sud e sulle isole ai margini.</b> Contano le notti: i '
     + 'funghi resistono dove restano sopra zero, in basso e vicino al mare.',
 };
 

@@ -67,6 +67,7 @@
   var yt = function (id, q) { return 'https://i.ytimg.com/vi/' + id + '/' + (q || 'mqdefault') + '.jpg'; };
   var clic = function (p) { return 'onclick="try{gtag(\'event\',\'click_youtube\',{pulsante:\'' + p + '\'})}catch(e){}"'; };
   var css = '.fdm-inv{font-size:16px;margin-top:10px;line-height:1.5}.fdm-inv a{color:#fff;font-weight:700;text-decoration:underline}'
+    + '.fdm-stag{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(27,63,110,.15)}.fdm-stag a{color:var(--blu,#1b3f6e);font-weight:700}'
     + '.fdm-su{margin:12px 0 4px;font-size:16px;line-height:1.5}.fdm-su a{color:var(--blu,#1b3f6e);font-weight:700}'
     + '.fdm-et{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--verde,#2e7d32);color:#fff;border-radius:4px;padding:2px 7px;margin-right:8px;vertical-align:2px}'
     + '.fdm{margin-top:36px;scroll-margin-top:12px}'
@@ -95,11 +96,15 @@
     + '.fdm-vid{grid-template-columns:1fr 1fr;gap:10px}.fdm-vid span{font-size:13px}}';
   // il richiamo: d'inverno dentro il riquadro della pausa, prima di «Da marzo…» (suo, 21/11/2026); in stagione una riga
   // sotto la riga di stagione
-  var inv = document.documentElement.classList.contains('funghi-inverno') && document.getElementById('fungo-mese-inv');
+  var st, inv = document.documentElement.classList.contains('funghi-inverno') && document.getElementById('fungo-mese-inv');
   var giuLink = elenca(f.specie.map(function (s) { return 'il <a href="#fungo-del-mese">' + s.nome + ' (<i>' + s.lat + '</i>)</a>'; }));
   var frase = piu ? 'I funghi del mese sono ' : 'Il fungo del mese è ';
   if (inv) inv.innerHTML = '<div class="fdm-inv">' + frase + giuLink + '.</div>';
-  // in stagione: etichetta verde «Fungo del mese» + link (versione D scelta da lui il 21/11/2026, niente 🍄)
+  // in stagione: la stessa frase DENTRO il riquadro della riga di stagione (#stagione), sotto il suo testo, come d'inverno
+  // (suo, 21/11/2026: l'etichetta verde a parte «è messa lì a caso, dobbiamo integrarla meglio»)
+  else if ((st = document.getElementById('stagione')) && st.style.display === 'block' && st.innerHTML)
+    st.insertAdjacentHTML('beforeend', '<span class="fdm-stag">' + frase + giuLink + '.</span>');
+  // mesi senza riga di stagione: etichetta verde «Fungo del mese» + link (versione D, 21/11/2026)
   else if (su) su.innerHTML = '<div class="fdm-su"><span class="fdm-et">' + (piu ? 'Funghi del mese' : 'Fungo del mese') + '</span>' + giuLink.replace(/^il /, '') + '</div>';
   var v = f.video.map(function (x) {
     return '<a href="https://youtu.be/' + x[0] + '" target="_blank" rel="noopener" ' + clic('fungo-mese') + '><div class="fdm-pre">'
