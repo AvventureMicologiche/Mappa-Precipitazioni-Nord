@@ -1397,12 +1397,25 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
 
 - Pausa d'inverno: «Chiusa la stagione dei funghi epigei», «Resta aperta la stagione dei tartufi, secondo i calendari
   regionali» (testo suo). ⚠️ Si danno i dati, NON come usarli: niente frasi su cosa vuol dire la pioggia per i tartufi.
-- Il fungo del mese: una scheda UGUALE in tutte le pagine funghi (985 paesi, 114 zone, `/funghi/`), con la specie,
-  due righe, una copertina sua in testa e 4 suoi video. I video sono legati alla SPECIE, mai ai posti: chi è in
-  Sardegna vede gli stessi di chi è in Piemonte (scelta sua). Mai video diversi per zona.
-- Nelle pagine c'è solo il segnaposto (`lib-fungo-mese.js`: `#fungo-mese` + `/funghi/fungo-del-mese.js?v=N`), sotto i
-  boschi e sopra «Come funziona»; in `/funghi/` sotto «Scegli la tua regione». Tutto il resto sta in
-  `funghi/fungo-del-mese.js`: un mese = una voce di `MESI`; mese senza voce = niente scheda. Per aggiungere un mese si
-  tocca solo quel file e si alza `?v=` in lib-fungo-mese (questo sì rifà le pagine). Testo col JavaScript apposta:
-  lo stesso testo in 1.100 pagine sarebbe un doppione per Google. Copertine da i.ytimg.com. `?fungomese=11` per
-  guardare un altro mese. Partito solo novembre (tartufo bianco): «inutile fare tutte le stagioni ora».
+- Il fungo del mese: una sezione UGUALE in tutte le pagine funghi (985 paesi, 114 zone, `/funghi/`). Fascia verde in
+  rilievo col mese e «IL FUNGO DEL MESE» (o «I FUNGHI DEL MESE» con più specie) in maiuscolo, carattere della pagina
+  (il serif NO), allargato via JS al 55% della fascia; premessa «Sul territorio italiano il fungo di <mese> è il …»;
+  per ogni specie copertina + descrizione; poi 4 video del canale e «Tutti i video».
+- I video sono legati alla SPECIE, mai ai posti: chi è in Sardegna vede gli stessi di chi è in Piemonte (scelta sua).
+- Descrizioni: riassunte da Wikipedia coi termini della micologia (ipogeo, micorrizico, peridio, gleba, spore), lui
+  vuole un testo scientifico. NIENTE zone vocate, niente misure, niente riga della fonte. Tolti su sua richiesta anche
+  «ascomicete», «su fondo grigio», «negli esemplari immaturi… rosso vinaccia».
+- Copertine: mai una con scritto un altro mese («Tartufi a gennaio» a dicembre, NO); niente copertine verticali con le
+  bande: per uno short si ritaglia il centro di un fotogramma (`fondo`, sfondo CSS).
+- Il richiamo in cima porta giù alla sezione (#fungo-del-mese): d'inverno è una riga DENTRO il riquadro della pausa,
+  prima di «Da marzo…» (`#fungo-mese-inv` in lib-stagione); in stagione un'etichetta verde «FUNGO DEL MESE» + link
+  sotto la riga di stagione (`#fungo-mese-su`), niente 🍄.
+- Nelle pagine ci sono solo i segnaposto (`lib-fungo-mese.js`); tutto il resto sta in `funghi/fungo-del-mese.js`: un mese
+  = una voce di `MESI` con una o più specie (`BIANCO`, `NERO`, `con()` per cambiare la copertina in un mese); mese senza
+  voce = niente sezione e niente richiamo. Per cambiare un mese si tocca solo quel file e si alza `?v=` in
+  lib-fungo-mese (che rifà le pagine). Testo col JavaScript apposta: lo stesso testo in 1.100 pagine sarebbe un doppione
+  per Google. `?fungomese=12` per guardare un altro mese. Novembre: tartufo bianco. Dicembre: PRIMA il nero pregiato,
+  POI il bianco (video: i suoi due link sul nero e i due video sul bianco più visti).
+- L'avviso giallo delle stime nelle pagine funghi esce SOLO se mancano ieri o l'altro ieri (suo: «un conto se sono
+  giorni recentissimi, altrimenti non dire nulla»), in `stime()` di lib-pagina-funghi. Le pagine piogge e la classifica
+  di `/funghi/` (asterischi) non toccate.

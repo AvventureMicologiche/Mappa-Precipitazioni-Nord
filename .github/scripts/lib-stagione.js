@@ -73,6 +73,9 @@ const SCHEDA_INVERNO = '<div class="pausa-inv solo-inverno">'
   + '<div class="si"><span class="fiocco">❄️</span>Chiusa la stagione dei funghi epigei</div>'
   + '<div class="dett">Resta aperta la stagione dei tartufi, secondo i calendari regionali. '
   + 'Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div>'
+  // il fungo del mese (21/11/2026, scheda 141): «Il fungo del mese è il … (…)» col link alla sezione in fondo; lo riempie
+  // /funghi/fungo-del-mese.js, vuoto nelle pagine senza la sezione (regioni) e nei mesi senza fungo
+  + '<div id="fungo-mese-inv"></div>'
   + '<div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>';
 
 const TESTI = {

@@ -308,8 +308,13 @@ function stime() {
       var l = j.stime[ids[a]];
       if (!l || !l.length) continue;
       chi++;
-      for (var b = 0; b < l.length; b++) segnati[l[b]] = 1;
+      for (var b = 0; b < l.length; b++) if (l[b] <= 1) segnati[l[b]] = 1;
     }
+    // ⚠️ SOLO I GIORNI RECENTISSIMI (21/11/2026, scheda 141, suo «un conto se sono giorni recentissimi, ma altrimenti
+    // non dire nulla»): si dichiarano solo le stime di ieri e dell'altro ieri (indici 0-1). Le più vecchie
+    // restano nei totali ma la pagina non lo dice più. `chi` conta chi ha stime anche vecchie: lo si rifà sui recenti.
+    chi = 0;
+    for (var c = 0; c < ids.length; c++) { var m = j.stime[ids[c]]; if (m && m.some(function (x) { return x <= 1; })) chi++; }
     var ii = Object.keys(segnati).map(Number).sort(function (x, y) { return y - x; });   // dal piu' lontano
     if (!ii.length) return "";
     var MM = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];

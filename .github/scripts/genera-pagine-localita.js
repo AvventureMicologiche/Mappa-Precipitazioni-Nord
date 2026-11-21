@@ -442,6 +442,7 @@ ${/* ⚠️ 24/9/2026, SCHEMA DETTATO DA LUI: prima i dati (ha piovuto abbastanz
 <h1>${esc(H1)}</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ${esc(DOVE)}: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
 ${rigaStagione(REG, true)}
+${require('./lib-fungo-mese.js').FUNGO_MESE_SU}
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
 <div id="guasto"></div>

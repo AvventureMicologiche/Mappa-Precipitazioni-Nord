@@ -279,6 +279,7 @@ ${testata({ sito: SITO, canale: CANALE + '?sub_confirmation=1', reg: casa.k, ga:
 <h1>${esc(H1)}</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi ${esc(z.dove)}: la pioggia vera ${nAttivi > 1 ? 'di ' + nAttivi + ' pluviometri da bosco' : 'del pluviometro'}, per capire se stanno nascendo.</p>
 ${rigaStagione(casa.k, true)}
+${require('./lib-fungo-mese.js').FUNGO_MESE_SU}
 
 <div id="attesa">Sto leggendo i pluviometri…</div>
 <div id="guasto"></div>

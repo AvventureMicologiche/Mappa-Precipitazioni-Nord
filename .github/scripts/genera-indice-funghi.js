@@ -159,6 +159,7 @@ ${/* ⚠️ LA FINESTRA DEVE ESSERE CHIARA NELLE PRIME TRE RIGHE, non dopo due
 ${briciolaHtml(BRICIOLA)}
 <h1>Dove andare a funghi oggi</h1>
 ${rigaStagione()}
+${require('./lib-fungo-mese.js').FUNGO_MESE_SU}
 <p class="sotto solo-stagione">Dopo la pioggia il fungo non spunta subito: per svilupparsi gli servono almeno
 dodici o tredici giorni. Per questo qui non guardiamo la pioggia di ieri ma quella <b>da 13 a 20
 giorni fa</b>, misurata a terra dai pluviometri di ${N_POSTI} posti da bosco in ${CON_FUNGHI.length}

@@ -526,9 +526,10 @@ html.funghi-inverno .gg .b i{background:var(--blu)}
 .pausa-inv .torna{margin-top:12px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.08);font-size:15px;line-height:1.45}
 .verdetto .si.neutro{font-size:22px;font-weight:700;opacity:.9}
 </style>
-<div class="pausa-inv solo-inverno"><div class="si"><span class="fiocco">❄️</span>Chiusa la stagione dei funghi epigei</div><div class="dett">Resta aperta la stagione dei tartufi, secondo i calendari regionali. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div><div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>
+<div class="pausa-inv solo-inverno"><div class="si"><span class="fiocco">❄️</span>Chiusa la stagione dei funghi epigei</div><div class="dett">Resta aperta la stagione dei tartufi, secondo i calendari regionali. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div><div id="fungo-mese-inv"></div><div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>
 <div id="stagione"></div>
 <script>(function(){var d=new Date(),m=d.getMonth()+1,t=null;if(m===11)t="<b>Siamo ai margini della stagione: adesso conta il freddo quanto la pioggia.</b> Con le notti sotto zero i funghi si fermano, in collina e vicino al mare la stagione dura di più.<span id=\"stag-notti\" style=\"display:none\"> Le notti degli ultimi giorni sono qui sotto.</span>";else if(m===12)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio al Nord e al Centro i funghi sono pochi: conta più il freddo della pioggia, e resistono solo dove le notti restano sopra zero, in basso e vicino al mare.";else if(m===1||m===2)t="<b>Siamo fuori stagione.</b> Da dicembre a febbraio al Nord e al Centro i funghi sono pochi: conta più il freddo della pioggia, e resistono solo dove le notti restano sopra zero, in basso e vicino al mare.";else if(m===3)t="<b>Siamo ai margini della stagione.</b> A quest’epoca la buttata dipende molto dalla quota e dal freddo: i millimetri qui sotto valgono meno che in autunno pieno.";if(t){var s=document.getElementById("stagione");s.innerHTML=t;s.style.display="block";}})();</script>
+<div id="fungo-mese-su"></div>
 
 <div id="attesa">Sto leggendo il pluviometro…</div>
 <div id="guasto"></div>
@@ -616,7 +617,7 @@ html.funghi-inverno .gg .b i{background:var(--blu)}
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono dalla «Carta forestale 2026».</p>
 <p class="nota">I boschi tipo per tipo, con le percentuali: <a href="https://precipitazioni.avventuremicologiche.it/mappa-forestale/zone/val-trompia/">la carta forestale della Val Trompia</a>.</p>
 
-<div id="fungo-mese"></div><script src="/funghi/fungo-del-mese.js?v=1" defer></script>
+<div id="fungo-mese"></div><script src="/funghi/fungo-del-mese.js?v=3" defer></script>
 <div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misura il pluviometro di ARPA Lombardia a Pisogne: BS, 842 metri,
@@ -771,8 +772,10 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
       var l = j.stime[ids[a]];
       if (!l || !l.length) continue;
       chi++;
-      for (var b = 0; b < l.length; b++) segnati[l[b]] = 1;
+      for (var b = 0; b < l.length; b++) if (l[b] <= 1) segnati[l[b]] = 1;
     }
+    chi = 0;
+    for (var c = 0; c < ids.length; c++) { var m = j.stime[ids[c]]; if (m && m.some(function (x) { return x <= 1; })) chi++; }
     var ii = Object.keys(segnati).map(Number).sort(function (x, y) { return y - x; });
     if (!ii.length) return "";
     var MM = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
