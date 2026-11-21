@@ -1381,3 +1381,5 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   si rifà solo se i numeri del mese cambiano. I mesi vecchi la prima volta dal PC: `SOLO_STORICO=1 STORICO_TUTTI=1`.
 - ⚠️ Trappole: i mesi prima della frontiera (backfill da modello) non entrano; un mese si ricalcola finché i suoi file ci
   sono, poi resta il riassunto (la pulizia dei 730 giorni non lo tocca); `gemelle` è una copia di quella dei riepiloghi.
+- 21/11, scheda 141: al telefono la scheda del mese in cima non ha la miniatura (classe `st-gia`, sotto i 484 px dove
+  `.griglia` ha una colonna), se no la stessa mappa usciva due volte di fila. Da due colonne in su resta, per simmetria.

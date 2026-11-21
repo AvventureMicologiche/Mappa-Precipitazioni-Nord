@@ -195,6 +195,7 @@ const ST_CSS = `
 .st-scala .l{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#5a7192;margin-top:3px}
 .st-rec{margin:6px 0 0 20px;line-height:1.7}.st-rec a{color:inherit;text-decoration:none}.st-rec a:hover{text-decoration:underline}.st-rec a b{color:var(--blu)}
 @media(max-width:480px){.st-tab td,.st-tab th{padding:7px 5px;font-size:15px}.st-tab td:first-child{min-width:6.5em}.st-tab .v6{display:none}}
+@media(max-width:483px){.st-gia .st-mini{display:none}}
 `;
 
 function pagina(r, S) {
@@ -239,8 +240,12 @@ ${scala}
     + (parziali.length ? `<p class="nota">* mese non intero: ${parziali.join(', ')}.</p>` : '');
   const dalAl = m => m.intero ? '' : `${maiusc(dalN(m.dal.slice(8)))} al ${giorno(m.al)}${m === inCorso ? ', fino a ieri' : ''}. `;
   /* ⚠️ LE SCHEDE IN VISTA SONO LE ULTIME 6 (21/11/2026): la Lombardia ha gia' 11 mesi e fra un anno saranno 23; con la
-     miniatura ogni scheda al telefono e' alta ~600 px. Le altre stanno in una tendina chiusa (loading=lazy). */
-  const scheda = m => `<div class="card"><h3>${maiusc(nomeMese(m.mese))}</h3><div class="numerone">${num(m.media, 0)} mm <small>di media</small></div>`
+     miniatura ogni scheda al telefono e' alta ~600 px. Le altre stanno in una tendina chiusa (loading=lazy).
+     ⚠️ LA SCHEDA DEL MESE IN CIMA NON HA LA MINIATURA AL TELEFONO (21/11/2026, scheda 141, suo «si vede due volte
+     novembre la mappa di fila», scelta «A, solo al telefono»): con la griglia a una colonna la miniatura e' larga quasi
+     quanto la mappa grande poco sopra. La classe st-gia la toglie solo sotto i 484 px, dove .griglia (minmax 220px)
+     ha una colonna sola; da due colonne in su resta, se no la fila delle schede non e' piu' simmetrica. */
+  const scheda = m => `<div class="card${m === primo ? ' st-gia' : ''}"><h3>${maiusc(nomeMese(m.mese))}</h3><div class="numerone">${num(m.media, 0)} mm <small>di media</small></div>`
     + `<a href="${mappa(m)}" ${ga('miniatura')}><img class="st-mini" src="${foto(m, true)}" ${nascondi} loading="lazy" width="640" height="366" alt="La pioggia di ${nomeMese(m.mese)} ${r.prep} ${attr(r.nome)} sulla mappa"></a>`
     + `<ol class="top-staz">${m.top.slice(0, 3).map(t => `<li>${attr(lab(t))} — ${num(t.mm)} mm</li>`).join('')}</ol>`
     + `<p class="nota">${dalAl(m)}${m.giorniPioggia} giorni di pioggia${m.giornoPiovoso ? `; il più piovoso ${ilGiorno(m.giornoPiovoso.g)} (${num(m.giornoPiovoso.mm)} mm di media)` : ''}.${stime(m)}</p>`
