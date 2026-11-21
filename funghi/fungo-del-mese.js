@@ -121,7 +121,7 @@
     + (piu ? 'I funghi del mese' : 'Il fungo del mese') + '</h2></div>'
     + '<p class="fdm-prem">Sul territorio italiano ' + (piu ? 'i funghi di ' + f.quando + ' sono ' : 'il fungo di ' + f.quando + ' è ') + nomi + '.</p>'
     + schede
-    + '<h3>I miei video sul ' + sul + '</h3><div class="fdm-vid">' + v + '</div>'
+    + '<h3>I nostri video sul ' + sul + '</h3><div class="fdm-vid">' + v + '</div>'
     + '<a class="fdm-tutti" href="https://www.youtube.com/@avventuremicologiche/search?query=' + encodeURIComponent(f.cerca)
     + '" target="_blank" rel="noopener" ' + clic('fungo-mese') + '>Tutti i video sul ' + (piu ? 'tartufo' : f.specie[0].nome) + ' →</a></section>';
   // ⚠️ niente riga «Descrizione riassunta da Wikipedia» sotto la sezione: tolta su sua richiesta (21/11/2026)
