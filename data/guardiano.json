@@ -1,23 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-11-09T05:30:39.447Z",
-      "inRitardo": [
-        "emilia"
-      ],
-      "lanciati": [
-        "emilia.yml",
-        "riepiloghi.yml"
-      ],
-      "mancanti": [
-        {
-          "dir": "emilia",
-          "giorno": "2026-11-08",
-          "buco": 1
-        }
-      ]
-    },
-    {
       "quando": "2026-11-09T06:00:40.793Z",
       "inRitardo": [
         "emilia"
@@ -2398,8 +2381,16 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-11-21T05:30:41.797Z",
+      "inRitardo": [],
+      "lanciati": [
+        "riepiloghi.yml"
+      ],
+      "mancanti": []
     }
   ],
-  "aggiornato": "2026-11-21T05:00:40.212Z",
-  "riassunto": "31 giri con qualcosa ri-lanciato su 120 · 42 con qualche giorno mancante · 0 con un buco di 2+ giorni"
+  "aggiornato": "2026-11-21T05:30:41.797Z",
+  "riassunto": "30 giri con qualcosa ri-lanciato su 120 · 41 con qualche giorno mancante · 0 con un buco di 2+ giorni"
 }
