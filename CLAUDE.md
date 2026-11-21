@@ -181,6 +181,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Lo storico mese per mese, /<regione>/storico/ (21/11, 140): 20 pagine, le foto dei mesi
 - La pausa d'inverno al Sud dal 10 dicembre (21/11, 141): Nord dal 1
 - Il fungo del mese e il testo d'inverno coi tartufi (21/11, 141): scheda uguale ovunque, `funghi/fungo-del-mese.js`
+- L'archivio per anno dello storico (21/11, 142): ultimi 12 mesi, poi gli anni
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 

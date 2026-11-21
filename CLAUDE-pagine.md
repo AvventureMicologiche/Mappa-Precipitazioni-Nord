@@ -1423,3 +1423,11 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
 - L'avviso giallo delle stime nelle pagine funghi esce SOLO se mancano ieri o l'altro ieri (suo: «un conto se sono
   giorni recentissimi, altrimenti non dire nulla»), in `stime()` di lib-pagina-funghi. Le pagine piogge e la classifica
   di `/funghi/` (asterischi) non toccate.
+
+## L'archivio per anno dello storico (21/11/2026, scheda 142)
+
+- Nelle pagine /<regione>/storico/ barre, schede e record mostrano solo gli ultimi 12 mesi; sotto, «L'archivio» ha una
+  tendina per ogni anno FINITO (prima dell'anno di `S.fine`) con l'anno intero da gennaio (`recenti`, `barreDi`,
+  `recordDi`, `archivio` in `pagina()` di genera-pagine-storico.js). Il primo tasto, «2026», compare a gennaio 2027.
+- Trappola: un anno finito sta nell'archivio intero anche coi mesi ancora fra gli ultimi 12 (sua scelta, l'anno aperto
+  è sempre completo). Prova con mesi finti fino al 2030: `scratchpad\prova-archivio-142.js`.

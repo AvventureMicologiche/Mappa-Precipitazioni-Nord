@@ -190,6 +190,7 @@ const ST_CSS = `
 .st-tab td:first-child,.st-tab th:first-child{text-align:left;white-space:normal;min-width:7.5em}
 .st-tab td a{font-weight:600;color:var(--blu)}
 .st-prov{margin:14px 0 4px}.st-prov summary{cursor:pointer;font-weight:700;color:var(--blu);padding:8px 0;font-size:17px}
+.st-anno{margin:0;border-bottom:1px solid var(--bordo)}.st-anno summary{font-size:20px;padding:10px 0}.st-anno[open]{padding-bottom:14px}
 .st-scala{margin:10px 0 6px}.st-scala b{display:block;font-size:13.5px;font-weight:600;color:#5a7192;margin-bottom:4px}
 .st-scala .g{height:14px;border-radius:4px;border:1px solid var(--bordo);background:linear-gradient(to right,#ffffff 0%,#ffffff 2%,#e4f1fd 5%,#badcfa 12%,#6496f0 15%,#326edc 20%,#00b4c8 28%,#00b450 35%,#008c28 42%,#78c800 49%,#dce600 55%,#ffb400 61%,#ff7800 67%,#f03200 73%,#b40000 79%,#8c00b4 85%,#c864dc 90%,#f0aaf0 95%,#ffdcff 100%)}
 .st-scala .l{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#5a7192;margin-top:3px}
@@ -233,11 +234,21 @@ function pagina(r, S) {
 <a href="${mappa(primo)}" ${ga('mappa-grande')}><img class="st-grande" src="${foto(primo)}" ${nascondi} alt="La mappa delle piogge di ${nomeMese(primo.mese)} ${r.prep} ${attr(r.nome)}, pluviometro per pluviometro" width="1600" height="916"></a>
 ${scala}
 <p class="nota">La mappa vera${primo === inCorso ? ', fino a ieri' : ''}: toccala per aprirla e guardare ogni pluviometro.</p>`;
-  const max = Math.max(...S.mesi.map(m => m.media));
-  const parziali = S.mesi.filter(m => !m.intero).map(m => m === S.mesi[0] && m.dal !== m.mese + '-01' ? `${corto(m)} ${dalN(m.dal.slice(8))}` : `${corto(m)} fino a ${m === inCorso ? 'ieri' : giorno(m.al)}`);
-  const barre = `<div class="st-barre">${S.mesi.map(m => `<a class="st-r" href="${mappa(m)}" ${ga('barra')}><span class="st-m">${corto(m).slice(0, 3)}${m.intero ? '' : '*'}</span>`
-    + `<span class="st-b"><i style="width:${Math.max(2, Math.round(m.media / max * 100))}%"></i></span><span class="st-v">${num(m.media, 0)} mm</span></a>`).join('')}</div>`
-    + (parziali.length ? `<p class="nota">* mese non intero: ${parziali.join(', ')}.</p>` : '');
+  /* ⚠️ IN VISTA GLI ULTIMI 12 MESI, GLI ANNI PRIMA NELL'ARCHIVIO (21/11/2026, scheda 142, suo: «la pagina crescerà
+     all'infinito, ci siano sempre gli ultimi 12 mesi, poi l'archivio 2026 2027 2028, cliccando l'anno si aprono i 12
+     mesi»). Barre, schede e record della pagina sono i 12 mesi piu' recenti; sotto, «L'archivio» ha una tendina per
+     ogni anno FINITO (prima dell'anno di S.fine), con l'anno intero da gennaio, anche i mesi che sono ancora fra gli
+     ultimi 12. Il primo anno e' corto: parte dalla frontiera. Le miniature dell'archivio sono lazy dentro una tendina
+     chiusa: non si scaricano finche' non si apre l'anno. */
+  const recenti = mesi.slice(0, 12);
+  const barreDi = (lista, da) => {   // lista in ordine di tempo
+    const max = Math.max(...lista.map(m => m.media));
+    const parziali = lista.filter(m => !m.intero).map(m => m.dal !== m.mese + '-01' ? `${corto(m)} ${dalN(m.dal.slice(8))}` : `${corto(m)} fino a ${m === inCorso ? 'ieri' : giorno(m.al)}`);
+    return `<div class="st-barre">${lista.map(m => `<a class="st-r" href="${mappa(m)}" ${ga(da)}><span class="st-m">${corto(m).slice(0, 3)}${m.intero ? '' : '*'}</span>`
+      + `<span class="st-b"><i style="width:${Math.max(2, Math.round(m.media / max * 100))}%"></i></span><span class="st-v">${num(m.media, 0)} mm</span></a>`).join('')}</div>`
+      + (parziali.length ? `<p class="nota">* mese non intero: ${parziali.join(', ')}.</p>` : '');
+  };
+  const barre = barreDi(recenti.slice().reverse(), 'barra');
   const dalAl = m => m.intero ? '' : `${maiusc(dalN(m.dal.slice(8)))} al ${giorno(m.al)}${m === inCorso ? ', fino a ieri' : ''}. `;
   /* ⚠️ LE SCHEDE IN VISTA SONO LE ULTIME 6 (21/11/2026): la Lombardia ha gia' 11 mesi e fra un anno saranno 23; con la
      miniatura ogni scheda al telefono e' alta ~600 px. Le altre stanno in una tendina chiusa (loading=lazy).
@@ -245,13 +256,13 @@ ${scala}
      novembre la mappa di fila», scelta «A, solo al telefono»): con la griglia a una colonna la miniatura e' larga quasi
      quanto la mappa grande poco sopra. La classe st-gia la toglie solo sotto i 484 px, dove .griglia (minmax 220px)
      ha una colonna sola; da due colonne in su resta, se no la fila delle schede non e' piu' simmetrica. */
-  const scheda = m => `<div class="card${m === primo ? ' st-gia' : ''}"><h3>${maiusc(nomeMese(m.mese))}</h3><div class="numerone">${num(m.media, 0)} mm <small>di media</small></div>`
-    + `<a href="${mappa(m)}" ${ga('miniatura')}><img class="st-mini" src="${foto(m, true)}" ${nascondi} loading="lazy" width="640" height="366" alt="La pioggia di ${nomeMese(m.mese)} ${r.prep} ${attr(r.nome)} sulla mappa"></a>`
+  const scheda = (m, da = '') => `<div class="card${m === primo && !da ? ' st-gia' : ''}"><h3>${maiusc(nomeMese(m.mese))}</h3><div class="numerone">${num(m.media, 0)} mm <small>di media</small></div>`
+    + `<a href="${mappa(m)}" ${ga(da + 'miniatura')}><img class="st-mini" src="${foto(m, true)}" ${nascondi} loading="lazy" width="640" height="366" alt="La pioggia di ${nomeMese(m.mese)} ${r.prep} ${attr(r.nome)} sulla mappa"></a>`
     + `<ol class="top-staz">${m.top.slice(0, 3).map(t => `<li>${attr(lab(t))} — ${num(t.mm)} mm</li>`).join('')}</ol>`
     + `<p class="nota">${dalAl(m)}${m.giorniPioggia} giorni di pioggia${m.giornoPiovoso ? `; il più piovoso ${ilGiorno(m.giornoPiovoso.g)} (${num(m.giornoPiovoso.mm)} mm di media)` : ''}.${stime(m)}</p>`
-    + `<a class="vai" href="${mappa(m)}" ${ga('scheda')}>Apri la mappa →</a></div>`;
-  const carte = `<div class="griglia">\n${mesi.slice(0, 6).map(scheda).join('\n')}\n</div>`
-    + (mesi.length > 6 ? `\n<details class="st-prov"><summary>Gli altri mesi (${mesi.length - 6})</summary><div class="griglia">\n${mesi.slice(6).map(scheda).join('\n')}\n</div></details>` : '');
+    + `<a class="vai" href="${mappa(m)}" ${ga(da + 'scheda')}>Apri la mappa →</a></div>`;
+  const carte = `<div class="griglia">\n${recenti.slice(0, 6).map(m => scheda(m)).join('\n')}\n</div>`
+    + (recenti.length > 6 ? `\n<details class="st-prov"><summary>Gli altri mesi (${recenti.length - 6})</summary><div class="griglia">\n${recenti.slice(6).map(m => scheda(m)).join('\n')}\n</div></details>` : '');
   /* nelle tabelle i mesi dal piu' recente: al telefono il mese in cima sta accanto al nome, non fuori schermo.
      ⚠️ AL MASSIMO 12 MESI, AL TELEFONO 5 (21/11/2026): con gli 11 mesi della Lombardia la tabella delle zone usciva dallo
      schermo del telefono. Le colonne dopo la quinta hanno la classe v6; i mesi prima stanno nelle schede e nelle barre. */
@@ -267,9 +278,20 @@ ${scala}
   const tabProv = nomiProv.length < 3 ? '' : `<details class="st-prov"><summary>Provincia per provincia</summary><div class="st-scorri"><table class="st-tab"><thead><tr><th>Provincia</th>${testaMesi}</tr></thead><tbody>`
     + nomiProv.map(p => `<tr><td>${attr(p)}</td>${mesiTab.map((m, i) => `<td${cl(i)}>${!m.province || m.province[p] == null ? '—' : num(m.province[p], 0)}</td>`).join('')}</tr>`).join('')
     + `</tbody></table></div><p class="nota">Millimetri, media dei pluviometri di ogni provincia.${notaTel}</p></details>`;
-  const record = `<ul class="st-rec">${mesi.map(m => `<li><a href="${SITO}/?r=${k}&amp;da=${m.record.g}&amp;a=${m.record.g}&amp;pl=${m.record.lat},${m.record.lon}&amp;pn=${encodeURIComponent(m.record.n)}&amp;s=p" ${ga('record')}>`
-    + `<b>${maiusc(corto(m))}:</b> ${num(m.record.mm)} mm in un giorno a ${attr(lab(m.record))}, ${ilGiorno(m.record.g)} →</a></li>`).join('')}</ul>
-<p class="nota">Ogni riga apre la mappa di quel giorno sul pluviometro.</p>`;
+  const recordDi = (lista, da) => `<ul class="st-rec">${lista.map(m => `<li><a href="${SITO}/?r=${k}&amp;da=${m.record.g}&amp;a=${m.record.g}&amp;pl=${m.record.lat},${m.record.lon}&amp;pn=${encodeURIComponent(m.record.n)}&amp;s=p" ${ga(da)}>`
+    + `<b>${maiusc(corto(m))}:</b> ${num(m.record.mm)} mm in un giorno a ${attr(lab(m.record))}, ${ilGiorno(m.record.g)} →</a></li>`).join('')}</ul>`;
+  const record = recordDi(recenti, 'record') + `\n<p class="nota">Ogni riga apre la mappa di quel giorno sul pluviometro.</p>`;
+  const annoFine = S.fine.slice(0, 4);
+  const anni = [...new Set(S.mesi.map(m => m.mese.slice(0, 4)))].filter(a => a < annoFine).sort();
+  const archivio = !anni.length ? '' : `<h2>L'archivio</h2>
+<p class="nota">Gli anni passati, mese per mese: tocca un anno per aprirlo.</p>
+${anni.map(a => { const L = S.mesi.filter(m => m.mese.startsWith(a)); return `<details class="st-prov st-anno"><summary>${a}</summary>
+<h3>La pioggia mese per mese</h3>
+${barreDi(L, 'archivio-barra')}
+<div class="griglia">\n${L.map(m => scheda(m, 'archivio-')).join('\n')}\n</div>
+<h3>I giorni più bagnati</h3>
+${recordDi(L, 'archivio-record')}
+</details>`; }).join('\n')}`;
 
   const BRICIOLA = [['Mappa pluviometrica', SITO + '/'], [nomeCorto, `${SITO}/${k}/`], ['Storico', null]];
   const titolo = [`Storico precipitazioni ${nomeCorto}: la pioggia mese per mese`, `Storico precipitazioni ${nomeCorto}: mese per mese`,
@@ -326,7 +348,7 @@ ${carte}
 ${tabZone}
 ${tabProv}
 <h2>I giorni più bagnati</h2>
-${record}
+${record}${archivio ? '\n' + archivio : ''}
 <h2>Ieri e gli ultimi 30 giorni</h2>
 <p>La pioggia di ieri, degli ultimi 7, 20 e 30 giorni, zona per zona: <a href="${SITO}/${k}/" ${ga('regione')}>Pluviometria ${attr(nomeCorto)}: dove ha piovuto</a>. Per la pioggia che cade adesso: <a href="${SITO}/${k}/adesso/" ${ga('radar')}>Radar meteo ${attr(nomeCorto)}</a>.</p>
 <div class="noioso">
@@ -390,4 +412,4 @@ if (require.main === module) {
   console.log(`${n} pagine «Storico precipitazioni» scritte.`);
 }
 
-module.exports = { LISTA_STORICO: LISTA.map(r => r.k), calcola };
+module.exports = { LISTA_STORICO: LISTA.map(r => r.k), calcola, pagina, LISTA };
