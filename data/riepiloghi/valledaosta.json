@@ -1,125 +1,126 @@
 {
  "regione": "valledaosta",
- "generato": "2026-11-20T04:15:51.936Z",
+ "generato": "2026-11-21T04:15:50.798Z",
  "periodi": {
   "1": {
-   "media": 15.5,
+   "media": 3.7,
    "giorni": 1,
-   "stazioni": 64,
-   "primo": "2026-11-19",
-   "ultimo": "2026-11-19",
+   "stazioni": 62,
+   "primo": "2026-11-20",
+   "ultimo": "2026-11-20",
    "top": [
     {
-     "n": "Valgrisenche - Menthieu",
-     "mm": 34.2
-    },
-    {
-     "n": "Arvier - Chamençon",
-     "mm": 33.2
-    },
-    {
-     "n": "Courmayeur - Mont de la Saxe",
-     "mm": 32.3
+     "n": "Courmayeur - Ferrachet",
+     "mm": 24.5
     },
     {
      "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
-     "mm": 31.9
+     "mm": 19
+    },
+    {
+     "n": "Courmayeur - Mont de la Saxe",
+     "mm": 17.2
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 30.9
+     "mm": 17.2
+    },
+    {
+     "n": "Valgrisenche - Menthieu",
+     "mm": 15.2
     }
    ]
   },
   "7": {
-   "media": 52.6,
+   "media": 55.9,
    "giorni": 7,
    "stazioni": 64,
-   "primo": "2026-11-13",
-   "ultimo": "2026-11-19",
+   "primo": "2026-11-14",
+   "ultimo": "2026-11-20",
    "top": [
     {
-     "n": "Courmayeur - Lex Blanche",
-     "mm": 133.1
-    },
-    {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 129.5
-    },
-    {
-     "n": "Valgrisenche - Menthieu",
-     "mm": 123
+     "mm": 146.6
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 121.7
+     "mm": 145.1
+    },
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "mm": 141.7
+    },
+    {
+     "n": "Valgrisenche - Menthieu",
+     "mm": 138
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 115.1
+     "mm": 132.3
     }
    ]
   },
   "20": {
-   "media": 93.5,
+   "media": 97.1,
    "giorni": 20,
    "stazioni": 64,
-   "primo": "2026-10-31",
-   "ultimo": "2026-11-19",
+   "primo": "2026-11-01",
+   "ultimo": "2026-11-20",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 234.1
+     "mm": 242.8
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 211.7
+     "mm": 228.9
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 201.5
-    },
-    {
-     "n": "Courmayeur - Dolonne",
-     "mm": 186.8
+     "mm": 218.7
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 185.1
+     "mm": 209.6
+    },
+    {
+     "n": "Courmayeur - Dolonne",
+     "mm": 197
     }
    ]
   },
   "30": {
-   "media": 120.4,
+   "media": 109,
    "giorni": 30,
    "stazioni": 64,
-   "primo": "2026-10-21",
-   "ultimo": "2026-11-19",
+   "primo": "2026-10-22",
+   "ultimo": "2026-11-20",
    "top": [
     {
      "n": "Courmayeur - Lex Blanche",
-     "mm": 305.7
+     "mm": 304.3
     },
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 264.1
+     "mm": 275.6
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 255.5
-    },
-    {
-     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
-     "mm": 233.8
+     "mm": 265.3
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 233.5
+     "mm": 245.2
+    },
+    {
+     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
+     "mm": 229.9
     }
    ]
   }
  },
  "serie": [
+  3.7,
   15.5,
   8.5,
   20.4,
@@ -148,40 +149,39 @@
   5.9,
   1,
   5.2,
-  0,
-  15.2
+  0
  ],
- "serieDa": "2026-11-19",
+ "serieDa": "2026-11-20",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-11-19",
-   "m1": 6.7,
-   "m7": 17.1,
-   "m30": 84.8,
-   "p1": true,
+   "ultimo": "2026-11-20",
+   "m1": 0,
+   "m7": 15.1,
+   "m30": 47.2,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-11-19",
-   "m1": 7.1,
-   "m7": 22.8,
-   "m30": 70.7,
-   "p1": true,
+   "ultimo": "2026-11-20",
+   "m1": 0,
+   "m7": 22.7,
+   "m30": 56.7,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-11-19",
-   "m1": 16.7,
-   "m7": 55.5,
-   "m30": 111.7,
+   "ultimo": "2026-11-20",
+   "m1": 1,
+   "m7": 56.5,
+   "m30": 105.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,11 +189,11 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-11-19",
-   "m1": 7.9,
+   "ultimo": "2026-11-20",
+   "m1": 0,
    "m7": 15.1,
-   "m30": 79.6,
-   "p1": true,
+   "m30": 47.9,
+   "p1": false,
    "p7": true,
    "p30": true
   }
