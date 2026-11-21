@@ -521,7 +521,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Alpi Apuane oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi sulle Alpi Apuane: la pioggia vera di 4 pluviometri da bosco, per capire se stanno nascendo.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -617,10 +617,10 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/alpi-apuane/">dove ha piovuto sulle Alpi Apuane</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a novembre 2026, in 131 giorni di misura, i 4 pluviometri
+<p>Da luglio 2026 a novembre 2026, in 132 giorni di misura, i 4 pluviometri
 delle Alpi Apuane hanno contato
-<b>1.068 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Cervaiole</b> con
-1.122 mm, il più asciutto Pian della Fioba con 983 mm.
+<b>1.070 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Cervaiole</b> con
+1.128 mm, il più asciutto Pian della Fioba con 985 mm.
 La giornata più piovosa è stata il <b>12 novembre 2026</b> ad Azzano,
 con <b>147,6 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -854,7 +854,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
   }
 
 
-  var FINO = 0;
+  var FINO = 9;
   window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
     if (document.documentElement.classList.contains('funghi-inverno')) return false;
     return m === 11 || (m === 12 && a.getDate() <= FINO); };

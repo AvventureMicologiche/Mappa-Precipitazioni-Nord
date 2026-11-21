@@ -2371,3 +2371,5 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
 - Prova `claudio\check-139\prova-tasto-funghi.js` (orologio finto: oggi, 5/12, 15/1, 28/2 sera, 1/3, 30/11 notte; telefono,
   PC e Boschi): 24 su 24; `prova-schermo.js` 75 controlli dentro. ⚠️ Notato e non toccato: nei Boschi al PC, nei primi
   giorni del mese, le date a cavallo di due mesi («28 nov–4 dic») allargano la riga dei periodi oltre il riquadro.
+- Dal 21/11/2026 (scheda 141) il tasto sparisce il 10 dicembre, con le pagine funghi del Sud; la guida dice «da marzo al
+  9 dicembre» (`CLAUDE-pagine.md`, «La pausa d'inverno al Sud dal 10 dicembre»).

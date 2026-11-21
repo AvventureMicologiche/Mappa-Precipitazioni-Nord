@@ -511,7 +511,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Val di Tires oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi in Val di Tires: la pioggia vera di 3 pluviometri da bosco, per capire se stanno nascendo.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -605,7 +605,7 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/val-di-tires/">dove ha piovuto in Val di Tires</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a novembre 2026, in 169 giorni di misura, i 3 pluviometri
+<p>Da giugno 2026 a novembre 2026, in 170 giorni di misura, i 3 pluviometri
 della Val di Tires hanno contato
 <b>524 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Renon Siffian</b> con
 541 mm, il più asciutto Nova Levante con 499 mm.
@@ -840,7 +840,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
   }
 
 
-  var FINO = 0;
+  var FINO = 9;
   window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
     if (document.documentElement.classList.contains('funghi-inverno')) return false;
     return m === 11 || (m === 12 && a.getDate() <= FINO); };

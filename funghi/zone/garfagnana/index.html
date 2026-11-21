@@ -593,7 +593,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Garfagnana oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi in Garfagnana: la pioggia vera di 14 pluviometri da bosco, per capire se stanno nascendo.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -699,10 +699,10 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/garfagnana/">dove ha piovuto in Garfagnana</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da luglio 2026 a novembre 2026, in 131 giorni di misura, i 12 pluviometri
+<p>Da luglio 2026 a novembre 2026, in 132 giorni di misura, i 12 pluviometri
 della Garfagnana che leggiamo dallo stesso giorno hanno contato
-<b>963 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Vagli di Sotto</b> con
-1.387 mm, il più asciutto Monte Castellino con 549 mm.
+<b>964 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Vagli di Sotto</b> con
+1.389 mm, il più asciutto Monte Castellino con 550 mm.
 La giornata più piovosa è stata l’<b>11 novembre 2026</b> a Orto di Donna,
 con <b>276,1 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -966,7 +966,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
   }
 
 
-  var FINO = 0;
+  var FINO = 9;
   /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
      FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
      ferma, da marzo il contrario, da decidere). Dal 20/11/2026 FINO e' 0: solo novembre. Con ?inverno=1 (la pausa forzata

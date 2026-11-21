@@ -514,7 +514,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Monte di Fò oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi al Monte di Fò: la pioggia vera del pluviometro, per capire se stanno nascendo.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -628,12 +628,12 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 nel Mugello: <a href="https://precipitazioni.avventuremicologiche.it/funghi/zone/mugello/">guarda tutta la zona</a>,
 con i suoi 13 pluviometri insieme.</p>
 <h2>L'archivio di questo pluviometro</h2>
-<p><b>Da luglio 2026 a novembre 2026</b>, in 131 giorni di misura, ha contato <b>572 mm</b> di pioggia in <b>32 giornate</b> bagnate. Nelle altre 99 non è caduto niente, o così poco da non contare.
+<p><b>Da luglio 2026 a novembre 2026</b>, in 132 giorni di misura, ha contato <b>573 mm</b> di pioggia in <b>33 giornate</b> bagnate. Nelle altre 99 non è caduto niente, o così poco da non contare.
 Il giorno più bagnato è stato il <b>12 novembre 2026</b>, con
 <b>86,9 mm</b>. Il mese più piovoso,
 fra quelli che abbiamo per intero, è <b>settembre 2026</b> con
 69 mm. Su 163 pluviometri
-da bosco della Toscana con lo stesso periodo alle spalle, questo è il <b>74º</b>
+da bosco della Toscana con lo stesso periodo alle spalle, questo è il <b>75º</b>
 per acqua caduta.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
 valgono regole proprie.</p>
@@ -660,7 +660,7 @@ licenza ODbL. La provincia viene dai confini provinciali ISTAT.</p>
 
 <script>
 
-  var FINO = 0;
+  var FINO = 9;
   window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
     if (document.documentElement.classList.contains('funghi-inverno')) return false;
     return m === 11 || (m === 12 && a.getDate() <= FINO); };

@@ -1383,3 +1383,12 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   sono, poi resta il riassunto (la pulizia dei 730 giorni non lo tocca); `gemelle` è una copia di quella dei riepiloghi.
 - 21/11, scheda 141: al telefono la scheda del mese in cima non ha la miniatura (classe `st-gia`, sotto i 484 px dove
   `.griglia` ha una colonna), se no la stessa mappa usciva due volte di fila. Da due colonne in su resta, per simmetria.
+
+## La pausa d'inverno al Sud dal 10 dicembre (21/11/2026, scheda 141)
+
+- Suo «spostiamo 1 il nord e al 10 il sud»: le pagine funghi delle regioni `SUD` (Campania, Puglia, Basilicata, Calabria,
+  Sicilia, Sardegna) e quelle senza regione (`/funghi/`) vanno in pausa il 10 dicembre, le altre il 1. Fine per tutti il 1/3.
+- Codice: `INVERNO_SI(g)` e `INIZIO_SUD` in `lib-stagione.js`; `FREDDO_FINO` = 9, così al Sud il freddo resta fino al 9
+  (al Nord no: `freddoAttivo` dice no con la classe `funghi-inverno`). Il tasto della mappa sparisce il 10 (`funghi-fermo`).
+- ⚠️ La data è scritta dentro ogni pagina: cambiarla vuol dire rifare le 1.120 pagine funghi. Prova
+  `scratchpad\prova-inverno-141.js` (orologio finto, 8 pagine × 6 date: 48 su 48).

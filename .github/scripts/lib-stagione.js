@@ -31,7 +31,10 @@
    ⚠️ DAL 20/11/2026 (scheda 139, suo «anticipiamo dal 1 dicembre… vale anche per le pagine», poi «tutto dal 1/12»,
    Sud compreso) FREDDO_FINO e' 0: il freddo si vede solo a novembre, dal 1 dicembre c'e' la pausa (INVERNO qui sotto). */
 const SUD = ['campania', 'puglia', 'basilicata', 'calabria', 'sicilia', 'sardegna'];
-const FREDDO_FINO = 0;
+/* ⚠️ DAL 21/11/2026 (scheda 141, suo «spostiamo 1 il nord e al 10 il sud») FREDDO_FINO e' 9: al Sud la pausa parte
+   il 10 dicembre (INIZIO_SUD) e fino al 9 il freddo resta. Al Nord non si vede lo stesso: freddoAttivo dice no quando
+   c'e' gia' la classe funghi-inverno, che al Nord arriva il 1 dicembre. */
+const FREDDO_FINO = 9;
 
 /* ⚠️ LA PAUSA D'INVERNO (20/11/2026, scheda 139). Sue scelte: «stagionale come le pagine… dal 1 dicembre», «tutto
    dal 1/12» (anche il Sud), e sul mockup `claudio\mockup-pausa-funghi-139\` «la A col formato del messaggio della B
@@ -45,9 +48,13 @@ const FREDDO_FINO = 0;
      `primi20` scritti da genera-funghi.js).
    La classe `funghi-inverno` su <html> la mette lo script di rigaStagione, subito sotto il titolo: tutto quello che
    viene dopo nasce gia' giusto. Il tasto della mappa segue lo stesso calendario (index.html, classe funghi-fermo).
-   Per guardarla in un altro mese: ?inverno=1 (e ?inverno=0 per la pagina di stagione). */
-const INVERNO_SI = 'var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;'
-  + 'if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");';
+   Per guardarla in un altro mese: ?inverno=1 (e ?inverno=0 per la pagina di stagione).
+   ⚠️ IL SUD DAL 10 DICEMBRE (21/11/2026, scheda 141, suo «spostiamo 1 il nord e al 10 il sud»): le regioni di SUD e
+   le pagine senza regione (parlano anche del Sud) entrano in pausa il 10 dicembre, le altre il 1. Fine per tutti il
+   1 marzo. Il tasto della mappa, uno solo per tutta Italia, sparisce il 10 (index.html, funghi-fermo). */
+const INIZIO_SUD = 10;
+const INVERNO_SI = g => 'var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;'
+  + 'if(q?q[1]==="1":((m===12&&d.getDate()>=' + g + ')||m<=2))document.documentElement.classList.add("funghi-inverno");';
 const STILE_INVERNO = `<style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -105,7 +112,7 @@ function rigaStagione(reg, conFreddo) {
   const dicS = a === 'sud' ? S : '';
   const inv = a === 'sud' ? TESTI.fuoriSud : a === 'nord' ? TESTI.fuoriNord : TESTI.fuori;
   // la pausa d'inverno PRIMA della riga: lo script mette la classe, poi stile e messaggio (vedi INVERNO qui sopra)
-  return '<script>(function(){try{' + INVERNO_SI + '}catch(e){}})();</script>\n' + STILE_INVERNO + '\n' + SCHEDA_INVERNO + '\n'
+  return '<script>(function(){try{' + INVERNO_SI(a === 'nord' ? 1 : INIZIO_SUD) + '}catch(e){}})();</script>\n' + STILE_INVERNO + '\n' + SCHEDA_INVERNO + '\n'
     + '<div id="stagione"></div>\n<script>(function(){'
     + 'var d=new Date(),m=d.getMonth()+1,t=null;'
     + 'if(m===11)t=' + JSON.stringify(nov) + ';'
@@ -224,4 +231,4 @@ td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-heig
 @media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
 `;
 
-module.exports = { rigaStagione, TESTI, SUD, FREDDO_FINO, JS_FREDDO, STILE_FREDDO };
+module.exports = { rigaStagione, TESTI, SUD, FREDDO_FINO, INIZIO_SUD, JS_FREDDO, STILE_FREDDO };

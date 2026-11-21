@@ -521,7 +521,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Meteo funghi Alta Val d'Enza oggi: stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Crescita funghi in Alta Val d'Enza: la pioggia vera di 13 pluviometri da bosco, per capire se stanno nascendo.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -625,10 +625,10 @@ a spuntare, di più se fa freddo. La pioggia di ieri serve ai funghi fra due set
 <p>Ti serve un altro periodo? Per ieri e gli ultimi 30 giorni c’è
 <a href="https://precipitazioni.avventuremicologiche.it/zone/alta-val-d-enza/">dove ha piovuto in Alta Val d'Enza</a>.</p>
 <h2>L'archivio della zona</h2>
-<p>Da giugno 2026 a novembre 2026, in 167 giorni di misura, i 9 pluviometri
+<p>Da giugno 2026 a novembre 2026, in 168 giorni di misura, i 9 pluviometri
 dell'Alta Val d'Enza che leggiamo dallo stesso giorno hanno contato
 <b>819 mm</b> di pioggia a testa, in media. Il più bagnato è <b>Lago Ballano</b> con
-1.611 mm, il più asciutto Fugazzolo con 404 mm.
+1.612 mm, il più asciutto Fugazzolo con 404 mm.
 La giornata più piovosa è stata il <b>21 agosto 2026</b> a Lago Ballano,
 con <b>283,6 mm</b>.</p>
 <p><b>Ricordati</b> che in molte regioni per raccogliere funghi serve il tesserino, e che nei parchi
@@ -862,7 +862,7 @@ carte forestali delle regioni; per scegliere i posti usiamo anche OpenStreetMap,
   }
 
 
-  var FINO = 0;
+  var FINO = 9;
   window.freddoAttivo = function () { var a = new Date(), m = a.getMonth() + 1;
     if (document.documentElement.classList.contains('funghi-inverno')) return false;
     return m === 11 || (m === 12 && a.getDate() <= FINO); };

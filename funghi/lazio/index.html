@@ -525,7 +525,7 @@ header.tB{--t-max:860px}@media (max-width:640px){header.tB{--t-pad:12px}}
 
 <h1>Funghi nel Lazio oggi: dove stanno nascendo?</h1>
 <p class="breve" style="margin-top:-2px">Meteo funghi Lazio: la pioggia vera di 39 pluviometri da bosco, per capire la crescita dei funghi.</p>
-<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),m=new Date().getMonth()+1;if(q?q[1]==="1":(m===12||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
+<script>(function(){try{var q=/[?&]inverno=([01])/.exec(location.search),d=new Date(),m=d.getMonth()+1;if(q?q[1]==="1":((m===12&&d.getDate()>=1)||m<=2))document.documentElement.classList.add("funghi-inverno");}catch(e){}})();</script>
 <style>
 html:not(.funghi-inverno) .solo-inverno{display:none !important}
 html.funghi-inverno .solo-stagione,html.funghi-inverno #stagione{display:none !important}
@@ -906,7 +906,7 @@ pluviometri vicini. Sono i pluviometri in mezzo al bosco del Lazio.</p>
   }
 
 
-  var FINO = 0;
+  var FINO = 9;
   /* il periodo del freddo, uno solo per tutti i pezzi (anche la colonna della tabella delle regioni): dal 1 novembre al
      FINO dicembre, col giorno di CHI LEGGE (suo, 6/11/2026: «lo facciamo solo per 1/11-20/12»; d'inverno la stagione
      ferma, da marzo il contrario, da decidere). Dal 20/11/2026 FINO e' 0: solo novembre. Con ?inverno=1 (la pausa forzata
