@@ -1431,3 +1431,11 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   `recordDi`, `archivio` in `pagina()` di genera-pagine-storico.js). Il primo tasto, «2026», compare a gennaio 2027.
 - Trappola: un anno finito sta nell'archivio intero anche coi mesi ancora fra gli ultimi 12 (sua scelta, l'anno aperto
   è sempre completo). Prova con mesi finti fino al 2030: `scratchpad\prova-archivio-142.js`.
+
+## «Ieri in Italia», la classifica misurata di ieri (21/11/2026, scheda 142)
+
+- Una pagina sola, /ieri-in-italia/, rifatta ogni mattina dal giro delle pagine (`genera-ieri-italia.js`, sitemap sua
+  `sitemap-ieri.xml`): primati, top 10 di pioggia, notte più fredda e giorno più caldo, pioggia per regione, mappa grande
+  della regione più piovosa e 20 mini mappe (le foto `<regione>-ieri.webp` del ramo anteprime). Mockup in `mockup-ieri-italia\`.
+- Trappola: in testa ci finiscono i valori falsi. Filtri in `calcola()`: conferma di un vicino entro 25 km per pioggia,
+  minime sotto zero e massime; un posto ogni 10 km. Il 20/11 avrebbe vinto Decimomannu, 52,8 mm in un'ora coi vicini a 0.

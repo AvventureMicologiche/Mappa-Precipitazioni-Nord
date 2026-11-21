@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ieri in Italia: dove ha piovuto di più, la notte più fredda, il giorno più caldo</title>
+<meta name="description" content="La classifica di venerdì 20 novembre, misurata: i 10 posti più piovosi d'Italia, la notte più fredda e il giorno più caldo, dai pluviometri e dai termometri delle reti regionali.">
+<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/ieri-in-italia/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Ieri in Italia"}]}</script>
+<meta property="og:title" content="Ieri in Italia: dove ha piovuto di più, la notte più fredda, il giorno più caldo">
+<meta property="og:description" content="La classifica di venerdì 20 novembre, misurata: i 10 posti più piovosi d'Italia, la notte più fredda e il giorno più caldo, dai pluviometri e dai termometri delle reti regionali.">
+<meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/ieri-in-italia/">
+<meta property="og:type" content="website">
+<!-- Google tag: il config solo sul dominio vero, come nelle pagine regione -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if (/(^|\.)avventuremicologiche\.it$/.test(location.hostname)) {
+    gtag('config', 'G-9R7MXXS0V4');
+  }
+</script>
+<style>
+:root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header a{color:#fff;text-decoration:none;}
+header .logo{font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;}
+main{max-width:760px;margin:0 auto;padding:22px 16px 4px;}
+h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
+h1,h2{text-wrap:balance;}
+p,li{text-wrap:pretty;}
+.sotto{color:#555;font-size:17px;margin-bottom:12px;}
+h2{color:var(--blu-scuro);font-size:22px;margin:34px 0 10px;}
+p{margin-bottom:12px;}
+.cta{display:block;text-align:center;background:var(--blu);color:#fff;font-size:19px;font-weight:600;padding:15px 18px;border-radius:9px;text-decoration:none;margin:22px 0;}
+.cta:hover{background:#2a5490;}
+.griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0;}
+.card{background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:14px 15px;display:flex;flex-direction:column;}
+.card h3{margin:0 0 4px;font-size:17px;color:var(--blu-scuro);}
+.numerone{font-size:30px;font-weight:700;color:var(--blu-scuro);line-height:1.2;}
+.numerone small{font-size:14px;font-weight:400;color:#555;}
+.card .vai{margin-top:auto;padding-top:10px;font-size:15px;font-weight:600;color:var(--blu);text-decoration:none;}
+.attesa{color:#777;font-style:italic;}
+.nota{font-size:14px;color:#666;margin-top:8px;}
+.top-staz{margin:6px 0 0;font-size:15px;}
+.top-staz li{margin:3px 0 3px 20px;}
+.verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
+.verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
+#attesa{color:#6a7789;font-size:16px;padding:18px 0;}
+ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
+ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
+ol.zone-dove li:before{content:counter(z);min-width:22px;text-align:right;color:#8a97a6;font-size:13px;}
+ol.zone-dove a{font-weight:600;color:var(--blu);text-decoration:none;}
+ol.zone-dove .zmm{margin-left:auto;font-weight:700;white-space:nowrap;color:var(--blu-scuro);}
+ol.zone-dove .zmm small{font-weight:400;color:#6a7789;font-size:13px;margin-left:6px;}
+footer{border-top:1px solid var(--bordo);margin-top:8px;padding:14px 16px 24px;font-size:14px;color:#555;text-align:center;}
+footer a{color:var(--blu);}
+nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
+nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
+nav.altre p{line-height:1.9;}
+nav.altre a{color:var(--blu);}
+footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
+.capo-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px;}
+.capo-btn{display:inline-block;text-decoration:none;color:#0f2d4d;font-weight:700;font-size:14.5px;
+  padding:9px 15px 10px;border-radius:9px;border:1px solid #b9c7da;
+  background:linear-gradient(180deg,#ffffff 0%,#f5f8fd 48%,#e8eef8 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 3px 0 #aebfd4, 0 6px 13px rgba(0,0,0,.28);}
+@media(max-width:480px){h1{font-size:25px;}body{font-size:16px;}}
+
+.gg{display:flex;align-items:flex-end;gap:3px;height:150px;margin:14px 0 4px;}
+.gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
+.gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
+.gg .b.dentro i{background:var(--blu);}
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
+  font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
+.gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
+.gg-x span{flex:1;text-align:center;}
+.gg-leg{font-size:13.5px;color:#555;margin-top:8px;}
+.gg-leg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;}
+.tt-box{position:relative;padding-right:42px;margin:14px 0 2px;}
+.tt{width:100%;height:150px;display:block;overflow:visible;}
+.tt .griglia{stroke:#e6eaf0;stroke-width:1;vector-effect:non-scaling-stroke;}
+.tt polyline{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
+.tt .max{stroke:#d1603d;}
+.tt .min{stroke:#3a6ea8;}
+.tt-y{position:absolute;top:0;right:0;width:42px;height:150px;pointer-events:none;}
+.tt-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;color:#6b7a8d;line-height:1;padding-left:5px;}
+.tt-x{padding-right:42px;}
+.vic td:last-child,.vic th:last-child{text-align:right;}
+.vic .qui{background:#eef4fd;}
+.verdetto{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px;}
+.verdetto .si{font-size:27px;font-weight:800;line-height:1.2;}
+.verdetto .pallino{display:inline-block;width:15px;height:15px;border-radius:50%;margin-right:9px;vertical-align:2px;}
+.verdetto .gr{font-size:44px;font-weight:800;line-height:1.1;margin-top:10px;}
+.verdetto .gr small{font-size:18px;font-weight:600;opacity:.85;margin-left:6px;}
+.verdetto .dett{font-size:16px;opacity:.9;margin-top:6px;}
+.scala{display:flex;gap:4px;margin-top:14px;}
+.scala div{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.18);}
+.scala-t{display:flex;font-size:11.5px;opacity:.75;margin-top:4px;}
+.scala-t span{flex:1;text-align:center;}
+.breve{font-size:16px;color:#333;margin:6px 0 4px;}
+.fin{display:flex;gap:6px;align-items:flex-end;height:170px;margin:16px 0 4px;}
+.fin .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;}
+.fin .c i{display:block;background:var(--blu);border-radius:4px 4px 0 0;min-height:3px;}
+.fin .c b{font-size:13px;color:var(--blu-scuro);margin-bottom:3px;}
+.fin{position:relative}.fin-nulla{position:absolute;left:0;right:0;top:38%;text-align:center;color:#5a6b80;font-size:14px;font-weight:600}
+.fin-x{display:flex;gap:6px;font-size:12px;color:#6b7a8d;}
+.fin-x span{flex:1;text-align:center;line-height:1.25;}
+.gg .b.nodato i,.fin .c.nodato i{background:none;border:1px dashed #9fb3cc;border-bottom:0;height:14%;}
+.fin .c.nodato b{color:#8a97a6;font-weight:400;}
+.img-mappa{width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);margin-top:10px;}
+.tasti{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.tasti a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;color:var(--blu-scuro);
+  padding:11px 6px;border:1px solid #b9c7da;border-radius:9px;background:linear-gradient(180deg,#fff,#eef3fa);}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);}
+.tasti a.t-prev{grid-column:1 / -1;}
+@media(max-width:640px){.verdetto .gr{font-size:38px;} .tasti{grid-template-columns:repeat(2,1fr);}}
+.banda-prev{display:flex;align-items:center;gap:12px;margin:10px 0 4px;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,#1f6fd1,#3f8fe8);color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(31,111,209,.25);}
+.banda-prev .ic{font-size:30px;line-height:1;flex:none;}
+.banda-prev b{display:block;font-size:17px;line-height:1.2;}
+.banda-prev span{display:block;font-size:13px;opacity:.92;margin-top:2px;}
+.banda-prev .fr{margin-left:auto;font-size:22px;flex:none;}
+.banda-prev:hover{background:linear-gradient(135deg,#1b5fb3,#3580d6);}
+.noioso{margin-top:34px;padding-top:6px;border-top:1px solid var(--bordo);color:#555;font-size:15px;}
+.noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
+.noioso p{margin-bottom:8px;}
+.noioso a{color:var(--blu);}
+
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+.verdetto .freddo .prox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.08);}
+.verdetto .freddo .prox b.g{color:#8fd0ff;}
+td.fr{text-align:right;white-space:nowrap;font-weight:700;color:#33415a;}
+td.fr.gelo{color:#1f6fd1;}
+td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-height:1.2;}
+.fr-m{display:none;}
+@media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
+
+.gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
+.ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
+  text-decoration:none;background:#fff;color:#10263f;padding:14px 16px 15px 20px;border-radius:14px;line-height:1.35;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 6px 0 #7f97b6,0 12px 22px rgba(0,0,0,.38);
+  transition:transform .08s,box-shadow .08s;}
+.ieri-btn b{font-size:19px;font-weight:700;}
+.ieri-btn small{font-size:15px;font-weight:500;color:#3f5672;}
+.ieri-btn i{grid-row:1/span 2;grid-column:2;font-style:normal;width:40px;height:40px;border-radius:50%;
+  background:#2a5490;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 0 #183a68;}
+.ieri-btn:hover{background:#f3f7fc;}
+.ieri-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+@media(max-width:480px){.ieri-btn b{font-size:17.5px;}.ieri-btn small{font-size:14px;}}
+.capo-btns{gap:12px;margin-top:15px;}
+.capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 5px 0 #7f97b6,0 10px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s;}
+.capo-btn:hover{background:#f3f7fc;}
+.capo-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+.banda-prev:active{transform:translateY(4px);box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;background:var(--blu);color:#fff;font-size:16px;font-weight:700;
+  padding:11px 14px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
+.yt-btn svg{width:26px;height:18px;flex:none;}
+.yt-btn svg rect{fill:#fff;}
+.yt-btn svg polygon{fill:#e12b2b;}
+.yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
+.yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
+
+.ieri-btn{padding:16px 16px 17px 20px;}
+.ieri-btn b{font-size:23px;}
+.ieri-btn small{font-size:17px;}
+.ieri-btn i{width:44px;height:44px;}
+@media(max-width:480px){.ieri-btn b{font-size:20.5px;}.ieri-btn small{font-size:15.5px;}.ieri-btn{padding-left:16px;}}
+
+header{position:relative;flex-wrap:nowrap;}
+.mk-cerca{position:relative;flex:1;max-width:340px;margin-left:14px;}
+.mk-cerca input{width:100%;box-sizing:border-box;border:0;border-radius:9px;padding:8px 12px 8px 34px;font:500 15px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231b3f6e' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat 11px 50%;color:#10263f;}
+.mk-cerca input::placeholder{color:#6b7d93;}
+.mk-lente{display:none;}
+.mk-drop{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(10,30,60,.3);
+  z-index:50;overflow:hidden;display:none;color:#10263f;min-width:300px;}
+.mk-drop.on{display:block;}
+.mk-r{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;cursor:pointer;font-size:15px;border-bottom:1px solid #eef2f7;}
+.mk-r:hover,.mk-r.sel{background:#eef4fb;}
+.mk-r small{color:#6b7d93;white-space:nowrap;}
+.mk-porte-t{padding:12px 14px 4px;font-weight:700;font-size:15px;}
+.mk-porte-t small{display:block;font-weight:500;color:#6b7d93;font-size:13px;margin-top:2px;}
+.mk-6{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;padding:8px 12px 12px;}
+.mk-6 a{display:flex;align-items:center;gap:9px;padding:10px 10px;border:1px solid #d3deeb;border-radius:10px;text-decoration:none;color:#10263f;font-weight:700;font-size:14.5px;line-height:1.15;}
+.mk-6 a:hover{background:#eef4fb;}
+.mk-6 a span{font-size:20px;}
+.mk-6 a small{display:block;font-weight:500;color:#6b7d93;font-size:12px;}
+@media(max-width:600px){
+  .mk-cerca{display:none;position:absolute;left:10px;right:10px;top:7px;margin:0;max-width:none;z-index:60;}
+  header.mk-aperto .mk-cerca{display:block;}
+  header.mk-aperto .logo,header.mk-aperto .yt,header.mk-aperto .mk-lente{visibility:hidden;}
+  .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;width:36px;height:32px;border:0;border-radius:8px;background:rgba(255,255,255,.16);cursor:pointer;}
+  header .yt{margin-left:8px;}
+  .mk-drop{min-width:0;}
+}
+.mk-porte{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:8px;margin-top:14px;}
+.mk-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 3px 8px;border-radius:11px;background:rgba(255,255,255,.12);
+  color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;line-height:1.15;text-align:center;border:1px solid rgba(255,255,255,.22);}
+.mk-porte a span{font-size:21px;line-height:1;}
+.mk-porte a:hover{background:rgba(255,255,255,.2);}
+.mk-meteo{background:#f3f7fc;border:1px solid #d6e2f0;border-radius:14px;padding:4px 16px 14px;margin:18px 0 6px;}
+.mk-meteo h2{margin-top:14px;}
+.mk-tuo{position:relative;margin:4px 0 12px;}
+.mk-tuo input{width:100%;box-sizing:border-box;border:2px solid #1b3f6e;border-radius:12px;padding:13px 14px 13px 44px;font:600 16.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#10263f;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231b3f6e' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat 14px 50%;}
+.mk-tuo input::placeholder{color:#5f738c;font-weight:500;}
+.mk-tuo .mk-drop{min-width:0;}
+.mk-attesa{color:#5f738c;font-size:14px;margin:8px 0;}
+.mk-tab{background:#fff;border:1px solid #d6e2f0;border-radius:12px;overflow:hidden;}
+.mk-cr{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;align-items:center;gap:4px;padding:8px 12px;border-bottom:1px solid #eef2f7;text-decoration:none;color:#10263f;font-size:15px;}
+.mk-cr:hover{background:#f3f7fc;}
+.mk-cr b{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mk-cr b small{display:block;font-weight:500;font-size:12px;color:#5f738c;}
+.mk-cr span{display:flex;align-items:center;gap:3px;font-weight:600;flex-wrap:wrap;}
+.mk-cr span i{font-style:normal;font-size:19px;}
+.mk-cr span b.mk-t{font-weight:700;white-space:nowrap;letter-spacing:-.2px;color:#c21f1f;}
+.mk-cr span b.mk-t b{font-weight:700;color:#1856b8;}
+.mk-cr span b.mk-t s{text-decoration:none;color:#6b7684;font-weight:400;margin:0 1px;}
+.mk-cr span em{font-style:normal;font-size:12px;color:#1f6fd1;font-weight:700;width:100%;padding-left:24px;margin-top:-3px;}
+.mk-cr span em.mk-pc{margin-top:0;}.mk-cr span em.mk-pc.z{color:#9aa3ad;font-weight:500;}.mk-cr span em.mk-pc.alta{color:#c21f1f;}
+.mk-cr-t{background:#eef4fb;font-size:13px;color:#4a6180;padding:6px 12px;}
+.mk-cr-t span{font-weight:700;}
+.mk-dopo{display:none;}
+.mk-aperte .mk-dopo{display:grid;}
+.mk-tutte{display:block;width:100%;margin:10px 0 0;padding:10px;border:1px solid #c5d4e6;border-radius:10px;background:#fff;color:#1b3f6e;font:700 15px system-ui,sans-serif;cursor:pointer;}
+.mk-citta-n{font-size:13.5px;color:#5f738c;margin:10px 0 0;}
+.mk-sopra{font-size:14.5px;color:#4a6180;margin:2px 0 8px;font-weight:600;}
+.mk-boschi{background:#eef6ef;border:1px solid #cfe3d2;border-radius:14px;padding:4px 16px 16px;margin:18px 0 6px;}
+.mk-boschi h2{margin-top:14px;color:#1d4a2a;}
+.mk-boschi-p{font-size:15px;color:#3d5a45;margin:2px 0 10px;}
+@media(max-width:400px){.mk-boschi .mk-tuo input::placeholder{font-size:15px;}}
+.mk-boschi .mk-tuo input{border-color:#2f6b3d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6b3d' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E");}
+.mk-citta-n a{color:#1b3f6e;font-weight:700;}
+.mk-radar{display:flex;align-items:center;gap:11px;margin:12px 0 2px;padding:11px 14px;border-radius:12px;text-decoration:none;
+  border:2px solid #1f6fd1;background:#fff;color:#123b6e;}
+.mk-radar .mk-ic{font-size:24px;line-height:1;flex:none;}
+.mk-radar b{display:block;font-size:16px;line-height:1.2;}
+.mk-radar small{display:block;font-size:13.5px;font-weight:600;color:#1f6fd1;margin-top:2px;}
+.mk-radar .mk-fr{margin-left:auto;font-size:21px;font-weight:700;flex:none;}
+.mk-radar.piove{background:linear-gradient(135deg,#1f6fd1,#3f8fe8);color:#fff;box-shadow:0 3px 10px rgba(31,111,209,.3);}
+.mk-radar.piove small{color:#fff;opacity:.92;}
+.mk-radar .mk-pul{position:relative;width:12px;height:12px;flex:none;margin:0 2px 0 4px;}
+.mk-radar .mk-pul:before,.mk-radar .mk-pul:after{content:'';position:absolute;inset:0;border-radius:50%;background:#fff;}
+.mk-radar .mk-pul:after{animation:mkPul 1.6s ease-out infinite;}
+@keyframes mkPul{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.8);opacity:0}}
+@media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
+@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:1px;}.mk-cr span i{font-size:16px;}.mk-cr span b.mk-t{font-size:13px;letter-spacing:-.4px;}
+  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}
+  a.mk-cr > span{flex-direction:column;align-items:flex-start;}}
+.gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
+.gg .b.mk-fut b{color:#2f6db5;}
+.gg .b.mk-oggi{border-left:2px dashed #e0a800;margin-left:3px;padding-left:1px;}
+.gg-x span.mk-fx{color:#2f6db5;font-weight:600;}
+.gg-leg .mk-leg-fut{background:repeating-linear-gradient(135deg,#7fb2ec 0 4px,#a9cdf5 4px 8px) !important;}
+
+.bric{font-size:14px;color:#666;margin-bottom:6px;}
+.bric a{color:var(--blu);}
+
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+.tB a{text-decoration:none;opacity:1}
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+.tB .t-in:has(.mk-lente) .t-it{display:none}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
+
+.ii-tre{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.ii-tre a,.ii-tre div.ii-c{display:block;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 12px;color:#fff;text-decoration:none}
+.ii-tre .e{font-size:13px;font-weight:600;opacity:.85}.ii-tre .v{font-size:30px;font-weight:800;line-height:1.15;margin:2px 0}
+.ii-tre .p{font-size:14px;line-height:1.3}
+.ii-lista{list-style:none;margin:8px 0 4px;padding:0;border:1px solid var(--bordo);border-radius:12px;overflow:hidden;background:#fff}
+.ii-lista li+li{border-top:1px solid var(--bordo)}
+.ii-lista a{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:9px 12px;color:inherit;text-decoration:none}
+.ii-lista a:hover{background:#f4f8fc}
+.ii-n{font-weight:800;color:#5a7192;text-align:center}.ii-l b{display:block;font-weight:700;color:var(--blu)}.ii-l small{color:#5a7192;font-size:13.5px}
+.ii-v{font-weight:800;font-size:19px;white-space:nowrap}
+.ii-v.piog{color:#1f5fd1}.ii-v.fredd{color:#1a6fb0}.ii-v.cald{color:#c2410c}
+.ii-reg{display:grid;gap:7px;margin:10px 0 4px}
+.ii-reg a{display:grid;color:inherit;text-decoration:none;grid-template-columns:118px 1fr 64px;align-items:center;gap:10px}
+.ii-reg span:first-child{font-weight:700}.ii-reg .b{height:18px;background:#eef3f8;border-radius:5px;overflow:hidden}
+.ii-reg .b i{display:block;height:100%;background:#2f74e8;border-radius:5px}.ii-reg span:last-child{text-align:right;font-weight:700;color:var(--blu);white-space:nowrap}
+.st-grande{display:block;width:100%;height:auto;border-radius:12px;border:1px solid #c9d6e6;box-shadow:0 2px 10px rgba(15,61,110,.10)}
+.st-scala{margin:10px 0 6px}.st-scala b{display:block;font-size:13.5px;font-weight:600;color:#5a7192;margin-bottom:4px}
+.st-scala .g{height:14px;border-radius:4px;border:1px solid var(--bordo);background:linear-gradient(to right,#ffffff 0%,#ffffff 2%,#e4f1fd 5%,#badcfa 12%,#6496f0 15%,#326edc 20%,#00b4c8 28%,#00b450 35%,#008c28 42%,#78c800 49%,#dce600 55%,#ffb400 61%,#ff7800 67%,#f03200 73%,#b40000 79%,#8c00b4 85%,#c864dc 90%,#f0aaf0 95%,#ffdcff 100%)}
+.st-scala .l{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#5a7192;margin-top:3px}
+.ii-mm{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 4px}
+.ii-mm .c{border:1px solid var(--bordo);border-radius:12px;background:#fff;overflow:hidden}
+.ii-mm .c>a.f{display:block}.ii-mm img{display:block;width:100%;height:auto;aspect-ratio:1600/1330;object-fit:cover;background:#eef3f8}
+.ii-mm .t{padding:7px 10px 8px}.ii-mm .t .r{display:flex;align-items:center;justify-content:space-between;margin-top:2px}
+.ii-mm .t a.n{display:block;font-weight:700;color:var(--blu);line-height:1.25}.ii-mm .t small{color:#5a7192;font-weight:700;white-space:nowrap}
+.ii-mm .t .r span{white-space:nowrap;flex-shrink:0}.ii-mm .t span a{text-decoration:none;font-size:18px;margin-left:8px}
+@media(max-width:600px){.ii-tre{grid-template-columns:1fr;gap:8px}.ii-tre .v{font-size:26px}
+.ii-reg a{grid-template-columns:104px 1fr 62px;gap:8px}.ii-reg span{font-size:15px}
+.ii-mm{grid-template-columns:1fr 1fr;gap:8px}.ii-mm .t{padding:6px 8px}.ii-mm .t a.n{font-size:14.5px}.ii-mm .t span a{font-size:16px;margin-left:5px}}
+</style>
+</head>
+<body>
+<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a class="on" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-testata-storico'})}catch(e){}">Storico piogge</a><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=valledaosta" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'ieri-italia'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
+  </div></div>
+</header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
+<main data-fine="2026-11-20">
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › Ieri in Italia</p>
+<h1>Ieri in Italia: dove ha piovuto di più, la notte più fredda, il giorno più caldo</h1>
+<p class="sotto"><b>La classifica di venerdì 20 novembre, misurata</b>: 3391 pluviometri e 2747 termometri delle reti regionali, gli stessi della mappa. Si aggiorna ogni mattina.</p>
+<div class="verdetto"><div class="si">Venerdì 20 novembre</div>
+<div class="ii-tre">
+<a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.8668,7.0275&amp;pn=Courmayeur%20-%20Ferrachet&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-primato-pioggia'})}catch(e){}"><div class="e">💧 Più pioggia</div><div class="v">24,5 mm</div><div class="p">Courmayeur - Ferrachet (AO)</div></a>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.34981,9.91515&amp;pn=Lanzada%20Passo%20Marinelli&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-primato-freddo'})}catch(e){}"><div class="e">🥶 Notte più fredda</div><div class="v">-8,5°</div><div class="p">Lanzada Passo Marinelli (SO)</div></a>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.6056,14.8275&amp;pn=Simeto%20a%20Barca%20di%20Biancavilla&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-primato-caldo'})}catch(e){}"><div class="e">☀️ Giorno più caldo</div><div class="v">27,6°</div><div class="p">Simeto a Barca di Biancavilla</div></a>
+</div>
+<div class="dett">Ha piovuto almeno 1 mm in 438 pluviometri su 3391.</div>
+<div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-riquadro'})}catch(e){}"><b>Apri la mappa di ieri</b><i>→</i><small>la pioggia di ogni pluviometro, regione per regione</small></a></div>
+<div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/previsioni/" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/valledaosta/adesso/" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-porta-radar'})}catch(e){}"><span>📡</span>Radar piogge</a>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-porta-boschi'})}catch(e){}"><span>🌲</span>Mappa boschi</a><a href="https://precipitazioni.avventuremicologiche.it/valledaosta/storico/" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-porta-storico'})}catch(e){}"><span>📅</span>Storico piogge</a></div></div>
+<h2>La mappa di ieri: Valle d'Aosta</h2>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mappa-grande'})}catch(e){}"><img class="st-grande" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/valledaosta-ieri.webp" onerror="this.closest('a').style.display='none'" alt="La pioggia di ieri in Valle d'Aosta, pluviometro per pluviometro" width="1600" height="1330"></a>
+<div class="st-scala"><b>Millimetri caduti ieri</b><div class="g"></div><div class="l"><span>0</span><span>20</span><span>60</span><span>125</span><span>200</span><span>300+</span></div></div>
+<p class="nota">La regione dove ieri ha piovuto di più in media (3,7 mm): toccala per aprire la mappa vera e guardare ogni pluviometro.</p>
+<h2>Dove ha piovuto di più</h2>
+<ol class="ii-lista"><li><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.8668,7.0275&amp;pn=Courmayeur%20-%20Ferrachet&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">1</span><span class="ii-l"><b>Courmayeur - Ferrachet (AO)</b><small>Valle d'Aosta · 2290 m</small></span><span class="ii-v piog">24,5 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=42.6467,12.9489&amp;pn=Monteleone%20di%20Spoleto&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">2</span><span class="ii-l"><b>Monteleone di Spoleto</b><small>Umbria · 910 m</small></span><span class="ii-v piog">19,2 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=42.6814,12.3478&amp;pn=Melezzole&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">3</span><span class="ii-l"><b>Melezzole</b><small>Umbria · 548 m</small></span><span class="ii-v piog">18,2 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.7547,6.9521&amp;pn=Pr%C3%A9-Saint-Didier%20-%20Plan%20Praz&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">4</span><span class="ii-l"><b>Pré-Saint-Didier - Plan Praz (AO)</b><small>Valle d'Aosta · 2177 m</small></span><span class="ii-v piog">17,2 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=40.4383,15.4284&amp;pn=Corleto%20Monforte-Savuco%20Serra%20Nu&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">5</span><span class="ii-l"><b>Corleto Monforte-Savuco Serra Nu</b><small>Campania · 1164 m</small></span><span class="ii-v piog">15,7 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.6137,7.0525&amp;pn=Valgrisenche%20-%20Menthieu&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">6</span><span class="ii-l"><b>Valgrisenche - Menthieu (AO)</b><small>Valle d'Aosta · 1859 m</small></span><span class="ii-v piog">15,2 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.5597,13.2752&amp;pn=Passo%20Pramollo&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">7</span><span class="ii-l"><b>Passo Pramollo</b><small>Friuli Venezia Giulia · 1530 m</small></span><span class="ii-v piog">14,2 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lazio&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=42.5931,13.1525&amp;pn=Cittareale&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">8</span><span class="ii-l"><b>Cittareale</b><small>Lazio · 855 m</small></span><span class="ii-v piog">14,0 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=40.9178,14.7292&amp;pn=Mercogliano&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">9</span><span class="ii-l"><b>Mercogliano</b><small>Campania · 724 m</small></span><span class="ii-v piog">13,9 mm</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=44.059,10.259&amp;pn=Campagrina&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-pioggia'})}catch(e){}"><span class="ii-n">10</span><span class="ii-l"><b>Campagrina (LU)</b><small>Toscana · 807 m</small></span><span class="ii-v piog">13,4 mm</span></a></li></ol>
+<p class="nota">Un posto per volta: un pluviometro a meno di 10 km da uno già in classifica non entra. Ogni riga apre la mappa di ieri su quel pluviometro.</p>
+<h2>La notte più fredda</h2>
+<ol class="ii-lista"><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.34981,9.91515&amp;pn=Lanzada%20Passo%20Marinelli&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">1</span><span class="ii-l"><b>Lanzada Passo Marinelli (SO)</b><small>Lombardia · 3032 m</small></span><span class="ii-v fredd">-8,5°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.7952,7.0201&amp;pn=Morgex%20-%20Lavancher&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">2</span><span class="ii-l"><b>Morgex - Lavancher (AO)</b><small>Valle d'Aosta · 2842 m</small></span><span class="ii-v fredd">-8,1°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.9969,7.9764&amp;pn=Passo%20Del%20Moro&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">3</span><span class="ii-l"><b>Passo Del Moro</b><small>Piemonte · 2820 m</small></span><span class="ii-v fredd">-8,0°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=altoadige&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.691541,12.357688&amp;pn=Sesto&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">4</span><span class="ii-l"><b>Sesto (BZ)</b><small>Alto Adige · 1322 m</small></span><span class="ii-v fredd">-7,7°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=trentino&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.42302263,10.7150282&amp;pn=Cima%20Cavaion&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">5</span><span class="ii-l"><b>Cima Cavaion (TN)</b><small>Trentino · 2895 m</small></span><span class="ii-v fredd">-7,6°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.47731,10.18874&amp;pn=Livigno%20La%20Vallaccia&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">6</span><span class="ii-l"><b>Livigno La Vallaccia (SO)</b><small>Lombardia · 2660 m</small></span><span class="ii-v fredd">-6,5°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=44.6808,6.9786&amp;pn=Colle%20Dell'Agnello&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">7</span><span class="ii-l"><b>Colle Dell'Agnello</b><small>Piemonte · 2685 m</small></span><span class="ii-v fredd">-6,4°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.2981,7.1433&amp;pn=Rifugio%20Gastaldi&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">8</span><span class="ii-l"><b>Rifugio Gastaldi</b><small>Piemonte · 2659 m</small></span><span class="ii-v fredd">-6,3°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=46.4333,8.3583&amp;pn=Formazza&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">9</span><span class="ii-l"><b>Formazza</b><small>Piemonte · 2453 m</small></span><span class="ii-v fredd">-5,7°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=45.9313,7.6627&amp;pn=Valtournenche%20-%20Lago%20Goillet&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-freddo'})}catch(e){}"><span class="ii-n">10</span><span class="ii-l"><b>Valtournenche - Lago Goillet (AO)</b><small>Valle d'Aosta · 2541 m</small></span><span class="ii-v fredd">-5,6°</span></a></li></ol>
+<h2>Il giorno più caldo</h2>
+<ol class="ii-lista"><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.6056,14.8275&amp;pn=Simeto%20a%20Barca%20di%20Biancavilla&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">1</span><span class="ii-l"><b>Simeto a Barca di Biancavilla</b><small>Sicilia · 122 m</small></span><span class="ii-v cald">27,6°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=36.9094,15.1472&amp;pn=Avola&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">2</span><span class="ii-l"><b>Avola</b><small>Sicilia · 15 m</small></span><span class="ii-v cald">25,6°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.4418,15.0677&amp;pn=Catania%20SIAS&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">3</span><span class="ii-l"><b>Catania SIAS</b><small>Sicilia · 3 m</small></span><span class="ii-v cald">25,5°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.3505,14.9081&amp;pn=Lentini%20SIAS&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">4</span><span class="ii-l"><b>Lentini SIAS</b><small>Sicilia · 77 m</small></span><span class="ii-v cald">25,0°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.5658,15.1464&amp;pn=Aci%20Castello&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">5</span><span class="ii-l"><b>Aci Castello</b><small>Sicilia · 164 m</small></span><span class="ii-v cald">25,0°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=36.8422,15.047&amp;pn=Noto%20SIAS&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">6</span><span class="ii-l"><b>Noto SIAS</b><small>Sicilia · 27 m</small></span><span class="ii-v cald">24,9°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.1608,15.1653&amp;pn=Priolo&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">7</span><span class="ii-l"><b>Priolo</b><small>Sicilia · 85 m</small></span><span class="ii-v cald">24,9°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.5133,14.9525&amp;pn=Motta%20Sant'Anastasia&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">8</span><span class="ii-l"><b>Motta Sant'Anastasia</b><small>Sicilia · 192 m</small></span><span class="ii-v cald">24,8°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=37.2969,15.005&amp;pn=Carlentini%20Nord&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">9</span><span class="ii-l"><b>Carlentini Nord</b><small>Sicilia · 49 m</small></span><span class="ii-v cald">24,5°</span></a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;da=2026-11-20&amp;a=2026-11-20&amp;pl=39.0689,16.8906&amp;pn=Serrarossa&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-caldo'})}catch(e){}"><span class="ii-n">10</span><span class="ii-l"><b>Serrarossa</b><small>Calabria · 44 m</small></span><span class="ii-v cald">24,4°</span></a></li></ol>
+<p class="nota">Una minima sotto zero entra solo se un termometro vicino, entro 25 km, conferma il freddo della notte; i termometri con valori impossibili sono scartati. Anche la pioggia deve trovare conferma in un pluviometro vicino.</p>
+<h2>La pioggia di ieri regione per regione</h2>
+<div class="ii-reg"><a href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Valle d'Aosta</span><span class="b"><i style="width:100%"></i></span><span>3,7 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Umbria</span><span class="b"><i style="width:74%"></i></span><span>2,7 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Campania</span><span class="b"><i style="width:46%"></i></span><span>1,7 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=sardegna&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Sardegna</span><span class="b"><i style="width:31%"></i></span><span>1,1 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Toscana</span><span class="b"><i style="width:30%"></i></span><span>1,1 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Marche</span><span class="b"><i style="width:25%"></i></span><span>0,9 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=basilicata&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Basilicata</span><span class="b"><i style="width:18%"></i></span><span>0,7 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Calabria</span><span class="b"><i style="width:15%"></i></span><span>0,6 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=lazio&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Lazio</span><span class="b"><i style="width:15%"></i></span><span>0,6 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Lombardia</span><span class="b"><i style="width:13%"></i></span><span>0,5 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Friuli Venezia Giulia</span><span class="b"><i style="width:10%"></i></span><span>0,4 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Molise</span><span class="b"><i style="width:8%"></i></span><span>0,3 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=trentino&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Trentino</span><span class="b"><i style="width:7%"></i></span><span>0,3 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Piemonte</span><span class="b"><i style="width:6%"></i></span><span>0,2 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Veneto</span><span class="b"><i style="width:5%"></i></span><span>0,2 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Emilia-Romagna</span><span class="b"><i style="width:4%"></i></span><span>0,2 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Liguria</span><span class="b"><i style="width:2%"></i></span><span>0,1 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Sicilia</span><span class="b"><i style="width:2%"></i></span><span>0,0 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=altoadige&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Alto Adige</span><span class="b"><i style="width:2%"></i></span><span>0,0 mm</span></a><a href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-regione'})}catch(e){}"><span>Puglia</span><span class="b"><i style="width:2%"></i></span><span>0,0 mm</span></a></div>
+<p class="nota">Media dei pluviometri di ogni regione. Ogni riga apre la mappa di ieri di quella regione.</p>
+<h2>Regione per regione</h2>
+<p>Per ogni regione: la pioggia di ieri e degli ultimi 30 giorni zona per zona, il radar e lo storico mese per mese.</p>
+<div class="ii-mm"><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=altoadige&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/altoadige-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Alto Adige" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/altoadige/">Alto Adige</a><div class="r"><small>0,0 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/altoadige/adesso/" title="Radar Alto Adige">📡</a><a href="https://precipitazioni.avventuremicologiche.it/altoadige/storico/" title="Storico Alto Adige">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=basilicata&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/basilicata-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Basilicata" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/basilicata/">Basilicata</a><div class="r"><small>0,7 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/basilicata/adesso/" title="Radar Basilicata">📡</a><a href="https://precipitazioni.avventuremicologiche.it/basilicata/storico/" title="Storico Basilicata">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=calabria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/calabria-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Calabria" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/calabria/">Calabria</a><div class="r"><small>0,6 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/calabria/adesso/" title="Radar Calabria">📡</a><a href="https://precipitazioni.avventuremicologiche.it/calabria/storico/" title="Storico Calabria">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=campania&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/campania-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Campania" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/campania/">Campania</a><div class="r"><small>1,7 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/campania/adesso/" title="Radar Campania">📡</a><a href="https://precipitazioni.avventuremicologiche.it/campania/storico/" title="Storico Campania">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=emilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/emilia-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Emilia-Romagna" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/emilia/">Emilia-Romagna</a><div class="r"><small>0,2 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/emilia/adesso/" title="Radar Emilia-Romagna">📡</a><a href="https://precipitazioni.avventuremicologiche.it/emilia/storico/" title="Storico Emilia-Romagna">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=friuli&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/friuli-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Friuli Venezia Giulia" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/friuli/">Friuli Venezia Giulia</a><div class="r"><small>0,4 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/friuli/adesso/" title="Radar Friuli Venezia Giulia">📡</a><a href="https://precipitazioni.avventuremicologiche.it/friuli/storico/" title="Storico Friuli Venezia Giulia">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=lazio&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lazio-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri nel Lazio" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/lazio/">Lazio</a><div class="r"><small>0,6 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/lazio/adesso/" title="Radar Lazio">📡</a><a href="https://precipitazioni.avventuremicologiche.it/lazio/storico/" title="Storico Lazio">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=liguria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/liguria-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Liguria" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/liguria/">Liguria</a><div class="r"><small>0,1 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/liguria/adesso/" title="Radar Liguria">📡</a><a href="https://precipitazioni.avventuremicologiche.it/liguria/storico/" title="Storico Liguria">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Lombardia" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/lombardia/">Lombardia</a><div class="r"><small>0,5 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/lombardia/adesso/" title="Radar Lombardia">📡</a><a href="https://precipitazioni.avventuremicologiche.it/lombardia/storico/" title="Storico Lombardia">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=marche&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/marche-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri nelle Marche" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/marche/">Marche</a><div class="r"><small>0,9 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/marche/adesso/" title="Radar Marche">📡</a><a href="https://precipitazioni.avventuremicologiche.it/marche/storico/" title="Storico Marche">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=molise&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/molise-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Molise" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/molise/">Molise</a><div class="r"><small>0,3 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/molise/adesso/" title="Radar Molise">📡</a><a href="https://precipitazioni.avventuremicologiche.it/molise/storico/" title="Storico Molise">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=piemonte&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/piemonte-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Piemonte" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/piemonte/">Piemonte</a><div class="r"><small>0,2 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/piemonte/adesso/" title="Radar Piemonte">📡</a><a href="https://precipitazioni.avventuremicologiche.it/piemonte/storico/" title="Storico Piemonte">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=puglia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/puglia-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Puglia" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/puglia/">Puglia</a><div class="r"><small>0,0 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/puglia/adesso/" title="Radar Puglia">📡</a><a href="https://precipitazioni.avventuremicologiche.it/puglia/storico/" title="Storico Puglia">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=sardegna&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/sardegna-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Sardegna" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/sardegna/">Sardegna</a><div class="r"><small>1,1 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/sardegna/adesso/" title="Radar Sardegna">📡</a><a href="https://precipitazioni.avventuremicologiche.it/sardegna/storico/" title="Storico Sardegna">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=sicilia&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/sicilia-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Sicilia" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/sicilia/">Sicilia</a><div class="r"><small>0,0 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/sicilia/adesso/" title="Radar Sicilia">📡</a><a href="https://precipitazioni.avventuremicologiche.it/sicilia/storico/" title="Storico Sicilia">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=toscana&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/toscana-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Toscana" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/toscana/">Toscana</a><div class="r"><small>1,1 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/toscana/adesso/" title="Radar Toscana">📡</a><a href="https://precipitazioni.avventuremicologiche.it/toscana/storico/" title="Storico Toscana">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=trentino&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/trentino-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Trentino" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/trentino/">Trentino</a><div class="r"><small>0,3 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/trentino/adesso/" title="Radar Trentino">📡</a><a href="https://precipitazioni.avventuremicologiche.it/trentino/storico/" title="Storico Trentino">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=umbria&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/umbria-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Umbria" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/umbria/">Umbria</a><div class="r"><small>2,7 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/umbria/adesso/" title="Radar Umbria">📡</a><a href="https://precipitazioni.avventuremicologiche.it/umbria/storico/" title="Storico Umbria">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=valledaosta&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/valledaosta-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Valle d'Aosta" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/valledaosta/">Valle d'Aosta</a><div class="r"><small>3,7 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/valledaosta/adesso/" title="Radar Valle d'Aosta">📡</a><a href="https://precipitazioni.avventuremicologiche.it/valledaosta/storico/" title="Storico Valle d'Aosta">📅</a></span></div></div></div><div class="c"><a class="f" href="https://precipitazioni.avventuremicologiche.it/?r=veneto&amp;da=2026-11-20&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'ieri-italia-mini-mappa'})}catch(e){}"><img src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/veneto-ieri.webp" onerror="this.closest('a').style.display='none'" loading="lazy" alt="La pioggia di ieri in Veneto" width="1600" height="1330"></a><div class="t"><a class="n" href="https://precipitazioni.avventuremicologiche.it/veneto/">Veneto</a><div class="r"><small>0,2 mm</small><span><a href="https://precipitazioni.avventuremicologiche.it/veneto/adesso/" title="Radar Veneto">📡</a><a href="https://precipitazioni.avventuremicologiche.it/veneto/storico/" title="Storico Veneto">📅</a></span></div></div></div></div>
+<div class="st-scala"><b>Millimetri caduti ieri</b><div class="g"></div><div class="l"><span>0</span><span>20</span><span>60</span><span>125</span><span>200</span><span>300+</span></div></div>
+<p class="nota">Ogni mappa apre la pioggia di ieri della regione; il nome porta alla sua pagina con le zone, 📡 al radar, 📅 allo storico mese per mese.</p>
+</main>
+
+<footer>
+<nav class="altre">
+  <b>Dove ha piovuto: tutti i pluviometri, pianura compresa</b>
+  <p><a href="https://precipitazioni.avventuremicologiche.it/lombardia/">Lombardia</a> · <a href="https://precipitazioni.avventuremicologiche.it/piemonte/">Piemonte</a> · <a href="https://precipitazioni.avventuremicologiche.it/valledaosta/">Valle d'Aosta</a> · <a href="https://precipitazioni.avventuremicologiche.it/liguria/">Liguria</a> · <a href="https://precipitazioni.avventuremicologiche.it/emilia/">Emilia-Romagna</a> · <a href="https://precipitazioni.avventuremicologiche.it/veneto/">Veneto</a> · <a href="https://precipitazioni.avventuremicologiche.it/friuli/">Friuli</a> · <a href="https://precipitazioni.avventuremicologiche.it/trentino/">Trentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/altoadige/">Alto Adige</a> · <a href="https://precipitazioni.avventuremicologiche.it/toscana/">Toscana</a> · <a href="https://precipitazioni.avventuremicologiche.it/umbria/">Umbria</a> · <a href="https://precipitazioni.avventuremicologiche.it/marche/">Marche</a> · <a href="https://precipitazioni.avventuremicologiche.it/lazio/">Lazio</a> · <a href="https://precipitazioni.avventuremicologiche.it/molise/">Molise</a> · <a href="https://precipitazioni.avventuremicologiche.it/campania/">Campania</a> · <a href="https://precipitazioni.avventuremicologiche.it/puglia/">Puglia</a> · <a href="https://precipitazioni.avventuremicologiche.it/basilicata/">Basilicata</a> · <a href="https://precipitazioni.avventuremicologiche.it/calabria/">Calabria</a> · <a href="https://precipitazioni.avventuremicologiche.it/sicilia/">Sicilia</a> · <a href="https://precipitazioni.avventuremicologiche.it/sardegna/">Sardegna</a> · <a href="https://precipitazioni.avventuremicologiche.it/svizzera/">Svizzera</a> · <a href="https://precipitazioni.avventuremicologiche.it/austria/">Austria</a></p>
+</nav>
+  Dati: le reti regionali dei pluviometri ·
+  <a href="https://precipitazioni.avventuremicologiche.it/fonti">tutte le fonti e licenze</a> ·
+  <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
+  La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
+</footer>
+</body>
+</html>

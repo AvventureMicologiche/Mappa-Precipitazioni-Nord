@@ -64,6 +64,11 @@ jobs:
       - name: Rigenera lo storico mese per mese
         continue-on-error: true
         run: node .github/scripts/genera-pagine-storico.js
+      # 21/11/2026 (scheda 142): la pagina «Ieri in Italia» (/ieri-in-italia/), la classifica misurata di ieri. Dai file
+      # gia' qui, nessuna rete. Se fallisce, il resto del giro va avanti.
+      - name: Rigenera «Ieri in Italia»
+        continue-on-error: true
+        run: node .github/scripts/genera-ieri-italia.js
       - name: Rigenera le citta' «adesso» cotte
         continue-on-error: true
         run: SOLO=citta node .github/scripts/genera-pagine-adesso.js

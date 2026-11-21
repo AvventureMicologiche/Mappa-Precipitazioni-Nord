@@ -89,7 +89,7 @@ function scriviSitemap(SITO, RADICE) {
 
   // Quattro famiglie, quattro file. La prima tiene anche la home e le fonti:
   // sono due pagine, non meritano una sitemap loro.
-  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoD: [], meteoPaesi: [], meteoPaesiB: [], meteoPaesiC: [], adessoCitta: [], storico: [] };
+  const fam = { mappa: [], funghi: [], localita: [], zone: [], zonePiogge: [], forestale: [], meteo: [], meteoB: [], meteoC: [], meteoD: [], meteoPaesi: [], meteoPaesiB: [], meteoPaesiC: [], adessoCitta: [], storico: [], ieri: [] };
   const voci = fam.mappa;
 
   voci.push({ loc: SITO + '/', lastmod: dataDi('index.html', '2026-10-31'), freq: 'daily', pri: '1.0' });   // 31/10: titolo nuovo (scheda 104 bis)
@@ -155,6 +155,12 @@ function scriviSitemap(SITO, RADICE) {
     if (!c_e(rel)) continue;
     const m = /data-fine="(\d{4}-\d\d-\d\d)"/.exec(fs.readFileSync(path.join(RADICE, rel), 'utf8'));
     fam.storico.push({ loc: `${SITO}/${d}/storico/`, lastmod: m ? m[1] : '2026-11-21', freq: 'daily', pri: '0.7' });
+  }
+  // «Ieri in Italia» (21/11/2026, scheda 142, genera-ieri-italia.js): una pagina sola, riscritta ogni mattina; nella sua
+  // sitemap per misurarla da sola. La data e' il giorno della classifica (data-fine).
+  if (c_e(path.join('ieri-in-italia', 'index.html'))) {
+    const m = /data-fine="(d{4}-dd-dd)"/.exec(fs.readFileSync(path.join(RADICE, 'ieri-in-italia', 'index.html'), 'utf8'));
+    fam.ieri.push({ loc: `${SITO}/ieri-in-italia/`, lastmod: m ? m[1] : '2026-11-21', freq: 'daily', pri: '0.7' });
   }
   // Le pagine funghi restano a 0.7: la priorita' e' solo un peso RELATIVO
   // dentro il sito, e la pagina regione e' quella che vogliamo far uscire
@@ -280,7 +286,7 @@ function scriviSitemap(SITO, RADICE) {
                  zonePiogge: 'sitemap-zone-piogge.xml', forestale: 'sitemap-mappa-forestale.xml',
                  meteo: 'sitemap-meteo.xml', meteoB: 'sitemap-meteo-b.xml', meteoC: 'sitemap-meteo-c.xml', meteoD: 'sitemap-meteo-d.xml', meteoPaesi: 'sitemap-meteo-paesi.xml',
                  meteoPaesiB: 'sitemap-meteo-paesi-b.xml', meteoPaesiC: 'sitemap-meteo-paesi-c.xml', adessoCitta: 'sitemap-adesso-citta.xml',
-                 storico: 'sitemap-storico.xml' };
+                 storico: 'sitemap-storico.xml', ieri: 'sitemap-ieri.xml' };
   // le ondate dopo la prima delle citta' «adesso» (5/11/2026): adessoCitta2 → sitemap-adesso-citta-2.xml, e cosi' via
   for (const k of Object.keys(fam).filter(k => /^adessoCitta\d+$/.test(k)).sort((a, b) => a.slice(11) - b.slice(11)))
     NOMI[k] = `sitemap-adesso-citta-${k.slice(11)}.xml`;
