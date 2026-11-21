@@ -67,9 +67,12 @@ html.funghi-inverno .gg .b i{background:var(--blu)}
 .verdetto .si.neutro{font-size:22px;font-weight:700;opacity:.9}
 </style>`;
 const SCHEDA_INVERNO = '<div class="pausa-inv solo-inverno">'
-  + '<div class="si"><span class="fiocco">❄️</span>Stagione ferma fino a marzo</div>'
-  + '<div class="dett">Da dicembre a febbraio i funghi sono pochi quasi ovunque, e la pioggia di 13-20 giorni fa conta '
-  + 'poco. Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div>'
+  // ⚠️ testo suo (21/11/2026, scheda 141): «chiusa la stagione dei funghi epigei», «resta aperta la stagione dei
+  // tartufi secondo i calendari regionali». Si danno i dati, NON come usarli: niente frasi su cosa vuol dire la pioggia
+  // per i tartufi (vedi la nota «niente pagine tartufi»: per loro la finestra dei 13-20 giorni non vale)
+  + '<div class="si"><span class="fiocco">❄️</span>Chiusa la stagione dei funghi epigei</div>'
+  + '<div class="dett">Resta aperta la stagione dei tartufi, secondo i calendari regionali. '
+  + 'Qui sotto la pioggia vera dei pluviometri e il meteo restano aggiornati ogni giorno.</div>'
   + '<div class="torna">Da marzo la pagina riparte con la stagione dei <b>marzuoli e delle morchelle</b>.</div></div>';
 
 const TESTI = {
