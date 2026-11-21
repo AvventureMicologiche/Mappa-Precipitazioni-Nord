@@ -1,0 +1,947 @@
+{
+ "regione": "lombardia",
+ "nome": "Lombardia",
+ "frontiera": "2026-01-01",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "val-grigna",
+   "n": "Val Grigna"
+  },
+  {
+   "slug": "valle-sabbia",
+   "n": "Valle Sabbia"
+  },
+  {
+   "slug": "val-trompia",
+   "n": "Val Trompia"
+  },
+  {
+   "slug": "val-brembana",
+   "n": "Val Brembana"
+  },
+  {
+   "slug": "val-sedornia",
+   "n": "Val Sedornia"
+  },
+  {
+   "slug": "val-cavargna",
+   "n": "Val Cavargna"
+  },
+  {
+   "slug": "val-serina",
+   "n": "Val Serina"
+  },
+  {
+   "slug": "valmalenco",
+   "n": "Valmalenco"
+  },
+  {
+   "slug": "valsassina",
+   "n": "Valsassina"
+  },
+  {
+   "slug": "monte-san-giorgio",
+   "n": "Monte San Giorgio"
+  },
+  {
+   "slug": "valle-dei-ratti",
+   "n": "Valle dei Ratti"
+  },
+  {
+   "slug": "val-paisco",
+   "n": "Val Paisco"
+  },
+  {
+   "slug": "valle-san-giacomo",
+   "n": "Valle San Giacomo"
+  },
+  {
+   "slug": "val-veddasca",
+   "n": "Val Veddasca"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-01",
+   "dal": "2026-01-01",
+   "al": "2026-01-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 250,
+   "media": 44.4,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-01-28",
+    "mm": 16.9
+   },
+   "top": [
+    {
+     "n": "Ispra JRC",
+     "p": "VA",
+     "mm": 86
+    },
+    {
+     "n": "Varano Borghi",
+     "p": "VA",
+     "mm": 83.4
+    },
+    {
+     "n": "Angera v.le Repubblica",
+     "p": "VA",
+     "mm": 82.8
+    },
+    {
+     "n": "Valganna Mondonico",
+     "p": "VA",
+     "mm": 82.6
+    },
+    {
+     "n": "Castronno",
+     "p": "VA",
+     "mm": 81.6
+    }
+   ],
+   "province": {
+    "Sondrio": 27,
+    "Varese": 67.4,
+    "Lecco": 41.4,
+    "Lodi": 49.5,
+    "Brescia": 44.5,
+    "Bergamo": 48.4,
+    "Cremona": 44.8,
+    "Pavia": 49.2,
+    "Milano": 51.7,
+    "Como": 49.3,
+    "Monza": 54.4,
+    "Mantova": 44.3
+   },
+   "zone": {
+    "val-grigna": 38.3,
+    "valle-sabbia": 64.7,
+    "val-trompia": 47.8,
+    "val-brembana": 52.8,
+    "val-sedornia": 59.9,
+    "val-cavargna": 46.2,
+    "val-serina": 58.9,
+    "valmalenco": 30.7,
+    "valsassina": 41.9,
+    "monte-san-giorgio": 71.5,
+    "valle-dei-ratti": 36.8,
+    "val-paisco": 43.6,
+    "valle-san-giacomo": 40.3,
+    "val-veddasca": 52
+   },
+   "record": {
+    "n": "Oltre il Colle Zambla",
+    "p": "BG",
+    "g": "2026-01-28",
+    "mm": 43.6,
+    "lat": 45.89119,
+    "lon": 9.78894
+   }
+  },
+  {
+   "mese": "2026-02",
+   "dal": "2026-02-01",
+   "al": "2026-02-28",
+   "intero": true,
+   "giorni": 28,
+   "stimati": 0,
+   "stazioni": 251,
+   "media": 70,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-02-19",
+    "mm": 17
+   },
+   "top": [
+    {
+     "n": "Santa Margherita di Staffora Passo del Giovà",
+     "p": "PV",
+     "mm": 156
+    },
+    {
+     "n": "Canevino",
+     "p": "PV",
+     "mm": 152.8
+    },
+    {
+     "n": "Bertonico v.Moro",
+     "p": "LO",
+     "mm": 147.8
+    },
+    {
+     "n": "Santa Margherita di Staffora Casanova",
+     "p": "PV",
+     "mm": 141
+    },
+    {
+     "n": "Fortunago",
+     "p": "PV",
+     "mm": 129.4
+    }
+   ],
+   "province": {
+    "Sondrio": 45.2,
+    "Varese": 67.8,
+    "Lecco": 65.2,
+    "Lodi": 122.4,
+    "Brescia": 62,
+    "Bergamo": 74.4,
+    "Cremona": 106.6,
+    "Pavia": 113.5,
+    "Milano": 89.5,
+    "Como": 64.9,
+    "Monza": 87,
+    "Mantova": 73.7
+   },
+   "zone": {
+    "val-grigna": 54.8,
+    "valle-sabbia": 88.3,
+    "val-trompia": 63.5,
+    "val-brembana": 84.4,
+    "val-sedornia": 71,
+    "val-cavargna": 55.8,
+    "val-serina": 86.1,
+    "valmalenco": 46.3,
+    "valsassina": 56.3,
+    "monte-san-giorgio": 64.5,
+    "valle-dei-ratti": 50.9,
+    "val-paisco": 47.5,
+    "valle-san-giacomo": 41,
+    "val-veddasca": 47.8
+   },
+   "record": {
+    "n": "Canevino",
+    "p": "PV",
+    "g": "2026-02-19",
+    "mm": 46,
+    "lat": 44.9348,
+    "lon": 9.27567
+   }
+  },
+  {
+   "mese": "2026-03",
+   "dal": "2026-03-01",
+   "al": "2026-03-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 251,
+   "media": 52.9,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-03-14",
+    "mm": 25.9
+   },
+   "top": [
+    {
+     "n": "Cuveglio",
+     "p": "VA",
+     "mm": 173.4
+    },
+    {
+     "n": "Laveno-Mombello p.zza Matteotti",
+     "p": "VA",
+     "mm": 166.8
+    },
+    {
+     "n": "Valganna Mondonico",
+     "p": "VA",
+     "mm": 160.3
+    },
+    {
+     "n": "Angera v.le Repubblica",
+     "p": "VA",
+     "mm": 142.8
+    },
+    {
+     "n": "Ispra JRC",
+     "p": "VA",
+     "mm": 141.4
+    }
+   ],
+   "province": {
+    "Sondrio": 35.8,
+    "Varese": 120.1,
+    "Lecco": 62.6,
+    "Lodi": 30,
+    "Brescia": 35.2,
+    "Bergamo": 58.4,
+    "Cremona": 17.8,
+    "Pavia": 55.4,
+    "Milano": 57.4,
+    "Como": 77.5,
+    "Monza": 60.6,
+    "Mantova": 26.9
+   },
+   "zone": {
+    "val-grigna": 45.2,
+    "valle-sabbia": 52.9,
+    "val-trompia": 60.1,
+    "val-brembana": 66.7,
+    "val-sedornia": 67.5,
+    "val-cavargna": 85.4,
+    "val-serina": 63,
+    "valmalenco": 42.3,
+    "valsassina": 61.2,
+    "monte-san-giorgio": 152.9,
+    "valle-dei-ratti": 66,
+    "val-paisco": 23.4,
+    "valle-san-giacomo": 46.6,
+    "val-veddasca": 66.6
+   },
+   "record": {
+    "n": "Laveno-Mombello p.zza Matteotti",
+    "p": "VA",
+    "g": "2026-03-14",
+    "mm": 106.2,
+    "lat": 45.90991,
+    "lon": 8.61869
+   }
+  },
+  {
+   "mese": "2026-04",
+   "dal": "2026-04-01",
+   "al": "2026-04-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 250,
+   "media": 35.8,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-04-28",
+    "mm": 6.3
+   },
+   "top": [
+    {
+     "n": "Branzi Il Pizzo",
+     "p": "BG",
+     "mm": 121.4
+    },
+    {
+     "n": "Piazza Brembana vivaio",
+     "p": "BG",
+     "mm": 111.2
+    },
+    {
+     "n": "Piazzatorre",
+     "p": "BG",
+     "mm": 104.4
+    },
+    {
+     "n": "Barzio Piani di Bobbio",
+     "p": "LC",
+     "mm": 100.6
+    },
+    {
+     "n": "Valtorta",
+     "p": "BG",
+     "mm": 86
+    }
+   ],
+   "province": {
+    "Sondrio": 23.4,
+    "Varese": 37.9,
+    "Lecco": 59.2,
+    "Lodi": 14.4,
+    "Brescia": 31.3,
+    "Bergamo": 58.7,
+    "Cremona": 14.6,
+    "Pavia": 29.6,
+    "Milano": 28.2,
+    "Como": 45.1,
+    "Monza": 35.8,
+    "Mantova": 22.8
+   },
+   "zone": {
+    "val-grigna": 32.9,
+    "valle-sabbia": 42.6,
+    "val-trompia": 32.7,
+    "val-brembana": 78.3,
+    "val-sedornia": 63.7,
+    "val-cavargna": 46.3,
+    "val-serina": 54.2,
+    "valmalenco": 19,
+    "valsassina": 63.7,
+    "monte-san-giorgio": 42.3,
+    "valle-dei-ratti": 30.8,
+    "val-paisco": 22.3,
+    "valle-san-giacomo": 19.1,
+    "val-veddasca": 49.6
+   },
+   "record": {
+    "n": "Branzi Il Pizzo",
+    "p": "BG",
+    "g": "2026-04-28",
+    "mm": 62,
+    "lat": 45.99708,
+    "lon": 9.74368
+   }
+  },
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-01",
+   "al": "2026-05-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 252,
+   "media": 98.3,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-05-06",
+    "mm": 25.2
+   },
+   "top": [
+    {
+     "n": "Vercana",
+     "p": "CO",
+     "mm": 266.4
+    },
+    {
+     "n": "Gerola Alta Pescegallo",
+     "p": "SO",
+     "mm": 225
+    },
+    {
+     "n": "Montemezzo Gera Lario",
+     "p": "CO",
+     "mm": 210.5
+    },
+    {
+     "n": "Vilminore di Scalve Presolana",
+     "p": "BG",
+     "mm": 194.6
+    },
+    {
+     "n": "San Giovanni Bianco Cornalita",
+     "p": "BG",
+     "mm": 186
+    }
+   ],
+   "province": {
+    "Sondrio": 92.4,
+    "Varese": 96.3,
+    "Lecco": 113.8,
+    "Lodi": 71.4,
+    "Brescia": 98.5,
+    "Bergamo": 127.7,
+    "Cremona": 70.2,
+    "Pavia": 61.6,
+    "Milano": 74.3,
+    "Como": 126.3,
+    "Monza": 88.5,
+    "Mantova": 65.1
+   },
+   "zone": {
+    "val-grigna": 88.8,
+    "valle-sabbia": 110.4,
+    "val-trompia": 103.6,
+    "val-brembana": 155.7,
+    "val-sedornia": 117.3,
+    "val-cavargna": 154.1,
+    "val-serina": 132,
+    "valmalenco": 91.3,
+    "valsassina": 127.1,
+    "monte-san-giorgio": 104.8,
+    "valle-dei-ratti": 146.5,
+    "val-paisco": 100.7,
+    "valle-san-giacomo": 101.3,
+    "val-veddasca": 99.2
+   },
+   "record": {
+    "n": "Vertemate con Minoprio serre",
+    "p": "CO",
+    "g": "2026-05-06",
+    "mm": 96.8,
+    "lat": 45.71901,
+    "lon": 9.08549
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 253,
+   "media": 144.6,
+   "giorniPioggia": 20,
+   "giornoPiovoso": {
+    "g": "2026-06-02",
+    "mm": 56.6
+   },
+   "top": [
+    {
+     "n": "Foppolo",
+     "p": "BG",
+     "mm": 352
+    },
+    {
+     "n": "Gerola Alta Pescegallo",
+     "p": "SO",
+     "mm": 314.2
+    },
+    {
+     "n": "Azzone Dezzo di Scalve",
+     "p": "BG",
+     "mm": 297
+    },
+    {
+     "n": "Mezzoldo Passo S.Marco",
+     "p": "BG",
+     "mm": 284.8
+    },
+    {
+     "n": "Piazzatorre",
+     "p": "BG",
+     "mm": 270.6
+    }
+   ],
+   "province": {
+    "Sondrio": 162.3,
+    "Varese": 148.1,
+    "Lecco": 182.4,
+    "Lodi": 48.6,
+    "Brescia": 140,
+    "Bergamo": 197,
+    "Cremona": 52.4,
+    "Pavia": 38.9,
+    "Milano": 116.7,
+    "Como": 178,
+    "Monza": 156.2,
+    "Mantova": 46.8
+   },
+   "zone": {
+    "val-grigna": 144.1,
+    "valle-sabbia": 145.2,
+    "val-trompia": 116.1,
+    "val-brembana": 188.5,
+    "val-sedornia": 189.5,
+    "val-cavargna": 212.5,
+    "val-serina": 219.2,
+    "valmalenco": 153.9,
+    "valsassina": 234.8,
+    "monte-san-giorgio": 184,
+    "valle-dei-ratti": 163.5,
+    "val-paisco": 189.3,
+    "valle-san-giacomo": 171.7,
+    "val-veddasca": 232.6
+   },
+   "record": {
+    "n": "Varese v.Appiani",
+    "p": "VA",
+    "g": "2026-06-02",
+    "mm": 161.6,
+    "lat": 45.8325,
+    "lon": 8.82361
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 252,
+   "media": 61.4,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-07-17",
+    "mm": 13.5
+   },
+   "top": [
+    {
+     "n": "San Giovanni Bianco Cornalita",
+     "p": "BG",
+     "mm": 179.8
+    },
+    {
+     "n": "Fuipiano Valle Imagna Pagafone",
+     "p": "BG",
+     "mm": 179.6
+    },
+    {
+     "n": "Gandellino Tezzi",
+     "p": "BG",
+     "mm": 157.1
+    },
+    {
+     "n": "Oltre il Colle Zambla",
+     "p": "BG",
+     "mm": 152
+    },
+    {
+     "n": "Tirano eliporto",
+     "p": "SO",
+     "mm": 147.6
+    }
+   ],
+   "province": {
+    "Sondrio": 62.2,
+    "Varese": 39.6,
+    "Lecco": 59.8,
+    "Lodi": 22.8,
+    "Brescia": 77.1,
+    "Bergamo": 100.5,
+    "Cremona": 38.5,
+    "Pavia": 34.9,
+    "Milano": 21.6,
+    "Como": 50.3,
+    "Monza": 30.2,
+    "Mantova": 82.1
+   },
+   "zone": {
+    "val-grigna": 75.7,
+    "valle-sabbia": 61.6,
+    "val-trompia": 50.3,
+    "val-brembana": 139.6,
+    "val-sedornia": 137,
+    "val-cavargna": 61.3,
+    "val-serina": 113.2,
+    "valmalenco": 34.5,
+    "valsassina": 61.9,
+    "monte-san-giorgio": 57.2,
+    "valle-dei-ratti": 58.2,
+    "val-paisco": 117.7,
+    "valle-san-giacomo": 53.9,
+    "val-veddasca": 39.4
+   },
+   "record": {
+    "n": "Gargnano ",
+    "p": "BS",
+    "g": "2026-07-01",
+    "mm": 90.2,
+    "lat": 45.72996,
+    "lon": 10.61741
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 253,
+   "media": 163.8,
+   "giorniPioggia": 15,
+   "giornoPiovoso": {
+    "g": "2026-08-20",
+    "mm": 47.4
+   },
+   "top": [
+    {
+     "n": "Ponte in Valtellina Lago Reguzzo",
+     "p": "SO",
+     "mm": 491.6
+    },
+    {
+     "n": "Gerola Alta Pescegallo",
+     "p": "SO",
+     "mm": 474.8
+    },
+    {
+     "n": "Carona Lago Fregabolgia",
+     "p": "BG",
+     "mm": 474.4
+    },
+    {
+     "n": "Carona Carisole",
+     "p": "BG",
+     "mm": 411
+    },
+    {
+     "n": "Branzi Caserma Carabinieri",
+     "p": "BG",
+     "mm": 402.2
+    }
+   ],
+   "province": {
+    "Sondrio": 206.4,
+    "Varese": 190.7,
+    "Lecco": 213.3,
+    "Lodi": 40,
+    "Brescia": 127,
+    "Bergamo": 227.6,
+    "Cremona": 48.8,
+    "Pavia": 71.4,
+    "Milano": 66.4,
+    "Como": 218.5,
+    "Monza": 117.8,
+    "Mantova": 47.2
+   },
+   "zone": {
+    "val-grigna": 137.8,
+    "valle-sabbia": 85.5,
+    "val-trompia": 97.3,
+    "val-brembana": 236.1,
+    "val-sedornia": 282.3,
+    "val-cavargna": 294.2,
+    "val-serina": 196,
+    "valmalenco": 206.5,
+    "valsassina": 292.8,
+    "monte-san-giorgio": 207.7,
+    "valle-dei-ratti": 286.2,
+    "val-paisco": 257.9,
+    "valle-san-giacomo": 253.1,
+    "val-veddasca": 259.3
+   },
+   "record": {
+    "n": "Ponte in Valtellina Lago Reguzzo",
+    "p": "SO",
+    "g": "2026-08-20",
+    "mm": 211.6,
+    "lat": 46.09651,
+    "lon": 9.97
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 253,
+   "media": 93.6,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-09-09",
+    "mm": 42.8
+   },
+   "top": [
+    {
+     "n": "Rota d'Imagna",
+     "p": "BG",
+     "mm": 214
+    },
+    {
+     "n": "Osnago",
+     "p": "LC",
+     "mm": 203.4
+    },
+    {
+     "n": "Bosisio Parini Imbarcadero",
+     "p": "LC",
+     "mm": 194.8
+    },
+    {
+     "n": "Molteno Cimitero",
+     "p": "LC",
+     "mm": 192
+    },
+    {
+     "n": "Lesmo Peregallo",
+     "p": "MB",
+     "mm": 189.6
+    }
+   ],
+   "province": {
+    "Sondrio": 81.8,
+    "Varese": 57.9,
+    "Lecco": 135.3,
+    "Lodi": 48.6,
+    "Brescia": 110.5,
+    "Bergamo": 129.5,
+    "Cremona": 54.7,
+    "Pavia": 55.3,
+    "Milano": 70.7,
+    "Como": 104.3,
+    "Monza": 125.7,
+    "Mantova": 61.7
+   },
+   "zone": {
+    "val-grigna": 123.6,
+    "valle-sabbia": 124,
+    "val-trompia": 128.7,
+    "val-brembana": 157.5,
+    "val-sedornia": 118.8,
+    "val-cavargna": 79.6,
+    "val-serina": 115.9,
+    "valmalenco": 65.7,
+    "valsassina": 77.6,
+    "monte-san-giorgio": 63.3,
+    "valle-dei-ratti": 113,
+    "val-paisco": 124.9,
+    "valle-san-giacomo": 64.9,
+    "val-veddasca": 42.8
+   },
+   "record": {
+    "n": "Rota d'Imagna",
+    "p": "BG",
+    "g": "2026-09-09",
+    "mm": 113,
+    "lat": 45.83984,
+    "lon": 9.51135
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 251,
+   "media": 100.3,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 40
+   },
+   "top": [
+    {
+     "n": "Vilminore di Scalve Presolana",
+     "p": "BG",
+     "mm": 271.8
+    },
+    {
+     "n": "Gerola Alta Pescegallo",
+     "p": "SO",
+     "mm": 256.4
+    },
+    {
+     "n": "Oltre il Colle Zambla",
+     "p": "BG",
+     "mm": 253.4
+    },
+    {
+     "n": "Ardesio Valcanale",
+     "p": "BG",
+     "mm": 244.6
+    },
+    {
+     "n": "Carona Lago Fregabolgia",
+     "p": "BG",
+     "mm": 235.8
+    }
+   ],
+   "province": {
+    "Sondrio": 95.3,
+    "Varese": 149.5,
+    "Lecco": 124.7,
+    "Lodi": 72,
+    "Brescia": 78.8,
+    "Bergamo": 144.2,
+    "Cremona": 42.5,
+    "Pavia": 49.1,
+    "Milano": 65.7,
+    "Como": 134.7,
+    "Monza": 81.5,
+    "Mantova": 36.7
+   },
+   "zone": {
+    "val-grigna": 84.1,
+    "valle-sabbia": 89.2,
+    "val-trompia": 87.5,
+    "val-brembana": 157.6,
+    "val-sedornia": 157.7,
+    "val-cavargna": 159.2,
+    "val-serina": 177.9,
+    "valmalenco": 103.8,
+    "valsassina": 146.3,
+    "monte-san-giorgio": 177.8,
+    "valle-dei-ratti": 119.9,
+    "val-paisco": 96.5,
+    "valle-san-giacomo": 101.2,
+    "val-veddasca": 173.7
+   },
+   "record": {
+    "n": "Gerola Alta Pescegallo",
+    "p": "SO",
+    "g": "2026-10-21",
+    "mm": 117,
+    "lat": 46.0262,
+    "lon": 9.57112
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 252,
+   "media": 51.6,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 26.1
+   },
+   "top": [
+    {
+     "n": "Mantova S.Agnese",
+     "p": "MN",
+     "mm": 108.4
+    },
+    {
+     "n": "Bigarello",
+     "p": "MN",
+     "mm": 108.2
+    },
+    {
+     "n": "Sermide e Felonica SP 91",
+     "p": "MN",
+     "mm": 105
+    },
+    {
+     "n": "Mantova Lunetta2 SMR",
+     "p": "MN",
+     "mm": 100.8
+    },
+    {
+     "n": "Ponti sul Mincio Monzambano",
+     "p": "MN",
+     "mm": 93.2
+    }
+   ],
+   "province": {
+    "Sondrio": 34.7,
+    "Varese": 41.8,
+    "Lecco": 46.5,
+    "Lodi": 75.4,
+    "Brescia": 58.6,
+    "Bergamo": 53.3,
+    "Cremona": 76.1,
+    "Pavia": 66.6,
+    "Milano": 57.1,
+    "Como": 43.3,
+    "Monza": 51.6,
+    "Mantova": 97.4
+   },
+   "zone": {
+    "val-grigna": 53.6,
+    "valle-sabbia": 63.7,
+    "val-trompia": 47.2,
+    "val-brembana": 49.7,
+    "val-sedornia": 51.7,
+    "val-cavargna": 39.6,
+    "val-serina": 53.7,
+    "valmalenco": 41,
+    "valsassina": 45.1,
+    "monte-san-giorgio": 42.2,
+    "valle-dei-ratti": 39.4,
+    "val-paisco": 47.1,
+    "valle-san-giacomo": 34.8,
+    "val-veddasca": 40.5
+   },
+   "record": {
+    "n": "Vigevano SS494",
+    "p": "PV",
+    "g": "2026-11-12",
+    "mm": 46,
+    "lat": 45.34248,
+    "lon": 8.88067
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

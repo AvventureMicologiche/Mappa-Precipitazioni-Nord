@@ -1,0 +1,419 @@
+{
+ "regione": "friuli",
+ "nome": "Friuli Venezia Giulia",
+ "frontiera": "2026-06-26",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "val-d-aupa",
+   "n": "Val d'Aupa"
+  },
+  {
+   "slug": "val-settimana",
+   "n": "Val Settimana"
+  },
+  {
+   "slug": "val-chiarso",
+   "n": "Val Chiarsò"
+  },
+  {
+   "slug": "carnia",
+   "n": "Carnia"
+  },
+  {
+   "slug": "val-rio-del-lago",
+   "n": "Val Rio del Lago"
+  },
+  {
+   "slug": "val-raccolana",
+   "n": "Val Raccolana"
+  },
+  {
+   "slug": "val-resia",
+   "n": "Val Resia"
+  },
+  {
+   "slug": "val-pesarina",
+   "n": "Val Pesarina"
+  },
+  {
+   "slug": "gran-monte",
+   "n": "Gran Monte"
+  },
+  {
+   "slug": "valle-del-but",
+   "n": "Valle del But"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-26",
+   "al": "2026-06-30",
+   "intero": false,
+   "giorni": 5,
+   "stimati": 0,
+   "stazioni": 40,
+   "media": 3.3,
+   "giorniPioggia": 1,
+   "giornoPiovoso": {
+    "g": "2026-06-30",
+    "mm": 2.1
+   },
+   "top": [
+    {
+     "n": "Piancavallo",
+     "p": null,
+     "mm": 30.9
+    },
+    {
+     "n": "Forni di Sopra",
+     "p": null,
+     "mm": 23.6
+    },
+    {
+     "n": "Barcis",
+     "p": null,
+     "mm": 13.3
+    },
+    {
+     "n": "Tarvisio",
+     "p": null,
+     "mm": 9.8
+    },
+    {
+     "n": "Enemonzo",
+     "p": null,
+     "mm": 9
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-settimana": 3.1,
+    "carnia": 5.3,
+    "val-rio-del-lago": 5,
+    "gran-monte": 7,
+    "valle-del-but": 1.5
+   },
+   "record": {
+    "n": "Piancavallo",
+    "p": null,
+    "g": "2026-06-30",
+    "mm": 29.1,
+    "lat": 46.1149,
+    "lon": 12.5244
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 40,
+   "media": 49.6,
+   "giorniPioggia": 14,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 9.3
+   },
+   "top": [
+    {
+     "n": "Pordenone Meteo",
+     "p": null,
+     "mm": 120
+    },
+    {
+     "n": "Musi",
+     "p": null,
+     "mm": 117.8
+    },
+    {
+     "n": "Piancavallo",
+     "p": null,
+     "mm": 101.6
+    },
+    {
+     "n": "Barcis",
+     "p": null,
+     "mm": 93.9
+    },
+    {
+     "n": "Cave del Predil",
+     "p": null,
+     "mm": 85.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-settimana": 62.4,
+    "carnia": 70.7,
+    "val-rio-del-lago": 82.9,
+    "gran-monte": 117.8,
+    "valle-del-but": 69.7
+   },
+   "record": {
+    "n": "Musi",
+    "p": null,
+    "g": "2026-07-26",
+    "mm": 70.5,
+    "lat": 46.3127,
+    "lon": 13.2747
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 144,
+   "media": 121.5,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-08-20",
+    "mm": 43.3
+   },
+   "top": [
+    {
+     "n": "Meduno",
+     "p": null,
+     "mm": 281.1
+    },
+    {
+     "n": "Moggio Udinese",
+     "p": null,
+     "mm": 256
+    },
+    {
+     "n": "Alesso",
+     "p": null,
+     "mm": 242.3
+    },
+    {
+     "n": "Campone",
+     "p": null,
+     "mm": 229.6
+    },
+    {
+     "n": "Fusine Alpe del Lago",
+     "p": null,
+     "mm": 220.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-d-aupa": 219.4,
+    "val-settimana": 153,
+    "val-chiarso": 164,
+    "carnia": 115.6,
+    "val-rio-del-lago": 179.1,
+    "val-raccolana": 187.7,
+    "val-resia": 178,
+    "val-pesarina": 112.5,
+    "gran-monte": 166.8,
+    "valle-del-but": 112.3
+   },
+   "record": {
+    "n": "Moggio Udinese",
+    "p": null,
+    "g": "2026-08-20",
+    "mm": 178.8,
+    "lat": 46.4001,
+    "lon": 13.1851
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 132.2,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 81.2
+   },
+   "top": [
+    {
+     "n": "Lignano Sabbiadoro",
+     "p": null,
+     "mm": 311.3
+    },
+    {
+     "n": "Lignano Sabbiadoro PCR",
+     "p": null,
+     "mm": 306.2
+    },
+    {
+     "n": "Gorgo",
+     "p": null,
+     "mm": 269.8
+    },
+    {
+     "n": "Torviscosa",
+     "p": null,
+     "mm": 207.8
+    },
+    {
+     "n": "Palazzolo dello Stella",
+     "p": null,
+     "mm": 205.7
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-d-aupa": 103.2,
+    "val-settimana": 109.1,
+    "val-chiarso": 93.8,
+    "carnia": 105.1,
+    "val-rio-del-lago": 140.6,
+    "val-raccolana": 119.9,
+    "val-resia": 127.2,
+    "val-pesarina": 136.1,
+    "gran-monte": 155.1,
+    "valle-del-but": 109.5
+   },
+   "record": {
+    "n": "Lignano Sabbiadoro",
+    "p": null,
+    "g": "2026-09-10",
+    "mm": 234.5,
+    "lat": 45.7019,
+    "lon": 13.1471
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 141,
+   "media": 126.1,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 66.2
+   },
+   "top": [
+    {
+     "n": "Malga Valine",
+     "p": null,
+     "mm": 381.8
+    },
+    {
+     "n": "Piancavallo",
+     "p": null,
+     "mm": 326.9
+    },
+    {
+     "n": "Ca' Selva Invaso",
+     "p": null,
+     "mm": 320.2
+    },
+    {
+     "n": "Chievolis",
+     "p": null,
+     "mm": 319.4
+    },
+    {
+     "n": "Sella Chianzutan",
+     "p": null,
+     "mm": 310.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-d-aupa": 142,
+    "val-settimana": 278.2,
+    "val-chiarso": 134.5,
+    "carnia": 162.4,
+    "val-rio-del-lago": 125.5,
+    "val-raccolana": 134.3,
+    "val-resia": 158.8,
+    "val-pesarina": 117.2,
+    "gran-monte": 204.9,
+    "valle-del-but": 182.7
+   },
+   "record": {
+    "n": "Malga Valine",
+    "p": null,
+    "g": "2026-10-21",
+    "mm": 333.2,
+    "lat": 46.2359,
+    "lon": 12.6761
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 113.6,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 51.7
+   },
+   "top": [
+    {
+     "n": "Prosecco",
+     "p": null,
+     "mm": 239.5
+    },
+    {
+     "n": "Sgonico-Zgonik",
+     "p": null,
+     "mm": 229.5
+    },
+    {
+     "n": "Trieste Cattinara",
+     "p": null,
+     "mm": 224.8
+    },
+    {
+     "n": "S.Volfango",
+     "p": null,
+     "mm": 216.2
+    },
+    {
+     "n": "Montemaggiore",
+     "p": null,
+     "mm": 211.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "val-d-aupa": 95.8,
+    "val-settimana": 82.6,
+    "val-chiarso": 68.1,
+    "carnia": 59.6,
+    "val-rio-del-lago": 98.1,
+    "val-raccolana": 67.3,
+    "val-resia": 102.1,
+    "val-pesarina": 44.5,
+    "gran-monte": 156.6,
+    "valle-del-but": 65.4
+   },
+   "record": {
+    "n": "Musi",
+    "p": null,
+    "g": "2026-11-12",
+    "mm": 100.9,
+    "lat": 46.3127,
+    "lon": 13.2747
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

@@ -1,0 +1,520 @@
+{
+ "regione": "toscana",
+ "nome": "Toscana",
+ "frontiera": "2026-07-12",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "val-di-magra",
+   "n": "Val di Magra"
+  },
+  {
+   "slug": "lunigiana",
+   "n": "Lunigiana"
+  },
+  {
+   "slug": "garfagnana",
+   "n": "Garfagnana"
+  },
+  {
+   "slug": "stretti-di-giaredo",
+   "n": "Stretti di Giaredo"
+  },
+  {
+   "slug": "mugello",
+   "n": "Mugello"
+  },
+  {
+   "slug": "casentino",
+   "n": "Casentino"
+  },
+  {
+   "slug": "calvana",
+   "n": "Calvana"
+  },
+  {
+   "slug": "val-di-luce",
+   "n": "Val di Luce"
+  },
+  {
+   "slug": "val-d-orcia",
+   "n": "Val d'Orcia"
+  },
+  {
+   "slug": "valdinievole",
+   "n": "Valdinievole"
+  },
+  {
+   "slug": "alpe-di-poti",
+   "n": "Alpe di Poti"
+  },
+  {
+   "slug": "colline-metallifere",
+   "n": "Colline Metallifere"
+  },
+  {
+   "slug": "alpi-apuane",
+   "n": "Alpi Apuane"
+  },
+  {
+   "slug": "valdarno",
+   "n": "Valdarno"
+  },
+  {
+   "slug": "media-valle-del-serchio",
+   "n": "Media Valle del Serchio"
+  },
+  {
+   "slug": "valdelsa",
+   "n": "Valdelsa"
+  },
+  {
+   "slug": "candalla",
+   "n": "Candalla"
+  },
+  {
+   "slug": "colline-metallifere-grossetane",
+   "n": "Colline Metallifere grossetane"
+  },
+  {
+   "slug": "monte-pisano",
+   "n": "Monte Pisano"
+  },
+  {
+   "slug": "colline-livornesi",
+   "n": "Colline Livornesi"
+  },
+  {
+   "slug": "val-di-merse",
+   "n": "Val di Merse"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-12",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 375,
+   "media": 29.3,
+   "giorniPioggia": 2,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 25.1
+   },
+   "top": [
+    {
+     "n": "Calavorno",
+     "p": "LU",
+     "mm": 115.6
+    },
+    {
+     "n": "Chifenti",
+     "p": "LU",
+     "mm": 106.3
+    },
+    {
+     "n": "Bagni di Lucca",
+     "p": "LU",
+     "mm": 104.6
+    },
+    {
+     "n": "Ripa d'Orcia",
+     "p": "SI",
+     "mm": 99.9
+    },
+    {
+     "n": "Montepulciano",
+     "p": "SI",
+     "mm": 98.1
+    }
+   ],
+   "province": {
+    "Carrara-Massa": 32.5,
+    "Pisa": 9.1,
+    "Arezzo": 33.4,
+    "Siena": 25,
+    "Firenze": 31.8,
+    "Prato": 37,
+    "Pistoia": 59.7,
+    "Livorno": 1.3,
+    "Grosseto": 7,
+    "Lucca": 54.8
+   },
+   "zone": {
+    "val-di-magra": 34.2,
+    "lunigiana": 27.1,
+    "garfagnana": 59.6,
+    "stretti-di-giaredo": 30.2,
+    "mugello": 35.6,
+    "casentino": 50.9,
+    "calvana": 42.5,
+    "val-di-luce": 74.8,
+    "val-d-orcia": 58.3,
+    "valdinievole": 55.4,
+    "alpe-di-poti": 43.7,
+    "colline-metallifere": 0.6,
+    "alpi-apuane": 50.6,
+    "valdarno": 22.7,
+    "media-valle-del-serchio": 74.5,
+    "valdelsa": 13,
+    "candalla": 63,
+    "colline-metallifere-grossetane": 5.6,
+    "monte-pisano": 21.9,
+    "colline-livornesi": 0.6,
+    "val-di-merse": 5.4
+   },
+   "record": {
+    "n": "Ripa d'Orcia",
+    "p": "SI",
+    "g": "2026-07-26",
+    "mm": 99.9,
+    "lat": 43.027,
+    "lon": 11.582
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 375,
+   "media": 74.3,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 30.4
+   },
+   "top": [
+    {
+     "n": "Bagnone",
+     "p": "MS",
+     "mm": 404.2
+    },
+    {
+     "n": "Iera",
+     "p": "MS",
+     "mm": 399.4
+    },
+    {
+     "n": "Villafranca",
+     "p": "MS",
+     "mm": 340.9
+    },
+    {
+     "n": "Villafranca",
+     "p": "MS",
+     "mm": 334.1
+    },
+    {
+     "n": "Bosco di Rossano",
+     "p": "MS",
+     "mm": 253.2
+    }
+   ],
+   "province": {
+    "Carrara-Massa": 152.9,
+    "Pisa": 55.8,
+    "Arezzo": 55.1,
+    "Siena": 76.7,
+    "Firenze": 57.5,
+    "Prato": 83.6,
+    "Pistoia": 85.9,
+    "Livorno": 43.8,
+    "Grosseto": 65.8,
+    "Lucca": 87.7
+   },
+   "zone": {
+    "val-di-magra": 203.7,
+    "lunigiana": 112,
+    "garfagnana": 138.9,
+    "stretti-di-giaredo": 112.4,
+    "mugello": 59.4,
+    "casentino": 73.6,
+    "calvana": 84.3,
+    "val-di-luce": 100.1,
+    "val-d-orcia": 118.9,
+    "valdinievole": 79.9,
+    "alpe-di-poti": 35.2,
+    "colline-metallifere": 59.4,
+    "alpi-apuane": 89.3,
+    "valdarno": 40.6,
+    "media-valle-del-serchio": 69,
+    "valdelsa": 50.3,
+    "candalla": 76.5,
+    "colline-metallifere-grossetane": 94.9,
+    "monte-pisano": 54.8,
+    "colline-livornesi": 30.3,
+    "val-di-merse": 80.8
+   },
+   "record": {
+    "n": "Bagnone",
+    "p": "MS",
+    "g": "2026-08-21",
+    "mm": 360.1,
+    "lat": 44.31,
+    "lon": 9.984
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 374,
+   "media": 74.6,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 28.8
+   },
+   "top": [
+    {
+     "n": "Fornovolasco",
+     "p": "LU",
+     "mm": 195.7
+    },
+    {
+     "n": "Sorano Meteo",
+     "p": "GR",
+     "mm": 193.6
+    },
+    {
+     "n": "Pian di Scò",
+     "p": "AR",
+     "mm": 193.4
+    },
+    {
+     "n": "Sambuca",
+     "p": "FI",
+     "mm": 178.8
+    },
+    {
+     "n": "Bocca di Serchio",
+     "p": "PI",
+     "mm": 173.2
+    }
+   ],
+   "province": {
+    "Carrara-Massa": 99.1,
+    "Pisa": 70.5,
+    "Arezzo": 77.8,
+    "Siena": 54.2,
+    "Firenze": 93.8,
+    "Prato": 33.7,
+    "Pistoia": 35.7,
+    "Livorno": 65,
+    "Grosseto": 76.8,
+    "Lucca": 79.2
+   },
+   "zone": {
+    "val-di-magra": 68.4,
+    "lunigiana": 122.7,
+    "garfagnana": 65.6,
+    "stretti-di-giaredo": 84.2,
+    "mugello": 89.9,
+    "casentino": 80.8,
+    "calvana": 42.4,
+    "val-di-luce": 43.5,
+    "val-d-orcia": 47.7,
+    "valdinievole": 35.5,
+    "alpe-di-poti": 56.3,
+    "colline-metallifere": 72.5,
+    "alpi-apuane": 138.6,
+    "valdarno": 90.1,
+    "media-valle-del-serchio": 59.2,
+    "valdelsa": 83.1,
+    "candalla": 117.8,
+    "colline-metallifere-grossetane": 65.6,
+    "monte-pisano": 26.9,
+    "colline-livornesi": 47.3,
+    "val-di-merse": 57.6
+   },
+   "record": {
+    "n": "Ponte Tura",
+    "p": "GR",
+    "g": "2026-09-10",
+    "mm": 117,
+    "lat": 42.765,
+    "lon": 11.166
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 374,
+   "media": 111.2,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-10-08",
+    "mm": 25.9
+   },
+   "top": [
+    {
+     "n": "Retignano",
+     "p": "LU",
+     "mm": 322.5
+    },
+    {
+     "n": "Fornovolasco",
+     "p": "LU",
+     "mm": 315.1
+    },
+    {
+     "n": "Palagnana",
+     "p": "LU",
+     "mm": 313.2
+    },
+    {
+     "n": "Patresi Mortigliano",
+     "p": "LI",
+     "mm": 308.8
+    },
+    {
+     "n": "Fabbriche di Vallico",
+     "p": "LU",
+     "mm": 303.1
+    }
+   ],
+   "province": {
+    "Carrara-Massa": 185,
+    "Pisa": 101.5,
+    "Arezzo": 78,
+    "Siena": 75.9,
+    "Firenze": 56.5,
+    "Prato": 72,
+    "Pistoia": 126,
+    "Livorno": 129.7,
+    "Grosseto": 79.6,
+    "Lucca": 193
+   },
+   "zone": {
+    "val-di-magra": 157.3,
+    "lunigiana": 190.7,
+    "garfagnana": 188.5,
+    "stretti-di-giaredo": 188.9,
+    "mugello": 56.8,
+    "casentino": 74.5,
+    "calvana": 86.8,
+    "val-di-luce": 180.9,
+    "val-d-orcia": 96.2,
+    "valdinievole": 118.3,
+    "alpe-di-poti": 83.2,
+    "colline-metallifere": 90.7,
+    "alpi-apuane": 244.9,
+    "valdarno": 83.2,
+    "media-valle-del-serchio": 184.2,
+    "valdelsa": 65.4,
+    "candalla": 265.8,
+    "colline-metallifere-grossetane": 96.6,
+    "monte-pisano": 101.5,
+    "colline-livornesi": 141.6,
+    "val-di-merse": 73.5
+   },
+   "record": {
+    "n": "Patresi Mortigliano",
+    "p": "LI",
+    "g": "2026-10-20",
+    "mm": 187,
+    "lat": 42.785,
+    "lon": 10.111
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 374,
+   "media": 232,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 58.3
+   },
+   "top": [
+    {
+     "n": "Fornovolasco",
+     "p": "LU",
+     "mm": 932.8
+    },
+    {
+     "n": "Palagnana",
+     "p": "LU",
+     "mm": 862.5
+    },
+    {
+     "n": "Orto di Donna",
+     "p": "LU",
+     "mm": 844.9
+    },
+    {
+     "n": "Vagli di Sotto",
+     "p": "LU",
+     "mm": 767.8
+    },
+    {
+     "n": "Fabbriche di Vallico",
+     "p": "LU",
+     "mm": 752.4
+    }
+   ],
+   "province": {
+    "Carrara-Massa": 406.6,
+    "Pisa": 110,
+    "Arezzo": 171.1,
+    "Siena": 120.5,
+    "Firenze": 174.1,
+    "Prato": 310.1,
+    "Pistoia": 416.5,
+    "Livorno": 83.8,
+    "Grosseto": 128.5,
+    "Lucca": 455.4
+   },
+   "zone": {
+    "val-di-magra": 356.9,
+    "lunigiana": 430.8,
+    "garfagnana": 499,
+    "stretti-di-giaredo": 253.4,
+    "mugello": 287.9,
+    "casentino": 216.2,
+    "calvana": 387.3,
+    "val-di-luce": 487.2,
+    "val-d-orcia": 195.6,
+    "valdinievole": 380.8,
+    "alpe-di-poti": 170.9,
+    "colline-metallifere": 96.8,
+    "alpi-apuane": 546.8,
+    "valdarno": 118.9,
+    "media-valle-del-serchio": 463.3,
+    "valdelsa": 74.4,
+    "candalla": 628.5,
+    "colline-metallifere-grossetane": 163.3,
+    "monte-pisano": 216.9,
+    "colline-livornesi": 110.1,
+    "val-di-merse": 116.4
+   },
+   "record": {
+    "n": "Orto di Donna",
+    "p": "LU",
+    "g": "2026-11-11",
+    "mm": 276.1,
+    "lat": 44.135,
+    "lon": 10.197
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

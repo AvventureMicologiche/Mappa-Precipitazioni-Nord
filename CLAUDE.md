@@ -178,6 +178,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Modalità evento, giro del mattino e date delle funghi nella sitemap (18/11, 139)
 - ⚠️ La pausa d'inverno delle pagine funghi (20/11, 139): dal 1/12 a fine febbraio, `?inverno=1`
 - Il bottone «📡 Radar piogge e meteo <Regione>» verso le pagine radar (20/11, 140): 1.357 pagine
+- Lo storico mese per mese, /<regione>/storico/ (21/11, 140): 20 pagine, le foto dei mesi
 
 ### `CLAUDE-previsioni.md`: le previsioni meteo
 

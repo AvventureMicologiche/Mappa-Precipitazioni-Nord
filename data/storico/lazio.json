@@ -1,0 +1,339 @@
+{
+ "regione": "lazio",
+ "nome": "Lazio",
+ "frontiera": "2026-07-06",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "piana-del-cavaliere",
+   "n": "Piana del Cavaliere"
+  },
+  {
+   "slug": "monti-prenestini",
+   "n": "Monti Prenestini"
+  },
+  {
+   "slug": "sabina",
+   "n": "Sabina"
+  },
+  {
+   "slug": "vallonina",
+   "n": "Vallonina"
+  },
+  {
+   "slug": "monti-cantari",
+   "n": "Monti Cantari"
+  },
+  {
+   "slug": "monti-reatini",
+   "n": "Monti Reatini"
+  },
+  {
+   "slug": "monti-sabini",
+   "n": "Monti Sabini"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-06",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 26,
+   "stimati": 0,
+   "stazioni": 205,
+   "media": 5.7,
+   "giorniPioggia": 1,
+   "giornoPiovoso": {
+    "g": "2026-07-06",
+    "mm": 2.2
+   },
+   "top": [
+    {
+     "n": "Settefrati",
+     "p": null,
+     "mm": 88.9
+    },
+    {
+     "n": "San Biagio Saracinisco",
+     "p": null,
+     "mm": 84.2
+    },
+    {
+     "n": "Cittareale",
+     "p": null,
+     "mm": 55
+    },
+    {
+     "n": "SS.Cosma e Damiano",
+     "p": null,
+     "mm": 52.9
+    },
+    {
+     "n": "Rivodutri",
+     "p": null,
+     "mm": 51.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "piana-del-cavaliere": 1.8,
+    "monti-prenestini": 0.6,
+    "sabina": 2.6,
+    "vallonina": 34.1,
+    "monti-cantari": 2.7,
+    "monti-reatini": 10.9,
+    "monti-sabini": 6
+   },
+   "record": {
+    "n": "Settefrati",
+    "p": null,
+    "g": "2026-07-06",
+    "mm": 72.5,
+    "lat": 41.6778,
+    "lon": 13.8642
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 1,
+   "stazioni": 207,
+   "media": 40.7,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 8.4
+   },
+   "top": [
+    {
+     "n": "Abbazia Trisulti",
+     "p": null,
+     "mm": 181
+    },
+    {
+     "n": "Fiuggi",
+     "p": null,
+     "mm": 174.4
+    },
+    {
+     "n": "Trevi nel Lazio",
+     "p": null,
+     "mm": 165.5
+    },
+    {
+     "n": "Paglia a Proceno",
+     "p": null,
+     "mm": 151
+    },
+    {
+     "n": "Filettino",
+     "p": null,
+     "mm": 148.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "piana-del-cavaliere": 79.9,
+    "monti-prenestini": 105.7,
+    "sabina": 65.2,
+    "vallonina": 67.8,
+    "monti-cantari": 162.7,
+    "monti-reatini": 99.5,
+    "monti-sabini": 32.3
+   },
+   "record": {
+    "n": "Poggio Perugino",
+    "p": null,
+    "g": "2026-08-17",
+    "mm": 75.3,
+    "lat": 42.3558,
+    "lon": 12.7625
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 208,
+   "media": 50.8,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 36.7
+   },
+   "top": [
+    {
+     "n": "Tor Vergata",
+     "p": null,
+     "mm": 156
+    },
+    {
+     "n": "Rota",
+     "p": null,
+     "mm": 126.7
+    },
+    {
+     "n": "Falcognana",
+     "p": null,
+     "mm": 119.1
+    },
+    {
+     "n": "Roma Nord",
+     "p": null,
+     "mm": 119.1
+    },
+    {
+     "n": "Frascati",
+     "p": null,
+     "mm": 116.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "piana-del-cavaliere": 38,
+    "monti-prenestini": 38.5,
+    "sabina": 28.2,
+    "vallonina": 38.7,
+    "monti-cantari": 8.9,
+    "monti-reatini": 38.1,
+    "monti-sabini": 28.3
+   },
+   "record": {
+    "n": "Rota",
+    "p": null,
+    "g": "2026-09-10",
+    "mm": 125.9,
+    "lat": 42.1525,
+    "lon": 12
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 208,
+   "media": 115.1,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 37.4
+   },
+   "top": [
+    {
+     "n": "Latina",
+     "p": null,
+     "mm": 396.7
+    },
+    {
+     "n": "Osteria di Castro",
+     "p": null,
+     "mm": 356.4
+    },
+    {
+     "n": "Amaseno a Fossanova",
+     "p": null,
+     "mm": 318.4
+    },
+    {
+     "n": "Ufente a Ponte Ferraioli",
+     "p": null,
+     "mm": 314.4
+    },
+    {
+     "n": "Priverno",
+     "p": null,
+     "mm": 294.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "piana-del-cavaliere": 93.2,
+    "monti-prenestini": 96.6,
+    "sabina": 70.5,
+    "vallonina": 76.7,
+    "monti-cantari": 141.2,
+    "monti-reatini": 88,
+    "monti-sabini": 86.7
+   },
+   "record": {
+    "n": "Osteria di Castro",
+    "p": null,
+    "g": "2026-10-21",
+    "mm": 264.2,
+    "lat": 41.5083,
+    "lon": 13.4067
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 2,
+   "stazioni": 208,
+   "media": 112.9,
+   "giorniPioggia": 12,
+   "giornoPiovoso": {
+    "g": "2026-11-15",
+    "mm": 25.7
+   },
+   "top": [
+    {
+     "n": "Monte Terminillo",
+     "p": null,
+     "mm": 394.4
+    },
+    {
+     "n": "Micigliano",
+     "p": null,
+     "mm": 371.1
+    },
+    {
+     "n": "Posta",
+     "p": null,
+     "mm": 349.8
+    },
+    {
+     "n": "San Biagio Saracinisco",
+     "p": null,
+     "mm": 294
+    },
+    {
+     "n": "Borgorose",
+     "p": null,
+     "mm": 254.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "piana-del-cavaliere": 171.4,
+    "monti-prenestini": 97.1,
+    "sabina": 214,
+    "vallonina": 250.5,
+    "monti-cantari": 189.8,
+    "monti-reatini": 314.7,
+    "monti-sabini": 133.3
+   },
+   "record": {
+    "n": "Posta",
+    "p": null,
+    "g": "2026-11-13",
+    "mm": 107.7,
+    "lat": 42.5253,
+    "lon": 13.1017
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

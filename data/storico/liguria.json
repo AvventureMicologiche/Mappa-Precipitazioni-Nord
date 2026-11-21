@@ -1,0 +1,514 @@
+{
+ "regione": "liguria",
+ "nome": "Liguria",
+ "frontiera": "2026-05-15",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "valle-dei-campassi",
+   "n": "Valle dei Campassi"
+  },
+  {
+   "slug": "val-bormida",
+   "n": "Val Bormida"
+  },
+  {
+   "slug": "val-varenna",
+   "n": "Val Varenna"
+  },
+  {
+   "slug": "val-neva",
+   "n": "Val Neva"
+  },
+  {
+   "slug": "terra-brigasca",
+   "n": "Terra brigasca"
+  },
+  {
+   "slug": "riviera-di-levante",
+   "n": "Riviera di Levante"
+  },
+  {
+   "slug": "val-bisagno",
+   "n": "Val Bisagno"
+  },
+  {
+   "slug": "val-cichero",
+   "n": "Val Cichero"
+  },
+  {
+   "slug": "val-di-vara",
+   "n": "Val di Vara"
+  },
+  {
+   "slug": "val-d-aveto",
+   "n": "Val d'Aveto"
+  },
+  {
+   "slug": "val-varatella",
+   "n": "Val Varatella"
+  },
+  {
+   "slug": "val-roia",
+   "n": "Val Roia"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-15",
+   "al": "2026-05-31",
+   "intero": false,
+   "giorni": 17,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 5.1,
+   "giorniPioggia": 3,
+   "giornoPiovoso": {
+    "g": "2026-05-18",
+    "mm": 1.6
+   },
+   "top": [
+    {
+     "n": "Santuario Monte Gazzo",
+     "p": null,
+     "mm": 43
+    },
+    {
+     "n": "Genova - Pegli",
+     "p": null,
+     "mm": 35
+    },
+    {
+     "n": "Giacopiane - Lago",
+     "p": null,
+     "mm": 31.6
+    },
+    {
+     "n": "Cabanne",
+     "p": null,
+     "mm": 27.2
+    },
+    {
+     "n": "Genova - Bolzaneto",
+     "p": null,
+     "mm": 27.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 45.4,
+    "val-bormida": 17.9,
+    "val-varenna": 23.5,
+    "val-neva": 27.5,
+    "terra-brigasca": 3.4,
+    "riviera-di-levante": 10.5,
+    "val-bisagno": 19.5,
+    "val-cichero": 49.7,
+    "val-di-vara": 1.7,
+    "val-d-aveto": 15,
+    "val-varatella": 3.6,
+    "val-roia": 0.5
+   },
+   "record": {
+    "n": "Santuario Monte Gazzo",
+    "p": null,
+    "g": "2026-05-28",
+    "mm": 25.8,
+    "lat": 44.4425,
+    "lon": 8.8448
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 14.4,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-06-02",
+    "mm": 3.2
+   },
+   "top": [
+    {
+     "n": "Alpe Gorreto",
+     "p": null,
+     "mm": 97.7
+    },
+    {
+     "n": "Amborzasco",
+     "p": null,
+     "mm": 76.2
+    },
+    {
+     "n": "Brugneto Diga",
+     "p": null,
+     "mm": 75
+    },
+    {
+     "n": "Montenotte Inferiore",
+     "p": null,
+     "mm": 68.8
+    },
+    {
+     "n": "Loco Carchelli",
+     "p": null,
+     "mm": 66.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 60.1,
+    "val-bormida": 23.2,
+    "val-varenna": 20.6,
+    "val-neva": 14.1,
+    "terra-brigasca": 4,
+    "riviera-di-levante": 21.7,
+    "val-bisagno": 12.3,
+    "val-cichero": 29.9,
+    "val-di-vara": 19.7,
+    "val-d-aveto": 49.8,
+    "val-varatella": 4.8,
+    "val-roia": 8.3
+   },
+   "record": {
+    "n": "Montenotte Inferiore",
+    "p": null,
+    "g": "2026-06-24",
+    "mm": 65.2,
+    "lat": 44.4126,
+    "lon": 8.4118
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 35.5,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 23
+   },
+   "top": [
+    {
+     "n": "Cabanne",
+     "p": null,
+     "mm": 115
+    },
+    {
+     "n": "Pian dei Ratti",
+     "p": null,
+     "mm": 104.2
+    },
+    {
+     "n": "Cembrano",
+     "p": null,
+     "mm": 91.4
+    },
+    {
+     "n": "Viganego",
+     "p": null,
+     "mm": 89.6
+    },
+    {
+     "n": "Alto - Madonna del lago",
+     "p": null,
+     "mm": 86.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 36.7,
+    "val-bormida": 22.6,
+    "val-varenna": 29.2,
+    "val-neva": 46.6,
+    "terra-brigasca": 23.4,
+    "riviera-di-levante": 66.4,
+    "val-bisagno": 74.7,
+    "val-cichero": 55.9,
+    "val-di-vara": 27.9,
+    "val-d-aveto": 82.2,
+    "val-varatella": 22,
+    "val-roia": 23.4
+   },
+   "record": {
+    "n": "Pian dei Ratti",
+    "p": null,
+    "g": "2026-07-26",
+    "mm": 97.6,
+    "lat": 44.3937,
+    "lon": 9.271
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 130.2,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 68.2
+   },
+   "top": [
+    {
+     "n": "Bagnone",
+     "p": null,
+     "mm": 404
+    },
+    {
+     "n": "Iera",
+     "p": null,
+     "mm": 399.4
+    },
+    {
+     "n": "Villafranca Lunigiana",
+     "p": null,
+     "mm": 340.9
+    },
+    {
+     "n": "Villafranca - Fornoli",
+     "p": null,
+     "mm": 332.2
+    },
+    {
+     "n": "Reppia",
+     "p": null,
+     "mm": 325.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 200,
+    "val-bormida": 53.2,
+    "val-varenna": 93.6,
+    "val-neva": 83.3,
+    "terra-brigasca": 123.6,
+    "riviera-di-levante": 187.1,
+    "val-bisagno": 181.9,
+    "val-cichero": 222.1,
+    "val-di-vara": 150.5,
+    "val-d-aveto": 180.2,
+    "val-varatella": 53.4,
+    "val-roia": 102.4
+   },
+   "record": {
+    "n": "Bagnone",
+    "p": null,
+    "g": "2026-08-21",
+    "mm": 360.1,
+    "lat": 44.3097,
+    "lon": 9.9842
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 72.3,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-09-09",
+    "mm": 37.8
+   },
+   "top": [
+    {
+     "n": "Cabanne",
+     "p": null,
+     "mm": 331
+    },
+    {
+     "n": "Barbagelata",
+     "p": null,
+     "mm": 307.1
+    },
+    {
+     "n": "Amborzasco",
+     "p": null,
+     "mm": 276.2
+    },
+    {
+     "n": "Ognio",
+     "p": null,
+     "mm": 266.2
+    },
+    {
+     "n": "Croce Orero",
+     "p": null,
+     "mm": 246.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 91,
+    "val-bormida": 25.3,
+    "val-varenna": 56.7,
+    "val-neva": 3.6,
+    "terra-brigasca": 2.5,
+    "riviera-di-levante": 286.6,
+    "val-bisagno": 170.7,
+    "val-cichero": 180,
+    "val-di-vara": 89.4,
+    "val-d-aveto": 254.6,
+    "val-varatella": 8.2,
+    "val-roia": 0.7
+   },
+   "record": {
+    "n": "Cabanne",
+    "p": null,
+    "g": "2026-09-09",
+    "mm": 219.6,
+    "lat": 44.4952,
+    "lon": 9.3465
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 183.3,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-10-20",
+    "mm": 55
+   },
+   "top": [
+    {
+     "n": "Ellera - Foglietto",
+     "p": null,
+     "mm": 397
+    },
+    {
+     "n": "Lavagnola",
+     "p": null,
+     "mm": 394.2
+    },
+    {
+     "n": "Stella S. Giustina",
+     "p": null,
+     "mm": 351.4
+    },
+    {
+     "n": "Piampaludo",
+     "p": null,
+     "mm": 332.8
+    },
+    {
+     "n": "Savona - Istituto Nautico",
+     "p": null,
+     "mm": 323.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 161.2,
+    "val-bormida": 173.8,
+    "val-varenna": 230.3,
+    "val-neva": 121,
+    "terra-brigasca": 118,
+    "riviera-di-levante": 222.8,
+    "val-bisagno": 157.7,
+    "val-cichero": 226.9,
+    "val-di-vara": 232.1,
+    "val-d-aveto": 213.4,
+    "val-varatella": 217.4,
+    "val-roia": 120.4
+   },
+   "record": {
+    "n": "Lavagnola",
+    "p": null,
+    "g": "2026-10-20",
+    "mm": 293.4,
+    "lat": 44.3349,
+    "lon": 8.4752
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 195,
+   "media": 205.5,
+   "giorniPioggia": 12,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 71.8
+   },
+   "top": [
+    {
+     "n": "Passo del Cerreto",
+     "p": null,
+     "mm": 556.4
+    },
+    {
+     "n": "Novegigola",
+     "p": null,
+     "mm": 538.1
+    },
+    {
+     "n": "Minucciano",
+     "p": null,
+     "mm": 526.4
+    },
+    {
+     "n": "Castelnuovo Magra - Montecchio",
+     "p": null,
+     "mm": 501.6
+    },
+    {
+     "n": "Piana Battolla - Ponte",
+     "p": null,
+     "mm": 474.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-dei-campassi": 157,
+    "val-bormida": 80.7,
+    "val-varenna": 106.5,
+    "val-neva": 113.7,
+    "terra-brigasca": 164.1,
+    "riviera-di-levante": 282,
+    "val-bisagno": 190.3,
+    "val-cichero": 293.1,
+    "val-di-vara": 425.6,
+    "val-d-aveto": 257.8,
+    "val-varatella": 106.2,
+    "val-roia": 176.8
+   },
+   "record": {
+    "n": "Castelnuovo Magra - Montecchio",
+    "p": null,
+    "g": "2026-11-11",
+    "mm": 215.8,
+    "lat": 44.1075,
+    "lon": 10.0108
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

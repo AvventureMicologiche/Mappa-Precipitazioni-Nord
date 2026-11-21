@@ -1,0 +1,303 @@
+{
+ "regione": "marche",
+ "nome": "Marche",
+ "frontiera": "2026-07-13",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "montefeltro",
+   "n": "Montefeltro"
+  },
+  {
+   "slug": "val-di-bove",
+   "n": "Val di Bove"
+  },
+  {
+   "slug": "monti-sibillini",
+   "n": "Monti Sibillini"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-13",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 19,
+   "stimati": 0,
+   "stazioni": 116,
+   "media": 48.7,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 20.4
+   },
+   "top": [
+    {
+     "n": "Cingoli",
+     "p": null,
+     "mm": 122.6
+    },
+    {
+     "n": "Esanatoglia2",
+     "p": null,
+     "mm": 111.4
+    },
+    {
+     "n": "Pievebovigliana",
+     "p": null,
+     "mm": 98
+    },
+    {
+     "n": "Casteldelci",
+     "p": null,
+     "mm": 85.7
+    },
+    {
+     "n": "Ussita",
+     "p": null,
+     "mm": 85.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "montefeltro": 58.3,
+    "val-di-bove": 50.7,
+    "monti-sibillini": 36.2
+   },
+   "record": {
+    "n": "Casteldelci",
+    "p": null,
+    "g": "2026-07-26",
+    "mm": 79.2,
+    "lat": 43.7906,
+    "lon": 12.1319
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 114,
+   "media": 42.2,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-08-25",
+    "mm": 20
+   },
+   "top": [
+    {
+     "n": "Esanatoglia2",
+     "p": null,
+     "mm": 124.2
+    },
+    {
+     "n": "Campodiegoli",
+     "p": null,
+     "mm": 118.6
+    },
+    {
+     "n": "Pioraco 2",
+     "p": null,
+     "mm": 116.4
+    },
+    {
+     "n": "Cantiano",
+     "p": null,
+     "mm": 109.8
+    },
+    {
+     "n": "Monte Nerone",
+     "p": null,
+     "mm": 106.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "montefeltro": 49.2,
+    "val-di-bove": 39,
+    "monti-sibillini": 27
+   },
+   "record": {
+    "n": "Cantiano",
+    "p": null,
+    "g": "2026-08-25",
+    "mm": 71.4,
+    "lat": 43.4671,
+    "lon": 12.6405
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 114,
+   "media": 64.6,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 16.2
+   },
+   "top": [
+    {
+     "n": "Fossombrone",
+     "p": null,
+     "mm": 133
+    },
+    {
+     "n": "Macerata Montalbano",
+     "p": null,
+     "mm": 132.6
+    },
+    {
+     "n": "Piobbico",
+     "p": null,
+     "mm": 125.4
+    },
+    {
+     "n": "Monte Petrano",
+     "p": null,
+     "mm": 117.6
+    },
+    {
+     "n": "Cantiano",
+     "p": null,
+     "mm": 116.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "montefeltro": 73.9,
+    "val-di-bove": 43.8,
+    "monti-sibillini": 30.2
+   },
+   "record": {
+    "n": "Fossombrone",
+    "p": null,
+    "g": "2026-09-09",
+    "mm": 74.8,
+    "lat": 43.6825,
+    "lon": 12.7984
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 115,
+   "media": 56.4,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-10-08",
+    "mm": 12.6
+   },
+   "top": [
+    {
+     "n": "Monte Petrano",
+     "p": null,
+     "mm": 169
+    },
+    {
+     "n": "Pianello di Cagli",
+     "p": null,
+     "mm": 140.6
+    },
+    {
+     "n": "Monte Nerone",
+     "p": null,
+     "mm": 123.4
+    },
+    {
+     "n": "Loro Piceno",
+     "p": null,
+     "mm": 123.2
+    },
+    {
+     "n": "Sant Angelo in Pontano",
+     "p": null,
+     "mm": 122.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "montefeltro": 43.7,
+    "val-di-bove": 55.3,
+    "monti-sibillini": 52.8
+   },
+   "record": {
+    "n": "Monte Petrano",
+    "p": null,
+    "g": "2026-10-08",
+    "mm": 120.4,
+    "lat": 43.5153,
+    "lon": 12.6218
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 4,
+   "stazioni": 115,
+   "media": 147,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-11-13",
+    "mm": 34.5
+   },
+   "top": [
+    {
+     "n": "Fonte Avellana",
+     "p": null,
+     "mm": 369.1
+    },
+    {
+     "n": "Cantiano",
+     "p": null,
+     "mm": 344
+    },
+    {
+     "n": "Monte Petrano",
+     "p": null,
+     "mm": 290
+    },
+    {
+     "n": "Montecavallo",
+     "p": null,
+     "mm": 281.1
+    },
+    {
+     "n": "Monte Nerone",
+     "p": null,
+     "mm": 266.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "montefeltro": 148.1,
+    "val-di-bove": 215.7,
+    "monti-sibillini": 188.6
+   },
+   "record": {
+    "n": "Arquata del Tronto",
+    "p": null,
+    "g": "2026-11-02",
+    "mm": 124.3,
+    "lat": 42.7778,
+    "lon": 13.2955
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

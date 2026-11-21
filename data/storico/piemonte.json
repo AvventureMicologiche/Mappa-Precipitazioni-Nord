@@ -1,0 +1,555 @@
+{
+ "regione": "piemonte",
+ "nome": "Piemonte",
+ "frontiera": "2026-05-03",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "val-d-ala",
+   "n": "Val d'Ala"
+  },
+  {
+   "slug": "valle-sessera",
+   "n": "Valle Sessera"
+  },
+  {
+   "slug": "valle-vermenagna",
+   "n": "Valle Vermenagna"
+  },
+  {
+   "slug": "valle-di-viu",
+   "n": "Valle di Viù"
+  },
+  {
+   "slug": "val-borbera",
+   "n": "Val Borbera"
+  },
+  {
+   "slug": "valle-po",
+   "n": "Valle Po"
+  },
+  {
+   "slug": "val-mastallone",
+   "n": "Val Mastallone"
+  },
+  {
+   "slug": "val-loana",
+   "n": "Val Loana"
+  },
+  {
+   "slug": "valle-germanasca",
+   "n": "Valle Germanasca"
+  },
+  {
+   "slug": "val-clarea",
+   "n": "Val Clarea"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-03",
+   "al": "2026-05-31",
+   "intero": false,
+   "giorni": 29,
+   "stimati": 0,
+   "stazioni": 264,
+   "media": 69.9,
+   "giorniPioggia": 12,
+   "giornoPiovoso": {
+    "g": "2026-05-07",
+    "mm": 16.1
+   },
+   "top": [
+    {
+     "n": "MOTTAC",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 157.2
+    },
+    {
+     "n": "BIELMONTE",
+     "p": "Biella",
+     "mm": 156.6
+    },
+    {
+     "n": "PIANO AUDI",
+     "p": "Torino",
+     "mm": 140.5
+    },
+    {
+     "n": "CAMPARIENT",
+     "p": "Biella",
+     "mm": 139.6
+    },
+    {
+     "n": "VALDILANA",
+     "p": "Biella",
+     "mm": 137.2
+    }
+   ],
+   "province": {
+    "Cuneo": 61.9,
+    "Torino": 70.9,
+    "Vercelli": 79.4,
+    "Verbano-Cusio-Ossola": 89.5,
+    "Alessandria": 64.2,
+    "Asti": 45.3,
+    "Novara": 57.1,
+    "Biella": 103.1
+   },
+   "zone": {
+    "val-d-ala": 79.6,
+    "valle-sessera": 131.1,
+    "valle-vermenagna": 73.1,
+    "valle-di-viu": 90,
+    "val-borbera": 73.1,
+    "valle-po": 50.2,
+    "val-mastallone": 110,
+    "val-loana": 101.5,
+    "valle-germanasca": 83.3,
+    "val-clarea": 51.1
+   },
+   "record": {
+    "n": "CAMPARIENT",
+    "p": "Biella",
+    "g": "2026-05-07",
+    "mm": 87.8,
+    "lat": 45.7322,
+    "lon": 8.085
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 271,
+   "media": 58.7,
+   "giorniPioggia": 14,
+   "giornoPiovoso": {
+    "g": "2026-06-02",
+    "mm": 15.3
+   },
+   "top": [
+    {
+     "n": "CANNOBIO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 317.6
+    },
+    {
+     "n": "CICOGNA",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 266.9
+    },
+    {
+     "n": "UNCHIO TROBASO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 203.5
+    },
+    {
+     "n": "MONTE CARZA",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 198.8
+    },
+    {
+     "n": "PALLANZA LAGO MAGGIORE",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 178.8
+    }
+   ],
+   "province": {
+    "Cuneo": 45,
+    "Torino": 54,
+    "Vercelli": 78.1,
+    "Verbano-Cusio-Ossola": 116.4,
+    "Alessandria": 35,
+    "Asti": 21.2,
+    "Novara": 85.7,
+    "Biella": 73.1
+   },
+   "zone": {
+    "val-d-ala": 64.7,
+    "valle-sessera": 85.5,
+    "valle-vermenagna": 35.5,
+    "valle-di-viu": 69.1,
+    "val-borbera": 44.3,
+    "valle-po": 59.2,
+    "val-mastallone": 80.8,
+    "val-loana": 169.5,
+    "valle-germanasca": 32.6,
+    "val-clarea": 36.7
+   },
+   "record": {
+    "n": "CANNOBIO",
+    "p": "Verbano-Cusio-Ossola",
+    "g": "2026-06-02",
+    "mm": 205.4,
+    "lat": 46.0656,
+    "lon": 8.6914
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 279,
+   "media": 29.3,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-07-15",
+    "mm": 7.3
+   },
+   "top": [
+    {
+     "n": "DIGA LA PIASTRA",
+     "p": "Cuneo",
+     "mm": 107.8
+    },
+    {
+     "n": "FOBELLO",
+     "p": "Vercelli",
+     "mm": 102.4
+    },
+    {
+     "n": "BORGOSESIA SESIA",
+     "p": "Vercelli",
+     "mm": 100.6
+    },
+    {
+     "n": "ALPE VEGLIA",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 89
+    },
+    {
+     "n": "VARALLO",
+     "p": "Vercelli",
+     "mm": 88.7
+    }
+   ],
+   "province": {
+    "Cuneo": 28.4,
+    "Torino": 24.4,
+    "Vercelli": 47,
+    "Verbano-Cusio-Ossola": 44,
+    "Alessandria": 31.4,
+    "Asti": 17.1,
+    "Novara": 33.4,
+    "Biella": 14.1
+   },
+   "zone": {
+    "val-d-ala": 18.9,
+    "valle-sessera": 34.8,
+    "valle-vermenagna": 22.4,
+    "valle-di-viu": 19.6,
+    "val-borbera": 34.9,
+    "valle-po": 33.1,
+    "val-mastallone": 66.5,
+    "val-loana": 38.6,
+    "valle-germanasca": 27.2,
+    "val-clarea": 16.2
+   },
+   "record": {
+    "n": "CAVALLARIA",
+    "p": "Torino",
+    "g": "2026-07-01",
+    "mm": 56.4,
+    "lat": 45.5171,
+    "lon": 7.8082
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 278,
+   "media": 104.9,
+   "giorniPioggia": 17,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 26.5
+   },
+   "top": [
+    {
+     "n": "UNCHIO TROBASO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 308.4
+    },
+    {
+     "n": "CICOGNA",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 295.5
+    },
+    {
+     "n": "SOMERARO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 278.6
+    },
+    {
+     "n": "CANDOGLIA TOCE",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 263.7
+    },
+    {
+     "n": "CANNOBIO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 262.8
+    }
+   ],
+   "province": {
+    "Cuneo": 87.4,
+    "Torino": 101.9,
+    "Vercelli": 165.7,
+    "Verbano-Cusio-Ossola": 189.5,
+    "Alessandria": 56.6,
+    "Asti": 29.3,
+    "Novara": 169.4,
+    "Biella": 111.3
+   },
+   "zone": {
+    "val-d-ala": 75.7,
+    "valle-sessera": 181.2,
+    "valle-vermenagna": 80.6,
+    "valle-di-viu": 77.4,
+    "val-borbera": 60.8,
+    "valle-po": 100.1,
+    "val-mastallone": 191.3,
+    "val-loana": 259.5,
+    "valle-germanasca": 99.8,
+    "val-clarea": 77.5
+   },
+   "record": {
+    "n": "PAESANA ERASCA",
+    "p": "Cuneo",
+    "g": "2026-08-03",
+    "mm": 118,
+    "lat": 44.6819,
+    "lon": 7.2636
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 266,
+   "media": 31.7,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-09-09",
+    "mm": 14.2
+   },
+   "top": [
+    {
+     "n": "SANTENA BANNA",
+     "p": "Torino",
+     "mm": 137.3
+    },
+    {
+     "n": "SOMERARO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 110.6
+    },
+    {
+     "n": "VILLANOVA SOLARO",
+     "p": "Cuneo",
+     "mm": 110.5
+    },
+    {
+     "n": "RIVOLI LA PEROSA",
+     "p": "Torino",
+     "mm": 108.8
+    },
+    {
+     "n": "CORIO",
+     "p": "Torino",
+     "mm": 102.7
+    }
+   ],
+   "province": {
+    "Cuneo": 23.9,
+    "Torino": 32.5,
+    "Vercelli": 29.1,
+    "Verbano-Cusio-Ossola": 29.8,
+    "Alessandria": 42.7,
+    "Asti": 52.2,
+    "Novara": 45.2,
+    "Biella": 21
+   },
+   "zone": {
+    "val-d-ala": 51,
+    "valle-sessera": 24.3,
+    "valle-vermenagna": 11.9,
+    "valle-di-viu": 33.4,
+    "val-borbera": 37,
+    "valle-po": 56.1,
+    "val-mastallone": 48,
+    "val-loana": 48.3,
+    "valle-germanasca": 32.4,
+    "val-clarea": 15.1
+   },
+   "record": {
+    "n": "RIVOLI LA PEROSA",
+    "p": "Torino",
+    "g": "2026-09-09",
+    "mm": 81.1,
+    "lat": 45.0799,
+    "lon": 7.4989
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 279,
+   "media": 126,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 34.4
+   },
+   "top": [
+    {
+     "n": "SAMBUGHETTO",
+     "p": "Verbano-Cusio-Ossola",
+     "mm": 371.9
+    },
+    {
+     "n": "OROPA SANTUARIO",
+     "p": "Biella",
+     "mm": 346.2
+    },
+    {
+     "n": "CAMPARIENT",
+     "p": "Biella",
+     "mm": 345.1
+    },
+    {
+     "n": "VARALLO",
+     "p": "Vercelli",
+     "mm": 312.3
+    },
+    {
+     "n": "VARALLO SABBIA",
+     "p": "Vercelli",
+     "mm": 310.1
+    }
+   ],
+   "province": {
+    "Cuneo": 96.7,
+    "Torino": 114.5,
+    "Vercelli": 180.9,
+    "Verbano-Cusio-Ossola": 191.1,
+    "Alessandria": 108.3,
+    "Asti": 112.5,
+    "Novara": 122.2,
+    "Biella": 237.1
+   },
+   "zone": {
+    "val-d-ala": 161,
+    "valle-sessera": 298.9,
+    "valle-vermenagna": 106.4,
+    "valle-di-viu": 99.4,
+    "val-borbera": 115.7,
+    "valle-po": 99.9,
+    "val-mastallone": 269,
+    "val-loana": 220,
+    "valle-germanasca": 140.5,
+    "val-clarea": 57.5
+   },
+   "record": {
+    "n": "CAMPARIENT",
+    "p": "Biella",
+    "g": "2026-10-21",
+    "mm": 125,
+    "lat": 45.7322,
+    "lon": 8.085
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 282,
+   "media": 75.9,
+   "giorniPioggia": 14,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 23.9
+   },
+   "top": [
+    {
+     "n": "VALDIERI",
+     "p": "Cuneo",
+     "mm": 209.7
+    },
+    {
+     "n": "PIAGGIA",
+     "p": "Cuneo",
+     "mm": 198.9
+    },
+    {
+     "n": "VINADIO S. BERNOLFO",
+     "p": "Cuneo",
+     "mm": 184.6
+    },
+    {
+     "n": "DIGA DEL CHIOTAS",
+     "p": "Cuneo",
+     "mm": 174.2
+    },
+    {
+     "n": "COLLE LOMBARDA",
+     "p": "Cuneo",
+     "mm": 168.2
+    }
+   ],
+   "province": {
+    "Cuneo": 104,
+    "Torino": 77.7,
+    "Vercelli": 46.4,
+    "Verbano-Cusio-Ossola": 38.2,
+    "Alessandria": 78.2,
+    "Asti": 59.3,
+    "Novara": 46.2,
+    "Biella": 59.2
+   },
+   "zone": {
+    "val-d-ala": 74,
+    "valle-sessera": 59.3,
+    "valle-vermenagna": 122.5,
+    "valle-di-viu": 77.7,
+    "val-borbera": 94.5,
+    "valle-po": 86.3,
+    "val-mastallone": 44.1,
+    "val-loana": 34.5,
+    "valle-germanasca": 102.2,
+    "val-clarea": 91.4
+   },
+   "record": {
+    "n": "FRACONALTO",
+    "p": "Alessandria",
+    "g": "2026-11-12",
+    "mm": 67.4,
+    "lat": 44.5919,
+    "lon": 8.8797
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

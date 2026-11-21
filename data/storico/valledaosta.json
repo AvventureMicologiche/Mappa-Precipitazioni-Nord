@@ -1,0 +1,312 @@
+{
+ "regione": "valledaosta",
+ "nome": "Valle d'Aosta",
+ "frontiera": "2026-07-16",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "vallone-di-san-grato",
+   "n": "Vallone di San Grato"
+  },
+  {
+   "slug": "vallone-di-champdepraz",
+   "n": "Vallone di Champdepraz"
+  },
+  {
+   "slug": "valle-del-gran-san-bernardo",
+   "n": "Valle del Gran San Bernardo"
+  },
+  {
+   "slug": "valle-di-champorcher",
+   "n": "Valle di Champorcher"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-16",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 16,
+   "stimati": 0,
+   "stazioni": 70,
+   "media": 30.2,
+   "giorniPioggia": 5,
+   "giornoPiovoso": {
+    "g": "2026-07-17",
+    "mm": 11
+   },
+   "top": [
+    {
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "p": null,
+     "mm": 82
+    },
+    {
+     "n": "Valtournenche - Breuil Cervinia",
+     "p": null,
+     "mm": 73.2
+    },
+    {
+     "n": "Valtournenche - Grandes Murailles",
+     "p": null,
+     "mm": 71.6
+    },
+    {
+     "n": "Courmayeur - Pré-de-Bard",
+     "p": null,
+     "mm": 66.6
+    },
+    {
+     "n": "Courmayeur - Ferrachet",
+     "p": null,
+     "mm": 60.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "vallone-di-san-grato": 23.9,
+    "vallone-di-champdepraz": 17.3,
+    "valle-del-gran-san-bernardo": 30.3,
+    "valle-di-champorcher": 27.8
+   },
+   "record": {
+    "n": "Morgex - Lavancher",
+    "p": null,
+    "g": "2026-07-25",
+    "mm": 28.5,
+    "lat": 45.7952,
+    "lon": 7.0201
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 70,
+   "media": 94.1,
+   "giorniPioggia": 16,
+   "giornoPiovoso": {
+    "g": "2026-08-24",
+    "mm": 16.3
+   },
+   "top": [
+    {
+     "n": "Donnas - Clapey",
+     "p": null,
+     "mm": 214
+    },
+    {
+     "n": "Lillianes - Granges",
+     "p": null,
+     "mm": 205.4
+    },
+    {
+     "n": "Pontboset - Fournier",
+     "p": null,
+     "mm": 171.2
+    },
+    {
+     "n": "Valtournenche - Grandes Murailles",
+     "p": null,
+     "mm": 168.8
+    },
+    {
+     "n": "Hône - Ayasse",
+     "p": null,
+     "mm": 162.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "vallone-di-san-grato": 160.7,
+    "vallone-di-champdepraz": 94.5,
+    "valle-del-gran-san-bernardo": 88.2,
+    "valle-di-champorcher": 146
+   },
+   "record": {
+    "n": "Lillianes - Granges",
+    "p": null,
+    "g": "2026-08-24",
+    "mm": 135.8,
+    "lat": 45.6283,
+    "lon": 7.857
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 69,
+   "media": 18.2,
+   "giorniPioggia": 3,
+   "giornoPiovoso": {
+    "g": "2026-09-08",
+    "mm": 8
+   },
+   "top": [
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "p": null,
+     "mm": 46.8
+    },
+    {
+     "n": "Roisan - Preyl",
+     "p": null,
+     "mm": 44.8
+    },
+    {
+     "n": "La Thuile - La Grande Tête",
+     "p": null,
+     "mm": 43
+    },
+    {
+     "n": "Morgex - Lavancher",
+     "p": null,
+     "mm": 41.7
+    },
+    {
+     "n": "Bionaz - Place Moulin",
+     "p": null,
+     "mm": 34.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "vallone-di-san-grato": 8.9,
+    "vallone-di-champdepraz": 9.9,
+    "valle-del-gran-san-bernardo": 24,
+    "valle-di-champorcher": 12.2
+   },
+   "record": {
+    "n": "Roisan - Preyl",
+    "p": null,
+    "g": "2026-09-10",
+    "mm": 34.4,
+    "lat": 45.7819,
+    "lon": 7.3167
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 70,
+   "media": 66.8,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-10-20",
+    "mm": 18.6
+   },
+   "top": [
+    {
+     "n": "Gressoney-Saint-Jean - lago di Seebna",
+     "p": null,
+     "mm": 165.5
+    },
+    {
+     "n": "Lillianes - Granges",
+     "p": null,
+     "mm": 163
+    },
+    {
+     "n": "Courmayeur - Ferrachet",
+     "p": null,
+     "mm": 150.9
+    },
+    {
+     "n": "Donnas - Clapey",
+     "p": null,
+     "mm": 144.6
+    },
+    {
+     "n": "Pontboset - Fournier",
+     "p": null,
+     "mm": 143.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "vallone-di-san-grato": 125.1,
+    "vallone-di-champdepraz": 44.5,
+    "valle-del-gran-san-bernardo": 36.1,
+    "valle-di-champorcher": 109.3
+   },
+   "record": {
+    "n": "Lillianes - Granges",
+    "p": null,
+    "g": "2026-10-20",
+    "mm": 74.4,
+    "lat": 45.6283,
+    "lon": 7.857
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 64,
+   "media": 97.1,
+   "giorniPioggia": 14,
+   "giornoPiovoso": {
+    "g": "2026-11-17",
+    "mm": 20.4
+   },
+   "top": [
+    {
+     "n": "Courmayeur - Lex Blanche",
+     "p": null,
+     "mm": 242.8
+    },
+    {
+     "n": "Courmayeur - Mont de la Saxe",
+     "p": null,
+     "mm": 228.9
+    },
+    {
+     "n": "Pré-Saint-Didier - Plan Praz",
+     "p": null,
+     "mm": 218.7
+    },
+    {
+     "n": "Courmayeur - Ferrachet",
+     "p": null,
+     "mm": 209.6
+    },
+    {
+     "n": "Courmayeur - Dolonne",
+     "p": null,
+     "mm": 197
+    }
+   ],
+   "province": null,
+   "zone": {
+    "vallone-di-san-grato": 44.3,
+    "vallone-di-champdepraz": 52.7,
+    "valle-del-gran-san-bernardo": 94.3,
+    "valle-di-champorcher": 46
+   },
+   "record": {
+    "n": "Courmayeur - Lex Blanche",
+    "p": null,
+    "g": "2026-11-17",
+    "mm": 53.9,
+    "lat": 45.7664,
+    "lon": 6.8383
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

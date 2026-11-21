@@ -212,6 +212,52 @@ async function scattaEvento(browser, k, ev) {
   } finally { await page.close(); }
 }
 
+/* ⚠️ LE FOTO DELLO STORICO (21/11/2026, scheda 140, genera-pagine-storico.js). Per ogni regione con la pagina
+   /<regione>/storico/: la mappa pulita di ogni mese del suo riassunto (data/storico/<regione>.json), con la stessa
+   ricetta di scattaPulita (regione intera col confine, tutto nascosto tranne la mappa). <k>-storico-<AAAA-MM>.jpg
+   (1600 px, la grande del mese in cima) e -mini.webp (640 px, le schede dei mesi), piu' un json coi numeri del mese.
+   Una foto si rifà SOLO se i numeri del mese sono cambiati da quella sul ramo: il mese in corso ogni giorno (un giorno
+   in piu'), un mese chiuso solo se arrivano dati tardi; i mesi vecchi restano sul ramo (il workflow riparte dai file
+   che ci sono). La prima volta tocca a tutti i mesi: si fanno dal PC, non qui (vedi CLAUDE-pagine.md). STORICO=0 le
+   salta. Nessuna fonte: la mappa legge i nostri file. */
+const RAW_ANTEPRIME = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/';
+async function scattaStorico(browser, k) {
+  let S;
+  try { S = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'storico', k + '.json'), 'utf8')); } catch (e) { return ''; }
+  const fatte = [];
+  for (const m of S.mesi) {
+    const nome = k + '-storico-' + m.mese;
+    let gia = null;
+    try { const r = await fetch(RAW_ANTEPRIME + nome + '.json'); if (r.ok) gia = await r.json(); } catch (e) {}
+    if (gia && gia.al === m.al && gia.giorni === m.giorni && gia.mm === m.media) continue;   // stessa foto: si tiene
+    if (!gia && process.env.STORICO_TUTTI !== '1' && m !== S.mesi[S.mesi.length - 1]) continue;   // i vecchi li fa il PC
+    const page = await browser.newPage();
+    try {
+      await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
+      await page.goto(SITO + '?r=' + k + '&da=' + m.dal + '&a=' + m.al, { waitUntil: 'networkidle2', timeout: 120000 });
+      await page.waitForFunction(() => { const s = document.getElementById('tp-status'); return s && s.textContent.indexOf('✅') === 0; }, { timeout: 180000, polling: 500 });
+      await new Promise(r => setTimeout(r, 2500));
+      await page.evaluate(() => {
+        const mp = window._mapDebug; let b = null;
+        mp.eachLayer(l => { if (l.options && l.options.fill === false && l.getBounds) { const x = l.getBounds(); if (x.isValid()) b = b ? b.extend(x) : L.latLngBounds(x.getSouthWest(), x.getNorthEast()); } });
+        if (b) mp.fitBounds(b, { padding: [20, 20], animate: false });
+      });
+      await page.waitForNetworkIdle({ idleTime: 1200, timeout: 30000 }).catch(() => {});
+      await new Promise(r => setTimeout(r, 2500));
+      await page.addStyleTag({ content: 'body *{visibility:hidden !important} #map .leaflet-map-pane, #map .leaflet-map-pane *{visibility:visible !important}' });
+      await new Promise(r => setTimeout(r, 500));
+      const g = await page.evaluate(() => { const r = document.getElementById('map').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
+      await page.screenshot({ path: path.join(OUT_DIR, nome + '.jpg'), type: 'jpeg', quality: 82, clip: { x: g.x, y: g.y, width: g.w, height: g.h, scale: 0.5 } });
+      await page.screenshot({ path: path.join(OUT_DIR, nome + '-mini.webp'), type: 'webp', quality: 78, clip: { x: g.x, y: g.y, width: g.w, height: g.h, scale: 0.2 } });
+      fs.writeFileSync(path.join(OUT_DIR, nome + '.json'), JSON.stringify({ mese: m.mese, dal: m.dal, al: m.al, giorni: m.giorni, mm: m.media, generato: new Date().toISOString() }) + '\n');
+      fatte.push(m.mese);
+    } catch (e) {
+      fatte.push(m.mese + ' FALLITA (' + e.message.slice(0, 50) + ')');
+    } finally { await page.close(); }
+  }
+  return fatte.length ? ', storico ' + fatte.join(' ') : '';
+}
+
 async function scatta(browser, k) {
   const url = SITO + '?r=' + k + '&da=' + iso(giornoFa(GIORNI)) + '&a=' + iso(giornoFa(1));
   const page = await browser.newPage();
@@ -280,7 +326,12 @@ async function scatta(browser, k) {
   if (process.env.CHROME) opts.executablePath = process.env.CHROME;
   const browser = await puppeteer.launch(opts);
   let fatte = 0;
-  for (const k of lista) { if (await (process.env.BOSCHI ? scattaBoschi : scatta)(browser, k)) fatte++; }
+  // SOLO_STORICO=1 (21/11/2026): solo le foto dello storico, senza rifare le anteprime (la prima volta, dal PC)
+  if (process.env.SOLO_STORICO === '1') fatte = lista.length;
+  else for (const k of lista) { if (await (process.env.BOSCHI ? scattaBoschi : scatta)(browser, k)) fatte++; }
+  // le foto dello storico (21/11/2026, scheda 140): dopo le anteprime, cosi' un intoppo qui non le ferma
+  if (!process.env.BOSCHI && process.env.STORICO !== '0')
+    for (const k of lista) { const x = await scattaStorico(browser, k); if (x) console.log('  ' + k.padEnd(13) + x.slice(2)); if (/FALLITA/.test(x)) console.log('::warning::storico ' + k + x); }
   await browser.close();
 
   console.log('\n' + fatte + ' su ' + lista.length + ' generate in ' + OUT_DIR);

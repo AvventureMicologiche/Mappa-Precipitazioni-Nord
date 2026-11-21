@@ -1,0 +1,303 @@
+{
+ "regione": "umbria",
+ "nome": "Umbria",
+ "frontiera": "2026-07-13",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "valtiberina",
+   "n": "Valtiberina"
+  },
+  {
+   "slug": "valnerina",
+   "n": "Valnerina"
+  },
+  {
+   "slug": "monti-amerini",
+   "n": "Monti Amerini"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-13",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 19,
+   "stimati": 0,
+   "stazioni": 75,
+   "media": 34.1,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 28.2
+   },
+   "top": [
+    {
+     "n": "Pornello",
+     "p": null,
+     "mm": 81.6
+    },
+    {
+     "n": "Foligno",
+     "p": null,
+     "mm": 80.4
+    },
+    {
+     "n": "Ponticelli",
+     "p": null,
+     "mm": 75.9
+    },
+    {
+     "n": "Collepepe",
+     "p": null,
+     "mm": 74.2
+    },
+    {
+     "n": "Bevagna",
+     "p": null,
+     "mm": 73.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valtiberina": 41.7,
+    "valnerina": 21.9,
+    "monti-amerini": 26.1
+   },
+   "record": {
+    "n": "Pornello",
+    "p": null,
+    "g": "2026-07-26",
+    "mm": 81.4,
+    "lat": 42.8756,
+    "lon": 12.2006
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 75,
+   "media": 55.1,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-08-25",
+    "mm": 24.7
+   },
+   "top": [
+    {
+     "n": "Allerona",
+     "p": null,
+     "mm": 156.2
+    },
+    {
+     "n": "Terni",
+     "p": null,
+     "mm": 109
+    },
+    {
+     "n": "Montemartano",
+     "p": null,
+     "mm": 102.2
+    },
+    {
+     "n": "Massa Martana",
+     "p": null,
+     "mm": 100.8
+    },
+    {
+     "n": "Monte Cucco",
+     "p": null,
+     "mm": 99.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valtiberina": 72.9,
+    "valnerina": 67.2,
+    "monti-amerini": 55.6
+   },
+   "record": {
+    "n": "S.Benedetto Vecchio",
+    "p": null,
+    "g": "2026-08-25",
+    "mm": 61.2,
+    "lat": 43.4319,
+    "lon": 12.4611
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 74,
+   "media": 47.3,
+   "giorniPioggia": 5,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 29.5
+   },
+   "top": [
+    {
+     "n": "Scheggia",
+     "p": null,
+     "mm": 96.8
+    },
+    {
+     "n": "Montelovesco",
+     "p": null,
+     "mm": 95.2
+    },
+    {
+     "n": "Bocca Serriola",
+     "p": null,
+     "mm": 94.8
+    },
+    {
+     "n": "Pierantonio",
+     "p": null,
+     "mm": 89
+    },
+    {
+     "n": "Monte Cucco",
+     "p": null,
+     "mm": 88.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valtiberina": 77.5,
+    "valnerina": 34.3,
+    "monti-amerini": 48.3
+   },
+   "record": {
+    "n": "Todi",
+    "p": null,
+    "g": "2026-09-10",
+    "mm": 65.4,
+    "lat": 42.7769,
+    "lon": 12.405
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 74,
+   "media": 50.6,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-10-08",
+    "mm": 15.7
+   },
+   "top": [
+    {
+     "n": "Bocca Serriola",
+     "p": null,
+     "mm": 105
+    },
+    {
+     "n": "S.Benedetto Vecchio",
+     "p": null,
+     "mm": 99.4
+    },
+    {
+     "n": "Petrelle",
+     "p": null,
+     "mm": 95.4
+    },
+    {
+     "n": "Pieve di Saddi",
+     "p": null,
+     "mm": 95.2
+    },
+    {
+     "n": "Monte Cucco",
+     "p": null,
+     "mm": 93.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valtiberina": 92.8,
+    "valnerina": 43.7,
+    "monti-amerini": 54.8
+   },
+   "record": {
+    "n": "S.Benedetto Vecchio",
+    "p": null,
+    "g": "2026-10-08",
+    "mm": 67.6,
+    "lat": 43.4319,
+    "lon": 12.4611
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 3,
+   "stazioni": 74,
+   "media": 144.5,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-11-13",
+    "mm": 28.4
+   },
+   "top": [
+    {
+     "n": "Scheggia",
+     "p": null,
+     "mm": 251.6
+    },
+    {
+     "n": "Monte Cucco",
+     "p": null,
+     "mm": 247.5
+    },
+    {
+     "n": "Monteleone di Spoleto",
+     "p": null,
+     "mm": 240.2
+    },
+    {
+     "n": "Ancaiano",
+     "p": null,
+     "mm": 230.2
+    },
+    {
+     "n": "Castagnacupa",
+     "p": null,
+     "mm": 212.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valtiberina": 192.6,
+    "valnerina": 182.2,
+    "monti-amerini": 165.1
+   },
+   "record": {
+    "n": "Scheggia",
+    "p": null,
+    "g": "2026-11-13",
+    "mm": 76,
+    "lat": 43.4064,
+    "lon": 12.6589
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

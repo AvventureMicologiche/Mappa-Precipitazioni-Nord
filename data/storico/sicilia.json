@@ -1,0 +1,294 @@
+{
+ "regione": "sicilia",
+ "nome": "Sicilia",
+ "frontiera": "2026-07-19",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "valle-del-fitalia",
+   "n": "Valle del Fitalia"
+  },
+  {
+   "slug": "nebrodi",
+   "n": "Nebrodi"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-19",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 13,
+   "stimati": 0,
+   "stazioni": 422,
+   "media": 1.6,
+   "giorniPioggia": 1,
+   "giornoPiovoso": {
+    "g": "2026-07-28",
+    "mm": 1
+   },
+   "top": [
+    {
+     "n": "Sclafani Bagni SIAS",
+     "p": null,
+     "mm": 31.8
+    },
+    {
+     "n": "Valledolmo",
+     "p": null,
+     "mm": 30
+    },
+    {
+     "n": "Gammauta Diga",
+     "p": null,
+     "mm": 26.6
+    },
+    {
+     "n": "Mussomeli SP16",
+     "p": null,
+     "mm": 24.7
+    },
+    {
+     "n": "Montemaggiore Belsito",
+     "p": null,
+     "mm": 24.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-fitalia": 0.1,
+    "nebrodi": 3.4
+   },
+   "record": {
+    "n": "Sclafani Bagni SIAS",
+    "p": null,
+    "g": "2026-07-28",
+    "mm": 31.8,
+    "lat": 37.706,
+    "lon": 13.8501
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 429,
+   "media": 13.9,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-08-06",
+    "mm": 2
+   },
+   "top": [
+    {
+     "n": "Grammichele",
+     "p": null,
+     "mm": 134.2
+    },
+    {
+     "n": "Sperlinga SP19",
+     "p": null,
+     "mm": 116
+    },
+    {
+     "n": "Linguaglossa Etna Nord",
+     "p": null,
+     "mm": 106.6
+    },
+    {
+     "n": "Mascalucia",
+     "p": null,
+     "mm": 84.3
+    },
+    {
+     "n": "Intraleo",
+     "p": null,
+     "mm": 82.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-fitalia": 6.1,
+    "nebrodi": 15.6
+   },
+   "record": {
+    "n": "Grammichele",
+    "p": null,
+    "g": "2026-08-09",
+    "mm": 84.5,
+    "lat": 37.2244,
+    "lon": 14.6311
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 424,
+   "media": 49.8,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-09-19",
+    "mm": 14.4
+   },
+   "top": [
+    {
+     "n": "Aci Castello",
+     "p": null,
+     "mm": 225.4
+    },
+    {
+     "n": "Riposto SIAS",
+     "p": null,
+     "mm": 201.6
+    },
+    {
+     "n": "Santa Rosalia Diga R2",
+     "p": null,
+     "mm": 201
+    },
+    {
+     "n": "Aci San Filippo",
+     "p": null,
+     "mm": 199.7
+    },
+    {
+     "n": "Messina SP44",
+     "p": null,
+     "mm": 177.1
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-fitalia": 52.1,
+    "nebrodi": 57.1
+   },
+   "record": {
+    "n": "Riposto SIAS",
+    "p": null,
+    "g": "2026-09-22",
+    "mm": 162.2,
+    "lat": 37.6851,
+    "lon": 15.1983
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 418,
+   "media": 66.6,
+   "giorniPioggia": 14,
+   "giornoPiovoso": {
+    "g": "2026-10-10",
+    "mm": 20.8
+   },
+   "top": [
+    {
+     "n": "Pagliara",
+     "p": null,
+     "mm": 353.6
+    },
+    {
+     "n": "Forza d'Agro'",
+     "p": null,
+     "mm": 337.7
+    },
+    {
+     "n": "Casalvecchio Siculo",
+     "p": null,
+     "mm": 322.8
+    },
+    {
+     "n": "Letojanni",
+     "p": null,
+     "mm": 311.7
+    },
+    {
+     "n": "Piedimonte Etneo",
+     "p": null,
+     "mm": 305.9
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-fitalia": 137.2,
+    "nebrodi": 124.5
+   },
+   "record": {
+    "n": "Noto SIAS",
+    "p": null,
+    "g": "2026-10-20",
+    "mm": 139.8,
+    "lat": 36.8422,
+    "lon": 15.047
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 2,
+   "stazioni": 424,
+   "media": 47.6,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-11-02",
+    "mm": 28.9
+   },
+   "top": [
+    {
+     "n": "Isnello SP54",
+     "p": null,
+     "mm": 187.9
+    },
+    {
+     "n": "Cesaro'",
+     "p": null,
+     "mm": 160.4
+    },
+    {
+     "n": "Viagrande",
+     "p": null,
+     "mm": 152.1
+    },
+    {
+     "n": "Linguaglossa Etna Nord",
+     "p": null,
+     "mm": 146.3
+    },
+    {
+     "n": "Monreale Vigna d'Api SIAS",
+     "p": null,
+     "mm": 146.3
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-fitalia": 91.8,
+    "nebrodi": 100.9
+   },
+   "record": {
+    "n": "Monreale Vigna d'Api SIAS",
+    "p": null,
+    "g": "2026-11-02",
+    "mm": 123.8,
+    "lat": 38.0248,
+    "lon": 13.2592
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

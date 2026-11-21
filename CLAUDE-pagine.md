@@ -1370,3 +1370,14 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   dentro le funzioni dei generatori e non in cima: quel file chiede `genera-pagine-regione.js` e `lib-pagina-funghi.js`.
 - ⚠️ Trappola: il nome della regione sta in uno `span` che non va a capo («Emilia-/Romagna» spezzato era brutto); nelle
   meteo al telefono la scritta va su due righe (scelta sua). Prova `claudio\analisi-pagine-140\prova-bottone-radar.js`.
+
+## Lo storico mese per mese, /<regione>/storico/ (21/11/2026, scheda 140)
+
+- 20 pagine «Storico precipitazioni <regione>» e il riassunto `data/storico/<regione>.json`, da `genera-pagine-storico.js`
+  (giro del mattino, dopo le zone piogge). In cima il mese in corso (nei primi 6 giorni il mese prima), la mappa grande,
+  le barre, una scheda per mese con la miniatura, le zone con link, le province dove la rete le dice, i giorni record che
+  aprono la mappa di quel giorno. Link dalla pagina regione sotto «Ultimo mese»; `sitemap-storico.xml`.
+- Foto: `scattaStorico` in `genera-anteprime.js`, sul ramo `anteprime` (`<k>-storico-<AAAA-MM>.jpg`, `-mini.webp`, `.json`):
+  si rifà solo se i numeri del mese cambiano. I mesi vecchi la prima volta dal PC: `SOLO_STORICO=1 STORICO_TUTTI=1`.
+- ⚠️ Trappole: i mesi prima della frontiera (backfill da modello) non entrano; un mese si ricalcola finché i suoi file ci
+  sono, poi resta il riassunto (la pulizia dei 730 giorni non lo tocca); `gemelle` è una copia di quella dei riepiloghi.

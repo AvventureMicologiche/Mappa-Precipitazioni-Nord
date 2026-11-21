@@ -1,0 +1,515 @@
+{
+ "regione": "veneto",
+ "nome": "Veneto",
+ "frontiera": "2026-05-05",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "val-d-astico",
+   "n": "Val d'Astico"
+  },
+  {
+   "slug": "val-gallina",
+   "n": "Val Gallina"
+  },
+  {
+   "slug": "comelico",
+   "n": "Comelico"
+  },
+  {
+   "slug": "val-canale",
+   "n": "Val Canale"
+  },
+  {
+   "slug": "colli-asolani",
+   "n": "Colli Asolani"
+  },
+  {
+   "slug": "valbelluna",
+   "n": "Valbelluna"
+  },
+  {
+   "slug": "valle-del-boite",
+   "n": "Valle del Boite"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-05",
+   "al": "2026-05-31",
+   "intero": false,
+   "giorni": 27,
+   "stimati": 0,
+   "stazioni": 189,
+   "media": 27,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-05-11",
+    "mm": 4.7
+   },
+   "top": [
+    {
+     "n": "Vittorio Veneto",
+     "p": "TV",
+     "mm": 64.8
+    },
+    {
+     "n": "Cansiglio - Tramedere",
+     "p": "BL",
+     "mm": 62.6
+    },
+    {
+     "n": "Oderzo",
+     "p": "TV",
+     "mm": 55
+    },
+    {
+     "n": "Agna",
+     "p": "PD",
+     "mm": 48.4
+    },
+    {
+     "n": "Nogarolo di Tarzo",
+     "p": "TV",
+     "mm": 48.2
+    }
+   ],
+   "province": {
+    "Treviso": 38,
+    "Rovigo": 22.4,
+    "Verona": 28.3,
+    "Vicenza": 30.9,
+    "Padova": 29.2,
+    "Belluno": 21.5,
+    "Venezia": 24.2
+   },
+   "zone": {
+    "val-d-astico": 32.4,
+    "val-gallina": 38.3,
+    "comelico": 20.9,
+    "val-canale": 24.8,
+    "colli-asolani": 34.1,
+    "valbelluna": 43.1,
+    "valle-del-boite": 16.4
+   },
+   "record": {
+    "n": "Vittorio Veneto",
+    "p": "TV",
+    "g": "2026-05-11",
+    "mm": 22.8,
+    "lat": 45.9854,
+    "lon": 12.3076
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 185,
+   "media": 32.9,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-06-10",
+    "mm": 5.4
+   },
+   "top": [
+    {
+     "n": "Pian del Crep (Val di Zoldo)",
+     "p": "BL",
+     "mm": 95.2
+    },
+    {
+     "n": "Oderzo",
+     "p": "TV",
+     "mm": 94.8
+    },
+    {
+     "n": "Belluno - aeroporto",
+     "p": "BL",
+     "mm": 82.8
+    },
+    {
+     "n": "Legnaro",
+     "p": "PD",
+     "mm": 80.3
+    },
+    {
+     "n": "Passo Valles",
+     "p": "BL",
+     "mm": 75.6
+    }
+   ],
+   "province": {
+    "Treviso": 27.2,
+    "Rovigo": 22.7,
+    "Verona": 27.8,
+    "Vicenza": 33.1,
+    "Padova": 24.3,
+    "Belluno": 44.2,
+    "Venezia": 27.2
+   },
+   "zone": {
+    "val-d-astico": 37,
+    "val-gallina": 40.9,
+    "comelico": 31.6,
+    "val-canale": 39.8,
+    "colli-asolani": 26.7,
+    "valbelluna": 36.5,
+    "valle-del-boite": 46.2
+   },
+   "record": {
+    "n": "Mira",
+    "p": "VE",
+    "g": "2026-06-01",
+    "mm": 35.2,
+    "lat": 45.4393,
+    "lon": 12.1169
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 186,
+   "media": 50.8,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-07-01",
+    "mm": 9.1
+   },
+   "top": [
+    {
+     "n": "Mogliano Veneto",
+     "p": "TV",
+     "mm": 117.4
+    },
+    {
+     "n": "Vazzola - Tezze",
+     "p": "TV",
+     "mm": 114.8
+    },
+    {
+     "n": "Col Indes (Tambre)",
+     "p": "BL",
+     "mm": 110
+    },
+    {
+     "n": "Cavarzere",
+     "p": "VE",
+     "mm": 98.6
+    },
+    {
+     "n": "Rifugio la Guardia (Recoaro Terme)",
+     "p": "VI",
+     "mm": 94.4
+    }
+   ],
+   "province": {
+    "Treviso": 47.8,
+    "Rovigo": 52.1,
+    "Verona": 54.7,
+    "Vicenza": 50.2,
+    "Padova": 41.8,
+    "Belluno": 55.7,
+    "Venezia": 43.2
+   },
+   "zone": {
+    "val-d-astico": 45.7,
+    "val-gallina": 71.9,
+    "comelico": 37.7,
+    "val-canale": 76.2,
+    "colli-asolani": 53.3,
+    "valbelluna": 20.7,
+    "valle-del-boite": 61.3
+   },
+   "record": {
+    "n": "Col Indes (Tambre)",
+    "p": "BL",
+    "g": "2026-07-26",
+    "mm": 64.4,
+    "lat": 46.1191,
+    "lon": 12.4402
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 186,
+   "media": 82.5,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 20.9
+   },
+   "top": [
+    {
+     "n": "Malga Campobon (San Pietro di Cadore)",
+     "p": "BL",
+     "mm": 204.6
+    },
+    {
+     "n": "Soffranco",
+     "p": "BL",
+     "mm": 199.4
+    },
+    {
+     "n": "Passo Monte Croce Comelico",
+     "p": "BL",
+     "mm": 187.6
+    },
+    {
+     "n": "Col Indes (Tambre)",
+     "p": "BL",
+     "mm": 159
+    },
+    {
+     "n": "Agordo",
+     "p": "BL",
+     "mm": 157.6
+    }
+   ],
+   "province": {
+    "Treviso": 72.5,
+    "Rovigo": 43.6,
+    "Verona": 58.3,
+    "Vicenza": 79.2,
+    "Padova": 73.1,
+    "Belluno": 109.5,
+    "Venezia": 84.5
+   },
+   "zone": {
+    "val-d-astico": 96.7,
+    "val-gallina": 134.3,
+    "comelico": 101.2,
+    "val-canale": 109.2,
+    "colli-asolani": 82.1,
+    "valbelluna": 90.6,
+    "valle-del-boite": 103.4
+   },
+   "record": {
+    "n": "Soffranco",
+    "p": "BL",
+    "g": "2026-08-20",
+    "mm": 96.4,
+    "lat": 46.2782,
+    "lon": 12.2428
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 186,
+   "media": 90.3,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 44.5
+   },
+   "top": [
+    {
+     "n": "Lugugnana (Portogruaro)",
+     "p": "VE",
+     "mm": 290.8
+    },
+    {
+     "n": "Bibione",
+     "p": "VE",
+     "mm": 264
+    },
+    {
+     "n": "Eraclea",
+     "p": "VE",
+     "mm": 199.6
+    },
+    {
+     "n": "Eraclea - Torre di Fine",
+     "p": "VE",
+     "mm": 185.6
+    },
+    {
+     "n": "Sant'Antonio Tortal",
+     "p": "BL",
+     "mm": 148.6
+    }
+   ],
+   "province": {
+    "Treviso": 102.5,
+    "Rovigo": 34.3,
+    "Verona": 81,
+    "Vicenza": 90.3,
+    "Padova": 61.3,
+    "Belluno": 107.8,
+    "Venezia": 107.7
+   },
+   "zone": {
+    "val-d-astico": 118.6,
+    "val-gallina": 121.7,
+    "comelico": 126.9,
+    "val-canale": 105.6,
+    "colli-asolani": 93.5,
+    "valbelluna": 120.5,
+    "valle-del-boite": 105.5
+   },
+   "record": {
+    "n": "Bibione",
+    "p": "VE",
+    "g": "2026-09-10",
+    "mm": 192.4,
+    "lat": 45.6414,
+    "lon": 13.0775
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 186,
+   "media": 67.1,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 32.1
+   },
+   "top": [
+    {
+     "n": "Castana",
+     "p": "VI",
+     "mm": 212.1
+    },
+    {
+     "n": "Soffranco",
+     "p": "BL",
+     "mm": 180
+    },
+    {
+     "n": "Rifugio la Guardia (Recoaro Terme)",
+     "p": "VI",
+     "mm": 179.6
+    },
+    {
+     "n": "Staro (Valli del Pasubio)",
+     "p": "VI",
+     "mm": 178.3
+    },
+    {
+     "n": "Tonezza del Cimone",
+     "p": "VI",
+     "mm": 171.4
+    }
+   ],
+   "province": {
+    "Treviso": 64.9,
+    "Rovigo": 29.8,
+    "Verona": 43.9,
+    "Vicenza": 85,
+    "Padova": 38.1,
+    "Belluno": 90.7,
+    "Venezia": 49.5
+   },
+   "zone": {
+    "val-d-astico": 159.5,
+    "val-gallina": 152.4,
+    "comelico": 82.9,
+    "val-canale": 173.5,
+    "colli-asolani": 94.1,
+    "valbelluna": 122.5,
+    "valle-del-boite": 76.1
+   },
+   "record": {
+    "n": "Castana",
+    "p": "VI",
+    "g": "2026-10-21",
+    "mm": 147.2,
+    "lat": 45.8155,
+    "lon": 11.3084
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 185,
+   "media": 76.6,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 31.4
+   },
+   "top": [
+    {
+     "n": "Bibione",
+     "p": "VE",
+     "mm": 161.6
+    },
+    {
+     "n": "Eraclea - Torre di Fine",
+     "p": "VE",
+     "mm": 161
+    },
+    {
+     "n": "Lugugnana (Portogruaro)",
+     "p": "VE",
+     "mm": 139.4
+    },
+    {
+     "n": "Rosolina - Po di Tramontana",
+     "p": "RO",
+     "mm": 135
+    },
+    {
+     "n": "Fossalta di Portogruaro",
+     "p": "VE",
+     "mm": 133
+    }
+   ],
+   "province": {
+    "Treviso": 72.9,
+    "Rovigo": 110.6,
+    "Verona": 85.2,
+    "Vicenza": 68.4,
+    "Padova": 108.3,
+    "Belluno": 46.6,
+    "Venezia": 121.3
+   },
+   "zone": {
+    "val-d-astico": 43.6,
+    "val-gallina": 78.2,
+    "comelico": 43.9,
+    "val-canale": 64.2,
+    "colli-asolani": 57.7,
+    "valbelluna": 64.2,
+    "valle-del-boite": 37.8
+   },
+   "record": {
+    "n": "Eraclea - Torre di Fine",
+    "p": "VE",
+    "g": "2026-11-12",
+    "mm": 71.2,
+    "lat": 45.5757,
+    "lon": 12.7913
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

@@ -1,0 +1,312 @@
+{
+ "regione": "campania",
+ "nome": "Campania",
+ "frontiera": "2026-07-19",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "monti-lattari",
+   "n": "Monti Lattari"
+  },
+  {
+   "slug": "cilento",
+   "n": "Cilento"
+  },
+  {
+   "slug": "valle-caudina",
+   "n": "Valle Caudina"
+  },
+  {
+   "slug": "monti-del-partenio",
+   "n": "Monti del Partenio"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-19",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 13,
+   "stimati": 0,
+   "stazioni": 173,
+   "media": 9.9,
+   "giorniPioggia": 2,
+   "giornoPiovoso": {
+    "g": "2026-07-27",
+    "mm": 7.6
+   },
+   "top": [
+    {
+     "n": "Massa Lubrense",
+     "p": null,
+     "mm": 76.4
+    },
+    {
+     "n": "Castelfranco in Miscano",
+     "p": null,
+     "mm": 71.4
+    },
+    {
+     "n": "Quattroventi",
+     "p": null,
+     "mm": 59
+    },
+    {
+     "n": "Pago Veiano",
+     "p": null,
+     "mm": 58
+    },
+    {
+     "n": "S.Angelo d'Alife",
+     "p": null,
+     "mm": 54.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monti-lattari": 7.1,
+    "cilento": 0.9,
+    "valle-caudina": 17.4,
+    "monti-del-partenio": 8.8
+   },
+   "record": {
+    "n": "Massa Lubrense",
+    "p": null,
+    "g": "2026-07-27",
+    "mm": 76.4,
+    "lat": 40.6064,
+    "lon": 14.3628
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 174,
+   "media": 43.4,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-08-18",
+    "mm": 9.7
+   },
+   "top": [
+    {
+     "n": "Bagnoli Irpino",
+     "p": null,
+     "mm": 154.3
+    },
+    {
+     "n": "Rofrano-Fistole Faraone",
+     "p": null,
+     "mm": 153.9
+    },
+    {
+     "n": "Sorgenti Grassano",
+     "p": null,
+     "mm": 143.4
+    },
+    {
+     "n": "S.Salvatore Telesino METEO",
+     "p": null,
+     "mm": 138.8
+    },
+    {
+     "n": "Campora",
+     "p": null,
+     "mm": 127.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monti-lattari": 24.5,
+    "cilento": 125.9,
+    "valle-caudina": 49.3,
+    "monti-del-partenio": 44.8
+   },
+   "record": {
+    "n": "Bagnoli Irpino",
+    "p": null,
+    "g": "2026-08-13",
+    "mm": 68.3,
+    "lat": 40.8306,
+    "lon": 15.0722
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 175,
+   "media": 32,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-09-25",
+    "mm": 14.9
+   },
+   "top": [
+    {
+     "n": "Agerola",
+     "p": null,
+     "mm": 96.7
+    },
+    {
+     "n": "Agerola METEO",
+     "p": null,
+     "mm": 88.2
+    },
+    {
+     "n": "Monteforte Irpino",
+     "p": null,
+     "mm": 86.6
+    },
+    {
+     "n": "Pimonte",
+     "p": null,
+     "mm": 86.6
+    },
+    {
+     "n": "Forino",
+     "p": null,
+     "mm": 83.3
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monti-lattari": 65.5,
+    "cilento": 52.4,
+    "valle-caudina": 25.6,
+    "monti-del-partenio": 52.9
+   },
+   "record": {
+    "n": "Agerola",
+    "p": null,
+    "g": "2026-09-25",
+    "mm": 84.1,
+    "lat": 40.6392,
+    "lon": 14.5336
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 176,
+   "media": 136.1,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 31.5
+   },
+   "top": [
+    {
+     "n": "Monte Epomeo (Ischia)",
+     "p": null,
+     "mm": 309.8
+    },
+    {
+     "n": "Ischia",
+     "p": null,
+     "mm": 296.2
+    },
+    {
+     "n": "Forio",
+     "p": null,
+     "mm": 282.2
+    },
+    {
+     "n": "Castel Volturno",
+     "p": null,
+     "mm": 273.8
+    },
+    {
+     "n": "Liberi",
+     "p": null,
+     "mm": 247
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monti-lattari": 155.7,
+    "cilento": 114.8,
+    "valle-caudina": 159.7,
+    "monti-del-partenio": 155.5
+   },
+   "record": {
+    "n": "Pozzuoli",
+    "p": null,
+    "g": "2026-10-09",
+    "mm": 97.6,
+    "lat": 40.8308,
+    "lon": 14.1278
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 2,
+   "stazioni": 175,
+   "media": 135.9,
+   "giorniPioggia": 16,
+   "giornoPiovoso": {
+    "g": "2026-11-02",
+    "mm": 31.6
+   },
+   "top": [
+    {
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "p": null,
+     "mm": 352.2
+    },
+    {
+     "n": "Cusano Mutri",
+     "p": null,
+     "mm": 309.3
+    },
+    {
+     "n": "Giffoni Valle Piana",
+     "p": null,
+     "mm": 295.7
+    },
+    {
+     "n": "Tramonti",
+     "p": null,
+     "mm": 294.5
+    },
+    {
+     "n": "Montella METEO",
+     "p": null,
+     "mm": 291.5
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monti-lattari": 104.1,
+    "cilento": 199.1,
+    "valle-caudina": 170.8,
+    "monti-del-partenio": 207.7
+   },
+   "record": {
+    "n": "Tramonti",
+    "p": null,
+    "g": "2026-11-15",
+    "mm": 165.8,
+    "lat": 40.6964,
+    "lon": 14.6456
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

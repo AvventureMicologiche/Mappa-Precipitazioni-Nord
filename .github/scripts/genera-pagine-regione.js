@@ -872,7 +872,9 @@ ${EV ? '' : radarHtml(r)}
        onclick="try{gtag('event','apri_mappa',{da:'pagina-${r.k}-30gg'})}catch(e){}">Apri la mappa →</a>
   </div>
 </div>
-${(() => {
+${ESTERE.includes(r.k) ? '' : `<p style="margin:2px 0 16px;font-size:16.5px;font-weight:700"><a href="${SITO}/${r.k}/storico/"
+   onclick="try{gtag('event','apri_storico',{da:'pagina-${r.k}'})}catch(e){}">📅 Storico precipitazioni ${r.nomeTitolo || r.nome}: la pioggia mese per mese →</a></p>
+`}${(() => {
   // I link alle zone sono COTTI nell'HTML (li legge Google); il javascript
   // riempie i millimetri e riordina le righe spostando i nodi.
   const zz = ZONE.filter(z => z.reg === r.k).sort((a, b) => a.n.localeCompare(b.n, 'it'));
@@ -1252,7 +1254,7 @@ function stazDi(r, radice) {
   } catch (e) {}
   return r.staz;
 }
-module.exports = { REGIONI, FUNGHI, GEN, COTTE, navAltre, briciolaJson, briciolaHtml, BRIC_CSS, STILE_BASE, STILE_IERI, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi };   // GEN: anche per le pagine di zona (18/10/2026)
+module.exports = { REGIONI, FUNGHI, GEN, COTTE, navAltre, briciolaJson, briciolaHtml, BRIC_CSS, STILE_BASE, STILE_IERI, IERI_GRANDE, ESTERE, SITO, GA_ID, CANALE, scrivi, stazDi };   // GEN: anche per le pagine di zona (18/10/2026)
 
 if (require.main === module) {
   const radice = path.resolve(__dirname, '..', '..');

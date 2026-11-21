@@ -1,0 +1,459 @@
+{
+ "regione": "emilia",
+ "nome": "Emilia-Romagna",
+ "frontiera": "2026-05-03",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "valle-del-carlone",
+   "n": "Valle del Carlone"
+  },
+  {
+   "slug": "alta-val-d-enza",
+   "n": "Alta Val d'Enza"
+  },
+  {
+   "slug": "val-trebbia",
+   "n": "Val Trebbia"
+  },
+  {
+   "slug": "val-nure",
+   "n": "Val Nure"
+  },
+  {
+   "slug": "val-di-taro",
+   "n": "Val di Taro"
+  },
+  {
+   "slug": "romagna-toscana",
+   "n": "Romagna toscana"
+  },
+  {
+   "slug": "val-d-enza",
+   "n": "Val d'Enza"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-03",
+   "al": "2026-05-31",
+   "intero": false,
+   "giorni": 29,
+   "stimati": 0,
+   "stazioni": 299,
+   "media": 73.6,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-05-06",
+    "mm": 20.3
+   },
+   "top": [
+    {
+     "n": "Ospitaletto",
+     "p": null,
+     "mm": 323.7
+    },
+    {
+     "n": "Civago",
+     "p": null,
+     "mm": 296.6
+    },
+    {
+     "n": "Lago Ballano",
+     "p": null,
+     "mm": 292.3
+    },
+    {
+     "n": "Passo delle Radici",
+     "p": null,
+     "mm": 282.1
+    },
+    {
+     "n": "Succiso",
+     "p": null,
+     "mm": 267.7
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 77.6,
+    "alta-val-d-enza": 194.4,
+    "val-trebbia": 73.1,
+    "val-nure": 72.9,
+    "val-di-taro": 57.8,
+    "romagna-toscana": 74.2,
+    "val-d-enza": 178.2
+   },
+   "record": {
+    "n": "Lago Ballano",
+    "p": null,
+    "g": "2026-05-11",
+    "mm": 101.1,
+    "lat": 44.3695,
+    "lon": 10.1021
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 1,
+   "stazioni": 306,
+   "media": 26.4,
+   "giorniPioggia": 6,
+   "giornoPiovoso": {
+    "g": "2026-06-29",
+    "mm": 6.7
+   },
+   "top": [
+    {
+     "n": "Bedonia",
+     "p": null,
+     "mm": 99.5
+    },
+    {
+     "n": "Pracchia",
+     "p": null,
+     "mm": 89.7
+    },
+    {
+     "n": "Monteacuto delle Alpi",
+     "p": null,
+     "mm": 87.2
+    },
+    {
+     "n": "Treppio",
+     "p": null,
+     "mm": 84.1
+    },
+    {
+     "n": "Lago Ballano",
+     "p": null,
+     "mm": 83.3
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 45.9,
+    "alta-val-d-enza": 45.1,
+    "val-trebbia": 63.5,
+    "val-nure": 33,
+    "val-di-taro": 15.8,
+    "romagna-toscana": 24.6,
+    "val-d-enza": 55.5
+   },
+   "record": {
+    "n": "Medelana",
+    "p": null,
+    "g": "2026-06-01",
+    "mm": 75.6,
+    "lat": 44.7729,
+    "lon": 11.8674
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 303,
+   "media": 60.5,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-07-26",
+    "mm": 16.7
+   },
+   "top": [
+    {
+     "n": "Martinella",
+     "p": null,
+     "mm": 168.2
+    },
+    {
+     "n": "Corniolo",
+     "p": null,
+     "mm": 162.4
+    },
+    {
+     "n": "Secondo Salto",
+     "p": null,
+     "mm": 152.1
+    },
+    {
+     "n": "Umana",
+     "p": null,
+     "mm": 149.1
+    },
+    {
+     "n": "Malalbergo",
+     "p": null,
+     "mm": 143.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 60,
+    "alta-val-d-enza": 42,
+    "val-trebbia": 52.5,
+    "val-nure": 48.8,
+    "val-di-taro": 45.8,
+    "romagna-toscana": 50.3,
+    "val-d-enza": 72.3
+   },
+   "record": {
+    "n": "Corniolo",
+    "p": null,
+    "g": "2026-07-10",
+    "mm": 108.6,
+    "lat": 43.9243,
+    "lon": 11.7933
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 298,
+   "media": 54,
+   "giorniPioggia": 7,
+   "giornoPiovoso": {
+    "g": "2026-08-21",
+    "mm": 28.9
+   },
+   "top": [
+    {
+     "n": "Lago Ballano",
+     "p": null,
+     "mm": 401.6
+    },
+    {
+     "n": "Lago Paduli",
+     "p": null,
+     "mm": 209.1
+    },
+    {
+     "n": "Grammatica",
+     "p": null,
+     "mm": 208.2
+    },
+    {
+     "n": "Lagdei",
+     "p": null,
+     "mm": 206.9
+    },
+    {
+     "n": "Casoni di Santa Maria di Taro",
+     "p": null,
+     "mm": 206.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 92.8,
+    "alta-val-d-enza": 178.2,
+    "val-trebbia": 181.6,
+    "val-nure": 78.5,
+    "val-di-taro": 50,
+    "romagna-toscana": 43.9,
+    "val-d-enza": 136.6
+   },
+   "record": {
+    "n": "Lago Ballano",
+    "p": null,
+    "g": "2026-08-21",
+    "mm": 283.6,
+    "lat": 44.3695,
+    "lon": 10.1021
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 314,
+   "media": 46.1,
+   "giorniPioggia": 5,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 18.8
+   },
+   "top": [
+    {
+     "n": "Casalporino",
+     "p": null,
+     "mm": 230.8
+    },
+    {
+     "n": "Casoni di Santa Maria di Taro",
+     "p": null,
+     "mm": 184.2
+    },
+    {
+     "n": "Nociveglia",
+     "p": null,
+     "mm": 180.9
+    },
+    {
+     "n": "Bedonia",
+     "p": null,
+     "mm": 155.7
+    },
+    {
+     "n": "Frassineto",
+     "p": null,
+     "mm": 154.1
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 44.7,
+    "alta-val-d-enza": 51.6,
+    "val-trebbia": 82.2,
+    "val-nure": 68.6,
+    "val-di-taro": 58.5,
+    "romagna-toscana": 85,
+    "val-d-enza": 43.7
+   },
+   "record": {
+    "n": "Casalporino",
+    "p": null,
+    "g": "2026-09-09",
+    "mm": 114.6,
+    "lat": 44.5271,
+    "lon": 9.5474
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 317,
+   "media": 49.3,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-10-20",
+    "mm": 9.8
+   },
+   "top": [
+    {
+     "n": "Lago Scaffaiolo",
+     "p": null,
+     "mm": 314.7
+    },
+    {
+     "n": "Lago Ballano",
+     "p": null,
+     "mm": 279.3
+    },
+    {
+     "n": "Casoni di Santa Maria di Taro",
+     "p": null,
+     "mm": 256.3
+    },
+    {
+     "n": "Lagdei",
+     "p": null,
+     "mm": 219.6
+    },
+    {
+     "n": "Tarsogno",
+     "p": null,
+     "mm": 217.7
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 58.2,
+    "alta-val-d-enza": 163.1,
+    "val-trebbia": 119.7,
+    "val-nure": 68.4,
+    "val-di-taro": 65.7,
+    "romagna-toscana": 34.9,
+    "val-d-enza": 113.2
+   },
+   "record": {
+    "n": "Lago Ballano",
+    "p": null,
+    "g": "2026-10-08",
+    "mm": 114.2,
+    "lat": 44.3695,
+    "lon": 10.1021
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 314,
+   "media": 140.9,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 37.7
+   },
+   "top": [
+    {
+     "n": "Lago Ballano",
+     "p": null,
+     "mm": 788.3
+    },
+    {
+     "n": "Lago Scaffaiolo",
+     "p": null,
+     "mm": 691.6
+    },
+    {
+     "n": "Lago Paduli",
+     "p": null,
+     "mm": 627.4
+    },
+    {
+     "n": "Pracchia",
+     "p": null,
+     "mm": 575
+    },
+    {
+     "n": "Succiso",
+     "p": null,
+     "mm": 549.3
+    }
+   ],
+   "province": null,
+   "zone": {
+    "valle-del-carlone": 72.1,
+    "alta-val-d-enza": 417,
+    "val-trebbia": 152.5,
+    "val-nure": 94.5,
+    "val-di-taro": 99.1,
+    "romagna-toscana": 141.2,
+    "val-d-enza": 261.3
+   },
+   "record": {
+    "n": "Lago Scaffaiolo",
+    "p": null,
+    "g": "2026-11-12",
+    "mm": 245.5,
+    "lat": 44.1192,
+    "lon": 10.809
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

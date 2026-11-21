@@ -102,6 +102,9 @@ jobs:
           cp "$OUT"/*-7g.webp "$OUT"/*-7g.json . 2>/dev/null || true
           # e i giorni dell'evento, per le pagine regione in modalita' evento (13/11/2026); la foto intera e' un *.jpg
           cp "$OUT"/*-evento.webp "$OUT"/*-evento.json . 2>/dev/null || true
+          # e le foto dello storico mese per mese (21/11/2026, scheda 140): grande .jpg, -mini.webp e il .json coi numeri.
+          # Quelle dei mesi passati restano dal giro prima (checkout del ramo qui sopra): si rifanno solo se cambiano.
+          cp "$OUT"/*-storico-* . 2>/dev/null || true
           git add -A
           git commit -q -m "anteprime mappa $(date -u +%Y-%m-%d)"
           # --force perche' ogni giro riscrive il ramo da capo: e' voluto, e'

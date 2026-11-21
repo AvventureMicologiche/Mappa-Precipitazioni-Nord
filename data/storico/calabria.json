@@ -1,0 +1,294 @@
+{
+ "regione": "calabria",
+ "nome": "Calabria",
+ "frontiera": "2026-07-19",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "serre-calabresi",
+   "n": "Serre calabresi"
+  },
+  {
+   "slug": "sila-grande",
+   "n": "Sila Grande"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-19",
+   "al": "2026-07-31",
+   "intero": false,
+   "giorni": 13,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 2.6,
+   "giorniPioggia": 2,
+   "giornoPiovoso": {
+    "g": "2026-07-24",
+    "mm": 1.5
+   },
+   "top": [
+    {
+     "n": "Catanzaro",
+     "p": null,
+     "mm": 60.8
+    },
+    {
+     "n": "Tiriolo",
+     "p": null,
+     "mm": 35
+    },
+    {
+     "n": "Montalto Uffugo",
+     "p": null,
+     "mm": 13.6
+    },
+    {
+     "n": "Nocelle-Arvo",
+     "p": null,
+     "mm": 11
+    },
+    {
+     "n": "Acri",
+     "p": null,
+     "mm": 10.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "serre-calabresi": 1.2,
+    "sila-grande": 5.4
+   },
+   "record": {
+    "n": "Catanzaro",
+    "p": null,
+    "g": "2026-07-24",
+    "mm": 60.8,
+    "lat": 38.9125,
+    "lon": 16.5819
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 25.4,
+   "giorniPioggia": 9,
+   "giornoPiovoso": {
+    "g": "2026-08-18",
+    "mm": 8.4
+   },
+   "top": [
+    {
+     "n": "Albi",
+     "p": null,
+     "mm": 143.2
+    },
+    {
+     "n": "Gimigliano",
+     "p": null,
+     "mm": 142
+    },
+    {
+     "n": "Palermiti",
+     "p": null,
+     "mm": 93.2
+    },
+    {
+     "n": "Tiriolo",
+     "p": null,
+     "mm": 90.8
+    },
+    {
+     "n": "Sant'Elia-Jano",
+     "p": null,
+     "mm": 89
+    }
+   ],
+   "province": null,
+   "zone": {
+    "serre-calabresi": 36.2,
+    "sila-grande": 37.3
+   },
+   "record": {
+    "n": "Palermiti",
+    "p": null,
+    "g": "2026-08-02",
+    "mm": 70.8,
+    "lat": 38.7533,
+    "lon": 16.4478
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 52.9,
+   "giorniPioggia": 11,
+   "giornoPiovoso": {
+    "g": "2026-09-12",
+    "mm": 10.7
+   },
+   "top": [
+    {
+     "n": "Monte Scrisi",
+     "p": null,
+     "mm": 132.6
+    },
+    {
+     "n": "Reggio Calabria - Catona",
+     "p": null,
+     "mm": 126
+    },
+    {
+     "n": "Scilla - Villaggio del Pino",
+     "p": null,
+     "mm": 122
+    },
+    {
+     "n": "Pizzoni",
+     "p": null,
+     "mm": 120.2
+    },
+    {
+     "n": "Staiti",
+     "p": null,
+     "mm": 116.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "serre-calabresi": 65.8,
+    "sila-grande": 69.3
+   },
+   "record": {
+    "n": "San Nicola da Crissa",
+    "p": null,
+    "g": "2026-09-22",
+    "mm": 78.8,
+    "lat": 38.6592,
+    "lon": 16.2992
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 139,
+   "media": 105.2,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-10-10",
+    "mm": 55.2
+   },
+   "top": [
+    {
+     "n": "Canolo Nuovo",
+     "p": null,
+     "mm": 255
+    },
+    {
+     "n": "Roccaforte del Greco",
+     "p": null,
+     "mm": 225.8
+    },
+    {
+     "n": "Allai",
+     "p": null,
+     "mm": 223.6
+    },
+    {
+     "n": "Cardeto",
+     "p": null,
+     "mm": 222.8
+    },
+    {
+     "n": "Punta Stilo",
+     "p": null,
+     "mm": 209.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "serre-calabresi": 132.7,
+    "sila-grande": 74.5
+   },
+   "record": {
+    "n": "Roccaforte del Greco",
+    "p": null,
+    "g": "2026-10-10",
+    "mm": 145.8,
+    "lat": 38.0444,
+    "lon": 15.9028
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 2,
+   "stazioni": 139,
+   "media": 67.6,
+   "giorniPioggia": 10,
+   "giornoPiovoso": {
+    "g": "2026-11-02",
+    "mm": 31.6
+   },
+   "top": [
+    {
+     "n": "Mormanno",
+     "p": null,
+     "mm": 228.2
+    },
+    {
+     "n": "Laino Borgo",
+     "p": null,
+     "mm": 202.5
+    },
+    {
+     "n": "Papasidero",
+     "p": null,
+     "mm": 174.9
+    },
+    {
+     "n": "Campo Tenese",
+     "p": null,
+     "mm": 165.5
+    },
+    {
+     "n": "S.Sosti",
+     "p": null,
+     "mm": 147.1
+    }
+   ],
+   "province": null,
+   "zone": {
+    "serre-calabresi": 65.9,
+    "sila-grande": 73.3
+   },
+   "record": {
+    "n": "Pagliarelle",
+    "p": null,
+    "g": "2026-11-02",
+    "mm": 75.4,
+    "lat": 39.1419,
+    "lon": 16.7489
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storico precipitazioni Lombardia: la pioggia mese per mese</title>
+<meta name="description" content="Quanta pioggia è caduta in Lombardia mese per mese: la media di 252 pluviometri, i giorni di pioggia e la mappa di ogni mese.">
+<link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/lombardia/storico/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Mappa pluviometrica","item":"https://precipitazioni.avventuremicologiche.it/"},{"@type":"ListItem","position":2,"name":"Lombardia","item":"https://precipitazioni.avventuremicologiche.it/lombardia/"},{"@type":"ListItem","position":3,"name":"Storico"}]}</script>
+<meta property="og:title" content="Storico precipitazioni Lombardia: la pioggia mese per mese">
+<meta property="og:description" content="Quanta pioggia è caduta in Lombardia mese per mese: la media di 252 pluviometri, i giorni di pioggia e la mappa di ogni mese.">
+<meta property="og:image" content="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-11.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/lombardia/storico/">
+<meta property="og:type" content="website">
+<!-- Google tag: il config solo sul dominio vero, come nelle pagine regione -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R7MXXS0V4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  if (/(^|\.)avventuremicologiche\.it$/.test(location.hostname)) {
+    gtag('config', 'G-9R7MXXS0V4');
+  }
+</script>
+<style>
+:root{--blu:#1b3f6e;--blu-scuro:#123252;--grigio:#f0f4fb;--bordo:#d0d8e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;background:#fff;font-size:17px;line-height:1.6;}
+header{background:var(--blu);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+header a{color:#fff;text-decoration:none;}
+header .logo{font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;}
+header .yt{margin-left:auto;background:#e12b2b;font-size:13px;font-weight:600;padding:6px 11px;border-radius:7px;white-space:nowrap;}
+main{max-width:760px;margin:0 auto;padding:22px 16px 4px;}
+h1{color:var(--blu-scuro);font-size:30px;line-height:1.25;margin-bottom:8px;}
+h1,h2{text-wrap:balance;}
+p,li{text-wrap:pretty;}
+.sotto{color:#555;font-size:17px;margin-bottom:12px;}
+h2{color:var(--blu-scuro);font-size:22px;margin:34px 0 10px;}
+p{margin-bottom:12px;}
+.cta{display:block;text-align:center;background:var(--blu);color:#fff;font-size:19px;font-weight:600;padding:15px 18px;border-radius:9px;text-decoration:none;margin:22px 0;}
+.cta:hover{background:#2a5490;}
+.griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0;}
+.card{background:var(--grigio);border:1px solid var(--bordo);border-radius:9px;padding:14px 15px;display:flex;flex-direction:column;}
+.card h3{margin:0 0 4px;font-size:17px;color:var(--blu-scuro);}
+.numerone{font-size:30px;font-weight:700;color:var(--blu-scuro);line-height:1.2;}
+.numerone small{font-size:14px;font-weight:400;color:#555;}
+.card .vai{margin-top:auto;padding-top:10px;font-size:15px;font-weight:600;color:var(--blu);text-decoration:none;}
+.attesa{color:#777;font-style:italic;}
+.nota{font-size:14px;color:#666;margin-top:8px;}
+.top-staz{margin:6px 0 0;font-size:15px;}
+.top-staz li{margin:3px 0 3px 20px;}
+.verdetto .top{font-size:16px;opacity:.92;margin-top:8px;}
+.verdetto .top b{font-weight:700;}
+.avviso-stime{background:#fff4d6;border:1px solid #f0c64a;border-radius:10px;padding:10px 12px;margin:0 0 12px;font-size:15px;line-height:1.45;color:#5a4300;}
+#attesa{color:#6a7789;font-size:16px;padding:18px 0;}
+ol.zone-dove{list-style:none;margin:10px 0 6px;padding:0;counter-reset:z;}
+ol.zone-dove li{counter-increment:z;display:flex;align-items:baseline;gap:10px;padding:8px 2px;border-bottom:1px solid var(--bordo);}
+ol.zone-dove li:before{content:counter(z);min-width:22px;text-align:right;color:#8a97a6;font-size:13px;}
+ol.zone-dove a{font-weight:600;color:var(--blu);text-decoration:none;}
+ol.zone-dove .zmm{margin-left:auto;font-weight:700;white-space:nowrap;color:var(--blu-scuro);}
+ol.zone-dove .zmm small{font-weight:400;color:#6a7789;font-size:13px;margin-left:6px;}
+footer{border-top:1px solid var(--bordo);margin-top:8px;padding:14px 16px 24px;font-size:14px;color:#555;text-align:center;}
+footer a{color:var(--blu);}
+nav.altre{border-top:1px solid var(--bordo);margin-top:30px;padding-top:14px;font-size:15px;color:#555;}
+nav.altre b{display:block;color:var(--blu-scuro);font-size:16px;margin:14px 0 2px;}
+nav.altre p{line-height:1.9;}
+nav.altre a{color:var(--blu);}
+footer nav.altre{border-top:none;margin-top:0;padding-top:0;}
+.capo-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px;}
+.capo-btn{display:inline-block;text-decoration:none;color:#0f2d4d;font-weight:700;font-size:14.5px;
+  padding:9px 15px 10px;border-radius:9px;border:1px solid #b9c7da;
+  background:linear-gradient(180deg,#ffffff 0%,#f5f8fd 48%,#e8eef8 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 3px 0 #aebfd4, 0 6px 13px rgba(0,0,0,.28);}
+@media(max-width:480px){h1{font-size:25px;}body{font-size:16px;}}
+
+.gg{display:flex;align-items:flex-end;gap:3px;height:150px;margin:14px 0 4px;}
+.gg .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;}
+.gg .b i{display:block;background:#b9cbe2;border-radius:3px 3px 0 0;min-height:2px;}
+.gg .b.dentro i{background:var(--blu);}
+.gg .b b{align-self:center;margin-bottom:2px;line-height:1.1;font-size:10.5px;
+  font-weight:700;color:var(--blu-scuro);white-space:nowrap;}
+.gg-x{display:flex;gap:3px;font-size:10.5px;color:#6b7a8d;}
+.gg-x span{flex:1;text-align:center;}
+.gg-leg{font-size:13.5px;color:#555;margin-top:8px;}
+.gg-leg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;}
+.tt-box{position:relative;padding-right:42px;margin:14px 0 2px;}
+.tt{width:100%;height:150px;display:block;overflow:visible;}
+.tt .griglia{stroke:#e6eaf0;stroke-width:1;vector-effect:non-scaling-stroke;}
+.tt polyline{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
+.tt .max{stroke:#d1603d;}
+.tt .min{stroke:#3a6ea8;}
+.tt-y{position:absolute;top:0;right:0;width:42px;height:150px;pointer-events:none;}
+.tt-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;color:#6b7a8d;line-height:1;padding-left:5px;}
+.tt-x{padding-right:42px;}
+.vic td:last-child,.vic th:last-child{text-align:right;}
+.vic .qui{background:#eef4fd;}
+.verdetto{background:#0f2d4d;color:#fff;border-radius:12px;padding:18px 18px 16px;margin:14px 0 8px;}
+.verdetto .si{font-size:27px;font-weight:800;line-height:1.2;}
+.verdetto .pallino{display:inline-block;width:15px;height:15px;border-radius:50%;margin-right:9px;vertical-align:2px;}
+.verdetto .gr{font-size:44px;font-weight:800;line-height:1.1;margin-top:10px;}
+.verdetto .gr small{font-size:18px;font-weight:600;opacity:.85;margin-left:6px;}
+.verdetto .dett{font-size:16px;opacity:.9;margin-top:6px;}
+.scala{display:flex;gap:4px;margin-top:14px;}
+.scala div{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.18);}
+.scala-t{display:flex;font-size:11.5px;opacity:.75;margin-top:4px;}
+.scala-t span{flex:1;text-align:center;}
+.breve{font-size:16px;color:#333;margin:6px 0 4px;}
+.fin{display:flex;gap:6px;align-items:flex-end;height:170px;margin:16px 0 4px;}
+.fin .c{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;}
+.fin .c i{display:block;background:var(--blu);border-radius:4px 4px 0 0;min-height:3px;}
+.fin .c b{font-size:13px;color:var(--blu-scuro);margin-bottom:3px;}
+.fin{position:relative}.fin-nulla{position:absolute;left:0;right:0;top:38%;text-align:center;color:#5a6b80;font-size:14px;font-weight:600}
+.fin-x{display:flex;gap:6px;font-size:12px;color:#6b7a8d;}
+.fin-x span{flex:1;text-align:center;line-height:1.25;}
+.gg .b.nodato i,.fin .c.nodato i{background:none;border:1px dashed #9fb3cc;border-bottom:0;height:14%;}
+.fin .c.nodato b{color:#8a97a6;font-weight:400;}
+.img-mappa{width:100%;height:auto;border:1px solid var(--bordo);border-radius:9px;display:block;background:var(--grigio);margin-top:10px;}
+.tasti{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.tasti a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;color:var(--blu-scuro);
+  padding:11px 6px;border:1px solid #b9c7da;border-radius:9px;background:linear-gradient(180deg,#fff,#eef3fa);}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);}
+.tasti a.t-prev{grid-column:1 / -1;}
+@media(max-width:640px){.verdetto .gr{font-size:38px;} .tasti{grid-template-columns:repeat(2,1fr);}}
+.banda-prev{display:flex;align-items:center;gap:12px;margin:10px 0 4px;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,#1f6fd1,#3f8fe8);color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(31,111,209,.25);}
+.banda-prev .ic{font-size:30px;line-height:1;flex:none;}
+.banda-prev b{display:block;font-size:17px;line-height:1.2;}
+.banda-prev span{display:block;font-size:13px;opacity:.92;margin-top:2px;}
+.banda-prev .fr{margin-left:auto;font-size:22px;flex:none;}
+.banda-prev:hover{background:linear-gradient(135deg,#1b5fb3,#3580d6);}
+.noioso{margin-top:34px;padding-top:6px;border-top:1px solid var(--bordo);color:#555;font-size:15px;}
+.noioso h2{font-size:17px;color:#445;margin:20px 0 6px;}
+.noioso p{margin-bottom:8px;}
+.noioso a{color:var(--blu);}
+
+.verdetto .freddo{border-top:1px solid rgba(255,255,255,.18);margin-top:14px;padding-top:12px;}
+.verdetto .freddo .ft{font-size:20px;font-weight:800;line-height:1.25;}
+.verdetto .freddo .ft .pallino{width:12px;height:12px;margin-right:8px;vertical-align:1px;}
+.verdetto .freddo .fd{margin-top:4px;}
+.tt .zero{stroke:#3a6ea8;stroke-width:1.2;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.8;}
+.tt-y span.z{font-weight:800;color:#3a6ea8;}
+.gg-leg i.zero{background:none;border-top:2px dashed #3a6ea8;height:0;width:14px;vertical-align:3px;border-radius:0;}
+.verdetto .freddo .prox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.08);}
+.verdetto .freddo .prox b.g{color:#8fd0ff;}
+td.fr{text-align:right;white-space:nowrap;font-weight:700;color:#33415a;}
+td.fr.gelo{color:#1f6fd1;}
+td.fr small{display:block;font-weight:400;font-size:12px;color:#6b7a8d;line-height:1.2;}
+.fr-m{display:none;}
+@media(max-width:640px){th.fr,td.fr{display:none;} .fr-m{display:block;color:#42506a;} .fr-m.gelo{color:#1f6fd1;font-weight:600;}}
+
+.gg .b b{position:static;transform:none;align-self:center;margin-bottom:2px;line-height:1.1;}
+.ieri-btn{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;width:100%;
+  text-decoration:none;background:#fff;color:#10263f;padding:14px 16px 15px 20px;border-radius:14px;line-height:1.35;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 6px 0 #7f97b6,0 12px 22px rgba(0,0,0,.38);
+  transition:transform .08s,box-shadow .08s;}
+.ieri-btn b{font-size:19px;font-weight:700;}
+.ieri-btn small{font-size:15px;font-weight:500;color:#3f5672;}
+.ieri-btn i{grid-row:1/span 2;grid-column:2;font-style:normal;width:40px;height:40px;border-radius:50%;
+  background:#2a5490;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 0 #183a68;}
+.ieri-btn:hover{background:#f3f7fc;}
+.ieri-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+@media(max-width:480px){.ieri-btn b{font-size:17.5px;}.ieri-btn small{font-size:14px;}}
+.capo-btns{gap:12px;margin-top:15px;}
+.capo-btn{background:#fff;border:none;color:#10263f;font-size:16px;font-weight:700;padding:12px 18px 13px;border-radius:12px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 2px 0 #c9d6e6,0 5px 0 #7f97b6,0 10px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s;}
+.capo-btn:hover{background:#f3f7fc;}
+.capo-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #7f97b6,0 5px 10px rgba(0,0,0,.3);}
+.banda-prev{padding:15px 16px 16px;border-radius:14px;box-shadow:0 6px 0 #164f97,0 12px 22px rgba(20,60,120,.38);transition:transform .08s,box-shadow .08s;}
+.banda-prev b{font-size:19px;}
+.banda-prev span{font-size:15px;}
+.banda-prev .fr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;}
+.banda-prev:active{transform:translateY(4px);box-shadow:0 2px 0 #164f97,0 5px 10px rgba(20,60,120,.3);}
+.tasti{gap:12px;margin-top:12px;}
+.tasti a{background:#fff;border:1px solid #d3deeb;border-radius:12px;padding:13px 6px 14px;font-size:16px;
+  box-shadow:0 4px 0 #9fb3cc,0 8px 14px rgba(15,45,77,.16);transition:transform .08s,box-shadow .08s;}
+.tasti a:hover{background:#f3f7fc;}
+.tasti a.forte{background:var(--blu);color:#fff;border-color:var(--blu);box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.25);}
+.tasti a.forte:hover{background:#24508a;}
+.tasti a:active{transform:translateY(3px);box-shadow:0 1px 0 #9fb3cc,0 3px 6px rgba(15,45,77,.16);}
+.tasti a.forte:active{box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.25);}
+.card .vai{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;background:var(--blu);color:#fff;font-size:16px;font-weight:700;
+  padding:11px 14px 12px;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #0c2440,0 8px 14px rgba(15,45,77,.22);transition:transform .08s,box-shadow .08s;}
+.card .nota{margin-bottom:14px;}
+.card .vai:hover{background:#24508a;}
+.card .vai:active{transform:translateY(3px);box-shadow:0 1px 0 #0c2440,0 3px 6px rgba(15,45,77,.22);}
+.verdetto .top{font-size:17.5px;line-height:1.55;}
+.verdetto .dett{font-size:15px;opacity:.85;}
+@media(max-width:480px){.banda-prev b{font-size:17.5px;}.banda-prev span{font-size:14px;}.tasti a{font-size:15px;}.capo-btn{font-size:15.5px;}
+  .verdetto .top{font-size:16px;}.verdetto .dett{font-size:14px;}}
+.yt-btn{display:flex;justify-content:center;width:100%;box-sizing:border-box;align-items:center;gap:10px;background:linear-gradient(180deg,#e0262e,#b8141b);color:#fff !important;
+  font-weight:800;font-size:16.5px;text-decoration:none !important;padding:13px 20px 14px;border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 0 #7d0d12,0 9px 18px rgba(160,20,27,.32);transition:transform .08s,box-shadow .08s;}
+.yt-btn svg{width:26px;height:18px;flex:none;}
+.yt-btn svg rect{fill:#fff;}
+.yt-btn svg polygon{fill:#e12b2b;}
+.yt-btn:hover{background:linear-gradient(180deg,#e8323a,#c01820);}
+.yt-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d0d12,0 4px 8px rgba(160,20,27,.3);}
+
+.ieri-btn{padding:16px 16px 17px 20px;}
+.ieri-btn b{font-size:23px;}
+.ieri-btn small{font-size:17px;}
+.ieri-btn i{width:44px;height:44px;}
+@media(max-width:480px){.ieri-btn b{font-size:20.5px;}.ieri-btn small{font-size:15.5px;}.ieri-btn{padding-left:16px;}}
+
+header{position:relative;flex-wrap:nowrap;}
+.mk-cerca{position:relative;flex:1;max-width:340px;margin-left:14px;}
+.mk-cerca input{width:100%;box-sizing:border-box;border:0;border-radius:9px;padding:8px 12px 8px 34px;font:500 15px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231b3f6e' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat 11px 50%;color:#10263f;}
+.mk-cerca input::placeholder{color:#6b7d93;}
+.mk-lente{display:none;}
+.mk-drop{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(10,30,60,.3);
+  z-index:50;overflow:hidden;display:none;color:#10263f;min-width:300px;}
+.mk-drop.on{display:block;}
+.mk-r{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;cursor:pointer;font-size:15px;border-bottom:1px solid #eef2f7;}
+.mk-r:hover,.mk-r.sel{background:#eef4fb;}
+.mk-r small{color:#6b7d93;white-space:nowrap;}
+.mk-porte-t{padding:12px 14px 4px;font-weight:700;font-size:15px;}
+.mk-porte-t small{display:block;font-weight:500;color:#6b7d93;font-size:13px;margin-top:2px;}
+.mk-6{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;padding:8px 12px 12px;}
+.mk-6 a{display:flex;align-items:center;gap:9px;padding:10px 10px;border:1px solid #d3deeb;border-radius:10px;text-decoration:none;color:#10263f;font-weight:700;font-size:14.5px;line-height:1.15;}
+.mk-6 a:hover{background:#eef4fb;}
+.mk-6 a span{font-size:20px;}
+.mk-6 a small{display:block;font-weight:500;color:#6b7d93;font-size:12px;}
+@media(max-width:600px){
+  .mk-cerca{display:none;position:absolute;left:10px;right:10px;top:7px;margin:0;max-width:none;z-index:60;}
+  header.mk-aperto .mk-cerca{display:block;}
+  header.mk-aperto .logo,header.mk-aperto .yt,header.mk-aperto .mk-lente{visibility:hidden;}
+  .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;width:36px;height:32px;border:0;border-radius:8px;background:rgba(255,255,255,.16);cursor:pointer;}
+  header .yt{margin-left:8px;}
+  .mk-drop{min-width:0;}
+}
+.mk-porte{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:8px;margin-top:14px;}
+.mk-porte a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 3px 8px;border-radius:11px;background:rgba(255,255,255,.12);
+  color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;line-height:1.15;text-align:center;border:1px solid rgba(255,255,255,.22);}
+.mk-porte a span{font-size:21px;line-height:1;}
+.mk-porte a:hover{background:rgba(255,255,255,.2);}
+.mk-meteo{background:#f3f7fc;border:1px solid #d6e2f0;border-radius:14px;padding:4px 16px 14px;margin:18px 0 6px;}
+.mk-meteo h2{margin-top:14px;}
+.mk-tuo{position:relative;margin:4px 0 12px;}
+.mk-tuo input{width:100%;box-sizing:border-box;border:2px solid #1b3f6e;border-radius:12px;padding:13px 14px 13px 44px;font:600 16.5px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#10263f;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231b3f6e' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E") no-repeat 14px 50%;}
+.mk-tuo input::placeholder{color:#5f738c;font-weight:500;}
+.mk-tuo .mk-drop{min-width:0;}
+.mk-attesa{color:#5f738c;font-size:14px;margin:8px 0;}
+.mk-tab{background:#fff;border:1px solid #d6e2f0;border-radius:12px;overflow:hidden;}
+.mk-cr{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;align-items:center;gap:4px;padding:8px 12px;border-bottom:1px solid #eef2f7;text-decoration:none;color:#10263f;font-size:15px;}
+.mk-cr:hover{background:#f3f7fc;}
+.mk-cr b{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mk-cr b small{display:block;font-weight:500;font-size:12px;color:#5f738c;}
+.mk-cr span{display:flex;align-items:center;gap:3px;font-weight:600;flex-wrap:wrap;}
+.mk-cr span i{font-style:normal;font-size:19px;}
+.mk-cr span b.mk-t{font-weight:700;white-space:nowrap;letter-spacing:-.2px;color:#c21f1f;}
+.mk-cr span b.mk-t b{font-weight:700;color:#1856b8;}
+.mk-cr span b.mk-t s{text-decoration:none;color:#6b7684;font-weight:400;margin:0 1px;}
+.mk-cr span em{font-style:normal;font-size:12px;color:#1f6fd1;font-weight:700;width:100%;padding-left:24px;margin-top:-3px;}
+.mk-cr span em.mk-pc{margin-top:0;}.mk-cr span em.mk-pc.z{color:#9aa3ad;font-weight:500;}.mk-cr span em.mk-pc.alta{color:#c21f1f;}
+.mk-cr-t{background:#eef4fb;font-size:13px;color:#4a6180;padding:6px 12px;}
+.mk-cr-t span{font-weight:700;}
+.mk-dopo{display:none;}
+.mk-aperte .mk-dopo{display:grid;}
+.mk-tutte{display:block;width:100%;margin:10px 0 0;padding:10px;border:1px solid #c5d4e6;border-radius:10px;background:#fff;color:#1b3f6e;font:700 15px system-ui,sans-serif;cursor:pointer;}
+.mk-citta-n{font-size:13.5px;color:#5f738c;margin:10px 0 0;}
+.mk-sopra{font-size:14.5px;color:#4a6180;margin:2px 0 8px;font-weight:600;}
+.mk-boschi{background:#eef6ef;border:1px solid #cfe3d2;border-radius:14px;padding:4px 16px 16px;margin:18px 0 6px;}
+.mk-boschi h2{margin-top:14px;color:#1d4a2a;}
+.mk-boschi-p{font-size:15px;color:#3d5a45;margin:2px 0 10px;}
+@media(max-width:400px){.mk-boschi .mk-tuo input::placeholder{font-size:15px;}}
+.mk-boschi .mk-tuo input{border-color:#2f6b3d;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%232f6b3d' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E");}
+.mk-citta-n a{color:#1b3f6e;font-weight:700;}
+.mk-radar{display:flex;align-items:center;gap:11px;margin:12px 0 2px;padding:11px 14px;border-radius:12px;text-decoration:none;
+  border:2px solid #1f6fd1;background:#fff;color:#123b6e;}
+.mk-radar .mk-ic{font-size:24px;line-height:1;flex:none;}
+.mk-radar b{display:block;font-size:16px;line-height:1.2;}
+.mk-radar small{display:block;font-size:13.5px;font-weight:600;color:#1f6fd1;margin-top:2px;}
+.mk-radar .mk-fr{margin-left:auto;font-size:21px;font-weight:700;flex:none;}
+.mk-radar.piove{background:linear-gradient(135deg,#1f6fd1,#3f8fe8);color:#fff;box-shadow:0 3px 10px rgba(31,111,209,.3);}
+.mk-radar.piove small{color:#fff;opacity:.92;}
+.mk-radar .mk-pul{position:relative;width:12px;height:12px;flex:none;margin:0 2px 0 4px;}
+.mk-radar .mk-pul:before,.mk-radar .mk-pul:after{content:'';position:absolute;inset:0;border-radius:50%;background:#fff;}
+.mk-radar .mk-pul:after{animation:mkPul 1.6s ease-out infinite;}
+@keyframes mkPul{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.8);opacity:0}}
+@media(max-width:400px){.mk-cr{font-size:14px;padding:8px 9px;}.mk-cr span i{font-size:17px;}}
+@media(max-width:400px){.mk-cr{padding:8px 6px;gap:3px;}.mk-cr span{gap:1px;}.mk-cr span i{font-size:16px;}.mk-cr span b.mk-t{font-size:13px;letter-spacing:-.4px;}
+  .mk-cr span b.mk-t s{margin:0;}.mk-cr span em{padding-left:0;font-size:11.5px;white-space:nowrap;}
+  a.mk-cr > span{flex-direction:column;align-items:flex-start;}}
+.gg .b.mk-fut i{background:repeating-linear-gradient(135deg,#7fb2ec 0 5px,#a9cdf5 5px 10px);border-radius:3px 3px 0 0;}
+.gg .b.mk-fut b{color:#2f6db5;}
+.gg .b.mk-oggi{border-left:2px dashed #e0a800;margin-left:3px;padding-left:1px;}
+.gg-x span.mk-fx{color:#2f6db5;font-weight:600;}
+.gg-leg .mk-leg-fut{background:repeating-linear-gradient(135deg,#7fb2ec 0 4px,#a9cdf5 4px 8px) !important;}
+
+.bric{font-size:14px;color:#666;margin-bottom:6px;}
+.bric a{color:var(--blu);}
+
+header.tB{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:10px;padding:0;background:#fff;color:#123252;border-bottom:1px solid #d0d8e8}
+.tB a{text-decoration:none;opacity:1}
+.tB .t-in{max-width:var(--t-max,760px);margin:0 auto;width:100%;padding:0 var(--t-pad,16px);display:flex;align-items:center}
+.tB .t-striscia{background:#0f2d4f}
+.tB .t-striscia .t-in{gap:2px;height:38px;padding:0 calc(var(--t-pad,16px) - 11px)}
+.tB .t-striscia a{color:rgba(255,255,255,.86);font-size:13.5px;font-weight:600;padding:0 11px;height:38px;display:flex;align-items:center;white-space:nowrap}
+.tB .t-striscia a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tB .t-striscia a.on{color:#0f2d4f;background:#f9c93e}
+.tB .t-striscia .t-dx{margin-left:auto;display:flex;gap:2px}
+.tB .t-banda .t-in{position:relative;gap:16px;padding-top:14px;padding-bottom:14px}
+.tB .t-marchio{display:flex;align-items:center;gap:12px}
+.tB .t-goccia{font-size:34px;line-height:1}
+.tB .t-marchio b{display:block;font-size:24px;font-weight:800;letter-spacing:-.015em;line-height:1.1;color:#123252}
+.tB .t-marchio small{display:block;font-size:13.5px;color:#4a5a6e;font-weight:500;margin-top:3px;line-height:1.3}
+.tB .t-tel{display:none}
+.tB .t-ytp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#e12b2b;color:#fff;font-size:14.5px;font-weight:700;padding:9px 16px 9px 13px;border-radius:999px;white-space:nowrap}
+.tB .t-ytp svg{width:18px;height:18px;fill:#fff}
+.tB .mk-lente{display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#1b3f6e;cursor:pointer}
+.tB .mk-lente ~ .t-ytp{margin-left:0}
+.tB .mk-cerca{display:none;position:absolute;left:var(--t-pad,16px);right:var(--t-pad,16px);top:50%;transform:translateY(-50%);margin:0;max-width:none;z-index:60}
+.tB .mk-cerca input{border:2px solid #1b3f6e;padding:11px 12px 11px 36px}
+header.tB.mk-aperto .mk-cerca{display:block}
+header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .mk-lente{visibility:hidden}
+.tB .t-in:has(.mk-lente) .t-it{display:none}
+@media (max-width:760px){
+  .tB .t-striscia{order:2}
+  .tB .t-banda .t-in{padding-top:10px;padding-bottom:10px;gap:10px}
+  .tB .t-goccia{font-size:26px}
+  .tB .t-marchio b{font-size:18px}
+  .tB .t-marchio small{font-size:12px;margin-top:1px}
+  .tB .t-pc{display:none}.tB .t-tel{display:inline}
+  .tB .t-ytp{font-size:13px;padding:7px 11px 7px 9px;gap:6px}
+  .tB .mk-lente{width:34px;height:34px}
+  .tB .t-in:has(.mk-lente) .t-marchio b{font-size:16px}
+  .tB .t-striscia .t-in{overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--t-pad,16px) - 11px);-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .tB .t-striscia .t-in::-webkit-scrollbar{display:none}
+  .tB .t-striscia .t-dx{margin-left:0;padding-right:30px}
+}
+@media (max-width:389px){.tB .t-marchio{gap:8px}.tB .t-goccia{font-size:23px}.tB .t-marchio b{font-size:16px;white-space:nowrap}
+  .tB .t-banda .t-in{gap:8px}.tB .t-ytp{padding:7px 9px}.tB .mk-lente ~ .t-ytp span{display:none}}
+
+.st-grande{display:block;width:100%;height:auto;border-radius:12px;border:1px solid #c9d6e6;box-shadow:0 2px 10px rgba(15,61,110,.10)}
+.st-mini{display:block;width:100%;height:auto;border-radius:8px;border:1px solid #c9d6e6;margin:8px 0 6px}
+.st-barre{display:grid;gap:8px;margin:10px 0 4px}
+.st-r{display:grid;grid-template-columns:44px 1fr 72px;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.st-m{font-weight:700;text-transform:capitalize}
+.st-b{height:22px;background:#eef3f8;border-radius:6px;overflow:hidden}.st-b i{display:block;height:100%;background:#2f74e8;border-radius:6px}
+.st-v{text-align:right;font-weight:700;color:var(--blu)}
+.st-scorri{overflow-x:auto}.st-tab{border-collapse:collapse;width:100%}
+.st-tab td,.st-tab th{text-align:right;padding:7px 9px;white-space:nowrap;border-bottom:1px solid var(--bordo)}
+.st-tab td:first-child,.st-tab th:first-child{text-align:left;white-space:normal;min-width:7.5em}
+.st-tab td a{font-weight:600;color:var(--blu)}
+.st-prov{margin:14px 0 4px}.st-prov summary{cursor:pointer;font-weight:700;color:var(--blu);padding:8px 0;font-size:17px}
+.st-scala{margin:10px 0 6px}.st-scala b{display:block;font-size:13.5px;font-weight:600;color:#5a7192;margin-bottom:4px}
+.st-scala .g{height:14px;border-radius:4px;border:1px solid var(--bordo);background:linear-gradient(to right,#ffffff 0%,#ffffff 2%,#e4f1fd 5%,#badcfa 12%,#6496f0 15%,#326edc 20%,#00b4c8 28%,#00b450 35%,#008c28 42%,#78c800 49%,#dce600 55%,#ffb400 61%,#ff7800 67%,#f03200 73%,#b40000 79%,#8c00b4 85%,#c864dc 90%,#f0aaf0 95%,#ffdcff 100%)}
+.st-scala .l{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#5a7192;margin-top:3px}
+.st-rec{margin:6px 0 0 20px;line-height:1.7}.st-rec a{color:inherit;text-decoration:none}.st-rec a:hover{text-decoration:underline}.st-rec a b{color:var(--blu)}
+@media(max-width:480px){.st-tab td,.st-tab th{padding:7px 5px;font-size:15px}.st-tab td:first-child{min-width:6.5em}.st-tab .v6{display:none}}
+</style>
+</head>
+<body>
+<header class="tB">
+  <nav class="t-striscia" aria-label="Menu"><div class="t-in"><a class="on" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-testata-storico'})}catch(e){}">Storico piogge</a><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=lombardia" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-testata-previsioni'})}catch(e){}">Previsioni meteo</a><a href="https://precipitazioni.avventuremicologiche.it/guida/">Guida</a><span class="t-dx"><a href="https://avventuremicologiche.it/#noi">Chi siamo</a><a href="https://avventuremicologiche.it/#piede">Contatti</a></span></div></nav>
+  <div class="t-banda"><div class="t-in">
+    <a class="t-marchio" href="https://precipitazioni.avventuremicologiche.it/"><span class="t-goccia">🌧️</span><span><b>Mappa Pluviometrica</b><small><span class="t-pc">Previsioni, radar e pioggia misurata<span class="t-it"> in tutta Italia</span> · un progetto di Avventure Micologiche</span><span class="t-tel">di Avventure Micologiche</span></small></span></a>
+    <a class="t-ytp" href="https://www.youtube.com/@avventuremicologiche?sub_confirmation=1" target="_blank" rel="noopener" onclick="try{gtag('event','click_youtube',{pulsante:'storico-lombardia'})}catch(e){}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg><span>Iscriviti</span></a>
+  </div></div>
+</header>
+<script>(function(){var a=document.querySelector('.tB .t-striscia a.on'),f=a&&a.parentNode;if(f&&a.offsetLeft+a.offsetWidth>f.clientWidth-30)f.scrollLeft=a.offsetLeft-40;})()</script>
+<main data-fine="2026-11-20">
+<p class="bric"><a href="https://precipitazioni.avventuremicologiche.it/">Mappa pluviometrica</a> › <a href="https://precipitazioni.avventuremicologiche.it/lombardia/">Lombardia</a> › Storico</p>
+<h1>Storico precipitazioni Lombardia: la pioggia mese per mese</h1>
+<p class="sotto"><b>Quanta pioggia è caduta in Lombardia, mese per mese</b>: la media di 252 pluviometri di ARPA Lombardia, i giorni di pioggia, il giorno più piovoso, zona per zona. Lo storico misurato parte dall'1 gennaio 2026.</p>
+<div class="verdetto"><div class="si">Novembre 2026</div><div class="gr">52 mm<small>di media</small></div><div class="top">Dove ha piovuto di più: <b>Mantova S.Agnese (MN)</b> 108,4 mm, <b>Bigarello (MN)</b> 108,2 mm, <b>Sermide e Felonica SP 91 (MN)</b> 105,0 mm.</div><div class="dett">Dall'1 al 20 novembre, fino a ieri. 8 giorni di pioggia; il più piovoso finora il 12 novembre, con 26,1 mm di media. Media di 252 pluviometri.</div><div class="capo-btns"><a class="ieri-btn" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-01&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-riquadro'})}catch(e){}"><b>Apri la mappa di novembre</b><i>→</i><small>la pioggia del mese in tutte le località</small></a></div><div class="mk-porte"><a href="https://precipitazioni.avventuremicologiche.it/previsioni/?r=lombardia" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-porta-previsioni'})}catch(e){}"><span>☀️</span>Previsioni</a><a href="https://precipitazioni.avventuremicologiche.it/lombardia/adesso/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-porta-radar'})}catch(e){}"><span>📡</span>Radar piogge</a><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;boschi=1" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-porta-boschi'})}catch(e){}"><span>🌲</span>Mappa boschi</a><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;boschi=1&amp;sat=1" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-porta-satellite'})}catch(e){}"><span>🛰️</span>Boschi + satellite</a></div></div>
+<h2>La mappa di novembre</h2>
+<a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-01&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-mappa-grande'})}catch(e){}"><img class="st-grande" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-11.jpg" onerror="this.parentNode.style.display='none'" alt="La mappa delle piogge di novembre 2026 in Lombardia, pluviometro per pluviometro" width="1600" height="916"></a>
+<div class="st-scala"><b>Millimetri caduti nel mese</b><div class="g"></div><div class="l"><span>0</span><span>20</span><span>60</span><span>125</span><span>200</span><span>300+</span></div></div>
+<p class="nota">La mappa vera, fino a ieri: toccala per aprirla e guardare ogni pluviometro.</p>
+<h2>La pioggia mese per mese</h2>
+<div class="st-barre"><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-01-01&amp;a=2026-01-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">gen</span><span class="st-b"><i style="width:27%"></i></span><span class="st-v">44 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-02-01&amp;a=2026-02-28&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">feb</span><span class="st-b"><i style="width:43%"></i></span><span class="st-v">70 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-03-01&amp;a=2026-03-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">mar</span><span class="st-b"><i style="width:32%"></i></span><span class="st-v">53 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-04-01&amp;a=2026-04-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">apr</span><span class="st-b"><i style="width:22%"></i></span><span class="st-v">36 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-05-01&amp;a=2026-05-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">mag</span><span class="st-b"><i style="width:60%"></i></span><span class="st-v">98 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-06-01&amp;a=2026-06-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">giu</span><span class="st-b"><i style="width:88%"></i></span><span class="st-v">145 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-07-01&amp;a=2026-07-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">lug</span><span class="st-b"><i style="width:37%"></i></span><span class="st-v">61 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-08-01&amp;a=2026-08-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">ago</span><span class="st-b"><i style="width:100%"></i></span><span class="st-v">164 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-09-01&amp;a=2026-09-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">set</span><span class="st-b"><i style="width:57%"></i></span><span class="st-v">94 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-10-01&amp;a=2026-10-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">ott</span><span class="st-b"><i style="width:61%"></i></span><span class="st-v">100 mm</span></a><a class="st-r" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-01&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-barra'})}catch(e){}"><span class="st-m">nov*</span><span class="st-b"><i style="width:32%"></i></span><span class="st-v">52 mm</span></a></div><p class="nota">* mese non intero: novembre fino a ieri.</p>
+<h2>I pluviometri più bagnati</h2>
+<div class="st-scala"><b>Millimetri caduti nel mese</b><div class="g"></div><div class="l"><span>0</span><span>20</span><span>60</span><span>125</span><span>200</span><span>300+</span></div></div>
+<div class="griglia">
+<div class="card"><h3>Novembre 2026</h3><div class="numerone">52 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-01&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-11-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di novembre 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Mantova S.Agnese (MN) — 108,4 mm</li><li>Bigarello (MN) — 108,2 mm</li><li>Sermide e Felonica SP 91 (MN) — 105,0 mm</li></ol><p class="nota">Dall'1 al 20 novembre, fino a ieri. 8 giorni di pioggia; il più piovoso il 12 novembre (26,1 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-01&amp;a=2026-11-20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Ottobre 2026</h3><div class="numerone">100 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-10-01&amp;a=2026-10-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-10-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di ottobre 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Vilminore di Scalve Presolana (BG) — 271,8 mm</li><li>Gerola Alta Pescegallo (SO) — 256,4 mm</li><li>Oltre il Colle Zambla (BG) — 253,4 mm</li></ol><p class="nota">8 giorni di pioggia; il più piovoso il 21 ottobre (40,0 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-10-01&amp;a=2026-10-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Settembre 2026</h3><div class="numerone">94 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-09-01&amp;a=2026-09-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-09-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di settembre 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Rota d'Imagna (BG) — 214,0 mm</li><li>Osnago (LC) — 203,4 mm</li><li>Bosisio Parini Imbarcadero (LC) — 194,8 mm</li></ol><p class="nota">6 giorni di pioggia; il più piovoso il 9 settembre (42,8 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-09-01&amp;a=2026-09-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Agosto 2026</h3><div class="numerone">164 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-08-01&amp;a=2026-08-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-08-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di agosto 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Ponte in Valtellina Lago Reguzzo (SO) — 491,6 mm</li><li>Gerola Alta Pescegallo (SO) — 474,8 mm</li><li>Carona Lago Fregabolgia (BG) — 474,4 mm</li></ol><p class="nota">15 giorni di pioggia; il più piovoso il 20 agosto (47,4 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-08-01&amp;a=2026-08-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Luglio 2026</h3><div class="numerone">61 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-07-01&amp;a=2026-07-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-07-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di luglio 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>San Giovanni Bianco Cornalita (BG) — 179,8 mm</li><li>Fuipiano Valle Imagna Pagafone (BG) — 179,6 mm</li><li>Gandellino Tezzi (BG) — 157,1 mm</li></ol><p class="nota">11 giorni di pioggia; il più piovoso il 17 luglio (13,5 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-07-01&amp;a=2026-07-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Giugno 2026</h3><div class="numerone">145 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-06-01&amp;a=2026-06-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-06-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di giugno 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Foppolo (BG) — 352,0 mm</li><li>Gerola Alta Pescegallo (SO) — 314,2 mm</li><li>Azzone Dezzo di Scalve (BG) — 297,0 mm</li></ol><p class="nota">20 giorni di pioggia; il più piovoso il 2 giugno (56,6 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-06-01&amp;a=2026-06-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+</div>
+<details class="st-prov"><summary>Gli altri mesi (5)</summary><div class="griglia">
+<div class="card"><h3>Maggio 2026</h3><div class="numerone">98 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-05-01&amp;a=2026-05-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-05-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di maggio 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Vercana (CO) — 266,4 mm</li><li>Gerola Alta Pescegallo (SO) — 225,0 mm</li><li>Montemezzo Gera Lario (CO) — 210,5 mm</li></ol><p class="nota">11 giorni di pioggia; il più piovoso il 6 maggio (25,2 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-05-01&amp;a=2026-05-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Aprile 2026</h3><div class="numerone">36 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-04-01&amp;a=2026-04-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-04-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di aprile 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Branzi Il Pizzo (BG) — 121,4 mm</li><li>Piazza Brembana vivaio (BG) — 111,2 mm</li><li>Piazzatorre (BG) — 104,4 mm</li></ol><p class="nota">8 giorni di pioggia; il più piovoso il 28 aprile (6,3 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-04-01&amp;a=2026-04-30&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Marzo 2026</h3><div class="numerone">53 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-03-01&amp;a=2026-03-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-03-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di marzo 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Cuveglio (VA) — 173,4 mm</li><li>Laveno-Mombello p.zza Matteotti (VA) — 166,8 mm</li><li>Valganna Mondonico (VA) — 160,3 mm</li></ol><p class="nota">6 giorni di pioggia; il più piovoso il 14 marzo (25,9 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-03-01&amp;a=2026-03-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Febbraio 2026</h3><div class="numerone">70 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-02-01&amp;a=2026-02-28&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-02-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di febbraio 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Santa Margherita di Staffora Passo del Giovà (PV) — 156,0 mm</li><li>Canevino (PV) — 152,8 mm</li><li>Bertonico v.Moro (LO) — 147,8 mm</li></ol><p class="nota">11 giorni di pioggia; il più piovoso il 19 febbraio (17,0 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-02-01&amp;a=2026-02-28&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+<div class="card"><h3>Gennaio 2026</h3><div class="numerone">44 mm <small>di media</small></div><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-01-01&amp;a=2026-01-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-miniatura'})}catch(e){}"><img class="st-mini" src="https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precipitazioni-Nord/anteprime/lombardia-storico-2026-01-mini.webp" onerror="this.parentNode.style.display='none'" loading="lazy" width="640" height="366" alt="La pioggia di gennaio 2026 in Lombardia sulla mappa"></a><ol class="top-staz"><li>Ispra JRC (VA) — 86,0 mm</li><li>Varano Borghi (VA) — 83,4 mm</li><li>Angera v.le Repubblica (VA) — 82,8 mm</li></ol><p class="nota">7 giorni di pioggia; il più piovoso il 28 gennaio (16,9 mm di media).</p><a class="vai" href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-01-01&amp;a=2026-01-31&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-scheda'})}catch(e){}">Apri la mappa →</a></div>
+</div></details>
+<h2>Zona per zona</h2>
+<div class="st-scorri"><table class="st-tab"><thead><tr><th>Zona</th><th>nov*</th><th>ott</th><th>set</th><th>ago</th><th>lug</th><th class="v6">giu</th><th class="v6">mag</th><th class="v6">apr</th><th class="v6">mar</th><th class="v6">feb</th><th class="v6">gen</th></tr></thead><tbody><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-sabbia/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Valle Sabbia</a></td><td>64</td><td>89</td><td>124</td><td>86</td><td>62</td><td class="v6">145</td><td class="v6">110</td><td class="v6">43</td><td class="v6">53</td><td class="v6">88</td><td class="v6">65</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-serina/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Serina</a></td><td>54</td><td>178</td><td>116</td><td>196</td><td>113</td><td class="v6">219</td><td class="v6">132</td><td class="v6">54</td><td class="v6">63</td><td class="v6">86</td><td class="v6">59</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-grigna/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Grigna</a></td><td>54</td><td>84</td><td>124</td><td>138</td><td>76</td><td class="v6">144</td><td class="v6">89</td><td class="v6">33</td><td class="v6">45</td><td class="v6">55</td><td class="v6">38</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-sedornia/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Sedornia</a></td><td>52</td><td>158</td><td>119</td><td>282</td><td>137</td><td class="v6">190</td><td class="v6">117</td><td class="v6">64</td><td class="v6">68</td><td class="v6">71</td><td class="v6">60</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-brembana/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Brembana</a></td><td>50</td><td>158</td><td>158</td><td>236</td><td>140</td><td class="v6">189</td><td class="v6">156</td><td class="v6">78</td><td class="v6">67</td><td class="v6">84</td><td class="v6">53</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-trompia/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Trompia</a></td><td>47</td><td>88</td><td>129</td><td>97</td><td>50</td><td class="v6">116</td><td class="v6">104</td><td class="v6">33</td><td class="v6">60</td><td class="v6">64</td><td class="v6">48</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-paisco/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Paisco</a></td><td>47</td><td>97</td><td>125</td><td>258</td><td>118</td><td class="v6">189</td><td class="v6">101</td><td class="v6">22</td><td class="v6">23</td><td class="v6">48</td><td class="v6">44</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/valsassina/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Valsassina</a></td><td>45</td><td>146</td><td>78</td><td>293</td><td>62</td><td class="v6">235</td><td class="v6">127</td><td class="v6">64</td><td class="v6">61</td><td class="v6">56</td><td class="v6">42</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/monte-san-giorgio/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Monte San Giorgio</a></td><td>42</td><td>178</td><td>63</td><td>208</td><td>57</td><td class="v6">184</td><td class="v6">105</td><td class="v6">42</td><td class="v6">153</td><td class="v6">65</td><td class="v6">72</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/valmalenco/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Valmalenco</a></td><td>41</td><td>104</td><td>66</td><td>207</td><td>35</td><td class="v6">154</td><td class="v6">91</td><td class="v6">19</td><td class="v6">42</td><td class="v6">46</td><td class="v6">31</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-veddasca/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Veddasca</a></td><td>41</td><td>174</td><td>43</td><td>259</td><td>39</td><td class="v6">233</td><td class="v6">99</td><td class="v6">50</td><td class="v6">67</td><td class="v6">48</td><td class="v6">52</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/val-cavargna/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Val Cavargna</a></td><td>40</td><td>159</td><td>80</td><td>294</td><td>61</td><td class="v6">213</td><td class="v6">154</td><td class="v6">46</td><td class="v6">85</td><td class="v6">56</td><td class="v6">46</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-dei-ratti/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Valle dei Ratti</a></td><td>39</td><td>120</td><td>113</td><td>286</td><td>58</td><td class="v6">164</td><td class="v6">147</td><td class="v6">31</td><td class="v6">66</td><td class="v6">51</td><td class="v6">37</td></tr><tr><td><a href="https://precipitazioni.avventuremicologiche.it/zone/valle-san-giacomo/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-zona'})}catch(e){}">Valle San Giacomo</a></td><td>35</td><td>101</td><td>65</td><td>253</td><td>54</td><td class="v6">172</td><td class="v6">101</td><td class="v6">19</td><td class="v6">47</td><td class="v6">41</td><td class="v6">40</td></tr></tbody></table></div><p class="nota">Millimetri, media dei pluviometri di ogni zona; dalla più bagnata a novembre. Ogni nome porta alla pagina della zona. Al telefono gli ultimi 5 mesi.</p>
+<details class="st-prov"><summary>Provincia per provincia</summary><div class="st-scorri"><table class="st-tab"><thead><tr><th>Provincia</th><th>nov*</th><th>ott</th><th>set</th><th>ago</th><th>lug</th><th class="v6">giu</th><th class="v6">mag</th><th class="v6">apr</th><th class="v6">mar</th><th class="v6">feb</th><th class="v6">gen</th></tr></thead><tbody><tr><td>Mantova</td><td>97</td><td>37</td><td>62</td><td>47</td><td>82</td><td class="v6">47</td><td class="v6">65</td><td class="v6">23</td><td class="v6">27</td><td class="v6">74</td><td class="v6">44</td></tr><tr><td>Cremona</td><td>76</td><td>43</td><td>55</td><td>49</td><td>39</td><td class="v6">52</td><td class="v6">70</td><td class="v6">15</td><td class="v6">18</td><td class="v6">107</td><td class="v6">45</td></tr><tr><td>Lodi</td><td>75</td><td>72</td><td>49</td><td>40</td><td>23</td><td class="v6">49</td><td class="v6">71</td><td class="v6">14</td><td class="v6">30</td><td class="v6">122</td><td class="v6">50</td></tr><tr><td>Pavia</td><td>67</td><td>49</td><td>55</td><td>71</td><td>35</td><td class="v6">39</td><td class="v6">62</td><td class="v6">30</td><td class="v6">55</td><td class="v6">114</td><td class="v6">49</td></tr><tr><td>Brescia</td><td>59</td><td>79</td><td>111</td><td>127</td><td>77</td><td class="v6">140</td><td class="v6">99</td><td class="v6">31</td><td class="v6">35</td><td class="v6">62</td><td class="v6">45</td></tr><tr><td>Milano</td><td>57</td><td>66</td><td>71</td><td>66</td><td>22</td><td class="v6">117</td><td class="v6">74</td><td class="v6">28</td><td class="v6">57</td><td class="v6">90</td><td class="v6">52</td></tr><tr><td>Bergamo</td><td>53</td><td>144</td><td>130</td><td>228</td><td>101</td><td class="v6">197</td><td class="v6">128</td><td class="v6">59</td><td class="v6">58</td><td class="v6">74</td><td class="v6">48</td></tr><tr><td>Monza</td><td>52</td><td>82</td><td>126</td><td>118</td><td>30</td><td class="v6">156</td><td class="v6">89</td><td class="v6">36</td><td class="v6">61</td><td class="v6">87</td><td class="v6">54</td></tr><tr><td>Lecco</td><td>47</td><td>125</td><td>135</td><td>213</td><td>60</td><td class="v6">182</td><td class="v6">114</td><td class="v6">59</td><td class="v6">63</td><td class="v6">65</td><td class="v6">41</td></tr><tr><td>Como</td><td>43</td><td>135</td><td>104</td><td>219</td><td>50</td><td class="v6">178</td><td class="v6">126</td><td class="v6">45</td><td class="v6">78</td><td class="v6">65</td><td class="v6">49</td></tr><tr><td>Varese</td><td>42</td><td>150</td><td>58</td><td>191</td><td>40</td><td class="v6">148</td><td class="v6">96</td><td class="v6">38</td><td class="v6">120</td><td class="v6">68</td><td class="v6">67</td></tr><tr><td>Sondrio</td><td>35</td><td>95</td><td>82</td><td>206</td><td>62</td><td class="v6">162</td><td class="v6">92</td><td class="v6">23</td><td class="v6">36</td><td class="v6">45</td><td class="v6">27</td></tr></tbody></table></div><p class="nota">Millimetri, media dei pluviometri di ogni provincia. Al telefono gli ultimi 5 mesi.</p></details>
+<h2>I giorni più bagnati</h2>
+<ul class="st-rec"><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-11-12&amp;a=2026-11-12&amp;pl=45.34248,8.88067&amp;pn=Vigevano%20SS494&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Novembre:</b> 46,0 mm in un giorno a Vigevano SS494 (PV), il 12 novembre →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-10-21&amp;a=2026-10-21&amp;pl=46.0262,9.57112&amp;pn=Gerola%20Alta%20Pescegallo&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Ottobre:</b> 117,0 mm in un giorno a Gerola Alta Pescegallo (SO), il 21 ottobre →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-09-09&amp;a=2026-09-09&amp;pl=45.83984,9.51135&amp;pn=Rota%20d'Imagna&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Settembre:</b> 113,0 mm in un giorno a Rota d'Imagna (BG), il 9 settembre →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-08-20&amp;a=2026-08-20&amp;pl=46.09651,9.97&amp;pn=Ponte%20in%20Valtellina%20Lago%20Reguzzo&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Agosto:</b> 211,6 mm in un giorno a Ponte in Valtellina Lago Reguzzo (SO), il 20 agosto →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-07-01&amp;a=2026-07-01&amp;pl=45.72996,10.61741&amp;pn=Gargnano%20&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Luglio:</b> 90,2 mm in un giorno a Gargnano  (BS), l'1 luglio →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-06-02&amp;a=2026-06-02&amp;pl=45.8325,8.82361&amp;pn=Varese%20v.Appiani&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Giugno:</b> 161,6 mm in un giorno a Varese v.Appiani (VA), il 2 giugno →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-05-06&amp;a=2026-05-06&amp;pl=45.71901,9.08549&amp;pn=Vertemate%20con%20Minoprio%20serre&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Maggio:</b> 96,8 mm in un giorno a Vertemate con Minoprio serre (CO), il 6 maggio →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-04-28&amp;a=2026-04-28&amp;pl=45.99708,9.74368&amp;pn=Branzi%20Il%20Pizzo&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Aprile:</b> 62,0 mm in un giorno a Branzi Il Pizzo (BG), il 28 aprile →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-03-14&amp;a=2026-03-14&amp;pl=45.90991,8.61869&amp;pn=Laveno-Mombello%20p.zza%20Matteotti&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Marzo:</b> 106,2 mm in un giorno a Laveno-Mombello p.zza Matteotti (VA), il 14 marzo →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-02-19&amp;a=2026-02-19&amp;pl=44.9348,9.27567&amp;pn=Canevino&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Febbraio:</b> 46,0 mm in un giorno a Canevino (PV), il 19 febbraio →</a></li><li><a href="https://precipitazioni.avventuremicologiche.it/?r=lombardia&amp;da=2026-01-28&amp;a=2026-01-28&amp;pl=45.89119,9.78894&amp;pn=Oltre%20il%20Colle%20Zambla&amp;s=p" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-record'})}catch(e){}"><b>Gennaio:</b> 43,6 mm in un giorno a Oltre il Colle Zambla (BG), il 28 gennaio →</a></li></ul>
+<p class="nota">Ogni riga apre la mappa di quel giorno sul pluviometro.</p>
+<h2>Ieri e gli ultimi 30 giorni</h2>
+<p>La pioggia di ieri, degli ultimi 7, 20 e 30 giorni, zona per zona: <a href="https://precipitazioni.avventuremicologiche.it/lombardia/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-regione'})}catch(e){}">Pluviometria Lombardia: dove ha piovuto</a>. Per la pioggia che cade adesso: <a href="https://precipitazioni.avventuremicologiche.it/lombardia/adesso/" onclick="try{gtag('event','apri_mappa',{da:'storico-lombardia-radar'})}catch(e){}">Radar meteo Lombardia</a>.</p>
+<div class="noioso">
+<h2>Come sono fatti questi numeri</h2>
+<p>Ogni mese è la media dei pluviometri che hanno misurato almeno il 60% dei suoi giorni, la stessa regola della mappa; un giorno di pioggia è un giorno in cui la media della regione arriva a 1 mm. I pluviometri che la mappa esclude qui non contano. La rete di ARPA Lombardia è sulla mappa dall'1 gennaio 2026: per i mesi di prima ci sono solo stime da modello, segnate sulla mappa, e qui non entrano. Il mese in corso si aggiorna ogni mattina; un mese nuovo si aggiunge da solo.</p>
+</div>
+</main>
+
+<footer>
+<nav class="altre">
+  <p style="margin:0 0 10px">Le regioni vicine: <a href="https://precipitazioni.avventuremicologiche.it/piemonte/">Piemonte</a> · <a href="https://precipitazioni.avventuremicologiche.it/emilia/">Emilia-Romagna</a> · <a href="https://precipitazioni.avventuremicologiche.it/veneto/">Veneto</a> · <a href="https://precipitazioni.avventuremicologiche.it/trentino/">Trentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/altoadige/">Alto Adige</a> · <a href="https://precipitazioni.avventuremicologiche.it/svizzera/">Svizzera</a></p>
+<div style="background:#f4fbf3;border:1px solid #cfe8cf;border-radius:9px;padding:1px 15px 11px;margin-top:16px;">
+    <b style="color:#2d6a30">🍄 Dove ha piovuto di più?</b>
+    <p><a href="https://precipitazioni.avventuremicologiche.it/funghi/" style="color:#2d6a30;font-weight:600">La nostra selezione, le località più bagnate</a>
+    <span style="color:#7a8b9a">·</span> oppure le pagine funghi, regione per regione: <a href="https://precipitazioni.avventuremicologiche.it/funghi/lombardia/">Lombardia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/piemonte/">Piemonte</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/valledaosta/">Valle d'Aosta</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/liguria/">Liguria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/emilia/">Emilia-Romagna</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/veneto/">Veneto</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/friuli/">Friuli</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/trentino/">Trentino</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/altoadige/">Alto Adige</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/toscana/">Toscana</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/umbria/">Umbria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/marche/">Marche</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/lazio/">Lazio</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/molise/">Molise</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/campania/">Campania</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/puglia/">Puglia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/basilicata/">Basilicata</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/calabria/">Calabria</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/sicilia/">Sicilia</a> · <a href="https://precipitazioni.avventuremicologiche.it/funghi/sardegna/">Sardegna</a></p>
+  </div>
+</nav>
+  Dati: <a href="https://www.dati.lombardia.it/" target="_blank" rel="noopener">ARPA Lombardia</a> ·
+  <a href="https://precipitazioni.avventuremicologiche.it/fonti">tutte le fonti e licenze</a> ·
+  <a href="https://avventuremicologiche.it">Avventure Micologiche</a><br>
+  La mappa copre Italia, Svizzera, Austria, Francia e Slovenia — 5000+ stazioni.
+</footer>
+</body>
+</html>

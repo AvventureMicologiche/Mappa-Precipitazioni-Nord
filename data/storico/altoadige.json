@@ -1,0 +1,404 @@
+{
+ "regione": "altoadige",
+ "nome": "Alto Adige",
+ "frontiera": "2026-05-22",
+ "fine": "2026-11-20",
+ "zone": [
+  {
+   "slug": "monte-di-mezzo",
+   "n": "Monte di Mezzo"
+  },
+  {
+   "slug": "val-di-tires",
+   "n": "Val di Tires"
+  }
+ ],
+ "mesi": [
+  {
+   "mese": "2026-05",
+   "dal": "2026-05-22",
+   "al": "2026-05-31",
+   "intero": false,
+   "giorni": 10,
+   "stimati": 0,
+   "stazioni": 58,
+   "media": 6.3,
+   "giorniPioggia": 1,
+   "giornoPiovoso": {
+    "g": "2026-05-31",
+    "mm": 6.1
+   },
+   "top": [
+    {
+     "n": "Nova Levante",
+     "p": null,
+     "mm": 27
+    },
+    {
+     "n": "Passo di Costalunga",
+     "p": null,
+     "mm": 22.3
+    },
+    {
+     "n": "Renon Siffian",
+     "p": null,
+     "mm": 19.7
+    },
+    {
+     "n": "Corvara",
+     "p": null,
+     "mm": 16.9
+    },
+    {
+     "n": "Fie' allo Sciliar",
+     "p": null,
+     "mm": 15.4
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 4.1,
+    "val-di-tires": 20.7
+   },
+   "record": {
+    "n": "Nova Levante",
+    "p": null,
+    "g": "2026-05-31",
+    "mm": 27,
+    "lat": 46.428876,
+    "lon": 11.536591
+   }
+  },
+  {
+   "mese": "2026-06",
+   "dal": "2026-06-01",
+   "al": "2026-06-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 58,
+   "media": 120,
+   "giorniPioggia": 12,
+   "giornoPiovoso": {
+    "g": "2026-06-10",
+    "mm": 42.4
+   },
+   "top": [
+    {
+     "n": "Funes",
+     "p": null,
+     "mm": 210.9
+    },
+    {
+     "n": "Fie' allo Sciliar",
+     "p": null,
+     "mm": 193.6
+    },
+    {
+     "n": "Anterselva di Sopra",
+     "p": null,
+     "mm": 187.1
+    },
+    {
+     "n": "Sarentino",
+     "p": null,
+     "mm": 173.8
+    },
+    {
+     "n": "S. Martino in Badia",
+     "p": null,
+     "mm": 173.2
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 139.5,
+    "val-di-tires": 150.5
+   },
+   "record": {
+    "n": "Funes",
+    "p": null,
+    "g": "2026-06-10",
+    "mm": 86.6,
+    "lat": 46.647927,
+    "lon": 11.689372
+   }
+  },
+  {
+   "mese": "2026-07",
+   "dal": "2026-07-01",
+   "al": "2026-07-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 58,
+   "media": 75.9,
+   "giorniPioggia": 13,
+   "giornoPiovoso": {
+    "g": "2026-07-01",
+    "mm": 27.3
+   },
+   "top": [
+    {
+     "n": "Selva di V. Gardena",
+     "p": null,
+     "mm": 167.8
+    },
+    {
+     "n": "Funes",
+     "p": null,
+     "mm": 155.9
+    },
+    {
+     "n": "Terento",
+     "p": null,
+     "mm": 131.1
+    },
+    {
+     "n": "Corvara",
+     "p": null,
+     "mm": 125.7
+    },
+    {
+     "n": "S. Vito di Braies",
+     "p": null,
+     "mm": 116
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 49.6,
+    "val-di-tires": 79.9
+   },
+   "record": {
+    "n": "Selva di V. Gardena",
+    "p": null,
+    "g": "2026-07-14",
+    "mm": 57.3,
+    "lat": 46.545555,
+    "lon": 11.76843
+   }
+  },
+  {
+   "mese": "2026-08",
+   "dal": "2026-08-01",
+   "al": "2026-08-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 57,
+   "media": 129.3,
+   "giorniPioggia": 19,
+   "giornoPiovoso": {
+    "g": "2026-08-20",
+    "mm": 36.4
+   },
+   "top": [
+    {
+     "n": "Ultimo Fontana Bianca",
+     "p": null,
+     "mm": 213.5
+    },
+    {
+     "n": "Pennes",
+     "p": null,
+     "mm": 196.2
+    },
+    {
+     "n": "Riva di Tures",
+     "p": null,
+     "mm": 188.8
+    },
+    {
+     "n": "Solda",
+     "p": null,
+     "mm": 180.6
+    },
+    {
+     "n": "Gargazzone",
+     "p": null,
+     "mm": 179.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 125.1,
+    "val-di-tires": 139.4
+   },
+   "record": {
+    "n": "Ora",
+    "p": null,
+    "g": "2026-08-20",
+    "mm": 73.6,
+    "lat": 46.346885,
+    "lon": 11.305017
+   }
+  },
+  {
+   "mese": "2026-09",
+   "dal": "2026-09-01",
+   "al": "2026-09-30",
+   "intero": true,
+   "giorni": 30,
+   "stimati": 0,
+   "stazioni": 57,
+   "media": 60.3,
+   "giorniPioggia": 8,
+   "giornoPiovoso": {
+    "g": "2026-09-10",
+    "mm": 23.3
+   },
+   "top": [
+    {
+     "n": "S. Martino in Passiria",
+     "p": null,
+     "mm": 114.1
+    },
+    {
+     "n": "Barbiano Colma",
+     "p": null,
+     "mm": 93.5
+    },
+    {
+     "n": "Nova Levante",
+     "p": null,
+     "mm": 90.8
+    },
+    {
+     "n": "Fleres",
+     "p": null,
+     "mm": 89.4
+    },
+    {
+     "n": "Passo di Costalunga",
+     "p": null,
+     "mm": 86.8
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 60.7,
+    "val-di-tires": 78.5
+   },
+   "record": {
+    "n": "S. Martino in Passiria",
+    "p": null,
+    "g": "2026-09-09",
+    "mm": 93.5,
+    "lat": 46.782407,
+    "lon": 11.229575
+   }
+  },
+  {
+   "mese": "2026-10",
+   "dal": "2026-10-01",
+   "al": "2026-10-31",
+   "intero": true,
+   "giorni": 31,
+   "stimati": 0,
+   "stazioni": 57,
+   "media": 46.4,
+   "giorniPioggia": 5,
+   "giornoPiovoso": {
+    "g": "2026-10-21",
+    "mm": 22.6
+   },
+   "top": [
+    {
+     "n": "Fleres",
+     "p": null,
+     "mm": 101.5
+    },
+    {
+     "n": "S. Valburga",
+     "p": null,
+     "mm": 92.7
+    },
+    {
+     "n": "S. Vito di Braies",
+     "p": null,
+     "mm": 75.8
+    },
+    {
+     "n": "Ultimo Fontana Bianca",
+     "p": null,
+     "mm": 69.5
+    },
+    {
+     "n": "Plan",
+     "p": null,
+     "mm": 68.9
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 50.1,
+    "val-di-tires": 42.9
+   },
+   "record": {
+    "n": "S. Valburga",
+    "p": null,
+    "g": "2026-10-21",
+    "mm": 76.9,
+    "lat": 46.541671,
+    "lon": 10.989789
+   }
+  },
+  {
+   "mese": "2026-11",
+   "dal": "2026-11-01",
+   "al": "2026-11-20",
+   "intero": false,
+   "giorni": 20,
+   "stimati": 0,
+   "stazioni": 57,
+   "media": 30.4,
+   "giorniPioggia": 4,
+   "giornoPiovoso": {
+    "g": "2026-11-12",
+    "mm": 15.8
+   },
+   "top": [
+    {
+     "n": "Sesto",
+     "p": null,
+     "mm": 46.2
+    },
+    {
+     "n": "Vandoies",
+     "p": null,
+     "mm": 45
+    },
+    {
+     "n": "Terento",
+     "p": null,
+     "mm": 43.4
+    },
+    {
+     "n": "S. Vito di Braies",
+     "p": null,
+     "mm": 41.9
+    },
+    {
+     "n": "Funes",
+     "p": null,
+     "mm": 41.6
+    }
+   ],
+   "province": null,
+   "zone": {
+    "monte-di-mezzo": 26.2,
+    "val-di-tires": 35.9
+   },
+   "record": {
+    "n": "Funes",
+    "p": null,
+    "g": "2026-11-12",
+    "mm": 23.2,
+    "lat": 46.647927,
+    "lon": 11.689372
+   }
+  }
+ ],
+ "aggiornato": "2026-11-21"
+}
