@@ -434,7 +434,7 @@ c'è, non se quest'anno ci sono nati funghi.${/* 1/11/2026, scheda 105 bis */ fs
 
 
 
-<div class="noioso">
+${require('./lib-fungo-mese.js').FUNGO_MESE}<div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misurano i pluviometri ${diEnte(corta)} nei posti da bosco ${gen}: un pluviometro vero,
 quota fra 200 e 1600 metri e tanto bosco intorno: almeno il 37% entro 3 km sulle mappe di OpenStreetMap,

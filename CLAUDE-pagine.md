@@ -1397,7 +1397,7 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
 
 - Pausa d'inverno: «Chiusa la stagione dei funghi epigei», «Resta aperta la stagione dei tartufi, secondo i calendari
   regionali» (testo suo). ⚠️ Si danno i dati, NON come usarli: niente frasi su cosa vuol dire la pioggia per i tartufi.
-- Il fungo del mese: una sezione UGUALE in tutte le pagine funghi (985 paesi, 114 zone, `/funghi/`). Fascia verde in
+- Il fungo del mese: una sezione UGUALE in tutte le pagine funghi (985 paesi, 114 zone, 20 regioni, `/funghi/`). Fascia verde in
   rilievo col mese e «IL FUNGO DEL MESE» (o «I FUNGHI DEL MESE» con più specie) in maiuscolo, carattere della pagina
   (il serif NO), allargato via JS al 55% della fascia; premessa «Sul territorio italiano il fungo di <mese> è il …»;
   per ogni specie copertina + descrizione; poi 4 video del canale e «Tutti i video».
