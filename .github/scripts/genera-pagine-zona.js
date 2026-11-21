@@ -337,7 +337,7 @@ ${/* la carta forestale della zona, o della regione (1/11/2026, scheda 105 bis) 
 `
   : fs.existsSync(path.join(RADICE, 'mappa-forestale', casa.k, 'index.html')) ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="${SITO}/mappa-forestale/${casa.k}/">la carta forestale ${esc(GEN[casa.k])}</a>.</p>
 ` : ''}` : ''}
-<div class="noioso">
+${require('./lib-fungo-mese.js').FUNGO_MESE}<div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misurano i <b>${nAttivi} pluviometri</b> ${esc(diEnte(elenco(agenzie)))} nelle zone
 da bosco ${esc(diZona(z.dove))}: quota fra 200 e 1600 metri e tanto bosco intorno (almeno il 37% entro 3 km

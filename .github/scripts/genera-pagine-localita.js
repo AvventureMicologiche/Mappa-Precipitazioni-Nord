@@ -507,7 +507,7 @@ ${haBoschi(REG) ? `<h2>Che boschi ci sono intorno</h2>
 <p class="nota">La pioggia dice quando andare, il bosco dice dove. I boschi vengono ${esc(fonteDa(REG))}.</p>
 ${FORESTALE ? `<p class="nota">I boschi tipo per tipo, con le percentuali: <a href="${FORESTALE[0]}">la carta forestale ${esc(FORESTALE[1])}</a>.</p>
 ` : ''}` : ''}
-<div class="noioso">
+${require('./lib-fungo-mese.js').FUNGO_MESE}<div class="noioso">
 <h2>Come funziona questa pagina</h2>
 <p>I millimetri li misura il pluviometro ${esc(diEnte(AGENZIA))} ${esc(DOVE)}: ${esc(sigla)}, ${quota} metri,
 con ${artNum('il', bosco + '%')} di bosco entro 3 km sulle carte forestali delle regioni. Sono misure a terra, giorno per giorno, aggiornate ogni mattina.

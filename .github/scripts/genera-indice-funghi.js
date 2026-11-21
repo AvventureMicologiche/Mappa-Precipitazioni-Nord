@@ -209,7 +209,7 @@ destra i boschi, colorati tipo per tipo. Sulla mappa scegli il periodo e vai dov
 <div class="regg">
 ${CON_FUNGHI.map(r => `  <a href="${SITO}/funghi/${r.k}/"><b>${nomeDi(r)}</b><span>${POSTI[r.k].length} posti</span></a>`).join('\n')}
 </div>
-
+${require('./lib-fungo-mese.js').FUNGO_MESE}
 <h2 style="margin-top:30px">Come scegliamo i posti</h2>
 <div class="metodo">
   <div><span class="n">1</span><b>C'è un pluviometro vero.</b> Non una stima su griglia: uno

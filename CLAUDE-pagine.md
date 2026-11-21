@@ -1392,3 +1392,17 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   (al Nord no: `freddoAttivo` dice no con la classe `funghi-inverno`). Il tasto della mappa sparisce il 10 (`funghi-fermo`).
 - ⚠️ La data è scritta dentro ogni pagina: cambiarla vuol dire rifare le 1.120 pagine funghi. Prova
   `scratchpad\prova-inverno-141.js` (orologio finto, 8 pagine × 6 date: 48 su 48).
+
+## Il fungo del mese e il testo d'inverno coi tartufi (21/11/2026, scheda 141)
+
+- Pausa d'inverno: «Chiusa la stagione dei funghi epigei», «Resta aperta la stagione dei tartufi, secondo i calendari
+  regionali» (testo suo). ⚠️ Si danno i dati, NON come usarli: niente frasi su cosa vuol dire la pioggia per i tartufi.
+- Il fungo del mese: una scheda UGUALE in tutte le pagine funghi (985 paesi, 114 zone, `/funghi/`), con la specie,
+  due righe, una copertina sua in testa e 4 suoi video. I video sono legati alla SPECIE, mai ai posti: chi è in
+  Sardegna vede gli stessi di chi è in Piemonte (scelta sua). Mai video diversi per zona.
+- Nelle pagine c'è solo il segnaposto (`lib-fungo-mese.js`: `#fungo-mese` + `/funghi/fungo-del-mese.js?v=N`), sotto i
+  boschi e sopra «Come funziona»; in `/funghi/` sotto «Scegli la tua regione». Tutto il resto sta in
+  `funghi/fungo-del-mese.js`: un mese = una voce di `MESI`; mese senza voce = niente scheda. Per aggiungere un mese si
+  tocca solo quel file e si alza `?v=` in lib-fungo-mese (questo sì rifà le pagine). Testo col JavaScript apposta:
+  lo stesso testo in 1.100 pagine sarebbe un doppione per Google. Copertine da i.ytimg.com. `?fungomese=11` per
+  guardare un altro mese. Partito solo novembre (tartufo bianco): «inutile fare tutte le stagioni ora».
