@@ -1,47 +1,47 @@
 {
  "regione": "veneto",
- "generato": "2026-11-21T04:15:50.798Z",
+ "generato": "2026-11-22T04:15:48.025Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0.1,
    "giorni": 1,
-   "stazioni": 163,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-20",
+   "stazioni": 162,
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-21",
    "top": [
-    {
-     "n": "Casamazzagno (BL)",
-     "nb": "Casamazzagno",
-     "mm": 8
-    },
-    {
-     "n": "Auronzo (BL)",
-     "nb": "Auronzo",
-     "mm": 1.6
-    },
-    {
-     "n": "Pettorazza Grimani loc. Botti Barbarighe (RO)",
-     "nb": "Pettorazza Grimani loc. Botti Barbarighe",
-     "mm": 1.2
-    },
-    {
-     "n": "Vicenza - Sant'Agostino (VI)",
-     "nb": "Vicenza - Sant'Agostino",
-     "mm": 1.2
-    },
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "nb": "Eraclea - Torre di Fine",
      "mm": 0.6
+    },
+    {
+     "n": "Agna (PD)",
+     "nb": "Agna",
+     "mm": 0.4
+    },
+    {
+     "n": "Bovolenta (PD)",
+     "nb": "Bovolenta",
+     "mm": 0.4
+    },
+    {
+     "n": "Campagna Lupia - Valle Averto (VE)",
+     "nb": "Campagna Lupia - Valle Averto",
+     "mm": 0.4
+    },
+    {
+     "n": "Castelnuovo del Garda (VR)",
+     "nb": "Castelnuovo del Garda",
+     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 21,
+   "media": 21.1,
    "giorni": 7,
-   "stazioni": 163,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-20",
+   "stazioni": 164,
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Bibione (VE)",
@@ -51,31 +51,31 @@
     {
      "n": "Legnaro (PD)",
      "nb": "Legnaro",
-     "mm": 34.4
+     "mm": 34.8
     },
     {
      "n": "Montegalda (VI)",
      "nb": "Montegalda",
-     "mm": 33.8
+     "mm": 34
     },
     {
      "n": "Sorgà (VR)",
      "nb": "Sorgà",
-     "mm": 33.6
+     "mm": 33.8
     },
     {
      "n": "Balduina (Sant'Urbano) (PD)",
      "nb": "Balduina (Sant'Urbano)",
-     "mm": 33.4
+     "mm": 33.6
     }
    ]
   },
   "20": {
-   "media": 76.6,
+   "media": 76.1,
    "giorni": 20,
    "stazioni": 185,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Bibione (VE)",
@@ -85,51 +85,51 @@
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "nb": "Eraclea - Torre di Fine",
-     "mm": 161
+     "mm": 161.6
     },
     {
      "n": "Lugugnana (Portogruaro) (VE)",
      "nb": "Lugugnana (Portogruaro)",
-     "mm": 139.4
-    },
-    {
-     "n": "Rosolina - Po di Tramontana (RO)",
-     "nb": "Rosolina - Po di Tramontana",
-     "mm": 135
+     "mm": 139.8
     },
     {
      "n": "Fossalta di Portogruaro (VE)",
      "nb": "Fossalta di Portogruaro",
-     "mm": 133
+     "mm": 133.2
+    },
+    {
+     "n": "Jesolo - Cortellazzo (VE)",
+     "nb": "Jesolo - Cortellazzo",
+     "mm": 132.8
     }
    ]
   },
   "30": {
-   "media": 85.6,
+   "media": 83.6,
    "giorni": 30,
    "stazioni": 186,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-20",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Bibione (VE)",
      "nb": "Bibione",
-     "mm": 240.3
+     "mm": 232
     },
     {
      "n": "Eraclea - Torre di Fine (VE)",
      "nb": "Eraclea - Torre di Fine",
-     "mm": 179.4
+     "mm": 178.4
     },
     {
      "n": "Lugugnana (Portogruaro) (VE)",
      "nb": "Lugugnana (Portogruaro)",
-     "mm": 160.2
+     "mm": 159.6
     },
     {
      "n": "Fossalta di Portogruaro (VE)",
      "nb": "Fossalta di Portogruaro",
-     "mm": 155.8
+     "mm": 146.8
     },
     {
      "n": "Eraclea (VE)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.1,
   0.2,
   18.5,
   0,
@@ -168,15 +169,14 @@
   0.1,
   0,
   1,
-  6,
-  2.1
+  6
  ],
- "serieDa": "2026-11-20",
+ "serieDa": "2026-11-21",
  "zone": [
   {
    "s": "val-d-astico",
    "n": "Val d'Astico",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
    "m7": 14.6,
    "m30": 51.8,
@@ -187,10 +187,10 @@
   {
    "s": "val-gallina",
    "n": "Val Gallina",
-   "ultimo": "2026-11-20",
-   "m1": 0,
-   "m7": 17.6,
-   "m30": 92.9,
+   "ultimo": "2026-11-21",
+   "m1": 0.1,
+   "m7": 17.4,
+   "m30": 89.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "comelico",
    "n": "Comelico",
-   "ultimo": "2026-11-20",
-   "m1": 2.7,
-   "m7": 12.3,
-   "m30": 64.8,
+   "ultimo": "2026-11-21",
+   "m1": 0.1,
+   "m7": 12.4,
+   "m30": 52.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,7 +209,7 @@
   {
    "s": "val-canale",
    "n": "Val Canale",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
    "m7": 19.8,
    "m30": 76.8,
@@ -220,10 +220,10 @@
   {
    "s": "colli-asolani",
    "n": "Colli Asolani",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0.1,
-   "m7": 15.2,
-   "m30": 68.3,
+   "m7": 15.3,
+   "m30": 68.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,21 +231,21 @@
   {
    "s": "valbelluna",
    "n": "Valbelluna",
-   "ultimo": "2026-11-20",
-   "m1": 0.1,
+   "ultimo": "2026-11-21",
+   "m1": 0,
    "m7": 14.7,
-   "m30": 75.6,
-   "p1": true,
+   "m30": 75.5,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-boite",
    "n": "Valle del Boite",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
    "m7": 13.1,
-   "m30": 50.9,
+   "m30": 43,
    "p1": false,
    "p7": true,
    "p30": true

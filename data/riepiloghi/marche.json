@@ -1,137 +1,126 @@
 {
  "regione": "marche",
- "generato": "2026-11-21T04:15:50.799Z",
+ "generato": "2026-11-22T04:15:48.026Z",
  "periodi": {
   "1": {
-   "media": 1,
+   "media": 0,
    "giorni": 1,
    "stazioni": 111,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-21",
    "top": [
     {
-     "n": "Gualdo",
-     "mm": 11.6
+     "n": "Montecavallo",
+     "mm": 0.8
     },
     {
-     "n": "Endesa",
-     "mm": 8.8
+     "n": "Serravalle di Chienti",
+     "mm": 0.8
+    },
+    {
+     "n": "Fiastra Tribbio",
+     "mm": 0.4
+    },
+    {
+     "n": "Pioraco 2",
+     "mm": 0.4
     },
     {
      "n": "Sassotetto",
-     "mm": 7.1
-    },
-    {
-     "n": "Ussita",
-     "mm": 7
-    },
-    {
-     "n": "Spindoli",
-     "mm": 6.8
+     "mm": 0.3
     }
    ]
   },
   "7": {
-   "media": 31.1,
+   "media": 29.8,
    "giorni": 7,
-   "stazioni": 112,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-20",
+   "stazioni": 111,
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Montecavallo",
-     "mm": 121.8
+     "mm": 121.2
     },
     {
      "n": "Endesa",
-     "mm": 109.3
+     "mm": 108.3
     },
     {
      "n": "Ussita",
-     "mm": 107.2
+     "mm": 105
     },
     {
      "n": "Gualdo",
-     "mm": 106.4
+     "mm": 103.8
     },
     {
-     "n": "Monte Bove Sud",
-     "mm": 88.3
+     "n": "Serravalle di Chienti",
+     "mm": 88.9
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   },
   "20": {
-   "media": 146.8,
+   "media": 121.5,
    "giorni": 20,
    "stazioni": 113,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 369.1
-    },
-    {
-     "n": "Cantiano",
-     "mm": 344
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 290
+     "mm": 325.1
     },
     {
      "n": "Montecavallo",
-     "mm": 281.1
+     "mm": 276.3
     },
     {
-     "n": "Monte Nerone",
+     "n": "Monte Petrano",
      "mm": 266.8
+    },
+    {
+     "n": "Cantiano",
+     "mm": 255.4
+    },
+    {
+     "n": "Ussita",
+     "mm": 243.7
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   },
   "30": {
-   "media": 156.3,
+   "media": 155.9,
    "giorni": 30,
    "stazioni": 113,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-20",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Fonte Avellana",
-     "mm": 390.7
+     "mm": 387.5
     },
     {
      "n": "Cantiano",
-     "mm": 366.8
-    },
-    {
-     "n": "Monte Petrano",
-     "mm": 307
+     "mm": 363.8
     },
     {
      "n": "Montecavallo",
-     "mm": 304.3
+     "mm": 305.1
+    },
+    {
+     "n": "Monte Petrano",
+     "mm": 301.8
     },
     {
      "n": "Monte Nerone",
-     "mm": 293.7
+     "mm": 292
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   }
  },
  "serie": [
+  0,
   1,
   9.8,
   0.5,
@@ -160,18 +149,17 @@
   0,
   0.2,
   2.3,
-  0.2,
-  0.5
+  0.2
  ],
- "serieDa": "2026-11-20",
+ "serieDa": "2026-11-21",
  "zone": [
   {
    "s": "montefeltro",
    "n": "Montefeltro",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 25.9,
-   "m30": 153.3,
+   "m7": 25.5,
+   "m30": 153.2,
    "p1": false,
    "p7": true,
    "p30": true
@@ -179,9 +167,9 @@
   {
    "s": "val-di-bove",
    "n": "Val di Bove",
-   "ultimo": "2026-11-20",
-   "m1": 6.1,
-   "m7": 85,
+   "ultimo": "2026-11-21",
+   "m1": 0.1,
+   "m7": 83,
    "m30": 235.5,
    "p1": true,
    "p7": true,
@@ -190,11 +178,11 @@
   {
    "s": "monti-sibillini",
    "n": "Monti Sibillini",
-   "ultimo": "2026-11-20",
-   "m1": 3.7,
-   "m7": 63.8,
+   "ultimo": "2026-11-21",
+   "m1": 0,
+   "m7": 59.9,
    "m30": 198.7,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

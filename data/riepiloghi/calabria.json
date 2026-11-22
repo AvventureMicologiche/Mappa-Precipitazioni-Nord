@@ -1,137 +1,126 @@
 {
  "regione": "calabria",
- "generato": "2026-11-21T04:15:50.799Z",
+ "generato": "2026-11-22T04:15:48.026Z",
  "periodi": {
   "1": {
    "media": 0.6,
    "giorni": 1,
    "stazioni": 139,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-21",
    "top": [
     {
-     "n": "Laino Borgo",
-     "mm": 7.2
+     "n": "Chiaravalle",
+     "mm": 7.8
     },
     {
      "n": "Mormanno",
-     "mm": 5.8
+     "mm": 7.6
     },
     {
-     "n": "Cassari",
-     "mm": 4
+     "n": "San Pietro in Guarano",
+     "mm": 5.2
     },
     {
-     "n": "Platì",
-     "mm": 4
+     "n": "Montalto Uffugo",
+     "mm": 4.8
     },
     {
-     "n": "S.Cristina d'Aspr.",
-     "mm": 4
+     "n": "Acri",
+     "mm": 4.2
     }
    ]
   },
   "7": {
-   "media": 13.5,
+   "media": 12.2,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Mormanno",
-     "mm": 117.2
+     "mm": 122
     },
     {
      "n": "Laino Borgo",
-     "mm": 110.6
+     "mm": 108.6
     },
     {
      "n": "Papasidero",
-     "mm": 88
+     "mm": 88.8
     },
     {
      "n": "San Sosti",
-     "mm": 72.4
+     "mm": 71.4
     },
     {
      "n": "Tortora",
-     "mm": 68.6
+     "mm": 66.6
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   },
   "20": {
-   "media": 67.6,
+   "media": 59.2,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Mormanno",
-     "mm": 228.2
+     "mm": 211.4
     },
     {
      "n": "Laino Borgo",
-     "mm": 202.5
-    },
-    {
-     "n": "Papasidero",
-     "mm": 174.9
+     "mm": 187.9
     },
     {
      "n": "Campo Tenese",
-     "mm": 165.5
+     "mm": 153.3
+    },
+    {
+     "n": "Papasidero",
+     "mm": 151.5
     },
     {
      "n": "San Sosti",
-     "mm": 147.1
+     "mm": 136.1
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   },
   "30": {
    "media": 74.6,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-20",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Mormanno",
-     "mm": 237.6
+     "mm": 239.4
     },
     {
      "n": "Laino Borgo",
-     "mm": 214.3
+     "mm": 211.5
     },
     {
      "n": "Papasidero",
-     "mm": 180.5
+     "mm": 178.9
     },
     {
      "n": "Campo Tenese",
-     "mm": 177.5
+     "mm": 176.3
     },
     {
      "n": "San Sosti",
-     "mm": 152.9
+     "mm": 153.5
     }
-   ],
-   "stime": {
-    "dal": "2026-11-18",
-    "al": "2026-11-18"
-   }
+   ]
   }
  },
  "serie": [
+  0.6,
   0.6,
   1.5,
   0.1,
@@ -160,18 +149,17 @@
   0,
   2.8,
   1.1,
-  0.3,
-  0.5
+  0.3
  ],
- "serieDa": "2026-11-20",
+ "serieDa": "2026-11-21",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-20",
-   "m1": 1.7,
-   "m7": 6.2,
-   "m30": 74.7,
+   "ultimo": "2026-11-21",
+   "m1": 0.5,
+   "m7": 5.3,
+   "m30": 74.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -179,10 +167,10 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-20",
-   "m1": 0.3,
-   "m7": 32.3,
-   "m30": 80,
+   "ultimo": "2026-11-21",
+   "m1": 1.5,
+   "m7": 29.6,
+   "m30": 80.5,
    "p1": true,
    "p7": true,
    "p30": true

@@ -1,52 +1,52 @@
 {
  "regione": "piemonte",
- "generato": "2026-11-21T04:15:50.798Z",
+ "generato": "2026-11-22T04:15:48.025Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 278,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-20",
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-21",
    "top": [
-    {
-     "n": "Rochemolles (Torino)",
-     "nb": "Rochemolles",
-     "mm": 15.2
-    },
     {
      "n": "Alpe Veglia (Verbano-Cusio-Ossola)",
      "nb": "Alpe Veglia",
-     "mm": 6.6
+     "mm": 7.6
     },
     {
-     "n": "Lago Agnel (Torino)",
-     "nb": "Lago Agnel",
-     "mm": 5.4
+     "n": "Rochemolles (Torino)",
+     "nb": "Rochemolles",
+     "mm": 4.6
     },
     {
      "n": "Forno Alpi Graie (Torino)",
      "nb": "Forno Alpi Graie",
-     "mm": 5
+     "mm": 3.8
     },
     {
-     "n": "Argentera (Cuneo)",
-     "nb": "Argentera",
-     "mm": 2.2
+     "n": "Colle Bercia (Torino)",
+     "nb": "Colle Bercia",
+     "mm": 3.2
+    },
+    {
+     "n": "Bardonecchia Pranudin (Torino)",
+     "nb": "Bardonecchia Pranudin",
+     "mm": 1.8
     }
    ]
   },
   "7": {
-   "media": 16.6,
+   "media": 13.6,
    "giorni": 7,
-   "stazioni": 280,
-   "primo": "2026-11-14",
-   "ultimo": "2026-11-20",
+   "stazioni": 279,
+   "primo": "2026-11-15",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Rochemolles (Torino)",
      "nb": "Rochemolles",
-     "mm": 80
+     "mm": 82.8
     },
     {
      "n": "Lago Agnel (Torino)",
@@ -59,43 +59,43 @@
      "mm": 66
     },
     {
-     "n": "Acceglio Collet (Cuneo)",
-     "nb": "Acceglio Collet",
-     "mm": 62.4
-    },
-    {
      "n": "Colle Bercia (Torino)",
      "nb": "Colle Bercia",
-     "mm": 61.6
+     "mm": 64.2
+    },
+    {
+     "n": "Barcenisio (Torino)",
+     "nb": "Barcenisio",
+     "mm": 60.1
     }
    ]
   },
   "20": {
-   "media": 75.9,
+   "media": 75.1,
    "giorni": 20,
-   "stazioni": 282,
-   "primo": "2026-11-01",
-   "ultimo": "2026-11-20",
+   "stazioni": 280,
+   "primo": "2026-11-02",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Valdieri (Cuneo)",
      "nb": "Valdieri",
-     "mm": 209.7
+     "mm": 205.7
     },
     {
      "n": "Piaggia (Cuneo)",
      "nb": "Piaggia",
-     "mm": 198.9
+     "mm": 198.1
     },
     {
      "n": "Vinadio S. Bernolfo (Cuneo)",
      "nb": "Vinadio S. Bernolfo",
-     "mm": 184.6
+     "mm": 184.4
     },
     {
      "n": "Diga del Chiotas (Cuneo)",
      "nb": "Diga del Chiotas",
-     "mm": 174.2
+     "mm": 171
     },
     {
      "n": "Colle Lombarda (Cuneo)",
@@ -108,8 +108,8 @@
    "media": 78.4,
    "giorni": 30,
    "stazioni": 281,
-   "primo": "2026-10-22",
-   "ultimo": "2026-11-20",
+   "primo": "2026-10-23",
+   "ultimo": "2026-11-21",
    "top": [
     {
      "n": "Valdieri (Cuneo)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.1,
   0.2,
   6.7,
   1.3,
@@ -168,29 +169,28 @@
   0.1,
   0.8,
   0.1,
-  1.1,
-  0.1
+  1.1
  ],
- "serieDa": "2026-11-20",
+ "serieDa": "2026-11-21",
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-11-20",
-   "m1": 0,
-   "m7": 22.2,
-   "m30": 74.9,
-   "p1": false,
+   "ultimo": "2026-11-21",
+   "m1": 0.3,
+   "m7": 15.8,
+   "m30": 75.3,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 16.3,
-   "m30": 60.2,
+   "m7": 14.2,
+   "m30": 60.1,
    "p1": false,
    "p7": true,
    "p30": true
@@ -198,9 +198,9 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 19.2,
+   "m7": 5,
    "m30": 123.9,
    "p1": false,
    "p7": true,
@@ -209,9 +209,9 @@
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 26.1,
+   "m7": 19.9,
    "m30": 79.2,
    "p1": false,
    "p7": true,
@@ -220,9 +220,9 @@
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 10.7,
+   "m7": 9.6,
    "m30": 96.1,
    "p1": false,
    "p7": true,
@@ -231,9 +231,9 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 13.5,
+   "m7": 5.5,
    "m30": 86.3,
    "p1": false,
    "p7": true,
@@ -242,9 +242,9 @@
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 12.6,
+   "m7": 8.1,
    "m30": 49.2,
    "p1": false,
    "p7": true,
@@ -253,20 +253,20 @@
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-11-20",
-   "m1": 0.1,
-   "m7": 8.6,
+   "ultimo": "2026-11-21",
+   "m1": 0,
+   "m7": 6.5,
    "m30": 37.3,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-11-20",
+   "ultimo": "2026-11-21",
    "m1": 0,
-   "m7": 26.1,
+   "m7": 17.6,
    "m30": 103.7,
    "p1": false,
    "p7": true,
@@ -275,10 +275,10 @@
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-11-20",
-   "m1": 0.6,
-   "m7": 38.8,
-   "m30": 93,
+   "ultimo": "2026-11-21",
+   "m1": 0.1,
+   "m7": 32.5,
+   "m30": 93.1,
    "p1": true,
    "p7": true,
    "p30": true
