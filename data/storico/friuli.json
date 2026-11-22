@@ -2,7 +2,7 @@
  "regione": "friuli",
  "nome": "Friuli Venezia Giulia",
  "frontiera": "2026-06-26",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "val-d-aupa",
@@ -354,12 +354,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 0,
    "stazioni": 139,
-   "media": 113.6,
+   "media": 113.7,
    "giorniPioggia": 8,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -384,7 +384,7 @@
     {
      "n": "S.Volfango",
      "p": null,
-     "mm": 216.2
+     "mm": 216.4
     },
     {
      "n": "Montemaggiore",
@@ -395,14 +395,14 @@
    "province": null,
    "zone": {
     "val-d-aupa": 95.8,
-    "val-settimana": 82.6,
-    "val-chiarso": 68.1,
+    "val-settimana": 82.7,
+    "val-chiarso": 68.8,
     "carnia": 59.6,
-    "val-rio-del-lago": 98.1,
-    "val-raccolana": 67.3,
+    "val-rio-del-lago": 98.5,
+    "val-raccolana": 69,
     "val-resia": 102.1,
     "val-pesarina": 44.5,
-    "gran-monte": 156.6,
+    "gran-monte": 156.7,
     "valle-del-but": 65.4
    },
    "record": {
@@ -415,5 +415,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

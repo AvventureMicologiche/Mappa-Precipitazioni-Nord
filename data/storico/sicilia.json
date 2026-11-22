@@ -2,7 +2,7 @@
  "regione": "sicilia",
  "nome": "Sicilia",
  "frontiera": "2026-07-19",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "valle-del-fitalia",
@@ -237,12 +237,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 2,
    "stazioni": 424,
-   "media": 47.6,
+   "media": 47.7,
    "giorniPioggia": 7,
    "giornoPiovoso": {
     "g": "2026-11-02",
@@ -265,20 +265,20 @@
      "mm": 152.1
     },
     {
-     "n": "Linguaglossa Etna Nord",
+     "n": "Cesarò Monte Soro SIAS",
      "p": null,
-     "mm": 146.3
+     "mm": 149.2
     },
     {
-     "n": "Monreale Vigna d'Api SIAS",
+     "n": "Linguaglossa Etna Nord",
      "p": null,
      "mm": 146.3
     }
    ],
    "province": null,
    "zone": {
-    "valle-del-fitalia": 91.8,
-    "nebrodi": 100.9
+    "valle-del-fitalia": 92.4,
+    "nebrodi": 101.6
    },
    "record": {
     "n": "Monreale Vigna d'Api SIAS",
@@ -290,5 +290,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

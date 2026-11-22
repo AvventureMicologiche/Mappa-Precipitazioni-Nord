@@ -2,7 +2,7 @@
  "regione": "emilia",
  "nome": "Emilia-Romagna",
  "frontiera": "2026-05-03",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "valle-del-carlone",
@@ -397,12 +397,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 0,
-   "stazioni": 314,
-   "media": 140.9,
+   "stazioni": 313,
+   "media": 141.4,
    "giorniPioggia": 13,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -412,7 +412,7 @@
     {
      "n": "Lago Ballano",
      "p": null,
-     "mm": 788.3
+     "mm": 788.4
     },
     {
      "n": "Lago Scaffaiolo",
@@ -422,12 +422,12 @@
     {
      "n": "Lago Paduli",
      "p": null,
-     "mm": 627.4
+     "mm": 627.6
     },
     {
      "n": "Pracchia",
      "p": null,
-     "mm": 575
+     "mm": 575.2
     },
     {
      "n": "Succiso",
@@ -438,8 +438,8 @@
    "province": null,
    "zone": {
     "valle-del-carlone": 72.1,
-    "alta-val-d-enza": 417,
-    "val-trebbia": 152.5,
+    "alta-val-d-enza": 417.1,
+    "val-trebbia": 152.6,
     "val-nure": 94.5,
     "val-di-taro": 99.1,
     "romagna-toscana": 141.2,
@@ -455,5 +455,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

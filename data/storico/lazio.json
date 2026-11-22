@@ -2,7 +2,7 @@
  "regione": "lazio",
  "nome": "Lazio",
  "frontiera": "2026-07-06",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "piana-del-cavaliere",
@@ -277,9 +277,9 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 2,
    "stazioni": 208,
    "media": 112.9,
@@ -302,7 +302,7 @@
     {
      "n": "Posta",
      "p": null,
-     "mm": 349.8
+     "mm": 350
     },
     {
      "n": "San Biagio Saracinisco",
@@ -319,9 +319,9 @@
    "zone": {
     "piana-del-cavaliere": 171.4,
     "monti-prenestini": 97.1,
-    "sabina": 214,
-    "vallonina": 250.5,
-    "monti-cantari": 189.8,
+    "sabina": 214.1,
+    "vallonina": 250.6,
+    "monti-cantari": 190,
     "monti-reatini": 314.7,
     "monti-sabini": 133.3
    },
@@ -335,5 +335,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

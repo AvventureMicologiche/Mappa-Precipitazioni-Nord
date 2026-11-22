@@ -2,7 +2,7 @@
  "regione": "marche",
  "nome": "Marche",
  "frontiera": "2026-07-13",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "montefeltro",
@@ -245,9 +245,9 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 4,
    "stazioni": 115,
    "media": 147,
@@ -275,18 +275,18 @@
     {
      "n": "Montecavallo",
      "p": null,
-     "mm": 281.1
+     "mm": 281.9
     },
     {
      "n": "Monte Nerone",
      "p": null,
-     "mm": 266.8
+     "mm": 266.9
     }
    ],
    "province": null,
    "zone": {
     "montefeltro": 148.1,
-    "val-di-bove": 215.7,
+    "val-di-bove": 215.8,
     "monti-sibillini": 188.6
    },
    "record": {
@@ -299,5 +299,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

@@ -2,7 +2,7 @@
  "regione": "lombardia",
  "nome": "Lombardia",
  "frontiera": "2026-01-01",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "val-grigna",
@@ -865,12 +865,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 0,
    "stazioni": 252,
-   "media": 51.6,
+   "media": 51.8,
    "giorniPioggia": 8,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -878,19 +878,19 @@
    },
    "top": [
     {
+     "n": "Bigarello",
+     "p": "MN",
+     "mm": 108.4
+    },
+    {
      "n": "Mantova S.Agnese",
      "p": "MN",
      "mm": 108.4
     },
     {
-     "n": "Bigarello",
-     "p": "MN",
-     "mm": 108.2
-    },
-    {
      "n": "Sermide e Felonica SP 91",
      "p": "MN",
-     "mm": 105
+     "mm": 105.2
     },
     {
      "n": "Mantova Lunetta2 SMR",
@@ -904,24 +904,24 @@
     }
    ],
    "province": {
-    "Sondrio": 34.7,
-    "Varese": 41.8,
-    "Lecco": 46.5,
-    "Lodi": 75.4,
-    "Brescia": 58.6,
-    "Bergamo": 53.3,
-    "Cremona": 76.1,
-    "Pavia": 66.6,
-    "Milano": 57.1,
-    "Como": 43.3,
-    "Monza": 51.6,
-    "Mantova": 97.4
+    "Sondrio": 35,
+    "Varese": 41.9,
+    "Lecco": 46.6,
+    "Lodi": 75.6,
+    "Brescia": 58.9,
+    "Bergamo": 53.4,
+    "Cremona": 76.2,
+    "Pavia": 66.7,
+    "Milano": 57.2,
+    "Como": 43.4,
+    "Monza": 51.8,
+    "Mantova": 97.5
    },
    "zone": {
     "val-grigna": 53.6,
-    "valle-sabbia": 63.7,
-    "val-trompia": 47.2,
-    "val-brembana": 49.7,
+    "valle-sabbia": 63.8,
+    "val-trompia": 47.3,
+    "val-brembana": 49.8,
     "val-sedornia": 51.7,
     "val-cavargna": 39.6,
     "val-serina": 53.7,
@@ -943,5 +943,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }

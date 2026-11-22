@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-20",
+ "fine": "2026-11-21",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,12 +481,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-20",
+   "al": "2026-11-21",
    "intero": false,
-   "giorni": 20,
+   "giorni": 21,
    "stimati": 0,
-   "stazioni": 282,
-   "media": 75.9,
+   "stazioni": 280,
+   "media": 76.1,
    "giorniPioggia": 14,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -521,16 +521,16 @@
    ],
    "province": {
     "Cuneo": 104,
-    "Torino": 77.7,
+    "Torino": 77.9,
     "Vercelli": 46.4,
-    "Verbano-Cusio-Ossola": 38.2,
+    "Verbano-Cusio-Ossola": 38.7,
     "Alessandria": 78.2,
-    "Asti": 59.3,
-    "Novara": 46.2,
+    "Asti": 60.7,
+    "Novara": 46.3,
     "Biella": 59.2
    },
    "zone": {
-    "val-d-ala": 74,
+    "val-d-ala": 74.3,
     "valle-sessera": 59.3,
     "valle-vermenagna": 122.5,
     "valle-di-viu": 77.7,
@@ -539,7 +539,7 @@
     "val-mastallone": 44.1,
     "val-loana": 34.5,
     "valle-germanasca": 102.2,
-    "val-clarea": 91.4
+    "val-clarea": 91.5
    },
    "record": {
     "n": "FRACONALTO",
@@ -551,5 +551,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-21"
+ "aggiornato": "2026-11-22"
 }
