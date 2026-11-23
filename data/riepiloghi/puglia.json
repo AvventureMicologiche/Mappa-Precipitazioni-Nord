@@ -1,104 +1,104 @@
 {
  "regione": "puglia",
- "generato": "2026-11-22T04:15:48.026Z",
+ "generato": "2026-11-23T04:15:39.453Z",
  "periodi": {
   "1": {
-   "media": 0,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 130,
-   "primo": "2026-11-21",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-22",
+   "ultimo": "2026-11-22",
    "top": [
     {
-     "n": "Anzano di Puglia",
-     "mm": 0.2
+     "n": "Conversano",
+     "mm": 1.6
     },
     {
-     "n": "Orto di Zolfo",
-     "mm": 0.2
+     "n": "Ostuni",
+     "mm": 1.6
     },
     {
-     "n": "Acquaviva delle Fonti",
-     "mm": 0
+     "n": "Bari Osservatorio",
+     "mm": 1.4
     },
     {
-     "n": "Adelfia",
-     "mm": 0
+     "n": "Bari Campus",
+     "mm": 1.2
     },
     {
-     "n": "Alberona",
-     "mm": 0
+     "n": "Casamassima",
+     "mm": 1.2
     }
    ]
   },
   "7": {
-   "media": 14.3,
+   "media": 6.7,
    "giorni": 7,
-   "stazioni": 129,
-   "primo": "2026-11-15",
-   "ultimo": "2026-11-21",
+   "stazioni": 130,
+   "primo": "2026-11-16",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Anzano di Puglia",
-     "mm": 36.6
-    },
-    {
-     "n": "Taranto",
-     "mm": 33.8
-    },
-    {
-     "n": "Latiano",
-     "mm": 31.7
-    },
-    {
-     "n": "Alberona",
-     "mm": 31.1
+     "mm": 29.8
     },
     {
      "n": "Monteleone di Puglia",
-     "mm": 30.4
+     "mm": 23.6
+    },
+    {
+     "n": "Alberona",
+     "mm": 22.9
+    },
+    {
+     "n": "Faeto",
+     "mm": 21.5
+    },
+    {
+     "n": "Orto di Zolfo",
+     "mm": 21.1
     }
    ]
   },
   "20": {
-   "media": 75.4,
+   "media": 32.3,
    "giorni": 20,
    "stazioni": 129,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-22",
    "top": [
     {
+     "n": "Latiano",
+     "mm": 85.7
+    },
+    {
+     "n": "Novoli",
+     "mm": 74.9
+    },
+    {
+     "n": "Manduria",
+     "mm": 71.5
+    },
+    {
+     "n": "Lecce",
+     "mm": 69.5
+    },
+    {
      "n": "Faeto",
-     "mm": 226.4
-    },
-    {
-     "n": "Orto di Zolfo",
-     "mm": 212.1
-    },
-    {
-     "n": "Panni",
-     "mm": 152.8
-    },
-    {
-     "n": "Biccari",
-     "mm": 144.8
-    },
-    {
-     "n": "Alberona",
-     "mm": 142.4
+     "mm": 67.3
     }
    ]
   },
   "30": {
-   "media": 96.2,
+   "media": 96.4,
    "giorni": 30,
    "stazioni": 129,
-   "primo": "2026-10-23",
-   "ultimo": "2026-11-21",
+   "primo": "2026-10-24",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Faeto",
-     "mm": 232.6
+     "mm": 233
     },
     {
      "n": "Orto di Zolfo",
@@ -106,20 +106,21 @@
     },
     {
      "n": "Lesina",
-     "mm": 191.8
+     "mm": 191.2
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 181.2
+     "mm": 180.8
     },
     {
      "n": "Panni",
-     "mm": 160.6
+     "mm": 161
     }
    ]
   }
  },
  "serie": [
+  0.3,
   0,
   0,
   1.3,
@@ -148,9 +149,8 @@
   0,
   0.1,
   1.8,
-  3.8,
-  0.1
+  3.8
  ],
- "serieDa": "2026-11-21",
+ "serieDa": "2026-11-22",
  "zone": []
 }

@@ -1,125 +1,126 @@
 {
  "regione": "altoadige",
- "generato": "2026-11-22T04:15:48.026Z",
+ "generato": "2026-11-23T04:15:39.452Z",
  "periodi": {
   "1": {
-   "media": 0.2,
+   "media": 3.7,
    "giorni": 1,
    "stazioni": 57,
-   "primo": "2026-11-21",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-22",
+   "ultimo": "2026-11-22",
    "top": [
     {
-     "n": "Fleres",
+     "n": "Salorno",
+     "mm": 6.9
+    },
+    {
+     "n": "Plan",
+     "mm": 6.3
+    },
+    {
+     "n": "Selva di V. Gardena",
+     "mm": 5.8
+    },
+    {
+     "n": "San Genesio",
+     "mm": 5.7
+    },
+    {
+     "n": "Redagno",
      "mm": 5.5
-    },
-    {
-     "n": "Vallelunga Grub",
-     "mm": 2.9
-    },
-    {
-     "n": "Ridanna",
-     "mm": 0.7
-    },
-    {
-     "n": "Riva di Tures",
-     "mm": 0.5
-    },
-    {
-     "n": "Vipiteno",
-     "mm": 0.4
     }
    ]
   },
   "7": {
-   "media": 8.8,
+   "media": 12.5,
    "giorni": 7,
    "stazioni": 57,
-   "primo": "2026-11-15",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-16",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Renon Siffian",
-     "mm": 15.7
-    },
-    {
-     "n": "Dobbiaco",
-     "mm": 14.9
-    },
-    {
-     "n": "San Vito di Braies",
-     "mm": 14.7
+     "mm": 21.1
     },
     {
      "n": "Ora",
-     "mm": 14.6
+     "mm": 20
     },
     {
      "n": "Fleres",
-     "mm": 14.5
+     "mm": 19
+    },
+    {
+     "n": "Selva di V. Gardena",
+     "mm": 18.9
+    },
+    {
+     "n": "San Genesio",
+     "mm": 18
     }
    ]
   },
   "20": {
-   "media": 30.6,
+   "media": 34.2,
    "giorni": 20,
    "stazioni": 57,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Sesto",
-     "mm": 46.2
+     "mm": 48.1
     },
     {
      "n": "Vandoies",
-     "mm": 45
+     "mm": 48.1
     },
     {
      "n": "Terento",
-     "mm": 43.4
+     "mm": 46.7
     },
     {
-     "n": "San Vito di Braies",
-     "mm": 41.9
+     "n": "Funes",
+     "mm": 46.1
     },
     {
      "n": "Anterselva di Sopra",
-     "mm": 41.6
+     "mm": 46
     }
    ]
   },
   "30": {
-   "media": 35.2,
+   "media": 35,
    "giorni": 30,
    "stazioni": 57,
-   "primo": "2026-10-23",
-   "ultimo": "2026-11-21",
+   "primo": "2026-10-24",
+   "ultimo": "2026-11-22",
    "top": [
     {
-     "n": "Vandoies",
-     "mm": 49.2
-    },
-    {
      "n": "Fleres",
-     "mm": 49.1
+     "mm": 50.4
     },
     {
      "n": "Sesto",
-     "mm": 48.7
-    },
-    {
-     "n": "Funes",
      "mm": 48.5
     },
     {
+     "n": "Vandoies",
+     "mm": 48.1
+    },
+    {
+     "n": "Anterselva di Sopra",
+     "mm": 47.2
+    },
+    {
      "n": "Terento",
-     "mm": 48.3
+     "mm": 46.9
     }
    ]
   }
  },
  "serie": [
+  3.7,
   0.2,
   0,
   8.3,
@@ -148,30 +149,29 @@
   0,
   0,
   0.5,
-  0.2,
-  3.9
+  0.2
  ],
- "serieDa": "2026-11-21",
+ "serieDa": "2026-11-22",
  "zone": [
   {
    "s": "monte-di-mezzo",
    "n": "Monte di Mezzo",
-   "ultimo": "2026-11-21",
-   "m1": 0,
-   "m7": 11.3,
-   "m30": 28.8,
-   "p1": false,
+   "ultimo": "2026-11-22",
+   "m1": 4.8,
+   "m7": 16,
+   "m30": 31,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-di-tires",
    "n": "Val di Tires",
-   "ultimo": "2026-11-21",
-   "m1": 0,
-   "m7": 13.3,
-   "m30": 41.1,
-   "p1": false,
+   "ultimo": "2026-11-22",
+   "m1": 5.1,
+   "m7": 18.4,
+   "m30": 41,
+   "p1": true,
    "p7": true,
    "p30": true
   }

@@ -1,125 +1,126 @@
 {
  "regione": "basilicata",
- "generato": "2026-11-22T04:15:48.026Z",
+ "generato": "2026-11-23T04:15:39.453Z",
  "periodi": {
   "1": {
    "media": 0.2,
    "giorni": 1,
-   "stazioni": 62,
-   "primo": "2026-11-21",
-   "ultimo": "2026-11-21",
+   "stazioni": 61,
+   "primo": "2026-11-22",
+   "ultimo": "2026-11-22",
    "top": [
     {
-     "n": "Maratea",
-     "mm": 4.5
+     "n": "Rotonda",
+     "mm": 2.6
     },
     {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 2
+     "n": "Bradano Ponte Colonna",
+     "mm": 0.8
+    },
+    {
+     "n": "Castellaneta",
+     "mm": 0.8
     },
     {
      "n": "Castrocucco",
-     "mm": 1.6
+     "mm": 0.8
     },
     {
-     "n": "Rotonda",
-     "mm": 1.2
-    },
-    {
-     "n": "Marsico Nuovo",
-     "mm": 1
+     "n": "F.Melandro S.Angelo Le Fratte",
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 30.6,
+   "media": 15.8,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-11-15",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-16",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 192.2
-    },
-    {
-     "n": "Rotonda",
-     "mm": 129
-    },
-    {
-     "n": "Castelsaraceno",
-     "mm": 121.6
+     "mm": 111
     },
     {
      "n": "Castrocucco",
-     "mm": 98.7
+     "mm": 79.6
+    },
+    {
+     "n": "Rotonda",
+     "mm": 76.2
     },
     {
      "n": "Maratea",
-     "mm": 83.9
+     "mm": 67.3
+    },
+    {
+     "n": "Castelsaraceno",
+     "mm": 65
     }
    ]
   },
   "20": {
-   "media": 91.9,
+   "media": 47.8,
    "giorni": 20,
    "stazioni": 62,
-   "primo": "2026-11-02",
-   "ultimo": "2026-11-21",
+   "primo": "2026-11-03",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 262.6
+     "mm": 238.6
     },
     {
      "n": "Castelsaraceno",
-     "mm": 240
+     "mm": 199.2
     },
     {
      "n": "Rotonda",
-     "mm": 208.6
+     "mm": 185.6
     },
     {
      "n": "Castrocucco",
-     "mm": 163
+     "mm": 141.2
     },
     {
-     "n": "Pescopagano",
-     "mm": 149.3
+     "n": "Maratea",
+     "mm": 119
     }
    ]
   },
   "30": {
-   "media": 114,
+   "media": 114.2,
    "giorni": 30,
    "stazioni": 62,
-   "primo": "2026-10-23",
-   "ultimo": "2026-11-21",
+   "primo": "2026-10-24",
+   "ultimo": "2026-11-22",
    "top": [
     {
      "n": "Lagonegro",
-     "mm": 276.6
+     "mm": 276.8
     },
     {
      "n": "Castelsaraceno",
-     "mm": 253.8
+     "mm": 254.4
     },
     {
      "n": "Rotonda",
-     "mm": 235.7
-    },
-    {
-     "n": "Abriola a Sellata Pierfaone",
-     "mm": 178.4
+     "mm": 238.3
     },
     {
      "n": "Castrocucco",
-     "mm": 178.2
+     "mm": 179
+    },
+    {
+     "n": "Abriola a Sellata Pierfaone",
+     "mm": 178.8
     }
    ]
   }
  },
  "serie": [
+  0.2,
   0.2,
   0.7,
   3.8,
@@ -148,9 +149,8 @@
   0,
   0,
   1.9,
-  1.9,
-  0
+  1.9
  ],
- "serieDa": "2026-11-21",
+ "serieDa": "2026-11-22",
  "zone": []
 }
