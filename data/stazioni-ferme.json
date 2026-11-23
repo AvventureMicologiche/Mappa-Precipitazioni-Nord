@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-16",
+  "aggiornato": "2026-11-23",
   "finestra": 45,
   "ferme": [
     {
@@ -19,12 +19,12 @@
       "dal": "2026-09-14"
     },
     {
-      "chiave": "meteohub-lazio/42.00000_12.37278",
-      "nome": "La Storta",
-      "regione": "meteohub-lazio",
+      "chiave": "francia-occitania/12189001",
+      "nome": "Pradinas",
+      "regione": "francia-occitania",
       "perc": 0,
       "porta": "bagnati",
-      "dal": "2026-11-16"
+      "dal": "2026-11-23"
     },
     {
       "chiave": "meteohub-sicilia/37.90806_15.14528",
@@ -35,26 +35,26 @@
       "dal": "2026-11-09"
     },
     {
-      "chiave": "toscana/TOS11000058",
-      "nome": "Castiglione d'Orcia",
+      "chiave": "toscana/TOS02000075",
+      "nome": "Pomezzana",
       "regione": "toscana",
-      "perc": 0,
+      "perc": 3.4,
       "porta": "bagnati",
-      "dal": "2026-11-16"
+      "dal": "2026-11-23"
     },
     {
-      "chiave": "meteohub-molise/41.74222_14.38306",
-      "nome": "Pietrabbondante",
-      "regione": "meteohub-molise",
-      "perc": 0.4,
+      "chiave": "francia-aura/42011001",
+      "nome": "Balbigny",
+      "regione": "francia-aura",
+      "perc": 3.8,
       "porta": "bagnati",
-      "dal": "2026-11-16"
+      "dal": "2026-11-23"
     },
     {
       "chiave": "meteohub-sicilia/37.86972_14.88861",
       "nome": "Flascio a Ponte Flascio",
       "regione": "meteohub-sicilia",
-      "perc": 5.5,
+      "perc": 4.6,
       "porta": "totale",
       "dal": "2026-11-09"
     },
@@ -62,7 +62,7 @@
       "chiave": "toscana/TOS03002613",
       "nome": "Monastero d'Ombrone",
       "regione": "toscana",
-      "perc": 8.1,
+      "perc": 10.3,
       "porta": "totale",
       "dal": "2026-11-02"
     },
@@ -70,16 +70,24 @@
       "chiave": "francia-loira/72172003",
       "nome": "Le Luart",
       "regione": "francia-loira",
-      "perc": 0,
-      "porta": "bagnati",
+      "perc": 12.5,
+      "porta": "totale",
       "dal": "2026-11-09"
+    },
+    {
+      "chiave": "toscana/TOS11000058",
+      "nome": "Castiglione d'Orcia",
+      "regione": "toscana",
+      "perc": 12.9,
+      "porta": "totale",
+      "dal": "2026-11-16"
     },
     {
       "chiave": "francia-grandest/10419001",
       "nome": "Villemoyenne",
       "regione": "francia-grandest",
-      "perc": 0.7,
-      "porta": "bagnati",
+      "perc": 13.7,
+      "porta": "totale",
       "dal": "2026-11-09"
     }
   ]
