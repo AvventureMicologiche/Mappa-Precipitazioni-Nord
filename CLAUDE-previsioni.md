@@ -1383,3 +1383,11 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   0 da 30 giorni (Pizzoli 70 mm il 2/11): muto. Il 19/11 (suo «saltiamo l'aquila, togliamola») la pagina è tolta,
   con rinvio 301 a `/abruzzo/adesso/` in `_redirects`; restano 9.
 
+
+## La previsione scritta nelle valli meteo del gruppo B (23/11/2026, scheda 142)
+
+- PROVA: ogni mattina `cuoci-meteo.js` (giro pagine-regione.yml) scrive nel riquadro `#punto` delle 20 valli di
+  `sitemap-meteo-b.xml` il punto della settimana, i 7 giorni in una riga e la data, e cambia la descrizione per Google col
+  tempo di oggi. A, C e D restano gusci: confronto in Search Console dopo 2-3 settimane (analisi-142\METEO-VISITE.md).
+- Trappola: una richiesta per valle al nostro /api/previsioni; se una valle non risponde la pagina resta col testo del
+  giorno prima (la data lo dice). Il rinnovo mensile delle pagine meteo cancella il testo: lo riscrive il giro dopo.

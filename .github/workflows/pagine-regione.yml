@@ -69,6 +69,12 @@ jobs:
       - name: Rigenera «Ieri in Italia»
         continue-on-error: true
         run: node .github/scripts/genera-ieri-italia.js
+      # 23/11/2026 (scheda 142, PROVA sul gruppo B delle valli meteo): la previsione scritta dentro le 20 pagine di
+      # sitemap-meteo-b.xml e la descrizione col tempo di oggi. Una richiesta per valle al nostro /api/previsioni (20 in
+      # tutto). Se una valle non risponde resta com'era; se fallisce tutto, il resto del giro va avanti.
+      - name: Scrivi la previsione nelle valli meteo del gruppo B
+        continue-on-error: true
+        run: node .github/scripts/cuoci-meteo.js
       - name: Rigenera le citta' «adesso» cotte
         continue-on-error: true
         run: SOLO=citta node .github/scripts/genera-pagine-adesso.js

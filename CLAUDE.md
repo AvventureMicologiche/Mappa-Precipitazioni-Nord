@@ -222,6 +222,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il radar delle pagine «adesso» fuori dallo schermo non si ricarica (18/11, 139)
 - Le pagine città dicono «Ieri» solo se è ieri (18/11, 139)
 - La quarta ondata delle città «adesso» (18/11, Goccia): Abruzzo e sei fuori elenco
+- La previsione scritta nelle valli meteo del gruppo B (23/11, 142): prova contro A, C, D
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
