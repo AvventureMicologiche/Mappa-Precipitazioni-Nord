@@ -1,14 +1,6 @@
 {
   "giri": [
     {
-      "quando": "2026-11-11T05:30:39.213Z",
-      "inRitardo": [],
-      "lanciati": [
-        "riepiloghi.yml"
-      ],
-      "mancanti": []
-    },
-    {
       "quando": "2026-11-11T06:00:39.473Z",
       "inRitardo": [],
       "lanciati": [],
@@ -2243,8 +2235,25 @@
           "buco": 1
         }
       ]
+    },
+    {
+      "quando": "2026-11-23T05:30:37.755Z",
+      "inRitardo": [
+        "slovenia"
+      ],
+      "lanciati": [
+        "slovenia.yml",
+        "riepiloghi.yml"
+      ],
+      "mancanti": [
+        {
+          "dir": "slovenia",
+          "giorno": "2026-11-21",
+          "buco": 1
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-11-23T05:00:38.033Z",
-  "riassunto": "25 giri con qualcosa ri-lanciato su 120 · 36 con qualche giorno mancante · 0 con un buco di 2+ giorni"
+  "aggiornato": "2026-11-23T05:30:37.755Z",
+  "riassunto": "26 giri con qualcosa ri-lanciato su 120 · 37 con qualche giorno mancante · 0 con un buco di 2+ giorni"
 }
