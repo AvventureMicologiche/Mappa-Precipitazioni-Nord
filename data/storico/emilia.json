@@ -2,7 +2,7 @@
  "regione": "emilia",
  "nome": "Emilia-Romagna",
  "frontiera": "2026-05-03",
- "fine": "2026-11-21",
+ "fine": "2026-11-22",
  "zone": [
   {
    "slug": "valle-del-carlone",
@@ -397,13 +397,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-21",
+   "al": "2026-11-22",
    "intero": false,
-   "giorni": 21,
+   "giorni": 22,
    "stimati": 0,
-   "stazioni": 313,
-   "media": 141.4,
-   "giorniPioggia": 13,
+   "stazioni": 312,
+   "media": 161,
+   "giorniPioggia": 14,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 37.7
@@ -412,48 +412,48 @@
     {
      "n": "Lago Ballano",
      "p": null,
-     "mm": 788.4
-    },
-    {
-     "n": "Lago Scaffaiolo",
-     "p": null,
-     "mm": 691.6
+     "mm": 883.9
     },
     {
      "n": "Lago Paduli",
      "p": null,
-     "mm": 627.6
-    },
-    {
-     "n": "Pracchia",
-     "p": null,
-     "mm": 575.2
+     "mm": 700.8
     },
     {
      "n": "Succiso",
      "p": null,
-     "mm": 549.3
+     "mm": 649.2
+    },
+    {
+     "n": "Pracchia",
+     "p": null,
+     "mm": 636.7
+    },
+    {
+     "n": "Ospitaletto",
+     "p": null,
+     "mm": 573.1
     }
    ],
    "province": null,
    "zone": {
-    "valle-del-carlone": 72.1,
-    "alta-val-d-enza": 417.1,
-    "val-trebbia": 152.6,
-    "val-nure": 94.5,
-    "val-di-taro": 99.1,
-    "romagna-toscana": 141.2,
-    "val-d-enza": 261.3
+    "valle-del-carlone": 98.8,
+    "alta-val-d-enza": 477.4,
+    "val-trebbia": 187.4,
+    "val-nure": 123.3,
+    "val-di-taro": 123.7,
+    "romagna-toscana": 149.1,
+    "val-d-enza": 307.1
    },
    "record": {
-    "n": "Lago Scaffaiolo",
+    "n": "Lago Ballano",
     "p": null,
     "g": "2026-11-12",
-    "mm": 245.5,
-    "lat": 44.1192,
-    "lon": 10.809
+    "mm": 170,
+    "lat": 44.3695,
+    "lon": 10.1021
    }
   }
  ],
- "aggiornato": "2026-11-22"
+ "aggiornato": "2026-11-23"
 }

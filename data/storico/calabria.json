@@ -2,7 +2,7 @@
  "regione": "calabria",
  "nome": "Calabria",
  "frontiera": "2026-07-19",
- "fine": "2026-11-21",
+ "fine": "2026-11-22",
  "zone": [
   {
    "slug": "serre-calabresi",
@@ -237,12 +237,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-21",
+   "al": "2026-11-22",
    "intero": false,
-   "giorni": 21,
+   "giorni": 22,
    "stimati": 2,
    "stazioni": 139,
-   "media": 68.2,
+   "media": 68.3,
    "giorniPioggia": 10,
    "giornoPiovoso": {
     "g": "2026-11-02",
@@ -252,33 +252,33 @@
     {
      "n": "Mormanno",
      "p": null,
-     "mm": 235.8
+     "mm": 237.8
     },
     {
      "n": "Laino Borgo",
      "p": null,
-     "mm": 205.1
+     "mm": 205.5
     },
     {
      "n": "Papasidero",
      "p": null,
-     "mm": 177.3
+     "mm": 179.5
     },
     {
      "n": "Campo Tenese",
      "p": null,
-     "mm": 167.5
+     "mm": 167.7
     },
     {
      "n": "S.Sosti",
      "p": null,
-     "mm": 149.9
+     "mm": 150.5
     }
    ],
    "province": null,
    "zone": {
-    "serre-calabresi": 66.4,
-    "sila-grande": 74.7
+    "serre-calabresi": 66.5,
+    "sila-grande": 74.9
    },
    "record": {
     "n": "Pagliarelle",
@@ -290,5 +290,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-22"
+ "aggiornato": "2026-11-23"
 }

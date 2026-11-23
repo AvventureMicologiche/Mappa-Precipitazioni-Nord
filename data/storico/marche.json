@@ -2,7 +2,7 @@
  "regione": "marche",
  "nome": "Marche",
  "frontiera": "2026-07-13",
- "fine": "2026-11-21",
+ "fine": "2026-11-22",
  "zone": [
   {
    "slug": "montefeltro",
@@ -245,13 +245,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-21",
+   "al": "2026-11-22",
    "intero": false,
-   "giorni": 21,
+   "giorni": 22,
    "stimati": 4,
    "stazioni": 115,
-   "media": 147,
-   "giorniPioggia": 13,
+   "media": 154.7,
+   "giorniPioggia": 14,
    "giornoPiovoso": {
     "g": "2026-11-13",
     "mm": 34.5
@@ -260,34 +260,34 @@
     {
      "n": "Fonte Avellana",
      "p": null,
-     "mm": 369.1
+     "mm": 392.9
     },
     {
      "n": "Cantiano",
      "p": null,
-     "mm": 344
+     "mm": 365.8
     },
     {
      "n": "Monte Petrano",
      "p": null,
-     "mm": 290
+     "mm": 316.2
     },
     {
      "n": "Montecavallo",
      "p": null,
-     "mm": 281.9
+     "mm": 306.1
     },
     {
      "n": "Monte Nerone",
      "p": null,
-     "mm": 266.9
+     "mm": 282.4
     }
    ],
    "province": null,
    "zone": {
-    "montefeltro": 148.1,
-    "val-di-bove": 215.8,
-    "monti-sibillini": 188.6
+    "montefeltro": 156.5,
+    "val-di-bove": 229.6,
+    "monti-sibillini": 197
    },
    "record": {
     "n": "Arquata del Tronto",
@@ -299,5 +299,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-22"
+ "aggiornato": "2026-11-23"
 }

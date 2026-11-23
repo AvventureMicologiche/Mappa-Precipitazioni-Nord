@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-21",
+ "fine": "2026-11-22",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,13 +481,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-21",
+   "al": "2026-11-22",
    "intero": false,
-   "giorni": 21,
+   "giorni": 22,
    "stimati": 0,
    "stazioni": 280,
-   "media": 76.1,
-   "giorniPioggia": 14,
+   "media": 84.4,
+   "giorniPioggia": 15,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 23.9
@@ -496,50 +496,50 @@
     {
      "n": "VALDIERI",
      "p": "Cuneo",
-     "mm": 209.7
+     "mm": 231.7
     },
     {
      "n": "PIAGGIA",
      "p": "Cuneo",
-     "mm": 198.9
+     "mm": 223.5
     },
     {
      "n": "VINADIO S. BERNOLFO",
      "p": "Cuneo",
-     "mm": 184.6
+     "mm": 204.6
     },
     {
      "n": "DIGA DEL CHIOTAS",
      "p": "Cuneo",
-     "mm": 174.2
+     "mm": 193.6
     },
     {
-     "n": "COLLE LOMBARDA",
+     "n": "UPEGA",
      "p": "Cuneo",
-     "mm": 168.2
+     "mm": 183
     }
    ],
    "province": {
-    "Cuneo": 104,
-    "Torino": 77.9,
-    "Vercelli": 46.4,
-    "Verbano-Cusio-Ossola": 38.7,
-    "Alessandria": 78.2,
-    "Asti": 60.7,
-    "Novara": 46.3,
-    "Biella": 59.2
+    "Cuneo": 111.7,
+    "Torino": 85.3,
+    "Vercelli": 52.7,
+    "Verbano-Cusio-Ossola": 41.6,
+    "Alessandria": 97.8,
+    "Asti": 68.5,
+    "Novara": 57,
+    "Biella": 64.6
    },
    "zone": {
-    "val-d-ala": 74.3,
-    "valle-sessera": 59.3,
-    "valle-vermenagna": 122.5,
-    "valle-di-viu": 77.7,
-    "val-borbera": 94.5,
-    "valle-po": 86.3,
-    "val-mastallone": 44.1,
-    "val-loana": 34.5,
-    "valle-germanasca": 102.2,
-    "val-clarea": 91.5
+    "val-d-ala": 82.2,
+    "valle-sessera": 63.6,
+    "valle-vermenagna": 129.7,
+    "valle-di-viu": 85.7,
+    "val-borbera": 116.9,
+    "valle-po": 93.1,
+    "val-mastallone": 49.9,
+    "val-loana": 38.3,
+    "valle-germanasca": 109,
+    "val-clarea": 100.2
    },
    "record": {
     "n": "FRACONALTO",
@@ -551,5 +551,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-22"
+ "aggiornato": "2026-11-23"
 }
