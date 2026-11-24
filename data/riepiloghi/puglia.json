@@ -1,125 +1,126 @@
 {
  "regione": "puglia",
- "generato": "2026-11-23T04:15:39.453Z",
+ "generato": "2026-11-24T04:15:41.401Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 2.2,
    "giorni": 1,
-   "stazioni": 130,
-   "primo": "2026-11-22",
-   "ultimo": "2026-11-22",
+   "stazioni": 129,
+   "primo": "2026-11-23",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Conversano",
-     "mm": 1.6
+     "n": "Torrente Saccione SP142",
+     "mm": 24
     },
     {
-     "n": "Ostuni",
-     "mm": 1.6
+     "n": "Serracapriola",
+     "mm": 18.3
     },
     {
-     "n": "Bari Osservatorio",
-     "mm": 1.4
+     "n": "Anzano di Puglia",
+     "mm": 16.6
     },
     {
-     "n": "Bari Campus",
-     "mm": 1.2
+     "n": "Bovino",
+     "mm": 16.6
     },
     {
-     "n": "Casamassima",
-     "mm": 1.2
+     "n": "Bari Ufficio Idrografico",
+     "mm": 13.2
     }
    ]
   },
   "7": {
-   "media": 6.7,
+   "media": 5.1,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-11-16",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-17",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Anzano di Puglia",
-     "mm": 29.8
+     "mm": 42.8
+    },
+    {
+     "n": "Bovino",
+     "mm": 29.4
     },
     {
      "n": "Monteleone di Puglia",
-     "mm": 23.6
+     "mm": 27.4
     },
     {
-     "n": "Alberona",
-     "mm": 22.9
+     "n": "Panni",
+     "mm": 26.2
     },
     {
-     "n": "Faeto",
-     "mm": 21.5
-    },
-    {
-     "n": "Orto di Zolfo",
-     "mm": 21.1
+     "n": "Torrente Saccione SP142",
+     "mm": 25
     }
    ]
   },
   "20": {
-   "media": 32.3,
+   "media": 21,
    "giorni": 20,
-   "stazioni": 129,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-22",
+   "stazioni": 130,
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Latiano",
-     "mm": 85.7
-    },
-    {
-     "n": "Novoli",
-     "mm": 74.9
-    },
-    {
-     "n": "Manduria",
-     "mm": 71.5
-    },
-    {
-     "n": "Lecce",
-     "mm": 69.5
+     "n": "Anzano di Puglia",
+     "mm": 63.5
     },
     {
      "n": "Faeto",
-     "mm": 67.3
+     "mm": 51.9
+    },
+    {
+     "n": "San Giovanni Rotondo",
+     "mm": 48
+    },
+    {
+     "n": "Manduria",
+     "mm": 47.9
+    },
+    {
+     "n": "Taranto",
+     "mm": 47
     }
    ]
   },
   "30": {
-   "media": 96.4,
+   "media": 94.9,
    "giorni": 30,
    "stazioni": 129,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-22",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Faeto",
-     "mm": 233
+     "mm": 233.8
     },
     {
      "n": "Orto di Zolfo",
-     "mm": 223.9
-    },
-    {
-     "n": "Lesina",
-     "mm": 191.2
+     "mm": 214.5
     },
     {
      "n": "Poggio Imperiale",
-     "mm": 180.8
+     "mm": 176
+    },
+    {
+     "n": "Lesina",
+     "mm": 175.9
     },
     {
      "n": "Panni",
-     "mm": 161
+     "mm": 166
     }
    ]
   }
  },
  "serie": [
+  2.2,
   0.3,
   0,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0.1,
-  1.8,
-  3.8
+  1.8
  ],
- "serieDa": "2026-11-22",
+ "serieDa": "2026-11-23",
  "zone": []
 }

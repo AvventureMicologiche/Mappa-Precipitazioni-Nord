@@ -1,47 +1,47 @@
 {
  "regione": "lombardia",
- "generato": "2026-11-23T15:24:36.992Z",
+ "generato": "2026-11-24T04:15:41.398Z",
  "periodi": {
   "1": {
-   "media": 10.4,
+   "media": 0.5,
    "giorni": 1,
-   "stazioni": 251,
-   "primo": "2026-11-22",
-   "ultimo": "2026-11-22",
+   "stazioni": 252,
+   "primo": "2026-11-23",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Fortunago (PV)",
-     "nb": "Fortunago",
-     "mm": 28.2
+     "n": "Tavernole sul Mella Monte Guglielmo (BS)",
+     "nb": "Tavernole sul Mella Monte Guglielmo",
+     "mm": 8.8
     },
     {
-     "n": "Canevino (PV)",
-     "nb": "Canevino",
-     "mm": 27.6
+     "n": "Caspoggio Piazzo Cavalli (SO)",
+     "nb": "Caspoggio Piazzo Cavalli",
+     "mm": 8.2
     },
     {
-     "n": "Santa Margherita di Staffora Casanova (PV)",
-     "nb": "Santa Margherita di Staffora Casanova",
-     "mm": 26.8
+     "n": "Vilminore di Scalve Presolana (BG)",
+     "nb": "Vilminore di Scalve Presolana",
+     "mm": 7.6
     },
     {
-     "n": "Broni (PV)",
-     "nb": "Broni",
-     "mm": 26.6
+     "n": "Grosio Diga Fusino (SO)",
+     "nb": "Grosio Diga Fusino",
+     "mm": 7.2
     },
     {
-     "n": "Ponte Nizza Vignola (PV)",
-     "nb": "Ponte Nizza Vignola",
-     "mm": 26.6
+     "n": "Tirano Monte Masuccio (SO)",
+     "nb": "Tirano Monte Masuccio",
+     "mm": 6.6
     }
    ]
   },
   "7": {
-   "media": 23.4,
+   "media": 23.7,
    "giorni": 7,
    "stazioni": 252,
-   "primo": "2026-11-16",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-17",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Casalmaggiore campo sportivo (CR)",
@@ -56,12 +56,12 @@
     {
      "n": "Bigarello (MN)",
      "nb": "Bigarello",
-     "mm": 54.4
+     "mm": 54.2
     },
     {
      "n": "Persico Dosimo (CR)",
      "nb": "Persico Dosimo",
-     "mm": 52.2
+     "mm": 52
     },
     {
      "n": "Mantova Lunetta2 SMR (MN)",
@@ -71,11 +71,11 @@
    ]
   },
   "20": {
-   "media": 61.9,
+   "media": 62.4,
    "giorni": 20,
    "stazioni": 252,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Mantova S.Agnese (MN)",
@@ -85,7 +85,7 @@
     {
      "n": "Bigarello (MN)",
      "nb": "Bigarello",
-     "mm": 127.4
+     "mm": 127.6
     },
     {
      "n": "Sermide e Felonica SP 91 (MN)",
@@ -105,21 +105,21 @@
    ]
   },
   "30": {
-   "media": 63.4,
+   "media": 63.1,
    "giorni": 30,
    "stazioni": 252,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-22",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Bigarello (MN)",
      "nb": "Bigarello",
-     "mm": 128.8
+     "mm": 129
     },
     {
      "n": "Mantova S.Agnese (MN)",
      "nb": "Mantova S.Agnese",
-     "mm": 128.8
+     "mm": 128.6
     },
     {
      "n": "Sermide e Felonica SP 91 (MN)",
@@ -129,7 +129,7 @@
     {
      "n": "Casalmaggiore campo sportivo (CR)",
      "nb": "Casalmaggiore campo sportivo",
-     "mm": 120
+     "mm": 119.8
     },
     {
      "n": "Mantova Lunetta2 SMR (MN)",
@@ -140,6 +140,7 @@
   }
  },
  "serie": [
+  0.5,
   10.4,
   0.2,
   0.5,
@@ -168,39 +169,38 @@
   0,
   0,
   0.1,
-  0.1,
-  0.7
+  0.1
  ],
- "serieDa": "2026-11-22",
+ "serieDa": "2026-11-23",
  "zone": [
   {
    "s": "val-grigna",
    "n": "Val Grigna",
-   "ultimo": "2026-11-22",
-   "m1": 13.4,
+   "ultimo": "2026-11-23",
+   "m1": 0,
    "m7": 30.9,
    "m30": 66.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-sabbia",
    "n": "Valle Sabbia",
-   "ultimo": "2026-11-22",
-   "m1": 17.2,
-   "m7": 26.9,
-   "m30": 76.1,
-   "p1": true,
+   "ultimo": "2026-11-23",
+   "m1": 0,
+   "m7": 26.7,
+   "m30": 75.5,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-trompia",
    "n": "Val Trompia",
-   "ultimo": "2026-11-22",
-   "m1": 15.7,
-   "m7": 29.4,
+   "ultimo": "2026-11-23",
+   "m1": 0.1,
+   "m7": 29.5,
    "m30": 63.3,
    "p1": true,
    "p7": true,
@@ -209,10 +209,10 @@
   {
    "s": "val-brembana",
    "n": "Val Brembana",
-   "ultimo": "2026-11-22",
-   "m1": 8.5,
-   "m7": 19.4,
-   "m30": 58.7,
+   "ultimo": "2026-11-23",
+   "m1": 0.1,
+   "m7": 19.5,
+   "m30": 58.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,8 +220,8 @@
   {
    "s": "val-sedornia",
    "n": "Val Sedornia",
-   "ultimo": "2026-11-22",
-   "m1": 11.1,
+   "ultimo": "2026-11-23",
+   "m1": 0.1,
    "m7": 27.9,
    "m30": 63.1,
    "p1": true,
@@ -231,8 +231,8 @@
   {
    "s": "val-cavargna",
    "n": "Val Cavargna",
-   "ultimo": "2026-11-22",
-   "m1": 2.7,
+   "ultimo": "2026-11-23",
+   "m1": 0,
    "m7": 12.2,
    "m30": 42.5,
    "p1": true,
@@ -242,10 +242,10 @@
   {
    "s": "val-serina",
    "n": "Val Serina",
-   "ultimo": "2026-11-22",
-   "m1": 12.3,
-   "m7": 22.1,
-   "m30": 66.3,
+   "ultimo": "2026-11-23",
+   "m1": 0.1,
+   "m7": 22.2,
+   "m30": 66.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -253,10 +253,10 @@
   {
    "s": "valmalenco",
    "n": "Valmalenco",
-   "ultimo": "2026-11-22",
-   "m1": 6.6,
-   "m7": 18.5,
-   "m30": 48,
+   "ultimo": "2026-11-23",
+   "m1": 1.9,
+   "m7": 20.2,
+   "m30": 49.7,
    "p1": true,
    "p7": true,
    "p30": true
@@ -264,43 +264,43 @@
   {
    "s": "valsassina",
    "n": "Valsassina",
-   "ultimo": "2026-11-22",
-   "m1": 4.7,
+   "ultimo": "2026-11-23",
+   "m1": 0,
    "m7": 16.3,
    "m30": 49.8,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monte-san-giorgio",
    "n": "Monte San Giorgio",
-   "ultimo": "2026-11-22",
-   "m1": 6.3,
+   "ultimo": "2026-11-23",
+   "m1": 0,
    "m7": 15.1,
-   "m30": 48.9,
-   "p1": true,
+   "m30": 48.7,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-dei-ratti",
    "n": "Valle dei Ratti",
-   "ultimo": "2026-11-22",
-   "m1": 4,
-   "m7": 12.4,
-   "m30": 43.6,
-   "p1": true,
+   "ultimo": "2026-11-23",
+   "m1": 0,
+   "m7": 12.3,
+   "m30": 43.4,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-paisco",
    "n": "Val Paisco",
-   "ultimo": "2026-11-22",
-   "m1": 9.3,
-   "m7": 30.3,
-   "m30": 58.2,
+   "ultimo": "2026-11-23",
+   "m1": 1.9,
+   "m7": 31.9,
+   "m30": 58.6,
    "p1": true,
    "p7": true,
    "p30": true
@@ -308,22 +308,22 @@
   {
    "s": "valle-san-giacomo",
    "n": "Valle San Giacomo",
-   "ultimo": "2026-11-22",
-   "m1": 4.1,
-   "m7": 9.3,
-   "m30": 39,
-   "p1": true,
+   "ultimo": "2026-11-23",
+   "m1": 0,
+   "m7": 9.1,
+   "m30": 38.9,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-veddasca",
    "n": "Val Veddasca",
-   "ultimo": "2026-11-22",
-   "m1": 2.3,
+   "ultimo": "2026-11-23",
+   "m1": 0,
    "m7": 9,
    "m30": 42.9,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

@@ -1,125 +1,126 @@
 {
  "regione": "molise",
- "generato": "2026-11-23T04:15:39.452Z",
+ "generato": "2026-11-24T04:15:41.401Z",
  "periodi": {
   "1": {
    "media": 5.9,
    "giorni": 1,
    "stazioni": 24,
-   "primo": "2026-11-22",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-23",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Isernia",
-     "mm": 25.9
+     "n": "Roccamandolfi",
+     "mm": 25.5
+    },
+    {
+     "n": "Frosolone",
+     "mm": 15.4
+    },
+    {
+     "n": "Campochiaro",
+     "mm": 11
+    },
+    {
+     "n": "Campochiaro Quirino",
+     "mm": 10.4
     },
     {
      "n": "Ponte Venticinque Archi",
-     "mm": 25
-    },
-    {
-     "n": "Colli al Volturno",
-     "mm": 14.2
-    },
-    {
-     "n": "Trigno a Pescolanciano",
-     "mm": 11.4
-    },
-    {
-     "n": "Vandra a Fornelli",
-     "mm": 11.1
+     "mm": 10.2
     }
    ]
   },
   "7": {
-   "media": 25.5,
+   "media": 25.4,
    "giorni": 7,
    "stazioni": 24,
-   "primo": "2026-11-16",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-17",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Roccamandolfi",
-     "mm": 89.5
-    },
-    {
-     "n": "Ponte Venticinque Archi",
-     "mm": 57
+     "mm": 94
     },
     {
      "n": "Colli al Volturno",
-     "mm": 53.6
+     "mm": 58.3
+    },
+    {
+     "n": "Ponte Venticinque Archi",
+     "mm": 58.1
     },
     {
      "n": "Isernia",
-     "mm": 52.4
+     "mm": 54.2
     },
     {
-     "n": "Campochiaro Quirino",
-     "mm": 48.7
+     "n": "Vandra a Fornelli",
+     "mm": 49.5
     }
    ]
   },
   "20": {
-   "media": 79.5,
+   "media": 78.7,
    "giorni": 20,
    "stazioni": 25,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 212.3
+     "mm": 206.7
     },
     {
      "n": "Roccamandolfi",
-     "mm": 179.9
-    },
-    {
-     "n": "Trigno a Pescolanciano",
-     "mm": 119.4
+     "mm": 204.6
     },
     {
      "n": "Colli al Volturno",
-     "mm": 117
+     "mm": 126.9
+    },
+    {
+     "n": "Trigno a Pescolanciano",
+     "mm": 122.2
     },
     {
      "n": "Forlì del Sannio",
-     "mm": 117
+     "mm": 121.4
     }
    ]
   },
   "30": {
-   "media": 153.7,
+   "media": 148.9,
    "giorni": 30,
    "stazioni": 25,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-22",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Campitello Matese Rmolise SP",
-     "mm": 389.5
+     "mm": 368
     },
     {
      "n": "Roccamandolfi",
-     "mm": 278.6
+     "mm": 288.8
     },
     {
      "n": "Campochiaro",
-     "mm": 197.8
+     "mm": 198.4
     },
     {
      "n": "Campochiaro Quirino",
-     "mm": 196.5
+     "mm": 196.1
     },
     {
      "n": "Trigno a Pescolanciano",
-     "mm": 187
+     "mm": 181.6
     }
    ]
   }
  },
  "serie": [
+  5.9,
   5.9,
   0.1,
   0.3,
@@ -148,9 +149,8 @@
   0,
   0.1,
   0.2,
-  0.3,
-  10.1
+  0.3
  ],
- "serieDa": "2026-11-22",
+ "serieDa": "2026-11-23",
  "zone": []
 }

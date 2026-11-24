@@ -1,125 +1,126 @@
 {
  "regione": "campania",
- "generato": "2026-11-23T04:15:39.453Z",
+ "generato": "2026-11-24T04:15:41.401Z",
  "periodi": {
   "1": {
-   "media": 3.7,
+   "media": 6.6,
    "giorni": 1,
    "stazioni": 173,
-   "primo": "2026-11-22",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-23",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Rocca d'Evandro METEO",
-     "mm": 30.9
+     "n": "Corleto Monforte-Savuco Serra Nu",
+     "mm": 55.9
     },
     {
-     "n": "Giffoni Valle Piana",
-     "mm": 23.9
+     "n": "Laurino-Villa Littorio",
+     "mm": 26.2
     },
     {
-     "n": "Bagnoli Irpino",
-     "mm": 22.9
+     "n": "San Pietro",
+     "mm": 22.1
     },
     {
-     "n": "S.Ambrogio",
-     "mm": 21.7
+     "n": "Solofra",
+     "mm": 21.5
     },
     {
-     "n": "Rocca d'Evandro",
-     "mm": 21.1
+     "n": "Rofrano-Fistole Faraone",
+     "mm": 20.4
     }
    ]
   },
   "7": {
-   "media": 35.2,
+   "media": 25.3,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-11-16",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-17",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 165.3
+     "mm": 156.4
     },
     {
      "n": "Morcone",
-     "mm": 115.9
-    },
-    {
-     "n": "Pietrastornina",
-     "mm": 112.3
+     "mm": 103.3
     },
     {
      "n": "Cusano Mutri",
-     "mm": 111.6
+     "mm": 89.5
     },
     {
-     "n": "Cava Casa Riceri",
-     "mm": 104.8
+     "n": "Letino",
+     "mm": 83.6
+    },
+    {
+     "n": "Giffoni Valle Piana",
+     "mm": 78.9
     }
    ]
   },
   "20": {
-   "media": 104.1,
+   "media": 108.8,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-11-03",
-   "ultimo": "2026-11-22",
+   "primo": "2026-11-04",
+   "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Bagnoli Irpino",
-     "mm": 291.8
-    },
-    {
-     "n": "Tramonti",
-     "mm": 280
-    },
-    {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 277.1
+     "mm": 332.2
+    },
+    {
+     "n": "Bagnoli Irpino",
+     "mm": 302.6
     },
     {
      "n": "Castiglione del Genovesi",
-     "mm": 276.3
+     "mm": 289.6
+    },
+    {
+     "n": "Tramonti",
+     "mm": 289.6
     },
     {
      "n": "Cologna",
-     "mm": 267.1
+     "mm": 275.8
     }
    ]
   },
   "30": {
-   "media": 147.8,
+   "media": 147.6,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-24",
-   "ultimo": "2026-11-22",
+   "primo": "2026-10-25",
+   "ultimo": "2026-11-23",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 383.5
-    },
-    {
-     "n": "Cusano Mutri",
-     "mm": 339.5
+     "mm": 432.9
     },
     {
      "n": "Giffoni Valle Piana",
-     "mm": 335.1
+     "mm": 335.9
+    },
+    {
+     "n": "Cusano Mutri",
+     "mm": 328.3
     },
     {
      "n": "Montella METEO",
-     "mm": 324.2
+     "mm": 323.4
     },
     {
      "n": "Tramonti",
-     "mm": 316
+     "mm": 323.4
     }
    ]
   }
  },
  "serie": [
+  6.6,
   3.7,
   0.6,
   1.7,
@@ -148,17 +149,16 @@
   0,
   0,
   0,
-  0.3,
-  6.9
+  0.3
  ],
- "serieDa": "2026-11-22",
+ "serieDa": "2026-11-23",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-22",
-   "m1": 7.3,
-   "m7": 24.3,
+   "ultimo": "2026-11-23",
+   "m1": 5,
+   "m7": 21.3,
    "m30": 118.5,
    "p1": true,
    "p7": true,
@@ -167,10 +167,10 @@
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-22",
-   "m1": 0.4,
-   "m7": 42.4,
-   "m30": 203.6,
+   "ultimo": "2026-11-23",
+   "m1": 16.2,
+   "m7": 30.5,
+   "m30": 213.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-22",
-   "m1": 6.6,
-   "m7": 49.4,
-   "m30": 189.6,
+   "ultimo": "2026-11-23",
+   "m1": 5.1,
+   "m7": 36,
+   "m30": 180.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,9 +189,9 @@
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-22",
-   "m1": 5.1,
-   "m7": 83.9,
+   "ultimo": "2026-11-23",
+   "m1": 9.4,
+   "m7": 50.1,
    "m30": 224.5,
    "p1": true,
    "p7": true,
