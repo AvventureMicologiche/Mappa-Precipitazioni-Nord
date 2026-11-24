@@ -1,43 +1,43 @@
 {
  "regione": "veneto",
- "generato": "2026-11-24T04:15:41.399Z",
+ "generato": "2026-11-24T15:18:45.713Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 162,
+   "stazioni": 163,
    "primo": "2026-11-23",
    "ultimo": "2026-11-23",
    "top": [
     {
-     "n": "Illasi (VR)",
-     "nb": "Illasi",
-     "mm": 1.2
-    },
-    {
-     "n": "Arcole (VR)",
-     "nb": "Arcole",
-     "mm": 1
-    },
-    {
-     "n": "Casamazzagno (BL)",
-     "nb": "Casamazzagno",
-     "mm": 0.8
-    },
-    {
      "n": "Auronzo (BL)",
      "nb": "Auronzo",
-     "mm": 0.6
+     "mm": 0.8
     },
     {
      "n": "Bagnolo di Po - Pellizzare (RO)",
      "nb": "Bagnolo di Po - Pellizzare",
      "mm": 0.2
+    },
+    {
+     "n": "Campodarsego (PD)",
+     "nb": "Campodarsego",
+     "mm": 0.2
+    },
+    {
+     "n": "Castelfranco Veneto (TV)",
+     "nb": "Castelfranco Veneto",
+     "mm": 0.2
+    },
+    {
+     "n": "Chiampo (VI)",
+     "nb": "Chiampo",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 36,
+   "media": 35.9,
    "giorni": 7,
    "stazioni": 163,
    "primo": "2026-11-17",
@@ -140,7 +140,7 @@
   }
  },
  "serie": [
-  0.1,
+  0,
   15.5,
   0.1,
   0.2,
@@ -199,10 +199,10 @@
    "s": "comelico",
    "n": "Comelico",
    "ultimo": "2026-11-23",
-   "m1": 0.3,
-   "m7": 14.3,
-   "m30": 45.8,
-   "p1": true,
+   "m1": 0,
+   "m7": 14,
+   "m30": 45.5,
+   "p1": false,
    "p7": true,
    "p30": true
   },
