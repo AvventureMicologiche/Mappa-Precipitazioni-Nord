@@ -2,7 +2,7 @@
  "regione": "campania",
  "nome": "Campania",
  "frontiera": "2026-07-19",
- "fine": "2026-11-22",
+ "fine": "2026-11-23",
  "zone": [
   {
    "slug": "monti-lattari",
@@ -253,13 +253,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-22",
+   "al": "2026-11-23",
    "intero": false,
-   "giorni": 22,
+   "giorni": 23,
    "stimati": 2,
    "stazioni": 175,
-   "media": 140.2,
-   "giorniPioggia": 17,
+   "media": 146.7,
+   "giorniPioggia": 18,
    "giornoPiovoso": {
     "g": "2026-11-02",
     "mm": 31.6
@@ -268,35 +268,35 @@
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
      "p": null,
-     "mm": 369.1
+     "mm": 425
     },
     {
      "n": "Giffoni Valle Piana",
      "p": null,
-     "mm": 320.8
+     "mm": 335.9
     },
     {
      "n": "Cusano Mutri",
      "p": null,
-     "mm": 318.7
+     "mm": 327.9
     },
     {
      "n": "Tramonti",
      "p": null,
-     "mm": 313.4
+     "mm": 323.4
     },
     {
      "n": "Montella METEO",
      "p": null,
-     "mm": 312.4
+     "mm": 320.2
     }
    ],
    "province": null,
    "zone": {
-    "monti-lattari": 113,
-    "cilento": 200.8,
-    "valle-caudina": 176.6,
-    "monti-del-partenio": 214.5
+    "monti-lattari": 118,
+    "cilento": 213.8,
+    "valle-caudina": 180,
+    "monti-del-partenio": 223.9
    },
    "record": {
     "n": "Tramonti",
@@ -308,5 +308,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-23"
+ "aggiornato": "2026-11-24"
 }

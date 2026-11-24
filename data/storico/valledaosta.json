@@ -2,7 +2,7 @@
  "regione": "valledaosta",
  "nome": "Valle d'Aosta",
  "frontiera": "2026-07-16",
- "fine": "2026-11-22",
+ "fine": "2026-11-23",
  "zone": [
   {
    "slug": "vallone-di-san-grato",
@@ -253,13 +253,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-22",
+   "al": "2026-11-23",
    "intero": false,
-   "giorni": 22,
+   "giorni": 23,
    "stimati": 0,
    "stazioni": 64,
-   "media": 114.6,
-   "giorniPioggia": 16,
+   "media": 117,
+   "giorniPioggia": 17,
    "giornoPiovoso": {
     "g": "2026-11-17",
     "mm": 20.4
@@ -268,34 +268,34 @@
     {
      "n": "Courmayeur - Lex Blanche",
      "p": null,
-     "mm": 384.8
-    },
-    {
-     "n": "Courmayeur - Mont de la Saxe",
-     "p": null,
-     "mm": 269.3
+     "mm": 458.1
     },
     {
      "n": "Courmayeur - Ferrachet",
      "p": null,
-     "mm": 263.3
+     "mm": 282.4
+    },
+    {
+     "n": "Courmayeur - Mont de la Saxe",
+     "p": null,
+     "mm": 273.6
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
      "p": null,
-     "mm": 261.2
+     "mm": 267.6
     },
     {
      "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
      "p": null,
-     "mm": 247.3
+     "mm": 258.3
     }
    ],
    "province": null,
    "zone": {
-    "vallone-di-san-grato": 47.2,
+    "vallone-di-san-grato": 47.6,
     "vallone-di-champdepraz": 58.5,
-    "valle-del-gran-san-bernardo": 112,
+    "valle-del-gran-san-bernardo": 112.3,
     "valle-di-champorcher": 48
    },
    "record": {
@@ -308,5 +308,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-23"
+ "aggiornato": "2026-11-24"
 }

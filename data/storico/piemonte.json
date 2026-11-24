@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-22",
+ "fine": "2026-11-23",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,12 +481,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-22",
+   "al": "2026-11-23",
    "intero": false,
-   "giorni": 22,
+   "giorni": 23,
    "stimati": 0,
-   "stazioni": 280,
-   "media": 84.4,
+   "stazioni": 282,
+   "media": 84.5,
    "giorniPioggia": 15,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -496,7 +496,7 @@
     {
      "n": "VALDIERI",
      "p": "Cuneo",
-     "mm": 231.7
+     "mm": 232.3
     },
     {
      "n": "PIAGGIA",
@@ -506,7 +506,7 @@
     {
      "n": "VINADIO S. BERNOLFO",
      "p": "Cuneo",
-     "mm": 204.6
+     "mm": 205.4
     },
     {
      "n": "DIGA DEL CHIOTAS",
@@ -520,18 +520,18 @@
     }
    ],
    "province": {
-    "Cuneo": 111.7,
-    "Torino": 85.3,
-    "Vercelli": 52.7,
-    "Verbano-Cusio-Ossola": 41.6,
-    "Alessandria": 97.8,
-    "Asti": 68.5,
-    "Novara": 57,
-    "Biella": 64.6
+    "Cuneo": 111.8,
+    "Torino": 85.5,
+    "Vercelli": 52.8,
+    "Verbano-Cusio-Ossola": 41.9,
+    "Alessandria": 97.9,
+    "Asti": 66.8,
+    "Novara": 57.1,
+    "Biella": 64.8
    },
    "zone": {
-    "val-d-ala": 82.2,
-    "valle-sessera": 63.6,
+    "val-d-ala": 82.7,
+    "valle-sessera": 64.2,
     "valle-vermenagna": 129.7,
     "valle-di-viu": 85.7,
     "val-borbera": 116.9,
@@ -551,5 +551,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-23"
+ "aggiornato": "2026-11-24"
 }

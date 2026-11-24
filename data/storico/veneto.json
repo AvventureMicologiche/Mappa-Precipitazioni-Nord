@@ -2,7 +2,7 @@
  "regione": "veneto",
  "nome": "Veneto",
  "frontiera": "2026-05-05",
- "fine": "2026-11-22",
+ "fine": "2026-11-23",
  "zone": [
   {
    "slug": "val-d-astico",
@@ -445,9 +445,9 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-22",
+   "al": "2026-11-23",
    "intero": false,
-   "giorni": 22,
+   "giorni": 23,
    "stimati": 0,
    "stazioni": 177,
    "media": 93.1,
@@ -478,24 +478,24 @@
      "mm": 157.6
     },
     {
-     "n": "Rosolina - Po di Tramontana",
-     "p": "RO",
-     "mm": 155.8
+     "n": "Masi",
+     "p": "PD",
+     "mm": 156
     }
    ],
    "province": {
     "Treviso": 89.8,
     "Rovigo": 133.3,
-    "Verona": 102.2,
+    "Verona": 102.4,
     "Vicenza": 82.2,
-    "Padova": 130.5,
+    "Padova": 130.6,
     "Belluno": 54.3,
     "Venezia": 141.2
    },
    "zone": {
     "val-d-astico": 49.5,
-    "val-gallina": 86.1,
-    "comelico": 45.5,
+    "val-gallina": 86.3,
+    "comelico": 45.8,
     "val-canale": 77.8,
     "colli-asolani": 68.9,
     "valbelluna": 74.4,
@@ -511,5 +511,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-23"
+ "aggiornato": "2026-11-24"
 }

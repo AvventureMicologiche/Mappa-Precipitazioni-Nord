@@ -2,7 +2,7 @@
  "regione": "lombardia",
  "nome": "Lombardia",
  "frontiera": "2026-01-01",
- "fine": "2026-11-22",
+ "fine": "2026-11-23",
  "zone": [
   {
    "slug": "val-grigna",
@@ -865,12 +865,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-22",
+   "al": "2026-11-23",
    "intero": false,
-   "giorni": 22,
+   "giorni": 23,
    "stimati": 0,
    "stazioni": 252,
-   "media": 62.2,
+   "media": 62.7,
    "giorniPioggia": 9,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -885,7 +885,7 @@
     {
      "n": "Bigarello",
      "p": "MN",
-     "mm": 127.6
+     "mm": 127.8
     },
     {
      "n": "Sermide e Felonica SP 91",
@@ -904,32 +904,32 @@
     }
    ],
    "province": {
-    "Sondrio": 37.9,
-    "Varese": 49.9,
-    "Lecco": 53.5,
-    "Lodi": 98.7,
-    "Brescia": 71.6,
-    "Bergamo": 63.3,
-    "Cremona": 96.2,
-    "Pavia": 90.6,
-    "Milano": 72.9,
-    "Como": 49.8,
-    "Monza": 65.2,
+    "Sondrio": 39.3,
+    "Varese": 50,
+    "Lecco": 53.8,
+    "Lodi": 98.8,
+    "Brescia": 72,
+    "Bergamo": 63.9,
+    "Cremona": 96.3,
+    "Pavia": 90.7,
+    "Milano": 73,
+    "Como": 49.9,
+    "Monza": 65.3,
     "Mantova": 116.3
    },
    "zone": {
     "val-grigna": 67,
     "valle-sabbia": 75.3,
-    "val-trompia": 63,
+    "val-trompia": 63.1,
     "val-brembana": 58.3,
     "val-sedornia": 62.9,
     "val-cavargna": 42.4,
-    "val-serina": 66,
-    "valmalenco": 47.7,
+    "val-serina": 66.1,
+    "valmalenco": 49.6,
     "valsassina": 49.8,
     "monte-san-giorgio": 48.5,
     "valle-dei-ratti": 43.3,
-    "val-paisco": 56.4,
+    "val-paisco": 58.3,
     "valle-san-giacomo": 38.9,
     "val-veddasca": 42.8
    },
@@ -943,5 +943,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-23"
+ "aggiornato": "2026-11-24"
 }
