@@ -1,71 +1,71 @@
 {
  "regione": "campania",
- "generato": "2026-11-24T04:15:41.401Z",
+ "generato": "2026-11-25T04:15:44.042Z",
  "periodi": {
   "1": {
-   "media": 6.6,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 173,
-   "primo": "2026-11-23",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-24",
+   "ultimo": "2026-11-24",
    "top": [
     {
-     "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 55.9
+     "n": "Battipaglia",
+     "mm": 3
     },
     {
-     "n": "Laurino-Villa Littorio",
-     "mm": 26.2
+     "n": "Cava dei Tirreni",
+     "mm": 2.6
     },
     {
-     "n": "San Pietro",
-     "mm": 22.1
+     "n": "Montecorvino R.lla",
+     "mm": 1
     },
     {
-     "n": "Solofra",
-     "mm": 21.5
+     "n": "Morigerati Bussento",
+     "mm": 1
     },
     {
-     "n": "Rofrano-Fistole Faraone",
-     "mm": 20.4
+     "n": "Sanza",
+     "mm": 1
     }
    ]
   },
   "7": {
-   "media": 25.3,
+   "media": 23.1,
    "giorni": 7,
    "stazioni": 174,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-18",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 156.4
+     "mm": 154.6
     },
     {
      "n": "Morcone",
-     "mm": 103.3
+     "mm": 79.3
     },
     {
      "n": "Cusano Mutri",
-     "mm": 89.5
+     "mm": 79.1
+    },
+    {
+     "n": "Pietrastornina",
+     "mm": 75.2
     },
     {
      "n": "Letino",
-     "mm": 83.6
-    },
-    {
-     "n": "Giffoni Valle Piana",
-     "mm": 78.9
+     "mm": 71.6
     }
    ]
   },
   "20": {
-   "media": 108.8,
+   "media": 108.9,
    "giorni": 20,
    "stazioni": 175,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
@@ -90,15 +90,15 @@
    ]
   },
   "30": {
-   "media": 147.6,
+   "media": 147.3,
    "giorni": 30,
    "stazioni": 175,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-23",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
-     "mm": 432.9
+     "mm": 425.8
     },
     {
      "n": "Giffoni Valle Piana",
@@ -109,17 +109,18 @@
      "mm": 328.3
     },
     {
-     "n": "Montella METEO",
+     "n": "Tramonti",
      "mm": 323.4
     },
     {
-     "n": "Tramonti",
-     "mm": 323.4
+     "n": "Montella METEO",
+     "mm": 323
     }
    ]
   }
  },
  "serie": [
+  0.1,
   6.6,
   3.7,
   0.6,
@@ -148,29 +149,28 @@
   0,
   0,
   0,
-  0,
-  0.3
+  0
  ],
- "serieDa": "2026-11-23",
+ "serieDa": "2026-11-24",
  "zone": [
   {
    "s": "monti-lattari",
    "n": "Monti Lattari",
-   "ultimo": "2026-11-23",
-   "m1": 5,
-   "m7": 21.3,
+   "ultimo": "2026-11-24",
+   "m1": 0,
+   "m7": 18.7,
    "m30": 118.5,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "cilento",
    "n": "Cilento",
-   "ultimo": "2026-11-23",
-   "m1": 16.2,
-   "m7": 30.5,
-   "m30": 213.9,
+   "ultimo": "2026-11-24",
+   "m1": 0.3,
+   "m7": 29.3,
+   "m30": 214.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,22 +178,22 @@
   {
    "s": "valle-caudina",
    "n": "Valle Caudina",
-   "ultimo": "2026-11-23",
-   "m1": 5.1,
-   "m7": 36,
-   "m30": 180.5,
-   "p1": true,
+   "ultimo": "2026-11-24",
+   "m1": 0,
+   "m7": 34.7,
+   "m30": 180,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "monti-del-partenio",
    "n": "Monti del Partenio",
-   "ultimo": "2026-11-23",
-   "m1": 9.4,
-   "m7": 50.1,
+   "ultimo": "2026-11-24",
+   "m1": 0,
+   "m7": 49.3,
    "m30": 224.5,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }

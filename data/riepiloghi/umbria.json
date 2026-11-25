@@ -1,100 +1,100 @@
 {
  "regione": "umbria",
- "generato": "2026-11-24T04:15:41.400Z",
+ "generato": "2026-11-25T04:15:44.041Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 0.3,
    "giorni": 1,
    "stazioni": 72,
-   "primo": "2026-11-23",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-24",
+   "ultimo": "2026-11-24",
    "top": [
     {
-     "n": "Gualdo Tadino",
-     "mm": 7
+     "n": "Carestello Meteo",
+     "mm": 1.6
     },
     {
-     "n": "Amelia",
-     "mm": 5
+     "n": "Bevagna",
+     "mm": 1
+    },
+    {
+     "n": "La Bolsella",
+     "mm": 1
+    },
+    {
+     "n": "Cerbara",
+     "mm": 0.8
     },
     {
      "n": "Compignano",
-     "mm": 4
-    },
-    {
-     "n": "Piediluco",
-     "mm": 4
-    },
-    {
-     "n": "Ancaiano",
-     "mm": 3.6
+     "mm": 0.8
     }
    ]
   },
   "7": {
-   "media": 42.7,
+   "media": 31.5,
    "giorni": 7,
    "stazioni": 72,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-18",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Ancaiano",
-     "mm": 103.4
+     "mm": 67.8
     },
     {
      "n": "Monteleone di Spoleto",
-     "mm": 87
+     "mm": 57.2
     },
     {
-     "n": "Castagnacupa",
-     "mm": 77.7
+     "n": "Melezzole",
+     "mm": 56.6
+    },
+    {
+     "n": "Orvieto",
+     "mm": 56.5
     },
     {
      "n": "Montemartano",
-     "mm": 69.2
-    },
-    {
-     "n": "Forsivo",
-     "mm": 67.6
+     "mm": 53
     }
    ]
   },
   "20": {
-   "media": 147.3,
+   "media": 147.6,
    "giorni": 20,
    "stazioni": 72,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Monteleone di Spoleto",
-     "mm": 244.2
+     "mm": 244.4
     },
     {
      "n": "Ancaiano",
-     "mm": 241.2
+     "mm": 241.6
     },
     {
      "n": "Castagnacupa",
-     "mm": 219.3
+     "mm": 219.7
     },
     {
      "n": "Scheggia",
-     "mm": 210.6
+     "mm": 211
     },
     {
      "n": "Nocera Umbra",
-     "mm": 208.4
+     "mm": 208.8
     }
    ]
   },
   "30": {
-   "media": 154.4,
+   "media": 154.6,
    "giorni": 30,
    "stazioni": 74,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-23",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Monte Cucco",
@@ -102,7 +102,7 @@
     },
     {
      "n": "Scheggia",
-     "mm": 272
+     "mm": 272.2
     },
     {
      "n": "Monteleone di Spoleto",
@@ -110,16 +110,17 @@
     },
     {
      "n": "Ancaiano",
-     "mm": 241.2
+     "mm": 241.6
     },
     {
      "n": "Nocera Umbra",
-     "mm": 225.4
+     "mm": 225.6
     }
    ]
   }
  },
  "serie": [
+  0.3,
   0.7,
   8.7,
   0.2,
@@ -148,28 +149,27 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
- "serieDa": "2026-11-23",
+ "serieDa": "2026-11-24",
  "zone": [
   {
    "s": "valtiberina",
    "n": "Valtiberina",
-   "ultimo": "2026-11-23",
+   "ultimo": "2026-11-24",
    "m1": 0,
-   "m7": 36.7,
+   "m7": 26.7,
    "m30": 208.6,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valnerina",
    "n": "Valnerina",
-   "ultimo": "2026-11-23",
+   "ultimo": "2026-11-24",
    "m1": 0.3,
-   "m7": 63.2,
+   "m7": 45.5,
    "m30": 192.5,
    "p1": true,
    "p7": true,
@@ -178,10 +178,10 @@
   {
    "s": "monti-amerini",
    "n": "Monti Amerini",
-   "ultimo": "2026-11-23",
-   "m1": 0.3,
-   "m7": 51.8,
-   "m30": 172,
+   "ultimo": "2026-11-24",
+   "m1": 0.2,
+   "m7": 40.3,
+   "m30": 172.2,
    "p1": true,
    "p7": true,
    "p30": true

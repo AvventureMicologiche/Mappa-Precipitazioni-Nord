@@ -1,42 +1,42 @@
 {
  "regione": "puglia",
- "generato": "2026-11-24T04:15:41.401Z",
+ "generato": "2026-11-25T04:15:44.042Z",
  "periodi": {
   "1": {
-   "media": 2.2,
+   "media": 0,
    "giorni": 1,
-   "stazioni": 129,
-   "primo": "2026-11-23",
-   "ultimo": "2026-11-23",
+   "stazioni": 127,
+   "primo": "2026-11-24",
+   "ultimo": "2026-11-24",
    "top": [
     {
-     "n": "Torrente Saccione SP142",
-     "mm": 24
+     "n": "Altamura",
+     "mm": 0.2
     },
     {
-     "n": "Serracapriola",
-     "mm": 18.3
+     "n": "Arpinova",
+     "mm": 0.2
     },
     {
-     "n": "Anzano di Puglia",
-     "mm": 16.6
+     "n": "Celenza Valfortore",
+     "mm": 0.2
     },
     {
-     "n": "Bovino",
-     "mm": 16.6
+     "n": "F. Ofanto - S.Samuele di Cafiero",
+     "mm": 0.2
     },
     {
-     "n": "Bari Ufficio Idrografico",
-     "mm": 13.2
+     "n": "Loconia",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 5.1,
+   "media": 4.8,
    "giorni": 7,
    "stazioni": 130,
-   "primo": "2026-11-17",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-18",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Anzano di Puglia",
@@ -48,7 +48,7 @@
     },
     {
      "n": "Monteleone di Puglia",
-     "mm": 27.4
+     "mm": 27.2
     },
     {
      "n": "Panni",
@@ -56,7 +56,7 @@
     },
     {
      "n": "Torrente Saccione SP142",
-     "mm": 25
+     "mm": 24.2
     }
    ]
   },
@@ -64,8 +64,8 @@
    "media": 21,
    "giorni": 20,
    "stazioni": 130,
-   "primo": "2026-11-04",
-   "ultimo": "2026-11-23",
+   "primo": "2026-11-05",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Anzano di Puglia",
@@ -76,12 +76,12 @@
      "mm": 51.9
     },
     {
-     "n": "San Giovanni Rotondo",
-     "mm": 48
-    },
-    {
      "n": "Manduria",
      "mm": 47.9
+    },
+    {
+     "n": "San Giovanni Rotondo",
+     "mm": 47.8
     },
     {
      "n": "Taranto",
@@ -90,36 +90,37 @@
    ]
   },
   "30": {
-   "media": 94.9,
+   "media": 93.1,
    "giorni": 30,
    "stazioni": 129,
-   "primo": "2026-10-25",
-   "ultimo": "2026-11-23",
+   "primo": "2026-10-26",
+   "ultimo": "2026-11-24",
    "top": [
     {
      "n": "Faeto",
-     "mm": 233.8
+     "mm": 233.6
     },
     {
      "n": "Orto di Zolfo",
      "mm": 214.5
     },
     {
-     "n": "Poggio Imperiale",
-     "mm": 176
+     "n": "Panni",
+     "mm": 166
+    },
+    {
+     "n": "Bosco Umbra",
+     "mm": 160.7
     },
     {
      "n": "Lesina",
-     "mm": 175.9
-    },
-    {
-     "n": "Panni",
-     "mm": 166
+     "mm": 155.2
     }
    ]
   }
  },
  "serie": [
+  0,
   2.2,
   0.3,
   0,
@@ -148,9 +149,8 @@
   0,
   0,
   0,
-  0.1,
-  1.8
+  0.1
  ],
- "serieDa": "2026-11-23",
+ "serieDa": "2026-11-24",
  "zone": []
 }
