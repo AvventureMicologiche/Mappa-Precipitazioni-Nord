@@ -1,29 +1,14 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-25T13:16:15.228Z",
+ "generato": "2026-11-25T19:13:19.236Z",
  "periodi": {
   "1": {
-   "media": 0.6,
+   "media": 0.5,
    "giorni": 1,
-   "stazioni": 304,
+   "stazioni": 305,
    "primo": "2026-11-24",
    "ultimo": "2026-11-24",
    "top": [
-    {
-     "n": "Braunwald (GL)",
-     "nb": "Braunwald",
-     "mm": 14
-    },
-    {
-     "n": "Ebnat-Kappel (SG)",
-     "nb": "Ebnat-Kappel",
-     "mm": 13.1
-    },
-    {
-     "n": "Rossberg (SZ)",
-     "nb": "Rossberg",
-     "mm": 9.1
-    },
     {
      "n": "Säntis (AI)",
      "nb": "Säntis",
@@ -33,6 +18,21 @@
      "n": "Schaan (FL)",
      "nb": "Schaan",
      "mm": 4
+    },
+    {
+     "n": "Stabio (TI)",
+     "nb": "Stabio",
+     "mm": 3.6
+    },
+    {
+     "n": "Barmelweid (AG)",
+     "nb": "Barmelweid",
+     "mm": 3.5
+    },
+    {
+     "n": "Starkenbach (SG)",
+     "nb": "Starkenbach",
+     "mm": 3.5
     }
    ]
   },
@@ -71,7 +71,7 @@
    ]
   },
   "20": {
-   "media": 119.5,
+   "media": 119.4,
    "giorni": 20,
    "stazioni": 306,
    "primo": "2026-11-05",
@@ -105,7 +105,7 @@
    ]
   },
   "30": {
-   "media": 120.6,
+   "media": 120.5,
    "giorni": 30,
    "stazioni": 306,
    "primo": "2026-10-26",
@@ -140,8 +140,8 @@
   }
  },
  "serie": [
-  0.6,
-  10.5,
+  0.5,
+  10.6,
   17.9,
   6.1,
   7.8,
