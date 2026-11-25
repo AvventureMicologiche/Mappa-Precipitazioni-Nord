@@ -2,7 +2,7 @@
  "regione": "veneto",
  "nome": "Veneto",
  "frontiera": "2026-05-05",
- "fine": "2026-11-23",
+ "fine": "2026-11-24",
  "zone": [
   {
    "slug": "val-d-astico",
@@ -445,12 +445,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-23",
+   "al": "2026-11-24",
    "intero": false,
-   "giorni": 23,
+   "giorni": 24,
    "stimati": 0,
-   "stazioni": 177,
-   "media": 93.1,
+   "stazioni": 164,
+   "media": 97.9,
    "giorniPioggia": 10,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -460,12 +460,12 @@
     {
      "n": "Eraclea - Torre di Fine",
      "p": "VE",
-     "mm": 177.6
+     "mm": 181
     },
     {
      "n": "Bibione",
      "p": "VE",
-     "mm": 161.6
+     "mm": 164.2
     },
     {
      "n": "Pila - Porto Peschereccio (Porto Tolle)",
@@ -475,31 +475,31 @@
     {
      "n": "Lugugnana (Portogruaro)",
      "p": "VE",
-     "mm": 157.6
+     "mm": 159
     },
     {
      "n": "Masi",
      "p": "PD",
-     "mm": 156
+     "mm": 157.8
     }
    ],
    "province": {
-    "Treviso": 89.8,
-    "Rovigo": 133.3,
-    "Verona": 102.3,
-    "Vicenza": 82.2,
-    "Padova": 130.6,
-    "Belluno": 54.3,
-    "Venezia": 141.2
+    "Treviso": 90.6,
+    "Rovigo": 133.8,
+    "Verona": 102.5,
+    "Vicenza": 88.3,
+    "Padova": 131.2,
+    "Belluno": 57.6,
+    "Venezia": 143.6
    },
    "zone": {
-    "val-d-astico": 49.5,
-    "val-gallina": 86.3,
+    "val-d-astico": 62.6,
+    "val-gallina": 87.7,
     "comelico": 45.5,
-    "val-canale": 77.8,
+    "val-canale": 84.7,
     "colli-asolani": 68.9,
     "valbelluna": 74.4,
-    "valle-del-boite": 39
+    "valle-del-boite": 45.1
    },
    "record": {
     "n": "Eraclea - Torre di Fine",
@@ -511,5 +511,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-24"
+ "aggiornato": "2026-11-25"
 }

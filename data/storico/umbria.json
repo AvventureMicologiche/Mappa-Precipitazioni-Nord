@@ -2,7 +2,7 @@
  "regione": "umbria",
  "nome": "Umbria",
  "frontiera": "2026-07-13",
- "fine": "2026-11-23",
+ "fine": "2026-11-24",
  "zone": [
   {
    "slug": "valtiberina",
@@ -245,12 +245,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-23",
+   "al": "2026-11-24",
    "intero": false,
-   "giorni": 23,
+   "giorni": 24,
    "stimati": 3,
-   "stazioni": 73,
-   "media": 155.4,
+   "stazioni": 72,
+   "media": 156.6,
    "giorniPioggia": 12,
    "giornoPiovoso": {
     "g": "2026-11-13",
@@ -260,34 +260,34 @@
     {
      "n": "Scheggia",
      "p": null,
-     "mm": 269.2
+     "mm": 269.6
     },
     {
      "n": "Monte Cucco",
      "p": null,
-     "mm": 265.7
+     "mm": 265.9
     },
     {
      "n": "Monteleone di Spoleto",
      "p": null,
-     "mm": 248.2
+     "mm": 248.4
     },
     {
      "n": "Ancaiano",
      "p": null,
-     "mm": 241.2
+     "mm": 241.6
     },
     {
      "n": "Nocera Umbra",
      "p": null,
-     "mm": 224.2
+     "mm": 224.6
     }
    ],
    "province": null,
    "zone": {
     "valtiberina": 208.4,
-    "valnerina": 192.2,
-    "monti-amerini": 172
+    "valnerina": 192.5,
+    "monti-amerini": 172.2
    },
    "record": {
     "n": "Scheggia",
@@ -299,5 +299,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-24"
+ "aggiornato": "2026-11-25"
 }

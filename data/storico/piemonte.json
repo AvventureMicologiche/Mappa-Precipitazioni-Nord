@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-23",
+ "fine": "2026-11-24",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,13 +481,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-23",
+   "al": "2026-11-24",
    "intero": false,
-   "giorni": 23,
+   "giorni": 24,
    "stimati": 0,
-   "stazioni": 282,
-   "media": 84.5,
-   "giorniPioggia": 15,
+   "stazioni": 281,
+   "media": 87,
+   "giorniPioggia": 16,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 23.9
@@ -496,7 +496,7 @@
     {
      "n": "VALDIERI",
      "p": "Cuneo",
-     "mm": 232.3
+     "mm": 232.7
     },
     {
      "n": "PIAGGIA",
@@ -506,40 +506,40 @@
     {
      "n": "VINADIO S. BERNOLFO",
      "p": "Cuneo",
-     "mm": 205.4
+     "mm": 205.8
     },
     {
      "n": "DIGA DEL CHIOTAS",
      "p": "Cuneo",
-     "mm": 193.6
+     "mm": 197.6
     },
     {
      "n": "UPEGA",
      "p": "Cuneo",
-     "mm": 183
+     "mm": 185
     }
    ],
    "province": {
-    "Cuneo": 111.8,
-    "Torino": 85.5,
-    "Vercelli": 52.8,
-    "Verbano-Cusio-Ossola": 41.9,
-    "Alessandria": 97.9,
-    "Asti": 66.8,
-    "Novara": 57.1,
-    "Biella": 64.8
+    "Cuneo": 114.4,
+    "Torino": 88.6,
+    "Vercelli": 54.8,
+    "Verbano-Cusio-Ossola": 42.7,
+    "Alessandria": 100.3,
+    "Asti": 71.2,
+    "Novara": 60.8,
+    "Biella": 66.5
    },
    "zone": {
-    "val-d-ala": 82.7,
-    "valle-sessera": 64.2,
-    "valle-vermenagna": 129.7,
-    "valle-di-viu": 85.7,
-    "val-borbera": 116.9,
-    "valle-po": 93.1,
-    "val-mastallone": 49.9,
-    "val-loana": 38.3,
-    "valle-germanasca": 109,
-    "val-clarea": 100.2
+    "val-d-ala": 85.8,
+    "valle-sessera": 64.8,
+    "valle-vermenagna": 132.8,
+    "valle-di-viu": 89.5,
+    "val-borbera": 119.7,
+    "valle-po": 95.5,
+    "val-mastallone": 51.3,
+    "val-loana": 39.1,
+    "valle-germanasca": 111.8,
+    "val-clarea": 103.8
    },
    "record": {
     "n": "FRACONALTO",
@@ -551,5 +551,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-24"
+ "aggiornato": "2026-11-25"
 }

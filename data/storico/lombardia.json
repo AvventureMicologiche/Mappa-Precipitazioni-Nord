@@ -2,7 +2,7 @@
  "regione": "lombardia",
  "nome": "Lombardia",
  "frontiera": "2026-01-01",
- "fine": "2026-11-23",
+ "fine": "2026-11-24",
  "zone": [
   {
    "slug": "val-grigna",
@@ -865,13 +865,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-23",
+   "al": "2026-11-24",
    "intero": false,
-   "giorni": 23,
+   "giorni": 24,
    "stimati": 0,
    "stazioni": 252,
-   "media": 62.7,
-   "giorniPioggia": 9,
+   "media": 63.8,
+   "giorniPioggia": 10,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 26.1
@@ -880,58 +880,58 @@
     {
      "n": "Mantova S.Agnese",
      "p": "MN",
-     "mm": 128.6
+     "mm": 129.4
     },
     {
      "n": "Bigarello",
      "p": "MN",
-     "mm": 127.8
+     "mm": 128.8
     },
     {
      "n": "Sermide e Felonica SP 91",
      "p": "MN",
-     "mm": 125.2
+     "mm": 126
     },
     {
      "n": "Casalmaggiore campo sportivo",
      "p": "CR",
-     "mm": 119
+     "mm": 120.8
     },
     {
      "n": "Mantova Lunetta2 SMR",
      "p": "MN",
-     "mm": 118.4
+     "mm": 119
     }
    ],
    "province": {
-    "Sondrio": 39.3,
-    "Varese": 50,
-    "Lecco": 53.8,
-    "Lodi": 98.8,
-    "Brescia": 72,
-    "Bergamo": 63.9,
-    "Cremona": 96.3,
-    "Pavia": 90.7,
-    "Milano": 73,
-    "Como": 49.9,
-    "Monza": 65.3,
-    "Mantova": 116.3
+    "Sondrio": 40.1,
+    "Varese": 52.6,
+    "Lecco": 54.3,
+    "Lodi": 100.6,
+    "Brescia": 72.2,
+    "Bergamo": 64.3,
+    "Cremona": 97.9,
+    "Pavia": 93.1,
+    "Milano": 75.5,
+    "Como": 51.2,
+    "Monza": 67.3,
+    "Mantova": 117
    },
    "zone": {
     "val-grigna": 67,
     "valle-sabbia": 75.3,
-    "val-trompia": 63.1,
-    "val-brembana": 58.3,
+    "val-trompia": 63.3,
+    "val-brembana": 58.5,
     "val-sedornia": 62.9,
-    "val-cavargna": 42.4,
-    "val-serina": 66.1,
+    "val-cavargna": 44.1,
+    "val-serina": 66.3,
     "valmalenco": 49.6,
-    "valsassina": 49.8,
-    "monte-san-giorgio": 48.5,
-    "valle-dei-ratti": 43.3,
+    "valsassina": 50.5,
+    "monte-san-giorgio": 50.3,
+    "valle-dei-ratti": 43.6,
     "val-paisco": 58.3,
     "valle-san-giacomo": 38.9,
-    "val-veddasca": 42.8
+    "val-veddasca": 44.3
    },
    "record": {
     "n": "Vigevano SS494",
@@ -943,5 +943,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-24"
+ "aggiornato": "2026-11-25"
 }

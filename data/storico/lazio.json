@@ -2,7 +2,7 @@
  "regione": "lazio",
  "nome": "Lazio",
  "frontiera": "2026-07-06",
- "fine": "2026-11-23",
+ "fine": "2026-11-24",
  "zone": [
   {
    "slug": "piana-del-cavaliere",
@@ -277,12 +277,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-23",
+   "al": "2026-11-24",
    "intero": false,
-   "giorni": 23,
+   "giorni": 24,
    "stimati": 2,
    "stazioni": 208,
-   "media": 121,
+   "media": 121.1,
    "giorniPioggia": 14,
    "giornoPiovoso": {
     "g": "2026-11-15",
@@ -297,7 +297,7 @@
     {
      "n": "Micigliano",
      "p": null,
-     "mm": 400.5
+     "mm": 401.3
     },
     {
      "n": "Posta",
@@ -312,18 +312,18 @@
     {
      "n": "Borgorose",
      "p": null,
-     "mm": 274.9
+     "mm": 275.1
     }
    ],
    "province": null,
    "zone": {
-    "piana-del-cavaliere": 181.1,
-    "monti-prenestini": 104.2,
-    "sabina": 222,
+    "piana-del-cavaliere": 181.3,
+    "monti-prenestini": 104.3,
+    "sabina": 222.1,
     "vallonina": 263.9,
-    "monti-cantari": 208.7,
-    "monti-reatini": 339.9,
-    "monti-sabini": 147
+    "monti-cantari": 208.8,
+    "monti-reatini": 340.2,
+    "monti-sabini": 147.1
    },
    "record": {
     "n": "Posta",
@@ -335,5 +335,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-24"
+ "aggiornato": "2026-11-25"
 }
