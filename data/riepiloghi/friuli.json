@@ -1,125 +1,126 @@
 {
  "regione": "friuli",
- "generato": "2026-11-25T04:15:44.040Z",
+ "generato": "2026-11-26T04:15:47.683Z",
  "periodi": {
   "1": {
-   "media": 0.7,
+   "media": 14.2,
    "giorni": 1,
-   "stazioni": 140,
-   "primo": "2026-11-24",
-   "ultimo": "2026-11-24",
+   "stazioni": 135,
+   "primo": "2026-11-25",
+   "ultimo": "2026-11-25",
    "top": [
     {
-     "n": "Muggia Pluvio",
-     "mm": 5
-    },
-    {
-     "n": "Muggia TP",
-     "mm": 5
-    },
-    {
-     "n": "Passo Pramollo",
-     "mm": 4.8
+     "n": "San Pelagio",
+     "mm": 44.8
     },
     {
      "n": "Fossalon",
-     "mm": 4.6
+     "mm": 41.8
+    },
+    {
+     "n": "Sgonico-Zgonik",
+     "mm": 39.8
     },
     {
      "n": "Prosecco",
-     "mm": 4
+     "mm": 38
+    },
+    {
+     "n": "Doberdò",
+     "mm": 37.5
     }
    ]
   },
   "7": {
-   "media": 34.7,
+   "media": 47.5,
    "giorni": 7,
-   "stazioni": 139,
-   "primo": "2026-11-18",
-   "ultimo": "2026-11-24",
+   "stazioni": 141,
+   "primo": "2026-11-19",
+   "ultimo": "2026-11-25",
    "top": [
     {
-     "n": "Muggia Pluvio",
-     "mm": 56.8
+     "n": "San Pelagio",
+     "mm": 94.2
     },
     {
-     "n": "Muggia TP",
-     "mm": 56.8
+     "n": "Fossalon",
+     "mm": 93
     },
     {
      "n": "Doberdò",
-     "mm": 53.4
+     "mm": 90.5
     },
     {
-     "n": "Trieste Cattinara",
-     "mm": 52.4
+     "n": "Muggia Pluvio",
+     "mm": 89.9
     },
     {
-     "n": "S.Andrat del Cormor",
-     "mm": 51.5
+     "n": "Muggia TP",
+     "mm": 89.9
     }
    ]
   },
   "20": {
-   "media": 125.5,
+   "media": 139.7,
    "giorni": 20,
-   "stazioni": 140,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-24",
+   "stazioni": 139,
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Prosecco",
-     "mm": 264.5
+     "mm": 302.5
     },
     {
      "n": "Sgonico-Zgonik",
-     "mm": 253.3
+     "mm": 293.1
     },
     {
      "n": "Trieste Cattinara",
-     "mm": 252.4
-    },
-    {
-     "n": "San Volfango",
-     "mm": 230
+     "mm": 280
     },
     {
      "n": "San Pelagio",
-     "mm": 229.6
+     "mm": 274.4
+    },
+    {
+     "n": "Doberdò",
+     "mm": 254.8
     }
    ]
   },
   "30": {
-   "media": 125.2,
+   "media": 139.3,
    "giorni": 30,
-   "stazioni": 141,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-24",
+   "stazioni": 140,
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Prosecco",
-     "mm": 264.5
+     "mm": 302.5
     },
     {
      "n": "Sgonico-Zgonik",
-     "mm": 253.3
+     "mm": 293.1
     },
     {
      "n": "Trieste Cattinara",
-     "mm": 252.6
-    },
-    {
-     "n": "San Volfango",
-     "mm": 230
+     "mm": 280.2
     },
     {
      "n": "San Pelagio",
-     "mm": 229.6
+     "mm": 274.4
+    },
+    {
+     "n": "Doberdò",
+     "mm": 254.8
     }
    ]
   }
  },
  "serie": [
+  14.2,
   0.7,
   0.1,
   11.6,
@@ -148,18 +149,17 @@
   0,
   0,
   0,
-  0,
-  0.1
+  0
  ],
- "serieDa": "2026-11-24",
+ "serieDa": "2026-11-25",
  "zone": [
   {
    "s": "val-d-aupa",
    "n": "Val d'Aupa",
-   "ultimo": "2026-11-24",
-   "m1": 0.1,
-   "m7": 32.5,
-   "m30": 106,
+   "ultimo": "2026-11-25",
+   "m1": 5.8,
+   "m7": 36.4,
+   "m30": 111.8,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "val-settimana",
    "n": "Val Settimana",
-   "ultimo": "2026-11-24",
-   "m1": 0.2,
-   "m7": 22.3,
-   "m30": 91.2,
+   "ultimo": "2026-11-25",
+   "m1": 6.9,
+   "m7": 29,
+   "m30": 98,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "val-chiarso",
    "n": "Val Chiarsò",
-   "ultimo": "2026-11-24",
-   "m1": 1.6,
-   "m7": 27.6,
-   "m30": 77.3,
+   "ultimo": "2026-11-25",
+   "m1": 3.9,
+   "m7": 23.8,
+   "m30": 79,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "carnia",
    "n": "Carnia",
-   "ultimo": "2026-11-24",
-   "m1": 0.1,
-   "m7": 22.5,
-   "m30": 64.9,
+   "ultimo": "2026-11-25",
+   "m1": 3,
+   "m7": 24.5,
+   "m30": 66.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "val-rio-del-lago",
    "n": "Val Rio del Lago",
-   "ultimo": "2026-11-24",
-   "m1": 0.1,
-   "m7": 32.1,
-   "m30": 107.3,
+   "ultimo": "2026-11-25",
+   "m1": 6.1,
+   "m7": 38.1,
+   "m30": 113.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,43 +211,43 @@
   {
    "s": "val-raccolana",
    "n": "Val Raccolana",
-   "ultimo": "2026-11-24",
-   "m1": 0,
-   "m7": 20.8,
-   "m30": 76.9,
-   "p1": false,
+   "ultimo": "2026-11-25",
+   "m1": 3.6,
+   "m7": 24.3,
+   "m30": 79.1,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-resia",
    "n": "Val Resia",
-   "ultimo": "2026-11-24",
-   "m1": 0,
-   "m7": 25.9,
-   "m30": 80.2,
-   "p1": false,
+   "ultimo": "2026-11-25",
+   "m1": 7,
+   "m7": 32.9,
+   "m30": 87.2,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "val-pesarina",
    "n": "Val Pesarina",
-   "ultimo": "2026-11-24",
-   "m1": 0,
-   "m7": 13.9,
-   "m30": 46.6,
-   "p1": false,
+   "ultimo": "2026-11-25",
+   "m1": 3.5,
+   "m7": 17.4,
+   "m30": 50.1,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "gran-monte",
    "n": "Gran Monte",
-   "ultimo": "2026-11-24",
-   "m1": 0.2,
-   "m7": 44.9,
-   "m30": 170.8,
+   "ultimo": "2026-11-25",
+   "m1": 11.3,
+   "m7": 54.2,
+   "m30": 182.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -255,11 +255,11 @@
   {
    "s": "valle-del-but",
    "n": "Valle del But",
-   "ultimo": "2026-11-24",
-   "m1": 0,
-   "m7": 26.2,
-   "m30": 66.8,
-   "p1": false,
+   "ultimo": "2026-11-25",
+   "m1": 3.6,
+   "m7": 26.3,
+   "m30": 73.6,
+   "p1": true,
    "p7": true,
    "p30": true
   }

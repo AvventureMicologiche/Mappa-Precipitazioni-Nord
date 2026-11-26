@@ -1,75 +1,75 @@
 {
  "regione": "calabria",
- "generato": "2026-11-25T04:15:44.043Z",
+ "generato": "2026-11-26T04:15:47.685Z",
  "periodi": {
   "1": {
-   "media": 1.1,
+   "media": 0.8,
    "giorni": 1,
    "stazioni": 139,
-   "primo": "2026-11-24",
-   "ultimo": "2026-11-24",
+   "primo": "2026-11-25",
+   "ultimo": "2026-11-25",
    "top": [
     {
-     "n": "S.Caterina dello Ionio",
-     "mm": 11
+     "n": "Cardeto",
+     "mm": 21.4
     },
     {
-     "n": "San Nicola da Crissa",
-     "mm": 10
+     "n": "Roccaforte del Greco",
+     "mm": 19
     },
     {
-     "n": "Chiaravalle",
+     "n": "Allai",
+     "mm": 9.4
+    },
+    {
+     "n": "Bova Superiore",
      "mm": 8.6
     },
     {
-     "n": "Mongiana P.",
-     "mm": 6.8
-    },
-    {
-     "n": "Stignano",
-     "mm": 6.8
+     "n": "Salica",
+     "mm": 7.8
     }
    ]
   },
   "7": {
-   "media": 10.5,
+   "media": 11.1,
    "giorni": 7,
    "stazioni": 139,
-   "primo": "2026-11-18",
-   "ultimo": "2026-11-24",
+   "primo": "2026-11-19",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "San Sosti",
-     "mm": 78.2
+     "mm": 77.8
     },
     {
      "n": "Montalto Uffugo",
-     "mm": 49.2
+     "mm": 48.8
     },
     {
      "n": "Laino Borgo",
-     "mm": 47
-    },
-    {
-     "n": "Belsito",
-     "mm": 40.2
+     "mm": 46.2
     },
     {
      "n": "Papasidero",
-     "mm": 40.2
+     "mm": 39.6
+    },
+    {
+     "n": "Belsito",
+     "mm": 39.4
     }
    ]
   },
   "20": {
-   "media": 32.1,
+   "media": 32.9,
    "giorni": 20,
    "stazioni": 139,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-24",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Laino Borgo",
-     "mm": 200.1
+     "mm": 199.9
     },
     {
      "n": "Mormanno",
@@ -85,16 +85,16 @@
     },
     {
      "n": "Campo Tenese",
-     "mm": 134.7
+     "mm": 134.5
     }
    ]
   },
   "30": {
-   "media": 78,
+   "media": 78.8,
    "giorni": 30,
    "stazioni": 139,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-24",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Mormanno",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.8,
   1.1,
   6.4,
   0.1,
@@ -148,18 +149,17 @@
   1,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-24",
+ "serieDa": "2026-11-25",
  "zone": [
   {
    "s": "serre-calabresi",
    "n": "Serre calabresi",
-   "ultimo": "2026-11-24",
-   "m1": 4.8,
-   "m7": 13.8,
-   "m30": 78.7,
+   "ultimo": "2026-11-25",
+   "m1": 1.2,
+   "m7": 14.9,
+   "m30": 79.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "sila-grande",
    "n": "Sila Grande",
-   "ultimo": "2026-11-24",
+   "ultimo": "2026-11-25",
    "m1": 0.1,
-   "m7": 33.4,
-   "m30": 94.9,
+   "m7": 33.2,
+   "m30": 94.8,
    "p1": true,
    "p7": true,
    "p30": true

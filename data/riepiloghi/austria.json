@@ -1,81 +1,81 @@
 {
  "regione": "austria",
- "generato": "2026-11-25T04:15:44.043Z",
+ "generato": "2026-11-26T04:15:47.686Z",
  "periodi": {
   "1": {
-   "media": 0.1,
+   "media": 0.4,
    "giorni": 1,
-   "stazioni": 265,
-   "primo": "2026-11-24",
-   "ultimo": "2026-11-24",
+   "stazioni": 267,
+   "primo": "2026-11-25",
+   "ultimo": "2026-11-25",
    "top": [
     {
-     "n": "Fraxern (Vorarlberg)",
-     "nb": "Fraxern",
-     "mm": 4.1
+     "n": "Loibl Tunnel (Kärnten)",
+     "nb": "Loibl Tunnel",
+     "mm": 5.4
     },
     {
-     "n": "Feldkirch (Vorarlberg)",
-     "nb": "Feldkirch",
-     "mm": 3.3
+     "n": "Kötschach-Mauthen (Kärnten)",
+     "nb": "Kötschach-Mauthen",
+     "mm": 4
     },
     {
-     "n": "Laterns-Gapfohl (Vorarlberg)",
-     "nb": "Laterns-Gapfohl",
+     "n": "Leibnitz-Wagna (Steiermark)",
+     "nb": "Leibnitz-Wagna",
+     "mm": 2.9
+    },
+    {
+     "n": "Weißensee-Gatschach (Kärnten)",
+     "nb": "Weißensee-Gatschach",
      "mm": 2.8
     },
     {
-     "n": "Bludenz (Vorarlberg)",
-     "nb": "Bludenz",
-     "mm": 1.7
-    },
-    {
-     "n": "Alberschwende (Vorarlberg)",
-     "nb": "Alberschwende",
-     "mm": 1.1
+     "n": "Dellach (Kärnten)",
+     "nb": "Dellach",
+     "mm": 2.4
     }
    ]
   },
   "7": {
-   "media": 14.5,
+   "media": 12.6,
    "giorni": 7,
    "stazioni": 268,
-   "primo": "2026-11-18",
-   "ultimo": "2026-11-24",
+   "primo": "2026-11-19",
+   "ultimo": "2026-11-25",
    "top": [
     {
-     "n": "Schröcken (Vorarlberg)",
-     "nb": "Schröcken",
-     "mm": 75.2
-    },
-    {
-     "n": "Warth (Vorarlberg)",
-     "nb": "Warth",
-     "mm": 69.9
-    },
-    {
-     "n": "Mittelberg (Vorarlberg)",
-     "nb": "Mittelberg",
-     "mm": 64.4
+     "n": "Laterns-Gapfohl (Vorarlberg)",
+     "nb": "Laterns-Gapfohl",
+     "mm": 52.5
     },
     {
      "n": "Alberschwende (Vorarlberg)",
      "nb": "Alberschwende",
-     "mm": 62.7
+     "mm": 50.6
     },
     {
-     "n": "Sulzberg (Vorarlberg)",
-     "nb": "Sulzberg",
-     "mm": 58.8
+     "n": "Schröcken (Vorarlberg)",
+     "nb": "Schröcken",
+     "mm": 50.6
+    },
+    {
+     "n": "Brand (Vorarlberg)",
+     "nb": "Brand",
+     "mm": 46.6
+    },
+    {
+     "n": "Loibl Tunnel (Kärnten)",
+     "nb": "Loibl Tunnel",
+     "mm": 46.4
     }
    ]
   },
   "20": {
-   "media": 40.9,
+   "media": 41.3,
    "giorni": 20,
    "stazioni": 269,
-   "primo": "2026-11-05",
-   "ultimo": "2026-11-24",
+   "primo": "2026-11-06",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -105,11 +105,11 @@
    ]
   },
   "30": {
-   "media": 49.5,
+   "media": 49,
    "giorni": 30,
    "stazioni": 268,
-   "primo": "2026-10-26",
-   "ultimo": "2026-11-24",
+   "primo": "2026-10-27",
+   "ultimo": "2026-11-25",
    "top": [
     {
      "n": "Alberschwende (Vorarlberg)",
@@ -122,24 +122,25 @@
      "mm": 156.9
     },
     {
+     "n": "Loibl Tunnel (Kärnten)",
+     "nb": "Loibl Tunnel",
+     "mm": 149.5
+    },
+    {
      "n": "Bregenz (Vorarlberg)",
      "nb": "Bregenz",
      "mm": 146.6
     },
     {
-     "n": "Loibl Tunnel (Kärnten)",
-     "nb": "Loibl Tunnel",
-     "mm": 144.1
-    },
-    {
-     "n": "Feuerkogel (Oberösterreich)",
-     "nb": "Feuerkogel",
-     "mm": 140.8
+     "n": "Dornbirn (Vorarlberg)",
+     "nb": "Dornbirn",
+     "mm": 137.7
     }
    ]
   }
  },
  "serie": [
+  0.4,
   0.1,
   0.6,
   2.2,
@@ -168,9 +169,8 @@
   0,
   0.7,
   2.5,
-  0,
-  0.8
+  0
  ],
- "serieDa": "2026-11-24",
+ "serieDa": "2026-11-25",
  "zone": []
 }
