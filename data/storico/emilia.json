@@ -2,7 +2,7 @@
  "regione": "emilia",
  "nome": "Emilia-Romagna",
  "frontiera": "2026-05-03",
- "fine": "2026-11-24",
+ "fine": "2026-11-25",
  "zone": [
   {
    "slug": "valle-del-carlone",
@@ -397,13 +397,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-24",
+   "al": "2026-11-25",
    "intero": false,
-   "giorni": 24,
+   "giorni": 25,
    "stimati": 0,
-   "stazioni": 312,
-   "media": 163.2,
-   "giorniPioggia": 15,
+   "stazioni": 313,
+   "media": 181.3,
+   "giorniPioggia": 16,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 37.7
@@ -412,38 +412,38 @@
     {
      "n": "Lago Ballano",
      "p": null,
-     "mm": 894.7
+     "mm": 930.3
     },
     {
      "n": "Lago Paduli",
      "p": null,
-     "mm": 708
+     "mm": 735.4
     },
     {
      "n": "Succiso",
      "p": null,
-     "mm": 658
+     "mm": 699
     },
     {
      "n": "Pracchia",
      "p": null,
-     "mm": 642.7
+     "mm": 680
     },
     {
      "n": "Ospitaletto",
      "p": null,
-     "mm": 580.9
+     "mm": 623.3
     }
    ],
    "province": null,
    "zone": {
-    "valle-del-carlone": 100.6,
-    "alta-val-d-enza": 484.5,
-    "val-trebbia": 189.4,
-    "val-nure": 125.3,
-    "val-di-taro": 129.2,
-    "romagna-toscana": 152.5,
-    "val-d-enza": 311
+    "valle-del-carlone": 114.8,
+    "alta-val-d-enza": 514.2,
+    "val-trebbia": 223.2,
+    "val-nure": 151.5,
+    "val-di-taro": 155.7,
+    "romagna-toscana": 160.1,
+    "val-d-enza": 345.3
    },
    "record": {
     "n": "Lago Ballano",
@@ -455,5 +455,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-25"
+ "aggiornato": "2026-11-26"
 }

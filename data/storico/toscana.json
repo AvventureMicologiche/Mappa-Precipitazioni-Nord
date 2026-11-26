@@ -2,7 +2,7 @@
  "regione": "toscana",
  "nome": "Toscana",
  "frontiera": "2026-07-12",
- "fine": "2026-11-24",
+ "fine": "2026-11-25",
  "zone": [
   {
    "slug": "val-di-magra",
@@ -433,13 +433,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-24",
+   "al": "2026-11-25",
    "intero": false,
-   "giorni": 24,
+   "giorni": 25,
    "stimati": 0,
    "stazioni": 372,
-   "media": 252.9,
-   "giorniPioggia": 15,
+   "media": 267.2,
+   "giorniPioggia": 16,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 58.3
@@ -448,63 +448,63 @@
     {
      "n": "Fornovolasco",
      "p": "LU",
-     "mm": 1023.7
+     "mm": 1069.4
     },
     {
      "n": "Orto di Donna",
      "p": "LU",
-     "mm": 961.6
+     "mm": 1012.7
     },
     {
      "n": "Palagnana",
      "p": "LU",
-     "mm": 939.3
+     "mm": 989.9
     },
     {
      "n": "Vagli di Sotto",
      "p": "LU",
-     "mm": 850.7
+     "mm": 885.8
     },
     {
      "n": "Fabbriche di Vallico",
      "p": "LU",
-     "mm": 827.2
+     "mm": 880
     }
    ],
    "province": {
-    "Carrara-Massa": 464.5,
-    "Pisa": 118.7,
-    "Arezzo": 186.2,
-    "Siena": 129,
-    "Firenze": 187.4,
-    "Prato": 334.7,
-    "Pistoia": 454.3,
-    "Livorno": 88,
-    "Grosseto": 133.8,
-    "Lucca": 500.1
+    "Carrara-Massa": 490.8,
+    "Pisa": 122.4,
+    "Arezzo": 194.7,
+    "Siena": 137.9,
+    "Firenze": 197.3,
+    "Prato": 349.6,
+    "Pistoia": 478.4,
+    "Livorno": 91.9,
+    "Grosseto": 150.2,
+    "Lucca": 526.1
    },
    "zone": {
-    "val-di-magra": 406.9,
-    "lunigiana": 483,
-    "garfagnana": 552.9,
-    "stretti-di-giaredo": 308.1,
-    "mugello": 308.2,
-    "casentino": 233.5,
-    "calvana": 418.8,
-    "val-di-luce": 538.2,
-    "val-d-orcia": 202.6,
-    "valdinievole": 415.4,
-    "alpe-di-poti": 182.7,
-    "colline-metallifere": 106,
-    "alpi-apuane": 604.8,
-    "valdarno": 128.6,
-    "media-valle-del-serchio": 504.9,
-    "valdelsa": 81.3,
-    "candalla": 714,
-    "colline-metallifere-grossetane": 174,
-    "monte-pisano": 234.2,
-    "colline-livornesi": 117.8,
-    "val-di-merse": 128.3
+    "val-di-magra": 427.2,
+    "lunigiana": 503.9,
+    "garfagnana": 582.8,
+    "stretti-di-giaredo": 350.8,
+    "mugello": 320.1,
+    "casentino": 243.2,
+    "calvana": 442,
+    "val-di-luce": 572,
+    "val-d-orcia": 215.9,
+    "valdinievole": 436,
+    "alpe-di-poti": 191.2,
+    "colline-metallifere": 110.6,
+    "alpi-apuane": 634.3,
+    "valdarno": 135.8,
+    "media-valle-del-serchio": 534.8,
+    "valdelsa": 85.8,
+    "candalla": 752.8,
+    "colline-metallifere-grossetane": 185.1,
+    "monte-pisano": 243.6,
+    "colline-livornesi": 121.2,
+    "val-di-merse": 136.6
    },
    "record": {
     "n": "Orto di Donna",
@@ -516,5 +516,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-25"
+ "aggiornato": "2026-11-26"
 }

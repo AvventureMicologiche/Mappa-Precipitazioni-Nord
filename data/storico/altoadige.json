@@ -2,7 +2,7 @@
  "regione": "altoadige",
  "nome": "Alto Adige",
  "frontiera": "2026-05-22",
- "fine": "2026-11-24",
+ "fine": "2026-11-25",
  "zone": [
   {
    "slug": "monte-di-mezzo",
@@ -347,48 +347,48 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-24",
+   "al": "2026-11-25",
    "intero": false,
-   "giorni": 24,
+   "giorni": 25,
    "stimati": 0,
    "stazioni": 57,
-   "media": 34.3,
-   "giorniPioggia": 5,
+   "media": 36.1,
+   "giorniPioggia": 6,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 15.8
    },
    "top": [
     {
-     "n": "Sesto",
-     "p": null,
-     "mm": 48.1
-    },
-    {
      "n": "Vandoies",
      "p": null,
-     "mm": 48.1
-    },
-    {
-     "n": "Terento",
-     "p": null,
-     "mm": 46.7
+     "mm": 48.8
     },
     {
      "n": "Funes",
      "p": null,
-     "mm": 46.2
+     "mm": 48.7
+    },
+    {
+     "n": "Terento",
+     "p": null,
+     "mm": 48.7
+    },
+    {
+     "n": "Sesto",
+     "p": null,
+     "mm": 48.3
     },
     {
      "n": "Anterselva di Sopra",
      "p": null,
-     "mm": 46
+     "mm": 48
     }
    ],
    "province": null,
    "zone": {
-    "monte-di-mezzo": 31,
-    "val-di-tires": 41
+    "monte-di-mezzo": 33.5,
+    "val-di-tires": 42.2
    },
    "record": {
     "n": "Funes",
@@ -400,5 +400,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-25"
+ "aggiornato": "2026-11-26"
 }

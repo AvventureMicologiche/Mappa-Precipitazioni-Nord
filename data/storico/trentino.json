@@ -2,7 +2,7 @@
  "regione": "trentino",
  "nome": "Trentino",
  "frontiera": "2026-05-16",
- "fine": "2026-11-24",
+ "fine": "2026-11-25",
  "zone": [
   {
    "slug": "valle-del-chiese",
@@ -387,13 +387,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-24",
+   "al": "2026-11-25",
    "intero": false,
-   "giorni": 24,
+   "giorni": 25,
    "stimati": 0,
    "stazioni": 104,
-   "media": 48.7,
-   "giorniPioggia": 7,
+   "media": 54,
+   "giorniPioggia": 8,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 19.2
@@ -402,37 +402,37 @@
     {
      "n": "Tremalzo",
      "p": null,
-     "mm": 86.8
+     "mm": 101
     },
     {
      "n": "Passo Pian Delle Fugazze",
      "p": null,
-     "mm": 81.4
+     "mm": 97.6
     },
     {
      "n": "Daone (Malga Bissina)",
      "p": null,
-     "mm": 81.4
+     "mm": 92.4
+    },
+    {
+     "n": "Daone (Pracul)",
+     "p": null,
+     "mm": 86.6
     },
     {
      "n": "Pieve Tesino (Malga Sorgazza)",
      "p": null,
-     "mm": 77.8
-    },
-    {
-     "n": "Brentonico (Santa Caterina)",
-     "p": null,
-     "mm": 77.2
+     "mm": 83.4
     }
    ],
    "province": null,
    "zone": {
-    "valle-del-chiese": 80,
-    "altopiano-del-tesino": 56.9,
-    "val-terragnolo": 61.8,
-    "val-di-non": 30.1,
-    "giudicarie": 44.6,
-    "valle-dei-laghi": 55.7
+    "valle-del-chiese": 92,
+    "altopiano-del-tesino": 61.5,
+    "val-terragnolo": 66.2,
+    "val-di-non": 34,
+    "giudicarie": 55.1,
+    "valle-dei-laghi": 64.5
    },
    "record": {
     "n": "Tremalzo",
@@ -444,5 +444,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-25"
+ "aggiornato": "2026-11-26"
 }

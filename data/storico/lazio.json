@@ -2,7 +2,7 @@
  "regione": "lazio",
  "nome": "Lazio",
  "frontiera": "2026-07-06",
- "fine": "2026-11-24",
+ "fine": "2026-11-25",
  "zone": [
   {
    "slug": "piana-del-cavaliere",
@@ -277,13 +277,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-24",
+   "al": "2026-11-25",
    "intero": false,
-   "giorni": 24,
+   "giorni": 25,
    "stimati": 2,
    "stazioni": 208,
-   "media": 121.1,
-   "giorniPioggia": 14,
+   "media": 145.1,
+   "giorniPioggia": 15,
    "giornoPiovoso": {
     "g": "2026-11-15",
     "mm": 25.7
@@ -292,48 +292,48 @@
     {
      "n": "Monte Terminillo",
      "p": null,
-     "mm": 432.5
-    },
-    {
-     "n": "Micigliano",
-     "p": null,
-     "mm": 401.3
-    },
-    {
-     "n": "Posta",
-     "p": null,
-     "mm": 367.5
+     "mm": 450.7
     },
     {
      "n": "San Biagio Saracinisco",
      "p": null,
-     "mm": 322.9
+     "mm": 436.5
     },
     {
-     "n": "Borgorose",
+     "n": "Micigliano",
      "p": null,
-     "mm": 275.1
+     "mm": 415.7
+    },
+    {
+     "n": "Posta",
+     "p": null,
+     "mm": 391.4
+    },
+    {
+     "n": "Supino",
+     "p": null,
+     "mm": 349.9
     }
    ],
    "province": null,
    "zone": {
-    "piana-del-cavaliere": 181.3,
-    "monti-prenestini": 104.3,
-    "sabina": 222.1,
-    "vallonina": 263.9,
-    "monti-cantari": 208.8,
-    "monti-reatini": 340.2,
-    "monti-sabini": 147.1
+    "piana-del-cavaliere": 190.6,
+    "monti-prenestini": 121.3,
+    "sabina": 241.9,
+    "vallonina": 278.3,
+    "monti-cantari": 231.6,
+    "monti-reatini": 354.8,
+    "monti-sabini": 153.1
    },
    "record": {
-    "n": "Posta",
+    "n": "Lenola",
     "p": null,
-    "g": "2026-11-13",
-    "mm": 107.7,
-    "lat": 42.5253,
-    "lon": 13.1017
+    "g": "2026-11-25",
+    "mm": 146.6,
+    "lat": 41.4067,
+    "lon": 13.4406
    }
   }
  ],
- "aggiornato": "2026-11-25"
+ "aggiornato": "2026-11-26"
 }
