@@ -12,9 +12,9 @@
   "'tipo': 'gioco' (dal 4/10/2026) per una vetrina che non porta a un video: al posto del logo YouTube compare una coppa. Senza 'tipo' e' un video.",
   "VETRINE SOCIAL (18/10/2026): \"tipo\":\"social\" con \"social\":\"yt\"|\"fb\"|\"ig\". index.html colora occhiello, bottone, bollino e segno col colore di quel social e mette il suo logo; a sinistra la foto di Archie (archie-youtube/facebook/instagram.jpg), diversa per social. Nel sorteggio una chiave ripetuta pesa di piu: il quiz sta tre volte, cioe esce una volta su quattro. L'ORDINE CONTA (18/10/2026): dopo la prima vetrina, a caso, ogni analisi passa alla SUCCESSIVA dell'elenco, quindi i tre quiz stanno intercalati (uno ogni tre social) e non tutti in fila, se no uscirebbero tre volte di seguito.",
   "'iscriviti' (dal 4/11/2026) nel sorteggio non e' una voce di 'vetrine': e' la scheda «Iscriviti» scritta in index.html («Questo sito e' gratuito…»), la stessa che esce quando questo file non si legge. Non scade mai. Con un index.html di prima del 4/11 la chiave viene saltata.",
-  "'tipo': 'libro' (dal 20/11/2026): il libro 3D che gira al posto della copertina, fondo blu, bottone giallo. 'copertina' e 'dorso' sono le due facce (in data/vetrine/), 'occhiello' puo' avere <br>. Il link porta alla sezione del libro nella home; quando esce, si mette il link Amazon e si cambia 'bottone'/'occhielloP'."
+  "'tipo': 'libro' (dal 20/11/2026): il libro 3D che gira al posto della copertina, fondo blu, bottone giallo. 'copertina' e 'dorso' sono le due facce (in data/vetrine/), 'occhiello' puo' avere <br>. Dal 26/11/2026 il libro e' su Amazon: link diretto alla pagina Amazon, bottone «COMPRALO SU AMAZON». Lancio: 'mostra':'libro' (da sola) per tre giorni, poi di nuovo 'alterna' con il libro una volta su due fino a Natale."
  ],
- "mostra": "alterna",
+ "mostra": "libro",
  "sorteggio": [
   "libro",
   "bagno2026",
@@ -535,7 +535,7 @@
   "libro": {
    "da": "2026-11-20T00:00:00+01:00",
    "fino": "2027-01-06T23:59:59+01:00",
-   "link": "https://avventuremicologiche.it/#libro",
+   "link": "https://www.amazon.it/dp/B0HSZ41P8S",
    "id": "libro",
    "tipo": "libro",
    "facebook": "",
@@ -543,8 +543,8 @@
    "copertina": "libro-copertina.webp",
    "dorso": "libro-dorso.webp",
    "occhiello": "Sostienici acquistando<br>il nostro libro",
-   "occhielloP": "A dicembre su Amazon",
-   "bottone": "A DICEMBRE SU AMAZON",
+   "occhielloP": "Ora su Amazon",
+   "bottone": "COMPRALO SU AMAZON",
    "gancio1": "A funghi",
    "gancio2": "con delitto",
    "canale": "Avventure Micologiche",
