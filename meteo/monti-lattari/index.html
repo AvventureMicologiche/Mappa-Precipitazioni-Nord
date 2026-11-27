@@ -444,7 +444,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di oggi, 27 novembre alle 12:19</span> Ieri sui Monti Lattari sono caduti in media <b>44 mm</b> (Pimonte 68); negli ultimi 7 giorni <b>129 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia più alta è oggi, <b>38%</b> a Scala. La notte più fredda è giovedì 3, con <b>2°</b> a Scala; il giorno più caldo oggi, <b>16°</b> a Castellammare di Stabia. Giorno per giorno: oggi 6°/16°, 0,1 mm; domani 5°/15°, asciutto; domenica 29 6°/13°, asciutto; lunedì 30 4°/15°, asciutto; martedì 1 7°/14°, 0,2 mm; mercoledì 2 4°/15°, asciutto; giovedì 3 2°/13°, asciutto.</div>
 
 <h2>I prossimi 7 giorni sui Monti Lattari</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -453,7 +453,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Paese per paese</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Castellammare di Stabia<span class="q">~ 3 m</span></td><td>…</td></tr><tr><td>Meta<span class="q">~ 76 m</span></td><td>…</td></tr><tr><td>Vico Equense<span class="q">~ 91 m</span></td><td>…</td></tr><tr><td>Piano di Sorrento<span class="q">~ 103 m</span></td><td>…</td></tr><tr><td>Gragnano<span class="q">~ 120 m</span></td><td>…</td></tr><tr><td>Positano<span class="q">~ 141 m</span></td><td>…</td></tr><tr><td>Praiano<span class="q">~ 156 m</span></td><td>…</td></tr><tr><td>Casola di Napoli<span class="q">~ 170 m</span></td><td>…</td></tr><tr><td>Corbara<span class="q">~ 182 m</span></td><td>…</td></tr><tr><td>Pimonte<span class="q">~ 410 m</span></td><td>…</td></tr><tr><td>Scala<span class="q">~ 435 m</span></td><td>…</td></tr><tr><td>Agerola<span class="q">~ 620 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
@@ -627,7 +627,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 

@@ -67,8 +67,8 @@ function pagina(p, QUOTE_DI) {
   const TITOLO = `Meteo ${p.n}: previsioni a 7 giorni, ora per ora`;
   // ⚠️ 31/10/2026 (scheda 104 bis): la descrizione passava i 250 caratteri e Google la taglia verso 155
   const DESCR = [
-    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno (${intorno.slice(0, 2).join(', ')}).`,
-    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.`,
+    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia in millimetri, minime e massime, e il tempo nei paesi intorno (${intorno.slice(0, 2).join(', ')}).`,
+    `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia in millimetri, minime e massime, e il tempo nei paesi intorno.`,
     `Previsioni meteo ${p.dove} per i prossimi 7 giorni, ora per ora: pioggia, minime e massime.`,
   ].find(t => t.length <= 155) || `Meteo ${p.n}: previsioni a 7 giorni, ora per ora.`;
 
@@ -134,7 +134,7 @@ ${SCHEDA_HTML}
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni ${esc(p.dove)}</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -143,7 +143,7 @@ ${SCHEDA_HTML}
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>${esc(p.n)} e i paesi intorno</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab">${tabellaFissa([p.n].concat(intorno), quote)}</table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>

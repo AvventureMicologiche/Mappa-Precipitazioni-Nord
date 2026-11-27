@@ -444,7 +444,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometri…</div>
 
 <h2>I prossimi 7 giorni in Garfagnana</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -453,7 +453,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Paese per paese</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Castelnuovo di Garfagnana<span class="q">~ 281 m</span></td><td>…</td></tr><tr><td>Pieve Fosciana<span class="q">~ 364 m</span></td><td>…</td></tr><tr><td>Fosciandora<span class="q">~ 367 m</span></td><td>…</td></tr><tr><td>Camporgiano<span class="q">~ 477 m</span></td><td>…</td></tr><tr><td>Piazza al Serchio<span class="q">~ 517 m</span></td><td>…</td></tr><tr><td>San Romano in Garfagnana<span class="q">~ 521 m</span></td><td>…</td></tr><tr><td>Castiglione di Garfagnana<span class="q">~ 531 m</span></td><td>…</td></tr><tr><td>Villa Collemandina<span class="q">~ 548 m</span></td><td>…</td></tr><tr><td>Coreglia Antelminelli<span class="q">~ 577 m</span></td><td>…</td></tr><tr><td>Vagli Sotto<span class="q">~ 586 m</span></td><td>…</td></tr><tr><td>Minucciano<span class="q">~ 660 m</span></td><td>…</td></tr><tr><td>Careggine<span class="q">~ 880 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
@@ -627,7 +627,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 

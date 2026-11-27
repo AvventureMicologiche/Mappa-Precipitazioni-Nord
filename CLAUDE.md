@@ -49,8 +49,8 @@ Valgono per ogni lavoro, qualunque sia l'argomento. Dove serve c'è il file che 
 7. **Storico di 730 giorni**: ogni collector ha il blocco «Pulizia retention» in fondo a `main()`.
 8. **La mappa mostra solo ieri e il passato**, mai la giornata di oggi.
 9. **Dati veri delle stazioni.** I buchi si tappano con le stime ICON-2I (dal 2/11/2026), niente ripiego dei caricatori.
-   Open-Meteo resta solo nelle stime vecchie già salvate, nella probabilità di pioggia delle previsioni e nei crediti di
-   `fonti.html` («Togliere Open-Meteo» in `CLAUDE-fonti.md`).
+   Open-Meteo resta solo nelle stime vecchie già salvate e nella loro riga dei crediti di `fonti.html`; la % di pioggia
+   delle previsioni è tolta dal 27/11/2026 («Togliere Open-Meteo» in `CLAUDE-fonti.md`).
 10. **Un controllo nuovo si costruisce solo se è semplice, utile e poco costoso da tenere vivo**: quale decisione
     cambia, quante volte il problema è successo davvero, quanto costa il giorno che sbaglia.
 11. **Fini riga CRLF** in `index.html`, `fonti.html`, `guida/index.html` e in tutti i `CLAUDE*.md`: si modifica con
@@ -224,6 +224,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Le pagine città dicono «Ieri» solo se è ieri (18/11, 139)
 - La quarta ondata delle città «adesso» (18/11, Goccia): Abruzzo e sei fuori elenco
 - La previsione scritta nelle valli meteo del gruppo B (23/11, 142): prova contro A, C, D
+- La % di pioggia tolta (27/11, 143 ter): solo icona e mm
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 

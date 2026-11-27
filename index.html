@@ -17821,9 +17821,9 @@ body.modo-radar #time-panel .rd-coppia.con-sat > #btn-sat-riga,body.modo-boschi 
      previsioni la mappa mostra i soli CAPOLUOGHI dell'area scelta, con icona,
      massima e minima del giorno scelto (7 giorni in basso sul telefono, a
      sinistra sul computer); un tocco su un capoluogo, o una ricerca, apre il
-     dettaglio del posto ora per ora (temperatura, mm, probabilita', vento).
+     dettaglio del posto ora per ora (temperatura, mm, vento).
      I dati arrivano da /api/previsioni (Pages Function su Cloudflare: MET
-     Norway per tutto, un secondo servizio solo per la %), mai dal browser alle fonti.
+     Norway per tutto; la % di pioggia tolta il 27/11/2026), mai dal browser alle fonti.
      Decisioni sue del 7/10: capoluoghi e non griglia; la striscia dei giorni
      SENZA icone (una regione non ha «un tempo»); tasto attivo con la sola
      riga gialla; colori chiari; cerca localita' dentro il riquadro; «Storico
@@ -17991,7 +17991,7 @@ body.vz-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.
    compatti (posizionaDet mette «stretta»), crediti su una riga */
 #pv-det.stretta .hd .q2{display:none}#pv-det.stretta .hd .nm{font-size:19px}#pv-det.stretta .gg-r{padding:5px 10px 4px}
 #pv-det.stretta .pv-gg{padding:3px 1px 2px}#pv-det.stretta .pv-gg .ic{font-size:13px}#pv-det.stretta .ft{padding:6px 12px;gap:4px}#pv-det.stretta .ft .b{padding:7px 6px}
-#pv-det .ft .fo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#pv-det .ft .fo.pn{white-space:normal}   /* la riga della % (9/11/2026, scheda 130): piuttosto che tagliata va a capo */
+#pv-det .ft .fo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* ⚠️ SCHERMI BASSI: LA COLONNA DI SINISTRA SI COMPATTA (30/10/2026, scheda 101, sua scelta «A» fra tre provate).
    Con la mappa sotto i 760 px (finestre sotto i ~890) la scheda ora per ora sotto il riquadro mostrava 0 ore a
    1536×702 (schermo 1920 al 125%) e a 1366×768. Ora «Indietro» sale accanto allo zoom, il riquadro si accorcia e, a
@@ -18061,17 +18061,17 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
 #pv-det .hd .sto{display:none}   /* «Storico» accanto a «Chiudi»: solo col telefono girato (1/11/2026, vedi «LA SCHEDA GIRATA») */
 #pv-det .gg-r{padding:7px 10px 6px;border-bottom:1px solid #e3e9f2;flex-shrink:0}
 #pv-det .pv-gg{min-width:0;padding:4px 2px 3px;font-size:10px}#pv-det .pv-gg .ic{font-size:15px}
-#pv-det .cols{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr 1fr;padding:5px 12px 3px;font:700 9.5px/1 inherit;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #eef2f7;flex-shrink:0}
+#pv-det .cols{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr;padding:5px 12px 3px;font:700 9.5px/1 inherit;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #eef2f7;flex-shrink:0}
 #pv-det .cols span:nth-child(n+3){text-align:center}
 #pv-det .rows{overflow:auto;flex:1;min-height:0}
-#pv-det .r{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr 1fr;align-items:center;padding:0 12px;height:24px;font:600 12px/1 inherit;color:#222;border-bottom:1px solid #f1f4f8}
+#pv-det .r{display:grid;grid-template-columns:52px 36px 1fr 1fr 1fr;align-items:center;padding:0 12px;height:24px;font:600 12px/1 inherit;color:#222;border-bottom:1px solid #f1f4f8}
 #pv-det .r:nth-child(even){background:#f7f9fc}
 #pv-det .sep{padding:5px 12px 4px;font:700 10px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1b3f6e;text-transform:uppercase;letter-spacing:.4px;background:#eef3fa;border-top:1px solid #d6e0ee;border-bottom:1px solid #d6e0ee}   /* «domani» dentro la tabella di oggi la sera (18/10/2026) */
 #pv-det .r .h{color:#1b3f6e;font-weight:800;white-space:nowrap}
 #pv-det .r .ic{font-size:15px}
 #pv-det .r span:nth-child(n+3){text-align:center}
 #pv-det .r .mm{color:#0b3d91}#pv-det .r .mm.z{color:#9aa3ad;font-weight:500}
-#pv-det .r .pc{color:#1f6fd1;font-weight:800}#pv-det .r .pc.z{color:#9aa3ad;font-weight:500}#pv-det .r .pc.alta{color:#c21f1f}
+/* la colonna «prob.» tolta il 27/11/2026 (scheda 143 ter): vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js */
 #pv-det .vuoto{padding:14px 12px;font:500 12.5px/1.4 inherit;color:#6b7684}
 /* all'apertura nessuna citta' (7/10, suo): l'invito sta nel segnaposto della casella di ricerca; a destra
    non c'e' niente finche' non si sceglie, poi si apre la tabella */
@@ -18128,10 +18128,10 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* LE ORE IN ORIZZONTALE (vedi renderDet): etichette ferme a sinistra, una colonna per ora, i giorni di seguito separati
      da una colonnina blu col nome scritto in verticale. Altezze fisse: la striscia e' 103 px su qualunque telefono */
   #pv-det .oriz{display:flex;flex-shrink:0;border-bottom:1px solid #e3e9f2}
-  #pv-det .oriz .et{flex:0 0 52px;display:grid;grid-template-rows:16px 22px 16px 14px 14px 14px;align-items:center;padding:3px 0 3px 10px;font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid #eef2f7;background:#fff}
+  #pv-det .oriz .et{flex:0 0 52px;display:grid;grid-template-rows:16px 22px 16px 14px 14px;align-items:center;padding:3px 0 3px 10px;font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid #eef2f7;background:#fff}
   #pv-det .oz{position:relative;flex:1;min-width:0;display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
   #pv-det .oz::-webkit-scrollbar{display:none}
-  #pv-det .oz .c{flex:0 0 48px;display:grid;grid-template-rows:16px 22px 16px 14px 14px 14px;justify-items:center;align-items:center;padding:3px 0;font:600 11.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;white-space:nowrap}
+  #pv-det .oz .c{flex:0 0 48px;display:grid;grid-template-rows:16px 22px 16px 14px 14px;justify-items:center;align-items:center;padding:3px 0;font:600 11.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;white-space:nowrap}
   #pv-det .oz .c:nth-child(even){background:#f7f9fc}
   #pv-det .oz .c6{flex-basis:56px}
   #pv-det .oz .c b{color:#1b3f6e;font-weight:800;font-size:12.5px}#pv-det .oz .c6 b{font-size:11px}
@@ -18139,7 +18139,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-det .oz .c .t{font-weight:800;font-size:13px}
   #pv-det .oz .c small{font-size:9px;font-weight:600;color:#6b7684}
   #pv-det .oz .c .mm{color:#0b3d91}#pv-det .oz .c .mm.z{color:#9aa3ad;font-weight:500}
-  #pv-det .oz .c .pc{color:#1f6fd1;font-weight:800}#pv-det .oz .c .pc.z{color:#9aa3ad;font-weight:500}#pv-det .oz .c .pc.alta{color:#c21f1f}
+  /* qui c'era la riga «prob.» (tolta il 27/11/2026, scheda 143 ter) */
   #pv-det .oz .gs{flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#1f6fd1;color:#fff}
   #pv-det .oz .gs span{writing-mode:vertical-rl;transform:rotate(180deg);font:800 10.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
   /* la scheda non scende sotto lo spazio della striscia (268 px col mouse, 264 col dito): nella finestra stretta del PC la
@@ -18162,7 +18162,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 @media(max-width:900px) and (max-height:700px){
   #pv-det{max-height:max(40%,258px) !important}
   #pv-det .gg-r{padding:3px 8px 3px}#pv-det .pv-gg{height:43px}
-  #pv-det .oriz .et,#pv-det .oz .c{grid-template-rows:15px 20px 15px 13px 13px 13px;padding-top:2px;padding-bottom:2px}
+  #pv-det .oriz .et,#pv-det .oz .c{grid-template-rows:15px 20px 15px 13px 13px;padding-top:2px;padding-bottom:2px}
   #pv-det .ft .b{padding:4px 6px}
 }
 /* LA FINESTRA STRETTA DEL PC SENZA PIE' DI PAGINA (1/11/2026, scheda 105 ter, suo «toglilo»). Sotto i 900 px il sito ha il
@@ -19593,25 +19593,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     var chiave=k+'|'+g+'|'+corta, li=det.querySelector('.oz,.rows'), resta=li&&det._chiave===chiave?(corta?li.scrollLeft:li.scrollTop):null;
     function riga(o){
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
-      var mm=Math.round(o.mm*10)/10, pc=o.pc;
+      var mm=Math.round(o.mm*10)/10;
       return '<div class="r"><span class="h">'+h+'</span><span class="ic">'+icona(o.s)+'</span><span>'+Math.round(o.t)+'°</span>'
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+' mm')+'</span>'
-        +'<span class="pc'+tonoPc(pc,mm)+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+' km/h</span></div>';
+        +'<span>'+Math.round(o.v*3.6)+' km/h</span></div>';
     }
-    /* ⚠️ LA % SBIADITA QUANDO L'ORA E' ASCIUTTA (9/11/2026, scheda 130, suo «A + C» dal suo screen di Ovada: 85-93% sotto
-       le nuvole e il trattino). La % viene dall'insieme di simulazioni di ICON (Open-Meteo), icona e mm dalla previsione
-       singola di ECMWF (MET): quando i due modelli mettono la pioggia in ore diverse la tabella si contraddiceva. Misurato
-       su 10 citta' del Nord-Ovest, 620 ore: 33 in contrasto forte; la % presa dalle simulazioni ECMWF ne dava 41 (passo di
-       3 ore, % larga), scartata. Ora con l'ora asciutta (meno di 0,1 mm) la % resta scritta ma grigia, mai rossa, e sotto
-       la tabella una riga dice cos'e'. Uguale nelle pagine meteo (genera-pagine-meteo-zona.js) e «adesso» (pagina-adesso.js).
-       L'altra meta' del lavoro e' nel server: la % arrivava un'ora in ritardo (prDa in functions/api/previsioni.js). */
-    function tonoPc(pc,mm){ return pc==null?'':(pc<10||mm<0.1)?' z':pc>=60?' alta':''; }
+    /* ⚠️ LA COLONNA «PROB.» TOLTA (27/11/2026, scheda 143 ter, suo «A, tolgo tutto»). La % era di un altro modello
+       (l'insieme ICON di Open-Meteo) e contraddiceva icona e mm di ECMWF; dal 9/11 era grigia con l'ora asciutta. Ora la
+       scheda dice solo icona, gradi, mm e vento: vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js. */
     function colonna(o){   // la stessa ora, in piedi
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
-      var mm=Math.round(o.mm*10)/10, pc=o.pc;
+      var mm=Math.round(o.mm*10)/10;
       return '<div class="c'+(o.h6?' c6':'')+'" data-g="'+o.g+'"><b>'+h+'</b><i>'+icona(o.s)+'</i><span class="t">'+Math.round(o.t)+'°</span>'
         +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'–':mm.toLocaleString('it-IT')+'<small> mm</small>')+'</span>'
-        +'<span class="pc'+tonoPc(pc,mm)+'">'+(pc==null?'':pc+'%')+'</span><span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
+        +'<span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
     }
     var righe='', fino='';
     if(corta){   // al telefono: tutte le ore dei giorni in cima, di seguito
@@ -19633,12 +19628,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
         }
       }
     }
-    det.innerHTML='<div class="hd"><div class="nm">'+escH(punto.n)+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0')+fino:'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+(e.pc!=null?' · ☔ '+(e.pc>0?'fino '+(/^(8|1$|1[1]$)/.test(String(e.pc))?'all\'':'al ')+e.pc+'%':'0%'):'')+'</div></div><button class="b sto" aria-label="Storico piogge">💧 Storico</button><button class="x" aria-label="Chiudi">×</button></div>'
+    det.innerHTML='<div class="hd"><div class="nm">'+escH(punto.n)+(punto.q!=null?' <i>· '+punto.q+' m</i>':'')+'<div class="q1">'+(gi===0&&ore.length?'Oggi dalle '+String(ore[0].h).padStart(2,'0')+fino:'Previsione per '+GIL[d.getDay()]+' '+d.getDate()+' '+MESI[d.getMonth()])+'</div>'+'<div class="q2">🌡 '+e.mx+'° / '+e.mn+'° · 💧 '+(e.mm).toLocaleString('it-IT')+' mm'+'</div></div><button class="b sto" aria-label="Storico piogge">💧 Storico</button><button class="x" aria-label="Chiudi">×</button></div>'
       +'<div class="gg-r">'+gb.map(function(x,i){ return chip(x,i,i===gi,true,corta); }).join('')+'</div>'
-      +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
-                    :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>prob.</span><span>vento</span></div><div class="rows">'+righe+'</div>')
+      +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
+                    :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span>'+(righe&&(j.ore||[]).some(function(o){ return o.pc!=null; })?'<span class="fo pn">Prob.: quante simulazioni danno pioggia · icona e mm: la più probabile</span>':'')+'</div>';   // la fonte della % di pioggia si cita solo in fonti.html (sua decisione, 3/11/2026)
+      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span>'+'</div>';
     det._chiave=chiave; det._dati=j; det._firma=firma; det._primo=det.firstChild;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }

@@ -1391,3 +1391,13 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   tempo di oggi. A, C e D restano gusci: confronto in Search Console dopo 2-3 settimane (analisi-142\METEO-VISITE.md).
 - Trappola: una richiesta per valle al nostro /api/previsioni; se una valle non risponde la pagina resta col testo del
   giorno prima (la data lo dice). Il rinnovo mensile delle pagine meteo cancella il testo: lo riscrive il giro dopo.
+
+## La % di pioggia tolta: solo icona e mm (27/11/2026, scheda 143 ter)
+
+- Suo «A, tolgo tutto»: la % era dell'insieme ICON di Open-Meteo e contraddiceva icona e mm di ECMWF (MET); in più il
+  piano gratuito di Open-Meteo vieta la pubblicità. Ora le previsioni sono solo MET: icona, gradi, mm e vento.
+- Dove: `perPunto` e `previsioniDi` in `functions/api/previsioni.js` (tolti `PROB`, `probDi`, `prDa`, `maxProb`; niente
+  `pc` né `probStato`), colonna «prob.» di `renderDet` in index.html, frasi del 💧 in 124 pagine meteo e nei due
+  generatori (sostituite, non rigenerate), guida con la foto `previsioni.jpg` rifatta, fonti.html.
+- ⚠️ `pr=` resta nelle chiavi della cache apposta e VERSIONE non è alzata: chiavi uguali, niente richieste in più a MET.
+  Il codice `conPc` / `pc != null` di pagine e generatori resta: senza `pc` fa senza da solo.

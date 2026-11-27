@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Meteo Corleto Monforte: previsioni a 7 giorni, ora per ora</title>
-<meta name="description" content="Previsioni meteo a Corleto Monforte per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.">
+<meta name="description" content="Previsioni meteo a Corleto Monforte per i prossimi 7 giorni, ora per ora: pioggia in millimetri, minime e massime, e il tempo nei paesi intorno.">
 <link rel="canonical" href="https://precipitazioni.avventuremicologiche.it/meteo/campania/corleto-monforte/">
 <meta property="og:title" content="Meteo Corleto Monforte: previsioni a 7 giorni, ora per ora">
-<meta property="og:description" content="Previsioni meteo a Corleto Monforte per i prossimi 7 giorni, ora per ora: pioggia e probabilità, minime e massime, e il tempo nei paesi intorno.">
+<meta property="og:description" content="Previsioni meteo a Corleto Monforte per i prossimi 7 giorni, ora per ora: pioggia in millimetri, minime e massime, e il tempo nei paesi intorno.">
 <meta property="og:image" content="https://precipitazioni.avventuremicologiche.it/preview.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://precipitazioni.avventuremicologiche.it/meteo/campania/corleto-monforte/">
@@ -444,7 +444,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni a Corleto Monforte</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -453,7 +453,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Corleto Monforte e i paesi intorno</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Sant'Arsenio<span class="q">~ 445 m</span></td><td>…</td></tr><tr><td>San Pietro al Tanagro<span class="q">~ 453 m</span></td><td>…</td></tr><tr><td>Sant'Angelo a Fasanella<span class="q">~ 516 m</span></td><td>…</td></tr><tr><td>Sacco<span class="q">~ 558 m</span></td><td>…</td></tr><tr><td>Roscigno<span class="q">~ 561 m</span></td><td>…</td></tr><tr><td>Corleto Monforte<span class="q">~ 649 m</span></td><td>…</td></tr><tr><td>San Rufo<span class="q">~ 650 m</span></td><td>…</td></tr><tr><td>Savuco<span class="q">~ 1164 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
@@ -627,7 +627,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 

@@ -444,7 +444,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di oggi, 27 novembre alle 12:18</span> Ieri in Val Trebbia sono caduti in media <b>18 mm</b> (Salsominore 19); negli ultimi 7 giorni <b>89 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia resta <b>sotto il 30%</b> per tutta la settimana. La notte più fredda è domenica 29, con <b>-4°</b> a Zerba; il giorno più caldo oggi, <b>11°</b> a Ottone. Giorno per giorno: oggi 1°/11°, asciutto; domani -3°/9°, asciutto; domenica 29 -4°/8°, asciutto; lunedì 30 -2°/8°, 0,4 mm; martedì 1 -4°/8°, asciutto; mercoledì 2 -4°/10°, asciutto; giovedì 3 -3°/10°, asciutto.</div>
 
 <h2>I prossimi 7 giorni in Val Trebbia</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -453,7 +453,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Paese per paese</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Bobbio<span class="q">~ 282 m</span></td><td>…</td></tr><tr><td>Corte Brugnatella<span class="q">~ 320 m</span></td><td>…</td></tr><tr><td>Ottone<span class="q">~ 489 m</span></td><td>…</td></tr><tr><td>Coli<span class="q">~ 628 m</span></td><td>…</td></tr><tr><td>Ferriere<span class="q">~ 646 m</span></td><td>…</td></tr><tr><td>Rovegno<span class="q">~ 668 m</span></td><td>…</td></tr><tr><td>Cerignale<span class="q">~ 712 m</span></td><td>…</td></tr><tr><td>Fontanigorda<span class="q">~ 814 m</span></td><td>…</td></tr><tr><td>Zerba<span class="q">~ 852 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
@@ -627,7 +627,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 

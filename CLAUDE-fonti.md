@@ -1155,6 +1155,9 @@ pezzo, cosi' il sito resta libero di scegliere (pubblicita', bollettino, niente)
 - **La % delle previsioni RESTA di Open-Meteo** (sua decisione): la sola alternativa con la % ora per ora era calcolarla
   dai 50 scenari ECMWF (~500 MB a giro, troppo per GitHub); OpenWeather contraddiceva le icone di MET (confronto su 6
   citta' il 25/10). Il giorno che arriva la pubblicita' si paga il piano Standard (29 €/mese).
+  **Superato il 27/11/2026 (scheda 143 ter, suo «A, tolgo tutto»): la % e' tolta, Open-Meteo non si chiama piu' da
+  nessuna parte.** Resta solo nelle stime gia' salvate e nella loro riga di fonti.html. Vedi «La % di pioggia tolta» in
+  `CLAUDE-previsioni.md`.
 - **Riempimento dei buchi: ICON-2I al posto di Open-Meteo (2/11/2026, scheda 111, suo «da adesso in poi mettiamo
   icon su ogni buco»)**. `check-meteohub-gaps.js` e `check-gaps-nord.js` usano `lib-icon2i.js` (la lettura ICON nata in
   `collect-abruzzo.js`, che ora la prende da li', numeri identici: 145 punti e 75 pluviometri su 75 del 31/10): ICON

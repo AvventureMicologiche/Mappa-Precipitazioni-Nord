@@ -444,7 +444,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometri…</div>
 
 <h2>I prossimi 7 giorni in Calvana</h2>
-<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
+<p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno.</p>
 <div class="pz-giorni" id="giorni"></div>
 <p class="pz-tot" id="tot"></p>
 
@@ -453,7 +453,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <p class="nota" id="mappa-nota" style="margin-top:2px">Tocca un paese per vederlo ora per ora.</p>
 
 <h2>Paese per paese</h2>
-<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni. 💧 è la probabilità di pioggia.</p>
+<p class="nota" style="margin-top:0">Dal più in basso al più in alto (quota del terreno, ~). Tocca un paese per le ore; scorri di lato per tutti i giorni.</p>
 <div class="pz-scorri"><table class="pz-tab" id="tab"><thead><tr><th>Paese</th><th>7 giorni</th></tr></thead><tbody><tr><td>Sesto Fiorentino<span class="q">~ 60 m</span></td><td>…</td></tr><tr><td>Calenzano<span class="q">~ 68 m</span></td><td>…</td></tr><tr><td>Prato<span class="q">~ 71 m</span></td><td>…</td></tr><tr><td>Pistoia<span class="q">~ 81 m</span></td><td>…</td></tr><tr><td>Vaiano<span class="q">~ 170 m</span></td><td>…</td></tr><tr><td>Barberino di Mugello<span class="q">~ 267 m</span></td><td>…</td></tr><tr><td>Vaglia<span class="q">~ 283 m</span></td><td>…</td></tr><tr><td>Vernio<span class="q">~ 284 m</span></td><td>…</td></tr><tr><td>Fiesole<span class="q">~ 299 m</span></td><td>…</td></tr><tr><td>Cantagallo<span class="q">~ 397 m</span></td><td>…</td></tr><tr><td>Sambuca Pistoiese<span class="q">~ 519 m</span></td><td>…</td></tr><tr><td>Castiglione dei Pepoli<span class="q">~ 686 m</span></td><td>…</td></tr></tbody></table></div>
 
 <h2>La pioggia caduta e quella in arrivo</h2>
@@ -627,7 +627,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       if (fuori || tocca) { l.classList.add('via'); nascosti++; } else messi.push(r);
     });
     var nota = $('mappa-nota');
-    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.<span class="pz-nota-pp"> 💧 è la probabilità di pioggia, scritta dal 10% in su.</span>' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
+    if (nota) nota.innerHTML = 'Tocca un paese per vederlo ora per ora.' +(nascosti ? ' <span class="pz-zoom">Ingrandisci la mappa (+) per vedere '
       + (nascosti === 1 ? "l'altro paese" : 'gli altri ' + nascosti + ' paesi') + '.</span>' : '');
   }
 
