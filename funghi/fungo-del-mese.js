@@ -141,3 +141,34 @@
   }
   riempi(); addEventListener('resize', riempi);
 })();
+
+/* ---------- La striscia gialla del libro nelle pagine funghi (28/11/2026, scheda «Promo libro») ----------
+   Come la striscia della home (sua scelta, al posto del riquadro bocciato): in cima alla pagina, sopra la testata, porta dritta ad Amazon.
+   Una sola riga di codice qui per tutte le 1.100 pagine funghi, nessuna pagina da rigenerare. Classi fg- (mai nomi
+   generici). Si spegne da sola dopo FINE_LIBRO. Con la × si chiude e non torna per 7 giorni (localStorage fgLibroChiusa). GA4: libro_amazon_funghi, libro_striscia_chiusa. */
+(function () {
+  var AMAZON = 'https://www.amazon.it/dp/B0HSZ41P8S', FINE_LIBRO = Date.parse('2027-03-31T23:59:59+02:00');
+  if (Date.now() > FINE_LIBRO || window.self !== window.top) return;
+  var testa = document.querySelector('header.tB');   // SOPRA la testata, in cima alla pagina (sua scelta, 28/11)
+  if (!testa || document.querySelector('.fg-striscia')) return;
+  try { var chiusa = +localStorage.getItem('fgLibroChiusa'); if (chiusa && Date.now() - chiusa < 7 * 864e5) return; } catch (e) {}
+  var css = '.fg-striscia{display:flex;align-items:center;justify-content:center;gap:14px;height:40px;padding:0 16px;background:#ecb91a;color:#111;text-decoration:none;font-size:14px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden}'
+    + '.fg-striscia img{height:30px;width:auto;margin:0;transform:rotate(-6deg);box-shadow:0 2px 5px rgba(0,0,0,.35);border-radius:1px}'
+    + '.fg-striscia b{font-weight:700}.fg-striscia .fg-sep{opacity:.45}'
+    + '.fg-striscia .fg-vai{font-weight:700;display:inline-flex;align-items:center;gap:4px}'
+    + '.fg-striscia .fg-vai svg{width:14px;height:14px;transition:transform .2s}.fg-striscia:hover .fg-vai svg{transform:translateX(3px)}'
+    + '.fg-striscia .fg-corto{display:none}'
+    + '.fg-giallo{position:relative;background:#ecb91a}.fg-giallo .fg-striscia{padding:0 44px}'
+    + '.fg-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:#111;font-size:22px;line-height:32px;cursor:pointer;opacity:.6}.fg-x:hover{opacity:1;background:rgba(0,0,0,.08)}'
+    + '@media (max-width:734px){.fg-striscia{gap:10px;font-size:13px}.fg-striscia .fg-lungo{display:none}.fg-striscia .fg-corto{display:inline}}';
+  testa.insertAdjacentHTML('beforebegin', '<style>' + css + '</style><div class="fg-giallo">'
+    + '<a class="fg-striscia" href="' + AMAZON + '" target="_blank" rel="noopener" onclick="try{gtag(\'event\',\'libro_amazon_funghi\')}catch(e){}">'
+    + '<img src="/data/vetrine/libro-copertina.webp" alt="" width="500" height="800">'
+    + '<span class="fg-lungo"><b>Sostienici</b> acquistando il nostro giallo tra i funghi, <b>A funghi con delitto</b></span><span class="fg-corto"><b>Il nostro giallo</b></span>'
+    + '<span class="fg-sep">·</span><span class="fg-vai">Ora su Amazon<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><button class="fg-x" type="button" aria-label="Chiudi">×</button></div>');
+  var g = testa.previousElementSibling;
+  if (g && g.classList.contains('fg-giallo')) g.querySelector('.fg-x').onclick = function () {
+    g.remove(); try { localStorage.setItem('fgLibroChiusa', Date.now()); } catch (e) {}
+    try { gtag('event', 'libro_striscia_chiusa'); } catch (e) {}
+  };
+})();
