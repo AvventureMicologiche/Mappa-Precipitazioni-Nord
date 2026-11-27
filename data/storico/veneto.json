@@ -2,7 +2,7 @@
  "regione": "veneto",
  "nome": "Veneto",
  "frontiera": "2026-05-05",
- "fine": "2026-11-25",
+ "fine": "2026-11-26",
  "zone": [
   {
    "slug": "val-d-astico",
@@ -445,61 +445,61 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-25",
+   "al": "2026-11-26",
    "intero": false,
-   "giorni": 25,
+   "giorni": 26,
    "stimati": 0,
    "stazioni": 164,
-   "media": 106.9,
-   "giorniPioggia": 11,
+   "media": 133.5,
+   "giorniPioggia": 12,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 31.4
    },
    "top": [
     {
-     "n": "Eraclea - Torre di Fine",
-     "p": "VE",
-     "mm": 200.4
-    },
-    {
      "n": "Bibione",
      "p": "VE",
-     "mm": 196.6
+     "mm": 232.6
+    },
+    {
+     "n": "Eraclea - Torre di Fine",
+     "p": "VE",
+     "mm": 226
     },
     {
      "n": "Lugugnana (Portogruaro)",
      "p": "VE",
-     "mm": 181.8
+     "mm": 212.6
     },
     {
-     "n": "Fossalta di Portogruaro",
-     "p": "VE",
-     "mm": 173.2
+     "n": "Faedo (Cinto Euganeo)",
+     "p": "PD",
+     "mm": 197.2
     },
     {
-     "n": "Rosolina - Po di Tramontana",
-     "p": "RO",
-     "mm": 171.2
+     "n": "Teolo",
+     "p": "PD",
+     "mm": 196
     }
    ],
    "province": {
-    "Treviso": 98.7,
-    "Rovigo": 144.1,
-    "Verona": 110,
-    "Vicenza": 99,
-    "Padova": 144.7,
-    "Belluno": 61.4,
-    "Venezia": 159.1
+    "Treviso": 130.1,
+    "Rovigo": 165.4,
+    "Verona": 133.4,
+    "Vicenza": 137.2,
+    "Padova": 167.8,
+    "Belluno": 85.5,
+    "Venezia": 178.4
    },
    "zone": {
-    "val-d-astico": 73.1,
-    "val-gallina": 94.9,
-    "comelico": 47.3,
-    "val-canale": 101.1,
-    "colli-asolani": 77.3,
-    "valbelluna": 79.3,
-    "valle-del-boite": 46.7
+    "val-d-astico": 107.8,
+    "val-gallina": 122.7,
+    "comelico": 69,
+    "val-canale": 140.9,
+    "colli-asolani": 115.2,
+    "valbelluna": 118.5,
+    "valle-del-boite": 65.7
    },
    "record": {
     "n": "Eraclea - Torre di Fine",
@@ -511,5 +511,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-26"
+ "aggiornato": "2026-11-27"
 }

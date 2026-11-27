@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-25",
+ "fine": "2026-11-26",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,66 +481,66 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-25",
+   "al": "2026-11-26",
    "intero": false,
-   "giorni": 25,
+   "giorni": 26,
    "stimati": 0,
    "stazioni": 283,
-   "media": 100,
-   "giorniPioggia": 17,
+   "media": 105.6,
+   "giorniPioggia": 18,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 23.9
    },
    "top": [
     {
+     "n": "FRACONALTO",
+     "p": "Alessandria",
+     "mm": 250
+    },
+    {
      "n": "PIAGGIA",
      "p": "Cuneo",
-     "mm": 235.3
+     "mm": 243.9
     },
     {
      "n": "VALDIERI",
      "p": "Cuneo",
-     "mm": 232.7
-    },
-    {
-     "n": "FRACONALTO",
-     "p": "Alessandria",
-     "mm": 223.8
-    },
-    {
-     "n": "DIGA DEL CHIOTAS",
-     "p": "Cuneo",
-     "mm": 219
+     "mm": 234.5
     },
     {
      "n": "PIANI DI CARREGA",
      "p": "Alessandria",
-     "mm": 216.9
+     "mm": 229.5
+    },
+    {
+     "n": "DIGA DEL CHIOTAS",
+     "p": "Cuneo",
+     "mm": 219.2
     }
    ],
    "province": {
-    "Cuneo": 123.8,
-    "Torino": 99.8,
-    "Vercelli": 71.4,
-    "Verbano-Cusio-Ossola": 55.5,
-    "Alessandria": 121.1,
-    "Asti": 86,
-    "Novara": 81.3,
-    "Biella": 81.8,
-    "F": 106.5
+    "Cuneo": 128.3,
+    "Torino": 102.1,
+    "Vercelli": 73.9,
+    "Verbano-Cusio-Ossola": 57.2,
+    "Alessandria": 144.5,
+    "Asti": 93.5,
+    "Novara": 88.2,
+    "Biella": 84.8,
+    "F": 108.3
    },
    "zone": {
-    "val-d-ala": 98.3,
-    "valle-sessera": 75.2,
-    "valle-vermenagna": 146.1,
-    "valle-di-viu": 104.7,
-    "val-borbera": 143.8,
-    "valle-po": 105.1,
-    "val-mastallone": 73.1,
-    "val-loana": 57.8,
-    "valle-germanasca": 122.2,
-    "val-clarea": 114.6
+    "val-d-ala": 101.7,
+    "valle-sessera": 81.3,
+    "valle-vermenagna": 152,
+    "valle-di-viu": 106.7,
+    "val-borbera": 176.3,
+    "valle-po": 108.9,
+    "val-mastallone": 73.5,
+    "val-loana": 58.9,
+    "valle-germanasca": 126.3,
+    "val-clarea": 118.9
    },
    "record": {
     "n": "FRACONALTO",
@@ -552,5 +552,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-26"
+ "aggiornato": "2026-11-27"
 }
