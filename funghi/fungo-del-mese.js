@@ -160,12 +160,12 @@
     + '.fg-striscia .fg-corto{display:none}'
     + '.fg-giallo{position:relative;background:#ecb91a}.fg-giallo .fg-striscia{padding:0 44px}'
     + '.fg-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:#111;font-size:22px;line-height:32px;cursor:pointer;opacity:.6}.fg-x:hover{opacity:1;background:rgba(0,0,0,.08)}'
-    + '@media (max-width:734px){.fg-striscia{gap:10px;font-size:13px}.fg-striscia .fg-lungo{display:none}.fg-striscia .fg-corto{display:inline}}';
+    + '@media (max-width:734px){.fg-giallo .fg-striscia{gap:8px;font-size:13px;padding:0 38px 0 8px}.fg-striscia{gap:8px;font-size:13px}.fg-striscia .fg-lungo{display:none}.fg-striscia .fg-corto{display:inline}}';
   testa.insertAdjacentHTML('beforebegin', '<style>' + css + '</style><div class="fg-giallo">'
     + '<a class="fg-striscia" href="' + AMAZON + '" target="_blank" rel="noopener" onclick="try{gtag(\'event\',\'libro_amazon_funghi\')}catch(e){}">'
     + '<img src="/data/vetrine/libro-copertina.webp" alt="" width="500" height="800">'
-    + '<span class="fg-lungo"><b>Sostienici</b> acquistando il nostro giallo tra i funghi, <b>A funghi con delitto</b></span><span class="fg-corto"><b>Il nostro giallo</b></span>'
-    + '<span class="fg-sep">·</span><span class="fg-vai">Ora su Amazon<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><button class="fg-x" type="button" aria-label="Chiudi">×</button></div>');
+    + '<span class="fg-lungo"><b>Sostienici</b> acquistando il nostro giallo tra i funghi, <b>A funghi con delitto</b></span><span class="fg-corto"><b>Il nostro giallo tra i funghi</b></span>'
+    + '<span class="fg-sep">·</span><span class="fg-vai"><span class="fg-lungo">Ora su </span><span class="fg-corto">Su </span>Amazon<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><button class="fg-x" type="button" aria-label="Chiudi">×</button></div>');
   var g = testa.previousElementSibling;
   if (g && g.classList.contains('fg-giallo')) g.querySelector('.fg-x').onclick = function () {
     g.remove(); try { localStorage.setItem('fgLibroChiusa', Date.now()); } catch (e) {}
