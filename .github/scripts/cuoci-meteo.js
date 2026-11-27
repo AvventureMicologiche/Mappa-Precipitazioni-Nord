@@ -93,7 +93,9 @@ async function cuoci(slug) {
   let rip = null;
   try { rip = JSON.parse(fs.readFileSync(path.join(RADICE, 'data', 'riepiloghi', 'zone', slug + '.json'), 'utf8')); } catch (e) {}
   const oraAgg = J.agg ? new Date(J.agg).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' }) : '';
-  const quando = `Il punto di stamattina, ${+OGGI.slice(8)} ${MESI[+OGGI.slice(5, 7) - 1]}${oraAgg ? ' alle ' + oraAgg : ''}`;
+  // ⚠️ 27/11/2026 (scheda 143): «di oggi», non «di stamattina». Il giro gira anche il pomeriggio e oraAgg è l'ora
+  // della previsione: usciva «Il punto di stamattina, 27 novembre alle 12:19».
+  const quando = `Il punto di oggi, ${+OGGI.slice(8)} ${MESI[+OGGI.slice(5, 7) - 1]}${oraAgg ? ' alle ' + oraAgg : ''}`;
   const div = `<div class="pz-punto" id="punto" data-cotto="${OGGI}"><span class="pz-quando">${quando}</span> ${punto(G, rip, dove)}</div>`;
   const nuovo = h.replace(/<div class="pz-punto" id="punto"[^>]*>[\s\S]*?<\/div>/, div);
   if (nuovo === h) return `${slug}: riquadro del punto non trovato, lasciata com'e'`;
