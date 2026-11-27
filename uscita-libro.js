@@ -103,7 +103,7 @@
       $('.lb').style.transition = 'opacity .4s'; $('.lb').style.opacity = 1; void l3.offsetWidth;
       l3.style.transition = 'transform 1.7s cubic-bezier(.4,0,.2,1)';
       setTimeout(function () { l3.style.transform = 'rotateY(0deg) rotateX(0deg)'; }, 900);
-      setTimeout(polvere, 2700);
+      setTimeout(polvere, 3000);
     }
     if (img.complete && img.naturalWidth) via(); else { img.onload = via; img.onerror = chiudi; }
   }
@@ -134,7 +134,9 @@
     var cv = $('canvas'), sc = o.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
     cv.width = sc.width * dpr; cv.height = sc.height * dpr; cv.style.width = sc.width + 'px'; cv.style.height = sc.height + 'px';
     var x = cv.getContext('2d'); x.scale(dpr, dpr);
-    var img = $('.lf img'), rb = $('.lf').getBoundingClientRect();
+    // misure del libro DRITTO (il contenitore non ruota): se il raddrizzamento e' in ritardo la copertina non si deforma
+    var l3f = $('.l3'); l3f.style.transition = 'none'; l3f.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    var img = $('.lf img'), rb = $('.lb').getBoundingClientRect();
     var bx = rb.left - sc.left, by = rb.top - sc.top, bw = rb.width, bh = rb.height;
     var t = document.createElement('canvas'), tw = Math.round(bw), th = Math.round(bh); t.width = tw; t.height = th;
     var tx = t.getContext('2d'); tx.drawImage(img, 0, 0, tw, th);
@@ -144,8 +146,8 @@
     for (var yy = 0; yy < th; yy += PASSO) for (var xx = 0; xx < tw; xx += PASSO) {
       var i = (yy * tw + xx) * 4, X = bx + xx, Y = by + yy, dx = X - cx, dy = Y - cy, r = Math.sqrt(dx * dx + dy * dy) || 1;
       var v = 60 + rnd() * 260;
-      P.push({ x: X, y: Y, c: [d[i], d[i + 1], d[i + 2]], vx: dx / r * v + (rnd() - .5) * 140, vy: dy / r * v + (rnd() - .5) * 140 - 60,
-        rit: (V === 3 ? (Y - by) / bh * .5 : r / Math.max(bw, bh) * .45) + rnd() * .15, vita: 1 + rnd() * .8 });
+      P.push({ x: X, y: Y, c: [d[i], d[i + 1], d[i + 2]], vx: dx / r * v * .7 + (rnd() - .5) * 440, vy: dy / r * v * .3 + (rnd() - .5) * 150 - 15,
+        rit: (V === 3 ? (Y - by) / bh * .5 : r / Math.max(bw, bh) * .45) + rnd() * .15, vita: .7 + rnd() * .6 });
     }
     // variante 2: i punti delle parole «Una valle,» dove la polvere va a posarsi
     var T = [];
@@ -176,7 +178,7 @@
           x.fillStyle = 'rgb(' + cc + ')'; var s2 = PASSO - (PASSO - 2) * e; x.fillRect(px, py, s2, s2); continue;
         }
         var f2 = u / p.vita; if (f2 >= 1) continue;
-        var sp2 = (1 - Math.exp(-1.4 * u)) / 1.4, qx = p.x + p.vx * sp2, qy = p.y + p.vy * sp2 - 40 * u * u, s3 = PASSO * (1 - .4 * f2);
+        var sp2 = (1 - Math.exp(-1.4 * u)) / 1.4, qx = p.x + p.vx * sp2, qy = p.y + p.vy * sp2 + 70 * u * u, s3 = PASSO * (1 - .4 * f2);
         x.fillStyle = 'rgba(' + p.c + ',' + (1 - f2 * f2) + ')'; x.fillRect(qx, qy, s3, s3);
       }
       if (tt < DUR) requestAnimationFrame(giro); else dopo(cv);
