@@ -145,6 +145,7 @@ async function scattaIeri(browser, k, giorni) {
   giorni = giorni || 1;
   const nome = giorni === 1 ? 'ieri' : giorni + 'g';
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => { try { sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} });   // 28/11/2026 (143): niente anteprima del libro nelle foto
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
   await page.evaluateOnNewDocument(() => { try { localStorage.setItem('novitaVista', '2099'); } catch (e) {} });
   /* ⚠️ IL GIORNO DELLA PAGINA, non «ieri» fisso (20/10/2026): la pagina mostra l'ultimo giorno intero del suo
@@ -165,6 +166,7 @@ async function scattaIeri(browser, k, giorni) {
 
 async function scattaBoschi(browser, k) {
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => { try { sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} });   // 28/11/2026 (143): niente anteprima del libro nelle foto
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
   await page.evaluateOnNewDocument(() => { try { localStorage.setItem('novitaVista', '2099'); } catch (e) {} });
   try {
@@ -193,6 +195,7 @@ function eventoAcceso(k) {
 }
 async function scattaEvento(browser, k, ev) {
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => { try { sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} });   // 28/11/2026 (143): niente anteprima del libro nelle foto
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
   await page.evaluateOnNewDocument(() => { try { localStorage.setItem('novitaVista', '2099'); } catch (e) {} });
   try {
@@ -232,6 +235,7 @@ async function scattaStorico(browser, k) {
     if (gia && gia.al === m.al && gia.giorni === m.giorni && gia.mm === m.media) continue;   // stessa foto: si tiene
     if (!gia && process.env.STORICO_TUTTI !== '1' && m !== S.mesi[S.mesi.length - 1]) continue;   // i vecchi li fa il PC
     const page = await browser.newPage();
+    await page.evaluateOnNewDocument(() => { try { sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} });   // 28/11/2026 (143): niente anteprima del libro nelle foto
     try {
       await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
       await page.goto(SITO + '?r=' + k + '&da=' + m.dal + '&a=' + m.al, { waitUntil: 'networkidle2', timeout: 120000 });
@@ -261,6 +265,7 @@ async function scattaStorico(browser, k) {
 async function scatta(browser, k) {
   const url = SITO + '?r=' + k + '&da=' + iso(giornoFa(GIORNI)) + '&a=' + iso(giornoFa(1));
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => { try { sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} });   // 28/11/2026 (143): niente anteprima del libro nelle foto
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
   const errori = [];
   page.on('pageerror', e => errori.push(e.message.slice(0, 120)));

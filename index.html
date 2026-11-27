@@ -114,7 +114,7 @@
      dello script (?anteprima=1, #libro, sessionStorage «uscitaLibroMappa»); lo toglie lo script in parti(), per
      sicurezza anche il load della pagina e 8 s. Da togliere insieme a uscita-libro.js quando finisce la promo. -->
 <style>html.usc-velo{background:#050505}html.usc-velo body::before{content:"";position:fixed;inset:0;z-index:99998;background:#050505}</style>
-<script>(function(){try{var f=/[?&]anteprima=1/.test(location.search);if(!f&&(location.hash==='#libro'||sessionStorage.getItem('uscitaLibroMappa')))return;var d=document.documentElement,t=function(){d.classList.remove('usc-velo')};d.classList.add('usc-velo');setTimeout(t,8000);addEventListener('load',t)}catch(e){}})();</script>
+<script>(function(){try{var f=/[?&]anteprima=1/.test(location.search);if(!f&&(navigator.webdriver||window.self!==window.top||location.hash==='#libro'||sessionStorage.getItem('uscitaLibroMappa')))return;var d=document.documentElement,t=function(){d.classList.remove('usc-velo')};d.classList.add('usc-velo');setTimeout(t,8000);addEventListener('load',t)}catch(e){}})();</script>
 <!-- 4/11/2026 (scheda 121): la foto in testa alla scheda «Iscriviti» del computer. E' uno sfondo CSS di una scheda
      nascosta finche' non parte la vetrina (`prevetrina`), e il browser non scarica gli sfondi delle cose nascoste:
      senza questa riga la foto arriverebbe dopo la scheda. Solo sopra i 600 px, dove la scheda c'e'.

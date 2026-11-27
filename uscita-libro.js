@@ -13,6 +13,9 @@
   var AMAZON = 'https://www.amazon.it/dp/B0HSZ41P8S';
   var V = 3;
   var forza = /[?&]anteprima=1/.test(location.search);
+  // ⚠️ 28/11/2026 (scheda 143): mai nei browser automatici (le foto `anteprime/<regione>.jpg` di genera-anteprime.js
+  // prendevano il libro al posto della mappa, in ~1.370 pagine) né dentro un iframe. Stesso controllo nel velo del <head>.
+  if (!forza) { try { if (navigator.webdriver || window.self !== window.top) return; } catch (e) { return; } }
   if (!forza) { if (location.hash === '#libro') return; try { if (sessionStorage.getItem('uscitaLibroMappa')) return; sessionStorage.setItem('uscitaLibroMappa', '1'); } catch (e) {} }
   function conta(n) { try { if (typeof gtag === 'function') gtag('event', n); } catch (e) {} }
   var fermo = matchMedia('(prefers-reduced-motion: reduce)').matches;
