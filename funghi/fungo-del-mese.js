@@ -158,7 +158,7 @@
     + '.fg-striscia .fg-vai{font-weight:700;display:inline-flex;align-items:center;gap:4px}'
     + '.fg-striscia .fg-vai svg{width:14px;height:14px;transition:transform .2s}.fg-striscia:hover .fg-vai svg{transform:translateX(3px)}'
     + '.fg-striscia .fg-corto{display:none}'
-    + '.fg-giallo{position:relative;background:#ecb91a}.fg-giallo .fg-striscia{padding:0 44px}'
+    + '.fg-giallo{position:relative;z-index:2;background:#ecb91a;box-shadow:0 3px 6px rgba(0,0,0,.22)}.fg-giallo .fg-striscia{padding:0 44px}'
     + '.fg-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:#111;font-size:22px;line-height:32px;cursor:pointer;opacity:.6}.fg-x:hover{opacity:1;background:rgba(0,0,0,.08)}'
     + '@media (max-width:734px){.fg-giallo .fg-striscia{gap:8px;font-size:13px;padding:0 38px 0 8px}.fg-striscia{gap:8px;font-size:13px}.fg-striscia .fg-lungo{display:none}.fg-striscia .fg-corto{display:inline}}';
   testa.insertAdjacentHTML('beforebegin', '<style>' + css + '</style><div class="fg-giallo">'
