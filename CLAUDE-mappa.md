@@ -2373,3 +2373,11 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   giorni del mese, le date a cavallo di due mesi («28 nov–4 dic») allargano la riga dei periodi oltre il riquadro.
 - Dal 21/11/2026 (scheda 141) il tasto sparisce il 10 dicembre, con le pagine funghi del Sud; la guida dice «da marzo al
   9 dicembre» (`CLAUDE-pagine.md`, «La pausa d'inverno al Sud dal 10 dicembre»).
+
+## L'anteprima del libro e il velo nero (27/11/2026, Promo libro e scheda 143)
+
+- `uscita-libro.js` (defer in fondo a `index.html`): anteprima a tutto schermo dell'uscita su Amazon, una volta per
+  visita (sessionStorage «uscitaLibroMappa»), mai con `#libro`, `?anteprima=1` la forza. Classi col prefisso `u-`.
+- Il velo nero sta nel `<head>` (`html.usc-velo`, stessi controlli) e lo toglie `parti()`; sicurezza: load e 8 s.
+- ⚠️ Senza velo, a DOMContentLoaded la mappa era già dipinta: l'Italia lampeggiava ~3 s prima del nero.
+- Finita la promo si tolgono tutti e tre: il file, la riga `<script>` in fondo e le righe del velo nel `<head>`.
