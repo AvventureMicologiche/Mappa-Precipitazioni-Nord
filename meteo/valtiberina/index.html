@@ -431,7 +431,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> VALTIBERINA</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda on attesa" id="scheda" aria-live="polite"><p class="nota">Sto leggendo le previsioni…</p></section>
 
-<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di stamattina, 27 novembre alle 12:19</span> Ieri in Valtiberina sono caduti in media <b>28 mm</b> (Badia Tedalda 40); negli ultimi 7 giorni <b>54 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia più alta è oggi, <b>70%</b> a Pietralunga. La notte più fredda è giovedì 3, con <b>-4°</b> a Monte Santa Maria Tiberina; il giorno più caldo oggi, <b>12°</b> a Città di Castello. Giorno per giorno: oggi 4°/12°, 0,3 mm; domani 2°/8°, asciutto; domenica 29 1°/8°, asciutto; lunedì 30 -1°/7°, asciutto; martedì 1 -2°/8°, asciutto; mercoledì 2 -3°/9°, asciutto; giovedì 3 -4°/9°, asciutto.</div>
+<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di oggi, 27 novembre alle 12:19</span> Ieri in Valtiberina sono caduti in media <b>28 mm</b> (Badia Tedalda 40); negli ultimi 7 giorni <b>54 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia più alta è oggi, <b>70%</b> a Pietralunga. La notte più fredda è giovedì 3, con <b>-4°</b> a Monte Santa Maria Tiberina; il giorno più caldo oggi, <b>12°</b> a Città di Castello. Giorno per giorno: oggi 4°/12°, 0,3 mm; domani 2°/8°, asciutto; domenica 29 1°/8°, asciutto; lunedì 30 -1°/7°, asciutto; martedì 1 -2°/8°, asciutto; mercoledì 2 -3°/9°, asciutto; giovedì 3 -4°/9°, asciutto.</div>
 
 <h2>I prossimi 7 giorni in Valtiberina</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
@@ -872,7 +872,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> ' + p.join(' ');
   }
 
   function miniMappa(id, larga, sat) {
@@ -1044,7 +1044,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;

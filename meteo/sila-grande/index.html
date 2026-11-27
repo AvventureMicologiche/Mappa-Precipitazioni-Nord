@@ -431,7 +431,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> SILA GRANDE</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda on attesa" id="scheda" aria-live="polite"><p class="nota">Sto leggendo le previsioni…</p></section>
 
-<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di stamattina, 27 novembre alle 12:18</span> Ieri nella Sila Grande sono caduti in media <b>9,9 mm</b> (Nocelle-Arvo 14); negli ultimi 7 giorni <b>30 mm</b>. Nei prossimi 7 giorni sono previsti in media <b>4,1 mm</b>, soprattutto domenica 29. La probabilità di pioggia più alta è domani, <b>63%</b> a San Pietro in Guarano. La notte più fredda è giovedì 3, con <b>-2°</b> a Aprigliano; il giorno più caldo oggi, <b>15°</b> a Piane Crati. Giorno per giorno: oggi 7°/15°, 0,6 mm; domani 3°/13°, 2,3 mm; domenica 29 2°/10°, 0,6 mm; lunedì 30 3°/12°, 0,1 mm; martedì 1 2°/11°, 0,3 mm; mercoledì 2 1°/11°, asciutto; giovedì 3 -2°/10°, 0,2 mm.</div>
+<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di oggi, 27 novembre alle 12:18</span> Ieri nella Sila Grande sono caduti in media <b>9,9 mm</b> (Nocelle-Arvo 14); negli ultimi 7 giorni <b>30 mm</b>. Nei prossimi 7 giorni sono previsti in media <b>4,1 mm</b>, soprattutto domenica 29. La probabilità di pioggia più alta è domani, <b>63%</b> a San Pietro in Guarano. La notte più fredda è giovedì 3, con <b>-2°</b> a Aprigliano; il giorno più caldo oggi, <b>15°</b> a Piane Crati. Giorno per giorno: oggi 7°/15°, 0,6 mm; domani 3°/13°, 2,3 mm; domenica 29 2°/10°, 0,6 mm; lunedì 30 3°/12°, 0,1 mm; martedì 1 2°/11°, 0,3 mm; mercoledì 2 1°/11°, asciutto; giovedì 3 -2°/10°, 0,2 mm.</div>
 
 <h2>I prossimi 7 giorni nella Sila Grande</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
@@ -874,7 +874,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> ' + p.join(' ');
   }
 
   function miniMappa(id, larga, sat) {
@@ -1046,7 +1046,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;

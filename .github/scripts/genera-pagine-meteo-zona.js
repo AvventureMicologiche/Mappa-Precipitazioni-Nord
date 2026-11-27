@@ -17,7 +17,7 @@
  * COSA C'E' DENTRO (tutto deciso guardando il campione, vedi prove/meteo-zone/LEGGIMI.md):
  *  - casella «Cerca il tuo paese, anche una frazione»: elenco dei comuni del sito + frazioni dal geocoder Open-Meteo;
  *    il posto scelto apre la SCHEDA QUI, sempre su OGGI con le ore, e da li' sei bottoni verso la mappa;
- *  - «Il punto di stamattina», scritto dai numeri (niente redattore);
+ *  - «Il punto di oggi», scritto dai numeri (niente redattore);
  *  - i 7 giorni della valle, da toccare: mappa, titolo della mappa e colonna della tabella passano a quel giorno;
  *  - la mappa: dal 30/10/2026 la FOTO DAL SATELLITE schiarita della vista a etichette della mappa (prima OpenStreetMap +
  *    il RILIEVO TINITALY), etichette come quelle della mappa (pillola bianca: icona del cielo SEMPRE, nome, minima blu,
@@ -938,7 +938,7 @@ function clientePagina(C) {
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> ' + p.join(' ');
   }
 
   /* ── LE ANTEPRIME DEI TRE BOTTONI (pagine «Meteo <paese>», C.ant, 28/10/2026): radar, previsioni e pluviometri della
@@ -1193,7 +1193,7 @@ function clientePagina(C) {
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   /* la pioggia del PLUVIOMETRO del paese (pagine «Meteo <paese>»): il file dei 25 giorni delle pagine paese funghi, serie
      dal piu' NUOVO (0 = ieri, come in lib-pagina-funghi.js), cioe' gia' nella forma del riepilogo di zona; periodi 1 e 7.
      ⚠️ (18/11/2026, check-139) dal 28/10 la si leggeva come se fosse dal piu' vecchio: «ieri» e «7 giorni» erano i
@@ -1386,7 +1386,7 @@ ${testata({ sito: SITO, canale: CANALE, reg: casa.k, ga: 'meteo-' + zslug, attiv
 ${nastroHtml(NOME)}
 ${SCHEDA_HTML}
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometri…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometri…</div>
 
 <h2>I prossimi 7 giorni ${esc(DOVE)}</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>

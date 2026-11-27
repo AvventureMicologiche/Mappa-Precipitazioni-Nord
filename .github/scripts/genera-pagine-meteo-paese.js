@@ -131,7 +131,7 @@ ${testata({ sito: SITO, canale: CANALE, reg, ga, attiva: 'previsioni' })}
 ${nastroHtml(p.n)}
 ${SCHEDA_HTML}
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometro…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni ${esc(p.dove)}</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>

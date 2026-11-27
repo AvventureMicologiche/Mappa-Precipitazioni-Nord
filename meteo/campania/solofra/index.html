@@ -441,7 +441,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> SOLOFRA</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda on attesa" id="scheda" aria-live="polite"><p class="nota">Sto leggendo le previsioni…</p></section>
 
-<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di stamattina</span> Sto leggendo previsioni e pluviometro…</div>
+<div class="pz-punto" id="punto"><span class="pz-quando">Il punto di oggi</span> Sto leggendo previsioni e pluviometro…</div>
 
 <h2>I prossimi 7 giorni a Solofra</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella dei paesi intorno passano a quel giorno. 💧 è la probabilità di pioggia.</p>
@@ -884,7 +884,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> ' + p.join(' ');
   }
 
   function miniMappa(id, larga, sat) {
@@ -1056,7 +1056,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;

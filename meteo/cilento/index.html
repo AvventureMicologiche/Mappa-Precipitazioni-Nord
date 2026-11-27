@@ -441,7 +441,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
 <div class="pz-nastro" id="nastro"><div class="lab"><b>METEO<em> CILENTO</em></b><span>…</span></div><div class="t"></div></div>
 <section class="pz-scheda on attesa" id="scheda" aria-live="polite"><p class="nota">Sto leggendo le previsioni…</p></section>
 
-<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di stamattina, 27 novembre alle 12:19</span> Ieri nel Cilento sono caduti in media <b>38 mm</b> (Rofrano-Fistole Faraone 44); negli ultimi 7 giorni <b>68 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia più alta è oggi, <b>80%</b> a Moio della Civitella. La notte più fredda è giovedì 3, con <b>0°</b> a Gioi; il giorno più caldo oggi, <b>15°</b> a Felitto. Giorno per giorno: oggi 6°/15°, 0,2 mm; domani 3°/14°, asciutto; domenica 29 4°/11°, asciutto; lunedì 30 2°/14°, asciutto; martedì 1 2°/14°, asciutto; mercoledì 2 1°/13°, asciutto; giovedì 3 0°/13°, 0,1 mm.</div>
+<div class="pz-punto" id="punto" data-cotto="2026-11-27"><span class="pz-quando">Il punto di oggi, 27 novembre alle 12:19</span> Ieri nel Cilento sono caduti in media <b>38 mm</b> (Rofrano-Fistole Faraone 44); negli ultimi 7 giorni <b>68 mm</b>. Nei prossimi 7 giorni <b>non è prevista pioggia</b>. La probabilità di pioggia più alta è oggi, <b>80%</b> a Moio della Civitella. La notte più fredda è giovedì 3, con <b>0°</b> a Gioi; il giorno più caldo oggi, <b>15°</b> a Felitto. Giorno per giorno: oggi 6°/15°, 0,2 mm; domani 3°/14°, asciutto; domenica 29 4°/11°, asciutto; lunedì 30 2°/14°, asciutto; martedì 1 2°/14°, asciutto; mercoledì 2 1°/13°, asciutto; giovedì 3 0°/13°, 0,1 mm.</div>
 
 <h2>I prossimi 7 giorni nel Cilento</h2>
 <p class="nota" style="margin-top:0">Tocca un giorno: la mappa e la tabella qui sotto passano a quel giorno. 💧 è la probabilità di pioggia, la più alta fra i paesi.</p>
@@ -884,7 +884,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
       : 'La probabilità di pioggia più alta è ' + nome(rischio.g, true) + ', <b>' + rischio.pc + '%</b>' + aDove(rischio.dpc) + '.');
     var fr = G.slice().sort(function (a, b) { return a.mn - b.mn; })[0], cal = G.slice().sort(function (a, b) { return b.mx - a.mx; })[0];
     p.push('La notte più fredda è ' + nome(fr.g, true) + ', con <b>' + fr.mn + '°</b>' + aDove(fr.dmn) + '; il giorno più caldo ' + nome(cal.g, true) + ', <b>' + cal.mx + '°</b>' + aDove(cal.dmx) + '.');
-    $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> ' + p.join(' ');
+    $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> ' + p.join(' ');
   }
 
   function miniMappa(id, larga, sat) {
@@ -1056,7 +1056,7 @@ header.tB.mk-aperto .t-marchio,header.tB.mk-aperto .t-ytp,header.tB.mk-aperto .m
     if (c) apri(posto(c), 'tabella');
   });
 
-  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di stamattina</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
+  function guasto() { if ($('nastro')) $('nastro').hidden = true; $('scheda').classList.remove('on'); $('scheda').classList.remove('attesa'); $('punto').innerHTML = '<span class="pz-quando">Il punto di oggi</span> Le previsioni dei paesi non rispondono in questo momento: riprova fra qualche minuto, o <a href="' + SITO + '/previsioni/?r=' + REG + '">guardale sulla mappa</a>.'; }
   function daPluviometro(j) {
     var s = j && j.serie ? j.serie[C.id] : null;
     if (!s || !s.length) return null;
