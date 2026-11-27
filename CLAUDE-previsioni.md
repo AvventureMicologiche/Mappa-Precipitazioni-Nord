@@ -1395,7 +1395,9 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
 ## La % di pioggia tolta: solo icona e mm (27/11/2026, scheda 143 ter)
 
 - Suo «A, tolgo tutto»: la % era dell'insieme ICON di Open-Meteo e contraddiceva icona e mm di ECMWF (MET); in più il
-  piano gratuito di Open-Meteo vieta la pubblicità. Ora le previsioni sono solo MET: icona, gradi, mm e vento.
+  piano gratuito di Open-Meteo vieta la pubblicità. Ora le previsioni sono solo MET: icona, gradi, mm e vento. Con
+  l'ora asciutta «assenti», come ilmeteo.it, dove prima c'era il trattino (suo «Dove c'è il trattino»: scheda della
+  mappa, ore e giorni della scheda delle pagine meteo); dove era vuoto resta vuoto.
 - Dove: `perPunto` e `previsioniDi` in `functions/api/previsioni.js` (tolti `PROB`, `probDi`, `prDa`, `maxProb`; niente
   `pc` né `probStato`), colonna «prob.» di `renderDet` in index.html, frasi del 💧 in 124 pagine meteo e nei due
   generatori (sostituite, non rigenerate), guida con la foto `previsioni.jpg` rifatta, fonti.html.
