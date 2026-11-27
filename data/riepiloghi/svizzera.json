@@ -1,145 +1,146 @@
 {
  "regione": "svizzera",
- "generato": "2026-11-26T04:15:47.685Z",
+ "generato": "2026-11-27T04:15:42.223Z",
  "periodi": {
   "1": {
-   "media": 4.8,
+   "media": 4,
    "giorni": 1,
-   "stazioni": 306,
-   "primo": "2026-11-25",
-   "ultimo": "2026-11-25",
+   "stazioni": 302,
+   "primo": "2026-11-26",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "Col du Grand St-Bernard (VS)",
-     "nb": "Col du Grand St-Bernard",
-     "mm": 26.1
+     "n": "Piz Corvatsch (GR)",
+     "nb": "Piz Corvatsch",
+     "mm": 23.6
     },
     {
-     "n": "Novazzano (TI)",
-     "nb": "Novazzano",
-     "mm": 25.4
+     "n": "Elm (GL)",
+     "nb": "Elm",
+     "mm": 22.1
     },
     {
-     "n": "Stabio (TI)",
-     "nb": "Stabio",
-     "mm": 24.5
+     "n": "Safien Platz (GR)",
+     "nb": "Safien Platz",
+     "mm": 22.1
     },
     {
-     "n": "Robièi (TI)",
-     "nb": "Robièi",
-     "mm": 22.4
+     "n": "Sta. Maria, Val Müstair (GR)",
+     "nb": "Sta. Maria, Val Müstair",
+     "mm": 21.6
     },
     {
-     "n": "Isone (TI)",
-     "nb": "Isone",
-     "mm": 21.2
+     "n": "Vals (GR)",
+     "nb": "Vals",
+     "mm": 21.6
     }
    ]
   },
   "7": {
-   "media": 60.4,
+   "media": 51.5,
    "giorni": 7,
    "stazioni": 306,
-   "primo": "2026-11-19",
-   "ultimo": "2026-11-25",
+   "primo": "2026-11-20",
+   "ultimo": "2026-11-26",
    "top": [
-    {
-     "n": "Le Moléson / Les Joux (FR)",
-     "nb": "Le Moléson / Les Joux",
-     "mm": 208.7
-    },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 202.1
+     "mm": 162
+    },
+    {
+     "n": "Le Moléson / Les Joux (FR)",
+     "nb": "Le Moléson / Les Joux",
+     "mm": 159
     },
     {
      "n": "Derborence (VS)",
      "nb": "Derborence",
-     "mm": 185.8
-    },
-    {
-     "n": "Les Marécottes (VS)",
-     "nb": "Les Marécottes",
-     "mm": 175.1
+     "mm": 142
     },
     {
      "n": "L'Auberson (VD)",
      "nb": "L'Auberson",
-     "mm": 171.3
+     "mm": 141
+    },
+    {
+     "n": "Emosson (VS)",
+     "nb": "Emosson",
+     "mm": 134.7
     }
    ]
   },
   "20": {
-   "media": 124,
+   "media": 124.4,
    "giorni": 20,
    "stazioni": 306,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-25",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-26",
    "top": [
     {
      "n": "Clusanfe (VS)",
      "nb": "Clusanfe",
-     "mm": 461.6
+     "mm": 453
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 378
+     "mm": 375.5
     },
     {
      "n": "Emosson (VS)",
      "nb": "Emosson",
-     "mm": 365.3
-    },
-    {
-     "n": "Les Marécottes (VS)",
-     "nb": "Les Marécottes",
-     "mm": 360.9
+     "mm": 360.6
     },
     {
      "n": "Le Moléson / Les Joux (FR)",
      "nb": "Le Moléson / Les Joux",
-     "mm": 356.6
+     "mm": 353.3
+    },
+    {
+     "n": "Les Marécottes (VS)",
+     "nb": "Les Marécottes",
+     "mm": 352.2
     }
    ]
   },
   "30": {
-   "media": 125.3,
+   "media": 129.3,
    "giorni": 30,
    "stazioni": 306,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-25",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-26",
    "top": [
     {
      "n": "Clusanfe (VS)",
      "nb": "Clusanfe",
-     "mm": 462.4
+     "mm": 470.6
     },
     {
      "n": "La Dôle (VD)",
      "nb": "La Dôle",
-     "mm": 378.9
+     "mm": 380.7
     },
     {
      "n": "Emosson (VS)",
      "nb": "Emosson",
-     "mm": 366.1
+     "mm": 367.4
     },
     {
      "n": "Les Marécottes (VS)",
      "nb": "Les Marécottes",
-     "mm": 362.3
+     "mm": 364
     },
     {
      "n": "Le Moléson / Les Joux (FR)",
      "nb": "Le Moléson / Les Joux",
-     "mm": 357.3
+     "mm": 361.7
     }
    ]
   }
  },
  "serie": [
+  4,
   4.8,
   0.5,
   10.6,
@@ -168,9 +169,8 @@
   0,
   0,
   0,
-  0.9,
-  0
+  0.9
  ],
- "serieDa": "2026-11-25",
+ "serieDa": "2026-11-26",
  "zone": []
 }

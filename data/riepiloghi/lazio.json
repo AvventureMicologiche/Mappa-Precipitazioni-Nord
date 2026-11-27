@@ -1,62 +1,62 @@
 {
  "regione": "lazio",
- "generato": "2026-11-26T04:15:47.684Z",
+ "generato": "2026-11-27T04:15:42.223Z",
  "periodi": {
   "1": {
-   "media": 24.1,
+   "media": 9.2,
    "giorni": 1,
-   "stazioni": 207,
-   "primo": "2026-11-25",
-   "ultimo": "2026-11-25",
+   "stazioni": 208,
+   "primo": "2026-11-26",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "Lenola",
-     "mm": 146.6
+     "n": "Monte Terminillo",
+     "mm": 54
     },
     {
-     "n": "Vallecorsa",
-     "mm": 146
-    },
-    {
-     "n": "S.Apollinare",
-     "mm": 125.9
-    },
-    {
-     "n": "San Biagio Saracinisco",
-     "mm": 113.6
+     "n": "Posta",
+     "mm": 42.2
     },
     {
      "n": "Supino",
-     "mm": 113.5
+     "mm": 41.7
+    },
+    {
+     "n": "Campaegli",
+     "mm": 40.8
+    },
+    {
+     "n": "Subiaco (Scolastica)",
+     "mm": 39.5
     }
    ]
   },
   "7": {
-   "media": 51.6,
+   "media": 42.4,
    "giorni": 7,
    "stazioni": 206,
-   "primo": "2026-11-19",
-   "ultimo": "2026-11-25",
+   "primo": "2026-11-20",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "San Biagio Saracinisco",
-     "mm": 189.6
-    },
-    {
-     "n": "Lenola",
-     "mm": 187.8
-    },
-    {
      "n": "Vallecorsa",
-     "mm": 176.9
+     "mm": 198.7
     },
     {
      "n": "S.Apollinare",
-     "mm": 173.9
+     "mm": 189.4
     },
     {
      "n": "Supino",
-     "mm": 173.4
+     "mm": 182.6
+    },
+    {
+     "n": "San Biagio Saracinisco",
+     "mm": 173.9
+    },
+    {
+     "n": "Lenola",
+     "mm": 173.3
     }
    ]
   },
@@ -64,62 +64,63 @@
    "media": 138.8,
    "giorni": 20,
    "stazioni": 208,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-25",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-26",
    "top": [
     {
      "n": "Monte Terminillo",
-     "mm": 447.1
+     "mm": 487.5
     },
     {
      "n": "Micigliano",
-     "mm": 409.9
+     "mm": 435.9
     },
     {
      "n": "Posta",
-     "mm": 386.4
+     "mm": 425.2
     },
     {
      "n": "San Biagio Saracinisco",
-     "mm": 344.6
+     "mm": 366.8
     },
     {
      "n": "Supino",
-     "mm": 327.6
+     "mm": 348.7
     }
    ]
   },
   "30": {
-   "media": 146.8,
+   "media": 156,
    "giorni": 30,
    "stazioni": 208,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-25",
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-26",
    "top": [
     {
      "n": "Monte Terminillo",
-     "mm": 450.9
+     "mm": 504.9
     },
     {
      "n": "San Biagio Saracinisco",
-     "mm": 436.5
+     "mm": 465.3
     },
     {
      "n": "Micigliano",
-     "mm": 415.7
+     "mm": 447.7
     },
     {
      "n": "Posta",
-     "mm": 391.4
+     "mm": 433.6
     },
     {
      "n": "Supino",
-     "mm": 351.1
+     "mm": 392.8
     }
    ]
   }
  },
  "serie": [
+  9.2,
   24.1,
   0.1,
   2.8,
@@ -148,18 +149,17 @@
   0.1,
   1.5,
   0.1,
-  0,
   0
  ],
- "serieDa": "2026-11-25",
+ "serieDa": "2026-11-26",
  "zone": [
   {
    "s": "piana-del-cavaliere",
    "n": "Piana del Cavaliere",
-   "ultimo": "2026-11-25",
-   "m1": 9.3,
-   "m7": 58.3,
-   "m30": 190.6,
+   "ultimo": "2026-11-26",
+   "m1": 23.7,
+   "m7": 43.4,
+   "m30": 214.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "monti-prenestini",
    "n": "Monti Prenestini",
-   "ultimo": "2026-11-25",
-   "m1": 17,
-   "m7": 39,
-   "m30": 121.5,
+   "ultimo": "2026-11-26",
+   "m1": 22,
+   "m7": 46.2,
+   "m30": 143.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -178,10 +178,10 @@
   {
    "s": "sabina",
    "n": "Sabina",
-   "ultimo": "2026-11-25",
-   "m1": 19.8,
-   "m7": 59.9,
-   "m30": 241.9,
+   "ultimo": "2026-11-26",
+   "m1": 17.2,
+   "m7": 45.9,
+   "m30": 259.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -189,10 +189,10 @@
   {
    "s": "vallonina",
    "n": "Vallonina",
-   "ultimo": "2026-11-25",
-   "m1": 14.4,
-   "m7": 82.9,
-   "m30": 278.4,
+   "ultimo": "2026-11-26",
+   "m1": 25.7,
+   "m7": 59.7,
+   "m30": 304.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -200,10 +200,10 @@
   {
    "s": "monti-cantari",
    "n": "Monti Cantari",
-   "ultimo": "2026-11-25",
-   "m1": 22.9,
-   "m7": 90.6,
-   "m30": 232.7,
+   "ultimo": "2026-11-26",
+   "m1": 28.3,
+   "m7": 70.3,
+   "m30": 261,
    "p1": true,
    "p7": true,
    "p30": true
@@ -211,10 +211,10 @@
   {
    "s": "monti-reatini",
    "n": "Monti Reatini",
-   "ultimo": "2026-11-25",
-   "m1": 14.5,
-   "m7": 84.5,
-   "m30": 354.8,
+   "ultimo": "2026-11-26",
+   "m1": 36,
+   "m7": 77.8,
+   "m30": 390.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -222,10 +222,10 @@
   {
    "s": "monti-sabini",
    "n": "Monti Sabini",
-   "ultimo": "2026-11-25",
-   "m1": 6,
-   "m7": 40.1,
-   "m30": 153.1,
+   "ultimo": "2026-11-26",
+   "m1": 17.9,
+   "m7": 38.4,
+   "m30": 171,
    "p1": true,
    "p7": true,
    "p30": true

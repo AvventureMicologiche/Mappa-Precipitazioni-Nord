@@ -1,125 +1,126 @@
 {
  "regione": "sicilia",
- "generato": "2026-11-26T04:15:47.685Z",
+ "generato": "2026-11-27T04:15:42.223Z",
  "periodi": {
   "1": {
-   "media": 0.4,
+   "media": 6.3,
    "giorni": 1,
-   "stazioni": 417,
-   "primo": "2026-11-25",
-   "ultimo": "2026-11-25",
+   "stazioni": 403,
+   "primo": "2026-11-26",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "Cesarò Monte Soro SIAS",
-     "mm": 9.4
+     "n": "Castanea delle Furie",
+     "mm": 119.4
     },
     {
-     "n": "Trearie",
-     "mm": 8.8
+     "n": "Mastrostefano",
+     "mm": 38.3
     },
     {
-     "n": "Monte Colla",
-     "mm": 7
+     "n": "Case Migliardo",
+     "mm": 30.5
     },
     {
-     "n": "Serra di Vito",
-     "mm": 6
+     "n": "Isnello",
+     "mm": 28.6
     },
     {
-     "n": "Cesarò Vignazza SIAS",
-     "mm": 5.8
+     "n": "Collesano",
+     "mm": 27.8
     }
    ]
   },
   "7": {
-   "media": 1,
+   "media": 6.9,
    "giorni": 7,
-   "stazioni": 424,
-   "primo": "2026-11-19",
-   "ultimo": "2026-11-25",
+   "stazioni": 422,
+   "primo": "2026-11-20",
+   "ultimo": "2026-11-26",
    "top": [
     {
+     "n": "Castanea delle Furie",
+     "mm": 119.6
+    },
+    {
+     "n": "Mastrostefano",
+     "mm": 42.7
+    },
+    {
      "n": "Cesarò Monte Soro SIAS",
-     "mm": 19.8
+     "mm": 34.6
     },
     {
-     "n": "Trearie",
-     "mm": 9.6
+     "n": "Case Migliardo",
+     "mm": 33.5
     },
     {
-     "n": "Messina SP50Bis",
-     "mm": 8.4
-    },
-    {
-     "n": "Monte Colla",
-     "mm": 8.4
-    },
-    {
-     "n": "Gioiosa Marea",
-     "mm": 7.6
+     "n": "Isnello",
+     "mm": 30
     }
    ]
   },
   "20": {
-   "media": 5.5,
+   "media": 8.6,
    "giorni": 20,
    "stazioni": 424,
-   "primo": "2026-11-06",
-   "ultimo": "2026-11-25",
+   "primo": "2026-11-07",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "Cesarò",
-     "mm": 101.8
-    },
-    {
      "n": "Castanea delle Furie",
-     "mm": 45.8
+     "mm": 164.6
     },
     {
-     "n": "Militello Rosmarino",
-     "mm": 44.8
+     "n": "Case Migliardo",
+     "mm": 43.8
     },
     {
-     "n": "Naso SIAS",
-     "mm": 42.4
+     "n": "Mastrostefano",
+     "mm": 43
     },
     {
-     "n": "Mirto",
-     "mm": 38.6
+     "n": "Messina SIAS",
+     "mm": 41.2
+    },
+    {
+     "n": "Santa Lucia del Mela",
+     "mm": 40.9
     }
    ]
   },
   "30": {
-   "media": 53.7,
+   "media": 59.8,
    "giorni": 30,
-   "stazioni": 425,
-   "primo": "2026-10-27",
-   "ultimo": "2026-11-25",
+   "stazioni": 423,
+   "primo": "2026-10-28",
+   "ultimo": "2026-11-26",
    "top": [
     {
-     "n": "Viagrande",
-     "mm": 191.9
+     "n": "Castanea delle Furie",
+     "mm": 224.4
     },
     {
      "n": "Isnello SP54",
-     "mm": 191.5
+     "mm": 200.3
+    },
+    {
+     "n": "Viagrande",
+     "mm": 193.7
     },
     {
      "n": "Cesarò",
-     "mm": 187.6
-    },
-    {
-     "n": "Nunziata",
-     "mm": 170.2
+     "mm": 190
     },
     {
      "n": "Cesarò Monte Soro SIAS",
-     "mm": 167
+     "mm": 182.6
     }
    ]
   }
  },
  "serie": [
+  6.3,
   0.4,
   0.3,
   0.1,
@@ -148,18 +149,17 @@
   4.6,
   0.9,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-25",
+ "serieDa": "2026-11-26",
  "zone": [
   {
    "s": "valle-del-fitalia",
    "n": "Valle del Fitalia",
-   "ultimo": "2026-11-25",
-   "m1": 2.4,
-   "m7": 5.2,
-   "m30": 108.1,
+   "ultimo": "2026-11-26",
+   "m1": 22.4,
+   "m7": 27.6,
+   "m30": 130.4,
    "p1": true,
    "p7": true,
    "p30": true
@@ -167,10 +167,10 @@
   {
    "s": "nebrodi",
    "n": "Nebrodi",
-   "ultimo": "2026-11-25",
-   "m1": 2.1,
-   "m7": 5,
-   "m30": 115.2,
+   "ultimo": "2026-11-26",
+   "m1": 14.7,
+   "m7": 19.7,
+   "m30": 129.8,
    "p1": true,
    "p7": true,
    "p30": true
