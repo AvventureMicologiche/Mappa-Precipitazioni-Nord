@@ -90,6 +90,7 @@
 
   function parti() {
     document.body.appendChild(o);
+    document.documentElement.classList.remove('usc-velo'); // il velo nero messo nel <head> di index.html (27/11, scheda 143)
     vecchioOverflow = document.documentElement.style.overflow; document.documentElement.style.overflow = 'hidden';
     $('.chiudi').onclick = chiudi; $('.entra').onclick = chiudi; conta('libro_anteprima');
     [$('.tit'), $('.bot')].forEach(function (a) { a.addEventListener('click', function () { conta('libro_amazon_anteprima'); }); }); document.addEventListener('keydown', esc);
