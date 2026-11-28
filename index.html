@@ -1257,8 +1257,18 @@ body.in-scatto #hint-cerca-slot,body.in-scatto #map-hint-panel .mh-o{display:non
 /* sotto i 900 px la scheda torna 368 e la colonna e' 225: a 52 px «CON DELITTO» chiede 233 (misurato a 800 px). Il
    corpo del file sta in linea (`ganciopx`), quindi qui serve !important. */
 @media (max-width:900px){#channel-logo.v-libro .v-cop{width:96px;height:160px;}#channel-logo.v-libro .v-gancio{font-size:46px !important;}}
+/* LA FOTO NELLA VETRINA DEL LIBRO (28/11/2026, scheda 144, suo «libro più grande»): con "foto" nella voce del file, a
+   sinistra la foto (Archie che abbraccia il libro) col bordo giallo e il libro 3D piccolo nell'angolo in basso a destra,
+   che sporge un po' dalla foto. Senza "foto" resta il libro grande di prima. */
+#channel-logo.v-libro .v-cop.v-foto{position:relative;display:block;width:128px;height:186px;overflow:visible;}
+#channel-logo.v-libro .v-foto>img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%;border-radius:10px;
+  border:2px solid #ecb91a;box-sizing:border-box;box-shadow:0 4px 14px rgba(0,0,0,.45);}
+#channel-logo.v-libro .v-foto .lb{position:absolute;right:-12px;bottom:-8px;margin:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.55));}
+@media (max-width:900px){#channel-logo.v-libro .v-cop.v-foto{width:110px;height:160px;}#channel-logo.v-libro .v-foto .lb{height:80px !important;}
+  #channel-logo.v-libro .v-foto+.v-dx .v-gancio{font-size:40px !important;}}
 #channel-pill.cp-libro .cp-lb{width:38px;height:54px;margin:-3px 6px -3px 6px;flex:none;display:flex;align-items:center;justify-content:center;}
-#channel-pill.cp-libro .cp-tg{display:block;white-space:nowrap;font-size:24px;line-height:1.08;letter-spacing:-.01em;}
+/* min(24px,5vw) dal 28/11/2026 (scheda 144): «Questo progetto è gratuito» a 24 px non entra in una riga al telefono */
+#channel-pill.cp-libro .cp-tg{display:block;white-space:nowrap;font-size:min(24px,5vw);line-height:1.08;letter-spacing:-.01em;}
 #channel-pill.cp-libro .cp-t small{font-size:15px;margin-top:1px;}
 
 /* ── Frecce tutorial ── */
@@ -13131,8 +13141,11 @@ function loadDefaultMarkers(){
           +'<div class="v-canale"><img src="/archie-avatar.webp" alt="">'+V.canale+'</div>'
         +'</div></div>'
         +'<div class="v-btn">'+V.bottone+'</div>';
-      if(libro){   // il libro: niente foto, niente riga del canale, titolo grande su due righe (vedi il CSS)
-        box.innerHTML='<div class="v-alto"><div class="v-cop">'+libro3d(176)+'</div>'
+      if(libro){   // il libro: niente riga del canale, titolo grande su due righe (vedi il CSS)
+        // con "foto" (28/11/2026): la foto a sinistra e il libro piccolo nell'angolo («LA FOTO NELLA VETRINA DEL LIBRO»)
+        var copL= V.foto ? '<div class="v-cop v-foto"><img src="'+urlCopertina(V.foto)+'" alt="">'+libro3d(92)+'</div>'
+                         : '<div class="v-cop">'+libro3d(176)+'</div>';
+        box.innerHTML='<div class="v-alto">'+copL
           +'<div class="v-dx"><div class="v-occhio">'+V.occhiello+'</div>'
           +'<div class="v-gancio"'+(V.ganciopx?' style="font-size:'+V.ganciopx+'px"':'')+'><b>'+V.gancio1+'</b>'+(V.gancio2?'<b>'+V.gancio2+'</b>':'')+'</div>'
           +'</div></div><div class="v-btn">'+V.bottone+'</div>';
