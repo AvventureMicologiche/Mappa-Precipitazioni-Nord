@@ -2432,4 +2432,13 @@ scuri di 120-500 m, che le tessere 11-13 (mare trasparente) mostravano ingrandit
 Calabria, Amalfi, Elba). Suo «Mare 2»: la del 10 NON cambia (repo Satellite, jsDelivr e `FOTO_COMMIT` fermi). Nelle tessere
 di `avventurepluvio-foto` (deploy `6656f8fe`, 1.769 rifatte) il mare pulito e' dipinto dove la del 10 e' piu' scura, entro ~1,5
 km dalla costa; attrezzi `claudio\analisi-145bis\attrezzi\mare2.py` (pulisci, tessere, sito). ⚠️ La cartella pubblicata ora
-e' `D:\claude-dati\foto-145bis\mare2\sito`: chi rifa' le tessere (curva, ghiacciai) rilancia poi `mare2.py tessere` e `sito`.
+e' `D:\claude-dati\foto-145bis\finale\sito` (nota qui sotto): chi rifa' le tessere parte da li'.
+
+## I buchi di Sentinel-2 sui ghiacciai dallo zoom 11 al 13 (28/11/2026, scheda 145 bis)
+
+Il composito ESA WorldCover non ha dati sulla neve perenne (Monte Bianco 35%); `cuoci.py` ci metteva la del 10 ingrandita
+(Blue Marble 2004, chiazze grigio-viola). Suo «C, poi pubblica tutto»: nei buchi una scena Sentinel-2 L2A serena di fine
+estate (Earth Search su AWS, «visual», letta a 20 m una volta per zona, colori a quantili sul composito); `ghiacci.py G3`,
+`ghiacci-tutti.py`, unione col mare `mare2.py unisci`; deploy `326f6e93`, crediti in `fonti.html`. ⚠️ Solo buchi sulla TERRA
+della carta WorldCover (`acqua12` in `buchi.py`): in mare aperto e sui laghi Sentinel-2 ha buchi che col modo C diventavano
+chiazze grigie. Scene: prima quelle intere, perche' quella a meta' (orlo dell'orbita) lasciava il Bernina senza foto.
