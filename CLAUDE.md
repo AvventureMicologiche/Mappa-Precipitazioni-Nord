@@ -111,7 +111,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La mappa boschi (21/9)
 - La barra in basso sul telefono (20/9)
 - La forma dei tasti e la barra che scorre (31/10, 104 ter)
-- La foto dal satellite sotto la pioggia (31/10, 104): foto nostra fino allo zoom 10, Esri da vicino
+- La foto dal satellite sotto la pioggia (31/10, 104): foto nostra fino allo zoom 10, Esri da vicino (Esri tolto il 28/11)
 - Il riquadro della pioggia al telefono (31/10, 104)
 - Telefono girato, crediti al telefono (1/11, 106)
 - La velocita' della pioggia dopo le date (1/11, 106 bis)
@@ -127,9 +127,9 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - Il video nuovo entra in un quarto d'ora (4/11, 120 bis)
 - La scheda «Iscriviti» del computer (4/11, 121): la foto di Archie
 - La pillola del telefono gira (4/11, 121)
-- Due chiavi Esri (7/11, 126 bis)
+- Due chiavi Esri (7/11, 126 bis): superata il 28/11
 - I nomi dei paesi fra due zoom interi (7/11, 126)
-- Esri da vicino non chiede più tessere (7/11, 126)
+- Esri da vicino non chiede più tessere (7/11, 126): superata il 28/11
 - L'ombra delle icone del meteo (8/11, 127 bis)
 - Etichette del meteo, testata del telefono (8/11, 127 bis)
 - Il radar si apre col +40 minuti (8/11, 128 ter)
@@ -150,6 +150,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La vetrina del libro (20/11, Promo libro): libro 3D, giro uno su tre
 - ⚠️ «Piogge per funghi» stagionale (20/11, 139): da dicembre a febbraio il tasto non c'è
 - L'anteprima del libro e il velo nero (27/11, 143): da togliere finita la promo
+- ⚠️ Via Esri (28/11, 143 bis): foto nostra fino al 13, Mapbox nel satellite dei boschi dallo zoom 14
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
@@ -198,7 +199,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La fase B delle previsioni (2/11, 112 ter)
 - «Ieri a Caronia» era la pioggia di Pomiere (2/11, 113)
 - Il credito della probabilita' di pioggia (3/11, 114)
-- Le previsioni da vicino a un quarto delle tessere Esri (3/11, 116)
+- Le previsioni da vicino a un quarto delle tessere Esri (3/11, 116): superata il 28/11
 - Le pagine meteo con la foto nostra (3/11, 116)
 - Le pagine «adesso» delle città, prima ondata (4/11, 118 bis)
 - La previsione di riserva quando MET manda il JSON tagliato (4/11, 118 bis)

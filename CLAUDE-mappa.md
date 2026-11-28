@@ -2381,3 +2381,30 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
 - Il velo nero sta nel `<head>` (`html.usc-velo`, stessi controlli) e lo toglie `parti()`; sicurezza: load e 8 s.
 - ⚠️ Senza velo, a DOMContentLoaded la mappa era già dipinta: l'Italia lampeggiava ~3 s prima del nero.
 - Finita la promo si tolgono tutti e tre: il file, la riga `<script>` in fondo e le righe del velo nel `<head>`.
+
+## Via Esri: foto nostra fino al 13, Mapbox nel satellite (28/11/2026, scheda 143 bis)
+
+- Suo: Esri «non dobbiamo più usarlo prossimamente e l'alternativa deve permettere la monetizzazione». Strada B scelta il
+  27/11: tessere NOSTRE Sentinel-2 (ESA WorldCover 2021, CC BY 4.0) agli zoom 11-13 per pioggia, previsioni e pagine
+  meteo; Mapbox Satellite solo nel satellite dei boschi dallo zoom 14. Analisi: `claudio\analisi-esri-143bis\RESOCONTO.md`.
+- Tessere su Cloudflare Pages, progetto `avventurepluvio-foto`: `https://avventurepluvio-foto.pages.dev/v1/{z}/{x}/{y}.webp`,
+  livelli 10-12 da 512 px (in mappa zoom 11-13, `tileSize:512, zoomOffset:-1`), 13.889 file; `v1/indice.json` dice quali
+  esistono (intervalli di x per riga), cosi' mare e fuori area non si chiedono (FOTO_VUOTA). `_headers`: CORS e cache di
+  un anno. Le cuoce la scheda 143 quater; il patto (curva «Piu' chiare» tacca 3, spalla sui bianchi per la neve) sta in
+  `claudio\analisi-esri-143bis\CONTRATTO-TESSERE.md`. jsDelivr scartato: i suoi termini non vogliono file in gran numero.
+- `index.html`: `FOTO_VICINA`, `DaVicino` (nessuna tessera sotto il minZoom fra 10,5 e 10,75), `FotoVicina`,
+  `window._fotoVicina(pane, pronta)`. Pioggia: `daVicino()` al posto di `esri()`. Previsioni: tolti `esri()`, il fondo
+  «verde» e `vicinoL`, `satL` = nostra + FotoVicina. Crediti «Foto: NASA, ESA WorldCover».
+- Satellite dei boschi: nostra fino al 13, poi Mapbox Static Tiles (`styles/v1/mapbox/satellite-v9/tiles/512/...`) col
+  token di default del conto avventuremicologiche, SENZA carta: 200 mila richieste al mese gratis, oltre il conto si
+  sospende, niente addebiti. ⚠️ La Raster Tiles API risponde sempre 429 a un conto senza carta. Crediti obbligatori
+  «© Mapbox © Maxar Improve this map» e il logo (`creditoMapbox()`, `.mapbox-logo`; al telefono in basso a destra sopra
+  il riquadro), solo dallo zoom 14. Al quarto errore Mapbox si toglie per la visita: «Foto da vicino al momento non disponibile».
+- Pagine meteo: i generatori di zona e paese leggono `FOTO_VICINA` da `index.html` (`fotoSat(m, zmax)`, nel JSON
+  `vicina`). Rigenerate 104 pagine in prod; le 20 «cotte» del gruppo B ritoccate solo nel pezzo della foto, per non
+  perdere «Il punto di oggi». Nel test 49 di zona rigenerate, 40 paese ritoccate (li' il generatore paese non gira).
+- Prove `claudio\analisi-esri-143bis\attrezzi\prova-finale.js` (`ONLINE=1` con le tessere vere), prod e test: pioggia
+  allo zoom 13, satellite al 15, previsioni al 12, meteo di zona e di paese: 0 Esri, 0 tessere mancanti, Mapbox 200.
+- ⚠️ Le note su Esri piu' sopra (satellite 30/9, foto sotto la pioggia 31/10, due chiavi 7/11, Esri da vicino 7/11) e in
+  `CLAUDE-previsioni.md` raccontano il prima. Le due chiavi Esri si cancellano dopo qualche giorno, col suo si'. Da
+  sistemare a parte nella foto dello zoom 10: chiazze sui ghiacciai senza dati, macchie nel mare davanti a Palermo.

@@ -58,22 +58,18 @@ const RAW = 'https://raw.githubusercontent.com/AvventureMicologiche/Mappa-Precip
 const RILIEVO = 'https://cdn.jsdelivr.net/gh/AvventureMicologiche/Mappa-Precipitazioni-Tessere@e19f7b19852573d067391c5e46b62bf65473b2db/rilievo/';
 /* IL SATELLITE DELLA MAPPA (30/10/2026, scheda 101 bis; suo, il 29/10: «dentro le pagine meteo la mappa deve diventare
    come quella nuova», e il 30/10, con la vista a etichette in prod: «dobbiamo rifare ovunque compaiono immagini meteo»).
-   La stessa foto della vista a etichette di index.html: Esri World_Imagery con la chiave del sito (SAT_FOTO, referrer del
-   dominio, scade il 29/9/2027) e la stessa luce (LUCE_SAT: +6% a tacca). Si leggono da index.html: se cambiano basta
-   rigenerare. Senza chiave (repo di test) il servizio pubblico, come esri() della mappa. */
+   La stessa foto della vista a etichette di index.html, con la stessa luce (LUCE_SAT: +6% a tacca). Si leggono da
+   index.html: se cambiano basta rigenerare.
+   ⚠️ 27/11/2026 (scheda 143 bis, suo «Strada B»): niente piu' Esri. Da vicino (zoom 11-13, poi ingrandita) la foto
+   NOSTRA a 10 m, FOTO_VICINA di index.html (tessere da 512 px su Cloudflare Pages, col loro indice.json). Fino ad
+   allora qui c'era Esri World_Imagery dallo zoom 11 (ESRI_ALTRO, la credenziale «Pioggia previsioni e pagine meteo»). */
 const INDEX = fs.readFileSync(path.join(RADICE, 'index.html'), 'utf8');
-/* ⚠️ 7/11/2026 (scheda 126 bis): la chiave e' ESRI_ALTRO, la credenziale «Pioggia previsioni e pagine meteo», non piu'
-   quella di SAT_FOTO, che resta solo al satellite dei boschi: cosi' Esri conta a parte il satellite e tutto il resto.
-   Se ESRI_ALTRO non c'e' (repo di test), come prima. */
-const ALTRO = (/var ESRI_ALTRO='([^']+)'/.exec(INDEX) || [])[1];
-const SAT = ALTRO ? 'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=' + ALTRO
-  : (/var SAT_FOTO='([^']+)'/.exec(INDEX) || [])[1] || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const VICINA = (/var FOTO_VICINA='([^']+)'/.exec(INDEX) || [])[1] || null;
 const LUCE = +(1 + 0.06 * +((/var LUCE_SAT=(\d+)/.exec(INDEX) || [])[1] || 5)).toFixed(2);
-/* LA FOTO NOSTRA FINO ALLO ZOOM 10, POI ESRI A UN QUARTO (3/11/2026, scheda 116, suo: «la nostra foto fino allo zoom 10
-   nelle pagine /meteo/<zona>/, che oggi chiedono a Esri anche le tessere da lontano»). Come la mappa (modulo «LA FOTO
-   DAL SATELLITE SOTTO LA PIOGGIA» di index.html) e le pagine «adesso»: la cartina della valle e l'anteprima
-   «Previsioni» chiedevano Esri a ogni zoom, anche all'apertura. Si legge da index.html come in genera-pagine-adesso.js;
-   se non si trova, Esri a ogni zoom come prima (fotoSat nel codice del browser). */
+/* LA FOTO NOSTRA FINO ALLO ZOOM 10 (3/11/2026, scheda 116, suo: «la nostra foto fino allo zoom 10 nelle pagine
+   /meteo/<zona>/, che oggi chiedono a Esri anche le tessere da lontano»). Come la mappa (modulo «LA FOTO DAL SATELLITE
+   SOTTO LA PIOGGIA» di index.html) e le pagine «adesso». Si legge da index.html come in genera-pagine-adesso.js.
+   Dal 27/11/2026 da vicino la foto nostra a 10 m (VICINA, qui sopra), non piu' Esri. */
 const FOTO = (function () {
   const commit = /var FOTO_COMMIT='([0-9a-f]{40})'/.exec(INDEX), url = /var FOTO_URL='([^']+)'\+FOTO_COMMIT\+'([^']+)'/.exec(INDEX);
   const lim = /var FOTO_LIMITI=(\[\[[^;]+\]\]);/.exec(INDEX), cr = /var FOTO_CREDITI='([^']+)'/.exec(INDEX);
@@ -319,7 +315,7 @@ const CSS = `
 .pz-mappa-testa{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .pz-mappa-testa .dove{font-weight:700;color:#0f3d6e}
 #pz-mappa{height:460px;border-radius:12px;border:1px solid #c9d5e1;margin:8px 0 4px;z-index:1}
-/* la foto dal satellite (SAT nel generatore) schiarita come nella mappa; sotto, mentre le tessere arrivano, il fondo
+/* la foto dal satellite (FOTO e VICINA nel generatore) schiarita come nella mappa; sotto, mentre le tessere arrivano, il fondo
    scuro della vista Italia invece del grigio di Leaflet */
 #pz-mappa.sat{background:#3e526b}#pz-mappa.sat .leaflet-tile-pane{filter:brightness(${LUCE}) saturate(1.1)}
 /* LA BARRA CHE SCORRE (30/10/2026, suo: «sì, la barra»): la stessa della vista Italia della mappa (#vi-nastro di
@@ -531,45 +527,42 @@ function clientePagina(C) {
       : 'La ' + C.valle + ' ' + quando + (x ? ': ' + (x.mm < 0.1 ? 'asciutto' : mm(x.mm) + ' mm in media') : '');
   }
 
-  /* ── la foto dal satellite delle cartine (3/11/2026, scheda 116) ──
-     Come la mappa grande: fino allo zoom 10 la foto NOSTRA (C.foto: Blue Marble + ESA da jsDelivr, nessuna tessera Esri),
-     dallo zoom 11 Esri a un quarto delle tessere (512 px, zoomOffset -1). La nostra resta sotto: se Esri si ferma si vede
-     lei ingrandita. Se la nostra non arriva (3 errori senza una tessera arrivata) Esri a ogni zoom, come prima; jsDelivr
-     alla prima richiesta di una tessera a volte risponde 403, quindi altri tre tentativi (2, 5, 12 s), come la mappa.
-     zmax e' lo zoom massimo della cartina (Leaflet lo prende dagli strati). Il credito di Esri solo quando c'e' lui.
-     ⚠️ 7/11/2026 (scheda 126): come EsriDaVicino della mappa (index.html, accanto a FOTO_CREDITI). Leaflet sceglie lo zoom
-     delle tessere arrotondando e le butta col valore vero: a 10,5 e 10,75 le tessere Esri si chiedevano (e si pagavano)
-     e sparivano subito. Sotto il minZoom il minimo si alza di uno solo mentre _setView decide: nessuna tessera. La classe
-     si crea qui dentro, quando Leaflet c'e' di sicuro. */
-  function fotoSat(m, crEsri, zmax) {
-    var EsriDaVicino = L.TileLayer.extend({ _setView: function (c, z, a, b) {
+  /* ── la foto dal satellite delle cartine (3/11/2026, scheda 116; 27/11/2026, scheda 143 bis) ──
+     Come la mappa grande: fino allo zoom 10 la foto NOSTRA (C.foto: Blue Marble + ESA da jsDelivr), dallo zoom 11 al 13 la
+     foto nostra a 10 m (C.vicina: tessere da 512 px «@2x», zoomOffset -1, solo quelle che l'indice.json dice che esistono:
+     mare e fuori area non si chiedono), oltre la stessa ingrandita. jsDelivr alla prima richiesta di una tessera a volte
+     risponde 403, quindi altri tre tentativi (2, 5, 12 s), come la mappa. zmax e' lo zoom massimo della cartina (Leaflet
+     lo prende dagli strati). Fino al 27/11/2026 dallo zoom 11 c'era Esri a un quarto delle tessere.
+     ⚠️ 7/11/2026 (scheda 126): come DaVicino della mappa (index.html, accanto a FOTO_CREDITI). Leaflet sceglie lo zoom
+     delle tessere arrotondando e le butta col valore vero: a 10,5 e 10,75 le tessere da vicino si chiedevano e sparivano
+     subito. Sotto il minZoom il minimo si alza di uno solo mentre _setView decide: nessuna tessera. Le classi si creano
+     qui dentro, quando Leaflet c'e' di sicuro. */
+  function fotoSat(m, zmax) {
+    var VUOTA = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    var DaVicino = L.TileLayer.extend({ _setView: function (c, z, a, b) {
       var mz = this.options.minZoom;
       if (z < mz) this.options.minZoom = mz + 1;
       try { L.TileLayer.prototype._setView.call(this, c, z, a, b); } finally { this.options.minZoom = mz; }
     } });
-    var esri = new EsriDaVicino(C.sat, { minZoom: C.foto ? 11 : 0, maxZoom: zmax, maxNativeZoom: 18, tileSize: 512, zoomOffset: -1 });
-    var cr = false;
-    function crediti() {
-      var si = esri.options.minZoom === 0 || m.getZoom() >= 11, ac = m.attributionControl;
-      if (si === cr || !ac) return; cr = si;
-      if (si) ac.addAttribution(crEsri); else ac.removeAttribution(crEsri);
-    }
+    var FotoVicina = DaVicino.extend({ getTileUrl: function (c) {
+      var n = this._getZoomForUrl(), r = this.options.liv[n] && this.options.liv[n][c.y];
+      if (r) for (var i = 0; i < r.length; i++) { if (c.x < r[i][0]) break; if (c.x <= r[i][1]) return C.vicina + n + '/' + c.x + '/' + c.y + '.webp'; }
+      return VUOTA;
+    } });
     if (C.foto) {
       var nostra = L.tileLayer(C.foto.u, { minNativeZoom: 4, maxNativeZoom: 10, maxZoom: zmax, bounds: C.foto.lim, crossOrigin: true, attribution: C.foto.cr });
-      var arrivate = 0, rotte = 0;
-      nostra.on('tileload', function () { arrivate++; });
       nostra.on('tileerror', function (e) {
-        if (++rotte >= 3 && !arrivate) {
-          setTimeout(function () { if (!m.hasLayer(nostra)) return; m.removeLayer(nostra); m.removeLayer(esri); esri.options.minZoom = 0; esri.addTo(m); crediti(); }, 0);
-          return;
-        }
         var im = e.tile; if (!im) return; im._riprova = (im._riprova || 0) + 1; if (im._riprova > 3) return;
         setTimeout(function () { var s = im.src; if (!s || !nostra._map || !im.parentNode) return; im.src = ''; im.src = s; }, [2000, 5000, 12000][im._riprova - 1]);
       });
       nostra.addTo(m);
     }
-    esri.addTo(m); crediti(); m.on('zoomend', crediti);
-    return esri;
+    if (C.vicina && zmax >= 11 && window.fetch) fetch(C.vicina + 'indice.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.livelli) return;
+      new FotoVicina('', { minZoom: 11, maxZoom: zmax, minNativeZoom: 11, maxNativeZoom: 13, tileSize: 512, zoomOffset: -1, crossOrigin: true,
+        zIndex: 2, errorTileUrl: VUOTA, liv: j.livelli }).addTo(m);
+    }).catch(function () {});
+    return true;
   }
 
   /* ── la mappa della valle ── */
@@ -586,11 +579,12 @@ function clientePagina(C) {
          foto schiarita, come viFondo della vista a etichette. Il rilievo a parte non serve piu': la foto ce l'ha.
          ⚠️ A OGNI ZOOM dal 31/10/2026 (suo: «zoomando scompare il satellite», poi «sistema anche le 71 pagine meteo»):
          fino ad allora oltre lo zoom 13,5 tornava la cartina coi nomi delle strade, come faceva viFondo
-         ⚠️ 3/11/2026 (scheda 116): la nostra fino al 10 e Esri a un quarto da vicino, vedi fotoSat */
+         ⚠️ 3/11/2026 (scheda 116): la nostra fino al 10 e Esri a un quarto da vicino; dal 27/11/2026 (scheda 143 bis)
+         la nostra anche da vicino, vedi fotoSat */
       var sat = null;
       // ⚠️ IL TETTO E' 14, COME LE PREVISIONI DELLA MAPPA (8/11/2026, scheda 128 quater, censimento delle cartine; tetto della
       // mappa del 3/11, scheda 116): era 15, e al 14 e al 15 non restava nessuna etichetta, solo tessere Esri in piu'
-      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!sat) sat = fotoSat(mappa, 'da vicino Esri, Vantor, Earthstar Geographics', 14); };
+      var fondo = function () { $('pz-mappa').classList.add('sat'); if (!sat) sat = fotoSat(mappa, 14); };
       // le lineette in un pannello SOTTO le etichette: ogni marcatore ha il suo livello, e una lineetta lunga passava
       // sopra la pillola di un altro paese (24/10/2026, Garfagnana al telefono)
       mappa.createPane('linee'); mappa.getPane('linee').style.zIndex = 590;
@@ -955,8 +949,8 @@ function clientePagina(C) {
   function miniMappa(id, larga, sat) {
     var m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, zoomSnap: 0.25 });
     // la fonte in alto a sinistra: in basso c'e' l'etichetta gialla, che la copriva
-    m.attributionControl = L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);   // fotoSat ci scrive Esri
-    if (sat) { $(id).classList.add('sat'); fotoSat(m, 'Esri', 12); }   // la nostra fino al 10, poi Esri a un quarto (3/11/2026)
+    m.attributionControl = L.control.attribution({ prefix: false, position: 'topleft' }).addTo(m);   // fotoSat ci scrive la foto
+    if (sat) { $(id).classList.add('sat'); fotoSat(m, 12); }   // la nostra fino al 10, poi la nostra a 10 m (27/11/2026)
     else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap' }).addTo(m);
     var b = larga ? L.latLngBounds(larga)
       // sulla foto il confine bianco: il blu scuro sul mare scuro non si vedeva. Leggero come nelle regioni «adesso», 1,3 e
@@ -1342,7 +1336,7 @@ function pagina(z, QUOTE_DI) {
   if (iMeteo >= 0) STILE = STILE.slice(0, iMeteo);
 
   const C = { sito: SITO, raw: RAW, slug: zslug, reg: casa.k, dove: DOVE, valle: VALLE, inValle: VALLE === 'valle' ? 'in valle' : 'nella zona',
-    diValle: 'della ' + VALLE, sat: SAT, foto: FOTO, quote, pluv, nastro: NOME,
+    diValle: 'della ' + VALLE, vicina: VICINA, foto: FOTO, quote, pluv, nastro: NOME,
     // le tre anteprime (28/10/2026): il confine della regione e l'ordine delle citta'. confineDi si chiede qui e non in
     // cima: genera-pagine-adesso.js richiama genera-sitemap.js, che legge le zone di questo file (giro di require)
     // qui: il segnalino dei riquadri radar e pluviometri. Dall'8/11/2026 (scheda 128 quater, suo: «se apri la
@@ -1446,7 +1440,7 @@ ${ALTRE}
 module.exports = { ZONE_METEO, ZONE_METEO_B, ZONE_METEO_C, ZONE_METEO_D, ZONE_METEO_TUTTE, linkMeteo, METEO_PAESI, METEO_PAESI_B, METEO_PAESI_C, METEO_PAESI_DA_SCRIVERE, METEO_PAESI_TUTTI, linkMeteoPaese, indirizzoMeteoPaese, linkMeteoRegione,
   MV_CSS, altreMeteo, tabellaFissa,
   // per genera-pagine-meteo-paese.js, che fa le pagine «Meteo <paese>» con lo stesso stile e lo stesso codice del browser
-  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, SCHEDA_HTML, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, SAT, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
+  CSS, CSS_ANT, clientePagina, mappeHtml, nastroHtml, SCHEDA_HTML, scrivi, esc, agenziaDi, SITO, RAW, RILIEVO, VICINA, FOTO, GA_ID, CANALE, POSTI, ZONE, SLUG_REG };
 
 if (require.main === module) {
   (async () => {
