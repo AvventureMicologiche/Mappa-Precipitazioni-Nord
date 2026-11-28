@@ -35,6 +35,17 @@
         + 'rossicci, attraversata da venature biancastre fitte e sottili. Le spore sono nere in massa e spinulate.</p>'
         + '<p>Commestibile, ritenuto di qualità ottima. La ricerca si fa con il cane, nei periodi fissati dai '
         + 'calendari regionali.</p>' };
+  // il bianchetto (28/11/2026, scheda 144 ter): dalla voce Wikipedia «Tuber borchii», senza misure né zone
+  var BIANCHETTO = { nome: 'tartufo bianchetto', lat: 'Tuber borchii', aut: 'Vittad.', foto: 'LpLnFd-X5pI',
+      testo: '<p>Detto anche marzuolo, è un fungo ipogeo e micorrizico della famiglia delle Tuberaceae. Il corpo '
+        + 'fruttifero è globoso o subgloboso, senza orifizi né cavità. Cresce in simbiosi con conifere e latifoglie '
+        + 'quali querce in special modo leccio, carpino nero, carpino, tiglio; matura in inverno, da gennaio a marzo.</p>'
+        + '<p>Il peridio è sottile, liscio e pruinoso, biancastro, giallo-marrone chiaro o giallo-rossastro. La gleba '
+        + 'è bruno-violacea o bruno-rossastra, marmorizzata da vene biancastre e bianco-rossicce. L’odore è intenso e '
+        + 'agliaceo. Le spore sono ellissoidali o subglobose, finemente alveolate-reticolate, giallo-brune in massa.</p>'
+        + '<p>Commestibile, ritenuto di discreta qualità. Si distingue dal tartufo bianco pregiato per l’odore '
+        + 'agliaceo, il periodo di maturazione e l’ornamentazione delle spore. La ricerca si fa con il cane, nei '
+        + 'periodi fissati dai calendari regionali.</p>' };
   function con(o, x) { var r = {}, k; for (k in o) r[k] = o[k]; for (k in x) r[k] = x[k]; return r; }
   var MESI = {
     11: { quando: 'novembre', specie: [BIANCO], cerca: 'tartufo bianco',
@@ -55,6 +66,17 @@
         ['VsFqrrwGcpw', 'Tartufo nero pregiato 2026: fa troppo freddo'],
         ['chKmM1sLzhs', 'Tartufo bianco 2026, 2 giorni a caccia con Archie'],
         ['mN2aw83PHwE', 'Apertura tartufo bianco 2026: illusione e realtà']
+      ] },
+    // gennaio (suo, 28/11/2026, scheda 144 ter): PRIMA il bianchetto, POI il nero pregiato. Bianchetto = i due link suoi,
+    // copertina = quella del primo video sui bianchetti (scelta sua). Nero = i due video scelti da me, che lui ha tenuto.
+    // Copertina del nero «Tartufi a gennaio»: qui il mese scritto è quello giusto. Copertine in maxresdefault: nella
+    // hqdefault «Tartufi a gennaio» esce tagliata in alto
+    1: { quando: 'gennaio', specie: [con(BIANCHETTO, { fotoQ: 'maxresdefault' }), con(NERO, { foto: '9Z_veF7-hg0', fotoQ: 'maxresdefault' })], cerca: 'tartufo',
+      video: [
+        ['LpLnFd-X5pI', 'Tartufo bianchetto, prima uscita della stagione'],
+        ['pI3Rd1P57rw', 'Tartufo bianchetto 2026: Archie contro i cinghiali'],
+        ['9Z_veF7-hg0', 'Tartufo nero pregiato e bianchetto a fine gennaio'],
+        ['8cOim_oSi_8', 'Tartufo nero pregiato 2026: ultima uscita folle']
       ] }
   };
   var q = /[?&]fungomese=(\d+)/.exec(location.search);
@@ -73,9 +95,11 @@
     + '.fdm{margin-top:36px;scroll-margin-top:12px}'
     // il titolo: GRANDE, sul carattere della pagina, con una fascia di colore sotto (lui, 21/11/2026: «è un titolo,
     // scrivilo grande»; il serif NO, «quel carattere lo odio»). Verde come l etichetta «Fungo del mese» (lui: «non blu come i bottoni, fai verde»)
-    + '.fdm-testa{text-align:center;margin:0 0 20px;padding:10px 16px 12px;border-radius:12px;background:linear-gradient(#43a047,#2e7d32 55%,#256b29);box-shadow:0 5px 0 #1b5e20,0 8px 14px rgba(0,0,0,.25);color:#fff}'
-    + '.fdm-mese{font-size:14px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#d7efd8}'
-    + '.fdm h2{font-size:40px;font-weight:900;line-height:1;margin:4px 0 0;color:#fff;text-transform:uppercase;white-space:nowrap;letter-spacing:.01em;text-shadow:0 1px 0 #1b5e20,0 2px 0 #1b5e20,0 3px 0 #174f1b,0 4px 0 #134517,0 6px 8px rgba(0,0,0,.35)}'
+    // il titolo CENTRATO in altezza nella fascia e il mese più piccolo in cima, nel margine sopra (suo, 28/11/2026, scheda
+    // 144 ter): il mese sta fuori dal flusso (absolute), così sopra e sotto il titolo restano 22px uguali
+    + '.fdm-testa{position:relative;text-align:center;margin:0 0 20px;padding:22px 16px;border-radius:12px;background:linear-gradient(#43a047,#2e7d32 55%,#256b29);box-shadow:0 5px 0 #1b5e20,0 8px 14px rgba(0,0,0,.25);color:#fff}'
+    + '.fdm-mese{position:absolute;left:0;right:0;top:5px;font-size:11px;line-height:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#d7efd8}'
+    + '.fdm h2{font-size:40px;font-weight:900;line-height:1;margin:0;color:#fff;text-transform:uppercase;white-space:nowrap;letter-spacing:.01em;text-shadow:0 1px 0 #1b5e20,0 2px 0 #1b5e20,0 3px 0 #174f1b,0 4px 0 #134517,0 6px 8px rgba(0,0,0,.35)}'
     + '.fdm-prem{font-size:18px;line-height:1.5;margin:0 0 14px}'
     + '.fdm-desc{overflow:hidden}'
     + '.fdm-foto{float:left;width:300px;aspect-ratio:16/9;height:auto;object-fit:cover;border-radius:10px;margin:4px 18px 10px 0;display:block}'
@@ -92,7 +116,7 @@
     + '.fdm-tutti{display:inline-block;margin-top:14px;font-size:15px;font-weight:700;color:var(--blu,#1b3f6e)}'
     + '.fdm-fonte{font-size:13px;color:#777;margin-top:10px}.fdm-fonte a{color:#777}'
     + '@media(max-width:600px){.fdm-foto{float:none;width:100%;margin:0 0 12px}}'
-    + '@media(max-width:483px){.fdm-mese{font-size:12px}.fdm-prem{font-size:17px}'
+    + '@media(max-width:483px){.fdm-testa{padding:19px 12px}.fdm-mese{font-size:10px;line-height:12px;top:4px}.fdm-prem{font-size:17px}'
     + '.fdm-vid{grid-template-columns:1fr 1fr;gap:10px}.fdm-vid span{font-size:13px}}';
   // il richiamo: d'inverno dentro il riquadro della pausa, prima di «Da marzo…» (suo, 21/11/2026); in stagione una riga
   // sotto la riga di stagione
