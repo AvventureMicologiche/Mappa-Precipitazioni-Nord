@@ -151,6 +151,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - ⚠️ «Piogge per funghi» stagionale (20/11, 139): da dicembre a febbraio il tasto non c'è
 - L'anteprima del libro e il velo nero (27/11, 143): da togliere finita la promo
 - ⚠️ Via Esri (28/11, 143 bis): foto nostra fino al 13, Mapbox nel satellite dei boschi dallo zoom 14
+- Il bottone «Radar pioggia» nelle Previsioni (28/11, 144 bis): riquadro, e scheda al telefono
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 

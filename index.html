@@ -18030,7 +18030,7 @@ body.vz-fondo .leaflet-viRilievo-pane{mix-blend-mode:multiply;filter:contrast(1.
 body.modo-prev.pv-bassa #btn-reset-regions{top:14px;left:52px;width:358px;height:58px;font-size:18px;padding:0 14px}
 body.pv-bassa #pv-pan{padding:9px 12px 9px}body.pv-bassa #pv-pan .tt{margin-bottom:6px}
 body.pv-bassa #pv-pan .cerca-slot #loc-input{height:36px !important}
-body.pv-bassa.pv-det-aperto #pv-pan .gg-r,body.pv-bassa.pv-det-aperto #pv-pan .fo{display:none}body.pv-bassa.pv-det-aperto #pv-pan .cerca-slot{margin:0}
+body.pv-bassa.pv-det-aperto #pv-pan .gg-r,body.pv-bassa.pv-det-aperto #pv-pan .fo,body.pv-bassa.pv-det-aperto #pv-pan .pv-rd{display:none}body.pv-bassa.pv-det-aperto #pv-pan .cerca-slot{margin:0}
 /* ⚠️ I RISULTATI DELLA RICERCA SOPRA LA SCHEDA (controllo del 30/10/2026): la tendina dei risultati sta dentro
    #pv-pan (z-index 1200) e la scheda ora per ora (#pv-det, 1250) le passa sopra. In regione, valle e paese la scheda si
    apre da sola: a 1366x657, 1366x768 e 1536x702 TUTTE le righe erano coperte, a 1920x920 dalla quarta in giu'. Solo
@@ -18122,6 +18122,25 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 #pv-det .ft .b{flex:1;text-align:center;border:1.5px solid #1f6fd1;color:#fff;border-radius:9px;padding:8px 6px;font:700 12.5px/1 inherit;white-space:nowrap;cursor:pointer;background:#1f6fd1}
 #pv-det .ft .b:hover{background:#1b5fb3;border-color:#1b5fb3}
 #pv-det .ft .fo{font:500 9.5px/1.3 inherit;color:#6b7684;text-align:center}
+/* IL BOTTONE RADAR PIOGGIA (28/11/2026, scheda 144 bis). Suo, 27/11: un bottone «Radar» anche nelle Previsioni, perche' la
+   scritta «📡 Diretta radar» in fondo al riquadro al telefono quasi nessuno la vedeva. Scelta sua fra i mockup della 144
+   (claudio\mockup-radar-previsioni-144\): A + B, colore «1 · blu pieno». A: nel riquadro sotto i giorni, con la forma del
+   tasto «Radar pioggia» della pioggia (angoli 10, gradino sotto di 3 px) e il blu dei bottoni della scheda del paese.
+   B: in fondo alla scheda del paese due meta' uguali, «Storico piogge» | «Radar pioggia». Stesso clic (radarDaPrev).
+   ⚠️ Il radar vuole una regione: nella vista Italia non c'e' ne' A ne' la meta' di B (pv-senza-radar, da carica()) */
+#pv-pan .pv-rd{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;box-sizing:border-box;margin:10px 0 0;padding:7px 8px;
+  border:1px solid rgba(0,0,0,.18);border-bottom-width:3px;border-radius:10px;background:#1f6fd1;color:#fff;
+  font:700 13px/20px 'Segoe UI',Arial,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#pv-pan .pv-rd:hover{background:#1b5fb3}
+#pv-pan .pv-rd:active{transform:translateY(1px)}
+#pv-pan .pv-rd .rd-ic{margin:0;line-height:1}
+#pv-det .ft .bb{display:flex;gap:8px}
+#pv-det .ft .bb .b{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#pv-det .ft .di{display:none}
+body.pv-senza-radar #pv-det .ft .rd{display:none}body.pv-senza-radar #pv-det .ft .di{display:inline}
+/* al PC solo A (suo, 28/11/2026): la scheda del paese resta aperta sotto il riquadro e si vedevano due «Radar pioggia»;
+   B resta al telefono, dove la scheda copre il riquadro. Qui la scheda torna a «Storico piogge di <paese>» intero */
+@media(min-width:901px){#pv-det .ft .rd{display:none}#pv-det .ft .di{display:inline}}
 /* ── telefono ── */
 @media(max-width:900px){
   #pv-pan{left:0 !important;right:0;top:auto !important;bottom:0;width:auto !important;border-radius:14px 14px 0 0;padding:6px 0 10px;box-shadow:0 -2px 8px rgba(0,0,0,.18)}
@@ -18144,6 +18163,9 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   #pv-fumetto small{display:block;font-weight:400;opacity:.85;margin-top:2px;font-size:12.5px}
   body:not(.reg-bloccato) #pv-fumetto.su{display:block}
   #pv-pan .fo{padding:0 12px;text-align:center}
+  /* il bottone radar (A) sotto i giorni coi margini dei giorni, alto come il tasto della pioggia al telefono (40 px) */
+  #pv-pan .pv-rd{order:3;width:auto;margin:10px 10px 0;padding:8px;font-size:15px;line-height:20px}
+  #pv-pan .pv-rd .rd-ic{font-size:1.15em}
   /* ⚠️ ALTA QUANTO IL CONTENUTO, attaccata in basso (18/10/2026). Era fissata da 76 px al fondo: con
      poche righe (la sera di oggi, i giorni a fasce di 6 ore) restavano 160-350 px bianchi prima di
      «Storico piogge qui». Il tetto e' lo stesso di prima; con tante righe si scorre come sempre. */
@@ -18197,6 +18219,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
     #pv-det .oriz .et,#pv-det .oz .c{padding-top:0;padding-bottom:0}
   }
 }
+@media(max-width:375px){#pv-pan .pv-rd{padding:7px 6px;font-size:14px;line-height:18px}}   /* come il tasto della pioggia sotto i 375 */
 /* TELEFONI BASSI (sotto i 700 px, 1/11/2026, scheda 105 ter): al 40% la scheda con la striscia non ci stava (375x667:
    249 px contro 264, il piede usciva di 15). Righe della striscia, giorni e bottone un filo piu' stretti (-17 px); sotto i
    ~690 px la scheda tiene comunque lo spazio che le serve (col dito 247 px: a 360x640 sono 9 px piu' del 40%; col mouse
@@ -18234,7 +18257,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   :where(html:not(.schermo-dritto)) #pv-det .hd .q1{display:none}:where(html:not(.schermo-dritto)) #pv-det .hd .nm{font-size:15px}
   :where(html:not(.schermo-dritto)) #pv-det .hd .sto{display:block;color:#fff;background:#1f6fd1;border:1.5px solid #1f6fd1;border-radius:999px;align-self:flex-start;white-space:nowrap;cursor:pointer}
   :where(html:not(.schermo-dritto)) #pv-det .hd .sto,:where(html:not(.schermo-dritto)) #pv-det .hd .x{min-width:84px;padding:7px 8px;text-align:center}
-  :where(html:not(.schermo-dritto)) #pv-det .ft .b{display:none}
+  :where(html:not(.schermo-dritto)) #pv-det .ft .bb{display:none}
 }
 </style>
 <script>
@@ -18460,7 +18483,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +'<div class="invito-it" id="pv-invito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>Tocca una città, una regione o digita una località qui sotto</div>'
       +'<div class="cerca-slot" id="pv-cerca-slot"></div>'
       +'<div class="gg-r" id="pv-gg"></div>'
-      +'<div class="fo"><span id="pv-fo"></span><span id="pv-radar-r"> · <a id="pv-radar">📡 Diretta radar</a></span></div>';
+      +'<button type="button" class="pv-rd" id="pv-radar"><span class="rd-ic">🌧️</span> Radar pioggia</button>'   // al posto della scritta «📡 Diretta radar» (28/11/2026, scheda 144 bis: vedi «IL BOTTONE RADAR PIOGGIA» nel CSS)
+      +'<div class="fo"><span id="pv-fo"></span></div>';
     mp.appendChild(pan);
     var det=document.createElement('div'); det.id='pv-det'; mp.appendChild(det);
     // la casella «Cerca la tua localita'» del telefono (13/10/2026, vedi il CSS): apre la tendina con la ricerca pronta
@@ -18490,18 +18514,22 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       e.stopPropagation();   // il clic resta qui: ridisegnando, il bottone si stacca e la mappa lo prendeva per suo (18/10/2026)
       var c=e.target.closest('.pv-gg'); if(c){ scegliGiorno(+c.dataset.i); return; }
       if(e.target.closest('.x')){ togliPassi(true); chiudiDettaglio(); return; }
+      if(e.target.closest('.rd')){ radarDaPrev('scheda'); return; }   // la meta' «Radar pioggia» in fondo alla scheda (B, 28/11/2026)
       if(e.target.closest('.b')){ storicoQui(); return; }
     });
     /* il radar vuole una regione (giro del 7/10 sera: senza, si usciva dalle previsioni e non partiva niente). Con un
-       posto cercato e nessuna regione si passa dalla ricerca vera, che la sceglie; senza niente il link non c'e'. */
-    el('pv-radar').addEventListener('click',function(){
+       posto cercato e nessuna regione si passa dalla ricerca vera, che la sceglie; senza niente il bottone non c'e'.
+       Lo stesso clic per il bottone del riquadro (A) e per la meta' in fondo alla scheda del paese (B), 28/11/2026 */
+    el('pv-radar').addEventListener('click',function(){ radarDaPrev('riquadro'); });
+    function radarDaPrev(da){
+      ga('radar',{da:da});   // GA «previsioni» azione=radar, da=riquadro|scheda: quale dei due si tocca
       var c=cercato||posto, senza=!regioni().length;
       esci(false);
       window._radarDaPrev={visto:false};   // Indietro dal radar torna qui (modulo «Indietro» dello storico, 30/10/2026)
       if(senza&&c&&window._locVai){ try{ window._locVai({n:c.n,lat:c.lat,lon:c.lon,reg:(c.regs&&c.regs[0])||c.reg||regDi(c),t:c.t||'',priv:c.priv,muta:c.muta}); }catch(e){} }
       var b=el('btn-radar'), giri=0;
       (function prova(){ if(regioni().length||giri>40){ if(b) b.click(); if(window._storiaGuarda) window._storiaGuarda(); return; } giri++; setTimeout(prova,150); })();
-    });
+    }
     // uscite: linguetta, periodo scelto, «Indietro», radar e boschi
     [].forEach.call(document.querySelectorAll('#time-panel .tp-btn, #btn-custom, #btn-funghi, #btn-radar, #btn-boschi'),
       function(x){ x.addEventListener('click',function(){ if(acceso) esci(false); },true); });
@@ -18788,7 +18816,8 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   function carica(riinquadra){
     var rk=zone();
     var tt=el('pv-tt');
-    var rr=el('pv-radar-r'); if(rr) rr.style.display=rk.length?'':'none';
+    var rr=el('pv-radar'); if(rr) rr.style.display=rk.length?'':'none';   // il radar vuole una regione: nella vista Italia il bottone non c'e'
+    document.body.classList.toggle('pv-senza-radar',!rk.length);   // ...e nemmeno la meta' in fondo alla scheda del paese
     var eraVuoto=document.body.classList.contains('pv-vuoto');
     document.body.classList.toggle('pv-vuoto',!rk.length);
     if(window.posizionaChipFonte) window.posizionaChipFonte();   // la casella del telefono c'e' solo con delle scelte (13/10/2026)
@@ -19657,7 +19686,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       +(righe?(corta?'<div class="oriz"><div class="et"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>vento</span></div><div class="oz">'+righe+'</div></div>'
                     :'<div class="cols"><span>ora</span><span></span><span>temp.</span><span>pioggia</span><span>vento</span></div><div class="rows">'+righe+'</div>')
              :'<div class="vuoto">Per questo giorno c’è solo il riepilogo: le ore arrivano fino a '+(function(){ var u=(j.ore||[]).slice(-1)[0]; if(!u) return 'oggi'; var ud=giornoData(u.g); return GIL[ud.getDay()]+' '+ud.getDate(); })()+'.</div>')
-      +'<div class="ft"><button class="b">💧 Storico piogge di '+escH(punto.n)+'</button><span class="fo">Previsioni ECMWF via MET Norway</span>'+'</div>';
+      +'<div class="ft"><div class="bb"><button class="b">💧 Storico piogge<span class="di"> di '+escH(punto.n)+'</span></button><button class="b rd">🌧️ Radar pioggia</button></div><span class="fo">Previsioni ECMWF via MET Norway</span>'+'</div>';   // due meta' (28/11/2026, scheda 144 bis): «di <paese>» torna quando il radar non c'e'
     det._chiave=chiave; det._dati=j; det._firma=firma; det._primo=det.firstChild;
     if(corta) striscia(det,gb,gi,resta);
     else if(resta!=null){ var rw=det.querySelector('.rows'); if(rw) rw.scrollTop=resta; }

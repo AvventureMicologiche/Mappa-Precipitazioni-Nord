@@ -2408,3 +2408,13 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
 - ⚠️ Le note su Esri piu' sopra (satellite 30/9, foto sotto la pioggia 31/10, due chiavi 7/11, Esri da vicino 7/11) e in
   `CLAUDE-previsioni.md` raccontano il prima. Le due chiavi Esri si cancellano dopo qualche giorno, col suo si'. Da
   sistemare a parte nella foto dello zoom 10: chiazze sui ghiacciai senza dati, macchie nel mare davanti a Palermo.
+
+## Il bottone «Radar pioggia» nelle Previsioni (28/11/2026, scheda 144 bis)
+
+Al posto della scritta «📡 Diretta radar» (al telefono quasi invisibile) un bottone blu pieno «🌧️ Radar pioggia» nel
+riquadro sotto i giorni (A, `.pv-rd`, stesso id `#pv-radar`), con la forma del tasto radar della pioggia; al telefono anche
+la meta' destra in fondo alla scheda del paese, «💧 Storico piogge» | «🌧️ Radar pioggia» (B, `#pv-det .ft .bb`, `.b.rd`).
+Sue scelte fra i mockup della 144: A + B, colore «1 · blu pieno», al PC solo A (li' la scheda sta sotto il riquadro e i
+bottoni erano due). Un clic solo, `radarDaPrev(da)`, con GA `previsioni` azione=radar da=riquadro|scheda.
+⚠️ Il radar vuole una regione: nella vista Italia niente A ne' B (`pv-senza-radar` da `carica()`), e la scheda torna a
+«Storico piogge di <paese>» intero (`.di`).
