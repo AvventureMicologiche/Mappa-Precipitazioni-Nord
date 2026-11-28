@@ -1,57 +1,57 @@
 {
  "regione": "piemonte",
- "generato": "2026-11-27T04:15:42.221Z",
+ "generato": "2026-11-28T04:15:42.414Z",
  "periodi": {
   "1": {
-   "media": 5.7,
+   "media": 0.5,
    "giorni": 1,
    "stazioni": 278,
-   "primo": "2026-11-26",
-   "ultimo": "2026-11-26",
+   "primo": "2026-11-27",
+   "ultimo": "2026-11-27",
    "top": [
     {
-     "n": "Roccaforte Ligure (Alessandria)",
-     "nb": "Roccaforte Ligure",
-     "mm": 37.2
-    },
-    {
-     "n": "Sardigliano (Alessandria)",
-     "nb": "Sardigliano",
-     "mm": 36.6
-    },
-    {
-     "n": "Caldirola (Alessandria)",
-     "nb": "Caldirola",
-     "mm": 35.7
-    },
-    {
-     "n": "Castellania (Alessandria)",
-     "nb": "Castellania",
-     "mm": 35.2
-    },
-    {
-     "n": "Brignano Frascata (Alessandria)",
-     "nb": "Brignano Frascata",
-     "mm": 34.6
-    }
-   ]
-  },
-  "7": {
-   "media": 30.1,
-   "giorni": 7,
-   "stazioni": 279,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-26",
-   "top": [
-    {
-     "n": "Fraconalto (Alessandria)",
-     "nb": "Fraconalto",
-     "mm": 102.6
+     "n": "Colle Lombarda (Cuneo)",
+     "nb": "Colle Lombarda",
+     "mm": 6.8
     },
     {
      "n": "Piani di Carrega (Alessandria)",
      "nb": "Piani di Carrega",
-     "mm": 93.8
+     "mm": 6.8
+    },
+    {
+     "n": "Mottac (Verbano-Cusio-Ossola)",
+     "nb": "Mottac",
+     "mm": 6.6
+    },
+    {
+     "n": "Valdieri (Cuneo)",
+     "nb": "Valdieri",
+     "mm": 6
+    },
+    {
+     "n": "Massello (Torino)",
+     "nb": "Massello",
+     "mm": 5.8
+    }
+   ]
+  },
+  "7": {
+   "media": 30.4,
+   "giorni": 7,
+   "stazioni": 279,
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-27",
+   "top": [
+    {
+     "n": "Fraconalto (Alessandria)",
+     "nb": "Fraconalto",
+     "mm": 103.4
+    },
+    {
+     "n": "Piani di Carrega (Alessandria)",
+     "nb": "Piani di Carrega",
+     "mm": 100.6
     },
     {
      "n": "Caldirola (Alessandria)",
@@ -61,75 +61,75 @@
     {
      "n": "Roccaforte Ligure (Alessandria)",
      "nb": "Roccaforte Ligure",
-     "mm": 89.6
+     "mm": 89.8
     },
     {
      "n": "Capanne Marcarolo (Alessandria)",
      "nb": "Capanne Marcarolo",
-     "mm": 85.6
+     "mm": 85.8
     }
    ]
   },
   "20": {
-   "media": 79,
+   "media": 77.9,
    "giorni": 20,
    "stazioni": 282,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-26",
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-27",
    "top": [
     {
      "n": "Fraconalto (Alessandria)",
      "nb": "Fraconalto",
-     "mm": 223.4
+     "mm": 223.8
     },
     {
      "n": "Piani di Carrega (Alessandria)",
      "nb": "Piani di Carrega",
-     "mm": 208.3
+     "mm": 214.7
+    },
+    {
+     "n": "Valdieri (Cuneo)",
+     "nb": "Valdieri",
+     "mm": 198.6
     },
     {
      "n": "Vinadio S. Bernolfo (Cuneo)",
      "nb": "Vinadio S. Bernolfo",
-     "mm": 200.2
-    },
-    {
-     "n": "Valdieri (Cuneo)",
-     "nb": "Valdieri",
-     "mm": 198.4
+     "mm": 188.2
     },
     {
      "n": "Roccaforte Ligure (Alessandria)",
      "nb": "Roccaforte Ligure",
-     "mm": 184.8
+     "mm": 184.4
     }
    ]
   },
   "30": {
-   "media": 105.7,
+   "media": 106.1,
    "giorni": 30,
    "stazioni": 282,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-26",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-27",
    "top": [
     {
      "n": "Fraconalto (Alessandria)",
      "nb": "Fraconalto",
-     "mm": 250.9
+     "mm": 251.5
     },
     {
      "n": "Piaggia (Cuneo)",
      "nb": "Piaggia",
-     "mm": 243.9
+     "mm": 246.1
     },
     {
      "n": "Valdieri (Cuneo)",
      "nb": "Valdieri",
-     "mm": 234.5
+     "mm": 240.5
     },
     {
      "n": "Piani di Carrega (Alessandria)",
      "nb": "Piani di Carrega",
-     "mm": 229.5
+     "mm": 236.3
     },
     {
      "n": "Diga del Chiotas (Cuneo)",
@@ -140,7 +140,8 @@
   }
  },
  "serie": [
-  5.7,
+  0.5,
+  5.6,
   13,
   2.6,
   0.2,
@@ -168,18 +169,17 @@
   1.1,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-26",
+ "serieDa": "2026-11-27",
  "zone": [
   {
    "s": "val-d-ala",
    "n": "Val d'Ala",
-   "ultimo": "2026-11-26",
-   "m1": 3.4,
-   "m7": 27.7,
-   "m30": 101.8,
+   "ultimo": "2026-11-27",
+   "m1": 1.1,
+   "m7": 28.8,
+   "m30": 102.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -187,10 +187,10 @@
   {
    "s": "valle-sessera",
    "n": "Valle Sessera",
-   "ultimo": "2026-11-26",
-   "m1": 6.2,
-   "m7": 22,
-   "m30": 81.3,
+   "ultimo": "2026-11-27",
+   "m1": 1.9,
+   "m7": 23.9,
+   "m30": 83.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -198,10 +198,10 @@
   {
    "s": "valle-vermenagna",
    "n": "Valle Vermenagna",
-   "ultimo": "2026-11-26",
-   "m1": 5.9,
-   "m7": 29.5,
-   "m30": 152,
+   "ultimo": "2026-11-27",
+   "m1": 0.1,
+   "m7": 29.6,
+   "m30": 152.1,
    "p1": true,
    "p7": true,
    "p30": true
@@ -209,10 +209,10 @@
   {
    "s": "valle-di-viu",
    "n": "Valle di Viù",
-   "ultimo": "2026-11-26",
-   "m1": 1.9,
-   "m7": 28.9,
-   "m30": 106.9,
+   "ultimo": "2026-11-27",
+   "m1": 0.4,
+   "m7": 29.3,
+   "m30": 107.3,
    "p1": true,
    "p7": true,
    "p30": true
@@ -220,10 +220,10 @@
   {
    "s": "val-borbera",
    "n": "Val Borbera",
-   "ultimo": "2026-11-26",
-   "m1": 32.5,
-   "m7": 81.8,
-   "m30": 176.6,
+   "ultimo": "2026-11-27",
+   "m1": 0.4,
+   "m7": 82.2,
+   "m30": 176.9,
    "p1": true,
    "p7": true,
    "p30": true
@@ -231,10 +231,10 @@
   {
    "s": "valle-po",
    "n": "Valle Po",
-   "ultimo": "2026-11-26",
-   "m1": 3.9,
-   "m7": 22.6,
-   "m30": 108.9,
+   "ultimo": "2026-11-27",
+   "m1": 0.5,
+   "m7": 23.1,
+   "m30": 109.5,
    "p1": true,
    "p7": true,
    "p30": true
@@ -242,9 +242,9 @@
   {
    "s": "val-mastallone",
    "n": "Val Mastallone",
-   "ultimo": "2026-11-26",
-   "m1": 0.3,
-   "m7": 29.4,
+   "ultimo": "2026-11-27",
+   "m1": 0.1,
+   "m7": 29.5,
    "m30": 73.5,
    "p1": true,
    "p7": true,
@@ -253,21 +253,21 @@
   {
    "s": "val-loana",
    "n": "Val Loana",
-   "ultimo": "2026-11-26",
-   "m1": 1.1,
-   "m7": 24.5,
+   "ultimo": "2026-11-27",
+   "m1": 0,
+   "m7": 24.4,
    "m30": 59,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-germanasca",
    "n": "Valle Germanasca",
-   "ultimo": "2026-11-26",
-   "m1": 4.1,
-   "m7": 24.1,
-   "m30": 126.4,
+   "ultimo": "2026-11-27",
+   "m1": 1.8,
+   "m7": 25.9,
+   "m30": 128.2,
    "p1": true,
    "p7": true,
    "p30": true
@@ -275,10 +275,10 @@
   {
    "s": "val-clarea",
    "n": "Val Clarea",
-   "ultimo": "2026-11-26",
-   "m1": 4.3,
-   "m7": 28,
-   "m30": 118.9,
+   "ultimo": "2026-11-27",
+   "m1": 0.2,
+   "m7": 27.6,
+   "m30": 119.1,
    "p1": true,
    "p7": true,
    "p30": true

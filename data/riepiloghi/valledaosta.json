@@ -1,75 +1,75 @@
 {
  "regione": "valledaosta",
- "generato": "2026-11-27T04:15:42.221Z",
+ "generato": "2026-11-28T04:15:42.414Z",
  "periodi": {
   "1": {
-   "media": 0.3,
+   "media": 0.1,
    "giorni": 1,
    "stazioni": 62,
-   "primo": "2026-11-26",
-   "ultimo": "2026-11-26",
+   "primo": "2026-11-27",
+   "ultimo": "2026-11-27",
    "top": [
     {
-     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
-     "mm": 4.8
+     "n": "Gressoney-Saint-Jean - lago di Seebna",
+     "mm": 1.8
+    },
+    {
+     "n": "Valtournenche - Lago Goillet",
+     "mm": 0.6
     },
     {
      "n": "Bionaz - Place Moulin",
-     "mm": 4.5
+     "mm": 0.4
     },
     {
-     "n": "Aymavilles - Vieyes",
-     "mm": 4.2
+     "n": "Pontey - Ponte Dora Baltea",
+     "mm": 0.4
     },
     {
-     "n": "Morgex - Lavancher",
-     "mm": 2.7
-    },
-    {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 2.4
+     "n": "Gressoney-Saint-Jean - Bieltschocke",
+     "mm": 0.2
     }
    ]
   },
   "7": {
-   "media": 31.1,
+   "media": 27.6,
    "giorni": 7,
    "stazioni": 62,
-   "primo": "2026-11-20",
-   "ultimo": "2026-11-26",
+   "primo": "2026-11-21",
+   "ultimo": "2026-11-27",
    "top": [
     {
-     "n": "Courmayeur - Ferrachet",
-     "mm": 115.2
+     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
+     "mm": 91.8
     },
     {
-     "n": "Saint-Rhémy-en-Bosses - Gran San Bernardo",
-     "mm": 110.8
+     "n": "Courmayeur - Ferrachet",
+     "mm": 90.7
     },
     {
      "n": "Pré-Saint-Didier - Plan Praz",
-     "mm": 88.9
+     "mm": 71.7
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
-     "mm": 85.5
+     "mm": 68.3
     },
     {
      "n": "Saint-Rhémy-en-Bosses - Crévacol",
-     "mm": 77.6
+     "mm": 67.8
     }
    ]
   },
   "20": {
-   "media": 110.7,
+   "media": 111.7,
    "giorni": 20,
-   "stazioni": 64,
-   "primo": "2026-11-07",
-   "ultimo": "2026-11-26",
+   "stazioni": 63,
+   "primo": "2026-11-08",
+   "ultimo": "2026-11-27",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
-     "mm": 281.5
+     "mm": 281.2
     },
     {
      "n": "Courmayeur - Mont de la Saxe",
@@ -93,8 +93,8 @@
    "media": 124,
    "giorni": 30,
    "stazioni": 64,
-   "primo": "2026-10-28",
-   "ultimo": "2026-11-26",
+   "primo": "2026-10-29",
+   "ultimo": "2026-11-27",
    "top": [
     {
      "n": "Courmayeur - Ferrachet",
@@ -120,6 +120,7 @@
   }
  },
  "serie": [
+  0.1,
   0.3,
   7.6,
   2.6,
@@ -148,15 +149,14 @@
   0.2,
   0,
   0,
-  0,
   0
  ],
- "serieDa": "2026-11-26",
+ "serieDa": "2026-11-27",
  "zone": [
   {
    "s": "vallone-di-san-grato",
    "n": "Vallone di San Grato",
-   "ultimo": "2026-11-26",
+   "ultimo": "2026-11-27",
    "m1": 0,
    "m7": 13.9,
    "m30": 58.2,
@@ -167,20 +167,20 @@
   {
    "s": "vallone-di-champdepraz",
    "n": "Vallone di Champdepraz",
-   "ultimo": "2026-11-26",
-   "m1": 0,
-   "m7": 15.1,
-   "m30": 67.7,
-   "p1": false,
+   "ultimo": "2026-11-27",
+   "m1": 0.1,
+   "m7": 15.2,
+   "m30": 67.9,
+   "p1": true,
    "p7": true,
    "p30": true
   },
   {
    "s": "valle-del-gran-san-bernardo",
    "n": "Valle del Gran San Bernardo",
-   "ultimo": "2026-11-26",
+   "ultimo": "2026-11-27",
    "m1": 0,
-   "m7": 25.9,
+   "m7": 24.9,
    "m30": 119.1,
    "p1": false,
    "p7": true,
@@ -189,11 +189,11 @@
   {
    "s": "valle-di-champorcher",
    "n": "Valle di Champorcher",
-   "ultimo": "2026-11-26",
-   "m1": 0.1,
+   "ultimo": "2026-11-27",
+   "m1": 0,
    "m7": 17.1,
    "m30": 63.1,
-   "p1": true,
+   "p1": false,
    "p7": true,
    "p30": true
   }
