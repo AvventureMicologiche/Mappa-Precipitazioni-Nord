@@ -2424,3 +2424,12 @@ Sue scelte fra i mockup della 144: A + B, colore «1 · blu pieno», al PC solo 
 bottoni erano due). Un clic solo, `radarDaPrev(da)`, con GA `previsioni` azione=radar da=riquadro|scheda.
 ⚠️ Il radar vuole una regione: nella vista Italia niente A ne' B (`pv-senza-radar` da `carica()`), e la scheda torna a
 «Storico piogge di <paese>» intero (`.di`).
+
+## Il bordo scuro sul mare dallo zoom 11 al 13 (28/11/2026, scheda 145 bis)
+
+Sul mare la del 10 e' Blue Marble (500 m): pixel di riva scuri, e il «mare piu' vicino» di `mare-pulito.py` faceva gradini
+scuri di 120-500 m, che le tessere 11-13 (mare trasparente) mostravano ingranditi fino a 8 volte (Palermo, Sicilia nord,
+Calabria, Amalfi, Elba). Suo «Mare 2»: la del 10 NON cambia (repo Satellite, jsDelivr e `FOTO_COMMIT` fermi). Nelle tessere
+di `avventurepluvio-foto` (deploy `6656f8fe`, 1.769 rifatte) il mare pulito e' dipinto dove la del 10 e' piu' scura, entro ~1,5
+km dalla costa; attrezzi `claudio\analisi-145bis\attrezzi\mare2.py` (pulisci, tessere, sito). ⚠️ La cartella pubblicata ora
+e' `D:\claude-dati\foto-145bis\mare2\sito`: chi rifa' le tessere (curva, ghiacciai) rilancia poi `mare2.py tessere` e `sito`.

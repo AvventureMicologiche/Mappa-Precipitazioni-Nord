@@ -152,6 +152,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - L'anteprima del libro e il velo nero (27/11, 143): da togliere finita la promo
 - ⚠️ Via Esri (28/11, 143 bis): foto nostra fino al 13, Mapbox nel satellite dei boschi dallo zoom 14
 - Il bottone «Radar pioggia» nelle Previsioni (28/11, 144 bis): riquadro, e scheda al telefono
+- Il bordo scuro sul mare dallo zoom 11 al 13 (28/11, 145 bis): tessere 11-13 ripulite
 
 ### `CLAUDE-pagine.md`: le pagine del sito (regioni, zone, funghi, SEO)
 
