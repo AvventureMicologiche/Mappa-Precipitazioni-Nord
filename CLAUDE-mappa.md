@@ -2358,6 +2358,12 @@ Fino al 16/11/2026 stava nella scheda del progetto in testa al `CLAUDE.md`.
   due fino a Natale; si spegne il 6/1/2027 (`fino`). I cambi sono solo in `data/vetrina.json`.
 - ⚠️ Da 950 px larga 400 a `right:10px` SOLO lei (le altre 414); sotto i 900 il titolo e' a 46 px con `!important`
   perche' `ganciopx` sta in linea. ⚠️ Si pubblica il codice PRIMA di spingere la voce: con l'index vecchio esce come video.
+- 28/11/2026 (scheda 144, `cebc5d28c0`, deploy `841c5486`): campo facoltativo `"foto"` (in `data/vetrine/`). Al computer la
+  foto a sinistra (Archie che abbraccia il libro, `libro-archie.jpg`) col bordo giallo e il libro 3D piccolo (`libro3d(92)`)
+  nell'angolo in basso a destra; senza `foto` torna il libro grande. CSS «LA FOTO NELLA VETRINA DEL LIBRO»; sotto i 900 px
+  foto 110x160, libro alto 80, titolo 40 px. Testi suoi: «Questo progetto è gratuito / Sostienici con un libro», bottone
+  «ORA SU AMAZON», nella pillola invertiti (titolo `gancioP` a `min(24px,5vw)`); niente «ricambia» (troppo esplicito).
+  `mostra` resta `libro` («per il momento spingerei sul libro»); fra 2-3 giorni si cambia ancora vetrina o anteprima.
 
 ## «Piogge per funghi» stagionale (20/11/2026, scheda 139)
 
