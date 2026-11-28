@@ -18105,6 +18105,11 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
 #pv-det .gcs{display:inline-flex;gap:1px;margin-right:3px;vertical-align:-1px}
 #map #pv-det .gc path{fill:#1f6fd1;fill-opacity:1 !important}
 #pv-det .z .gc{opacity:.4}#map #pv-det .z .gc path{fill:#9aa3ad}
+/* ⚠️ al PC le gocce in una casella fissa larga tre gocce, strette al numero, e il numero in una larghezza fissa: il
+   blocco centrato e' sempre largo uguale e i numeri partono tutti dallo stesso punto. Prima, centrati insieme, con due
+   gocce il numero andava a destra (28/11/2026, suo «non rimane allineato», poi «A, casella fissa») */
+#pv-det .r .gcs{width:26px;justify-content:flex-end;margin-right:4px}
+#pv-det .r .mm .v{display:inline-block;min-width:56px;text-align:left}
 /* la colonna «prob.» tolta il 27/11/2026 (scheda 143 ter): vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js */
 #pv-det .vuoto{padding:14px 12px;font:500 12.5px/1.4 inherit;color:#6b7684}
 /* all'apertura nessuna citta' (7/10, suo): l'invito sta nel segnaposto della casella di ricerca; a destra
@@ -19611,7 +19616,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10;
       return '<div class="r"><span class="h">'+h+'</span><span class="ic">'+icona(o.s)+'</span><span>'+Math.round(o.t)+'°</span>'
-        +'<span class="mm'+(mm<0.1?' z':'')+'">'+gocce(mm)+(mm<0.1?'assente':mm.toLocaleString('it-IT')+' mm')+'</span>'
+        +'<span class="mm'+(mm<0.1?' z':'')+'">'+gocce(mm)+'<span class="v">'+(mm<0.1?'assente':mm.toLocaleString('it-IT')+' mm')+'</span></span>'
         +'<span>'+Math.round(o.v*3.6)+' km/h</span></div>';
     }
     /* ⚠️ LA COLONNA «PROB.» TOLTA (27/11/2026, scheda 143 ter, suo «A, tolgo tutto»). La % era di un altro modello

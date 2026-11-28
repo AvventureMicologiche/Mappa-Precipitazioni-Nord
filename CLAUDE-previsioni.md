@@ -1413,3 +1413,6 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   nelle 124 pagine (sostituite, non rigenerate); frase e foto della guida (Messina con la pioggia).
 - ⚠️ La goccia è un `<path>` dentro `#map`: `.modo-prev #map path{fill-opacity:0 !important}` la spegneva. Lo stile
   la riaccende con due id (`#map #pv-det .gc path`).
+- ⚠️ Le gocce stanno in una casella fissa larga tre gocce, strette al numero (`.r .gcs` e `.r .mm .v` in index.html,
+  `.tv .gcs` nelle pagine): centrate insieme al numero, con due gocce il numero andava a destra (suo, 28/11). Si prova
+  anche con ore finte da una, due e tre gocce (`fetch` ritoccata nel browser della prova), non solo coi dati del giorno.
