@@ -2,7 +2,7 @@
  "regione": "campania",
  "nome": "Campania",
  "frontiera": "2026-07-19",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "monti-lattari",
@@ -253,13 +253,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 2,
    "stazioni": 175,
-   "media": 215.3,
-   "giorniPioggia": 20,
+   "media": 221.2,
+   "giorniPioggia": 21,
    "giornoPiovoso": {
     "g": "2026-11-25",
     "mm": 35.9
@@ -268,35 +268,35 @@
     {
      "n": "Corleto Monforte-Savuco Serra Nu",
      "p": null,
-     "mm": 553.7
+     "mm": 626.4
     },
     {
      "n": "Cusano Mutri",
      "p": null,
-     "mm": 489.6
+     "mm": 489.8
     },
     {
      "n": "Tramonti",
      "p": null,
-     "mm": 470.5
-    },
-    {
-     "n": "Giffoni Valle Piana",
-     "p": null,
-     "mm": 426.4
+     "mm": 476.9
     },
     {
      "n": "Cava Casa Riceri",
      "p": null,
-     "mm": 424.4
+     "mm": 435
+    },
+    {
+     "n": "Giffoni Valle Piana",
+     "p": null,
+     "mm": 433
     }
    ],
    "province": null,
    "zone": {
-    "monti-lattari": 230.3,
-    "cilento": 251.5,
-    "valle-caudina": 248,
-    "monti-del-partenio": 342.9
+    "monti-lattari": 234.9,
+    "cilento": 273,
+    "valle-caudina": 249.2,
+    "monti-del-partenio": 346.7
    },
    "record": {
     "n": "Tramonti",
@@ -308,5 +308,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }

@@ -2,7 +2,7 @@
  "regione": "friuli",
  "nome": "Friuli Venezia Giulia",
  "frontiera": "2026-06-26",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "val-d-aupa",
@@ -354,13 +354,13 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 0,
-   "stazioni": 139,
-   "media": 170.9,
-   "giorniPioggia": 11,
+   "stazioni": 138,
+   "media": 173,
+   "giorniPioggia": 12,
    "giornoPiovoso": {
     "g": "2026-11-12",
     "mm": 51.7
@@ -369,22 +369,22 @@
     {
      "n": "Prosecco",
      "p": null,
-     "mm": 335.5
+     "mm": 337.1
     },
     {
      "n": "Sgonico-Zgonik",
      "p": null,
-     "mm": 330.3
-    },
-    {
-     "n": "S.Volfango",
-     "p": null,
-     "mm": 312.3
+     "mm": 331.1
     },
     {
      "n": "San Pelagio",
      "p": null,
-     "mm": 311.4
+     "mm": 313
+    },
+    {
+     "n": "S.Volfango",
+     "p": null,
+     "mm": 312.5
     },
     {
      "n": "Montemaggiore",
@@ -395,15 +395,15 @@
    "province": null,
    "zone": {
     "val-d-aupa": 148,
-    "val-settimana": 139.1,
+    "val-settimana": 140.5,
     "val-chiarso": 85.1,
-    "carnia": 91.4,
-    "val-rio-del-lago": 124.8,
-    "val-raccolana": 91,
-    "val-resia": 145.5,
+    "carnia": 92.2,
+    "val-rio-del-lago": 125.1,
+    "val-raccolana": 113.5,
+    "val-resia": 145.7,
     "val-pesarina": 66.3,
     "gran-monte": 219.4,
-    "valle-del-but": 96.3
+    "valle-del-but": 96.4
    },
    "record": {
     "n": "Musi",
@@ -415,5 +415,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }

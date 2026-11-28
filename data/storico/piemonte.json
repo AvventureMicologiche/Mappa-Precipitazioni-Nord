@@ -2,7 +2,7 @@
  "regione": "piemonte",
  "nome": "Piemonte",
  "frontiera": "2026-05-03",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "val-d-ala",
@@ -481,12 +481,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 0,
-   "stazioni": 283,
-   "media": 105.6,
+   "stazioni": 282,
+   "media": 106.1,
    "giorniPioggia": 18,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -496,22 +496,22 @@
     {
      "n": "FRACONALTO",
      "p": "Alessandria",
-     "mm": 250
+     "mm": 250.8
     },
     {
      "n": "PIAGGIA",
      "p": "Cuneo",
-     "mm": 243.9
+     "mm": 246.1
     },
     {
      "n": "VALDIERI",
      "p": "Cuneo",
-     "mm": 234.5
+     "mm": 240.5
     },
     {
      "n": "PIANI DI CARREGA",
      "p": "Alessandria",
-     "mm": 229.5
+     "mm": 236.3
     },
     {
      "n": "DIGA DEL CHIOTAS",
@@ -520,27 +520,26 @@
     }
    ],
    "province": {
-    "Cuneo": 128.3,
-    "Torino": 102.1,
-    "Vercelli": 73.9,
-    "Verbano-Cusio-Ossola": 57.2,
-    "Alessandria": 144.5,
-    "Asti": 93.5,
+    "Cuneo": 128.9,
+    "Torino": 102.7,
+    "Vercelli": 74.1,
+    "Verbano-Cusio-Ossola": 57.7,
+    "Alessandria": 145,
+    "Asti": 93.8,
     "Novara": 88.2,
-    "Biella": 84.8,
-    "F": 108.3
+    "Biella": 85.5
    },
    "zone": {
-    "val-d-ala": 101.7,
-    "valle-sessera": 81.3,
-    "valle-vermenagna": 152,
-    "valle-di-viu": 106.7,
-    "val-borbera": 176.3,
-    "valle-po": 108.9,
+    "val-d-ala": 102.8,
+    "valle-sessera": 83.2,
+    "valle-vermenagna": 152.1,
+    "valle-di-viu": 107.1,
+    "val-borbera": 176.7,
+    "valle-po": 109.5,
     "val-mastallone": 73.5,
     "val-loana": 58.9,
-    "valle-germanasca": 126.3,
-    "val-clarea": 118.9
+    "valle-germanasca": 128.1,
+    "val-clarea": 119.1
    },
    "record": {
     "n": "FRACONALTO",
@@ -552,5 +551,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }

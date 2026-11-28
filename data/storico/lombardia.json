@@ -2,7 +2,7 @@
  "regione": "lombardia",
  "nome": "Lombardia",
  "frontiera": "2026-01-01",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "val-grigna",
@@ -865,12 +865,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 0,
    "stazioni": 252,
-   "media": 91.4,
+   "media": 91.9,
    "giorniPioggia": 12,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -904,32 +904,32 @@
     }
    ],
    "province": {
-    "Sondrio": 49.3,
-    "Varese": 79.6,
-    "Lecco": 81.3,
-    "Lodi": 146,
-    "Brescia": 101.3,
-    "Bergamo": 94,
-    "Cremona": 146.1,
-    "Pavia": 134.5,
-    "Milano": 116.6,
+    "Sondrio": 50.5,
+    "Varese": 79.7,
+    "Lecco": 82.4,
+    "Lodi": 146.1,
+    "Brescia": 101.5,
+    "Bergamo": 94.5,
+    "Cremona": 146.2,
+    "Pavia": 134.7,
+    "Milano": 116.7,
     "Como": 79.9,
-    "Monza": 108.8,
+    "Monza": 108.9,
     "Mantova": 155.2
    },
    "zone": {
-    "val-grigna": 90.9,
-    "valle-sabbia": 115.6,
-    "val-trompia": 92.2,
+    "val-grigna": 91,
+    "valle-sabbia": 116.2,
+    "val-trompia": 92.5,
     "val-brembana": 92.8,
     "val-sedornia": 93.5,
-    "val-cavargna": 65.8,
+    "val-cavargna": 65.9,
     "val-serina": 103.1,
-    "valmalenco": 69,
+    "valmalenco": 69.4,
     "valsassina": 79.9,
     "monte-san-giorgio": 78,
     "valle-dei-ratti": 57.5,
-    "val-paisco": 79.6,
+    "val-paisco": 79.7,
     "valle-san-giacomo": 54.5,
     "val-veddasca": 63.4
    },
@@ -943,5 +943,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }

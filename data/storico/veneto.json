@@ -2,7 +2,7 @@
  "regione": "veneto",
  "nome": "Veneto",
  "frontiera": "2026-05-05",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "val-d-astico",
@@ -445,12 +445,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 0,
    "stazioni": 164,
-   "media": 133.5,
+   "media": 133.8,
    "giorniPioggia": 12,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -460,12 +460,12 @@
     {
      "n": "Bibione",
      "p": "VE",
-     "mm": 232.6
+     "mm": 234
     },
     {
      "n": "Eraclea - Torre di Fine",
      "p": "VE",
-     "mm": 226
+     "mm": 226.2
     },
     {
      "n": "Lugugnana (Portogruaro)",
@@ -484,21 +484,21 @@
     }
    ],
    "province": {
-    "Treviso": 130.1,
-    "Rovigo": 165.4,
-    "Verona": 133.4,
-    "Vicenza": 137.2,
+    "Treviso": 130.2,
+    "Rovigo": 167.7,
+    "Verona": 133.5,
+    "Vicenza": 137.4,
     "Padova": 167.8,
-    "Belluno": 85.4,
-    "Venezia": 178.4
+    "Belluno": 85.6,
+    "Venezia": 178.5
    },
    "zone": {
     "val-d-astico": 107.8,
-    "val-gallina": 122.7,
-    "comelico": 68.9,
+    "val-gallina": 123.2,
+    "comelico": 69.1,
     "val-canale": 140.9,
     "colli-asolani": 115.2,
-    "valbelluna": 118.5,
+    "valbelluna": 118.8,
     "valle-del-boite": 65.7
    },
    "record": {
@@ -511,5 +511,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }

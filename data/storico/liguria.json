@@ -2,7 +2,7 @@
  "regione": "liguria",
  "nome": "Liguria",
  "frontiera": "2026-05-15",
- "fine": "2026-11-26",
+ "fine": "2026-11-27",
  "zone": [
   {
    "slug": "valle-dei-campassi",
@@ -447,12 +447,12 @@
   {
    "mese": "2026-11",
    "dal": "2026-11-01",
-   "al": "2026-11-26",
+   "al": "2026-11-27",
    "intero": false,
-   "giorni": 26,
+   "giorni": 27,
    "stimati": 0,
    "stazioni": 195,
-   "media": 288.2,
+   "media": 288.4,
    "giorniPioggia": 16,
    "giornoPiovoso": {
     "g": "2026-11-12",
@@ -462,22 +462,22 @@
     {
      "n": "Passo del Cerreto",
      "p": null,
-     "mm": 683.5
+     "mm": 685.9
     },
     {
      "n": "Novegigola",
      "p": null,
-     "mm": 671.6
+     "mm": 671.8
     },
     {
      "n": "Minucciano",
      "p": null,
-     "mm": 657
+     "mm": 657.2
     },
     {
      "n": "Piana Battolla - Ponte",
      "p": null,
-     "mm": 601
+     "mm": 601.2
     },
     {
      "n": "Castelnuovo Magra - Montecchio",
@@ -487,18 +487,18 @@
    ],
    "province": null,
    "zone": {
-    "valle-dei-campassi": 252.5,
-    "val-bormida": 117.8,
-    "val-varenna": 180.8,
+    "valle-dei-campassi": 253.4,
+    "val-bormida": 118,
+    "val-varenna": 181,
     "val-neva": 151.4,
-    "terra-brigasca": 217.3,
-    "riviera-di-levante": 428,
-    "val-bisagno": 320.1,
+    "terra-brigasca": 217.5,
+    "riviera-di-levante": 428.6,
+    "val-bisagno": 320.3,
     "val-cichero": 416.1,
-    "val-di-vara": 548.6,
-    "val-d-aveto": 364.1,
-    "val-varatella": 153.7,
-    "val-roia": 233.4
+    "val-di-vara": 548.9,
+    "val-d-aveto": 366.1,
+    "val-varatella": 154.4,
+    "val-roia": 233.5
    },
    "record": {
     "n": "Castelnuovo Magra - Montecchio",
@@ -510,5 +510,5 @@
    }
   }
  ],
- "aggiornato": "2026-11-27"
+ "aggiornato": "2026-11-28"
 }
