@@ -1439,3 +1439,10 @@ nel banco: `proposte-132\pagine\mockup-evento\`, `proposte-132\pagine\mockup-rad
   della regione più piovosa e 20 mini mappe (le foto `<regione>-ieri.webp` del ramo anteprime). Mockup in `mockup-ieri-italia\`.
 - Trappola: in testa ci finiscono i valori falsi. Filtri in `calcola()`: conferma di un vicino entro 25 km per pioggia,
   minime sotto zero e massime; un posto ogni 10 km. Il 20/11 avrebbe vinto Decimomannu, 52,8 mm in un'ora coi vicini a 0.
+
+## Il fungo di gennaio, bianchetto e nero pregiato (28/11/2026, scheda 144 ter)
+
+- Voce `1` in `MESI` di `funghi/fungo-del-mese.js`: prima `BIANCHETTO` (testo da Wikipedia rivisto da lui), poi il nero
+  con la copertina «Tartufi a gennaio». La fascia del titolo, per tutti i mesi: titolo centrato, mese piccolo in cima.
+- ⚠️ Le specie e i video li sceglie LUI: si chiede, niente proposte. Copertine in `maxresdefault`: nella `hqdefault` le
+  scritte in alto escono tagliate. `?v=` non serve: il sito risponde `max-age=0, must-revalidate`.
