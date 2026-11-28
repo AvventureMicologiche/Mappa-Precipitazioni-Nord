@@ -18070,7 +18070,12 @@ body.modo-prev.vi-senza-vetrina #channel-logo,body.modo-prev.vi-senza-vetrina #c
 #pv-det .r .h{color:#1b3f6e;font-weight:800;white-space:nowrap}
 #pv-det .r .ic{font-size:15px}
 #pv-det .r span:nth-child(n+3){text-align:center}
-#pv-det .r .mm{color:#0b3d91}#pv-det .r .mm.z{color:#9aa3ad;font-weight:500}
+#pv-det .r .mm{color:#0b3d91;white-space:nowrap}#pv-det .r .mm.z{color:#9aa3ad;font-weight:500}
+/* ⚠️ le gocce accanto ai mm (28/11/2026, scheda 143 ter): vedi «LE GOCCE DELLA PIOGGIA» sopra renderDet. Con due id: la
+   regola «.modo-prev #map path{fill-opacity:0}» spegne ogni path dentro la mappa, e la scheda sta dentro #map */
+#pv-det .gcs{display:inline-flex;gap:1px;margin-right:3px;vertical-align:-1px}
+#map #pv-det .gc path{fill:#1f6fd1;fill-opacity:1 !important}
+#pv-det .z .gc{opacity:.4}#map #pv-det .z .gc path{fill:#9aa3ad}
 /* la colonna «prob.» tolta il 27/11/2026 (scheda 143 ter): vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js */
 #pv-det .vuoto{padding:14px 12px;font:500 12.5px/1.4 inherit;color:#6b7684}
 /* all'apertura nessuna citta' (7/10, suo): l'invito sta nel segnaposto della casella di ricerca; a destra
@@ -18128,17 +18133,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
   /* LE ORE IN ORIZZONTALE (vedi renderDet): etichette ferme a sinistra, una colonna per ora, i giorni di seguito separati
      da una colonnina blu col nome scritto in verticale. Altezze fisse: la striscia e' 103 px su qualunque telefono */
   #pv-det .oriz{display:flex;flex-shrink:0;border-bottom:1px solid #e3e9f2}
-  #pv-det .oriz .et{flex:0 0 52px;display:grid;grid-template-rows:16px 22px 16px 14px 14px;align-items:center;padding:3px 0 3px 10px;font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid #eef2f7;background:#fff}
+  #pv-det .oriz .et{flex:0 0 52px;display:grid;grid-template-rows:16px 22px 16px 28px 14px;align-items:center;padding:3px 0 3px 10px;font:700 9.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#6b7684;text-transform:uppercase;letter-spacing:.3px;border-right:1px solid #eef2f7;background:#fff}
   #pv-det .oz{position:relative;flex:1;min-width:0;display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
   #pv-det .oz::-webkit-scrollbar{display:none}
-  #pv-det .oz .c{flex:0 0 48px;display:grid;grid-template-rows:16px 22px 16px 14px 14px;justify-items:center;align-items:center;padding:3px 0;font:600 11.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;white-space:nowrap}
+  #pv-det .oz .c{flex:0 0 48px;display:grid;grid-template-rows:16px 22px 16px 28px 14px;justify-items:center;align-items:center;padding:3px 0;font:600 11.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#222;white-space:nowrap}
   #pv-det .oz .c:nth-child(even){background:#f7f9fc}
   #pv-det .oz .c6{flex-basis:56px}
   #pv-det .oz .c b{color:#1b3f6e;font-weight:800;font-size:12.5px}#pv-det .oz .c6 b{font-size:11px}
   #pv-det .oz .c i{font-style:normal;font-size:18px;line-height:1}
   #pv-det .oz .c .t{font-weight:800;font-size:13px}
   #pv-det .oz .c small{font-size:9px;font-weight:600;color:#6b7684}
-  #pv-det .oz .c .mm{color:#0b3d91}#pv-det .oz .c .mm.z{color:#9aa3ad;font-weight:500}
+  #pv-det .oz .c .mm{color:#0b3d91;text-align:center;line-height:1}#pv-det .oz .c .mm.z{color:#9aa3ad;font-weight:500}
+  /* nella striscia le gocce stanno SOPRA il valore (in 48 px accanto non ci stanno): la riga della pioggia da 14 a 28 px,
+     la striscia da 103 a 117 (28/11/2026, scheda 143 ter, mockup A) */
+  #pv-det .oz .c .gcs{display:flex;justify-content:center;align-items:center;height:13px;margin:0 0 1px}
   /* qui c'era la riga «prob.» (tolta il 27/11/2026, scheda 143 ter) */
   #pv-det .oz .gs{flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#1f6fd1;color:#fff}
   #pv-det .oz .gs span{writing-mode:vertical-rl;transform:rotate(180deg);font:800 10.5px/1 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
@@ -18162,7 +18170,7 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
 @media(max-width:900px) and (max-height:700px){
   #pv-det{max-height:max(40%,258px) !important}
   #pv-det .gg-r{padding:3px 8px 3px}#pv-det .pv-gg{height:43px}
-  #pv-det .oriz .et,#pv-det .oz .c{grid-template-rows:15px 20px 15px 13px 13px;padding-top:2px;padding-bottom:2px}
+  #pv-det .oriz .et,#pv-det .oz .c{grid-template-rows:15px 20px 15px 26px 13px;padding-top:2px;padding-bottom:2px}
   #pv-det .ft .b{padding:4px 6px}
 }
 /* LA FINESTRA STRETTA DEL PC SENZA PIE' DI PAGINA (1/11/2026, scheda 105 ter, suo «toglilo»). Sotto i 900 px il sito ha il
@@ -19576,6 +19584,12 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
      dito appoggiato si aspetta che si stacchi, e ridisegnando lo stesso posto e lo stesso giorno la striscia (o la
      tabella) resta dov'era. Prove: banco, mockup-meteo-ore\attrezzi. */
   var ditoSu=false, ditoT=0, detRimandata=false;
+  /* ⚠️ LE GOCCE DELLA PIOGGIA (28/11/2026, scheda 143 ter, suo «A, gocce» fra due mockup, come 3B Meteo). Accanto ai mm
+     una goccia blu sotto 1 mm, due fino a 5, tre oltre; l'ora asciutta ha una goccia grigia trasparente e «assente», al
+     singolare come la colonna «pioggia» (era «assenti»: suo «o tutto singolare o tutto plurale»). Uguale nelle pagine
+     meteo (gocce in genera-pagine-meteo-zona.js). La goccia e' un path: vedi «#map #pv-det .gc path» nello stile */
+  var GOC='<svg class="gc" viewBox="0 0 10 14" width="8" height="11" aria-hidden="true"><path d="M5 0.6 C3 3.4 0.8 6.2 0.8 8.8 A4.2 4.2 0 0 0 9.2 8.8 C9.2 6.2 7 3.4 5 0.6 Z"/></svg>';
+  function gocce(mm){ return '<span class="gcs">'+(mm<0.1?GOC:Array(mm<1?2:mm<5?3:4).join(GOC))+'</span>'; }
   function renderDet(){
     if(!punto) return;
     var k=punto.lat.toFixed(3)+','+punto.lon.toFixed(3), j=punti[k]; if(!j) return;
@@ -19595,19 +19609,20 @@ body.pv-lontano .pv-m .nm{font-size:11px;padding:2px 7px}
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10;
       return '<div class="r"><span class="h">'+h+'</span><span class="ic">'+icona(o.s)+'</span><span>'+Math.round(o.t)+'°</span>'
-        +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'assenti':mm.toLocaleString('it-IT')+' mm')+'</span>'
+        +'<span class="mm'+(mm<0.1?' z':'')+'">'+gocce(mm)+(mm<0.1?'assente':mm.toLocaleString('it-IT')+' mm')+'</span>'
         +'<span>'+Math.round(o.v*3.6)+' km/h</span></div>';
     }
     /* ⚠️ LA COLONNA «PROB.» TOLTA (27/11/2026, scheda 143 ter, suo «A, tolgo tutto»). La % era di un altro modello
        (l'insieme ICON di Open-Meteo) e contraddiceva icona e mm di ECMWF; dal 9/11 era grigia con l'ora asciutta. Ora la
        scheda dice solo icona, gradi, mm e vento: vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js.
-       Con l'ora asciutta (meno di 0,1 mm) si scrive «assenti», come ilmeteo.it, non piu' il trattino (27/11, suo
-       «Dove c'è il trattino»): uguale nelle pagine meteo (righeOre in genera-pagine-meteo-zona.js). */
+       Con l'ora asciutta (meno di 0,1 mm) si scrive «assente» (dal 27/11 «assenti», come ilmeteo.it, al posto del trattino;
+       dal 28/11 al singolare, con le gocce: vedi «LE GOCCE DELLA PIOGGIA» sopra renderDet). Uguale nelle pagine meteo
+       (righeOre in genera-pagine-meteo-zona.js). */
     function colonna(o){   // la stessa ora, in piedi
       var h=String(o.h).padStart(2,'0')+(o.h6?'–'+String((o.h+6)%24).padStart(2,'0'):'');
       var mm=Math.round(o.mm*10)/10;
       return '<div class="c'+(o.h6?' c6':'')+'" data-g="'+o.g+'"><b>'+h+'</b><i>'+icona(o.s)+'</i><span class="t">'+Math.round(o.t)+'°</span>'
-        +'<span class="mm'+(mm<0.1?' z':'')+'">'+(mm<0.1?'assenti':mm.toLocaleString('it-IT')+'<small> mm</small>')+'</span>'
+        +'<span class="mm'+(mm<0.1?' z':'')+'">'+gocce(mm)+(mm<0.1?'assente':mm.toLocaleString('it-IT')+'<small> mm</small>')+'</span>'
         +'<span>'+Math.round(o.v*3.6)+'<small> km/h</small></span></div>';
     }
     var righe='', fino='';

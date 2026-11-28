@@ -1403,3 +1403,13 @@ due versioni nel banco (`mockup-vista-italia-zoom\`, scatti veri, PC e telefono)
   generatori (sostituite, non rigenerate), guida con la foto `previsioni.jpg` rifatta, fonti.html.
 - ⚠️ `pr=` resta nelle chiavi della cache apposta e VERSIONE non è alzata: chiavi uguali, niente richieste in più a MET.
   Il codice `conPc` / `pc != null` di pagine e generatori resta: senza `pc` fa senza da solo.
+
+## Le gocce della pioggia e «assente» (28/11/2026, scheda 143 ter)
+
+- Suo «A, gocce» fra due mockup (3B Meteo e ilMeteo): accanto ai mm una goccia sotto 1 mm, due fino a 5, tre oltre;
+  l'ora asciutta ha la goccia grigia trasparente e «assente», al singolare come la colonna «pioggia» (era «assenti»).
+  Nei giorni delle pagine meteo una goccia sola. Al telefono le gocce stanno sopra il valore: la striscia cresce di 14 px.
+- Dove: `GOC` e `gocce` sopra `renderDet` in index.html; `gocce` prima di `righeOre` in genera-pagine-meteo-zona.js e
+  nelle 124 pagine (sostituite, non rigenerate); frase e foto della guida (Messina con la pioggia).
+- ⚠️ La goccia è un `<path>` dentro `#map`: `.modo-prev #map path{fill-opacity:0 !important}` la spegneva. Lo stile
+  la riaccende con due id (`#map #pv-det .gc path`).

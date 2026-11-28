@@ -413,7 +413,7 @@ table.pz-tab td .pc{display:block;font-size:11.5px;color:#1a5fa8;font-weight:700
 .tv .ic{font-size:22px;line-height:1;margin-right:8px;vertical-align:middle}
 .tv .pa{color:#33475b;vertical-align:middle}
 .tv .t{font-weight:700;font-size:16px;color:#0f2b46;text-align:right;padding-right:14px}
-.tv .mmv{color:#1a5fa8}.tv .z{color:#9aa3ad}
+.tv .mmv{color:#1a5fa8}.tv .z{color:#9aa3ad}.gcs{display:inline-flex;gap:1px;margin-right:4px;vertical-align:-1px}.gc path{fill:#1f6fd1}.z .gc,.gm.as .gc{opacity:.4}.z .gc path,.gm.as .gc path{fill:#9aa3ad}.gm{white-space:nowrap}.pz-scheda .giorni button.sel .gc path{fill:#fff}
 /* la % di pioggia, ora per ora: gli stessi tre toni della mappa (sotto il 10% grigia, dal 60% rossa) */
 .tv .pc{font-weight:700;color:#1a5fa8;font-size:12.5px}.tv .pc.z{color:#9aa3ad;font-weight:500}.tv .pc.alta{color:#c21f1f}
 .tv .piove .pc{margin-left:8px}
@@ -767,16 +767,21 @@ function clientePagina(C) {
     }
     return out;
   }
+  // ⚠️ LE GOCCE DELLA PIOGGIA (28/11/2026, scheda 143 ter, suo «A, gocce» fra due mockup, come 3B Meteo): accanto ai mm
+  // una goccia sotto 1 mm, due fino a 5, tre oltre; asciutto = goccia grigia trasparente e «assente», al singolare (era
+  // «assenti»). Nei giorni una goccia sola, se no il numero va a capo. Uguale nella scheda della mappa (gocce in index.html)
+  var GOC = '<svg class="gc" viewBox="0 0 10 14" width="8" height="11" aria-hidden="true"><path d="M5 0.6 C3 3.4 0.8 6.2 0.8 8.8 A4.2 4.2 0 0 0 9.2 8.8 C9.2 6.2 7 3.4 5 0.6 Z"/></svg>';
+  function gocce(v, una) { return '<span class="gcs">' + (v < 0.1 || una ? GOC : Array(v < 1 ? 2 : v < 5 ? 3 : 4).join(GOC)) + '</span>'; }
   function righeOre(ore, conPc) {
     var prima = ore[0] && ore[0].g;
     return ore.map(function (o) {
-      // mm se piove, se no «assenti» come ilmeteo.it (27/11/2026, scheda 143 ter: prima il trattino). La % di pioggia
+      // mm e gocce se piove, se no «assente» e la goccia grigia (vedi «LE GOCCE» qui sopra; prima «assenti» e, fino al 27/11, il trattino). La % di pioggia
       // e' tolta dal 27/11 (vedi «LA % DI PIOGGIA TOLTA» in functions/api/previsioni.js): `pc` non arriva piu'
       var pc = conPc && o.pc != null ? '<span class="pc' + (o.mm < 0.1 ? ' z' : tonoPc(o.pc)) + '">' + pcTesto(o.pc) + '</span>' : '';
       return (o.g !== prima ? (prima = o.g, '<tr class="sep"><td colspan="5">' + maiusc(nome(o.g, true)) + '</td></tr>') : '')
         + '<tr' + (o.h6 ? ' class="f6"' : '') + '><td class="h">' + (o.h6 ? '<b>' + FASCIA(o.h) + '</b>' + o.h + '-' + ((o.h + 6) % 24) : String(o.h).padStart(2, '0')) + '</td>'
         + '<td><span class="ic">' + icona(o.s) + '</span><span class="pa">' + parola(o.s) + '</span></td><td class="t">' + Math.round(o.t) + '°</td>'
-        + '<td' + (o.mm >= 0.1 ? ' class="piove"><b class="mmv">' + mm(o.mm) + ' mm</b>' + pc : '>' + (pc || '<span class="z">assenti</span>')) + '</td>'
+        + '<td' + (o.mm >= 0.1 ? ' class="piove">' + gocce(o.mm) + '<b class="mmv">' + mm(o.mm) + ' mm</b>' + pc : '>' + (pc || '<span class="z">' + gocce(0) + 'assente</span>')) + '</td>'
         + '<td class="ve">' + freccia(o.vd) + (o.v != null ? Math.round(o.v * 3.6) + ' km/h' : '') + ' <small>' + dir(o.vd) + '</small></td></tr>';
     }).join('');
   }
@@ -798,7 +803,7 @@ function clientePagina(C) {
     var conPc = ore.some(function (o) { return o.pc != null; });
     $('scheda').classList.remove('attesa');   // lo spazio tenuto mentre arrivava (SCHEDA_HTML, 8/11/2026)
     $('scheda').innerHTML = '<div class="testa"><div><h3>' + esc(s.x.n) + '</h3><div class="sub">' + (q != null ? '~ ' + q + ' m · ' : '') + 'previsioni ora per ora' + (conPc ? ' · 💧 probabilità di pioggia' : '') + (AVVIO ? ' · tocca un altro paese o cercalo per cambiarlo' : '') + '</div></div><button class="chiudi" aria-label="Chiudi">×</button></div>'
-      + '<div class="giorni">' + giorni.map(function (x) { return '<button data-g="' + x.g + '" class="' + (x.g === g ? 'sel' : '') + '"><b>' + nome(x.g) + '</b>' + icona(x.s) + ' ' + x.mn + '°/' + x.mx + '°<br>' + (x.mm >= 0.1 ? mm(x.mm) + ' mm' : 'assenti') + (x.pc != null ? '<span class="pc' + tonoPc(x.pc) + '">' + pcTesto(x.pc) + '</span>' : '') + '</button>'; }).join('') + '</div>'
+      + '<div class="giorni">' + giorni.map(function (x) { return '<button data-g="' + x.g + '" class="' + (x.g === g ? 'sel' : '') + '"><b>' + nome(x.g) + '</b>' + icona(x.s) + ' ' + x.mn + '°/' + x.mx + '°<br>' + '<span class="gm' + (x.mm >= 0.1 ? '">' + gocce(x.mm, true) + mm(x.mm) + ' mm' : ' as">' + gocce(0) + 'assente') + '</span>' + (x.pc != null ? '<span class="pc' + tonoPc(x.pc) + '">' + pcTesto(x.pc) + '</span>' : '') + '</button>'; }).join('') + '</div>'
       // la % ora per ora (25/10/2026): la % del giorno da sola non basta per programmare un'uscita («ti da 100% per la
       // pioggia della sera ma devi programmare di giorno», suo). Nelle fasce di 6 ore e' la piu' alta (maxProb)
       + (ore.length ? (g !== OGGI && ore.some(function (o) { return o.h6; }) ? '<p class="tv-nota">Da qui in poi il modello dà le previsioni a fasce di 6 ore.</p>' : '')

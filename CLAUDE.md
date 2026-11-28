@@ -225,6 +225,7 @@ dopo la data è la scheda. I file stanno tutti qui in radice, accanto a questo.
 - La quarta ondata delle città «adesso» (18/11, Goccia): Abruzzo e sei fuori elenco
 - La previsione scritta nelle valli meteo del gruppo B (23/11, 142): prova contro A, C, D
 - La % di pioggia tolta (27/11, 143 ter): solo icona e mm
+- Le gocce della pioggia e «assente» (28/11, 143 ter): come 3B Meteo
 
 ### `CLAUDE-sorveglianza.md`: la sorveglianza automatica e i check
 
